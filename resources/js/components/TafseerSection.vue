@@ -187,11 +187,12 @@ export default {
       selectedVoice: '', // User's selected voice
       isVisible: false, // Controls visibility of premium features
       renderedText: "",
-      summary: "", // Generated summary
-      error: "", // Error message
-      loading: false, // Loading state
-      API_TOKEN: "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", // Hugging Face API token
-      BASE_URL: "https://api-inference.huggingface.co/models/google/t5-large",
+      // Remove summary-related data properties
+      // summary: "", // Generated summary
+      // error: "", // Error message
+      // loading: false, // Loading state
+      API_TOKEN: "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", // Hugging Face API token
+      BASE_URL: "https://api-inference.huggingface.co/models/facebook/bart-large-cnn",
       selectedFormat: "Select a format",
       // renderedText: this.tafseer,
       fontSize: parseFloat(localStorage.getItem("ayahFontSize")) || 1,
@@ -976,6 +977,8 @@ export default {
     closeAlertText() {
       this.$emit("close-alert-text");
     },
+    // Remove generateSummary method
+    // async generateSummary() { ... }
   },
   watch: {
     "information.ayah.id": {

@@ -1,93 +1,224 @@
 <template>
-  <div class="dictionary-app" :style="{ fontSize: `${baseFontSize}rem` }">
-    <header class=" py-3 py-md-4 ">
+  <div class="min-vh-100 bg-light p-0 m-0" :style="{ fontSize: `${baseFontSize}rem` }">
+    <!-- Accessibility: Skip to main content -->
+    <a href="#mainContent" class="visually-hidden-focusable position-absolute top-0 start-50 translate-middle-x bg-primary text-white text-decoration-none rounded p-2 opacity-0" style="z-index: 1000;" @click.prevent="skipToContent">Skip to main content</a>
+    
+    <header class="py-4 bg-white border-bottom mb-4 px-2 px-md-4">
       <div class="container-fluid px-3 px-md-4">
-        <div class="row justify-content-center">
-          <div class="col-12 col-lg-10 col-xl-8">
-            <div class="text-center mb-3 mb-md-4">
-              <h1 class="display-4 display-md-5 fw-bold text-dark mb-2">
-                Islamic Dictionary
+        <div class="row justify-content-center mx-0">
+          <div class="col-12 col-lg-10 col-xl-8 px-0">
+            <div class="text-center mb-4 px-2 px-md-4">
+              <h1 class="display-4 fw-bold mb-3" style="color: #00bfa6;">
+                <span>Islamic Dictionary</span>
               </h1>
-              <p class="text-black-50 display-5 mb-0 fs-6 fs-md-5">
-                A comprehensive resource for exploring Islamic terms and their meanings
-              </p>
+              <p class="mb-0" style="color: #00bfa6; font-size: 1.25rem;">A comprehensive resource for exploring Islamic terms and their meanings</p>
             </div>
-            <div class="search-section">
-              <div class="row g-2 g-md-3">
-                <div class="col-12 col-md-4">
-                  <label for="subjectFilter" class="form-label fw-bold text-dark">Subject</label>
-                  <select
-                    id="subjectFilter"
-                    v-model="selectedSubject"
-                    class="form-select border-0 shadow-sm"
-                    :class="{ 'form-select-lg': $isLargeScreen }"
-                    aria-label="Filter by subject"
-                    @change="debouncedSearch"
+            
+            <div class="d-flex justify-content-end mb-3 gap-2 px-2">
+              <button class="btn btn-outline-primary btn-sm rounded-pill me-2 px-3 py-2" 
+                 @click="exportToCSV" 
+                 title="Export to CSV" 
+                 aria-label="Export to CSV"
+                 style="border-color: #00bfa6; color: #00bfa6;">
+                <i class="bi bi-file-earmark-spreadsheet me-1"></i>CSV
+              </button>
+              <button class="btn btn-outline-primary btn-sm rounded-pill px-3 py-2" 
+                 @click="exportToJSON" 
+                 title="Export to JSON" 
+                 aria-label="Export to JSON"
+                 style="border-color: #00bfa6; color: #00bfa6;">
+                <i class="bi bi-file-earmark-code me-1"></i>JSON
+              </button>
+            </div>
+            
+            <div class="bg-white rounded-3 p-4 shadow-sm border mb-4">
+              <!-- Search Stats -->
+              <div class="mb-4" v-if="searchQuery || selectedSubject">
+                <div class="d-flex flex-wrap align-items-center gap-3 px-1">
+                  <span class="badge fs-6 px-3 py-2" style="background-color: #e0fff8; color: #00bfa6;">
+                    <i class="bi bi-search me-2"></i>{{ filteredTerms?.length || 0 }} results
+                  </span>
+                  <span v-if="searchQuery" class="badge fs-6 px-3 py-2" style="background-color: #e0fff8; color: #00bfa6;">
+                    <i class="bi bi-keyboard me-2"></i>"{{ searchQuery }}"
+                  </span>
+                  <span v-if="selectedSubject" class="badge fs-6 px-3 py-2" style="background-color: #e0fff8; color: #00bfa6;">
+                    <i class="bi bi-tag me-2"></i>{{ selectedSubject }}
+                  </span>
+                  <button 
+                    class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-2" 
+                    @click="clearSearch"
+                    title="Clear all filters"
+                    aria-label="Clear all filters"
                   >
-                    <option value="">All Subjects</option>
-                    <option v-for="subject in subjects" :key="subject" :value="subject">
-                      {{ subject }}
-                    </option>
-                  </select>
+                    <i class="bi bi-x-circle me-1"></i>Clear
+                  </button>
                 </div>
-                <div class="col-12 col-md-8">
-                  <label for="searchQuery" class="form-label fw-bold text-dark">Search Query</label>
-                  <div class="search-bar position-relative">
-                    <div class="input-group shadow-sm" :class="{ 'input-group-lg': $isLargeScreen }">
-                      <span class="input-group-text bg-white border-0">
-                        <i class="bi bi-search text-secondary"></i>
-                      </span>
-                      <input
-                        id="searchQuery"
-                        type="text"
-                        v-model="searchQuery"
-                        class="form-control border-0 py-2 py-md-3"
-                        :class="{ 'fs-5': $isLargeScreen }"
-                        placeholder="Search terms, meanings, or references..."
-                        aria-label="Search Islamic Dictionary"
-                        @input="debouncedSearch"
-                        @focus="showSuggestions = true"
-                        @blur="delayHideSuggestions"
-                        @keydown.down.prevent="navigateSuggestions(1)"
-                        @keydown.up.prevent="navigateSuggestions(-1)"
-                        @keydown.enter.prevent="selectSuggestion(highlightedIndex)"
-                      />
-                      <button
-                        v-if="searchQuery"
-                        class="btn btn-outline-secondary border-0 touch-friendly"
-                        type="button"
-                        @click="clearSearch"
-                        aria-label="Clear search"
+              </div>
+
+              <!-- Advanced Search Controls -->
+              <div class="bg-light rounded-3 p-4 border mb-3">
+                <div class="row g-3 align-items-end">
+                  <div class="col-12 d-flex flex-column flex-md-row align-items-stretch gap-3">
+                    <div class="flex-shrink-0" style="min-width:220px;">
+                      <label class="form-label fw-bold text-dark mb-2">
+                        <i class="bi bi-sort-down me-1"></i>Sort By
+                      </label>
+                      <select
+                        v-model="sortBy"
+                        class="form-select border-0 shadow-sm mb-2"
+                        :class="{ 'form-select-lg': $isLargeScreen }"
+                        @change="updateSuggestions"
+                        style="background: #f8fafb; border: 1.5px solid #d1e0e7;"
                       >
-                        <i class="bi bi-x-lg"></i>
-                      </button>
-                      <button
-                        class="btn btn-outline-secondary border-0 touch-friendly"
-                        type="button"
-                        :disabled="!isSpeechSupported"
-                        :title="isSpeechSupported ? 'Start voice search' : 'Voice search not supported'"
-                        @click="toggleVoiceSearch"
-                        aria-label="Toggle voice search"
-                      >
-                        <i class="bi bi-mic" :class="{ 'text-danger pulse': isListening }"></i>
-                      </button>
+                        <option value="relevance">Relevance</option>
+                        <option value="term">Term (A-Z)</option>
+                        <option value="term-desc">Term (Z-A)</option>
+                        <option value="subject">Subject</option>
+                        <option value="recent">Recently Viewed</option>
+                        <option value="favorites">Favorites First</option>
+                      </select>
                     </div>
-                    <div
-                      v-if="showSuggestions && suggestions.length && searchQuery.length >= 2"
-                      class="suggestions-dropdown shadow-lg rounded-bottom"
-                    >
-                      <div class="list-group">
-                        <button
-                          v-for="(suggestion, index) in suggestions"
-                          :key="index"
-                          type="button"
-                          class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-                          :class="{ 'active': index === highlightedIndex }"
-                          @mousedown.prevent="selectSuggestion(index)"
-                          @mouseover="highlightedIndex = index"
+                    <div class="flex-grow-1">
+                      <label for="searchQuery" class="form-label fw-bold text-dark mb-2">
+                        <i class="bi bi-search me-1"></i>Search Terms
+                      </label>
+                      <div class="position-relative">
+                        <div class="input-group shadow-sm mb-2" :class="{ 'input-group-lg': $isLargeScreen }">
+                          <span class="input-group-text bg-white border-0">
+                            <i class="bi bi-search text-secondary"></i>
+                          </span>
+                        <input
+                          id="searchQuery"
+                          type="text"
+                          v-model="searchQuery"
+                          class="form-control border-0 py-2 py-md-3"
+                          :class="{ 'fs-5': $isLargeScreen }"
+                            placeholder="Search terms, meanings, references, or use advanced syntax..."
+                          aria-label="Search Islamic Dictionary"
+                            @input="updateSuggestions"
+                            @focus="updateSuggestions"
+                          @blur="delayHideSuggestions"
+                          @keydown.down.prevent="navigateSuggestions(1)"
+                          @keydown.up.prevent="navigateSuggestions(-1)"
+                          @keydown.enter.prevent="selectSuggestion(highlightedIndex)"
+                            @keydown.escape="showSuggestions = false"
+                          autocomplete="off"
+                          spellcheck="false"
+                            style="background: #f8fafb; border: 1.5px solid #d1e0e7;"
+                        />
+                          <div class="input-group-append">
+                          <button
+                            v-if="searchQuery"
+                              class="btn btn-outline-secondary border-0 px-2"
+                            type="button"
+                            @click="clearSearch"
+                            aria-label="Clear search"
+                            title="Clear search"
+                          >
+                            <i class="bi bi-x-lg"></i>
+                          </button>
+                          <button
+                              class="btn btn-outline-secondary border-0 px-2"
+                            type="button"
+                            :disabled="!isSpeechSupported"
+                            :title="isSpeechSupported ? 'Start voice search' : 'Voice search not supported'"
+                            @click="toggleVoiceSearch"
+                            aria-label="Toggle voice search"
+                          >
+                            <i class="bi bi-mic" :class="{ 'text-danger pulse': isListening }"></i>
+                          </button>
+                            <button
+                              class="btn btn-outline-secondary border-0 px-2"
+                              type="button"
+                              @click="toggleAdvancedSearch"
+                              :title="showAdvancedSearch ? 'Hide advanced search' : 'Show advanced search'"
+                              aria-label="Toggle advanced search"
+                            >
+                              <i class="bi bi-sliders"></i>
+                            </button>
+                        </div>
+                        </div>
+
+                        <!-- Enhanced Suggestions Dropdown -->
+                        <div
+                          v-if="showSuggestions && filteredSuggestions.length && searchQuery.length >= 2"
+                          class="position-absolute w-100 shadow-lg rounded-bottom border mt-1 bg-white"
+                          role="listbox"
+                          :aria-activedescendant="highlightedIndex >= 0 ? 'suggestion-' + highlightedIndex : null"
+                          style="z-index: 1050; max-height: 40vh; overflow-y: auto; border-top: none;"
                         >
-                          <span>{{ suggestion.term }}</span>
-                          <small class="text-muted">{{ suggestion.subject }}</small>
+                          <div class="p-2 border-bottom bg-light">
+                            <small class="text-muted">
+                              <i class="bi bi-lightbulb me-1"></i>Search tips: Use quotes for exact phrases, + for required words
+                            </small>
+                          </div>
+                          <div class="list-group list-group-flush">
+                            <button
+                              v-for="(suggestion, index) in filteredSuggestions"
+                              :key="index"
+                              type="button"
+                              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 px-3 py-2"
+                              :class="{ 'active': index === highlightedIndex }"
+                              @mousedown.prevent="selectSuggestion(index)"
+                              @mouseover="highlightedIndex = index"
+                              :id="'suggestion-' + index"
+                              role="option"
+                              :aria-selected="index === highlightedIndex"
+                            >
+                              <div class="d-flex flex-column">
+                                <span class="fw-bold">{{ suggestion.term }}</span>
+                                <small class="text-muted">{{ suggestion.meaning.substring(0, 60) }}...</small>
+                              </div>
+                              <div class="d-flex flex-column align-items-end">
+                                <span class="badge" style="background-color: #e0fff8; color: #00bfa6;">{{ suggestion.subject }}</span>
+                                <small class="text-muted">{{ getMatchType(suggestion) }}</small>
+                              </div>
+                            </button>
+                          </div>
+                          <div class="p-2 border-top bg-light">
+                            <small class="text-muted">
+                              <i class="bi bi-arrow-up me-1"></i><i class="bi bi-arrow-down me-1"></i>Navigate • Enter to select • Esc to clear
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Advanced Search Panel -->
+                <div v-if="showAdvancedSearch" class="mt-4 p-3 bg-light rounded border">
+                  <h6 class="fw-bold mb-3">
+                    <i class="bi bi-gear me-1"></i>Advanced Search Options
+                  </h6>
+                  <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                      <label class="form-label">Search Syntax</label>
+                      <div class="small">
+                        <div class="mb-2">
+                          <code class="bg-light px-2 py-1 rounded">"exact phrase"</code> - Exact match
+                        </div>
+                        <div class="mb-2">
+                          <code class="bg-light px-2 py-1 rounded">+required</code> - Must include
+                        </div>
+                        <div class="mb-2">
+                          <code class="bg-light px-2 py-1 rounded">-excluded</code> - Must not include
+                        </div>
+                        <div class="mb-2">
+                          <code class="bg-light px-2 py-1 rounded">term*</code> - Wildcard search
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label class="form-label">Quick Filters</label>
+                      <div class="d-flex flex-wrap gap-2">
+                        <button
+                          v-for="filter in quickFilters"
+                          :key="filter.key"
+                          class="btn btn-sm btn-outline-secondary px-3 py-2"
+                          @click="applyQuickFilter(filter.key)"
+                        >
+                          {{ filter.label }}
                         </button>
                       </div>
                     </div>
@@ -95,121 +226,185 @@
                 </div>
               </div>
             </div>
+            
+            <!-- Navigation toggles -->
+            <div class="d-flex justify-content-center mt-4 mb-3">
+              <div class="nav nav-pills gap-2">
+                <button class="nav-link px-4 py-2" 
+                   :class="{ 'active': currentPage === 1 }" 
+                   @click="currentPage = 1" 
+                   title="Show all terms" 
+                   aria-label="Show all terms"
+                   :style="currentPage === 1 ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'">
+                  <i class="bi bi-book me-2"></i>All Terms
+                </button>
+                <button class="nav-link px-4 py-2" 
+                   :class="{ 'active': currentPage === 'favorites' }" 
+                   @click="currentPage = 'favorites'" 
+                   title="Show favorites" 
+                   aria-label="Show favorites"
+                   :style="currentPage === 'favorites' ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'">
+                  <i class="bi bi-heart-fill me-2"></i>Favorites
+                </button>
+                <button class="nav-link px-4 py-2" 
+                   :class="{ 'active': currentPage === 'recent' }" 
+                   @click="currentPage = 'recent'" 
+                   title="Show recently viewed" 
+                   aria-label="Show recently viewed"
+                   :style="currentPage === 'recent' ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'">
+                  <i class="bi bi-clock-history me-2"></i>Recent
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </header>
-    <main class="container-fluid py-3 py-md-4 px-3 px-md-4">
+    
+    <main class="container-fluid py-4 px-3 px-md-4" :id="skipToContentId" tabindex="-1">
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10 col-xl-8">
-          <div v-if="paginatedTerms.length === 0" class="empty-state text-center py-4 py-md-5">
-            <div class="empty-icon mb-3 mb-md-4">
-              <i class="bi bi-search-heart fs-2 fs-md-1 text-muted"></i>
+          <!-- Empty state -->
+          <div v-if="displayedTerms.length === 0" class="text-center py-5 bg-white rounded-3 shadow-sm border mb-4 px-2">
+            <div class="mb-4">
+              <i class="bi bi-search-heart display-1" style="color: #00bfa6; opacity: 0.75;"></i>
             </div>
-            <h3 class="fw-bold mb-2 mb-md-3 fs-5 fs-md-4">No terms found</h3>
-            <p class="text-muted mb-3 mb-md-4 fs-6 fs-md-5">Try adjusting your search or filter criteria</p>
-            <button class="btn btn-primary px-3 px-md-4 touch-friendly" @click="clearSearch">
+            <h3 class="fw-bold mb-3 fs-4 text-dark">No terms found</h3>
+            <p class="text-muted mb-4 fs-5">Try adjusting your search criteria or browse all terms</p>
+            <button class="btn btn-lg rounded-pill px-4 py-3 mb-2" @click="clearSearch" style="background-color: #00bfa6; color: #fff;">
               <i class="bi bi-arrow-counterclockwise me-2"></i>Reset Search
             </button>
           </div>
-          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 g-md-4">
-            <div v-for="term in paginatedTerms" :key="term.id" class="col">
-              <div class="card h-100 border-0 shadow-sm hover-effect">
-                <div class="card-body d-flex flex-column p-3 p-md-4" :style="{ fontSize: `${termFontSizes[term.id]}rem` }">
-                  <span class="badge bg-primary-subtle text-primary rounded-pill mb-2 mb-md-3">
+          
+          <!-- Terms grid -->
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4 " >
+            <div v-for="term in displayedTerms" :key="term.id" class="col mb-4">
+              <div 
+                class="card h-100 shadow-sm border-0 border shadow-md" style="border:2px solid #d1e0e7; border-radius: 10px;"
+                :class="{ 'border-primary border-3': favorites.includes(term.id) }"
+                :style="{ fontSize: `${termFontSizes[term.id]}rem` }"
+                @click.self="handleCardClick(term.id)"
+                tabindex="0"
+                role="group"
+                :aria-label="`Islamic term card: ${term.term}`"
+                @keydown.enter="handleCardClick(term.id)"
+                @keydown.space.prevent="handleCardClick(term.id)"
+              >
+                <div class="card-body d-flex flex-column p-4 gap-2">
+                  <span class="badge rounded-pill mb-3 px-3 py-2" style="background-color: #e0fff8; color: #00bfa6;">
                     {{ term.subject }}
                   </span>
-                  <h5 class="card-title fw-bold mb-2 mb-md-3">{{ term.term }}</h5>
-                  <p class="card-text text-muted mb-2 mb-md-3">
-                    <small>"{{ term.phrase }}"</small>
+                  <h5 class="card-title fw-bold mb-3 fs-4" style="color: #00bfa6;">{{ term.term }}</h5>
+                  <p class="card-text mb-3" style="color: #00bfa6;">
+                    <em>"{{ term.phrase }}"</em>
                   </p>
-                  <div class="mb-2 mb-md-3">
-                    <h6 class="fw-bold text-primary">Meaning</h6>
-                    <p>{{ term.meaning }}</p>
+                  <div class="mb-3">
+                    <h6 class="fw-bold mb-2" style="color: #00bfa6;">Meaning</h6>
+                    <p class="mb-0">{{ term.meaning }}</p>
                   </div>
-                  <div class="mb-2 mb-md-3">
-                    <h6 class="fw-bold text-primary">Example</h6>
-                    <p>{{ term.example }}</p>
+                  <div class="mb-3">
+                    <h6 class="fw-bold mb-2" style="color: #00bfa6;">Example</h6>
+                    <p class="mb-0">{{ term.example }}</p>
                   </div>
-                  <div class="mb-2 mb-md-3">
-                    <h6 class="fw-bold text-primary">Reference</h6>
-                    <p>{{ term.reference }}</p>
+                  <div class="mb-3">
+                    <h6 class="fw-bold mb-2" style="color: #00bfa6;">Reference</h6>
+                    <p class="mb-0">{{ term.reference }}</p>
                   </div>
                 </div>
-                <div class="card-bottom bg-light d-flex  gap-1 gap-md-2 p-2 p-md-3">
-                  <button
-                    class="btn btn-outline-secondary btn-sm touch-friendly"
-                    @click="adjustFontSize(term.id, -1)"
-                    :disabled="termFontSizes[term.id] <= minFontSize"
-                    title="Decrease font size"
-                    aria-label="Decrease font size"
-                  >
-                    <i class="bi bi-dash-lg"></i>
-                  </button>
-                  <button
-                    class="btn btn-outline-secondary btn-sm touch-friendly"
-                    @click="adjustFontSize(term.id, 1)"
-                    :disabled="termFontSizes[term.id] >= maxFontSize"
-                    title="Increase font size"
-                    aria-label="Increase font size"
-                  >
-                    <i class="bi bi-plus-lg"></i>
-                  </button>
-                  <button
-                    class="btn btn-outline-secondary btn-sm touch-friendly"
-                    @click="resetFontSize(term.id)"
-                    title="Reset font size"
-                    aria-label="Reset font size"
-                  >
-                    <i class="bi bi-fonts"></i>
-                  </button>
-                  <a
-                    class="btn btn-outline-success btn-sm touch-friendly"
-                    :href="getWhatsAppShareLink(term)"
-                    target="_blank"
-                    title="Share via WhatsApp"
-                    aria-label="Share via WhatsApp"
-                  >
-                    <i class="bi bi-whatsapp"></i>
-                  </a>
-                  <button
-                    class="btn btn-outline-secondary btn-sm touch-friendly"
-                    @click="copyToClipboard(term)"
-                    title="Copy to clipboard"
-                    aria-label="Copy term details"
-                  >
-                    <i class="bi bi-clipboard"></i>
-                  </button>
-                  <button
-                    class="btn btn-outline-secondary btn-sm touch-friendly"
-                    @click="speakTerm(term)"
-                    :disabled="!isSpeechSynthesisSupported"
-                    :title="isSpeechSynthesisSupported ? 'Read aloud' : 'Text-to-speech not supported'"
-                    aria-label="Read term aloud"
-                  >
-                    <i class="bi bi-volume-up"></i>
-                  </button>
+                <div style="bottom: 0px;" class="card-footer bg-light border-top d-flex align-items-center gap-2 px-3 py-2" @click.stop>
+                  <div class="d-flex gap-2 w-100 justify-content-between px-2 py-1">
+                    <button
+                      type="button"
+                      class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
+                      style="width: 48px; height: 48px;"
+                      @click="adjustFontSize(term.id, -1)"
+                      :disabled="termFontSizes[term.id] <= minFontSize"
+                      aria-label="Decrease font size"
+                      title="Decrease font size"
+                    >
+                      <i class="bi bi-dash-lg fs-2"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
+                      style="width: 48px; height: 48px;"
+                      @click="adjustFontSize(term.id, 1)"
+                      :disabled="termFontSizes[term.id] >= maxFontSize"
+                      aria-label="Increase font size"
+                      title="Increase font size"
+                    >
+                      <i class="bi bi-plus-lg fs-2"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
+                      style="width: 48px; height: 48px;"
+                      @click="toggleFavorite(term.id)"
+                      aria-label="Toggle favorite"
+                      :title="favorites.includes(term.id) ? 'Remove from favorites' : 'Add to favorites'"
+                    >
+                      <i :class="[favorites.includes(term.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart', 'fs-2']"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
+                      style="width: 48px; height: 48px;"
+                      @click="window.open(getWhatsAppShareLink(term), '_blank')"
+                      aria-label="Share via WhatsApp"
+                      title="Share via WhatsApp"
+                    >
+                      <i class="bi bi-whatsapp fs-2"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
+                      style="width: 48px; height: 48px;"
+                      @click="copyToClipboard(term)"
+                      aria-label="Copy to clipboard"
+                      title="Copy to clipboard"
+                    >
+                      <i class="bi bi-clipboard fs-2"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
+                      style="width: 48px; height: 48px;"
+                      @click="speakTerm(term)"
+                      :disabled="!isSpeechSynthesisSupported"
+                      aria-label="Read aloud"
+                      :title="isSpeechSynthesisSupported ? 'Read aloud' : 'Text-to-speech not supported'"
+                    >
+                      <i class="bi bi-volume-up fs-2"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <nav v-if="filteredTerms.length > termsPerPage" class="mt-3 mt-md-4" aria-label="Page navigation">
-            <ul class="pagination justify-content-center flex-wrap">
-              <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                <button class="page-link touch-friendly" @click="currentPage--" aria-label="Previous">
+          
+          <!-- Pagination -->
+          <nav v-if="showPagination" class="mt-5" aria-label="Page navigation">
+            <ul class="pagination justify-content-center flex-wrap gap-2">
+              <li class="page-item" :class="{ disabled: currentPageNumber === 1 }">
+                <button class="page-link rounded-pill mx-1 px-4 py-2" @click="goToPage(currentPageNumber - 1)" aria-label="Previous">
                   <span aria-hidden="true">«</span>
                 </button>
               </li>
               <li class="page-item disabled">
-                <span class="page-link">Page {{ currentPage }} of {{ totalPages }}</span>
+                <span class="page-link rounded-pill mx-1 px-4 py-2">Page {{ currentPageNumber }} of {{ totalPages }}</span>
               </li>
-              <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                <button class="page-link touch-friendly" @click="currentPage++" aria-label="Next">
+              <li class="page-item" :class="{ disabled: currentPageNumber === totalPages }">
+                <button class="page-link rounded-pill mx-1 px-4 py-2" @click="goToPage(currentPageNumber + 1)" aria-label="Next">
                   <span aria-hidden="true">»</span>
                 </button>
               </li>
             </ul>
           </nav>
+          
+          <!-- Back to Top Button -->
+          <button v-if="displayedTerms.length > 0" class="btn btn-lg rounded-circle position-fixed shadow-lg" @click="scrollToTop" title="Back to top" aria-label="Back to top" style="background-color: #00bfa6; color: #fff; bottom: 30px; right: 30px; z-index: 100; width: 60px; height: 60px;">
+            <i class="bi bi-arrow-up fs-5"></i>
+          </button>
         </div>
       </div>
     </main>
@@ -219,401 +414,464 @@
 <script>
 import islamicTerms from './islamic_terms.json';
 
+function debounce(fn, delay) {
+  let timeout;
+  return function(...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
 export default {
-  name: 'IslamicDictionary',
   data() {
     return {
+      terms: Array.isArray(islamicTerms?.terms) ? islamicTerms.terms : [],
       searchQuery: '',
       selectedSubject: '',
-      terms: islamicTerms.terms || [],
-      isListening: false,
-      isSpeechSupported: false,
-      isSpeechSynthesisSupported: false,
-      recognition: null,
-      suggestions: [],
+      sortBy: 'relevance',
+      showAdvancedSearch: false,
       showSuggestions: false,
       highlightedIndex: -1,
-      subjects: [
-        'Worship',
-        'Jurisprudence',
-        'Eschatology',
-        'Ethics',
-        'History',
-        'Pilgrimage',
-        'Marriage',
-        'Theology',
-        'Quranic Studies',
-        'Hadith',
-        'Islamic Law',
-        'Spirituality',
-        'Biography',
-        'Economics',
-        'Culture',
-        'Prophetic Tradition',
-        'Islamic Philosophy',
-        'Mysticism',
-        'Education',
-        'Science',
-        'Politics',
-        'Community',
-        'Charity',
-        'Fasting',
-        'Prayer'
-      ],
-      baseFontSize: 1,
-      termFontSizes: {},
-      minFontSize: 0.875,
-      maxFontSize: 1.375,
+      suggestions: [],
+      favorites: [],
       currentPage: 1,
-      termsPerPage: 6
+      currentPageNumber: 1,
+      totalPages: 1,
+      termFontSizes: {},
+      baseFontSize: 1,
+      minFontSize: 0.8,
+      maxFontSize: 2.0,
+      isSpeechSupported: false,
+      isSpeechSynthesisSupported: false,
+      isListening: false,
+      voiceSearchActive: false,
+      skipToContentId: 'mainContent',
+      quickFilters: [],
     };
   },
   computed: {
     filteredTerms() {
-      let filtered = this.terms;
-      const query = this.searchQuery.toLowerCase().trim();
-
-      if (this.selectedSubject) {
-        filtered = filtered.filter(term => term.subject.toLowerCase() === this.selectedSubject.toLowerCase());
+      let terms = this.terms;
+      if (this.searchQuery) {
+        terms = terms.filter(term => {
+          const q = this.searchQuery.toLowerCase();
+          return (
+            term.term.toLowerCase().includes(q) ||
+            term.meaning.toLowerCase().includes(q) ||
+            term.phrase.toLowerCase().includes(q) ||
+            term.reference.toLowerCase().includes(q)
+          );
+        });
       }
-
-      if (query) {
-        filtered = filtered.filter(term =>
-          term.term.toLowerCase().includes(query) ||
-          term.meaning.toLowerCase().includes(query) ||
-          term.reference.toLowerCase().includes(query)
+      if (this.selectedSubject && this.selectedSubject !== 'all') {
+        terms = terms.filter(term => term.subject === this.selectedSubject);
+      }
+      if (this.sortBy === 'term') {
+        terms.sort((a, b) => a.term.localeCompare(b.term));
+      } else if (this.sortBy === 'term-desc') {
+        terms.sort((a, b) => b.term.localeCompare(a.term));
+      } else if (this.sortBy === 'subject') {
+        terms.sort((a, b) => a.subject.localeCompare(b.subject));
+      } else if (this.sortBy === 'recent') {
+        terms.sort((a, b) => new Date(b.lastViewed) - new Date(a.lastViewed));
+      } else if (this.sortBy === 'favorites') {
+        terms.sort((a, b) => {
+          const aIsFavorite = this.favorites.includes(a.id);
+          const bIsFavorite = this.favorites.includes(b.id);
+          if (aIsFavorite && !bIsFavorite) return -1;
+          if (!aIsFavorite && bIsFavorite) return 1;
+          return 0;
+        });
+      }
+      return terms;
+    },
+    filteredSuggestions() {
+      const q = this.searchQuery.trim().toLowerCase();
+      if (!q) return [];
+      // Deduplicate by term (case-insensitive)
+      const seen = new Set();
+      return this.terms.filter(term => {
+        const match = (
+          term.term.toLowerCase().includes(q) ||
+          term.meaning.toLowerCase().includes(q) ||
+          term.reference.toLowerCase().includes(q)
         );
-      }
-
-      return filtered;
+        const key = term.term.toLowerCase();
+        if (match && !seen.has(key)) {
+          seen.add(key);
+          return true;
+        }
+        return false;
+      }).slice(0, 5);
+    },
+    displayedTerms() {
+      // Deduplicate by term (case-insensitive)
+      const seen = new Set();
+      return this.filteredTerms.filter(term => {
+        const key = term.term.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          return true;
+        }
+        return false;
+      }).slice((this.currentPageNumber - 1) * 12, this.currentPageNumber * 12);
+    },
+    totalTerms() {
+      return this.filteredTerms.length;
+    },
+    showPagination() {
+      return this.totalTerms > 12;
+    },
+    currentPageNumber() {
+      return this.currentPage;
     },
     totalPages() {
-      return Math.ceil(this.filteredTerms.length / this.termsPerPage);
+      return Math.ceil(this.totalTerms / 12);
     },
-    paginatedTerms() {
-      const start = (this.currentPage - 1) * this.termsPerPage;
-      const end = start + this.termsPerPage;
-      return this.filteredTerms.slice(start, end);
-    },
-    $isLargeScreen() {
-      return window.innerWidth >= 768;
+    subjects() {
+      // Extract unique subjects from terms
+      return ['all', ...Array.from(new Set(this.terms.map(t => t.subject)))];
     }
   },
   watch: {
+    searchQuery: {
+      handler: debounce(function(val) {
+        this.showSuggestions = !!val && val.length >= 2 && this.filteredSuggestions.length > 0;
+        this.highlightedIndex = -1;
+      }, 250),
+      immediate: false
+    },
     selectedSubject() {
-      this.debouncedSearch();
-    }
+        this.currentPage = 1;
+    },
+    sortBy() {
+        this.currentPage = 1;
+    },
+    currentPage(newVal) {
+      this.currentPageNumber = newVal;
+    },
+    totalTerms(newVal) {
+      this.totalPages = Math.ceil(newVal / 12);
+    },
+  },
+  mounted() {
+    this.initialize();
+    this.loadFavorites();
+    this.loadRecentTerms();
+    this.isSpeechSupported = 'SpeechRecognition' in window;
+    this.isSpeechSynthesisSupported = 'SpeechSynthesisUtterance' in window;
+    this.quickFilters = this.subjects.map(s => ({ key: s, label: s.charAt(0).toUpperCase() + s.slice(1) }));
   },
   methods: {
-    truncate(text, length) {
-      return text.length > length ? text.substring(0, length) + '...' : text;
+    adjustFontSize(termId, change) {
+      const currentSize = this.termFontSizes[termId] || 1;
+      const newSize = currentSize + change * 0.1;
+      this.termFontSizes[termId] = Math.max(this.minFontSize, Math.min(this.maxFontSize, newSize));
+      this.$forceUpdate(); // Ensure re-render
     },
-    debounce(fn, delay) {
+    initialize() {
+      this.baseFontSize = parseFloat(localStorage.getItem('fontSize') || '1');
+      this.loadFontSizes();
+      this.loadQuickFilters();
+      this.loadSuggestions();
+    },
+    showToast(message, type = 'success') {
+        let toastContainer = document.getElementById('toastContainer');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.id = 'toastContainer';
+            toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+            toastContainer.style.zIndex = 1090;
+            document.body.appendChild(toastContainer);
+        }
+        const bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
+        const toastEl = document.createElement('div');
+        toastEl.className = `toast align-items-center text-white ${bgClass} border-0`;
+        toastEl.setAttribute('role', 'alert');
+        toastEl.setAttribute('aria-live', 'assertive');
+        toastEl.setAttribute('aria-atomic', 'true');
+        toastEl.innerHTML = `
+          <div class="d-flex">
+            <div class="toast-body">
+            ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        `;
+        toastContainer.appendChild(toastEl);
+        const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+      toast.show();
+        toastEl.addEventListener('hidden.bs.toast', () => {
+            toastEl.remove();
+        });
+    },
+    performSearch() {
+      this.currentPage = 1;
+      this.loadSuggestions(); // Clear suggestions when search changes
+    },
+    debounce(func, delay) {
       let timeoutId;
-      return (...args) => {
+      return function(...args) {
         clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => fn.apply(this, args), delay);
+        timeoutId = setTimeout(() => {
+          func.apply(this, args);
+        }, delay);
       };
-    },
-    debouncedSearch() {
-      this.debounce(() => {
-        this.updateSuggestions();
-        this.currentPage = 1;
-      }, 300)();
-    },
-    updateSuggestions() {
-      const query = this.searchQuery.toLowerCase().trim();
-      if (query.length < 2) {
-        this.suggestions = [];
-        return;
-      }
-
-      let filtered = this.terms;
-      if (this.selectedSubject) {
-        filtered = filtered.filter(term => term.subject.toLowerCase() === this.selectedSubject.toLowerCase());
-      }
-
-      this.suggestions = filtered
-        .filter(term =>
-          term.term.toLowerCase().includes(query) ||
-          term.meaning.toLowerCase().includes(query) ||
-          term.reference.toLowerCase().includes(query)
-        )
-        .slice(0, 5);
-    },
-    selectSuggestion(index) {
-      if (index >= 0 && index < this.suggestions.length) {
-        this.searchQuery = this.suggestions[index].term;
-        this.suggestions = [];
-        this.showSuggestions = false;
-        this.highlightedIndex = -1;
-        this.currentPage = 1;
-      }
-    },
-    navigateSuggestions(direction) {
-      if (!this.suggestions.length) return;
-      this.highlightedIndex = Math.max(
-        0,
-        Math.min(this.suggestions.length - 1, this.highlightedIndex + direction)
-      );
-    },
-    delayHideSuggestions() {
-      setTimeout(() => {
-        this.showSuggestions = false;
-      }, 200);
     },
     clearSearch() {
       this.searchQuery = '';
       this.selectedSubject = '';
-      this.suggestions = [];
+      this.showAdvancedSearch = false;
       this.showSuggestions = false;
       this.highlightedIndex = -1;
-      this.currentPage = 1;
+      this.performSearch();
     },
-    initSpeechRecognition() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (SpeechRecognition) {
-        this.isSpeechSupported = true;
-        this.recognition = new SpeechRecognition();
-        this.recognition.lang = 'en-US';
-        this.recognition.interimResults = false;
-        this.recognition.maxAlternatives = 1;
-
-        this.recognition.onresult = event => {
-          this.searchQuery = event.results[0][0].transcript;
-          this.updateSuggestions();
-          this.isListening = false;
-        };
-        this.recognition.onend = () => (this.isListening = false);
-        this.recognition.onerror = event => {
-          console.error('Speech recognition error:', event.error);
-          this.isListening = false;
-          alert('Voice search error: ' + event.error);
-        };
-      } else {
-        this.isSpeechSupported = false;
-        console.warn('SpeechRecognition API not supported in this browser.');
+    toggleAdvancedSearch() {
+      this.showAdvancedSearch = !this.showAdvancedSearch;
+      this.showSuggestions = false;
+      this.highlightedIndex = -1;
+    },
+    applyQuickFilter(filterKey) {
+      this.selectedSubject = filterKey;
+      this.showAdvancedSearch = false;
+      this.showSuggestions = false;
+      this.highlightedIndex = -1;
+      this.performSearch();
+    },
+    getMatchType(term) {
+      if (term.matchType === 'exact') return 'Exact match';
+      if (term.matchType === 'partial') return 'Partial match';
+      if (term.matchType === 'wildcard') return 'Wildcard match';
+      return 'No match';
+    },
+    navigateSuggestions(direction) {
+      if (this.suggestions.length === 0) return;
+      this.highlightedIndex = (this.highlightedIndex + direction + this.suggestions.length) % this.suggestions.length;
+    },
+    selectSuggestion(index) {
+      if (this.suggestions.length === 0) return;
+      const suggestion = this.suggestions[index];
+      this.searchQuery = suggestion.term;
+      this.showSuggestions = false;
+      this.highlightedIndex = -1;
+      this.performSearch();
+    },
+    delayHideSuggestions() {
+      setTimeout(() => {
+        this.showSuggestions = false;
+        this.highlightedIndex = -1;
+      }, 100);
+    },
+    handleCardClick(termId) {
+      const term = this.terms.find(t => t.id === termId);
+      if (term) {
+        this.handleTermClick(term);
       }
-
-      this.isSpeechSynthesisSupported = 'speechSynthesis' in window;
     },
-    toggleVoiceSearch() {
-      if (!this.isSpeechSupported) return;
-      if (this.isListening) {
-        this.recognition.stop();
-        this.isListening = false;
+    handleTermClick(term) {
+      this.searchQuery = term.term;
+      this.selectedSubject = term.subject;
+      this.showAdvancedSearch = false;
+      this.showSuggestions = false;
+      this.highlightedIndex = -1;
+      this.performSearch();
+    },
+    toggleFavorite(termId) {
+      const idx = this.favorites.indexOf(termId);
+      if (idx === -1) {
+        this.favorites.push(termId);
       } else {
-        this.recognition.start();
-        this.isListening = true;
+        this.favorites.splice(idx, 1);
       }
-    },
-    adjustFontSize(termId, change) {
-      this.termFontSizes[termId] = Math.min(this.maxFontSize, Math.max(this.minFontSize, (this.termFontSizes[termId] || 1) + change * 0.125));
+      this.saveFavorites();
       this.$forceUpdate();
     },
-    resetFontSize(termId) {
-      this.termFontSizes[termId] = 1;
-      this.$forceUpdate();
+    saveFavorites() {
+      localStorage.setItem('favorites', JSON.stringify(this.favorites));
     },
-    copyToClipboard(term) {
-      const text = `Term: ${term.term}\nPhrase: ${term.phrase}\nMeaning: ${term.meaning}\nExample: ${term.example}\nReference: ${term.reference}\nSubject: ${term.subject}`;
-      navigator.clipboard.writeText(text).then(() => {
-        const toast = new bootstrap.Toast(document.getElementById('copyToast'));
-        toast.show();
-      }).catch(err => {
-        console.error('Failed to copy: ', err);
+    loadFavorites() {
+      const favs = localStorage.getItem('favorites');
+      this.favorites = favs ? JSON.parse(favs) : [];
+    },
+    loadRecentTerms() {
+      const recentTerms = JSON.parse(localStorage.getItem('recentTerms') || '[]');
+      this.terms.forEach(term => {
+        if (recentTerms.includes(term.id)) {
+          term.lastViewed = new Date().toISOString();
+        }
       });
-    },
-    getWhatsAppShareLink(term) {
-      const text = `Islamic Term: ${term.term}\n\n"${term.phrase}"\n\nMeaning: ${term.meaning}\n\nExample: ${term.example}\n\nReference: ${term.reference}`;
-      return `https://wa.me/?text=${encodeURIComponent(text)}`;
     },
     speakTerm(term) {
       if (!this.isSpeechSynthesisSupported) return;
-      const utterance = new SpeechSynthesisUtterance(
-        `term=${term.term}. Phrase: ${term.phrase}. Meaning: ${term.meaning}. Example: ${term.example}. Reference: ${term.reference}. Subject: ${term.subject}.`
-      );
-      utterance.lang = 'en-US';
+      const utterance = new SpeechSynthesisUtterance(term.meaning);
+      utterance.lang = 'ar-SA'; // Arabic language
+      utterance.pitch = 1;
+      utterance.rate = 0.9;
+      utterance.volume = 1;
       window.speechSynthesis.speak(utterance);
-    }
-  },
-  mounted() {
-    this.initSpeechRecognition();
-    
-    this.terms.forEach(term => {
-      this.termFontSizes[term.id] = 1;
-    });
+    },
+    copyToClipboard(term) {
+      const textToCopy = `${term.term}\n\nMeaning: ${term.meaning}\nExample: ${term.example}\nReference: ${term.reference}`;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        this.showToast('Term copied to clipboard!');
+      }).catch(() => {
+        this.showToast('Failed to copy term to clipboard.', 'danger');
+      });
+    },
+    getWhatsAppShareLink(term) {
+      const text = `${term.term}\n\nMeaning: ${term.meaning}\nExample: ${term.example}\nReference: ${term.reference}`;
+      const encodedText = encodeURIComponent(text);
+      return `https://wa.me/?text=${encodedText}`;
+    },
+    exportToCSV() {
+      const csvContent = this.filteredTerms.map(term => [
+        term.term,
+        term.subject,
+        term.meaning,
+        term.example,
+        term.reference,
+        term.phrase,
+        term.id
+      ]).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'islamic_dictionary.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    },
+    exportToJSON() {
+      const jsonContent = JSON.stringify(this.filteredTerms, null, 2);
+      const blob = new Blob([jsonContent], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'islamic_dictionary.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    },
+    goToPage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+        this.scrollToTop();
+      }
+    },
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    skipToContent() {
+      document.getElementById(this.skipToContentId).focus();
+    },
+    toggleVoiceSearch() {
+      if (this.voiceSearchActive) {
+        this.stopVoiceSearch();
+      } else {
+        this.startVoiceSearch();
+      }
+    },
+    startVoiceSearch() {
+      if (!this.isSpeechSupported) return;
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'ar-SA'; // Arabic language
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
 
-    const toastEl = document.createElement('div');
-    toastEl.id = 'copyToast';
-    toastEl.className = 'toast align-items-center text-white bg-success position-fixed bottom-0 end-0 m-3';
-    toastEl.setAttribute('role', 'alert');
-    toastEl.setAttribute('aria-live', 'assertive');
-    toastEl.setAttribute('aria-atomic', 'true');
-    toastEl.innerHTML = `
-      <div class="d-flex">
-        <div class="toast-body">
-          <i class="bi bi-check-circle me-2"></i> Copied to clipboard!
-        </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-    `;
-    document.body.appendChild(toastEl);
-  }
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        this.searchQuery = transcript;
+        this.performSearch();
+        this.isListening = false;
+        this.voiceSearchActive = false;
+      };
+
+      recognition.onerror = (event) => {
+        this.isListening = false;
+        this.voiceSearchActive = false;
+        this.showToast('Voice search error: ' + event.error, 'danger');
+      };
+
+      recognition.onend = () => {
+        this.isListening = false;
+        this.voiceSearchActive = false;
+      };
+
+      recognition.start();
+      this.isListening = true;
+      this.voiceSearchActive = true;
+    },
+    stopVoiceSearch() {
+      if (this.voiceSearchActive) {
+        this.isListening = false;
+        this.voiceSearchActive = false;
+        if (window.SpeechRecognition) {
+          window.SpeechRecognition.stop();
+      }
+      }
+    },
+    updateSuggestions() {
+      this.showSuggestions = this.searchQuery.length >= 2 && this.filteredSuggestions.length > 0;
+    },
+    selectSuggestion(index) {
+      if (this.filteredSuggestions.length === 0) return;
+      const suggestion = this.filteredSuggestions[index];
+      this.searchQuery = suggestion.term;
+      this.showSuggestions = false;
+      this.highlightedIndex = -1;
+    },
+    navigateSuggestions(direction) {
+      if (!this.showSuggestions || this.filteredSuggestions.length === 0) return;
+      this.highlightedIndex = (this.highlightedIndex + direction + this.filteredSuggestions.length) % this.filteredSuggestions.length;
+    },
+    delayHideSuggestions() {
+      setTimeout(() => {
+        this.showSuggestions = false;
+        this.highlightedIndex = -1;
+      }, 100);
+    },
+  },
+  beforeDestroy() {
+    this.debouncedSearch.cancel();
+    this.stopVoiceSearch();
+  },
 };
 </script>
 
 <style scoped>
-.dictionary-app {
-  min-height: 100vh;
-  background-color: #f8f9fa;
+/* Minimal custom styles - using Bootstrap 5 for everything else */
+.skip-link:focus {
+  top: 20px !important;
+  opacity: 1 !important;
 }
 
-.bg-gradient-primary {
-  background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
+/* Pulse animation for microphone */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
-.search-section {
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+.pulse {
+  animation: pulse 1.5s infinite;
 }
 
-.search-bar .form-control {
-  border-radius: 8px !important;
+/* Suggestions dropdown active item custom color */
+.list-group-item.active,
+.list-group-item:active {
+  background-color: rgb(0, 191, 166) !important;
+  color: #fff !important;
+  border-color: rgb(0, 191, 166) !important;
 }
 
-.suggestions-dropdown {
-  position: absolute;
-  width: 100%;
-  z-index: 1050;
-  background: white;
-  max-height: 40vh;
-  overflow-y: auto;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-top: none;
-}
-
-.suggestions-dropdown .list-group-item {
-  border-left: none;
-  border-right: none;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-}
-
-.suggestions-dropdown .list-group-item:last-child {
-  border-bottom: none;
-}
-
-.suggestions-dropdown .list-group-item.active {
-  background-color: #4e4376;
-  border-color: #4e4376;
-}
-
-.card {
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.hover-effect:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.touch-friendly {
-  min-width: 40px;
-  min-height: 40px;
-  padding: 0.5rem;
-  touch-action: manipulation;
-}
-
-.empty-state {
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.empty-icon {
-  color: #e9ecef;
-}
-
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .dictionary-app {
+  .nav-pills .nav-link {
+    padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
   }
-
-  .search-section {
-    padding: 0.75rem;
-  }
-
-  .card-header {
-    gap: 0.5rem !important;
-    padding: 0.5rem !important;
-  }
-
-  .card-body {
-    padding: 0.75rem !important;
-  }
-
-  .pagination {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .dictionary-app {
-    font-size: 0.85rem;
-  }
-
-  .display-6 {
-    font-size: 1.5rem !important;
-  }
-
-  .fs-6 {
-    font-size: 0.9rem !important;
-  }
-
-  .card-title {
-    font-size: 1.1rem !important;
-  }
-
-  .card-text,
-  .card-body p,
-  .card-body small {
-    font-size: 0.9rem !important;
-  }
-}
-
-:focus {
-  outline: 2px solid #4e4376;
-  outline-offset: 2px;
-}
-
-.btn:focus,
-.form-control:focus,
-.form-select:focus {
-  box-shadow: 0 0 0 0.25rem rgba(78, 67, 118, 0.25);
-}
-
-.pagination .page-link {
-  border-radius: 8px;
-  margin: 0 0.2rem;
-  padding: 0.5rem 1rem;
-}
-
-.pagination .page-item.active .page-link {
-  background-color: #4e4376;
-  border-color: #4e4376;
-}
-
-.pagination .page-item.disabled .page-link {
-  cursor: not-allowed;
-  opacity: 0.65;
 }
 </style>

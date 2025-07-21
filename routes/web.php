@@ -63,6 +63,7 @@ use App\Http\Controllers\FoodController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\WelfareController;
 use App\Http\Controllers\BooksController;
+use App\Http\Controllers\ConvertController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -380,3 +381,5 @@ Route::get('/school', [SchoolController::class, 'index'])->name('school');
 Route::get('/welfare', [WelfareController::class, 'index'])->name('welfare');
 // welfare
 Route::get('/books', [BooksController::class, 'index'])->name('books');
+// convert
+Route::get('/convert', [ConvertController::class, 'index'])->name('convert');

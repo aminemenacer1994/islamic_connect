@@ -1,391 +1,2567 @@
 {
   "terms": [
     {
-      "id": 1,
-      "term": "Allah",
-      "phrase": "The One God",
-      "meaning": "The Arabic word for the one and only God, the Creator of the universe.",
-      "example": "Muslims say 'Allahu Akbar' to proclaim that Allah is the greatest.",
-      "reference": "Qur'an 112:1"
+      "id": 401,
+      "term": "Adl",
+      "phrase": "Justice",
+      "meaning": "The concept of fairness and justice in all actions, a key principle in Islam.",
+      "example": "He ensured Adl in distributing the charity funds.",
+      "reference": "Qur'an 4:135"
     },
     {
-      "id": 2,
-      "term": "Qur'an",
-      "phrase": "The Recitation",
-      "meaning": "The holy book of Islam, believed to be the word of Allah revealed to Prophet Muhammad.",
-      "example": "She recites the Qur'an every morning.",
-      "reference": "Qur'an 96:1"
+      "id": 402,
+      "term": "Ihsan",
+      "phrase": "Excellence",
+      "meaning": "Performing actions with sincerity and perfection, as if seeing Allah.",
+      "example": "She practiced Ihsan by praying with full devotion.",
+      "reference": "Hadith: Sahih Muslim 1.1"
     },
     {
-      "id": 3,
-      "term": "Salah",
-      "phrase": "Prayer",
-      "meaning": "The ritual prayer performed five times daily by Muslims.",
-      "example": "He performs Salah at the mosque.",
-      "reference": "Qur'an 2:238"
-    },
-    {
-      "id": 4,
-      "term": "Zakat",
-      "phrase": "Almsgiving",
-      "meaning": "Obligatory charity given by Muslims to support the poor.",
-      "example": "She paid Zakat on her savings.",
-      "reference": "Qur'an 9:60"
-    },
-    {
-      "id": 5,
-      "term": "Sawm",
-      "phrase": "Fasting",
-      "meaning": "Fasting during the month of Ramadan, one of the Five Pillars of Islam.",
-      "example": "They observe Sawm from dawn to dusk.",
-      "reference": "Qur'an 2:183"
-    },
-    {
-      "id": 6,
-      "term": "Hajj",
-      "phrase": "Pilgrimage",
-      "meaning": "The pilgrimage to Mecca that every able Muslim must perform once in their lifetime.",
-      "example": "He saved for years to perform Hajj.",
-      "reference": "Qur'an 22:27"
-    },
-    {
-      "id": 7,
-      "term": "Sunnah",
-      "phrase": "Tradition",
-      "meaning": "The practices and teachings of Prophet Muhammad.",
-      "example": "Following the Sunnah, he eats with his right hand.",
-      "reference": "Hadith: Sahih al-Bukhari"
-    },
-    {
-      "id": 8,
-      "term": "Hadith",
-      "phrase": "Narration",
-      "meaning": "Reports of the sayings and actions of Prophet Muhammad.",
-      "example": "The Hadith guides Muslims in daily life.",
-      "reference": "Sahih Muslim"
-    },
-    {
-      "id": 9,
-      "term": "Jihad",
-      "phrase": "Struggle",
-      "meaning": "Striving in the way of Allah, which can be spiritual or physical.",
-      "example": "Her Jihad is to seek knowledge.",
-      "reference": "Qur'an 25:52"
-    },
-    {
-      "id": 10,
-      "term": "Tawhid",
-      "phrase": "Oneness",
-      "meaning": "The belief in the oneness of Allah.",
-      "example": "Tawhid is the foundation of Islamic faith.",
-      "reference": "Qur'an 112:1"
-    },
-    {
-      "id": 11,
-      "term": "Akhirah",
-      "phrase": "Hereafter",
-      "meaning": "The afterlife where deeds are judged.",
-      "example": "Muslims prepare for the Akhirah through good deeds.",
-      "reference": "Qur'an 2:201"
-    },
-    {
-      "id": 12,
-      "term": "Fiqh",
-      "phrase": "Jurisprudence",
-      "meaning": "Islamic jurisprudence derived from the Qur'an and Sunnah.",
-      "example": "He studied Fiqh to understand Islamic law.",
-      "reference": "Hadith: Sunan Abu Dawood"
-    },
-    {
-      "id": 13,
-      "term": "Shari'ah",
-      "phrase": "Islamic Law",
-      "meaning": "The divine law derived from the Qur'an and Sunnah.",
-      "example": "Shari'ah governs personal and communal life.",
-      "reference": "Qur'an 45:18"
-    },
-    {
-      "id": 14,
-      "term": "Iman",
-      "phrase": "Faith",
-      "meaning": "Belief in the six articles of faith in Islam.",
-      "example": "Her Iman grew stronger through worship.",
-      "reference": "Qur'an 2:177"
-    },
-    {
-      "id": 15,
-      "term": "Du'a",
-      "phrase": "Supplication",
-      "meaning": "Personal prayer or invocation to Allah.",
-      "example": "He made Du'a for his family's health.",
-      "reference": "Qur'an 40:60"
-    },
-    {
-      "id": 16,
-      "term": "Masjid",
-      "phrase": "Mosque",
-      "meaning": "A place of worship for Muslims.",
-      "example": "The community gathered at the Masjid for prayer.",
-      "reference": "Qur'an 9:18"
-    },
-    {
-      "id": 17,
-      "term": "Ramadan",
-      "phrase": "Month of Fasting",
-      "meaning": "The ninth month of the Islamic calendar, dedicated to fasting.",
-      "example": "Ramadan is a time for spiritual reflection.",
-      "reference": "Qur'an 2:185"
-    },
-    {
-      "id": 18,
-      "term": "Ka'bah",
-      "phrase": "Sacred House",
-      "meaning": "The cube-shaped structure in Mecca toward which Muslims pray.",
-      "example": "Pilgrims circumambulate the Ka'bah during Hajj.",
-      "reference": "Qur'an 5:97"
-    },
-    {
-      "id": 19,
-      "term": "Sadaqah",
-      "phrase": "Voluntary Charity",
-      "meaning": "Voluntary giving to those in need.",
-      "example": "She gave Sadaqah to help the orphans.",
-      "reference": "Qur'an 2:263"
-    },
-    {
-      "id": 20,
-      "term": "Tafsir",
-      "phrase": "Exegesis",
-      "meaning": "Interpretation or commentary of the Qur'an.",
-      "example": "He read Tafsir to understand the Qur'an better.",
-      "reference": "Hadith: Jami` at-Tirmidhi"
-    },
-    {
-      "id": 21,
-      "term": "Adhan",
-      "phrase": "Call to Prayer",
-      "meaning": "The Islamic call to prayer, recited to announce the time for Salah.",
-      "example": "The Adhan echoed through the city at dawn.",
-      "reference": "Hadith: Sahih al-Bukhari 1.11.579"
-    },
-    {
-      "id": 22,
-      "term": "Iqamah",
-      "phrase": "Second Call",
-      "meaning": "The second call to prayer, signaling the start of congregational Salah.",
-      "example": "After the Iqamah, the congregation stood for prayer.",
-      "reference": "Hadith: Sahih Muslim 4.735"
-    },
-    {
-      "id": 23,
-      "term": "Wudu",
-      "phrase": "Ablution",
-      "meaning": "The ritual washing performed before Salah to attain purity.",
-      "example": "She performed Wudu before offering her prayers.",
-      "reference": "Qur'an 5:6"
-    },
-    {
-      "id": 24,
-      "term": "Ghusl",
-      "phrase": "Full Ablution",
-      "meaning": "The full-body ritual purification required after certain states of impurity.",
-      "example": "He performed Ghusl after the Friday prayer.",
-      "reference": "Qur'an 5:6"
-    },
-    {
-      "id": 25,
-      "term": "Jannah",
-      "phrase": "Paradise",
-      "meaning": "The eternal garden promised to the righteous in the hereafter.",
-      "example": "Muslims strive for Jannah through good deeds.",
-      "reference": "Qur'an 3:15"
-    },
-    {
-      "id": 26,
-      "term": "Jahannam",
-      "phrase": "Hellfire",
-      "meaning": "The place of punishment for the unrighteous in the hereafter.",
-      "example": "The Qur'an warns against actions leading to Jahannam.",
-      "reference": "Qur'an 4:10"
-    },
-    {
-      "id": 27,
-      "term": "Ummah",
-      "phrase": "Community",
-      "meaning": "The collective community of Muslims worldwide.",
-      "example": "The Ummah came together to support the needy.",
-      "reference": "Qur'an 2:143"
-    },
-    {
-      "id": 28,
-      "term": "Sadaqah Jariyah",
-      "phrase": "Continuous Charity",
-      "meaning": "A form of charity that provides ongoing benefits, such as building a well.",
-      "example": "She funded a school as Sadaqah Jariyah.",
-      "reference": "Hadith: Sahih Muslim 3.4005"
-    },
-    {
-      "id": 29,
-      "term": "Fitrah",
-      "phrase": "Natural Disposition",
-      "meaning": "The innate inclination of humans to worship Allah.",
-      "example": "Every child is born upon Fitrah, pure in faith.",
-      "reference": "Hadith: Sahih al-Bukhari 2.23.441"
-    },
-    {
-      "id": 30,
-      "term": "Eid",
-      "phrase": "Festival",
-      "meaning": "Islamic festivals, such as Eid al-Fitr and Eid al-Adha.",
-      "example": "The family celebrated Eid with joy and prayers.",
-      "reference": "Hadith: Sunan an-Nasa'i 5.1556"
-    },
-    {
-      "id": 31,
-      "term": "Taraweeh",
-      "phrase": "Night Prayer",
-      "meaning": "Special prayers performed during Ramadan after Isha.",
-      "example": "They prayed Taraweeh at the mosque every night.",
-      "reference": "Hadith: Sahih al-Bukhari 3.32.227"
-    },
-    {
-      "id": 32,
-      "term": "Qadar",
-      "phrase": "Divine Decree",
-      "meaning": "The concept of divine predestination in Islam.",
-      "example": "He accepted the outcome as part of Allah's Qadar.",
-      "reference": "Qur'an 54:49"
-    },
-    {
-      "id": 33,
-      "term": "Taqwa",
+      "id": 403,
+      "term": "Taqwah",
       "phrase": "God-Consciousness",
-      "meaning": "Awareness and fear of Allah, leading to righteous actions.",
-      "example": "Her Taqwa guided her to make ethical choices.",
+      "meaning": "Being mindful of Allah in all actions to avoid sin and seek His pleasure.",
+      "example": "His Taqwah kept him from dishonest dealings.",
       "reference": "Qur'an 2:197"
     },
     {
-      "id": 34,
-      "term": "Hijab",
-      "phrase": "Head Covering",
-      "meaning": "The headscarf worn by Muslim women for modesty.",
-      "example": "She wore a Hijab to maintain her modesty.",
-      "reference": "Qur'an 24:31"
+      "id": 404,
+      "term": "Jihad",
+      "phrase": "Striving",
+      "meaning": "The effort to uphold Islam, including internal struggle against sin or external defense of faith.",
+      "example": "She practiced Jihad by resisting temptation.",
+      "reference": "Qur'an 29:6"
     },
     {
-      "id": 35,
-      "term": "Imam",
-      "phrase": "Leader",
-      "meaning": "The person who leads the congregational prayers.",
-      "example": "The Imam delivered an inspiring sermon.",
-      "reference": "Qur'an 2:124"
+      "id": 405,
+      "term": "Jihad an-Nafs",
+      "phrase": "Struggle of the Self",
+      "meaning": "The internal struggle to purify one's soul and resist sinful desires.",
+      "example": "His Jihad an-Nafs involved controlling his anger.",
+      "reference": "Qur'an 29:69"
     },
     {
-      "id": 36,
-      "term": "Sujud",
-      "phrase": "Prostration",
-      "meaning": "The act of prostrating during Salah, placing the forehead on the ground.",
-      "example": "In Sujud, she felt closest to Allah.",
-      "reference": "Qur'an 96:19"
+      "id": 406,
+      "term": "Mujahid",
+      "phrase": "One Who Strives",
+      "meaning": "A person who engages in Jihad, striving in the path of Allah.",
+      "example": "The Mujahid dedicated his life to serving Islam.",
+      "reference": "Qur'an 4:95"
     },
     {
-      "id": 37,
+      "id": 407,
       "term": "Riba",
       "phrase": "Usury",
-      "meaning": "The practice of charging interest, prohibited in Islam.",
+      "meaning": "The prohibition of interest-based transactions in Islamic law.",
       "example": "He avoided Riba by choosing an Islamic bank.",
       "reference": "Qur'an 2:275"
     },
     {
-      "id": 38,
+      "id": 408,
+      "term": "Gharar",
+      "phrase": "Uncertainty",
+      "meaning": "Prohibited excessive risk or ambiguity in contracts, such as speculative transactions.",
+      "example": "The contract was void due to Gharar in its terms.",
+      "reference": "Hadith: Sahih Muslim 10.1513"
+    },
+    {
+      "id": 409,
+      "term": "Mudarabah",
+      "phrase": "Profit-Sharing Partnership",
+      "meaning": "An Islamic financial contract where one party provides capital and another provides expertise, sharing profits.",
+      "example": "They entered a Mudarabah agreement for their business.",
+      "reference": "Qur'an 4:12"
+    },
+    {
+      "id": 410,
+      "term": "Musharakah",
+      "phrase": "Joint Partnership",
+      "meaning": "A partnership where all parties contribute capital and share profits and losses.",
+      "example": "The Musharakah venture funded a community project.",
+      "reference": "Qur'an 4:12"
+    },
+    {
+      "id": 411,
+      "term": "Murabahah",
+      "phrase": "Cost-Plus Financing",
+      "meaning": "A sale where the seller discloses the cost and adds a fixed profit margin.",
+      "example": "The bank offered a Murabahah contract for the car purchase.",
+      "reference": "Qur'an 2:282"
+    },
+    {
+      "id": 412,
+      "term": "Ijarah",
+      "phrase": "Leasing",
+      "meaning": "An Islamic financial contract for leasing assets or services.",
+      "example": "She signed an Ijarah agreement to rent the property.",
+      "reference": "Qur'an 28:26"
+    },
+    {
+      "id": 413,
+      "term": "Wadiah",
+      "phrase": "Safekeeping",
+      "meaning": "A contract where one party entrusts property to another for safekeeping.",
+      "example": "The bank offered Wadiah services for her valuables.",
+      "reference": "Qur'an 2:283"
+    },
+    {
+      "id": 414,
+      "term": "Hibah",
+      "phrase": "Gift",
+      "meaning": "A voluntary transfer of property or wealth without expecting anything in return.",
+      "example": "He gave a Hibah of land to the mosque.",
+      "reference": "Qur'an 4:4"
+    },
+    {
+      "id": 415,
+      "term": "Qard Hasan",
+      "phrase": "Benevolent Loan",
+      "meaning": "An interest-free loan given for charity or assistance, repayable without profit.",
+      "example": "She offered a Qard Hasan to help her struggling neighbor.",
+      "reference": "Qur'an 2:245"
+    },
+    {
+      "id": 416,
+      "term": "Zakat al-Mal",
+      "phrase": "Wealth Tax",
+      "meaning": "The obligatory charity tax on accumulated wealth, paid annually by eligible Muslims.",
+      "example": "He calculated Zakat al-Mal based on his savings.",
+      "reference": "Qur'an 9:60"
+    },
+    {
+      "id": 417,
+      "term": "Tijarah",
+      "phrase": "Trade",
+      "meaning": "Commercial transactions conducted in accordance with Islamic principles.",
+      "example": "His Tijarah business adhered to Shari'ah guidelines.",
+      "reference": "Qur'an 2:282"
+    },
+    {
+      "id": 418,
+      "term": "Bay al-Salam",
+      "phrase": "Forward Sale",
+      "meaning": "A contract where payment is made upfront for goods delivered later.",
+      "example": "The farmer agreed to a Bay al-Salam for his crops.",
+      "reference": "Hadith: Sahih al-Bukhari 3.35.441"
+    },
+    {
+      "id": 419,
+      "term": "Bay al-Istisna",
+      "phrase": "Manufacturing Contract",
+      "meaning": "A contract for the manufacture and delivery of custom-made goods.",
+      "example": "The artisan signed a Bay al-Istisna for custom furniture.",
+      "reference": "Qur'an 2:282"
+    },
+    {
+      "id": 420,
+      "term": "Sukuk",
+      "phrase": "Islamic Bonds",
+      "meaning": "Financial certificates compliant with Shari'ah, representing ownership in an asset.",
+      "example": "The company issued Sukuk to raise funds for expansion.",
+      "reference": "Qur'an 2:282"
+    },
+    {
+      "id": 421,
+      "term": "Takaful",
+      "phrase": "Islamic Insurance",
+      "meaning": "A cooperative system of mutual insurance based on shared responsibility.",
+      "example": "She joined a Takaful plan for her family's health coverage.",
+      "reference": "Qur'an 5:2"
+    },
+    {
+      "id": 422,
+      "term": "Haram",
+      "phrase": "Forbidden",
+      "meaning": "Actions or items explicitly prohibited in Islam, such as consuming pork.",
+      "example": "He avoided Haram foods to maintain his faith.",
+      "reference": "Qur'an 2:173"
+    },
+    {
+      "id": 423,
+      "term": "Halal",
+      "phrase": "Permissible",
+      "meaning": "Actions or items allowed in Islam, such as lawful food or earnings.",
+      "example": "She ensured her meal was Halal before eating.",
+      "reference": "Qur'an 2:168"
+    },
+    {
+      "id": 424,
+      "term": "Makruh",
+      "phrase": "Disliked",
+      "meaning": "Actions that are discouraged in Islam but not explicitly forbidden.",
+      "example": "Eating garlic before Salah is considered Makruh.",
+      "reference": "Hadith: Sahih al-Bukhari 1.12.815"
+    },
+    {
+      "id": 425,
+      "term": "Mustahabb",
+      "phrase": "Recommended",
+      "meaning": "Actions that are encouraged but not obligatory in Islam.",
+      "example": "Praying two Rak'ah before Fajr is Mustahabb.",
+      "reference": "Hadith: Sahih Muslim 4.1688"
+    },
+    {
+      "id": 426,
+      "term": "Wajib",
+      "phrase": "Obligatory",
+      "meaning": "Actions that are mandatory in some Islamic schools of thought, slightly below Fard.",
+      "example": "Performing Witr prayer is Wajib in the Hanafi school.",
+      "reference": "Hadith: Sahih al-Bukhari 2.16.116"
+    },
+    {
+      "id": 427,
+      "term": "Fard",
+      "phrase": "Mandatory",
+      "meaning": "Actions that are obligatory for Muslims, such as the five daily prayers.",
+      "example": "Fasting during Ramadan is a Fard obligation.",
+      "reference": "Qur'an 2:183"
+    },
+    {
+      "id": 428,
+      "term": "Sunnah Mu'akkadah",
+      "phrase": "Emphasized Sunnah",
+      "meaning": "Voluntary acts regularly performed by the Prophet, strongly recommended.",
+      "example": "He never missed the Sunnah Mu'akkadah prayers before Dhuhr.",
+      "reference": "Hadith: Sahih al-Bukhari 2.13.1183"
+    },
+    {
+      "id": 429,
+      "term": "Bid'ah",
+      "phrase": "Innovation",
+      "meaning": "Innovations in religion that lack evidence from the Qur'an or Sunnah, often discouraged.",
+      "example": "Some scholars warned against Bid'ah in worship practices.",
+      "reference": "Hadith: Sahih Muslim 4.867"
+    },
+    {
+      "id": 430,
+      "term": "Fitnah",
+      "phrase": "Trial or Temptation",
+      "meaning": "A test or tribulation that challenges one's faith or morality.",
+      "example": "He prayed for protection from the Fitnah of wealth.",
+      "reference": "Qur'an 8:28"
+    },
+    {
+      "id": 431,
+      "term": "Dunya",
+      "phrase": "Worldly Life",
+      "meaning": "The temporary, material world, often contrasted with the Hereafter.",
+      "example": "She prioritized the Akhirah over the Dunya.",
+      "reference": "Qur'an 57:20"
+    },
+    {
+      "id": 432,
+      "term": "Akhirah",
+      "phrase": "Hereafter",
+      "meaning": "The eternal life after death, including Judgment Day and Paradise or Hell.",
+      "example": "He worked for the Akhirah by performing good deeds.",
+      "reference": "Qur'an 2:201"
+    },
+    {
+      "id": 433,
+      "term": "Jannah",
+      "phrase": "Paradise",
+      "meaning": "The eternal abode of reward for the righteous in the Hereafter.",
+      "example": "She prayed for Jannah in every Du'a.",
+      "reference": "Qur'an 3:133"
+    },
+    {
+      "id": 434,
+      "term": "Jahannam",
+      "phrase": "Hellfire",
+      "meaning": "The place of punishment for the wicked in the Hereafter.",
+      "example": "He sought refuge from Jahannam through repentance.",
+      "reference": "Qur'an 4:121"
+    },
+    {
+      "id": 435,
+      "term": "Sirat",
+      "phrase": "The Bridge",
+      "meaning": "The narrow bridge over Hell that all must cross on Judgment Day.",
+      "example": "Muslims pray to cross the Sirat safely.",
+      "reference": "Hadith: Sahih Muslim 1.183"
+    },
+    {
+      "id": 436,
+      "term": "Mizan",
+      "phrase": "The Balance",
+      "meaning": "The scale used to weigh deeds on the Day of Judgment.",
+      "example": "Her good deeds tipped the Mizan in her favor.",
+      "reference": "Qur'an 21:47"
+    },
+    {
+      "id": 437,
+      "term": "Hawd",
+      "phrase": "The Basin",
+      "meaning": "The Prophet's basin in the Hereafter, from which believers will drink.",
+      "example": "He hoped to drink from the Hawd of the Prophet.",
+      "reference": "Hadith: Sahih al-Bukhari 9.88.602"
+    },
+    {
+      "id": 438,
+      "term": "Shafa'ah",
+      "phrase": "Intercession",
+      "meaning": "The act of the Prophet or righteous individuals interceding for others on Judgment Day.",
+      "example": "She sought the Prophet's Shafa'ah through her devotion.",
+      "reference": "Hadith: Sahih al-Bukhari 6.60.3"
+    },
+    {
+      "id": 439,
+      "term": "A'raf",
+      "phrase": "The Heights",
+      "meaning": "A place between Paradise and Hell where some souls await their fate on Judgment Day.",
+      "example": "The A'raf is described as a barrier in the Qur'an.",
+      "reference": "Qur'an 7:46"
+    },
+    {
+      "id": 440,
+      "term": "Laylat al-Qadr",
+      "phrase": "Night of Decree",
+      "meaning": "A blessed night in Ramadan when the Qur'an was first revealed, worth more than a thousand months.",
+      "example": "She spent Laylat al-Qadr in worship and prayer.",
+      "reference": "Qur'an 97:1"
+    },
+    {
+      "id": 441,
+      "term": "Tafsir",
+      "phrase": "Qur'anic Exegesis",
+      "meaning": "The scholarly interpretation and explanation of the Qur'an's meanings.",
+      "example": "He studied Tafsir to understand the Qur'an deeply.",
+      "reference": "Qur'an 3:7"
+    },
+    {
+      "id": 442,
+      "term": "Asbab an-Nuzul",
+      "phrase": "Causes of Revelation",
+      "meaning": "The historical context or reasons behind the revelation of specific Qur'anic verses.",
+      "example": "The scholar explained the Asbab an-Nuzul for Surah Al-Kawthar.",
+      "reference": "Qur'an 3:7"
+    },
+    {
+      "id": 443,
+      "term": "Nasikh wa Mansukh",
+      "phrase": "Abrogation",
+      "meaning": "The concept of certain Qur'anic verses or rulings superseding others.",
+      "example": "Scholars studied Nasikh wa Mansukh to understand legal changes.",
+      "reference": "Qur'an 2:106"
+    },
+    {
+      "id": 444,
+      "term": "Mujtahid",
+      "phrase": "Independent Jurist",
+      "meaning": "A scholar qualified to derive Islamic rulings through independent reasoning.",
+      "example": "The Mujtahid issued a Fatwa on contemporary issues.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 445,
+      "term": "Taqlid",
+      "phrase": "Imitation",
+      "meaning": "Following the rulings of a qualified scholar without independent reasoning.",
+      "example": "As a layperson, he practiced Taqlid of a trusted scholar.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 446,
+      "term": "Madhhab",
+      "phrase": "School of Thought",
+      "meaning": "A recognized school of Islamic jurisprudence, such as Hanafi or Maliki.",
+      "example": "She followed the Shafi'i Madhhab in her worship.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 447,
+      "term": "Fiqh",
+      "phrase": "Islamic Jurisprudence",
+      "meaning": "The understanding and application of Islamic law derived from the Qur'an and Sunnah.",
+      "example": "He studied Fiqh to learn the rules of worship.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 448,
+      "term": "Usul al-Fiqh",
+      "phrase": "Principles of Jurisprudence",
+      "meaning": "The methodology used to derive Islamic legal rulings from primary sources.",
+      "example": "Usul al-Fiqh guided the scholar's legal analysis.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 449,
+      "term": "Fatwa",
+      "phrase": "Religious Ruling",
+      "meaning": "A non-binding legal opinion issued by a qualified scholar on an Islamic matter.",
+      "example": "The Fatwa clarified the permissibility of a new technology.",
+      "reference": "Qur'an 4:127"
+    },
+    {
+      "id": 450,
+      "term": "Ijma",
+      "phrase": "Consensus",
+      "meaning": "The agreement of Islamic scholars on a legal ruling, considered a source of law.",
+      "example": "The Ijma supported the prohibition of alcohol.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 451,
+      "term": "Khilaf",
+      "phrase": "Difference of Opinion",
+      "meaning": "Disagreement among scholars on a legal issue, respected in Islamic tradition.",
+      "example": "The Khilaf on certain rulings allows flexibility in practice.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 452,
+      "term": "Sahabah",
+      "phrase": "Companions",
+      "meaning": "The contemporaries of Prophet Muhammad who saw or met him and believed in him.",
+      "example": "The Sahabah transmitted the Prophet's teachings accurately.",
+      "reference": "Qur'an 9:100"
+    },
+    {
+      "id": 453,
+      "term": "Tabi'in",
+      "phrase": "Successors",
+      "meaning": "The generation after the Sahabah who learned from them.",
+      "example": "The Tabi'in preserved the Hadith for future generations.",
+      "reference": "Qur'an 9:100"
+    },
+    {
+      "id": 454,
+      "term": "Tabi' Tabi'in",
+      "phrase": "Successors of the Successors",
+      "meaning": "The generation after the Tabi'in, continuing the transmission of Islamic knowledge.",
+      "example": "The Tabi' Tabi'in contributed to early Islamic scholarship.",
+      "reference": "Qur'an 9:100"
+    },
+    {
+      "id": 455,
+      "term": "Isnad",
+      "phrase": "Chain of Narration",
+      "meaning": "The chain of narrators transmitting a Hadith, ensuring its authenticity.",
+      "example": "The Hadith's Isnad was verified by scholars.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
+    },
+    {
+      "id": 456,
+      "term": "Matn",
+      "phrase": "Text of Hadith",
+      "meaning": "The actual content or wording of a Hadith, distinct from its chain of narration.",
+      "example": "The Matn of the Hadith emphasized kindness to neighbors.",
+      "reference": "Hadith: Sahih Muslim 1.74"
+    },
+    {
+      "id": 457,
+      "term": "Sahih",
+      "phrase": "Authentic Hadith",
+      "meaning": "A Hadith with a reliable chain of narration and no defects.",
+      "example": "The Sahih Hadith was used as evidence in the ruling.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
+    },
+    {
+      "id": 458,
+      "term": "Hasan",
+      "phrase": "Good Hadith",
+      "meaning": "A Hadith with a good chain of narration but slightly less reliable than Sahih.",
+      "example": "The Hasan Hadith supported the recommended practice.",
+      "reference": "Hadith: Sunan at-Tirmidhi 1.1.1"
+    },
+    {
+      "id": 459,
+      "term": "Da'if",
+      "phrase": "Weak Hadith",
+      "meaning": "A Hadith with a flawed or unreliable chain of narration.",
+      "example": "Scholars avoided the Da'if Hadith in legal rulings.",
+      "reference": "Hadith: Sunan at-Tirmidhi 1.1.1"
+    },
+    {
+      "id": 460,
+      "term": "Mawdu",
+      "phrase": "Fabricated Hadith",
+      "meaning": "A Hadith that is falsely attributed to the Prophet, considered invalid.",
+      "example": "The Mawdu Hadith was rejected by the scholars.",
+      "reference": "Hadith: Sahih al-Bukhari 1.3.108"
+    },
+    {
+      "id": 461,
+      "term": "Athar",
+      "phrase": "Narration",
+      "meaning": "Sayings or actions attributed to the Companions or Successors, not the Prophet.",
+      "example": "The Athar of Umar provided guidance on governance.",
+      "reference": "Hadith: Sahih Muslim 1.1"
+    },
+    {
+      "id": 462,
+      "term": "Riwayah",
+      "phrase": "Transmission",
+      "meaning": "The process of narrating or transmitting Hadith or Islamic knowledge.",
+      "example": "The Riwayah of Hadith preserved the Prophet's legacy.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
+    },
+    {
+      "id": 463,
+      "term": "Sanad",
+      "phrase": "Chain of Authority",
+      "meaning": "Another term for Isnad, the chain of narrators for a Hadith.",
+      "example": "The Sanad was checked to confirm the Hadith's authenticity.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
+    },
+    {
+      "id": 464,
+      "term": "Rawi",
+      "phrase": "Narrator",
+      "meaning": "A person who narrates a Hadith, part of the chain of transmission.",
+      "example": "The Rawi was known for his reliability in Hadith narration.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
+    },
+    {
+      "id": 465,
+      "term": "Hadith Mutawatir",
+      "phrase": "Mass-Transmitted Hadith",
+      "meaning": "A Hadith reported by so many narrators that its authenticity is certain.",
+      "example": "The Hadith Mutawatir about Salah is undeniable.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
+    },
+    {
+      "id": 466,
+      "term": "Hadith Ahad",
+      "phrase": "Solitary Hadith",
+      "meaning": "A Hadith narrated by fewer people, less certain than Mutawatir but still valid.",
+      "example": "The Hadith Ahad provided guidance on charity.",
+      "reference": "Hadith: Sahih Muslim 1.1"
+    },
+    {
+      "id": 467,
+      "term": "Hadith Qudsi",
+      "phrase": "Divine Hadith",
+      "meaning": "A Hadith where the Prophet conveys Allah's words, distinct from the Qur'an.",
+      "example": "The Hadith Qudsi emphasized Allah's mercy.",
+      "reference": "Hadith: Sahih al-Bukhari 9.93.601"
+    },
+    {
+      "id": 468,
+      "term": "Tajwid",
+      "phrase": "Qur'anic Recitation Rules",
+      "meaning": "The science of pronouncing and reciting the Qur'an correctly.",
+      "example": "She studied Tajwid to perfect her Qur'an recitation.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 469,
+      "term": "Qira'at",
+      "phrase": "Recitation Variants",
+      "meaning": "The different accepted modes of reciting the Qur'an, each with slight variations.",
+      "example": "He mastered the Qira'at of Hafs for his recitation.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 470,
+      "term": "Harakat",
+      "phrase": "Vowel Marks",
+      "meaning": "Diacritical marks in the Qur'an indicating vowel sounds for correct pronunciation.",
+      "example": "The Harakat helped her read the Qur'an accurately.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 471,
+      "term": "Madd",
+      "phrase": "Elongation",
+      "meaning": "The rule in Tajwid for prolonging certain vowel sounds in Qur'anic recitation.",
+      "example": "She applied Madd to elongate the vowel in her recitation.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 472,
+      "term": "Ghunna",
+      "phrase": "Nasalization",
+      "meaning": "A Tajwid rule for pronouncing certain letters with a nasal sound.",
+      "example": "He practiced Ghunna for the correct recitation of noon letters.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 473,
+      "term": "Idgham",
+      "phrase": "Merging",
+      "meaning": "A Tajwid rule where certain letters are merged with others during recitation.",
+      "example": "She applied Idgham to blend the letters smoothly.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 474,
+      "term": "Iqlab",
+      "phrase": "Conversion",
+      "meaning": "A Tajwid rule where a noon saakin or tanween is converted to a meem sound.",
+      "example": "The Iqlab rule changed the sound in her recitation.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 475,
+      "term": "Ikhfa",
+      "phrase": "Concealment",
+      "meaning": "A Tajwid rule where a noon saakin or tanween is pronounced with a light nasal sound.",
+      "example": "She mastered Ikhfa for a refined Qur'an recitation.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 476,
+      "term": "Izhar",
+      "phrase": "Clear Pronunciation",
+      "meaning": "A Tajwid rule where a noon saakin or tanween is pronounced clearly without nasalization.",
+      "example": "He used Izhar to pronounce the letters distinctly.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 477,
+      "term": "Waqf",
+      "phrase": "Pausing",
+      "meaning": "Rules for stopping or pausing during Qur'anic recitation to maintain meaning.",
+      "example": "She observed Waqf to pause correctly in her recitation.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 478,
+      "term": "Ibtida",
+      "phrase": "Starting",
+      "meaning": "Rules for beginning Qur'anic recitation after a pause or stop.",
+      "example": "He followed Ibtida rules to start his recitation properly.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 479,
+      "term": "Sajdah Tilawah",
+      "phrase": "Prostration of Recitation",
+      "meaning": "A prostration performed when reciting or hearing specific Qur'anic verses.",
+      "example": "She performed Sajdah Tilawah after reciting Surah As-Sajdah.",
+      "reference": "Qur'an 32:15"
+    },
+    {
+      "id": 480,
+      "term": "Ayat al-Kursi",
+      "phrase": "Verse of the Throne",
+      "meaning": "A highly revered verse (Qur'an 2:255) recited for protection and blessings.",
+      "example": "He recited Ayat al-Kursi before sleeping for protection.",
+      "reference": "Qur'an 2:255"
+    },
+    {
+      "id": 481,
+      "term": "Surah",
+      "phrase": "Chapter",
+      "meaning": "A chapter of the Qur'an, of which there are 114 in total.",
+      "example": "She memorized Surah Al-Fatihah as her first chapter.",
+      "reference": "Qur'an 2:1"
+    },
+    {
+      "id": 482,
+      "term": "Ayah",
+      "phrase": "Verse",
+      "meaning": "A verse or sign in the Qur'an, the smallest unit of revelation.",
+      "example": "Each Ayah of the Qur'an carries deep meaning.",
+      "reference": "Qur'an 2:1"
+    },
+    {
+      "id": 483,
+      "term": "Mushrikun",
+      "phrase": "Polytheists",
+      "meaning": "Those who associate partners with Allah, committing Shirk.",
+      "example": "The Qur'an calls the Mushrikun to monotheism.",
+      "reference": "Qur'an 6:106"
+    },
+    {
+      "id": 484,
+      "term": "Kafir",
+      "phrase": "Disbeliever",
+      "meaning": "A person who rejects faith in Allah or His messengers.",
+      "example": "The Qur'an warns the Kafir of consequences in the Hereafter.",
+      "reference": "Qur'an 2:6"
+    },
+    {
+      "id": 485,
+      "term": "Munafiq",
+      "phrase": "Hypocrite",
+      "meaning": "A person who outwardly professes Islam but inwardly disbelieves.",
+      "example": "The Munafiq was warned of a severe punishment in the Qur'an.",
+      "reference": "Qur'an 63:1"
+    },
+    {
+      "id": 486,
+      "term": "Mu'min",
+      "phrase": "Believer",
+      "meaning": "A person who has true faith in Allah and His messengers.",
+      "example": "The Mu'min strives to follow the Qur'an and Sunnah.",
+      "reference": "Qur'an 2:285"
+    },
+    {
+      "id": 487,
+      "term": "Muslim",
+      "phrase": "One Who Submits",
+      "meaning": "A person who submits to Allah's will and follows Islam.",
+      "example": "As a Muslim, she prayed five times daily.",
+      "reference": "Qur'an 3:64"
+    },
+    {
+      "id": 488,
+      "term": "Ummah",
+      "phrase": "Community",
+      "meaning": "The global community of Muslims united by faith.",
+      "example": "The Ummah came together to support the needy.",
+      "reference": "Qur'an 2:143"
+    },
+    {
+      "id": 489,
+      "term": "Ahl al-Kitab",
+      "phrase": "People of the Book",
+      "meaning": "Jews and Christians who received divine scriptures before Islam.",
+      "example": "The Qur'an calls for dialogue with Ahl al-Kitab.",
+      "reference": "Qur'an 3:64"
+    },
+    {
+      "id": 490,
+      "term": "Dhimmi",
+      "phrase": "Protected Person",
+      "meaning": "A non-Muslim living under Islamic governance with protected rights.",
+      "example": "The Dhimmi paid Jizyah for protection in the Islamic state.",
+      "reference": "Qur'an 9:29"
+    },
+    {
+      "id": 491,
+      "term": "Jizyah",
+      "phrase": "Protection Tax",
+      "meaning": "A tax levied on non-Muslims under Islamic rule in exchange for protection.",
+      "example": "The Dhimmi paid Jizyah to live safely in the state.",
+      "reference": "Qur'an 9:29"
+    },
+    {
+      "id": 492,
+      "term": "Ahl al-Dhimmah",
+      "phrase": "People of the Covenant",
+      "meaning": "Another term for Dhimmi, non-Muslims under the protection of an Islamic state.",
+      "example": "The Ahl al-Dhimmah enjoyed religious freedom in the state.",
+      "reference": "Qur'an 9:29"
+    },
+    {
+      "id": 493,
+      "term": "Sirah",
+      "phrase": "Biography",
+      "meaning": "The biography of Prophet Muhammad, detailing his life and teachings.",
+      "example": "She studied the Sirah to learn about the Prophet's character.",
+      "reference": "Qur'an 33:21"
+    },
+    {
+      "id": 494,
+      "term": "Maghazi",
+      "phrase": "Military Campaigns",
+      "meaning": "The military expeditions led by or during the time of Prophet Muhammad.",
+      "example": "The Maghazi provided lessons in strategy and ethics.",
+      "reference": "Qur'an 8:7"
+    },
+    {
+      "id": 495,
+      "term": "Hijrah",
+      "phrase": "Migration",
+      "meaning": "The migration of Prophet Muhammad from Mecca to Medina, marking the Islamic calendar's start.",
+      "example": "The Hijrah was a turning point in Islamic history.",
+      "reference": "Qur'an 9:40"
+    },
+    {
+      "id": 496,
+      "term": "Ansar",
+      "phrase": "Helpers",
+      "meaning": "The Muslims of Medina who supported the Prophet and the Muhajirun after the Hijrah.",
+      "example": "The Ansar welcomed the Muhajirun with open hearts.",
+      "reference": "Qur'an 9:100"
+    },
+    {
+      "id": 497,
+      "term": "Muhajirun",
+      "phrase": "Emigrants",
+      "meaning": "The Muslims who migrated from Mecca to Medina during the Hijrah.",
+      "example": "The Muhajirun faced hardships for the sake of their faith.",
+      "reference": "Qur'an 9:100"
+    },
+    {
+      "id": 498,
+      "term": "Khutbah",
+      "phrase": "Sermon",
+      "meaning": "A formal speech delivered during Friday prayers or special occasions.",
+      "example": "The Imam's Khutbah inspired the congregation to give charity.",
+      "reference": "Hadith: Sahih al-Bukhari 2.13.56"
+    },
+    {
+      "id": 499,
+      "term": "Adhan",
+      "phrase": "Call to Prayer",
+      "meaning": "The call to announce the time for the five daily prayers.",
+      "example": "The Adhan echoed through the village before Fajr.",
+      "reference": "Hadith: Sahih al-Bukhari 1.11.580"
+    },
+    {
+      "id": 500,
+      "term": "Iqamah",
+      "phrase": "Second Call to Prayer",
+      "meaning": "The call made just before the start of congregational prayer, signaling readiness.",
+      "example": "The Iqamah was called, and the congregation stood for Salah.",
+      "reference": "Hadith: Sahih al-Bukhari 1.11.589"
+    },
+    {
+      "id": 501,
+      "term": "Imam",
+      "phrase": "Leader",
+      "meaning": "A person who leads the congregational prayer or a religious leader in the community.",
+      "example": "The Imam led the Friday prayer with a heartfelt sermon.",
+      "reference": "Qur'an 2:124"
+    },
+    {
+      "id": 502,
+      "term": "Mu'adhdhin",
+      "phrase": "Caller to Prayer",
+      "meaning": "The person who recites the Adhan to call Muslims to prayer.",
+      "example": "The Mu'adhdhin's voice was heard across the town before Dhuhr.",
+      "reference": "Hadith: Sahih al-Bukhari 1.11.580"
+    },
+    {
+      "id": 503,
+      "term": "Salah",
+      "phrase": "Ritual Prayer",
+      "meaning": "The five daily obligatory prayers performed by Muslims facing the Ka'bah.",
+      "example": "She performed Salah at the prescribed times every day.",
+      "reference": "Qur'an 2:3"
+    },
+    {
+      "id": 504,
+      "term": "Rak'ah",
+      "phrase": "Prayer Cycle",
+      "meaning": "A unit of prayer consisting of specific movements and recitations.",
+      "example": "Fajr prayer consists of two Rak'ah.",
+      "reference": "Hadith: Sahih al-Bukhari 1.8.345"
+    },
+    {
+      "id": 505,
+      "term": "Sujud",
+      "phrase": "Prostration",
+      "meaning": "The act of placing the forehead on the ground in submission during prayer.",
+      "example": "She performed Sujud with humility during Salah.",
+      "reference": "Qur'an 32:15"
+    },
+    {
+      "id": 506,
+      "term": "Ruku",
+      "phrase": "Bowing",
+      "meaning": "The act of bowing during Salah, a key component of each Rak'ah.",
+      "example": "He recited a supplication during Ruku in his prayer.",
+      "reference": "Hadith: Sahih Muslim 4.881"
+    },
+    {
+      "id": 507,
+      "term": "Qiyam",
+      "phrase": "Standing",
+      "meaning": "The standing position in Salah where Qur'anic verses are recited.",
+      "example": "During Qiyam, she recited Surah Al-Fatihah.",
+      "reference": "Qur'an 2:238"
+    },
+    {
+      "id": 508,
+      "term": "Tashahhud",
+      "phrase": "Testimony",
+      "meaning": "A recitation during Salah affirming faith in Allah and the Prophet.",
+      "example": "He recited the Tashahhud in the final sitting of Salah.",
+      "reference": "Hadith: Sahih Muslim 4.893"
+    },
+    {
+      "id": 509,
+      "term": "Taslim",
+      "phrase": "Salutation",
+      "meaning": "The concluding act of Salah, turning the head to say 'Assalamu Alaikum.'",
+      "example": "She completed her prayer with Taslim on both sides.",
+      "reference": "Hadith: Sahih al-Bukhari 1.12.802"
+    },
+    {
+      "id": 510,
+      "term": "Du'a",
+      "phrase": "Supplication",
+      "meaning": "A personal prayer or invocation to Allah for blessings or forgiveness.",
+      "example": "He made Du'a for his family's health after Salah.",
+      "reference": "Qur'an 2:186"
+    },
+    {
+      "id": 511,
+      "term": "Dhikr",
+      "phrase": "Remembrance",
+      "meaning": "The act of remembering and praising Allah through specific phrases or prayers.",
+      "example": "She recited Dhikr after every Salah to stay connected to Allah.",
+      "reference": "Qur'an 33:41"
+    },
+    {
+      "id": 512,
+      "term": "Tasbih",
+      "phrase": "Glorification",
+      "meaning": "The act of saying 'SubhanAllah' to glorify Allah, often using prayer beads.",
+      "example": "He used a Tasbih to count his glorifications after prayer.",
+      "reference": "Qur'an 87:1"
+    },
+    {
+      "id": 513,
+      "term": "Tahmid",
+      "phrase": "Praising Allah",
+      "meaning": "Saying 'Alhamdulillah' to express gratitude to Allah.",
+      "example": "She recited Tahmid upon receiving good news.",
+      "reference": "Qur'an 1:2"
+    },
+    {
+      "id": 514,
+      "term": "Takbir",
+      "phrase": "Magnification",
+      "meaning": "Saying 'Allahu Akbar' to proclaim Allah's greatness, used in Salah and other occasions.",
+      "example": "He began his prayer with the Takbir.",
+      "reference": "Hadith: Sahih al-Bukhari 1.12.749"
+    },
+    {
+      "id": 515,
+      "term": "Tahlil",
+      "phrase": "Declaration of Faith",
+      "meaning": "Saying 'La ilaha illa Allah' to affirm there is no deity but Allah.",
+      "example": "She recited Tahlil during her morning Dhikr.",
+      "reference": "Qur'an 37:35"
+    },
+    {
+      "id": 516,
+      "term": "Istighfar",
+      "phrase": "Seeking Forgiveness",
+      "meaning": "The act of asking Allah for forgiveness, often by saying 'Astaghfirullah.'",
+      "example": "He made Istighfar to seek forgiveness for his mistakes.",
+      "reference": "Qur'an 3:135"
+    },
+    {
+      "id": 517,
+      "term": "Wudu",
+      "phrase": "Ablution",
+      "meaning": "The ritual washing performed before Salah to attain ritual purity.",
+      "example": "She performed Wudu before offering her Maghrib prayer.",
+      "reference": "Qur'an 5:6"
+    },
+    {
+      "id": 518,
+      "term": "Ghusl",
+      "phrase": "Full Ritual Bath",
+      "meaning": "A complete body wash required to remove major ritual impurity.",
+      "example": "He performed Ghusl after waking from a state of Janabah.",
+      "reference": "Qur'an 5:6"
+    },
+    {
+      "id": 519,
+      "term": "Niyyah",
+      "phrase": "Intention",
+      "meaning": "The conscious intention to perform an act of worship for Allah's sake.",
+      "example": "She made Niyyah in her heart before starting Salah.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.1"
+    },
+    {
+      "id": 520,
+      "term": "Iqamat as-Salah",
+      "phrase": "Establishing Prayer",
+      "meaning": "The act of performing the obligatory prayers regularly and correctly.",
+      "example": "He was diligent in Iqamat as-Salah five times a day.",
+      "reference": "Qur'an 2:3"
+    },
+    {
+      "id": 521,
+      "term": "Zakat",
+      "phrase": "Obligatory Charity",
+      "meaning": "The mandatory giving of a portion of one's wealth to the poor and needy.",
+      "example": "She paid Zakat annually to support the community.",
+      "reference": "Qur'an 9:60"
+    },
+    {
+      "id": 522,
+      "term": "Sadaqah",
+      "phrase": "Voluntary Charity",
+      "meaning": "Voluntary giving of wealth or good deeds to seek Allah's pleasure.",
+      "example": "He gave Sadaqah to help a struggling family.",
+      "reference": "Qur'an 2:263"
+    },
+    {
+      "id": 523,
+      "term": "Sawm",
+      "phrase": "Fasting",
+      "meaning": "Abstaining from food, drink, and certain activities from dawn to sunset, especially during Ramadan.",
+      "example": "She observed Sawm during the entire month of Ramadan.",
+      "reference": "Qur'an 2:183"
+    },
+    {
+      "id": 524,
+      "term": "Iftar",
+      "phrase": "Breaking the Fast",
+      "meaning": "The meal or act of breaking the fast at sunset during Ramadan.",
+      "example": "They gathered for Iftar with dates and water.",
+      "reference": "Hadith: Sahih al-Bukhari 3.31.128"
+    },
+    {
+      "id": 525,
+      "term": "Suhoor",
+      "phrase": "Pre-Dawn Meal",
+      "meaning": "The meal eaten before dawn to prepare for fasting during Ramadan.",
+      "example": "He ate Suhoor to gain strength for the day's fast.",
+      "reference": "Hadith: Sahih al-Bukhari 3.31.140"
+    },
+    {
+      "id": 526,
+      "term": "Hajj",
+      "phrase": "Pilgrimage",
+      "meaning": "The obligatory pilgrimage to Mecca, one of the five pillars of Islam.",
+      "example": "She saved for years to perform Hajj.",
+      "reference": "Qur'an 2:197"
+    },
+    {
+      "id": 527,
+      "term": "Umrah",
+      "phrase": "Lesser Pilgrimage",
+      "meaning": "A non-obligatory pilgrimage to Mecca performed at any time of the year.",
+      "example": "He performed Umrah during his visit to Mecca.",
+      "reference": "Qur'an 2:196"
+    },
+    {
+      "id": 528,
+      "term": "Ihram",
+      "phrase": "State of Ritual Purity",
+      "meaning": "The sacred state a pilgrim enters for Hajj or Umrah, marked by specific garments and intentions.",
+      "example": "She entered Ihram before starting her pilgrimage rituals.",
+      "reference": "Qur'an 2:197"
+    },
+    {
+      "id": 529,
+      "term": "Tawaf",
+      "phrase": "Circumambulation",
+      "meaning": "Walking seven times around the Ka'bah during Hajj or Umrah.",
+      "example": "He performed Tawaf around the Ka'bah with devotion.",
+      "reference": "Qur'an 22:29"
+    },
+    {
+      "id": 530,
+      "term": "Ka'bah",
+      "phrase": "Sacred House",
+      "meaning": "The cube-shaped structure in Mecca, the focal point of Muslim prayer and pilgrimage.",
+      "example": "Pilgrims gathered around the Ka'bah for Tawaf.",
+      "reference": "Qur'an 5:97"
+    },
+    {
+      "id": 531,
+      "term": "Maqam Ibrahim",
+      "phrase": "Station of Abraham",
+      "meaning": "The stone in Mecca bearing the footprint of Prophet Ibrahim, near the Ka'bah.",
+      "example": "He prayed near Maqam Ibrahim after completing Tawaf.",
+      "reference": "Qur'an 2:125"
+    },
+    {
+      "id": 532,
+      "term": "Hajar al-Aswad",
+      "phrase": "Black Stone",
+      "meaning": "The sacred stone set in the Ka'bah, kissed or touched during Tawaf.",
+      "example": "She touched the Hajar al-Aswad during her pilgrimage.",
+      "reference": "Hadith: Sahih al-Bukhari 2.26.667"
+    },
+    {
+      "id": 533,
+      "term": "Zamzam",
+      "phrase": "Sacred Water",
+      "meaning": "The blessed water from the Zamzam well in Mecca, believed to have healing properties.",
+      "example": "He drank Zamzam water during his Hajj.",
+      "reference": "Hadith: Sahih al-Bukhari 2.26.665"
+    },
+    {
+      "id": 534,
+      "term": "Arafat",
+      "phrase": "Plain of Arafat",
+      "meaning": "The plain near Mecca where pilgrims stand in prayer during Hajj on the 9th of Dhul-Hijjah.",
+      "example": "Standing at Arafat is the pinnacle of Hajj.",
+      "reference": "Hadith: Sahih Muslim 4.1218"
+    },
+    {
+      "id": 535,
+      "term": "Muzdalifah",
+      "phrase": "Sacred Site",
+      "meaning": "The place where pilgrims spend the night after Arafat, collecting pebbles for Ramy al-Jamarat.",
+      "example": "They gathered pebbles at Muzdalifah for the stoning ritual.",
+      "reference": "Hadith: Sahih al-Bukhari 2.26.717"
+    },
+    {
+      "id": 536,
+      "term": "Mina",
+      "phrase": "Pilgrimage Site",
+      "meaning": "A valley near Mecca where pilgrims perform the Ramy al-Jamarat during Hajj.",
+      "example": "He stayed in Mina during the days of Tashriq.",
+      "reference": "Hadith: Sahih al-Bukhari 2.26.717"
+    },
+    {
+      "id": 537,
+      "term": "Days of Tashriq",
+      "phrase": "Days of Drying Meat",
+      "meaning": "The 11th, 12th, and 13th of Dhul-Hijjah, when pilgrims perform certain Hajj rituals.",
+      "example": "They stayed in Mina during the Days of Tashriq.",
+      "reference": "Hadith: Sahih Muslim 4.1211"
+    },
+    {
+      "id": 538,
+      "term": "Eid al-Adha",
+      "phrase": "Festival of Sacrifice",
+      "meaning": "The Islamic festival commemorating Prophet Ibrahim's willingness to sacrifice his son.",
+      "example": "They celebrated Eid al-Adha with prayers and Qurbani.",
+      "reference": "Qur'an 37:107"
+    },
+    {
+      "id": 539,
+      "term": "Eid al-Fitr",
+      "phrase": "Festival of Breaking the Fast",
+      "meaning": "The Islamic festival marking the end of Ramadan with prayers and celebrations.",
+      "example": "She attended the Eid al-Fitr prayer with her family.",
+      "reference": "Hadith: Sahih al-Bukhari 2.15.73"
+    },
+    {
+      "id": 540,
+      "term": "Qurbani",
+      "phrase": "Sacrifice",
+      "meaning": "The ritual animal sacrifice performed during Eid al-Adha.",
+      "example": "He performed Qurbani to honor Prophet Ibrahim's sacrifice.",
+      "reference": "Qur'an 22:34"
+    },
+    {
+      "id": 541,
+      "term": "Takbirat al-Eid",
+      "phrase": "Eid Magnifications",
+      "meaning": "The repeated saying of 'Allahu Akbar' during Eid prayers and celebrations.",
+      "example": "The congregation recited Takbirat al-Eid joyfully.",
+      "reference": "Hadith: Sahih al-Bukhari 2.15.78"
+    },
+    {
+      "id": 542,
+      "term": "Khutbah al-Eid",
+      "phrase": "Eid Sermon",
+      "meaning": "The sermon delivered after the Eid prayer, offering guidance and reminders.",
+      "example": "The Khutbah al-Eid emphasized unity and charity.",
+      "reference": "Hadith: Sahih al-Bukhari 2.15.76"
+    },
+    {
+      "id": 543,
+      "term": "Salat al-Eid",
+      "phrase": "Eid Prayer",
+      "meaning": "The special congregational prayer performed on Eid al-Fitr and Eid al-Adha.",
+      "example": "They gathered at the mosque for Salat al-Eid.",
+      "reference": "Hadith: Sahih al-Bukhari 2.15.73"
+    },
+    {
+      "id": 544,
+      "term": "Nikah",
+      "phrase": "Marriage Contract",
+      "meaning": "The formal Islamic marriage agreement between a bride and groom.",
+      "example": "Their Nikah was conducted with witnesses and a dowry.",
+      "reference": "Qur'an 4:21"
+    },
+    {
+      "id": 545,
+      "term": "Walimah",
+      "phrase": "Marriage Banquet",
+      "meaning": "The celebratory feast held after a marriage to announce and share joy.",
+      "example": "The Walimah was attended by family and friends.",
+      "reference": "Hadith: Sahih al-Bukhari 7.62.109"
+    },
+    {
+      "id": 546,
+      "term": "Talaq",
+      "phrase": "Divorce",
+      "meaning": "The Islamic process of dissolving a marriage, subject to specific conditions.",
+      "example": "He pronounced Talaq after careful consideration.",
+      "reference": "Qur'an 2:229"
+    },
+    {
+      "id": 547,
+      "term": "Iddah",
+      "phrase": "Waiting Period",
+      "meaning": "The period a woman observes after divorce or her husband's death before remarrying.",
+      "example": "She observed Iddah for three menstrual cycles.",
+      "reference": "Qur'an 2:228"
+    },
+    {
+      "id": 548,
+      "term": "Khul",
+      "phrase": "Divorce Initiated by Wife",
+      "meaning": "A divorce initiated by the wife, often involving returning the dowry.",
+      "example": "She sought Khul to end her marriage amicably.",
+      "reference": "Qur'an 2:229"
+    },
+    {
+      "id": 549,
+      "term": "Mahr",
+      "phrase": "Dowry",
+      "meaning": "The mandatory gift given by the groom to the bride at the time of marriage.",
+      "example": "Her Mahr was a sum of money agreed upon by both families.",
+      "reference": "Qur'an 4:4"
+    },
+    {
+      "id": 550,
+      "term": "Shirk",
+      "phrase": "Polytheism",
+      "meaning": "The sin of associating partners with Allah, considered the gravest sin in Islam.",
+      "example": "He avoided Shirk by worshipping Allah alone.",
+      "reference": "Qur'an 4:48"
+    },
+    {
+      "id": 551,
+      "term": "Kufr",
+      "phrase": "Disbelief",
+      "meaning": "The rejection or denial of Allah or His messengers.",
+      "example": "Kufr is warned against in the Qur'an as a path to misguidance.",
+      "reference": "Qur'an 2:6"
+    },
+    {
+      "id": 552,
+      "term": "Nifaq",
+      "phrase": "Hypocrisy",
+      "meaning": "Pretending to have faith while concealing disbelief.",
+      "example": "The Qur'an warns against Nifaq as a dangerous trait.",
+      "reference": "Qur'an 63:1"
+    },
+    {
+      "id": 553,
+      "term": "Iman",
+      "phrase": "Faith",
+      "meaning": "Belief in the core tenets of Islam, including Allah, His prophets, and the Hereafter.",
+      "example": "Her Iman grew stronger through regular worship.",
+      "reference": "Qur'an 2:177"
+    },
+    {
+      "id": 554,
+      "term": "Taqdir",
+      "phrase": "Divine Decree",
+      "meaning": "Allah's foreordainment of all events, part of belief in Qada wa Qadar.",
+      "example": "She accepted her trials with faith in Taqdir.",
+      "reference": "Qur'an 54:49"
+    },
+    {
+      "id": 555,
+      "term": "Qadar",
+      "phrase": "Destiny",
+      "meaning": "The divine destiny or predetermination of all things by Allah.",
+      "example": "He trusted in Allah's Qadar during difficult times.",
+      "reference": "Qur'an 54:49"
+    },
+    {
+      "id": 556,
+      "term": "Tawakkul",
+      "phrase": "Reliance on Allah",
+      "meaning": "Complete trust and dependence on Allah while taking necessary actions.",
+      "example": "She practiced Tawakkul by working hard and trusting Allah's plan.",
+      "reference": "Qur'an 3:159"
+    },
+    {
+      "id": 557,
+      "term": "Barzakh",
+      "phrase": "Intermediate Realm",
+      "meaning": "The state between death and the Day of Resurrection where souls reside.",
+      "example": "Souls await in Barzakh until the Day of Judgment.",
+      "reference": "Qur'an 23:100"
+    },
+    {
+      "id": 558,
+      "term": "Yaqeen",
+      "phrase": "Certainty",
+      "meaning": "Absolute conviction in the truth of Islam and its teachings.",
+      "example": "His Yaqeen in Allah's mercy gave him peace.",
+      "reference": "Qur'an 49:15"
+    },
+    {
+      "id": 559,
+      "term": "Rahmah",
+      "phrase": "Mercy",
+      "meaning": "The divine compassion and mercy of Allah toward His creation.",
+      "example": "She prayed for Allah's Rahmah during her trials.",
+      "reference": "Qur'an 7:56"
+    },
+    {
+      "id": 560,
       "term": "Barakah",
-      "phrase": "Blessing",
-      "meaning": "Divine blessing that brings abundance and goodness.",
+      "phrase": "Divine Blessing",
+      "meaning": "A divine increase or blessing in wealth, time, or deeds.",
       "example": "Her charity brought Barakah to her life.",
       "reference": "Qur'an 7:96"
     },
     {
-      "id": 39,
-      "term": "Dhikr",
-      "phrase": "Remembrance",
-      "meaning": "The act of remembering Allah through recitation or supplication.",
-      "example": "He performed Dhikr to calm his heart.",
+      "id": 561,
+      "term": "Tawfiq",
+      "phrase": "Divine Success",
+      "meaning": "Success granted by Allah to perform righteous deeds.",
+      "example": "He attributed his achievements to Allah's Tawfiq.",
+      "reference": "Qur'an 11:88"
+    },
+    {
+      "id": 562,
+      "term": "Hidayah",
+      "phrase": "Guidance",
+      "meaning": "Divine guidance from Allah to the straight path.",
+      "example": "She sought Hidayah through constant prayer.",
+      "reference": "Qur'an 1:6"
+    },
+    {
+      "id": 563,
+      "term": "Israf",
+      "phrase": "Extravagance",
+      "meaning": "Excessive spending or wastefulness, discouraged in Islam.",
+      "example": "He avoided Israf by living a modest lifestyle.",
+      "reference": "Qur'an 7:31"
+    },
+    {
+      "id": 564,
+      "term": "Bughd",
+      "phrase": "Hatred for Allah's Sake",
+      "meaning": "Disliking or rejecting what is displeasing to Allah, such as sin or disbelief.",
+      "example": "She practiced Bughd by avoiding sinful gatherings.",
+      "reference": "Qur'an 9:23"
+    },
+    {
+      "id": 565,
+      "term": "Wala'",
+      "phrase": "Loyalty",
+      "meaning": "Loyalty and allegiance to Allah, His Prophet, and the believers.",
+      "example": "His Wala' to the Ummah inspired his charitable work.",
+      "reference": "Qur'an 5:55"
+    },
+    {
+      "id": 566,
+      "term": "Bara'",
+      "phrase": "Disavowal",
+      "meaning": "Disassociating from disbelief and those who oppose Allah's commands.",
+      "example": "He practiced Bara' by avoiding those who mocked the faith.",
+      "reference": "Qur'an 9:1"
+    },
+    {
+      "id": 567,
+      "term": "Amanah",
+      "phrase": "Trust",
+      "meaning": "The responsibility to fulfill trusts and obligations, a key Islamic value.",
+      "example": "She upheld Amanah by returning borrowed items promptly.",
+      "reference": "Qur'an 4:58"
+    },
+    {
+      "id": 568,
+      "term": "Khiyanah",
+      "phrase": "Betrayal",
+      "meaning": "Breaking a trust or acting dishonestly, condemned in Islam.",
+      "example": "He avoided Khiyanah by being truthful in his dealings.",
+      "reference": "Qur'an 8:27"
+    },
+    {
+      "id": 569,
+      "term": "Silat ar-Rahm",
+      "phrase": "Maintaining Family Ties",
+      "meaning": "The Islamic obligation to maintain good relations with relatives.",
+      "example": "She practiced Silat ar-Rahm by visiting her extended family.",
+      "reference": "Qur'an 4:1"
+    },
+    {
+      "id": 570,
+      "term": "Qat' ar-Rahm",
+      "phrase": "Cutting Family Ties",
+      "meaning": "The act of severing ties with relatives, strongly discouraged in Islam.",
+      "example": "He was warned against Qat' ar-Rahm due to its consequences.",
+      "reference": "Qur'an 47:22"
+    },
+    {
+      "id": 571,
+      "term": "Birr",
+      "phrase": "Righteousness",
+      "meaning": "Goodness and piety, especially toward parents and relatives.",
+      "example": "Her Birr toward her parents earned her blessings.",
+      "reference": "Qur'an 2:177"
+    },
+    {
+      "id": 572,
+      "term": "Uquq",
+      "phrase": "Disobedience to Parents",
+      "meaning": "Mistreating or disobeying parents, considered a major sin in Islam.",
+      "example": "He repented for Uquq after neglecting his parents.",
+      "reference": "Qur'an 17:23"
+    },
+    {
+      "id": 573,
+      "term": "Adab",
+      "phrase": "Etiquette",
+      "meaning": "The Islamic concept of good manners and proper behavior.",
+      "example": "She showed Adab by speaking politely to elders.",
+      "reference": "Qur'an 49:11"
+    },
+    {
+      "id": 574,
+      "term": "Ikhlas",
+      "phrase": "Sincerity",
+      "meaning": "Performing actions purely for Allah's sake, free from hypocrisy.",
+      "example": "His Ikhlas in worship made his deeds meaningful.",
+      "reference": "Qur'an 98:5"
+    },
+    {
+      "id": 575,
+      "term": "Riya",
+      "phrase": "Showing Off",
+      "meaning": "Performing acts of worship to gain praise from others, which nullifies sincerity.",
+      "example": "She avoided Riya by keeping her charity private.",
+      "reference": "Qur'an 4:38"
+    },
+    {
+      "id": 576,
+      "term": "Tawadhu",
+      "phrase": "Humility",
+      "meaning": "The quality of being humble and modest in character.",
+      "example": "His Tawadhu made him beloved in the community.",
+      "reference": "Qur'an 25:63"
+    },
+    {
+      "id": 577,
+      "term": "Kibr",
+      "phrase": "Arrogance",
+      "meaning": "Pride or arrogance, condemned as a destructive trait in Islam.",
+      "example": "He worked to overcome Kibr to purify his heart.",
+      "reference": "Qur'an 31:18"
+    },
+    {
+      "id": 578,
+      "term": "Hasad",
+      "phrase": "Envy",
+      "meaning": "Jealousy or wishing harm upon others for their blessings, a sin in Islam.",
+      "example": "She sought refuge from Hasad to cleanse her heart.",
+      "reference": "Qur'an 113:5"
+    },
+    {
+      "id": 579,
+      "term": "Ghibah",
+      "phrase": "Backbiting",
+      "meaning": "Speaking ill of someone in their absence, considered a major sin.",
+      "example": "He avoided Ghibah to maintain good character.",
+      "reference": "Qur'an 49:12"
+    },
+    {
+      "id": 580,
+      "term": "Namimah",
+      "phrase": "Tale-Bearing",
+      "meaning": "Spreading gossip or tales to create discord between people.",
+      "example": "She refrained from Namimah to preserve peace.",
+      "reference": "Qur'an 68:11"
+    },
+    {
+      "id": 581,
+      "term": "Buhtan",
+      "phrase": "Slander",
+      "meaning": "Making false accusations against someone, a grave sin in Islam.",
+      "example": "He was warned against Buhtan to protect reputations.",
+      "reference": "Qur'an 24:16"
+    },
+    {
+      "id": 582,
+      "term": "Tazkiyah",
+      "phrase": "Purification",
+      "meaning": "The spiritual process of purifying the soul from sins and bad traits.",
+      "example": "She pursued Tazkiyah through constant worship.",
+      "reference": "Qur'an 91:9"
+    },
+    {
+      "id": 583,
+      "term": "Zina",
+      "phrase": "Adultery",
+      "meaning": "Unlawful sexual relations, considered a major sin in Islam.",
+      "example": "The Qur'an warns against Zina to maintain chastity.",
+      "reference": "Qur'an 17:32"
+    },
+    {
+      "id": 584,
+      "term": "Haya",
+      "phrase": "Modesty",
+      "meaning": "The quality of shyness and modesty, a key trait in Islamic character.",
+      "example": "Her Haya was evident in her modest dress and behavior.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.8"
+    },
+    {
+      "id": 585,
+      "term": "Ghayrah",
+      "phrase": "Protective Jealousy",
+      "meaning": "A sense of honor and protectiveness over one's family or faith.",
+      "example": "His Ghayrah led him to defend his family's dignity.",
+      "reference": "Hadith: Sahih Muslim 4.1498"
+    },
+    {
+      "id": 586,
+      "term": "Iffah",
+      "phrase": "Chastity",
+      "meaning": "Maintaining purity and abstaining from unlawful desires.",
+      "example": "She upheld Iffah by avoiding inappropriate interactions.",
+      "reference": "Qur'an 24:30"
+    },
+    {
+      "id": 587,
+      "term": "Satr",
+      "phrase": "Covering",
+      "meaning": "The act of covering one's faults or others' faults to preserve dignity.",
+      "example": "He practiced Satr by not exposing his friend's mistake.",
+      "reference": "Qur'an 49:12"
+    },
+    {
+      "id": 588,
+      "term": "Tawbah",
+      "phrase": "Repentance",
+      "meaning": "Turning back to Allah with remorse and resolve to avoid sin.",
+      "example": "She made Tawbah after neglecting her prayers.",
+      "reference": "Qur'an 66:8"
+    },
+    {
+      "id": 589,
+      "term": "Inabah",
+      "phrase": "Returning to Allah",
+      "meaning": "A deeper form of repentance, returning to Allah with devotion.",
+      "example": "His Inabah brought him closer to Allah after years of neglect.",
+      "reference": "Qur'an 39:54"
+    },
+    {
+      "id": 590,
+      "term": "Istislam",
+      "phrase": "Submission",
+      "meaning": "Complete surrender to Allah's will, a core aspect of being a Muslim.",
+      "example": "Her Istislam was evident in her acceptance of Allah's decrees.",
+      "reference": "Qur'an 3:19"
+    },
+    {
+      "id": 591,
+      "term": "Tawheed",
+      "phrase": "Oneness of Allah",
+      "meaning": "The belief in the absolute oneness of Allah, the foundation of Islam.",
+      "example": "Tawheed is the core of Islamic belief.",
+      "reference": "Qur'an 112:1"
+    },
+    {
+      "id": 592,
+      "term": "Risalah",
+      "phrase": "Prophethood",
+      "meaning": "The belief in the prophethood of Muhammad and previous prophets sent by Allah.",
+      "example": "Risalah affirms the role of prophets as Allah's messengers.",
+      "reference": "Qur'an 2:285"
+    },
+    {
+      "id": 593,
+      "term": "Malaikah",
+      "phrase": "Angels",
+      "meaning": "Spiritual beings created by Allah to carry out His commands.",
+      "example": "Belief in Malaikah is a pillar of Islamic faith.",
+      "reference": "Qur'an 2:285"
+    },
+    {
+      "id": 594,
+      "term": "Kutub",
+      "phrase": "Divine Books",
+      "meaning": "The belief in the divine scriptures revealed by Allah, including the Qur'an.",
+      "example": "The Kutub include the Torah, Gospel, and Qur'an.",
+      "reference": "Qur'an 2:285"
+    },
+    {
+      "id": 595,
+      "term": "Yawm al-Qiyamah",
+      "phrase": "Day of Resurrection",
+      "meaning": "The Day of Judgment when all will be resurrected and judged by Allah.",
+      "example": "Muslims prepare for Yawm al-Qiyamah through good deeds.",
+      "reference": "Qur'an 75:1"
+    },
+    {
+      "id": 596,
+      "term": "Akhirah",
+      "phrase": "Hereafter",
+      "meaning": "The eternal life after death, including Paradise and Hell.",
+      "example": "She focused on the Akhirah over worldly gains.",
+      "reference": "Qur'an 2:201"
+    },
+    {
+      "id": 597,
+      "term": "Jannah",
+      "phrase": "Paradise",
+      "meaning": "The eternal abode of reward for the righteous in the Hereafter.",
+      "example": "He prayed for Jannah in every supplication.",
+      "reference": "Qur'an 3:133"
+    },
+    {
+      "id": 598,
+      "term": "Jahannam",
+      "phrase": "Hellfire",
+      "meaning": "The place of punishment for the wicked in the Hereafter.",
+      "example": "She sought refuge from Jahannam through repentance.",
+      "reference": "Qur'an 4:121"
+    },
+    {
+      "id": 599,
+      "term": "Sirat",
+      "phrase": "The Bridge",
+      "meaning": "The narrow bridge over Hell that all must cross on Judgment Day.",
+      "example": "Muslims pray to cross the Sirat safely.",
+      "reference": "Hadith: Sahih Muslim 1.183"
+    },
+    {
+      "id": 600,
+      "term": "Mizan",
+      "phrase": "The Balance",
+      "meaning": "The scale used to weigh deeds on the Day of Judgment.",
+      "example": "Her good deeds tipped the Mizan in her favor.",
+      "reference": "Qur'an 21:47"
+    },
+    {
+      "id": 601,
+      "term": "Hawd",
+      "phrase": "The Basin",
+      "meaning": "The Prophet's basin in the Hereafter, from which believers will drink.",
+      "example": "He hoped to drink from the Hawd of the Prophet.",
+      "reference": "Hadith: Sahih al-Bukhari 9.88.602"
+    },
+    {
+      "id": 602,
+      "term": "Shafa'ah",
+      "phrase": "Intercession",
+      "meaning": "The act of the Prophet or righteous individuals interceding for others on Judgment Day.",
+      "example": "She sought the Prophet's Shafa'ah through her devotion.",
+      "reference": "Hadith: Sahih al-Bukhari 6.60.3"
+    },
+    {
+      "id": 603,
+      "term": "A'raf",
+      "phrase": "The Heights",
+      "meaning": "A place between Paradise and Hell where some souls await their fate on Judgment Day.",
+      "example": "The A'raf is described as a barrier in the Qur'an.",
+      "reference": "Qur'an 7:46"
+    },
+    {
+      "id": 604,
+      "term": "Fitnah",
+      "phrase": "Trial",
+      "meaning": "A test or tribulation that challenges one's faith or morality.",
+      "example": "He prayed for protection from the Fitnah of wealth.",
+      "reference": "Qur'an 8:28"
+    },
+    {
+      "id": 605,
+      "term": "Dunya",
+      "phrase": "Worldly Life",
+      "meaning": "The temporary, material world, often contrasted with the Hereafter.",
+      "example": "She prioritized the Akhirah over the Dunya.",
+      "reference": "Qur'an 57:20"
+    },
+    {
+      "id": 606,
+      "term": "Barzakh",
+      "phrase": "Intermediate Realm",
+      "meaning": "The state between death and the Day of Resurrection where souls reside.",
+      "example": "Souls await in Barzakh until the Day of Judgment.",
+      "reference": "Qur'an 23:100"
+    },
+    {
+      "id": 607,
+      "term": "Qiyamah",
+      "phrase": "Resurrection",
+      "meaning": "The event of the resurrection of all beings for judgment.",
+      "example": "Belief in Qiyamah is a core tenet of Islam.",
+      "reference": "Qur'an 75:1"
+    },
+    {
+      "id": 608,
+      "term": "Mahdi",
+      "phrase": "Guided One",
+      "meaning": "A prophesied figure in Islam expected to appear before the Day of Judgment.",
+      "example": "Some Muslims await the arrival of the Mahdi.",
+      "reference": "Hadith: Sunan Abu Dawood 14.4282"
+    },
+    {
+      "id": 609,
+      "term": "Dajjal",
+      "phrase": "False Messiah",
+      "meaning": "A deceptive figure prophesied to appear before the Day of Judgment, causing trials.",
+      "example": "Muslims seek protection from the Dajjal's trials.",
+      "reference": "Hadith: Sahih Muslim 4.2937"
+    },
+    {
+      "id": 610,
+      "term": "Isa ibn Maryam",
+      "phrase": "Jesus, Son of Mary",
+      "meaning": "Prophet Jesus, revered in Islam, expected to return before the Day of Judgment.",
+      "example": "Muslims believe in the return of Isa ibn Maryam.",
+      "reference": "Qur'an 43:61"
+    },
+    {
+      "id": 611,
+      "term": "Yajuj wa Majuj",
+      "phrase": "Gog and Magog",
+      "meaning": "Two tribes or forces mentioned in the Qur'an, associated with end-time events.",
+      "example": "Yajuj wa Majuj are mentioned as a sign of the Last Days.",
+      "reference": "Qur'an 18:94"
+    },
+    {
+      "id": 612,
+      "term": "Ashrat as-Sa'ah",
+      "phrase": "Signs of the Hour",
+      "meaning": "The major and minor signs indicating the approach of the Day of Judgment.",
+      "example": "The Ashrat as-Sa'ah include moral decline and natural upheavals.",
+      "reference": "Hadith: Sahih Muslim 4.2940"
+    },
+    {
+      "id": 613,
+      "term": "Nuzul al-Qur'an",
+      "phrase": "Revelation of the Qur'an",
+      "meaning": "The process by which the Qur'an was revealed to Prophet Muhammad over 23 years.",
+      "example": "Nuzul al-Qur'an began on Laylat al-Qadr.",
+      "reference": "Qur'an 97:1"
+    },
+    {
+      "id": 614,
+      "term": "Wahy",
+      "phrase": "Divine Revelation",
+      "meaning": "The divine inspiration or revelation sent by Allah to His prophets.",
+      "example": "The Prophet received Wahy through the angel Jibril.",
+      "reference": "Qur'an 42:52"
+    },
+    {
+      "id": 615,
+      "term": "Jibril",
+      "phrase": "Angel Gabriel",
+      "meaning": "The angel who delivered Allah's revelations to Prophet Muhammad.",
+      "example": "Jibril brought the Qur'an to the Prophet in the cave of Hira.",
+      "reference": "Qur'an 2:97"
+    },
+    {
+      "id": 616,
+      "term": "Mikail",
+      "phrase": "Angel Michael",
+      "meaning": "The angel responsible for providing sustenance and blessings, as per Islamic tradition.",
+      "example": "Mikail is mentioned as an angel of mercy in Islam.",
+      "reference": "Qur'an 2:98"
+    },
+    {
+      "id": 617,
+      "term": "Israfil",
+      "phrase": "Angel Raphael",
+      "meaning": "The angel who will blow the trumpet to signal the Day of Judgment.",
+      "example": "Israfil's trumpet will announce the resurrection.",
+      "reference": "Hadith: Sahih Muslim 4.2940"
+    },
+    {
+      "id": 618,
+      "term": "Azrail",
+      "phrase": "Angel of Death",
+      "meaning": "The angel tasked with taking souls at the time of death.",
+      "example": "Azrail is responsible for collecting souls by Allah's command.",
+      "reference": "Qur'an 32:11"
+    },
+    {
+      "id": 619,
+      "term": "Munkar wa Nakir",
+      "phrase": "Angels of the Grave",
+      "meaning": "The angels who question the deceased in the grave about their faith.",
+      "example": "Munkar wa Nakir test souls in the Barzakh.",
+      "reference": "Hadith: Sunan at-Tirmidhi 3.1071"
+    },
+    {
+      "id": 620,
+      "term": "Hafazah",
+      "phrase": "Guardian Angels",
+      "meaning": "Angels assigned to protect and record the deeds of individuals.",
+      "example": "The Hafazah record every action for the Day of Judgment.",
+      "reference": "Qur'an 82:10-11"
+    },
+    {
+      "id": 621,
+      "term": "Kiraman Katibin",
+      "phrase": "Honorable Scribes",
+      "meaning": "The angels who record a person's good and bad deeds.",
+      "example": "The Kiraman Katibin note every deed for accountability.",
+      "reference": "Qur'an 82:11"
+    },
+    {
+      "id": 622,
+      "term": "Arsh",
+      "phrase": "Throne of Allah",
+      "meaning": "The divine throne, symbolizing Allah's supreme authority.",
+      "example": "The Qur'an describes Allah's Arsh as above the heavens.",
+      "reference": "Qur'an 20:5"
+    },
+    {
+      "id": 623,
+      "term": "Kursi",
+      "phrase": "Footstool of Allah",
+      "meaning": "A symbol of Allah's dominion, often mentioned in relation to His throne.",
+      "example": "Ayat al-Kursi describes the vastness of Allah's Kursi.",
+      "reference": "Qur'an 2:255"
+    },
+    {
+      "id": 624,
+      "term": "Lawh al-Mahfuz",
+      "phrase": "Preserved Tablet",
+      "meaning": "The divine record where all events and destinies are written by Allah.",
+      "example": "The Qur'an was sent down from the Lawh al-Mahfuz.",
+      "reference": "Qur'an 85:22"
+    },
+    {
+      "id": 625,
+      "term": "Qalam",
+      "phrase": "Pen",
+      "meaning": "The divine pen used to write the destinies in the Preserved Tablet.",
+      "example": "The Qalam recorded all events by Allah's command.",
+      "reference": "Qur'an 68:1"
+    },
+    {
+      "id": 626,
+      "term": "Sidrat al-Muntaha",
+      "phrase": "Lote Tree of the Utmost Boundary",
+      "meaning": "A tree in the heavens marking the boundary of divine knowledge, seen during the Mi'raj.",
+      "example": "The Prophet saw Sidrat al-Muntaha during his ascension.",
+      "reference": "Qur'an 53:14"
+    },
+    {
+      "id": 627,
+      "term": "Bait al-Ma'mur",
+      "phrase": "Frequented House",
+      "meaning": "A celestial house of worship in the heavens, parallel to the Ka'bah.",
+      "example": "The Bait al-Ma'mur is visited by angels for worship.",
+      "reference": "Qur'an 52:4"
+    },
+    {
+      "id": 628,
+      "term": "Jinn",
+      "phrase": "Spiritual Beings",
+      "meaning": "Beings created from smokeless fire, capable of free will like humans.",
+      "example": "The Qur'an addresses both humans and Jinn.",
+      "reference": "Qur'an 55:15"
+    },
+    {
+      "id": 629,
+      "term": "Shaytan",
+      "phrase": "Satan",
+      "meaning": "A rebellious Jinn who seeks to mislead humans, also known as Iblis.",
+      "example": "She sought refuge from Shaytan before reciting the Qur'an.",
+      "reference": "Qur'an 7:11"
+    },
+    {
+      "id": 630,
+      "term": "Iblis",
+      "phrase": "Devil",
+      "meaning": "The name of the chief Shaytan who refused to bow to Adam.",
+      "example": "Iblis was cursed for his arrogance against Allah's command.",
+      "reference": "Qur'an 7:11"
+    },
+    {
+      "id": 631,
+      "term": "Sihr",
+      "phrase": "Magic",
+      "meaning": "The forbidden practice of using supernatural forces to harm or deceive.",
+      "example": "The Qur'an warns against Sihr as a harmful practice.",
+      "reference": "Qur'an 2:102"
+    },
+    {
+      "id": 632,
+      "term": "Ruqyah",
+      "phrase": "Spiritual Healing",
+      "meaning": "Reciting Qur'anic verses or supplications for protection or healing.",
+      "example": "She performed Ruqyah to seek protection from evil.",
+      "reference": "Hadith: Sahih Muslim 4.2186"
+    },
+    {
+      "id": 633,
+      "term": "Ayn",
+      "phrase": "Evil Eye",
+      "meaning": "Harm caused by envy or jealousy, countered by seeking Allah's protection.",
+      "example": "He recited Ruqyah to protect against the Ayn.",
+      "reference": "Hadith: Sahih Muslim 4.2188"
+    },
+    {
+      "id": 634,
+      "term": "Hasad",
+      "phrase": "Envy",
+      "meaning": "Jealousy or wishing harm upon others for their blessings, a sin in Islam.",
+      "example": "She sought refuge from Hasad to cleanse her heart.",
+      "reference": "Qur'an 113:5"
+    },
+    {
+      "id": 635,
+      "term": "Tawassul",
+      "phrase": "Intermediation",
+      "meaning": "Seeking closeness to Allah through righteous deeds or individuals.",
+      "example": "He made Tawassul by invoking the Prophet's name in his Du'a.",
+      "reference": "Qur'an 5:35"
+    },
+    {
+      "id": 636,
+      "term": "Barakah",
+      "phrase": "Divine Blessing",
+      "meaning": "A divine increase or blessing in something, such as wealth or time.",
+      "example": "Her charity brought Barakah to her business.",
+      "reference": "Qur'an 7:96"
+    },
+    {
+      "id": 637,
+      "term": "Tabarruk",
+      "phrase": "Seeking Blessings",
+      "meaning": "Seeking blessings through sacred relics, places, or righteous people.",
+      "example": "She practiced Tabarruk by drinking Zamzam water.",
+      "reference": "Hadith: Sahih al-Bukhari 2.26.665"
+    },
+    {
+      "id": 638,
+      "term": "Wird",
+      "phrase": "Daily Litany",
+      "meaning": "A set of regular supplications or Qur'anic recitations performed daily.",
+      "example": "He recited his Wird every morning for spiritual growth.",
       "reference": "Qur'an 33:41"
     },
     {
-      "id": 40,
-      "term": "Tayammum",
-      "phrase": "Dry Ablution",
-      "meaning": "A ritual purification using clean earth when water is unavailable.",
-      "example": "In the desert, she performed Tayammum before praying.",
-      "reference": "Qur'an 4:43"
+      "id": 639,
+      "term": "Hizb",
+      "phrase": "Section of Qur'an",
+      "meaning": "A division of the Qur'an into 60 parts for recitation purposes.",
+      "example": "She completed a Hizb of the Qur'an each day.",
+      "reference": "Qur'an 73:4"
     },
     {
-      "id": 41,
-      "term": "Aqiqah",
-      "phrase": "Naming Ceremony",
-      "meaning": "A ritual sacrifice performed to celebrate the birth of a child.",
-      "example": "They performed Aqiqah for their newborn son.",
-      "reference": "Hadith: Sunan Abu Dawood 15.2836"
+      "id": 640,
+      "term": "Juz",
+      "phrase": "Part of Qur'an",
+      "meaning": "One of the 30 equal parts of the Qur'an for recitation purposes.",
+      "example": "He read one Juz daily during Ramadan.",
+      "reference": "Qur'an 73:4"
     },
     {
-      "id": 42,
+      "id": 641,
+      "term": "Manzil",
+      "phrase": "Portion of Qur'an",
+      "meaning": "A division of the Qur'an into seven parts for recitation over a week.",
+      "example": "He recited one Manzil daily for spiritual protection.",
+      "reference": "Hadith: Sahih al-Bukhari 6.61.536"
+    },
+    {
+      "id": 642,
+      "term": "Mu'awwidhatayn",
+      "phrase": "The Two Protectors",
+      "meaning": "The last two Surahs of the Qur'an (Al-Falaq and An-Nas), recited for protection.",
+      "example": "She recited the Mu'awwidhatayn before sleeping.",
+      "reference": "Qur'an 113:1, 114:1"
+    },
+    {
+      "id": 643,
+      "term": "Ayat al-Kursi",
+      "phrase": "Verse of the Throne",
+      "meaning": "A highly revered verse (Qur'an 2:255) recited for protection and blessings.",
+      "example": "He recited Ayat al-Kursi before sleeping for protection.",
+      "reference": "Qur'an 2:255"
+    },
+    {
+      "id": 644,
+      "term": "Sunnah",
+      "phrase": "Prophetic Tradition",
+      "meaning": "The practices, sayings, and approvals of Prophet Muhammad, a key source of Islamic guidance.",
+      "example": "She followed the Sunnah by breaking her fast with dates.",
+      "reference": "Qur'an 33:21"
+    },
+    {
+      "id": 645,
+      "term": "Hadith",
+      "phrase": "Prophetic Narration",
+      "meaning": "The recorded sayings, actions, or approvals of Prophet Muhammad.",
+      "example": "The Hadith guided her in performing voluntary prayers.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.1"
+    },
+    {
+      "id": 646,
+      "term": "Qur'an",
+      "phrase": "The Recitation",
+      "meaning": "The holy book of Islam, revealed to Prophet Muhammad as divine guidance.",
+      "example": "She recited the Qur'an daily for spiritual growth.",
+      "reference": "Qur'an 2:2"
+    },
+    {
+      "id": 647,
+      "term": "Tafsir",
+      "phrase": "Qur'anic Exegesis",
+      "meaning": "The scholarly interpretation and explanation of the Qur'an's meanings.",
+      "example": "He studied Tafsir to understand the Qur'an deeply.",
+      "reference": "Qur'an 3:7"
+    },
+    {
+      "id": 648,
+      "term": "Tajwid",
+      "phrase": "Qur'anic Recitation Rules",
+      "meaning": "The science of pronouncing and reciting the Qur'an correctly.",
+      "example": "She studied Tajwid to perfect her Qur'an recitation.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 649,
+      "term": "Qira'at",
+      "phrase": "Recitation Variants",
+      "meaning": "The different accepted modes of reciting the Qur'an, each with slight variations.",
+      "example": "He mastered the Qira'at of Hafs for his recitation.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 650,
+      "term": "Hifz",
+      "phrase": "Qur'an Memorization",
+      "meaning": "The act of memorizing the entire Qur'an, a highly respected practice.",
+      "example": "She completed Hifz at a young age.",
+      "reference": "Qur'an 54:17"
+    },
+    {
+      "id": 651,
+      "term": "Hafiz",
+      "phrase": "Qur'an Memorizer",
+      "meaning": "A person who has memorized the entire Qur'an.",
+      "example": "The Hafiz led the Taraweeh prayers during Ramadan.",
+      "reference": "Qur'an 54:17"
+    },
+    {
+      "id": 652,
+      "term": "Qurra",
+      "phrase": "Reciters",
+      "meaning": "Individuals skilled in the recitation of the Qur'an, often with mastery of Tajwid.",
+      "example": "The Qurra were invited to recite at the gathering.",
+      "reference": "Qur'an 73:4"
+    },
+    {
+      "id": 653,
+      "term": "Mushaf",
+      "phrase": "Written Qur'an",
+      "meaning": "The physical copy of the Qur'an as a compiled book.",
+      "example": "She kept a Mushaf on her bedside for daily reading.",
+      "reference": "Qur'an 2:2"
+    },
+    {
+      "id": 654,
+      "term": "Tadabbur",
+      "phrase": "Reflection",
+      "meaning": "Deep contemplation and reflection on the meanings of the Qur'an.",
+      "example": "He practiced Tadabbur to understand the Qur'an's wisdom.",
+      "reference": "Qur'an 4:82"
+    },
+    {
+      "id": 655,
+      "term": "Tawil",
+      "phrase": "Interpretation",
+      "meaning": "The deeper or allegorical interpretation of Qur'anic verses.",
+      "example": "Scholars used Tawil to explain complex verses.",
+      "reference": "Qur'an 3:7"
+    },
+    {
+      "id": 656,
+      "term": "Asbab an-Nuzul",
+      "phrase": "Causes of Revelation",
+      "meaning": "The historical context or reasons behind the revelation of specific Qur'anic verses.",
+      "example": "The Asbab an-Nuzul clarified the meaning of Surah Al-Kawthar.",
+      "reference": "Qur'an 3:7"
+    },
+    {
+      "id": 657,
+      "term": "Nasikh wa Mansukh",
+      "phrase": "Abrogation",
+      "meaning": "The concept of certain Qur'anic verses or rulings superseding others.",
+      "example": "Scholars studied Nasikh wa Mansukh to understand legal changes.",
+      "reference": "Qur'an 2:106"
+    },
+    {
+      "id": 658,
+      "term": "Muhkam",
+      "phrase": "Clear Verse",
+      "meaning": "Qur'anic verses with clear and unambiguous meanings.",
+      "example": "The Muhkam verses guide basic Islamic practices.",
+      "reference": "Qur'an 3:7"
+    },
+    {
+      "id": 659,
+      "term": "Mutashabih",
+      "phrase": "Ambiguous Verse",
+      "meaning": "Qur'anic verses with allegorical or unclear meanings, requiring interpretation.",
+      "example": "Scholars debated the Mutashabih verses for deeper understanding.",
+      "reference": "Qur'an 3:7"
+    },
+    {
+      "id": 660,
+      "term": "Fiqh",
+      "phrase": "Islamic Jurisprudence",
+      "meaning": "The understanding and application of Islamic law derived from the Qur'an and Sunnah.",
+      "example": "He studied Fiqh to learn the rules of worship.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 661,
+      "term": "Usul al-Fiqh",
+      "phrase": "Principles of Jurisprudence",
+      "meaning": "The methodology used to derive Islamic legal rulings from primary sources.",
+      "example": "Usul al-Fiqh guided the scholar's legal analysis.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 662,
+      "term": "Madhhab",
+      "phrase": "School of Thought",
+      "meaning": "A recognized school of Islamic jurisprudence, such as Hanafi or Maliki.",
+      "example": "She followed the Shafi'i Madhhab in her worship.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 663,
       "term": "Fatwa",
       "phrase": "Religious Ruling",
-      "meaning": "A legal opinion or ruling issued by an Islamic scholar.",
-      "example": "The scholar issued a Fatwa on the permissibility of the transaction.",
+      "meaning": "A non-binding legal opinion issued by a qualified scholar on an Islamic matter.",
+      "example": "The Fatwa clarified the permissibility of a new technology.",
       "reference": "Qur'an 4:127"
     },
     {
-      "id": 43,
-      "term": "Haram",
-      "phrase": "Forbidden",
-      "meaning": "Actions or items prohibited in Islam.",
-      "example": "Eating pork is considered Haram in Islam.",
-      "reference": "Qur'an 2:173"
+      "id": 664,
+      "term": "Ijma",
+      "phrase": "Consensus",
+      "meaning": "The agreement of Islamic scholars on a legal ruling, considered a source of law.",
+      "example": "The Ijma supported the prohibition of alcohol.",
+      "reference": "Qur'an 4:59"
     },
     {
-      "id": 44,
-      "term": "Halal",
-      "phrase": "Permissible",
-      "meaning": "Actions or items permitted in Islam.",
-      "example": "She ensured the meat was Halal before cooking.",
-      "reference": "Qur'an 5:88"
+      "id": 665,
+      "term": "Qiyas",
+      "phrase": "Analogical Reasoning",
+      "meaning": "A method of Islamic jurisprudence using analogy to derive rulings from existing sources.",
+      "example": "Scholars used Qiyas to rule on modern financial transactions.",
+      "reference": "Qur'an 4:59"
     },
     {
-      "id": 45,
-      "term": "Iftar",
-      "phrase": "Breaking Fast",
-      "meaning": "The meal eaten by Muslims to break their fast at sunset during Ramadan.",
-      "example": "The family gathered at sunset for Iftar.",
-      "reference": "Hadith: Sahih al-Bukhari 3:645"
+      "id": 666,
+      "term": "Istihsan",
+      "phrase": "Juristic Preference",
+      "meaning": "Choosing a ruling based on what is deemed better for public interest or equity in Islamic law.",
+      "example": "The scholar applied Istihsan to permit a lenient ruling.",
+      "reference": "Hadith: Sahih Muslim 4.1718"
     },
     {
-      "id": 46,
-      "term": "Suhoor",
-      "phrase": "Pre-Dawn Meal",
-      "meaning": "The meal eaten before dawn during Ramadan to prepare for fasting.",
-      "example": "He woke up early for Suhoor before fasting.",
-      "reference": "Hadith: Sahih al-Bukhari 3:1923"
+      "id": 667,
+      "term": "Istislah",
+      "phrase": "Public Interest",
+      "meaning": "Making rulings based on the public good when no clear text exists, also known as Maslahah.",
+      "example": "Istislah was used to regulate new technologies in Islamic law.",
+      "reference": "Qur'an 4:59"
     },
     {
-      "id": 47,
-      "term": "Mahram",
-      "phrase": "Unmarriageable Kin",
-      "meaning": "A person with whom marriage is prohibited, allowing for relaxed modesty rules.",
-      "example": "Her brother, a Mahram, accompanied her on the journey.",
-      "reference": "Qur'an 4:23"
+      "id": 668,
+      "term": "Maslahah",
+      "phrase": "Public Welfare",
+      "meaning": "The principle of promoting benefit or preventing harm in Islamic legal rulings.",
+      "example": "The ruling was based on Maslahah to protect the community.",
+      "reference": "Qur'an 4:59"
     },
     {
-      "id": 48,
-      "term": "Nikah",
-      "phrase": "Marriage Contract",
-      "meaning": "The Islamic marriage contract between a bride and groom.",
-      "example": "Their Nikah was celebrated with family and friends.",
-      "reference": "Qur'an 4:21"
+      "id": 669,
+      "term": "Urf",
+      "phrase": "Custom",
+      "meaning": "Local customs or traditions considered in Islamic law if they do not contradict Shari'ah.",
+      "example": "The local Urf influenced the marriage customs.",
+      "reference": "Qur'an 7:199"
     },
     {
-      "id": 49,
+      "id": 670,
+      "term": "Sad al-Dhara'i",
+      "phrase": "Blocking the Means",
+      "meaning": "Preventing actions that could lead to forbidden outcomes in Islamic law.",
+      "example": "Sad al-Dhara'i was applied to prohibit certain financial practices.",
+      "reference": "Qur'an 6:108"
+    },
+    {
+      "id": 671,
+      "term": "Shari'ah",
+      "phrase": "Islamic Law",
+      "meaning": "The divine law derived from the Qur'an and Sunnah, guiding all aspects of life.",
+      "example": "She followed Shari'ah in her daily practices.",
+      "reference": "Qur'an 45:18"
+    },
+    {
+      "id": 672,
+      "term": "Hudud",
+      "phrase": "Prescribed Punishments",
+      "meaning": "Specific punishments in Islamic law for serious offenses.",
+      "example": "Hudud laws are applied with strict conditions.",
+      "reference": "Qur'an 5:38"
+    },
+    {
+      "id": 673,
+      "term": "Ta'zir",
+      "phrase": "Discretionary Punishment",
+      "meaning": "Punishments for offenses not covered by Hudud, left to the discretion of a judge.",
+      "example": "The judge imposed Ta'zir for a minor offense.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 674,
+      "term": "Qisas",
+      "phrase": "Retaliation",
+      "meaning": "The principle of equal retribution for crimes like murder, with the option for forgiveness.",
+      "example": "The family chose forgiveness over Qisas for the crime.",
+      "reference": "Qur'an 2:178"
+    },
+    {
+      "id": 675,
+      "term": "Diyah",
+      "phrase": "Blood Money",
+      "meaning": "Compensation paid to the victim or their family for crimes like murder or injury.",
+      "example": "They agreed to accept Diyah instead of Qisas.",
+      "reference": "Qur'an 2:178"
+    },
+    {
+      "id": 676,
+      "term": "Ahl al-Bayt",
+      "phrase": "People of the House",
+      "meaning": "The family of Prophet Muhammad, including his close relatives.",
+      "example": "Muslims honor the Ahl al-Bayt for their piety.",
+      "reference": "Qur'an 33:33"
+    },
+    {
+      "id": 677,
+      "term": "Sahabah",
+      "phrase": "Companions",
+      "meaning": "The contemporaries of Prophet Muhammad who saw or met him and believed in him.",
+      "example": "The Sahabah transmitted the Prophet's teachings accurately.",
+      "reference": "Qur'an 9:100"
+    },
+    {
+      "id": 678,
+      "term": "Tabi'in",
+      "phrase": "Successors",
+      "meaning": "The generation after the Sahabah who learned from them.",
+      "example": "The Tabi'in preserved the Hadith for future generations.",
+      "reference": "Qur'an 9:100"
+    },
+    {
+      "id": 679,
+      "term": "Tabi' Tabi'in",
+      "phrase": "Successors of the Successors",
+      "meaning": "The generation after the Tabi'in, continuing the transmission of Islamic knowledge.",
+      "example": "The Tabi' Tabi'in contributed to early Islamic scholarship.",
+      "reference": "Qur'an 9:100"
+    },
+    {
+      "id": 680,
+      "term": "Mujtahid",
+      "phrase": "Independent Jurist",
+      "meaning": "A scholar qualified to derive Islamic rulings through independent reasoning.",
+      "example": "The Mujtahid issued a Fatwa on contemporary issues.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 681,
+      "term": "Muqallid",
+      "phrase": "Follower",
+      "meaning": "A person who follows a scholar's rulings without independent reasoning.",
+      "example": "As a Muqallid, he adhered to the Maliki school.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 682,
+      "term": "Taqlid",
+      "phrase": "Imitation",
+      "meaning": "Following the rulings of a qualified scholar without independent reasoning.",
+      "example": "He practiced Taqlid by following a trusted scholar's rulings.",
+      "reference": "Qur'an 4:59"
+    },
+    {
+      "id": 683,
+      "term": "Mawlid",
+      "phrase": "Prophet's Birthday",
+      "meaning": "The commemoration of the birth of Prophet Muhammad, observed by some Muslims.",
+      "example": "The community celebrated Mawlid with recitations.",
+      "reference": "Hadith: Sunan an-Nasa'i 1.213"
+    },
+    {
+      "id": 684,
+      "term": "Isra wa Mi'raj",
+      "phrase": "Night Journey and Ascension",
+      "meaning": "The miraculous journey of Prophet Muhammad from Mecca to Jerusalem and to the heavens.",
+      "example": "The Isra wa Mi'raj is celebrated for its spiritual significance.",
+      "reference": "Qur'an 17:1"
+    },
+    {
+      "id": 685,
+      "term": "Hijrah",
+      "phrase": "Migration",
+      "meaning": "The migration of Prophet Muhammad from Mecca to Medina, marking the Islamic calendar's start.",
+      "example": "The Hijrah was a turning point in Islamic history.",
+      "reference": "Qur'an 9:40"
+    },
+    {
+      "id": 686,
+      "term": "Ansar",
+      "phrase": "Helpers",
+      "meaning": "The Muslims of Medina who supported the Prophet and the Muhajirun after the Hijrah.",
+      "example": "The Ansar welcomed the Muhajirun with open hearts.",
+      "reference": "Qur'an 9:100"
+    },
+    {
+      "id": 687,
+      "term": "Muhajirun",
+      "phrase": "Emigrants",
+      "meaning": "The Muslims who migrated from Mecca to Medina during the Hijrah.",
+      "example": "The Muhajirun faced hardships for the sake of their faith.",
+      "reference": "Qur'an 9:100"
+    },
+    {
+      "id": 688,
+      "term": "Sirah",
+      "phrase": "Biography",
+      "meaning": "The biography of Prophet Muhammad, detailing his life and teachings.",
+      "example": "She studied the Sirah to learn about the Prophet's character.",
+      "reference": "Qur'an 33:21"
+    },
+    {
+      "id": 689,
+      "term": "Maghazi",
+      "phrase": "Military Campaigns",
+      "meaning": "The military expeditions led by or during the time of Prophet Muhammad.",
+      "example": "The Maghazi provided lessons in strategy and ethics.",
+      "reference": "Qur'an 8:7"
+    },
+    {
+      "id": 690,
+      "term": "Khilafah",
+      "phrase": "Caliphate",
+      "meaning": "The Islamic system of governance led by a Caliph after the Prophet's death.",
+      "example": "The Khilafah ensured the spread of Islamic teachings.",
+      "reference": "Qur'an 24:55"
+    },
+    {
+      "id": 691,
+      "term": "Khalifah",
+      "phrase": "Caliph",
+      "meaning": "The leader of the Muslim community, succeeding the Prophet in governance.",
+      "example": "The Khalifah upheld justice in the Islamic state.",
+      "reference": "Qur'an 2:30"
+    },
+    {
+      "id": 692,
+      "term": "Ahl al-Kitab",
+      "phrase": "People of the Book",
+      "meaning": "Jews and Christians who received divine scriptures before Islam.",
+      "example": "The Qur'an calls for dialogue with Ahl al-Kitab.",
+      "reference": "Qur'an 3:64"
+    },
+    {
+      "id": 693,
+      "term": "Dhimmi",
+      "phrase": "Protected Person",
+      "meaning": "A non-Muslim living under Islamic governance with protected rights.",
+      "example": "The Dhimmi paid Jizyah for protection in the Islamic state.",
+      "reference": "Qur'an 9:29"
+    },
+    {
+      "id": 694,
+      "term": "Jizyah",
+      "phrase": "Protection Tax",
+      "meaning": "A tax levied on non-Muslims under Islamic rule in exchange for protection.",
+      "example": "The Dhimmi paid Jizyah to live safely in the state.",
+      "reference": "Qur'an 9:29"
+    },
+    {
+      "id": 695,
+      "term": "Mubahala",
+      "phrase": "Mutual Cursing",
+      "meaning": "A form of resolving disputes by invoking Allah's curse on the liar, historically significant in Islam.",
+      "example": "The Prophet proposed Mubahala to settle a dispute with Christians.",
+      "reference": "Qur'an 3:61"
+    },
+    {
+      "id": 696,
+      "term": "Da'wah",
+      "phrase": "Invitation",
+      "meaning": "The act of inviting others to Islam or calling them to righteousness.",
+      "example": "She engaged in Da'wah by sharing Islamic teachings with her neighbors.",
+      "reference": "Qur'an 16:125"
+    },
+    {
+      "id": 697,
+      "term": "Tabligh",
+      "phrase": "Conveying",
+      "meaning": "The act of spreading the message of Islam, often associated with missionary work.",
+      "example": "He joined a Tabligh group to promote Islamic values.",
+      "reference": "Qur'an 3:104"
+    },
+    {
+      "id": 698,
+      "term": "Islah",
+      "phrase": "Reform",
+      "meaning": "The act of improving or correcting oneself or society in accordance with Islamic principles.",
+      "example": "The organization worked for Islah in the community.",
+      "reference": "Qur'an 11:88"
+    },
+    {
+      "id": 699,
+      "term": "Mujaddid",
+      "phrase": "Reformer",
+      "meaning": "A scholar or leader believed to appear every century to revive Islamic teachings.",
+      "example": "The scholar was considered a Mujaddid of his time.",
+      "reference": "Hadith: Sunan Abu Dawood 14.4291"
+    },
+    {
+      "id": 700,
+      "term": "Waqf",
+      "phrase": "Endowment",
+      "meaning": "A charitable endowment dedicated to religious or social purposes, inalienable in perpetuity.",
+      "example": "She established a Waqf to fund an orphanage.",
+      "reference": "Hadith: Sahih Muslim 3.4006"
+    },
+    {
+      "id": 701,
+      "term": "Bayt al-Mal",
+      "phrase": "Treasury",
+      "meaning": "The public treasury in an Islamic state, used for welfare and governance.",
+      "example": "Zakat funds were managed through the Bayt al-Mal.",
+      "reference": "Qur'an 9:60"
+    },
+    {
+      "id": 702,
+      "term": "Ghanimah",
+      "phrase": "War Booty",
+      "meaning": "Spoils of war distributed according to Islamic law among fighters and the community.",
+      "example": "The Ghanimah was divided as per Shari'ah guidelines.",
+      "reference": "Qur'an 8:41"
+    },
+    {
+      "id": 703,
+      "term": "Fay",
+      "phrase": "Spoils Without Fighting",
+      "meaning": "Property acquired from non-Muslims without battle, distributed for public welfare.",
+      "example": "The Fay was used to support the needy in the community.",
+      "reference": "Qur'an 59:7"
+    },
+    {
+      "id": 704,
+      "term": "Khums",
+      "phrase": "One-Fifth Tax",
+      "meaning": "A tax of one-fifth on certain types of wealth, such as war booty, in some Islamic traditions.",
+      "example": "The Khums was allocated to the Prophet's family and the poor.",
+      "reference": "Qur'an 8:41"
+    },
+    {
+      "id": 705,
+      "term": "Ushr",
+      "phrase": "Tithe",
+      "meaning": "A tax of one-tenth on agricultural produce, payable as Zakat in some cases.",
+      "example": "Farmers paid Ushr on their harvested crops.",
+      "reference": "Qur'an 2:267"
+    },
+    {
+      "id": 706,
+      "term": "Zakat al-Fitr",
+      "phrase": "Charity of Breaking the Fast",
+      "meaning": "A mandatory charity given at the end of Ramadan to purify the fast and help the poor celebrate Eid.",
+      "example": "She paid Zakat al-Fitr before the Eid prayer.",
+      "reference": "Hadith: Sahih al-Bukhari 2.25.579"
+    },
+    {
+      "id": 707,
+      "term": "Taraweeh",
+      "phrase": "Night Prayers",
+      "meaning": "Voluntary prayers performed at night during Ramadan, typically in congregation.",
+      "example": "He joined the Taraweeh prayers at the mosque every evening.",
+      "reference": "Hadith: Sahih al-Bukhari 2.15.73"
+    },
+    {
+      "id": 708,
+      "term": "Qiyam al-Layl",
+      "phrase": "Night Vigil Prayer",
+      "meaning": "Voluntary prayers performed during the night, especially in the last third of the night.",
+      "example": "She woke up for Qiyam al-Layl to seek Allah's forgiveness.",
+      "reference": "Qur'an 73:2"
+    },
+    {
+      "id": 709,
+      "term": "Tahajjud",
+      "phrase": "Late Night Prayer",
+      "meaning": "A specific type of Qiyam al-Layl, a voluntary prayer performed after sleeping at night.",
+      "example": "He prayed Tahajjud to seek blessings for his family.",
+      "reference": "Qur'an 17:79"
+    },
+    {
+      "id": 710,
+      "term": "Witr",
+      "phrase": "Odd-Numbered Prayer",
+      "meaning": "A voluntary prayer performed at night, typically with an odd number of Rak'ah.",
+      "example": "She concluded her night prayers with Witr.",
+      "reference": "Hadith: Sahih Muslim 4.751"
+    },
+    {
+      "id": 711,
+      "term": "Salat al-Duha",
+      "phrase": "Forenoon Prayer",
+      "meaning": "A voluntary prayer performed in the late morning, also known as the Chastity prayer.",
+      "example": "He prayed Salat al-Duha to seek Barakah in his day.",
+      "reference": "Hadith: Sahih Muslim 4.748"
+    },
+    {
+      "id": 712,
+      "term": "Salat al-Istikhara",
+      "phrase": "Prayer for Guidance",
+      "meaning": "A two-Rak'ah prayer followed by a specific Du'a to seek Allah's guidance in decision-making.",
+      "example": "She performed Salat al-Istikhara before choosing her career path.",
+      "reference": "Hadith: Sahih al-Bukhari 7.71.638"
+    },
+    {
+      "id": 713,
+      "term": "Salat al-Janazah",
+      "phrase": "Funeral Prayer",
+      "meaning": "A congregational prayer performed for the deceased before burial.",
+      "example": "The community gathered for Salat al-Janazah at the mosque.",
+      "reference": "Hadith: Sahih al-Bukhari 2.23.337"
+    },
+    {
+      "id": 714,
+      "term": "Ghusl al-Mayyit",
+      "phrase": "Washing the Deceased",
+      "meaning": "The ritual washing of a deceased Muslim's body before burial.",
+      "example": "The family performed Ghusl al-Mayyit with care and respect.",
+      "reference": "Hadith: Sahih al-Bukhari 2.23.345"
+    },
+    {
+      "id": 715,
+      "term": "Kafan",
+      "phrase": "Shroud",
+      "meaning": "The cloth used to wrap a deceased Muslim's body for burial.",
+      "example": "They prepared a simple Kafan for the burial.",
+      "reference": "Hadith: Sahih al-Bukhari 2.23.354"
+    },
+    {
+      "id": 716,
+      "term": "Jumu'ah",
+      "phrase": "Friday Prayer",
+      "meaning": "The congregational prayer held every Friday, replacing the Dhuhr prayer.",
+      "example": "He attended the Jumu'ah prayer at the local mosque.",
+      "reference": "Qur'an 62:9"
+    },
+    {
+      "id": 717,
+      "term": "Khutbah",
+      "phrase": "Sermon",
+      "meaning": "The sermon delivered during Jumu'ah or Eid prayers, addressing religious and social issues.",
+      "example": "The Imam's Khutbah inspired the congregation to give charity.",
+      "reference": "Hadith: Sahih al-Bukhari 2.13.56"
+    },
+    {
+      "id": 718,
+      "term": "Masjid",
+      "phrase": "Mosque",
+      "meaning": "A place of worship where Muslims perform prayers and community activities.",
+      "example": "The Masjid was filled with worshippers for Taraweeh.",
+      "reference": "Qur'an 9:18"
+    },
+    {
+      "id": 719,
+      "term": "Mihrab",
+      "phrase": "Prayer Niche",
+      "meaning": "A niche in a mosque indicating the direction of the Ka'bah (Qiblah).",
+      "example": "The Imam stood in the Mihrab to lead the prayer.",
+      "reference": "Qur'an 3:37"
+    },
+    {
+      "id": 720,
+      "term": "Minbar",
+      "phrase": "Pulpit",
+      "meaning": "The raised platform in a mosque from which the Imam delivers the Khutbah.",
+      "example": "The Imam ascended the Minbar to deliver the Friday sermon.",
+      "reference": "Hadith: Sahih al-Bukhari 2.13.56"
+    },
+    {
+      "id": 721,
       "term": "Qiblah",
       "phrase": "Direction of Prayer",
       "meaning": "The direction toward the Ka'bah in Mecca, faced during Salah.",
@@ -393,1052 +2569,612 @@
       "reference": "Qur'an 2:144"
     },
     {
-      "id": 50,
-      "term": "Rak'ah",
-      "phrase": "Prayer Cycle",
-      "meaning": "A unit of prayer in Salah, consisting of specific movements and recitations.",
-      "example": "Fajr prayer consists of two Rak'ahs.",
-      "reference": "Hadith: Sahih Muslim 4.882"
+      "id": 722,
+      "term": "Sutra",
+      "phrase": "Barrier",
+      "meaning": "An object placed in front of a praying person to mark their prayer space.",
+      "example": "He placed a chair as a Sutra during his prayer.",
+      "reference": "Hadith: Sahih al-Bukhari 1.9.473"
     },
     {
-      "id": 51,
-      "term": "Sabr",
-      "phrase": "Patience",
-      "meaning": "Endurance and perseverance in the face of hardship.",
-      "example": "She showed Sabr during her trials.",
-      "reference": "Qur'an 2:153"
+      "id": 723,
+      "term": "Tayammum",
+      "phrase": "Dry Ablution",
+      "meaning": "A ritual purification using clean earth or dust when water is unavailable.",
+      "example": "She performed Tayammum in the desert before praying.",
+      "reference": "Qur'an 4:43"
     },
     {
-      "id": 52,
-      "term": "Shirk",
-      "phrase": "Polytheism",
-      "meaning": "Associating partners with Allah, considered a major sin.",
-      "example": "Muslims avoid Shirk by worshipping Allah alone.",
-      "reference": "Qur'an 4:48"
+      "id": 724,
+      "term": "Janabah",
+      "phrase": "State of Major Impurity",
+      "meaning": "A state of ritual impurity requiring Ghusl, caused by specific acts like marital relations.",
+      "example": "He performed Ghusl to purify himself from Janabah.",
+      "reference": "Qur'an 5:6"
     },
     {
-      "id": 53,
-      "term": "Tawaf",
-      "phrase": "Circumambulation",
-      "meaning": "The act of walking around the Ka'bah seven times during Hajj or Umrah.",
-      "example": "Pilgrims perform Tawaf as part of their pilgrimage.",
-      "reference": "Qur'an 22:29"
+      "id": 725,
+      "term": "Najis",
+      "phrase": "Impure",
+      "meaning": "Something considered ritually impure in Islam, requiring cleansing.",
+      "example": "She cleaned the Najis substance from her clothes before praying.",
+      "reference": "Hadith: Sahih Muslim 2.291"
     },
     {
-      "id": 54,
-      "term": "Umrah",
-      "phrase": "Lesser Pilgrimage",
-      "meaning": "A voluntary pilgrimage to Mecca, performed at any time of the year.",
-      "example": "She performed Umrah during her visit to Mecca.",
-      "reference": "Qur'an 2:196"
+      "id": 726,
+      "term": "Taharat",
+      "phrase": "Purity",
+      "meaning": "The state of ritual and spiritual purity required for acts of worship.",
+      "example": "Taharat is essential before performing Salah.",
+      "reference": "Qur'an 5:6"
     },
     {
-      "id": 55,
-      "term": "Zina",
-      "phrase": "Adultery",
-      "meaning": "Unlawful sexual relations, prohibited in Islam.",
-      "example": "The community was educated to avoid Zina.",
-      "reference": "Qur'an 17:32"
+      "id": 727,
+      "term": "Istinja",
+      "phrase": "Cleansing After Relieving Oneself",
+      "meaning": "The act of cleaning oneself with water or stones after using the bathroom.",
+      "example": "He performed Istinja to maintain cleanliness before Wudu.",
+      "reference": "Hadith: Sahih al-Bukhari 1.4.157"
     },
     {
-      "id": 56,
-      "term": "Ayah",
-      "phrase": "Verse",
-      "meaning": "A verse of the Qur'an, considered a sign from Allah.",
-      "example": "She memorized an Ayah from Surah Al-Baqarah.",
-      "reference": "Qur'an 2:1"
+      "id": 728,
+      "term": "Istihada",
+      "phrase": "Irregular Bleeding",
+      "meaning": "Non-menstrual bleeding in women, which does not prevent prayer or fasting.",
+      "example": "She continued praying during Istihada after consulting a scholar.",
+      "reference": "Hadith: Sahih al-Bukhari 1.6.303"
     },
     {
-      "id": 57,
-      "term": "Surah",
-      "phrase": "Chapter",
-      "meaning": "A chapter of the Qur'an, consisting of multiple verses.",
-      "example": "Surah Al-Fatihah is recited in every Salah.",
-      "reference": "Qur'an 1:1"
+      "id": 729,
+      "term": "Nifas",
+      "phrase": "Postpartum Bleeding",
+      "meaning": "The bleeding experienced by a woman after childbirth, during which she is exempt from Salah.",
+      "example": "She resumed praying after her Nifas period ended.",
+      "reference": "Hadith: Sahih Muslim 1.477"
     },
     {
-      "id": 58,
-      "term": "Khutbah",
-      "phrase": "Sermon",
-      "meaning": "A religious sermon delivered, typically during Friday prayers.",
-      "example": "The Imam's Khutbah focused on charity.",
-      "reference": "Hadith: Sahih al-Bukhari 2.13.56"
+      "id": 730,
+      "term": "Haid",
+      "phrase": "Menstruation",
+      "meaning": "The monthly menstrual cycle, during which women are exempt from Salah and fasting.",
+      "example": "She paused fasting during Haid and made up the days later.",
+      "reference": "Qur'an 2:222"
     },
     {
-      "id": 59,
-      "term": "Istikhara",
-      "phrase": "Prayer for Guidance",
-      "meaning": "A prayer seeking Allah's guidance in making a decision.",
-      "example": "She prayed Istikhara before choosing her career path.",
-      "reference": "Hadith: Sahih al-Bukhari 7.71.638"
-    },
-    {
-      "id": 60,
-      "term": "Mahr",
-      "phrase": "Dowry",
-      "meaning": "A mandatory gift given by the groom to the bride at marriage.",
-      "example": "He gave a Mahr of gold to his bride.",
-      "reference": "Qur'an 4:4"
-    },
-    {
-      "id": 61,
-      "term": "Asr",
-      "phrase": "Afternoon Prayer",
-      "meaning": "The third of the five daily prayers, performed in the afternoon.",
-      "example": "He prayed Asr before heading to work.",
-      "reference": "Qur'an 2:238"
-    },
-    {
-      "id": 62,
-      "term": "Fajr",
-      "phrase": "Dawn Prayer",
-      "meaning": "The first of the five daily prayers, performed before sunrise.",
-      "example": "She woke up early to pray Fajr.",
-      "reference": "Qur'an 24:58"
-    },
-    {
-      "id": 63,
-      "term": "Dhuhr",
-      "phrase": "Noon Prayer",
-      "meaning": "The second of the five daily prayers, performed after the sun passes its zenith.",
-      "example": "The congregation gathered for Dhuhr at the mosque.",
-      "reference": "Qur'an 2:238"
-    },
-    {
-      "id": 64,
-      "term": "Maghrib",
-      "phrase": "Sunset Prayer",
-      "meaning": "The fourth of the five daily prayers, performed just after sunset.",
-      "example": "They prayed Maghrib as the sun set.",
-      "reference": "Qur'an 24:58"
-    },
-    {
-      "id": 65,
-      "term": "Isha",
-      "phrase": "Night Prayer",
-      "meaning": "The fifth of the five daily prayers, performed at night.",
-      "example": "He completed Isha before going to bed.",
-      "reference": "Qur'an 24:58"
-    },
-    {
-      "id": 66,
-      "term": "Jumu'ah",
-      "phrase": "Friday Prayer",
-      "meaning": "The congregational prayer performed on Fridays, replacing Dhuhr.",
-      "example": "The community attended Jumu'ah at the mosque.",
-      "reference": "Qur'an 62:9"
-    },
-    {
-      "id": 67,
-      "term": "Qiyam",
-      "phrase": "Standing in Prayer",
-      "meaning": "Voluntary night prayers, often performed in the last third of the night.",
-      "example": "She performed Qiyam to seek Allah’s forgiveness.",
-      "reference": "Qur'an 73:2"
-    },
-    {
-      "id": 68,
-      "term": "Tahajjud",
-      "phrase": "Night Vigil",
-      "meaning": "A voluntary prayer performed after Isha and before Fajr, typically at night.",
-      "example": "He prayed Tahajjud for spiritual closeness to Allah.",
-      "reference": "Qur'an 17:79"
-    },
-    {
-      "id": 69,
-      "term": "Talbiyah",
-      "phrase": "Pilgrimage Chant",
-      "meaning": "The invocation recited by pilgrims during Hajj and Umrah, expressing devotion.",
-      "example": "Pilgrims chanted Talbiyah as they approached Mecca.",
-      "reference": "Hadith: Sahih Muslim 4.1184"
-    },
-    {
-      "id": 70,
-      "term": "Ihram",
-      "phrase": "State of Purity",
-      "meaning": "The sacred state a pilgrim enters for Hajj or Umrah, including specific garments.",
-      "example": "He entered Ihram before starting his pilgrimage.",
-      "reference": "Qur'an 2:197"
-    },
-    {
-      "id": 71,
-      "term": "Sa'y",
-      "phrase": "Walking Ritual",
-      "meaning": "The ritual of walking seven times between Safa and Marwah during Hajj or Umrah.",
-      "example": "She performed Sa'y as part of her Umrah.",
-      "reference": "Qur'an 2:158"
-    },
-    {
-      "id": 72,
-      "term": "Mina",
-      "phrase": "Valley of Tents",
-      "meaning": "A valley near Mecca where pilgrims stay during Hajj for specific rituals.",
-      "example": "The pilgrims camped in Mina during Hajj.",
-      "reference": "Hadith: Sahih al-Bukhari 2.26.706"
-    },
-    {
-      "id": 73,
-      "term": "Arafat",
-      "phrase": "Plain of Standing",
-      "meaning": "A plain near Mecca where pilgrims stand in prayer on the 9th day of Dhul-Hijjah.",
-      "example": "Standing at Arafat is the pinnacle of Hajj.",
-      "reference": "Hadith: Sahih Muslim 4.1218"
-    },
-    {
-      "id": 74,
-      "term": "Muzdalifah",
-      "phrase": "Gathering Place",
-      "meaning": "An open area where pilgrims collect pebbles and spend the night during Hajj.",
-      "example": "They gathered pebbles in Muzdalifah for the stoning ritual.",
-      "reference": "Hadith: Sahih al-Bukhari 2.26.708"
-    },
-    {
-      "id": 75,
-      "term": "Jamarat",
-      "phrase": "Stoning Pillars",
-      "meaning": "The pillars in Mina where pilgrims throw pebbles during Hajj, symbolizing the rejection of evil.",
-      "example": "He threw pebbles at the Jamarat during Hajj.",
-      "reference": "Hadith: Sahih al-Bukhari 2.26.717"
-    },
-    {
-      "id": 76,
-      "term": "Hadi",
-      "phrase": "Sacrificial Animal",
-      "meaning": "An animal sacrificed during Hajj as part of the pilgrimage rituals.",
-      "example": "They offered a Hadi as part of their Hajj.",
-      "reference": "Qur'an 2:196"
-    },
-    {
-      "id": 77,
-      "term": "Tawbah",
-      "phrase": "Repentance",
-      "meaning": "The act of seeking forgiveness from Allah for sins.",
-      "example": "She made Tawbah after realizing her mistake.",
-      "reference": "Qur'an 66:8"
-    },
-    {
-      "id": 78,
-      "term": "Ghayb",
-      "phrase": "Unseen",
-      "meaning": "Matters known only to Allah, such as the future or the afterlife.",
-      "example": "Belief in the Ghayb is part of Iman.",
-      "reference": "Qur'an 2:3"
-    },
-    {
-      "id": 79,
-      "term": "Sirah",
-      "phrase": "Biography",
-      "meaning": "The biography of Prophet Muhammad, detailing his life and teachings.",
-      "example": "He studied the Sirah to learn about the Prophet’s life.",
-      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
-    },
-    {
-      "id": 80,
-      "term": "Aqidah",
-      "phrase": "Creed",
-      "meaning": "The set of beliefs forming the foundation of Islamic theology.",
-      "example": "Her Aqidah was strengthened through study.",
-      "reference": "Qur'an 2:177"
-    },
-    {
-      "id": 81,
-      "term": "Madhhab",
-      "phrase": "School of Thought",
-      "meaning": "A school of Islamic jurisprudence, such as Hanafi or Maliki.",
-      "example": "He follows the Hanafi Madhhab in his worship.",
-      "reference": "Hadith: Sunan Abu Dawood 1.4597"
-    },
-    {
-      "id": 82,
-      "term": "Mujahid",
-      "phrase": "One Who Strives",
-      "meaning": "A person who engages in Jihad, striving in the way of Allah.",
-      "example": "The Mujahid sought knowledge to strengthen his faith.",
-      "reference": "Qur'an 9:20"
-    },
-    {
-      "id": 83,
-      "term": "Shahadah",
-      "phrase": "Testimony of Faith",
-      "meaning": "The declaration of faith, affirming belief in Allah and His Messenger.",
-      "example": "She recited the Shahadah to embrace Islam.",
-      "reference": "Hadith: Sahih Muslim 1.8"
-    },
-    {
-      "id": 84,
-      "term": "Tasbih",
-      "phrase": "Glorification",
-      "meaning": "The act of saying 'SubhanAllah' to glorify Allah.",
-      "example": "He counted Tasbih on his prayer beads.",
-      "reference": "Qur'an 87:1"
-    },
-    {
-      "id": 85,
-      "term": "Takbir",
-      "phrase": "Magnification",
-      "meaning": "The act of saying 'Allahu Akbar' to proclaim Allah’s greatness.",
-      "example": "The congregation said Takbir during Eid prayers.",
-      "reference": "Qur'an 22:37"
-    },
-    {
-      "id": 86,
-      "term": "Tahlil",
-      "phrase": "Declaration of Oneness",
-      "meaning": "The act of saying 'La ilaha illallah' to affirm Allah’s oneness.",
-      "example": "She recited Tahlil during Dhikr.",
-      "reference": "Qur'an 37:35"
-    },
-    {
-      "id": 87,
-      "term": "Istighfar",
-      "phrase": "Seeking Forgiveness",
-      "meaning": "The act of seeking Allah’s forgiveness for sins.",
-      "example": "He made Istighfar after missing a prayer.",
-      "reference": "Qur'an 71:10"
-    },
-    {
-      "id": 88,
-      "term": "Mu’min",
-      "phrase": "Believer",
-      "meaning": "A person who has faith in Islam and its tenets.",
-      "example": "The Mu’min trusted in Allah’s plan.",
-      "reference": "Qur'an 23:1"
-    },
-    {
-      "id": 89,
-      "term": "Kafir",
-      "phrase": "Disbeliever",
-      "meaning": "A person who rejects faith in Allah or Islam.",
-      "example": "The Qur’an warns against the actions of the Kafir.",
-      "reference": "Qur’an 2:6"
-    },
-    {
-      "id": 90,
-      "term": "Munafiq",
-      "phrase": "Hypocrite",
-      "meaning": "A person who outwardly professes faith but inwardly disbelieves.",
-      "example": "The Munafiq was exposed by his actions.",
-      "reference": "Qur'an 63:1"
-    },
-    {
-      "id": 91,
-      "term": "Fard",
-      "phrase": "Obligatory Duty",
-      "meaning": "An act or worship that is mandatory in Islam.",
-      "example": "Salah is a Fard for every Muslim.",
-      "reference": "Qur'an 2:43"
-    },
-    {
-      "id": 92,
-      "term": "Sunnah Mu’akkadah",
-      "phrase": "Emphasized Practice",
-      "meaning": "A highly recommended practice of the Prophet, nearly obligatory.",
-      "example": "He prayed Sunnah Mu’akkadah before Dhuhr.",
+      "id": 731,
+      "term": "Sunnah Mu'akkadah",
+      "phrase": "Emphasized Sunnah",
+      "meaning": "Voluntary acts regularly performed by the Prophet, strongly recommended for Muslims.",
+      "example": "He never missed the Sunnah Mu'akkadah prayers before Dhuhr.",
       "reference": "Hadith: Sahih al-Bukhari 2.13.1183"
     },
     {
-      "id": 93,
-      "term": "Nawafil",
-      "phrase": "Voluntary Prayers",
-      "meaning": "Optional prayers performed for extra reward.",
-      "example": "She offered Nawafil after Maghrib.",
-      "reference": "Hadith: Sahih Muslim 4.1625"
+      "id": 732,
+      "term": "Sunnah Ghair Mu'akkadah",
+      "phrase": "Non-Emphasized Sunnah",
+      "meaning": "Voluntary acts occasionally performed by the Prophet, less emphasized than Mu'akkadah.",
+      "example": "She performed Sunnah Ghair Mu'akkadah prayers when she had time.",
+      "reference": "Hadith: Sahih Muslim 4.1162"
     },
     {
-      "id": 94,
-      "term": "Qada",
-      "phrase": "Missed Obligation",
-      "meaning": "Making up a missed obligatory act, such as a prayer or fast.",
-      "example": "He performed Qada for a missed Ramadan fast.",
-      "reference": "Hadith: Sahih al-Bukhari 3.31.159"
+      "id": 733,
+      "term": "Nafilah",
+      "phrase": "Supererogatory Acts",
+      "meaning": "Voluntary acts of worship beyond obligatory requirements, such as extra prayers.",
+      "example": "He prayed Nafilah to gain extra rewards.",
+      "reference": "Hadith: Sahih Muslim 4.1163"
     },
     {
-      "id": 95,
-      "term": "Kaffarah",
-      "phrase": "Expiation",
-      "meaning": "An act to atone for certain sins or broken oaths.",
-      "example": "He paid Kaffarah for breaking his fast intentionally.",
-      "reference": "Qur'an 5:89"
-    },
-    {
-      "id": 96,
-      "term": "Niyyah",
-      "phrase": "Intention",
-      "meaning": "The conscious intention to perform an act of worship.",
-      "example": "She made Niyyah before starting her Salah.",
-      "reference": "Hadith: Sahih al-Bukhari 1.1.1"
-    },
-    {
-      "id": 97,
-      "term": "Waqf",
-      "phrase": "Endowment",
-      "meaning": "A charitable endowment for religious or social purposes.",
-      "example": "He established a Waqf to support an orphanage.",
-      "reference": "Hadith: Sahih Muslim 3.4006"
-    },
-    {
-      "id": 98,
-      "term": "Ziyarah",
-      "phrase": "Visitation",
-      "meaning": "Visiting sacred sites or graves, such as the Prophet’s mosque.",
-      "example": "She made Ziyarah to Madinah after Hajj.",
-      "reference": "Hadith: Sahih Muslim 4.1395"
-    },
-    {
-      "id": 99,
-      "term": "Hifz",
-      "phrase": "Memorization",
-      "meaning": "The act of memorizing the Qur'an.",
-      "example": "He completed Hifz of the Qur’an at a young age.",
-      "reference": "Qur'an 54:17"
-    },
-    {
-      "id": 100,
-      "term": "Tajwid",
-      "phrase": "Qur'anic Recitation",
-      "meaning": "The rules governing the proper recitation of the Qur'an.",
-      "example": "She studied Tajwid to perfect her Qur’anic recitation.",
-      "reference": "Qur'an 73:4"
-    },
-    {
-      "id": 101,
-      "term": "Qari",
-      "phrase": "Reciter",
-      "meaning": "A person skilled in reciting the Qur’an with Tajwid.",
-      "example": "The Qari’s recitation moved the congregation.",
-      "reference": "Qur'an 73:4"
-    },
-    {
-      "id": 102,
-      "term": "Mufti",
-      "phrase": "Jurisconsult",
-      "meaning": "An Islamic scholar qualified to issue legal opinions (Fatwas).",
-      "example": "The Mufti provided guidance on inheritance laws.",
-      "reference": "Qur'an 4:127"
-    },
-    {
-      "id": 103,
-      "term": "Dua Qunut",
-      "phrase": "Supplication of Standing",
-      "meaning": "A special supplication recited during certain prayers, often in Witr.",
-      "example": "He recited Dua Qunut during Witr prayer.",
-      "reference": "Hadith: Sunan Abu Dawood 8.1425"
-    },
-    {
-      "id": 104,
-      "term": "Witr",
-      "phrase": "Odd-Numbered Prayer",
-      "meaning": "A voluntary prayer performed after Isha, typically in odd numbers.",
-      "example": "She prayed three Rak’ahs of Witr before sleeping.",
-      "reference": "Hadith: Sahih Muslim 4.1663"
-    },
-    {
-      "id": 105,
-      "term": "Ruku",
-      "phrase": "Bowing",
-      "meaning": "The act of bowing during Salah, a key component of the prayer.",
-      "example": "In Ruku, he glorified Allah.",
-      "reference": "Qur'an 2:43"
-    },
-    {
-      "id": 106,
-      "term": "Ihsan",
-      "phrase": "Excellence",
-      "meaning": "Worshipping Allah as though you see Him, striving for perfection in faith.",
-      "example": "She practiced Ihsan in her daily worship.",
-      "reference": "Hadith: Sahih Muslim 1.8"
-    },
-    {
-      "id": 107,
-      "term": "Adab",
-      "phrase": "Etiquette",
-      "meaning": "Manners and moral conduct in accordance with Islamic teachings.",
-      "example": "He showed Adab by respecting his elders.",
-      "reference": "Hadith: Sahih al-Bukhari 8.73.56"
-    },
-    {
-      "id": 108,
-      "term": "Amanah",
-      "phrase": "Trust",
-      "meaning": "The responsibility to fulfill trusts and obligations.",
-      "example": "She upheld Amanah by safeguarding the donation.",
-      "reference": "Qur'an 4:58"
-    },
-    {
-      "id": 109,
-      "term": "Birr",
-      "phrase": "Righteousness",
-      "meaning": "Acts of kindness and piety, especially toward parents and kin.",
-      "example": "His Birr toward his parents was exemplary.",
-      "reference": "Qur'an 2:177"
-    },
-    {
-      "id": 110,
-      "term": "Fasiq",
-      "phrase": "Transgressor",
-      "meaning": "A person who openly disobeys Allah’s commands.",
-      "example": "The Fasiq ignored the call to prayer.",
-      "reference": "Qur'an 5:47"
-    },
-    {
-      "id": 111,
-      "term": "Hajj Tamattu",
-      "phrase": "Enjoyed Pilgrimage",
-      "meaning": "A type of Hajj where pilgrims perform Umrah and Hajj with a break in between.",
-      "example": "They chose Hajj Tamattu for their pilgrimage.",
-      "reference": "Qur'an 2:196"
-    },
-    {
-      "id": 112,
-      "term": "Hajj Qiran",
-      "phrase": "Combined Pilgrimage",
-      "meaning": "A type of Hajj where Umrah and Hajj are performed without a break.",
-      "example": "He performed Hajj Qiran during his trip.",
-      "reference": "Qur'an 2:196"
-    },
-    {
-      "id": 113,
-      "term": "Hajj Ifrad",
-      "phrase": "Single Pilgrimage",
-      "meaning": "A type of Hajj where only Hajj is performed without Umrah.",
-      "example": "She opted for Hajj Ifrad due to time constraints.",
-      "reference": "Qur'an 2:196"
-    },
-    {
-      "id": 114,
-      "term": "Laylat al-Qadr",
-      "phrase": "Night of Decree",
-      "meaning": "A blessed night in Ramadan when the Qur’an was first revealed.",
-      "example": "She prayed all night on Laylat al-Qadr.",
-      "reference": "Qur'an 97:1"
-    },
-    {
-      "id": 115,
-      "term": "Itikaf",
-      "phrase": "Seclusion",
-      "meaning": "Retreating to a mosque for worship, typically in the last ten days of Ramadan.",
-      "example": "He observed Itikaf to focus on worship.",
-      "reference": "Qur'an 2:187"
-    },
-    {
-      "id": 116,
-      "term": "Infaq",
-      "phrase": "Spending",
-      "meaning": "Spending in the way of Allah, including charity and support for others.",
-      "example": "Her Infaq helped build a community center.",
-      "reference": "Qur'an 2:261"
-    },
-    {
-      "id": 117,
-      "term": "Mawlid",
-      "phrase": "Prophet’s Birthday",
-      "meaning": "The celebration of the birth of Prophet Muhammad.",
-      "example": "The community gathered for Mawlid celebrations.",
-      "reference": "Hadith: Sunan an-Nasa'i 1.213"
-    },
-    {
-      "id": 118,
-      "term": "Qisas",
-      "phrase": "Retaliation",
-      "meaning": "The principle of equal retaliation in Islamic law for certain crimes.",
-      "example": "The judge applied Qisas in the case of intentional harm.",
-      "reference": "Qur'an 2:178"
-    },
-    {
-      "id": 119,
-      "term": "Diyah",
-      "phrase": "Blood Money",
-      "meaning": "Compensation paid to the victim’s family in cases of unintentional harm.",
-      "example": "The family accepted Diyah to settle the dispute.",
-      "reference": "Qur'an 4:92"
-    },
-    {
-      "id": 120,
-      "term": "Wasiyyah",
-      "phrase": "Will",
-      "meaning": "A legal document specifying the distribution of one’s wealth after death.",
-      "example": "He wrote a Wasiyyah to ensure fair inheritance.",
-      "reference": "Qur'an 2:180"
-    },
-    {
-      "id": 121,
-      "term": "Husn al-Khatimah",
-      "phrase": "Good Ending",
-      "meaning": "Dying in a state of faith and righteousness, ensuring a favorable afterlife.",
-      "example": "She prayed for Husn al-Khatimah in her final days.",
-      "reference": "Hadith: Sahih Muslim 4.2687"
-    },
-    {
-      "id": 122,
-      "term": "Barzakh",
-      "phrase": "Barrier",
-      "meaning": "The intermediate state between death and the Day of Resurrection.",
-      "example": "Souls reside in the Barzakh until Judgment Day.",
-      "reference": "Qur'an 23:100"
-    },
-    {
-      "id": 123,
-      "term": "Hashr",
-      "phrase": "Gathering",
-      "meaning": "The gathering of all beings on the Day of Resurrection for judgment.",
-      "example": "The Qur’an describes the Hashr as a day of accountability.",
-      "reference": "Qur'an 50:44"
-    },
-    {
-      "id": 124,
-      "term": "Mizan",
-      "phrase": "Scale",
-      "meaning": "The balance used to weigh deeds on the Day of Judgment.",
-      "example": "Good deeds will tip the Mizan in favor of the righteous.",
-      "reference": "Qur'an 21:47"
-    },
-    {
-      "id": 125,
-      "term": "Sirat",
-      "phrase": "Bridge",
-      "meaning": "The narrow bridge over Hellfire that all must cross on Judgment Day.",
-      "example": "The faithful will cross the Sirat to reach Jannah.",
-      "reference": "Hadith: Sahih al-Bukhari 8.76.577"
-    },
-    {
-      "id": 126,
-      "term": "Hawd",
-      "phrase": "Basin",
-      "meaning": "The Prophet’s basin on Judgment Day, from which believers drink.",
-      "example": "Those who drink from the Hawd will never thirst again.",
-      "reference": "Hadith: Sahih Muslim 4.2290"
-    },
-    {
-      "id": 127,
-      "term": "Shafa’ah",
-      "phrase": "Intercession",
-      "meaning": "The act of interceding for others on the Day of Judgment, granted to the Prophet.",
-      "example": "Muslims hope for the Prophet’s Shafa’ah on Judgment Day.",
-      "reference": "Hadith: Sahih al-Bukhari 8.76.563"
-    },
-    {
-      "id": 128,
-      "term": "Fitnah",
-      "phrase": "Trial",
-      "meaning": "A test or tribulation that challenges a believer’s faith.",
-      "example": "He remained steadfast during the Fitnah in his community.",
-      "reference": "Qur'an 29:2"
-    },
-    {
-      "id": 129,
-      "term": "Bid’ah",
+      "id": 734,
+      "term": "Bid'ah",
       "phrase": "Innovation",
-      "meaning": "Introducing new practices in religion that were not part of the Sunnah.",
-      "example": "Scholars warned against Bid’ah in worship practices.",
+      "meaning": "Innovations in religion that lack evidence from the Qur'an or Sunnah, often discouraged.",
+      "example": "Some scholars warned against Bid'ah in worship practices.",
       "reference": "Hadith: Sahih Muslim 4.867"
     },
     {
-      "id": 130,
-      "term": "Tabaqat",
-      "phrase": "Generations",
-      "meaning": "The classification of early Muslim scholars and companions by generation.",
-      "example": "He studied the Tabaqat to learn about the Sahaba.",
-      "reference": "Hadith: Sahih al-Bukhari 5.57"
+      "id": 735,
+      "term": "Fasiq",
+      "phrase": "Sinner",
+      "meaning": "A Muslim who commits major sins but does not deny faith.",
+      "example": "The Fasiq was urged to repent for his actions.",
+      "reference": "Qur'an 49:6"
     },
     {
-      "id": 131,
-      "term": "Sahaba",
-      "phrase": "Companions",
-      "meaning": "The companions of Prophet Muhammad who saw or met him.",
-      "example": "The Sahaba were role models for later Muslims.",
-      "reference": "Qur'an 9:100"
+      "id": 736,
+      "term": "Murtadd",
+      "phrase": "Apostate",
+      "meaning": "A person who abandons Islam after accepting it, considered a serious offense.",
+      "example": "Scholars advised counseling for the Murtadd to return to faith.",
+      "reference": "Qur'an 2:217"
     },
     {
-      "id": 132,
-      "term": "Tabi’in",
-      "phrase": "Successors",
-      "meaning": "The generation of Muslims who followed the Sahaba.",
-      "example": "The Tabi’in preserved the teachings of the Sahaba.",
-      "reference": "Hadith: Sahih al-Bukhari 5.57"
+      "id": 737,
+      "term": "Riddah",
+      "phrase": "Apostasy",
+      "meaning": "The act of renouncing or abandoning the Islamic faith.",
+      "example": "Riddah is addressed with guidance and compassion in Islam.",
+      "reference": "Qur'an 2:217"
     },
     {
-      "id": 133,
-      "term": "Tabi’ Tabi’in",
-      "phrase": "Successors’ Successors",
-      "meaning": "The generation after the Tabi’in, known for their scholarship.",
-      "example": "Many scholars of Fiqh belonged to the Tabi’ Tabi’in.",
-      "reference": "Hadith: Sahih Muslim 4.2533"
+      "id": 738,
+      "term": "Takfir",
+      "phrase": "Declaring Disbelief",
+      "meaning": "The act of declaring someone a disbeliever, a sensitive issue requiring scholarly caution.",
+      "example": "Takfir is avoided without clear evidence due to its gravity.",
+      "reference": "Qur'an 4:94"
     },
     {
-      "id": 134,
-      "term": "Isnad",
-      "phrase": "Chain of Narration",
-      "meaning": "The chain of narrators verifying the authenticity of a Hadith.",
-      "example": "The Hadith’s Isnad was scrutinized for reliability.",
-      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
+      "id": 739,
+      "term": "Irtidad",
+      "phrase": "Apostasy",
+      "meaning": "Another term for Riddah, the act of leaving Islam.",
+      "example": "Irtidad is considered a serious matter in Islamic law.",
+      "reference": "Qur'an 2:217"
     },
     {
-      "id": 135,
-      "term": "Matn",
-      "phrase": "Text of Hadith",
-      "meaning": "The actual content or text of a Hadith, excluding its chain of narration.",
-      "example": "The Matn of the Hadith emphasized kindness to parents.",
-      "reference": "Hadith: Sahih Muslim 4.2548"
+      "id": 740,
+      "term": "Mushrik",
+      "phrase": "Polytheist",
+      "meaning": "A person who commits Shirk by associating partners with Allah.",
+      "example": "The Qur'an calls the Mushrik to worship Allah alone.",
+      "reference": "Qur'an 6:106"
     },
     {
-      "id": 136,
-      "term": "Sahih",
-      "phrase": "Authentic",
-      "meaning": "A classification of Hadith indicating its highest level of authenticity.",
-      "example": "Sahih al-Bukhari contains only Sahih Hadiths.",
-      "reference": "Hadith: Sahih al-Bukhari 1.1.1"
+      "id": 741,
+      "term": "Kafir",
+      "phrase": "Disbeliever",
+      "meaning": "A person who rejects faith in Allah or His messengers.",
+      "example": "The Qur'an warns the Kafir of consequences in the Hereafter.",
+      "reference": "Qur'an 2:6"
     },
     {
-      "id": 137,
-      "term": "Hasan",
-      "phrase": "Good",
-      "meaning": "A Hadith classification indicating good authenticity, slightly below Sahih.",
-      "example": "The Hasan Hadith was accepted for practice.",
-      "reference": "Hadith: Sunan at-Tirmidhi 1.1.1"
+      "id": 742,
+      "term": "Munafiq",
+      "phrase": "Hypocrite",
+      "meaning": "A person who outwardly professes Islam but inwardly disbelieves.",
+      "example": "The Munafiq was warned of a severe punishment in the Qur'an.",
+      "reference": "Qur'an 63:1"
     },
     {
-      "id": 138,
-      "term": "Da’if",
-      "phrase": "Weak",
-      "meaning": "A Hadith classification indicating weak authenticity, not reliable for rulings.",
-      "example": "The Da’if Hadith was not used for legal decisions.",
-      "reference": "Hadith: Sunan Ibn Majah 1.1.1"
+      "id": 743,
+      "term": "Mu'min",
+      "phrase": "Believer",
+      "meaning": "A person who has true faith in Allah and His messengers.",
+      "example": "The Mu'min strives to follow the Qur'an and Sunnah.",
+      "reference": "Qur'an 2:285"
     },
     {
-      "id": 139,
-      "term": "Mawdu’",
-      "phrase": "Fabricated",
-      "meaning": "A Hadith that is falsely attributed to the Prophet.",
-      "example": "Scholars rejected the Mawdu’ Hadith as fabricated.",
-      "reference": "Hadith: Sahih Muslim 1.1"
+      "id": 744,
+      "term": "Muslim",
+      "phrase": "One Who Submits",
+      "meaning": "A person who submits to Allah's will and follows Islam.",
+      "example": "As a Muslim, she prayed five times daily.",
+      "reference": "Qur'an 3:64"
     },
     {
-      "id": 140,
-      "term": "Usul al-Fiqh",
-      "phrase": "Principles of Jurisprudence",
-      "meaning": "The methodology for deriving Islamic legal rulings.",
-      "example": "He studied Usul al-Fiqh to understand Shari’ah rulings.",
+      "id": 745,
+      "term": "Ummah",
+      "phrase": "Community",
+      "meaning": "The global community of Muslims united by faith.",
+      "example": "The Ummah came together to support the needy.",
+      "reference": "Qur'an 2:143"
+    },
+    {
+      "id": 746,
+      "term": "Shura",
+      "phrase": "Consultation",
+      "meaning": "The Islamic principle of mutual consultation in decision-making.",
+      "example": "The community held Shura to decide on the new mosque project.",
+      "reference": "Qur'an 42:38"
+    },
+    {
+      "id": 747,
+      "term": "Ahl al-Fatwa",
+      "phrase": "People of Legal Opinion",
+      "meaning": "Scholars qualified to issue religious rulings or Fatwas.",
+      "example": "The Ahl al-Fatwa provided guidance on modern issues.",
       "reference": "Qur'an 4:59"
     },
     {
-      "id": 141,
-      "term": "Qiyam al-Layl",
-      "phrase": "Night Prayer",
-      "meaning": "Voluntary prayers performed at night, synonymous with Tahajjud.",
-      "example": "She dedicated time to Qiyam al-Layl during Ramadan.",
-      "reference": "Qur'an 73:2"
+      "id": 748,
+      "term": "Ahl al-Hadith",
+      "phrase": "People of Hadith",
+      "meaning": "Scholars or groups emphasizing the importance of Hadith in Islamic law and practice.",
+      "example": "The Ahl al-Hadith prioritized authentic narrations in their rulings.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
     },
     {
-      "id": 142,
-      "term": "Duha",
-      "phrase": "Forenoon Prayer",
-      "meaning": "A voluntary prayer performed after sunrise and before noon.",
-      "example": "He prayed Duha to seek Allah’s blessings.",
-      "reference": "Hadith: Sahih Muslim 4.1656"
+      "id": 749,
+      "term": "Ahl as-Sunnah",
+      "phrase": "People of the Sunnah",
+      "meaning": "Muslims who adhere to the Sunnah and mainstream Islamic beliefs.",
+      "example": "Ahl as-Sunnah follow the teachings of the Prophet and his companions.",
+      "reference": "Qur'an 3:110"
     },
     {
-      "id": 143,
-      "term": "Salat al-Istikhara",
-      "phrase": "Guidance Prayer",
-      "meaning": "A two-prayer unit performed to seek Allah’s guidance in decisions.",
-      "example": "She prayed Salat al-Istikhara before accepting the job.",
-      "reference": "Hadith: Sahih al-Bukhari 2.21.263"
+      "id": 750,
+      "term": "Ittihad",
+      "phrase": "Unity",
+      "meaning": "The concept of unity among Muslims, emphasizing solidarity and cooperation.",
+      "example": "Ittihad was emphasized during the community's charity drive.",
+      "reference": "Qur'an 3:103"
     },
     {
-      "id": 144,
-      "term": "Salat al-Tasbih",
-      "phrase": "Prayer of Glorification",
-      "meaning": "A special voluntary prayer involving extensive glorification of Allah.",
-      "example": "He performed Salat al-Tasbih for forgiveness.",
-      "reference": "Hadith: Sunan Abu Dawood 8.1297"
+      "id": 751,
+      "term": "Ikhtilaf",
+      "phrase": "Difference of Opinion",
+      "meaning": "Legitimate scholarly disagreement on Islamic rulings, respected in Islamic tradition.",
+      "example": "The Ikhtilaf among scholars allowed flexibility in practice.",
+      "reference": "Qur'an 4:59"
     },
     {
-      "id": 145,
-      "term": "Salat al-Janazah",
-      "phrase": "Funeral Prayer",
-      "meaning": "A communal prayer performed for a deceased Muslim.",
-      "example": "The community gathered for Salat al-Janazah at the mosque.",
-      "reference": "Hadith: Sahih al-Bukhari 2.23.337"
+      "id": 752,
+      "term": "Tawatur",
+      "phrase": "Mass Transmission",
+      "meaning": "The highest level of Hadith authenticity, transmitted by many narrators at each level.",
+      "example": "The Hadith about Salah is considered Tawatur.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
     },
     {
-      "id": 146,
-      "term": "Khushu",
-      "phrase": "Humility",
-      "meaning": "The state of humility and focus during prayer or worship.",
-      "example": "She prayed with Khushu, fully absorbed in devotion.",
-      "reference": "Qur'an 23:2"
+      "id": 753,
+      "term": "Isnad",
+      "phrase": "Chain of Narration",
+      "meaning": "The chain of narrators transmitting a Hadith, ensuring its authenticity.",
+      "example": "The Hadith's Isnad was verified by scholars.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
     },
     {
-      "id": 147,
-      "term": "Tawakkul",
-      "phrase": "Reliance",
-      "meaning": "Complete trust and reliance on Allah for all matters.",
-      "example": "He practiced Tawakkul by trusting Allah’s plan.",
-      "reference": "Qur'an 3:159"
+      "id": 754,
+      "term": "Matn",
+      "phrase": "Text of Hadith",
+      "meaning": "The actual content or wording of a Hadith, distinct from its chain of narration.",
+      "example": "The Matn of the Hadith emphasized kindness to neighbors.",
+      "reference": "Hadith: Sahih Muslim 1.74"
     },
     {
-      "id": 148,
-      "term": "Ikhlas",
-      "phrase": "Sincerity",
-      "meaning": "Performing acts of worship purely for Allah’s sake.",
-      "example": "Her charity was given with Ikhlas, seeking no worldly reward.",
-      "reference": "Qur'an 98:5"
+      "id": 755,
+      "term": "Sahih",
+      "phrase": "Authentic Hadith",
+      "meaning": "A Hadith with a reliable chain of narration and no defects.",
+      "example": "The Sahih Hadith was used as evidence in the ruling.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
     },
     {
-      "id": 149,
-      "term": "Rizq",
-      "phrase": "Provision",
-      "meaning": "The sustenance and provisions provided by Allah.",
-      "example": "He trusted Allah would provide his Rizq.",
-      "reference": "Qur'an 11:6"
+      "id": 756,
+      "term": "Hasan",
+      "phrase": "Good Hadith",
+      "meaning": "A Hadith with a good chain of narration but slightly less reliable than Sahih.",
+      "example": "The Hasan Hadith supported the recommended practice.",
+      "reference": "Hadith: Sunan at-Tirmidhi 1.1.1"
     },
     {
-      "id": 150,
-      "term": "Haya",
-      "phrase": "Modesty",
-      "meaning": "A sense of shame and modesty that guides moral behavior.",
-      "example": "Her Haya was evident in her modest attire.",
-      "reference": "Hadith: Sahih al-Bukhari 1.1.9"
+      "id": 757,
+      "term": "Da'if",
+      "phrase": "Weak Hadith",
+      "meaning": "A Hadith with a flawed or unreliable chain of narration.",
+      "example": "Scholars avoided the Da'if Hadith in legal rulings.",
+      "reference": "Hadith: Sunan at-Tirmidhi 1.1.1"
     },
     {
-      "id": 151,
-      "term": "Silat al-Rahm",
-      "phrase": "Kinship Ties",
-      "meaning": "Maintaining and strengthening family relationships.",
-      "example": "He practiced Silat al-Rahm by visiting his relatives.",
-      "reference": "Qur'an 4:1"
+      "id": 758,
+      "term": "Mawdu",
+      "phrase": "Fabricated Hadith",
+      "meaning": "A Hadith that is falsely attributed to the Prophet, considered invalid.",
+      "example": "The Mawdu Hadith was rejected by the scholars.",
+      "reference": "Hadith: Sahih al-Bukhari 1.3.108"
     },
     {
-      "id": 152,
-      "term": "Ghibah",
-      "phrase": "Backbiting",
-      "meaning": "Speaking negatively about someone in their absence, prohibited in Islam.",
-      "example": "She avoided Ghibah to maintain good character.",
-      "reference": "Qur'an 49:12"
+      "id": 759,
+      "term": "Athar",
+      "phrase": "Narration",
+      "meaning": "Sayings or actions attributed to the Companions or Successors, not the Prophet.",
+      "example": "The Athar of Umar provided guidance on governance.",
+      "reference": "Hadith: Sahih Muslim 1.1"
     },
     {
-      "id": 153,
-      "term": "Namimah",
-      "phrase": "Tale-bearing",
-      "meaning": "Spreading gossip or tales to cause discord, forbidden in Islam.",
-      "example": "He refrained from Namimah to promote unity.",
-      "reference": "Qur'an 68:11"
+      "id": 760,
+      "term": "Riwayah",
+      "phrase": "Transmission",
+      "meaning": "The process of narrating or transmitting Hadith or Islamic knowledge.",
+      "example": "The Riwayah of Hadith preserved the Prophet's legacy.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
     },
     {
-      "id": 154,
-      "term": "Riya",
-      "phrase": "Showing Off",
-      "meaning": "Performing good deeds to impress others, nullifying sincerity.",
-      "example": "She avoided Riya by keeping her charity anonymous.",
-      "reference": "Qur'an 4:38"
+      "id": 761,
+      "term": "Sanad",
+      "phrase": "Chain of Authority",
+      "meaning": "Another term for Isnad, the chain of narrators for a Hadith.",
+      "example": "The Sanad was checked to confirm the Hadith's authenticity.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
     },
     {
-      "id": 155,
-      "term": "Hasad",
-      "phrase": "Envy",
-      "meaning": "Wishing for the loss of another’s blessings, a sin in Islam.",
-      "example": "He overcame Hasad by praying for others’ success.",
-      "reference": "Qur'an 113:5"
+      "id": 762,
+      "term": "Rawi",
+      "phrase": "Narrator",
+      "meaning": "A person who narrates a Hadith, part of the chain of transmission.",
+      "example": "The Rawi was known for his reliability in Hadith narration.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
     },
     {
-      "id": 156,
+      "id": 763,
+      "term": "Hadith Mutawatir",
+      "phrase": "Mass-Transmitted Hadith",
+      "meaning": "A Hadith reported by so many narrators that its authenticity is certain.",
+      "example": "The Hadith Mutawatir about Salah is undeniable.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
+    },
+    {
+      "id": 764,
+      "term": "Hadith Ahad",
+      "phrase": "Solitary Hadith",
+      "meaning": "A Hadith narrated by fewer people, less certain than Mutawatir but still valid.",
+      "example": "The Hadith Ahad provided guidance on charity.",
+      "reference": "Hadith: Sahih Muslim 1.1"
+    },
+    {
+      "id": 765,
+      "term": "Hadith Qudsi",
+      "phrase": "Divine Hadith",
+      "meaning": "A Hadith where the Prophet conveys Allah's words, distinct from the Qur'an.",
+      "example": "The Hadith Qudsi emphasized Allah's mercy.",
+      "reference": "Hadith: Sahih al-Bukhari 9.93.601"
+    },
+    {
+      "id": 766,
+      "term": "Mursal",
+      "phrase": "Disconnected Hadith",
+      "meaning": "A Hadith where a narrator omits the name of the Companion, reducing its reliability.",
+      "example": "The Mursal Hadith was carefully evaluated by scholars.",
+      "reference": "Hadith: Sunan at-Tirmidhi 1.1.1"
+    },
+    {
+      "id": 767,
+      "term": "Mu'allaq",
+      "phrase": "Suspended Hadith",
+      "meaning": "A Hadith missing one or more narrators at the beginning of its chain.",
+      "example": "The Mu'allaq Hadith required further verification.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
+    },
+    {
+      "id": 768,
+      "term": "Musnad",
+      "phrase": "Supported Hadith",
+      "meaning": "A Hadith with a complete chain of narration traced back to the Prophet.",
+      "example": "The Musnad Hadith was used as a reliable source.",
+      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
+    },
+    {
+      "id": 769,
+      "term": "Marfu",
+      "phrase": "Elevated Hadith",
+      "meaning": "A Hadith directly attributed to the Prophet, regardless of the chain's strength.",
+      "example": "The Marfu Hadith provided clear guidance on fasting.",
+      "reference": "Hadith: Sahih Muslim 1.1"
+    },
+    {
+      "id": 770,
+      "term": "Mawquf",
+      "phrase": "Stopped Hadith",
+      "meaning": "A Hadith attributed to a Companion, not the Prophet, but still valuable.",
+      "example": "The Mawquf Hadith reflected the Companion's understanding.",
+      "reference": "Hadith: Sahih Muslim 1.1"
+    },
+    {
+      "id": 771,
+      "term": "Maqtu",
+      "phrase": "Cut-Off Hadith",
+      "meaning": "A narration attributed to a Successor (Tabi'i), not the Prophet or a Companion.",
+      "example": "The Maqtu narration offered historical context.",
+      "reference": "Hadith: Sunan at-Tirmidhi 1.1.1"
+    },
+    {
+      "id": 772,
+      "term": "Hikmah",
+      "phrase": "Wisdom",
+      "meaning": "The ability to make sound judgments and decisions based on Islamic knowledge.",
+      "example": "Her Hikmah guided her in resolving disputes peacefully.",
+      "reference": "Qur'an 2:269"
+    },
+    {
+      "id": 773,
+      "term": "Ilm",
+      "phrase": "Knowledge",
+      "meaning": "Islamic knowledge, particularly of the Qur'an, Sunnah, and religious sciences.",
+      "example": "He sought Ilm by studying under a scholar.",
+      "reference": "Qur'an 20:114"
+    },
+    {
+      "id": 774,
+      "term": "Aql",
+      "phrase": "Intellect",
+      "meaning": "The faculty of reasoning and understanding, valued in Islamic thought.",
+      "example": "She used her Aql to interpret the Hadith correctly.",
+      "reference": "Qur'an 2:44"
+    },
+    {
+      "id": 775,
+      "term": "Tarbiyah",
+      "phrase": "Upbringing",
+      "meaning": "The process of raising and educating individuals in accordance with Islamic values.",
+      "example": "Her Tarbiyah ensured her children grew up with strong faith.",
+      "reference": "Qur'an 17:24"
+    },
+    {
+      "id": 776,
+      "term": "Akhlaq",
+      "phrase": "Moral Character",
+      "meaning": "The practice of virtuous behavior and ethics in Islam.",
+      "example": "His Akhlaq earned him respect in the community.",
+      "reference": "Qur'an 68:4"
+    },
+    {
+      "id": 777,
+      "term": "Adl",
+      "phrase": "Justice",
+      "meaning": "The concept of fairness and justice in all actions, a key principle in Islam.",
+      "example": "He ensured Adl in distributing the charity funds.",
+      "reference": "Qur'an 4:135"
+    },
+    {
+      "id": 778,
+      "term": "Ihsan",
+      "phrase": "Excellence",
+      "meaning": "Performing actions with sincerity and perfection, as if seeing Allah.",
+      "example": "She practiced Ihsan by praying with full devotion.",
+      "reference": "Hadith: Sahih Muslim 1.1"
+    },
+    {
+      "id": 779,
+      "term": "Taqwah",
+      "phrase": "God-Consciousness",
+      "meaning": "Being mindful of Allah in all actions to avoid sin and seek His pleasure.",
+      "example": "His Taqwah kept him from dishonest dealings.",
+      "reference": "Qur'an 2:197"
+    },
+    {
+      "id": 780,
+      "term": "Sabr",
+      "phrase": "Patience",
+      "meaning": "Enduring trials and difficulties with steadfastness and faith in Allah.",
+      "example": "She showed Sabr during her illness, trusting Allah's plan.",
+      "reference": "Qur'an 2:153"
+    },
+    {
+      "id": 781,
+      "term": "Shukr",
+      "phrase": "Gratitude",
+      "meaning": "Expressing thankfulness to Allah for His blessings.",
+      "example": "He practiced Shukr by giving charity after receiving a promotion.",
+      "reference": "Qur'an 14:7"
+    },
+    {
+      "id": 782,
+      "term": "Rida",
+      "phrase": "Contentment",
+      "meaning": "Being pleased and satisfied with Allah's decrees, whether good or bad.",
+      "example": "Her Rida with Allah's will brought her peace.",
+      "reference": "Qur'an 9:59"
+    },
+    {
+      "id": 783,
+      "term": "Zuhd",
+      "phrase": "Asceticism",
+      "meaning": "Detachment from worldly pleasures in pursuit of spiritual goals.",
+      "example": "His Zuhd led him to live a simple, devout life.",
+      "reference": "Qur'an 57:20"
+    },
+    {
+      "id": 784,
+      "term": "Wara",
+      "phrase": "Scrupulousness",
+      "meaning": "Extreme caution in avoiding doubtful or sinful matters.",
+      "example": "Her Wara kept her from consuming questionable food.",
+      "reference": "Hadith: Sahih Muslim 4.1599"
+    },
+    {
+      "id": 785,
       "term": "Tazkiyah",
       "phrase": "Purification",
-      "meaning": "The spiritual purification of the soul through righteous deeds.",
+      "meaning": "The spiritual process of purifying the soul from sins and bad traits.",
       "example": "She pursued Tazkiyah through constant worship.",
       "reference": "Qur'an 91:9"
     },
     {
-      "id": 157,
-      "term": "Muraqabah",
-      "phrase": "Vigilance",
-      "meaning": "Constant awareness of Allah’s presence and watchfulness.",
-      "example": "He practiced Muraqabah to stay mindful of his actions.",
-      "reference": "Qur'an 89:14"
+      "id": 786,
+      "term": "Murabahah",
+      "phrase": "Cost-Plus Financing",
+      "meaning": "A sale where the seller discloses the cost and adds a fixed profit margin.",
+      "example": "The bank offered a Murabahah contract for the car purchase.",
+      "reference": "Qur'an 2:282"
     },
     {
-      "id": 158,
-      "term": "Muhasabah",
-      "phrase": "Self-Accounting",
-      "meaning": "Reflecting on one’s actions to evaluate and improve oneself.",
-      "example": "She performed Muhasabah every night before sleep.",
-      "reference": "Qur'an 59:18"
+      "id": 787,
+      "term": "Mudarabah",
+      "phrase": "Profit-Sharing Partnership",
+      "meaning": "An Islamic financial contract where one party provides capital and another provides expertise.",
+      "example": "They entered a Mudarabah agreement for their business.",
+      "reference": "Qur'an 4:12"
     },
     {
-      "id": 159,
-      "term": "Jidal",
-      "phrase": "Disputation",
-      "meaning": "Engaging in unnecessary arguments, discouraged in Islam unless for truth.",
-      "example": "He avoided Jidal to maintain harmony.",
-      "reference": "Qur'an 29:46"
+      "id": 788,
+      "term": "Musharakah",
+      "phrase": "Joint Partnership",
+      "meaning": "A partnership where all parties contribute capital and share profits and losses.",
+      "example": "The Musharakah venture funded a community project.",
+      "reference": "Qur'an 4:12"
     },
     {
-      "id": 160,
-      "term": "Taqdir",
-      "phrase": "Divine Destiny",
-      "meaning": "Allah’s preordained plan for all creation.",
-      "example": "She accepted the outcome as part of Allah’s Taqdir.",
-      "reference": "Qur'an 54:49"
+      "id": 789,
+      "term": "Ijarah",
+      "phrase": "Leasing",
+      "meaning": "An Islamic financial contract for leasing assets or services.",
+      "example": "She signed an Ijarah agreement to rent the property.",
+      "reference": "Qur'an 28:26"
     },
     {
-      "id": 161,
-      "term": "Ijazah",
-      "phrase": "Certification",
-      "meaning": "A permission granted by a scholar to teach or transmit knowledge.",
-      "example": "He received an Ijazah in Hadith studies.",
-      "reference": "Hadith: Sahih al-Bukhari 1.1.3"
+      "id": 790,
+      "term": "Wadiah",
+      "phrase": "Safekeeping",
+      "meaning": "A contract where one party entrusts property to another for safekeeping.",
+      "example": "The bank offered Wadiah services for her valuables.",
+      "reference": "Qur'an 2:283"
     },
     {
-      "id": 162,
-      "term": "Mahr Mu’ajjal",
-      "phrase": "Prompt Dowry",
-      "meaning": "The dowry paid to the bride at the time of the marriage contract.",
-      "example": "He paid the Mahr Mu’ajjal during the Nikah.",
+      "id": 791,
+      "term": "Hibah",
+      "phrase": "Gift",
+      "meaning": "A voluntary transfer of property or wealth without expecting anything in return.",
+      "example": "He gave a Hibah of land to the mosque.",
       "reference": "Qur'an 4:4"
     },
     {
-      "id": 163,
-      "term": "Mahr Mu’akhkhar",
-      "phrase": "Deferred Dowry",
-      "meaning": "The dowry agreed to be paid to the wife later, often upon divorce or death.",
-      "example": "The Mahr Mu’akhkhar was set for future payment.",
-      "reference": "Qur'an 4:4"
+      "id": 792,
+      "term": "Qard Hasan",
+      "phrase": "Benevolent Loan",
+      "meaning": "An interest-free loan given for charity or assistance, repayable without profit.",
+      "example": "She offered a Qard Hasan to help her struggling neighbor.",
+      "reference": "Qur'an 2:245"
     },
     {
-      "id": 164,
-      "term": "Khula",
-      "phrase": "Divorce Initiated by Wife",
-      "meaning": "A divorce initiated by the wife, often involving returning the dowry.",
-      "example": "She sought Khula to end her marriage.",
-      "reference": "Qur'an 2:229"
+      "id": 793,
+      "term": "Riba",
+      "phrase": "Usury",
+      "meaning": "The prohibition of interest-based transactions in Islamic law.",
+      "example": "He avoided Riba by choosing an Islamic bank.",
+      "reference": "Qur'an 2:275"
     },
     {
-      "id": 165,
-      "term": "Iddah",
-      "phrase": "Waiting Period",
-      "meaning": "The period a woman must observe after divorce or widowhood before remarrying.",
-      "example": "She observed her Iddah after her husband’s passing.",
-      "reference": "Qur'an 2:228"
+      "id": 794,
+      "term": "Gharar",
+      "phrase": "Uncertainty",
+      "meaning": "Prohibited excessive risk or ambiguity in contracts, such as speculative transactions.",
+      "example": "The contract was void due to Gharar in its terms.",
+      "reference": "Hadith: Sahih Muslim 10.1513"
     },
     {
-      "id": 166,
-      "term": "Nasiha",
-      "phrase": "Sincere Advice",
-      "meaning": "Offering sincere and beneficial advice to others for their well-being.",
-      "example": "He gave Nasiha to his friend about avoiding sin.",
-      "reference": "Hadith: Sahih Muslim 1.205"
+      "id": 795,
+      "term": "Bay al-Salam",
+      "phrase": "Forward Sale",
+      "meaning": "A contract where payment is made upfront for goods delivered later.",
+      "example": "The farmer agreed to a Bay al-Salam for his crops.",
+      "reference": "Hadith: Sahih al-Bukhari 3.35.441"
     },
     {
-      "id": 167,
-      "term": "Satr",
-      "phrase": "Covering",
-      "meaning": "Concealing the faults of others to protect their dignity.",
-      "example": "She practiced Satr by not exposing her neighbor’s mistake.",
-      "reference": "Hadith: Sahih Muslim 4.2589"
+      "id": 796,
+      "term": "Bay al-Istisna",
+      "phrase": "Manufacturing Contract",
+      "meaning": "A contract for the manufacture and delivery of custom-made goods.",
+      "example": "The artisan signed a Bay al-Istisna for custom furniture.",
+      "reference": "Qur'an 2:282"
     },
     {
-      "id": 168,
-      "term": "Wali",
-      "phrase": "Guardian",
-      "meaning": "A male guardian responsible for a woman’s marriage arrangements.",
-      "example": "Her father acted as her Wali during the Nikah.",
-      "reference": "Qur'an 4:25"
-    },
-    {
-      "id": 169,
-      "term": "Mahr Mithl",
-      "phrase": "Customary Dowry",
-      "meaning": "A dowry equivalent to what is typically given in similar circumstances.",
-      "example": "The bride received a Mahr Mithl as per local custom.",
-      "reference": "Qur'an 4:25"
-    },
-    {
-      "id": 170,
-      "term": "Fidya",
-      "phrase": "Compensation",
-      "meaning": "A payment made to compensate for missed obligatory acts, like fasting.",
-      "example": "She paid Fidya for missing Ramadan fasts due to illness.",
-      "reference": "Qur'an 2:184"
-    },
-    {
-      "id": 171,
-      "term": "Hajj al-Badal",
-      "phrase": "Proxy Pilgrimage",
-      "meaning": "Performing Hajj on behalf of someone unable to do so.",
-      "example": "He performed Hajj al-Badal for his deceased father.",
-      "reference": "Hadith: Sahih al-Bukhari 2.26.589"
-    },
-    {
-      "id": 172,
-      "term": "Talaq",
-      "phrase": "Divorce",
-      "meaning": "The Islamic procedure for a husband to divorce his wife.",
-      "example": "He pronounced Talaq after careful consideration.",
-      "reference": "Qur'an 2:229"
-    },
-    {
-      "id": 173,
-      "term": "Zihar",
-      "phrase": "Pre-Islamic Divorce Oath",
-      "meaning": "A forbidden pre-Islamic practice of likening a wife to a mother, requiring expiation.",
-      "example": "He made expiation for pronouncing Zihar.",
-      "reference": "Qur'an 58:2"
-    },
-    {
-      "id": 174,
-      "term": "Li’an",
-      "phrase": "Mutual Cursing",
-      "meaning": "A procedure for resolving accusations of adultery between spouses through oaths.",
-      "example": "The couple resorted to Li’an to settle their dispute.",
-      "reference": "Qur'an 24:6-9"
-    },
-    {
-      "id": 175,
-      "term": "Mahdi",
-      "phrase": "Guided One",
-      "meaning": "A prophesied figure expected to lead Muslims before the end of times.",
-      "example": "Some Muslims await the arrival of the Mahdi.",
-      "reference": "Hadith: Sunan Abi Dawood 14.4282"
-    },
-    {
-      "id": 176,
-      "term": "Dajjal",
-      "phrase": "False Messiah",
-      "meaning": "A deceptive figure prophesied to appear before the Day of Judgment.",
-      "example": "The Prophet warned about the trials of Dajjal.",
-      "reference": "Hadith: Sahih Muslim 4.2937"
-    },
-    {
-      "id": 177,
-      "term": "Ya’juj wa Ma’juj",
-      "phrase": "Gog and Magog",
-      "meaning": "Two tribes mentioned in the Qur’an, associated with end-times chaos.",
-      "example": "The release of Ya’juj wa Ma’juj is a major sign of the Last Day.",
-      "reference": "Qur'an 18:94"
-    },
-    {
-      "id": 178,
-      "term": "Nuzul Isa",
-      "phrase": "Descent of Jesus",
-      "meaning": "The prophesied return of Prophet Jesus before the Day of Judgment.",
-      "example": "Muslims believe in the Nuzul Isa as a sign of the end times.",
-      "reference": "Hadith: Sahih Muslim 4.2897"
-    },
-    {
-      "id": 179,
-      "term": "Ashura",
-      "phrase": "Tenth of Muharram",
-      "meaning": "The 10th day of Muharram, significant for fasting and historical events.",
-      "example": "He fasted on Ashura to follow the Sunnah.",
-      "reference": "Hadith: Sahih Muslim 4.1130"
-    },
-    {
-      "id": 180,
-      "term": "Karama",
-      "phrase": "Miracle",
-      "meaning": "A miraculous event granted to a righteous person by Allah.",
-      "example": "The scholar’s Karama was a sign of his piety.",
-      "reference": "Qur'an 2:253"
+      "id": 797,
+      "term": "Sukuk",
+      "phrase": "Islamic Bonds",
+      "meaning": "Financial certificates compliant with Shari'ah, representing ownership in an asset.",
+      "example": "The company issued Sukuk to raise funds for expansion.",
+      "reference": "Qur'an 2:282"
     }
   ]
 }

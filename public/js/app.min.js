@@ -34871,262 +34871,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {
-      loading: false,
-      genreFilter: '',
-      dateFilter: '',
-      currentPage: 1,
-      podcastsPerPage: 8,
-      bookmarks: JSON.parse(localStorage.getItem('podcastBookmarks')) || [],
-      selectedPodcast: null,
-      islamicPodcasts: [],
-      paginatedPodcasts: [],
-      errorMessage: null
-    };
-  },
-  computed: {
-    totalPages: function totalPages() {
-      return Math.ceil(this.filteredPodcasts.length / this.podcastsPerPage);
-    },
-    pages: function pages() {
-      return Array.from({
-        length: Math.min(this.totalPages, 8)
-      }, function (_, i) {
-        return i + 1;
-      });
-    },
-    filteredPodcasts: function filteredPodcasts() {
-      var _this = this;
-      var podcasts = _toConsumableArray(this.islamicPodcasts);
-      if (this.genreFilter) {
-        podcasts = podcasts.filter(function (podcast) {
-          return podcast.genre === _this.genreFilter;
-        });
-      }
-      if (this.dateFilter) {
-        podcasts = this.applyDateFilter(podcasts);
-      }
-      return podcasts;
-    }
-  },
-  methods: {
-    fetchPodcasts: function fetchPodcasts() {
-      var _this2 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _data$response, cacheKey, cached, response, data;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              _this2.loading = true;
-              _this2.errorMessage = null;
-              _context.prev = 2;
-              // Check cache
-              cacheKey = "podcasts_page_".concat(_this2.currentPage);
-              cached = localStorage.getItem(cacheKey);
-              if (!cached) {
-                _context.next = 11;
-                break;
-              }
-              _this2.islamicPodcasts = JSON.parse(cached);
-              console.log('Loaded from cache:', _this2.islamicPodcasts.length, 'podcasts');
-              _this2.loading = false;
-              _this2.filterPodcasts();
-              return _context.abrupt("return");
-            case 11:
-              _context.next = 13;
-              return fetch("https://corsproxy.io/?".concat(encodeURIComponent("https://archive.org/advancedsearch.php?q=Islamic+(lecture+OR+sermon+OR+podcast)+format:(mp4+OR+mpeg)&fl[]=identifier,title,creator,description,date,subject&rows=20&page=".concat(_this2.currentPage, "&output=json"))));
-            case 13:
-              response = _context.sent;
-              if (response.ok) {
-                _context.next = 16;
-                break;
-              }
-              throw new Error("HTTP error! Status: ".concat(response.status));
-            case 16:
-              _context.next = 18;
-              return response.json();
-            case 18:
-              data = _context.sent;
-              console.log('API raw response:', data);
-
-              // Map API data to podcast format
-              _this2.islamicPodcasts = ((_data$response = data.response) === null || _data$response === void 0 || (_data$response = _data$response.docs) === null || _data$response === void 0 ? void 0 : _data$response.filter(function (doc) {
-                return doc.identifier && doc.title;
-              }) // Ensure valid entries
-              .map(function (doc) {
-                return {
-                  id: doc.identifier,
-                  title: doc.title,
-                  creator: Array.isArray(doc.creator) ? doc.creator.join(', ') : doc.creator || 'Unknown',
-                  description: Array.isArray(doc.description) ? doc.description.join(' ') : doc.description || null,
-                  thumbnail: "https://archive.org/services/img/".concat(doc.identifier),
-                  uploadDate: doc.date ? new Date(doc.date) : null,
-                  genre: _this2.inferGenre(doc.subject ? Array.isArray(doc.subject) ? doc.subject.join(' ') : doc.subject : doc.title),
-                  videoUrl: null,
-                  // Set dynamically
-                  directVideoUrl: "https://archive.org/download/".concat(doc.identifier, "/").concat(doc.identifier, ".mp4")
-                };
-              })) || [];
-              console.log('Mapped podcasts:', _this2.islamicPodcasts);
-
-              // Cache results
-              localStorage.setItem(cacheKey, JSON.stringify(_this2.islamicPodcasts));
-              _context.next = 29;
-              break;
-            case 25:
-              _context.prev = 25;
-              _context.t0 = _context["catch"](2);
-              console.error('Error fetching video podcasts:', _context.t0);
-              _this2.errorMessage = 'Failed to load video podcasts. Please try again.';
-            case 29:
-              _context.prev = 29;
-              _this2.loading = false;
-              _this2.filterPodcasts();
-              return _context.finish(29);
-            case 33:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee, null, [[2, 25, 29, 33]]);
-      }))();
-    },
-    inferGenre: function inferGenre(text) {
-      if (!text) return 'Islamic';
-      var lowerText = text.toLowerCase();
-      if (lowerText.includes('quran') || lowerText.includes('koran')) return 'Quran';
-      if (lowerText.includes('seerah') || lowerText.includes('prophet muhammad')) return 'Seerah';
-      if (lowerText.includes('spirituality') || lowerText.includes('sufism')) return 'Spirituality';
-      if (lowerText.includes('history') || lowerText.includes('islamic history')) return 'Islamic History';
-      return 'Islamic';
-    },
-    selectPodcast: function selectPodcast(podcast) {
-      var _this3 = this;
-      this.selectedPodcast = podcast;
-      this.currentPage = 1;
-      this.filterPodcasts();
-      this.$nextTick(function () {
-        var section = _this3.$refs.podcastDetailSection;
-        if (section) {
-          section.scrollIntoView({
-            behavior: 'smooth'
-          });
-        }
-      });
-    },
-    playVideo: function playVideo(podcast) {
-      this.selectedPodcast = _objectSpread(_objectSpread({}, podcast), {}, {
-        videoUrl: podcast.directVideoUrl
-      });
-    },
-    filterPodcasts: function filterPodcasts() {
-      this.paginatedPodcasts = this.filteredPodcasts.slice((this.currentPage - 1) * this.podcastsPerPage, this.currentPage * this.podcastsPerPage);
-      console.log('Paginated podcasts:', this.paginatedPodcasts);
-    },
-    applyDateFilter: function applyDateFilter(podcasts) {
-      var now = new Date();
-      var twoYearsAgo = new Date(now.getFullYear() - 2, now.getMonth(), now.getDate());
-      var tenYearsAgo = new Date(now.getFullYear() - 10, now.getMonth(), now.getDate());
-      switch (this.dateFilter) {
-        case 'recent':
-          return podcasts.filter(function (podcast) {
-            return podcast.uploadDate && podcast.uploadDate >= twoYearsAgo;
-          });
-        case 'past':
-          return podcasts.filter(function (podcast) {
-            return podcast.uploadDate && podcast.uploadDate >= tenYearsAgo && podcast.uploadDate < twoYearsAgo;
-          });
-        case 'older':
-          return podcasts.filter(function (podcast) {
-            return podcast.uploadDate && podcast.uploadDate < tenYearsAgo;
-          });
-        default:
-          return podcasts;
-      }
-    },
-    sharePodcast: function sharePodcast(podcast) {
-      if (!podcast || !podcast.directVideoUrl) {
-        alert('This video podcast cannot be shared due to missing video.');
-        return;
-      }
-      var text = "Watch this Islamic video podcast: ".concat(podcast.title, " by ").concat(podcast.creator, "\nVideo: ").concat(podcast.directVideoUrl);
-      var whatsappUrl = "https://wa.me/?text=".concat(encodeURIComponent(text));
-      window.open(whatsappUrl, '_blank');
-    },
-    toggleBookmark: function toggleBookmark(podcast) {
-      var bookmark = {
-        id: podcast.id,
-        title: podcast.title,
-        creator: podcast.creator,
-        directVideoUrl: podcast.directVideoUrl
-      };
-      var index = this.bookmarks.findIndex(function (item) {
-        return item.id === podcast.id;
-      });
-      if (index > -1) {
-        this.bookmarks.splice(index, 1);
-      } else {
-        this.bookmarks.push(bookmark);
-      }
-      localStorage.setItem('podcastBookmarks', JSON.stringify(this.bookmarks));
-    },
-    isBookmarked: function isBookmarked(podcast) {
-      return this.bookmarks.some(function (bookmark) {
-        return bookmark.id === podcast.id;
-      });
-    },
-    changePage: function changePage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
-        this.fetchPodcasts(); // Re-fetch for new page
-      }
-    },
-    formatDate: function formatDate(date) {
-      if (!date) return 'Unknown';
-      return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-    },
-    handleImageError: function handleImageError(event) {
-      event.target.src = 'https://via.placeholder.com/180x180?text=Thumbnail+Not+Available';
-    },
-    handleVideoError: function handleVideoError() {
-      this.errorMessage = 'Video file is unavailable for this podcast.';
-    },
-    highlightText: function highlightText(title) {
-      return title; // Placeholder for future search highlighting
-    }
-  },
-  mounted: function mounted() {
-    // Initialize Bootstrap tooltips
-    var tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-      new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-    // Fetch video podcasts
-    this.fetchPodcasts();
-  },
-  watch: {
-    genreFilter: 'filterPodcasts',
-    dateFilter: 'filterPodcasts'
+    return {};
   }
 });
 
@@ -35144,212 +34891,454 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _islamic_terms_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./islamic_terms.json */ "./resources/js/components/islamic_terms.json");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
+function debounce(fn, delay) {
+  var timeout;
+  return function () {
+    var _this = this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      return fn.apply(_this, args);
+    }, delay);
+  };
+}
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'IslamicDictionary',
   data: function data() {
     return {
+      terms: Array.isArray(_islamic_terms_json__WEBPACK_IMPORTED_MODULE_0__ === null || _islamic_terms_json__WEBPACK_IMPORTED_MODULE_0__ === void 0 ? void 0 : _islamic_terms_json__WEBPACK_IMPORTED_MODULE_0__.terms) ? _islamic_terms_json__WEBPACK_IMPORTED_MODULE_0__.terms : [],
       searchQuery: '',
       selectedSubject: '',
-      terms: _islamic_terms_json__WEBPACK_IMPORTED_MODULE_0__.terms || [],
-      isListening: false,
-      isSpeechSupported: false,
-      isSpeechSynthesisSupported: false,
-      recognition: null,
-      suggestions: [],
+      sortBy: 'relevance',
+      showAdvancedSearch: false,
       showSuggestions: false,
       highlightedIndex: -1,
-      subjects: ['Worship', 'Jurisprudence', 'Eschatology', 'Ethics', 'History', 'Pilgrimage', 'Marriage', 'Theology', 'Quranic Studies', 'Hadith', 'Islamic Law', 'Spirituality', 'Biography', 'Economics', 'Culture', 'Prophetic Tradition', 'Islamic Philosophy', 'Mysticism', 'Education', 'Science', 'Politics', 'Community', 'Charity', 'Fasting', 'Prayer'],
-      baseFontSize: 1,
-      termFontSizes: {},
-      minFontSize: 0.875,
-      maxFontSize: 1.375,
+      suggestions: [],
+      favorites: [],
       currentPage: 1,
-      termsPerPage: 6
+      currentPageNumber: 1,
+      totalPages: 1,
+      termFontSizes: {},
+      baseFontSize: 1,
+      minFontSize: 0.8,
+      maxFontSize: 2.0,
+      isSpeechSupported: false,
+      isSpeechSynthesisSupported: false,
+      isListening: false,
+      voiceSearchActive: false,
+      skipToContentId: 'mainContent',
+      quickFilters: []
     };
   },
   computed: {
     filteredTerms: function filteredTerms() {
-      var _this = this;
-      var filtered = this.terms;
-      var query = this.searchQuery.toLowerCase().trim();
-      if (this.selectedSubject) {
-        filtered = filtered.filter(function (term) {
-          return term.subject.toLowerCase() === _this.selectedSubject.toLowerCase();
+      var _this2 = this;
+      var terms = this.terms;
+      if (this.searchQuery) {
+        terms = terms.filter(function (term) {
+          var q = _this2.searchQuery.toLowerCase();
+          return term.term.toLowerCase().includes(q) || term.meaning.toLowerCase().includes(q) || term.phrase.toLowerCase().includes(q) || term.reference.toLowerCase().includes(q);
         });
       }
-      if (query) {
-        filtered = filtered.filter(function (term) {
-          return term.term.toLowerCase().includes(query) || term.meaning.toLowerCase().includes(query) || term.reference.toLowerCase().includes(query);
+      if (this.selectedSubject && this.selectedSubject !== 'all') {
+        terms = terms.filter(function (term) {
+          return term.subject === _this2.selectedSubject;
         });
       }
-      return filtered;
+      if (this.sortBy === 'term') {
+        terms.sort(function (a, b) {
+          return a.term.localeCompare(b.term);
+        });
+      } else if (this.sortBy === 'term-desc') {
+        terms.sort(function (a, b) {
+          return b.term.localeCompare(a.term);
+        });
+      } else if (this.sortBy === 'subject') {
+        terms.sort(function (a, b) {
+          return a.subject.localeCompare(b.subject);
+        });
+      } else if (this.sortBy === 'recent') {
+        terms.sort(function (a, b) {
+          return new Date(b.lastViewed) - new Date(a.lastViewed);
+        });
+      } else if (this.sortBy === 'favorites') {
+        terms.sort(function (a, b) {
+          var aIsFavorite = _this2.favorites.includes(a.id);
+          var bIsFavorite = _this2.favorites.includes(b.id);
+          if (aIsFavorite && !bIsFavorite) return -1;
+          if (!aIsFavorite && bIsFavorite) return 1;
+          return 0;
+        });
+      }
+      return terms;
+    },
+    filteredSuggestions: function filteredSuggestions() {
+      var q = this.searchQuery.trim().toLowerCase();
+      if (!q) return [];
+      // Deduplicate by term (case-insensitive)
+      var seen = new Set();
+      return this.terms.filter(function (term) {
+        var match = term.term.toLowerCase().includes(q) || term.meaning.toLowerCase().includes(q) || term.reference.toLowerCase().includes(q);
+        var key = term.term.toLowerCase();
+        if (match && !seen.has(key)) {
+          seen.add(key);
+          return true;
+        }
+        return false;
+      }).slice(0, 5);
+    },
+    displayedTerms: function displayedTerms() {
+      // Deduplicate by term (case-insensitive)
+      var seen = new Set();
+      return this.filteredTerms.filter(function (term) {
+        var key = term.term.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          return true;
+        }
+        return false;
+      }).slice((this.currentPageNumber - 1) * 12, this.currentPageNumber * 12);
+    },
+    totalTerms: function totalTerms() {
+      return this.filteredTerms.length;
+    },
+    showPagination: function showPagination() {
+      return this.totalTerms > 12;
+    },
+    currentPageNumber: function currentPageNumber() {
+      return this.currentPage;
     },
     totalPages: function totalPages() {
-      return Math.ceil(this.filteredTerms.length / this.termsPerPage);
+      return Math.ceil(this.totalTerms / 12);
     },
-    paginatedTerms: function paginatedTerms() {
-      var start = (this.currentPage - 1) * this.termsPerPage;
-      var end = start + this.termsPerPage;
-      return this.filteredTerms.slice(start, end);
-    },
-    $isLargeScreen: function $isLargeScreen() {
-      return window.innerWidth >= 768;
+    subjects: function subjects() {
+      // Extract unique subjects from terms
+      return ['all'].concat(_toConsumableArray(Array.from(new Set(this.terms.map(function (t) {
+        return t.subject;
+      })))));
     }
   },
   watch: {
+    searchQuery: {
+      handler: debounce(function (val) {
+        this.showSuggestions = !!val && val.length >= 2 && this.filteredSuggestions.length > 0;
+        this.highlightedIndex = -1;
+      }, 250),
+      immediate: false
+    },
     selectedSubject: function selectedSubject() {
-      this.debouncedSearch();
+      this.currentPage = 1;
+    },
+    sortBy: function sortBy() {
+      this.currentPage = 1;
+    },
+    currentPage: function currentPage(newVal) {
+      this.currentPageNumber = newVal;
+    },
+    totalTerms: function totalTerms(newVal) {
+      this.totalPages = Math.ceil(newVal / 12);
     }
   },
-  methods: {
-    truncate: function truncate(text, length) {
-      return text.length > length ? text.substring(0, length) + '...' : text;
+  mounted: function mounted() {
+    this.initialize();
+    this.loadFavorites();
+    this.loadRecentTerms();
+    this.isSpeechSupported = 'SpeechRecognition' in window;
+    this.isSpeechSynthesisSupported = 'SpeechSynthesisUtterance' in window;
+    this.quickFilters = this.subjects.map(function (s) {
+      return {
+        key: s,
+        label: s.charAt(0).toUpperCase() + s.slice(1)
+      };
+    });
+  },
+  methods: _defineProperty(_defineProperty(_defineProperty({
+    adjustFontSize: function adjustFontSize(termId, change) {
+      var currentSize = this.termFontSizes[termId] || 1;
+      var newSize = currentSize + change * 0.1;
+      this.termFontSizes[termId] = Math.max(this.minFontSize, Math.min(this.maxFontSize, newSize));
+      this.$forceUpdate(); // Ensure re-render
     },
-    debounce: function debounce(fn, delay) {
-      var _this2 = this;
+    initialize: function initialize() {
+      this.baseFontSize = parseFloat(localStorage.getItem('fontSize') || '1');
+      this.loadFontSizes();
+      this.loadQuickFilters();
+      this.loadSuggestions();
+    },
+    showToast: function showToast(message) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
+      var toastContainer = document.getElementById('toastContainer');
+      if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+        toastContainer.style.zIndex = 1090;
+        document.body.appendChild(toastContainer);
+      }
+      var bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
+      var toastEl = document.createElement('div');
+      toastEl.className = "toast align-items-center text-white ".concat(bgClass, " border-0");
+      toastEl.setAttribute('role', 'alert');
+      toastEl.setAttribute('aria-live', 'assertive');
+      toastEl.setAttribute('aria-atomic', 'true');
+      toastEl.innerHTML = "\n          <div class=\"d-flex\">\n            <div class=\"toast-body\">\n            ".concat(message, "\n            </div>\n            <button type=\"button\" class=\"btn-close btn-close-white me-2 m-auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n          </div>\n        ");
+      toastContainer.appendChild(toastEl);
+      var toast = new bootstrap.Toast(toastEl, {
+        delay: 3000
+      });
+      toast.show();
+      toastEl.addEventListener('hidden.bs.toast', function () {
+        toastEl.remove();
+      });
+    },
+    performSearch: function performSearch() {
+      this.currentPage = 1;
+      this.loadSuggestions(); // Clear suggestions when search changes
+    },
+    debounce: function debounce(func, delay) {
       var timeoutId;
       return function () {
-        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
+        var _this3 = this;
+        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
         }
         clearTimeout(timeoutId);
         timeoutId = setTimeout(function () {
-          return fn.apply(_this2, args);
+          func.apply(_this3, args);
         }, delay);
       };
-    },
-    debouncedSearch: function debouncedSearch() {
-      var _this3 = this;
-      this.debounce(function () {
-        _this3.updateSuggestions();
-        _this3.currentPage = 1;
-      }, 300)();
-    },
-    updateSuggestions: function updateSuggestions() {
-      var _this4 = this;
-      var query = this.searchQuery.toLowerCase().trim();
-      if (query.length < 2) {
-        this.suggestions = [];
-        return;
-      }
-      var filtered = this.terms;
-      if (this.selectedSubject) {
-        filtered = filtered.filter(function (term) {
-          return term.subject.toLowerCase() === _this4.selectedSubject.toLowerCase();
-        });
-      }
-      this.suggestions = filtered.filter(function (term) {
-        return term.term.toLowerCase().includes(query) || term.meaning.toLowerCase().includes(query) || term.reference.toLowerCase().includes(query);
-      }).slice(0, 5);
-    },
-    selectSuggestion: function selectSuggestion(index) {
-      if (index >= 0 && index < this.suggestions.length) {
-        this.searchQuery = this.suggestions[index].term;
-        this.suggestions = [];
-        this.showSuggestions = false;
-        this.highlightedIndex = -1;
-        this.currentPage = 1;
-      }
-    },
-    navigateSuggestions: function navigateSuggestions(direction) {
-      if (!this.suggestions.length) return;
-      this.highlightedIndex = Math.max(0, Math.min(this.suggestions.length - 1, this.highlightedIndex + direction));
-    },
-    delayHideSuggestions: function delayHideSuggestions() {
-      var _this5 = this;
-      setTimeout(function () {
-        _this5.showSuggestions = false;
-      }, 200);
     },
     clearSearch: function clearSearch() {
       this.searchQuery = '';
       this.selectedSubject = '';
-      this.suggestions = [];
+      this.showAdvancedSearch = false;
       this.showSuggestions = false;
       this.highlightedIndex = -1;
-      this.currentPage = 1;
+      this.performSearch();
     },
-    initSpeechRecognition: function initSpeechRecognition() {
-      var _this6 = this;
-      var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (SpeechRecognition) {
-        this.isSpeechSupported = true;
-        this.recognition = new SpeechRecognition();
-        this.recognition.lang = 'en-US';
-        this.recognition.interimResults = false;
-        this.recognition.maxAlternatives = 1;
-        this.recognition.onresult = function (event) {
-          _this6.searchQuery = event.results[0][0].transcript;
-          _this6.updateSuggestions();
-          _this6.isListening = false;
-        };
-        this.recognition.onend = function () {
-          return _this6.isListening = false;
-        };
-        this.recognition.onerror = function (event) {
-          console.error('Speech recognition error:', event.error);
-          _this6.isListening = false;
-          alert('Voice search error: ' + event.error);
-        };
-      } else {
-        this.isSpeechSupported = false;
-        console.warn('SpeechRecognition API not supported in this browser.');
-      }
-      this.isSpeechSynthesisSupported = 'speechSynthesis' in window;
+    toggleAdvancedSearch: function toggleAdvancedSearch() {
+      this.showAdvancedSearch = !this.showAdvancedSearch;
+      this.showSuggestions = false;
+      this.highlightedIndex = -1;
     },
-    toggleVoiceSearch: function toggleVoiceSearch() {
-      if (!this.isSpeechSupported) return;
-      if (this.isListening) {
-        this.recognition.stop();
-        this.isListening = false;
-      } else {
-        this.recognition.start();
-        this.isListening = true;
-      }
+    applyQuickFilter: function applyQuickFilter(filterKey) {
+      this.selectedSubject = filterKey;
+      this.showAdvancedSearch = false;
+      this.showSuggestions = false;
+      this.highlightedIndex = -1;
+      this.performSearch();
     },
-    adjustFontSize: function adjustFontSize(termId, change) {
-      this.termFontSizes[termId] = Math.min(this.maxFontSize, Math.max(this.minFontSize, (this.termFontSizes[termId] || 1) + change * 0.125));
-      this.$forceUpdate();
+    getMatchType: function getMatchType(term) {
+      if (term.matchType === 'exact') return 'Exact match';
+      if (term.matchType === 'partial') return 'Partial match';
+      if (term.matchType === 'wildcard') return 'Wildcard match';
+      return 'No match';
     },
-    resetFontSize: function resetFontSize(termId) {
-      this.termFontSizes[termId] = 1;
-      this.$forceUpdate();
+    navigateSuggestions: function navigateSuggestions(direction) {
+      if (this.suggestions.length === 0) return;
+      this.highlightedIndex = (this.highlightedIndex + direction + this.suggestions.length) % this.suggestions.length;
     },
-    copyToClipboard: function copyToClipboard(term) {
-      var text = "Term: ".concat(term.term, "\nPhrase: ").concat(term.phrase, "\nMeaning: ").concat(term.meaning, "\nExample: ").concat(term.example, "\nReference: ").concat(term.reference, "\nSubject: ").concat(term.subject);
-      navigator.clipboard.writeText(text).then(function () {
-        var toast = new bootstrap.Toast(document.getElementById('copyToast'));
-        toast.show();
-      })["catch"](function (err) {
-        console.error('Failed to copy: ', err);
+    selectSuggestion: function selectSuggestion(index) {
+      if (this.suggestions.length === 0) return;
+      var suggestion = this.suggestions[index];
+      this.searchQuery = suggestion.term;
+      this.showSuggestions = false;
+      this.highlightedIndex = -1;
+      this.performSearch();
+    },
+    delayHideSuggestions: function delayHideSuggestions() {
+      var _this4 = this;
+      setTimeout(function () {
+        _this4.showSuggestions = false;
+        _this4.highlightedIndex = -1;
+      }, 100);
+    },
+    handleCardClick: function handleCardClick(termId) {
+      var term = this.terms.find(function (t) {
+        return t.id === termId;
       });
+      if (term) {
+        this.handleTermClick(term);
+      }
     },
-    getWhatsAppShareLink: function getWhatsAppShareLink(term) {
-      var text = "Islamic Term: ".concat(term.term, "\n\n\"").concat(term.phrase, "\"\n\nMeaning: ").concat(term.meaning, "\n\nExample: ").concat(term.example, "\n\nReference: ").concat(term.reference);
-      return "https://wa.me/?text=".concat(encodeURIComponent(text));
+    handleTermClick: function handleTermClick(term) {
+      this.searchQuery = term.term;
+      this.selectedSubject = term.subject;
+      this.showAdvancedSearch = false;
+      this.showSuggestions = false;
+      this.highlightedIndex = -1;
+      this.performSearch();
+    },
+    toggleFavorite: function toggleFavorite(termId) {
+      var idx = this.favorites.indexOf(termId);
+      if (idx === -1) {
+        this.favorites.push(termId);
+      } else {
+        this.favorites.splice(idx, 1);
+      }
+      this.saveFavorites();
+      this.$forceUpdate();
+    },
+    saveFavorites: function saveFavorites() {
+      localStorage.setItem('favorites', JSON.stringify(this.favorites));
+    },
+    loadFavorites: function loadFavorites() {
+      var favs = localStorage.getItem('favorites');
+      this.favorites = favs ? JSON.parse(favs) : [];
+    },
+    loadRecentTerms: function loadRecentTerms() {
+      var recentTerms = JSON.parse(localStorage.getItem('recentTerms') || '[]');
+      this.terms.forEach(function (term) {
+        if (recentTerms.includes(term.id)) {
+          term.lastViewed = new Date().toISOString();
+        }
+      });
     },
     speakTerm: function speakTerm(term) {
       if (!this.isSpeechSynthesisSupported) return;
-      var utterance = new SpeechSynthesisUtterance("term=".concat(term.term, ". Phrase: ").concat(term.phrase, ". Meaning: ").concat(term.meaning, ". Example: ").concat(term.example, ". Reference: ").concat(term.reference, ". Subject: ").concat(term.subject, "."));
-      utterance.lang = 'en-US';
+      var utterance = new SpeechSynthesisUtterance(term.meaning);
+      utterance.lang = 'ar-SA'; // Arabic language
+      utterance.pitch = 1;
+      utterance.rate = 0.9;
+      utterance.volume = 1;
       window.speechSynthesis.speak(utterance);
+    },
+    copyToClipboard: function copyToClipboard(term) {
+      var _this5 = this;
+      var textToCopy = "".concat(term.term, "\n\nMeaning: ").concat(term.meaning, "\nExample: ").concat(term.example, "\nReference: ").concat(term.reference);
+      navigator.clipboard.writeText(textToCopy).then(function () {
+        _this5.showToast('Term copied to clipboard!');
+      })["catch"](function () {
+        _this5.showToast('Failed to copy term to clipboard.', 'danger');
+      });
+    },
+    getWhatsAppShareLink: function getWhatsAppShareLink(term) {
+      var text = "".concat(term.term, "\n\nMeaning: ").concat(term.meaning, "\nExample: ").concat(term.example, "\nReference: ").concat(term.reference);
+      var encodedText = encodeURIComponent(text);
+      return "https://wa.me/?text=".concat(encodedText);
+    },
+    exportToCSV: function exportToCSV() {
+      var csvContent = this.filteredTerms.map(function (term) {
+        return [term.term, term.subject, term.meaning, term.example, term.reference, term.phrase, term.id];
+      }).join('\n');
+      var blob = new Blob([csvContent], {
+        type: 'text/csv;charset=utf-8'
+      });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'islamic_dictionary.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    },
+    exportToJSON: function exportToJSON() {
+      var jsonContent = JSON.stringify(this.filteredTerms, null, 2);
+      var blob = new Blob([jsonContent], {
+        type: 'application/json'
+      });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'islamic_dictionary.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    },
+    goToPage: function goToPage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+        this.scrollToTop();
+      }
+    },
+    scrollToTop: function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    },
+    skipToContent: function skipToContent() {
+      document.getElementById(this.skipToContentId).focus();
+    },
+    toggleVoiceSearch: function toggleVoiceSearch() {
+      if (this.voiceSearchActive) {
+        this.stopVoiceSearch();
+      } else {
+        this.startVoiceSearch();
+      }
+    },
+    startVoiceSearch: function startVoiceSearch() {
+      var _this6 = this;
+      if (!this.isSpeechSupported) return;
+      var recognition = new SpeechRecognition();
+      recognition.lang = 'ar-SA'; // Arabic language
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      recognition.onresult = function (event) {
+        var transcript = event.results[0][0].transcript;
+        _this6.searchQuery = transcript;
+        _this6.performSearch();
+        _this6.isListening = false;
+        _this6.voiceSearchActive = false;
+      };
+      recognition.onerror = function (event) {
+        _this6.isListening = false;
+        _this6.voiceSearchActive = false;
+        _this6.showToast('Voice search error: ' + event.error, 'danger');
+      };
+      recognition.onend = function () {
+        _this6.isListening = false;
+        _this6.voiceSearchActive = false;
+      };
+      recognition.start();
+      this.isListening = true;
+      this.voiceSearchActive = true;
+    },
+    stopVoiceSearch: function stopVoiceSearch() {
+      if (this.voiceSearchActive) {
+        this.isListening = false;
+        this.voiceSearchActive = false;
+        if (window.SpeechRecognition) {
+          window.SpeechRecognition.stop();
+        }
+      }
+    },
+    updateSuggestions: function updateSuggestions() {
+      this.showSuggestions = this.searchQuery.length >= 2 && this.filteredSuggestions.length > 0;
     }
-  },
-  mounted: function mounted() {
+  }, "selectSuggestion", function selectSuggestion(index) {
+    if (this.filteredSuggestions.length === 0) return;
+    var suggestion = this.filteredSuggestions[index];
+    this.searchQuery = suggestion.term;
+    this.showSuggestions = false;
+    this.highlightedIndex = -1;
+  }), "navigateSuggestions", function navigateSuggestions(direction) {
+    if (!this.showSuggestions || this.filteredSuggestions.length === 0) return;
+    this.highlightedIndex = (this.highlightedIndex + direction + this.filteredSuggestions.length) % this.filteredSuggestions.length;
+  }), "delayHideSuggestions", function delayHideSuggestions() {
     var _this7 = this;
-    this.initSpeechRecognition();
-    this.terms.forEach(function (term) {
-      _this7.termFontSizes[term.id] = 1;
-    });
-    var toastEl = document.createElement('div');
-    toastEl.id = 'copyToast';
-    toastEl.className = 'toast align-items-center text-white bg-success position-fixed bottom-0 end-0 m-3';
-    toastEl.setAttribute('role', 'alert');
-    toastEl.setAttribute('aria-live', 'assertive');
-    toastEl.setAttribute('aria-atomic', 'true');
-    toastEl.innerHTML = "\n      <div class=\"d-flex\">\n        <div class=\"toast-body\">\n          <i class=\"bi bi-check-circle me-2\"></i> Copied to clipboard!\n        </div>\n        <button type=\"button\" class=\"btn-close btn-close-white me-2 m-auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n      </div>\n    ";
-    document.body.appendChild(toastEl);
+    setTimeout(function () {
+      _this7.showSuggestions = false;
+      _this7.highlightedIndex = -1;
+    }, 100);
+  }),
+  beforeDestroy: function beforeDestroy() {
+    this.debouncedSearch.cancel();
+    this.stopVoiceSearch();
   }
 });
 
@@ -36756,6 +36745,459 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     });
   }
 }));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ConvertComponent.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ConvertComponent.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      // Progress Tracker
+      journeySteps: [{
+        label: 'Take the Shahada',
+        completed: false
+      }, {
+        label: 'Learn to Pray (Salah)',
+        completed: false
+      }, {
+        label: 'Learn to Make Wudu',
+        completed: false
+      }, {
+        label: 'Fast in Ramadan',
+        completed: false
+      }, {
+        label: 'Give Zakat',
+        completed: false
+      }, {
+        label: 'Read a Surah',
+        completed: false
+      }, {
+        label: 'Join a Community Group',
+        completed: false
+      }, {
+        label: 'Attend a Mosque Event',
+        completed: false
+      }, {
+        label: 'Connect with a Mentor',
+        completed: false
+      }, {
+        label: 'Share Your Story',
+        completed: false
+      }],
+      // Testimonials
+      testimonials: [{
+        name: 'Aisha',
+        country: 'UK',
+        text: 'Islam gave me peace and purpose. The support I found here was life-changing.',
+        avatar: '/images/testimonials/aisha.jpg'
+      }, {
+        name: 'Omar',
+        country: 'USA',
+        text: 'The community welcomed me with open arms. I never felt alone on my journey.',
+        avatar: '/images/testimonials/omar.jpg'
+      }, {
+        name: 'Fatima',
+        country: 'Canada',
+        text: 'Learning to pray was challenging, but the guides and mentors made it easy.',
+        avatar: '/images/testimonials/fatima.jpg'
+      }, {
+        name: 'Yusuf',
+        country: 'Australia',
+        text: 'I found answers to all my questions and made lifelong friends.',
+        avatar: '/images/testimonials/yusuf.jpg'
+      }],
+      testimonialIndex: 0,
+      // Quiz
+      quizQuestions: [{
+        question: 'What is the first pillar of Islam?',
+        options: ['Prayer', 'Shahada', 'Fasting', 'Charity'],
+        answer: 'Shahada',
+        userAnswer: null
+      }, {
+        question: 'How many daily prayers are there?',
+        options: ['3', '4', '5', '6'],
+        answer: '5',
+        userAnswer: null
+      }, {
+        question: 'What is the holy book of Islam?',
+        options: ['Bible', 'Torah', 'Quran', 'Vedas'],
+        answer: 'Quran',
+        userAnswer: null
+      }, {
+        question: 'What month do Muslims fast?',
+        options: ['Muharram', 'Ramadan', 'Shawwal', 'Dhul Hijjah'],
+        answer: 'Ramadan',
+        userAnswer: null
+      }, {
+        question: 'What is Zakat?',
+        options: ['Pilgrimage', 'Charity', 'Prayer', 'Fasting'],
+        answer: 'Charity',
+        userAnswer: null
+      }],
+      quizCompleted: false,
+      quizScore: 0,
+      // Shahada
+      shahadaAudio: '/audio/shahada.mp3',
+      shahadaCertificate: '/downloads/shahada-certificate.pdf',
+      // First Steps
+      firstSteps: ['Download a prayer app (e.g., Muslim Pro, Pillars)', 'Find your local mosque and visit', 'Connect with a mentor or support group', 'Set a daily learning goal', 'Learn basic duas (supplications)', 'Read about the Five Pillars of Islam', 'Watch a video on how to pray', 'Join a WhatsApp/Telegram group for new Muslims'],
+      // FAQs
+      faqs: [{
+        q: 'How do I tell my family I became Muslim?',
+        a: 'Take your time. Seek advice from converts and mentors. Honesty and patience are key.'
+      }, {
+        q: 'What if I make a mistake in prayer?',
+        a: 'Mistakes are normal. Allah is Most Forgiving. Keep learning and improving.'
+      }, {
+        q: 'How do I fast in Ramadan?',
+        a: 'Fasting is from dawn to sunset. Start with intention, avoid food/drink, and break fast at sunset.'
+      }, {
+        q: 'How do I find halal food?',
+        a: 'Look for halal certification, ask at local stores, or use halal restaurant apps.'
+      }, {
+        q: 'Can I pray in English?',
+        a: 'You can start with English while learning Arabic. Try to learn the basics over time.'
+      }, {
+        q: 'How do I make Muslim friends?',
+        a: 'Attend mosque events, join online groups, and reach out to local communities.'
+      }, {
+        q: 'What are the Five Pillars?',
+        a: 'Shahada (faith), Salah (prayer), Zakat (charity), Sawm (fasting), Hajj (pilgrimage).'
+      }, {
+        q: 'What is the best way to learn more?',
+        a: 'Read, watch videos, ask questions, and connect with mentors.'
+      }],
+      // Basics
+      basics: [{
+        title: 'How to Pray (Salah)',
+        link: '/downloads/prayer-guide.pdf',
+        cta: 'Download Guide',
+        icon: 'bi bi-journal-check',
+        download: true
+      }, {
+        title: 'How to Make Wudu',
+        link: '/videos/wudu-video.mp4',
+        cta: 'Watch Video',
+        icon: 'bi bi-droplet-fill',
+        download: false
+      }, {
+        title: 'How to Fast in Ramadan',
+        link: '/downloads/ramadan-guide.pdf',
+        cta: 'Download Ramadan Guide',
+        icon: 'bi bi-calendar2-date',
+        download: true
+      }, {
+        title: 'How to Give Zakat',
+        link: '/downloads/zakat-guide.pdf',
+        cta: 'Download Zakat Guide',
+        icon: 'bi bi-cash-coin',
+        download: true
+      }, {
+        title: 'Islamic Months & Holidays',
+        link: '/downloads/islamic-calendar.pdf',
+        cta: 'Download Calendar',
+        icon: 'bi bi-calendar3',
+        download: true
+      }, {
+        title: 'Glossary of Islamic Terms',
+        link: '/downloads/islamic-glossary.pdf',
+        cta: 'Download Glossary',
+        icon: 'bi bi-book-half',
+        download: true
+      }, {
+        title: 'Daily Duas',
+        link: '/downloads/daily-duas.pdf',
+        cta: 'Download Duas',
+        icon: 'bi bi-bookmark-heart-fill',
+        download: true
+      }, {
+        title: 'Short Surahs to Memorize',
+        link: '/downloads/short-surahs.pdf',
+        cta: 'Download Surahs',
+        icon: 'bi bi-book-half',
+        download: true
+      }],
+      // Community
+      communityMap: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.9537363153169!3d-37.81627977975171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43f1f0f7b1%3A0x5045675218ce6e0!2sMosque!5e0!3m2!1sen!2sau!4v1611812345678!5m2!1sen!2sau',
+      communityGroups: [{
+        name: 'Telegram Group',
+        link: 'https://t.me/yourgroup',
+        icon: 'bi bi-telegram'
+      }, {
+        name: 'WhatsApp Group',
+        link: 'https://wa.me/1234567890',
+        icon: 'bi bi-whatsapp'
+      }, {
+        name: 'Discord Server',
+        link: 'https://discord.gg/yourserver',
+        icon: 'bi bi-discord'
+      }],
+      organizations: [{
+        name: 'New Muslim Academy',
+        link: 'https://newmuslimacademy.org/',
+        icon: 'bi bi-globe'
+      }, {
+        name: 'WhyIslam',
+        link: 'https://www.whyislam.org/',
+        icon: 'bi bi-question-circle'
+      }, {
+        name: 'Muslim Converts',
+        link: 'https://muslimconverts.com/',
+        icon: 'bi bi-people'
+      }, {
+        name: 'Islamic Society of North America',
+        link: 'https://isna.net/',
+        icon: 'bi bi-building'
+      }],
+      // Resources
+      resources: [{
+        title: 'Prayer Guide (PDF)',
+        link: '/downloads/prayer-guide.pdf',
+        cta: 'Download',
+        icon: 'bi bi-journal-check',
+        desc: 'Step-by-step guide to performing Salah (prayer).',
+        download: true
+      }, {
+        title: 'Ramadan Guide',
+        link: '/downloads/ramadan-guide.pdf',
+        cta: 'Download',
+        icon: 'bi bi-calendar2-date',
+        desc: 'Everything you need to know about fasting in Ramadan.',
+        download: true
+      }, {
+        title: 'Zakat Guide',
+        link: '/downloads/zakat-guide.pdf',
+        cta: 'Download',
+        icon: 'bi bi-cash-coin',
+        desc: 'How to calculate and give Zakat (charity).',
+        download: true
+      }, {
+        title: 'Islamic Calendar',
+        link: '/downloads/islamic-calendar.pdf',
+        cta: 'Download',
+        icon: 'bi bi-calendar3',
+        desc: 'Islamic months, holidays, and important dates.',
+        download: true
+      }, {
+        title: 'Islamic Glossary',
+        link: '/downloads/islamic-glossary.pdf',
+        cta: 'Download',
+        icon: 'bi bi-book-half',
+        desc: 'Key Islamic terms and their meanings.',
+        download: true
+      }, {
+        title: 'Daily Duas',
+        link: '/downloads/daily-duas.pdf',
+        cta: 'Download',
+        icon: 'bi bi-bookmark-heart-fill',
+        desc: 'Essential daily supplications for every Muslim.',
+        download: true
+      }, {
+        title: 'Short Surahs',
+        link: '/downloads/short-surahs.pdf',
+        cta: 'Download',
+        icon: 'bi bi-book-half',
+        desc: 'Short chapters of the Quran to memorize.',
+        download: true
+      }, {
+        title: 'Video Playlist',
+        link: 'https://www.youtube.com/playlist?list=PL1234567890',
+        cta: 'Watch',
+        icon: 'bi bi-youtube',
+        desc: 'Curated YouTube playlist for new Muslims.',
+        download: false
+      }, {
+        title: 'Podcast: New Muslim Stories',
+        link: 'https://podcasts.com/newmuslimstories',
+        cta: 'Listen',
+        icon: 'bi bi-mic',
+        desc: 'Inspiring stories from converts around the world.',
+        download: false
+      }, {
+        title: 'eBook: Islam for Beginners',
+        link: '/downloads/islam-for-beginners.pdf',
+        cta: 'Download',
+        icon: 'bi bi-book',
+        desc: 'Comprehensive introduction to Islam.',
+        download: true
+      }],
+      // Events
+      events: [{
+        title: 'New Muslim Meetup',
+        badge: 'RSVP',
+        badgeClass: 'bg-success text-white'
+      }, {
+        title: 'Online Q&A Session',
+        badge: 'Join',
+        badgeClass: 'bg-primary text-white'
+      }, {
+        title: 'Ramadan Preparation Webinar',
+        badge: 'Register',
+        badgeClass: 'bg-warning text-dark'
+      }, {
+        title: 'Weekly Study Circle',
+        badge: 'Join',
+        badgeClass: 'bg-info text-white'
+      }, {
+        title: 'Mosque Open Day',
+        badge: 'Visit',
+        badgeClass: 'bg-secondary text-white'
+      }],
+      // Ask/Feedback
+      question: '',
+      questionSent: false,
+      questionLoading: false,
+      questionError: '',
+      feedback: '',
+      feedbackSent: false,
+      feedbackLoading: false,
+      feedbackError: ''
+    };
+  },
+  computed: {
+    progressPercent: function progressPercent() {
+      var total = this.journeySteps.length;
+      var completed = this.journeySteps.filter(function (s) {
+        return s.completed;
+      }).length;
+      return Math.round(completed / total * 100);
+    }
+  },
+  mounted: function mounted() {
+    // Load progress tracker from localStorage
+    var savedProgress = localStorage.getItem('convertProgress');
+    if (savedProgress) {
+      try {
+        var parsed = JSON.parse(savedProgress);
+        if (Array.isArray(parsed) && parsed.length === this.journeySteps.length) {
+          this.journeySteps.forEach(function (step, i) {
+            step.completed = parsed[i].completed;
+          });
+        }
+      } catch (_unused) {}
+    }
+    // Load quiz answers from localStorage
+    var savedQuiz = localStorage.getItem('convertQuiz');
+    if (savedQuiz) {
+      try {
+        var _parsed = JSON.parse(savedQuiz);
+        if (Array.isArray(_parsed) && _parsed.length === this.quizQuestions.length) {
+          this.quizQuestions.forEach(function (q, i) {
+            q.userAnswer = _parsed[i].userAnswer;
+          });
+        }
+      } catch (_unused2) {}
+    }
+  },
+  watch: {
+    journeySteps: {
+      handler: function handler(val) {
+        localStorage.setItem('convertProgress', JSON.stringify(val));
+      },
+      deep: true
+    },
+    quizQuestions: {
+      handler: function handler(val) {
+        localStorage.setItem('convertQuiz', JSON.stringify(val));
+      },
+      deep: true
+    }
+  },
+  methods: {
+    updateProgress: function updateProgress() {
+      // Just triggers computed property update
+    },
+    resetProgress: function resetProgress() {
+      this.journeySteps.forEach(function (s) {
+        s.completed = false;
+      });
+      localStorage.removeItem('convertProgress');
+    },
+    prevTestimonial: function prevTestimonial() {
+      this.testimonialIndex = (this.testimonialIndex - 1 + this.testimonials.length) % this.testimonials.length;
+    },
+    nextTestimonial: function nextTestimonial() {
+      this.testimonialIndex = (this.testimonialIndex + 1) % this.testimonials.length;
+    },
+    shareTestimonial: function shareTestimonial() {
+      var t = this.testimonials[this.testimonialIndex];
+      var text = "\"".concat(t.text, "\" - ").concat(t.name, " from ").concat(t.country);
+      if (navigator.share) {
+        navigator.share({
+          title: 'Convert Story',
+          text: text
+        });
+      } else {
+        navigator.clipboard.writeText(text);
+        alert('Testimonial copied to clipboard!');
+      }
+    },
+    selectQuizAnswer: function selectQuizAnswer(qIdx, option) {
+      if (this.quizCompleted) return;
+      this.quizQuestions[qIdx].userAnswer = option;
+    },
+    submitQuiz: function submitQuiz() {
+      var score = 0;
+      this.quizQuestions.forEach(function (q) {
+        if (q.userAnswer === q.answer) score++;
+      });
+      this.quizScore = score;
+      this.quizCompleted = true;
+    },
+    resetQuiz: function resetQuiz() {
+      this.quizQuestions.forEach(function (q) {
+        q.userAnswer = null;
+      });
+      this.quizCompleted = false;
+      this.quizScore = 0;
+      localStorage.removeItem('convertQuiz');
+    },
+    submitQuestion: function submitQuestion() {
+      var _this = this;
+      if (!this.question.trim()) {
+        this.questionError = 'Please enter your question.';
+        return;
+      }
+      this.questionLoading = true;
+      this.questionError = '';
+      setTimeout(function () {
+        _this.questionSent = true;
+        _this.questionLoading = false;
+        _this.question = '';
+        setTimeout(function () {
+          return _this.questionSent = false;
+        }, 4000);
+      }, 1200);
+    },
+    submitFeedback: function submitFeedback() {
+      var _this2 = this;
+      if (!this.feedback.trim()) {
+        this.feedbackError = 'Please enter your feedback.';
+        return;
+      }
+      this.feedbackLoading = true;
+      this.feedbackError = '';
+      setTimeout(function () {
+        _this2.feedbackSent = true;
+        _this2.feedbackLoading = false;
+        _this2.feedback = '';
+        setTimeout(function () {
+          return _this2.feedbackSent = false;
+        }, 4000);
+      }, 1200);
+    }
+  }
+});
 
 /***/ }),
 
@@ -47024,15 +47466,13 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       isVisible: false,
       // Controls visibility of premium features
       renderedText: "",
-      summary: "",
-      // Generated summary
-      error: "",
-      // Error message
-      loading: false,
-      // Loading state
-      API_TOKEN: "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",
+      // Remove summary-related data properties
+      // summary: "", // Generated summary
+      // error: "", // Error message
+      // loading: false, // Loading state
+      API_TOKEN: "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",
       // Hugging Face API token
-      BASE_URL: "https://api-inference.huggingface.co/models/google/t5-large",
+      BASE_URL: "https://api-inference.huggingface.co/models/facebook/bart-large-cnn",
       selectedFormat: "Select a format",
       // renderedText: this.tafseer,
       fontSize: parseFloat(localStorage.getItem("ayahFontSize")) || 1,
@@ -58938,10 +59378,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8 ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -58954,305 +59394,8 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "container py-4"
 };
-var _hoisted_2 = {
-  key: 0,
-  "class": "alert alert-danger text-center"
-};
-var _hoisted_3 = {
-  key: 1,
-  "class": "text-center"
-};
-var _hoisted_4 = {
-  key: 2,
-  "class": "container"
-};
-var _hoisted_5 = {
-  key: 0,
-  "class": "row"
-};
-var _hoisted_6 = ["onClick"];
-var _hoisted_7 = ["src"];
-var _hoisted_8 = {
-  "class": "mt-3",
-  style: {
-    "font-size": "1.2rem",
-    "font-weight": "600"
-  }
-};
-var _hoisted_9 = {
-  "class": "text-muted",
-  style: {
-    "font-size": "0.9rem"
-  }
-};
-var _hoisted_10 = {
-  key: 1,
-  "class": "text-center text-muted"
-};
-var _hoisted_11 = {
-  key: 3,
-  "class": "pt-3",
-  ref: "podcastDetailSection"
-};
-var _hoisted_12 = {
-  "class": "fw-bold display-5"
-};
-var _hoisted_13 = ["src", "alt"];
-var _hoisted_14 = {
-  "class": "col-md-10 mt-3 pb-3 text-muted",
-  style: {
-    "line-height": "1.8em"
-  }
-};
-var _hoisted_15 = {
-  "class": "fw-bold ml-2 pb-3"
-};
-var _hoisted_16 = {
-  "class": "fw-bold ml-2 pb-3"
-};
-var _hoisted_17 = {
-  "class": "fw-bold ml-2 pb-3"
-};
-var _hoisted_18 = {
-  "class": "mb-3"
-};
-var _hoisted_19 = {
-  key: 0,
-  "class": "ratio ratio-16x9 mb-3"
-};
-var _hoisted_20 = ["src"];
-var _hoisted_21 = {
-  key: 1,
-  "class": "text-danger mb-3"
-};
-var _hoisted_22 = {
-  "class": "row pb-3 g-2 g-md-3"
-};
-var _hoisted_23 = {
-  "class": "col-md-6 px-2 px-md-3"
-};
-var _hoisted_24 = {
-  "class": "col-md-6 px-2 px-md-3 pb-2"
-};
-var _hoisted_25 = {
-  key: 4
-};
-var _hoisted_26 = {
-  "class": "row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-2"
-};
-var _hoisted_27 = {
-  "class": "card-body"
-};
-var _hoisted_28 = ["innerHTML"];
-var _hoisted_29 = {
-  "class": "text-center d-flex justify-content-between align-items-center"
-};
-var _hoisted_30 = {
-  "class": "icon-container"
-};
-var _hoisted_31 = ["onClick"];
-var _hoisted_32 = {
-  "class": "icon-container"
-};
-var _hoisted_33 = ["onClick"];
-var _hoisted_34 = {
-  "aria-label": "Podcast pagination",
-  "class": "mt-4"
-};
-var _hoisted_35 = {
-  "class": "pagination justify-content-center"
-};
-var _hoisted_36 = ["onClick"];
-var _hoisted_37 = {
-  key: 5,
-  "class": "text-center text-muted"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-5 fw-bold text-center"
-  }, "Islamic Video Podcasts", -1 /* HOISTED */)), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container mb-4 lead"
-  }, " Explore a collection of Islamic video podcasts featuring lectures, sermons, and educational content on topics like Seerah, Quran, and spirituality. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Message "), $data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "#",
-    onClick: _cache[0] || (_cache[0] = function () {
-      return $options.fetchPodcasts && $options.fetchPodcasts.apply($options, arguments);
-    })
-  }, "Retry")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "spinner-border text-primary",
-    role: "status"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "visually-hidden"
-  }, "Loading...")], -1 /* HOISTED */)]))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "fw-bold text-left pt-2 pb-4"
-  }, "Select a Video Podcast:", -1 /* HOISTED */)), $data.islamicPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.islamicPodcasts, function (podcast) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: podcast.id,
-      "class": "col-6 col-md-2 mb-4 text-center",
-      onClick: function onClick($event) {
-        return $options.selectPodcast(podcast);
-      },
-      style: {
-        "cursor": "pointer"
-      }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-      src: podcast.thumbnail,
-      alt: "Podcast Thumbnail",
-      "class": "img-fluid",
-      style: {
-        "height": "180px",
-        "width": "100%",
-        "object-fit": "cover",
-        "border-radius": "18px",
-        "box-shadow": "rgba(0, 0, 0, 0.35) 0px 5px 15px"
-      },
-      onError: _cache[1] || (_cache[1] = function () {
-        return $options.handleImageError && $options.handleImageError.apply($options, arguments);
-      })
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_7), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.creator), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_6);
-  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, " No video podcasts found. Try refreshing or adjusting the search query. "))])), $data.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
-    "class": "container"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    style: {
-      "border-radius": "15px"
-    },
-    "class": "col-md-2",
-    src: $data.selectedPodcast.thumbnail,
-    alt: $data.selectedPodcast.title,
-    onError: _cache[2] || (_cache[2] = function () {
-      return $options.handleImageError && $options.handleImageError.apply($options, arguments);
-    })
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.description || 'An Islamic lecture or sermon.'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_15, " Creator: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.creator || 'Unknown'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_16, " Uploaded: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.selectedPodcast.uploadDate) || 'Unknown'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_17, " Genre: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.genre || 'Islamic'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-primary me-2",
-    onClick: _cache[3] || (_cache[3] = function ($event) {
-      return $options.playVideo($data.selectedPodcast);
-    })
-  }, " Play Video "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-success",
-    onClick: _cache[4] || (_cache[4] = function ($event) {
-      return $options.toggleBookmark($data.selectedPodcast);
-    })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isBookmarked($data.selectedPodcast) ? 'Remove Bookmark' : 'Bookmark'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Player "), $data.selectedPodcast.videoUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
-    controls: "",
-    src: $data.selectedPodcast.videoUrl,
-    "class": "w-100",
-    style: {
-      "border-radius": "8px"
-    },
-    onError: _cache[5] || (_cache[5] = function () {
-      return $options.handleVideoError && $options.handleVideoError.apply($options, arguments);
-    })
-  }, " Your browser does not support the video element. ", 40 /* PROPS, NEED_HYDRATION */, _hoisted_20)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, "Video unavailable for this podcast."))], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Genre Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "for": "genreFilter",
-    "class": "form-label fw-bold"
-  }, "Genre:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "genreFilter",
-    "class": "form-select",
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-      return $data.genreFilter = $event;
-    }),
-    onChange: _cache[7] || (_cache[7] = function () {
-      return $options.filterPodcasts && $options.filterPodcasts.apply($options, arguments);
-    })
-  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"\" data-v-424e5bb8>All Genres</option><option value=\"Seerah\" data-v-424e5bb8>Seerah</option><option value=\"Quran\" data-v-424e5bb8>Quran</option><option value=\"Spirituality\" data-v-424e5bb8>Spirituality</option><option value=\"Islamic History\" data-v-424e5bb8>Islamic History</option>", 5)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.genreFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Date Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "for": "dateFilter",
-    "class": "form-label fw-bold"
-  }, "Upload Date:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "dateFilter",
-    "class": "form-select",
-    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-      return $data.dateFilter = $event;
-    }),
-    onChange: _cache[9] || (_cache[9] = function () {
-      return $options.filterPodcasts && $options.filterPodcasts.apply($options, arguments);
-    })
-  }, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: ""
-  }, "All Dates", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "recent"
-  }, "Last 2 Years", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "past"
-  }, "2–10 Years Ago", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "older"
-  }, "Over 10 Years Ago", -1 /* HOISTED */)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.dateFilter]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast List "), !$data.loading && $data.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.paginatedPodcasts, function (podcast) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: podcast.id,
-      "class": "col"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['card', {
-        'highlighted': $data.selectedPodcast && $data.selectedPodcast.id === podcast.id
-      }]),
-      style: {
-        "border-radius": "8px"
-      }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-      "class": "card-title pb-2 display-5 fw-bold",
-      innerHTML: $options.highlightText(podcast.title)
-    }, null, 8 /* PROPS */, _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Creator: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.creator || 'Unknown'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Uploaded: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(podcast.uploadDate) || 'Unknown'), 1 /* TEXT */), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-share icon-tooltip",
-      onClick: function onClick($event) {
-        return $options.sharePodcast(podcast);
-      },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "top",
-      title: "Share"
-    }, null, 8 /* PROPS */, _hoisted_31), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      "class": "icon-text"
-    }, "Share", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $options.isBookmarked(podcast) ? 'bi-bookmark-fill' : 'bi-bookmark', 'icon-tooltip']),
-      onClick: function onClick($event) {
-        return $options.toggleBookmark(podcast);
-      },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "top",
-      title: "Bookmark"
-    }, null, 10 /* CLASS, PROPS */, _hoisted_33), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      "class": "icon-text"
-    }, "Bookmark", -1 /* HOISTED */))])])])], 2 /* CLASS */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
-      'disabled': $data.currentPage === 1
-    }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    "class": "page-link",
-    href: "#",
-    onClick: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.changePage($data.currentPage - 1);
-    }, ["prevent"])),
-    style: {
-      "background-color": "rgb(13, 182, 145)",
-      "color": "white",
-      "border-color": "rgb(13, 182, 145)"
-    }
-  }, " Previous ")], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.pages, function (page) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: page,
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
-        'active': $data.currentPage === page
-      }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      "class": "page-link",
-      href: "#",
-      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-        return $options.changePage(page);
-      }, ["prevent"]),
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === page ? 'background-color: white; color: rgb(13, 182, 145); border-color: rgb(13, 182, 145);' : 'background-color: rgb(13, 182, 145); color: white; border-color: rgb(13, 182, 145);')
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 13 /* TEXT, STYLE, PROPS */, _hoisted_36)], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
-      'disabled': $data.currentPage === $options.totalPages
-    }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    "class": "page-link",
-    href: "#",
-    onClick: _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.changePage($data.currentPage + 1);
-    }, ["prevent"])),
-    style: {
-      "background-color": "rgb(13, 182, 145)",
-      "color": "white",
-      "border-color": "rgb(13, 182, 145)"
-    }
-  }, " Next ")], 2 /* CLASS */)])])])) : !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, "No filtered video podcasts found.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1);
 }
 
 /***/ }),
@@ -59277,193 +59420,357 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "py-3 py-md-4"
+  "class": "py-4 bg-white border-bottom mb-4 px-2 px-md-4"
 };
 var _hoisted_2 = {
   "class": "container-fluid px-3 px-md-4"
 };
 var _hoisted_3 = {
-  "class": "row justify-content-center"
+  "class": "row justify-content-center mx-0"
 };
 var _hoisted_4 = {
-  "class": "col-12 col-lg-10 col-xl-8"
+  "class": "col-12 col-lg-10 col-xl-8 px-0"
 };
 var _hoisted_5 = {
-  "class": "search-section"
+  "class": "d-flex justify-content-end mb-3 gap-2 px-2"
 };
 var _hoisted_6 = {
-  "class": "row g-2 g-md-3"
+  "class": "bg-white rounded-3 p-4 shadow-sm border mb-4"
 };
 var _hoisted_7 = {
-  "class": "col-12 col-md-4"
+  key: 0,
+  "class": "mb-4"
 };
-var _hoisted_8 = ["value"];
+var _hoisted_8 = {
+  "class": "d-flex flex-wrap align-items-center gap-3 px-1"
+};
 var _hoisted_9 = {
-  "class": "col-12 col-md-8"
+  "class": "badge fs-6 px-3 py-2",
+  style: {
+    "background-color": "#e0fff8",
+    "color": "#00bfa6"
+  }
 };
 var _hoisted_10 = {
-  "class": "search-bar position-relative"
-};
-var _hoisted_11 = ["disabled", "title"];
-var _hoisted_12 = {
   key: 0,
-  "class": "suggestions-dropdown shadow-lg rounded-bottom"
+  "class": "badge fs-6 px-3 py-2",
+  style: {
+    "background-color": "#e0fff8",
+    "color": "#00bfa6"
+  }
+};
+var _hoisted_11 = {
+  key: 1,
+  "class": "badge fs-6 px-3 py-2",
+  style: {
+    "background-color": "#e0fff8",
+    "color": "#00bfa6"
+  }
+};
+var _hoisted_12 = {
+  "class": "bg-light rounded-3 p-4 border mb-3"
 };
 var _hoisted_13 = {
-  "class": "list-group"
+  "class": "row g-3 align-items-end"
 };
-var _hoisted_14 = ["onMousedown", "onMouseover"];
+var _hoisted_14 = {
+  "class": "col-12 d-flex flex-column flex-md-row align-items-stretch gap-3"
+};
 var _hoisted_15 = {
-  "class": "text-muted"
+  "class": "flex-shrink-0",
+  style: {
+    "min-width": "220px"
+  }
 };
 var _hoisted_16 = {
-  "class": "container-fluid py-3 py-md-4 px-3 px-md-4"
+  "class": "flex-grow-1"
 };
 var _hoisted_17 = {
-  "class": "row justify-content-center"
+  "class": "position-relative"
 };
 var _hoisted_18 = {
-  "class": "col-12 col-lg-10 col-xl-8"
+  "class": "input-group-append"
 };
-var _hoisted_19 = {
-  key: 0,
-  "class": "empty-state text-center py-4 py-md-5"
-};
-var _hoisted_20 = {
-  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 g-md-4"
-};
-var _hoisted_21 = {
-  "class": "card h-100 border-0 shadow-sm hover-effect"
-};
+var _hoisted_19 = ["disabled", "title"];
+var _hoisted_20 = ["title"];
+var _hoisted_21 = ["aria-activedescendant"];
 var _hoisted_22 = {
-  "class": "badge bg-primary-subtle text-primary rounded-pill mb-2 mb-md-3"
+  "class": "list-group list-group-flush"
 };
-var _hoisted_23 = {
-  "class": "card-title fw-bold mb-2 mb-md-3"
-};
+var _hoisted_23 = ["onMousedown", "onMouseover", "id", "aria-selected"];
 var _hoisted_24 = {
-  "class": "card-text text-muted mb-2 mb-md-3"
+  "class": "d-flex flex-column"
 };
 var _hoisted_25 = {
-  "class": "mb-2 mb-md-3"
+  "class": "fw-bold"
 };
 var _hoisted_26 = {
-  "class": "mb-2 mb-md-3"
+  "class": "text-muted"
 };
 var _hoisted_27 = {
-  "class": "mb-2 mb-md-3"
+  "class": "d-flex flex-column align-items-end"
 };
 var _hoisted_28 = {
-  "class": "card-bottom bg-light d-flex gap-1 gap-md-2 p-2 p-md-3"
+  "class": "badge",
+  style: {
+    "background-color": "#e0fff8",
+    "color": "#00bfa6"
+  }
 };
-var _hoisted_29 = ["onClick", "disabled"];
-var _hoisted_30 = ["onClick", "disabled"];
-var _hoisted_31 = ["onClick"];
-var _hoisted_32 = ["href"];
-var _hoisted_33 = ["onClick"];
-var _hoisted_34 = ["onClick", "disabled", "title"];
+var _hoisted_29 = {
+  "class": "text-muted"
+};
+var _hoisted_30 = {
+  key: 0,
+  "class": "mt-4 p-3 bg-light rounded border"
+};
+var _hoisted_31 = {
+  "class": "row g-3"
+};
+var _hoisted_32 = {
+  "class": "col-12 col-md-6"
+};
+var _hoisted_33 = {
+  "class": "d-flex flex-wrap gap-2"
+};
+var _hoisted_34 = ["onClick"];
 var _hoisted_35 = {
-  key: 1,
-  "class": "mt-3 mt-md-4",
-  "aria-label": "Page navigation"
+  "class": "d-flex justify-content-center mt-4 mb-3"
 };
 var _hoisted_36 = {
-  "class": "pagination justify-content-center flex-wrap"
+  "class": "nav nav-pills gap-2"
 };
-var _hoisted_37 = {
+var _hoisted_37 = ["id"];
+var _hoisted_38 = {
+  "class": "row justify-content-center"
+};
+var _hoisted_39 = {
+  "class": "col-12 col-lg-10 col-xl-8"
+};
+var _hoisted_40 = {
+  key: 0,
+  "class": "text-center py-5 bg-white rounded-3 shadow-sm border mb-4 px-2"
+};
+var _hoisted_41 = {
+  "class": "row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4"
+};
+var _hoisted_42 = ["onClick", "aria-label", "onKeydown"];
+var _hoisted_43 = {
+  "class": "card-body d-flex flex-column p-4 gap-2"
+};
+var _hoisted_44 = {
+  "class": "badge rounded-pill mb-3 px-3 py-2",
+  style: {
+    "background-color": "#e0fff8",
+    "color": "#00bfa6"
+  }
+};
+var _hoisted_45 = {
+  "class": "card-title fw-bold mb-3 fs-4",
+  style: {
+    "color": "#00bfa6"
+  }
+};
+var _hoisted_46 = {
+  "class": "card-text mb-3",
+  style: {
+    "color": "#00bfa6"
+  }
+};
+var _hoisted_47 = {
+  "class": "mb-3"
+};
+var _hoisted_48 = {
+  "class": "mb-0"
+};
+var _hoisted_49 = {
+  "class": "mb-3"
+};
+var _hoisted_50 = {
+  "class": "mb-0"
+};
+var _hoisted_51 = {
+  "class": "mb-3"
+};
+var _hoisted_52 = {
+  "class": "mb-0"
+};
+var _hoisted_53 = {
+  "class": "d-flex gap-2 w-100 justify-content-between px-2 py-1"
+};
+var _hoisted_54 = ["onClick", "disabled"];
+var _hoisted_55 = ["onClick", "disabled"];
+var _hoisted_56 = ["onClick", "title"];
+var _hoisted_57 = ["onClick"];
+var _hoisted_58 = ["onClick"];
+var _hoisted_59 = ["onClick", "disabled", "title"];
+var _hoisted_60 = {
+  key: 1,
+  "class": "mt-5",
+  "aria-label": "Page navigation"
+};
+var _hoisted_61 = {
+  "class": "pagination justify-content-center flex-wrap gap-2"
+};
+var _hoisted_62 = {
   "class": "page-item disabled"
 };
-var _hoisted_38 = {
-  "class": "page-link"
+var _hoisted_63 = {
+  "class": "page-link rounded-pill mx-1 px-4 py-2"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _$options$filteredTer;
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    "class": "dictionary-app",
+    "class": "min-vh-100 bg-light p-0 m-0",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: "".concat($data.baseFontSize, "rem")
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-center mb-3 mb-md-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Accessibility: Skip to main content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "#mainContent",
+    "class": "visually-hidden-focusable position-absolute top-0 start-50 translate-middle-x bg-primary text-white text-decoration-none rounded p-2 opacity-0",
+    style: {
+      "z-index": "1000"
+    },
+    onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.skipToContent && $options.skipToContent.apply($options, arguments);
+    }, ["prevent"]))
+  }, "Skip to main content"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center mb-4 px-2 px-md-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-4 display-md-5 fw-bold text-dark mb-2"
-  }, " Islamic Dictionary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-black-50 display-5 mb-0 fs-6 fs-md-5"
-  }, " A comprehensive resource for exploring Islamic terms and their meanings ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "subjectFilter",
-    "class": "form-label fw-bold text-dark"
-  }, "Subject", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "subjectFilter",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.selectedSubject = $event;
+    "class": "display-4 fw-bold mb-3",
+    style: {
+      "color": "#00bfa6"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Islamic Dictionary")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mb-0",
+    style: {
+      "color": "#00bfa6",
+      "font-size": "1.25rem"
+    }
+  }, "A comprehensive resource for exploring Islamic terms and their meanings")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-primary btn-sm rounded-pill me-2 px-3 py-2",
+    onClick: _cache[1] || (_cache[1] = function () {
+      return $options.exportToCSV && $options.exportToCSV.apply($options, arguments);
     }),
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-select border-0 shadow-sm", {
-      'form-select-lg': $options.$isLargeScreen
+    title: "Export to CSV",
+    "aria-label": "Export to CSV",
+    style: {
+      "border-color": "#00bfa6",
+      "color": "#00bfa6"
+    }
+  }, _cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-file-earmark-spreadsheet me-1"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("CSV ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-primary btn-sm rounded-pill px-3 py-2",
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.exportToJSON && $options.exportToJSON.apply($options, arguments);
+    }),
+    title: "Export to JSON",
+    "aria-label": "Export to JSON",
+    style: {
+      "border-color": "#00bfa6",
+      "color": "#00bfa6"
+    }
+  }, _cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-file-earmark-code me-1"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON ")]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Stats "), $data.searchQuery || $data.selectedSubject ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-search me-2"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_$options$filteredTer = $options.filteredTerms) === null || _$options$filteredTer === void 0 ? void 0 : _$options$filteredTer.length) || 0) + " results ", 1 /* TEXT */)]), $data.searchQuery ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-keyboard me-2"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("\"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "\" ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedSubject ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_11, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-tag me-2"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedSubject), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-secondary btn-sm rounded-pill px-3 py-2",
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.clearSearch && $options.clearSearch.apply($options, arguments);
+    }),
+    title: "Clear all filters",
+    "aria-label": "Clear all filters"
+  }, _cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-x-circle me-1"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Clear ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Advanced Search Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "form-label fw-bold text-dark mb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-sort-down me-1"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Sort By ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.sortBy = $event;
+    }),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-select border-0 shadow-sm mb-2", {
+      'form-select-lg': _ctx.$isLargeScreen
     }]),
-    "aria-label": "Filter by subject",
-    onChange: _cache[1] || (_cache[1] = function () {
-      return $options.debouncedSearch && $options.debouncedSearch.apply($options, arguments);
-    })
-  }, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: ""
-  }, "All Subjects", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.subjects, function (subject) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: subject,
-      value: subject
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(subject), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 34 /* CLASS, NEED_HYDRATION */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSubject]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    onChange: _cache[5] || (_cache[5] = function () {
+      return $options.updateSuggestions && $options.updateSuggestions.apply($options, arguments);
+    }),
+    style: {
+      "background": "#f8fafb",
+      "border": "1.5px solid #d1e0e7"
+    }
+  }, _cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"relevance\" data-v-6de819c4>Relevance</option><option value=\"term\" data-v-6de819c4>Term (A-Z)</option><option value=\"term-desc\" data-v-6de819c4>Term (Z-A)</option><option value=\"subject\" data-v-6de819c4>Subject</option><option value=\"recent\" data-v-6de819c4>Recently Viewed</option><option value=\"favorites\" data-v-6de819c4>Favorites First</option>", 6)]), 34 /* CLASS, NEED_HYDRATION */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "searchQuery",
-    "class": "form-label fw-bold text-dark"
-  }, "Search Query", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["input-group shadow-sm", {
-      'input-group-lg': $options.$isLargeScreen
+    "class": "form-label fw-bold text-dark mb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-search me-1"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Search Terms ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["input-group shadow-sm mb-2", {
+      'input-group-lg': _ctx.$isLargeScreen
     }])
-  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-white border-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-search text-secondary"
   })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "searchQuery",
     type: "text",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.searchQuery = $event;
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control border-0 py-2 py-md-3", {
-      'fs-5': $options.$isLargeScreen
+      'fs-5': _ctx.$isLargeScreen
     }]),
-    placeholder: "Search terms, meanings, or references...",
+    placeholder: "Search terms, meanings, references, or use advanced syntax...",
     "aria-label": "Search Islamic Dictionary",
-    onInput: _cache[3] || (_cache[3] = function () {
-      return $options.debouncedSearch && $options.debouncedSearch.apply($options, arguments);
+    onInput: _cache[7] || (_cache[7] = function () {
+      return $options.updateSuggestions && $options.updateSuggestions.apply($options, arguments);
     }),
-    onFocus: _cache[4] || (_cache[4] = function ($event) {
-      return $data.showSuggestions = true;
+    onFocus: _cache[8] || (_cache[8] = function () {
+      return $options.updateSuggestions && $options.updateSuggestions.apply($options, arguments);
     }),
-    onBlur: _cache[5] || (_cache[5] = function () {
+    onBlur: _cache[9] || (_cache[9] = function () {
       return $options.delayHideSuggestions && $options.delayHideSuggestions.apply($options, arguments);
     }),
-    onKeydown: [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+    onKeydown: [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $options.navigateSuggestions(1);
-    }, ["prevent"]), ["down"])), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+    }, ["prevent"]), ["down"])), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $options.navigateSuggestions(-1);
-    }, ["prevent"]), ["up"])), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+    }, ["prevent"]), ["up"])), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $options.selectSuggestion($data.highlightedIndex);
-    }, ["prevent"]), ["enter"]))]
-  }, null, 34 /* CLASS, NEED_HYDRATION */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), $data.searchQuery ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    }, ["prevent"]), ["enter"])), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+      return $data.showSuggestions = false;
+    }, ["escape"]))],
+    autocomplete: "off",
+    spellcheck: "false",
+    style: {
+      "background": "#f8fafb",
+      "border": "1.5px solid #d1e0e7"
+    }
+  }, null, 34 /* CLASS, NEED_HYDRATION */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.searchQuery ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
-    "class": "btn btn-outline-secondary border-0 touch-friendly",
+    "class": "btn btn-outline-secondary border-0 px-2",
     type: "button",
-    onClick: _cache[9] || (_cache[9] = function () {
+    onClick: _cache[14] || (_cache[14] = function () {
       return $options.clearSearch && $options.clearSearch.apply($options, arguments);
     }),
-    "aria-label": "Clear search"
-  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "aria-label": "Clear search",
+    title: "Clear search"
+  }, _cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-lg"
   }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-secondary border-0 touch-friendly",
+    "class": "btn btn-outline-secondary border-0 px-2",
     type: "button",
     disabled: !$data.isSpeechSupported,
     title: $data.isSpeechSupported ? 'Start voice search' : 'Voice search not supported',
-    onClick: _cache[10] || (_cache[10] = function () {
+    onClick: _cache[15] || (_cache[15] = function () {
       return $options.toggleVoiceSearch && $options.toggleVoiceSearch.apply($options, arguments);
     }),
     "aria-label": "Toggle voice search"
@@ -59471,11 +59778,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi bi-mic", {
       'text-danger pulse': $data.isListening
     }])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_11)], 2 /* CLASS */), $data.showSuggestions && $data.suggestions.length && $data.searchQuery.length >= 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.suggestions, function (suggestion, index) {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-secondary border-0 px-2",
+    type: "button",
+    onClick: _cache[16] || (_cache[16] = function () {
+      return $options.toggleAdvancedSearch && $options.toggleAdvancedSearch.apply($options, arguments);
+    }),
+    title: $data.showAdvancedSearch ? 'Hide advanced search' : 'Show advanced search',
+    "aria-label": "Toggle advanced search"
+  }, _cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-sliders"
+  }, null, -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_20)])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Enhanced Suggestions Dropdown "), $data.showSuggestions && $options.filteredSuggestions.length && $data.searchQuery.length >= 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 0,
+    "class": "position-absolute w-100 shadow-lg rounded-bottom border mt-1 bg-white",
+    role: "listbox",
+    "aria-activedescendant": $data.highlightedIndex >= 0 ? 'suggestion-' + $data.highlightedIndex : null,
+    style: {
+      "z-index": "1050",
+      "max-height": "40vh",
+      "overflow-y": "auto",
+      "border-top": "none"
+    }
+  }, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-2 border-bottom bg-light"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    "class": "text-muted"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-lightbulb me-1"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Search tips: Use quotes for exact phrases, + for required words ")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredSuggestions, function (suggestion, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: index,
       type: "button",
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["list-group-item list-group-item-action d-flex justify-content-between align-items-center", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 px-3 py-2", {
         'active': index === $data.highlightedIndex
       }]),
       onMousedown: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
@@ -59483,120 +59817,274 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, ["prevent"]),
       onMouseover: function onMouseover($event) {
         return $data.highlightedIndex = index;
-      }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(suggestion.term), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(suggestion.subject), 1 /* TEXT */)], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_14);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$options.paginatedTerms.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "empty-icon mb-3 mb-md-4"
+      },
+      id: 'suggestion-' + index,
+      role: "option",
+      "aria-selected": index === $data.highlightedIndex
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(suggestion.term), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(suggestion.meaning.substring(0, 60)) + "...", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(suggestion.subject), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getMatchType(suggestion)), 1 /* TEXT */)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_23);
+  }), 128 /* KEYED_FRAGMENT */))]), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-2 border-top bg-light"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    "class": "text-muted"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-search-heart fs-2 fs-md-1 text-muted"
-  })], -1 /* HOISTED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "fw-bold mb-2 mb-md-3 fs-5 fs-md-4"
-  }, "No terms found", -1 /* HOISTED */)), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-muted mb-3 mb-md-4 fs-6 fs-md-5"
-  }, "Try adjusting your search or filter criteria", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-primary px-3 px-md-4 touch-friendly",
-    onClick: _cache[11] || (_cache[11] = function () {
+    "class": "bi bi-arrow-up me-1"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-arrow-down me-1"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Navigate • Enter to select • Esc to clear ")])], -1 /* HOISTED */))], 8 /* PROPS */, _hoisted_21)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Advanced Search Panel "), $data.showAdvancedSearch ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+    "class": "fw-bold mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-gear me-1"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Advanced Search Options ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-12 col-md-6\" data-v-6de819c4><label class=\"form-label\" data-v-6de819c4>Search Syntax</label><div class=\"small\" data-v-6de819c4><div class=\"mb-2\" data-v-6de819c4><code class=\"bg-light px-2 py-1 rounded\" data-v-6de819c4>&quot;exact phrase&quot;</code> - Exact match </div><div class=\"mb-2\" data-v-6de819c4><code class=\"bg-light px-2 py-1 rounded\" data-v-6de819c4>+required</code> - Must include </div><div class=\"mb-2\" data-v-6de819c4><code class=\"bg-light px-2 py-1 rounded\" data-v-6de819c4>-excluded</code> - Must not include </div><div class=\"mb-2\" data-v-6de819c4><code class=\"bg-light px-2 py-1 rounded\" data-v-6de819c4>term*</code> - Wildcard search </div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "form-label"
+  }, "Quick Filters", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.quickFilters, function (filter) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: filter.key,
+      "class": "btn btn-sm btn-outline-secondary px-3 py-2",
+      onClick: function onClick($event) {
+        return $options.applyQuickFilter(filter.key);
+      }
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter.label), 9 /* TEXT, PROPS */, _hoisted_34);
+  }), 128 /* KEYED_FRAGMENT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Navigation toggles "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link px-4 py-2", {
+      'active': $data.currentPage === 1
+    }]),
+    onClick: _cache[17] || (_cache[17] = function ($event) {
+      return $data.currentPage = 1;
+    }),
+    title: "Show all terms",
+    "aria-label": "Show all terms",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === 1 ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;')
+  }, _cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-book me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("All Terms ")]), 6 /* CLASS, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link px-4 py-2", {
+      'active': $data.currentPage === 'favorites'
+    }]),
+    onClick: _cache[18] || (_cache[18] = function ($event) {
+      return $data.currentPage = 'favorites';
+    }),
+    title: "Show favorites",
+    "aria-label": "Show favorites",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === 'favorites' ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;')
+  }, _cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-heart-fill me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Favorites ")]), 6 /* CLASS, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link px-4 py-2", {
+      'active': $data.currentPage === 'recent'
+    }]),
+    onClick: _cache[19] || (_cache[19] = function ($event) {
+      return $data.currentPage = 'recent';
+    }),
+    title: "Show recently viewed",
+    "aria-label": "Show recently viewed",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === 'recent' ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;')
+  }, _cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-clock-history me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Recent ")]), 6 /* CLASS, STYLE */)])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", {
+    "class": "container-fluid py-4 px-3 px-md-4",
+    id: $data.skipToContentId,
+    tabindex: "-1"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Empty state "), $options.displayedTerms.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "mb-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-search-heart display-1",
+    style: {
+      "color": "#00bfa6",
+      "opacity": "0.75"
+    }
+  })], -1 /* HOISTED */)), _cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "fw-bold mb-3 fs-4 text-dark"
+  }, "No terms found", -1 /* HOISTED */)), _cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted mb-4 fs-5"
+  }, "Try adjusting your search criteria or browse all terms", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-lg rounded-pill px-4 py-3 mb-2",
+    onClick: _cache[20] || (_cache[20] = function () {
       return $options.clearSearch && $options.clearSearch.apply($options, arguments);
-    })
-  }, _cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }),
+    style: {
+      "background-color": "#00bfa6",
+      "color": "#fff"
+    }
+  }, _cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-counterclockwise me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset Search ")]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedTerms, function (term) {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset Search ")]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Terms grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.displayedTerms, function (term) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: term.id,
-      "class": "col"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "card-body d-flex flex-column p-3 p-md-4",
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      "class": "col mb-4"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 shadow-sm border-0 border shadow-md", {
+        'border-primary border-3': $data.favorites.includes(term.id)
+      }]),
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "border": "2px solid #d1e0e7",
+        "border-radius": "10px"
+      }, {
         fontSize: "".concat($data.termFontSizes[term.id], "rem")
-      })
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.subject), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.term), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, "\"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.phrase) + "\"", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-      "class": "fw-bold text-primary"
-    }, "Meaning", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.meaning), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-      "class": "fw-bold text-primary"
-    }, "Example", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.example), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-      "class": "fw-bold text-primary"
-    }, "Reference", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.reference), 1 /* TEXT */)])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn btn-outline-secondary btn-sm touch-friendly",
+      }]),
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+        return $options.handleCardClick(term.id);
+      }, ["self"]),
+      tabindex: "0",
+      role: "group",
+      "aria-label": "Islamic term card: ".concat(term.term),
+      onKeydown: [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+        return $options.handleCardClick(term.id);
+      }, ["enter"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+        return $options.handleCardClick(term.id);
+      }, ["prevent"]), ["space"])]
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.subject), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.term), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("em", null, "\"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.phrase) + "\"", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+      "class": "fw-bold mb-2",
+      style: {
+        "color": "#00bfa6"
+      }
+    }, "Meaning", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.meaning), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+      "class": "fw-bold mb-2",
+      style: {
+        "color": "#00bfa6"
+      }
+    }, "Example", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.example), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+      "class": "fw-bold mb-2",
+      style: {
+        "color": "#00bfa6"
+      }
+    }, "Reference", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      style: {
+        "bottom": "0px"
+      },
+      "class": "card-footer bg-light border-top d-flex align-items-center gap-2 px-3 py-2",
+      onClick: _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      "class": "btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0",
+      style: {
+        "width": "48px",
+        "height": "48px"
+      },
       onClick: function onClick($event) {
         return $options.adjustFontSize(term.id, -1);
       },
       disabled: $data.termFontSizes[term.id] <= $data.minFontSize,
-      title: "Decrease font size",
-      "aria-label": "Decrease font size"
-    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-dash-lg"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn btn-outline-secondary btn-sm touch-friendly",
+      "aria-label": "Decrease font size",
+      title: "Decrease font size"
+    }, _toConsumableArray(_cache[53] || (_cache[53] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-dash-lg fs-2"
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_54), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      "class": "btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0",
+      style: {
+        "width": "48px",
+        "height": "48px"
+      },
       onClick: function onClick($event) {
         return $options.adjustFontSize(term.id, 1);
       },
       disabled: $data.termFontSizes[term.id] >= $data.maxFontSize,
-      title: "Increase font size",
-      "aria-label": "Increase font size"
-    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-plus-lg"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn btn-outline-secondary btn-sm touch-friendly",
-      onClick: function onClick($event) {
-        return $options.resetFontSize(term.id);
+      "aria-label": "Increase font size",
+      title: "Increase font size"
+    }, _toConsumableArray(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-plus-lg fs-2"
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_55), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      "class": "btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0",
+      style: {
+        "width": "48px",
+        "height": "48px"
       },
-      title: "Reset font size",
-      "aria-label": "Reset font size"
-    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-fonts"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      "class": "btn btn-outline-success btn-sm touch-friendly",
-      href: $options.getWhatsAppShareLink(term),
-      target: "_blank",
-      title: "Share via WhatsApp",
-      "aria-label": "Share via WhatsApp"
-    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-whatsapp"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn btn-outline-secondary btn-sm touch-friendly",
+      onClick: function onClick($event) {
+        return $options.toggleFavorite(term.id);
+      },
+      "aria-label": "Toggle favorite",
+      title: $data.favorites.includes(term.id) ? 'Remove from favorites' : 'Add to favorites'
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.favorites.includes(term.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart', 'fs-2'])
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_56), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      "class": "btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0",
+      style: {
+        "width": "48px",
+        "height": "48px"
+      },
+      onClick: function onClick($event) {
+        return _ctx.window.open($options.getWhatsAppShareLink(term), '_blank');
+      },
+      "aria-label": "Share via WhatsApp",
+      title: "Share via WhatsApp"
+    }, _toConsumableArray(_cache[55] || (_cache[55] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-whatsapp fs-2"
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_57), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      "class": "btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0",
+      style: {
+        "width": "48px",
+        "height": "48px"
+      },
       onClick: function onClick($event) {
         return $options.copyToClipboard(term);
       },
-      title: "Copy to clipboard",
-      "aria-label": "Copy term details"
-    }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-clipboard"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn btn-outline-secondary btn-sm touch-friendly",
+      "aria-label": "Copy to clipboard",
+      title: "Copy to clipboard"
+    }, _toConsumableArray(_cache[56] || (_cache[56] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-clipboard fs-2"
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_58), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      "class": "btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0",
+      style: {
+        "width": "48px",
+        "height": "48px"
+      },
       onClick: function onClick($event) {
         return $options.speakTerm(term);
       },
       disabled: !$data.isSpeechSynthesisSupported,
-      title: $data.isSpeechSynthesisSupported ? 'Read aloud' : 'Text-to-speech not supported',
-      "aria-label": "Read term aloud"
-    }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-volume-up"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_34)])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), $options.filteredTerms.length > $data.termsPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+      "aria-label": "Read aloud",
+      title: $data.isSpeechSynthesisSupported ? 'Read aloud' : 'Text-to-speech not supported'
+    }, _toConsumableArray(_cache[57] || (_cache[57] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-volume-up fs-2"
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_59)])])], 46 /* CLASS, STYLE, PROPS, NEED_HYDRATION */, _hoisted_42)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.showPagination ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
-      disabled: $data.currentPage === 1
+      disabled: $options.currentPageNumber === 1
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "page-link touch-friendly",
-    onClick: _cache[12] || (_cache[12] = function ($event) {
-      return $data.currentPage--;
+    "class": "page-link rounded-pill mx-1 px-4 py-2",
+    onClick: _cache[22] || (_cache[22] = function ($event) {
+      return $options.goToPage($options.currentPageNumber - 1);
     }),
     "aria-label": "Previous"
-  }, _cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "aria-hidden": "true"
-  }, "«", -1 /* HOISTED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+  }, "«", -1 /* HOISTED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_63, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentPageNumber) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
-      disabled: $data.currentPage === $options.totalPages
+      disabled: $options.currentPageNumber === $options.totalPages
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "page-link touch-friendly",
-    onClick: _cache[13] || (_cache[13] = function ($event) {
-      return $data.currentPage++;
+    "class": "page-link rounded-pill mx-1 px-4 py-2",
+    onClick: _cache[23] || (_cache[23] = function ($event) {
+      return $options.goToPage($options.currentPageNumber + 1);
     }),
     "aria-label": "Next"
-  }, _cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _cache[59] || (_cache[59] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "aria-hidden": "true"
-  }, "»", -1 /* HOISTED */)]))], 2 /* CLASS */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])], 4 /* STYLE */);
+  }, "»", -1 /* HOISTED */)]))], 2 /* CLASS */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Back to Top Button "), $options.displayedTerms.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 2,
+    "class": "btn btn-lg rounded-circle position-fixed shadow-lg",
+    onClick: _cache[24] || (_cache[24] = function () {
+      return $options.scrollToTop && $options.scrollToTop.apply($options, arguments);
+    }),
+    title: "Back to top",
+    "aria-label": "Back to top",
+    style: {
+      "background-color": "#00bfa6",
+      "color": "#fff",
+      "bottom": "30px",
+      "right": "30px",
+      "z-index": "100",
+      "width": "60px",
+      "height": "60px"
+    }
+  }, _cache[60] || (_cache[60] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-arrow-up fs-5"
+  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 8 /* PROPS */, _hoisted_37)], 4 /* STYLE */);
 }
 
 /***/ }),
@@ -60641,6 +61129,599 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       width: $data.progress[$data.currentlyPlayingIndex] + '%'
     })
   }, null, 4 /* STYLE */)], 32 /* NEED_HYDRATION */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ConvertComponent.vue?vue&type=template&id=d2c5d416&scoped=true":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ConvertComponent.vue?vue&type=template&id=d2c5d416&scoped=true ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+
+var _hoisted_1 = {
+  "class": "container py-4 convert-bg text-black"
+};
+var _hoisted_2 = {
+  "class": "card mb-5 shadow-sm convert-card fade-in"
+};
+var _hoisted_3 = {
+  "class": "card-body"
+};
+var _hoisted_4 = {
+  "class": "d-flex justify-content-between align-items-center mb-3"
+};
+var _hoisted_5 = {
+  "class": "mb-3"
+};
+var _hoisted_6 = {
+  "class": "progress",
+  style: {
+    "height": "30px"
+  }
+};
+var _hoisted_7 = ["aria-valuenow"];
+var _hoisted_8 = {
+  "class": "list-group list-group-flush"
+};
+var _hoisted_9 = ["onUpdate:modelValue", "id"];
+var _hoisted_10 = ["for"];
+var _hoisted_11 = {
+  "class": "card mb-5 shadow-sm convert-card fade-in"
+};
+var _hoisted_12 = {
+  "class": "card-body"
+};
+var _hoisted_13 = {
+  "class": "d-flex justify-content-between align-items-center mb-3"
+};
+var _hoisted_14 = {
+  id: "testimonialCarousel",
+  "class": "carousel slide",
+  "data-bs-ride": "carousel"
+};
+var _hoisted_15 = {
+  "class": "carousel-inner"
+};
+var _hoisted_16 = {
+  "class": "d-flex flex-column align-items-center"
+};
+var _hoisted_17 = ["src"];
+var _hoisted_18 = {
+  "class": "blockquote text-center"
+};
+var _hoisted_19 = {
+  "class": "mb-2"
+};
+var _hoisted_20 = {
+  "class": "blockquote-footer"
+};
+var _hoisted_21 = {
+  "class": "card mb-5 shadow-sm convert-card fade-in"
+};
+var _hoisted_22 = {
+  "class": "card-body"
+};
+var _hoisted_23 = {
+  key: 0,
+  "class": "alert alert-success"
+};
+var _hoisted_24 = {
+  key: 1
+};
+var _hoisted_25 = {
+  "class": "fw-bold mb-2"
+};
+var _hoisted_26 = {
+  "class": "d-flex flex-column gap-2"
+};
+var _hoisted_27 = ["onClick", "disabled", "title"];
+var _hoisted_28 = {
+  key: 0
+};
+var _hoisted_29 = {
+  key: 0,
+  "class": "text-success"
+};
+var _hoisted_30 = {
+  key: 1,
+  "class": "text-danger"
+};
+var _hoisted_31 = ["disabled"];
+var _hoisted_32 = {
+  "class": "card mb-5 shadow-sm convert-card fade-in"
+};
+var _hoisted_33 = {
+  "class": "card-body"
+};
+var _hoisted_34 = {
+  controls: "",
+  "class": "w-100 mb-2"
+};
+var _hoisted_35 = ["src"];
+var _hoisted_36 = ["href"];
+var _hoisted_37 = {
+  "class": "card mb-5 shadow-sm convert-card fade-in"
+};
+var _hoisted_38 = {
+  "class": "card-body"
+};
+var _hoisted_39 = {
+  "class": "list-group list-group-flush mb-3"
+};
+var _hoisted_40 = {
+  "class": "accordion",
+  id: "faqAccordion"
+};
+var _hoisted_41 = ["id"];
+var _hoisted_42 = ["data-bs-target"];
+var _hoisted_43 = ["id"];
+var _hoisted_44 = {
+  "class": "accordion-body"
+};
+var _hoisted_45 = {
+  "class": "row row-cols-1 row-cols-md-2 g-4 mb-5 fade-in"
+};
+var _hoisted_46 = {
+  "class": "card h-100 convert-card"
+};
+var _hoisted_47 = {
+  "class": "card-body"
+};
+var _hoisted_48 = {
+  "class": "card-title"
+};
+var _hoisted_49 = ["href", "download", "title"];
+var _hoisted_50 = {
+  "class": "card mb-5 shadow-sm convert-card fade-in"
+};
+var _hoisted_51 = {
+  "class": "card-body"
+};
+var _hoisted_52 = {
+  "class": "ratio ratio-16x9 mb-3"
+};
+var _hoisted_53 = ["src"];
+var _hoisted_54 = {
+  "class": "d-flex flex-wrap gap-3 mb-3"
+};
+var _hoisted_55 = ["href", "title"];
+var _hoisted_56 = {
+  "class": "d-flex flex-wrap gap-3"
+};
+var _hoisted_57 = ["href", "title"];
+var _hoisted_58 = {
+  "class": "card mb-5 shadow-sm convert-card fade-in"
+};
+var _hoisted_59 = {
+  "class": "card-body"
+};
+var _hoisted_60 = {
+  "class": "row row-cols-1 row-cols-md-2 g-4"
+};
+var _hoisted_61 = {
+  "class": "card h-100 border-0"
+};
+var _hoisted_62 = {
+  "class": "card-body"
+};
+var _hoisted_63 = {
+  "class": "card-title"
+};
+var _hoisted_64 = {
+  "class": "card-text"
+};
+var _hoisted_65 = ["href", "download", "title"];
+var _hoisted_66 = {
+  "class": "card mb-5 shadow-sm convert-card fade-in"
+};
+var _hoisted_67 = {
+  "class": "card-body"
+};
+var _hoisted_68 = {
+  "class": "mb-3"
+};
+var _hoisted_69 = ["disabled"];
+var _hoisted_70 = ["disabled"];
+var _hoisted_71 = {
+  key: 0,
+  "class": "alert alert-success mt-2",
+  role: "alert"
+};
+var _hoisted_72 = {
+  key: 1,
+  "class": "alert alert-danger mt-2",
+  role: "alert"
+};
+var _hoisted_73 = {
+  "class": "card mb-5 shadow-sm convert-card fade-in"
+};
+var _hoisted_74 = {
+  "class": "card-body"
+};
+var _hoisted_75 = {
+  "class": "list-group"
+};
+var _hoisted_76 = {
+  "class": "card mb-5 shadow-sm convert-card fade-in"
+};
+var _hoisted_77 = {
+  "class": "card-body"
+};
+var _hoisted_78 = {
+  "class": "mb-3"
+};
+var _hoisted_79 = ["disabled"];
+var _hoisted_80 = ["disabled"];
+var _hoisted_81 = {
+  key: 0,
+  "class": "alert alert-success mt-2",
+  role: "alert"
+};
+var _hoisted_82 = {
+  key: 1,
+  "class": "alert alert-danger mt-2",
+  role: "alert"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 1. Welcome "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center mb-5 fade-in"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-5 fw-bold",
+    style: {
+      "color": "#00bfa6"
+    }
+  }, "Welcome, New Muslim!"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead"
+  }, "Your journey begins here. We're here to support you every step of the way.")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Tracker "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "card-title mb-0"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-bar-chart-steps me-2",
+    style: {
+      "color": "#00bfa6"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Your Journey Progress")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-danger btn-sm",
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $options.resetProgress && $options.resetProgress.apply($options, arguments);
+    }),
+    title: "Reset all progress"
+  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-arrow-counterclockwise"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reset")]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress-bar",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      width: $options.progressPercent + '%',
+      backgroundColor: '#00bfa6'
+    }),
+    role: "progressbar",
+    "aria-valuenow": $options.progressPercent,
+    "aria-valuemin": "0",
+    "aria-valuemax": "100"
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.progressPercent) + "% ", 13 /* TEXT, STYLE, PROPS */, _hoisted_7)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.journeySteps, function (step, i) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: i,
+      "class": "list-group-item bg-white text-black d-flex align-items-center"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "checkbox",
+      "class": "form-check-input me-2",
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return step.completed = $event;
+      },
+      onChange: _cache[1] || (_cache[1] = function () {
+        return $options.updateProgress && $options.updateProgress.apply($options, arguments);
+      }),
+      id: 'journey-step-' + i
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_9), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, step.completed]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "for": 'journey-step-' + i,
+      "class": "mb-0"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.label), 9 /* TEXT, PROPS */, _hoisted_10)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Testimonials Carousel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "card-title mb-0"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-chat-quote-fill me-2",
+    style: {
+      "color": "#00bfa6"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Testimonials")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-primary btn-sm",
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.shareTestimonial && $options.shareTestimonial.apply($options, arguments);
+    }),
+    title: "Share this testimonial"
+  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-share"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share")]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.testimonials, function (testimonial, i) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: i,
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['carousel-item', {
+        active: i === $data.testimonialIndex
+      }])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      src: testimonial.avatar,
+      "class": "rounded-circle mb-3",
+      style: {
+        "width": "80px",
+        "height": "80px",
+        "object-fit": "cover",
+        "border": "2px solid #00bfa6"
+      }
+    }, null, 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("blockquote", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, "\"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(testimonial.text) + "\"", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(testimonial.name) + " from " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(testimonial.country), 1 /* TEXT */)])])], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "carousel-control-prev",
+    type: "button",
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.prevTestimonial && $options.prevTestimonial.apply($options, arguments);
+    }),
+    title: "Previous testimonial"
+  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "carousel-control-prev-icon",
+    "aria-hidden": "true"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Previous", -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "carousel-control-next",
+    type: "button",
+    onClick: _cache[4] || (_cache[4] = function () {
+      return $options.nextTestimonial && $options.nextTestimonial.apply($options, arguments);
+    }),
+    title: "Next testimonial"
+  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "carousel-control-next-icon",
+    "aria-hidden": "true"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Next", -1 /* HOISTED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Interactive Quiz "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "card-title mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-question-circle-fill me-2",
+    style: {
+      "color": "#00bfa6"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Islam Basics Quiz")], -1 /* HOISTED */)), $data.quizCompleted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("You scored " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.quizScore) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.quizQuestions.length) + "! ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-link p-0",
+    onClick: _cache[5] || (_cache[5] = function () {
+      return $options.resetQuiz && $options.resetQuiz.apply($options, arguments);
+    })
+  }, "Try Again")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.quizQuestions, function (q, i) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: i,
+      "class": "mb-4"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(i + 1) + ". " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(q.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(q.options, function (option, j) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+        key: j,
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-primary btn-sm text-start convert-btn-outline", {
+          'active': q.userAnswer === option
+        }]),
+        onClick: function onClick($event) {
+          return $options.selectQuizAnswer(i, option);
+        },
+        disabled: $data.quizCompleted,
+        title: 'Select answer: ' + option
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 11 /* TEXT, CLASS, PROPS */, _hoisted_27);
+    }), 128 /* KEYED_FRAGMENT */))]), $data.quizCompleted && q.userAnswer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, [q.userAnswer === q.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_29, _toConsumableArray(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-check-circle-fill"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Correct")])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_30, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-x-circle-fill"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Incorrect (Correct: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(q.answer) + ")", 1 /* TEXT */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-success convert-btn",
+    onClick: _cache[6] || (_cache[6] = function () {
+      return $options.submitQuiz && $options.submitQuiz.apply($options, arguments);
+    }),
+    disabled: $data.quizQuestions.some(function (q) {
+      return !q.userAnswer;
+    }),
+    title: "Submit quiz"
+  }, "Submit Quiz", 8 /* PROPS */, _hoisted_31)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 2. Shahada "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "card-title mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-star-fill me-2",
+    style: {
+      "color": "#00bfa6"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Step 1: The Shahada")], -1 /* HOISTED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "The testimony of faith is the first step to becoming a Muslim.", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    src: $data.shahadaAudio,
+    type: "audio/mpeg"
+  }, null, 8 /* PROPS */, _hoisted_35), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Your browser does not support the audio element. "))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: $data.shahadaCertificate,
+    "class": "btn convert-btn btn-sm",
+    download: "",
+    title: "Download Shahada certificate"
+  }, "Download Shahada Certificate", 8 /* PROPS */, _hoisted_36)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 3. First Steps Checklist "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "card-title mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-list-check me-2",
+    style: {
+      "color": "#00bfa6"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Step 2: Your First Steps")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.firstSteps, function (step, i) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: i,
+      "class": "list-group-item bg-white text-black d-flex align-items-center"
+    }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-check-circle-fill me-2",
+      style: {
+        "color": "#00bfa6"
+      }
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, function (faq, i) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "accordion-item",
+      key: i
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+      "class": "accordion-header",
+      id: 'faq' + i
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["accordion-button", {
+        'collapsed': i !== 0
+      }]),
+      type: "button",
+      "data-bs-toggle": "collapse",
+      "data-bs-target": '#collapse' + i
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.q), 11 /* TEXT, CLASS, PROPS */, _hoisted_42)], 8 /* PROPS */, _hoisted_41), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      id: 'collapse' + i,
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["accordion-collapse collapse", {
+        'show': i === 0
+      }]),
+      "data-bs-parent": "#faqAccordion"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.a), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_43)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 4. Learning the Basics "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.basics, function (basic, i) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "col",
+      key: i
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([basic.icon, "me-2"]),
+      style: {
+        "color": "#00bfa6"
+      }
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(basic.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: basic.link,
+      "class": "btn btn-outline-primary btn-sm convert-btn-outline",
+      download: basic.download || false,
+      target: "_blank",
+      title: basic.cta
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(basic.cta), 9 /* TEXT, PROPS */, _hoisted_49)])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 5. Community & Support "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "card-title mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-people-fill me-2",
+    style: {
+      "color": "#00bfa6"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Find Community")], -1 /* HOISTED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Connect with other Muslims near you and online.", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
+    src: $data.communityMap,
+    allowfullscreen: ""
+  }, null, 8 /* PROPS */, _hoisted_53)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.communityGroups, function (group, i) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+      key: i,
+      href: group.link,
+      "class": "btn btn-info btn-sm convert-btn",
+      target: "_blank",
+      title: 'Join ' + group.name
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([group.icon, "me-1"])
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.name), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_55);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.organizations, function (org, i) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+      key: i,
+      href: org.link,
+      "class": "btn btn-outline-dark btn-sm",
+      target: "_blank",
+      title: 'Visit ' + org.name
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([org.icon, "me-1"])
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(org.name), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_57);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 6. Resources "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "card-title mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-journal-richtext me-2",
+    style: {
+      "color": "#00bfa6"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Resources")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.resources, function (resource, i) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "col",
+      key: i
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([resource.icon, "me-2"]),
+      style: {
+        "color": "#00bfa6"
+      }
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(resource.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(resource.desc), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: resource.link,
+      "class": "btn btn-outline-primary btn-sm convert-btn-outline",
+      download: resource.download || false,
+      target: "_blank",
+      title: resource.cta
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(resource.cta), 9 /* TEXT, PROPS */, _hoisted_65)])])]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 7. Ask a Question "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "card-title mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-question-circle-fill me-2",
+    style: {
+      "color": "#00bfa6"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Need Help?")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.submitQuestion && $options.submitQuestion.apply($options, arguments);
+    }, ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "question",
+    "class": "form-label"
+  }, "Ask us anything", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+    "class": "form-control",
+    id: "question",
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+      return $data.question = $event;
+    }),
+    rows: "2",
+    disabled: $data.questionLoading
+  }, null, 8 /* PROPS */, _hoisted_69), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.question]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "submit",
+    "class": "btn btn-primary btn-sm convert-btn",
+    disabled: $data.questionLoading,
+    title: "Send your question"
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.questionLoading ? 'Sending...' : 'Send'), 9 /* TEXT, PROPS */, _hoisted_70)], 32 /* NEED_HYDRATION */), $data.questionSent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_71, " Thank you for your question! We'll get back to you soon. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.questionError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.questionError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 8. Events & Meetups "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "card-title mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-calendar-event-fill me-2",
+    style: {
+      "color": "#00bfa6"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Upcoming Events")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_75, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.events, function (event, i) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: i,
+      "class": "list-group-item d-flex justify-content-between align-items-center bg-white text-black"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-calendar2-week me-2",
+      style: {
+        "color": "#00bfa6"
+      }
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge rounded-pill", event.badgeClass])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event.badge), 3 /* TEXT, CLASS */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 9. Feedback "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "card-title mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-chat-dots-fill me-2",
+    style: {
+      "color": "#00bfa6"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Feedback")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.submitFeedback && $options.submitFeedback.apply($options, arguments);
+    }, ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "feedback",
+    "class": "form-label"
+  }, "Your feedback", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+    "class": "form-control",
+    id: "feedback",
+    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+      return $data.feedback = $event;
+    }),
+    rows: "2",
+    disabled: $data.feedbackLoading
+  }, null, 8 /* PROPS */, _hoisted_79), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.feedback]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "submit",
+    "class": "btn btn-secondary btn-sm convert-btn",
+    disabled: $data.feedbackLoading,
+    title: "Submit feedback"
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.feedbackLoading ? 'Submitting...' : 'Submit'), 9 /* TEXT, PROPS */, _hoisted_80)], 32 /* NEED_HYDRATION */), $data.feedbackSent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, " Thank you for your feedback! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.feedbackError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_82, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.feedbackError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Call to Action "), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card mb-5 shadow-sm convert-card fade-in\" data-v-d2c5d416><div class=\"card-body text-center\" data-v-d2c5d416><h2 class=\"card-title mb-3\" style=\"color:#00bfa6;\" data-v-d2c5d416><i class=\"bi bi-megaphone-fill me-2\" data-v-d2c5d416></i>Get Involved!</h2><p class=\"mb-3\" data-v-d2c5d416>Share your story to inspire others, or book a 1:1 session with a mentor for personalized support.</p><div class=\"d-flex flex-column flex-md-row justify-content-center gap-3\" data-v-d2c5d416><a href=\"mailto:stories@islamicconnect.com\" class=\"btn btn-success convert-btn\" title=\"Share your story\" data-v-d2c5d416><i class=\"bi bi-pencil-square me-1\" data-v-d2c5d416></i> Share Your Story</a><a href=\"https://calendly.com/mentor-session\" target=\"_blank\" class=\"btn btn-primary convert-btn\" title=\"Book a mentor session\" data-v-d2c5d416><i class=\"bi bi-person-video3 me-1\" data-v-d2c5d416></i> Book 1:1 Mentor Session</a></div></div></div>", 1))]);
 }
 
 /***/ }),
@@ -64662,7 +65743,7 @@ var _hoisted_47 = {
 var _hoisted_48 = ["onClick"];
 var _hoisted_49 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "display-5 fw-bold text-dark"
@@ -64763,9 +65844,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "height": "38px"
       }
     }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_33)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
-    "class": "container"
-  }, null, -1 /* HOISTED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }), 128 /* KEYED_FRAGMENT */))])])]), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold mb-3"
   }, "All Allah's Names", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Names Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredNames, function (name) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -64814,7 +65893,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, _toConsumableArray(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-whatsapp me-2"
     }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_49)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }), 128 /* KEYED_FRAGMENT */))]), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     "class": "container"
   }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"filteredNames.length === 0\" class=\"text-center py-5\">\n        <h3 class=\"text-muted\">No names found</h3>\n        <button @click=\"resetFilters\" class=\"btn btn-outline-dark mt-3\">Reset Filters</button>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-show=\"showScrollToTop\" @click=\"scrollToTop\"\n        class=\"btn position-fixed rounded-circle d-flex align-items-center justify-content-center\"\n        style=\"bottom: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; background: rgb(13, 182, 145); color: white;\"\n        title=\"Back to Top\">\n        <i class=\"bi bi-chevron-up h3 fs-5\"></i>\n      </button> ")])]);
 }
@@ -170463,30 +171542,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.img-fluid[data-v-300b761a] {\n  wid
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted[data-v-424e5bb8] {\n  border: 2px solid rgb(13, 182, 145);\n  background-color: rgba(10, 228, 181, 0.232);\n  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;\n}\n.icon-container[data-v-424e5bb8] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  cursor: pointer;\n}\n.icon-tooltip[data-v-424e5bb8] {\n  font-size: 1.3rem;\n  transition: color 0.3s ease-in-out;\n}\n.icon-tooltip[data-v-424e5bb8]:hover {\n  color: rgb(13, 182, 145);\n}\n.icon-text[data-v-424e5bb8] {\n  font-size: 0.875rem;\n  color: #333;\n}\nimg[data-v-424e5bb8] {\n  max-width: 180px;\n  height: auto;\n}\n.card[data-v-424e5bb8] {\n  height: 100%;\n  transition: transform 0.3s ease-in-out;\n}\n.card[data-v-424e5bb8]:hover {\n  transform: scale(1.02);\n}\n.card-title[data-v-424e5bb8] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.pagination .page-item.disabled .page-link[data-v-424e5bb8] {\n  cursor: not-allowed;\n}\n.pagination .page-link[data-v-424e5bb8] {\n  cursor: pointer;\n}\n@media (max-width: 576px) {\n.pagination[data-v-424e5bb8] {\n    flex-wrap: nowrap;\n    justify-content: center;\n}\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/BooksComponent.vue?vue&type=style&index=0&id=6de819c4&scoped=true&lang=css":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/BooksComponent.vue?vue&type=style&index=0&id=6de819c4&scoped=true&lang=css ***!
@@ -170504,7 +171559,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dictionary-app[data-v-6de819c4] {\n  min-height: 100vh;\n  background-color: #f8f9fa;\n}\n.bg-gradient-primary[data-v-6de819c4] {\n  background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);\n}\n.search-section[data-v-6de819c4] {\n  background-color: rgba(255, 255, 255, 0.9);\n  border-radius: 12px;\n  padding: 1rem;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);\n}\n.search-bar .form-control[data-v-6de819c4] {\n  border-radius: 8px !important;\n}\n.suggestions-dropdown[data-v-6de819c4] {\n  position: absolute;\n  width: 100%;\n  z-index: 1050;\n  background: white;\n  max-height: 40vh;\n  overflow-y: auto;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  border-top: none;\n}\n.suggestions-dropdown .list-group-item[data-v-6de819c4] {\n  border-left: none;\n  border-right: none;\n  padding: 0.5rem 1rem;\n  font-size: 0.9rem;\n}\n.suggestions-dropdown .list-group-item[data-v-6de819c4]:last-child {\n  border-bottom: none;\n}\n.suggestions-dropdown .list-group-item.active[data-v-6de819c4] {\n  background-color: #4e4376;\n  border-color: #4e4376;\n}\n.card[data-v-6de819c4] {\n  border-radius: 12px;\n  transition: all 0.3s ease;\n  overflow: hidden;\n}\n.card[data-v-6de819c4]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.hover-effect[data-v-6de819c4]:hover {\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);\n}\n.touch-friendly[data-v-6de819c4] {\n  min-width: 40px;\n  min-height: 40px;\n  padding: 0.5rem;\n  touch-action: manipulation;\n}\n.empty-state[data-v-6de819c4] {\n  background-color: white;\n  border-radius: 12px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n.empty-icon[data-v-6de819c4] {\n  color: #e9ecef;\n}\n@media (max-width: 768px) {\n.dictionary-app[data-v-6de819c4] {\n    font-size: 0.9rem;\n}\n.search-section[data-v-6de819c4] {\n    padding: 0.75rem;\n}\n.card-header[data-v-6de819c4] {\n    gap: 0.5rem !important;\n    padding: 0.5rem !important;\n}\n.card-body[data-v-6de819c4] {\n    padding: 0.75rem !important;\n}\n.pagination[data-v-6de819c4] {\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.dictionary-app[data-v-6de819c4] {\n    font-size: 0.85rem;\n}\n.display-6[data-v-6de819c4] {\n    font-size: 1.5rem !important;\n}\n.fs-6[data-v-6de819c4] {\n    font-size: 0.9rem !important;\n}\n.card-title[data-v-6de819c4] {\n    font-size: 1.1rem !important;\n}\n.card-text[data-v-6de819c4],\n  .card-body p[data-v-6de819c4],\n  .card-body small[data-v-6de819c4] {\n    font-size: 0.9rem !important;\n}\n}\n[data-v-6de819c4]:focus {\n  outline: 2px solid #4e4376;\n  outline-offset: 2px;\n}\n.btn[data-v-6de819c4]:focus,\n.form-control[data-v-6de819c4]:focus,\n.form-select[data-v-6de819c4]:focus {\n  box-shadow: 0 0 0 0.25rem rgba(78, 67, 118, 0.25);\n}\n.pagination .page-link[data-v-6de819c4] {\n  border-radius: 8px;\n  margin: 0 0.2rem;\n  padding: 0.5rem 1rem;\n}\n.pagination .page-item.active .page-link[data-v-6de819c4] {\n  background-color: #4e4376;\n  border-color: #4e4376;\n}\n.pagination .page-item.disabled .page-link[data-v-6de819c4] {\n  cursor: not-allowed;\n  opacity: 0.65;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Minimal custom styles - using Bootstrap 5 for everything else */\n.skip-link[data-v-6de819c4]:focus {\n  top: 20px !important;\n  opacity: 1 !important;\n}\n/* Pulse animation for microphone */\n@keyframes pulse-6de819c4 {\n0% { transform: scale(1);\n}\n50% { transform: scale(1.1);\n}\n100% { transform: scale(1);\n}\n}\n.pulse[data-v-6de819c4] {\n  animation: pulse-6de819c4 1.5s infinite;\n}\n/* Suggestions dropdown active item custom color */\n.list-group-item.active[data-v-6de819c4],\n.list-group-item[data-v-6de819c4]:active {\n  background-color: rgb(0, 191, 166) !important;\n  color: #fff !important;\n  border-color: rgb(0, 191, 166) !important;\n}\n/* Responsive adjustments */\n@media (max-width: 768px) {\n.nav-pills .nav-link[data-v-6de819c4] {\n    padding: 0.5rem 0.75rem;\n    font-size: 0.9rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -170577,6 +171632,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.audio-actions[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 18px;\n}\n.volume-slider[data-v-e4489e22] {\n  accent-color: #0db691;\n  vertical-align: middle;\n}\n.podcast-card-wrapper[data-v-e4489e22] {\n  padding: 10px;\n}\n\n/* Main Layout Styles */\n.header-section[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 3rem;\n  padding: 2rem 1rem;\n  border-radius: 20px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n}\n.main-title[data-v-e4489e22] {\n  font-size: 2.8rem;\n  font-weight: 800;\n  color: #2c3e50;\n  margin-bottom: 1.5rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n  letter-spacing: -0.02em;\n}\n.main-description[data-v-e4489e22] {\n  text-align: center;\n  font-size: 1.2rem;\n  line-height: 1.8;\n  color: #495057;\n  max-width: 900px;\n  margin: 0 auto;\n  font-weight: 400;\n}\n\n/* Section Headers */\n.selection-section[data-v-e4489e22],\n.episodes-section[data-v-e4489e22] {\n  margin-bottom: 3rem;\n}\n.section-header[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 2.5rem;\n  padding: 0 1rem;\n}\n.section-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.75rem;\n  letter-spacing: -0.01em;\n}\n.section-subtitle[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 500;\n  color: #6c757d;\n  margin: 0;\n  line-height: 1.5;\n}\n\n/* Podcast Selection Grid */\n.podcast-selection-grid[data-v-e4489e22] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 2rem;\n  margin-bottom: 3rem;\n}\n.podcast-selection-item[data-v-e4489e22] {\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  border-radius: 20px;\n  overflow: hidden;\n  background: #ffffff;\n  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);\n  border: 2px solid transparent;\n  position: relative;\n}\n.podcast-selection-item[data-v-e4489e22]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 25px 50px rgba(13, 182, 145, 0.2);\n  border-color: #0db6a1;\n}\n.podcast-selection-item[data-v-e4489e22]:active {\n  transform: translateY(-4px);\n}\n.podcast-image-wrapper[data-v-e4489e22] {\n  position: relative;\n  overflow: hidden;\n  aspect-ratio: 1;\n}\n.podcast-selection-image[data-v-e4489e22] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  transition: transform 0.3s ease;\n}\n.podcast-overlay[data-v-e4489e22] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(13, 182, 145, 0.9);\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  opacity: 0;\n  transition: opacity 0.3s ease;\n  gap: 0.5rem;\n}\n.podcast-overlay i[data-v-e4489e22] {\n  font-size: 3.5rem;\n  color: white;\n}\n.play-text[data-v-e4489e22] {\n  color: white;\n  font-weight: 600;\n  font-size: 1rem;\n  text-align: center;\n}\n.podcast-selection-item:hover .podcast-overlay[data-v-e4489e22] {\n  opacity: 1;\n}\n.podcast-selection-item:hover .podcast-selection-image[data-v-e4489e22] {\n  transform: scale(1.1);\n}\n.podcast-selection-name[data-v-e4489e22] {\n  padding: 1.5rem;\n  margin: 0;\n  font-size: 1.3rem;\n  font-weight: 300;\n  color: #2c3e50;\n  text-align: center;\n  line-height: 1.4;\n  background: #ffffff;\n}\n\n/* Selected Podcast Section */\n.selected-podcast-section[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 24px;\n  padding: 2.5rem;\n  margin-bottom: 3rem;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);\n  border: 2px solid rgba(13, 182, 145, 0.1);\n}\n.selected-podcast-header[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 2.5rem;\n  margin-bottom: 2rem;\n}\n.selected-podcast-info[data-v-e4489e22] {\n  flex: 1;\n}\n.selected-podcast-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 1rem;\n  line-height: 1.3;\n}\n.selected-podcast-meta[data-v-e4489e22] {\n  display: flex;\n  gap: 1rem;\n  flex-wrap: wrap;\n}\n.episode-count[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.75rem 1.5rem;\n  background: rgba(13, 182, 145, 0.15);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  border: 2px solid rgba(13, 182, 145, 0.2);\n}\n.episode-count i[data-v-e4489e22] {\n  font-size: 1.2rem;\n}\n.selected-podcast-image-container[data-v-e4489e22] {\n  flex-shrink: 0;\n}\n.selected-podcast-image[data-v-e4489e22] {\n  width: 140px;\n  height: 140px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-radius: 20px;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);\n  border: 3px solid #ffffff;\n}\n.selected-podcast-description[data-v-e4489e22] {\n  color: #495057;\n  line-height: 1.8;\n  font-size: 1.1rem;\n  font-weight: 400;\n}\n.selected-podcast-description p[data-v-e4489e22] {\n  margin: 0;\n}\n\n/* Enhanced Card Styles */\n.highlighted[data-v-e4489e22] {\n  box-shadow: 0 0 0 4px rgba(13, 182, 145, 0.3), 0 15px 40px rgba(13, 182, 145, 0.25);\n  transform: translateY(-3px);\n  background: linear-gradient(135deg, #ffffff 0%, #f0fffd 100%);\n}\n.podcast-card[data-v-e4489e22] {\n  background: #ffffff;\n  border-radius: 35px;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  border: 5px solid rgba(0, 0, 0, 0.05);\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  overflow: hidden;\n  height: 100%;\n  position: relative;\n  padding: 2rem 1.5rem;\n}\n.podcast-card[data-v-e4489e22]:hover {\n  transform: none;\n  box-shadow: none;\n}\n.podcast-card.highlighted[data-v-e4489e22] {\n  border-color: #0db6a1;\n  background: linear-gradient(135deg, #f2fffc 0%, #e6fcf7 100%);\n  border-width: 2.5px;\n  outline: 2px solid #0db6a1;\n  box-shadow: 0 8px 32px 0 rgba(13, 182, 145, 0.10), 0 1.5px 8px 0 rgba(0, 0, 0, 0.06);\n  z-index: 2;\n}\n.podcast-card.highlighted[data-v-e4489e22]::after {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  border-radius: 20px;\n  pointer-events: none;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  animation: playing-glow-e4489e22 1.5s infinite alternate;\n}\n@keyframes playing-glow-e4489e22 {\n0% {\n    box-shadow: 0 0 8px 2px rgba(13, 182, 145, 0.10);\n}\n100% {\n    box-shadow: 0 0 24px 8px rgba(13, 182, 145, 0.22);\n}\n}\n\n/* Card Header */\n.podcast-meta[data-v-e4489e22] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 16px;\n}\n.views-badge[data-v-e4489e22],\n.date-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 16px;\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 25px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #495057;\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  border: 2px solid rgba(0, 0, 0, 0.05);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.views-badge i[data-v-e4489e22],\n.date-badge i[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #0db6a1;\n}\n\n/* Card Body */\n.card-body[data-v-e4489e22] {\n  padding: 24px;\n  display: flex;\n  flex-direction: column;\n}\n.podcast-title[data-v-e4489e22] {\n  font-size: 1.35rem;\n  font-weight: 800;\n  line-height: 1.4;\n  color: #2c3e50;\n  margin: 0;\n  display: -webkit-box;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 3.6rem;\n}\n.meta-text[data-v-e4489e22] {\n  font-size: 0.98rem;\n  font-weight: 500;\n  color: #6c757d;\n}\n\n/* Audio Controls */\n.audio-controls[data-v-e4489e22] {\n  display: none !important;\n}\n.control-button[data-v-e4489e22] {\n  background: none;\n  border: none;\n  padding: 16px;\n  border-radius: 50%;\n  cursor: pointer;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n  min-width: 60px;\n  min-height: 60px;\n  gap: 12px;\n}\n.control-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.1);\n  transform: scale(1.05);\n}\n.control-button i[data-v-e4489e22] {\n  font-size: 1.8rem;\n  color: #495057;\n  transition: color 0.2s ease;\n}\n.control-label[data-v-e4489e22] {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #6c757d;\n  text-align: center;\n  line-height: 1.2;\n}\n.rewind-btn[data-v-e4489e22],\n.forward-btn[data-v-e4489e22] {\n  background: rgba(108, 117, 125, 0.1);\n  border: 2px solid rgba(108, 117, 125, 0.1);\n}\n.rewind-btn[data-v-e4489e22]:hover,\n.forward-btn[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.2);\n}\n\n/* Action Buttons */\n.action-buttons[data-v-e4489e22] {\n  display: flex;\n  justify-content: center;\n  gap: 16px;\n}\n.action-button[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 12px 20px;\n  background: rgba(13, 182, 145, 0.1);\n  border: 2px solid rgba(13, 182, 145, 0.2);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  text-decoration: none;\n  min-height: 48px;\n}\n.action-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.3);\n  transform: translateY(-2px);\n  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);\n}\n.action-button i[data-v-e4489e22] {\n  font-size: 1.1rem;\n}\n.share-btn[data-v-e4489e22] {\n  background: rgba(25, 135, 84, 0.1);\n  border-color: rgba(25, 135, 84, 0.2);\n  color: #198754;\n}\n.share-btn[data-v-e4489e22]:hover {\n  background: rgba(25, 135, 84, 0.15);\n  border-color: rgba(25, 135, 84, 0.3);\n  box-shadow: 0 6px 16px rgba(25, 135, 84, 0.25);\n}\n\n/* Enhanced Responsive Design for Cards */\n@media (max-width: 768px) {\n.audio-player-container[data-v-e4489e22] {\n    border-radius: 12px 12px 0 0;\n    padding: 8px 0 0 0;\n}\n.custom-audio-player[data-v-e4489e22] {\n    border-radius: 14px 14px 0 0;\n    padding: 14px 18px 14px 18px;\n}\n.controls[data-v-e4489e22] {\n    gap: 14px;\n}\n.control-btn[data-v-e4489e22] {\n    padding: 12px;\n    font-size: 1.3rem;\n    min-width: 44px;\n    min-height: 44px;\n}\n.time[data-v-e4489e22] {\n    font-size: 1.1rem;\n    min-width: 90px;\n}\n}\n@media (max-width: 576px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 6px 0 0 0;\n}\n.custom-audio-player[data-v-e4489e22] {\n    border-radius: 14px 14px 0 0;\n    padding: 10px 8px 12px 8px;\n    display: flex;\n    flex-direction: column;\n    gap: 10px;\n}\n.controls[data-v-e4489e22] {\n    flex-wrap: wrap;\n    gap: 10px;\n    justify-content: space-around;\n    width: 100% !important; /* Bootstrap w-100 equivalent */\n}\n.control-btn[data-v-e4489e22] {\n    padding: 10px;\n    font-size: 1.1rem;\n    min-width: 40px;\n    min-height: 40px;\n    width: 100% !important;\n}\n.time[data-v-e4489e22] {\n    font-size: 1rem;\n    min-width: 90px;\n}\n.progress-bar-container[data-v-e4489e22] {\n    flex-direction: row;\n    gap: 10px;\n    margin-top: 10px;\n}\n.info-section[data-v-e4489e22] {\n    margin-left: 10px;\n    text-align: right;\n}\n}\n\n/* Mobile-Friendly Pagination Styles */\n.pagination-container[data-v-e4489e22] {\n  margin-top: 2rem;\n  padding: 1rem 0;\n}\n.pagination-wrapper[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n  margin-bottom: 1rem;\n}\n.pagination-btn[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding: 0.75rem 1.25rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border: none;\n  border-radius: 25px;\n  color: white;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-height: 44px;\n  min-width: 100px;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 20px rgba(13, 182, 145, 0.4);\n  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);\n}\n.pagination-btn[data-v-e4489e22]:active:not(.disabled) {\n  transform: translateY(0);\n  box-shadow: 0 2px 8px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn.disabled[data-v-e4489e22] {\n  background: #e9ecef;\n  color: #6c757d;\n  cursor: not-allowed;\n  box-shadow: none;\n  opacity: 0.6;\n}\n.pagination-btn i[data-v-e4489e22] {\n  font-size: 1rem;\n}\n.btn-text[data-v-e4489e22] {\n  font-weight: 600;\n}\n.page-numbers[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.25rem;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n.page-number[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  border: 2px solid #e9ecef;\n  background: white;\n  color: #6c757d;\n  border-radius: 50%;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-width: 44px;\n  min-height: 44px;\n}\n.page-number[data-v-e4489e22]:hover:not(.active) {\n  border-color: #0db6a1;\n  color: #0db6a1;\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.2);\n}\n.page-number.active[data-v-e4489e22] {\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border-color: #0db6a1;\n  color: white;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.page-number[data-v-e4489e22]:active:not(.active) {\n  transform: translateY(0);\n}\n.page-ellipsis[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  color: #6c757d;\n  font-weight: 600;\n  font-size: 1rem;\n  min-width: 44px;\n  min-height: 44px;\n}\n.mobile-page-info[data-v-e4489e22] {\n  text-align: center;\n  margin-top: 1rem;\n}\n.page-info-text[data-v-e4489e22] {\n  color: #6c757d;\n  font-weight: 500;\n  font-size: 0.9rem;\n  padding: 0.5rem 1rem;\n  background: rgba(13, 182, 145, 0.1);\n  border-radius: 20px;\n  display: inline-block;\n}\n\n/* Responsive Design for Pagination */\n@media (max-width: 768px) {\n.pagination-wrapper[data-v-e4489e22] {\n    gap: 0.25rem;\n    margin-bottom: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.6rem 1rem;\n    font-size: 0.85rem;\n    min-width: 90px;\n    min-height: 40px;\n}\n.pagination-btn i[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n.page-numbers[data-v-e4489e22] {\n    gap: 0.2rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.85rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.9rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.85rem;\n    padding: 0.4rem 0.8rem;\n}\n}\n@media (max-width: 576px) {\n.pagination-wrapper[data-v-e4489e22] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    width: 100%;\n    max-width: 200px;\n    justify-content: center;\n    padding: 0.75rem 1rem;\n    min-height: 44px;\n}\n.page-numbers[data-v-e4489e22] {\n    order: -1;\n    margin-bottom: 0.5rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.8rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.85rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.mobile-page-info[data-v-e4489e22] {\n    margin-top: 0.75rem;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.8rem;\n    padding: 0.3rem 0.6rem;\n}\n}\n@media (min-width: 769px) and (max-width: 1024px) {\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.7rem 1.1rem;\n    font-size: 0.9rem;\n    min-width: 95px;\n}\n.page-number[data-v-e4489e22] {\n    width: 42px;\n    height: 42px;\n    font-size: 0.9rem;\n    min-width: 42px;\n    min-height: 42px;\n}\n}\n\n/* Focus states for accessibility */\n.pagination-btn[data-v-e4489e22]:focus,\n.page-number[data-v-e4489e22]:focus {\n  outline: 2px solid #0db6a1;\n  outline-offset: 2px;\n}\n\n/* High contrast mode support */\n@media (prefers-contrast: high) {\n.pagination-btn[data-v-e4489e22] {\n    border: 2px solid #0db6a1;\n}\n.page-number[data-v-e4489e22] {\n    border-width: 2px;\n}\n}\n\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.pagination-btn[data-v-e4489e22],\n  .page-number[data-v-e4489e22] {\n    transition: none;\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled),\n  .page-number[data-v-e4489e22]:hover:not(.active) {\n    transform: none;\n}\n}\n\n/* Audio Player Styles */\n.audio-player-container[data-v-e4489e22] {\n  border-radius: 12px 12px 0 0;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background: #2c2c2c;\n  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);\n  z-index: 1000;\n  padding: 8px 12px;\n}\n.custom-audio-player[data-v-e4489e22] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 8px;\n  color: #ccc;\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n.controls[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  gap: 12px;\n  flex-wrap: wrap;\n}\n.control-group[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.info-section[data-v-e4489e22] {\n  align-items: center;\n  gap: 12px;\n  flex-grow: 1;\n  justify-content: center;\n}\n.control-btn[data-v-e4489e22] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.2rem;\n  cursor: pointer;\n  padding: 6px;\n  border-radius: 4px;\n  transition: background 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n}\n.control-btn[data-v-e4489e22]:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.play-pause[data-v-e4489e22] {\n  font-size: 1.5rem;\n  padding: 6px;\n  width: 40px;\n  height: 40px;\n}\n.time[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: #ccc;\n  min-width: 70px;\n  text-align: center;\n  white-space: nowrap;\n}\n.title[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: #ccc;\n  min-width: 100px;\n  text-align: center;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.close-btn[data-v-e4489e22] {\n  font-size: 1.2rem;\n  padding: 6px;\n  width: 36px;\n  height: 36px;\n}\n.progress-bar[data-v-e4489e22] {\n  width: 100%;\n  height: 4px;\n  background: #555;\n  cursor: pointer;\n  position: relative;\n  margin: 4px 0;\n}\n.progress[data-v-e4489e22] {\n  height: 100%;\n  background: #00ffcc;\n  position: absolute;\n}\n\n/* Responsive Adjustments */\n@media (max-width: 1024px) {\n.custom-audio-player[data-v-e4489e22] {\n    padding: 6px;\n}\n.controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-group[data-v-e4489e22] {\n    gap: 8px;\n}\n.info-section[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.3rem;\n    width: 36px;\n    height: 36px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.85rem;\n    min-width: 60px;\n}\n.title[data-v-e4489e22] {\n    font-size: 0.85rem;\n    min-width: 80px;\n}\n.close-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 3px;\n}\n}\n@media (max-width: 768px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 6px 8px;\n}\n.controls[data-v-e4489e22] {\n    gap: 6px;\n    justify-content: flex-start;\n}\n.info-section[data-v-e4489e22] {\n    flex-grow: 0;\n    /* margin-left: auto; */\n    order: 1;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1rem;\n    width: 30px;\n    height: 30px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.2rem;\n    width: 34px;\n    height: 34px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.8rem;\n    min-width: 50px;\n}\n.title[data-v-e4489e22] {\n    font-size: 0.8rem;\n    min-width: 70px;\n}\n.close-btn[data-v-e4489e22] {\n    order: 2;\n    font-size: 1rem;\n    width: 30px;\n    height: 30px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 3px;\n}\n}\n@media (max-width: 576px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 4px 6px;\n}\n.info-section[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    /* margin-left: 0; */\n    order: 1;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 0.9rem;\n    width: 28px;\n    height: 28px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.7rem;\n    min-width: 40px;\n}\n.title[data-v-e4489e22] {\n    font-size: 0.7rem;\n    min-width: 60px;\n}\n.close-btn[data-v-e4489e22] {\n    order: 2;\n    font-size: 0.9rem;\n    width: 28px;\n    height: 28px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 2px;\n}\n}\n\n/* Utility Classes */\n.mt-1[data-v-e4489e22] {\n  margin-top: 0.25rem;\n}\n.mt-2[data-v-e4489e22] {\n  margin-top: 0.5rem;\n}\n.mt-3[data-v-e4489e22] {\n  margin-top: 1rem;\n}\n.mb-1[data-v-e4489e22] {\n  margin-bottom: 0.25rem;\n}\n.mb-2[data-v-e4489e22] {\n  margin-bottom: 0.5rem;\n}\n.mb-3[data-v-e4489e22] {\n  margin-bottom: 1rem;\n}\n.text-center[data-v-e4489e22] {\n  text-align: center;\n}\n.w-100[data-v-e4489e22] {\n  width: 100%;\n}\n\n/* Remove old styles */\n.icon-container[data-v-e4489e22],\n.icon-tooltip[data-v-e4489e22],\n.icon-text[data-v-e4489e22] {\n  display: none;\n}\n.card[data-v-e4489e22] {\n  height: 100%;\n}\n.card-title[data-v-e4489e22] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-text[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #333;\n}\n.mobile-padding[data-v-e4489e22] {\n  padding: 10px;\n}\n@media (min-width: 768px) {\n.mobile-padding[data-v-e4489e22] {\n    padding: 20px;\n}\n}\n@media (max-width: 767.98px) {\n.mobile-padding[data-v-e4489e22] {\n    margin-bottom: 1rem;\n}\n}\n.spinner-container[data-v-e4489e22] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: rgba(255, 255, 255, 0.95);\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  padding: 24px;\n  border-radius: 16px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.loading-container[data-v-e4489e22] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 3rem 1rem;\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  margin: 2rem 0;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.loading-text[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: #2c3e50;\n  margin-top: 1rem;\n  text-align: center;\n}\n.empty-state[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.empty-state-content[data-v-e4489e22] {\n  text-align: center;\n  max-width: 400px;\n}\n.empty-state-icon[data-v-e4489e22] {\n  font-size: 4rem;\n  color: #0db6a1;\n  margin-bottom: 1.5rem;\n  opacity: 0.7;\n}\n.empty-state-title[data-v-e4489e22] {\n  font-size: 1.8rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.5rem;\n}\n.empty-state-description[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #6c757d;\n  line-height: 1.6;\n}\n.episode-avatar[data-v-e4489e22] {\n  width: 100px;\n  height: 100px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  margin-right: 1rem;\n  box-shadow: none;\n  border: 2px solid #e9ecef;\n}\n.podcast-card-top[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n.podcast-card-info[data-v-e4489e22] {\n  flex: 1;\n}\n.podcast-extra-info[data-v-e4489e22] {\n  display: flex;\n  gap: 1.2rem;\n  margin-top: 0.2rem;\n  font-size: 0.98rem;\n  color: #6c757d;\n}\n.duration-badge[data-v-e4489e22],\n.lang-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  background: #f8f9fa;\n  border-radius: 12px;\n  padding: 2px 10px;\n  font-size: 0.95rem;\n  font-weight: 500;\n}\n.new-badge[data-v-e4489e22] {\n  background: #0db6a1;\n  color: #fff;\n  font-size: 0.8rem;\n  font-weight: 700;\n  border-radius: 10px;\n  padding: 2px 8px;\n  /* margin-left: 0.5rem; */\n  letter-spacing: 0.5px;\n}\n.podcast-desc[data-v-e4489e22] {\n  color: #495057;\n  font-size: 1.02rem;\n  margin: 0.5rem 0 0.7rem 0;\n  line-height: 1.5;\n  min-height: 2.2em;\n}\n@media (max-width: 768px) {\n.podcast-extra-info[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n.podcast-title[data-v-e4489e22] {\n    font-size: 1.2rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.podcast-card-top[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.podcast-title[data-v-e4489e22] {\n    font-size: 1rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.8rem;\n}\n}\n.search-group .form-control[data-v-e4489e22],\n.filter-group .form-select[data-v-e4489e22] {\n  font-size: 1rem;\n  padding: 10px;\n  border-radius: 12px;\n}\n@media (max-width: 768px) {\n.search-group .form-control[data-v-e4489e22],\n  .filter-group .form-select[data-v-e4489e22] {\n    font-size: 0.9rem;\n    padding: 8px;\n}\n}\n.podcast-image[data-v-e4489e22] {\n  width: 100%;\n  height: auto;\n  -o-object-fit: cover;\n     object-fit: cover;\n  max-width: 100%;\n}\n.action-button[data-v-e4489e22] {\n  padding: 10px 20px;\n  font-size: 1rem;\n  min-height: 44px;\n  min-width: 100px;\n}\n.action-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.3);\n  transform: translateY(-2px);\n  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);\n}\n.audio-controls-inline[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  /* margin-left: auto; */\n}\n.podcast-grid[data-v-e4489e22] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 2rem;\n  margin-bottom: 3rem;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 18px;\n  box-shadow: 0 2px 12px rgba(13, 182, 145, 0.07);\n  padding: 1.2rem 1.5rem 1rem 1.5rem;\n  margin-bottom: 2.2rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n  gap: 1.2rem;\n}\n.input-group-text[data-v-e4489e22] {\n  background: #fff;\n  border-radius: 12px 0 0 12px;\n  border: 1px solid #e9ecef;\n  border-right: none;\n  color: #0db6a1;\n  font-size: 1.2rem;\n}\n.search-group .form-control[data-v-e4489e22],\n.filter-group .form-select[data-v-e4489e22] {\n  border-radius: 0 12px 12px 0;\n  border: 1px solid #e9ecef;\n  border-left: none;\n  background: #fff;\n  font-size: 1rem;\n}\n.filter-group .form-select[data-v-e4489e22] {\n  min-width: 120px;\n}\n@media (max-width: 900px) {\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 1rem 0.7rem 0.7rem 0.7rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n    gap: 0.7rem;\n}\n}\n@media (max-width: 768px) {\n.episodes-filters-bar[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 0.7rem;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 0.7rem 0.3rem 0.3rem 0.3rem;\n}\n.row.g-3>[class^='col-'][data-v-e4489e22] {\n    margin-bottom: 0.7rem;\n}\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ConvertComponent.vue?vue&type=style&index=0&id=d2c5d416&scoped=true&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ConvertComponent.vue?vue&type=style&index=0&id=d2c5d416&scoped=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.convert-bg[data-v-d2c5d416] {\n  background: #fff !important;\n  color: #000 !important;\n}\n.convert-card[data-v-d2c5d416] {\n  background: #fff !important;\n  color: #000 !important;\n  border: 1px solid #e0e0e0;\n}\n.card-title[data-v-d2c5d416] {\n  color: #00bfa6 !important;\n}\n.btn-primary[data-v-d2c5d416], .btn-success[data-v-d2c5d416], .btn-info[data-v-d2c5d416], .btn-secondary[data-v-d2c5d416], .convert-btn[data-v-d2c5d416] {\n  background-color: #00bfa6 !important;\n  border-color: #00bfa6 !important;\n  color: #fff !important;\n}\n.btn-primary[data-v-d2c5d416]:hover, .btn-success[data-v-d2c5d416]:hover, .btn-info[data-v-d2c5d416]:hover, .btn-secondary[data-v-d2c5d416]:hover, .convert-btn[data-v-d2c5d416]:hover {\n  background-color: #009e8e !important;\n  border-color: #009e8e !important;\n}\n.convert-btn-outline[data-v-d2c5d416] {\n  color: #00bfa6 !important;\n  border-color: #00bfa6 !important;\n  background: #fff !important;\n}\n.convert-btn-outline[data-v-d2c5d416]:hover {\n  background: #00bfa6 !important;\n  color: #fff !important;\n}\n.bg-white[data-v-d2c5d416] {\n  background: #fff !important;\n}\n.text-black[data-v-d2c5d416] {\n  color: #000 !important;\n}\n.fade-in[data-v-d2c5d416] {\n  animation: fadeIn-d2c5d416 0.8s ease-in;\n}\n@keyframes fadeIn-d2c5d416 {\nfrom { opacity: 0; transform: translateY(30px);\n}\nto { opacity: 1; transform: none;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -231500,36 +232579,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/BooksComponent.vue?vue&type=style&index=0&id=6de819c4&scoped=true&lang=css":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/BooksComponent.vue?vue&type=style&index=0&id=6de819c4&scoped=true&lang=css ***!
@@ -231647,6 +232696,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ContentComponent_vue_vue_type_style_index_0_id_e4489e22_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ConvertComponent.vue?vue&type=style&index=0&id=d2c5d416&scoped=true&lang=css":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ConvertComponent.vue?vue&type=style&index=0&id=d2c5d416&scoped=true&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ConvertComponent_vue_vue_type_style_index_0_id_d2c5d416_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ConvertComponent.vue?vue&type=style&index=0&id=d2c5d416&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ConvertComponent.vue?vue&type=style&index=0&id=d2c5d416&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ConvertComponent_vue_vue_type_style_index_0_id_d2c5d416_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ConvertComponent_vue_vue_type_style_index_0_id_d2c5d416_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -312844,11 +313923,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_85__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
 /* harmony import */ var _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_86__ = __webpack_require__(/*! ./components/AthkarComponenet.vue */ "./resources/js/components/AthkarComponenet.vue");
 /* harmony import */ var _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_87__ = __webpack_require__(/*! ./components/FinanceComponent.vue */ "./resources/js/components/FinanceComponent.vue");
+/* harmony import */ var _components_ConvertComponent_vue__WEBPACK_IMPORTED_MODULE_88__ = __webpack_require__(/*! ./components/ConvertComponent.vue */ "./resources/js/components/ConvertComponent.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
+
 
 
 
@@ -313047,6 +314128,7 @@ app.component('food-component', _components_FoodComponent_vue__WEBPACK_IMPORTED_
 app.component('school-component', _components_SchoolComponent_vue__WEBPACK_IMPORTED_MODULE_77__["default"]);
 app.component('welfare-component', _components_WelfareComponent_vue__WEBPACK_IMPORTED_MODULE_78__["default"]);
 app.component('books-component', _components_BooksComponent_vue__WEBPACK_IMPORTED_MODULE_79__["default"]);
+app.component('convert-component', _components_ConvertComponent_vue__WEBPACK_IMPORTED_MODULE_88__["default"]);
 app.mount("#app");
 
 /***/ }),
@@ -313401,18 +314483,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _AthkarComponenet_vue_vue_type_template_id_424e5bb8_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true */ "./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true");
+/* harmony import */ var _AthkarComponenet_vue_vue_type_template_id_424e5bb8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AthkarComponenet.vue?vue&type=template&id=424e5bb8 */ "./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8");
 /* harmony import */ var _AthkarComponenet_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AthkarComponenet.vue?vue&type=script&lang=js */ "./resources/js/components/AthkarComponenet.vue?vue&type=script&lang=js");
-/* harmony import */ var _AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css */ "./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AthkarComponenet_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AthkarComponenet_vue_vue_type_template_id_424e5bb8_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-424e5bb8"],['__file',"resources/js/components/AthkarComponenet.vue"]])
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_AthkarComponenet_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AthkarComponenet_vue_vue_type_template_id_424e5bb8__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/AthkarComponenet.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -313437,31 +314516,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css":
-/*!**************************************************************************************************************!*\
-  !*** ./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css ***!
-  \**************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true":
-/*!************************************************************************************************!*\
-  !*** ./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true ***!
-  \************************************************************************************************/
+/***/ "./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8 ***!
+  \************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_template_id_424e5bb8_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_template_id_424e5bb8__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_template_id_424e5bb8_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_template_id_424e5bb8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthkarComponenet.vue?vue&type=template&id=424e5bb8 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8");
 
 
 /***/ }),
@@ -313826,6 +314892,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ContentComponent_vue_vue_type_template_id_e4489e22_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ContentComponent_vue_vue_type_template_id_e4489e22_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ContentComponent.vue?vue&type=template&id=e4489e22&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ContentComponent.vue?vue&type=template&id=e4489e22&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ConvertComponent.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/ConvertComponent.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ConvertComponent_vue_vue_type_template_id_d2c5d416_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ConvertComponent.vue?vue&type=template&id=d2c5d416&scoped=true */ "./resources/js/components/ConvertComponent.vue?vue&type=template&id=d2c5d416&scoped=true");
+/* harmony import */ var _ConvertComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConvertComponent.vue?vue&type=script&lang=js */ "./resources/js/components/ConvertComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _ConvertComponent_vue_vue_type_style_index_0_id_d2c5d416_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ConvertComponent.vue?vue&type=style&index=0&id=d2c5d416&scoped=true&lang=css */ "./resources/js/components/ConvertComponent.vue?vue&type=style&index=0&id=d2c5d416&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_ConvertComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ConvertComponent_vue_vue_type_template_id_d2c5d416_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-d2c5d416"],['__file',"resources/js/components/ConvertComponent.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/ConvertComponent.vue?vue&type=script&lang=js":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/ConvertComponent.vue?vue&type=script&lang=js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ConvertComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ConvertComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ConvertComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ConvertComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/ConvertComponent.vue?vue&type=style&index=0&id=d2c5d416&scoped=true&lang=css":
+/*!**************************************************************************************************************!*\
+  !*** ./resources/js/components/ConvertComponent.vue?vue&type=style&index=0&id=d2c5d416&scoped=true&lang=css ***!
+  \**************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ConvertComponent_vue_vue_type_style_index_0_id_d2c5d416_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ConvertComponent.vue?vue&type=style&index=0&id=d2c5d416&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ConvertComponent.vue?vue&type=style&index=0&id=d2c5d416&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ConvertComponent.vue?vue&type=template&id=d2c5d416&scoped=true":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/ConvertComponent.vue?vue&type=template&id=d2c5d416&scoped=true ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ConvertComponent_vue_vue_type_template_id_d2c5d416_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ConvertComponent_vue_vue_type_template_id_d2c5d416_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ConvertComponent.vue?vue&type=template&id=d2c5d416&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ConvertComponent.vue?vue&type=template&id=d2c5d416&scoped=true");
 
 
 /***/ }),
@@ -318379,7 +319521,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"terms":[{"id":1,"term":"Allah","phrase":"The One God","meaning":"The Arabic word for the one and only God, the Creator of the universe.","example":"Muslims say \'Allahu Akbar\' to proclaim that Allah is the greatest.","reference":"Qur\'an 112:1"},{"id":2,"term":"Qur\'an","phrase":"The Recitation","meaning":"The holy book of Islam, believed to be the word of Allah revealed to Prophet Muhammad.","example":"She recites the Qur\'an every morning.","reference":"Qur\'an 96:1"},{"id":3,"term":"Salah","phrase":"Prayer","meaning":"The ritual prayer performed five times daily by Muslims.","example":"He performs Salah at the mosque.","reference":"Qur\'an 2:238"},{"id":4,"term":"Zakat","phrase":"Almsgiving","meaning":"Obligatory charity given by Muslims to support the poor.","example":"She paid Zakat on her savings.","reference":"Qur\'an 9:60"},{"id":5,"term":"Sawm","phrase":"Fasting","meaning":"Fasting during the month of Ramadan, one of the Five Pillars of Islam.","example":"They observe Sawm from dawn to dusk.","reference":"Qur\'an 2:183"},{"id":6,"term":"Hajj","phrase":"Pilgrimage","meaning":"The pilgrimage to Mecca that every able Muslim must perform once in their lifetime.","example":"He saved for years to perform Hajj.","reference":"Qur\'an 22:27"},{"id":7,"term":"Sunnah","phrase":"Tradition","meaning":"The practices and teachings of Prophet Muhammad.","example":"Following the Sunnah, he eats with his right hand.","reference":"Hadith: Sahih al-Bukhari"},{"id":8,"term":"Hadith","phrase":"Narration","meaning":"Reports of the sayings and actions of Prophet Muhammad.","example":"The Hadith guides Muslims in daily life.","reference":"Sahih Muslim"},{"id":9,"term":"Jihad","phrase":"Struggle","meaning":"Striving in the way of Allah, which can be spiritual or physical.","example":"Her Jihad is to seek knowledge.","reference":"Qur\'an 25:52"},{"id":10,"term":"Tawhid","phrase":"Oneness","meaning":"The belief in the oneness of Allah.","example":"Tawhid is the foundation of Islamic faith.","reference":"Qur\'an 112:1"},{"id":11,"term":"Akhirah","phrase":"Hereafter","meaning":"The afterlife where deeds are judged.","example":"Muslims prepare for the Akhirah through good deeds.","reference":"Qur\'an 2:201"},{"id":12,"term":"Fiqh","phrase":"Jurisprudence","meaning":"Islamic jurisprudence derived from the Qur\'an and Sunnah.","example":"He studied Fiqh to understand Islamic law.","reference":"Hadith: Sunan Abu Dawood"},{"id":13,"term":"Shari\'ah","phrase":"Islamic Law","meaning":"The divine law derived from the Qur\'an and Sunnah.","example":"Shari\'ah governs personal and communal life.","reference":"Qur\'an 45:18"},{"id":14,"term":"Iman","phrase":"Faith","meaning":"Belief in the six articles of faith in Islam.","example":"Her Iman grew stronger through worship.","reference":"Qur\'an 2:177"},{"id":15,"term":"Du\'a","phrase":"Supplication","meaning":"Personal prayer or invocation to Allah.","example":"He made Du\'a for his family\'s health.","reference":"Qur\'an 40:60"},{"id":16,"term":"Masjid","phrase":"Mosque","meaning":"A place of worship for Muslims.","example":"The community gathered at the Masjid for prayer.","reference":"Qur\'an 9:18"},{"id":17,"term":"Ramadan","phrase":"Month of Fasting","meaning":"The ninth month of the Islamic calendar, dedicated to fasting.","example":"Ramadan is a time for spiritual reflection.","reference":"Qur\'an 2:185"},{"id":18,"term":"Ka\'bah","phrase":"Sacred House","meaning":"The cube-shaped structure in Mecca toward which Muslims pray.","example":"Pilgrims circumambulate the Ka\'bah during Hajj.","reference":"Qur\'an 5:97"},{"id":19,"term":"Sadaqah","phrase":"Voluntary Charity","meaning":"Voluntary giving to those in need.","example":"She gave Sadaqah to help the orphans.","reference":"Qur\'an 2:263"},{"id":20,"term":"Tafsir","phrase":"Exegesis","meaning":"Interpretation or commentary of the Qur\'an.","example":"He read Tafsir to understand the Qur\'an better.","reference":"Hadith: Jami` at-Tirmidhi"},{"id":21,"term":"Adhan","phrase":"Call to Prayer","meaning":"The Islamic call to prayer, recited to announce the time for Salah.","example":"The Adhan echoed through the city at dawn.","reference":"Hadith: Sahih al-Bukhari 1.11.579"},{"id":22,"term":"Iqamah","phrase":"Second Call","meaning":"The second call to prayer, signaling the start of congregational Salah.","example":"After the Iqamah, the congregation stood for prayer.","reference":"Hadith: Sahih Muslim 4.735"},{"id":23,"term":"Wudu","phrase":"Ablution","meaning":"The ritual washing performed before Salah to attain purity.","example":"She performed Wudu before offering her prayers.","reference":"Qur\'an 5:6"},{"id":24,"term":"Ghusl","phrase":"Full Ablution","meaning":"The full-body ritual purification required after certain states of impurity.","example":"He performed Ghusl after the Friday prayer.","reference":"Qur\'an 5:6"},{"id":25,"term":"Jannah","phrase":"Paradise","meaning":"The eternal garden promised to the righteous in the hereafter.","example":"Muslims strive for Jannah through good deeds.","reference":"Qur\'an 3:15"},{"id":26,"term":"Jahannam","phrase":"Hellfire","meaning":"The place of punishment for the unrighteous in the hereafter.","example":"The Qur\'an warns against actions leading to Jahannam.","reference":"Qur\'an 4:10"},{"id":27,"term":"Ummah","phrase":"Community","meaning":"The collective community of Muslims worldwide.","example":"The Ummah came together to support the needy.","reference":"Qur\'an 2:143"},{"id":28,"term":"Sadaqah Jariyah","phrase":"Continuous Charity","meaning":"A form of charity that provides ongoing benefits, such as building a well.","example":"She funded a school as Sadaqah Jariyah.","reference":"Hadith: Sahih Muslim 3.4005"},{"id":29,"term":"Fitrah","phrase":"Natural Disposition","meaning":"The innate inclination of humans to worship Allah.","example":"Every child is born upon Fitrah, pure in faith.","reference":"Hadith: Sahih al-Bukhari 2.23.441"},{"id":30,"term":"Eid","phrase":"Festival","meaning":"Islamic festivals, such as Eid al-Fitr and Eid al-Adha.","example":"The family celebrated Eid with joy and prayers.","reference":"Hadith: Sunan an-Nasa\'i 5.1556"},{"id":31,"term":"Taraweeh","phrase":"Night Prayer","meaning":"Special prayers performed during Ramadan after Isha.","example":"They prayed Taraweeh at the mosque every night.","reference":"Hadith: Sahih al-Bukhari 3.32.227"},{"id":32,"term":"Qadar","phrase":"Divine Decree","meaning":"The concept of divine predestination in Islam.","example":"He accepted the outcome as part of Allah\'s Qadar.","reference":"Qur\'an 54:49"},{"id":33,"term":"Taqwa","phrase":"God-Consciousness","meaning":"Awareness and fear of Allah, leading to righteous actions.","example":"Her Taqwa guided her to make ethical choices.","reference":"Qur\'an 2:197"},{"id":34,"term":"Hijab","phrase":"Head Covering","meaning":"The headscarf worn by Muslim women for modesty.","example":"She wore a Hijab to maintain her modesty.","reference":"Qur\'an 24:31"},{"id":35,"term":"Imam","phrase":"Leader","meaning":"The person who leads the congregational prayers.","example":"The Imam delivered an inspiring sermon.","reference":"Qur\'an 2:124"},{"id":36,"term":"Sujud","phrase":"Prostration","meaning":"The act of prostrating during Salah, placing the forehead on the ground.","example":"In Sujud, she felt closest to Allah.","reference":"Qur\'an 96:19"},{"id":37,"term":"Riba","phrase":"Usury","meaning":"The practice of charging interest, prohibited in Islam.","example":"He avoided Riba by choosing an Islamic bank.","reference":"Qur\'an 2:275"},{"id":38,"term":"Barakah","phrase":"Blessing","meaning":"Divine blessing that brings abundance and goodness.","example":"Her charity brought Barakah to her life.","reference":"Qur\'an 7:96"},{"id":39,"term":"Dhikr","phrase":"Remembrance","meaning":"The act of remembering Allah through recitation or supplication.","example":"He performed Dhikr to calm his heart.","reference":"Qur\'an 33:41"},{"id":40,"term":"Tayammum","phrase":"Dry Ablution","meaning":"A ritual purification using clean earth when water is unavailable.","example":"In the desert, she performed Tayammum before praying.","reference":"Qur\'an 4:43"},{"id":41,"term":"Aqiqah","phrase":"Naming Ceremony","meaning":"A ritual sacrifice performed to celebrate the birth of a child.","example":"They performed Aqiqah for their newborn son.","reference":"Hadith: Sunan Abu Dawood 15.2836"},{"id":42,"term":"Fatwa","phrase":"Religious Ruling","meaning":"A legal opinion or ruling issued by an Islamic scholar.","example":"The scholar issued a Fatwa on the permissibility of the transaction.","reference":"Qur\'an 4:127"},{"id":43,"term":"Haram","phrase":"Forbidden","meaning":"Actions or items prohibited in Islam.","example":"Eating pork is considered Haram in Islam.","reference":"Qur\'an 2:173"},{"id":44,"term":"Halal","phrase":"Permissible","meaning":"Actions or items permitted in Islam.","example":"She ensured the meat was Halal before cooking.","reference":"Qur\'an 5:88"},{"id":45,"term":"Iftar","phrase":"Breaking Fast","meaning":"The meal eaten by Muslims to break their fast at sunset during Ramadan.","example":"The family gathered at sunset for Iftar.","reference":"Hadith: Sahih al-Bukhari 3:645"},{"id":46,"term":"Suhoor","phrase":"Pre-Dawn Meal","meaning":"The meal eaten before dawn during Ramadan to prepare for fasting.","example":"He woke up early for Suhoor before fasting.","reference":"Hadith: Sahih al-Bukhari 3:1923"},{"id":47,"term":"Mahram","phrase":"Unmarriageable Kin","meaning":"A person with whom marriage is prohibited, allowing for relaxed modesty rules.","example":"Her brother, a Mahram, accompanied her on the journey.","reference":"Qur\'an 4:23"},{"id":48,"term":"Nikah","phrase":"Marriage Contract","meaning":"The Islamic marriage contract between a bride and groom.","example":"Their Nikah was celebrated with family and friends.","reference":"Qur\'an 4:21"},{"id":49,"term":"Qiblah","phrase":"Direction of Prayer","meaning":"The direction toward the Ka\'bah in Mecca, faced during Salah.","example":"He adjusted his prayer mat to face the Qiblah.","reference":"Qur\'an 2:144"},{"id":50,"term":"Rak\'ah","phrase":"Prayer Cycle","meaning":"A unit of prayer in Salah, consisting of specific movements and recitations.","example":"Fajr prayer consists of two Rak\'ahs.","reference":"Hadith: Sahih Muslim 4.882"},{"id":51,"term":"Sabr","phrase":"Patience","meaning":"Endurance and perseverance in the face of hardship.","example":"She showed Sabr during her trials.","reference":"Qur\'an 2:153"},{"id":52,"term":"Shirk","phrase":"Polytheism","meaning":"Associating partners with Allah, considered a major sin.","example":"Muslims avoid Shirk by worshipping Allah alone.","reference":"Qur\'an 4:48"},{"id":53,"term":"Tawaf","phrase":"Circumambulation","meaning":"The act of walking around the Ka\'bah seven times during Hajj or Umrah.","example":"Pilgrims perform Tawaf as part of their pilgrimage.","reference":"Qur\'an 22:29"},{"id":54,"term":"Umrah","phrase":"Lesser Pilgrimage","meaning":"A voluntary pilgrimage to Mecca, performed at any time of the year.","example":"She performed Umrah during her visit to Mecca.","reference":"Qur\'an 2:196"},{"id":55,"term":"Zina","phrase":"Adultery","meaning":"Unlawful sexual relations, prohibited in Islam.","example":"The community was educated to avoid Zina.","reference":"Qur\'an 17:32"},{"id":56,"term":"Ayah","phrase":"Verse","meaning":"A verse of the Qur\'an, considered a sign from Allah.","example":"She memorized an Ayah from Surah Al-Baqarah.","reference":"Qur\'an 2:1"},{"id":57,"term":"Surah","phrase":"Chapter","meaning":"A chapter of the Qur\'an, consisting of multiple verses.","example":"Surah Al-Fatihah is recited in every Salah.","reference":"Qur\'an 1:1"},{"id":58,"term":"Khutbah","phrase":"Sermon","meaning":"A religious sermon delivered, typically during Friday prayers.","example":"The Imam\'s Khutbah focused on charity.","reference":"Hadith: Sahih al-Bukhari 2.13.56"},{"id":59,"term":"Istikhara","phrase":"Prayer for Guidance","meaning":"A prayer seeking Allah\'s guidance in making a decision.","example":"She prayed Istikhara before choosing her career path.","reference":"Hadith: Sahih al-Bukhari 7.71.638"},{"id":60,"term":"Mahr","phrase":"Dowry","meaning":"A mandatory gift given by the groom to the bride at marriage.","example":"He gave a Mahr of gold to his bride.","reference":"Qur\'an 4:4"},{"id":61,"term":"Asr","phrase":"Afternoon Prayer","meaning":"The third of the five daily prayers, performed in the afternoon.","example":"He prayed Asr before heading to work.","reference":"Qur\'an 2:238"},{"id":62,"term":"Fajr","phrase":"Dawn Prayer","meaning":"The first of the five daily prayers, performed before sunrise.","example":"She woke up early to pray Fajr.","reference":"Qur\'an 24:58"},{"id":63,"term":"Dhuhr","phrase":"Noon Prayer","meaning":"The second of the five daily prayers, performed after the sun passes its zenith.","example":"The congregation gathered for Dhuhr at the mosque.","reference":"Qur\'an 2:238"},{"id":64,"term":"Maghrib","phrase":"Sunset Prayer","meaning":"The fourth of the five daily prayers, performed just after sunset.","example":"They prayed Maghrib as the sun set.","reference":"Qur\'an 24:58"},{"id":65,"term":"Isha","phrase":"Night Prayer","meaning":"The fifth of the five daily prayers, performed at night.","example":"He completed Isha before going to bed.","reference":"Qur\'an 24:58"},{"id":66,"term":"Jumu\'ah","phrase":"Friday Prayer","meaning":"The congregational prayer performed on Fridays, replacing Dhuhr.","example":"The community attended Jumu\'ah at the mosque.","reference":"Qur\'an 62:9"},{"id":67,"term":"Qiyam","phrase":"Standing in Prayer","meaning":"Voluntary night prayers, often performed in the last third of the night.","example":"She performed Qiyam to seek Allah’s forgiveness.","reference":"Qur\'an 73:2"},{"id":68,"term":"Tahajjud","phrase":"Night Vigil","meaning":"A voluntary prayer performed after Isha and before Fajr, typically at night.","example":"He prayed Tahajjud for spiritual closeness to Allah.","reference":"Qur\'an 17:79"},{"id":69,"term":"Talbiyah","phrase":"Pilgrimage Chant","meaning":"The invocation recited by pilgrims during Hajj and Umrah, expressing devotion.","example":"Pilgrims chanted Talbiyah as they approached Mecca.","reference":"Hadith: Sahih Muslim 4.1184"},{"id":70,"term":"Ihram","phrase":"State of Purity","meaning":"The sacred state a pilgrim enters for Hajj or Umrah, including specific garments.","example":"He entered Ihram before starting his pilgrimage.","reference":"Qur\'an 2:197"},{"id":71,"term":"Sa\'y","phrase":"Walking Ritual","meaning":"The ritual of walking seven times between Safa and Marwah during Hajj or Umrah.","example":"She performed Sa\'y as part of her Umrah.","reference":"Qur\'an 2:158"},{"id":72,"term":"Mina","phrase":"Valley of Tents","meaning":"A valley near Mecca where pilgrims stay during Hajj for specific rituals.","example":"The pilgrims camped in Mina during Hajj.","reference":"Hadith: Sahih al-Bukhari 2.26.706"},{"id":73,"term":"Arafat","phrase":"Plain of Standing","meaning":"A plain near Mecca where pilgrims stand in prayer on the 9th day of Dhul-Hijjah.","example":"Standing at Arafat is the pinnacle of Hajj.","reference":"Hadith: Sahih Muslim 4.1218"},{"id":74,"term":"Muzdalifah","phrase":"Gathering Place","meaning":"An open area where pilgrims collect pebbles and spend the night during Hajj.","example":"They gathered pebbles in Muzdalifah for the stoning ritual.","reference":"Hadith: Sahih al-Bukhari 2.26.708"},{"id":75,"term":"Jamarat","phrase":"Stoning Pillars","meaning":"The pillars in Mina where pilgrims throw pebbles during Hajj, symbolizing the rejection of evil.","example":"He threw pebbles at the Jamarat during Hajj.","reference":"Hadith: Sahih al-Bukhari 2.26.717"},{"id":76,"term":"Hadi","phrase":"Sacrificial Animal","meaning":"An animal sacrificed during Hajj as part of the pilgrimage rituals.","example":"They offered a Hadi as part of their Hajj.","reference":"Qur\'an 2:196"},{"id":77,"term":"Tawbah","phrase":"Repentance","meaning":"The act of seeking forgiveness from Allah for sins.","example":"She made Tawbah after realizing her mistake.","reference":"Qur\'an 66:8"},{"id":78,"term":"Ghayb","phrase":"Unseen","meaning":"Matters known only to Allah, such as the future or the afterlife.","example":"Belief in the Ghayb is part of Iman.","reference":"Qur\'an 2:3"},{"id":79,"term":"Sirah","phrase":"Biography","meaning":"The biography of Prophet Muhammad, detailing his life and teachings.","example":"He studied the Sirah to learn about the Prophet’s life.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":80,"term":"Aqidah","phrase":"Creed","meaning":"The set of beliefs forming the foundation of Islamic theology.","example":"Her Aqidah was strengthened through study.","reference":"Qur\'an 2:177"},{"id":81,"term":"Madhhab","phrase":"School of Thought","meaning":"A school of Islamic jurisprudence, such as Hanafi or Maliki.","example":"He follows the Hanafi Madhhab in his worship.","reference":"Hadith: Sunan Abu Dawood 1.4597"},{"id":82,"term":"Mujahid","phrase":"One Who Strives","meaning":"A person who engages in Jihad, striving in the way of Allah.","example":"The Mujahid sought knowledge to strengthen his faith.","reference":"Qur\'an 9:20"},{"id":83,"term":"Shahadah","phrase":"Testimony of Faith","meaning":"The declaration of faith, affirming belief in Allah and His Messenger.","example":"She recited the Shahadah to embrace Islam.","reference":"Hadith: Sahih Muslim 1.8"},{"id":84,"term":"Tasbih","phrase":"Glorification","meaning":"The act of saying \'SubhanAllah\' to glorify Allah.","example":"He counted Tasbih on his prayer beads.","reference":"Qur\'an 87:1"},{"id":85,"term":"Takbir","phrase":"Magnification","meaning":"The act of saying \'Allahu Akbar\' to proclaim Allah’s greatness.","example":"The congregation said Takbir during Eid prayers.","reference":"Qur\'an 22:37"},{"id":86,"term":"Tahlil","phrase":"Declaration of Oneness","meaning":"The act of saying \'La ilaha illallah\' to affirm Allah’s oneness.","example":"She recited Tahlil during Dhikr.","reference":"Qur\'an 37:35"},{"id":87,"term":"Istighfar","phrase":"Seeking Forgiveness","meaning":"The act of seeking Allah’s forgiveness for sins.","example":"He made Istighfar after missing a prayer.","reference":"Qur\'an 71:10"},{"id":88,"term":"Mu’min","phrase":"Believer","meaning":"A person who has faith in Islam and its tenets.","example":"The Mu’min trusted in Allah’s plan.","reference":"Qur\'an 23:1"},{"id":89,"term":"Kafir","phrase":"Disbeliever","meaning":"A person who rejects faith in Allah or Islam.","example":"The Qur’an warns against the actions of the Kafir.","reference":"Qur’an 2:6"},{"id":90,"term":"Munafiq","phrase":"Hypocrite","meaning":"A person who outwardly professes faith but inwardly disbelieves.","example":"The Munafiq was exposed by his actions.","reference":"Qur\'an 63:1"},{"id":91,"term":"Fard","phrase":"Obligatory Duty","meaning":"An act or worship that is mandatory in Islam.","example":"Salah is a Fard for every Muslim.","reference":"Qur\'an 2:43"},{"id":92,"term":"Sunnah Mu’akkadah","phrase":"Emphasized Practice","meaning":"A highly recommended practice of the Prophet, nearly obligatory.","example":"He prayed Sunnah Mu’akkadah before Dhuhr.","reference":"Hadith: Sahih al-Bukhari 2.13.1183"},{"id":93,"term":"Nawafil","phrase":"Voluntary Prayers","meaning":"Optional prayers performed for extra reward.","example":"She offered Nawafil after Maghrib.","reference":"Hadith: Sahih Muslim 4.1625"},{"id":94,"term":"Qada","phrase":"Missed Obligation","meaning":"Making up a missed obligatory act, such as a prayer or fast.","example":"He performed Qada for a missed Ramadan fast.","reference":"Hadith: Sahih al-Bukhari 3.31.159"},{"id":95,"term":"Kaffarah","phrase":"Expiation","meaning":"An act to atone for certain sins or broken oaths.","example":"He paid Kaffarah for breaking his fast intentionally.","reference":"Qur\'an 5:89"},{"id":96,"term":"Niyyah","phrase":"Intention","meaning":"The conscious intention to perform an act of worship.","example":"She made Niyyah before starting her Salah.","reference":"Hadith: Sahih al-Bukhari 1.1.1"},{"id":97,"term":"Waqf","phrase":"Endowment","meaning":"A charitable endowment for religious or social purposes.","example":"He established a Waqf to support an orphanage.","reference":"Hadith: Sahih Muslim 3.4006"},{"id":98,"term":"Ziyarah","phrase":"Visitation","meaning":"Visiting sacred sites or graves, such as the Prophet’s mosque.","example":"She made Ziyarah to Madinah after Hajj.","reference":"Hadith: Sahih Muslim 4.1395"},{"id":99,"term":"Hifz","phrase":"Memorization","meaning":"The act of memorizing the Qur\'an.","example":"He completed Hifz of the Qur’an at a young age.","reference":"Qur\'an 54:17"},{"id":100,"term":"Tajwid","phrase":"Qur\'anic Recitation","meaning":"The rules governing the proper recitation of the Qur\'an.","example":"She studied Tajwid to perfect her Qur’anic recitation.","reference":"Qur\'an 73:4"},{"id":101,"term":"Qari","phrase":"Reciter","meaning":"A person skilled in reciting the Qur’an with Tajwid.","example":"The Qari’s recitation moved the congregation.","reference":"Qur\'an 73:4"},{"id":102,"term":"Mufti","phrase":"Jurisconsult","meaning":"An Islamic scholar qualified to issue legal opinions (Fatwas).","example":"The Mufti provided guidance on inheritance laws.","reference":"Qur\'an 4:127"},{"id":103,"term":"Dua Qunut","phrase":"Supplication of Standing","meaning":"A special supplication recited during certain prayers, often in Witr.","example":"He recited Dua Qunut during Witr prayer.","reference":"Hadith: Sunan Abu Dawood 8.1425"},{"id":104,"term":"Witr","phrase":"Odd-Numbered Prayer","meaning":"A voluntary prayer performed after Isha, typically in odd numbers.","example":"She prayed three Rak’ahs of Witr before sleeping.","reference":"Hadith: Sahih Muslim 4.1663"},{"id":105,"term":"Ruku","phrase":"Bowing","meaning":"The act of bowing during Salah, a key component of the prayer.","example":"In Ruku, he glorified Allah.","reference":"Qur\'an 2:43"},{"id":106,"term":"Ihsan","phrase":"Excellence","meaning":"Worshipping Allah as though you see Him, striving for perfection in faith.","example":"She practiced Ihsan in her daily worship.","reference":"Hadith: Sahih Muslim 1.8"},{"id":107,"term":"Adab","phrase":"Etiquette","meaning":"Manners and moral conduct in accordance with Islamic teachings.","example":"He showed Adab by respecting his elders.","reference":"Hadith: Sahih al-Bukhari 8.73.56"},{"id":108,"term":"Amanah","phrase":"Trust","meaning":"The responsibility to fulfill trusts and obligations.","example":"She upheld Amanah by safeguarding the donation.","reference":"Qur\'an 4:58"},{"id":109,"term":"Birr","phrase":"Righteousness","meaning":"Acts of kindness and piety, especially toward parents and kin.","example":"His Birr toward his parents was exemplary.","reference":"Qur\'an 2:177"},{"id":110,"term":"Fasiq","phrase":"Transgressor","meaning":"A person who openly disobeys Allah’s commands.","example":"The Fasiq ignored the call to prayer.","reference":"Qur\'an 5:47"},{"id":111,"term":"Hajj Tamattu","phrase":"Enjoyed Pilgrimage","meaning":"A type of Hajj where pilgrims perform Umrah and Hajj with a break in between.","example":"They chose Hajj Tamattu for their pilgrimage.","reference":"Qur\'an 2:196"},{"id":112,"term":"Hajj Qiran","phrase":"Combined Pilgrimage","meaning":"A type of Hajj where Umrah and Hajj are performed without a break.","example":"He performed Hajj Qiran during his trip.","reference":"Qur\'an 2:196"},{"id":113,"term":"Hajj Ifrad","phrase":"Single Pilgrimage","meaning":"A type of Hajj where only Hajj is performed without Umrah.","example":"She opted for Hajj Ifrad due to time constraints.","reference":"Qur\'an 2:196"},{"id":114,"term":"Laylat al-Qadr","phrase":"Night of Decree","meaning":"A blessed night in Ramadan when the Qur’an was first revealed.","example":"She prayed all night on Laylat al-Qadr.","reference":"Qur\'an 97:1"},{"id":115,"term":"Itikaf","phrase":"Seclusion","meaning":"Retreating to a mosque for worship, typically in the last ten days of Ramadan.","example":"He observed Itikaf to focus on worship.","reference":"Qur\'an 2:187"},{"id":116,"term":"Infaq","phrase":"Spending","meaning":"Spending in the way of Allah, including charity and support for others.","example":"Her Infaq helped build a community center.","reference":"Qur\'an 2:261"},{"id":117,"term":"Mawlid","phrase":"Prophet’s Birthday","meaning":"The celebration of the birth of Prophet Muhammad.","example":"The community gathered for Mawlid celebrations.","reference":"Hadith: Sunan an-Nasa\'i 1.213"},{"id":118,"term":"Qisas","phrase":"Retaliation","meaning":"The principle of equal retaliation in Islamic law for certain crimes.","example":"The judge applied Qisas in the case of intentional harm.","reference":"Qur\'an 2:178"},{"id":119,"term":"Diyah","phrase":"Blood Money","meaning":"Compensation paid to the victim’s family in cases of unintentional harm.","example":"The family accepted Diyah to settle the dispute.","reference":"Qur\'an 4:92"},{"id":120,"term":"Wasiyyah","phrase":"Will","meaning":"A legal document specifying the distribution of one’s wealth after death.","example":"He wrote a Wasiyyah to ensure fair inheritance.","reference":"Qur\'an 2:180"},{"id":121,"term":"Husn al-Khatimah","phrase":"Good Ending","meaning":"Dying in a state of faith and righteousness, ensuring a favorable afterlife.","example":"She prayed for Husn al-Khatimah in her final days.","reference":"Hadith: Sahih Muslim 4.2687"},{"id":122,"term":"Barzakh","phrase":"Barrier","meaning":"The intermediate state between death and the Day of Resurrection.","example":"Souls reside in the Barzakh until Judgment Day.","reference":"Qur\'an 23:100"},{"id":123,"term":"Hashr","phrase":"Gathering","meaning":"The gathering of all beings on the Day of Resurrection for judgment.","example":"The Qur’an describes the Hashr as a day of accountability.","reference":"Qur\'an 50:44"},{"id":124,"term":"Mizan","phrase":"Scale","meaning":"The balance used to weigh deeds on the Day of Judgment.","example":"Good deeds will tip the Mizan in favor of the righteous.","reference":"Qur\'an 21:47"},{"id":125,"term":"Sirat","phrase":"Bridge","meaning":"The narrow bridge over Hellfire that all must cross on Judgment Day.","example":"The faithful will cross the Sirat to reach Jannah.","reference":"Hadith: Sahih al-Bukhari 8.76.577"},{"id":126,"term":"Hawd","phrase":"Basin","meaning":"The Prophet’s basin on Judgment Day, from which believers drink.","example":"Those who drink from the Hawd will never thirst again.","reference":"Hadith: Sahih Muslim 4.2290"},{"id":127,"term":"Shafa’ah","phrase":"Intercession","meaning":"The act of interceding for others on the Day of Judgment, granted to the Prophet.","example":"Muslims hope for the Prophet’s Shafa’ah on Judgment Day.","reference":"Hadith: Sahih al-Bukhari 8.76.563"},{"id":128,"term":"Fitnah","phrase":"Trial","meaning":"A test or tribulation that challenges a believer’s faith.","example":"He remained steadfast during the Fitnah in his community.","reference":"Qur\'an 29:2"},{"id":129,"term":"Bid’ah","phrase":"Innovation","meaning":"Introducing new practices in religion that were not part of the Sunnah.","example":"Scholars warned against Bid’ah in worship practices.","reference":"Hadith: Sahih Muslim 4.867"},{"id":130,"term":"Tabaqat","phrase":"Generations","meaning":"The classification of early Muslim scholars and companions by generation.","example":"He studied the Tabaqat to learn about the Sahaba.","reference":"Hadith: Sahih al-Bukhari 5.57"},{"id":131,"term":"Sahaba","phrase":"Companions","meaning":"The companions of Prophet Muhammad who saw or met him.","example":"The Sahaba were role models for later Muslims.","reference":"Qur\'an 9:100"},{"id":132,"term":"Tabi’in","phrase":"Successors","meaning":"The generation of Muslims who followed the Sahaba.","example":"The Tabi’in preserved the teachings of the Sahaba.","reference":"Hadith: Sahih al-Bukhari 5.57"},{"id":133,"term":"Tabi’ Tabi’in","phrase":"Successors’ Successors","meaning":"The generation after the Tabi’in, known for their scholarship.","example":"Many scholars of Fiqh belonged to the Tabi’ Tabi’in.","reference":"Hadith: Sahih Muslim 4.2533"},{"id":134,"term":"Isnad","phrase":"Chain of Narration","meaning":"The chain of narrators verifying the authenticity of a Hadith.","example":"The Hadith’s Isnad was scrutinized for reliability.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":135,"term":"Matn","phrase":"Text of Hadith","meaning":"The actual content or text of a Hadith, excluding its chain of narration.","example":"The Matn of the Hadith emphasized kindness to parents.","reference":"Hadith: Sahih Muslim 4.2548"},{"id":136,"term":"Sahih","phrase":"Authentic","meaning":"A classification of Hadith indicating its highest level of authenticity.","example":"Sahih al-Bukhari contains only Sahih Hadiths.","reference":"Hadith: Sahih al-Bukhari 1.1.1"},{"id":137,"term":"Hasan","phrase":"Good","meaning":"A Hadith classification indicating good authenticity, slightly below Sahih.","example":"The Hasan Hadith was accepted for practice.","reference":"Hadith: Sunan at-Tirmidhi 1.1.1"},{"id":138,"term":"Da’if","phrase":"Weak","meaning":"A Hadith classification indicating weak authenticity, not reliable for rulings.","example":"The Da’if Hadith was not used for legal decisions.","reference":"Hadith: Sunan Ibn Majah 1.1.1"},{"id":139,"term":"Mawdu’","phrase":"Fabricated","meaning":"A Hadith that is falsely attributed to the Prophet.","example":"Scholars rejected the Mawdu’ Hadith as fabricated.","reference":"Hadith: Sahih Muslim 1.1"},{"id":140,"term":"Usul al-Fiqh","phrase":"Principles of Jurisprudence","meaning":"The methodology for deriving Islamic legal rulings.","example":"He studied Usul al-Fiqh to understand Shari’ah rulings.","reference":"Qur\'an 4:59"},{"id":141,"term":"Qiyam al-Layl","phrase":"Night Prayer","meaning":"Voluntary prayers performed at night, synonymous with Tahajjud.","example":"She dedicated time to Qiyam al-Layl during Ramadan.","reference":"Qur\'an 73:2"},{"id":142,"term":"Duha","phrase":"Forenoon Prayer","meaning":"A voluntary prayer performed after sunrise and before noon.","example":"He prayed Duha to seek Allah’s blessings.","reference":"Hadith: Sahih Muslim 4.1656"},{"id":143,"term":"Salat al-Istikhara","phrase":"Guidance Prayer","meaning":"A two-prayer unit performed to seek Allah’s guidance in decisions.","example":"She prayed Salat al-Istikhara before accepting the job.","reference":"Hadith: Sahih al-Bukhari 2.21.263"},{"id":144,"term":"Salat al-Tasbih","phrase":"Prayer of Glorification","meaning":"A special voluntary prayer involving extensive glorification of Allah.","example":"He performed Salat al-Tasbih for forgiveness.","reference":"Hadith: Sunan Abu Dawood 8.1297"},{"id":145,"term":"Salat al-Janazah","phrase":"Funeral Prayer","meaning":"A communal prayer performed for a deceased Muslim.","example":"The community gathered for Salat al-Janazah at the mosque.","reference":"Hadith: Sahih al-Bukhari 2.23.337"},{"id":146,"term":"Khushu","phrase":"Humility","meaning":"The state of humility and focus during prayer or worship.","example":"She prayed with Khushu, fully absorbed in devotion.","reference":"Qur\'an 23:2"},{"id":147,"term":"Tawakkul","phrase":"Reliance","meaning":"Complete trust and reliance on Allah for all matters.","example":"He practiced Tawakkul by trusting Allah’s plan.","reference":"Qur\'an 3:159"},{"id":148,"term":"Ikhlas","phrase":"Sincerity","meaning":"Performing acts of worship purely for Allah’s sake.","example":"Her charity was given with Ikhlas, seeking no worldly reward.","reference":"Qur\'an 98:5"},{"id":149,"term":"Rizq","phrase":"Provision","meaning":"The sustenance and provisions provided by Allah.","example":"He trusted Allah would provide his Rizq.","reference":"Qur\'an 11:6"},{"id":150,"term":"Haya","phrase":"Modesty","meaning":"A sense of shame and modesty that guides moral behavior.","example":"Her Haya was evident in her modest attire.","reference":"Hadith: Sahih al-Bukhari 1.1.9"},{"id":151,"term":"Silat al-Rahm","phrase":"Kinship Ties","meaning":"Maintaining and strengthening family relationships.","example":"He practiced Silat al-Rahm by visiting his relatives.","reference":"Qur\'an 4:1"},{"id":152,"term":"Ghibah","phrase":"Backbiting","meaning":"Speaking negatively about someone in their absence, prohibited in Islam.","example":"She avoided Ghibah to maintain good character.","reference":"Qur\'an 49:12"},{"id":153,"term":"Namimah","phrase":"Tale-bearing","meaning":"Spreading gossip or tales to cause discord, forbidden in Islam.","example":"He refrained from Namimah to promote unity.","reference":"Qur\'an 68:11"},{"id":154,"term":"Riya","phrase":"Showing Off","meaning":"Performing good deeds to impress others, nullifying sincerity.","example":"She avoided Riya by keeping her charity anonymous.","reference":"Qur\'an 4:38"},{"id":155,"term":"Hasad","phrase":"Envy","meaning":"Wishing for the loss of another’s blessings, a sin in Islam.","example":"He overcame Hasad by praying for others’ success.","reference":"Qur\'an 113:5"},{"id":156,"term":"Tazkiyah","phrase":"Purification","meaning":"The spiritual purification of the soul through righteous deeds.","example":"She pursued Tazkiyah through constant worship.","reference":"Qur\'an 91:9"},{"id":157,"term":"Muraqabah","phrase":"Vigilance","meaning":"Constant awareness of Allah’s presence and watchfulness.","example":"He practiced Muraqabah to stay mindful of his actions.","reference":"Qur\'an 89:14"},{"id":158,"term":"Muhasabah","phrase":"Self-Accounting","meaning":"Reflecting on one’s actions to evaluate and improve oneself.","example":"She performed Muhasabah every night before sleep.","reference":"Qur\'an 59:18"},{"id":159,"term":"Jidal","phrase":"Disputation","meaning":"Engaging in unnecessary arguments, discouraged in Islam unless for truth.","example":"He avoided Jidal to maintain harmony.","reference":"Qur\'an 29:46"},{"id":160,"term":"Taqdir","phrase":"Divine Destiny","meaning":"Allah’s preordained plan for all creation.","example":"She accepted the outcome as part of Allah’s Taqdir.","reference":"Qur\'an 54:49"},{"id":161,"term":"Ijazah","phrase":"Certification","meaning":"A permission granted by a scholar to teach or transmit knowledge.","example":"He received an Ijazah in Hadith studies.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":162,"term":"Mahr Mu’ajjal","phrase":"Prompt Dowry","meaning":"The dowry paid to the bride at the time of the marriage contract.","example":"He paid the Mahr Mu’ajjal during the Nikah.","reference":"Qur\'an 4:4"},{"id":163,"term":"Mahr Mu’akhkhar","phrase":"Deferred Dowry","meaning":"The dowry agreed to be paid to the wife later, often upon divorce or death.","example":"The Mahr Mu’akhkhar was set for future payment.","reference":"Qur\'an 4:4"},{"id":164,"term":"Khula","phrase":"Divorce Initiated by Wife","meaning":"A divorce initiated by the wife, often involving returning the dowry.","example":"She sought Khula to end her marriage.","reference":"Qur\'an 2:229"},{"id":165,"term":"Iddah","phrase":"Waiting Period","meaning":"The period a woman must observe after divorce or widowhood before remarrying.","example":"She observed her Iddah after her husband’s passing.","reference":"Qur\'an 2:228"},{"id":166,"term":"Nasiha","phrase":"Sincere Advice","meaning":"Offering sincere and beneficial advice to others for their well-being.","example":"He gave Nasiha to his friend about avoiding sin.","reference":"Hadith: Sahih Muslim 1.205"},{"id":167,"term":"Satr","phrase":"Covering","meaning":"Concealing the faults of others to protect their dignity.","example":"She practiced Satr by not exposing her neighbor’s mistake.","reference":"Hadith: Sahih Muslim 4.2589"},{"id":168,"term":"Wali","phrase":"Guardian","meaning":"A male guardian responsible for a woman’s marriage arrangements.","example":"Her father acted as her Wali during the Nikah.","reference":"Qur\'an 4:25"},{"id":169,"term":"Mahr Mithl","phrase":"Customary Dowry","meaning":"A dowry equivalent to what is typically given in similar circumstances.","example":"The bride received a Mahr Mithl as per local custom.","reference":"Qur\'an 4:25"},{"id":170,"term":"Fidya","phrase":"Compensation","meaning":"A payment made to compensate for missed obligatory acts, like fasting.","example":"She paid Fidya for missing Ramadan fasts due to illness.","reference":"Qur\'an 2:184"},{"id":171,"term":"Hajj al-Badal","phrase":"Proxy Pilgrimage","meaning":"Performing Hajj on behalf of someone unable to do so.","example":"He performed Hajj al-Badal for his deceased father.","reference":"Hadith: Sahih al-Bukhari 2.26.589"},{"id":172,"term":"Talaq","phrase":"Divorce","meaning":"The Islamic procedure for a husband to divorce his wife.","example":"He pronounced Talaq after careful consideration.","reference":"Qur\'an 2:229"},{"id":173,"term":"Zihar","phrase":"Pre-Islamic Divorce Oath","meaning":"A forbidden pre-Islamic practice of likening a wife to a mother, requiring expiation.","example":"He made expiation for pronouncing Zihar.","reference":"Qur\'an 58:2"},{"id":174,"term":"Li’an","phrase":"Mutual Cursing","meaning":"A procedure for resolving accusations of adultery between spouses through oaths.","example":"The couple resorted to Li’an to settle their dispute.","reference":"Qur\'an 24:6-9"},{"id":175,"term":"Mahdi","phrase":"Guided One","meaning":"A prophesied figure expected to lead Muslims before the end of times.","example":"Some Muslims await the arrival of the Mahdi.","reference":"Hadith: Sunan Abi Dawood 14.4282"},{"id":176,"term":"Dajjal","phrase":"False Messiah","meaning":"A deceptive figure prophesied to appear before the Day of Judgment.","example":"The Prophet warned about the trials of Dajjal.","reference":"Hadith: Sahih Muslim 4.2937"},{"id":177,"term":"Ya’juj wa Ma’juj","phrase":"Gog and Magog","meaning":"Two tribes mentioned in the Qur’an, associated with end-times chaos.","example":"The release of Ya’juj wa Ma’juj is a major sign of the Last Day.","reference":"Qur\'an 18:94"},{"id":178,"term":"Nuzul Isa","phrase":"Descent of Jesus","meaning":"The prophesied return of Prophet Jesus before the Day of Judgment.","example":"Muslims believe in the Nuzul Isa as a sign of the end times.","reference":"Hadith: Sahih Muslim 4.2897"},{"id":179,"term":"Ashura","phrase":"Tenth of Muharram","meaning":"The 10th day of Muharram, significant for fasting and historical events.","example":"He fasted on Ashura to follow the Sunnah.","reference":"Hadith: Sahih Muslim 4.1130"},{"id":180,"term":"Karama","phrase":"Miracle","meaning":"A miraculous event granted to a righteous person by Allah.","example":"The scholar’s Karama was a sign of his piety.","reference":"Qur\'an 2:253"}]}');
+module.exports = /*#__PURE__*/JSON.parse('{"terms":[{"id":401,"term":"Adl","phrase":"Justice","meaning":"The concept of fairness and justice in all actions, a key principle in Islam.","example":"He ensured Adl in distributing the charity funds.","reference":"Qur\'an 4:135"},{"id":402,"term":"Ihsan","phrase":"Excellence","meaning":"Performing actions with sincerity and perfection, as if seeing Allah.","example":"She practiced Ihsan by praying with full devotion.","reference":"Hadith: Sahih Muslim 1.1"},{"id":403,"term":"Taqwah","phrase":"God-Consciousness","meaning":"Being mindful of Allah in all actions to avoid sin and seek His pleasure.","example":"His Taqwah kept him from dishonest dealings.","reference":"Qur\'an 2:197"},{"id":404,"term":"Jihad","phrase":"Striving","meaning":"The effort to uphold Islam, including internal struggle against sin or external defense of faith.","example":"She practiced Jihad by resisting temptation.","reference":"Qur\'an 29:6"},{"id":405,"term":"Jihad an-Nafs","phrase":"Struggle of the Self","meaning":"The internal struggle to purify one\'s soul and resist sinful desires.","example":"His Jihad an-Nafs involved controlling his anger.","reference":"Qur\'an 29:69"},{"id":406,"term":"Mujahid","phrase":"One Who Strives","meaning":"A person who engages in Jihad, striving in the path of Allah.","example":"The Mujahid dedicated his life to serving Islam.","reference":"Qur\'an 4:95"},{"id":407,"term":"Riba","phrase":"Usury","meaning":"The prohibition of interest-based transactions in Islamic law.","example":"He avoided Riba by choosing an Islamic bank.","reference":"Qur\'an 2:275"},{"id":408,"term":"Gharar","phrase":"Uncertainty","meaning":"Prohibited excessive risk or ambiguity in contracts, such as speculative transactions.","example":"The contract was void due to Gharar in its terms.","reference":"Hadith: Sahih Muslim 10.1513"},{"id":409,"term":"Mudarabah","phrase":"Profit-Sharing Partnership","meaning":"An Islamic financial contract where one party provides capital and another provides expertise, sharing profits.","example":"They entered a Mudarabah agreement for their business.","reference":"Qur\'an 4:12"},{"id":410,"term":"Musharakah","phrase":"Joint Partnership","meaning":"A partnership where all parties contribute capital and share profits and losses.","example":"The Musharakah venture funded a community project.","reference":"Qur\'an 4:12"},{"id":411,"term":"Murabahah","phrase":"Cost-Plus Financing","meaning":"A sale where the seller discloses the cost and adds a fixed profit margin.","example":"The bank offered a Murabahah contract for the car purchase.","reference":"Qur\'an 2:282"},{"id":412,"term":"Ijarah","phrase":"Leasing","meaning":"An Islamic financial contract for leasing assets or services.","example":"She signed an Ijarah agreement to rent the property.","reference":"Qur\'an 28:26"},{"id":413,"term":"Wadiah","phrase":"Safekeeping","meaning":"A contract where one party entrusts property to another for safekeeping.","example":"The bank offered Wadiah services for her valuables.","reference":"Qur\'an 2:283"},{"id":414,"term":"Hibah","phrase":"Gift","meaning":"A voluntary transfer of property or wealth without expecting anything in return.","example":"He gave a Hibah of land to the mosque.","reference":"Qur\'an 4:4"},{"id":415,"term":"Qard Hasan","phrase":"Benevolent Loan","meaning":"An interest-free loan given for charity or assistance, repayable without profit.","example":"She offered a Qard Hasan to help her struggling neighbor.","reference":"Qur\'an 2:245"},{"id":416,"term":"Zakat al-Mal","phrase":"Wealth Tax","meaning":"The obligatory charity tax on accumulated wealth, paid annually by eligible Muslims.","example":"He calculated Zakat al-Mal based on his savings.","reference":"Qur\'an 9:60"},{"id":417,"term":"Tijarah","phrase":"Trade","meaning":"Commercial transactions conducted in accordance with Islamic principles.","example":"His Tijarah business adhered to Shari\'ah guidelines.","reference":"Qur\'an 2:282"},{"id":418,"term":"Bay al-Salam","phrase":"Forward Sale","meaning":"A contract where payment is made upfront for goods delivered later.","example":"The farmer agreed to a Bay al-Salam for his crops.","reference":"Hadith: Sahih al-Bukhari 3.35.441"},{"id":419,"term":"Bay al-Istisna","phrase":"Manufacturing Contract","meaning":"A contract for the manufacture and delivery of custom-made goods.","example":"The artisan signed a Bay al-Istisna for custom furniture.","reference":"Qur\'an 2:282"},{"id":420,"term":"Sukuk","phrase":"Islamic Bonds","meaning":"Financial certificates compliant with Shari\'ah, representing ownership in an asset.","example":"The company issued Sukuk to raise funds for expansion.","reference":"Qur\'an 2:282"},{"id":421,"term":"Takaful","phrase":"Islamic Insurance","meaning":"A cooperative system of mutual insurance based on shared responsibility.","example":"She joined a Takaful plan for her family\'s health coverage.","reference":"Qur\'an 5:2"},{"id":422,"term":"Haram","phrase":"Forbidden","meaning":"Actions or items explicitly prohibited in Islam, such as consuming pork.","example":"He avoided Haram foods to maintain his faith.","reference":"Qur\'an 2:173"},{"id":423,"term":"Halal","phrase":"Permissible","meaning":"Actions or items allowed in Islam, such as lawful food or earnings.","example":"She ensured her meal was Halal before eating.","reference":"Qur\'an 2:168"},{"id":424,"term":"Makruh","phrase":"Disliked","meaning":"Actions that are discouraged in Islam but not explicitly forbidden.","example":"Eating garlic before Salah is considered Makruh.","reference":"Hadith: Sahih al-Bukhari 1.12.815"},{"id":425,"term":"Mustahabb","phrase":"Recommended","meaning":"Actions that are encouraged but not obligatory in Islam.","example":"Praying two Rak\'ah before Fajr is Mustahabb.","reference":"Hadith: Sahih Muslim 4.1688"},{"id":426,"term":"Wajib","phrase":"Obligatory","meaning":"Actions that are mandatory in some Islamic schools of thought, slightly below Fard.","example":"Performing Witr prayer is Wajib in the Hanafi school.","reference":"Hadith: Sahih al-Bukhari 2.16.116"},{"id":427,"term":"Fard","phrase":"Mandatory","meaning":"Actions that are obligatory for Muslims, such as the five daily prayers.","example":"Fasting during Ramadan is a Fard obligation.","reference":"Qur\'an 2:183"},{"id":428,"term":"Sunnah Mu\'akkadah","phrase":"Emphasized Sunnah","meaning":"Voluntary acts regularly performed by the Prophet, strongly recommended.","example":"He never missed the Sunnah Mu\'akkadah prayers before Dhuhr.","reference":"Hadith: Sahih al-Bukhari 2.13.1183"},{"id":429,"term":"Bid\'ah","phrase":"Innovation","meaning":"Innovations in religion that lack evidence from the Qur\'an or Sunnah, often discouraged.","example":"Some scholars warned against Bid\'ah in worship practices.","reference":"Hadith: Sahih Muslim 4.867"},{"id":430,"term":"Fitnah","phrase":"Trial or Temptation","meaning":"A test or tribulation that challenges one\'s faith or morality.","example":"He prayed for protection from the Fitnah of wealth.","reference":"Qur\'an 8:28"},{"id":431,"term":"Dunya","phrase":"Worldly Life","meaning":"The temporary, material world, often contrasted with the Hereafter.","example":"She prioritized the Akhirah over the Dunya.","reference":"Qur\'an 57:20"},{"id":432,"term":"Akhirah","phrase":"Hereafter","meaning":"The eternal life after death, including Judgment Day and Paradise or Hell.","example":"He worked for the Akhirah by performing good deeds.","reference":"Qur\'an 2:201"},{"id":433,"term":"Jannah","phrase":"Paradise","meaning":"The eternal abode of reward for the righteous in the Hereafter.","example":"She prayed for Jannah in every Du\'a.","reference":"Qur\'an 3:133"},{"id":434,"term":"Jahannam","phrase":"Hellfire","meaning":"The place of punishment for the wicked in the Hereafter.","example":"He sought refuge from Jahannam through repentance.","reference":"Qur\'an 4:121"},{"id":435,"term":"Sirat","phrase":"The Bridge","meaning":"The narrow bridge over Hell that all must cross on Judgment Day.","example":"Muslims pray to cross the Sirat safely.","reference":"Hadith: Sahih Muslim 1.183"},{"id":436,"term":"Mizan","phrase":"The Balance","meaning":"The scale used to weigh deeds on the Day of Judgment.","example":"Her good deeds tipped the Mizan in her favor.","reference":"Qur\'an 21:47"},{"id":437,"term":"Hawd","phrase":"The Basin","meaning":"The Prophet\'s basin in the Hereafter, from which believers will drink.","example":"He hoped to drink from the Hawd of the Prophet.","reference":"Hadith: Sahih al-Bukhari 9.88.602"},{"id":438,"term":"Shafa\'ah","phrase":"Intercession","meaning":"The act of the Prophet or righteous individuals interceding for others on Judgment Day.","example":"She sought the Prophet\'s Shafa\'ah through her devotion.","reference":"Hadith: Sahih al-Bukhari 6.60.3"},{"id":439,"term":"A\'raf","phrase":"The Heights","meaning":"A place between Paradise and Hell where some souls await their fate on Judgment Day.","example":"The A\'raf is described as a barrier in the Qur\'an.","reference":"Qur\'an 7:46"},{"id":440,"term":"Laylat al-Qadr","phrase":"Night of Decree","meaning":"A blessed night in Ramadan when the Qur\'an was first revealed, worth more than a thousand months.","example":"She spent Laylat al-Qadr in worship and prayer.","reference":"Qur\'an 97:1"},{"id":441,"term":"Tafsir","phrase":"Qur\'anic Exegesis","meaning":"The scholarly interpretation and explanation of the Qur\'an\'s meanings.","example":"He studied Tafsir to understand the Qur\'an deeply.","reference":"Qur\'an 3:7"},{"id":442,"term":"Asbab an-Nuzul","phrase":"Causes of Revelation","meaning":"The historical context or reasons behind the revelation of specific Qur\'anic verses.","example":"The scholar explained the Asbab an-Nuzul for Surah Al-Kawthar.","reference":"Qur\'an 3:7"},{"id":443,"term":"Nasikh wa Mansukh","phrase":"Abrogation","meaning":"The concept of certain Qur\'anic verses or rulings superseding others.","example":"Scholars studied Nasikh wa Mansukh to understand legal changes.","reference":"Qur\'an 2:106"},{"id":444,"term":"Mujtahid","phrase":"Independent Jurist","meaning":"A scholar qualified to derive Islamic rulings through independent reasoning.","example":"The Mujtahid issued a Fatwa on contemporary issues.","reference":"Qur\'an 4:59"},{"id":445,"term":"Taqlid","phrase":"Imitation","meaning":"Following the rulings of a qualified scholar without independent reasoning.","example":"As a layperson, he practiced Taqlid of a trusted scholar.","reference":"Qur\'an 4:59"},{"id":446,"term":"Madhhab","phrase":"School of Thought","meaning":"A recognized school of Islamic jurisprudence, such as Hanafi or Maliki.","example":"She followed the Shafi\'i Madhhab in her worship.","reference":"Qur\'an 4:59"},{"id":447,"term":"Fiqh","phrase":"Islamic Jurisprudence","meaning":"The understanding and application of Islamic law derived from the Qur\'an and Sunnah.","example":"He studied Fiqh to learn the rules of worship.","reference":"Qur\'an 4:59"},{"id":448,"term":"Usul al-Fiqh","phrase":"Principles of Jurisprudence","meaning":"The methodology used to derive Islamic legal rulings from primary sources.","example":"Usul al-Fiqh guided the scholar\'s legal analysis.","reference":"Qur\'an 4:59"},{"id":449,"term":"Fatwa","phrase":"Religious Ruling","meaning":"A non-binding legal opinion issued by a qualified scholar on an Islamic matter.","example":"The Fatwa clarified the permissibility of a new technology.","reference":"Qur\'an 4:127"},{"id":450,"term":"Ijma","phrase":"Consensus","meaning":"The agreement of Islamic scholars on a legal ruling, considered a source of law.","example":"The Ijma supported the prohibition of alcohol.","reference":"Qur\'an 4:59"},{"id":451,"term":"Khilaf","phrase":"Difference of Opinion","meaning":"Disagreement among scholars on a legal issue, respected in Islamic tradition.","example":"The Khilaf on certain rulings allows flexibility in practice.","reference":"Qur\'an 4:59"},{"id":452,"term":"Sahabah","phrase":"Companions","meaning":"The contemporaries of Prophet Muhammad who saw or met him and believed in him.","example":"The Sahabah transmitted the Prophet\'s teachings accurately.","reference":"Qur\'an 9:100"},{"id":453,"term":"Tabi\'in","phrase":"Successors","meaning":"The generation after the Sahabah who learned from them.","example":"The Tabi\'in preserved the Hadith for future generations.","reference":"Qur\'an 9:100"},{"id":454,"term":"Tabi\' Tabi\'in","phrase":"Successors of the Successors","meaning":"The generation after the Tabi\'in, continuing the transmission of Islamic knowledge.","example":"The Tabi\' Tabi\'in contributed to early Islamic scholarship.","reference":"Qur\'an 9:100"},{"id":455,"term":"Isnad","phrase":"Chain of Narration","meaning":"The chain of narrators transmitting a Hadith, ensuring its authenticity.","example":"The Hadith\'s Isnad was verified by scholars.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":456,"term":"Matn","phrase":"Text of Hadith","meaning":"The actual content or wording of a Hadith, distinct from its chain of narration.","example":"The Matn of the Hadith emphasized kindness to neighbors.","reference":"Hadith: Sahih Muslim 1.74"},{"id":457,"term":"Sahih","phrase":"Authentic Hadith","meaning":"A Hadith with a reliable chain of narration and no defects.","example":"The Sahih Hadith was used as evidence in the ruling.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":458,"term":"Hasan","phrase":"Good Hadith","meaning":"A Hadith with a good chain of narration but slightly less reliable than Sahih.","example":"The Hasan Hadith supported the recommended practice.","reference":"Hadith: Sunan at-Tirmidhi 1.1.1"},{"id":459,"term":"Da\'if","phrase":"Weak Hadith","meaning":"A Hadith with a flawed or unreliable chain of narration.","example":"Scholars avoided the Da\'if Hadith in legal rulings.","reference":"Hadith: Sunan at-Tirmidhi 1.1.1"},{"id":460,"term":"Mawdu","phrase":"Fabricated Hadith","meaning":"A Hadith that is falsely attributed to the Prophet, considered invalid.","example":"The Mawdu Hadith was rejected by the scholars.","reference":"Hadith: Sahih al-Bukhari 1.3.108"},{"id":461,"term":"Athar","phrase":"Narration","meaning":"Sayings or actions attributed to the Companions or Successors, not the Prophet.","example":"The Athar of Umar provided guidance on governance.","reference":"Hadith: Sahih Muslim 1.1"},{"id":462,"term":"Riwayah","phrase":"Transmission","meaning":"The process of narrating or transmitting Hadith or Islamic knowledge.","example":"The Riwayah of Hadith preserved the Prophet\'s legacy.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":463,"term":"Sanad","phrase":"Chain of Authority","meaning":"Another term for Isnad, the chain of narrators for a Hadith.","example":"The Sanad was checked to confirm the Hadith\'s authenticity.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":464,"term":"Rawi","phrase":"Narrator","meaning":"A person who narrates a Hadith, part of the chain of transmission.","example":"The Rawi was known for his reliability in Hadith narration.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":465,"term":"Hadith Mutawatir","phrase":"Mass-Transmitted Hadith","meaning":"A Hadith reported by so many narrators that its authenticity is certain.","example":"The Hadith Mutawatir about Salah is undeniable.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":466,"term":"Hadith Ahad","phrase":"Solitary Hadith","meaning":"A Hadith narrated by fewer people, less certain than Mutawatir but still valid.","example":"The Hadith Ahad provided guidance on charity.","reference":"Hadith: Sahih Muslim 1.1"},{"id":467,"term":"Hadith Qudsi","phrase":"Divine Hadith","meaning":"A Hadith where the Prophet conveys Allah\'s words, distinct from the Qur\'an.","example":"The Hadith Qudsi emphasized Allah\'s mercy.","reference":"Hadith: Sahih al-Bukhari 9.93.601"},{"id":468,"term":"Tajwid","phrase":"Qur\'anic Recitation Rules","meaning":"The science of pronouncing and reciting the Qur\'an correctly.","example":"She studied Tajwid to perfect her Qur\'an recitation.","reference":"Qur\'an 73:4"},{"id":469,"term":"Qira\'at","phrase":"Recitation Variants","meaning":"The different accepted modes of reciting the Qur\'an, each with slight variations.","example":"He mastered the Qira\'at of Hafs for his recitation.","reference":"Qur\'an 73:4"},{"id":470,"term":"Harakat","phrase":"Vowel Marks","meaning":"Diacritical marks in the Qur\'an indicating vowel sounds for correct pronunciation.","example":"The Harakat helped her read the Qur\'an accurately.","reference":"Qur\'an 73:4"},{"id":471,"term":"Madd","phrase":"Elongation","meaning":"The rule in Tajwid for prolonging certain vowel sounds in Qur\'anic recitation.","example":"She applied Madd to elongate the vowel in her recitation.","reference":"Qur\'an 73:4"},{"id":472,"term":"Ghunna","phrase":"Nasalization","meaning":"A Tajwid rule for pronouncing certain letters with a nasal sound.","example":"He practiced Ghunna for the correct recitation of noon letters.","reference":"Qur\'an 73:4"},{"id":473,"term":"Idgham","phrase":"Merging","meaning":"A Tajwid rule where certain letters are merged with others during recitation.","example":"She applied Idgham to blend the letters smoothly.","reference":"Qur\'an 73:4"},{"id":474,"term":"Iqlab","phrase":"Conversion","meaning":"A Tajwid rule where a noon saakin or tanween is converted to a meem sound.","example":"The Iqlab rule changed the sound in her recitation.","reference":"Qur\'an 73:4"},{"id":475,"term":"Ikhfa","phrase":"Concealment","meaning":"A Tajwid rule where a noon saakin or tanween is pronounced with a light nasal sound.","example":"She mastered Ikhfa for a refined Qur\'an recitation.","reference":"Qur\'an 73:4"},{"id":476,"term":"Izhar","phrase":"Clear Pronunciation","meaning":"A Tajwid rule where a noon saakin or tanween is pronounced clearly without nasalization.","example":"He used Izhar to pronounce the letters distinctly.","reference":"Qur\'an 73:4"},{"id":477,"term":"Waqf","phrase":"Pausing","meaning":"Rules for stopping or pausing during Qur\'anic recitation to maintain meaning.","example":"She observed Waqf to pause correctly in her recitation.","reference":"Qur\'an 73:4"},{"id":478,"term":"Ibtida","phrase":"Starting","meaning":"Rules for beginning Qur\'anic recitation after a pause or stop.","example":"He followed Ibtida rules to start his recitation properly.","reference":"Qur\'an 73:4"},{"id":479,"term":"Sajdah Tilawah","phrase":"Prostration of Recitation","meaning":"A prostration performed when reciting or hearing specific Qur\'anic verses.","example":"She performed Sajdah Tilawah after reciting Surah As-Sajdah.","reference":"Qur\'an 32:15"},{"id":480,"term":"Ayat al-Kursi","phrase":"Verse of the Throne","meaning":"A highly revered verse (Qur\'an 2:255) recited for protection and blessings.","example":"He recited Ayat al-Kursi before sleeping for protection.","reference":"Qur\'an 2:255"},{"id":481,"term":"Surah","phrase":"Chapter","meaning":"A chapter of the Qur\'an, of which there are 114 in total.","example":"She memorized Surah Al-Fatihah as her first chapter.","reference":"Qur\'an 2:1"},{"id":482,"term":"Ayah","phrase":"Verse","meaning":"A verse or sign in the Qur\'an, the smallest unit of revelation.","example":"Each Ayah of the Qur\'an carries deep meaning.","reference":"Qur\'an 2:1"},{"id":483,"term":"Mushrikun","phrase":"Polytheists","meaning":"Those who associate partners with Allah, committing Shirk.","example":"The Qur\'an calls the Mushrikun to monotheism.","reference":"Qur\'an 6:106"},{"id":484,"term":"Kafir","phrase":"Disbeliever","meaning":"A person who rejects faith in Allah or His messengers.","example":"The Qur\'an warns the Kafir of consequences in the Hereafter.","reference":"Qur\'an 2:6"},{"id":485,"term":"Munafiq","phrase":"Hypocrite","meaning":"A person who outwardly professes Islam but inwardly disbelieves.","example":"The Munafiq was warned of a severe punishment in the Qur\'an.","reference":"Qur\'an 63:1"},{"id":486,"term":"Mu\'min","phrase":"Believer","meaning":"A person who has true faith in Allah and His messengers.","example":"The Mu\'min strives to follow the Qur\'an and Sunnah.","reference":"Qur\'an 2:285"},{"id":487,"term":"Muslim","phrase":"One Who Submits","meaning":"A person who submits to Allah\'s will and follows Islam.","example":"As a Muslim, she prayed five times daily.","reference":"Qur\'an 3:64"},{"id":488,"term":"Ummah","phrase":"Community","meaning":"The global community of Muslims united by faith.","example":"The Ummah came together to support the needy.","reference":"Qur\'an 2:143"},{"id":489,"term":"Ahl al-Kitab","phrase":"People of the Book","meaning":"Jews and Christians who received divine scriptures before Islam.","example":"The Qur\'an calls for dialogue with Ahl al-Kitab.","reference":"Qur\'an 3:64"},{"id":490,"term":"Dhimmi","phrase":"Protected Person","meaning":"A non-Muslim living under Islamic governance with protected rights.","example":"The Dhimmi paid Jizyah for protection in the Islamic state.","reference":"Qur\'an 9:29"},{"id":491,"term":"Jizyah","phrase":"Protection Tax","meaning":"A tax levied on non-Muslims under Islamic rule in exchange for protection.","example":"The Dhimmi paid Jizyah to live safely in the state.","reference":"Qur\'an 9:29"},{"id":492,"term":"Ahl al-Dhimmah","phrase":"People of the Covenant","meaning":"Another term for Dhimmi, non-Muslims under the protection of an Islamic state.","example":"The Ahl al-Dhimmah enjoyed religious freedom in the state.","reference":"Qur\'an 9:29"},{"id":493,"term":"Sirah","phrase":"Biography","meaning":"The biography of Prophet Muhammad, detailing his life and teachings.","example":"She studied the Sirah to learn about the Prophet\'s character.","reference":"Qur\'an 33:21"},{"id":494,"term":"Maghazi","phrase":"Military Campaigns","meaning":"The military expeditions led by or during the time of Prophet Muhammad.","example":"The Maghazi provided lessons in strategy and ethics.","reference":"Qur\'an 8:7"},{"id":495,"term":"Hijrah","phrase":"Migration","meaning":"The migration of Prophet Muhammad from Mecca to Medina, marking the Islamic calendar\'s start.","example":"The Hijrah was a turning point in Islamic history.","reference":"Qur\'an 9:40"},{"id":496,"term":"Ansar","phrase":"Helpers","meaning":"The Muslims of Medina who supported the Prophet and the Muhajirun after the Hijrah.","example":"The Ansar welcomed the Muhajirun with open hearts.","reference":"Qur\'an 9:100"},{"id":497,"term":"Muhajirun","phrase":"Emigrants","meaning":"The Muslims who migrated from Mecca to Medina during the Hijrah.","example":"The Muhajirun faced hardships for the sake of their faith.","reference":"Qur\'an 9:100"},{"id":498,"term":"Khutbah","phrase":"Sermon","meaning":"A formal speech delivered during Friday prayers or special occasions.","example":"The Imam\'s Khutbah inspired the congregation to give charity.","reference":"Hadith: Sahih al-Bukhari 2.13.56"},{"id":499,"term":"Adhan","phrase":"Call to Prayer","meaning":"The call to announce the time for the five daily prayers.","example":"The Adhan echoed through the village before Fajr.","reference":"Hadith: Sahih al-Bukhari 1.11.580"},{"id":500,"term":"Iqamah","phrase":"Second Call to Prayer","meaning":"The call made just before the start of congregational prayer, signaling readiness.","example":"The Iqamah was called, and the congregation stood for Salah.","reference":"Hadith: Sahih al-Bukhari 1.11.589"},{"id":501,"term":"Imam","phrase":"Leader","meaning":"A person who leads the congregational prayer or a religious leader in the community.","example":"The Imam led the Friday prayer with a heartfelt sermon.","reference":"Qur\'an 2:124"},{"id":502,"term":"Mu\'adhdhin","phrase":"Caller to Prayer","meaning":"The person who recites the Adhan to call Muslims to prayer.","example":"The Mu\'adhdhin\'s voice was heard across the town before Dhuhr.","reference":"Hadith: Sahih al-Bukhari 1.11.580"},{"id":503,"term":"Salah","phrase":"Ritual Prayer","meaning":"The five daily obligatory prayers performed by Muslims facing the Ka\'bah.","example":"She performed Salah at the prescribed times every day.","reference":"Qur\'an 2:3"},{"id":504,"term":"Rak\'ah","phrase":"Prayer Cycle","meaning":"A unit of prayer consisting of specific movements and recitations.","example":"Fajr prayer consists of two Rak\'ah.","reference":"Hadith: Sahih al-Bukhari 1.8.345"},{"id":505,"term":"Sujud","phrase":"Prostration","meaning":"The act of placing the forehead on the ground in submission during prayer.","example":"She performed Sujud with humility during Salah.","reference":"Qur\'an 32:15"},{"id":506,"term":"Ruku","phrase":"Bowing","meaning":"The act of bowing during Salah, a key component of each Rak\'ah.","example":"He recited a supplication during Ruku in his prayer.","reference":"Hadith: Sahih Muslim 4.881"},{"id":507,"term":"Qiyam","phrase":"Standing","meaning":"The standing position in Salah where Qur\'anic verses are recited.","example":"During Qiyam, she recited Surah Al-Fatihah.","reference":"Qur\'an 2:238"},{"id":508,"term":"Tashahhud","phrase":"Testimony","meaning":"A recitation during Salah affirming faith in Allah and the Prophet.","example":"He recited the Tashahhud in the final sitting of Salah.","reference":"Hadith: Sahih Muslim 4.893"},{"id":509,"term":"Taslim","phrase":"Salutation","meaning":"The concluding act of Salah, turning the head to say \'Assalamu Alaikum.\'","example":"She completed her prayer with Taslim on both sides.","reference":"Hadith: Sahih al-Bukhari 1.12.802"},{"id":510,"term":"Du\'a","phrase":"Supplication","meaning":"A personal prayer or invocation to Allah for blessings or forgiveness.","example":"He made Du\'a for his family\'s health after Salah.","reference":"Qur\'an 2:186"},{"id":511,"term":"Dhikr","phrase":"Remembrance","meaning":"The act of remembering and praising Allah through specific phrases or prayers.","example":"She recited Dhikr after every Salah to stay connected to Allah.","reference":"Qur\'an 33:41"},{"id":512,"term":"Tasbih","phrase":"Glorification","meaning":"The act of saying \'SubhanAllah\' to glorify Allah, often using prayer beads.","example":"He used a Tasbih to count his glorifications after prayer.","reference":"Qur\'an 87:1"},{"id":513,"term":"Tahmid","phrase":"Praising Allah","meaning":"Saying \'Alhamdulillah\' to express gratitude to Allah.","example":"She recited Tahmid upon receiving good news.","reference":"Qur\'an 1:2"},{"id":514,"term":"Takbir","phrase":"Magnification","meaning":"Saying \'Allahu Akbar\' to proclaim Allah\'s greatness, used in Salah and other occasions.","example":"He began his prayer with the Takbir.","reference":"Hadith: Sahih al-Bukhari 1.12.749"},{"id":515,"term":"Tahlil","phrase":"Declaration of Faith","meaning":"Saying \'La ilaha illa Allah\' to affirm there is no deity but Allah.","example":"She recited Tahlil during her morning Dhikr.","reference":"Qur\'an 37:35"},{"id":516,"term":"Istighfar","phrase":"Seeking Forgiveness","meaning":"The act of asking Allah for forgiveness, often by saying \'Astaghfirullah.\'","example":"He made Istighfar to seek forgiveness for his mistakes.","reference":"Qur\'an 3:135"},{"id":517,"term":"Wudu","phrase":"Ablution","meaning":"The ritual washing performed before Salah to attain ritual purity.","example":"She performed Wudu before offering her Maghrib prayer.","reference":"Qur\'an 5:6"},{"id":518,"term":"Ghusl","phrase":"Full Ritual Bath","meaning":"A complete body wash required to remove major ritual impurity.","example":"He performed Ghusl after waking from a state of Janabah.","reference":"Qur\'an 5:6"},{"id":519,"term":"Niyyah","phrase":"Intention","meaning":"The conscious intention to perform an act of worship for Allah\'s sake.","example":"She made Niyyah in her heart before starting Salah.","reference":"Hadith: Sahih al-Bukhari 1.1.1"},{"id":520,"term":"Iqamat as-Salah","phrase":"Establishing Prayer","meaning":"The act of performing the obligatory prayers regularly and correctly.","example":"He was diligent in Iqamat as-Salah five times a day.","reference":"Qur\'an 2:3"},{"id":521,"term":"Zakat","phrase":"Obligatory Charity","meaning":"The mandatory giving of a portion of one\'s wealth to the poor and needy.","example":"She paid Zakat annually to support the community.","reference":"Qur\'an 9:60"},{"id":522,"term":"Sadaqah","phrase":"Voluntary Charity","meaning":"Voluntary giving of wealth or good deeds to seek Allah\'s pleasure.","example":"He gave Sadaqah to help a struggling family.","reference":"Qur\'an 2:263"},{"id":523,"term":"Sawm","phrase":"Fasting","meaning":"Abstaining from food, drink, and certain activities from dawn to sunset, especially during Ramadan.","example":"She observed Sawm during the entire month of Ramadan.","reference":"Qur\'an 2:183"},{"id":524,"term":"Iftar","phrase":"Breaking the Fast","meaning":"The meal or act of breaking the fast at sunset during Ramadan.","example":"They gathered for Iftar with dates and water.","reference":"Hadith: Sahih al-Bukhari 3.31.128"},{"id":525,"term":"Suhoor","phrase":"Pre-Dawn Meal","meaning":"The meal eaten before dawn to prepare for fasting during Ramadan.","example":"He ate Suhoor to gain strength for the day\'s fast.","reference":"Hadith: Sahih al-Bukhari 3.31.140"},{"id":526,"term":"Hajj","phrase":"Pilgrimage","meaning":"The obligatory pilgrimage to Mecca, one of the five pillars of Islam.","example":"She saved for years to perform Hajj.","reference":"Qur\'an 2:197"},{"id":527,"term":"Umrah","phrase":"Lesser Pilgrimage","meaning":"A non-obligatory pilgrimage to Mecca performed at any time of the year.","example":"He performed Umrah during his visit to Mecca.","reference":"Qur\'an 2:196"},{"id":528,"term":"Ihram","phrase":"State of Ritual Purity","meaning":"The sacred state a pilgrim enters for Hajj or Umrah, marked by specific garments and intentions.","example":"She entered Ihram before starting her pilgrimage rituals.","reference":"Qur\'an 2:197"},{"id":529,"term":"Tawaf","phrase":"Circumambulation","meaning":"Walking seven times around the Ka\'bah during Hajj or Umrah.","example":"He performed Tawaf around the Ka\'bah with devotion.","reference":"Qur\'an 22:29"},{"id":530,"term":"Ka\'bah","phrase":"Sacred House","meaning":"The cube-shaped structure in Mecca, the focal point of Muslim prayer and pilgrimage.","example":"Pilgrims gathered around the Ka\'bah for Tawaf.","reference":"Qur\'an 5:97"},{"id":531,"term":"Maqam Ibrahim","phrase":"Station of Abraham","meaning":"The stone in Mecca bearing the footprint of Prophet Ibrahim, near the Ka\'bah.","example":"He prayed near Maqam Ibrahim after completing Tawaf.","reference":"Qur\'an 2:125"},{"id":532,"term":"Hajar al-Aswad","phrase":"Black Stone","meaning":"The sacred stone set in the Ka\'bah, kissed or touched during Tawaf.","example":"She touched the Hajar al-Aswad during her pilgrimage.","reference":"Hadith: Sahih al-Bukhari 2.26.667"},{"id":533,"term":"Zamzam","phrase":"Sacred Water","meaning":"The blessed water from the Zamzam well in Mecca, believed to have healing properties.","example":"He drank Zamzam water during his Hajj.","reference":"Hadith: Sahih al-Bukhari 2.26.665"},{"id":534,"term":"Arafat","phrase":"Plain of Arafat","meaning":"The plain near Mecca where pilgrims stand in prayer during Hajj on the 9th of Dhul-Hijjah.","example":"Standing at Arafat is the pinnacle of Hajj.","reference":"Hadith: Sahih Muslim 4.1218"},{"id":535,"term":"Muzdalifah","phrase":"Sacred Site","meaning":"The place where pilgrims spend the night after Arafat, collecting pebbles for Ramy al-Jamarat.","example":"They gathered pebbles at Muzdalifah for the stoning ritual.","reference":"Hadith: Sahih al-Bukhari 2.26.717"},{"id":536,"term":"Mina","phrase":"Pilgrimage Site","meaning":"A valley near Mecca where pilgrims perform the Ramy al-Jamarat during Hajj.","example":"He stayed in Mina during the days of Tashriq.","reference":"Hadith: Sahih al-Bukhari 2.26.717"},{"id":537,"term":"Days of Tashriq","phrase":"Days of Drying Meat","meaning":"The 11th, 12th, and 13th of Dhul-Hijjah, when pilgrims perform certain Hajj rituals.","example":"They stayed in Mina during the Days of Tashriq.","reference":"Hadith: Sahih Muslim 4.1211"},{"id":538,"term":"Eid al-Adha","phrase":"Festival of Sacrifice","meaning":"The Islamic festival commemorating Prophet Ibrahim\'s willingness to sacrifice his son.","example":"They celebrated Eid al-Adha with prayers and Qurbani.","reference":"Qur\'an 37:107"},{"id":539,"term":"Eid al-Fitr","phrase":"Festival of Breaking the Fast","meaning":"The Islamic festival marking the end of Ramadan with prayers and celebrations.","example":"She attended the Eid al-Fitr prayer with her family.","reference":"Hadith: Sahih al-Bukhari 2.15.73"},{"id":540,"term":"Qurbani","phrase":"Sacrifice","meaning":"The ritual animal sacrifice performed during Eid al-Adha.","example":"He performed Qurbani to honor Prophet Ibrahim\'s sacrifice.","reference":"Qur\'an 22:34"},{"id":541,"term":"Takbirat al-Eid","phrase":"Eid Magnifications","meaning":"The repeated saying of \'Allahu Akbar\' during Eid prayers and celebrations.","example":"The congregation recited Takbirat al-Eid joyfully.","reference":"Hadith: Sahih al-Bukhari 2.15.78"},{"id":542,"term":"Khutbah al-Eid","phrase":"Eid Sermon","meaning":"The sermon delivered after the Eid prayer, offering guidance and reminders.","example":"The Khutbah al-Eid emphasized unity and charity.","reference":"Hadith: Sahih al-Bukhari 2.15.76"},{"id":543,"term":"Salat al-Eid","phrase":"Eid Prayer","meaning":"The special congregational prayer performed on Eid al-Fitr and Eid al-Adha.","example":"They gathered at the mosque for Salat al-Eid.","reference":"Hadith: Sahih al-Bukhari 2.15.73"},{"id":544,"term":"Nikah","phrase":"Marriage Contract","meaning":"The formal Islamic marriage agreement between a bride and groom.","example":"Their Nikah was conducted with witnesses and a dowry.","reference":"Qur\'an 4:21"},{"id":545,"term":"Walimah","phrase":"Marriage Banquet","meaning":"The celebratory feast held after a marriage to announce and share joy.","example":"The Walimah was attended by family and friends.","reference":"Hadith: Sahih al-Bukhari 7.62.109"},{"id":546,"term":"Talaq","phrase":"Divorce","meaning":"The Islamic process of dissolving a marriage, subject to specific conditions.","example":"He pronounced Talaq after careful consideration.","reference":"Qur\'an 2:229"},{"id":547,"term":"Iddah","phrase":"Waiting Period","meaning":"The period a woman observes after divorce or her husband\'s death before remarrying.","example":"She observed Iddah for three menstrual cycles.","reference":"Qur\'an 2:228"},{"id":548,"term":"Khul","phrase":"Divorce Initiated by Wife","meaning":"A divorce initiated by the wife, often involving returning the dowry.","example":"She sought Khul to end her marriage amicably.","reference":"Qur\'an 2:229"},{"id":549,"term":"Mahr","phrase":"Dowry","meaning":"The mandatory gift given by the groom to the bride at the time of marriage.","example":"Her Mahr was a sum of money agreed upon by both families.","reference":"Qur\'an 4:4"},{"id":550,"term":"Shirk","phrase":"Polytheism","meaning":"The sin of associating partners with Allah, considered the gravest sin in Islam.","example":"He avoided Shirk by worshipping Allah alone.","reference":"Qur\'an 4:48"},{"id":551,"term":"Kufr","phrase":"Disbelief","meaning":"The rejection or denial of Allah or His messengers.","example":"Kufr is warned against in the Qur\'an as a path to misguidance.","reference":"Qur\'an 2:6"},{"id":552,"term":"Nifaq","phrase":"Hypocrisy","meaning":"Pretending to have faith while concealing disbelief.","example":"The Qur\'an warns against Nifaq as a dangerous trait.","reference":"Qur\'an 63:1"},{"id":553,"term":"Iman","phrase":"Faith","meaning":"Belief in the core tenets of Islam, including Allah, His prophets, and the Hereafter.","example":"Her Iman grew stronger through regular worship.","reference":"Qur\'an 2:177"},{"id":554,"term":"Taqdir","phrase":"Divine Decree","meaning":"Allah\'s foreordainment of all events, part of belief in Qada wa Qadar.","example":"She accepted her trials with faith in Taqdir.","reference":"Qur\'an 54:49"},{"id":555,"term":"Qadar","phrase":"Destiny","meaning":"The divine destiny or predetermination of all things by Allah.","example":"He trusted in Allah\'s Qadar during difficult times.","reference":"Qur\'an 54:49"},{"id":556,"term":"Tawakkul","phrase":"Reliance on Allah","meaning":"Complete trust and dependence on Allah while taking necessary actions.","example":"She practiced Tawakkul by working hard and trusting Allah\'s plan.","reference":"Qur\'an 3:159"},{"id":557,"term":"Barzakh","phrase":"Intermediate Realm","meaning":"The state between death and the Day of Resurrection where souls reside.","example":"Souls await in Barzakh until the Day of Judgment.","reference":"Qur\'an 23:100"},{"id":558,"term":"Yaqeen","phrase":"Certainty","meaning":"Absolute conviction in the truth of Islam and its teachings.","example":"His Yaqeen in Allah\'s mercy gave him peace.","reference":"Qur\'an 49:15"},{"id":559,"term":"Rahmah","phrase":"Mercy","meaning":"The divine compassion and mercy of Allah toward His creation.","example":"She prayed for Allah\'s Rahmah during her trials.","reference":"Qur\'an 7:56"},{"id":560,"term":"Barakah","phrase":"Divine Blessing","meaning":"A divine increase or blessing in wealth, time, or deeds.","example":"Her charity brought Barakah to her life.","reference":"Qur\'an 7:96"},{"id":561,"term":"Tawfiq","phrase":"Divine Success","meaning":"Success granted by Allah to perform righteous deeds.","example":"He attributed his achievements to Allah\'s Tawfiq.","reference":"Qur\'an 11:88"},{"id":562,"term":"Hidayah","phrase":"Guidance","meaning":"Divine guidance from Allah to the straight path.","example":"She sought Hidayah through constant prayer.","reference":"Qur\'an 1:6"},{"id":563,"term":"Israf","phrase":"Extravagance","meaning":"Excessive spending or wastefulness, discouraged in Islam.","example":"He avoided Israf by living a modest lifestyle.","reference":"Qur\'an 7:31"},{"id":564,"term":"Bughd","phrase":"Hatred for Allah\'s Sake","meaning":"Disliking or rejecting what is displeasing to Allah, such as sin or disbelief.","example":"She practiced Bughd by avoiding sinful gatherings.","reference":"Qur\'an 9:23"},{"id":565,"term":"Wala\'","phrase":"Loyalty","meaning":"Loyalty and allegiance to Allah, His Prophet, and the believers.","example":"His Wala\' to the Ummah inspired his charitable work.","reference":"Qur\'an 5:55"},{"id":566,"term":"Bara\'","phrase":"Disavowal","meaning":"Disassociating from disbelief and those who oppose Allah\'s commands.","example":"He practiced Bara\' by avoiding those who mocked the faith.","reference":"Qur\'an 9:1"},{"id":567,"term":"Amanah","phrase":"Trust","meaning":"The responsibility to fulfill trusts and obligations, a key Islamic value.","example":"She upheld Amanah by returning borrowed items promptly.","reference":"Qur\'an 4:58"},{"id":568,"term":"Khiyanah","phrase":"Betrayal","meaning":"Breaking a trust or acting dishonestly, condemned in Islam.","example":"He avoided Khiyanah by being truthful in his dealings.","reference":"Qur\'an 8:27"},{"id":569,"term":"Silat ar-Rahm","phrase":"Maintaining Family Ties","meaning":"The Islamic obligation to maintain good relations with relatives.","example":"She practiced Silat ar-Rahm by visiting her extended family.","reference":"Qur\'an 4:1"},{"id":570,"term":"Qat\' ar-Rahm","phrase":"Cutting Family Ties","meaning":"The act of severing ties with relatives, strongly discouraged in Islam.","example":"He was warned against Qat\' ar-Rahm due to its consequences.","reference":"Qur\'an 47:22"},{"id":571,"term":"Birr","phrase":"Righteousness","meaning":"Goodness and piety, especially toward parents and relatives.","example":"Her Birr toward her parents earned her blessings.","reference":"Qur\'an 2:177"},{"id":572,"term":"Uquq","phrase":"Disobedience to Parents","meaning":"Mistreating or disobeying parents, considered a major sin in Islam.","example":"He repented for Uquq after neglecting his parents.","reference":"Qur\'an 17:23"},{"id":573,"term":"Adab","phrase":"Etiquette","meaning":"The Islamic concept of good manners and proper behavior.","example":"She showed Adab by speaking politely to elders.","reference":"Qur\'an 49:11"},{"id":574,"term":"Ikhlas","phrase":"Sincerity","meaning":"Performing actions purely for Allah\'s sake, free from hypocrisy.","example":"His Ikhlas in worship made his deeds meaningful.","reference":"Qur\'an 98:5"},{"id":575,"term":"Riya","phrase":"Showing Off","meaning":"Performing acts of worship to gain praise from others, which nullifies sincerity.","example":"She avoided Riya by keeping her charity private.","reference":"Qur\'an 4:38"},{"id":576,"term":"Tawadhu","phrase":"Humility","meaning":"The quality of being humble and modest in character.","example":"His Tawadhu made him beloved in the community.","reference":"Qur\'an 25:63"},{"id":577,"term":"Kibr","phrase":"Arrogance","meaning":"Pride or arrogance, condemned as a destructive trait in Islam.","example":"He worked to overcome Kibr to purify his heart.","reference":"Qur\'an 31:18"},{"id":578,"term":"Hasad","phrase":"Envy","meaning":"Jealousy or wishing harm upon others for their blessings, a sin in Islam.","example":"She sought refuge from Hasad to cleanse her heart.","reference":"Qur\'an 113:5"},{"id":579,"term":"Ghibah","phrase":"Backbiting","meaning":"Speaking ill of someone in their absence, considered a major sin.","example":"He avoided Ghibah to maintain good character.","reference":"Qur\'an 49:12"},{"id":580,"term":"Namimah","phrase":"Tale-Bearing","meaning":"Spreading gossip or tales to create discord between people.","example":"She refrained from Namimah to preserve peace.","reference":"Qur\'an 68:11"},{"id":581,"term":"Buhtan","phrase":"Slander","meaning":"Making false accusations against someone, a grave sin in Islam.","example":"He was warned against Buhtan to protect reputations.","reference":"Qur\'an 24:16"},{"id":582,"term":"Tazkiyah","phrase":"Purification","meaning":"The spiritual process of purifying the soul from sins and bad traits.","example":"She pursued Tazkiyah through constant worship.","reference":"Qur\'an 91:9"},{"id":583,"term":"Zina","phrase":"Adultery","meaning":"Unlawful sexual relations, considered a major sin in Islam.","example":"The Qur\'an warns against Zina to maintain chastity.","reference":"Qur\'an 17:32"},{"id":584,"term":"Haya","phrase":"Modesty","meaning":"The quality of shyness and modesty, a key trait in Islamic character.","example":"Her Haya was evident in her modest dress and behavior.","reference":"Hadith: Sahih al-Bukhari 1.1.8"},{"id":585,"term":"Ghayrah","phrase":"Protective Jealousy","meaning":"A sense of honor and protectiveness over one\'s family or faith.","example":"His Ghayrah led him to defend his family\'s dignity.","reference":"Hadith: Sahih Muslim 4.1498"},{"id":586,"term":"Iffah","phrase":"Chastity","meaning":"Maintaining purity and abstaining from unlawful desires.","example":"She upheld Iffah by avoiding inappropriate interactions.","reference":"Qur\'an 24:30"},{"id":587,"term":"Satr","phrase":"Covering","meaning":"The act of covering one\'s faults or others\' faults to preserve dignity.","example":"He practiced Satr by not exposing his friend\'s mistake.","reference":"Qur\'an 49:12"},{"id":588,"term":"Tawbah","phrase":"Repentance","meaning":"Turning back to Allah with remorse and resolve to avoid sin.","example":"She made Tawbah after neglecting her prayers.","reference":"Qur\'an 66:8"},{"id":589,"term":"Inabah","phrase":"Returning to Allah","meaning":"A deeper form of repentance, returning to Allah with devotion.","example":"His Inabah brought him closer to Allah after years of neglect.","reference":"Qur\'an 39:54"},{"id":590,"term":"Istislam","phrase":"Submission","meaning":"Complete surrender to Allah\'s will, a core aspect of being a Muslim.","example":"Her Istislam was evident in her acceptance of Allah\'s decrees.","reference":"Qur\'an 3:19"},{"id":591,"term":"Tawheed","phrase":"Oneness of Allah","meaning":"The belief in the absolute oneness of Allah, the foundation of Islam.","example":"Tawheed is the core of Islamic belief.","reference":"Qur\'an 112:1"},{"id":592,"term":"Risalah","phrase":"Prophethood","meaning":"The belief in the prophethood of Muhammad and previous prophets sent by Allah.","example":"Risalah affirms the role of prophets as Allah\'s messengers.","reference":"Qur\'an 2:285"},{"id":593,"term":"Malaikah","phrase":"Angels","meaning":"Spiritual beings created by Allah to carry out His commands.","example":"Belief in Malaikah is a pillar of Islamic faith.","reference":"Qur\'an 2:285"},{"id":594,"term":"Kutub","phrase":"Divine Books","meaning":"The belief in the divine scriptures revealed by Allah, including the Qur\'an.","example":"The Kutub include the Torah, Gospel, and Qur\'an.","reference":"Qur\'an 2:285"},{"id":595,"term":"Yawm al-Qiyamah","phrase":"Day of Resurrection","meaning":"The Day of Judgment when all will be resurrected and judged by Allah.","example":"Muslims prepare for Yawm al-Qiyamah through good deeds.","reference":"Qur\'an 75:1"},{"id":596,"term":"Akhirah","phrase":"Hereafter","meaning":"The eternal life after death, including Paradise and Hell.","example":"She focused on the Akhirah over worldly gains.","reference":"Qur\'an 2:201"},{"id":597,"term":"Jannah","phrase":"Paradise","meaning":"The eternal abode of reward for the righteous in the Hereafter.","example":"He prayed for Jannah in every supplication.","reference":"Qur\'an 3:133"},{"id":598,"term":"Jahannam","phrase":"Hellfire","meaning":"The place of punishment for the wicked in the Hereafter.","example":"She sought refuge from Jahannam through repentance.","reference":"Qur\'an 4:121"},{"id":599,"term":"Sirat","phrase":"The Bridge","meaning":"The narrow bridge over Hell that all must cross on Judgment Day.","example":"Muslims pray to cross the Sirat safely.","reference":"Hadith: Sahih Muslim 1.183"},{"id":600,"term":"Mizan","phrase":"The Balance","meaning":"The scale used to weigh deeds on the Day of Judgment.","example":"Her good deeds tipped the Mizan in her favor.","reference":"Qur\'an 21:47"},{"id":601,"term":"Hawd","phrase":"The Basin","meaning":"The Prophet\'s basin in the Hereafter, from which believers will drink.","example":"He hoped to drink from the Hawd of the Prophet.","reference":"Hadith: Sahih al-Bukhari 9.88.602"},{"id":602,"term":"Shafa\'ah","phrase":"Intercession","meaning":"The act of the Prophet or righteous individuals interceding for others on Judgment Day.","example":"She sought the Prophet\'s Shafa\'ah through her devotion.","reference":"Hadith: Sahih al-Bukhari 6.60.3"},{"id":603,"term":"A\'raf","phrase":"The Heights","meaning":"A place between Paradise and Hell where some souls await their fate on Judgment Day.","example":"The A\'raf is described as a barrier in the Qur\'an.","reference":"Qur\'an 7:46"},{"id":604,"term":"Fitnah","phrase":"Trial","meaning":"A test or tribulation that challenges one\'s faith or morality.","example":"He prayed for protection from the Fitnah of wealth.","reference":"Qur\'an 8:28"},{"id":605,"term":"Dunya","phrase":"Worldly Life","meaning":"The temporary, material world, often contrasted with the Hereafter.","example":"She prioritized the Akhirah over the Dunya.","reference":"Qur\'an 57:20"},{"id":606,"term":"Barzakh","phrase":"Intermediate Realm","meaning":"The state between death and the Day of Resurrection where souls reside.","example":"Souls await in Barzakh until the Day of Judgment.","reference":"Qur\'an 23:100"},{"id":607,"term":"Qiyamah","phrase":"Resurrection","meaning":"The event of the resurrection of all beings for judgment.","example":"Belief in Qiyamah is a core tenet of Islam.","reference":"Qur\'an 75:1"},{"id":608,"term":"Mahdi","phrase":"Guided One","meaning":"A prophesied figure in Islam expected to appear before the Day of Judgment.","example":"Some Muslims await the arrival of the Mahdi.","reference":"Hadith: Sunan Abu Dawood 14.4282"},{"id":609,"term":"Dajjal","phrase":"False Messiah","meaning":"A deceptive figure prophesied to appear before the Day of Judgment, causing trials.","example":"Muslims seek protection from the Dajjal\'s trials.","reference":"Hadith: Sahih Muslim 4.2937"},{"id":610,"term":"Isa ibn Maryam","phrase":"Jesus, Son of Mary","meaning":"Prophet Jesus, revered in Islam, expected to return before the Day of Judgment.","example":"Muslims believe in the return of Isa ibn Maryam.","reference":"Qur\'an 43:61"},{"id":611,"term":"Yajuj wa Majuj","phrase":"Gog and Magog","meaning":"Two tribes or forces mentioned in the Qur\'an, associated with end-time events.","example":"Yajuj wa Majuj are mentioned as a sign of the Last Days.","reference":"Qur\'an 18:94"},{"id":612,"term":"Ashrat as-Sa\'ah","phrase":"Signs of the Hour","meaning":"The major and minor signs indicating the approach of the Day of Judgment.","example":"The Ashrat as-Sa\'ah include moral decline and natural upheavals.","reference":"Hadith: Sahih Muslim 4.2940"},{"id":613,"term":"Nuzul al-Qur\'an","phrase":"Revelation of the Qur\'an","meaning":"The process by which the Qur\'an was revealed to Prophet Muhammad over 23 years.","example":"Nuzul al-Qur\'an began on Laylat al-Qadr.","reference":"Qur\'an 97:1"},{"id":614,"term":"Wahy","phrase":"Divine Revelation","meaning":"The divine inspiration or revelation sent by Allah to His prophets.","example":"The Prophet received Wahy through the angel Jibril.","reference":"Qur\'an 42:52"},{"id":615,"term":"Jibril","phrase":"Angel Gabriel","meaning":"The angel who delivered Allah\'s revelations to Prophet Muhammad.","example":"Jibril brought the Qur\'an to the Prophet in the cave of Hira.","reference":"Qur\'an 2:97"},{"id":616,"term":"Mikail","phrase":"Angel Michael","meaning":"The angel responsible for providing sustenance and blessings, as per Islamic tradition.","example":"Mikail is mentioned as an angel of mercy in Islam.","reference":"Qur\'an 2:98"},{"id":617,"term":"Israfil","phrase":"Angel Raphael","meaning":"The angel who will blow the trumpet to signal the Day of Judgment.","example":"Israfil\'s trumpet will announce the resurrection.","reference":"Hadith: Sahih Muslim 4.2940"},{"id":618,"term":"Azrail","phrase":"Angel of Death","meaning":"The angel tasked with taking souls at the time of death.","example":"Azrail is responsible for collecting souls by Allah\'s command.","reference":"Qur\'an 32:11"},{"id":619,"term":"Munkar wa Nakir","phrase":"Angels of the Grave","meaning":"The angels who question the deceased in the grave about their faith.","example":"Munkar wa Nakir test souls in the Barzakh.","reference":"Hadith: Sunan at-Tirmidhi 3.1071"},{"id":620,"term":"Hafazah","phrase":"Guardian Angels","meaning":"Angels assigned to protect and record the deeds of individuals.","example":"The Hafazah record every action for the Day of Judgment.","reference":"Qur\'an 82:10-11"},{"id":621,"term":"Kiraman Katibin","phrase":"Honorable Scribes","meaning":"The angels who record a person\'s good and bad deeds.","example":"The Kiraman Katibin note every deed for accountability.","reference":"Qur\'an 82:11"},{"id":622,"term":"Arsh","phrase":"Throne of Allah","meaning":"The divine throne, symbolizing Allah\'s supreme authority.","example":"The Qur\'an describes Allah\'s Arsh as above the heavens.","reference":"Qur\'an 20:5"},{"id":623,"term":"Kursi","phrase":"Footstool of Allah","meaning":"A symbol of Allah\'s dominion, often mentioned in relation to His throne.","example":"Ayat al-Kursi describes the vastness of Allah\'s Kursi.","reference":"Qur\'an 2:255"},{"id":624,"term":"Lawh al-Mahfuz","phrase":"Preserved Tablet","meaning":"The divine record where all events and destinies are written by Allah.","example":"The Qur\'an was sent down from the Lawh al-Mahfuz.","reference":"Qur\'an 85:22"},{"id":625,"term":"Qalam","phrase":"Pen","meaning":"The divine pen used to write the destinies in the Preserved Tablet.","example":"The Qalam recorded all events by Allah\'s command.","reference":"Qur\'an 68:1"},{"id":626,"term":"Sidrat al-Muntaha","phrase":"Lote Tree of the Utmost Boundary","meaning":"A tree in the heavens marking the boundary of divine knowledge, seen during the Mi\'raj.","example":"The Prophet saw Sidrat al-Muntaha during his ascension.","reference":"Qur\'an 53:14"},{"id":627,"term":"Bait al-Ma\'mur","phrase":"Frequented House","meaning":"A celestial house of worship in the heavens, parallel to the Ka\'bah.","example":"The Bait al-Ma\'mur is visited by angels for worship.","reference":"Qur\'an 52:4"},{"id":628,"term":"Jinn","phrase":"Spiritual Beings","meaning":"Beings created from smokeless fire, capable of free will like humans.","example":"The Qur\'an addresses both humans and Jinn.","reference":"Qur\'an 55:15"},{"id":629,"term":"Shaytan","phrase":"Satan","meaning":"A rebellious Jinn who seeks to mislead humans, also known as Iblis.","example":"She sought refuge from Shaytan before reciting the Qur\'an.","reference":"Qur\'an 7:11"},{"id":630,"term":"Iblis","phrase":"Devil","meaning":"The name of the chief Shaytan who refused to bow to Adam.","example":"Iblis was cursed for his arrogance against Allah\'s command.","reference":"Qur\'an 7:11"},{"id":631,"term":"Sihr","phrase":"Magic","meaning":"The forbidden practice of using supernatural forces to harm or deceive.","example":"The Qur\'an warns against Sihr as a harmful practice.","reference":"Qur\'an 2:102"},{"id":632,"term":"Ruqyah","phrase":"Spiritual Healing","meaning":"Reciting Qur\'anic verses or supplications for protection or healing.","example":"She performed Ruqyah to seek protection from evil.","reference":"Hadith: Sahih Muslim 4.2186"},{"id":633,"term":"Ayn","phrase":"Evil Eye","meaning":"Harm caused by envy or jealousy, countered by seeking Allah\'s protection.","example":"He recited Ruqyah to protect against the Ayn.","reference":"Hadith: Sahih Muslim 4.2188"},{"id":634,"term":"Hasad","phrase":"Envy","meaning":"Jealousy or wishing harm upon others for their blessings, a sin in Islam.","example":"She sought refuge from Hasad to cleanse her heart.","reference":"Qur\'an 113:5"},{"id":635,"term":"Tawassul","phrase":"Intermediation","meaning":"Seeking closeness to Allah through righteous deeds or individuals.","example":"He made Tawassul by invoking the Prophet\'s name in his Du\'a.","reference":"Qur\'an 5:35"},{"id":636,"term":"Barakah","phrase":"Divine Blessing","meaning":"A divine increase or blessing in something, such as wealth or time.","example":"Her charity brought Barakah to her business.","reference":"Qur\'an 7:96"},{"id":637,"term":"Tabarruk","phrase":"Seeking Blessings","meaning":"Seeking blessings through sacred relics, places, or righteous people.","example":"She practiced Tabarruk by drinking Zamzam water.","reference":"Hadith: Sahih al-Bukhari 2.26.665"},{"id":638,"term":"Wird","phrase":"Daily Litany","meaning":"A set of regular supplications or Qur\'anic recitations performed daily.","example":"He recited his Wird every morning for spiritual growth.","reference":"Qur\'an 33:41"},{"id":639,"term":"Hizb","phrase":"Section of Qur\'an","meaning":"A division of the Qur\'an into 60 parts for recitation purposes.","example":"She completed a Hizb of the Qur\'an each day.","reference":"Qur\'an 73:4"},{"id":640,"term":"Juz","phrase":"Part of Qur\'an","meaning":"One of the 30 equal parts of the Qur\'an for recitation purposes.","example":"He read one Juz daily during Ramadan.","reference":"Qur\'an 73:4"},{"id":641,"term":"Manzil","phrase":"Portion of Qur\'an","meaning":"A division of the Qur\'an into seven parts for recitation over a week.","example":"He recited one Manzil daily for spiritual protection.","reference":"Hadith: Sahih al-Bukhari 6.61.536"},{"id":642,"term":"Mu\'awwidhatayn","phrase":"The Two Protectors","meaning":"The last two Surahs of the Qur\'an (Al-Falaq and An-Nas), recited for protection.","example":"She recited the Mu\'awwidhatayn before sleeping.","reference":"Qur\'an 113:1, 114:1"},{"id":643,"term":"Ayat al-Kursi","phrase":"Verse of the Throne","meaning":"A highly revered verse (Qur\'an 2:255) recited for protection and blessings.","example":"He recited Ayat al-Kursi before sleeping for protection.","reference":"Qur\'an 2:255"},{"id":644,"term":"Sunnah","phrase":"Prophetic Tradition","meaning":"The practices, sayings, and approvals of Prophet Muhammad, a key source of Islamic guidance.","example":"She followed the Sunnah by breaking her fast with dates.","reference":"Qur\'an 33:21"},{"id":645,"term":"Hadith","phrase":"Prophetic Narration","meaning":"The recorded sayings, actions, or approvals of Prophet Muhammad.","example":"The Hadith guided her in performing voluntary prayers.","reference":"Hadith: Sahih al-Bukhari 1.1.1"},{"id":646,"term":"Qur\'an","phrase":"The Recitation","meaning":"The holy book of Islam, revealed to Prophet Muhammad as divine guidance.","example":"She recited the Qur\'an daily for spiritual growth.","reference":"Qur\'an 2:2"},{"id":647,"term":"Tafsir","phrase":"Qur\'anic Exegesis","meaning":"The scholarly interpretation and explanation of the Qur\'an\'s meanings.","example":"He studied Tafsir to understand the Qur\'an deeply.","reference":"Qur\'an 3:7"},{"id":648,"term":"Tajwid","phrase":"Qur\'anic Recitation Rules","meaning":"The science of pronouncing and reciting the Qur\'an correctly.","example":"She studied Tajwid to perfect her Qur\'an recitation.","reference":"Qur\'an 73:4"},{"id":649,"term":"Qira\'at","phrase":"Recitation Variants","meaning":"The different accepted modes of reciting the Qur\'an, each with slight variations.","example":"He mastered the Qira\'at of Hafs for his recitation.","reference":"Qur\'an 73:4"},{"id":650,"term":"Hifz","phrase":"Qur\'an Memorization","meaning":"The act of memorizing the entire Qur\'an, a highly respected practice.","example":"She completed Hifz at a young age.","reference":"Qur\'an 54:17"},{"id":651,"term":"Hafiz","phrase":"Qur\'an Memorizer","meaning":"A person who has memorized the entire Qur\'an.","example":"The Hafiz led the Taraweeh prayers during Ramadan.","reference":"Qur\'an 54:17"},{"id":652,"term":"Qurra","phrase":"Reciters","meaning":"Individuals skilled in the recitation of the Qur\'an, often with mastery of Tajwid.","example":"The Qurra were invited to recite at the gathering.","reference":"Qur\'an 73:4"},{"id":653,"term":"Mushaf","phrase":"Written Qur\'an","meaning":"The physical copy of the Qur\'an as a compiled book.","example":"She kept a Mushaf on her bedside for daily reading.","reference":"Qur\'an 2:2"},{"id":654,"term":"Tadabbur","phrase":"Reflection","meaning":"Deep contemplation and reflection on the meanings of the Qur\'an.","example":"He practiced Tadabbur to understand the Qur\'an\'s wisdom.","reference":"Qur\'an 4:82"},{"id":655,"term":"Tawil","phrase":"Interpretation","meaning":"The deeper or allegorical interpretation of Qur\'anic verses.","example":"Scholars used Tawil to explain complex verses.","reference":"Qur\'an 3:7"},{"id":656,"term":"Asbab an-Nuzul","phrase":"Causes of Revelation","meaning":"The historical context or reasons behind the revelation of specific Qur\'anic verses.","example":"The Asbab an-Nuzul clarified the meaning of Surah Al-Kawthar.","reference":"Qur\'an 3:7"},{"id":657,"term":"Nasikh wa Mansukh","phrase":"Abrogation","meaning":"The concept of certain Qur\'anic verses or rulings superseding others.","example":"Scholars studied Nasikh wa Mansukh to understand legal changes.","reference":"Qur\'an 2:106"},{"id":658,"term":"Muhkam","phrase":"Clear Verse","meaning":"Qur\'anic verses with clear and unambiguous meanings.","example":"The Muhkam verses guide basic Islamic practices.","reference":"Qur\'an 3:7"},{"id":659,"term":"Mutashabih","phrase":"Ambiguous Verse","meaning":"Qur\'anic verses with allegorical or unclear meanings, requiring interpretation.","example":"Scholars debated the Mutashabih verses for deeper understanding.","reference":"Qur\'an 3:7"},{"id":660,"term":"Fiqh","phrase":"Islamic Jurisprudence","meaning":"The understanding and application of Islamic law derived from the Qur\'an and Sunnah.","example":"He studied Fiqh to learn the rules of worship.","reference":"Qur\'an 4:59"},{"id":661,"term":"Usul al-Fiqh","phrase":"Principles of Jurisprudence","meaning":"The methodology used to derive Islamic legal rulings from primary sources.","example":"Usul al-Fiqh guided the scholar\'s legal analysis.","reference":"Qur\'an 4:59"},{"id":662,"term":"Madhhab","phrase":"School of Thought","meaning":"A recognized school of Islamic jurisprudence, such as Hanafi or Maliki.","example":"She followed the Shafi\'i Madhhab in her worship.","reference":"Qur\'an 4:59"},{"id":663,"term":"Fatwa","phrase":"Religious Ruling","meaning":"A non-binding legal opinion issued by a qualified scholar on an Islamic matter.","example":"The Fatwa clarified the permissibility of a new technology.","reference":"Qur\'an 4:127"},{"id":664,"term":"Ijma","phrase":"Consensus","meaning":"The agreement of Islamic scholars on a legal ruling, considered a source of law.","example":"The Ijma supported the prohibition of alcohol.","reference":"Qur\'an 4:59"},{"id":665,"term":"Qiyas","phrase":"Analogical Reasoning","meaning":"A method of Islamic jurisprudence using analogy to derive rulings from existing sources.","example":"Scholars used Qiyas to rule on modern financial transactions.","reference":"Qur\'an 4:59"},{"id":666,"term":"Istihsan","phrase":"Juristic Preference","meaning":"Choosing a ruling based on what is deemed better for public interest or equity in Islamic law.","example":"The scholar applied Istihsan to permit a lenient ruling.","reference":"Hadith: Sahih Muslim 4.1718"},{"id":667,"term":"Istislah","phrase":"Public Interest","meaning":"Making rulings based on the public good when no clear text exists, also known as Maslahah.","example":"Istislah was used to regulate new technologies in Islamic law.","reference":"Qur\'an 4:59"},{"id":668,"term":"Maslahah","phrase":"Public Welfare","meaning":"The principle of promoting benefit or preventing harm in Islamic legal rulings.","example":"The ruling was based on Maslahah to protect the community.","reference":"Qur\'an 4:59"},{"id":669,"term":"Urf","phrase":"Custom","meaning":"Local customs or traditions considered in Islamic law if they do not contradict Shari\'ah.","example":"The local Urf influenced the marriage customs.","reference":"Qur\'an 7:199"},{"id":670,"term":"Sad al-Dhara\'i","phrase":"Blocking the Means","meaning":"Preventing actions that could lead to forbidden outcomes in Islamic law.","example":"Sad al-Dhara\'i was applied to prohibit certain financial practices.","reference":"Qur\'an 6:108"},{"id":671,"term":"Shari\'ah","phrase":"Islamic Law","meaning":"The divine law derived from the Qur\'an and Sunnah, guiding all aspects of life.","example":"She followed Shari\'ah in her daily practices.","reference":"Qur\'an 45:18"},{"id":672,"term":"Hudud","phrase":"Prescribed Punishments","meaning":"Specific punishments in Islamic law for serious offenses.","example":"Hudud laws are applied with strict conditions.","reference":"Qur\'an 5:38"},{"id":673,"term":"Ta\'zir","phrase":"Discretionary Punishment","meaning":"Punishments for offenses not covered by Hudud, left to the discretion of a judge.","example":"The judge imposed Ta\'zir for a minor offense.","reference":"Qur\'an 4:59"},{"id":674,"term":"Qisas","phrase":"Retaliation","meaning":"The principle of equal retribution for crimes like murder, with the option for forgiveness.","example":"The family chose forgiveness over Qisas for the crime.","reference":"Qur\'an 2:178"},{"id":675,"term":"Diyah","phrase":"Blood Money","meaning":"Compensation paid to the victim or their family for crimes like murder or injury.","example":"They agreed to accept Diyah instead of Qisas.","reference":"Qur\'an 2:178"},{"id":676,"term":"Ahl al-Bayt","phrase":"People of the House","meaning":"The family of Prophet Muhammad, including his close relatives.","example":"Muslims honor the Ahl al-Bayt for their piety.","reference":"Qur\'an 33:33"},{"id":677,"term":"Sahabah","phrase":"Companions","meaning":"The contemporaries of Prophet Muhammad who saw or met him and believed in him.","example":"The Sahabah transmitted the Prophet\'s teachings accurately.","reference":"Qur\'an 9:100"},{"id":678,"term":"Tabi\'in","phrase":"Successors","meaning":"The generation after the Sahabah who learned from them.","example":"The Tabi\'in preserved the Hadith for future generations.","reference":"Qur\'an 9:100"},{"id":679,"term":"Tabi\' Tabi\'in","phrase":"Successors of the Successors","meaning":"The generation after the Tabi\'in, continuing the transmission of Islamic knowledge.","example":"The Tabi\' Tabi\'in contributed to early Islamic scholarship.","reference":"Qur\'an 9:100"},{"id":680,"term":"Mujtahid","phrase":"Independent Jurist","meaning":"A scholar qualified to derive Islamic rulings through independent reasoning.","example":"The Mujtahid issued a Fatwa on contemporary issues.","reference":"Qur\'an 4:59"},{"id":681,"term":"Muqallid","phrase":"Follower","meaning":"A person who follows a scholar\'s rulings without independent reasoning.","example":"As a Muqallid, he adhered to the Maliki school.","reference":"Qur\'an 4:59"},{"id":682,"term":"Taqlid","phrase":"Imitation","meaning":"Following the rulings of a qualified scholar without independent reasoning.","example":"He practiced Taqlid by following a trusted scholar\'s rulings.","reference":"Qur\'an 4:59"},{"id":683,"term":"Mawlid","phrase":"Prophet\'s Birthday","meaning":"The commemoration of the birth of Prophet Muhammad, observed by some Muslims.","example":"The community celebrated Mawlid with recitations.","reference":"Hadith: Sunan an-Nasa\'i 1.213"},{"id":684,"term":"Isra wa Mi\'raj","phrase":"Night Journey and Ascension","meaning":"The miraculous journey of Prophet Muhammad from Mecca to Jerusalem and to the heavens.","example":"The Isra wa Mi\'raj is celebrated for its spiritual significance.","reference":"Qur\'an 17:1"},{"id":685,"term":"Hijrah","phrase":"Migration","meaning":"The migration of Prophet Muhammad from Mecca to Medina, marking the Islamic calendar\'s start.","example":"The Hijrah was a turning point in Islamic history.","reference":"Qur\'an 9:40"},{"id":686,"term":"Ansar","phrase":"Helpers","meaning":"The Muslims of Medina who supported the Prophet and the Muhajirun after the Hijrah.","example":"The Ansar welcomed the Muhajirun with open hearts.","reference":"Qur\'an 9:100"},{"id":687,"term":"Muhajirun","phrase":"Emigrants","meaning":"The Muslims who migrated from Mecca to Medina during the Hijrah.","example":"The Muhajirun faced hardships for the sake of their faith.","reference":"Qur\'an 9:100"},{"id":688,"term":"Sirah","phrase":"Biography","meaning":"The biography of Prophet Muhammad, detailing his life and teachings.","example":"She studied the Sirah to learn about the Prophet\'s character.","reference":"Qur\'an 33:21"},{"id":689,"term":"Maghazi","phrase":"Military Campaigns","meaning":"The military expeditions led by or during the time of Prophet Muhammad.","example":"The Maghazi provided lessons in strategy and ethics.","reference":"Qur\'an 8:7"},{"id":690,"term":"Khilafah","phrase":"Caliphate","meaning":"The Islamic system of governance led by a Caliph after the Prophet\'s death.","example":"The Khilafah ensured the spread of Islamic teachings.","reference":"Qur\'an 24:55"},{"id":691,"term":"Khalifah","phrase":"Caliph","meaning":"The leader of the Muslim community, succeeding the Prophet in governance.","example":"The Khalifah upheld justice in the Islamic state.","reference":"Qur\'an 2:30"},{"id":692,"term":"Ahl al-Kitab","phrase":"People of the Book","meaning":"Jews and Christians who received divine scriptures before Islam.","example":"The Qur\'an calls for dialogue with Ahl al-Kitab.","reference":"Qur\'an 3:64"},{"id":693,"term":"Dhimmi","phrase":"Protected Person","meaning":"A non-Muslim living under Islamic governance with protected rights.","example":"The Dhimmi paid Jizyah for protection in the Islamic state.","reference":"Qur\'an 9:29"},{"id":694,"term":"Jizyah","phrase":"Protection Tax","meaning":"A tax levied on non-Muslims under Islamic rule in exchange for protection.","example":"The Dhimmi paid Jizyah to live safely in the state.","reference":"Qur\'an 9:29"},{"id":695,"term":"Mubahala","phrase":"Mutual Cursing","meaning":"A form of resolving disputes by invoking Allah\'s curse on the liar, historically significant in Islam.","example":"The Prophet proposed Mubahala to settle a dispute with Christians.","reference":"Qur\'an 3:61"},{"id":696,"term":"Da\'wah","phrase":"Invitation","meaning":"The act of inviting others to Islam or calling them to righteousness.","example":"She engaged in Da\'wah by sharing Islamic teachings with her neighbors.","reference":"Qur\'an 16:125"},{"id":697,"term":"Tabligh","phrase":"Conveying","meaning":"The act of spreading the message of Islam, often associated with missionary work.","example":"He joined a Tabligh group to promote Islamic values.","reference":"Qur\'an 3:104"},{"id":698,"term":"Islah","phrase":"Reform","meaning":"The act of improving or correcting oneself or society in accordance with Islamic principles.","example":"The organization worked for Islah in the community.","reference":"Qur\'an 11:88"},{"id":699,"term":"Mujaddid","phrase":"Reformer","meaning":"A scholar or leader believed to appear every century to revive Islamic teachings.","example":"The scholar was considered a Mujaddid of his time.","reference":"Hadith: Sunan Abu Dawood 14.4291"},{"id":700,"term":"Waqf","phrase":"Endowment","meaning":"A charitable endowment dedicated to religious or social purposes, inalienable in perpetuity.","example":"She established a Waqf to fund an orphanage.","reference":"Hadith: Sahih Muslim 3.4006"},{"id":701,"term":"Bayt al-Mal","phrase":"Treasury","meaning":"The public treasury in an Islamic state, used for welfare and governance.","example":"Zakat funds were managed through the Bayt al-Mal.","reference":"Qur\'an 9:60"},{"id":702,"term":"Ghanimah","phrase":"War Booty","meaning":"Spoils of war distributed according to Islamic law among fighters and the community.","example":"The Ghanimah was divided as per Shari\'ah guidelines.","reference":"Qur\'an 8:41"},{"id":703,"term":"Fay","phrase":"Spoils Without Fighting","meaning":"Property acquired from non-Muslims without battle, distributed for public welfare.","example":"The Fay was used to support the needy in the community.","reference":"Qur\'an 59:7"},{"id":704,"term":"Khums","phrase":"One-Fifth Tax","meaning":"A tax of one-fifth on certain types of wealth, such as war booty, in some Islamic traditions.","example":"The Khums was allocated to the Prophet\'s family and the poor.","reference":"Qur\'an 8:41"},{"id":705,"term":"Ushr","phrase":"Tithe","meaning":"A tax of one-tenth on agricultural produce, payable as Zakat in some cases.","example":"Farmers paid Ushr on their harvested crops.","reference":"Qur\'an 2:267"},{"id":706,"term":"Zakat al-Fitr","phrase":"Charity of Breaking the Fast","meaning":"A mandatory charity given at the end of Ramadan to purify the fast and help the poor celebrate Eid.","example":"She paid Zakat al-Fitr before the Eid prayer.","reference":"Hadith: Sahih al-Bukhari 2.25.579"},{"id":707,"term":"Taraweeh","phrase":"Night Prayers","meaning":"Voluntary prayers performed at night during Ramadan, typically in congregation.","example":"He joined the Taraweeh prayers at the mosque every evening.","reference":"Hadith: Sahih al-Bukhari 2.15.73"},{"id":708,"term":"Qiyam al-Layl","phrase":"Night Vigil Prayer","meaning":"Voluntary prayers performed during the night, especially in the last third of the night.","example":"She woke up for Qiyam al-Layl to seek Allah\'s forgiveness.","reference":"Qur\'an 73:2"},{"id":709,"term":"Tahajjud","phrase":"Late Night Prayer","meaning":"A specific type of Qiyam al-Layl, a voluntary prayer performed after sleeping at night.","example":"He prayed Tahajjud to seek blessings for his family.","reference":"Qur\'an 17:79"},{"id":710,"term":"Witr","phrase":"Odd-Numbered Prayer","meaning":"A voluntary prayer performed at night, typically with an odd number of Rak\'ah.","example":"She concluded her night prayers with Witr.","reference":"Hadith: Sahih Muslim 4.751"},{"id":711,"term":"Salat al-Duha","phrase":"Forenoon Prayer","meaning":"A voluntary prayer performed in the late morning, also known as the Chastity prayer.","example":"He prayed Salat al-Duha to seek Barakah in his day.","reference":"Hadith: Sahih Muslim 4.748"},{"id":712,"term":"Salat al-Istikhara","phrase":"Prayer for Guidance","meaning":"A two-Rak\'ah prayer followed by a specific Du\'a to seek Allah\'s guidance in decision-making.","example":"She performed Salat al-Istikhara before choosing her career path.","reference":"Hadith: Sahih al-Bukhari 7.71.638"},{"id":713,"term":"Salat al-Janazah","phrase":"Funeral Prayer","meaning":"A congregational prayer performed for the deceased before burial.","example":"The community gathered for Salat al-Janazah at the mosque.","reference":"Hadith: Sahih al-Bukhari 2.23.337"},{"id":714,"term":"Ghusl al-Mayyit","phrase":"Washing the Deceased","meaning":"The ritual washing of a deceased Muslim\'s body before burial.","example":"The family performed Ghusl al-Mayyit with care and respect.","reference":"Hadith: Sahih al-Bukhari 2.23.345"},{"id":715,"term":"Kafan","phrase":"Shroud","meaning":"The cloth used to wrap a deceased Muslim\'s body for burial.","example":"They prepared a simple Kafan for the burial.","reference":"Hadith: Sahih al-Bukhari 2.23.354"},{"id":716,"term":"Jumu\'ah","phrase":"Friday Prayer","meaning":"The congregational prayer held every Friday, replacing the Dhuhr prayer.","example":"He attended the Jumu\'ah prayer at the local mosque.","reference":"Qur\'an 62:9"},{"id":717,"term":"Khutbah","phrase":"Sermon","meaning":"The sermon delivered during Jumu\'ah or Eid prayers, addressing religious and social issues.","example":"The Imam\'s Khutbah inspired the congregation to give charity.","reference":"Hadith: Sahih al-Bukhari 2.13.56"},{"id":718,"term":"Masjid","phrase":"Mosque","meaning":"A place of worship where Muslims perform prayers and community activities.","example":"The Masjid was filled with worshippers for Taraweeh.","reference":"Qur\'an 9:18"},{"id":719,"term":"Mihrab","phrase":"Prayer Niche","meaning":"A niche in a mosque indicating the direction of the Ka\'bah (Qiblah).","example":"The Imam stood in the Mihrab to lead the prayer.","reference":"Qur\'an 3:37"},{"id":720,"term":"Minbar","phrase":"Pulpit","meaning":"The raised platform in a mosque from which the Imam delivers the Khutbah.","example":"The Imam ascended the Minbar to deliver the Friday sermon.","reference":"Hadith: Sahih al-Bukhari 2.13.56"},{"id":721,"term":"Qiblah","phrase":"Direction of Prayer","meaning":"The direction toward the Ka\'bah in Mecca, faced during Salah.","example":"He adjusted his prayer mat to face the Qiblah.","reference":"Qur\'an 2:144"},{"id":722,"term":"Sutra","phrase":"Barrier","meaning":"An object placed in front of a praying person to mark their prayer space.","example":"He placed a chair as a Sutra during his prayer.","reference":"Hadith: Sahih al-Bukhari 1.9.473"},{"id":723,"term":"Tayammum","phrase":"Dry Ablution","meaning":"A ritual purification using clean earth or dust when water is unavailable.","example":"She performed Tayammum in the desert before praying.","reference":"Qur\'an 4:43"},{"id":724,"term":"Janabah","phrase":"State of Major Impurity","meaning":"A state of ritual impurity requiring Ghusl, caused by specific acts like marital relations.","example":"He performed Ghusl to purify himself from Janabah.","reference":"Qur\'an 5:6"},{"id":725,"term":"Najis","phrase":"Impure","meaning":"Something considered ritually impure in Islam, requiring cleansing.","example":"She cleaned the Najis substance from her clothes before praying.","reference":"Hadith: Sahih Muslim 2.291"},{"id":726,"term":"Taharat","phrase":"Purity","meaning":"The state of ritual and spiritual purity required for acts of worship.","example":"Taharat is essential before performing Salah.","reference":"Qur\'an 5:6"},{"id":727,"term":"Istinja","phrase":"Cleansing After Relieving Oneself","meaning":"The act of cleaning oneself with water or stones after using the bathroom.","example":"He performed Istinja to maintain cleanliness before Wudu.","reference":"Hadith: Sahih al-Bukhari 1.4.157"},{"id":728,"term":"Istihada","phrase":"Irregular Bleeding","meaning":"Non-menstrual bleeding in women, which does not prevent prayer or fasting.","example":"She continued praying during Istihada after consulting a scholar.","reference":"Hadith: Sahih al-Bukhari 1.6.303"},{"id":729,"term":"Nifas","phrase":"Postpartum Bleeding","meaning":"The bleeding experienced by a woman after childbirth, during which she is exempt from Salah.","example":"She resumed praying after her Nifas period ended.","reference":"Hadith: Sahih Muslim 1.477"},{"id":730,"term":"Haid","phrase":"Menstruation","meaning":"The monthly menstrual cycle, during which women are exempt from Salah and fasting.","example":"She paused fasting during Haid and made up the days later.","reference":"Qur\'an 2:222"},{"id":731,"term":"Sunnah Mu\'akkadah","phrase":"Emphasized Sunnah","meaning":"Voluntary acts regularly performed by the Prophet, strongly recommended for Muslims.","example":"He never missed the Sunnah Mu\'akkadah prayers before Dhuhr.","reference":"Hadith: Sahih al-Bukhari 2.13.1183"},{"id":732,"term":"Sunnah Ghair Mu\'akkadah","phrase":"Non-Emphasized Sunnah","meaning":"Voluntary acts occasionally performed by the Prophet, less emphasized than Mu\'akkadah.","example":"She performed Sunnah Ghair Mu\'akkadah prayers when she had time.","reference":"Hadith: Sahih Muslim 4.1162"},{"id":733,"term":"Nafilah","phrase":"Supererogatory Acts","meaning":"Voluntary acts of worship beyond obligatory requirements, such as extra prayers.","example":"He prayed Nafilah to gain extra rewards.","reference":"Hadith: Sahih Muslim 4.1163"},{"id":734,"term":"Bid\'ah","phrase":"Innovation","meaning":"Innovations in religion that lack evidence from the Qur\'an or Sunnah, often discouraged.","example":"Some scholars warned against Bid\'ah in worship practices.","reference":"Hadith: Sahih Muslim 4.867"},{"id":735,"term":"Fasiq","phrase":"Sinner","meaning":"A Muslim who commits major sins but does not deny faith.","example":"The Fasiq was urged to repent for his actions.","reference":"Qur\'an 49:6"},{"id":736,"term":"Murtadd","phrase":"Apostate","meaning":"A person who abandons Islam after accepting it, considered a serious offense.","example":"Scholars advised counseling for the Murtadd to return to faith.","reference":"Qur\'an 2:217"},{"id":737,"term":"Riddah","phrase":"Apostasy","meaning":"The act of renouncing or abandoning the Islamic faith.","example":"Riddah is addressed with guidance and compassion in Islam.","reference":"Qur\'an 2:217"},{"id":738,"term":"Takfir","phrase":"Declaring Disbelief","meaning":"The act of declaring someone a disbeliever, a sensitive issue requiring scholarly caution.","example":"Takfir is avoided without clear evidence due to its gravity.","reference":"Qur\'an 4:94"},{"id":739,"term":"Irtidad","phrase":"Apostasy","meaning":"Another term for Riddah, the act of leaving Islam.","example":"Irtidad is considered a serious matter in Islamic law.","reference":"Qur\'an 2:217"},{"id":740,"term":"Mushrik","phrase":"Polytheist","meaning":"A person who commits Shirk by associating partners with Allah.","example":"The Qur\'an calls the Mushrik to worship Allah alone.","reference":"Qur\'an 6:106"},{"id":741,"term":"Kafir","phrase":"Disbeliever","meaning":"A person who rejects faith in Allah or His messengers.","example":"The Qur\'an warns the Kafir of consequences in the Hereafter.","reference":"Qur\'an 2:6"},{"id":742,"term":"Munafiq","phrase":"Hypocrite","meaning":"A person who outwardly professes Islam but inwardly disbelieves.","example":"The Munafiq was warned of a severe punishment in the Qur\'an.","reference":"Qur\'an 63:1"},{"id":743,"term":"Mu\'min","phrase":"Believer","meaning":"A person who has true faith in Allah and His messengers.","example":"The Mu\'min strives to follow the Qur\'an and Sunnah.","reference":"Qur\'an 2:285"},{"id":744,"term":"Muslim","phrase":"One Who Submits","meaning":"A person who submits to Allah\'s will and follows Islam.","example":"As a Muslim, she prayed five times daily.","reference":"Qur\'an 3:64"},{"id":745,"term":"Ummah","phrase":"Community","meaning":"The global community of Muslims united by faith.","example":"The Ummah came together to support the needy.","reference":"Qur\'an 2:143"},{"id":746,"term":"Shura","phrase":"Consultation","meaning":"The Islamic principle of mutual consultation in decision-making.","example":"The community held Shura to decide on the new mosque project.","reference":"Qur\'an 42:38"},{"id":747,"term":"Ahl al-Fatwa","phrase":"People of Legal Opinion","meaning":"Scholars qualified to issue religious rulings or Fatwas.","example":"The Ahl al-Fatwa provided guidance on modern issues.","reference":"Qur\'an 4:59"},{"id":748,"term":"Ahl al-Hadith","phrase":"People of Hadith","meaning":"Scholars or groups emphasizing the importance of Hadith in Islamic law and practice.","example":"The Ahl al-Hadith prioritized authentic narrations in their rulings.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":749,"term":"Ahl as-Sunnah","phrase":"People of the Sunnah","meaning":"Muslims who adhere to the Sunnah and mainstream Islamic beliefs.","example":"Ahl as-Sunnah follow the teachings of the Prophet and his companions.","reference":"Qur\'an 3:110"},{"id":750,"term":"Ittihad","phrase":"Unity","meaning":"The concept of unity among Muslims, emphasizing solidarity and cooperation.","example":"Ittihad was emphasized during the community\'s charity drive.","reference":"Qur\'an 3:103"},{"id":751,"term":"Ikhtilaf","phrase":"Difference of Opinion","meaning":"Legitimate scholarly disagreement on Islamic rulings, respected in Islamic tradition.","example":"The Ikhtilaf among scholars allowed flexibility in practice.","reference":"Qur\'an 4:59"},{"id":752,"term":"Tawatur","phrase":"Mass Transmission","meaning":"The highest level of Hadith authenticity, transmitted by many narrators at each level.","example":"The Hadith about Salah is considered Tawatur.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":753,"term":"Isnad","phrase":"Chain of Narration","meaning":"The chain of narrators transmitting a Hadith, ensuring its authenticity.","example":"The Hadith\'s Isnad was verified by scholars.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":754,"term":"Matn","phrase":"Text of Hadith","meaning":"The actual content or wording of a Hadith, distinct from its chain of narration.","example":"The Matn of the Hadith emphasized kindness to neighbors.","reference":"Hadith: Sahih Muslim 1.74"},{"id":755,"term":"Sahih","phrase":"Authentic Hadith","meaning":"A Hadith with a reliable chain of narration and no defects.","example":"The Sahih Hadith was used as evidence in the ruling.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":756,"term":"Hasan","phrase":"Good Hadith","meaning":"A Hadith with a good chain of narration but slightly less reliable than Sahih.","example":"The Hasan Hadith supported the recommended practice.","reference":"Hadith: Sunan at-Tirmidhi 1.1.1"},{"id":757,"term":"Da\'if","phrase":"Weak Hadith","meaning":"A Hadith with a flawed or unreliable chain of narration.","example":"Scholars avoided the Da\'if Hadith in legal rulings.","reference":"Hadith: Sunan at-Tirmidhi 1.1.1"},{"id":758,"term":"Mawdu","phrase":"Fabricated Hadith","meaning":"A Hadith that is falsely attributed to the Prophet, considered invalid.","example":"The Mawdu Hadith was rejected by the scholars.","reference":"Hadith: Sahih al-Bukhari 1.3.108"},{"id":759,"term":"Athar","phrase":"Narration","meaning":"Sayings or actions attributed to the Companions or Successors, not the Prophet.","example":"The Athar of Umar provided guidance on governance.","reference":"Hadith: Sahih Muslim 1.1"},{"id":760,"term":"Riwayah","phrase":"Transmission","meaning":"The process of narrating or transmitting Hadith or Islamic knowledge.","example":"The Riwayah of Hadith preserved the Prophet\'s legacy.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":761,"term":"Sanad","phrase":"Chain of Authority","meaning":"Another term for Isnad, the chain of narrators for a Hadith.","example":"The Sanad was checked to confirm the Hadith\'s authenticity.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":762,"term":"Rawi","phrase":"Narrator","meaning":"A person who narrates a Hadith, part of the chain of transmission.","example":"The Rawi was known for his reliability in Hadith narration.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":763,"term":"Hadith Mutawatir","phrase":"Mass-Transmitted Hadith","meaning":"A Hadith reported by so many narrators that its authenticity is certain.","example":"The Hadith Mutawatir about Salah is undeniable.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":764,"term":"Hadith Ahad","phrase":"Solitary Hadith","meaning":"A Hadith narrated by fewer people, less certain than Mutawatir but still valid.","example":"The Hadith Ahad provided guidance on charity.","reference":"Hadith: Sahih Muslim 1.1"},{"id":765,"term":"Hadith Qudsi","phrase":"Divine Hadith","meaning":"A Hadith where the Prophet conveys Allah\'s words, distinct from the Qur\'an.","example":"The Hadith Qudsi emphasized Allah\'s mercy.","reference":"Hadith: Sahih al-Bukhari 9.93.601"},{"id":766,"term":"Mursal","phrase":"Disconnected Hadith","meaning":"A Hadith where a narrator omits the name of the Companion, reducing its reliability.","example":"The Mursal Hadith was carefully evaluated by scholars.","reference":"Hadith: Sunan at-Tirmidhi 1.1.1"},{"id":767,"term":"Mu\'allaq","phrase":"Suspended Hadith","meaning":"A Hadith missing one or more narrators at the beginning of its chain.","example":"The Mu\'allaq Hadith required further verification.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":768,"term":"Musnad","phrase":"Supported Hadith","meaning":"A Hadith with a complete chain of narration traced back to the Prophet.","example":"The Musnad Hadith was used as a reliable source.","reference":"Hadith: Sahih al-Bukhari 1.1.3"},{"id":769,"term":"Marfu","phrase":"Elevated Hadith","meaning":"A Hadith directly attributed to the Prophet, regardless of the chain\'s strength.","example":"The Marfu Hadith provided clear guidance on fasting.","reference":"Hadith: Sahih Muslim 1.1"},{"id":770,"term":"Mawquf","phrase":"Stopped Hadith","meaning":"A Hadith attributed to a Companion, not the Prophet, but still valuable.","example":"The Mawquf Hadith reflected the Companion\'s understanding.","reference":"Hadith: Sahih Muslim 1.1"},{"id":771,"term":"Maqtu","phrase":"Cut-Off Hadith","meaning":"A narration attributed to a Successor (Tabi\'i), not the Prophet or a Companion.","example":"The Maqtu narration offered historical context.","reference":"Hadith: Sunan at-Tirmidhi 1.1.1"},{"id":772,"term":"Hikmah","phrase":"Wisdom","meaning":"The ability to make sound judgments and decisions based on Islamic knowledge.","example":"Her Hikmah guided her in resolving disputes peacefully.","reference":"Qur\'an 2:269"},{"id":773,"term":"Ilm","phrase":"Knowledge","meaning":"Islamic knowledge, particularly of the Qur\'an, Sunnah, and religious sciences.","example":"He sought Ilm by studying under a scholar.","reference":"Qur\'an 20:114"},{"id":774,"term":"Aql","phrase":"Intellect","meaning":"The faculty of reasoning and understanding, valued in Islamic thought.","example":"She used her Aql to interpret the Hadith correctly.","reference":"Qur\'an 2:44"},{"id":775,"term":"Tarbiyah","phrase":"Upbringing","meaning":"The process of raising and educating individuals in accordance with Islamic values.","example":"Her Tarbiyah ensured her children grew up with strong faith.","reference":"Qur\'an 17:24"},{"id":776,"term":"Akhlaq","phrase":"Moral Character","meaning":"The practice of virtuous behavior and ethics in Islam.","example":"His Akhlaq earned him respect in the community.","reference":"Qur\'an 68:4"},{"id":777,"term":"Adl","phrase":"Justice","meaning":"The concept of fairness and justice in all actions, a key principle in Islam.","example":"He ensured Adl in distributing the charity funds.","reference":"Qur\'an 4:135"},{"id":778,"term":"Ihsan","phrase":"Excellence","meaning":"Performing actions with sincerity and perfection, as if seeing Allah.","example":"She practiced Ihsan by praying with full devotion.","reference":"Hadith: Sahih Muslim 1.1"},{"id":779,"term":"Taqwah","phrase":"God-Consciousness","meaning":"Being mindful of Allah in all actions to avoid sin and seek His pleasure.","example":"His Taqwah kept him from dishonest dealings.","reference":"Qur\'an 2:197"},{"id":780,"term":"Sabr","phrase":"Patience","meaning":"Enduring trials and difficulties with steadfastness and faith in Allah.","example":"She showed Sabr during her illness, trusting Allah\'s plan.","reference":"Qur\'an 2:153"},{"id":781,"term":"Shukr","phrase":"Gratitude","meaning":"Expressing thankfulness to Allah for His blessings.","example":"He practiced Shukr by giving charity after receiving a promotion.","reference":"Qur\'an 14:7"},{"id":782,"term":"Rida","phrase":"Contentment","meaning":"Being pleased and satisfied with Allah\'s decrees, whether good or bad.","example":"Her Rida with Allah\'s will brought her peace.","reference":"Qur\'an 9:59"},{"id":783,"term":"Zuhd","phrase":"Asceticism","meaning":"Detachment from worldly pleasures in pursuit of spiritual goals.","example":"His Zuhd led him to live a simple, devout life.","reference":"Qur\'an 57:20"},{"id":784,"term":"Wara","phrase":"Scrupulousness","meaning":"Extreme caution in avoiding doubtful or sinful matters.","example":"Her Wara kept her from consuming questionable food.","reference":"Hadith: Sahih Muslim 4.1599"},{"id":785,"term":"Tazkiyah","phrase":"Purification","meaning":"The spiritual process of purifying the soul from sins and bad traits.","example":"She pursued Tazkiyah through constant worship.","reference":"Qur\'an 91:9"},{"id":786,"term":"Murabahah","phrase":"Cost-Plus Financing","meaning":"A sale where the seller discloses the cost and adds a fixed profit margin.","example":"The bank offered a Murabahah contract for the car purchase.","reference":"Qur\'an 2:282"},{"id":787,"term":"Mudarabah","phrase":"Profit-Sharing Partnership","meaning":"An Islamic financial contract where one party provides capital and another provides expertise.","example":"They entered a Mudarabah agreement for their business.","reference":"Qur\'an 4:12"},{"id":788,"term":"Musharakah","phrase":"Joint Partnership","meaning":"A partnership where all parties contribute capital and share profits and losses.","example":"The Musharakah venture funded a community project.","reference":"Qur\'an 4:12"},{"id":789,"term":"Ijarah","phrase":"Leasing","meaning":"An Islamic financial contract for leasing assets or services.","example":"She signed an Ijarah agreement to rent the property.","reference":"Qur\'an 28:26"},{"id":790,"term":"Wadiah","phrase":"Safekeeping","meaning":"A contract where one party entrusts property to another for safekeeping.","example":"The bank offered Wadiah services for her valuables.","reference":"Qur\'an 2:283"},{"id":791,"term":"Hibah","phrase":"Gift","meaning":"A voluntary transfer of property or wealth without expecting anything in return.","example":"He gave a Hibah of land to the mosque.","reference":"Qur\'an 4:4"},{"id":792,"term":"Qard Hasan","phrase":"Benevolent Loan","meaning":"An interest-free loan given for charity or assistance, repayable without profit.","example":"She offered a Qard Hasan to help her struggling neighbor.","reference":"Qur\'an 2:245"},{"id":793,"term":"Riba","phrase":"Usury","meaning":"The prohibition of interest-based transactions in Islamic law.","example":"He avoided Riba by choosing an Islamic bank.","reference":"Qur\'an 2:275"},{"id":794,"term":"Gharar","phrase":"Uncertainty","meaning":"Prohibited excessive risk or ambiguity in contracts, such as speculative transactions.","example":"The contract was void due to Gharar in its terms.","reference":"Hadith: Sahih Muslim 10.1513"},{"id":795,"term":"Bay al-Salam","phrase":"Forward Sale","meaning":"A contract where payment is made upfront for goods delivered later.","example":"The farmer agreed to a Bay al-Salam for his crops.","reference":"Hadith: Sahih al-Bukhari 3.35.441"},{"id":796,"term":"Bay al-Istisna","phrase":"Manufacturing Contract","meaning":"A contract for the manufacture and delivery of custom-made goods.","example":"The artisan signed a Bay al-Istisna for custom furniture.","reference":"Qur\'an 2:282"},{"id":797,"term":"Sukuk","phrase":"Islamic Bonds","meaning":"Financial certificates compliant with Shari\'ah, representing ownership in an asset.","example":"The company issued Sukuk to raise funds for expansion.","reference":"Qur\'an 2:282"}]}');
 
 /***/ }),
 
