@@ -1,55 +1,37 @@
 <template>
   <div class="min-vh-100 bg-light p-0 m-0" :style="{ fontSize: `${baseFontSize}rem` }">
     <!-- Accessibility: Skip to main content -->
-    <a href="#mainContent" class="visually-hidden-focusable position-absolute top-0 start-50 translate-middle-x bg-primary text-white text-decoration-none rounded p-2 opacity-0" style="z-index: 1000;" @click.prevent="skipToContent">Skip to main content</a>
-    
-    <header class="py-4 bg-white border-bottom mb-4 px-2 px-md-4">
+    <a href="#mainContent"
+      class="visually-hidden-focusable position-absolute top-0 start-50 translate-middle-x bg-primary text-white text-decoration-none rounded p-2 opacity-0"
+      style="z-index: 1000;" @click.prevent="skipToContent">Skip to main content</a>
+
+    <header class="py-4 border-bottom mb-4 px-2 px-md-4">
       <div class="container-fluid px-3 px-md-4">
         <div class="row justify-content-center mx-0">
           <div class="col-12 col-lg-10 col-xl-8 px-0">
             <div class="text-center mb-4 px-2 px-md-4">
-              <h1 class="display-4 fw-bold mb-3" style="color: #00bfa6;">
+              <h1 class="display-4 fw-bold mb-3" style="color: #000;">
                 <span>Islamic Dictionary</span>
               </h1>
-              <p class="mb-0" style="color: #00bfa6; font-size: 1.25rem;">A comprehensive resource for exploring Islamic terms and their meanings</p>
+              <p class="mb-0" style="color: #000; font-size: 1.25rem;">A comprehensive resource for exploring Islamic
+                terms and their meanings</p>
             </div>
-            
-            <div class="d-flex justify-content-end mb-3 gap-2 px-2">
-              <button class="btn btn-outline-primary btn-sm rounded-pill me-2 px-3 py-2" 
-                 @click="exportToCSV" 
-                 title="Export to CSV" 
-                 aria-label="Export to CSV"
-                 style="border-color: #00bfa6; color: #00bfa6;">
-                <i class="bi bi-file-earmark-spreadsheet me-1"></i>CSV
-              </button>
-              <button class="btn btn-outline-primary btn-sm rounded-pill px-3 py-2" 
-                 @click="exportToJSON" 
-                 title="Export to JSON" 
-                 aria-label="Export to JSON"
-                 style="border-color: #00bfa6; color: #00bfa6;">
-                <i class="bi bi-file-earmark-code me-1"></i>JSON
-              </button>
-            </div>
-            
-            <div class="bg-white rounded-3 p-4 shadow-sm border mb-4">
+
+
+
+            <div>
               <!-- Search Stats -->
               <div class="mb-4" v-if="searchQuery || selectedSubject">
                 <div class="d-flex flex-wrap align-items-center gap-3 px-1">
                   <span class="badge fs-6 px-3 py-2" style="background-color: #e0fff8; color: #00bfa6;">
                     <i class="bi bi-search me-2"></i>{{ filteredTerms?.length || 0 }} results
                   </span>
-                  <span v-if="searchQuery" class="badge fs-6 px-3 py-2" style="background-color: #e0fff8; color: #00bfa6;">
-                    <i class="bi bi-keyboard me-2"></i>"{{ searchQuery }}"
-                  </span>
-                  <span v-if="selectedSubject" class="badge fs-6 px-3 py-2" style="background-color: #e0fff8; color: #00bfa6;">
+                  <span v-if="selectedSubject" class="badge fs-6 px-3 py-2"
+                    style="background-color: #e0fff8; color: #00bfa6;">
                     <i class="bi bi-tag me-2"></i>{{ selectedSubject }}
                   </span>
-                  <button 
-                    class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-2" 
-                    @click="clearSearch"
-                    title="Clear all filters"
-                    aria-label="Clear all filters"
-                  >
+                  <button class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-2" @click="clearSearch"
+                    title="Clear all filters" aria-label="Clear all filters">
                     <i class="bi bi-x-circle me-1"></i>Clear
                   </button>
                 </div>
@@ -58,108 +40,81 @@
               <!-- Cleaned Up Search Controls -->
               <div class="mb-3">
                 <div class="row g-2 align-items-center flex-nowrap">
-                  <div class="col-12 col-md-9">
-                    <div class="input-group shadow-sm rounded-pill bg-white">
-                      <input
-                        id="searchQuery"
-                        type="text"
-                        v-model="searchQuery"
-                        class="form-control border-0 bg-white rounded-pill ps-4 pe-0 py-3"
-                        placeholder="Search terms, meanings, references..."
-                        aria-label="Search Islamic Dictionary"
-                        @input="updateSuggestions"
-                        @focus="updateSuggestions"
-                        @blur="delayHideSuggestions"
-                        @keydown.down.prevent="navigateSuggestions(1)"
-                        @keydown.up.prevent="navigateSuggestions(-1)"
+                  <div class="col-12 col-md-12">
+                    <div class="input-group shadow-sm ">
+                      <input id="searchQuery" type="text" v-model="searchQuery"
+                        class="form-control border-0 ps-4 pe-0 py-3"
+                        placeholder="Search terms, meanings, references..." aria-label="Search Islamic Dictionary"
+                        @input="updateSuggestions" @focus="updateSuggestions" @blur="delayHideSuggestions"
+                        @keydown.down.prevent="navigateSuggestions(1)" @keydown.up.prevent="navigateSuggestions(-1)"
                         @keydown.enter.prevent="selectSuggestion(highlightedIndex)"
-                        @keydown.escape="showSuggestions = false"
-                        autocomplete="off"
-                        spellcheck="false"
-                        style="box-shadow: none;"
-                      />
+                        @keydown.escape="showSuggestions = false" autocomplete="off" spellcheck="false"
+                        style="box-shadow: none;" />
                       <span class="input-group-text bg-white border-0 pe-0">
                         <i class="bi bi-search text-secondary"></i>
                       </span>
-                      <span v-if="searchQuery" class="input-group-text bg-white border-0 px-2">
-                        <button class="btn btn-link p-0 text-secondary" @click="clearSearch" aria-label="Clear search" title="Clear search">
-                          <i class="bi bi-x-lg"></i>
+                      <span v-if="searchQuery" class="input-group-text  border-0 px-2">
+                        <button class="btn btn-link p-0 text-secondary" @click="clearSearch" aria-label="Clear search"
+                          title="Clear search">
+                          <i class="bi bi-x-lg pr-2"></i>
                         </button>
                       </span>
-                      <span class="input-group-text bg-white border-0 px-2">
-                        <button class="btn btn-link p-0 text-secondary" :disabled="!isSpeechSupported" @click="toggleVoiceSearch" aria-label="Toggle voice search" :title="isSpeechSupported ? 'Start voice search' : 'Voice search not supported'">
+                      <!-- <span class="input-group-text bg-white border-0 px-2">
+                        <button class="btn btn-link p-0 text-secondary" :disabled="!isSpeechSupported"
+                          @click="toggleVoiceSearch" aria-label="Toggle voice search"
+                          :title="isSpeechSupported ? 'Start voice search' : 'Voice search not supported'">
                           <i class="bi bi-mic" :class="{ 'text-danger pulse': isListening }"></i>
                         </button>
                       </span>
                       <span class="input-group-text bg-white border-0 px-2">
-                        <button class="btn btn-link p-0 text-secondary" @click="toggleAdvancedSearch" aria-label="Toggle advanced search" :title="showAdvancedSearch ? 'Hide advanced search' : 'Show advanced search'">
+                        <button class="btn btn-link p-0 text-secondary" @click="toggleAdvancedSearch"
+                          aria-label="Toggle advanced search"
+                          :title="showAdvancedSearch ? 'Hide advanced search' : 'Show advanced search'">
                           <i class="bi bi-sliders"></i>
                         </button>
-                      </span>
+                      </span> -->
                     </div>
                     <!-- Suggestions Dropdown -->
-                    <div
-                      v-if="showSuggestions && filteredSuggestions.length && searchQuery.length >= 2"
-                      class="position-absolute w-100 shadow-lg rounded-bottom border mt-1 bg-white"
-                      role="listbox"
+                    <!-- <div v-if="showSuggestions && filteredSuggestions.length && searchQuery.length >= 2"
+                      class="position-absolute w-100 shadow-lg rounded-bottom border mt-1 bg-white" role="listbox"
                       :aria-activedescendant="highlightedIndex >= 0 ? 'suggestion-' + highlightedIndex : null"
-                      style="z-index: 1050; max-height: 40vh; overflow-y: auto; border-top: none;"
-                    >
+                      style="z-index: 1050; max-height: 40vh; overflow-y: auto; border-top: none;">
                       <div class="p-2 border-bottom bg-light">
                         <small class="text-muted">
-                          <i class="bi bi-lightbulb me-1"></i>Search tips: Use quotes for exact phrases, + for required words
+                          <i class="bi bi-lightbulb me-1"></i>Search tips: Use quotes for exact phrases, + for required
+                          words
                         </small>
                       </div>
                       <div class="list-group list-group-flush">
-                        <button
-                          v-for="(suggestion, index) in filteredSuggestions"
-                          :key="index"
-                          type="button"
+                        <button v-for="(suggestion, index) in filteredSuggestions" :key="index" type="button"
                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 px-3 py-2"
-                          :class="{ 'active': index === highlightedIndex }"
-                          @mousedown.prevent="selectSuggestion(index)"
-                          @mouseover="highlightedIndex = index"
-                          :id="'suggestion-' + index"
-                          role="option"
-                          :aria-selected="index === highlightedIndex"
-                        >
+                          :class="{ 'active': index === highlightedIndex }" @mousedown.prevent="selectSuggestion(index)"
+                          @mouseover="highlightedIndex = index" :id="'suggestion-' + index" role="option"
+                          :aria-selected="index === highlightedIndex">
                           <div class="d-flex flex-column">
                             <span class="fw-bold">{{ suggestion.term }}</span>
                             <small class="text-muted">{{ suggestion.meaning.substring(0, 60) }}...</small>
                           </div>
                           <div class="d-flex flex-column align-items-end">
-                            <span class="badge" style="background-color: #e0fff8; color: #00bfa6;">{{ suggestion.subject }}</span>
+                            <span class="badge" style="background-color: #e0fff8; color: #00bfa6;">{{ suggestion.subject
+                              }}</span>
                             <small class="text-muted">{{ getMatchType(suggestion) }}</small>
                           </div>
                         </button>
                       </div>
                       <div class="p-2 border-top bg-light">
                         <small class="text-muted">
-                          <i class="bi bi-arrow-up me-1"></i><i class="bi bi-arrow-down me-1"></i>Navigate • Enter to select • Esc to clear
+                          <i class="bi bi-arrow-up me-1"></i><i class="bi bi-arrow-down me-1"></i>Navigate • Enter to
+                          select • Esc to clear
                         </small>
                       </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-3 mt-2 mt-md-0">
-                    <select
-                      v-model="sortBy"
-                      class="form-select border-0 shadow-sm rounded-pill"
-                      aria-label="Sort by"
-                      style="background: #f8fafb; border: 1.5px solid #d1e0e7;"
-                    >
-                      <option value="relevance">Relevance</option>
-                      <option value="term">Term (A-Z)</option>
-                      <option value="term-desc">Term (Z-A)</option>
-                      <option value="subject">Subject</option>
-                      <option value="recent">Recently Viewed</option>
-                      <option value="favorites">Favorites First</option>
-                    </select>
+                    </div> -->
                   </div>
                 </div>
               </div>
 
               <!-- Advanced Search Panel -->
-              <transition name="fade">
+              <!-- <transition name="fade">
                 <div v-if="showAdvancedSearch" class="mt-3 p-3 bg-light rounded border">
                   <h6 class="fw-bold mb-3">
                     <i class="bi bi-gear me-1"></i>Advanced Search Options
@@ -197,26 +152,20 @@
                     </div>
                   </div>
                 </div>
-              </transition>
+              </transition> -->
             </div>
-            
+
             <!-- Navigation toggles -->
-            <div class="d-flex justify-content-center mt-4 mb-3">
+            <!-- <div class="d-flex justify-content-center mt-4 mb-3">
               <div class="nav nav-pills gap-2">
-                <button class="nav-link px-4 py-2" 
-                   :class="{ 'active': currentPage === 1 }" 
-                   @click="currentPage = 1" 
-                   title="Show all terms" 
-                   aria-label="Show all terms"
-                   :style="currentPage === 1 ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'">
+                <button class="nav-link px-4 py-2" :class="{ 'active': currentPage === 1 }" @click="currentPage = 1"
+                  title="Show all terms" aria-label="Show all terms"
+                  :style="currentPage === 1 ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'">
                   <i class="bi bi-book me-2"></i>All Terms
                 </button>
-                <button class="nav-link px-4 py-2" 
-                   :class="{ 'active': currentPage === 'favorites' }" 
-                   @click="currentPage = 'favorites'" 
-                   title="Show favorites" 
-                   aria-label="Show favorites"
-                   :style="currentPage === 'favorites' ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'">
+                <button class="nav-link px-4 py-2" :class="{ 'active': currentPage === 'favorites' }"
+                  @click="currentPage = 'favorites'" title="Show favorites" aria-label="Show favorites"
+                  :style="currentPage === 'favorites' ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'">
                   <i class="bi bi-heart-fill me-2"></i>Favorites
                 </button>
                 <button class="nav-link px-4 py-2" 
@@ -228,41 +177,37 @@
                   <i class="bi bi-clock-history me-2"></i>Recent
                 </button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </header>
-    
+
     <main class="container-fluid py-4 px-3 px-md-4" :id="skipToContentId" tabindex="-1">
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10 col-xl-8">
           <!-- Empty state -->
-          <div v-if="displayedTerms.length === 0" class="text-center py-5 bg-white rounded-3 shadow-sm border mb-4 px-2">
+          <div v-if="displayedTerms.length === 0">
             <div class="mb-4">
               <i class="bi bi-search-heart display-1" style="color: #00bfa6; opacity: 0.75;"></i>
             </div>
             <h3 class="fw-bold mb-3 fs-4 text-dark">No terms found</h3>
             <p class="text-muted mb-4 fs-5">Try adjusting your search criteria or browse all terms</p>
-            <button class="btn btn-lg rounded-pill px-4 py-3 mb-2" @click="clearSearch" style="background-color: #00bfa6; color: #fff;">
+            <button class="btn btn-lg rounded-pill px-4 py-3 mb-2" @click="clearSearch"
+              style="background-color: #00bfa6; color: #fff;">
               <i class="bi bi-arrow-counterclockwise me-2"></i>Reset Search
             </button>
           </div>
-          
+
           <!-- Terms grid -->
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4 " >
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4 ">
             <div v-for="term in displayedTerms" :key="term.id" class="col mb-4">
-              <div 
-                class="card h-100 shadow-sm border-0 border shadow-md" style="border:2px solid #d1e0e7; border-radius: 10px;"
+              <div class="card h-100 shadow-sm border-0 border shadow-md"
+                style="border:2px solid #d1e0e7; border-radius: 10px;"
                 :class="{ 'border-primary border-3': favorites.includes(term.id) }"
-                :style="{ fontSize: `${termFontSizes[term.id]}rem` }"
-                @click.self="handleCardClick(term.id)"
-                tabindex="0"
-                role="group"
-                :aria-label="`Islamic term card: ${term.term}`"
-                @keydown.enter="handleCardClick(term.id)"
-                @keydown.space.prevent="handleCardClick(term.id)"
-              >
+                :style="{ fontSize: `${termFontSizes[term.id]}rem` }" @click.self="handleCardClick(term.id)"
+                tabindex="0" role="group" :aria-label="`Islamic term card: ${term.term}`"
+                @keydown.enter="handleCardClick(term.id)" @keydown.space.prevent="handleCardClick(term.id)">
                 <div class="card-body d-flex flex-column p-4 gap-2">
                   <span class="badge rounded-pill mb-3 px-3 py-2" style="background-color: #e0fff8; color: #00bfa6;">
                     {{ term.subject }}
@@ -284,98 +229,75 @@
                     <p class="mb-0">{{ term.reference }}</p>
                   </div>
                 </div>
-                <div style="bottom: 0px;" class="card-footer bg-light border-top d-flex align-items-center gap-2 px-3 py-2" @click.stop>
-                  <div class="d-flex gap-2 w-100 justify-content-between px-2 py-1">
-                    <button
-                      type="button"
+                <div style="bottom: 0px;" class="card-footer bg-light border-top d-flex align-items-center px-3 py-2"
+                  @click.stop>
+                  <div class="d-flex gap-3 w-100 justify-content-evenly px-2 py-1">
+                    <button type="button"
                       class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
-                      style="width: 48px; height: 48px;"
-                      @click="adjustFontSize(term.id, -1)"
-                      :disabled="termFontSizes[term.id] <= minFontSize"
-                      aria-label="Decrease font size"
-                      title="Decrease font size"
-                    >
-                      <i class="bi bi-dash-lg fs-2"></i>
+                      style="width: 48px; height: 48px;" @click="window.open(getWhatsAppShareLink(term), '_blank')"
+                      aria-label="Share via WhatsApp" title="Share via WhatsApp">
+                      <i class="bi bi-whatsapp fs-4"></i>
                     </button>
-                    <button
-                      type="button"
+                    <button type="button"
                       class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
-                      style="width: 48px; height: 48px;"
-                      @click="adjustFontSize(term.id, 1)"
-                      :disabled="termFontSizes[term.id] >= maxFontSize"
-                      aria-label="Increase font size"
-                      title="Increase font size"
-                    >
-                      <i class="bi bi-plus-lg fs-2"></i>
+                      style="width: 48px; height: 48px;" @click="adjustFontSize(term.id, -1)"
+                      :disabled="termFontSizes[term.id] <= minFontSize" aria-label="Decrease font size"
+                      title="Decrease font size">
+                      <i class="bi bi-dash-lg fs-4"></i>
                     </button>
-                    <button
-                      type="button"
+                    <button type="button"
                       class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
-                      style="width: 48px; height: 48px;"
-                      @click="toggleFavorite(term.id)"
-                      aria-label="Toggle favorite"
-                      :title="favorites.includes(term.id) ? 'Remove from favorites' : 'Add to favorites'"
-                    >
-                      <i :class="[favorites.includes(term.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart', 'fs-2']"></i>
+                      style="width: 48px; height: 48px;" @click="adjustFontSize(term.id, 1)"
+                      :disabled="termFontSizes[term.id] >= maxFontSize" aria-label="Increase font size"
+                      title="Increase font size">
+                      <i class="bi bi-plus-lg fs-4"></i>
                     </button>
-                    <button
-                      type="button"
+                    
+                    <button type="button"
                       class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
-                      style="width: 48px; height: 48px;"
-                      @click="window.open(getWhatsAppShareLink(term), '_blank')"
-                      aria-label="Share via WhatsApp"
-                      title="Share via WhatsApp"
-                    >
-                      <i class="bi bi-whatsapp fs-2"></i>
+                      style="width: 48px; height: 48px;" @click="copyToClipboard(term)" aria-label="Copy to clipboard"
+                      title="Copy to clipboard">
+                      <i class="bi bi-clipboard fs-4"></i>
                     </button>
-                    <button
-                      type="button"
+                    <!-- <button type="button"
                       class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
-                      style="width: 48px; height: 48px;"
-                      @click="copyToClipboard(term)"
-                      aria-label="Copy to clipboard"
-                      title="Copy to clipboard"
-                    >
-                      <i class="bi bi-clipboard fs-2"></i>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
-                      style="width: 48px; height: 48px;"
-                      @click="speakTerm(term)"
-                      :disabled="!isSpeechSynthesisSupported"
-                      aria-label="Read aloud"
-                      :title="isSpeechSynthesisSupported ? 'Read aloud' : 'Text-to-speech not supported'"
-                    >
+                      style="width: 48px; height: 48px;" @click="speakTerm(term)"
+                      :disabled="!isSpeechSynthesisSupported" aria-label="Read aloud"
+                      :title="isSpeechSynthesisSupported ? 'Read aloud' : 'Text-to-speech not supported'">
                       <i class="bi bi-volume-up fs-2"></i>
-                    </button>
+                    </button> -->
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
+
           <!-- Pagination -->
           <nav v-if="showPagination" class="mt-5" aria-label="Page navigation">
             <ul class="pagination justify-content-center flex-wrap gap-2">
               <li class="page-item" :class="{ disabled: currentPageNumber === 1 }">
-                <button class="page-link rounded-pill mx-1 px-4 py-2" @click="goToPage(currentPageNumber - 1)" aria-label="Previous">
+                <button class="page-link rounded-pill mx-1 px-4 py-2" @click="goToPage(currentPageNumber - 1)"
+                  aria-label="Previous">
                   <span aria-hidden="true">«</span>
                 </button>
               </li>
               <li class="page-item disabled">
-                <span class="page-link rounded-pill mx-1 px-4 py-2">Page {{ currentPageNumber }} of {{ totalPages }}</span>
+                <span class="page-link rounded-pill mx-1 px-4 py-2">Page {{ currentPageNumber }} of {{ totalPages
+                  }}</span>
               </li>
               <li class="page-item" :class="{ disabled: currentPageNumber === totalPages }">
-                <button class="page-link rounded-pill mx-1 px-4 py-2" @click="goToPage(currentPageNumber + 1)" aria-label="Next">
+                <button class="page-link rounded-pill mx-1 px-4 py-2" @click="goToPage(currentPageNumber + 1)"
+                  aria-label="Next">
                   <span aria-hidden="true">»</span>
                 </button>
               </li>
             </ul>
           </nav>
-          
+
           <!-- Back to Top Button -->
-          <button v-if="displayedTerms.length > 0" class="btn btn-lg rounded-circle position-fixed shadow-lg" @click="scrollToTop" title="Back to top" aria-label="Back to top" style="background-color: #00bfa6; color: #fff; bottom: 30px; right: 30px; z-index: 100; width: 60px; height: 60px;">
+          <button v-if="displayedTerms.length > 0" class="btn btn-lg rounded-circle position-fixed shadow-lg"
+            @click="scrollToTop" title="Back to top" aria-label="Back to top"
+            style="background-color: #00bfa6; color: #fff; bottom: 30px; right: 30px; z-index: 100; width: 60px; height: 60px;">
             <i class="bi bi-arrow-up fs-5"></i>
           </button>
         </div>
@@ -389,7 +311,7 @@ import islamicTerms from './islamic_terms.json';
 
 function debounce(fn, delay) {
   let timeout;
-  return function(...args) {
+  return function (...args) {
     clearTimeout(timeout);
     timeout = setTimeout(() => fn.apply(this, args), delay);
   };
@@ -493,7 +415,7 @@ export default {
       return this.filteredTerms.length;
     },
     showPagination() {
-      return this.totalTerms > 12;
+      return this.totalTerms > 15;
     },
     currentPageNumber() {
       return this.currentPage;
@@ -508,17 +430,17 @@ export default {
   },
   watch: {
     searchQuery: {
-      handler: debounce(function(val) {
+      handler: debounce(function (val) {
         this.showSuggestions = !!val && val.length >= 2 && this.filteredSuggestions.length > 0;
         this.highlightedIndex = -1;
       }, 250),
       immediate: false
     },
     selectedSubject() {
-        this.currentPage = 1;
+      this.currentPage = 1;
     },
     sortBy() {
-        this.currentPage = 1;
+      this.currentPage = 1;
     },
     currentPage(newVal) {
       this.currentPageNumber = newVal;
@@ -549,21 +471,21 @@ export default {
       this.loadSuggestions();
     },
     showToast(message, type = 'success') {
-        let toastContainer = document.getElementById('toastContainer');
-        if (!toastContainer) {
-            toastContainer = document.createElement('div');
-            toastContainer.id = 'toastContainer';
-            toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
-            toastContainer.style.zIndex = 1090;
-            document.body.appendChild(toastContainer);
-        }
-        const bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
-        const toastEl = document.createElement('div');
-        toastEl.className = `toast align-items-center text-white ${bgClass} border-0`;
-        toastEl.setAttribute('role', 'alert');
-        toastEl.setAttribute('aria-live', 'assertive');
-        toastEl.setAttribute('aria-atomic', 'true');
-        toastEl.innerHTML = `
+      let toastContainer = document.getElementById('toastContainer');
+      if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+        toastContainer.style.zIndex = 1090;
+        document.body.appendChild(toastContainer);
+      }
+      const bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
+      const toastEl = document.createElement('div');
+      toastEl.className = `toast align-items-center text-white ${bgClass} border-0`;
+      toastEl.setAttribute('role', 'alert');
+      toastEl.setAttribute('aria-live', 'assertive');
+      toastEl.setAttribute('aria-atomic', 'true');
+      toastEl.innerHTML = `
           <div class="d-flex">
             <div class="toast-body">
             ${message}
@@ -571,12 +493,12 @@ export default {
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
           </div>
         `;
-        toastContainer.appendChild(toastEl);
-        const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+      toastContainer.appendChild(toastEl);
+      const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
       toast.show();
-        toastEl.addEventListener('hidden.bs.toast', () => {
-            toastEl.remove();
-        });
+      toastEl.addEventListener('hidden.bs.toast', () => {
+        toastEl.remove();
+      });
     },
     performSearch() {
       this.currentPage = 1;
@@ -584,7 +506,7 @@ export default {
     },
     debounce(func, delay) {
       let timeoutId;
-      return function(...args) {
+      return function (...args) {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => {
           func.apply(this, args);
@@ -691,11 +613,7 @@ export default {
         this.showToast('Failed to copy term to clipboard.', 'danger');
       });
     },
-    getWhatsAppShareLink(term) {
-      const text = `${term.term}\n\nMeaning: ${term.meaning}\nExample: ${term.example}\nReference: ${term.reference}`;
-      const encodedText = encodeURIComponent(text);
-      return `https://wa.me/?text=${encodedText}`;
-    },
+
     exportToCSV() {
       const csvContent = this.filteredTerms.map(term => [
         term.term,
@@ -783,7 +701,7 @@ export default {
         this.voiceSearchActive = false;
         if (window.SpeechRecognition) {
           window.SpeechRecognition.stop();
-      }
+        }
       }
     },
     updateSuggestions() {
@@ -823,9 +741,17 @@ export default {
 
 /* Pulse animation for microphone */
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .pulse {
@@ -845,6 +771,6 @@ export default {
   .nav-pills .nav-link {
     padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
-}
+  }
 }
 </style>

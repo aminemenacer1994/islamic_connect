@@ -88,7 +88,8 @@
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Guides</h5>
             <p class="card-text text-muted text-wrap text-center"
-              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover a comprehensive collection of clear and reliable Islamic guides designed to support every stage of your spiritual journey.</p>
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover a comprehensive collection
+              of clear and reliable Islamic guides designed to support every stage of your spiritual journey.</p>
 
             <button class="form-control" onclick="window.location.href='/guide'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
@@ -113,6 +114,25 @@
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Read More</b></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+          <img src="/images/idic.png" alt="Islamic Finance" class="w-100" style="object-fit: contain;" />
+          <div class="p-3">
+            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Dictionary</h5>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Islamic dictionary is a
+              specialized reference resource that provides definitions and explanations of terms, concepts, and phrases
+              related to Islam
+            </p>
+            <button class="form-control" onclick="window.location.href='/books'"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+              <span class="text-center w-100"><b>Explore Words</b></span>
             </button>
           </div>
         </div>
