@@ -41,38 +41,26 @@
               <div class="mb-3">
                 <div class="row g-2 align-items-center flex-nowrap">
                   <div class="col-12 col-md-12">
-                    <div class="input-group shadow-sm ">
+                    <div class="input-group shadow-sm" style="--primary-color: #00bfa6; --spacing: 0.5rem;">
                       <input id="searchQuery" type="text" v-model="searchQuery"
-                        class="form-control border-0 ps-4 pe-0 py-3"
-                        placeholder="Search terms, meanings, references..." aria-label="Search Islamic Dictionary"
-                        @input="updateSuggestions" @focus="updateSuggestions" @blur="delayHideSuggestions"
-                        @keydown.down.prevent="navigateSuggestions(1)" @keydown.up.prevent="navigateSuggestions(-1)"
+                        class="form-control border-0 ps-4 pe-0 py-3" placeholder="Search terms, meanings, references..."
+                        aria-label="Search Islamic Dictionary" @input="updateSuggestions" @focus="updateSuggestions"
+                        @blur="delayHideSuggestions" @keydown.down.prevent="navigateSuggestions(1)"
+                        @keydown.up.prevent="navigateSuggestions(-1)"
                         @keydown.enter.prevent="selectSuggestion(highlightedIndex)"
                         @keydown.escape="showSuggestions = false" autocomplete="off" spellcheck="false"
                         style="box-shadow: none;" />
-                      <span class="input-group-text bg-white border-0 pe-0">
-                        <i class="bi bi-search text-secondary"></i>
+                      <span class="input-group-text bg-white border-0 pe-3 ps-2 d-flex align-items-center">
+                        <i class="bi bi-search fs-5" style="color: var(--primary-color); transition: color 0.2s;"
+                          @mouseover="this.style.color = '#00a68f'" @mouseout="this.style.color = '#00bfa6'"></i>
                       </span>
-                      <span v-if="searchQuery" class="input-group-text  border-0 px-2">
-                        <button class="btn btn-link p-0 text-secondary" @click="clearSearch" aria-label="Clear search"
-                          title="Clear search">
-                          <i class="bi bi-x-lg pr-2"></i>
+                      <span v-if="searchQuery" class="input-group-text bg-white border-0 px-2">
+                        <button class="btn btn-link p-0" style="color: var(--primary-color); transition: color 0.2s;"
+                          @click="clearSearch" aria-label="Clear search" title="Clear search"
+                          @mouseover="this.style.color = '#00a68f'" @mouseout="this.style.color = '#00bfa6'">
+                          <i class="bi bi-x-lg fs-5"></i>
                         </button>
                       </span>
-                      <!-- <span class="input-group-text bg-white border-0 px-2">
-                        <button class="btn btn-link p-0 text-secondary" :disabled="!isSpeechSupported"
-                          @click="toggleVoiceSearch" aria-label="Toggle voice search"
-                          :title="isSpeechSupported ? 'Start voice search' : 'Voice search not supported'">
-                          <i class="bi bi-mic" :class="{ 'text-danger pulse': isListening }"></i>
-                        </button>
-                      </span>
-                      <span class="input-group-text bg-white border-0 px-2">
-                        <button class="btn btn-link p-0 text-secondary" @click="toggleAdvancedSearch"
-                          aria-label="Toggle advanced search"
-                          :title="showAdvancedSearch ? 'Hide advanced search' : 'Show advanced search'">
-                          <i class="bi bi-sliders"></i>
-                        </button>
-                      </span> -->
                     </div>
                     <!-- Suggestions Dropdown -->
                     <!-- <div v-if="showSuggestions && filteredSuggestions.length && searchQuery.length >= 2"
@@ -202,7 +190,7 @@
           <!-- Terms grid -->
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4 ">
             <div v-for="term in displayedTerms" :key="term.id" class="col mb-4">
-              <div class="card h-100 shadow-sm border-0 border shadow-md"
+              <div class="card h-100 shadow-sm border-3 border shadow-md"
                 style="border:2px solid #d1e0e7; border-radius: 10px;"
                 :class="{ 'border-primary border-3': favorites.includes(term.id) }"
                 :style="{ fontSize: `${termFontSizes[term.id]}rem` }" @click.self="handleCardClick(term.id)"
@@ -234,8 +222,8 @@
                   <div class="d-flex gap-3 w-100 justify-content-evenly px-2 py-1">
                     <button type="button"
                       class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
-                      style="width: 48px; height: 48px;" @click="window.open(getWhatsAppShareLink(term), '_blank')"
-                      aria-label="Share via WhatsApp" title="Share via WhatsApp">
+                      style="width: 48px; height: 48px;" @click="shareViaWhatsApp(term)" aria-label="Share via WhatsApp"
+                      title="Share via WhatsApp">
                       <i class="bi bi-whatsapp fs-4"></i>
                     </button>
                     <button type="button"
@@ -252,7 +240,7 @@
                       title="Increase font size">
                       <i class="bi bi-plus-lg fs-4"></i>
                     </button>
-                    
+
                     <button type="button"
                       class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
                       style="width: 48px; height: 48px;" @click="copyToClipboard(term)" aria-label="Copy to clipboard"
@@ -295,11 +283,11 @@
           </nav>
 
           <!-- Back to Top Button -->
-          <button v-if="displayedTerms.length > 0" class="btn btn-lg rounded-circle position-fixed shadow-lg"
+          <!-- <button v-if="displayedTerms.length > 0" class="btn btn-lg rounded-circle position-fixed shadow-lg"
             @click="scrollToTop" title="Back to top" aria-label="Back to top"
             style="background-color: #00bfa6; color: #fff; bottom: 30px; right: 30px; z-index: 100; width: 60px; height: 60px;">
             <i class="bi bi-arrow-up fs-5"></i>
-          </button>
+          </button> -->
         </div>
       </div>
     </main>
@@ -458,6 +446,17 @@ export default {
     this.quickFilters = this.subjects.map(s => ({ key: s, label: s.charAt(0).toUpperCase() + s.slice(1) }));
   },
   methods: {
+    shareViaWhatsApp(term) {
+      const text = encodeURIComponent(
+        `Word: "${term.term}\n\n` +
+        `Phrase: "${term.phrase}"\n` +
+        `Meaning: ${term.meaning}\n` +
+        `Example: ${term.example}\n` +
+        `Reference: ${term.reference}`
+      );
+      const whatsappUrl = `https://wa.me/?text=${text}`;
+      window.open(whatsappUrl, '_blank');
+    },
     adjustFontSize(termId, change) {
       const currentSize = this.termFontSizes[termId] || 1;
       const newSize = currentSize + change * 0.1;
@@ -466,8 +465,8 @@ export default {
     },
     initialize() {
       this.baseFontSize = parseFloat(localStorage.getItem('fontSize') || '1');
-      this.loadFontSizes();
-      this.loadQuickFilters();
+      // this.loadFontSizes();
+      // this.loadQuickFilters();
       this.loadSuggestions();
     },
     showToast(message, type = 'success') {
@@ -606,7 +605,7 @@ export default {
       window.speechSynthesis.speak(utterance);
     },
     copyToClipboard(term) {
-      const textToCopy = `${term.term}\n\nMeaning: ${term.meaning}\nExample: ${term.example}\nReference: ${term.reference}`;
+      const textToCopy = `Word: ${term.term}\n\nMeaning: ${term.meaning}\nExample: ${term.example}\nReference: ${term.reference}`;
       navigator.clipboard.writeText(textToCopy).then(() => {
         this.showToast('Term copied to clipboard!');
       }).catch(() => {
@@ -733,6 +732,24 @@ export default {
 </script>
 
 <style scoped>
+.input-group {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.input-group-text {
+  transition: background-color 0.2s;
+}
+
+.input-group-text:hover {
+  background-color: #f8f9fa;
+}
+
+.input-group .bi-search,
+.input-group .bi-x-lg {
+  cursor: pointer;
+}
+
 /* Minimal custom styles - using Bootstrap 5 for everything else */
 .skip-link:focus {
   top: 20px !important;

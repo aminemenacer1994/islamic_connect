@@ -35065,6 +35065,11 @@ function debounce(fn, delay) {
     });
   },
   methods: _defineProperty(_defineProperty(_defineProperty({
+    shareViaWhatsApp: function shareViaWhatsApp(term) {
+      var text = encodeURIComponent("Word: \"".concat(term.term, "\n\n") + "Phrase: \"".concat(term.phrase, "\"\n") + "Meaning: ".concat(term.meaning, "\n") + "Example: ".concat(term.example, "\n") + "Reference: ".concat(term.reference));
+      var whatsappUrl = "https://wa.me/?text=".concat(text);
+      window.open(whatsappUrl, '_blank');
+    },
     adjustFontSize: function adjustFontSize(termId, change) {
       var currentSize = this.termFontSizes[termId] || 1;
       var newSize = currentSize + change * 0.1;
@@ -35073,8 +35078,8 @@ function debounce(fn, delay) {
     },
     initialize: function initialize() {
       this.baseFontSize = parseFloat(localStorage.getItem('fontSize') || '1');
-      this.loadFontSizes();
-      this.loadQuickFilters();
+      // this.loadFontSizes();
+      // this.loadQuickFilters();
       this.loadSuggestions();
     },
     showToast: function showToast(message) {
@@ -35217,7 +35222,7 @@ function debounce(fn, delay) {
     },
     copyToClipboard: function copyToClipboard(term) {
       var _this5 = this;
-      var textToCopy = "".concat(term.term, "\n\nMeaning: ").concat(term.meaning, "\nExample: ").concat(term.example, "\nReference: ").concat(term.reference);
+      var textToCopy = "Word: ".concat(term.term, "\n\nMeaning: ").concat(term.meaning, "\nExample: ").concat(term.example, "\nReference: ").concat(term.reference);
       navigator.clipboard.writeText(textToCopy).then(function () {
         _this5.showToast('Term copied to clipboard!');
       })["catch"](function () {
@@ -59458,89 +59463,97 @@ var _hoisted_11 = {
   "class": "col-12 col-md-12"
 };
 var _hoisted_12 = {
-  "class": "input-group shadow-sm"
+  "class": "input-group shadow-sm",
+  style: {
+    "--primary-color": "#00bfa6",
+    "--spacing": "0.5rem"
+  }
 };
 var _hoisted_13 = {
-  key: 0,
-  "class": "input-group-text border-0 px-2"
+  "class": "input-group-text bg-white border-0 pe-3 ps-2 d-flex align-items-center"
 };
-var _hoisted_14 = ["id"];
-var _hoisted_15 = {
+var _hoisted_14 = {
+  key: 0,
+  "class": "input-group-text bg-white border-0 px-2"
+};
+var _hoisted_15 = ["id"];
+var _hoisted_16 = {
   "class": "row justify-content-center"
 };
-var _hoisted_16 = {
+var _hoisted_17 = {
   "class": "col-12 col-lg-10 col-xl-8"
 };
-var _hoisted_17 = {
+var _hoisted_18 = {
   key: 0
 };
-var _hoisted_18 = {
+var _hoisted_19 = {
   "class": "row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4"
 };
-var _hoisted_19 = ["onClick", "aria-label", "onKeydown"];
-var _hoisted_20 = {
+var _hoisted_20 = ["onClick", "aria-label", "onKeydown"];
+var _hoisted_21 = {
   "class": "card-body d-flex flex-column p-4 gap-2"
 };
-var _hoisted_21 = {
+var _hoisted_22 = {
   "class": "badge rounded-pill mb-3 px-3 py-2",
   style: {
     "background-color": "#e0fff8",
     "color": "#00bfa6"
   }
 };
-var _hoisted_22 = {
+var _hoisted_23 = {
   "class": "card-title fw-bold mb-3 fs-4",
   style: {
     "color": "#00bfa6"
   }
 };
-var _hoisted_23 = {
+var _hoisted_24 = {
   "class": "card-text mb-3",
   style: {
     "color": "#00bfa6"
   }
 };
-var _hoisted_24 = {
-  "class": "mb-3"
-};
 var _hoisted_25 = {
-  "class": "mb-0"
+  "class": "mb-3"
 };
 var _hoisted_26 = {
-  "class": "mb-3"
+  "class": "mb-0"
 };
 var _hoisted_27 = {
-  "class": "mb-0"
-};
-var _hoisted_28 = {
   "class": "mb-3"
 };
-var _hoisted_29 = {
+var _hoisted_28 = {
   "class": "mb-0"
 };
+var _hoisted_29 = {
+  "class": "mb-3"
+};
 var _hoisted_30 = {
+  "class": "mb-0"
+};
+var _hoisted_31 = {
   "class": "d-flex gap-3 w-100 justify-content-evenly px-2 py-1"
 };
-var _hoisted_31 = ["onClick"];
-var _hoisted_32 = ["onClick", "disabled"];
+var _hoisted_32 = ["onClick"];
 var _hoisted_33 = ["onClick", "disabled"];
-var _hoisted_34 = ["onClick"];
-var _hoisted_35 = {
+var _hoisted_34 = ["onClick", "disabled"];
+var _hoisted_35 = ["onClick"];
+var _hoisted_36 = {
   key: 1,
   "class": "mt-5",
   "aria-label": "Page navigation"
 };
-var _hoisted_36 = {
+var _hoisted_37 = {
   "class": "pagination justify-content-center flex-wrap gap-2"
 };
-var _hoisted_37 = {
+var _hoisted_38 = {
   "class": "page-item disabled"
 };
-var _hoisted_38 = {
+var _hoisted_39 = {
   "class": "page-link rounded-pill mx-1 px-4 py-2"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$options$filteredTer;
+  var _$options$filteredTer,
+    _this = this;
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     "class": "min-vh-100 bg-light p-0 m-0",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
@@ -59555,7 +59568,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.skipToContent && $options.skipToContent.apply($options, arguments);
     }, ["prevent"]))
-  }, "Skip to main content"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Skip to main content"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center mb-4 px-2 px-md-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-4 fw-bold mb-3",
@@ -59568,9 +59581,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "#000",
       "font-size": "1.25rem"
     }
-  }, "A comprehensive resource for exploring Islamic terms and their meanings")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Stats "), $data.searchQuery || $data.selectedSubject ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "A comprehensive resource for exploring Islamic terms and their meanings")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Stats "), $data.searchQuery || $data.selectedSubject ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-search me-2"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_$options$filteredTer = $options.filteredTerms) === null || _$options$filteredTer === void 0 ? void 0 : _$options$filteredTer.length) || 0) + " results ", 1 /* TEXT */)]), $data.selectedSubject ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_$options$filteredTer = $options.filteredTerms) === null || _$options$filteredTer === void 0 ? void 0 : _$options$filteredTer.length) || 0) + " results ", 1 /* TEXT */)]), $data.selectedSubject ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-tag me-2"
   }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedSubject), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-outline-secondary btn-sm rounded-pill px-3 py-2",
@@ -59579,7 +59592,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     title: "Clear all filters",
     "aria-label": "Clear all filters"
-  }, _cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-circle me-1"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Clear ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cleaned Up Search Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "searchQuery",
@@ -59613,24 +59626,42 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "box-shadow": "none"
     }
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text bg-white border-0 pe-0"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-search text-secondary"
-  })], -1 /* HOISTED */)), $data.searchQuery ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-link p-0 text-secondary",
-    onClick: _cache[10] || (_cache[10] = function () {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-search fs-5",
+    style: {
+      "color": "var(--primary-color)",
+      "transition": "color 0.2s"
+    },
+    onMouseover: _cache[10] || (_cache[10] = function ($event) {
+      return _this.style.color = '#00a68f';
+    }),
+    onMouseout: _cache[11] || (_cache[11] = function ($event) {
+      return _this.style.color = '#00bfa6';
+    })
+  }, null, 32 /* NEED_HYDRATION */)]), $data.searchQuery ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-link p-0",
+    style: {
+      "color": "var(--primary-color)",
+      "transition": "color 0.2s"
+    },
+    onClick: _cache[12] || (_cache[12] = function () {
       return $options.clearSearch && $options.clearSearch.apply($options, arguments);
     }),
     "aria-label": "Clear search",
-    title: "Clear search"
-  }, _cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-x-lg pr-2"
-  }, null, -1 /* HOISTED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"input-group-text bg-white border-0 px-2\">\n                        <button class=\"btn btn-link p-0 text-secondary\" :disabled=\"!isSpeechSupported\"\n                          @click=\"toggleVoiceSearch\" aria-label=\"Toggle voice search\"\n                          :title=\"isSpeechSupported ? 'Start voice search' : 'Voice search not supported'\">\n                          <i class=\"bi bi-mic\" :class=\"{ 'text-danger pulse': isListening }\"></i>\n                        </button>\n                      </span>\n                      <span class=\"input-group-text bg-white border-0 px-2\">\n                        <button class=\"btn btn-link p-0 text-secondary\" @click=\"toggleAdvancedSearch\"\n                          aria-label=\"Toggle advanced search\"\n                          :title=\"showAdvancedSearch ? 'Hide advanced search' : 'Show advanced search'\">\n                          <i class=\"bi bi-sliders\"></i>\n                        </button>\n                      </span> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Suggestions Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"showSuggestions && filteredSuggestions.length && searchQuery.length >= 2\"\n                      class=\"position-absolute w-100 shadow-lg rounded-bottom border mt-1 bg-white\" role=\"listbox\"\n                      :aria-activedescendant=\"highlightedIndex >= 0 ? 'suggestion-' + highlightedIndex : null\"\n                      style=\"z-index: 1050; max-height: 40vh; overflow-y: auto; border-top: none;\">\n                      <div class=\"p-2 border-bottom bg-light\">\n                        <small class=\"text-muted\">\n                          <i class=\"bi bi-lightbulb me-1\"></i>Search tips: Use quotes for exact phrases, + for required\n                          words\n                        </small>\n                      </div>\n                      <div class=\"list-group list-group-flush\">\n                        <button v-for=\"(suggestion, index) in filteredSuggestions\" :key=\"index\" type=\"button\"\n                          class=\"list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 px-3 py-2\"\n                          :class=\"{ 'active': index === highlightedIndex }\" @mousedown.prevent=\"selectSuggestion(index)\"\n                          @mouseover=\"highlightedIndex = index\" :id=\"'suggestion-' + index\" role=\"option\"\n                          :aria-selected=\"index === highlightedIndex\">\n                          <div class=\"d-flex flex-column\">\n                            <span class=\"fw-bold\">{{ suggestion.term }}</span>\n                            <small class=\"text-muted\">{{ suggestion.meaning.substring(0, 60) }}...</small>\n                          </div>\n                          <div class=\"d-flex flex-column align-items-end\">\n                            <span class=\"badge\" style=\"background-color: #e0fff8; color: #00bfa6;\">{{ suggestion.subject\n                              }}</span>\n                            <small class=\"text-muted\">{{ getMatchType(suggestion) }}</small>\n                          </div>\n                        </button>\n                      </div>\n                      <div class=\"p-2 border-top bg-light\">\n                        <small class=\"text-muted\">\n                          <i class=\"bi bi-arrow-up me-1\"></i><i class=\"bi bi-arrow-down me-1\"></i>Navigate • Enter to\n                          select • Esc to clear\n                        </small>\n                      </div>\n                    </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Advanced Search Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <transition name=\"fade\">\n                <div v-if=\"showAdvancedSearch\" class=\"mt-3 p-3 bg-light rounded border\">\n                  <h6 class=\"fw-bold mb-3\">\n                    <i class=\"bi bi-gear me-1\"></i>Advanced Search Options\n                  </h6>\n                  <div class=\"row g-3\">\n                    <div class=\"col-12 col-md-6\">\n                      <label class=\"form-label\">Search Syntax</label>\n                      <div class=\"small\">\n                        <div class=\"mb-2\">\n                          <code class=\"bg-light px-2 py-1 rounded\">\"exact phrase\"</code> - Exact match\n                        </div>\n                        <div class=\"mb-2\">\n                          <code class=\"bg-light px-2 py-1 rounded\">+required</code> - Must include\n                        </div>\n                        <div class=\"mb-2\">\n                          <code class=\"bg-light px-2 py-1 rounded\">-excluded</code> - Must not include\n                        </div>\n                        <div class=\"mb-2\">\n                          <code class=\"bg-light px-2 py-1 rounded\">term*</code> - Wildcard search\n                        </div>\n                      </div>\n                    </div>\n                    <div class=\"col-12 col-md-6\">\n                      <label class=\"form-label\">Quick Filters</label>\n                      <div class=\"d-flex flex-wrap gap-2\">\n                        <button\n                          v-for=\"filter in quickFilters\"\n                          :key=\"filter.key\"\n                          class=\"btn btn-sm btn-outline-secondary px-3 py-2\"\n                          @click=\"applyQuickFilter(filter.key)\"\n                        >\n                          {{ filter.label }}\n                        </button>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </transition> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Navigation toggles "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"d-flex justify-content-center mt-4 mb-3\">\n              <div class=\"nav nav-pills gap-2\">\n                <button class=\"nav-link px-4 py-2\" :class=\"{ 'active': currentPage === 1 }\" @click=\"currentPage = 1\"\n                  title=\"Show all terms\" aria-label=\"Show all terms\"\n                  :style=\"currentPage === 1 ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'\">\n                  <i class=\"bi bi-book me-2\"></i>All Terms\n                </button>\n                <button class=\"nav-link px-4 py-2\" :class=\"{ 'active': currentPage === 'favorites' }\"\n                  @click=\"currentPage = 'favorites'\" title=\"Show favorites\" aria-label=\"Show favorites\"\n                  :style=\"currentPage === 'favorites' ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'\">\n                  <i class=\"bi bi-heart-fill me-2\"></i>Favorites\n                </button>\n                <button class=\"nav-link px-4 py-2\" \n                   :class=\"{ 'active': currentPage === 'recent' }\" \n                   @click=\"currentPage = 'recent'\" \n                   title=\"Show recently viewed\" \n                   aria-label=\"Show recently viewed\"\n                   :style=\"currentPage === 'recent' ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'\">\n                  <i class=\"bi bi-clock-history me-2\"></i>Recent\n                </button>\n              </div>\n            </div> ")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", {
+    title: "Clear search",
+    onMouseover: _cache[13] || (_cache[13] = function ($event) {
+      return _this.style.color = '#00a68f';
+    }),
+    onMouseout: _cache[14] || (_cache[14] = function ($event) {
+      return _this.style.color = '#00bfa6';
+    })
+  }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-x-lg fs-5"
+  }, null, -1 /* HOISTED */)]), 32 /* NEED_HYDRATION */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Suggestions Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"showSuggestions && filteredSuggestions.length && searchQuery.length >= 2\"\n                      class=\"position-absolute w-100 shadow-lg rounded-bottom border mt-1 bg-white\" role=\"listbox\"\n                      :aria-activedescendant=\"highlightedIndex >= 0 ? 'suggestion-' + highlightedIndex : null\"\n                      style=\"z-index: 1050; max-height: 40vh; overflow-y: auto; border-top: none;\">\n                      <div class=\"p-2 border-bottom bg-light\">\n                        <small class=\"text-muted\">\n                          <i class=\"bi bi-lightbulb me-1\"></i>Search tips: Use quotes for exact phrases, + for required\n                          words\n                        </small>\n                      </div>\n                      <div class=\"list-group list-group-flush\">\n                        <button v-for=\"(suggestion, index) in filteredSuggestions\" :key=\"index\" type=\"button\"\n                          class=\"list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 px-3 py-2\"\n                          :class=\"{ 'active': index === highlightedIndex }\" @mousedown.prevent=\"selectSuggestion(index)\"\n                          @mouseover=\"highlightedIndex = index\" :id=\"'suggestion-' + index\" role=\"option\"\n                          :aria-selected=\"index === highlightedIndex\">\n                          <div class=\"d-flex flex-column\">\n                            <span class=\"fw-bold\">{{ suggestion.term }}</span>\n                            <small class=\"text-muted\">{{ suggestion.meaning.substring(0, 60) }}...</small>\n                          </div>\n                          <div class=\"d-flex flex-column align-items-end\">\n                            <span class=\"badge\" style=\"background-color: #e0fff8; color: #00bfa6;\">{{ suggestion.subject\n                              }}</span>\n                            <small class=\"text-muted\">{{ getMatchType(suggestion) }}</small>\n                          </div>\n                        </button>\n                      </div>\n                      <div class=\"p-2 border-top bg-light\">\n                        <small class=\"text-muted\">\n                          <i class=\"bi bi-arrow-up me-1\"></i><i class=\"bi bi-arrow-down me-1\"></i>Navigate • Enter to\n                          select • Esc to clear\n                        </small>\n                      </div>\n                    </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Advanced Search Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <transition name=\"fade\">\n                <div v-if=\"showAdvancedSearch\" class=\"mt-3 p-3 bg-light rounded border\">\n                  <h6 class=\"fw-bold mb-3\">\n                    <i class=\"bi bi-gear me-1\"></i>Advanced Search Options\n                  </h6>\n                  <div class=\"row g-3\">\n                    <div class=\"col-12 col-md-6\">\n                      <label class=\"form-label\">Search Syntax</label>\n                      <div class=\"small\">\n                        <div class=\"mb-2\">\n                          <code class=\"bg-light px-2 py-1 rounded\">\"exact phrase\"</code> - Exact match\n                        </div>\n                        <div class=\"mb-2\">\n                          <code class=\"bg-light px-2 py-1 rounded\">+required</code> - Must include\n                        </div>\n                        <div class=\"mb-2\">\n                          <code class=\"bg-light px-2 py-1 rounded\">-excluded</code> - Must not include\n                        </div>\n                        <div class=\"mb-2\">\n                          <code class=\"bg-light px-2 py-1 rounded\">term*</code> - Wildcard search\n                        </div>\n                      </div>\n                    </div>\n                    <div class=\"col-12 col-md-6\">\n                      <label class=\"form-label\">Quick Filters</label>\n                      <div class=\"d-flex flex-wrap gap-2\">\n                        <button\n                          v-for=\"filter in quickFilters\"\n                          :key=\"filter.key\"\n                          class=\"btn btn-sm btn-outline-secondary px-3 py-2\"\n                          @click=\"applyQuickFilter(filter.key)\"\n                        >\n                          {{ filter.label }}\n                        </button>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </transition> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Navigation toggles "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"d-flex justify-content-center mt-4 mb-3\">\n              <div class=\"nav nav-pills gap-2\">\n                <button class=\"nav-link px-4 py-2\" :class=\"{ 'active': currentPage === 1 }\" @click=\"currentPage = 1\"\n                  title=\"Show all terms\" aria-label=\"Show all terms\"\n                  :style=\"currentPage === 1 ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'\">\n                  <i class=\"bi bi-book me-2\"></i>All Terms\n                </button>\n                <button class=\"nav-link px-4 py-2\" :class=\"{ 'active': currentPage === 'favorites' }\"\n                  @click=\"currentPage = 'favorites'\" title=\"Show favorites\" aria-label=\"Show favorites\"\n                  :style=\"currentPage === 'favorites' ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'\">\n                  <i class=\"bi bi-heart-fill me-2\"></i>Favorites\n                </button>\n                <button class=\"nav-link px-4 py-2\" \n                   :class=\"{ 'active': currentPage === 'recent' }\" \n                   @click=\"currentPage = 'recent'\" \n                   title=\"Show recently viewed\" \n                   aria-label=\"Show recently viewed\"\n                   :style=\"currentPage === 'recent' ? 'background-color: #00bfa6; color: #fff;' : 'color: #00bfa6; border: 1px solid #00bfa6;'\">\n                  <i class=\"bi bi-clock-history me-2\"></i>Recent\n                </button>\n              </div>\n            </div> ")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", {
     "class": "container-fluid py-4 px-3 px-md-4",
     id: $data.skipToContentId,
     tabindex: "-1"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Empty state "), $options.displayedTerms.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Empty state "), $options.displayedTerms.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-search-heart display-1",
@@ -59638,27 +59669,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "#00bfa6",
       "opacity": "0.75"
     }
-  })], -1 /* HOISTED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  })], -1 /* HOISTED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold mb-3 fs-4 text-dark"
-  }, "No terms found", -1 /* HOISTED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "No terms found", -1 /* HOISTED */)), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-muted mb-4 fs-5"
   }, "Try adjusting your search criteria or browse all terms", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-lg rounded-pill px-4 py-3 mb-2",
-    onClick: _cache[11] || (_cache[11] = function () {
+    onClick: _cache[15] || (_cache[15] = function () {
       return $options.clearSearch && $options.clearSearch.apply($options, arguments);
     }),
     style: {
       "background-color": "#00bfa6",
       "color": "#fff"
     }
-  }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-counterclockwise me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset Search ")]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Terms grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.displayedTerms, function (term) {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset Search ")]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Terms grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.displayedTerms, function (term) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: term.id,
       "class": "col mb-4"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 shadow-sm border-0 border shadow-md", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 shadow-sm border-3 border shadow-md", {
         'border-primary border-3': $data.favorites.includes(term.id)
       }]),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
@@ -59678,28 +59709,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, ["enter"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
         return $options.handleCardClick(term.id);
       }, ["prevent"]), ["space"])]
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.subject), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.term), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("em", null, "\"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.phrase) + "\"", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.subject), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.term), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("em", null, "\"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.phrase) + "\"", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
       "class": "fw-bold mb-2",
       style: {
         "color": "#00bfa6"
       }
-    }, "Meaning", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.meaning), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+    }, "Meaning", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.meaning), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
       "class": "fw-bold mb-2",
       style: {
         "color": "#00bfa6"
       }
-    }, "Example", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.example), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+    }, "Example", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.example), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
       "class": "fw-bold mb-2",
       style: {
         "color": "#00bfa6"
       }
-    }, "Reference", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, "Reference", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(term.reference), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       style: {
         "bottom": "0px"
       },
       "class": "card-footer bg-light border-top d-flex align-items-center px-3 py-2",
-      onClick: _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       "class": "btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0",
       style: {
@@ -59707,13 +59738,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "height": "48px"
       },
       onClick: function onClick($event) {
-        return _ctx.window.open(_ctx.getWhatsAppShareLink(term), '_blank');
+        return $options.shareViaWhatsApp(term);
       },
       "aria-label": "Share via WhatsApp",
       title: "Share via WhatsApp"
-    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-whatsapp fs-4"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       "class": "btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0",
       style: {
@@ -59726,9 +59757,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       disabled: $data.termFontSizes[term.id] <= $data.minFontSize,
       "aria-label": "Decrease font size",
       title: "Decrease font size"
-    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-dash-lg fs-4"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       "class": "btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0",
       style: {
@@ -59741,9 +59772,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       disabled: $data.termFontSizes[term.id] >= $data.maxFontSize,
       "aria-label": "Increase font size",
       title: "Increase font size"
-    }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-plus-lg fs-4"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       "class": "btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0",
       style: {
@@ -59755,53 +59786,34 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       "aria-label": "Copy to clipboard",
       title: "Copy to clipboard"
-    }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-clipboard fs-4"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button type=\"button\"\n                      class=\"btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0\"\n                      style=\"width: 48px; height: 48px;\" @click=\"speakTerm(term)\"\n                      :disabled=\"!isSpeechSynthesisSupported\" aria-label=\"Read aloud\"\n                      :title=\"isSpeechSynthesisSupported ? 'Read aloud' : 'Text-to-speech not supported'\">\n                      <i class=\"bi bi-volume-up fs-2\"></i>\n                    </button> ")])])], 46 /* CLASS, STYLE, PROPS, NEED_HYDRATION */, _hoisted_19)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.showPagination ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button type=\"button\"\n                      class=\"btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0\"\n                      style=\"width: 48px; height: 48px;\" @click=\"speakTerm(term)\"\n                      :disabled=\"!isSpeechSynthesisSupported\" aria-label=\"Read aloud\"\n                      :title=\"isSpeechSynthesisSupported ? 'Read aloud' : 'Text-to-speech not supported'\">\n                      <i class=\"bi bi-volume-up fs-2\"></i>\n                    </button> ")])])], 46 /* CLASS, STYLE, PROPS, NEED_HYDRATION */, _hoisted_20)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.showPagination ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $options.currentPageNumber === 1
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "page-link rounded-pill mx-1 px-4 py-2",
-    onClick: _cache[13] || (_cache[13] = function ($event) {
+    onClick: _cache[17] || (_cache[17] = function ($event) {
       return $options.goToPage($options.currentPageNumber - 1);
     }),
     "aria-label": "Previous"
-  }, _cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "aria-hidden": "true"
-  }, "«", -1 /* HOISTED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentPageNumber) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+  }, "«", -1 /* HOISTED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_39, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentPageNumber) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $options.currentPageNumber === $options.totalPages
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "page-link rounded-pill mx-1 px-4 py-2",
-    onClick: _cache[14] || (_cache[14] = function ($event) {
+    onClick: _cache[18] || (_cache[18] = function ($event) {
       return $options.goToPage($options.currentPageNumber + 1);
     }),
     "aria-label": "Next"
-  }, _cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "aria-hidden": "true"
-  }, "»", -1 /* HOISTED */)]))], 2 /* CLASS */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Back to Top Button "), $options.displayedTerms.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 2,
-    "class": "btn btn-lg rounded-circle position-fixed shadow-lg",
-    onClick: _cache[15] || (_cache[15] = function () {
-      return $options.scrollToTop && $options.scrollToTop.apply($options, arguments);
-    }),
-    title: "Back to top",
-    "aria-label": "Back to top",
-    style: {
-      "background-color": "#00bfa6",
-      "color": "#fff",
-      "bottom": "30px",
-      "right": "30px",
-      "z-index": "100",
-      "width": "60px",
-      "height": "60px"
-    }
-  }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-arrow-up fs-5"
-  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 8 /* PROPS */, _hoisted_14)], 4 /* STYLE */);
+  }, "»", -1 /* HOISTED */)]))], 2 /* CLASS */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Back to Top Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"displayedTerms.length > 0\" class=\"btn btn-lg rounded-circle position-fixed shadow-lg\"\n            @click=\"scrollToTop\" title=\"Back to top\" aria-label=\"Back to top\"\n            style=\"background-color: #00bfa6; color: #fff; bottom: 30px; right: 30px; z-index: 100; width: 60px; height: 60px;\">\n            <i class=\"bi bi-arrow-up fs-5\"></i>\n          </button> ")])])], 8 /* PROPS */, _hoisted_15)], 4 /* STYLE */);
 }
 
 /***/ }),
@@ -171314,7 +171326,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Minimal custom styles - using Bootstrap 5 for everything else */\n.skip-link[data-v-6de819c4]:focus {\n  top: 20px !important;\n  opacity: 1 !important;\n}\n/* Pulse animation for microphone */\n@keyframes pulse-6de819c4 {\n0% {\n    transform: scale(1);\n}\n50% {\n    transform: scale(1.1);\n}\n100% {\n    transform: scale(1);\n}\n}\n.pulse[data-v-6de819c4] {\n  animation: pulse-6de819c4 1.5s infinite;\n}\n/* Suggestions dropdown active item custom color */\n.list-group-item.active[data-v-6de819c4],\n.list-group-item[data-v-6de819c4]:active {\n  background-color: rgb(0, 191, 166) !important;\n  color: #fff !important;\n  border-color: rgb(0, 191, 166) !important;\n}\n/* Responsive adjustments */\n@media (max-width: 768px) {\n.nav-pills .nav-link[data-v-6de819c4] {\n    padding: 0.5rem 0.75rem;\n    font-size: 0.9rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.input-group[data-v-6de819c4] {\n  border-radius: 0.5rem;\n  overflow: hidden;\n}\n.input-group-text[data-v-6de819c4] {\n  transition: background-color 0.2s;\n}\n.input-group-text[data-v-6de819c4]:hover {\n  background-color: #f8f9fa;\n}\n.input-group .bi-search[data-v-6de819c4],\n.input-group .bi-x-lg[data-v-6de819c4] {\n  cursor: pointer;\n}\n\n/* Minimal custom styles - using Bootstrap 5 for everything else */\n.skip-link[data-v-6de819c4]:focus {\n  top: 20px !important;\n  opacity: 1 !important;\n}\n\n/* Pulse animation for microphone */\n@keyframes pulse-6de819c4 {\n0% {\n    transform: scale(1);\n}\n50% {\n    transform: scale(1.1);\n}\n100% {\n    transform: scale(1);\n}\n}\n.pulse[data-v-6de819c4] {\n  animation: pulse-6de819c4 1.5s infinite;\n}\n\n/* Suggestions dropdown active item custom color */\n.list-group-item.active[data-v-6de819c4],\n.list-group-item[data-v-6de819c4]:active {\n  background-color: rgb(0, 191, 166) !important;\n  color: #fff !important;\n  border-color: rgb(0, 191, 166) !important;\n}\n\n/* Responsive adjustments */\n@media (max-width: 768px) {\n.nav-pills .nav-link[data-v-6de819c4] {\n    padding: 0.5rem 0.75rem;\n    font-size: 0.9rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
