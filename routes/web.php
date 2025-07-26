@@ -64,6 +64,8 @@ use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\WelfareController;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\ConvertController;
+use App\Http\Controllers\HolyController;
+use App\Http\Controllers\HistoryController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -383,3 +385,7 @@ Route::get('/welfare', [WelfareController::class, 'index'])->name('welfare');
 Route::get('/books', [BooksController::class, 'index'])->name('books');
 // convert
 Route::get('/convert', [ConvertController::class, 'index'])->name('convert');
+// holy
+Route::get('/holy', [HolyController::class, 'index'])->name('holy');
+// history
+Route::get('/history', [HistoryController::class, 'index'])->name('history');

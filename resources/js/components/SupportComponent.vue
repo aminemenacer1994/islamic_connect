@@ -31,8 +31,7 @@
                   disabled (screen readers, TTS, voice search, etc.).</li>
                 <li class="mb-2">🤖 <b>AI Development</b> – Building voice search, personalized recitation tools, and
                   smart learning experiences.</li>
-                <li class="mb-2">🔐 <b>Essential Costs</b> – Covering servers, security, third-party services, and
-                  keeping the platform free for all.</li>
+                <li class="mb-2">🔐 <b>Essential Costs</b> – Covering servers, security and third-party services.</li>
                 <li class="mb-2">👨‍💻 <b>Team Support</b> – Supporting our small team of developers working around the
                   clock to serve the ummah.</li>
               </ul>

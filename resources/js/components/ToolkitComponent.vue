@@ -9,7 +9,8 @@
 
     <div class="row g-4 ">
       <div class="col-md-6 col-lg-4">
-        <div class="card custom-card  rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+        <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
           <img src="/images/qf1.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Qibla finder</h5>
@@ -47,10 +48,11 @@
         </div>
       </div> -->
 
-      
+
 
       <div class="col-md-6 col-lg-4">
-        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+        <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
           <img src="/images/calc.png" alt="Zakat Calculator" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Zakat Calculator</h5>
@@ -68,27 +70,28 @@
       </div>
 
       <div class="col-md-6 col-lg-4">
-        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+        <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
           <img src="/images/dates.png" alt="Date Converter" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Date Converter</h5>
             <p class="card-text text-muted text-wrap text-center"
-              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">An Islamic Date Converter lets you
-              switch between Gregorian and Hijri dates, helping track important events like Ramadan, Eid, and Hajj.
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
+              An Islamic Date Converter lets you switch between Gregorian and Hijri dates, helping track important
+              events like Ramadan, Eid, and Hajj.
             </p>
-
             <button class="form-control" onclick="window.location.href='/date'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Convert Date</b></span>
             </button>
-
           </div>
         </div>
       </div>
 
       <div class="col-md-6 col-lg-4">
-        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+        <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
           <img src="/images/hug.png" alt="Hajj & Umrah guides" class="w-100 pt-3" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class=" fw-bold display-6 text-dark text-center">Hajj & Umrah guides</h5>
@@ -123,45 +126,8 @@
         </div>
       </div>
 
-      <!-- <div class="col-md-6 col-lg-4">
-        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
-          <img src="/images/adic.png" alt="Names of Allah" class="w-100" style="object-fit: contain;" />
-          <div class="p-3">
-            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Dictionary</h5>
-            <p class="card-text text-muted text-wrap text-center"
-              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Count your dhikr effortlessly with
-              our digital Tasbeeh counter. Keep track of your recitations anytime, anywhere.
-            </p>
-            <button class="form-control" onclick="window.location.href='/books'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
-              type="submit">
-              <span class="text-center w-100"><b>Search Words</b></span>
-            </button>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- <div class="col-md-6 col-lg-4">
-        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
-          <img src="/images/tb.png" alt="Names of Allah" class="w-100" style="object-fit: contain;" />
-          <div class="p-3">
-            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Tasbeeh Counter</h5>
-            <p class="card-text text-muted text-wrap text-center"
-              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Count your dhikr effortlessly with
-              our digital Tasbeeh counter. Keep track of your recitations anytime, anywhere.
-            </p>
-            <button class="form-control" onclick="window.location.href='/tasbeeh'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
-              type="submit">
-              <span class="text-center w-100"><b>Start Counting</b></span>
-            </button>
-          </div>
-        </div>
-      </div> -->
     </div>
-
   </div>
-
 </template>
 
 <script>
@@ -204,5 +170,30 @@ export default {
 .custom-card img {
   height: 180px;
   object-fit: cover;
+}
+
+@keyframes borderPulse {
+  0% {
+    border-color: lightseagreen;
+    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
+  }
+
+  50% {
+    border-color: #00bfa6;
+    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);
+  }
+
+  100% {
+    border-color: lightseagreen;
+    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
+  }
+}
+
+.card.custom-card {
+  animation: borderPulse 2s infinite ease-in-out;
+  -webkit-animation: borderPulse 2s infinite ease-in-out;
+  /* For Safari/Chrome */
+  -moz-animation: borderPulse 2s infinite ease-in-out;
+  /* For Firefox */
 }
 </style>

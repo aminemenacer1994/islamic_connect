@@ -96,14 +96,18 @@ body{
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3" href="/home" data-path="/home"><b style="color:black">Home</b></a></h6>
                     </li>
-                    <li class="nav-item dropdown pt-3 pl-3">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
+                    <!-- <li class="nav-item dropdown pt-3 pl-3">
+                        <a class="nav-link dropdown-toggle" href="/holy" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
                             <b style="color:black">Holy Quran</b>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/quran">Companion</a></li>
                             <li><a class="dropdown-item" href="/surat">Explorer</a></li>
                         </ul>
+                    </li> -->
+
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/holy" data-path="/holy"><b style="color:black">Quran Portal</b></a></h6>
                     </li>
                     
                     <li class="nav-item mt-3">
@@ -113,19 +117,18 @@ body{
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/knowledge" data-path="/knowledge"><b style="color:black">Islamic Knowledge</b></a></h6>
                     </li>
+                    
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/toolkit" data-path="/toolkit"><b style="color:black">Utility Toolkit</b></a></h6>
+                    </li>
 
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/services" data-path="/services"><b style="color:black">Services</b></a></h6>
                     </li>
 
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/toolkit" data-path="/toolkit"><b style="color:black">Utility Toolkit</b></a></h6>
-                    </li>
-                          
-                    <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/pricing" data-path="/pricing"><b style="color:black">Donations</b></a></h6>
                     </li>
-
                                     
                     @guest
                     @if (Route::has('login'))

@@ -97,6 +97,8 @@ import AthkarComponenet from "./components/AthkarComponenet.vue";
 import FinanceComponent from "./components/FinanceComponent.vue";
 import ZakatComponent from "./components/ZakatComponent.vue";
 import ConvertComponent from "./components/ConvertComponent.vue";
+import HolyComponent from "./components/HolyComponent.vue";
+import HistoryComponent from "./components/HistoryComponent.vue";
 
 const app = createApp({
   data() {
@@ -220,5 +222,7 @@ app.component('school-component', SchoolComponent);
 app.component('welfare-component', WelfareComponent);
 app.component('books-component', BooksComponent);
 app.component('convert-component', ConvertComponent);
+app.component('holy-component', HolyComponent);
+app.component('history-component', HistoryComponent);
 
 app.mount("#app");

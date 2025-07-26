@@ -7,7 +7,8 @@
     </p>
     <div class="row g-4 ">
       <div class="col-md-6 col-lg-4">
-        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+        <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
           <img src="/images/ml.webp" alt="Mosque Locator" class="w-100 pt-3" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Mosque Locator</h5>
@@ -27,7 +28,8 @@
       </div>
 
       <div class="col-md-6 col-lg-4">
-        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+        <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
           <img src="/images/food.png" alt="Islamic Shops" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Halal Butchers</h5>
@@ -78,7 +80,8 @@
       </div> -->
 
       <div class="col-md-6 col-lg-4">
-        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+        <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
           <img src="/images/school1.png" alt="Islamic Shops" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Schools & Centers</h5>
@@ -158,5 +161,30 @@ export default {
 .custom-card img {
   height: 180px;
   object-fit: cover;
+}
+
+@keyframes borderPulse {
+  0% {
+    border-color: lightseagreen;
+    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
+  }
+
+  50% {
+    border-color: #00bfa6;
+    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);
+  }
+
+  100% {
+    border-color: lightseagreen;
+    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
+  }
+}
+
+.card.custom-card {
+  animation: borderPulse 2s infinite ease-in-out;
+  -webkit-animation: borderPulse 2s infinite ease-in-out;
+  /* For Safari/Chrome */
+  -moz-animation: borderPulse 2s infinite ease-in-out;
+  /* For Firefox */
 }
 </style>
