@@ -20,6 +20,17 @@
       </p>
     </header>
 
+    <!-- Close All Button -->
+    <div class="text-end mb-3" v-if="areAnyAccordionsOpen">
+      <button 
+        class="btn fw-semibold transition" 
+        @click="closeAllAccordions" 
+        style="background-color: #00bfa6; color: #ffffff; padding: 0.4rem 0.8rem; border-radius: 0.5rem; border: none; font-size: 0.85rem;"
+      >
+        <i class="bi bi-x-circle me-1" style="font-size: 0.9rem;"></i>Close All
+      </button>
+    </div>
+
     <!-- Accordion -->
     <div v-if="accordionItems.length" class="accordion mb-5" id="historyAccordion">
       <div 
@@ -37,6 +48,7 @@
             :data-bs-target="'#collapse' + idx" 
             :aria-expanded="idx === 0" 
             :aria-controls="'collapse' + idx" 
+            @click="updateAccordionBtnState"
           >
             <span 
               class="badge rounded-pill me-3 fw-bold" 
@@ -51,8 +63,7 @@
           :id="'collapse' + idx" 
           class="accordion-collapse collapse" 
           :class="{ show: idx === 0 }" 
-          :aria-labelledby="'heading' + idx" 
-          data-bs-parent="#historyAccordion"
+          :aria-labelledby="'heading' + idx"
         >
           <div 
             class="accordion-body px-4 py-4 rounded-bottom-3" 
@@ -83,7 +94,7 @@
                   </div>
                   <div 
                     v-else-if="value && Array.isArray(value)" 
-                    class="col-12"
+                    class="col-12" 
                   >
                     <div 
                       class="card h-100 border-0 rounded-3 shadow-sm transition" 
@@ -105,7 +116,7 @@
                   </div>
                   <div 
                     v-else-if="value && typeof value === 'object'" 
-                    class="col-12"
+                    class="col-12" 
                   >
                     <div 
                       class="card h-100 border-0 rounded-3 shadow-sm transition" 
@@ -328,7 +339,8 @@ export default {
   name: 'HistoryComponent',
   data() {
     return {
-      quranInfo: quranInfo || {}
+      quranInfo: quranInfo || {},
+      areAnyAccordionsOpen: true // Initial state assumes first accordion is open
     };
   },
   computed: {
@@ -357,6 +369,10 @@ export default {
       return items;
     }
   },
+  mounted() {
+    // Initialize accordion state after DOM is rendered
+    this.updateAccordionState();
+  },
   methods: {
     // Format keys for display (e.g., 'key_name' -> 'Key Name')
     formatKey(key) {
@@ -371,6 +387,31 @@ export default {
     // Safely get table columns
     getTableColumns(table) {
       return table && table[0] ? Object.keys(table[0]) : [];
+    },
+    // Close all accordion items
+    closeAllAccordions() {
+      const collapseElements = document.querySelectorAll('#historyAccordion .accordion-collapse.show');
+      collapseElements.forEach(collapse => {
+        collapse.classList.remove('show');
+        const button = document.querySelector(`[data-bs-target="#${collapse.id}"]`);
+        if (button) {
+          button.classList.add('collapsed');
+          button.setAttribute('aria-expanded', 'false');
+        }
+      });
+      this.updateAccordionState();
+    },
+    // Update accordion open state
+    updateAccordionState() {
+      const openAccordions = document.querySelectorAll('#historyAccordion .accordion-collapse.show');
+      this.areAnyAccordionsOpen = openAccordions.length > 0;
+    },
+    // Update accordion state on button click
+    updateAccordionBtnState() {
+      // Delay to allow Bootstrap's collapse transition to complete
+      setTimeout(() => {
+        this.updateAccordionState();
+      }, 350); // Match Bootstrap's collapse transition duration
     }
   }
 };
@@ -388,9 +429,15 @@ export default {
 }
 
 /* Focus state for accessibility */
-.accordion-button:focus {
+.accordion-button:focus,
+.btn:focus {
   box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.3);
   outline: none;
+}
+
+/* Button hover effect */
+.btn:hover {
+  background-color: #009688;
 }
 </style>
 ```
