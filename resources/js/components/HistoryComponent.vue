@@ -27,7 +27,7 @@
 
     <!-- Card Sections -->
     <div v-if="accordionItems.length" class="mb-5">
-      <div v-for="(item, idx) in accordionItems" :key="item.title" class="card mb-3 rounded-3 shadow-sm"
+      <div v-for="(item, idx) in accordionItems" :key="item.title || idx" class="card mb-3 rounded-3 shadow-sm"
         style="background-color: #ffffff; border: 1px solid #e2e8f0;">
         <!-- Card Header -->
         <div class="card-header px-4 py-3 fw-semibold d-flex align-items-center transition" role="button"
@@ -37,17 +37,49 @@
             style="background-color: #00bfa6; color: #ffffff; border: 1px solid #00bfa6; font-size: 0.9rem; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center;">
             {{ idx + 1 }}
           </span>
-          <span class="flex-grow-1">{{ item.title }}</span>
+          <span class="flex-grow-1">{{ item.title || 'Untitled Section' }}</span>
+          <button class="btn fw-semibold transition me-2" @click.stop="increaseFontSize(idx)"
+            style="background-color: #00bfa6; color: #ffffff; padding: 0.3rem 0.6rem; border-radius: 0.4rem; border: none; font-size: 0.75rem;">
+            <i class="bi bi-zoom-in" style="font-size: 0.8rem;"></i>
+          </button>
+          <button class="btn fw-semibold transition me-2" @click.stop="decreaseFontSize(idx)"
+            style="background-color: #00bfa6; color: #ffffff; padding: 0.3rem 0.6rem; border-radius: 0.4rem; border: none; font-size: 0.75rem;">
+            <i class="bi bi-zoom-out" style="font-size: 0.8rem;"></i>
+          </button>
           <i :class="isOpen[idx] ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" style="font-size: 1rem;"></i>
         </div>
         <!-- Card Content -->
         <div v-show="isOpen[idx]" :id="'section-content-' + idx" class="card-body px-4 py-4 rounded-bottom-3"
-          style="background-color: #ffffff; font-size: 1.05rem; line-height: 1.7; color: #4a5568;">
+          :style="{ 'font-size': fontSizes[idx] + 'rem', 'background-color': '#ffffff', 'line-height': 1.7, 'color': '#4a5568' }">
+          <!-- AI Summary Button and Summary -->
+          <div class="mb-3">
+            <button class="btn btn-sm btn-outline-dark" @click="summarizeEvent(idx)" :disabled="summaryLoading[idx]">
+              <i class="bi" :class="summaryLoading[idx] ? 'bi-hourglass-split' : 'bi-robot'"></i>
+              <span class="ms-1 ms-sm-2">{{ summaryLoading[idx] ? 'Generating...' : 'AI Summary' }}</span>
+            </button>
+            <div v-if="summaries[idx]" class="mt-2 p-3 rounded-3 position-relative" style="background-color: #f7fafc; border: 1px solid #e2e8f0;">
+              <button class="btn btn-sm p-0 position-absolute top-0 end-0 m-2" @click="clearSummary(idx)"
+                aria-label="Close summary" title="Close">
+                <i class="bi bi-x" style="font-size: 1.2rem; color: #4a5568;"></i>
+              </button>
+              <strong>AI Summary:</strong> {{ summaries[idx] }}
+            </div>
+          </div>
+          <!-- FAQ Content -->
+          <div v-if="item.faq">
+            <div v-for="(faqItem, faqIdx) in item.faq" :key="faqIdx" class="mb-3">
+              <div style="font-weight: 600; color: #00bfa6; font-size: 1rem; margin-bottom: 0.5rem;">
+                <i class="bi bi-question-circle" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>
+                {{ faqItem.question }}
+              </div>
+              <div style="padding-left: 1.75rem;">{{ faqItem.answer }}</div>
+            </div>
+          </div>
           <!-- Details (for regular sections) -->
           <div v-if="isRegularSection(item)">
             <div class="row g-4">
               <template v-for="(value, key, index) in item.details">
-                <div v-if="value && typeof value === 'string'" class="col-12 col-md-6" :key="`${key}-${index}`">
+                <div v-if="value && typeof value === 'string'" :key="`${key}-${index}`" class="col-12 col-md-6">
                   <div class="card h-100 border-0 rounded-3 shadow-sm transition"
                     style="background-color: #f7fafc; padding: 1.25rem;">
                     <div>
@@ -63,8 +95,7 @@
                     style="background-color: #f7fafc; padding: 1.25rem;">
                     <div>
                       <span style="font-weight: 600; color: #00bfa6; font-size: 1rem;">
-                        <i class="bi bi-list-ul" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>{{ formatKey(key)
-                        }}:
+                        <i class="bi bi-list-ul" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>{{ formatKey(key) }}:
                       </span>
                       <ul style="margin-bottom: 0; margin-top: 0.75rem; padding-left: 1.5rem; line-height: 1.7;">
                         <li v-for="(subItem, i) in value" :key="i">{{ subItem }}</li>
@@ -77,8 +108,7 @@
                     style="background-color: #f7fafc; padding: 1.25rem;">
                     <div>
                       <span style="font-weight: 600; color: #00bfa6; font-size: 1rem;">
-                        <i class="bi bi-diagram-3" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>{{
-                        formatKey(key) }}:
+                        <i class="bi bi-diagram-3" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>{{ formatKey(key) }}:
                       </span>
                       <ul style="margin-bottom: 0; margin-top: 0.75rem; padding-left: 1.5rem; line-height: 1.7;">
                         <li v-for="(v, k) in value" :key="k">
@@ -98,7 +128,7 @@
             </div>
             <div class="table-responsive">
               <table class="table table-bordered align-middle mb-0"
-                style="background-color: #ffffff; font-size: 1rem; border-color: #e2e8f0;">
+                style="background-color: #ffffff; border-color: #e2e8f0;">
                 <thead style="background-color: #f7fafc;">
                   <tr>
                     <th v-for="(col, i) in getTableColumns(item.table)" :key="i"
@@ -125,7 +155,7 @@
             <strong>Significance:</strong> {{ item.significance }}
           </div>
           <div v-if="item.insights && isRegularSection(item)"
-            class="alert alert-info mt-4 border-0 rounded-3 shadow-sm py-3 px-4"
+            class="alert alert-info mt-4 border-0 Rounded-3 shadow-sm py-3 px-4"
             style="background-color: #edfafa; border-color: #bee3e3; color: #2d3748;">
             <i class="bi bi-info-circle" style="margin-right: 0.5rem; color: #00bfa6; font-size: 1.2rem;"></i>
             <strong>Insights:</strong>
@@ -140,7 +170,7 @@
             <strong>Recommendations:</strong>
             <ul style="margin-bottom: 0; margin-top: 0.75rem; padding-left: 1.5rem; line-height: 1.7;">
               <li v-for="(rec, i) in item.details.recommendations" :key="i">
-                <span style="font-weight: 600;">{{ rec.name }}:</span> {{ rec.description }}
+                <span style="font-weight: 600;">{{ formatKey(rec.name) }}:</span> {{ rec.description }}
               </li>
             </ul>
           </div>
@@ -162,7 +192,7 @@
                   <div style="font-weight: 600; margin-bottom: 0.5rem; color: #00bfa6; font-size: 1rem;">
                     Summary
                   </div>
-                  <div style="font-size: 1.05rem; line-height: 1.7;">{{ item.conclusion.summary }}</div>
+                  <div style="line-height: 1.7;">{{ item.conclusion.summary }}</div>
                 </div>
               </div>
             </div>
@@ -173,7 +203,7 @@
                   <div style="font-weight: 600; margin-bottom: 0.5rem; color: #00bfa6; font-size: 1rem;">
                     Final Thoughts
                   </div>
-                  <div style="font-size: 1.05rem; line-height: 1.7;">{{ item.conclusion.final_thoughts }}</div>
+                  <div style="line-height: 1.7;">{{ item.conclusion.final_thoughts }}</div>
                 </div>
               </div>
             </div>
@@ -184,7 +214,7 @@
                   <div style="font-weight: 600; margin-bottom: 0.5rem; color: #00bfa6; font-size: 1rem;">
                     Call to Action
                   </div>
-                  <div style="font-size: 1.05rem; line-height: 1.7;">{{ item.conclusion.call_to_action }}</div>
+                  <div style="line-height: 1.7;">{{ item.conclusion.call_to_action }}</div>
                 </div>
               </div>
             </div>
@@ -223,31 +253,79 @@ export default {
   name: 'HistoryComponent',
   data() {
     return {
-      quranInfo: quranInfo || {},
-      isOpen: [] // Tracks open state of each section
+      quranInfo: quranInfo || {}, // Fallback to empty object if import fails
+      isOpen: [], // Tracks open state of each section
+      fontSizes: [], // Tracks font size of each section
+      summaryLoading: [], // Tracks loading state for each section's summary
+      summaries: [], // Stores generated summary for each section
+      faq: [
+        {
+          question: 'When was the Quran first revealed?',
+          answer: 'The Quran was first revealed to Prophet Muhammad in 610 CE during the month of Ramadan in the Cave of Hira.'
+        },
+        {
+          question: 'Who compiled the Quran into a single book?',
+          answer: 'The Quran was compiled into a single book during the caliphate of Abu Bakr (632-634 CE), with the final standardization under Uthman ibn Affan (644-656 CE).'
+        },
+        {
+          question: 'How was the Quran preserved before written compilation?',
+          answer: 'The Quran was primarily preserved through memorization by the Prophet’s companions, known as Huffaz, alongside partial written records on various materials.'
+        },
+        {
+          question: 'What is the significance of the Uthmanic Codex?',
+          answer: 'The Uthmanic Codex standardized the Quranic text, ensuring uniformity across the Muslim world, and serves as the basis for all modern Quranic manuscripts.'
+        },
+        {
+          question: 'Why is the Quran considered a miracle?',
+          answer: 'The Quran is considered a miracle due to its linguistic excellence, inimitable style, and profound guidance, which Muslims believe could not have been produced by human effort alone.'
+        },
+        {
+          question: 'How many verses are in the Quran?',
+          answer: 'The Quran contains 6,236 verses (Ayat), though the exact count may vary slightly depending on different methods of verse numbering.'
+        },
+        {
+          question: 'What is the role of the Quranic recitations (Qira\'at)?',
+          answer: 'The Quranic recitations (Qira\'at) are authentic variations in pronunciation and recitation of the Quran, approved by the Prophet Muhammad, which enrich its oral tradition while maintaining the text’s integrity.'
+        },
+        {
+          question: 'How did the Quran influence early Islamic scholarship?',
+          answer: 'The Quran served as the foundation for early Islamic scholarship, inspiring disciplines like Tafsir (exegesis), Hadith collection, and Arabic linguistics to preserve and interpret its teachings.'
+        }
+      ]
     };
   },
   computed: {
-    // Combine sections, Conclusion, and References, excluding section 9 (index 8)
+    // Combine sections, Conclusion, References, and FAQ, excluding section 9 (index 8)
     accordionItems() {
-      if (!this.quranInfo.sections || !Array.isArray(this.quranInfo.sections)) {
+      // Return empty array if quranInfo or sections is undefined
+      if (!this.quranInfo || !this.quranInfo.sections || !Array.isArray(this.quranInfo.sections)) {
         return [];
       }
-      // Filter out section 9 (index 8, 1-based numbering)
-      const sections = this.quranInfo.sections.filter((_, index) => index !== 8);
+      // Filter out undefined or invalid sections and exclude index 8
+      const sections = this.quranInfo.sections
+        .map((section, index) => ({ section, index }))
+        .filter(({ section, index }) => section && typeof section === 'object' && index !== 8)
+        .map(({ section }) => section);
       const items = [...sections];
-      if (this.quranInfo.conclusion) {
+      if (this.quranInfo.conclusion && typeof this.quranInfo.conclusion === 'object') {
         items.push({
           title: 'Conclusion',
           conclusion: this.quranInfo.conclusion
         });
       }
-      if (this.quranInfo.references) {
+      if (this.quranInfo.references && typeof this.quranInfo.references === 'object') {
         items.push({
           title: 'References',
           references: Object.fromEntries(
-            Object.entries(this.quranInfo.references).filter(([key]) => key !== 'note')
+            Object.entries(this.quranInfo.references || {}).filter(([key]) => key !== 'note')
           )
+        });
+      }
+      // Add FAQ section
+      if (this.faq && Array.isArray(this.faq) && this.faq.length) {
+        items.push({
+          title: 'FAQ',
+          faq: this.faq
         });
       }
       return items;
@@ -262,8 +340,18 @@ export default {
     }
   },
   mounted() {
-    // Initialize isOpen array with first section open
-    this.isOpen = this.accordionItems.map((_, idx) => idx === 0);
+    // Initialize isOpen, fontSizes, summaryLoading, and summaries only if accordionItems exists
+    if (this.accordionItems.length) {
+      this.isOpen = this.accordionItems.map((_, idx) => idx === 0);
+      this.fontSizes = this.accordionItems.map(() => 1.05);
+      this.summaryLoading = this.accordionItems.map(() => false);
+      this.summaries = this.accordionItems.map(() => null);
+    } else {
+      this.isOpen = [];
+      this.fontSizes = [];
+      this.summaryLoading = [];
+      this.summaries = [];
+    }
   },
   methods: {
     // Open all sections
@@ -277,21 +365,57 @@ export default {
     // Toggle section open state
     toggleSection(idx) {
       this.isOpen[idx] = !this.isOpen[idx];
-      this.$set(this.isOpen, idx, this.isOpen[idx]); // Ensure reactivity
     },
-    // Format keys for display (e.g., 'key_name' -> 'Key Name')
+    // Increase font size for a specific section
+    increaseFontSize(idx) {
+      if (this.fontSizes[idx] < 1.3) {
+        this.fontSizes[idx] = Math.min(1.3, this.fontSizes[idx] + 0.05);
+      }
+    },
+    // Decrease font size for a specific section
+    decreaseFontSize(idx) {
+      if (this.fontSizes[idx] > 0.8) {
+        this.fontSizes[idx] = Math.max(0.8, this.fontSizes[idx] - 0.05);
+      }
+    },
+    // Placeholder for generating AI summary
+    async summarizeEvent(idx) {
+      this.summaryLoading[idx] = true;
+      try {
+        // Simulate async AI summary generation (replace with actual API call)
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const item = this.accordionItems[idx];
+        const detailsKeys = Object.keys(item.details || {});
+        const summaryText = item.faq
+          ? `Summary of FAQ: This section addresses common questions about the Quran's history, such as its revelation, compilation, and significance.`
+          : item.conclusion
+          ? `Summary of Conclusion: This section summarizes the Quran's historical journey, final thoughts, and a call to action.`
+          : item.references
+          ? `Summary of References: This section lists sources used to document the Quran's history.`
+          : `Summary of ${item.title || 'Section'}: This section covers key aspects of the Quran's history${detailsKeys.length ? `, including ${detailsKeys.map(key => this.formatKey(key)).join(', ')}.` : '.'}`;
+        this.summaries[idx] = summaryText;
+      } catch (error) {
+        console.error('Error generating summary:', error);
+        this.summaries[idx] = 'Failed to generate summary.';
+      } finally {
+        this.summaryLoading[idx] = false;
+      }
+    },
+    // Clear summary for a specific section
+    clearSummary(idx) {
+      this.summaries[idx] = null;
+    },
+    // Format keys for display (e.g., 'key_name' -> 'key name')
     formatKey(key) {
-      return key
-        ? key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
-        : '';
+      return key ? key.replace(/_/g, ' ') : '';
     },
-    // Check if item is a regular section (not Conclusion or References)
+    // Check if item is a regular section (not Conclusion, References, or FAQ)
     isRegularSection(item) {
-      return !item.conclusion && !item.references;
+      return item && typeof item === 'object' && !item.conclusion && !item.references && !item.faq;
     },
     // Safely get table columns
     getTableColumns(table) {
-      return table && table[0] ? Object.keys(table[0]) : [];
+      return table && Array.isArray(table) && table[0] ? Object.keys(table[0]) : [];
     }
   }
 };
@@ -317,8 +441,19 @@ export default {
 }
 
 /* Button hover effect */
-.btn:hover {
+.btn:hover:not(.btn-outline-dark) {
   background-color: #009688;
+}
+
+/* Button hover effect for outline-dark */
+.btn-outline-dark:hover {
+  background-color: #2d3748;
+  color: #ffffff;
+}
+
+/* Close button hover effect */
+.btn-sm:hover .bi-x {
+  color: #2d3748;
 }
 
 /* Card header cursor */
