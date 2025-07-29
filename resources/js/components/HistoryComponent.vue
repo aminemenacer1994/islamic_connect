@@ -16,10 +16,12 @@
     <!-- Open All and Close All Buttons -->
     <div class="text-end mb-3">
       <button v-if="!areAllAccordionsOpen" class="btn fw-semibold transition me-2" @click="openAllSections"
+        aria-label="Open all sections"
         style="background-color: #00bfa6; color: #ffffff; padding: 0.4rem 0.8rem; border-radius: 0.5rem; border: none; font-size: 0.85rem;">
         <i class="bi bi-plus-circle me-1" style="font-size: 0.9rem;"></i>Open All
       </button>
       <button v-if="areAnyAccordionsOpen" class="btn fw-semibold transition" @click="closeAllSections"
+        aria-label="Close all sections"
         style="background-color: #00bfa6; color: #ffffff; padding: 0.4rem 0.8rem; border-radius: 0.5rem; border: none; font-size: 0.85rem;">
         <i class="bi bi-x-circle me-1" style="font-size: 0.9rem;"></i>Close All
       </button>
@@ -31,34 +33,54 @@
         style="background-color: #ffffff; border: 1px solid #e2e8f0;">
         <!-- Card Header -->
         <div class="card-header px-4 py-3 fw-semibold d-flex align-items-center transition" role="button"
-          :aria-expanded="isOpen[idx]" :aria-controls="'section-content-' + idx" @click="toggleSection(idx)"
-          @keydown.enter="toggleSection(idx)" @keydown.space.prevent="toggleSection(idx)">
+          :aria-expanded="isOpen[idx]" :aria-controls="'section-content-' + idx"
+          :aria-label="`${item.title || 'Untitled Section'} (${wordCounts[idx] || 0} words ${isOpen[idx] ? 'expanded' : 'collapsed'})`"
+          @click="toggleSection(idx)" @keydown.enter="toggleSection(idx)" @keydown.space.prevent="toggleSection(idx)"
+          @keydown.up.prevent="focusPreviousSection(idx)" @keydown.down.prevent="focusNextSection(idx)"
+          ref="accordionHeaders" tabindex="0">
           <span class="badge rounded-pill me-3 fw-bold"
             style="background-color: #00bfa6; color: #ffffff; border: 1px solid #00bfa6; font-size: 0.9rem; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center;">
             {{ idx + 1 }}
           </span>
           <span class="flex-grow-1">{{ item.title || 'Untitled Section' }}</span>
-          <button class="btn fw-semibold transition me-2" @click.stop="increaseFontSize(idx)"
-            style="background-color: #00bfa6; color: #ffffff; padding: 0.3rem 0.6rem; border-radius: 0.4rem; border: none; font-size: 0.75rem;">
-            <i class="bi bi-zoom-in" style="font-size: 0.8rem;"></i>
-          </button>
-          <button class="btn fw-semibold transition me-2" @click.stop="decreaseFontSize(idx)"
-            style="background-color: #00bfa6; color: #ffffff; padding: 0.3rem 0.6rem; border-radius: 0.4rem; border: none; font-size: 0.75rem;">
-            <i class="bi bi-zoom-out" style="font-size: 0.8rem;"></i>
-          </button>
+          <span class="me-3 text-muted" style="font-size: 0.85rem;">
+            {{ wordCounts[idx] || 0 }} words
+          </span>
           <i :class="isOpen[idx] ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" style="font-size: 1rem;"></i>
         </div>
         <!-- Card Content -->
         <div v-show="isOpen[idx]" :id="'section-content-' + idx" class="card-body px-4 py-4 rounded-bottom-3"
           :style="{ 'font-size': fontSizes[idx] + 'rem', 'background-color': '#ffffff', 'line-height': 1.7, 'color': '#4a5568' }">
-          <!-- AI Summary Button and Summary -->
+          <!-- AI Summary, Font Size, Print, Export to PDF, and Share via WhatsApp Buttons -->
           <div class="mb-3">
-            <button class="btn btn-sm btn-outline-dark" @click="summarizeEvent(idx)" :disabled="summaryLoading[idx]">
+            <button class="btn btn-sm btn-outline-dark fw-semibold transition ms-2 mb-2" @click="summarizeEvent(idx)" :disabled="summaryLoading[idx]"
+              aria-label="Generate AI summary">
               <i class="bi" :class="summaryLoading[idx] ? 'bi-hourglass-split' : 'bi-robot'"></i>
               <span class="ms-1 ms-sm-2">{{ summaryLoading[idx] ? 'Generating...' : 'AI Summary' }}</span>
             </button>
+            <button class="btn btn-sm btn-outline-dark fw-semibold transition ms-2 mb-2" @click.stop="increaseFontSize(idx)"
+              @keydown.enter.stop="increaseFontSize(idx)" @keydown.space.prevent.stop="increaseFontSize(idx)"
+              aria-label="Increase font size" title="Increase font size">
+              <i class="bi bi-zoom-in mr-2" style="font-size: 0.8rem;"></i> Increase font size
+            </button>
+            <button class="btn btn-sm btn-outline-dark fw-semibold transition mb-2 ms-2" @click.stop="decreaseFontSize(idx)"
+              @keydown.enter.stop="decreaseFontSize(idx)" @keydown.space.prevent.stop="decreaseFontSize(idx)"
+              aria-label="Decrease font size" title="Decrease font size">
+              <i class="bi bi-zoom-out mr-2" style="font-size: 0.8rem;"></i>Decrease font size
+            </button>
+            <button class="btn btn-sm btn-outline-dark fw-semibold transition mb-2 ms-2" @click.stop="printSection(idx)"
+              @keydown.enter.stop="printSection(idx)" @keydown.space.prevent.stop="printSection(idx)"
+              aria-label="Print section" title="Print section">
+              <i class="bi bi-printer mr-2" style="font-size: 0.8rem;"></i>Print
+            </button>
+            <button class="btn btn-sm btn-outline-dark fw-semibold transition mb-2 ms-2" @click.stop="generatePDF(idx)"
+              @keydown.enter.stop="generatePDF(idx)" @keydown.space.prevent.stop="generatePDF(idx)"
+              aria-label="Export to PDF" title="Export to PDF">
+              <i class="bi bi-file-earmark-pdf mr-2" style="font-size: 0.8rem;"></i>Export to PDF
+            </button>
             <div v-if="summaries[idx]" class="mt-2 p-3 rounded-3 position-relative" style="background-color: #f7fafc; border: 1px solid #e2e8f0;">
               <button class="btn btn-sm p-0 position-absolute top-0 end-0 m-2" @click="clearSummary(idx)"
+                @keydown.enter="clearSummary(idx)" @keydown.space.prevent="clearSummary(idx)"
                 aria-label="Close summary" title="Close">
                 <i class="bi bi-x" style="font-size: 1.2rem; color: #4a5568;"></i>
               </button>
@@ -90,7 +112,7 @@
                     </div>
                   </div>
                 </div>
-                <div v-else-if="value && Array.isArray(value)" class="col-12">
+                <div v-else-if="value && Array.isArray(value)"  class="col-12">
                   <div class="card h-100 border-0 rounded-3 shadow-sm transition"
                     style="background-color: #f7fafc; padding: 1.25rem;">
                     <div>
@@ -103,7 +125,7 @@
                     </div>
                   </div>
                 </div>
-                <div v-else-if="value && typeof value === 'object'" class="col-12">
+                <div v-else-if="value && typeof value === 'object'"  class="col-12">
                   <div class="card h-100 border-0 rounded-3 shadow-sm transition"
                     style="background-color: #f7fafc; padding: 1.25rem;">
                     <div>
@@ -155,7 +177,7 @@
             <strong>Significance:</strong> {{ item.significance }}
           </div>
           <div v-if="item.insights && isRegularSection(item)"
-            class="alert alert-info mt-4 border-0 Rounded-3 shadow-sm py-3 px-4"
+            class="alert alert-info mt-4 border-0 rounded-3 shadow-sm py-3 px-4"
             style="background-color: #edfafa; border-color: #bee3e3; color: #2d3748;">
             <i class="bi bi-info-circle" style="margin-right: 0.5rem; color: #00bfa6; font-size: 1.2rem;"></i>
             <strong>Insights:</strong>
@@ -243,6 +265,13 @@
       style="background-color: #fefcbf; color: #744210; font-size: 1.1rem;">
       No content available. Please check the data source.
     </div>
+    <!-- Floating Action Button for Scroll to Top -->
+    <button v-show="showScrollToTop" class="btn transition shadow-sm" @click="scrollToTop"
+      @keydown.enter="scrollToTop" @keydown.space.prevent="scrollToTop"
+      aria-label="Scroll to top" title="Scroll to top"
+      style="position: fixed; bottom: 20px; right: 20px; background-color: #00bfa6; color: #ffffff; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; z-index: 1000;">
+      <i class="bi bi-arrow-up" style="font-size: 1.5rem;"></i>
+    </button>
   </div>
 </template>
 
@@ -258,6 +287,9 @@ export default {
       fontSizes: [], // Tracks font size of each section
       summaryLoading: [], // Tracks loading state for each section's summary
       summaries: [], // Stores generated summary for each section
+      showScrollToTop: false, // Tracks FAB visibility
+      wordCounts: [], // Tracks word count for each section
+      readTimes: [], // Tracks read time for each section
       faq: [
         {
           question: 'When was the Quran first revealed?',
@@ -297,11 +329,9 @@ export default {
   computed: {
     // Combine sections, Conclusion, References, and FAQ, excluding section 9 (index 8)
     accordionItems() {
-      // Return empty array if quranInfo or sections is undefined
       if (!this.quranInfo || !this.quranInfo.sections || !Array.isArray(this.quranInfo.sections)) {
         return [];
       }
-      // Filter out undefined or invalid sections and exclude index 8
       const sections = this.quranInfo.sections
         .map((section, index) => ({ section, index }))
         .filter(({ section, index }) => section && typeof section === 'object' && index !== 8)
@@ -321,7 +351,6 @@ export default {
           )
         });
       }
-      // Add FAQ section
       if (this.faq && Array.isArray(this.faq) && this.faq.length) {
         items.push({
           title: 'FAQ',
@@ -330,59 +359,78 @@ export default {
       }
       return items;
     },
-    // Check if any sections are open
     areAnyAccordionsOpen() {
       return this.isOpen.some(Boolean);
     },
-    // Check if all sections are open
     areAllAccordionsOpen() {
       return this.isOpen.every(Boolean);
     }
   },
   mounted() {
-    // Initialize isOpen, fontSizes, summaryLoading, and summaries only if accordionItems exists
     if (this.accordionItems.length) {
       this.isOpen = this.accordionItems.map((_, idx) => idx === 0);
       this.fontSizes = this.accordionItems.map(() => 1.05);
       this.summaryLoading = this.accordionItems.map(() => false);
       this.summaries = this.accordionItems.map(() => null);
+      this.wordCounts = this.accordionItems.map(item => this.computeWordCountAndReadTime(item).wordCount);
+      this.readTimes = this.accordionItems.map(item => this.computeWordCountAndReadTime(item).readTime);
     } else {
       this.isOpen = [];
       this.fontSizes = [];
       this.summaryLoading = [];
       this.summaries = [];
+      this.wordCounts = [];
+      this.readTimes = [];
     }
+    window.addEventListener('scroll', this.handleScroll);
+    // Load jsPDF
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    script.async = true;
+    document.head.appendChild(script);
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
-    // Open all sections
     openAllSections() {
       this.isOpen = this.accordionItems.map(() => true);
     },
-    // Close all sections
     closeAllSections() {
       this.isOpen = this.accordionItems.map(() => false);
     },
-    // Toggle section open state
     toggleSection(idx) {
       this.isOpen[idx] = !this.isOpen[idx];
+      if (this.isOpen[idx]) {
+        this.$nextTick(() => {
+          const firstButton = this.$el.querySelector(`#section-content-${idx} .btn:first-child`);
+          if (firstButton) firstButton.focus();
+        });
+      }
     },
-    // Increase font size for a specific section
+    focusPreviousSection(idx) {
+      const prevIdx = idx === 0 ? this.accordionItems.length - 1 : idx - 1;
+      const prevHeader = this.$refs.accordionHeaders[prevIdx];
+      if (prevHeader) prevHeader.focus();
+    },
+    focusNextSection(idx) {
+      const nextIdx = idx === this.accordionItems.length - 1 ? 0 : idx + 1;
+      const nextHeader = this.$refs.accordionHeaders[nextIdx];
+      if (nextHeader) nextHeader.focus();
+    },
     increaseFontSize(idx) {
       if (this.fontSizes[idx] < 1.3) {
         this.fontSizes[idx] = Math.min(1.3, this.fontSizes[idx] + 0.05);
       }
     },
-    // Decrease font size for a specific section
     decreaseFontSize(idx) {
       if (this.fontSizes[idx] > 0.8) {
         this.fontSizes[idx] = Math.max(0.8, this.fontSizes[idx] - 0.05);
       }
     },
-    // Placeholder for generating AI summary
     async summarizeEvent(idx) {
       this.summaryLoading[idx] = true;
       try {
-        // Simulate async AI summary generation (replace with actual API call)
         await new Promise(resolve => setTimeout(resolve, 1000));
         const item = this.accordionItems[idx];
         const detailsKeys = Object.keys(item.details || {});
@@ -401,21 +449,285 @@ export default {
         this.summaryLoading[idx] = false;
       }
     },
-    // Clear summary for a specific section
     clearSummary(idx) {
       this.summaries[idx] = null;
     },
-    // Format keys for display (e.g., 'key_name' -> 'key name')
     formatKey(key) {
       return key ? key.replace(/_/g, ' ') : '';
     },
-    // Check if item is a regular section (not Conclusion, References, or FAQ)
     isRegularSection(item) {
       return item && typeof item === 'object' && !item.conclusion && !item.references && !item.faq;
     },
-    // Safely get table columns
     getTableColumns(table) {
       return table && Array.isArray(table) && table[0] ? Object.keys(table[0]) : [];
+    },
+    handleScroll() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const documentHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrollPercent = documentHeight > 0 ? (scrollTop / documentHeight) * 100 : 0;
+      this.showScrollToTop = scrollPercent > 5;
+    },
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    computeWordCountAndReadTime(item) {
+      let text = '';
+      if (item.faq) {
+        text += item.faq.map(faq => `${faq.question} ${faq.answer}`).join(' ');
+      } else if (item.conclusion) {
+        text += `${item.conclusion.summary || ''} ${item.conclusion.final_thoughts || ''} ${item.conclusion.call_to_action || ''}`;
+      } else if (item.references) {
+        text += Object.values(item.references)
+          .flat()
+          .join(' ');
+      } else if (this.isRegularSection(item)) {
+        const details = item.details || {};
+        for (const [key, value] of Object.entries(details)) {
+          if (typeof value === 'string') {
+            text += `${value} `;
+          } else if (Array.isArray(value)) {
+            text += value.join(' ') + ' ';
+          } else if (typeof value === 'object' && value) {
+            if (key === 'recommendations') {
+              text += value.map(rec => `${rec.name} ${rec.description}`).join(' ') + ' ';
+            } else if (key === 'challenges') {
+              text += value.join(' ') + ' ';
+            } else {
+              text += Object.values(value).join(' ') + ' ';
+            }
+          }
+        }
+        if (item.significance) text += `${item.significance} `;
+        if (item.insights) text += item.insights.join(' ') + ' ';
+        if (item.table) {
+          text += item.table
+            .map(row => Object.values(row).join(' '))
+            .join(' ') + ' ';
+        }
+      }
+      const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+      const wordCount = words.length;
+      const readTime = wordCount > 0 ? Math.round(wordCount / 200) || '<1' : '<1';
+      return { wordCount, readTime };
+    },
+    printSection(idx) {
+      const item = this.accordionItems[idx];
+      const sectionContent = this.$el.querySelector(`#section-content-${idx}`);
+      if (!sectionContent) return;
+
+      const printContainer = document.createElement('div');
+      printContainer.style.fontFamily = 'Inter, Roboto, sans-serif';
+
+      const title = document.createElement('h2');
+      title.textContent = item.title || 'Untitled Section';
+      title.style.color = '#2d3748';
+      title.style.fontSize = '1.5rem';
+      title.style.marginBottom = '1rem';
+      printContainer.appendChild(title);
+
+      const contentClone = sectionContent.cloneNode(true);
+      const buttons = contentClone.querySelectorAll('.btn');
+      buttons.forEach(button => button.remove());
+      contentClone.style.fontSize = `${this.fontSizes[idx]}rem`;
+      printContainer.appendChild(contentClone);
+
+      const style = document.createElement('style');
+      style.textContent = `
+        @media print {
+          body > *:not(#print-section) { display: none; }
+          #print-section { display: block; }
+          .card-body { background-color: #ffffff; }
+          .alert { border: 1px solid #e2e8f0; }
+          table { border-collapse: collapse; }
+          th, td { border: 1px solid #e2e8f0; padding: 0.5rem; }
+        }
+      `;
+      printContainer.id = 'print-section';
+      document.body.appendChild(style);
+      document.body.appendChild(printContainer);
+
+      window.print();
+
+      document.body.removeChild(printContainer);
+      document.body.removeChild(style);
+    },
+    generatePDF(idx) {
+      const { jsPDF } = window.jspdf;
+      if (!jsPDF) {
+        alert('PDF generation library not loaded. Please try again.');
+        return;
+      }
+
+      const item = this.accordionItems[idx];
+      const title = item.title || 'Untitled Section';
+      const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'pt',
+        format: 'a4'
+      });
+
+      const marginLeft = 40;
+      let y = 40;
+      const lineHeight = 20;
+      const pageHeight = doc.internal.pageSize.height;
+      const maxWidth = doc.internal.pageSize.width - 2 * marginLeft;
+
+      const addText = (text, size, bold = false, color = [0, 0, 0]) => {
+        doc.setFontSize(size);
+        doc.setFont('helvetica', bold ? 'bold' : 'normal');
+        doc.setTextColor(...color);
+        const lines = doc.splitTextToSize(text, maxWidth);
+        lines.forEach(line => {
+          if (y + lineHeight > pageHeight - 40) {
+            doc.addPage();
+            y = 40;
+          }
+          doc.text(line, marginLeft, y);
+          y += lineHeight;
+        });
+        return y;
+      };
+
+      y = addText(title, 16, true, [45, 55, 72]);
+      y += 10;
+
+      if (item.faq) {
+        y = addText('Frequently Asked Questions', 14, true, [0, 191, 166]);
+        item.faq.forEach(faq => {
+          y = addText(faq.question, 12, true);
+          y = addText(faq.answer, 12 * this.fontSizes[idx], false, [74, 85, 104]);
+          y += 10;
+        });
+      } else if (item.conclusion) {
+        y = addText('Summary', 14, true, [0, 191, 166]);
+        y = addText(item.conclusion.summary || '', 12 * this.fontSizes[idx], false, [74, 85, 104]);
+        y += 10;
+        y = addText('Final Thoughts', 14, true, [0, 191, 166]);
+        y = addText(item.conclusion.final_thoughts || '', 12 * this.fontSizes[idx], false, [74, 85, 104]);
+        y += 10;
+        y = addText('Call to Action', 14, true, [0, 191, 166]);
+        y = addText(item.conclusion.call_to_action || '', 12 * this.fontSizes[idx], false, [74, 85, 104]);
+      } else if (item.references) {
+        Object.entries(item.references).forEach(([key, refs]) => {
+          y = addText(this.formatKey(key), 14, true, [0, 191, 166]);
+          refs.forEach(ref => {
+            y = addText(`• ${ref}`, 12 * this.fontSizes[idx], false, [74, 85, 104]);
+          });
+          y += 10;
+        });
+      } else if (this.isRegularSection(item)) {
+        const details = item.details || {};
+        for (const [key, value] of Object.entries(details)) {
+          y = addText(this.formatKey(key), 14, true, [0, 191, 166]);
+          if (typeof value === 'string') {
+            y = addText(value, 12 * this.fontSizes[idx], false, [74, 85, 104]);
+          } else if (Array.isArray(value)) {
+            value.forEach(subItem => {
+              y = addText(`• ${subItem}`, 12 * this.fontSizes[idx], false, [74, 85, 104]);
+            });
+          } else if (typeof value === 'object') {
+            if (key === 'recommendations') {
+              value.forEach(rec => {
+                y = addText(`${this.formatKey(rec.name)}: ${rec.description}`, 12 * this.fontSizes[idx], false, [74, 85, 104]);
+              });
+            } else if (key === 'challenges') {
+              value.forEach(ch => {
+                y = addText(`• ${ch}`, 12 * this.fontSizes[idx], false, [74, 85, 104]);
+              });
+            } else {
+              Object.entries(value).forEach(([k, v]) => {
+                y = addText(`${this.formatKey(k)}: ${v}`, 12 * this.fontSizes[idx], false, [74, 85, 104]);
+              });
+            }
+          }
+          y += 10;
+        }
+        if (item.significance) {
+          y = addText('Significance', 14, true, [0, 191, 166]);
+          y = addText(item.significance, 12 * this.fontSizes[idx], false, [74, 85, 104]);
+          y += 10;
+        }
+        if (item.insights) {
+          y = addText('Insights', 14, true, [0, 191, 166]);
+          item.insights.forEach(insight => {
+            y = addText(`• ${insight}`, 12 * this.fontSizes[idx], false, [74, 85, 104]);
+          });
+          y += 10;
+        }
+        if (item.table) {
+          y = addText('Comparative Table', 14, true, [0, 191, 166]);
+          const columns = this.getTableColumns(item.table);
+          const tableData = item.table.map(row => columns.map(col => row[col] || ''));
+          doc.autoTable({
+            startY: y,
+            head: [columns.map(col => this.formatKey(col))],
+            body: tableData,
+            theme: 'grid',
+            styles: { fontSize: 10 * this.fontSizes[idx], textColor: [74, 85, 104] },
+            headStyles: { fillColor: [247, 250, 252], textColor: [0, 191, 166], fontStyle: 'bold' },
+            margin: { left: marginLeft, right: marginLeft }
+          });
+          y = doc.lastAutoTable.finalY + 10;
+        }
+      }
+
+      try {
+        doc.save(`${title.replace(/\s+/g, '_').toLowerCase()}.pdf`);
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+        alert('Failed to generate PDF. Please try again.');
+      }
+    },
+    shareViaWhatsApp(idx) {
+      const item = this.accordionItems[idx];
+      const title = item.title || 'Untitled Section';
+      let shareText = `Quran History: ${title}\n`;
+
+      // Use AI summary if available, otherwise generate a brief summary
+      if (this.summaries[idx]) {
+        shareText += `${this.summaries[idx]}\n`;
+      } else {
+        if (item.faq) {
+          const firstFaq = item.faq[0] || {};
+          shareText += `FAQ: ${firstFaq.question || 'Questions about the Quran'} - ${firstFaq.answer || 'Learn more about the Quran’s history.'}\n`;
+        } else if (item.conclusion) {
+          shareText += `Conclusion: ${item.conclusion.summary || 'Summary of the Quran’s historical journey.'}\n`;
+        } else if (item.references) {
+          const firstRef = Object.values(item.references)[0]?.[0] || 'References for Quran history.';
+          shareText += `References: ${firstRef}\n`;
+        } else if (this.isRegularSection(item)) {
+          const details = item.details || {};
+          const firstDetail = Object.values(details)[0];
+          if (typeof firstDetail === 'string') {
+            shareText += `${this.formatKey(Object.keys(details)[0])}: ${firstDetail.substring(0, 100)}...\n`;
+          } else if (Array.isArray(firstDetail)) {
+            shareText += `${this.formatKey(Object.keys(details)[0])}: ${firstDetail[0] || 'Details about the Quran.'}\n`;
+          } else if (typeof firstDetail === 'object') {
+            const [key, value] = Object.entries(firstDetail)[0] || ['Details', 'Learn more.'];
+            shareText += `${this.formatKey(Object.keys(details)[0])} - ${this.formatKey(key)}: ${value.substring(0, 100)}...\n`;
+          }
+        }
+      }
+
+      // Add a generic app URL or section anchor (adjust as needed)
+      const appUrl = window.location.origin || 'https://example.com';
+      const sectionAnchor = `#section-content-${idx}`;
+      shareText += `Read more: ${appUrl}${sectionAnchor}`;
+
+      // Truncate to ~4000 characters to stay within WhatsApp limits
+      if (shareText.length > 4000) {
+        shareText = shareText.substring(0, 3997) + '...';
+      }
+
+      // Encode and open WhatsApp
+      const encodedText = encodeURIComponent(shareText);
+      const whatsappUrl = `https://wa.me/?text=${encodedText}`;
+      try {
+        window.open(whatsappUrl, '_blank');
+      } catch (error) {
+        console.error('Error sharing via WhatsApp:', error);
+        alert('Failed to share via WhatsApp. Please ensure WhatsApp is accessible.');
+      }
     }
   }
 };
@@ -456,8 +768,18 @@ export default {
   color: #2d3748;
 }
 
+/* FAB hover effect */
+.btn:hover .bi-arrow-up {
+  transform: scale(1.1);
+}
+
 /* Card header cursor */
 .card-header {
   user-select: none;
+}
+
+/* Word count and read time styling */
+.text-muted {
+  color: #6b7280 !important;
 }
 </style>
