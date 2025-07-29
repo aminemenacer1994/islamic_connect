@@ -290,7 +290,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/voice-recognition.png" width="60px" />
+                <img src="images/voice-recognition.png" width="70px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
@@ -325,16 +325,16 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/attached-file.png" width="60px" />
+                <img src="images/content.png" width="60px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
-                  Export Quranic Verses in multiple file Formats
+                  Generate Text Summary - Turn Long Text into Clear, Quick Insights
                 </h4>
                 <p>
-                  Easily export Quranic verses in multiple formats for study,
-                  research, and sharing, offering flexibility and convenience
-                  for personal reflection or educational purposes.
+                  Quickly condense long pieces of text into clear, concise summaries. 
+                  This feature uses AI to extract
+                  the key points and main ideas, helping you understand content faster and save time.
                 </p>
               </div>
             </div>

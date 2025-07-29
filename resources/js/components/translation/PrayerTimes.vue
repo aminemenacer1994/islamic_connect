@@ -227,7 +227,6 @@ export default {
 
 /* CSS Spinner */
 .spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
   border-left-color: rgb(12, 208, 149);
   border-radius: 50%;
   width: 40px;
