@@ -69,7 +69,8 @@
 
           </div>
         </div>
-        <PrayerTimes />
+        <PrayerTimes class="mb-3"/>
+        <AyahOfTheDay class="container"/>
 
         <!-- <section class="py-5 bg-transparent">
           <div class="container text-center mb-4">
@@ -332,7 +333,7 @@
                   Generate Text Summary - Turn Long Text into Clear, Quick Insights
                 </h4>
                 <p>
-                  Quickly condense long pieces of text into clear, concise summaries. 
+                  Quickly condense long pieces of text into clear, concise summaries.
                   This feature uses AI to extract
                   the key points and main ideas, helping you understand content faster and save time.
                 </p>
@@ -380,8 +381,45 @@
       </div>
     </section>
 
-    <!-- faq -->
-    <!-- <section class="py-5">
+    <!-- newsletter -->
+    <section class="py-4 my-md-5">
+      <div class="container">
+        <div class="text-center">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <span class="text-muted">Newsletter</span>
+              <h2 class="display-5 fw-bold">Subscribe Today</h2>
+              <p class="lead">
+                Stay connected with Islamic Connect — subscribe to our newsletter for the latest updates, new features,
+                inspiring articles, and resources to deepen your Islamic knowledge.
+              </p>
+              <div class="mx-auto mt-3">
+                <form class="row g-3">
+                  <div class="col-md-4">
+                    <input class="form-control bg-light" placeholder="Full name" type="text">
+                  </div>
+                  <div class="col-md-4">
+                    <input class="form-control bg-light" placeholder="Email address" type="text">
+                  </div>
+                  <div class="col-md-4">
+                    <div class="d-grid">
+                      <button class="form-control btn "
+                        style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; "
+                        type="button">
+                        <b>Subscribe</b>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- faq 
+    <section class="py-5">
       <div class="container">
         <div class="row justify-content-center text-center mb-5">
           <div class="col-lg-8 col-xxl-7">
@@ -473,13 +511,13 @@
               </div>
             </div>
           </div>
-        </div> 
+        </div>
       </div>
-    </section>-->
-
+    </section>
+    -->
 
     <!-- contact -->
-    <section class="py-5">
+    <section class="py-5" style="background: #e3e3e3; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
       <div class="container-fluid">
         <div class="row justify-content-center text-center">
           <div class="col-lg-8 col-xxl-7">
@@ -734,7 +772,7 @@
 /* CSS */
 .button-37 {
   background-color: rgb(53, 163, 139);
-  border: 1px solid rgb(53, 163, 139);
+  border: 1px solid darkgreen;
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;
   box-sizing: border-box;
@@ -778,7 +816,7 @@
       margin: 5px;
       padding: 10px 20px;
       border: none;
-      background-color: rgb(13, 182, 145);
+      background-color: darkgreen;
       color: white;
       border-radius: 5px;
       cursor: pointer;
@@ -792,7 +830,7 @@
     }
 
     .controls button:hover:not(:disabled) {
-      background-color: #0db691;
+      background-color: darkgreen;
     }
   }
 }
@@ -800,10 +838,13 @@
 <script defer>
 import axios from "axios";
 import PrayerTimes from "./translation/PrayerTimes.vue";
+import AyahOfTheDay from './translation/AyahOfTheDay.vue';
+
 export default {
   components: {
     // HijriCalendar
     PrayerTimes,
+    AyahOfTheDay
   },
   data() {
     return {

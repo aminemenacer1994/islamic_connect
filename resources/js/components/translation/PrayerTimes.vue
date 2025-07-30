@@ -45,8 +45,8 @@
           :key="prayer"
         >
           <li
-            class="list-group-item list-group-item-success active"
-            style="background: rgb(13, 182, 145); border: 3px solid darkgreen; border-radius: 10px"
+            class="list-group-item list-group-item-success active shadow-lg"
+            style="  border-radius: 8px"
             aria-current="true"
             :class="{ 'border-warning': prayer === nextPrayer }"
           >

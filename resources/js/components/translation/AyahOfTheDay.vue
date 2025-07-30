@@ -1,43 +1,31 @@
 <template>
   <!-- Ayah of the Day Message Box -->
-  <div v-if="isVisible">
+  <div v-if="isVisible" >
+    <h3 class="pt-2 fw-bold container mb-2 text-dark text-left">Ayah of the Day:</h3>
     <div
+      class="shadow-lg bg-white"
       v-if="ayah"
-      style="padding: 5px; background: #268a75; border-radius: 8px; position: relative;">
+      style="padding: 5px; position: relative; border-radius: 8px;">
       <!-- Close Icon -->
-      <button
-        @click="closeMessageBox"
-        style="position: absolute; top: 5px; right: 5px; color: white; background: none; border: none; cursor: pointer;">
-        X
-      </button>
-
-      <div class="row" style="padding: 15px;">
+      
+      <div class="row " style="padding: 15px;">
         <div class="col-md-6">
-          <h5 class="pt-2 text-white text-left">Ayah of the Day:</h5>
-        </div>
-        <div class="col-md-6">
-          <h5
-            class="pt-2 text-white text-right"
+          <h4
+            class="pt-2 text-dark fw-bold text-left"
             style="text-align: center;">
-            {{ ayah.surahNumber }}:{{ ayah.ayahNumber }} - {{ ayah.surah }}
-          </h5>
+            {{ ayah.surahNumber }} : {{ ayah.ayahNumber }} - {{ ayah.surah }}
+          </h4>
         </div>
       </div>
 
       <!-- Ayah Content -->
-      <div style="padding: 5px;" class="pb-1 card-body text-white">
-        <h4 class="arabic text-dark text-white text-right">{{ ayah.arabic }}</h4>
+      <div style="padding: 5px;" class="pb-1 card-body text-dark fw-bold">
+        <h4 class="arabic text-dark text-dark text-right">{{ ayah.arabic }}</h4>
       </div>
     </div>
   </div>
 
-  <!-- Button to Reopen the Card -->
-  <button
-    v-if="!isVisible"
-    @click="openMessageBox"
-    style="margin-top: 10px; padding: 10px; background: #268a75; color: white; border: none; border-radius: 5px; cursor: pointer;">
-    Show Ayah of the Day
-  </button>
+  
 </template>
 
 <script>
@@ -134,5 +122,12 @@ button {
 /* Button hover effect */
 button:hover {
   color: #f5f5f5;
+}
+
+@media (min-width: 768px) {
+  .col-md-6 {
+      flex: 0 0 auto;
+      width: 100%;
+  }
 }
 </style>
