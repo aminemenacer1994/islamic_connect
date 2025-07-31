@@ -2,9 +2,7 @@
   <div class="container-fluid mt-3">
     <div class="text-center container">
       <div class="row mb-3" style="align-items: center; text-align: center">
-        <div class="col-md-4">
-          <p class="display-6 mt-3 fw-bold ">Prayer times</p>
-        </div>
+        <h2 class="pt-2 fw-bold container mb-2 text-dark text-left">Prayer times:</h2>
         
         <div class="col-md-4">
           <!-- City Name -->

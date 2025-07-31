@@ -1,11 +1,11 @@
 <template>
   <!-- Ayah of the Day Message Box -->
-  <div v-if="isVisible" >
+  <div v-if="isVisible" style="padding: 10px; border-radius: 15px;">
     <h3 class="pt-2 fw-bold container mb-2 text-dark text-left">Ayah of the Day:</h3>
     <div
-      class="shadow-lg bg-white"
+      class="shadow-md"
       v-if="ayah"
-      style="padding: 5px; position: relative; border-radius: 8px;">
+      style="padding: 12px; position: relative; border-radius: 8px;">
       <!-- Close Icon -->
       
       <div class="row " style="padding: 15px;">
@@ -131,3 +131,4 @@ button:hover {
   }
 }
 </style>
+

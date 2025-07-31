@@ -320,6 +320,45 @@
           </div>
         </transition>
       </div>
+
+      <!-- FAQ Section -->
+      <div class="row g-4 justify-content-center mt-4">
+        <div class="col-lg-9">
+          <div class="card shadow-md rounded-4">
+            <div class="card-body p-lg-5">
+              <h2 class="mb-4 fw-bold text-dark text-left">Zakat FAQs</h2>
+              <div class="accordion" id="zakatFaqAccordion">
+                <div class="accordion-item" v-for="(faq, index) in faqs" :key="index">
+                  <h2 class="accordion-header" :id="'faq-heading-' + index">
+                    <button
+                      class="accordion-button"
+                      :class="{ collapsed: !faq.isOpen }"
+                      type="button"
+                      @click="toggleFaq(index)"
+                      :aria-expanded="faq.isOpen"
+                      :aria-controls="'faq-collapse-' + index"
+                    >
+                      <span class="material-icons me-2"></span>
+                      {{ faq.question }}
+                    </button>
+                  </h2>
+                  <div
+                    :id="'faq-collapse-' + index"
+                    class="accordion-collapse collapse"
+                    :class="{ show: faq.isOpen }"
+                    :aria-labelledby="'faq-heading-' + index"
+                    data-bs-parent="#zakatFaqAccordion"
+                  >
+                    <div class="accordion-body">
+                      {{ faq.answer }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -372,6 +411,38 @@ export default {
         MYR: 'RM',
         IDR: 'Rp',
       },
+      faqs: [
+        {
+          question: 'What is Zakat?',
+          answer: 'Zakat is one of the Five Pillars of Islam, an obligatory form of charity where eligible Muslims give 2.5% of their wealth annually to purify their wealth and support the needy. It promotes social justice and spiritual growth.',
+          isOpen: false,
+        },
+        {
+          question: 'Who is eligible to pay Zakat?',
+          answer: 'Every sane, adult Muslim whose net wealth exceeds the Nisab threshold (e.g., 85g of gold or 595g of silver) for one lunar year (Hawl) is required to pay Zakat.',
+          isOpen: false,
+        },
+        {
+          question: 'What types of assets are zakatable?',
+          answer: 'Zakatable assets include cash, savings, gold, silver, investments (stocks, shares), business inventory, and investment properties held for a lunar year. Personal items like your primary home or car are exempt.',
+          isOpen: false,
+        },
+        {
+          question: 'How is Zakat calculated?',
+          answer: 'Sum your zakatable assets, subtract deductible liabilities (e.g., short-term debts), and if the net wealth exceeds the Nisab, pay 2.5% as Zakat. For agricultural produce, pay 5% (irrigated) or 10% (rain-fed).',
+          isOpen: false,
+        },
+        {
+          question: 'When should Zakat be paid?',
+          answer: 'Zakat is due after one lunar year (Hawl) of possessing wealth above the Nisab. Many Muslims choose to pay during Ramadan for increased spiritual rewards, but it can be paid anytime during the year.',
+          isOpen: false,
+        },
+        {
+          question: 'Who can receive Zakat?',
+          answer: 'Zakat can be given to eight categories outlined in the Quran (Surah At-Tawbah, 9:60): the poor, the needy, Zakat administrators, those whose hearts are to be reconciled, those in bondage, debtors, those in the cause of Allah, and stranded travelers.',
+          isOpen: false,
+        },
+      ],
     };
   },
   computed: {
@@ -799,6 +870,9 @@ export default {
         this.isLoadingPrices = false;
       }
     },
+    toggleFaq(index) {
+      this.faqs[index].isOpen = !this.faqs[index].isOpen;
+    },
   },
   watch: {},
   mounted() {
@@ -849,6 +923,30 @@ export default {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.accordion-item {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.accordion-button {
+  font-weight: bold;
+  color: #212529;
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+}
+
+.accordion-body {
+  background-color: #f8f9fa;
+  border-radius: 0 0 0.5rem 0.5rem;
+  padding: 1.5rem;
 }
 
 @media (min-width: 992px) {

@@ -60,9 +60,9 @@
     <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
     <div class="row rtl-text">
-      <div style="padding: 12px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 8px;"
+      <div style="padding: 12px;  border-radius: 8px;"
         ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number"
-        class="col-md-12 mb-2 mt-2 ayah-card-container" :class="{
+        class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" :class="{
           'highlighted': isHighlighted && currentlyPlayingIndex === index,
           'currently-playing': isAudioPlaying[index]
         }">
@@ -226,8 +226,8 @@ export default {
       translations: [],
       surahDetails: null,
       searchQuery: "",
-      arabicFontSize: 23,
-      translationFontSize: 19,
+      arabicFontSize: 25,
+      translationFontSize: 22,
       highlightedWordIndex: -1,
       progress: [],
       audioElements: [],
@@ -1514,7 +1514,7 @@ html {
   }
 
   .arabic-text {
-    font-size: 1.2rem !important;
+    font-size: 1.7rem !important;
     line-height: 2;
   }
 
