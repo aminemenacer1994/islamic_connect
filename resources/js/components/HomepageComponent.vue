@@ -103,59 +103,68 @@
       <AyahOfTheDay class="container" />
     </section>
 
+
+
     <section>
       <div class="container text-center">
         <div class="row">
-          <div class="col-md-4">
-            <div class="col-md-12 col-lg-12">
-                <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
-                    <div class="p-3">
-                        <h5 class="mb-2 fw-bold display-6 text-dark text-center">Quran History</h5>
-                        <p class="card-text text-muted text-wrap text-center"
-                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the rich history of the Quran from its divine revelation to its meticulous preservation right at your fingertips.</p>
-                        <button class="form-control" onclick="window.location.href='/history'"
-                            style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
-                            type="submit">
-                            <span class="text-center w-100"><b>Discover History</b></span>
-                        </button>
-                    </div>
+          <h2 class="pt-2 fw-bold container text-dark text-left">Explore:</h2>
+
+          <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+              <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+                <div class="p-3">
+                  <h5 class="mb-2 fw-bold display-6 text-dark text-center">Audio Podcasts</h5>
+                  <p class="card-text text-muted text-wrap text-center"
+                    style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
+                    Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of
+                    Islamic
+                    faith, history, and daily life.</p>
+                  <button class="form-control" onclick="window.location.href='/content'"
+                    style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                    type="submit">
+                    <span class="text-center w-100"><b>Stream Podcasts</b></span>
+                  </button>
                 </div>
+              </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="col-md-12 col-lg-12">
+            <div class="col-md-4">
+              <div class="col-md-12 col-lg-12">
                 <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
-                    
-                    <div class="p-3">
-                        <h5 class="mb-2 fw-bold display-6 text-dark text-center">Quran History</h5>
-                        <p class="card-text text-muted text-wrap text-center"
-                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the rich history of the Quran from its divine revelation to its meticulous preservation right at your fingertips.</p>
-                        <button class="form-control" onclick="window.location.href='/history'"
-                            style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
-                            type="submit">
-                            <span class="text-center w-100"><b>Discover History</b></span>
-                        </button>
-                    </div>
+
+                  <div class="p-3">
+                    <h5 class="mb-2 fw-bold display-6 text-dark text-center">Quran History</h5>
+                    <p class="card-text text-muted text-wrap text-center"
+                      style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the rich history of
+                      the Quran from its divine revelation to its meticulous preservation right at your fingertips.</p>
+                    <button class="form-control" onclick="window.location.href='/history'"
+                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                      type="submit">
+                      <span class="text-center w-100"><b>Discover History</b></span>
+                    </button>
+                  </div>
                 </div>
+              </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="col-md-12 col-lg-12">
-                <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
-                    <div class="p-3">
-                        <h5 class="mb-2 fw-bold display-6 text-dark text-center">Quran History</h5>
-                        <p class="card-text text-muted text-wrap text-center"
-                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the rich history of the Quran from its divine revelation to its meticulous preservation right at your fingertips.</p>
-                        <button class="form-control" onclick="window.location.href='/history'"
-                            style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
-                            type="submit">
-                            <span class="text-center w-100"><b>Discover History</b></span>
-                        </button>
-                    </div>
+            <div class="col-lg-4">
+              <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+                <div class="p-3">
+                  <h5 class="mb-2 fw-bold display-6 text-dark text-center">Dua Collection</h5>
+                  <p class="card-text text-muted text-wrap text-center"
+                    style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Authentic Duas from the Qur’an
+                    and
+                    Sunnah for every occasion—complete with Arabic, translation and audio to help you
+                    reflect and connect.</p>
+                  <button class="form-control" onclick="window.location.href='/dua'"
+                    style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                    type="submit">
+                    <span class="text-center w-100"><b>Explore Duas</b></span>
+                  </button>
                 </div>
+              </div>
             </div>
+
           </div>
-          
         </div>
       </div>
     </section>

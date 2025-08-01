@@ -739,20 +739,31 @@ export default {
 
         // Process and sort podcasts
         this.podcasts = Array.from(items)
-          .map(item => ({
-            title: item.getElementsByTagName('title')[0]?.textContent || 'No title',
-            pubDate: item.getElementsByTagName('pubDate')[0]?.textContent || 'Unknown',
-            description: item.getElementsByTagName('description')[0]?.textContent || 'No description available.',
-            audioUrl: item.getElementsByTagName('enclosure')[0]?.getAttribute('url') || null,
-            views: Math.floor(Math.random() * 1000),
-            duration: Math.floor(Math.random() * 60) + 5, // Simulated duration
-            language: this.detectLanguage(item.getElementsByTagName('title')[0]?.textContent || '') // Detect language
-          }))
-          .filter(podcast => podcast.audioUrl) // Remove items without audio
-          .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); // Sort by pubDate (newest to oldest)
+          .map(item => {
+            const pubDate = item.getElementsByTagName('pubDate')[0]?.textContent || 'Unknown';
+            console.log('Raw pubDate:', pubDate); // Log raw value
+            return {
+              title: item.getElementsByTagName('title')[0]?.textContent || 'No title',
+              pubDate,
+              description: item.getElementsByTagName('description')[0]?.textContent || 'No description available.',
+              audioUrl: item.getElementsByTagName('enclosure')[0]?.getAttribute('url') || null,
+              views: Math.floor(Math.random() * 1000),
+              duration: Math.floor(Math.random() * 60) + 5,
+              language: this.detectLanguage(item.getElementsByTagName('title')[0]?.textContent || '')
+            };
+          })
+          .filter(podcast => podcast.audioUrl)
+          .sort((a, b) => {
+            const dateA = new Date(a.pubDate);
+            const dateB = new Date(b.pubDate);
+            if (isNaN(dateA.getTime())) return 1;
+            if (isNaN(dateB.getTime())) return -1;
+            return dateB - dateA;
+          });
 
         // Assign sorted podcasts to paginatedPodcasts
         this.paginatedPodcasts = [...this.podcasts];
+        console.log('Sorted podcasts:', this.paginatedPodcasts.map(p => ({ title: p.title, pubDate: p.pubDate })));
 
         this.applyFilters(); // Apply filters after fetching
       } catch (error) {
@@ -1717,7 +1728,8 @@ export default {
     flex-wrap: wrap;
     gap: 10px;
     justify-content: space-around;
-    width: 100% !important; /* Bootstrap w-100 equivalent */
+    width: 100% !important;
+    /* Bootstrap w-100 equivalent */
   }
 
   .control-btn {

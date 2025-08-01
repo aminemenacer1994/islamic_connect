@@ -60,6 +60,7 @@
     <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
     <div class="row rtl-text">
+      
       <div style="padding: 12px;  border-radius: 8px;"
         ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number"
         class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" :class="{
@@ -118,10 +119,12 @@
               </div>
             </div>
           </div>
+          <hr>
 
           <!-- Mobile/Tablet Layout: Text then Icons -->
-          <div class="d-block d-md-none">
-            <div style="padding: 2px;">
+           
+          <div style="padding: 8px;" class="d-block d-md-none">
+            <div >
               <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
                 :style="{ fontSize: arabicFontSize + 'px' }"></p>
               <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h4>
@@ -129,15 +132,7 @@
                 :style="{ fontSize: translationFontSize + 'px' }"></p>
             </div>
             <div class="row mb-3" style="display: flex; justify-content: center; margin: 0 -5px;">
-              <div class="col-2 text-center" style="padding: 3px;">
-                <div @click="toggleAudioPlayer(index)" style="cursor: pointer;">
-                  <i v-if="isAudioLoading[index]" class="bi bi-hourglass-split" style="font-size: 1.7rem;"
-                    data-bs-toggle="tooltip" data-bs-placement="top" title="Loading"></i>
-                  <i v-else class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
-                    style="font-size: 1.7rem;" data-bs-toggle="tooltip" data-bs-placement="top"
-                    :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
-                </div>
-              </div>
+              
               <div class="col-2 text-center" style="padding: 3px;">
                 <div @click="decreaseFontSize" style="cursor: pointer;">
                   <i class="bi bi-dash-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
@@ -148,6 +143,21 @@
                 <div @click="increaseFontSize" style="cursor: pointer;">
                   <i class="bi bi-plus-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Increase Font Size"></i>
+                </div>
+              </div>
+              <div class="col-2 text-center" style="padding: 3px;">
+                <div @click="toggleAudioPlayer(index)" style="cursor: pointer;">
+                  <i v-if="isAudioLoading[index]" class="bi bi-hourglass-split" style="font-size: 1.7rem;"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Loading"></i>
+                  <i v-else class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
+                    style="font-size: 1.7rem;" data-bs-toggle="tooltip" data-bs-placement="top"
+                    :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
+                </div>
+              </div>
+              <div class="col-2 text-center" style="padding: 3px;">
+                <div @click="rewindAudio(index)" style="cursor: pointer;">
+                  <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Rewind"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
@@ -167,6 +177,7 @@
         </div>
       </div>
     </div>
+    
 
     <!-- Global Custom Audio Player -->
     <div v-if="showAudioPlayer" class="audio-player-container">
@@ -358,6 +369,12 @@ export default {
     }
   },
   methods: {
+    rewindAudio(index) {
+      const audio = this.$refs.audioElements[index]; // Adjust based on your setup
+      if (audio) {
+        audio.currentTime = Math.max(0, audio.currentTime - 10); // Rewind by 10 seconds, prevent negative time
+      }
+    },
     ensureCardPositionsCached: function (callback, attempts = 0, maxAttempts = 10) {
       // Since we're now calculating positions in real-time, this method is simplified
       this.$nextTick(() => {
@@ -1356,8 +1373,8 @@ html {
 }
 
 .currently-playing {
-  background-color: #e8f5e8;
-  border: 2px solid #28a745;
+  background-color: #00bfa640;
+  border: 2px solid #00bfa640;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);
   transform: scale(1.02);
