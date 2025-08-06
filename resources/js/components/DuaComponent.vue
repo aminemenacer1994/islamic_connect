@@ -17,7 +17,7 @@
     </transition>
 
     <!-- Custom Search Tags -->
-    <div class="container mb-4">
+    <!-- <div class="container mb-4">
       <div class="search-tags d-flex overflow-auto pb-2">
         <button v-for="tag in searchTags" :key="tag" class="tag-btn me-2"
           :class="{ active: selectedTag === tag || (tag === 'All' && !selectedTag) }" @click="toggleTag(tag)"
@@ -26,7 +26,7 @@
           {{ tag }}
         </button>
       </div>
-    </div>
+    </div> -->
 
     <!-- Search Input -->
     <div class="container mb-4">
@@ -41,7 +41,6 @@
               <input v-model="searchQuery" type="text" class="form-control search-input"
                 placeholder="Search duas by title, Arabic words, translation, or reference" aria-label="Search Duas"
                 @input="resetPagination" style="height: 50px; font-size: 1.2rem; padding: 0.75rem;" />
-              <!-- Increased height and font size -->
               <button v-if="searchQuery || selectedTag || selectedReference" class="btn btn-outline-secondary"
                 @click="clearSearch" aria-label="Clear search" style="font-size: 1.5rem; padding: 0.75rem;">
                 <i class="bi bi-x"></i>
@@ -85,7 +84,7 @@
         <div class="col-md-6">
           <div class="dropdown-card">
             <h5 class="dropdown-label">
-              <div class="fw-bold"><i class="bi bi-bookmark-fill me-2"></i>Select a Category:</div>
+              <div class="fw-bold">Select a Category:</div>
             </h5>
             <select v-model="selectedCategory" class="form-select" @change="resetPagination">
               <option value="">All Categories</option>
@@ -98,7 +97,7 @@
         <div class="col-md-6">
           <div class="dropdown-card">
             <h5 class="dropdown-label">
-              <div class="fw-bold"><i class="bi bi-book-fill me-2"></i>Select a Reference:</div>
+              <div class="fw-bold">Select a Reference:</div>
             </h5>
             <select v-model="selectedReference" class="form-select" @change="resetPagination">
               <option value="">All References</option>
@@ -119,14 +118,6 @@
         <button type="button" class="btn-close" @click="showCopyMessage = false" aria-label="Close"></button>
       </div>
     </transition>
-
-    <!-- Scroll to Top FAB -->
-    <!-- <transition name="fade">
-      <button v-if="showScrollToTop" class="fab btn" style="background-color: #0db691;" @click="scrollToTop"
-        aria-label="Scroll to top">
-        <i class="bi bi-arrow-up-circle-fill fab-icon text-white"></i>
-      </button>
-    </transition> -->
 
     <!-- Duas Display -->
     <div class="container">
@@ -152,7 +143,7 @@
           </div>
         </div>
 
-        <div v-if="!category.collapsed" class="row  g-3">
+        <div v-if="!category.collapsed" class="row g-3">
           <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-12 col-md-6">
             <div class="card dua-card h-100 border-0 shadow-sm position-relative"
               :class="{ 'border-start border-danger border-3': viewMode === 'liked' }"
@@ -234,6 +225,28 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div v-if="!category.collapsed && category.duas.length > duasPerPage" class="d-flex justify-content-center mt-4">
+          <nav aria-label="Dua pagination">
+            <ul class="pagination">
+              <li class="page-item" :class="{ disabled: currentPage[category.id] === 1 }">
+                <button class="page-link" @click="changePage('prev', category.id)" aria-label="Previous page">
+                  <span aria-hidden="true">&laquo; Previous</span>
+                </button>
+              </li>
+              <li v-for="page in totalPages(category.duas)" :key="page" class="page-item"
+                  :class="{ active: currentPage[category.id] === page }">
+                <button class="page-link" @click="currentPage[category.id] = page">{{ page }}</button>
+              </li>
+              <li class="page-item" :class="{ disabled: currentPage[category.id] === totalPages(category.duas) }">
+                <button class="page-link" @click="changePage('next', category.id)" aria-label="Next page">
+                  <span aria-hidden="true">Next &raquo;</span>
+                </button>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>

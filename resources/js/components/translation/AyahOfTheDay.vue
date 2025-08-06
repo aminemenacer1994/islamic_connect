@@ -1,21 +1,22 @@
 <template>
   <div v-if="isVisible" class="ayah-container">
     <div class="ayah-header d-flex justify-content-between align-items-center mb-3">
-      <h3 class="mb-0 fw-bold">Ayah of the Day</h3>
+      <h3 class="mb-0 fw-bold text-dark">Ayah of the Day</h3>
       <button 
-        class="btn btn-sm btn-outline-secondary" 
+        class="btn btn-close-btn" 
         @click="closeMessageBox"
+        aria-label="Close Ayah of the Day"
         title="Close">
         <i class="bi bi-x-lg"></i>
       </button>
     </div>
 
-    <div class="card shadow-sm border-0">
+    <div class="card ayah-card shadow-sm">
       <!-- Surah Info -->
-      <div class="card-header bg-white border-0">
-        <h4 class="text-left  fw-bold mb-0">
+      <div class="card-header">
+        <h5 class="fw-bold mb-0 text-center text-dark">
           {{ ayah.surahNumber }} : {{ ayah.ayahNumber }} - {{ ayah.surah }}
-        </h4>
+        </h5>
       </div>
       
       <!-- Ayah Content -->
@@ -30,7 +31,10 @@
         </div>
         
         <!-- Translation -->
-        <div v-if="showTranslation && selectedTranslation" class="translation-container mb-4 p-3 bg-light rounded">
+        <div 
+          v-if="showTranslation && selectedTranslation" 
+          class="translation-container mb-4 p-3 rounded"
+          :class="{ 'show': showTranslation }">
           <div 
             class="translation-text"
             :class="{ 'rtl': isRtlLanguage(selectedLanguage) }"
@@ -40,7 +44,10 @@
         </div>
         
         <!-- Tafsir -->
-        <div v-if="showTafsir && ayah.tafsir" class="tafsir-container mt-4 p-3 bg-light rounded">
+        <div 
+          v-if="showTafsir && ayah.tafsir" 
+          class="tafsir-container mt-4 p-3 rounded"
+          :class="{ 'show': showTafsir }">
           <h6 class="text-muted mb-2 fw-bold">Tafsir</h6>
           <p class="tafsir-text mb-0" :style="{ fontSize: `${fontSize * 0.8}rem` }">
             {{ ayah.tafsir }}
@@ -48,23 +55,25 @@
         </div>
       </div>
       
-      <!-- Action Buttons - Now more visible -->
-      <div class="card-footer bg-white border-0 pt-3">
-        <div class="d-flex flex-wrap justify-content-center gap-3">
+      <!-- Action Buttons -->
+      <div class="card-footer pt-3">
+        <div class="d-flex flex-wrap justify-content-center gap-2">
           <!-- Font Controls -->
-          <div class="btn-group">
+          <div class="btn-group" role="group" aria-label="Font size controls">
             <button 
-              class="btn btn-sm btn-outline-dark d-flex align-items-center"
+              class="btn btn-primary btn-sm d-flex align-items-center"
               @click="decreaseFontSize"
               :disabled="fontSize <= 0.8"
+              aria-label="Decrease font size"
               title="Decrease Font Size">
               <i class="bi bi-dash-lg me-1"></i>
               <span class="d-none d-sm-inline">Smaller</span>
             </button>
             <button 
-              class="btn btn-sm btn-outline-dark d-flex align-items-center"
+              class="btn btn-primary btn-sm d-flex align-items-center"
               @click="increaseFontSize"
               :disabled="fontSize >= 2"
+              aria-label="Increase font size"
               title="Increase Font Size">
               <i class="bi bi-plus-lg me-1"></i>
               <span class="d-none d-sm-inline">Larger</span>
@@ -72,16 +81,18 @@
           </div>
           
           <!-- Translation Dropdown -->
-          <div class="dropdown">
+          <div class="dropdown" v-if="availableTranslations.length">
             <button 
-              class="btn btn-sm btn-outline-dark dropdown-toggle d-flex align-items-center"
+              class="btn btn-primary btn-sm dropdown-toggle d-flex align-items-center"
               type="button" 
               id="translationDropdown" 
               data-bs-toggle="dropdown" 
               aria-expanded="false"
-              title="Translation">
+              :disabled="!availableTranslations.length"
+              aria-label="Toggle translation"
+              title="Toggle Translation">
               <i class="bi bi-translate me-1"></i>
-              <span class="d-none d-sm-inline">Translation</span>
+              <span class="d-none d-sm-inline">{{ showTranslation ? 'Hide' : 'Show' }} Translation</span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="translationDropdown">
               <li v-for="lang in availableTranslations" :key="lang">
@@ -97,18 +108,21 @@
           
           <!-- Tafsir Toggle -->
           <button 
-            class="btn btn-sm btn-outline-dark d-flex align-items-center"
+            class="btn btn-primary btn-sm d-flex align-items-center"
+            :class="{ 'active': showTafsir }"
             @click="toggleTafsir"
             v-if="ayah.tafsir"
-            title="Tafsir">
+            aria-label="Toggle tafsir"
+            title="Toggle Tafsir">
             <i class="bi bi-book me-1"></i>
-            <span class="d-none d-sm-inline">Tafsir</span>
+            <span class="d-none d-sm-inline">{{ showTafsir ? 'Hide' : 'Show' }} Tafsir</span>
           </button>
           
           <!-- Copy -->
           <button 
-            class="btn btn-sm btn-outline-dark d-flex align-items-center"
+            class="btn btn-primary btn-sm d-flex align-items-center"
             @click="copyToClipboard"
+            aria-label="Copy ayah"
             title="Copy">
             <i class="bi bi-clipboard me-1"></i>
             <span class="d-none d-sm-inline">Copy</span>
@@ -116,8 +130,9 @@
           
           <!-- Share -->
           <button 
-            class="btn btn-sm btn-outline-dark d-flex align-items-center"
+            class="btn btn-primary btn-sm d-flex align-items-center"
             @click="shareAyah"
+            aria-label="Share ayah"
             title="Share">
             <i class="bi bi-share me-1"></i>
             <span class="d-none d-sm-inline">Share</span>
@@ -130,7 +145,7 @@
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div 
         id="copyToast" 
-        class="toast align-items-center text-white bg-success border-0" 
+        class="toast align-items-center text-white bg-gradient border-0" 
         role="alert" 
         aria-live="assertive" 
         aria-atomic="true">
@@ -215,6 +230,7 @@ export default {
           }
         } catch (error) {
           console.error("Error fetching Ayah:", error);
+          this.ayah = null;
         }
       } else {
         this.ayah = JSON.parse(localStorage.getItem('ayahData'));
@@ -228,6 +244,8 @@ export default {
       navigator.clipboard.writeText(textToCopy).then(() => {
         const toast = new bootstrap.Toast(document.getElementById('copyToast'));
         toast.show();
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
       });
     },
     shareAyah() {
@@ -240,6 +258,8 @@ export default {
           title: `Surah ${this.ayah.surah} Ayah ${this.ayah.ayahNumber}`,
           text: textToShare,
           url: window.location.href
+        }).catch(err => {
+          console.error('Failed to share: ', err);
         });
       } else {
         this.copyToClipboard();
@@ -273,72 +293,166 @@ export default {
 
 <style scoped>
 .ayah-container {
-  margin: 0 auto;
+  margin: 2rem auto;
   padding: 1.5rem;
 }
 
 .ayah-header {
-  padding: 0 0.5rem;
+  padding: 0 1rem;
 }
 
-.card {
-  border-radius: 12px;
+.ayah-card {
+  border-radius: 16px;
+  border: none;
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.card-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 1rem 1.5rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-footer {
+  background: transparent;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 1rem 1.5rem;
 }
 
 .arabic-text {
-  font-family: "Amiri", "Scheherazade New", "Lateef", sans-serif;
+  font-family: "Amiri", "Noto Naskh Arabic", "Scheherazade New", "Lateef", sans-serif;
   direction: rtl;
-  line-height: 2.8;
-  color: #333;
+  line-height: 2.5;
+  color: #1a3c34;
   font-weight: 600;
+}
+
+.translation-container {
+  background: #f1f3f5;
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.translation-container.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .translation-text {
   line-height: 1.8;
-  color: #555;
+  color: #343a40;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .translation-text.rtl {
   direction: rtl;
   text-align: right;
-  font-family: "Amiri", "Lateef", sans-serif;
+  font-family: "Amiri", "Noto Naskh Arabic", "Lateef", sans-serif;
 }
 
-.card-footer {
-  border-top: 1px solid rgba(0,0,0,0.05);
+.tafsir-container {
+  background: #e9ecef;
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.btn-outline-dark {
-  border-width: 2px;
-  font-weight: 500;
+.tafsir-container.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.btn-outline-dark:hover {
-  background-color: rgba(13, 110, 253, 0.1);
+.tafsir-text {
+  line-height: 1.6;
+  color: #495057;
+}
+
+.btn-primary {
+  background-color: #1a3c34;
+  border-color: #1a3c34;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+  background-color: #2a5c4e;
+  border-color: #2a5c4e;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active, .btn-primary.active {
+  background-color: #14332b;
+  border-color: #14332b;
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  opacity: 0.65;
+}
+
+.btn-close-btn {
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.btn-close-btn:hover {
+  color: #343a40;
+}
+
+.bg-gradient {
+  background: linear-gradient(90deg, #1a3c34, #2a5c4e);
+}
+
+.arabic-text, .translation-text, .tafsir-text, .tafsir-container h6 {
+  transition: font-size 0.2s ease;
 }
 
 @media (max-width: 768px) {
-  .arabic-text {
-    font-size: 1.8rem !important;
-    line-height: 2.5;
-  }
-  
   .ayah-container {
+    padding: 1rem;
+  }
+
+  .arabic-text {
+    line-height: 2.2;
+  }
+
+  .btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .card-body, .card-footer {
     padding: 1rem;
   }
 }
 
 @media (max-width: 576px) {
   .arabic-text {
-    font-size: 1.6rem !important;
-    line-height: 2.2;
+    line-height: 2;
   }
-  
+
   .btn-sm {
     padding: 0.3rem 0.6rem;
     font-size: 0.85rem;
+  }
+
+  .ayah-header {
+    padding: 0 0.5rem;
   }
 }
 </style>

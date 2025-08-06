@@ -983,7 +983,7 @@ export default {
             },
             // Initial styles
             fontFamily: "Arial, sans-serif",
-            fontSize: 18,
+            fontSize: 20,
             fontSpacing: 0,
             selectedShadow: "none",
             // Font style options

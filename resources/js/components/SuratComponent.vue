@@ -48,7 +48,8 @@
         <div class="col-12 col-md-4">
           <label class="form-label text-white">Playback Mode:</label>
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="continuousPlayback" v-model="continuousPlayback" @change="savePreference('continuousPlayback', continuousPlayback)">
+            <input class="form-check-input" type="checkbox" id="continuousPlayback" v-model="continuousPlayback"
+              @change="savePreference('continuousPlayback', continuousPlayback)">
             <label class="form-check-label text-white" for="continuousPlayback">
               {{ continuousPlayback ? 'Continuous Playback' : 'Stop After Each Ayah' }}
             </label>
@@ -60,10 +61,9 @@
     <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
     <div class="row rtl-text">
-      
-      <div style="padding: 12px;  border-radius: 8px;"
-        ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number"
-        class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" :class="{
+
+      <div style="padding: 12px;  border-radius: 8px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs"
+        :key="ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" :class="{
           'highlighted': isHighlighted && currentlyPlayingIndex === index,
           'currently-playing': isAudioPlaying[index]
         }">
@@ -122,9 +122,9 @@
           <hr>
 
           <!-- Mobile/Tablet Layout: Text then Icons -->
-           
+
           <div style="padding: 8px;" class="d-block d-md-none">
-            <div >
+            <div>
               <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
                 :style="{ fontSize: arabicFontSize + 'px' }"></p>
               <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h4>
@@ -132,7 +132,7 @@
                 :style="{ fontSize: translationFontSize + 'px' }"></p>
             </div>
             <div class="row mb-3" style="display: flex; justify-content: center; margin: 0 -5px;">
-              
+
               <div class="col-2 text-center" style="padding: 3px;">
                 <div @click="decreaseFontSize" style="cursor: pointer;">
                   <i class="bi bi-dash-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
@@ -177,7 +177,7 @@
         </div>
       </div>
     </div>
-    
+
 
     <!-- Global Custom Audio Player -->
     <div v-if="showAudioPlayer" class="audio-player-container">
@@ -237,8 +237,8 @@ export default {
       translations: [],
       surahDetails: null,
       searchQuery: "",
-      arabicFontSize: 25,
-      translationFontSize: 22,
+      arabicFontSize: 32,
+      translationFontSize: 23,
       highlightedWordIndex: -1,
       progress: [],
       audioElements: [],
@@ -1046,10 +1046,28 @@ export default {
       const secs = Math.floor(seconds % 60);
       return (minutes < 10 ? '0' : '') + minutes + ':' + (secs < 10 ? '0' : '') + secs;
     },
-    highlightText: function (text) {
-      if (!this.searchQuery || !text) return text || "";
-      const regex = new RegExp('(' + this.searchQuery + ')', "gi");
-      return text.replace(regex, '<span class="highlight">$1</span>');
+    highlightText(text) {
+      if (!this.searchQuery.trim() && !this.selectedTag) return text;
+
+      let highlightedText = text;
+
+      const escapeRegExp = (string) => {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      };
+
+      const searchTerms = this.searchQuery.trim() ? this.searchQuery.trim().split(/\s+/) : [];
+      searchTerms.forEach(term => {
+        const regex = new RegExp(`(${escapeRegExp(term)})`, 'gi');
+        highlightedText = highlightedText.replace(regex, '<span class="highlight-search">$1</span>');
+      });
+
+      const tagTerms = this.selectedTag ? [this.selectedTag, ...(this.tagSynonyms[this.selectedTag] || [])] : [];
+      tagTerms.forEach(term => {
+        const regex = new RegExp(`(${escapeRegExp(term)})`, 'gi');
+        highlightedText = highlightedText.replace(regex, '<span class="highlight-tag">$1</span>');
+      });
+
+      return highlightedText;
     },
     toggleVisibility: function () {
       this.isVisible = !this.isVisible;
@@ -1532,12 +1550,12 @@ html {
 
   .arabic-text {
     font-size: 1.7rem !important;
-    line-height: 2;
+    /* line-height: 5.8vh; */
   }
 
   .translation-text {
     font-size: 0.9rem !important;
-    line-height: 1.6;
+    /* line-height: 1.6; */
   }
 
   .mobile-controls {
