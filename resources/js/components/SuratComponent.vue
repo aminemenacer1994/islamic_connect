@@ -45,7 +45,7 @@
             </option>
           </select>
         </div>
-        <div class="col-12 col-md-4">
+        <!-- <div class="col-12 col-md-4">
           <label class="form-label text-white">Playback Mode:</label>
           <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="continuousPlayback" v-model="continuousPlayback"
@@ -54,7 +54,7 @@
               {{ continuousPlayback ? 'Continuous Playback' : 'Stop After Each Ayah' }}
             </label>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -860,129 +860,94 @@ export default {
       console.log(`Preloaded audio elements for ayahs ${startIndex + 1} to ${Math.min(startIndex + maxPreload, this.filteredAyahs.length)}`);
     },
     playAudio: function (index) {
-      console.log('Attempting to play audio for index:', index);
-      if (index < 0 || index >= this.filteredAyahs.length || !this.audioElements[index]) {
-        console.error(`Cannot play audio: Invalid audio element or index ${index}`);
-        this.$toast?.error(`Cannot play audio for ayah ${index + 1}`);
-        return;
-      }
+  console.log('Attempting to play audio for index:', index);
+  if (index < 0 || index >= this.filteredAyahs.length || !this.audioElements[index]) {
+    console.error(`Cannot play audio: Invalid audio element or index ${index}`);
+    this.$toast?.error(`Cannot play audio for ayah ${index + 1}`);
+    return;
+  }
 
-      this.isAudioLoading[index] = true;
+  this.isAudioLoading[index] = true;
 
-      // Stop any currently playing audio
-      if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
-        console.log('Pausing currently playing audio');
-        this.currentlyPlaying.pause();
-        this.currentlyPlaying.currentTime = 0;
-      }
+  // Stop any currently playing audio
+  if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
+    console.log('Pausing currently playing audio');
+    this.currentlyPlaying.pause();
+    this.currentlyPlaying.currentTime = 0;
+  }
 
-      // Update playing states
-      this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
-      this.currentlyPlaying = this.audioElements[index];
-      this.currentlyPlayingIndex = index;
+  // Update playing states
+  this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
+  this.currentlyPlaying = this.audioElements[index];
+  this.currentlyPlayingIndex = index;
+  this.isHighlighted = true;
+
+  const ayah = this.filteredAyahs[index];
+
+  // Setup metadata and word timing
+  this.currentlyPlaying.onloadedmetadata = () => {
+    console.log(`Metadata loaded for ayah ${index + 1}, duration: ${this.currentlyPlaying.duration}`);
+    const duration = this.currentlyPlaying.duration;
+    const wordCount = ayah.text.split(' ').length;
+    if (wordCount > 0 && duration > 0) {
+      const step = duration / wordCount;
+      this.wordTimings = Array.from({ length: wordCount }, (_, i) => i * step);
+    } else {
+      this.wordTimings = [];
+    }
+  };
+
+  if (this.currentlyPlaying.readyState >= 1) {
+    this.currentlyPlaying.onloadedmetadata();
+  }
+
+  this.highlightedWordIndex = -1;
+  this.currentlyPlaying.ontimeupdate = () => {
+    this.syncHighlight();
+    this.updateProgress(index);
+  };
+
+  const attemptPlay = (attempts = 0, maxAttempts = 10) => {
+    if (attempts >= maxAttempts) {
+      console.error(`Failed to play audio for ayah ${index + 1} after ${maxAttempts} attempts`);
+      this.isAudioPlaying[index] = false;
+      this.isAudioLoading[index] = false;
+      this.isHighlighted = false;
+      this.$toast?.error(`Failed to play audio for ayah ${index + 1}`);
+      return;
+    }
+
+    this.currentlyPlaying.play().then(() => {
+      console.log(`Playing audio for ayah ${index + 1}`);
+      this.isAudioPlaying[index] = true;
+      this.isAudioLoading[index] = false;
       this.isHighlighted = true;
-
-      const ayah = this.filteredAyahs[index];
-
-      // Setup metadata and word timing
-      this.currentlyPlaying.onloadedmetadata = () => {
-        console.log(`Metadata loaded for ayah ${index + 1}, duration: ${this.currentlyPlaying.duration}`);
-        const duration = this.currentlyPlaying.duration;
-        const wordCount = ayah.text.split(' ').length;
-        if (wordCount > 0 && duration > 0) {
-          const step = duration / wordCount;
-          this.wordTimings = Array.from({ length: wordCount }, (_, i) => i * step);
-        } else {
-          this.wordTimings = [];
-        }
-      };
-
-      if (this.currentlyPlaying.readyState >= 1) {
-        this.currentlyPlaying.onloadedmetadata();
-      }
-
-      this.highlightedWordIndex = -1;
-      this.currentlyPlaying.ontimeupdate = () => {
-        this.syncHighlight();
-        this.updateProgress(index);
-      };
-
-      const attemptPlay = (attempts = 0, maxAttempts = 10) => {
-        if (attempts >= maxAttempts) {
-          console.error(`Failed to play audio for ayah ${index + 1} after ${maxAttempts} attempts`);
-          this.isAudioPlaying[index] = false;
-          this.isAudioLoading[index] = false;
-          this.isHighlighted = false;
-          this.$toast?.error(`Failed to play audio for ayah ${index + 1}`);
-          return;
-        }
-
-        this.currentlyPlaying.play().then(() => {
-          console.log(`Playing audio for ayah ${index + 1}`);
-          this.isAudioPlaying[index] = true;
-          this.isAudioLoading[index] = false;
-          this.isHighlighted = true;
-          this.showAudioPlayer = true;
-          this.preloadNextAyahs(index + 1);
-
-          // Start auto-scroll after a delay to ensure everything is ready
-          this.$nextTick(() => {
-            setTimeout(() => {
-              if (this.isAudioPlaying[index]) {
-                // For the first ayah of a new surah, scroll to top first
-                if (index === 0) {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                  // Wait for scroll to complete, then scroll to ayah
-                  setTimeout(() => {
-                    if (this.isAudioPlaying[index]) {
-                      this.scrollToAyahByIndex(index);
-
-                      // Then start auto-scroll after another delay
-                      setTimeout(() => {
-                        if (this.isAudioPlaying[index]) {
-                          this.startAutoScroll();
-                        }
-                      }, 1000);
-                    }
-                  }, 500);
-                } else {
-                  // For other ayahs, scroll directly to the ayah
-                  this.scrollToAyahByIndex(index);
-
-                  // Then start auto-scroll after another delay
-                  setTimeout(() => {
-                    if (this.isAudioPlaying[index]) {
-                      this.startAutoScroll();
-                    }
-                  }, 500);
-                }
-              }
-            }, 500);
-          });
-        }).catch(err => {
-          console.error(`Play error for ayah ${index + 1}:`, err);
-          if (this.currentlyPlaying.readyState < 2) {
-            console.log(`Audio not ready, retrying in 50ms for ayah ${index + 1} (attempt ${attempts + 1})`);
-            setTimeout(() => attemptPlay(attempts + 1, maxAttempts), 50);
-          } else {
-            console.error(`Unrecoverable play error for ayah ${index + 1}:`, err);
-            this.isAudioPlaying[index] = false;
-            this.isAudioLoading[index] = false;
-            this.isHighlighted = false;
-            this.$toast?.error(`Failed to play audio for ayah ${index + 1}`);
-            this.handleAyahEnd(index);
-          }
-        });
-      };
-
-      if (this.currentlyPlaying.readyState >= 2) {
-        attemptPlay();
+      this.showAudioPlayer = true;
+      this.preloadNextAyahs(index + 1);
+      // --- Auto-scroll code removed ---
+    }).catch(err => {
+      console.error(`Play error for ayah ${index + 1}:`, err);
+      if (this.currentlyPlaying.readyState < 2) {
+        console.log(`Audio not ready, retrying in 50ms for ayah ${index + 1} (attempt ${attempts + 1})`);
+        setTimeout(() => attemptPlay(attempts + 1, maxAttempts), 50);
       } else {
-        this.currentlyPlaying.addEventListener("canplay", () => attemptPlay(), { once: true });
-        this.currentlyPlaying.load();
+        console.error(`Unrecoverable play error for ayah ${index + 1}:`, err);
+        this.isAudioPlaying[index] = false;
+        this.isAudioLoading[index] = false;
+        this.isHighlighted = false;
+        this.$toast?.error(`Failed to play audio for ayah ${index + 1}`);
+        this.handleAyahEnd(index);
       }
-    },
+    });
+  };
+
+  if (this.currentlyPlaying.readyState >= 2) {
+    attemptPlay();
+  } else {
+    this.currentlyPlaying.addEventListener("canplay", () => attemptPlay(), { once: true });
+    this.currentlyPlaying.load();
+  }
+},
     pauseAudio: function (index) {
       if (this.audioElements[index]) {
         console.log(`Pausing audio for ayah ${index + 1}`);

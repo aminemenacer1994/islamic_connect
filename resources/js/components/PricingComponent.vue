@@ -18,7 +18,7 @@
               </p>
 
               <p class="lead lh-base mb-4">
-                👉 <b>Your donation is more than charity — it’s Sadaqah Jariyah.</b> Every dollar helps someone connect
+                👉 <b>Your donation is more than charity — it’s Sadaqah Jariyah.</b> Every contribution helps someone connect
                 with the Quran, learn a dua, or discover Islam for the first time — and you share in every reward.
               </p>
 
