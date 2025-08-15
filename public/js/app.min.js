@@ -47682,7 +47682,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
                   englishName: reciter.englishName || "Unknown Reciter"
                 };
               }).filter(function (reciter) {
-                return !['elmir kuliev by 1muslimapp', 'elmir kuliev elevatemuslim', 'elmir kuliev 1muslim', 'elmir kuliev 2muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(reciter.englishName.toLowerCase());
+                return !['elmir kuliev 2 by 1muslimapp', 'elmir kuliev by 1muslimapp', 'elmir kuliev elevatemuslim', 'elmir kuliev 1muslim', 'elmir kuliev 2muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(reciter.englishName.toLowerCase());
               });
             }
             _this19.isLoading = false;
@@ -51834,7 +51834,8 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
       markers: [],
       routeLine: null,
       animatedRoute: null,
-      ritualLocations: {}
+      ritualLocations: {},
+      isMapVisible: true
     };
   },
   computed: {
@@ -51857,6 +51858,12 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
     }
   },
   methods: {
+    openMap: function openMap() {
+      this.isMapVisible = true;
+    },
+    closeMap: function closeMap() {
+      this.isMapVisible = false;
+    },
     switchTab: function switchTab(tab) {
       var _this = this;
       if (this.currentTab === tab) return;
@@ -67348,7 +67355,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.copyToClipboard(name);
       },
       style: {
-        "background": "#00bfa6",
+        "background": "#1881b9",
         "color": "white",
         "height": "38px"
       }
@@ -73883,7 +73890,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-printer me-2",
     "aria-hidden": "true"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Print / Save as PDF ")]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Map Visualization "), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Print / Save as PDF ")]))]), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "mb-4",
     style: {
       "height": "350px"

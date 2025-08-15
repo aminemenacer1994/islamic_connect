@@ -1118,6 +1118,7 @@ export default {
               englishName: reciter.englishName || "Unknown Reciter",
             }))
             .filter(reciter => ![
+              'elmir kuliev 2 by 1muslimapp',
               'elmir kuliev by 1muslimapp',
               'elmir kuliev elevatemuslim',
               'elmir kuliev 1muslim',

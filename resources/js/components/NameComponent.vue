@@ -139,7 +139,7 @@
               <div class="d-flex justify-content-between align-items-center gap-2">
                 <!-- Copy to Clipboard Button -->
                 <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2"
-                  @click="copyToClipboard(name)" style="background: #00bfa6; color: white; height: 38px">
+                  @click="copyToClipboard(name)" style="background: #1881b9; color: white; height: 38px">
                   <span class="text-center w-100">
                     <i class="bi bi-clipboard me-2"></i>
                     <b>Copy</b>

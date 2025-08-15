@@ -42,9 +42,11 @@
               <i class="bi bi-printer me-2" aria-hidden="true"></i> Print / Save as PDF
             </button>
           </div>
-          <!-- Map Visualization -->
+          
           <div class="mb-4" style="height: 350px;">
-            <div id="ritual-map" style="width: 100%; height: 100%; border: 2px solid lightgray; border-radius: 2%; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; overflow: hidden;"></div>
+            <div id="ritual-map"
+              style="width: 100%; height: 100%; border: 2px solid lightgray; border-radius: 2%; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; overflow: hidden;">
+            </div>
           </div>
           <div class="p-3 p-md-4 guide-card shadow-sm rounded-4 border border-2" :aria-labelledby="currentTab + '-tab'"
             :id="currentTab + '-panel'" role="tabpanel">
@@ -725,6 +727,7 @@ export default {
       routeLine: null,
       animatedRoute: null,
       ritualLocations: {},
+      isMapVisible: true
     };
   },
   computed: {
@@ -747,6 +750,12 @@ export default {
     }
   },
   methods: {
+    openMap() {
+      this.isMapVisible = true;
+    },
+    closeMap() {
+      this.isMapVisible = false;
+    },
     switchTab(tab) {
       if (this.currentTab === tab) return;
       this.currentTab = tab;
