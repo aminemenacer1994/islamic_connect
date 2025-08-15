@@ -33,7 +33,7 @@
                   <a 
                     class="dropdown-item d-flex align-items-center justify-content-between" 
                     href="#"
-                    @click.prevent="selectedCategory = guide.sections.indexOf(section)"
+                    @click.prevent="selectedCategory = guide.sections.indexOf(section); showSuccessMessage('Guide selected successfully!')"
                   >
                     <span class="guide-title">{{ section.title }}</span>
                     <span class="badge ms-2" :class="getBadgeClasses(section.title)">
@@ -74,7 +74,7 @@
             @keydown.enter.prevent="suggestions[highlightedIndex] && selectSuggestion(suggestions[highlightedIndex])"
             @blur="setTimeout(() => showSuggestions = false, 100)"
           >
-            <button v-if="searchText" class="btn btn-outline-secondary" @click="searchText = ''">
+            <button v-if="searchText" class="btn btn-outline-secondary" @click="searchText = ''; showSuccessMessage('Search cleared!')">
               <i class="bi bi-x"></i>
               </button>
           </div>
@@ -84,7 +84,7 @@
               v-for="(suggestion, idx) in suggestions"
               :key="idx"
               :class="{ highlighted: idx === highlightedIndex }"
-              @mousedown.prevent="selectSuggestion(suggestion)"
+              @mousedown.prevent="selectSuggestion(suggestion); showSuccessMessage('Suggestion selected!')"
               @mouseover="highlightedIndex = idx"
             >
               <span v-html="highlightSuggestion(suggestion.value)"></span>
@@ -288,7 +288,7 @@
 
     <!-- Alert Messages -->
     <transition name="fade-slide">
-      <div v-if="showAlert" class="alert alert-success alert-dismissible fade show position-fixed">
+      <div v-if="showAlert" class="alert alert-success alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
         {{ alertMessage }}
         <button type="button" class="btn-close" @click="closeAlert"></button>
       </div>
@@ -728,9 +728,7 @@ export default {
         
         summaryText.value = summary;
         showSummary.value = true;
-        showAlert.value = true;
-        alertMessage.value = 'AI summary generated successfully!';
-        hideAlertAfterDelay();
+        showSuccessMessage('AI summary generated successfully!');
         // Auto-scroll to summary section after rendering
         nextTick(() => {
           if (summarySectionRef.value) {
@@ -825,6 +823,16 @@ export default {
       }
     }
 
+    // Success message with 3-second timer
+    function showSuccessMessage(message) {
+      alertMessage.value = message;
+      showAlert.value = true;
+      setTimeout(() => {
+        showAlert.value = false;
+        alertMessage.value = '';
+      }, 3000);
+    }
+
     return {
       selectedCategory,
       searchText,
@@ -877,12 +885,7 @@ export default {
       toggleSummary,
       summarySectionRef,
       scrollToSummary,
-      showAlert: false,
-    alertMessage: '',
-    showErrorAlert: false,
-    errorMessage: '',
-    alertTimeout: null,
-    errorAlertTimeout: null,
+      showSuccessMessage,
     };
   },
   computed: {
@@ -930,9 +933,7 @@ export default {
       try {
         const response = await axios.post('/bookmarks', formData);
         this.isBookmarked = true;
-        this.showAlert = true;
-        this.alertMessage = response.data.message || 'Guide bookmarked successfully!';
-        this.hideAlertAfterDelay();
+        this.showSuccessMessage('Guide bookmarked successfully!');
       } catch (error) {
         console.error('Error bookmarking guide:', error);
         this.showErrorAlert = true;
@@ -1098,6 +1099,7 @@ export default {
       const text = `*${title}*\n\n${content}\n\n— Shared via Islamic Guides`;
       const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
       window.open(url, '_blank');
+      this.showSuccessMessage('Shared successfully!');
     },
 
     printGuide() {
@@ -1137,6 +1139,7 @@ export default {
         printWindow.print();
         printWindow.close();
       }, 500);
+      this.showSuccessMessage('Guide printed successfully!');
     },
 
     toggleSummary() {
