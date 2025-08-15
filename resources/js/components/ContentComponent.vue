@@ -1359,6 +1359,13 @@ export default {
   margin-bottom: 3rem;
 }
 
+/* Mobile-specific 2-column grid for screens smaller than 768px */
+@media (max-width: 767.98px) {
+  .podcast-selection-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .podcast-selection-item {
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2245,10 +2252,8 @@ export default {
     justify-content: flex-start;
   }
 
-
   .info-section {
     flex-grow: 0;
-    /* margin-left: auto; */
     order: 1;
   }
 
@@ -2294,7 +2299,6 @@ export default {
   .info-section {
     flex-direction: column;
     align-items: flex-start;
-    /* margin-left: 0; */
     order: 1;
   }
 
@@ -2394,11 +2398,17 @@ export default {
   .mobile-padding {
     padding: 20px;
   }
+  .podcast-card-wrapper {
+    width: 100%;
+  }
 }
 
 @media (max-width: 767.98px) {
   .mobile-padding {
     margin-bottom: 1rem;
+  }
+  .podcast-card-wrapper {
+    width: 100%;
   }
 }
 
@@ -2516,7 +2526,6 @@ export default {
   font-weight: 700;
   border-radius: 10px;
   padding: 2px 8px;
-  /* margin-left: 0.5rem; */
   letter-spacing: 0.5px;
 }
 
@@ -2566,7 +2575,6 @@ export default {
 }
 
 @media (max-width: 768px) {
-
   .search-group .form-control,
   .filter-group .form-select {
     font-size: 0.9rem;
@@ -2598,7 +2606,6 @@ export default {
 .audio-controls-inline {
   display: flex;
   align-items: center;
-  /* margin-left: auto; */
 }
 
 .podcast-grid {

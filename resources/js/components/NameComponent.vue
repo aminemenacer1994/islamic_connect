@@ -64,7 +64,7 @@
           <div class="row g-4">
             <div v-for="name in favoriteNamesData" :key="'fav-' + name.number" class="col-12 col-md-4">
               <div class="card h-100" style="border-radius: 8px;">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                   <div class="d-flex justify-content-between align-items-start">
                     <span class="badge bg-secondary fs-6">{{ name.number }}</span>
                     <i class="bi bi-heart-fill text-danger fs-4 cursor-pointer"
@@ -78,13 +78,12 @@
                     <strong style="font-size: 1.6rem;">Meaning:</strong>
                     <p class="small text-muted" style="font-size: 1.2rem;">{{ name.translation }}</p>
                   </div>
-
                   <div v-if="showDescription" class="mt-2">
                     <strong style="font-size: 1.6rem;">Description:</strong>
                     <p class="small text-muted" style="font-size: 1.2rem;">{{ name.description }}</p>
                   </div>
-
-                  <div class="d-flex justify-content-between align-items-center gap-2">
+                  <!-- Button container pushed to the bottom -->
+                  <div class="d-flex justify-content-between align-items-center gap-2 mt-auto">
                     <!-- Copy to Clipboard Button -->
                     <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2"
                       @click="copyToClipboard(name)" style="background: #00bfa6; color: white; height: 38px">
@@ -92,7 +91,6 @@
                         <b>Copy to Clipboard</b>
                       </span>
                     </button>
-
                     <!-- WhatsApp Share Button -->
                     <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
                       :href="generateWhatsAppLink(name)" target="_blank" rel="noopener"
@@ -113,7 +111,7 @@
       <div class="row g-4 mt-2">
         <div v-for="name in filteredNames" :key="name.number" class="col-12 col-md-4">
           <div class="card h-100">
-            <div class="card-body">
+            <div class="card-body h-100">
               <div class="d-flex justify-content-between align-items-start">
                 <span class="badge bg-secondary fs-6">{{ name.number }}</span>
                 <i :class="['bi', isFavorited(name.number) ? 'bi-heart-fill' : 'bi-heart', 'fs-4', 'cursor-pointer']"
