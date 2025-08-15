@@ -13,24 +13,25 @@
     <div>
       <div class="row text-center">
         <!-- Toggle switches (left column) -->
-        <div class="container col-12 col-lg-6 mb-3">
-          <div class="d-flex gap-4 justify-content-center p-3 rounded">
+        <div class="col-12 col-lg-6 mb-3">
+          <div class="d-flex gap-3 justify-content-center p-3 rounded">
             <div class="form-check form-switch fs-5 text-white">
               <input class="form-check-input custom-success" type="checkbox" id="arabicToggle" v-model="showArabic">
-              <label class="form-check-label text-dark" for="arabicToggle">Arabic</label>
+              <label class="form-check-label text-dark" for="arabicToggle"><b>Arabic</b></label>
             </div>
             <div class="form-check form-switch fs-5 text-white">
               <input class="form-check-input custom-success" type="checkbox" id="translationToggle"
                 v-model="showTranslation" checked>
-              <label class="form-check-label text-dark" for="translationToggle">Meaning</label>
+              <label class="form-check-label text-dark" for="translationToggle"><b>Meaning</b></label>
             </div>
             <div class="form-check form-switch fs-5 text-white">
               <input class="form-check-input custom-success" type="checkbox" id="descToggle" v-model="showDescription"
                 checked>
-              <label class="form-check-label text-dark" for="descToggle">Description</label>
+              <label class="form-check-label text-dark" for="descToggle"><b>Description</b></label>
             </div>
           </div>
         </div>
+
 
         <!-- Search bar (right column) -->
         <div class="col-12 col-lg-6 mb-3">
