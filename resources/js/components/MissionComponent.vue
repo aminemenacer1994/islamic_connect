@@ -10,7 +10,8 @@
     <div class="timeline-wrapper">
       <div class="timeline">
         <div v-for="(event, index) in events" :key="index" class="timeline-point" ref="eventRefs">
-          <span class="badge fs-6 timeline-badge" :class="{ active: index === currentIndex }" @click="selectEvent(index)">
+          <span class="badge fs-6 timeline-badge" :class="{ active: index === currentIndex }"
+            @click="selectEvent(index)">
             {{ event.year }}
           </span>
         </div>
@@ -51,7 +52,7 @@
             <i class="bi" :class="summaryLoading ? 'bi-hourglass-split' : 'bi-robot'"></i>
             <span class="ms-1 ms-sm-2">{{ summaryLoading ? 'Generating...' : 'AI Summary' }}</span>
           </button>
-          
+
           <!-- Play Button -->
           <div class="text-center">
             <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
@@ -60,37 +61,21 @@
           </div>
         </div>
 
-        <!-- Styled Text desc -->
-        <h5 class="fw-medium rounded" :style="{
-          lineHeight: '1.7em',
-          fontSize: fontSize + 'px',
-          backgroundColor: fontSettings.backgroundColor,
-          color: fontSettings.color,
-          fontStyle: fontSettings.fontStyle,
-          textShadow: fontSettings.textShadow,
-          textDecoration: fontSettings.textDecoration,
-          fontFamily: fontSettings.fontFamily,
-          padding: '0.75rem',
-          fontSize: Math.max(14, fontSize) + 'px'
-        }" v-html="highlightedDescription"></h5>
-
         <!-- AI Summary Section (Inline) -->
         <transition name="fade-slide">
-          <div v-if="summaryText" class="ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded" ref="summarySection" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 1px solid #dee2e6;">
+          <div v-if="summaryText" class="ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded" ref="summarySection"
+            style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 1px solid #dee2e6;">
             <div class="d-flex align-items-center justify-content-between mb-2">
               <h6 class="mb-0 text-primary small">
                 <i class="bi bi-robot me-1 me-sm-2"></i>
                 AI Summary
               </h6>
-              <button 
-                class="btn btn-sm btn-outline-secondary"
-                @click="toggleSummary"
-                :title="showSummary ? 'Hide Summary' : 'Show Summary'"
-              >
+              <button class="btn btn-sm btn-outline-secondary" @click="toggleSummary"
+                :title="showSummary ? 'Hide Summary' : 'Show Summary'">
                 <i class="bi" :class="showSummary ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
               </button>
             </div>
-            
+
             <transition name="fade-slide">
               <div v-if="showSummary">
                 <div class="summary-text small" v-html="summaryText"></div>
@@ -107,6 +92,22 @@
         <div v-if="summaryError" class="alert alert-danger mt-2">
           {{ summaryError }}
         </div>
+
+        <!-- Styled Text desc -->
+        <h5 class="fw-medium rounded" :style="{
+          lineHeight: '1.7em',
+          fontSize: fontSize + 'px',
+          backgroundColor: fontSettings.backgroundColor,
+          color: fontSettings.color,
+          fontStyle: fontSettings.fontStyle,
+          textShadow: fontSettings.textShadow,
+          textDecoration: fontSettings.textDecoration,
+          fontFamily: fontSettings.fontFamily,
+          padding: '0.75rem',
+          fontSize: Math.max(14, fontSize) + 'px'
+        }" v-html="highlightedDescription"></h5>
+
+
 
         <!-- Offcanvas Settings Panel -->
         <div class="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="settingsOffcanvas"
@@ -192,7 +193,8 @@
 
         <div class="controls text-center mt-3 mt-md-4">
           <button @click="prev" :disabled="currentIndex === 0" class="btn btn-primary me-2 btn-sm">Previous</button>
-          <button @click="next" :disabled="currentIndex === events.length - 1" class="btn btn-primary btn-sm">Next</button>
+          <button @click="next" :disabled="currentIndex === events.length - 1"
+            class="btn btn-primary btn-sm">Next</button>
         </div>
       </div>
     </transition>
@@ -201,21 +203,23 @@
     <div v-if="showAudioPlayer" class="audio-player-container">
       <div class="custom-audio-player">
         <div class="controls">
-          <i class="bi bi-skip-backward-fill control-icon" @click="rewindAudio(currentlyPlayingIndex)" title="Rewind 10s"
-            data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Rewind 10 seconds"></i>
+          <i class="bi bi-skip-backward-fill control-icon" @click="rewindAudio(currentlyPlayingIndex)"
+            title="Rewind 10s" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Rewind 10 seconds"></i>
           <i class="bi control-icon" :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"
-            @click="toggleAudioPlayer(currentlyPlayingIndex)" :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"
-            data-bs-toggle="tooltip" data-bs-placement="top" :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"></i>
+            @click="toggleAudioPlayer(currentlyPlayingIndex)"
+            :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'" data-bs-toggle="tooltip"
+            data-bs-placement="top" :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"></i>
           <i class="bi bi-skip-forward-fill control-icon" @click="fastForwardAudio(currentlyPlayingIndex)"
-            title="Fast Forward 10s" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Fast forward 10 seconds"></i>
+            title="Fast Forward 10s" data-bs-toggle="tooltip" data-bs-placement="top"
+            aria-label="Fast forward 10 seconds"></i>
           <i class="bi bi-stop-fill control-icon" @click="stopAudio(currentlyPlayingIndex)" title="Stop"
             data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Stop"></i>
-          <i class="bi control-icon"
-            :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`" @click="toggleVolume"
-            title="Volume" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Adjust volume"></i>
+          <i class="bi control-icon" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"
+            @click="toggleVolume" title="Volume" data-bs-toggle="tooltip" data-bs-placement="top"
+            aria-label="Adjust volume"></i>
           <div v-if="showVolumeBar" class="volume-bar-container">
-            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
-              class="volume-slider" aria-label="Volume control" />
+            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume" class="volume-slider"
+              aria-label="Volume control" />
           </div>
           <span class="time">{{ formatTime(currentTime) }} / {{ formatTime(totalTime) }}</span>
           <i class="bi bi-x control-icon close-icon" @click="closeAudioPlayer" title="Close" data-bs-toggle="tooltip"
@@ -876,40 +880,50 @@ export default {
     gap: 8px;
     align-items: center;
   }
+
   .control-icon {
     font-size: 1.5rem;
     padding: 6px;
   }
+
   .close-icon {
     margin-left: 0;
     margin-right: 4px;
   }
+
   .volume-bar-container {
     margin-left: 0;
     margin-top: 8px;
     width: 80px;
   }
+
   .volume-slider {
     width: 100%;
   }
+
   .time {
     margin-left: 0;
     margin-top: 8px;
     font-size: 0.8rem;
   }
+
   .audio-player-container {
     padding: 8px;
   }
+
   .custom-audio-player {
     padding: 8px;
   }
+
   .progress-bar {
     height: 6px;
     margin-top: 8px;
   }
+
   .event-box {
     padding: 12px;
   }
+
   .time-estimates {
     flex-direction: column;
     gap: 8px;
@@ -923,38 +937,48 @@ export default {
     gap: 12px;
     flex-wrap: wrap;
   }
+
   .control-icon {
     font-size: 1.3rem;
     padding: 6px;
   }
+
   .close-icon {
     margin-left: auto;
     margin-right: 6px;
   }
+
   .volume-bar-container {
     margin-left: 8px;
     width: 80px;
   }
+
   .volume-slider {
     width: 100%;
   }
+
   .time {
     margin-left: 8px;
     font-size: 0.8rem;
   }
+
   .audio-player-container {
     padding: 10px;
   }
+
   .custom-audio-player {
     padding: 10px;
   }
+
   .progress-bar {
     height: 6px;
     margin-top: 10px;
   }
+
   .event-box {
     padding: 16px;
   }
+
   .time-estimates {
     font-size: 0.85rem;
   }
@@ -966,34 +990,43 @@ export default {
     gap: 14px;
     flex-wrap: wrap;
   }
+
   .control-icon {
     font-size: 1.3rem;
     padding: 8px;
   }
+
   .close-icon {
     margin-left: auto;
     margin-right: 6px;
   }
+
   .volume-bar-container {
     margin-left: 10px;
     width: 90px;
   }
+
   .volume-slider {
     width: 100%;
   }
+
   .time {
     margin-left: 10px;
     font-size: 0.85rem;
   }
+
   .audio-player-container {
     padding: 10px 14px;
   }
+
   .custom-audio-player {
     padding: 10px 14px;
   }
+
   .progress-bar {
     margin-top: 10px;
   }
+
   .event-box {
     padding: 18px;
   }
@@ -1006,25 +1039,31 @@ export default {
     flex-wrap: nowrap;
     gap: 16px;
   }
+
   .control-icon {
     font-size: 1.3rem;
     padding: 8px;
   }
+
   .close-icon {
     margin-left: auto;
     margin-right: 8px;
   }
+
   .volume-bar-container {
     margin-left: 12px;
     width: 100px;
   }
+
   .volume-slider {
     width: 100%;
   }
+
   .time {
     margin-left: 12px;
     font-size: 0.9rem;
   }
+
   .progress-bar {
     margin-top: 12px;
   }
@@ -1211,28 +1250,28 @@ mark {
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
   }
-  
+
   .display-6 {
     font-size: 1.5rem;
   }
-  
+
   .display-5 {
     font-size: 1.75rem;
   }
-  
+
   .event-box {
     padding: 15px;
   }
-  
+
   .ai-summary-inline {
     padding: 0.75rem;
     margin-top: 1rem;
   }
-  
+
   .ai-summary-inline .summary-text {
     font-size: 0.9rem;
   }
-  
+
   .controls button {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
@@ -1244,32 +1283,32 @@ mark {
     padding: 0.5rem 0.8rem;
     font-size: 0.85rem;
   }
-  
+
   .display-6 {
     font-size: 1.25rem;
   }
-  
+
   .display-5 {
     font-size: 1.5rem;
   }
-  
+
   .event-box {
     padding: 12px;
   }
-  
+
   .ai-summary-inline {
     padding: 0.5rem;
   }
-  
+
   .ai-summary-inline .summary-text {
     font-size: 0.85rem;
   }
-  
+
   .controls button {
     padding: 0.4rem 0.8rem;
     font-size: 0.85rem;
   }
-  
+
   .time-estimates span {
     font-size: 0.8rem;
   }
@@ -1280,27 +1319,27 @@ mark {
     padding: 0.4rem 0.6rem;
     font-size: 0.8rem;
   }
-  
+
   .display-6 {
     font-size: 1.1rem;
   }
-  
+
   .display-5 {
     font-size: 1.3rem;
   }
-  
+
   .event-box {
     padding: 10px;
   }
-  
+
   .ai-summary-inline {
     padding: 0.4rem;
   }
-  
+
   .ai-summary-inline .summary-text {
     font-size: 0.8rem;
   }
-  
+
   .controls button {
     padding: 0.35rem 0.7rem;
     font-size: 0.8rem;

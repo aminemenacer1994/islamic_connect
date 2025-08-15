@@ -63,16 +63,19 @@
               <div class="card radio-card shadow-sm border-0"
                 :class="{ 'active-card': currentAudio?.src === station.url }" :id="'station-' + station.id"
                 role="article" :aria-labelledby="'station-title-' + station.id">
-                <div class=" d-flex justify-content-between align-items-center p-4">
+                <div class="d-flex justify-content-between align-items-center p-4">
                   <div class="station-info">
                     <h5 class="card-title mb-1 fw-bold" :id="'station-title-' + station.id"
                       v-html="highlightSearch(station.name)"></h5>
                     <p class="card-text text-muted mb-0">{{ station.category || 'Recitation' }}</p>
+                    <!-- Debug: Show online status -->
+                    <p class="card-text text-muted mb-0 fs-sm">Status: {{ station.online === false ? 'Offline' : 'Online' }}</p>
                   </div>
                   <div class="d-flex align-items-center gap-2">
                     <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
                       :aria-label="isPlaying(station.id) ? 'Pause ' + station.name : 'Play ' + station.name"
-                      :disabled="!station.url">
+                      :disabled="station.online === false || !station.url"
+                      :title="station.online === false ? 'Station is offline' : ''">
                       <i class="bi fs-1" :class="{
                         'bi-pause-circle-fill text-theme-teal': currentPlayingStationId === station.id && isPlaying(station.id),
                         'bi-play-circle-fill': currentPlayingStationId !== station.id || !isPlaying(station.id)
@@ -105,60 +108,6 @@
         </div>
         <hr />
       </section>
-
-      <!-- Recently Played Section -->
-      <!---
-       <section v-if="recentlyPlayed.length" class="mb-5">
-        <h3 class="fw-bold mb-3 fs-4 cursor-pointer section-header text-dark"
-          @click="showRecentlyPlayed = !showRecentlyPlayed" role="button" :aria-expanded="showRecentlyPlayed"
-          :aria-controls="`recently-played-stations`">
-          Recently Played ({{ recentlyPlayed.length }})
-          <i :class="showRecentlyPlayed ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" class="ms-1"></i>
-        </h3>
-        <div v-if="showRecentlyPlayed" class="section-animate" id="recently-played-stations">
-          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            <div v-for="station in recentlyPlayed" :key="station.id" class="col">
-              <div class="card radio-card shadow-sm border-0"
-                :class="{ 'active-card': currentAudio?.src === station.url }" :id="'station-' + station.id"
-                role="article" :aria-labelledby="'station-title-' + station.id">
-                <div class="card-body d-flex justify-content-between align-items-center p-4">
-                  <div>
-                    <h5 class="card-title mb-1 fw-bold" :id="'station-title-' + station.id"
-                      v-html="highlightSearch(station.name)"></h5>
-                    <p class="card-text text-muted mb-0">{{ station.category || 'Recitation' }}</p>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
-                      :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'">
-                      <i class="bi fs-1"
-                        :class="currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-theme-teal' : 'bi-play-circle-fill'"></i>
-                    </button>
-                    <button class="btn btn-icon like-button p-2 ms-2" @click="toggleLike(station)"
-                      :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
-                      <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
-                        class="like-icon fs-5"></i>
-                    </button>
-                    <div class="audio-player d-none">
-                      <audio :ref="(el) => audioRefs[station.id] = el" :src="station.url"
-                        @play="handlePlay(station.id, $event)" @pause="handlePause(station.id)"
-                        @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
-                        :aria-label="'Audio stream for ' + station.name"></audio>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="playbackErrors[station.id] && currentPlayingStationId === station.id"
-                  class="text-danger fs-6 p-3 d-flex align-items-center gap-2" role="alert">
-                  {{ playbackErrors[station.id] }}
-                  <button class="btn btn-sm btn-outline-danger" @click="retryPlayback(station.id)"
-                    aria-label="Retry playback">Retry</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr />
-      </section>
-      -->
 
       <!-- All Radio Stations -->
       <section class="mb-5">
@@ -193,8 +142,6 @@
                 :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id">
                 <div class="card-body">
                   <div class="d-flex align-items-center gap-3">
-                    <!-- <img :src="station.imageUrl || '/images/default-reciter.png'" :alt="station.name"
-                       class="station-image rounded-circle" @error="($event.target.src = '/images/default-reciter.png')"> -->
                     <div class="flex-grow-1">
                       <div class="d-flex justify-content-between align-items-start">
                         <div>
@@ -204,6 +151,8 @@
                             {{ station.category || 'Recitation' }}
                             <span v-if="station.country" class="ms-1">· {{ station.country }}</span>
                           </p>
+                          <!-- Debug: Show online status -->
+                          <p class="text-muted mb-1 fs-sm">Status: {{ station.online === false ? 'Offline' : 'Online' }}</p>
                         </div>
                         <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
                           :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
@@ -225,9 +174,13 @@
                           </span>
                         </div>
                         <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
-                          :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'">
-                          <i class="bi fs-1"
-                            :class="currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-theme-teal' : 'bi-play-circle-fill'"></i>
+                          :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'"
+                          :disabled="station.online === false"
+                          :title="station.online === false ? 'Station is offline' : ''">
+                          <i class="bi fs-1" :class="{
+                            'bi-pause-circle-fill text-theme-teal': currentPlayingStationId === station.id && isPlaying(station.id),
+                            'bi-play-circle-fill': currentPlayingStationId !== station.id || !isPlaying(station.id)
+                          }"></i>
                         </button>
                       </div>
                     </div>
@@ -265,6 +218,8 @@
                           {{ station.category || 'Recitation' }}
                           <span v-if="station.country" class="ms-1">· {{ station.country }}</span>
                         </p>
+                        <!-- Debug: Show online status -->
+                        <p class="text-muted mb-1 fs-sm">Status: {{ station.online === false ? 'Offline' : 'Online' }}</p>
                       </div>
                       <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
                         :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
@@ -274,7 +229,6 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between mt-2">
                       <div class="d-flex align-items-center gap-2 text-muted fs-sm">
-                        <!-- Only show listener count if the station is playing -->
                         <span v-if="isPlaying(station.id)" :title="`${station.listeners} listeners`">
                           <i class="bi bi-headphones"></i> {{ station.listeners }}
                         </span>
@@ -287,9 +241,13 @@
                         </span>
                       </div>
                       <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
-                        :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'">
-                        <i class="bi fs-1"
-                          :class="currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-theme-teal' : 'bi-play-circle-fill'"></i>
+                        :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'"
+                        :disabled="station.online === false"
+                        :title="station.online === false ? 'Station is offline' : ''">
+                        <i class="bi fs-1" :class="{
+                          'bi-pause-circle-fill text-theme-teal': currentPlayingStationId === station.id && isPlaying(station.id),
+                          'bi-play-circle-fill': currentPlayingStationId !== station.id || !isPlaying(station.id)
+                        }"></i>
                       </button>
                     </div>
                   </div>
@@ -331,7 +289,6 @@
     <transition name="global-audio-player">
       <div v-if="currentlyPlayingStation" class="global-audio-player shadow-lg">
         <div class="d-flex align-items-center" style="flex: 1 1 0px; justify-content: flex-start;">
-
           <div>
             <h6 class="mb-0 fw-bold text-white" style="font-size: 1.1rem; font-weight: 600; letter-spacing: 0.4px;">{{
               currentlyPlayingStation.name }}</h6>
@@ -1074,6 +1031,14 @@ const playAudio = (index) => {
 </script>
 
 <style scoped>
+button.control-btn.play-pause:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+button.control-btn.play-pause:disabled i.bi-play-circle-fill {
+  color: #6c757d !important; /* Force gray color for disabled play buttons */
+}
+
 body {
   background-color: #fafafa;
   font-family: 'Inter', sans-serif;

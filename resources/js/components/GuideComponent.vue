@@ -288,15 +288,15 @@
 
     <!-- Alert Messages -->
     <transition name="fade-slide">
-      <div v-if="showAlert" class="alert alert-success alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+      <div v-if="showAlert" class="alert alert-success alert-dismissible fade show position-fixed">
         {{ alertMessage }}
-        <button type="button" class="btn-close" @click="showAlert = false"></button>
+        <button type="button" class="btn-close" @click="closeAlert"></button>
       </div>
     </transition>
     <transition name="fade-slide">
       <div v-if="showErrorAlert" class="alert alert-danger alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
         {{ errorMessage }}
-        <button type="button" class="btn-close" @click="showErrorAlert = false"></button>
+        <button type="button" class="btn-close" @click="closeErrorAlert"></button>
       </div>
     </transition>
 
@@ -877,6 +877,12 @@ export default {
       toggleSummary,
       summarySectionRef,
       scrollToSummary,
+      showAlert: false,
+    alertMessage: '',
+    showErrorAlert: false,
+    errorMessage: '',
+    alertTimeout: null,
+    errorAlertTimeout: null,
     };
   },
   computed: {
@@ -1135,6 +1141,36 @@ export default {
 
     toggleSummary() {
       this.showSummary = !this.showSummary;
+    },
+
+    showIslamicGuideAlert(message) {
+      this.alertMessage = message;
+      this.showAlert = true;
+      if (this.alertTimeout) clearTimeout(this.alertTimeout);
+      this.alertTimeout = setTimeout(() => {
+        this.showAlert = false;
+        this.alertTimeout = null;
+      }, 3000);
+    },
+    closeAlert() {
+      this.showAlert = false;
+      if (this.alertTimeout) clearTimeout(this.alertTimeout);
+      this.alertTimeout = null;
+    },
+
+    showIslamicGuideError(message) {
+      this.errorMessage = message;
+      this.showErrorAlert = true;
+      if (this.errorAlertTimeout) clearTimeout(this.errorAlertTimeout);
+      this.errorAlertTimeout = setTimeout(() => {
+        this.showErrorAlert = false;
+        this.errorAlertTimeout = null;
+      }, 4000); // 4 seconds
+    },
+    closeErrorAlert() {
+      this.showErrorAlert = false;
+      if (this.errorAlertTimeout) clearTimeout(this.errorAlertTimeout);
+      this.errorAlertTimeout = null;
     }
   },
   watch: {

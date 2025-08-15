@@ -38493,6 +38493,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _guides_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../guides.json */ "./resources/js/guides.json");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
@@ -38945,7 +38948,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         }, 350); // Wait for scrollIntoView to finish
       }
     }
-    return {
+    return _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
       selectedCategory: selectedCategory,
       searchText: searchText,
       isBookmarked: isBookmarked,
@@ -38997,7 +39000,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       toggleSummary: toggleSummary,
       summarySectionRef: summarySectionRef,
       scrollToSummary: scrollToSummary
-    };
+    }, "showAlert", false), "alertMessage", ''), "showErrorAlert", false), "errorMessage", ''), "alertTimeout", null), "errorAlertTimeout", null);
   },
   computed: {
     filteredSections: function filteredSections() {
@@ -39227,6 +39230,36 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     toggleSummary: function toggleSummary() {
       this.showSummary = !this.showSummary;
+    },
+    showIslamicGuideAlert: function showIslamicGuideAlert(message) {
+      var _this6 = this;
+      this.alertMessage = message;
+      this.showAlert = true;
+      if (this.alertTimeout) clearTimeout(this.alertTimeout);
+      this.alertTimeout = setTimeout(function () {
+        _this6.showAlert = false;
+        _this6.alertTimeout = null;
+      }, 3000);
+    },
+    closeAlert: function closeAlert() {
+      this.showAlert = false;
+      if (this.alertTimeout) clearTimeout(this.alertTimeout);
+      this.alertTimeout = null;
+    },
+    showIslamicGuideError: function showIslamicGuideError(message) {
+      var _this7 = this;
+      this.errorMessage = message;
+      this.showErrorAlert = true;
+      if (this.errorAlertTimeout) clearTimeout(this.errorAlertTimeout);
+      this.errorAlertTimeout = setTimeout(function () {
+        _this7.showErrorAlert = false;
+        _this7.errorAlertTimeout = null;
+      }, 4000); // 4 seconds
+    },
+    closeErrorAlert: function closeErrorAlert() {
+      this.showErrorAlert = false;
+      if (this.errorAlertTimeout) clearTimeout(this.errorAlertTimeout);
+      this.errorAlertTimeout = null;
     }
   },
   watch: {
@@ -63689,13 +63722,7 @@ var _hoisted_54 = {
 };
 var _hoisted_55 = {
   key: 0,
-  "class": "alert alert-success alert-dismissible fade show position-fixed",
-  style: {
-    "top": "20px",
-    "right": "20px",
-    "z-index": "9999"
-  },
-  role: "alert"
+  "class": "alert alert-success alert-dismissible fade show position-fixed"
 };
 var _hoisted_56 = {
   key: 0,
@@ -64034,8 +64061,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [$setup.showAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.alertMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close",
-        onClick: _cache[23] || (_cache[23] = function ($event) {
-          return $setup.showAlert = false;
+        onClick: _cache[23] || (_cache[23] = function () {
+          return $options.closeAlert && $options.closeAlert.apply($options, arguments);
         })
       })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
@@ -64047,8 +64074,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [$setup.showErrorAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.errorMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close",
-        onClick: _cache[24] || (_cache[24] = function ($event) {
-          return $setup.showErrorAlert = false;
+        onClick: _cache[24] || (_cache[24] = function () {
+          return $options.closeErrorAlert && $options.closeErrorAlert.apply($options, arguments);
         })
       })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
@@ -66332,8 +66359,7 @@ var _hoisted_15 = {
   "class": "text-center"
 };
 var _hoisted_16 = ["title"];
-var _hoisted_17 = ["innerHTML"];
-var _hoisted_18 = {
+var _hoisted_17 = {
   key: 0,
   "class": "ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded",
   ref: "summarySection",
@@ -66342,18 +66368,19 @@ var _hoisted_18 = {
     "border": "1px solid #dee2e6"
   }
 };
-var _hoisted_19 = {
+var _hoisted_18 = {
   "class": "d-flex align-items-center justify-content-between mb-2"
 };
-var _hoisted_20 = ["title"];
-var _hoisted_21 = {
+var _hoisted_19 = ["title"];
+var _hoisted_20 = {
   key: 0
 };
-var _hoisted_22 = ["innerHTML"];
-var _hoisted_23 = {
+var _hoisted_21 = ["innerHTML"];
+var _hoisted_22 = {
   key: 1,
   "class": "alert alert-danger mt-2"
 };
+var _hoisted_23 = ["innerHTML"];
 var _hoisted_24 = {
   "class": "d-flex flex-column"
 };
@@ -66446,7 +66473,42 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[1] || (_cache[1] = function ($event) {
           return $options.toggleAudioPlayer($data.currentIndex);
         })
-      }, null, 10 /* CLASS, PROPS */, _hoisted_16)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Styled Text desc "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      }, null, 10 /* CLASS, PROPS */, _hoisted_16)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary Section (Inline) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+        name: "fade-slide"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [$data.summaryText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+            "class": "mb-0 text-primary small"
+          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+            "class": "bi bi-robot me-1 me-sm-2"
+          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" AI Summary ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+            "class": "btn btn-sm btn-outline-secondary",
+            onClick: _cache[2] || (_cache[2] = function () {
+              return $options.toggleSummary && $options.toggleSummary.apply($options, arguments);
+            }),
+            title: $data.showSummary ? 'Hide Summary' : 'Show Summary'
+          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+            "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.showSummary ? 'bi-chevron-up' : 'bi-chevron-down'])
+          }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_19)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+            name: "fade-slide"
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [$data.showSummary ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+                "class": "summary-text small",
+                innerHTML: $data.summaryText
+              }, null, 8 /* PROPS */, _hoisted_21), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+                "class": "summary-footer mt-2 pt-2 border-top"
+              }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+                "class": "text-muted"
+              }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+                "class": "bi bi-info-circle me-1"
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" AI-generated summary of key points from this event. ")])], -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+            }),
+            _: 1 /* STABLE */
+          })], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+        }),
+        _: 1 /* STABLE */
+      }), $data.summaryError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.summaryError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Styled Text desc "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
         "class": "fw-medium rounded",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_defineProperty({
           lineHeight: '1.7em',
@@ -66460,42 +66522,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           padding: '0.75rem'
         }, "fontSize", Math.max(14, $data.fontSize) + 'px')),
         innerHTML: $options.highlightedDescription
-      }, null, 12 /* STYLE, PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary Section (Inline) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
-        name: "fade-slide"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [$data.summaryText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-            "class": "mb-0 text-primary small"
-          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-            "class": "bi bi-robot me-1 me-sm-2"
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" AI Summary ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-            "class": "btn btn-sm btn-outline-secondary",
-            onClick: _cache[2] || (_cache[2] = function () {
-              return $options.toggleSummary && $options.toggleSummary.apply($options, arguments);
-            }),
-            title: $data.showSummary ? 'Hide Summary' : 'Show Summary'
-          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-            "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.showSummary ? 'bi-chevron-up' : 'bi-chevron-down'])
-          }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_20)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
-            name: "fade-slide"
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [$data.showSummary ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-                "class": "summary-text small",
-                innerHTML: $data.summaryText
-              }, null, 8 /* PROPS */, _hoisted_22), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-                "class": "summary-footer mt-2 pt-2 border-top"
-              }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
-                "class": "text-muted"
-              }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-                "class": "bi bi-info-circle me-1"
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" AI-generated summary of key points from this event. ")])], -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
-            }),
-            _: 1 /* STABLE */
-          })], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
-        }),
-        _: 1 /* STABLE */
-      }), $data.summaryError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.summaryError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Offcanvas Settings Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Offcanvas Settings Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "offcanvas offcanvas-end custom-offcanvas",
         tabindex: "-1",
         id: "settingsOffcanvas",
@@ -68909,157 +68936,166 @@ var _hoisted_18 = {
   "class": "card-text text-muted mb-0"
 };
 var _hoisted_19 = {
+  "class": "card-text text-muted mb-0 fs-sm"
+};
+var _hoisted_20 = {
   "class": "d-flex align-items-center gap-2"
 };
-var _hoisted_20 = ["onClick", "aria-label", "disabled"];
-var _hoisted_21 = ["onClick", "aria-label"];
-var _hoisted_22 = {
+var _hoisted_21 = ["onClick", "aria-label", "disabled", "title"];
+var _hoisted_22 = ["onClick", "aria-label"];
+var _hoisted_23 = {
   "class": "audio-player d-none"
 };
-var _hoisted_23 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "aria-label"];
-var _hoisted_24 = {
+var _hoisted_24 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "aria-label"];
+var _hoisted_25 = {
   key: 0,
   "class": "text-danger fs-6 p-3 d-flex align-items-center gap-2",
   role: "alert"
 };
-var _hoisted_25 = ["onClick"];
-var _hoisted_26 = {
+var _hoisted_26 = ["onClick"];
+var _hoisted_27 = {
   "class": "mb-5"
 };
-var _hoisted_27 = {
+var _hoisted_28 = {
   "class": "d-flex justify-content-between align-items-center mb-4"
 };
-var _hoisted_28 = {
+var _hoisted_29 = {
   "class": "d-flex align-items-center gap-2"
 };
-var _hoisted_29 = {
+var _hoisted_30 = {
   key: 0,
   "class": "text-center my-4"
 };
-var _hoisted_30 = {
+var _hoisted_31 = {
   key: 1,
   "class": "alert alert-danger",
   role: "alert"
 };
-var _hoisted_31 = {
+var _hoisted_32 = {
   key: 2
 };
-var _hoisted_32 = {
+var _hoisted_33 = {
   key: 0,
   "class": "row"
 };
-var _hoisted_33 = ["id"];
-var _hoisted_34 = {
+var _hoisted_34 = ["id"];
+var _hoisted_35 = {
   "class": "card-body"
 };
-var _hoisted_35 = {
+var _hoisted_36 = {
   "class": "d-flex align-items-center gap-3"
 };
-var _hoisted_36 = {
+var _hoisted_37 = {
   "class": "flex-grow-1"
 };
-var _hoisted_37 = {
+var _hoisted_38 = {
   "class": "d-flex justify-content-between align-items-start"
 };
-var _hoisted_38 = ["id", "innerHTML"];
-var _hoisted_39 = {
+var _hoisted_39 = ["id", "innerHTML"];
+var _hoisted_40 = {
   "class": "text-muted mb-1 fs-sm"
 };
-var _hoisted_40 = {
+var _hoisted_41 = {
   key: 0,
   "class": "ms-1"
 };
-var _hoisted_41 = ["onClick", "aria-label"];
 var _hoisted_42 = {
+  "class": "text-muted mb-1 fs-sm"
+};
+var _hoisted_43 = ["onClick", "aria-label"];
+var _hoisted_44 = {
   "class": "d-flex align-items-center justify-content-between"
 };
-var _hoisted_43 = {
+var _hoisted_45 = {
   "class": "d-flex align-items-center gap-2 text-muted fs-sm"
 };
-var _hoisted_44 = ["title"];
-var _hoisted_45 = {
+var _hoisted_46 = ["title"];
+var _hoisted_47 = {
   key: 0,
   "class": "text-theme-teal fw-semibold"
 };
-var _hoisted_46 = ["onClick", "aria-label"];
-var _hoisted_47 = {
+var _hoisted_48 = ["onClick", "aria-label", "disabled", "title"];
+var _hoisted_49 = {
   "class": "audio-player d-none"
 };
-var _hoisted_48 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "onError", "aria-label"];
-var _hoisted_49 = {
+var _hoisted_50 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "onError", "aria-label"];
+var _hoisted_51 = {
   key: 0,
   "class": "text-danger fs-6 mt-2 d-flex align-items-center gap-2",
   role: "alert"
 };
-var _hoisted_50 = ["onClick"];
-var _hoisted_51 = {
+var _hoisted_52 = ["onClick"];
+var _hoisted_53 = {
   "class": "list-container view-list"
 };
-var _hoisted_52 = ["id"];
-var _hoisted_53 = {
+var _hoisted_54 = ["id"];
+var _hoisted_55 = {
   "class": "card-body"
 };
-var _hoisted_54 = {
+var _hoisted_56 = {
   "class": "d-flex align-items-center gap-3"
 };
-var _hoisted_55 = {
+var _hoisted_57 = {
   "class": "flex-grow-1"
 };
-var _hoisted_56 = {
+var _hoisted_58 = {
   "class": "d-flex justify-content-between align-items-start"
 };
-var _hoisted_57 = ["id", "innerHTML"];
-var _hoisted_58 = {
+var _hoisted_59 = ["id", "innerHTML"];
+var _hoisted_60 = {
   "class": "text-muted mb-1 fs-sm"
 };
-var _hoisted_59 = {
+var _hoisted_61 = {
   key: 0,
   "class": "ms-1"
 };
-var _hoisted_60 = ["onClick", "aria-label"];
-var _hoisted_61 = {
+var _hoisted_62 = {
+  "class": "text-muted mb-1 fs-sm"
+};
+var _hoisted_63 = ["onClick", "aria-label"];
+var _hoisted_64 = {
   "class": "d-flex align-items-center justify-content-between mt-2"
 };
-var _hoisted_62 = {
+var _hoisted_65 = {
   "class": "d-flex align-items-center gap-2 text-muted fs-sm"
 };
-var _hoisted_63 = ["title"];
-var _hoisted_64 = {
+var _hoisted_66 = ["title"];
+var _hoisted_67 = {
   key: 1,
   "class": "text-theme-teal fw-semibold"
 };
-var _hoisted_65 = ["onClick", "aria-label"];
-var _hoisted_66 = {
+var _hoisted_68 = ["onClick", "aria-label", "disabled", "title"];
+var _hoisted_69 = {
   "class": "audio-player d-none"
 };
-var _hoisted_67 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "onError", "aria-label"];
-var _hoisted_68 = {
+var _hoisted_70 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "onError", "aria-label"];
+var _hoisted_71 = {
   key: 0,
   "class": "text-danger fs-6 mt-2 d-flex align-items-center gap-2",
   role: "alert"
 };
-var _hoisted_69 = ["onClick"];
-var _hoisted_70 = {
+var _hoisted_72 = ["onClick"];
+var _hoisted_73 = {
   key: 1,
   "class": "d-flex justify-content-center align-items-center pagination-nav flex-nowrap"
 };
-var _hoisted_71 = ["disabled"];
-var _hoisted_72 = {
+var _hoisted_74 = ["disabled"];
+var _hoisted_75 = {
   "class": "fw-semibold fs-6 mx-1 mx-sm-3 text-nowrap"
 };
-var _hoisted_73 = ["disabled"];
-var _hoisted_74 = {
+var _hoisted_76 = ["disabled"];
+var _hoisted_77 = {
   key: 0,
   "class": "global-audio-player shadow-lg"
 };
-var _hoisted_75 = {
+var _hoisted_78 = {
   "class": "d-flex align-items-center",
   style: {
     "flex": "1 1 0px",
     "justify-content": "flex-start"
   }
 };
-var _hoisted_76 = {
+var _hoisted_79 = {
   "class": "mb-0 fw-bold text-white",
   style: {
     "font-size": "1.1rem",
@@ -69067,33 +69103,33 @@ var _hoisted_76 = {
     "letter-spacing": "0.4px"
   }
 };
-var _hoisted_77 = {
+var _hoisted_80 = {
   "class": "text-white-50",
   style: {
     "letter-spacing": "0.4px"
   }
 };
-var _hoisted_78 = {
+var _hoisted_81 = {
   "class": "d-flex align-items-center",
   style: {
     "flex": "2 1 0px",
     "justify-content": "center"
   }
 };
-var _hoisted_79 = ["aria-label"];
-var _hoisted_80 = {
+var _hoisted_82 = ["aria-label"];
+var _hoisted_83 = {
   "class": "progress-bar-container flex-grow-1 mx-4"
 };
-var _hoisted_81 = ["max", "value", "disabled", "aria-label"];
-var _hoisted_82 = {
+var _hoisted_84 = ["max", "value", "disabled", "aria-label"];
+var _hoisted_85 = {
   "class": "d-flex align-items-center",
   style: {
     "flex": "1 1 0px",
     "justify-content": "flex-end"
   }
 };
-var _hoisted_83 = ["aria-label"];
-var _hoisted_84 = ["aria-label"];
+var _hoisted_86 = ["aria-label"];
+var _hoisted_87 = ["aria-label"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "main-title fw-bold"
@@ -69194,19 +69230,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "card-title mb-1 fw-bold",
       id: 'station-title-' + station.id,
       innerHTML: $setup.highlightSearch(station.name)
-    }, null, 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.category || 'Recitation'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.category || 'Recitation'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Debug: Show online status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, "Status: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.online === false ? 'Offline' : 'Online'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $setup.togglePlay(station.id);
       },
       "class": "control-btn play-pause p-0",
       "aria-label": $setup.isPlaying(station.id) ? 'Pause ' + station.name : 'Play ' + station.name,
-      disabled: !station.url
+      disabled: station.online === false || !station.url,
+      title: station.online === false ? 'Station is offline' : ''
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-1", {
         'bi-pause-circle-fill text-theme-teal': $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id),
         'bi-play-circle-fill': $setup.currentPlayingStationId !== station.id || !$setup.isPlaying(station.id)
       }])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_20), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon like-button p-2",
       onClick: function onClick($event) {
         return $setup.toggleLike(station);
@@ -69217,7 +69254,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         'bi-heart-fill text-danger': $setup.isLiked(station.id),
         'bi-heart': !$setup.isLiked(station.id)
       }, "like-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
       ref_for: true,
       ref: function ref(el) {
         return $setup.audioRefs[station.id] = el;
@@ -69236,20 +69273,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $setup.updateDuration(station.id);
       },
       "aria-label": 'Audio stream for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_23)])])]), $setup.playbackErrors[station.id] && $setup.currentPlayingStationId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_24)])])]), $setup.playbackErrors[station.id] && $setup.currentPlayingStationId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-sm btn-outline-danger",
       onClick: function onClick($event) {
         return $setup.retryPlayback(station.id);
       },
       "aria-label": "Retry playback"
-    }, "Retry", 8 /* PROPS */, _hoisted_25)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_14)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Recently Played Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("-\n       <section v-if=\"recentlyPlayed.length\" class=\"mb-5\">\n        <h3 class=\"fw-bold mb-3 fs-4 cursor-pointer section-header text-dark\"\n          @click=\"showRecentlyPlayed = !showRecentlyPlayed\" role=\"button\" :aria-expanded=\"showRecentlyPlayed\"\n          :aria-controls=\"`recently-played-stations`\">\n          Recently Played ({{ recentlyPlayed.length }})\n          <i :class=\"showRecentlyPlayed ? 'bi bi-chevron-up' : 'bi bi-chevron-down'\" class=\"ms-1\"></i>\n        </h3>\n        <div v-if=\"showRecentlyPlayed\" class=\"section-animate\" id=\"recently-played-stations\">\n          <div class=\"row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4\">\n            <div v-for=\"station in recentlyPlayed\" :key=\"station.id\" class=\"col\">\n              <div class=\"card radio-card shadow-sm border-0\"\n                :class=\"{ 'active-card': currentAudio?.src === station.url }\" :id=\"'station-' + station.id\"\n                role=\"article\" :aria-labelledby=\"'station-title-' + station.id\">\n                <div class=\"card-body d-flex justify-content-between align-items-center p-4\">\n                  <div>\n                    <h5 class=\"card-title mb-1 fw-bold\" :id=\"'station-title-' + station.id\"\n                      v-html=\"highlightSearch(station.name)\"></h5>\n                    <p class=\"card-text text-muted mb-0\">{{ station.category || 'Recitation' }}</p>\n                  </div>\n                  <div class=\"d-flex align-items-center\">\n                    <button @click=\"togglePlay(station.id)\" class=\"control-btn play-pause p-0\"\n                      :aria-label=\"isPlaying(station.id) ? 'Pause playback' : 'Play playback'\">\n                      <i class=\"bi fs-1\"\n                        :class=\"currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-theme-teal' : 'bi-play-circle-fill'\"></i>\n                    </button>\n                    <button class=\"btn btn-icon like-button p-2 ms-2\" @click=\"toggleLike(station)\"\n                      :aria-label=\"isLiked(station.id) ? 'Unlike station' : 'Like station'\">\n                      <i :class=\"isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'\"\n                        class=\"like-icon fs-5\"></i>\n                    </button>\n                    <div class=\"audio-player d-none\">\n                      <audio :ref=\"(el) => audioRefs[station.id] = el\" :src=\"station.url\"\n                        @play=\"handlePlay(station.id, $event)\" @pause=\"handlePause(station.id)\"\n                        @timeupdate=\"updateTime(station.id)\" @loadedmetadata=\"updateDuration(station.id)\"\n                        :aria-label=\"'Audio stream for ' + station.name\"></audio>\n                    </div>\n                  </div>\n                </div>\n                <div v-if=\"playbackErrors[station.id] && currentPlayingStationId === station.id\"\n                  class=\"text-danger fs-6 p-3 d-flex align-items-center gap-2\" role=\"alert\">\n                  {{ playbackErrors[station.id] }}\n                  <button class=\"btn btn-sm btn-outline-danger\" @click=\"retryPlayback(station.id)\"\n                    aria-label=\"Retry playback\">Retry</button>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <hr />\n      </section>\n      "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Radio Stations "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }, "Retry", 8 /* PROPS */, _hoisted_26)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_14)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Radio Stations "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold fs-3 text-dark"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "images/art.png",
     width: "30px",
     "class": "mb-1"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Radio Stations:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Radio Stations:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[4] || (_cache[4] = function ($event) {
       return $setup.viewMode = 'grid';
     }),
@@ -69269,16 +69306,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "List View"
   }, _cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-list-ul"
-  }, null, -1 /* HOISTED */)]), 2 /* CLASS */)])]), $setup.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, _cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* HOISTED */)]), 2 /* CLASS */)])]), $setup.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, _cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-primary",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
-  }, "Loading stations...")], -1 /* HOISTED */)]))) : $setup.fetchError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.fetchError) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Loading stations...")], -1 /* HOISTED */)]))) : $setup.fetchError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.fetchError) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-sm btn-outline-danger ms-2",
     onClick: $setup.fetchStations,
     "aria-label": "Retry loading stations"
-  }, "Retry")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid View "), $setup.viewMode === 'grid' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.paginatedStations, function (station) {
+  }, "Retry")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid View "), $setup.viewMode === 'grid' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.paginatedStations, function (station) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: station.id,
       "class": "col-md-4 mb-4"
@@ -69291,11 +69328,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "border-radius": "8px"
       },
       id: 'station-' + station.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img :src=\"station.imageUrl || '/images/default-reciter.png'\" :alt=\"station.name\"\n                       class=\"station-image rounded-circle\" @error=\"($event.target.src = '/images/default-reciter.png')\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "card-title mb-1 fw-semibold",
       id: 'station-title-' + station.id,
       innerHTML: $setup.highlightSearch(station.name)
-    }, null, 8 /* PROPS */, _hoisted_38), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.category || 'Recitation') + " ", 1 /* TEXT */), station.country ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_40, "· " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.country), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.category || 'Recitation') + " ", 1 /* TEXT */), station.country ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_41, "· " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.country), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Debug: Show online status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_42, "Status: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.online === false ? 'Offline' : 'Online'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon like-button p-2",
       onClick: function onClick($event) {
         return $setup.toggleLike(station);
@@ -69303,21 +69340,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $setup.isLiked(station.id) ? 'Unlike station' : 'Like station'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$setup.isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart', "like-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_41)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_43)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       title: "".concat(station.listeners, " listeners")
     }, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-headphones"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_44), $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_45, " Currently listening ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_46), $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_47, " Currently listening ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge", $setup.getStationStatus(station.id)["class"]])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getStationStatus(station.id).text), 3 /* TEXT, CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $setup.togglePlay(station.id);
       },
       "class": "control-btn play-pause p-0",
-      "aria-label": $setup.isPlaying(station.id) ? 'Pause playback' : 'Play playback'
+      "aria-label": $setup.isPlaying(station.id) ? 'Pause playback' : 'Play playback',
+      disabled: station.online === false,
+      title: station.online === false ? 'Station is offline' : ''
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-1", $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? 'bi-pause-circle-fill text-theme-teal' : 'bi-play-circle-fill'])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_46)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-1", {
+        'bi-pause-circle-fill text-theme-teal': $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id),
+        'bi-play-circle-fill': $setup.currentPlayingStationId !== station.id || !$setup.isPlaying(station.id)
+      }])
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_48)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
       ref_for: true,
       ref: function ref(el) {
         return $setup.audioRefs[station.id] = el;
@@ -69339,16 +69381,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $setup.handleAudioError(station.id, $event);
       },
       "aria-label": 'Audio stream for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_48)]), $setup.playbackErrors[station.id] && $setup.currentPlayingStationId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_50)]), $setup.playbackErrors[station.id] && $setup.currentPlayingStationId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-sm btn-outline-danger",
       onClick: function onClick($event) {
         return $setup.retryPlayback(station.id);
       },
       "aria-label": "Retry playback"
-    }, "Retry", 8 /* PROPS */, _hoisted_50)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_33)]);
+    }, "Retry", 8 /* PROPS */, _hoisted_52)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_34)]);
   }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.paginatedStations, function (station) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.paginatedStations, function (station) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: station.id,
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["station-list-item", {
@@ -69359,11 +69401,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "border-radius": "8px"
       },
       id: 'station-' + station.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "card-title mb-1 fw-semibold",
       id: 'station-title-' + station.id,
       innerHTML: $setup.highlightSearch(station.name)
-    }, null, 8 /* PROPS */, _hoisted_57), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.category || 'Recitation') + " ", 1 /* TEXT */), station.country ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_59, "· " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.country), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_59), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.category || 'Recitation') + " ", 1 /* TEXT */), station.country ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_61, "· " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.country), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Debug: Show online status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_62, "Status: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.online === false ? 'Offline' : 'Online'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon like-button p-2",
       onClick: function onClick($event) {
         return $setup.toggleLike(station);
@@ -69371,22 +69413,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $setup.isLiked(station.id) ? 'Unlike station' : 'Like station'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$setup.isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart', "like-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_60)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Only show listener count if the station is playing "), $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_63)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [$setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: 0,
       title: "".concat(station.listeners, " listeners")
     }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-headphones"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_63)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_64, " Currently listening ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_66)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_67, " Currently listening ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge", $setup.getStationStatus(station.id)["class"]])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getStationStatus(station.id).text), 3 /* TEXT, CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $setup.togglePlay(station.id);
       },
       "class": "control-btn play-pause p-0",
-      "aria-label": $setup.isPlaying(station.id) ? 'Pause playback' : 'Play playback'
+      "aria-label": $setup.isPlaying(station.id) ? 'Pause playback' : 'Play playback',
+      disabled: station.online === false,
+      title: station.online === false ? 'Station is offline' : ''
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-1", $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? 'bi-pause-circle-fill text-theme-teal' : 'bi-play-circle-fill'])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_65)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-1", {
+        'bi-pause-circle-fill text-theme-teal': $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id),
+        'bi-play-circle-fill': $setup.currentPlayingStationId !== station.id || !$setup.isPlaying(station.id)
+      }])
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_68)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
       ref_for: true,
       ref: function ref(el) {
         return $setup.audioRefs[station.id] = el;
@@ -69408,28 +69455,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $setup.handleAudioError(station.id, $event);
       },
       "aria-label": 'Audio stream for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_67)]), $setup.playbackErrors[station.id] && $setup.currentPlayingStationId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_70)]), $setup.playbackErrors[station.id] && $setup.currentPlayingStationId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-sm btn-outline-danger",
       onClick: function onClick($event) {
         return $setup.retryPlayback(station.id);
       },
       "aria-label": "Retry playback"
-    }, "Retry", 8 /* PROPS */, _hoisted_69)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_52);
-  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $setup.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Retry", 8 /* PROPS */, _hoisted_72)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_54);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $setup.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: $setup.previousPage,
     disabled: $setup.currentPage === 1,
     "class": "btn btn-outline-teal rounded-pill px-3 px-sm-4 me-1 me-sm-3 fs-6",
     "aria-label": "Previous page"
-  }, _cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Previous", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_71), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_72, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.totalPages), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, _cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Previous", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_74), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_75, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.totalPages), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: $setup.nextPage,
     disabled: $setup.currentPage === $setup.totalPages,
     "class": "btn btn-outline-teal rounded-pill px-3 px-sm-4 ms-1 ms-sm-3 fs-6",
     "aria-label": "Next page"
-  }, _cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Next", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_73)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Audio Player "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, _cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Next", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_76)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Audio Player "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "global-audio-player"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$setup.currentlyPlayingStation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_76, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentlyPlayingStation.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_77, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentlyPlayingStation.category || 'Recitation'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$setup.currentlyPlayingStation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_79, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentlyPlayingStation.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_80, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentlyPlayingStation.category || 'Recitation'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         onClick: $setup.previousStation,
         "class": "control-btn mx-2",
         title: "Previous Station"
@@ -69443,7 +69490,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "aria-label": $setup.isPlaying($setup.currentPlayingStationId) ? 'Pause playback' : 'Play playback'
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi text-white", $setup.isPlaying($setup.currentPlayingStationId) ? 'bi-pause-fill' : 'bi-play-fill'])
-      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_79), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_82), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         onClick: $setup.nextStation,
         "class": "control-btn mx-2",
         title: "Next Station"
@@ -69455,7 +69502,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         title: "Stop"
       }, _cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-stop-fill text-white"
-      }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         type: "range",
         min: "0",
         max: $setup.durations[$setup.currentPlayingStationId] || 100,
@@ -69466,7 +69513,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "progress-bar",
         disabled: $setup.isLive($setup.currentPlayingStationId),
         "aria-label": 'Seek bar for ' + $setup.currentlyPlayingStation.name
-      }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_81)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_84)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         onClick: _cache[8] || (_cache[8] = function ($event) {
           return $setup.toggleMute($setup.currentPlayingStationId);
         }),
@@ -69474,7 +69521,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "aria-label": $setup.volumes[$setup.currentPlayingStationId] === 0 ? 'Unmute audio' : 'Mute audio'
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-4 text-white", "bi-volume-".concat($setup.volumes[$setup.currentPlayingStationId] > 50 ? 'up' : $setup.volumes[$setup.currentPlayingStationId] > 0 ? 'down' : 'mute', "-fill")])
-      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_83), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_86), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         type: "range",
         min: "0",
         max: "100",
@@ -69486,7 +69533,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         "class": "volume-slider mx-3",
         "aria-label": 'Volume control for ' + $setup.currentlyPlayingStation.name
-      }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_84), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.volumes[$setup.currentPlayingStationId], void 0, {
+      }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_87), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.volumes[$setup.currentPlayingStationId], void 0, {
         number: true
       }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         onClick: $setup.closePlayer,
@@ -173860,7 +173907,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-87252526] {\n  background-color: #fafafa;\n  font-family: 'Inter', sans-serif;\n  font-size: 16px;\n}\n.container[data-v-87252526] {\n  max-width: 1400px;\n  padding: 1.5rem 1rem;\n}\n.radio-card[data-v-87252526] {\n  background: #ffffff;\n  border-radius: 12px;\n  overflow: hidden;\n  border: 2px solid #00bfa6;\n}\n\n/* .radio-card:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 20px rgba(0, 191, 166, 0.12);\n} */\n.reciter-card:hover .play-overlay[data-v-87252526] {\n  opacity: 1;\n  transition: opacity 0.3s ease;\n}\n.play-overlay[data-v-87252526] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  opacity: 0;\n}\n.play-icon[data-v-87252526] {\n  font-size: 2rem;\n  color: white;\n}\n.radio-card.active-card[data-v-87252526] {\n  border: 2px solid #00bfa6;\n}\n.card-title[data-v-87252526] {\n  font-size: clamp(1.125rem, 3.5vw, 1.25rem);\n  color: #1a3c34;\n}\n.like-button[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0.25rem;\n  border-radius: 50%;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.like-button[data-v-87252526]:hover {\n  background: rgba(0, 191, 166, 0.1);\n  transform: scale(1.1);\n}\n.like-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.like-icon[data-v-87252526] {\n  color: #6c757d;\n  transition: color 0.2s ease;\n}\n.like-icon.bi-heart-fill[data-v-87252526] {\n  color: #dc3545;\n}\n.playback-controls[data-v-87252526] {\n  gap: 0.5rem;\n}\n.play-button[data-v-87252526] {\n  background: #00bfa6;\n  border-radius: 50%;\n  width: clamp(40px, 10vw, 44px);\n  height: clamp(40px, 10vw, 44px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: transform 0.2s ease, background 0.2s ease;\n}\n.play-button[data-v-87252526]:hover {\n  background: #00897b;\n  transform: scale(1.05);\n}\n.play-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.play-button[data-v-87252526]:disabled {\n  background: #6c757d;\n  cursor: not-allowed;\n}\n.play-icon[data-v-87252526] {\n  font-size: clamp(1.5rem, 5vw, 1.75rem);\n  color: #ffffff;\n}\n.time-display[data-v-87252526] {\n  font-size: 0.95rem;\n  color: #6c757d;\n  font-family: 'Inter', monospace;\n  min-width: 40px;\n  text-align: center;\n  font-weight: 500;\n}\n.seek-bar[data-v-87252526],\n.volume-bar[data-v-87252526] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 5px;\n  border-radius: 2.5px;\n  background: #e9ecef;\n  cursor: pointer;\n  transition: background 0.2s ease;\n  accent-color: #00bfa6;\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n.volume-bar[data-v-87252526]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  width: 12px;\n  height: 12px;\n  background: #00bfa6;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]::-moz-range-thumb,\n.volume-bar[data-v-87252526]::-moz-range-thumb {\n  width: 12px;\n  height: 12px;\n  background: #00bfa6;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]:not(:disabled) {\n  background: linear-gradient(to right, #00bfa6 var(--value, 0%), #e9ecef var(--value, 0%));\n}\n.seek-bar[data-v-87252526]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.volume-controls[data-v-87252526] {\n  gap: 0.5rem;\n}\n.volume-button[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0.25rem;\n  border-radius: 50%;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.volume-button[data-v-87252526]:hover {\n  background: rgba(0, 191, 166, 0.1);\n  transform: scale(1.1);\n}\n.volume-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.volume-icon[data-v-87252526] {\n  color: #6c757d;\n  font-size: clamp(1.25rem, 4vw, 1.5rem);\n}\n.volume-bar[data-v-87252526] {\n  background: linear-gradient(to right, #00bfa6 calc(var(--volume-level, 50%)), #e9ecef calc(var(--volume-level, 50%)));\n}\n.form-control[data-v-87252526],\n.form-select[data-v-87252526] {\n  border: none;\n  border-radius: 20px;\n  font-size: clamp(0.875rem, 2.5vw, 1rem);\n  color: #495057;\n  transition: box-shadow 0.2s ease;\n}\n.form-control[data-v-87252526]:focus,\n.form-select[data-v-87252526]:focus {\n  box-shadow: 0 0 6px rgba(0, 191, 166, 0.3);\n  outline: none;\n}\n.input-group.shadow-sm[data-v-87252526] {\n  border-radius: 20px;\n  overflow: hidden;\n}\nmark[data-v-87252526] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: #1a3c34;\n  padding: 0 2px;\n}\n.section-animate[data-v-87252526] {\n  animation: sectionSlide-87252526 0.3s ease-out;\n}\n@keyframes sectionSlide-87252526 {\nfrom {\n    opacity: 0;\n    transform: translateY(-10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.section-header[data-v-87252526] {\n  transition: color 0.2s ease;\n}\n.section-header[data-v-87252526]:hover {\n  color: #00bfa6;\n}\n.text-danger[data-v-87252526] {\n  color: #d32f2f;\n  font-size: clamp(0.75rem, 2.5vw, 0.875rem);\n}\n.btn-outline-teal[data-v-87252526] {\n  border-color: #00bfa6;\n  color: #00bfa6;\n  background: transparent;\n  transition: background 0.2s ease, color 0.2s ease;\n}\n.btn-outline-teal[data-v-87252526]:hover {\n  background: #00bfa6;\n  color: #ffffff;\n}\n.btn-outline-teal[data-v-87252526]:active {\n  background: #00897b;\n}\n.btn-outline-teal[data-v-87252526]:disabled {\n  border-color: #6c757d;\n  color: #6c757d;\n  background: transparent;\n  cursor: not-allowed;\n}\n.pagination-nav[data-v-87252526] {\n  background: transparent;\n  gap: 0.5rem;\n}\n.player-station-name[data-v-87252526] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  letter-spacing: 0.4px;\n}\n.player-station-category[data-v-87252526] {\n  letter-spacing: 0.4px;\n}\n\n/* Search and Filter Styles */\n.search-filter-container[data-v-87252526] {\n  display: flex;\n  gap: 1rem;\n  max-width: 800px;\n  margin: 0 auto;\n}\n.search-filter-container .input-group[data-v-87252526] {\n  flex: 1;\n}\n\n/* Popular Reciters Styles */\n.popular-reciter-scroll[data-v-87252526] {\n  scrollbar-width: thin;\n  scrollbar-color: rgba(0, 191, 166, 0.4) transparent;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar {\n  height: 6px;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-track {\n  background: transparent;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-thumb {\n  background: rgba(0, 191, 166, 0.4);\n  border-radius: 3px;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-thumb:hover {\n  background: rgba(0, 191, 166, 0.6);\n}\n.radio-card[data-v-87252526] {\n  transition: all 0.3s ease;\n  background-color: #ffffff;\n  border-radius: 8px;\n}\n.radio-card.active-card[data-v-87252526] {\n  background-color: rgba(0, 191, 166, 0.161);\n  /* Light blue background for active station */\n  border: 2px solid #007bff;\n  /* Blue border to highlight */\n  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);\n  /* Subtle shadow for emphasis */\n}\n.radio-card.active-card .play-icon[data-v-87252526] {\n  color: #fff;\n  /* Darker color for play icon when active */\n}\n.reciter-card[data-v-87252526] {\n  background: #f8f9fa;\n  border: 2px solid #00897b;\n  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */\n}\n.reciter-card[data-v-87252526]:hover {\n  /* transform: translateY(-5px); */\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n}\n\n/* .reciter-image {\n  transition: transform 0.3s ease;\n}\n\n.reciter-card:hover .reciter-image {\n  transform: scale(1.1);\n} */\n.reciter-content[data-v-87252526] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.reciter-name[data-v-87252526] {\n  color: #1a3c34;\n  margin: 0;\n  white-space: normal;\n  overflow-wrap: break-word;\n  font-size: 2em;\n}\n\n/* Responsive Design */\n@media (max-width: 576px) {\n.pagination-nav .btn[data-v-87252526],\n  .pagination-nav span[data-v-87252526] {\n    font-size: 0.875rem;\n    /* Slightly smaller font size on mobile */\n}\n.container[data-v-87252526] {\n    padding: 1rem 0.5rem;\n}\n.radio-card[data-v-87252526] {\n    margin-bottom: 0.75rem;\n}\n.like-icon[data-v-87252526],\n  .volume-icon[data-v-87252526] {\n    font-size: 1.3rem;\n}\n.play-button[data-v-87252526] {\n    width: 36px;\n    height: 36px;\n}\n.play-icon[data-v-87252526] {\n    font-size: 1.25rem;\n}\n.time-display[data-v-87252526] {\n    font-size: 0.75rem;\n    min-width: 35px;\n}\n.volume-controls[data-v-87252526] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.25rem;\n}\n.volume-button[data-v-87252526] {\n    margin-bottom: 0.25rem;\n}\n.seek-bar[data-v-87252526],\n  .volume-bar[data-v-87252526] {\n    height: 4px;\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n  .seek-bar[data-v-87252526]::-moz-range-thumb {\n    width: 10px;\n    height: 10px;\n}\n.volume-bar[data-v-87252526]::-webkit-slider-thumb,\n  .volume-bar[data-v-87252526]::-moz-range-thumb {\n    width: 8px;\n    height: 8px;\n}\n.form-control[data-v-87252526],\n  .form-select[data-v-87252526] {\n    font-size: 0.875rem;\n    padding: 0.5rem 0.75rem;\n}\n.btn-outline-teal[data-v-87252526] {\n    font-size: 0.875rem;\n    padding: 0.25rem 1rem;\n}\n.search-filter-container[data-v-87252526] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n.reciter-card[data-v-87252526] {\n    min-width: 120px;\n    padding: 0.75rem;\n}\n.reciter-name[data-v-87252526] {\n    font-size: 0.875rem;\n}\n.reciter-station[data-v-87252526] {\n    font-size: 0.75rem;\n}\n.popular-reciter-scroll[data-v-87252526] {\n    gap: 1rem;\n    padding: 1rem 0.5rem;\n}\n}\n@keyframes pulse-87252526 {\n0% {\n    transform: scale(1);\n}\n50% {\n    transform: scale(1.02);\n}\n100% {\n    transform: scale(1);\n}\n}\n.radio-card.active-card[data-v-87252526] {\n  animation: pulse-87252526 1.5s infinite ease-in-out;\n}\n@media (min-width: 768px) and (max-width: 991px) {\n.row-cols-md-2>.col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 50%;\n}\n}\n@media (min-width: 992px) {\n.row-cols-lg-3>.col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 33.333333%;\n}\n}\n.custom-audio-player[data-v-87252526] {\n  padding: 10px;\n  border-radius: 8px;\n  background: #f8f9fa;\n  margin-top: 10px;\n}\n.controls[data-v-87252526] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  color: #00bfa6;\n}\n.control-btn[data-v-87252526] {\n  background: none;\n  border: none;\n  font-size: 1.5rem;\n  cursor: pointer;\n  color: #00bfa6;\n}\n.play-pause[data-v-87252526] {\n  font-size: 2rem;\n}\n.progress-bar-container[data-v-87252526] {\n  flex-grow: 1;\n  display: flex;\n  align-items: center;\n}\n.progress-bar[data-v-87252526] {\n  accent-color: #00bfa6;\n  width: 100%;\n  height: 4px;\n  /* background-color: rgba(255, 255, 255, 0.2); */\n  border-radius: 2px;\n  overflow: hidden;\n}\n.progress[data-v-87252526] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-87252526] {\n  width: 120px;\n  accent-color: #00bfa6;\n}\n.global-audio-player[data-v-87252526] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 1.25rem 2.5rem;\n  transition: transform 0.3s ease-in-out;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.global-audio-player-enter-active[data-v-87252526],\n.global-audio-player-leave-active[data-v-87252526] {\n  transition: transform 0.3s ease-in-out;\n}\n.global-audio-player-enter-from[data-v-87252526],\n.global-audio-player-leave-to[data-v-87252526] {\n  transform: translateY(100%);\n}\n@media (max-width: 768px) {\n.global-audio-player[data-v-87252526] {\n    flex-direction: column;\n    padding: 1rem;\n    gap: 0.75rem;\n}\n.global-audio-player .mx-4[data-v-87252526] {\n    margin-left: 0;\n    margin-right: 0;\n    width: 100%;\n}\n}\n.fs-sm[data-v-87252526] {\n  font-size: 0.875rem;\n}\n.btn-outline-teal.active[data-v-87252526] {\n  background-color: #0db691;\n  color: white;\n}\n.list-container.view-grid[data-v-87252526] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));\n  gap: 1.5rem;\n}\n.list-container.view-list .station-list-item[data-v-87252526] {\n  margin-bottom: 1rem;\n}\n.station-list-item[data-v-87252526] {\n  background-color: #fff;\n  border-radius: 15px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n  transition: all 0.3s ease;\n  border: 2px solid lightgrey;\n}\n.station-list-item[data-v-87252526]:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 20px rgba(0, 191, 166, 0.12);\n}\n.station-list-item.active-card[data-v-87252526] {\n  border-color: #00bfa6;\n  box-shadow: 0 0 15px rgba(13, 182, 145, 0.3);\n  background-color: rgba(0, 191, 166, 0.05);\n}\n.station-image[data-v-87252526] {\n  width: 60px;\n  height: 60px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.view-grid .station-image[data-v-87252526] {\n  width: 80px;\n  height: 80px;\n}\n.view-grid .card-body[data-v-87252526] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  gap: 4rem;\n  padding: 1.5rem;\n}\n.view-grid .d-flex.align-items-center.gap-3[data-v-87252526] {\n  flex-direction: column;\n  width: 100%;\n}\n.view-grid .flex-grow-1[data-v-87252526] {\n  width: 100%;\n}\n.view-grid .d-flex.justify-content-between.align-items-start[data-v-87252526] {\n  flex-direction: column;\n  align-items: center !important;\n  width: 100%;\n}\n.view-grid .like-button[data-v-87252526] {\n  position: absolute;\n  top: 10px;\n  right: 10px;\n}\n.view-grid .card-title[data-v-87252526] {\n  margin-top: 0.5rem;\n}\n.view-grid .d-flex.align-items-center.justify-content-between[data-v-87252526] {\n  flex-direction: column;\n  gap: 0.75rem;\n  width: 100%;\n}\n.list-container.view-list .station-list-item[data-v-87252526] {\n  margin-bottom: 1rem;\n}\n.station-list-item .card-body[data-v-87252526] {\n  padding: 1.5rem;\n}\n.station-list-item .card-title[data-v-87252526] {\n  font-size: 1.3rem;\n  font-weight: 700;\n}\n.station-list-item .fs-sm[data-v-87252526] {\n  font-size: 1rem;\n}\n.bg-theme-teal[data-v-87252526] {\n  background-color: #00bfa6;\n}\n.text-theme-teal[data-v-87252526] {\n  color: #00bfa6;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nbutton.control-btn.play-pause[data-v-87252526]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\nbutton.control-btn.play-pause:disabled i.bi-play-circle-fill[data-v-87252526] {\n  color: #6c757d !important; /* Force gray color for disabled play buttons */\n}\nbody[data-v-87252526] {\n  background-color: #fafafa;\n  font-family: 'Inter', sans-serif;\n  font-size: 16px;\n}\n.container[data-v-87252526] {\n  max-width: 1400px;\n  padding: 1.5rem 1rem;\n}\n.radio-card[data-v-87252526] {\n  background: #ffffff;\n  border-radius: 12px;\n  overflow: hidden;\n  border: 2px solid #00bfa6;\n}\n/* .radio-card:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 20px rgba(0, 191, 166, 0.12);\n} */\n.reciter-card:hover .play-overlay[data-v-87252526] {\n  opacity: 1;\n  transition: opacity 0.3s ease;\n}\n.play-overlay[data-v-87252526] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  opacity: 0;\n}\n.play-icon[data-v-87252526] {\n  font-size: 2rem;\n  color: white;\n}\n.radio-card.active-card[data-v-87252526] {\n  border: 2px solid #00bfa6;\n}\n.card-title[data-v-87252526] {\n  font-size: clamp(1.125rem, 3.5vw, 1.25rem);\n  color: #1a3c34;\n}\n.like-button[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0.25rem;\n  border-radius: 50%;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.like-button[data-v-87252526]:hover {\n  background: rgba(0, 191, 166, 0.1);\n  transform: scale(1.1);\n}\n.like-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.like-icon[data-v-87252526] {\n  color: #6c757d;\n  transition: color 0.2s ease;\n}\n.like-icon.bi-heart-fill[data-v-87252526] {\n  color: #dc3545;\n}\n.playback-controls[data-v-87252526] {\n  gap: 0.5rem;\n}\n.play-button[data-v-87252526] {\n  background: #00bfa6;\n  border-radius: 50%;\n  width: clamp(40px, 10vw, 44px);\n  height: clamp(40px, 10vw, 44px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: transform 0.2s ease, background 0.2s ease;\n}\n.play-button[data-v-87252526]:hover {\n  background: #00897b;\n  transform: scale(1.05);\n}\n.play-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.play-button[data-v-87252526]:disabled {\n  background: #6c757d;\n  cursor: not-allowed;\n}\n.play-icon[data-v-87252526] {\n  font-size: clamp(1.5rem, 5vw, 1.75rem);\n  color: #ffffff;\n}\n.time-display[data-v-87252526] {\n  font-size: 0.95rem;\n  color: #6c757d;\n  font-family: 'Inter', monospace;\n  min-width: 40px;\n  text-align: center;\n  font-weight: 500;\n}\n.seek-bar[data-v-87252526],\n.volume-bar[data-v-87252526] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 5px;\n  border-radius: 2.5px;\n  background: #e9ecef;\n  cursor: pointer;\n  transition: background 0.2s ease;\n  accent-color: #00bfa6;\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n.volume-bar[data-v-87252526]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  width: 12px;\n  height: 12px;\n  background: #00bfa6;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]::-moz-range-thumb,\n.volume-bar[data-v-87252526]::-moz-range-thumb {\n  width: 12px;\n  height: 12px;\n  background: #00bfa6;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]:not(:disabled) {\n  background: linear-gradient(to right, #00bfa6 var(--value, 0%), #e9ecef var(--value, 0%));\n}\n.seek-bar[data-v-87252526]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.volume-controls[data-v-87252526] {\n  gap: 0.5rem;\n}\n.volume-button[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0.25rem;\n  border-radius: 50%;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.volume-button[data-v-87252526]:hover {\n  background: rgba(0, 191, 166, 0.1);\n  transform: scale(1.1);\n}\n.volume-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.volume-icon[data-v-87252526] {\n  color: #6c757d;\n  font-size: clamp(1.25rem, 4vw, 1.5rem);\n}\n.volume-bar[data-v-87252526] {\n  background: linear-gradient(to right, #00bfa6 calc(var(--volume-level, 50%)), #e9ecef calc(var(--volume-level, 50%)));\n}\n.form-control[data-v-87252526],\n.form-select[data-v-87252526] {\n  border: none;\n  border-radius: 20px;\n  font-size: clamp(0.875rem, 2.5vw, 1rem);\n  color: #495057;\n  transition: box-shadow 0.2s ease;\n}\n.form-control[data-v-87252526]:focus,\n.form-select[data-v-87252526]:focus {\n  box-shadow: 0 0 6px rgba(0, 191, 166, 0.3);\n  outline: none;\n}\n.input-group.shadow-sm[data-v-87252526] {\n  border-radius: 20px;\n  overflow: hidden;\n}\nmark[data-v-87252526] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: #1a3c34;\n  padding: 0 2px;\n}\n.section-animate[data-v-87252526] {\n  animation: sectionSlide-87252526 0.3s ease-out;\n}\n@keyframes sectionSlide-87252526 {\nfrom {\n    opacity: 0;\n    transform: translateY(-10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.section-header[data-v-87252526] {\n  transition: color 0.2s ease;\n}\n.section-header[data-v-87252526]:hover {\n  color: #00bfa6;\n}\n.text-danger[data-v-87252526] {\n  color: #d32f2f;\n  font-size: clamp(0.75rem, 2.5vw, 0.875rem);\n}\n.btn-outline-teal[data-v-87252526] {\n  border-color: #00bfa6;\n  color: #00bfa6;\n  background: transparent;\n  transition: background 0.2s ease, color 0.2s ease;\n}\n.btn-outline-teal[data-v-87252526]:hover {\n  background: #00bfa6;\n  color: #ffffff;\n}\n.btn-outline-teal[data-v-87252526]:active {\n  background: #00897b;\n}\n.btn-outline-teal[data-v-87252526]:disabled {\n  border-color: #6c757d;\n  color: #6c757d;\n  background: transparent;\n  cursor: not-allowed;\n}\n.pagination-nav[data-v-87252526] {\n  background: transparent;\n  gap: 0.5rem;\n}\n.player-station-name[data-v-87252526] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  letter-spacing: 0.4px;\n}\n.player-station-category[data-v-87252526] {\n  letter-spacing: 0.4px;\n}\n/* Search and Filter Styles */\n.search-filter-container[data-v-87252526] {\n  display: flex;\n  gap: 1rem;\n  max-width: 800px;\n  margin: 0 auto;\n}\n.search-filter-container .input-group[data-v-87252526] {\n  flex: 1;\n}\n/* Popular Reciters Styles */\n.popular-reciter-scroll[data-v-87252526] {\n  scrollbar-width: thin;\n  scrollbar-color: rgba(0, 191, 166, 0.4) transparent;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar {\n  height: 6px;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-track {\n  background: transparent;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-thumb {\n  background: rgba(0, 191, 166, 0.4);\n  border-radius: 3px;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-thumb:hover {\n  background: rgba(0, 191, 166, 0.6);\n}\n.radio-card[data-v-87252526] {\n  transition: all 0.3s ease;\n  background-color: #ffffff;\n  border-radius: 8px;\n}\n.radio-card.active-card[data-v-87252526] {\n  background-color: rgba(0, 191, 166, 0.161);\n  /* Light blue background for active station */\n  border: 2px solid #007bff;\n  /* Blue border to highlight */\n  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);\n  /* Subtle shadow for emphasis */\n}\n.radio-card.active-card .play-icon[data-v-87252526] {\n  color: #fff;\n  /* Darker color for play icon when active */\n}\n.reciter-card[data-v-87252526] {\n  background: #f8f9fa;\n  border: 2px solid #00897b;\n  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */\n}\n.reciter-card[data-v-87252526]:hover {\n  /* transform: translateY(-5px); */\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n}\n/* .reciter-image {\n  transition: transform 0.3s ease;\n}\n\n.reciter-card:hover .reciter-image {\n  transform: scale(1.1);\n} */\n.reciter-content[data-v-87252526] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.reciter-name[data-v-87252526] {\n  color: #1a3c34;\n  margin: 0;\n  white-space: normal;\n  overflow-wrap: break-word;\n  font-size: 2em;\n}\n/* Responsive Design */\n@media (max-width: 576px) {\n.pagination-nav .btn[data-v-87252526],\n  .pagination-nav span[data-v-87252526] {\n    font-size: 0.875rem;\n    /* Slightly smaller font size on mobile */\n}\n.container[data-v-87252526] {\n    padding: 1rem 0.5rem;\n}\n.radio-card[data-v-87252526] {\n    margin-bottom: 0.75rem;\n}\n.like-icon[data-v-87252526],\n  .volume-icon[data-v-87252526] {\n    font-size: 1.3rem;\n}\n.play-button[data-v-87252526] {\n    width: 36px;\n    height: 36px;\n}\n.play-icon[data-v-87252526] {\n    font-size: 1.25rem;\n}\n.time-display[data-v-87252526] {\n    font-size: 0.75rem;\n    min-width: 35px;\n}\n.volume-controls[data-v-87252526] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.25rem;\n}\n.volume-button[data-v-87252526] {\n    margin-bottom: 0.25rem;\n}\n.seek-bar[data-v-87252526],\n  .volume-bar[data-v-87252526] {\n    height: 4px;\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n  .seek-bar[data-v-87252526]::-moz-range-thumb {\n    width: 10px;\n    height: 10px;\n}\n.volume-bar[data-v-87252526]::-webkit-slider-thumb,\n  .volume-bar[data-v-87252526]::-moz-range-thumb {\n    width: 8px;\n    height: 8px;\n}\n.form-control[data-v-87252526],\n  .form-select[data-v-87252526] {\n    font-size: 0.875rem;\n    padding: 0.5rem 0.75rem;\n}\n.btn-outline-teal[data-v-87252526] {\n    font-size: 0.875rem;\n    padding: 0.25rem 1rem;\n}\n.search-filter-container[data-v-87252526] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n.reciter-card[data-v-87252526] {\n    min-width: 120px;\n    padding: 0.75rem;\n}\n.reciter-name[data-v-87252526] {\n    font-size: 0.875rem;\n}\n.reciter-station[data-v-87252526] {\n    font-size: 0.75rem;\n}\n.popular-reciter-scroll[data-v-87252526] {\n    gap: 1rem;\n    padding: 1rem 0.5rem;\n}\n}\n@keyframes pulse-87252526 {\n0% {\n    transform: scale(1);\n}\n50% {\n    transform: scale(1.02);\n}\n100% {\n    transform: scale(1);\n}\n}\n.radio-card.active-card[data-v-87252526] {\n  animation: pulse-87252526 1.5s infinite ease-in-out;\n}\n@media (min-width: 768px) and (max-width: 991px) {\n.row-cols-md-2>.col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 50%;\n}\n}\n@media (min-width: 992px) {\n.row-cols-lg-3>.col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 33.333333%;\n}\n}\n.custom-audio-player[data-v-87252526] {\n  padding: 10px;\n  border-radius: 8px;\n  background: #f8f9fa;\n  margin-top: 10px;\n}\n.controls[data-v-87252526] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  color: #00bfa6;\n}\n.control-btn[data-v-87252526] {\n  background: none;\n  border: none;\n  font-size: 1.5rem;\n  cursor: pointer;\n  color: #00bfa6;\n}\n.play-pause[data-v-87252526] {\n  font-size: 2rem;\n}\n.progress-bar-container[data-v-87252526] {\n  flex-grow: 1;\n  display: flex;\n  align-items: center;\n}\n.progress-bar[data-v-87252526] {\n  accent-color: #00bfa6;\n  width: 100%;\n  height: 4px;\n  /* background-color: rgba(255, 255, 255, 0.2); */\n  border-radius: 2px;\n  overflow: hidden;\n}\n.progress[data-v-87252526] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-87252526] {\n  width: 120px;\n  accent-color: #00bfa6;\n}\n.global-audio-player[data-v-87252526] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 1.25rem 2.5rem;\n  transition: transform 0.3s ease-in-out;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.global-audio-player-enter-active[data-v-87252526],\n.global-audio-player-leave-active[data-v-87252526] {\n  transition: transform 0.3s ease-in-out;\n}\n.global-audio-player-enter-from[data-v-87252526],\n.global-audio-player-leave-to[data-v-87252526] {\n  transform: translateY(100%);\n}\n@media (max-width: 768px) {\n.global-audio-player[data-v-87252526] {\n    flex-direction: column;\n    padding: 1rem;\n    gap: 0.75rem;\n}\n.global-audio-player .mx-4[data-v-87252526] {\n    margin-left: 0;\n    margin-right: 0;\n    width: 100%;\n}\n}\n.fs-sm[data-v-87252526] {\n  font-size: 0.875rem;\n}\n.btn-outline-teal.active[data-v-87252526] {\n  background-color: #0db691;\n  color: white;\n}\n.list-container.view-grid[data-v-87252526] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));\n  gap: 1.5rem;\n}\n.list-container.view-list .station-list-item[data-v-87252526] {\n  margin-bottom: 1rem;\n}\n.station-list-item[data-v-87252526] {\n  background-color: #fff;\n  border-radius: 15px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n  transition: all 0.3s ease;\n  border: 2px solid lightgrey;\n}\n.station-list-item[data-v-87252526]:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 20px rgba(0, 191, 166, 0.12);\n}\n.station-list-item.active-card[data-v-87252526] {\n  border-color: #00bfa6;\n  box-shadow: 0 0 15px rgba(13, 182, 145, 0.3);\n  background-color: rgba(0, 191, 166, 0.05);\n}\n.station-image[data-v-87252526] {\n  width: 60px;\n  height: 60px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.view-grid .station-image[data-v-87252526] {\n  width: 80px;\n  height: 80px;\n}\n.view-grid .card-body[data-v-87252526] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  text-align: center;\n  gap: 4rem;\n  padding: 1.5rem;\n}\n.view-grid .d-flex.align-items-center.gap-3[data-v-87252526] {\n  flex-direction: column;\n  width: 100%;\n}\n.view-grid .flex-grow-1[data-v-87252526] {\n  width: 100%;\n}\n.view-grid .d-flex.justify-content-between.align-items-start[data-v-87252526] {\n  flex-direction: column;\n  align-items: center !important;\n  width: 100%;\n}\n.view-grid .like-button[data-v-87252526] {\n  position: absolute;\n  top: 10px;\n  right: 10px;\n}\n.view-grid .card-title[data-v-87252526] {\n  margin-top: 0.5rem;\n}\n.view-grid .d-flex.align-items-center.justify-content-between[data-v-87252526] {\n  flex-direction: column;\n  gap: 0.75rem;\n  width: 100%;\n}\n.list-container.view-list .station-list-item[data-v-87252526] {\n  margin-bottom: 1rem;\n}\n.station-list-item .card-body[data-v-87252526] {\n  padding: 1.5rem;\n}\n.station-list-item .card-title[data-v-87252526] {\n  font-size: 1.3rem;\n  font-weight: 700;\n}\n.station-list-item .fs-sm[data-v-87252526] {\n  font-size: 1rem;\n}\n.bg-theme-teal[data-v-87252526] {\n  background-color: #00bfa6;\n}\n.text-theme-teal[data-v-87252526] {\n  color: #00bfa6;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
