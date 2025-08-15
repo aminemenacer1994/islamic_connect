@@ -46489,15 +46489,15 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       userCountry: ''
     }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "manualQuality", 'auto'), "videoRatio", '21x9'), "selectedLanguage", 'all'), "isLoading", false), "streamError", false), "selectedChannel", null), "hlsInstance", null), "channels", [{
       name: 'Makkah TV',
-      streamUrlHD: 'https://win.holol.com/live/quran/playlist.m3u8',
-      streamUrlSD: 'https://win.holol.com/live/quran/playlist.m3u8',
+      streamUrlHD: 'https://live.gomakkah.com/makkah/makkah.m3u8',
+      streamUrlSD: 'https://live.gomakkah.com/makkah/makkah.m3u8',
       thumbnail: '/images/makkah_icon.png',
       description: 'Makkah TV broadcasts 24/7 live from Masjid al-Haram. Watch the Kaaba, live prayers, Taraweeh during Ramadan, and Hajj events from the heart of Islam.',
       languages: ['arabic']
     }, {
       name: 'Madinah TV',
-      streamUrlHD: 'https://win.holol.com/live/sunnah/playlist.m3u8',
-      streamUrlSD: 'https://win.holol.com/live/sunnah/playlist.m3u8',
+      streamUrlHD: 'https://live.gomakkah.com/madinah/madinah.m3u8',
+      streamUrlSD: 'https://live.gomakkah.com/madinah/madinah.m3u8',
       thumbnail: '/images/madina_tv1.png',
       description: 'Madinah TV streams live from Masjid an-Nabawi. Tune in to see the resting place of the Prophet Muhammad ﷺ, prayers, and peaceful views of the mosque.',
       languages: ['arabic', 'english']
@@ -67803,7 +67803,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "display-3 fw-bold mb-2"
   }, "Qibla Compass"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead text-muted"
-  }, "Your guide to prayer direction and times.")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search & Location "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, "Your essential companion for locating the precise direction of the Kaaba in Mecca for Islamic prayers, ensuring accurate alignment from anywhere in the world. This tool also provides reliable prayer times tailored to your location")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search & Location "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "h4 card-title text-primary fw-bold mb-3"
   }, "Find Your Location", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
@@ -70575,7 +70575,7 @@ var _hoisted_6 = {
   "class": "card-body p-4 text-center"
 };
 var _hoisted_7 = {
-  "class": "card-title fw-bold display-6 text-dark text-truncate",
+  "class": "fw-bold display-6 text-dark text-truncate",
   style: {
     "max-width": "100%",
     "text-align": "center"
@@ -174028,7 +174028,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ndiv[style*=\"overflow-x: overflow\"][data-v-670f86e6]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-670f86e6] {\n  background-color: #f8f9fa;\n}\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-4px);\n  transition: 0.3s ease;\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);\n}\n.mini-screen[data-v-670f86e6] {\n  position: fixed;\n  bottom: 10px;\n  right: 10px;\n  width: 200px;\n  height: 150px;\n  z-index: 9999;\n}\n.mini-video-overlay[data-v-670f86e6] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.6);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.mini-video[data-v-670f86e6] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n@media (max-width: 576px) {\nh1[data-v-670f86e6] {\n    font-size: 1.4rem;\n}\n.card-title[data-v-670f86e6] {\n    font-size: 2rem !important;\n}\n.card-body[data-v-670f86e6] {\n    padding: 1rem !important;\n}\n.form-select[data-v-670f86e6] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ndiv[style*=\"overflow-x: overflow\"][data-v-670f86e6]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-670f86e6] {\n  background-color: #f8f9fa;\n}\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-4px);\n  transition: 0.3s ease;\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);\n}\n.mini-screen[data-v-670f86e6] {\n  position: fixed;\n  bottom: 10px;\n  right: 10px;\n  width: 200px;\n  height: 150px;\n  z-index: 9999;\n}\n.mini-video-overlay[data-v-670f86e6] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.6);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.mini-video[data-v-670f86e6] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n@media (max-width: 576px) {\nh1[data-v-670f86e6] {\n    font-size: 1.4rem;\n}\n.card-title[data-v-670f86e6] {\n    font-size: 2rem !important;\n    float: center;\n}\n.card-body[data-v-670f86e6] {\n    padding: 1rem !important;\n}\n.form-select[data-v-670f86e6] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

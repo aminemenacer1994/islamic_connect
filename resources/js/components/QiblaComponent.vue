@@ -3,7 +3,7 @@
     <!-- Header -->
     <header class="text-center mb-5">
       <h1 class="display-3 fw-bold mb-2">Qibla Compass</h1>
-      <p class="lead text-muted">Your guide to prayer direction and times.</p>
+      <p class="lead text-muted">Your essential companion for locating the precise direction of the Kaaba in Mecca for Islamic prayers, ensuring accurate alignment from anywhere in the world. This tool also provides reliable prayer times tailored to your location</p>
     </header>
 
     <!-- Search & Location -->

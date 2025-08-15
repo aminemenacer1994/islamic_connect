@@ -18,7 +18,7 @@
             <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="w-100"
               style="object-fit: contain; height: 250px;">
             <div class="card-body p-4 text-center">
-              <h5 class="card-title fw-bold display-6 text-dark text-truncate"
+              <h5 class=" fw-bold display-6 text-dark text-truncate"
                 style="max-width: 100%;text-align: center;">
                 {{ channel.name }}
               </h5>
@@ -118,16 +118,16 @@ export default {
       channels: [
         {
           name: 'Makkah TV',
-          streamUrlHD: 'https://win.holol.com/live/quran/playlist.m3u8',
-          streamUrlSD: 'https://win.holol.com/live/quran/playlist.m3u8',
+          streamUrlHD: 'https://live.gomakkah.com/makkah/makkah.m3u8',
+          streamUrlSD: 'https://live.gomakkah.com/makkah/makkah.m3u8',
           thumbnail: '/images/makkah_icon.png',
           description: 'Makkah TV broadcasts 24/7 live from Masjid al-Haram. Watch the Kaaba, live prayers, Taraweeh during Ramadan, and Hajj events from the heart of Islam.',
           languages: ['arabic']
         },
         {
           name: 'Madinah TV',
-          streamUrlHD: 'https://win.holol.com/live/sunnah/playlist.m3u8',
-          streamUrlSD: 'https://win.holol.com/live/sunnah/playlist.m3u8',
+          streamUrlHD: 'https://live.gomakkah.com/madinah/madinah.m3u8',
+          streamUrlSD: 'https://live.gomakkah.com/madinah/madinah.m3u8',
           thumbnail: '/images/madina_tv1.png',
           description: 'Madinah TV streams live from Masjid an-Nabawi. Tune in to see the resting place of the Prophet Muhammad ﷺ, prayers, and peaceful views of the mosque.',
           languages: ['arabic', 'english']
@@ -320,7 +320,7 @@ body {
 
   .card-title {
     font-size: 2rem !important;
-
+    float: center;
   }
 
   .card-body {
