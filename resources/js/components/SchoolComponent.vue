@@ -99,21 +99,21 @@
                       </div>
 
                       <!-- Button container pushed to the bottom -->
-                      <div class="d-flex justify-content-between align-items-center gap-2 ">
-                        <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                          @click="openGoogleMaps(school.lat, school.lon, school.name)"
-                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
-                          <i class="bi bi-geo-alt me-2"></i>
-                          <b>Get Directions</b>
-                        </button>
-                        <a :href="school.website" target="_blank"
-                          class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                          style="background: #1881b9; color: white; height: 38px"
-                          :class="{ disabled: !school.website }">
-                          <i class="bi bi-globe me-2"></i>
-                          <b>Visit Website</b>
-                        </a>
-                      </div>
+
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center gap-2" style="padding: 10px;">
+                      <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                        @click="openGoogleMaps(school.lat, school.lon, school.name)"
+                        style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                        <i class="bi bi-geo-alt me-2"></i>
+                        <b>Get Directions</b>
+                      </button>
+                      <a :href="school.website" target="_blank"
+                        class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                        style="background: #1881b9; color: white; height: 38px" :class="{ disabled: !school.website }">
+                        <i class="bi bi-globe me-2"></i>
+                        <b>Visit Website</b>
+                      </a>
                     </div>
                   </div>
                 </div>

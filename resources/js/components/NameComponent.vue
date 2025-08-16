@@ -83,7 +83,7 @@
                     <p class="small text-muted" style="font-size: 1.2rem;">{{ name.description }}</p>
                   </div>
                   <!-- Button container pushed to the bottom -->
-                  <div class="d-flex justify-content-between align-items-center gap-2 mt-auto">
+                  <div class="d-flex justify-content-between align-items-center gap-2" style="padding: 10px;">
                     <!-- Copy to Clipboard Button -->
                     <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2"
                       @click="copyToClipboard(name)" style="background: #00bfa6; color: white; height: 38px">
@@ -134,25 +134,24 @@
                 <strong style="font-size: 1.6rem;">Description:</strong>
                 <p class="small text-muted" style="font-size: 1.2rem;">{{ name.description }}</p>
               </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center gap-2 mb-2" style="padding: 10px;">
+              <!-- Copy to Clipboard Button -->
+              <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2"
+                @click="copyToClipboard(name)" style="background: #1881b9; color: white; height: 38px">
+                <span class="text-center w-100">
+                  <i class="bi bi-clipboard me-2"></i>
+                  <b>Copy</b>
+                </span>
+              </button>
 
-              <div class="d-flex justify-content-between align-items-center gap-2">
-                <!-- Copy to Clipboard Button -->
-                <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2"
-                  @click="copyToClipboard(name)" style="background: #1881b9; color: white; height: 38px">
-                  <span class="text-center w-100">
-                    <i class="bi bi-clipboard me-2"></i>
-                    <b>Copy</b>
-                  </span>
-                </button>
-
-                <!-- WhatsApp Share Button -->
-                <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                  :href="generateWhatsAppLink(name)" target="_blank" rel="noopener"
-                  style="background: #00bfa6; color: white; height: 38px">
-                  <i class="bi bi-whatsapp me-2"></i>
-                  <b>Share</b>
-                </a>
-              </div>
+              <!-- WhatsApp Share Button -->
+              <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                :href="generateWhatsAppLink(name)" target="_blank" rel="noopener"
+                style="background: #00bfa6; color: white; height: 38px">
+                <i class="bi bi-whatsapp me-2"></i>
+                <b>Share</b>
+              </a>
             </div>
           </div>
         </div>
@@ -1044,7 +1043,6 @@ html {
 .btn-primary {
   background-color: rgb(10, 150, 120);
   color: rgb(255, 255, 255);
-
   border-color: rgb(10, 150, 120);
 }
 
