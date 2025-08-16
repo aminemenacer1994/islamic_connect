@@ -46495,15 +46495,15 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       userCountry: ''
     }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "manualQuality", 'auto'), "videoRatio", '21x9'), "selectedLanguage", 'all'), "isLoading", false), "streamError", false), "selectedChannel", null), "hlsInstance", null), "channels", [{
       name: 'Makkah TV',
-      streamUrlHD: 'https://live.gomakkah.com/makkah/makkah.m3u8',
-      streamUrlSD: 'https://live.gomakkah.com/makkah/makkah.m3u8',
+      streamUrlHD: 'https://win.holol.com/live/quran/playlist.m3u8',
+      streamUrlSD: 'https://win.holol.com/live/quran/playlist.m3u8',
       thumbnail: '/images/makkah_icon.png',
       description: 'Makkah TV broadcasts 24/7 live from Masjid al-Haram. Watch the Kaaba, live prayers, Taraweeh during Ramadan, and Hajj events from the heart of Islam.',
       languages: ['arabic']
     }, {
       name: 'Madinah TV',
-      streamUrlHD: 'https://live.gomakkah.com/madinah/madinah.m3u8',
-      streamUrlSD: 'https://live.gomakkah.com/madinah/madinah.m3u8',
+      streamUrlHD: 'https://win.holol.com/live/sunnah/playlist.m3u8',
+      streamUrlSD: 'https://win.holol.com/live/sunnah/playlist.m3u8',
       thumbnail: '/images/madina_tv1.png',
       description: 'Madinah TV streams live from Masjid an-Nabawi. Tune in to see the resting place of the Prophet Muhammad ﷺ, prayers, and peaceful views of the mosque.',
       languages: ['arabic', 'english']
@@ -46778,7 +46778,9 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       lastScrollTime: 0,
       scrollAttempts: 0,
       lastScrollPosition: null,
-      continuousPlayback: true // New data property for playback mode
+      continuousPlayback: true,
+      // New data property for playback mode
+      isAutoScrolling: true
     };
   },
   computed: {
@@ -46998,11 +47000,20 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     },
     scrollToAyahByIndex: function scrollToAyahByIndex(index) {
       var _this6 = this;
+      if (!this.isAutoScrolling || !this.$refs.audioCard || !this.$refs.audioCard[index]) {
+        return;
+      }
       if (index < 0 || index >= this.filteredAyahs.length) {
         console.warn("Invalid ayah index: ".concat(index));
         return;
       }
       this.$nextTick(function () {
+        _this6.$refs.audioCard[index].scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          // Center the ayah in the viewport
+          inline: 'nearest'
+        });
         var audioCards = Array.isArray(_this6.$refs.audioCard) ? _this6.$refs.audioCard : [];
         if (!audioCards[index]) {
           console.warn("Audio card for index ".concat(index, " not found"));
@@ -47277,33 +47288,26 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }
     },
     handleManualScroll: function handleManualScroll() {
-      var _this10 = this;
       if (this.autoScrollFrame || this.autoScrollInterval) {
         console.log('Manual scroll detected, stopping auto-scroll');
         this.isManualScrolling = true;
         this.stopAutoScroll();
-
-        // Resume auto-scroll after a delay if audio is still playing
-        setTimeout(function () {
-          _this10.isManualScrolling = false;
-          if (_this10.isAudioPlaying[_this10.currentlyPlayingIndex]) {
-            console.log('Resuming auto-scroll after manual scroll');
-            _this10.startAutoScroll();
-          }
-        }, 4000); // Increased delay to give user more time
+        // Do not resume auto-scroll
+        // Removed: setTimeout to restart auto-scroll
+        this.isManualScrolling = false; // Reset manual scrolling flag immediately
       }
     },
     highlightedText: function highlightedText(ayah) {
-      var _this11 = this;
+      var _this10 = this;
       if (!ayah.text) return "";
       var words = ayah.text.split(" ");
       return words.map(function (word, index) {
-        var isHighlighted = index === _this11.highlightedWordIndex ? "highlighted-word" : "";
+        var isHighlighted = index === _this10.highlightedWordIndex ? "highlighted-word" : "";
         return "<span class=\"".concat(isHighlighted, "\">").concat(word, "</span>");
       }).join(" ");
     },
     initializeAudioElements: function initializeAudioElements() {
-      var _this12 = this;
+      var _this11 = this;
       console.log('Initializing audio elements for', this.filteredAyahs.length, 'ayahs');
       if (!this.$refs.audioCard || !this.$refs.audioCard.length) {
         console.warn('No audio cards available for initialization');
@@ -47324,48 +47328,48 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           var audio = new Audio(ayah.audio);
           audio.preload = index < 5 ? 'auto' : 'metadata';
           audio.load();
-          audio.playbackRate = _this12.playbackSpeed;
-          audio.volume = _this12.volume;
+          audio.playbackRate = _this11.playbackSpeed;
+          audio.volume = _this11.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this12.updateProgress(index);
+            return _this11.updateProgress(index);
           });
           audio.addEventListener("loadedmetadata", function () {
             console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(audio.duration));
-            _this12.progress[index] = 0;
-            _this12.isAudioLoading[index] = false;
+            _this11.progress[index] = 0;
+            _this11.isAudioLoading[index] = false;
           });
           audio.addEventListener("canplay", function () {
             console.log("Audio can play for ayah ".concat(index + 1));
-            _this12.isAudioLoading[index] = false;
-            if (index === _this12.currentlyPlayingIndex && _this12.isAudioPlaying[index]) {
-              _this12.playAudio(index);
+            _this11.isAudioLoading[index] = false;
+            if (index === _this11.currentlyPlayingIndex && _this11.isAudioPlaying[index]) {
+              _this11.playAudio(index);
             }
           });
           audio.addEventListener("ended", function () {
-            return _this12.handleAyahEnd(index);
+            return _this11.handleAyahEnd(index);
           });
           audio.addEventListener("error", function (e) {
-            var _this12$$toast;
+            var _this11$$toast;
             console.error("Audio error for ayah ".concat(index + 1, ":"), e);
-            _this12.isAudioLoading[index] = false;
-            (_this12$$toast = _this12.$toast) === null || _this12$$toast === void 0 || _this12$$toast.error("Failed to load audio for ayah ".concat(index + 1));
+            _this11.isAudioLoading[index] = false;
+            (_this11$$toast = _this11.$toast) === null || _this11$$toast === void 0 || _this11$$toast.error("Failed to load audio for ayah ".concat(index + 1));
           });
           return audio;
         } catch (e) {
-          var _this12$$toast2;
+          var _this11$$toast2;
           console.error("Failed to create audio for ayah ".concat(index + 1, ":"), e);
-          (_this12$$toast2 = _this12.$toast) === null || _this12$$toast2 === void 0 || _this12$$toast2.error("Failed to create audio for ayah ".concat(index + 1));
+          (_this11$$toast2 = _this11.$toast) === null || _this11$$toast2 === void 0 || _this11$$toast2.error("Failed to create audio for ayah ".concat(index + 1));
           return null;
         }
       });
       console.log('Audio elements initialized:', this.audioElements.length, 'elements');
     },
     preloadNextAyahs: function preloadNextAyahs(startIndex) {
-      var _this13 = this;
+      var _this12 = this;
       var maxPreload = 5;
       this.filteredAyahs.slice(startIndex, startIndex + maxPreload).forEach(function (ayah, index) {
         var realIndex = startIndex + index;
-        if (realIndex >= _this13.audioElements.length || _this13.audioElements[realIndex]) return;
+        if (realIndex >= _this12.audioElements.length || _this12.audioElements[realIndex]) return;
         if (!ayah.audio) {
           console.warn("No audio URL for ayah ".concat(realIndex + 1));
           return;
@@ -47374,40 +47378,40 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           var audio = new Audio(ayah.audio);
           audio.preload = 'metadata';
           audio.load();
-          audio.playbackRate = _this13.playbackSpeed;
-          audio.volume = _this13.volume;
+          audio.playbackRate = _this12.playbackSpeed;
+          audio.volume = _this12.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this13.updateProgress(realIndex);
+            return _this12.updateProgress(realIndex);
           });
           audio.addEventListener("loadedmetadata", function () {
             console.log("Metadata loaded for ayah ".concat(realIndex + 1, ", duration: ").concat(audio.duration));
-            _this13.progress[realIndex] = 0;
-            _this13.isAudioLoading[realIndex] = false;
+            _this12.progress[realIndex] = 0;
+            _this12.isAudioLoading[realIndex] = false;
           });
           audio.addEventListener("canplay", function () {
             console.log("Audio can play for ayah ".concat(realIndex + 1));
-            _this13.isAudioLoading[realIndex] = false;
+            _this12.isAudioLoading[realIndex] = false;
           });
           audio.addEventListener("ended", function () {
-            return _this13.handleAyahEnd(realIndex);
+            return _this12.handleAyahEnd(realIndex);
           });
           audio.addEventListener("error", function (e) {
-            var _this13$$toast;
+            var _this12$$toast;
             console.error("Audio error for ayah ".concat(realIndex + 1, ":"), e);
-            _this13.isAudioLoading[realIndex] = false;
-            (_this13$$toast = _this13.$toast) === null || _this13$$toast === void 0 || _this13$$toast.error("Failed to load audio for ayah ".concat(realIndex + 1));
+            _this12.isAudioLoading[realIndex] = false;
+            (_this12$$toast = _this12.$toast) === null || _this12$$toast === void 0 || _this12$$toast.error("Failed to load audio for ayah ".concat(realIndex + 1));
           });
-          _this13.audioElements[realIndex] = audio;
+          _this12.audioElements[realIndex] = audio;
         } catch (e) {
-          var _this13$$toast2;
+          var _this12$$toast2;
           console.error("Failed to create audio for ayah ".concat(realIndex + 1, ":"), e);
-          (_this13$$toast2 = _this13.$toast) === null || _this13$$toast2 === void 0 || _this13$$toast2.error("Failed to create audio for ayah ".concat(realIndex + 1));
+          (_this12$$toast2 = _this12.$toast) === null || _this12$$toast2 === void 0 || _this12$$toast2.error("Failed to create audio for ayah ".concat(realIndex + 1));
         }
       });
       console.log("Preloaded audio elements for ayahs ".concat(startIndex + 1, " to ").concat(Math.min(startIndex + maxPreload, this.filteredAyahs.length)));
     },
     playAudio: function playAudio(index) {
-      var _this14 = this;
+      var _this13 = this;
       console.log('Attempting to play audio for index:', index);
       if (index < 0 || index >= this.filteredAyahs.length || !this.audioElements[index]) {
         var _this$$toast;
@@ -47435,18 +47439,18 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 
       // Setup metadata and word timing
       this.currentlyPlaying.onloadedmetadata = function () {
-        console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(_this14.currentlyPlaying.duration));
-        var duration = _this14.currentlyPlaying.duration;
+        console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(_this13.currentlyPlaying.duration));
+        var duration = _this13.currentlyPlaying.duration;
         var wordCount = ayah.text.split(' ').length;
         if (wordCount > 0 && duration > 0) {
           var step = duration / wordCount;
-          _this14.wordTimings = Array.from({
+          _this13.wordTimings = Array.from({
             length: wordCount
           }, function (_, i) {
             return i * step;
           });
         } else {
-          _this14.wordTimings = [];
+          _this13.wordTimings = [];
         }
       };
       if (this.currentlyPlaying.readyState >= 1) {
@@ -47454,44 +47458,44 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }
       this.highlightedWordIndex = -1;
       this.currentlyPlaying.ontimeupdate = function () {
-        _this14.syncHighlight();
-        _this14.updateProgress(index);
+        _this13.syncHighlight();
+        _this13.updateProgress(index);
       };
       var _attemptPlay = function attemptPlay() {
         var attempts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
         var maxAttempts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
         if (attempts >= maxAttempts) {
-          var _this14$$toast;
+          var _this13$$toast;
           console.error("Failed to play audio for ayah ".concat(index + 1, " after ").concat(maxAttempts, " attempts"));
-          _this14.isAudioPlaying[index] = false;
-          _this14.isAudioLoading[index] = false;
-          _this14.isHighlighted = false;
-          (_this14$$toast = _this14.$toast) === null || _this14$$toast === void 0 || _this14$$toast.error("Failed to play audio for ayah ".concat(index + 1));
+          _this13.isAudioPlaying[index] = false;
+          _this13.isAudioLoading[index] = false;
+          _this13.isHighlighted = false;
+          (_this13$$toast = _this13.$toast) === null || _this13$$toast === void 0 || _this13$$toast.error("Failed to play audio for ayah ".concat(index + 1));
           return;
         }
-        _this14.currentlyPlaying.play().then(function () {
+        _this13.currentlyPlaying.play().then(function () {
           console.log("Playing audio for ayah ".concat(index + 1));
-          _this14.isAudioPlaying[index] = true;
-          _this14.isAudioLoading[index] = false;
-          _this14.isHighlighted = true;
-          _this14.showAudioPlayer = true;
-          _this14.preloadNextAyahs(index + 1);
+          _this13.isAudioPlaying[index] = true;
+          _this13.isAudioLoading[index] = false;
+          _this13.isHighlighted = true;
+          _this13.showAudioPlayer = true;
+          _this13.preloadNextAyahs(index + 1);
           // --- Auto-scroll code removed ---
         })["catch"](function (err) {
           console.error("Play error for ayah ".concat(index + 1, ":"), err);
-          if (_this14.currentlyPlaying.readyState < 2) {
+          if (_this13.currentlyPlaying.readyState < 2) {
             console.log("Audio not ready, retrying in 50ms for ayah ".concat(index + 1, " (attempt ").concat(attempts + 1, ")"));
             setTimeout(function () {
               return _attemptPlay(attempts + 1, maxAttempts);
             }, 50);
           } else {
-            var _this14$$toast2;
+            var _this13$$toast2;
             console.error("Unrecoverable play error for ayah ".concat(index + 1, ":"), err);
-            _this14.isAudioPlaying[index] = false;
-            _this14.isAudioLoading[index] = false;
-            _this14.isHighlighted = false;
-            (_this14$$toast2 = _this14.$toast) === null || _this14$$toast2 === void 0 || _this14$$toast2.error("Failed to play audio for ayah ".concat(index + 1));
-            _this14.handleAyahEnd(index);
+            _this13.isAudioPlaying[index] = false;
+            _this13.isAudioLoading[index] = false;
+            _this13.isHighlighted = false;
+            (_this13$$toast2 = _this13.$toast) === null || _this13$$toast2 === void 0 || _this13$$toast2.error("Failed to play audio for ayah ".concat(index + 1));
+            _this13.handleAyahEnd(index);
           }
         });
       };
@@ -47584,36 +47588,36 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     });
     return highlightedText;
   }), "toggleVisibility", function toggleVisibility() {
-    var _this15 = this;
+    var _this14 = this;
     this.isVisible = !this.isVisible;
     this.$nextTick(function () {
+      _this14.ensureCardPositionsCached(function () {
+        if (_this14.isAudioPlaying[_this14.currentlyPlayingIndex]) {
+          _this14.smoothScrollToAyah(_this14.currentlyPlayingIndex);
+        }
+      });
+    });
+  }), "increaseFontSize", function increaseFontSize() {
+    var _this15 = this;
+    if (this.arabicFontSize < 40) this.arabicFontSize += 2;
+    if (this.translationFontSize < 30) this.translationFontSize += 2;
+    this.$nextTick(function () {
+      _this15.cardPositions = [];
       _this15.ensureCardPositionsCached(function () {
         if (_this15.isAudioPlaying[_this15.currentlyPlayingIndex]) {
           _this15.smoothScrollToAyah(_this15.currentlyPlayingIndex);
         }
       });
     });
-  }), "increaseFontSize", function increaseFontSize() {
+  }), "decreaseFontSize", function decreaseFontSize() {
     var _this16 = this;
-    if (this.arabicFontSize < 40) this.arabicFontSize += 2;
-    if (this.translationFontSize < 30) this.translationFontSize += 2;
+    if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
+    if (this.translationFontSize > 12) this.translationFontSize -= 2;
     this.$nextTick(function () {
       _this16.cardPositions = [];
       _this16.ensureCardPositionsCached(function () {
         if (_this16.isAudioPlaying[_this16.currentlyPlayingIndex]) {
           _this16.smoothScrollToAyah(_this16.currentlyPlayingIndex);
-        }
-      });
-    });
-  }), "decreaseFontSize", function decreaseFontSize() {
-    var _this17 = this;
-    if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
-    if (this.translationFontSize > 12) this.translationFontSize -= 2;
-    this.$nextTick(function () {
-      _this17.cardPositions = [];
-      _this17.ensureCardPositionsCached(function () {
-        if (_this17.isAudioPlaying[_this17.currentlyPlayingIndex]) {
-          _this17.smoothScrollToAyah(_this17.currentlyPlayingIndex);
         }
       });
     });
@@ -47642,28 +47646,28 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     };
     return languageFlags[lang.toLowerCase()] || '🌐';
   }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "fetchSurahs", function fetchSurahs() {
-    var _this18 = this;
+    var _this17 = this;
     this.isLoading = true;
     fetch("https://api.alquran.cloud/v1/surah").then(function (response) {
       if (!response.ok) throw new Error("Failed to fetch Surahs: ".concat(response.status));
       return response.json();
     }).then(function (data) {
-      if (!_this18._isDestroyed) {
-        _this18.surahs = data.data || [];
+      if (!_this17._isDestroyed) {
+        _this17.surahs = data.data || [];
       }
-      _this18.isLoading = false;
+      _this17.isLoading = false;
     })["catch"](function (error) {
       console.error("Error fetching Surahs:", error);
-      _this18.isLoading = false;
+      _this17.isLoading = false;
     });
   }), "fetchReciters", function fetchReciters() {
-    var _this19 = this;
+    var _this18 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
       var response, data;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            _this19.isLoading = true;
+            _this18.isLoading = true;
             _context.prev = 1;
             _context.next = 4;
             return fetch("https://api.alquran.cloud/v1/edition/format/audio");
@@ -47679,8 +47683,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
             return response.json();
           case 9:
             data = _context.sent;
-            if (!_this19._isDestroyed) {
-              _this19.reciters = data.data.filter(function (reciter) {
+            if (!_this18._isDestroyed) {
+              _this18.reciters = data.data.filter(function (reciter) {
                 return reciter.identifier && reciter.englishName;
               }).map(function (reciter) {
                 return {
@@ -47691,14 +47695,14 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
                 return !['elmir kuliev 2 by 1muslimapp', 'elmir kuliev by 1muslimapp', 'elmir kuliev elevatemuslim', 'elmir kuliev 1muslim', 'elmir kuliev 2muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(reciter.englishName.toLowerCase());
               });
             }
-            _this19.isLoading = false;
+            _this18.isLoading = false;
             _context.next = 18;
             break;
           case 14:
             _context.prev = 14;
             _context.t0 = _context["catch"](1);
             console.error("Error fetching Reciters:", _context.t0);
-            _this19.isLoading = false;
+            _this18.isLoading = false;
           case 18:
           case "end":
             return _context.stop();
@@ -47706,13 +47710,13 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }, _callee, null, [[1, 14]]);
     }))();
   }), "fetchTranslations", function fetchTranslations() {
-    var _this20 = this;
+    var _this19 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-      var response, data, translations, _this20$$toast;
+      var response, data, translations, _this19$$toast;
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
-            _this20.isLoading = true;
+            _this19.isLoading = true;
             _context2.prev = 1;
             _context2.next = 4;
             return fetch("https://api.alquran.cloud/v1/edition/type/translation");
@@ -47728,7 +47732,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
             return response.json();
           case 9:
             data = _context2.sent;
-            if (!_this20._isDestroyed) {
+            if (!_this19._isDestroyed) {
               _context2.next = 12;
               break;
             }
@@ -47739,8 +47743,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
               break;
             }
             console.error("No translation data received from API");
-            _this20.translations = [];
-            _this20.isLoading = false;
+            _this19.translations = [];
+            _this19.isLoading = false;
             return _context2.abrupt("return");
           case 17:
             translations = data.data.map(function (translation) {
@@ -47748,7 +47752,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
                 identifier: translation.identifier,
                 englishName: translation.englishName || "Unknown Translation",
                 language: translation.language || "Unknown",
-                flag: _this20.getFlagFromLanguage(translation.language || "Unknown")
+                flag: _this19.getFlagFromLanguage(translation.language || "Unknown")
               };
             }).filter(function (translation) {
               return translation.flag !== '🌐';
@@ -47760,18 +47764,18 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
               if (a.englishName > b.englishName) return 1;
               return 0;
             });
-            _this20.translations = translations;
+            _this19.translations = translations;
             console.log('Translations fetched:', translations);
-            _this20.isLoading = false;
+            _this19.isLoading = false;
             _context2.next = 30;
             break;
           case 24:
             _context2.prev = 24;
             _context2.t0 = _context2["catch"](1);
             console.error("Error fetching Translations:", _context2.t0);
-            _this20.translations = [];
-            (_this20$$toast = _this20.$toast) === null || _this20$$toast === void 0 || _this20$$toast.error("Failed to load translations");
-            _this20.isLoading = false;
+            _this19.translations = [];
+            (_this19$$toast = _this19.$toast) === null || _this19$$toast === void 0 || _this19$$toast.error("Failed to load translations");
+            _this19.isLoading = false;
           case 30:
           case "end":
             return _context2.stop();
@@ -47779,18 +47783,18 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }, _callee2, null, [[1, 24]]);
     }))();
   }), "fetchSurahDetails", function fetchSurahDetails() {
-    var _this21 = this;
+    var _this20 = this;
     if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return Promise.resolve();
     this.isLoading = true;
     return fetch("https://api.alquran.cloud/v1/surah/".concat(this.selectedSurah, "/editions/").concat(this.selectedReciter, ",").concat(this.selectedTranslation)).then(function (response) {
       if (!response.ok) throw new Error("Failed to fetch Surah details: ".concat(response.status));
       return response.json();
     }).then(function (data) {
-      if (_this21._isDestroyed) return;
+      if (_this20._isDestroyed) return;
       var arabicText = data.data[0];
       var translation = data.data[1];
-      _this21.surahDetails = {
-        surahNumber: _this21.selectedSurah,
+      _this20.surahDetails = {
+        surahNumber: _this20.selectedSurah,
         englishName: arabicText.englishName,
         name: arabicText.name,
         ayahs: arabicText.ayahs.map(function (ayah, index) {
@@ -47802,29 +47806,29 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           };
         })
       };
-      console.log('Surah details fetched:', _this21.surahDetails);
-      _this21.isLoading = false;
+      console.log('Surah details fetched:', _this20.surahDetails);
+      _this20.isLoading = false;
     })["catch"](function (error) {
       console.error("Error fetching Surah details:", error);
-      _this21.isLoading = false;
+      _this20.isLoading = false;
     });
   }), "resetAllAudioPlayers", function resetAllAudioPlayers() {
-    var _this22 = this;
+    var _this21 = this;
     this.$nextTick(function () {
-      if (_this22.currentlyPlaying) {
-        _this22.currentlyPlaying.pause();
-        _this22.currentlyPlaying = null;
-        _this22.currentlyPlayingIndex = 0;
+      if (_this21.currentlyPlaying) {
+        _this21.currentlyPlaying.pause();
+        _this21.currentlyPlaying = null;
+        _this21.currentlyPlayingIndex = 0;
       }
-      if (_this22.audioElements && _this22.audioElements.forEach) {
-        _this22.audioElements.forEach(function (audio) {
+      if (_this21.audioElements && _this21.audioElements.forEach) {
+        _this21.audioElements.forEach(function (audio) {
           if (audio && audio.remove) audio.remove();
         });
       }
-      _this22.initializeAudioElements();
-      _this22.isAudioPlaying = new Array(_this22.filteredAyahs.length).fill(false);
-      _this22.isAudioLoading = new Array(_this22.filteredAyahs.length).fill(false);
-      _this22.progress = new Array(_this22.filteredAyahs.length).fill(0);
+      _this21.initializeAudioElements();
+      _this21.isAudioPlaying = new Array(_this21.filteredAyahs.length).fill(false);
+      _this21.isAudioLoading = new Array(_this21.filteredAyahs.length).fill(false);
+      _this21.progress = new Array(_this21.filteredAyahs.length).fill(0);
     });
   }), "savePreference", function savePreference(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
@@ -47837,38 +47841,29 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         console.log("Continuous playback disabled, stopping after ayah ".concat(index + 1));
       }
     }
-  }), "playNextAyah", function playNextAyah() {
-    var _this23 = this;
-    if (this.filteredAyahs.length > 0) {
-      var nextIndex = (this.currentlyPlayingIndex + 1) % this.filteredAyahs.length;
-      if (nextIndex < this.filteredAyahs.length && this.audioElements[nextIndex]) {
-        console.log("Playing next ayah: ".concat(nextIndex + 1));
-
-        // Stop current auto-scroll before starting new one
-        this.stopAutoScroll();
-
-        // Small delay to ensure smooth transition
-        setTimeout(function () {
-          _this23.playAudio(nextIndex);
-        }, 100);
-      } else {
-        console.warn("Cannot play next ayah: index ".concat(nextIndex, " invalid or no audio element"));
-      }
+  }), "playNextAyah", function playNextAyah(currentIndex) {
+    if (currentIndex + 1 < this.filteredAyahs.length) {
+      this.stopAudio(currentIndex);
+      this.toggleAudioPlayer(currentIndex + 1); // Play next ayah
+    } else {
+      this.stopAudio(currentIndex);
+      this.showAudioPlayer = false;
+      this.currentlyPlayingIndex = -1;
     }
   }), "toggleVolume", function toggleVolume() {
     this.showVolumeBar = !this.showVolumeBar;
   }), "updateVolume", function updateVolume() {
-    var _this24 = this;
+    var _this22 = this;
     if (this.currentlyPlaying) {
       this.currentlyPlaying.volume = this.volume;
     }
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(function (audio) {
-        if (audio) audio.volume = _this24.volume;
+        if (audio) audio.volume = _this22.volume;
       });
     }
   }), _defineProperty(_defineProperty(_methods, "closeAudioPlayer", function closeAudioPlayer() {
-    var _this25 = this;
+    var _this23 = this;
     if (this.currentlyPlayingIndex !== null) {
       this.stopAudio(this.currentlyPlayingIndex);
     }
@@ -47885,7 +47880,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           top: 0,
           behavior: 'smooth'
         });
-        _this25.ensureCardPositionsCached(function () {});
+        _this23.ensureCardPositionsCached(function () {});
       }, 200);
     });
   }), "syncHighlight", function syncHighlight() {
@@ -47899,7 +47894,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
   })),
   mounted: function mounted() {
     var _JSON$parse,
-      _this26 = this;
+      _this24 = this;
     this.selectedSurah = "1";
     this.selectedReciter = "ar.alafasy";
     this.selectedTranslation = "en.ahmedali";
@@ -47913,15 +47908,15 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       behavior: 'instant'
     });
     Promise.all([this.fetchReciters(), this.fetchSurahs(), this.fetchTranslations(), this.fetchSurahDetails()]).then(function () {
-      _this26.isInitialLoad = false;
-      _this26.$nextTick(function () {
+      _this24.isInitialLoad = false;
+      _this24.$nextTick(function () {
         setTimeout(function () {
           // Ensure we're still at the top after content loads
           window.scrollTo({
             top: 0,
             behavior: 'instant'
           });
-          _this26.ensureCardPositionsCached(function () {});
+          _this24.ensureCardPositionsCached(function () {});
         }, 1000);
       });
     });
@@ -66162,13 +66157,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card rounded-4 overflow-hidden",
+    "class": "card custom-card shadow-sm rounded-4",
     style: {
-      "border": "1px solid grey"
+      "border": "1px solid grey",
+      "background": "whitesmoke"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    "class": "badge rounded-pill bg-black text-white position-absolute top-0 start-0 m-2"
+  }, "Under development"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/mtv2.png",
     alt: "Watch Live",
     "class": "w-100",
@@ -66186,20 +66182,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Watch Islamic TV channels and live lectures—stream events, khutbahs, educational programs, and spiritual content anytime."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/streaming'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Live")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Watch Islamic TV channels and live lectures—stream events, khutbahs, educational programs, and spiritual content anytime."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button class=\"form-control\" onclick=\"window.location.href='/streaming'\"\n              style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\" disabled>\n              <span class=\"text-center w-100\"><b>Watch Live</b></span>\n            </button> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card rounded-4 overflow-hidden",
@@ -71070,7 +71053,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       top: _ctx.isVisible ? '80px' : '60px'
     }),
     ref: "stickyDropdown"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Existing template for surah, reciter, and translation selection "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.toggleVisibility && $options.toggleVisibility.apply($options, arguments);
     }),
@@ -71132,7 +71115,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: translation.identifier,
       value: translation.identifier
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.flag), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.language) + ") ", 1 /* TEXT */)], 8 /* PROPS */, _hoisted_10);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTranslation]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-12 col-md-4\">\n          <label class=\"form-label text-white\">Playback Mode:</label>\n          <div class=\"form-check form-switch\">\n            <input class=\"form-check-input\" type=\"checkbox\" id=\"continuousPlayback\" v-model=\"continuousPlayback\"\n              @change=\"savePreference('continuousPlayback', continuousPlayback)\">\n            <label class=\"form-check-label text-white\" for=\"continuousPlayback\">\n              {{ continuousPlayback ? 'Continuous Playback' : 'Stop After Each Ayah' }}\n            </label>\n          </div>\n        </div> ")], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isVisible]])], 4 /* STYLE */), _ctx.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, "Loading Surah...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredAyahs, function (ayah, index) {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTranslation]])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isVisible]])], 4 /* STYLE */), _ctx.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, "Loading Surah...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredAyahs, function (ayah, index) {
     var _ctx$surahDetails;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       style: {

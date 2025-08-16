@@ -30,8 +30,8 @@
       </div>
 
       <div class="col-md-6 col-lg-4">
-        <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
-          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+        <div class="card custom-card shadow-sm rounded-4 " style="border: 1px solid grey; background:whitesmoke">
+          <span class="badge rounded-pill bg-black text-white position-absolute top-0 start-0 m-2">Under development</span>
           <img src="/images/mtv2.png" alt="Watch Live" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Live Streaming</h5>
@@ -39,11 +39,11 @@
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Watch Islamic TV channels and live
               lectures—stream events, khutbahs, educational programs, and spiritual content anytime.</p>
 
-            <button class="form-control" onclick="window.location.href='/streaming'"
+            <!-- <button class="form-control" onclick="window.location.href='/streaming'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
-              type="submit">
+              type="submit" disabled>
               <span class="text-center w-100"><b>Watch Live</b></span>
-            </button>
+            </button> -->
           </div>
         </div>
       </div>

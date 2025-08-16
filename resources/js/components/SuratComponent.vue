@@ -12,6 +12,7 @@
 
     <!-- Sticky Dropdowns Container -->
     <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown">
+      <!-- Existing template for surah, reciter, and translation selection -->
       <span @click="toggleVisibility" class="text-white" style="cursor: pointer;">
         <i v-if="isVisible" class="bi bi-x-lg"></i>
         <i v-else class="bi bi-plus-lg h5"></i>
@@ -45,16 +46,6 @@
             </option>
           </select>
         </div>
-        <!-- <div class="col-12 col-md-4">
-          <label class="form-label text-white">Playback Mode:</label>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="continuousPlayback" v-model="continuousPlayback"
-              @change="savePreference('continuousPlayback', continuousPlayback)">
-            <label class="form-check-label text-white" for="continuousPlayback">
-              {{ continuousPlayback ? 'Continuous Playback' : 'Stop After Each Ayah' }}
-            </label>
-          </div>
-        </div> -->
       </div>
     </div>
 
@@ -255,7 +246,8 @@ export default {
       lastScrollTime: 0,
       scrollAttempts: 0,
       lastScrollPosition: null,
-      continuousPlayback: true // New data property for playback mode
+      continuousPlayback: true, // New data property for playback mode
+      isAutoScrolling: true,
     };
   },
   computed: {
@@ -463,12 +455,22 @@ export default {
     },
 
     scrollToAyahByIndex: function (index) {
+      if (!this.isAutoScrolling || !this.$refs.audioCard || !this.$refs.audioCard[index]) {
+        return;
+      }
       if (index < 0 || index >= this.filteredAyahs.length) {
         console.warn(`Invalid ayah index: ${index}`);
         return;
       }
 
       this.$nextTick(() => {
+
+        this.$refs.audioCard[index].scrollIntoView({
+          behavior: 'smooth',
+          block: 'center', // Center the ayah in the viewport
+          inline: 'nearest',
+        });
+
         const audioCards = Array.isArray(this.$refs.audioCard) ? this.$refs.audioCard : [];
         if (!audioCards[index]) {
           console.warn(`Audio card for index ${index} not found`);
@@ -748,15 +750,9 @@ export default {
         console.log('Manual scroll detected, stopping auto-scroll');
         this.isManualScrolling = true;
         this.stopAutoScroll();
-
-        // Resume auto-scroll after a delay if audio is still playing
-        setTimeout(() => {
-          this.isManualScrolling = false;
-          if (this.isAudioPlaying[this.currentlyPlayingIndex]) {
-            console.log('Resuming auto-scroll after manual scroll');
-            this.startAutoScroll();
-          }
-        }, 4000); // Increased delay to give user more time
+        // Do not resume auto-scroll
+        // Removed: setTimeout to restart auto-scroll
+        this.isManualScrolling = false; // Reset manual scrolling flag immediately
       }
     },
     highlightedText: function (ayah) {
@@ -860,94 +856,94 @@ export default {
       console.log(`Preloaded audio elements for ayahs ${startIndex + 1} to ${Math.min(startIndex + maxPreload, this.filteredAyahs.length)}`);
     },
     playAudio: function (index) {
-  console.log('Attempting to play audio for index:', index);
-  if (index < 0 || index >= this.filteredAyahs.length || !this.audioElements[index]) {
-    console.error(`Cannot play audio: Invalid audio element or index ${index}`);
-    this.$toast?.error(`Cannot play audio for ayah ${index + 1}`);
-    return;
-  }
-
-  this.isAudioLoading[index] = true;
-
-  // Stop any currently playing audio
-  if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
-    console.log('Pausing currently playing audio');
-    this.currentlyPlaying.pause();
-    this.currentlyPlaying.currentTime = 0;
-  }
-
-  // Update playing states
-  this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
-  this.currentlyPlaying = this.audioElements[index];
-  this.currentlyPlayingIndex = index;
-  this.isHighlighted = true;
-
-  const ayah = this.filteredAyahs[index];
-
-  // Setup metadata and word timing
-  this.currentlyPlaying.onloadedmetadata = () => {
-    console.log(`Metadata loaded for ayah ${index + 1}, duration: ${this.currentlyPlaying.duration}`);
-    const duration = this.currentlyPlaying.duration;
-    const wordCount = ayah.text.split(' ').length;
-    if (wordCount > 0 && duration > 0) {
-      const step = duration / wordCount;
-      this.wordTimings = Array.from({ length: wordCount }, (_, i) => i * step);
-    } else {
-      this.wordTimings = [];
-    }
-  };
-
-  if (this.currentlyPlaying.readyState >= 1) {
-    this.currentlyPlaying.onloadedmetadata();
-  }
-
-  this.highlightedWordIndex = -1;
-  this.currentlyPlaying.ontimeupdate = () => {
-    this.syncHighlight();
-    this.updateProgress(index);
-  };
-
-  const attemptPlay = (attempts = 0, maxAttempts = 10) => {
-    if (attempts >= maxAttempts) {
-      console.error(`Failed to play audio for ayah ${index + 1} after ${maxAttempts} attempts`);
-      this.isAudioPlaying[index] = false;
-      this.isAudioLoading[index] = false;
-      this.isHighlighted = false;
-      this.$toast?.error(`Failed to play audio for ayah ${index + 1}`);
-      return;
-    }
-
-    this.currentlyPlaying.play().then(() => {
-      console.log(`Playing audio for ayah ${index + 1}`);
-      this.isAudioPlaying[index] = true;
-      this.isAudioLoading[index] = false;
-      this.isHighlighted = true;
-      this.showAudioPlayer = true;
-      this.preloadNextAyahs(index + 1);
-      // --- Auto-scroll code removed ---
-    }).catch(err => {
-      console.error(`Play error for ayah ${index + 1}:`, err);
-      if (this.currentlyPlaying.readyState < 2) {
-        console.log(`Audio not ready, retrying in 50ms for ayah ${index + 1} (attempt ${attempts + 1})`);
-        setTimeout(() => attemptPlay(attempts + 1, maxAttempts), 50);
-      } else {
-        console.error(`Unrecoverable play error for ayah ${index + 1}:`, err);
-        this.isAudioPlaying[index] = false;
-        this.isAudioLoading[index] = false;
-        this.isHighlighted = false;
-        this.$toast?.error(`Failed to play audio for ayah ${index + 1}`);
-        this.handleAyahEnd(index);
+      console.log('Attempting to play audio for index:', index);
+      if (index < 0 || index >= this.filteredAyahs.length || !this.audioElements[index]) {
+        console.error(`Cannot play audio: Invalid audio element or index ${index}`);
+        this.$toast?.error(`Cannot play audio for ayah ${index + 1}`);
+        return;
       }
-    });
-  };
 
-  if (this.currentlyPlaying.readyState >= 2) {
-    attemptPlay();
-  } else {
-    this.currentlyPlaying.addEventListener("canplay", () => attemptPlay(), { once: true });
-    this.currentlyPlaying.load();
-  }
-},
+      this.isAudioLoading[index] = true;
+
+      // Stop any currently playing audio
+      if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
+        console.log('Pausing currently playing audio');
+        this.currentlyPlaying.pause();
+        this.currentlyPlaying.currentTime = 0;
+      }
+
+      // Update playing states
+      this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
+      this.currentlyPlaying = this.audioElements[index];
+      this.currentlyPlayingIndex = index;
+      this.isHighlighted = true;
+
+      const ayah = this.filteredAyahs[index];
+
+      // Setup metadata and word timing
+      this.currentlyPlaying.onloadedmetadata = () => {
+        console.log(`Metadata loaded for ayah ${index + 1}, duration: ${this.currentlyPlaying.duration}`);
+        const duration = this.currentlyPlaying.duration;
+        const wordCount = ayah.text.split(' ').length;
+        if (wordCount > 0 && duration > 0) {
+          const step = duration / wordCount;
+          this.wordTimings = Array.from({ length: wordCount }, (_, i) => i * step);
+        } else {
+          this.wordTimings = [];
+        }
+      };
+
+      if (this.currentlyPlaying.readyState >= 1) {
+        this.currentlyPlaying.onloadedmetadata();
+      }
+
+      this.highlightedWordIndex = -1;
+      this.currentlyPlaying.ontimeupdate = () => {
+        this.syncHighlight();
+        this.updateProgress(index);
+      };
+
+      const attemptPlay = (attempts = 0, maxAttempts = 10) => {
+        if (attempts >= maxAttempts) {
+          console.error(`Failed to play audio for ayah ${index + 1} after ${maxAttempts} attempts`);
+          this.isAudioPlaying[index] = false;
+          this.isAudioLoading[index] = false;
+          this.isHighlighted = false;
+          this.$toast?.error(`Failed to play audio for ayah ${index + 1}`);
+          return;
+        }
+
+        this.currentlyPlaying.play().then(() => {
+          console.log(`Playing audio for ayah ${index + 1}`);
+          this.isAudioPlaying[index] = true;
+          this.isAudioLoading[index] = false;
+          this.isHighlighted = true;
+          this.showAudioPlayer = true;
+          this.preloadNextAyahs(index + 1);
+          // --- Auto-scroll code removed ---
+        }).catch(err => {
+          console.error(`Play error for ayah ${index + 1}:`, err);
+          if (this.currentlyPlaying.readyState < 2) {
+            console.log(`Audio not ready, retrying in 50ms for ayah ${index + 1} (attempt ${attempts + 1})`);
+            setTimeout(() => attemptPlay(attempts + 1, maxAttempts), 50);
+          } else {
+            console.error(`Unrecoverable play error for ayah ${index + 1}:`, err);
+            this.isAudioPlaying[index] = false;
+            this.isAudioLoading[index] = false;
+            this.isHighlighted = false;
+            this.$toast?.error(`Failed to play audio for ayah ${index + 1}`);
+            this.handleAyahEnd(index);
+          }
+        });
+      };
+
+      if (this.currentlyPlaying.readyState >= 2) {
+        attemptPlay();
+      } else {
+        this.currentlyPlaying.addEventListener("canplay", () => attemptPlay(), { once: true });
+        this.currentlyPlaying.load();
+      }
+    },
     pauseAudio: function (index) {
       if (this.audioElements[index]) {
         console.log(`Pausing audio for ayah ${index + 1}`);
@@ -1234,22 +1230,32 @@ export default {
         }
       }
     },
-    playNextAyah: function () {
-      if (this.filteredAyahs.length > 0) {
-        const nextIndex = (this.currentlyPlayingIndex + 1) % this.filteredAyahs.length;
-        if (nextIndex < this.filteredAyahs.length && this.audioElements[nextIndex]) {
-          console.log(`Playing next ayah: ${nextIndex + 1}`);
+    // playNextAyah: function () {
+    //   if (this.filteredAyahs.length > 0) {
+    //     const nextIndex = (this.currentlyPlayingIndex + 1) % this.filteredAyahs.length;
+    //     if (nextIndex < this.filteredAyahs.length && this.audioElements[nextIndex]) {
+    //       console.log(`Playing next ayah: ${nextIndex + 1}`);
 
-          // Stop current auto-scroll before starting new one
-          this.stopAutoScroll();
+    //       // Stop current auto-scroll before starting new one
+    //       this.stopAutoScroll();
 
-          // Small delay to ensure smooth transition
-          setTimeout(() => {
-            this.playAudio(nextIndex);
-          }, 100);
-        } else {
-          console.warn(`Cannot play next ayah: index ${nextIndex} invalid or no audio element`);
-        }
+    //       // Small delay to ensure smooth transition
+    //       setTimeout(() => {
+    //         this.playAudio(nextIndex);
+    //       }, 100);
+    //     } else {
+    //       console.warn(`Cannot play next ayah: index ${nextIndex} invalid or no audio element`);
+    //     }
+    //   }
+    // },
+    playNextAyah(currentIndex) {
+      if (currentIndex + 1 < this.filteredAyahs.length) {
+        this.stopAudio(currentIndex);
+        this.toggleAudioPlayer(currentIndex + 1); // Play next ayah
+      } else {
+        this.stopAudio(currentIndex);
+        this.showAudioPlayer = false;
+        this.currentlyPlayingIndex = -1;
       }
     },
     toggleVolume: function () {
