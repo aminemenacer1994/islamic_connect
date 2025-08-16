@@ -72,9 +72,9 @@
                     <p class="card-text text-muted mb-0 fs-sm">Status: {{ station.online === false ? 'Offline' : 'Online' }}</p>
                   </div>
                   <div class="d-flex align-items-center gap-2">
-                    <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
+                    <button v-if="station.online !== false" @click="togglePlay(station.id)" class="control-btn play-pause p-0"
                       :aria-label="isPlaying(station.id) ? 'Pause ' + station.name : 'Play ' + station.name"
-                      :disabled="station.online === false || !station.url"
+                      :disabled="!station.url"
                       :title="station.online === false ? 'Station is offline' : ''">
                       <i class="bi fs-1" :class="{
                         'bi-pause-circle-fill text-theme-teal': currentPlayingStationId === station.id && isPlaying(station.id),
@@ -173,9 +173,9 @@
                             {{ getStationStatus(station.id).text }}
                           </span>
                         </div>
-                        <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
+                        <button v-if="station.online !== false" @click="togglePlay(station.id)" class="control-btn play-pause p-0"
                           :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'"
-                          :disabled="station.online === false"
+                          :disabled="!station.url"
                           :title="station.online === false ? 'Station is offline' : ''">
                           <i class="bi fs-1" :class="{
                             'bi-pause-circle-fill text-theme-teal': currentPlayingStationId === station.id && isPlaying(station.id),
@@ -240,9 +240,9 @@
                           {{ getStationStatus(station.id).text }}
                         </span>
                       </div>
-                      <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
+                      <button v-if="station.online !== false" @click="togglePlay(station.id)" class="control-btn play-pause p-0"
                         :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'"
-                        :disabled="station.online === false"
+                        :disabled="!station.url"
                         :title="station.online === false ? 'Station is offline' : ''">
                         <i class="bi fs-1" :class="{
                           'bi-pause-circle-fill text-theme-teal': currentPlayingStationId === station.id && isPlaying(station.id),
@@ -334,7 +334,6 @@
     </transition>
   </div>
 </template>
-
 <script setup>
 import { ref, computed, onMounted, reactive, nextTick, onBeforeUnmount } from 'vue';
 
@@ -399,7 +398,6 @@ const defaultPopularReciters = [
     imageUrl: 'images/asds.jpeg',
     imageLoaded: true
   },
-
   {
     id: 7,
     name: 'Saud Al-Shuraim',
@@ -498,7 +496,7 @@ const sortedStations = computed(() => {
     case 'name_asc':
       return stationsToSort.sort((a, b) => a.name.localeCompare(b.name));
     case 'name_desc':
-      return stationsToSort.sort((a, b) => b.name.localeCompare(a.name));
+      return stationsToSort.sort((a, b) => b.name.localeCompare(b.name));
     case 'listeners_desc':
       return stationsToSort.sort((a, b) => (b.listeners || 0) - (a.listeners || 0));
     default:
@@ -1029,7 +1027,6 @@ const playAudio = (index) => {
   }, 300);
 }
 </script>
-
 <style scoped>
 button.control-btn.play-pause:disabled {
   opacity: 0.5;

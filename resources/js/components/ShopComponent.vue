@@ -7,16 +7,16 @@
           Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher
           shops.
         </p>
-        <div class="shadow" style="border-radius: 8px; padding: 10px; ">
+        <div class="shadow" style="border-radius: 12px; padding: 10px; ">
           <!-- Search Section -->
-          <div class="card-body" style="padding: 5px;">
-            <div class="flex-wrap align-items-center justify-content-center gap-3 mb-4">
+          <div class="card-body container-fluid" style="padding: 5px;">
+            <div class="row mb-4 justify-content-center">
               <!-- Search form -->
               <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchLocation"
                 style="gap: 0.5rem;">
                 <h4 class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</h4>
                 <input id="searchInput" type="search" class="form-control" placeholder="Enter city..."
-                  aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
+                  aria-label="Search" v-model="searchQuery" autocomplete="off"
                   style="max-width: 300px;" ref="searchInput" />
                 <button class="btn align-items-center justify-content-center"
                   style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"

@@ -53,7 +53,7 @@
           <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
           <img src="/images/radio5.jpg" alt="Radio stations" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
-            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Radio Stations</h5>
+            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Reciters Stations</h5>
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
               Tune in to live Islamic radio from around the world, featuring Qur’an recitations, lectures, nasheeds,
@@ -61,7 +61,7 @@
             <button class="form-control" onclick="window.location.href='/radio'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
-              <span class="text-center w-100"><b>Explore Radio</b></span>
+              <span class="text-center w-100"><b>Explore Reciters</b></span>
             </button>
           </div>
         </div>
