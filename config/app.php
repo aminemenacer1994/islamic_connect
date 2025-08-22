@@ -182,6 +182,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Laravel\Sanctum\SanctumServiceProvider::class,
+        Laravel\Cashier\CashierServiceProvider::class,
 
         /*
          * Package Service Providers...

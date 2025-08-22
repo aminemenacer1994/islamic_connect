@@ -45,6 +45,9 @@ class Kernel extends HttpKernel
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            'auth:sanctum',
         ],
     ];
 
@@ -68,5 +71,10 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\CheckRole::class,
         'admin' => \App\Http\Middleware\CheckAdmin::class,
+        'subscribed' => \App\Http\Middleware\RequireSubscription::class,
+    ];
+
+    protected $middlewareAliases = [
+        'subscribed' => \App\Http\Middleware\RequireSubscription::class,
     ];
 }

@@ -40,10 +40,12 @@
     36 => 'Spatie\\Honeypot\\HoneypotServiceProvider',
     37 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     38 => 'Barryvdh\\DomPDF\\ServiceProvider',
-    39 => 'App\\Providers\\AppServiceProvider',
-    40 => 'App\\Providers\\AuthServiceProvider',
-    41 => 'App\\Providers\\EventServiceProvider',
-    42 => 'App\\Providers\\RouteServiceProvider',
+    39 => 'Laravel\\Sanctum\\SanctumServiceProvider',
+    40 => 'Laravel\\Cashier\\CashierServiceProvider',
+    41 => 'App\\Providers\\AppServiceProvider',
+    42 => 'App\\Providers\\AuthServiceProvider',
+    43 => 'App\\Providers\\EventServiceProvider',
+    44 => 'App\\Providers\\RouteServiceProvider',
   ),
   'eager' => 
   array (
@@ -71,10 +73,12 @@
     21 => 'Spatie\\Honeypot\\HoneypotServiceProvider',
     22 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     23 => 'Barryvdh\\DomPDF\\ServiceProvider',
-    24 => 'App\\Providers\\AppServiceProvider',
-    25 => 'App\\Providers\\AuthServiceProvider',
-    26 => 'App\\Providers\\EventServiceProvider',
-    27 => 'App\\Providers\\RouteServiceProvider',
+    24 => 'Laravel\\Sanctum\\SanctumServiceProvider',
+    25 => 'Laravel\\Cashier\\CashierServiceProvider',
+    26 => 'App\\Providers\\AppServiceProvider',
+    27 => 'App\\Providers\\AuthServiceProvider',
+    28 => 'App\\Providers\\EventServiceProvider',
+    29 => 'App\\Providers\\RouteServiceProvider',
   ),
   'deferred' => 
   array (

@@ -316,13 +316,13 @@ export default {
                 The topics range from faith, Islamic history, and jurisprudence to social justice, current affairs, and political challenges faced by Muslims today.`,
           image: "./images/mad_mamluk.jpg",
         },
-        // {
-        //   name: "The Deen Show",
-        //   rssUrl: "https://thedeenshow.com/feed/podcast/",
-        //   desc: `The Deen Show is an American Islamic talk show hosted by Eddie, a convert to Islam, who engages with scholars, experts, and influential speakers to educate both Muslims and non-Muslims about Islam.  
-        //         With a focus on dawah (Islamic outreach), Eddie explores fundamental beliefs, misconceptions about Islam, and the lives of prominent Muslim figures.`,
-        //   image: "./images/deen_show.png",
-        // },
+        {
+          name: "The Deen Show",
+          rssUrl: "https://muslimcentral.com/audio/wahaj-tarin/feed/",
+          desc: `The Deen Show is an American Islamic talk show hosted by Eddie, a convert to Islam, who engages with scholars, experts, and influential speakers to educate both Muslims and non-Muslims about Islam.  
+                With a focus on dawah (Islamic outreach), Eddie explores fundamental beliefs, misconceptions about Islam, and the lives of prominent Muslim figures.`,
+          image: "./images/deen_show.png",
+        },
         {
           name: "Yaqeen",
           rssUrl: "https://feeds.buzzsprout.com/1014445.rss",

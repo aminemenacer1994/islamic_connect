@@ -1,875 +1,502 @@
 <template>
-  <div id="app">
-    <section class="py-5">
-      <div class="container pt-3 pb-3">
-        <div class="row gx-4 align-items-center justify-content-between">
-          <div class="col-md-10 order-2 order-md-1 pb-3">
-            <div class="mt-3 mt-md-0">
-              <h2 class="display-5 fw-bold pb-3">Unlock Islamic Knowledge for Every Muslim With Your Help</h2>
+  <div id="app" class="py-5">
+    <div class="container">
+      <!-- Transparent Pricing Section -->
+      <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-black">Transparent Pricing</h1>
+        <p class="lead text-muted">
+          Choose the plan that fits your healthcare management needs. All plans
+          include 24/7 support and are free for the first 14 days.
+        </p>
+      </div>
 
-              <p class="lead lh-base mb-3">
-                🌍 Around the world, millions of Muslims are still struggling to access the Quran and authentic Islamic
-                knowledge — especially reverts, people with disabilities, and those in under-resourced communities.
-              </p>
-
-              <p class="lead lh-base mb-4">
-                🚀 At <b>Islamic Connect</b>, we’re building a game-changing platform that makes learning Islam easy,
-                inclusive, and accessible for all — powered by AI, voice tools, and disability-friendly features.
-              </p>
-
-              <p class="lead lh-base mb-4">
-                👉 <b>Your donation is more than charity — it’s Sadaqah Jariyah.</b> Every contribution helps someone connect
-                with the Quran, learn a dua, or discover Islam for the first time — and you share in every reward.
-              </p>
-
-              <h2 class="display-5 fw-bold pb-3 mt-4">📦 Where Your Donation Goes</h2>
-
-              <ul class="lead lh-base ps-3 mb-4" style="list-style-type: none;">
-                <li class="mb-2">📚 <b>Content Expansion</b> – Adding more Quranic content, Hadith, Seerah, Duas,
-                  lectures, and educational materials.</li>
-                <li class="mb-2">♿ <b>Accessibility Tools</b> – Improving features for the blind, deaf, and physically
-                  disabled (screen readers, TTS, voice search, etc.).</li>
-                <li class="mb-2">🤖 <b>AI Development</b> – Building voice search, personalized recitation tools, and
-                  smart learning experiences.</li>
-                <li class="mb-2">🔐 <b>Essential Costs</b> – Covering servers, security and third-party services</li>
-                <li class="mb-2">👨‍💻 <b>Team Support</b> – Supporting our small team of developers working around the
-                  clock to serve the ummah.</li>
-              </ul>
-
-              <h3 class="display-5 fw-bold pb-3 mt-4">Why Give?</h3>
-
-              <p class="lead lh-base mb-4">
-                Because your donation could be the reason someone:
-              </p>
-
-              <ul class="lead lh-base ps-3 mb-4" style="list-style-type: none;">
-                <li class="mb-2">📖 Hears the Quran for the first time</li>
-                <li class="mb-2">🕋 Learns how to pray</li>
-                <li class="mb-2">🤲 Finds peace through a dua</li>
-                <li class="mb-2">🕌 Connects to Allah in a way they never could before</li>
-              </ul>
-
-              <p class="lead lh-base mb-4">
-                🌟 <b>Make an impact that lasts.</b><br />
-                Support Islamic Connect and donate today.
-              </p>
-
-              <div class="col-md-10">
-                <button class="container form-control"
-                  style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
-                  onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
-                  <div style="font-size:1.5em"><b>Donate Now</b></div>
-                </button>
-              </div>
-            </div>
-          </div>
-          
+      <!-- Pricing Toggle -->
+      <div class="d-flex justify-content-center mb-5">
+        <div class="btn-group pricing-toggle" role="group">
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            :class="{ active: !isAnnual }"
+            @click="isAnnual = false"
+          >
+            Monthly
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-dark position-relative"
+            :class="{ active: isAnnual }"
+            @click="isAnnual = true"
+          >
+            Annual
+            <span
+              class="badge badge-popular position-absolute top-0 end-0 translate-middle-y"
+              >20% off</span
+            >
+          </button>
         </div>
       </div>
-    </section>
 
-    <!-- <hr class="container" />
-      <div class="container pt-3">
-        <div class="row justify-content-center text-center mb-3">
-          <div class="col-lg-8 col-xl-7">
-            <h1 class="display-5 mb-3 fw-bold">Why Go Premium ?</h1>
+      <!-- Pricing Cards -->
+      <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        <!-- Starter Card -->
+        <div class="col">
+          <div class="card h-100 pricing-card p-4 text-center">
+            <h5 class="card-title text-muted text-uppercase">Starter</h5>
+            <h2 class="card-text fw-bold my-3">
+              ${{ isAnnual ? "0" : "0"
+              }}<small class="text-muted fw-normal">/mo</small>
+            </h2>
+            <p class="card-text text-muted">All features included</p>
+            <ul class="list-unstyled text-start my-4">
+              <li>
+                <i class="fas fa-check-circle text-custom-primary me-2"></i>Starter
+                plan access
+              </li>
+              <li>
+                <i class="fas fa-check-circle text-custom-primary me-2"></i>30-day
+                records access
+              </li>
+              <li>
+                <i class="fas fa-check-circle text-custom-primary me-2"></i>Reporting
+                & Analytics
+              </li>
+            </ul>
+            <a href="#" class="btn btn-secondary rounded-pill fw-bold"
+              >Start with Free</a
+            >
           </div>
         </div>
 
-        <div class="row pt-3 g-4 g-md-5">
-          <p class="lead container text-center pt-2">
-            Your support helps us keep Islamic knowledge accessible to everyone. By subscribing to a premium plan,
-            you’re not just unlocking advanced features you’re contributing to a platform that empowers learning,
-            accessibility, and a deeper connection to the Quran for all.</br></br>
-            Every premium subscription helps sustain this project, ensuring that more people can benefit from features
-            designed to enhance understanding and engagement with the Quran.
+        <!-- Professional Card -->
+        <div class="col">
+          <div class="card h-100 pricing-card p-4 text-center">
+            <h5 class="card-title text-muted text-uppercase">Professional</h5>
+            <h2 class="card-text fw-bold my-3">
+              ${{ isAnnual ? "15.20" : "19"
+              }}<small class="text-muted fw-normal">/mo</small>
+            </h2>
+            <p class="card-text text-muted">All plan includes</p>
+            <ul class="list-unstyled text-start my-4">
+              <li>
+                <i class="fas fa-check-circle text-custom-primary me-2"></i>Advanced
+                plan included
+              </li>
+              <li>
+                <i class="fas fa-check-circle text-custom-primary me-2"></i>5,000
+                records access
+              </li>
+              <li>
+                <i class="fas fa-check-circle text-custom-primary me-2"></i
+                >Comprehensive analytics
+              </li>
+            </ul>
+            <a href="#" class="btn btn-custom-primary rounded-pill fw-bold"
+              >Start with Free</a
+            >
+          </div>
+        </div>
+
+        <!-- Advanced Custom Card (Featured) -->
+        <div class="col">
+          <div
+            class="card h-100 featured-card pricing-card p-4 text-center"
+          >
+            <span class="badge-popular">Most Popular</span>
+            <h5 class="card-title text-uppercase">Advanced</h5>
+            <h2 class="card-text fw-bold my-3">
+              Custom<small class="fw-normal text-white-50">/mo</small>
+            </h2>
+            <p class="card-text text-white-50">All plan includes</p>
+            <ul class="list-unstyled text-start my-4">
+              <li>
+                <i class="fas fa-check-circle text-white me-2"></i>Custom plan
+                included
+              </li>
+              <li>
+                <i class="fas fa-check-circle text-white me-2"></i>Unlimited
+                records access
+              </li>
+              <li>
+                <i class="fas fa-check-circle text-white me-2"></i>Premium
+                support
+              </li>
+            </ul>
+            <a
+              href="#"
+              class="btn btn-light rounded-pill fw-bold text-dark"
+              >Start with Free</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Brands Section -->
+      <div class="text-center text-muted mb-5">
+        <p>More than 100+ companies trusted us</p>
+        <!-- Placeholder for brand logos -->
+      </div>
+
+      <!-- Comparison Table Section -->
+      <div class="table-responsive mb-5">
+        <table class="table align-middle new-compare-table">
+          <thead>
+            <tr>
+              <th scope="col" class="text-start">Price</th>
+              <th scope="col" class="text-center">Basic Plan</th>
+              <th scope="col" class="text-center">Professional Plan</th>
+              <th scope="col" class="text-center">Advanced Plan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Basic features at no cost</th>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <th scope="row">Access to limited code outputs</th>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <th scope="row">Community support</th>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <th scope="row">Basic AI-powered sketch</th>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <th scope="row">Limited storage processing</th>
+              <td class="text-center">100 GB</td>
+              <td class="text-center">600 GB</td>
+              <td class="text-center">1 TB</td>
+            </tr>
+            <tr>
+              <th scope="row">Full access to all features</th>
+              <td class="text-center">-</td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <th scope="row">Embedded files</th>
+              <td class="text-center">-</td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <th scope="row">Real-time whiteboard collaboration</th>
+              <td class="text-center">-</td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+              <td class="text-center"><i class="fas fa-check"></i></td>
+            </tr>
+            <tr>
+              <th scope="row">Updates tab</th>
+              <td class="text-center">-</td>
+              <td class="text-center">Limited</td>
+              <td class="text-center">Unlimited</td>
+            </tr>
+            <tr>
+              <th scope="row">Zoom connectivity</th>
+              <td class="text-center">-</td>
+              <td class="text-center">Limited</td>
+              <td class="text-center">Unlimited</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Features Section -->
+      <div class="text-center mb-5">
+        <h2 class="fw-bold text-black">Features to Elevate Your Operations</h2>
+        <p class="lead text-muted">
+          Designed with the tools and technology your healthcare organization
+          needs to enhance your operations and make your life easier.
+        </p>
+      </div>
+      <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        <!-- Feature Card 1 -->
+        <div class="col">
+          <div class="card h-100 feature-card p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="feature-icon-circle me-3">
+                <i class="fas fa-chart-line fa-2x"></i>
+              </div>
+              <h5 class="card-title fw-bold m-0 text-black">
+                Advanced Data Security & Compliance
+              </h5>
+            </div>
+            <p class="card-text text-muted">
+              We provide a secured platform for your health information,
+              protected by the latest technology.
+            </p>
+          </div>
+        </div>
+        <!-- Feature Card 2 -->
+        <div class="col">
+          <div class="card h-100 feature-card p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="feature-icon-circle me-3">
+                <i class="fas fa-user-shield fa-2x"></i>
+              </div>
+              <h5 class="card-title fw-bold m-0 text-black">Patient Data Management</h5>
+            </div>
+            <p class="card-text text-muted">
+              Manage patient records with a secured platform that enables you to
+              share patient data seamlessly.
+            </p>
+          </div>
+        </div>
+        <!-- Feature Card 3 -->
+        <div class="col">
+          <div class="card h-100 feature-card p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="feature-icon-circle me-3">
+                <i class="fas fa-cogs fa-2x"></i>
+              </div>
+              <h5 class="card-title fw-bold m-0 text-black">
+                Tools for Workflow Automation
+              </h5>
+            </div>
+            <p class="card-text text-muted">
+              Automate your medical practice with our powerful workflow tools to
+              improve productivity.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="text-center mb-5">
+        <h2 class="fw-bold text-black">Need Help? Start with our FAQ</h2>
+        <p class="lead text-muted">
+          Here are some of the most common questions we get from our customers.
+          If you can't find your answer here, feel free to contact us.
+        </p>
+      </div>
+      <div class="accordion mb-5" id="faqAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne"
+            >
+              Is the HRM Dashboard compliant with HIPAA regulations?
+            </button>
+          </h2>
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse show"
+            aria-labelledby="headingOne"
+            data-bs-parent="#faqAccordion"
+          >
+            <div class="accordion-body">
+              Yes, our HRM Dashboard is designed to be fully compliant with
+              HIPAA regulations to ensure the security of your patient data.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo"
+              aria-expanded="false"
+              aria-controls="collapseTwo"
+            >
+              What support is available if I encounter issues with the HRM
+              Dashboard?
+            </button>
+          </h2>
+          <div
+            id="collapseTwo"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingTwo"
+            data-bs-parent="#faqAccordion"
+          >
+            <div class="accordion-body">
+              We offer 24/7 support for all our plans. Our team is available to
+              assist you with any issues you may encounter.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseThree"
+              aria-expanded="false"
+              aria-controls="collapseThree"
+            >
+              Does the HRM Dashboard offer real-time analysis?
+            </button>
+          </h2>
+          <div
+            id="collapseThree"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingThree"
+            data-bs-parent="#faqAccordion"
+          >
+            <div class="accordion-body">
+              Yes, our Advanced plan includes real-time analytics to give you
+              immediate insights into your data.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Footer -->
+      <div class="row align-items-center py-5 px-4 footer-cta">
+        <div class="col-md-8 text-center text-md-start">
+          <h2 class="fw-bold">Start Managing Healthcare with Us Today!</h2>
+          <p class="lead">
+            Sign up for a free 14-day trial and experience the difference our
+            platform can make for your practice.
           </p>
-          <div class="col-md-6">
-            <div class="d-flex">
-              <div class="text-success me-4">
-                <img src="images/podcasting.png" width="50px" />
-              </div>
-              <div>
-                <h4 class="mb-2 mb-lg-3 fw-bold">Speech-to-Text for Islamic Notes and Reflections</h4>
-                <p>Capture your spoken reflections, making it easier to document your thoughts and reflections on
-                  Islamic teachings, while ensuring accessibility for those who prefer audio to written text.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="d-flex">
-              <div class="text-success me-4">
-                <img src="images/voice-recognition.png" width="60px" />
-              </div>
-              <div>
-                <h4 class="mb-2 mb-lg-3 fw-bold">Speak, explore, and connect deeply with Quranic teachings.</h4>
-                <p>Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless,
-                  accessible way to connect with Islam.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="d-flex">
-              <div class="text-success me-4">
-                <img src="images/elearning.png" width="50px" />
-              </div>
-              <div>
-                <h4 class="mb-2 mb-lg-3 fw-bold">Versatile Note Editor with Advanced Customization Features</h4>
-                <p>A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing
-                  capabilities with extensive customization options. This tool emphasizes seamless accessibility.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="d-flex">
-              <div class="text-success me-4">
-                <img src="images/attached-file.png" width="50px" />
-              </div>
-              <div>
-                <h4 class="mb-2 mb-lg-3 fw-bold">Export Quranic Verses in multiple file Formats</h4>
-                <p>Easily export Quranic verses in multiple formats for study, research, and sharing, offering
-                  flexibility and convenience for personal reflection or educational purposes.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="d-flex">
-              <div class="text-success me-4">
-                <img src="images/highlighter.png" width="50px" />
-              </div>
-              <div>
-                <h4 class="mb-2 mb-lg-3 fw-bold">Audio Synchronization with Word-by-Word Quranic Highlighting</h4>
-                <p>Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word
-                  is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the
-                  words.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="d-flex">
-              <div class="text-success me-4">
-                <img src="images/chat.png" width="50px" />
-              </div>
-              <div>
-                <h4 class="mb-2 mb-lg-3 fw-bold">Text-to-Speech for English Translation and Tafsir</h4>
-                <p>High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more
-                  accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran
-                  and enriching connection to the sacred text.</p>
-              </div>
-            </div>
-          </div>
+        </div>
+        <div class="col-md-4 text-center text-md-end mt-3 mt-md-0">
+          <a
+            href="#"
+            class="btn btn-light rounded-pill px-5 fw-bold text-black"
+            >Sign Up for Free</a
+          >
         </div>
       </div>
-    </section> -->
-    <!-- <section class="py-4 pt-2">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 col-lg-6">
-            <div class="card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular">
-              <div class="card-body">
-                <div style="padding:20px">
-                  <h1 class="h4 mb-2"><b>Basic</b></h1>
-                  <h4 class="display-3 fw-bold mb-0" style="color:rgba(0, 191, 166)">£ 0.00</h4>
-                  <p class="text-secondary mb-2"><b>Free</b></p>
-                </div>
-                <ul class="list-group list-group-flush mb-4">
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Read translation, tafseer and transliteration</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Switch mode: Basic or Advanced features</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Save basic notes & bookmarks</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#90EE90" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Surah Information</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                      class="bi bi-x text-danger" viewBox="0 0 16 16">
-                      <path
-                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                    </svg>
-                    <span>Voice search for Quranic results</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                      class="bi bi-x text-danger" viewBox="0 0 16 16">
-                      <path
-                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                    </svg>
-                    <span>Audio Sync with Word-by-Word Highlighting</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                      class="bi bi-x text-danger" viewBox="0 0 16 16">
-                      <path
-                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                    </svg>
-                    <span>Advanced and Customizable note Editor</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                      class="bi bi-x text-danger" viewBox="0 0 16 16">
-                      <path
-                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                    </svg>
-                    <span>Text-to-Speech for Translations and Tafsir</span>
-                  </li>
-
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                      class="bi bi-x text-danger" viewBox="0 0 16 16">
-                      <path
-                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                    </svg>
-                    <span>Speech-to-Text for Note Recordings</span>
-                  </li>
-
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                      class="bi bi-x text-danger" viewBox="0 0 16 16">
-                      <path
-                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                    </svg>
-                    <span>Export Quranic verses via CSV, DOC and JSON</span>
-                  </li>
-
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                      class="bi bi-x text-danger" viewBox="0 0 16 16">
-                      <path
-                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                    </svg>
-                    <span>Speech-to-text for enhanced audio experience</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                      class="bi bi-x text-danger" viewBox="0 0 16 16">
-                      <path
-                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                    </svg>
-                    <span>Early access to exclusive features.</span>
-                  </li>
-
-                </ul>
-
-                <button class="w-100 btn button" style="background: rgb(0 163 164); color:white" role="button"
-                  @click="redirectToRegister">
-                  <span style="color:white;font-size:19px;">Get Started</span>
-                </button>
-
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-lg-6">
-            <div class="card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular"
-              style="border:2px solid rgba(151, 65, 252, 0.2) 0 15px 30px -5px;">
-              <div class="card-body">
-                <div style="padding:20px">
-                  <h1 class="h4 mb-2"><b>Premium</b></h1>
-                  <div>
-                    <h4 class="display-3 fw-bold mb-0" style="color:rgba(0, 191, 166);display:flex">£ 2.99</h4>
-                    <p class="text-secondary mb-2"><b>Monthly</b></p>
-                  </div>
-
-                </div>
-                <ul class="list-group list-group-flush mb-4">
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Read translation, tafseer and transliteration</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Switch mode: Basic or Advanced features</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Save basic notes & bookmarks</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Surah Information</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Voice search for Quranic results</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Audio Sync with Word-by-Word Highlighting</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Advanced and Customizable note Editor</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Text-to-Speech for Translations and Tafsir</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Speech-to-Text for Note Recordings</span>
-                  </li>
-
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Export Quranic verses via CSV, DOC and JSON</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Speech-to-text for enhanced audio experience</span>
-                  </li>
-                  <li class="list-group-item bg-transparent">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
-                      viewBox="0 0 16 16">
-                      <path
-                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                    </svg>
-                    <span>Early access to exclusive features.</span>
-                  </li>
-
-                </ul>
-                <div class="row">
-                  <div class="col-md-6">
-                    <button class="w-100 btn button mb-2" @click="redirectToMonthlySubscription"
-                      style="background:rgb(0 163 164);color:white" role="button">
-                      <span style="color:white;font-size:16px;">
-                        <b>Pay monthly (£ 2.99)</b>
-                      </span>
-                    </button>
-                  </div>
-                  <div class="col-md-6">
-                    <button @click="redirectToYearlySubscription" class="w-100 btn button"
-                      style="background:rgb(0 163 164);color:white" role="button">
-                      <span style="color:white;font-size:16px;">
-                        <b>Pay yearly (£ 29.99) </b>
-                        <span class="badge rounded-pill text-bg-light">Save % 16</span>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row container">
-
-            <div class="container-fluid text-center pt-2">
-              <div v-if="isPremium" class="row">
-                <div class="col-md-2">
-                </div>
-                <div class="col-md-8">
-                  <button type="button" class="btn button-37" style="background:rgb(0 163 164);color:white"
-                    data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <b>Can't afford Premium ?</b>
-                  </button>
-                </div>
-                <div class="col-md-2">
-                </div>
-              </div>
-            </div>
-
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-              aria-hidden="true">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel"><b>Premium Plan options</b></h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="row modal-body">
-                    <p class="mb-2 mt-2 container text-center">This is a matter between you and your Lord. If you
-                      sincerely need access to the premium version but cannot afford it, Islamic Connect is here to
-                      support you. We will provide you with the premium features at no cost, ensuring nothing stands in
-                      the way of your spiritual journey.</p>
-                    <div class="col-md-6">
-                      <button class="w-100 btn button" style="background:rgb(0 163 164);color:white" role="button"
-                        @click="redirectToMonthlySubscription()"><span style="color:white;font-size:16px;"><b>Monthly
-                            Plan</b></span></button>
-                    </div>
-                    <div class="col-md-6">
-                      <button class="w-100 btn button" style="background:rgb(0 163 164);color:white" role="button"
-                        @click="redirectToYearlySubscription()"><span style="color:white;font-size:16px;"><b>Yearly
-                            Plan</b></span></button>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section> -->
-    <!-- <hr class="container" />
-    <section class="py-4 pt-2">
-      <div class="container">
-        <div class="row justify-content-center text-center mb-3">
-          <div class="col-lg-12 col-xl-7">
-            <h2 class="display-5 fw-bold">Frequently Asked Questions</h2>
-          </div>
-        </div>
-        <div class="row justify-content-center py-lg-3">
-          <div class="col-md-12">
-            <div class="row justify-content-center mb-4">
-              <div class="col-lg-12">
-                <div class="accordion" id="Tech-accordion">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="Tech-headingOne"><button aria-controls="Tech-collapseOne"
-                        aria-expanded="false" class="accordion-button collapsed" data-bs-target="#Tech-collapseOne"
-                        data-bs-toggle="collapse" type="button">
-                        <div class="text-muted me-3">
-                          <svg class="bi bi-question-circle-fill" fill="currentColor" height="24" viewbox="0 0 16 16"
-                            width="24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z">
-                            </path>
-                          </svg>
-                        </div><b>Are there any hidden fees or additional charges ?</b>
-                      </button></h2>
-                    <div aria-labelledby="Tech-headingOne" class="accordion-collapse collapse"
-                      data-bs-parent="#Tech-accordion" id="Tech-collapseOne">
-                      <div class="accordion-body">
-                        No, there are no hidden fees. The subscription price you see includes all features, with no
-                        unexpected charges.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="Tech-headingTwo"><button aria-controls="Tech-collapseTwo"
-                        aria-expanded="true" class="accordion-button" data-bs-target="#Tech-collapseTwo"
-                        data-bs-toggle="collapse" type="button">
-                        <div class="text-muted me-3">
-                          <svg class="bi bi-question-circle-fill" fill="currentColor" height="24" viewbox="0 0 16 16"
-                            width="24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z">
-                            </path>
-                          </svg>
-                        </div><b>What happens if I cancel my subscription ?</b>
-                      </button></h2>
-                    <div aria-labelledby="Tech-headingTwo" class="accordion-collapse collapse"
-                      data-bs-parent="#Tech-accordion" id="Tech-collapseTwo" style="">
-                      <div class="accordion-body">
-                        If you cancel your subscription, you will retain access to the premium features until the end of
-                        your billing cycle, after which your account will revert to the free version.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="Tech-headingThree"><button aria-controls="Tech-collapseThree"
-                        aria-expanded="false" class="accordion-button collapsed" data-bs-target="#Tech-collapseThree"
-                        data-bs-toggle="collapse" type="button">
-                        <div class="text-muted me-3">
-                          <svg class="bi bi-question-circle-fill" fill="currentColor" height="24" viewbox="0 0 16 16"
-                            width="24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z">
-                            </path>
-                          </svg>
-                        </div><b>Can I get a refund if I'm not satisfied with the premium features ?</b>
-                      </button></h2>
-                    <div aria-labelledby="Tech-headingThree" class="accordion-collapse collapse"
-                      data-bs-parent="#Tech-accordion" id="Tech-collapseThree">
-                      <div class="accordion-body">
-                        We offer a satisfaction guarantee. If you are not satisfied within the first 30 days.
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="Tech-headingFour"><button aria-controls="Tech-collapseFour"
-                        aria-expanded="false" class="accordion-button collapsed" data-bs-target="#Tech-collapseFour"
-                        data-bs-toggle="collapse" type="button">
-                        <div class="text-muted me-3">
-                          <svg class="bi bi-question-circle-fill" fill="currentColor" height="24" viewbox="0 0 16 16"
-                            width="24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z">
-                            </path>
-                          </svg>
-                        </div><b>Do you offer lifetime access to premium features ?</b>
-                      </button></h2>
-                    <div aria-labelledby="Tech-headingFour" class="accordion-collapse collapse"
-                      data-bs-parent="#Tech-accordion" id="Tech-collapseFour">
-                      <div class="accordion-body">
-                        Currently, we do not offer lifetime subscriptions, but we provide competitive annual plans that
-                        deliver ongoing value.
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="Tech-headingFive"><button aria-controls="Tech-collapseFive"
-                        aria-expanded="false" class="accordion-button collapsed" data-bs-target="#Tech-collapseFive"
-                        data-bs-toggle="collapse" type="button">
-                        <div class="text-muted me-3">
-                          <svg class="bi bi-question-circle-fill" fill="currentColor" height="24" viewbox="0 0 16 16"
-                            width="24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z">
-                            </path>
-                          </svg>
-                        </div><b>Is my subscription automatically renewed ?</b>
-                      </button></h2>
-                    <div aria-labelledby="Tech-headingFive" class="accordion-collapse collapse"
-                      data-bs-parent="#Tech-accordion" id="Tech-collapseFive">
-                      <div class="accordion-body">
-                        Yes, subscriptions are automatically renewed to ensure uninterrupted access, but you can cancel
-                        or manage your subscription at any time.
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="Tech-headingSix"><button aria-controls="Tech-collapseSix"
-                        aria-expanded="false" class="accordion-button collapsed" data-bs-target="#Tech-collapseSix"
-                        data-bs-toggle="collapse" type="button">
-                        <div class="text-muted me-3">
-                          <svg class="bi bi-question-circle-fill" fill="currentColor" height="24" viewbox="0 0 16 16"
-                            width="24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z">
-                            </path>
-                          </svg>
-                        </div><b>Do you offer a free trial before subscribing ?</b>
-                      </button></h2>
-                    <div aria-labelledby="Tech-headingSix" class="accordion-collapse collapse"
-                      data-bs-parent="#Tech-accordion" id="Tech-collapseSix">
-                      <div class="accordion-body">
-                        Yes, we offer a free trial period to help you explore all premium features before committing to
-                        a subscription.
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="Tech-headingSeven"><button aria-controls="Tech-collapseSeven"
-                        aria-expanded="false" class="accordion-button collapsed" data-bs-target="#Tech-collapseSeven"
-                        data-bs-toggle="collapse" type="button">
-                        <div class="text-muted me-3">
-                          <svg class="bi bi-question-circle-fill" fill="currentColor" height="24" viewbox="0 0 16 16"
-                            width="24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z">
-                            </path>
-                          </svg>
-                        </div><b>How secure is my payment information ?</b>
-                      </button></h2>
-                    <div aria-labelledby="Tech-headingSeven" class="accordion-collapse collapse"
-                      data-bs-parent="#Tech-accordion" id="Tech-collapseSeven">
-                      <div class="accordion-body">
-                        Your payment information is securely encrypted and processed through a trusted payment gateway
-                        to ensure maximum security.
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
-
+    </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import {
-  loadStripe
-} from "@stripe/stripe-js";
+import { ref } from "vue";
 
 export default {
-  data() {
+  setup() {
+    const isAnnual = ref(false);
     return {
-      isVisible: false,
-      stripe: null,
-      amount: 0, // Start with 0 so user has to input their own amount
+      isAnnual,
     };
-  },
-  mounted() {
-    // Initialize Stripe with your publishable key
-    loadStripe("pk_live_51QIJkjIol4Q5wn4Og4nYBjG25zNBFSnvTIfivJvDdHt6u0CD364TMcQHvGmrh6TOBNPDi9xwRDz7Zoirdl6NSDoB00JEFToo7F").then(
-      (stripe) => {
-        this.stripe = stripe;
-      }
-    );
-  },
-  methods: {
-    redirectToMonthlySubscription() {
-      const successUrl = `${window.location.origin}?subscription=monthly&timestamp=${Date.now()}`;
-      window.location.href = `https://buy.stripe.com/dR6fZC0BWd7ubvO8wz?success_url=${encodeURIComponent(successUrl)}`;
-    },
-    redirectToYearlySubscription() {
-      const successUrl = `${window.location.origin}?subscription=yearly&timestamp=${Date.now()}`;
-      window.location.href = `https://buy.stripe.com/00g7t63O8d7uczS6os?success_url=${encodeURIComponent(successUrl)}`;
-    },
-    redirectToRegister() {
-      location.assign("/register");
-    },
-    async donate() {
-      if (this.amount <= 1) {
-        alert("Please enter a valid donation amount.");
-        return;
-      }
-
-      try {
-        // Send the dynamically selected donation amount to the backend
-        const response = await axios.post('/create-checkout-session', {
-          amount: this.amount,
-        });
-
-        const {
-          id
-        } = response.data;
-
-        // Redirect to Stripe Checkout page
-        const {
-          error
-        } = await this.stripe.redirectToCheckout({
-          sessionId: id,
-        });
-
-        if (error) {
-          console.error('Error redirecting to checkout:', error.message);
-        }
-      } catch (error) {
-        console.error('Error creating checkout session:', error.message);
-      }
-    },
   },
 };
 </script>
 
 <style scoped>
-/* CSS */
-.button-37 {
-  background-color: #13aa52;
-  border: 1px solid #13aa52;
-  border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  outline: none;
-  outline: 0;
-  padding: 10px 25px;
-  text-align: center;
-  transform: translateY(0);
-  transition: transform 150ms, box-shadow 150ms;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fa;
 }
-
-.button-37:hover {
-  box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
-  transform: translateY(-2px);
+.pricing-card {
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-
-@media (min-width: 768px) {
-  .button-37 {
-    padding: 10px 30px;
-  }
+.pricing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.15);
 }
-
-.button-64 {
-  align-items: center;
-  background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
-  border: 0;
-  border-radius: 8px;
-  font-weight: bold;
-  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-  box-sizing: border-box;
-  color: #FFFFFF;
-  display: flex;
-  font-family: Phantomsans, sans-serif;
-  font-size: 18px;
-  justify-content: center;
-  line-height: 1em;
-  max-width: 100%;
-  min-width: 140px;
-  padding: 3px;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  white-space: nowrap;
-  cursor: pointer;
+.featured-card {
+  background-color: black;
+  color: white;
+  position: relative;
+  transform: scale(1.05);
+  z-index: 10;
 }
-
-.button-64:active,
-.button-64:hover {
-  outline: 0;
+.featured-card:hover {
+  transform: scale(1.08);
 }
-
-.button-64 span {
-  background-color: rgb(5, 6, 45);
-  padding: 16px 24px;
-  border-radius: 6px;
-  width: 100%;
-  height: 100%;
-  transition: 300ms;
-}
-
-.button-64:hover span {
-  background: none;
-}
-
-@media (min-width: 768px) {
-  .button-64 {
-    font-size: 16px;
-    min-width: 196px;
-  }
-}
-
-.highlight {
-  font-weight: bold;
-  /* Bold text */
-  color: #212529;
-  /* Darker color for visibility */
-  font-size: 1.8rem;
-  /* Slightly larger font size */
-}
-
-/* Style for muted (less visible) list items */
-.text-muted {
-  text-decoration: line-through;
-  /* Adds a line through the text */
-  color: #adb5bd;
-  /* Light gray color */
-  font-size: 0.95rem;
-  /* Slightly smaller font size */
-}
-
-.pricing .card {
-  border: none;
+.badge-popular {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #00bfa6;
+  color: white;
+  padding: 0.25rem 0.75rem;
   border-radius: 1rem;
-  transition: all 0.2s;
-  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+  transform: rotate(10deg);
+  font-size: 0.75rem;
 }
-
-.pricing hr {
-  margin: 1.5rem 0;
+.pricing-toggle .btn {
+  border-radius: 2rem;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
 }
-
-.pricing .card-title {
-  margin: 1rem 0;
-  font-size: 1rem;
-  letter-spacing: .1rem;
-  font-weight: bold;
+.pricing-toggle .btn.active {
+  background-color: #00bfa6;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-.pricing .card-price {
-  font-size: 3rem;
-  margin: 0;
+.new-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
-
-.pricing .card-price .period {
-  font-size: 0.8rem;
+.new-compare-table thead {
+  background-color: #333;
+  color: white;
 }
-
-.pricing ul li {
-  margin-bottom: 1rem;
-}
-
-.pricing .text-muted {
-  opacity: 0.5;
-}
-
-.pricing .btn {
-  font-size: 80%;
-  border-radius: 5rem;
-  letter-spacing: .1rem;
-  font-weight: bold;
+.new-compare-table th,
+.new-compare-table td {
   padding: 1rem;
-  opacity: 0.7;
-  transition: all 0.2s;
+  vertical-align: middle;
+  border-bottom: 1px solid #e0e0e0;
 }
-
-/* Hover Effects on Card */
-
-@media (min-width: 992px) {
-  .pricing .card:hover {
-    margin-top: -.25rem;
-    margin-bottom: .25rem;
-    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
-  }
-
-  .pricing .card:hover .btn {
-    opacity: 1;
-  }
+.new-compare-table th {
+  font-weight: 600;
+  color: #555;
+  background-color: #f8f9fa;
+}
+.new-compare-table tbody tr:last-child th,
+.new-compare-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.new-compare-table .fa-check {
+  color: #ff8c00;
+}
+.feature-card {
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.feature-icon-circle {
+  background-color: #e8f5e9;
+  color: #00bfa6;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.footer-cta {
+  background-color: black;
+  border-radius: 1.5rem;
+  color: white;
+}
+.btn-custom-primary {
+  background-color: #00bfa6;
+  border-color: #00bfa6;
+  color: white;
+}
+.btn-custom-primary:hover {
+  background-color: #00a68d;
+  border-color: #00a68d;
+}
+.text-custom-primary {
+  color: #00bfa6;
 }
 </style>

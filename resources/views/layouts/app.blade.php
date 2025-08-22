@@ -5,6 +5,7 @@
     <meta name="description" content="Welcome to Islamic Connect, your hub for Islamic teachings, Quranic resources, podcasts, and AI-powered accessibility tools. Explore our website for educational content, community engagement, and more.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="stripe-key" content="{{ config('services.stripe.key') }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -26,6 +27,8 @@
             }
         })();
     </script> -->
+    <meta name="stripe-key" content="{{ config('services.stripe.key') }}">
+    <script src="https://js.stripe.com/v3/"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWLL07EBX9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];

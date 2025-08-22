@@ -66,10 +66,29 @@ use App\Http\Controllers\BooksController;
 use App\Http\Controllers\ConvertController;
 use App\Http\Controllers\HolyController;
 use App\Http\Controllers\HistoryController;
-
+use App\Http\Controllers\SubscriptionController;
+use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+
+
+Route::middleware(['auth', 'subscribed'])->group(function () {
+    Route::get('/content', [ContentController::class, 'content']);
+});
+
+
+Route::get('/subscription-success', function (Request $request) {
+    $intended = $request->query('intended', '/');
+    return redirect($intended)->with('success', 'Subscription activated! Content unlocked.');
+})->name('checkout-return');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
+    Route::post('/create-checkout-session', [SubscriptionController::class, 'createCheckoutSession']);
+});
+
+Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show'])->middleware('web');
 
 // Auth routes
 Auth::routes();
@@ -265,7 +284,7 @@ Route::get('/fetch-corrections', [CorrectionController::class, 'getCorrections']
 Route::delete('/delete-correction/{id}',  [CorrectionController::class, 'deleteCorrections']);
 
 // dashboard
-// Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('api/fetch-dashboard', [DashboardController::class, 'getDashboard'])->name('fetch_dashboard');
 
@@ -282,10 +301,6 @@ Route::get('api/fetch-payments', [PaymentController::class, 'getPayments']);
 Route::get('/donations', [DonationController::class, 'index']);
 Route::get('/fetch-donations', [DonationController::class, 'getDonations']);
 
-Route::post('/create-checkout-session', [SupportController::class, 'createCheckoutSession']);
-
-
-Route::post('/create-checkout-session', [SupportController::class, 'createCheckoutSession']);
 
 Route::get('/donation/success', function () {
     return view('donation.success');  // View after successful donation
@@ -324,7 +339,7 @@ Route::get('/gallery', [AiController::class, 'index'])->name('gallery');
 // access
 Route::get('/access', [AccessController::class, 'index'])->name('access');
 // content
-Route::get('/content', [ContentController::class, 'index'])->name('content');
+// Route::get('/content', [ContentController::class, 'index'])->name('content');
 // surat
 Route::get('/surat', [SuratController::class, 'index'])->name('surat');
 // dua
