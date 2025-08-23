@@ -8,7 +8,7 @@
                 experience. It offers text-to-speech, speech-to-text, and synchronized highlighting and more.
             </h1>
             <div v-if="!isVisible">
-                <h4 class="fw-bold text-left pt-2 mb-2 container" v-if="information != null">Search for a word in the
+                <h4 class="fw-bold text-center pt-2 mb-2 container" v-if="information != null">Search for a word in the
                     Quran...</h4>
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
 
@@ -31,7 +31,7 @@
 
 
                 <div class="col-md-4 pt-2">
-                    <h4 class="fw-bold text-left pt-2 ">Select a Surah:</h4>
+                    <h4 class="fw-bold text-center pt-2 ">Select a Surah:</h4>
                     <SurahDropdown class="col-md-12" :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
                         :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
 
@@ -42,7 +42,7 @@
 
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
-                    <h4 class="fw-bold text-left  " v-if="information != null">Select a Verse:</h4>
+                    <h4 class="fw-bold text-center" v-if="information != null">Select a Verse:</h4>
                     <!-- <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
                         @submit.prevent="scrollToAyah">
                         <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
@@ -122,8 +122,8 @@
                 <div class="col-md-8 pt-2 card-hide text-left pr-4">
                     <Welcome v-if="information == null" />
                     
-                    <div v-else>
-                        <h4 class="fw-bold text-left" >Verse Breakdown...</h4>
+                    <div class="mb-2" v-else>
+                        <!-- <h4 class="fw-bold text-center" >Verse Breakdown...</h4> -->
                         <!-- breakdown content here -->
                          
                     </div>

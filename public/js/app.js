@@ -139944,8 +139944,119 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   setup: function setup() {
     var isAnnual = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var plans = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([{
+      id: 'basic',
+      name: 'Basic',
+      description: 'For individual users & small mosques',
+      price: {
+        monthly: '$9',
+        annual: '$7'
+      },
+      features: ['Access to Quran & translation', 'Daily Ayah notifications', 'Audio recitation streaming', 'Community support'],
+      buttonText: 'Start Free',
+      isFeatured: false,
+      icon: 'fas fa-book-quran'
+    }, {
+      id: 'professional',
+      name: 'Professional',
+      description: 'For Islamic schools & growing centers',
+      price: {
+        monthly: '$29',
+        annual: '$23'
+      },
+      features: ['All Basic features', 'Hadith & Seerah libraries', 'Live radio & podcasts', 'Multi-user access', 'Customizable dashboard'],
+      buttonText: 'Start Trial',
+      isFeatured: true,
+      icon: 'fas fa-mosque'
+    }, {
+      id: 'barakah',
+      name: 'Barakah',
+      description: 'For large institutions & organizations',
+      price: {
+        monthly: 'Custom',
+        annual: 'Custom'
+      },
+      features: ['Unlimited users & devices', 'Full content library', 'Accessibility tools (TTS, STT, gestures)', 'Dedicated support & training', 'Zakat eligible subscriptions'],
+      buttonText: 'Contact Sales',
+      isFeatured: false,
+      icon: 'fas fa-star-and-crescent'
+    }]);
+    var tableData = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([{
+      feature: 'Quran Access',
+      data: {
+        basic: true,
+        professional: true,
+        barakah: true
+      }
+    }, {
+      feature: 'Hadith & Seerah',
+      data: {
+        basic: false,
+        professional: true,
+        barakah: true
+      }
+    }, {
+      feature: 'Audio Streaming',
+      data: {
+        basic: true,
+        professional: true,
+        barakah: true
+      }
+    }, {
+      feature: 'Live TV/Radio',
+      data: {
+        basic: false,
+        professional: true,
+        barakah: true
+      }
+    }, {
+      feature: 'Multi-user Support',
+      data: {
+        basic: false,
+        professional: true,
+        barakah: true
+      }
+    }, {
+      feature: 'Accessibility Tools',
+      data: {
+        basic: false,
+        professional: false,
+        barakah: true
+      }
+    }, {
+      feature: 'Custom Dashboard',
+      data: {
+        basic: false,
+        professional: true,
+        barakah: true
+      }
+    }, {
+      feature: 'Zakat Eligibility',
+      data: {
+        basic: false,
+        professional: false,
+        barakah: true
+      }
+    }]);
+    var faqs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([{
+      question: 'Can Islamic institutions use zakat funds for this platform?',
+      answer: 'Yes, the Barakah plan is designed to be zakat eligible, allowing mosques and Islamic centers to use zakat funds.'
+    }, {
+      question: 'Does the platform support accessibility for all users?',
+      answer: 'Yes, we provide text-to-speech, speech-to-text, gesture navigation, and other accessibility features.'
+    }, {
+      question: 'Are there special discounts for Islamic centers?',
+      answer: 'Yes, mosques, schools, and charitable organizations can access discounted pricing upon request.'
+    }]);
+    var priceKey = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      return isAnnual.value ? 'annual' : 'monthly';
+    });
     return {
-      isAnnual: isAnnual
+      isAnnual: isAnnual,
+      plans: plans,
+      tableData: tableData,
+      faqs: faqs,
+      priceKey: priceKey
     };
   }
 });
@@ -165047,72 +165158,204 @@ var _hoisted_1 = {
   "class": "py-5"
 };
 var _hoisted_2 = {
-  "class": "container"
+  id: "pricing",
+  "class": "container py-5"
 };
 var _hoisted_3 = {
   "class": "d-flex justify-content-center mb-5"
 };
 var _hoisted_4 = {
-  "class": "btn-group pricing-toggle",
+  "class": "pricing-toggle bg-light rounded-3 p-1 shadow-sm",
   role: "group"
 };
 var _hoisted_5 = {
   "class": "row row-cols-1 row-cols-md-3 g-4 mb-5"
 };
 var _hoisted_6 = {
-  "class": "col"
+  "class": "pricing-card-header text-center"
 };
 var _hoisted_7 = {
-  "class": "card h-100 pricing-card p-4 text-center"
+  key: 0,
+  "class": "badge bg-teal rounded-pill px-3 fw-600"
 };
 var _hoisted_8 = {
-  "class": "card-text fw-bold my-3"
+  "class": "pricing-icon mt-3"
 };
 var _hoisted_9 = {
-  "class": "col"
+  "class": "card-title mt-3 fw-700"
 };
 var _hoisted_10 = {
-  "class": "card h-100 pricing-card p-4 text-center"
+  "class": "price-amount"
 };
 var _hoisted_11 = {
-  "class": "card-text fw-bold my-3"
+  key: 0,
+  "class": "price-period"
+};
+var _hoisted_12 = {
+  "class": "text-muted"
+};
+var _hoisted_13 = {
+  "class": "card-body pricing-card-body"
+};
+var _hoisted_14 = {
+  "class": "pricing-features"
+};
+var _hoisted_15 = {
+  "class": "card border-0 shadow-lg mb-5 animate-fade-in"
+};
+var _hoisted_16 = {
+  "class": "card-body p-0"
+};
+var _hoisted_17 = {
+  "class": "table-responsive"
+};
+var _hoisted_18 = {
+  "class": "table table-compare mb-0"
+};
+var _hoisted_19 = {
+  scope: "row",
+  "class": "feature-column ps-4 fw-600"
+};
+var _hoisted_20 = {
+  key: 0
+};
+var _hoisted_21 = {
+  key: 0,
+  "class": "fas fa-check-circle text-teal"
+};
+var _hoisted_22 = {
+  key: 1,
+  "class": "fas fa-times-circle text-muted"
+};
+var _hoisted_23 = {
+  key: 1,
+  "class": "fw-600"
+};
+var _hoisted_24 = {
+  "class": "row justify-content-center mb-5"
+};
+var _hoisted_25 = {
+  "class": "col-lg-10"
+};
+var _hoisted_26 = {
+  "class": "accordion accordion-flush",
+  id: "faqAccordion"
+};
+var _hoisted_27 = ["id"];
+var _hoisted_28 = ["data-bs-target", "aria-controls"];
+var _hoisted_29 = ["id", "aria-labelledby"];
+var _hoisted_30 = {
+  "class": "accordion-body pt-0 fs-5"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Transparent Pricing Section "), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-4 fw-bold text-black"
-  }, "Transparent Pricing"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead text-muted"
-  }, " Choose the plan that fits your healthcare management needs. All plans include 24/7 support and are free for the first 14 days. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "fw-800 text-dark section-title mb-4"
+  }, "Pricing Plans"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted mx-auto fs-5"
+  }, " Choose a plan that suits your Islamic Connect needs. All plans include 24/7 support and free trial for 14 days. Special discounts are available for mosques, Islamic schools, and community centers. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-dark", {
-      active: !$setup.isAnnual
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", {
+      'btn-teal': !$setup.isAnnual,
+      'btn-light': $setup.isAnnual
     }]),
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $setup.isAnnual = false;
     })
-  }, " Monthly ", 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Monthly Billing ", 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-dark position-relative", {
-      active: $setup.isAnnual
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn position-relative", {
+      'btn-teal': $setup.isAnnual,
+      'btn-light': !$setup.isAnnual
     }]),
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $setup.isAnnual = true;
     })
-  }, _cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Annual ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "badge badge-popular position-absolute top-0 end-0 translate-middle-y"
-  }, "20% off", -1 /* CACHED */)]), 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Starter Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "card-title text-muted text-uppercase"
-  }, "Starter", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.isAnnual ? "0" : "0"), 1 /* TEXT */), _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
-    "class": "text-muted fw-normal"
-  }, "/mo", -1 /* CACHED */))]), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<p class=\"card-text text-muted\" data-v-d4146a7c>All features included</p><ul class=\"list-unstyled text-start my-4\" data-v-d4146a7c><li data-v-d4146a7c><i class=\"fas fa-check-circle text-custom-primary me-2\" data-v-d4146a7c></i>Starter plan access </li><li data-v-d4146a7c><i class=\"fas fa-check-circle text-custom-primary me-2\" data-v-d4146a7c></i>30-day records access </li><li data-v-d4146a7c><i class=\"fas fa-check-circle text-custom-primary me-2\" data-v-d4146a7c></i>Reporting &amp; Analytics </li></ul><a href=\"#\" class=\"btn btn-secondary rounded-pill fw-bold\" data-v-d4146a7c>Start with Free</a>", 3))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Professional Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "card-title text-muted text-uppercase"
-  }, "Professional", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.isAnnual ? "15.20" : "19"), 1 /* TEXT */), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
-    "class": "text-muted fw-normal"
-  }, "/mo", -1 /* CACHED */))]), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<p class=\"card-text text-muted\" data-v-d4146a7c>All plan includes</p><ul class=\"list-unstyled text-start my-4\" data-v-d4146a7c><li data-v-d4146a7c><i class=\"fas fa-check-circle text-custom-primary me-2\" data-v-d4146a7c></i>Advanced plan included </li><li data-v-d4146a7c><i class=\"fas fa-check-circle text-custom-primary me-2\" data-v-d4146a7c></i>5,000 records access </li><li data-v-d4146a7c><i class=\"fas fa-check-circle text-custom-primary me-2\" data-v-d4146a7c></i>Comprehensive analytics </li></ul><a href=\"#\" class=\"btn btn-custom-primary rounded-pill fw-bold\" data-v-d4146a7c>Start with Free</a>", 3))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Advanced Custom Card (Featured) "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col\" data-v-d4146a7c><div class=\"card h-100 featured-card pricing-card p-4 text-center\" data-v-d4146a7c><span class=\"badge-popular\" data-v-d4146a7c>Most Popular</span><h5 class=\"card-title text-uppercase\" data-v-d4146a7c>Advanced</h5><h2 class=\"card-text fw-bold my-3\" data-v-d4146a7c> Custom<small class=\"fw-normal text-white-50\" data-v-d4146a7c>/mo</small></h2><p class=\"card-text text-white-50\" data-v-d4146a7c>All plan includes</p><ul class=\"list-unstyled text-start my-4\" data-v-d4146a7c><li data-v-d4146a7c><i class=\"fas fa-check-circle text-white me-2\" data-v-d4146a7c></i>Custom plan included </li><li data-v-d4146a7c><i class=\"fas fa-check-circle text-white me-2\" data-v-d4146a7c></i>Unlimited records access </li><li data-v-d4146a7c><i class=\"fas fa-check-circle text-white me-2\" data-v-d4146a7c></i>Premium support </li></ul><a href=\"#\" class=\"btn btn-light rounded-pill fw-bold text-dark\" data-v-d4146a7c>Start with Free</a></div></div>", 1))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Brands Section "), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-center text-muted mb-5"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "More than 100+ companies trusted us"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Placeholder for brand logos ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Comparison Table Section "), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"table-responsive mb-5\" data-v-d4146a7c><table class=\"table align-middle new-compare-table\" data-v-d4146a7c><thead data-v-d4146a7c><tr data-v-d4146a7c><th scope=\"col\" class=\"text-start\" data-v-d4146a7c>Price</th><th scope=\"col\" class=\"text-center\" data-v-d4146a7c>Basic Plan</th><th scope=\"col\" class=\"text-center\" data-v-d4146a7c>Professional Plan</th><th scope=\"col\" class=\"text-center\" data-v-d4146a7c>Advanced Plan</th></tr></thead><tbody data-v-d4146a7c><tr data-v-d4146a7c><th scope=\"row\" data-v-d4146a7c>Basic features at no cost</th><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td></tr><tr data-v-d4146a7c><th scope=\"row\" data-v-d4146a7c>Access to limited code outputs</th><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td></tr><tr data-v-d4146a7c><th scope=\"row\" data-v-d4146a7c>Community support</th><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td></tr><tr data-v-d4146a7c><th scope=\"row\" data-v-d4146a7c>Basic AI-powered sketch</th><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td></tr><tr data-v-d4146a7c><th scope=\"row\" data-v-d4146a7c>Limited storage processing</th><td class=\"text-center\" data-v-d4146a7c>100 GB</td><td class=\"text-center\" data-v-d4146a7c>600 GB</td><td class=\"text-center\" data-v-d4146a7c>1 TB</td></tr><tr data-v-d4146a7c><th scope=\"row\" data-v-d4146a7c>Full access to all features</th><td class=\"text-center\" data-v-d4146a7c>-</td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td></tr><tr data-v-d4146a7c><th scope=\"row\" data-v-d4146a7c>Embedded files</th><td class=\"text-center\" data-v-d4146a7c>-</td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td></tr><tr data-v-d4146a7c><th scope=\"row\" data-v-d4146a7c>Real-time whiteboard collaboration</th><td class=\"text-center\" data-v-d4146a7c>-</td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td><td class=\"text-center\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i></td></tr><tr data-v-d4146a7c><th scope=\"row\" data-v-d4146a7c>Updates tab</th><td class=\"text-center\" data-v-d4146a7c>-</td><td class=\"text-center\" data-v-d4146a7c>Limited</td><td class=\"text-center\" data-v-d4146a7c>Unlimited</td></tr><tr data-v-d4146a7c><th scope=\"row\" data-v-d4146a7c>Zoom connectivity</th><td class=\"text-center\" data-v-d4146a7c>-</td><td class=\"text-center\" data-v-d4146a7c>Limited</td><td class=\"text-center\" data-v-d4146a7c>Unlimited</td></tr></tbody></table></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Features Section "), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"text-center mb-5\" data-v-d4146a7c><h2 class=\"fw-bold text-black\" data-v-d4146a7c>Features to Elevate Your Operations</h2><p class=\"lead text-muted\" data-v-d4146a7c> Designed with the tools and technology your healthcare organization needs to enhance your operations and make your life easier. </p></div><div class=\"row row-cols-1 row-cols-md-3 g-4 mb-5\" data-v-d4146a7c><!-- Feature Card 1 --><div class=\"col\" data-v-d4146a7c><div class=\"card h-100 feature-card p-4\" data-v-d4146a7c><div class=\"d-flex align-items-center mb-3\" data-v-d4146a7c><div class=\"feature-icon-circle me-3\" data-v-d4146a7c><i class=\"fas fa-chart-line fa-2x\" data-v-d4146a7c></i></div><h5 class=\"card-title fw-bold m-0 text-black\" data-v-d4146a7c> Advanced Data Security &amp; Compliance </h5></div><p class=\"card-text text-muted\" data-v-d4146a7c> We provide a secured platform for your health information, protected by the latest technology. </p></div></div><!-- Feature Card 2 --><div class=\"col\" data-v-d4146a7c><div class=\"card h-100 feature-card p-4\" data-v-d4146a7c><div class=\"d-flex align-items-center mb-3\" data-v-d4146a7c><div class=\"feature-icon-circle me-3\" data-v-d4146a7c><i class=\"fas fa-user-shield fa-2x\" data-v-d4146a7c></i></div><h5 class=\"card-title fw-bold m-0 text-black\" data-v-d4146a7c>Patient Data Management</h5></div><p class=\"card-text text-muted\" data-v-d4146a7c> Manage patient records with a secured platform that enables you to share patient data seamlessly. </p></div></div><!-- Feature Card 3 --><div class=\"col\" data-v-d4146a7c><div class=\"card h-100 feature-card p-4\" data-v-d4146a7c><div class=\"d-flex align-items-center mb-3\" data-v-d4146a7c><div class=\"feature-icon-circle me-3\" data-v-d4146a7c><i class=\"fas fa-cogs fa-2x\" data-v-d4146a7c></i></div><h5 class=\"card-title fw-bold m-0 text-black\" data-v-d4146a7c> Tools for Workflow Automation </h5></div><p class=\"card-text text-muted\" data-v-d4146a7c> Automate your medical practice with our powerful workflow tools to improve productivity. </p></div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"text-center mb-5\" data-v-d4146a7c><h2 class=\"fw-bold text-black\" data-v-d4146a7c>Need Help? Start with our FAQ</h2><p class=\"lead text-muted\" data-v-d4146a7c> Here are some of the most common questions we get from our customers. If you can&#39;t find your answer here, feel free to contact us. </p></div><div class=\"accordion mb-5\" id=\"faqAccordion\" data-v-d4146a7c><div class=\"accordion-item\" data-v-d4146a7c><h2 class=\"accordion-header\" id=\"headingOne\" data-v-d4146a7c><button class=\"accordion-button\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapseOne\" aria-expanded=\"true\" aria-controls=\"collapseOne\" data-v-d4146a7c> Is the HRM Dashboard compliant with HIPAA regulations? </button></h2><div id=\"collapseOne\" class=\"accordion-collapse collapse show\" aria-labelledby=\"headingOne\" data-bs-parent=\"#faqAccordion\" data-v-d4146a7c><div class=\"accordion-body\" data-v-d4146a7c> Yes, our HRM Dashboard is designed to be fully compliant with HIPAA regulations to ensure the security of your patient data. </div></div></div><div class=\"accordion-item\" data-v-d4146a7c><h2 class=\"accordion-header\" id=\"headingTwo\" data-v-d4146a7c><button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapseTwo\" aria-expanded=\"false\" aria-controls=\"collapseTwo\" data-v-d4146a7c> What support is available if I encounter issues with the HRM Dashboard? </button></h2><div id=\"collapseTwo\" class=\"accordion-collapse collapse\" aria-labelledby=\"headingTwo\" data-bs-parent=\"#faqAccordion\" data-v-d4146a7c><div class=\"accordion-body\" data-v-d4146a7c> We offer 24/7 support for all our plans. Our team is available to assist you with any issues you may encounter. </div></div></div><div class=\"accordion-item\" data-v-d4146a7c><h2 class=\"accordion-header\" id=\"headingThree\" data-v-d4146a7c><button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapseThree\" aria-expanded=\"false\" aria-controls=\"collapseThree\" data-v-d4146a7c> Does the HRM Dashboard offer real-time analysis? </button></h2><div id=\"collapseThree\" class=\"accordion-collapse collapse\" aria-labelledby=\"headingThree\" data-bs-parent=\"#faqAccordion\" data-v-d4146a7c><div class=\"accordion-body\" data-v-d4146a7c> Yes, our Advanced plan includes real-time analytics to give you immediate insights into your data. </div></div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CTA Footer "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row align-items-center py-5 px-4 footer-cta\" data-v-d4146a7c><div class=\"col-md-8 text-center text-md-start\" data-v-d4146a7c><h2 class=\"fw-bold\" data-v-d4146a7c>Start Managing Healthcare with Us Today!</h2><p class=\"lead\" data-v-d4146a7c> Sign up for a free 14-day trial and experience the difference our platform can make for your practice. </p></div><div class=\"col-md-4 text-center text-md-end mt-3 mt-md-0\" data-v-d4146a7c><a href=\"#\" class=\"btn btn-light rounded-pill px-5 fw-bold text-black\" data-v-d4146a7c>Sign Up for Free</a></div></div>", 1))])]);
+  }, _cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Annual Billing ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "badge bg-success ms-2 fw-600"
+  }, "Save 20%", -1 /* CACHED */)]), 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.plans, function (plan, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: plan.id,
+      "class": "col"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 pricing-card border-0 shadow-lg animate-slide-up", {
+        'featured-card': plan.isFeatured
+      }]),
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        animationDelay: "".concat(index * 0.1, "s")
+      })
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [plan.isFeatured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, "Most Popular")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(plan.icon)
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price[$setup.priceKey]) + " ", 1 /* TEXT */), plan.price[$setup.priceKey] !== 'Custom' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_11, "/month")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+        key: feature
+      }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "fas fa-check-circle me-2 text-teal"
+      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: "#",
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn w-100 rounded-pill fw-600 py-2 mt-4 btn-hover-scale", plan.isFeatured ? 'btn-teal text-white' : 'btn-outline-teal'])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.buttonText) + " ", 1 /* TEXT */), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-arrow-right ms-2"
+    }, null, -1 /* CACHED */))], 2 /* CLASS */)])], 6 /* CLASS, STYLE */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Comparison Table "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-header bg-light py-4 text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "mb-0 text-dark fw-700"
+  }, "Plan Comparison"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted mb-0"
+  }, "Select the right plan for your Islamic institution or personal use")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    scope: "col",
+    "class": "feature-column ps-4"
+  }, "Features", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.plans, function (plan) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("th", {
+      key: plan.id,
+      scope: "col",
+      "class": "text-center"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.tableData, function (row, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: index,
+      "class": "hover-lift"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(row.feature), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.plans, function (plan, planIndex) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", {
+        key: planIndex,
+        "class": "text-center"
+      }, [typeof row.data[plan.id] === 'boolean' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_20, [row.data[plan.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_21)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_22))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(row.data[plan.id]), 1 /* TEXT */))]);
+    }), 128 /* KEYED_FRAGMENT */))]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center mb-5"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "fw-800 text-dark section-title mb-4"
+  }, "Frequently Asked Questions"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted max-w-600 mx-auto fs-5"
+  }, " Answers to common questions about Islamic Connect subscriptions, services, and zakat eligibility. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.faqs, function (faq, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: index,
+      "class": "accordion-item border-0 mb-3 shadow-sm animate-fade-in",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        animationDelay: "".concat(index * 0.1, "s")
+      })
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+      "class": "accordion-header",
+      id: 'heading' + index
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "accordion-button collapsed rounded-3 fw-600",
+      type: "button",
+      "data-bs-toggle": "collapse",
+      "data-bs-target": '#collapse' + index,
+      "aria-expanded": false,
+      "aria-controls": 'collapse' + index
+    }, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-question-circle text-teal me-3"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_28)], 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      id: 'collapse' + index,
+      "class": "accordion-collapse collapse",
+      "aria-labelledby": 'heading' + index,
+      "data-bs-parent": "#faqAccordion"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_29)], 4 /* STYLE */);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Final CTA "), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row align-items-center bg-dark text-white rounded-4 p-4 p-md-5 mb-5 shadow-lg animate-pulse\" data-v-d4146a7c><div class=\"col-md-8\" data-v-d4146a7c><h2 class=\"fw-800 mb-3\" data-v-d4146a7c>Enhance Your Islamic Digital Experience</h2><p class=\"fs-5 mb-0\" data-v-d4146a7c> Join mosques, schools, and individuals using Islamic Connect to access Quran, Hadith, Audio, Video, and accessibility tools. </p></div><div class=\"col-md-4 text-md-end mt-3 mt-md-0\" data-v-d4146a7c><a href=\"#\" class=\"btn btn-teal btn-lg rounded-pill px-4 fw-600 btn-hover-scale\" data-v-d4146a7c>Get Started Today</a></div></div>", 1))])]);
 }
 
 /***/ }),
@@ -165463,7 +165706,7 @@ var _hoisted_3 = {
 };
 var _hoisted_4 = {
   key: 0,
-  "class": "fw-bold text-left pt-2 mb-2 container"
+  "class": "fw-bold text-center pt-2 mb-2 container"
 };
 var _hoisted_5 = {
   "class": "row"
@@ -165473,7 +165716,7 @@ var _hoisted_6 = {
 };
 var _hoisted_7 = {
   key: 0,
-  "class": "fw-bold text-left"
+  "class": "fw-bold text-center"
 };
 var _hoisted_8 = {
   key: 2,
@@ -165523,7 +165766,8 @@ var _hoisted_16 = {
   "class": "col-md-8 pt-2 card-hide text-left pr-4"
 };
 var _hoisted_17 = {
-  key: 1
+  key: 1,
+  "class": "mb-2"
 };
 var _hoisted_18 = {
   "class": "card content"
@@ -165752,7 +165996,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_TranslationNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TranslationNote");
   var _component_TafseerNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TafseerNote");
   var _component_TransliterationNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TransliterationNote");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ChatBot /> "), _cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ChatBot /> "), _cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "text-center container mb-4 lead",
     style: {
       "line-height": "1.6em"
@@ -165761,7 +166005,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: 1,
     onInputChange: _ctx.handleInputChange
   }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                    <div class=\"col-12 col-md-6\">\n                        <SurahDropdown v-if=\"!selectedSurahId\" class=\"pt-1\" :selectedSurah=\"selectedSurahId\"\n                            :filteredSurah=\"filteredSurah\" :surat=\"surat\" @update:selectedSurah=\"updateSelectedSurah\"\n                            @fetchAyat=\"getAyat\" />\n                    </div>\n                    <div class=\"col-12 col-md-6\">\n                        <HelpGuideModal />\n                    </div>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "fw-bold text-left pt-2"
+    "class": "fw-bold text-center pt-2"
   }, "Select a Surah:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
     "class": "col-md-12",
     selectedSurah: $data.selectedSurahId,
@@ -165795,9 +166039,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_13);
   }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [$data.information == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Welcome, {
     key: 0
-  })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "fw-bold text-left"
-  }, "Verse Breakdown...", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" breakdown content here ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"translationInfo\" tabindex=\"-1\"\n                                    aria-labelledby=\"surahInfoModalLabel\" aria-hidden=\"true\" @click.self=\"closeModal\">\n                                    <div class=\"modal-dialog modal-dialog-centered modal-lg\">\n                                        <div class=\"modal-content\">\n                                            <div class=\"modal-header\">\n                                                <h1 class=\"modal-title fs-5\" id=\"surahInfoModalLabel\">\n                                                    <strong>Surah Information</strong>\n                                                </h1>\n                                                <button type=\"button\" class=\"btn-close\" @click=\"closeModal\"\n                                                    aria-label=\"Close\"></button>\n                                            </div>\n                                            <div class=\"modal-body\">\n                                                <form class=\" text-left\">\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\" class=\"form-label\">Surah Name\n                                                            (English):</label>\n                                                        <p class=\"mt-2 text-dark text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.name_en\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\"\n                                                            class=\"form-label text-left\">Surah\n                                                            Information:</label>\n                                                        <p class=\"text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.text\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                </form>\n                                            </div>\n                                            <div class=\"modal-footer\">\n                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\"\n                                                    @click=\"closeModal\">\n                                                    Close\n                                                </button>\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Welcome :information=\"information\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"fw-bold text-center\" >Verse Breakdown...</h4> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" breakdown content here ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"translationInfo\" tabindex=\"-1\"\n                                    aria-labelledby=\"surahInfoModalLabel\" aria-hidden=\"true\" @click.self=\"closeModal\">\n                                    <div class=\"modal-dialog modal-dialog-centered modal-lg\">\n                                        <div class=\"modal-content\">\n                                            <div class=\"modal-header\">\n                                                <h1 class=\"modal-title fs-5\" id=\"surahInfoModalLabel\">\n                                                    <strong>Surah Information</strong>\n                                                </h1>\n                                                <button type=\"button\" class=\"btn-close\" @click=\"closeModal\"\n                                                    aria-label=\"Close\"></button>\n                                            </div>\n                                            <div class=\"modal-body\">\n                                                <form class=\" text-left\">\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\" class=\"form-label\">Surah Name\n                                                            (English):</label>\n                                                        <p class=\"mt-2 text-dark text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.name_en\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\"\n                                                            class=\"form-label text-left\">Surah\n                                                            Information:</label>\n                                                        <p class=\"text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.text\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                </form>\n                                            </div>\n                                            <div class=\"modal-footer\">\n                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\"\n                                                    @click=\"closeModal\">\n                                                    Close\n                                                </button>\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Welcome :information=\"information\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurah,
     onUpdateTafseer: _cache[4] || (_cache[4] = function () {
       return $options.updateTafseer && $options.updateTafseer.apply($options, arguments);
@@ -165816,7 +166058,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToFirstAyah && $options.goToFirstAyah.apply($options, arguments);
     }),
     title: "First verse"
-  }), _cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
@@ -165827,7 +166069,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToPreviousAyah && $options.goToPreviousAyah.apply($options, arguments);
     }),
     title: "Previous verse"
-  }), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
@@ -165838,7 +166080,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToNextAyah && $options.goToNextAyah.apply($options, arguments);
     }),
     title: "Next verse"
-  }), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon",
@@ -165849,7 +166091,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToLastAyah && $options.goToLastAyah.apply($options, arguments);
     }),
     title: "Last verse"
-  }), _cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
@@ -165867,7 +166109,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[7] || (_cache[7] = function ($event) {
       return $options.openModal('translationNote');
     })
-  }), _cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2"
   }, "Write a Note", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[8] || (_cache[8] = function () {
@@ -165876,9 +166118,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
     title: "Bookmark verse"
-  }), _cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2"
-  }, "Bookmark", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                data-bs-toggle=\"modal\" data-bs-target=\"#translationInfo\"\n                                                                aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                title=\"Surah info\"></i>\n                                                            <div class=\"icon-text pt-2\">Surah Info</div>\n                                                        </div> "), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Bookmark", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                data-bs-toggle=\"modal\" data-bs-target=\"#translationInfo\"\n                                                                aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                title=\"Surah info\"></i>\n                                                            <div class=\"icon-text pt-2\">Surah Info</div>\n                                                        </div> "), _cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon",
     style: {
       "cursor": "pointer"
@@ -165892,7 +166134,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-placement": "top"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2"
-  }, "Feedback")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-arrows-fullscreen h4\"\n                                                                @click=\"toggleFullScreen\" title=\"Full screen\"></i>\n                                                            <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                        </div> ")])]), _cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Feedback")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-arrows-fullscreen h4\"\n                                                                @click=\"toggleFullScreen\" title=\"Full screen\"></i>\n                                                            <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                        </div> ")])]), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
       "border": "2px solid #333"
     }
@@ -165993,7 +166235,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToFirstAyah && $options.goToFirstAyah.apply($options, arguments);
     }),
     title: "First verse"
-  }), _cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
@@ -166004,7 +166246,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToPreviousAyah && $options.goToPreviousAyah.apply($options, arguments);
     }),
     title: "Previous verse"
-  }), _cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
@@ -166015,7 +166257,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToNextAyah && $options.goToNextAyah.apply($options, arguments);
     }),
     title: "Next verse"
-  }), _cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon",
@@ -166026,7 +166268,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToLastAyah && $options.goToLastAyah.apply($options, arguments);
     }),
     title: "Last verse"
-  }), _cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_44), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
@@ -166044,7 +166286,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[22] || (_cache[22] = function ($event) {
       return $options.openModal('tafseerNote');
     })
-  }), _cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
@@ -166056,11 +166298,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-expanded": "false",
     "data-bs-placement": "top",
     title: "Bookmark verse"
-  }), _cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Bookmark")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                    data-bs-toggle=\"modal\"\n                                                                    data-bs-target=\"#translationInfo\"\n                                                                    aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                    title=\"Surah info\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Surah Info</div>\n                                                                </div>\n                                                            </div> "), _cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Bookmark")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                    data-bs-toggle=\"modal\"\n                                                                    data-bs-target=\"#translationInfo\"\n                                                                    aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                    title=\"Surah info\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Surah Info</div>\n                                                                </div>\n                                                            </div> "), _cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon",
     style: {
       "cursor": "pointer"
@@ -166076,7 +166318,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                \" title=\"Full screen\" aria-expanded=\"false\"\n                                                                    data-bs-placement=\"top\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                                </div>\n                                                            </div> ")])]), _cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                \" title=\"Full screen\" aria-expanded=\"false\"\n                                                                    data-bs-placement=\"top\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                                </div>\n                                                            </div> ")])]), _cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
       "border": "2px solid #333"
     }
@@ -166174,7 +166416,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToFirstAyah && $options.goToFirstAyah.apply($options, arguments);
     }),
     title: "First verse"
-  }), _cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon",
@@ -166185,7 +166427,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToPreviousAyah && $options.goToPreviousAyah.apply($options, arguments);
     }),
     title: "Previous verse"
-  }), _cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-right-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon",
@@ -166196,7 +166438,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToNextAyah && $options.goToNextAyah.apply($options, arguments);
     }),
     title: "Next verse"
-  }), _cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-end-fill pt-2 h2 icon-container custom-prev-ayah desktop-icon",
@@ -166207,7 +166449,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToLastAyah && $options.goToLastAyah.apply($options, arguments);
     }),
     title: "Last verse"
-  }), _cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_61), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.iconStyle)
@@ -166224,7 +166466,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[36] || (_cache[36] = function ($event) {
       return $options.openModal('transliterationNote');
     })
-  }), _cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
@@ -166235,11 +166477,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
     title: "Bookmark verse"
-  }), _cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Bookmark")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                        data-bs-toggle=\"modal\"\n                                                                        data-bs-target=\"#translationInfo\"\n                                                                        aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                        title=\"Surah info\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Surah Info\n                                                                        </div>\n                                                                    </div>\n                                                                </div> "), _cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Bookmark")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                        data-bs-toggle=\"modal\"\n                                                                        data-bs-target=\"#translationInfo\"\n                                                                        aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                        title=\"Surah info\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Surah Info\n                                                                        </div>\n                                                                    </div>\n                                                                </div> "), _cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon",
     style: {
       "cursor": "pointer"
@@ -166255,7 +166497,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                    \" title=\"Full screen\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Full Screen\n                                                                        </div>\n                                                                    </div>\n                                                                </div> ")])]), _cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                    \" title=\"Full screen\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Full Screen\n                                                                        </div>\n                                                                    </div>\n                                                                </div> ")])]), _cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
       "border": "2px solid\n                                                                #333"
     }
@@ -179733,8 +179975,9 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-d4146a7c] {\n  font-family: 'Inter', sans-serif;\n  background-color: #f8f9fa;\n}\n.pricing-card[data-v-d4146a7c] {\n  border-radius: 1.5rem;\n  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);\n  transition: transform 0.3s, box-shadow 0.3s;\n}\n.pricing-card[data-v-d4146a7c]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.15);\n}\n.featured-card[data-v-d4146a7c] {\n  background-color: black;\n  color: white;\n  position: relative;\n  transform: scale(1.05);\n  z-index: 10;\n}\n.featured-card[data-v-d4146a7c]:hover {\n  transform: scale(1.08);\n}\n.badge-popular[data-v-d4146a7c] {\n  position: absolute;\n  top: -10px;\n  right: -10px;\n  background-color: #00bfa6;\n  color: white;\n  padding: 0.25rem 0.75rem;\n  border-radius: 1rem;\n  transform: rotate(10deg);\n  font-size: 0.75rem;\n}\n.pricing-toggle .btn[data-v-d4146a7c] {\n  border-radius: 2rem;\n  padding: 0.75rem 2rem;\n  font-weight: 600;\n}\n.pricing-toggle .btn.active[data-v-d4146a7c] {\n  background-color: #00bfa6;\n  color: white;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n}\n.new-compare-table[data-v-d4146a7c] {\n  width: 100%;\n  border-collapse: collapse;\n  border-radius: 1rem;\n  overflow: hidden;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  background-color: #fff;\n}\n.new-compare-table thead[data-v-d4146a7c] {\n  background-color: #333;\n  color: white;\n}\n.new-compare-table th[data-v-d4146a7c],\n.new-compare-table td[data-v-d4146a7c] {\n  padding: 1rem;\n  vertical-align: middle;\n  border-bottom: 1px solid #e0e0e0;\n}\n.new-compare-table th[data-v-d4146a7c] {\n  font-weight: 600;\n  color: #555;\n  background-color: #f8f9fa;\n}\n.new-compare-table tbody tr:last-child th[data-v-d4146a7c],\n.new-compare-table tbody tr:last-child td[data-v-d4146a7c] {\n  border-bottom: none;\n}\n.new-compare-table .fa-check[data-v-d4146a7c] {\n  color: #ff8c00;\n}\n.feature-card[data-v-d4146a7c] {\n  border-radius: 1rem;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n}\n.feature-icon-circle[data-v-d4146a7c] {\n  background-color: #e8f5e9;\n  color: #00bfa6;\n  width: 4rem;\n  height: 4rem;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.footer-cta[data-v-d4146a7c] {\n  background-color: black;\n  border-radius: 1.5rem;\n  color: white;\n}\n.btn-custom-primary[data-v-d4146a7c] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n  color: white;\n}\n.btn-custom-primary[data-v-d4146a7c]:hover {\n  background-color: #00a68d;\n  border-color: #00a68d;\n}\n.text-custom-primary[data-v-d4146a7c] {\n  color: #00bfa6;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-d4146a7c]:root {\n  --teal: #0d9488;\n  --teal-light: #ccfbf1;\n  --teal-dark: #0f766e;\n  --dark: #1e293b;\n  --muted: #64748b;\n  --light: #f8fafc;\n  --font-heading: 'Inter', sans-serif;\n  --font-body: 'Inter', sans-serif;\n}\nbody[data-v-d4146a7c] {\n  font-family: var(--font-body);\n  color: var(--dark);\n  background-color: #f9fafb;\n  line-height: 1.7;\n}\nh1[data-v-d4146a7c],\nh2[data-v-d4146a7c],\nh3[data-v-d4146a7c],\nh4[data-v-d4146a7c],\nh5[data-v-d4146a7c],\nh6[data-v-d4146a7c] {\n  font-family: var(--font-heading);\n  line-height: 1.3;\n}\n.fw-600[data-v-d4146a7c] {\n  font-weight: 600 !important;\n}\n.fw-700[data-v-d4146a7c] {\n  font-weight: 700 !important;\n}\n.fw-800[data-v-d4146a7c] {\n  font-weight: 800 !important;\n}\n.fs-5[data-v-d4146a7c] {\n  font-size: 1.1rem !important;\n}\n.section-title[data-v-d4146a7c] {\n  position: relative;\n  display: inline-block;\n  margin-bottom: 1.5rem;\n}\n.section-title[data-v-d4146a7c]:after {\n  content: '';\n  position: absolute;\n  bottom: -10px;\n  left: 50%;\n  transform: translateX(-50%);\n  width: 60px;\n  height: 4px;\n  background: var(--teal);\n  border-radius: 2px;\n}\n.text-teal[data-v-d4146a7c] {\n  color: var(--teal) !important;\n}\n.text-dark[data-v-d4146a7c] {\n  color: var(--dark) !important;\n}\n.pricing-toggle[data-v-d4146a7c] {\n  display: inline-flex;\n  border-radius: 12px;\n  padding: 6px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.pricing-toggle .btn[data-v-d4146a7c] {\n  border-radius: 8px;\n  padding: 0.6rem 1.5rem;\n  font-weight: 600;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c] {\n  background-color: var(--teal);\n  border-color: var(--teal);\n  color: white;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal-dark);\n}\n.btn-outline-teal[data-v-d4146a7c] {\n  color: var(--teal);\n  border-color: var(--teal);\n  transition: all 0.3s ease;\n}\n.btn-outline-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal);\n  color: white;\n}\n.pricing-card[data-v-d4146a7c] {\n  border-radius: 16px;\n  transition: all 0.3s ease;\n  overflow: hidden;\n  background: white;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);\n  border: 1px solid rgba(0, 0, 0, 0.05);\n}\n.pricing-card[data-v-d4146a7c]:hover {\n  transform: translateY(-10px);\n  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);\n}\n.pricing-card.featured-card[data-v-d4146a7c] {\n  transform: scale(1.03);\n  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\n  border: 2px solid var(--teal);\n  z-index: 2;\n}\n.pricing-card-header[data-v-d4146a7c] {\n  padding: 2rem 2rem 1rem;\n  text-align: center;\n  background: #f8fafc;\n}\n.pricing-card-body[data-v-d4146a7c] {\n  padding: 1rem 2rem 2rem;\n}\n.pricing-icon[data-v-d4146a7c] {\n  width: 80px;\n  height: 80px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 50%;\n  margin: 0 auto 1rem;\n  background: var(--teal-light);\n  color: var(--teal);\n  font-size: 2rem;\n  box-shadow: 0 5px 15px rgba(13, 148, 136, 0.2);\n}\n.featured-card .pricing-icon[data-v-d4146a7c] {\n  background: var(--teal);\n  color: white;\n}\n.price-amount[data-v-d4146a7c] {\n  font-size: 2.5rem;\n  font-weight: 800;\n  margin: 1rem 0 0.5rem;\n  color: var(--dark);\n}\n.price-period[data-v-d4146a7c] {\n  color: var(--muted);\n  font-size: 1rem;\n}\n.pricing-features[data-v-d4146a7c] {\n  list-style: none;\n  padding: 0;\n  margin: 1.5rem 0;\n}\n.pricing-features li[data-v-d4146a7c] {\n  padding: 0.6rem 0;\n  display: flex;\n  align-items: center;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.05);\n}\n.pricing-features li[data-v-d4146a7c]:last-child {\n  border-bottom: none;\n}\n.table-compare[data-v-d4146a7c] {\n  border-collapse: separate;\n  border-spacing: 0;\n  width: 100%;\n}\n.table-compare th[data-v-d4146a7c] {\n  background: #f8fafc;\n  padding: 1rem;\n  font-weight: 700;\n  border-bottom: 2px solid var(--teal);\n}\n.table-compare td[data-v-d4146a7c] {\n  padding: 1rem;\n  border-top: 1px solid #e2e8f0;\n}\n.feature-column[data-v-d4146a7c] {\n  width: 30%;\n  font-weight: 600;\n}\n.accordion-button[data-v-d4146a7c] {\n  font-weight: 600;\n  border-radius: 12px;\n  padding: 1rem;\n  font-size: 1.1rem;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n.accordion-button[data-v-d4146a7c]:not(.collapsed) {\n  background-color: white;\n  color: var(--dark);\n  box-shadow: none;\n  border-radius: 12px;\n}\n.animate-slide-up[data-v-d4146a7c] {\n  animation: slideUp-d4146a7c 0.6s forwards;\n  opacity: 0;\n}\n.animate-fade-in[data-v-d4146a7c] {\n  animation: fadeIn-d4146a7c 0.6s forwards;\n  opacity: 0;\n}\n.animate-pulse[data-v-d4146a7c] {\n  animation: pulse-d4146a7c 2s infinite;\n}\n@keyframes slideUp-d4146a7c {\n0% {\n    opacity: 0;\n    transform: translateY(30px);\n}\n100% {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes fadeIn-d4146a7c {\n0% {\n    opacity: 0;\n}\n100% {\n    opacity: 1;\n}\n}\n@keyframes pulse-d4146a7c {\n0%,\n  100% {\n    transform: scale(1);\n}\n50% {\n    transform: scale(1.02);\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
