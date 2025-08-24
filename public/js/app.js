@@ -139949,94 +139949,37 @@ __webpack_require__.r(__webpack_exports__);
       name: 'Basic',
       description: 'For individual users & small mosques',
       price: {
-        monthly: '$9',
-        annual: '$7'
+        monthly: '£0',
+        annual: '£0'
       },
       features: ['Access to Quran & translation', 'Daily Ayah notifications', 'Audio recitation streaming', 'Community support'],
       buttonText: 'Start Free',
       isFeatured: false,
       icon: 'fas fa-book-quran'
     }, {
-      id: 'professional',
-      name: 'Professional',
+      id: 'plus',
+      name: 'Plus',
       description: 'For Islamic schools & growing centers',
       price: {
-        monthly: '$29',
-        annual: '$23'
+        monthly: '£1.99',
+        annual: '£1.99'
       },
       features: ['All Basic features', 'Hadith & Seerah libraries', 'Live radio & podcasts', 'Multi-user access', 'Customizable dashboard'],
       buttonText: 'Start Trial',
       isFeatured: true,
       icon: 'fas fa-mosque'
     }, {
-      id: 'barakah',
-      name: 'Barakah',
+      id: 'lifetime',
+      name: 'Lifetime',
       description: 'For large institutions & organizations',
       price: {
-        monthly: 'Custom',
-        annual: 'Custom'
+        monthly: '£15.99',
+        annual: '£15.99'
       },
       features: ['Unlimited users & devices', 'Full content library', 'Accessibility tools (TTS, STT, gestures)', 'Dedicated support & training', 'Zakat eligible subscriptions'],
       buttonText: 'Contact Sales',
       isFeatured: false,
       icon: 'fas fa-star-and-crescent'
-    }]);
-    var tableData = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([{
-      feature: 'Quran Access',
-      data: {
-        basic: true,
-        professional: true,
-        barakah: true
-      }
-    }, {
-      feature: 'Hadith & Seerah',
-      data: {
-        basic: false,
-        professional: true,
-        barakah: true
-      }
-    }, {
-      feature: 'Audio Streaming',
-      data: {
-        basic: true,
-        professional: true,
-        barakah: true
-      }
-    }, {
-      feature: 'Live TV/Radio',
-      data: {
-        basic: false,
-        professional: true,
-        barakah: true
-      }
-    }, {
-      feature: 'Multi-user Support',
-      data: {
-        basic: false,
-        professional: true,
-        barakah: true
-      }
-    }, {
-      feature: 'Accessibility Tools',
-      data: {
-        basic: false,
-        professional: false,
-        barakah: true
-      }
-    }, {
-      feature: 'Custom Dashboard',
-      data: {
-        basic: false,
-        professional: true,
-        barakah: true
-      }
-    }, {
-      feature: 'Zakat Eligibility',
-      data: {
-        basic: false,
-        professional: false,
-        barakah: true
-      }
     }]);
     var faqs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([{
       question: 'Can Islamic institutions use zakat funds for this platform?',
@@ -140054,7 +139997,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       isAnnual: isAnnual,
       plans: plans,
-      tableData: tableData,
       faqs: faqs,
       priceKey: priceKey
     };
@@ -165155,106 +165097,86 @@ __webpack_require__.r(__webpack_exports__);
 
 var _hoisted_1 = {
   id: "app",
-  "class": "py-5"
+  "class": "container"
 };
 var _hoisted_2 = {
   id: "pricing",
-  "class": "container py-5"
+  "class": "container pb-5"
 };
 var _hoisted_3 = {
   "class": "d-flex justify-content-center mb-5"
 };
 var _hoisted_4 = {
   "class": "pricing-toggle bg-light rounded-3 p-1 shadow-sm",
-  role: "group"
+  role: "group",
+  "aria-label": "Billing period selector"
 };
 var _hoisted_5 = {
   "class": "row row-cols-1 row-cols-md-3 g-4 mb-5"
 };
 var _hoisted_6 = {
-  "class": "pricing-card-header text-center"
+  key: 0,
+  "class": "featured-badge bg-teal text-white py-2 text-center"
 };
 var _hoisted_7 = {
-  key: 0,
-  "class": "badge bg-teal rounded-pill px-3 fw-600"
+  "class": "pricing-card-header text-center"
 };
 var _hoisted_8 = {
-  "class": "pricing-icon mt-3"
+  "class": "pricing-icon mt-3 mx-auto rounded-circle d-flex align-items-center justify-content-center"
 };
 var _hoisted_9 = {
-  "class": "card-title mt-3 fw-700"
+  "class": "card-title mt-3 fw-bold"
 };
 var _hoisted_10 = {
   "class": "price-amount"
 };
 var _hoisted_11 = {
-  key: 0,
-  "class": "price-period"
-};
-var _hoisted_12 = {
-  "class": "text-muted"
-};
-var _hoisted_13 = {
-  "class": "card-body pricing-card-body"
-};
-var _hoisted_14 = {
-  "class": "pricing-features"
-};
-var _hoisted_15 = {
-  "class": "card border-0 shadow-lg mb-5 animate-fade-in"
-};
-var _hoisted_16 = {
-  "class": "card-body p-0"
-};
-var _hoisted_17 = {
-  "class": "table-responsive"
-};
-var _hoisted_18 = {
-  "class": "table table-compare mb-0"
-};
-var _hoisted_19 = {
-  scope: "row",
-  "class": "feature-column ps-4 fw-600"
-};
-var _hoisted_20 = {
   key: 0
 };
-var _hoisted_21 = {
+var _hoisted_12 = {
+  key: 1
+};
+var _hoisted_13 = {
+  key: 2,
+  "class": "price-period"
+};
+var _hoisted_14 = {
+  "class": "text-muted mb-0"
+};
+var _hoisted_15 = {
   key: 0,
-  "class": "fas fa-check-circle text-teal"
+  "class": "text-success small mt-1"
 };
-var _hoisted_22 = {
-  key: 1,
-  "class": "fas fa-times-circle text-muted"
+var _hoisted_16 = {
+  "class": "card-body pricing-card-body d-flex flex-column"
 };
-var _hoisted_23 = {
-  key: 1,
-  "class": "fw-600"
+var _hoisted_17 = {
+  "class": "pricing-features list-unstyled mb-4"
 };
-var _hoisted_24 = {
+var _hoisted_18 = {
   "class": "row justify-content-center mb-5"
 };
-var _hoisted_25 = {
+var _hoisted_19 = {
   "class": "col-lg-10"
 };
-var _hoisted_26 = {
+var _hoisted_20 = {
   "class": "accordion accordion-flush",
   id: "faqAccordion"
 };
-var _hoisted_27 = ["id"];
-var _hoisted_28 = ["data-bs-target", "aria-controls"];
-var _hoisted_29 = ["id", "aria-labelledby"];
-var _hoisted_30 = {
-  "class": "accordion-body pt-0 fs-5"
+var _hoisted_21 = ["id"];
+var _hoisted_22 = ["data-bs-target", "aria-controls"];
+var _hoisted_23 = ["id", "aria-labelledby"];
+var _hoisted_24 = {
+  "class": "accordion-body pt-0"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-center mb-5"
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+    "class": "text-center py-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "fw-800 text-dark section-title mb-4"
+    "class": "fw-bold display-5 mb-3"
   }, "Pricing Plans"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-muted mx-auto fs-5"
-  }, " Choose a plan that suits your Islamic Connect needs. All plans include 24/7 support and free trial for 14 days. Special discounts are available for mosques, Islamic schools, and community centers. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "lead text-muted mx-auto"
+  }, " Choose a plan that suits your Islamic Connect needs. All plans include 24/7 support and a free 14-day trial. Special discounts are available for mosques, Islamic schools, and community centers. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", {
       'btn-teal': !$setup.isAnnual,
@@ -165262,7 +165184,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }]),
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $setup.isAnnual = false;
-    })
+    }),
+    "aria-pressed": "!isAnnual"
   }, " Monthly Billing ", 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn position-relative", {
@@ -165271,91 +165194,62 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }]),
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $setup.isAnnual = true;
-    })
+    }),
+    "aria-pressed": "isAnnual"
   }, _cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Annual Billing ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "badge bg-success ms-2 fw-600"
+    "class": "badge bg-success ms-2 fw-semibold"
   }, "Save 20%", -1 /* CACHED */)]), 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.plans, function (plan, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: plan.id,
       "class": "col"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 pricing-card border-0 shadow-lg animate-slide-up", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 pricing-card border-0 shadow-lg", {
         'featured-card': plan.isFeatured
-      }]),
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        animationDelay: "".concat(index * 0.1, "s")
-      })
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [plan.isFeatured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, "Most Popular")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }])
+    }, [plan.isFeatured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, " Most Popular ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(plan.icon)
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price[$setup.priceKey]) + " ", 1 /* TEXT */), plan.price[$setup.priceKey] !== 'Custom' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_11, "/month")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [plan.price[$setup.priceKey] !== 'Custom' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.isAnnual ? "\xA3".concat((parseFloat(plan.price.monthly.replace('£', '')) * 12 * 0.8).toFixed(2)) : plan.price[$setup.priceKey]), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price[$setup.priceKey]), 1 /* TEXT */)), plan.price[$setup.priceKey] !== 'Custom' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_13, "/month")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.description), 1 /* TEXT */), $setup.isAnnual && plan.price[$setup.priceKey] !== 'Custom' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_15, " Billed annually (save 20%) ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-        key: feature
+        key: feature,
+        "class": "py-2"
       }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "fas fa-check-circle me-2 text-teal"
       }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
     }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "#",
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn w-100 rounded-pill fw-600 py-2 mt-4 btn-hover-scale", plan.isFeatured ? 'btn-teal text-white' : 'btn-outline-teal'])
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn w-100 rounded-pill fw-semibold py-2 mt-auto", plan.isFeatured ? 'btn-teal text-white' : 'btn-outline-teal'])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.buttonText) + " ", 1 /* TEXT */), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "fas fa-arrow-right ms-2"
-    }, null, -1 /* CACHED */))], 2 /* CLASS */)])], 6 /* CLASS, STYLE */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Comparison Table "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card-header bg-light py-4 text-center"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "mb-0 text-dark fw-700"
-  }, "Plan Comparison"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-muted mb-0"
-  }, "Select the right plan for your Islamic institution or personal use")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    "class": "feature-column ps-4"
-  }, "Features", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.plans, function (plan) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("th", {
-      key: plan.id,
-      scope: "col",
-      "class": "text-center"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.tableData, function (row, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
-      key: index,
-      "class": "hover-lift"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(row.feature), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.plans, function (plan, planIndex) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", {
-        key: planIndex,
-        "class": "text-center"
-      }, [typeof row.data[plan.id] === 'boolean' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_20, [row.data[plan.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_21)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_22))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(row.data[plan.id]), 1 /* TEXT */))]);
-    }), 128 /* KEYED_FRAGMENT */))]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */))], 2 /* CLASS */)])], 2 /* CLASS */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center mb-5"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "fw-800 text-dark section-title mb-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "fw-bold text-dark mb-4"
   }, "Frequently Asked Questions"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-muted max-w-600 mx-auto fs-5"
-  }, " Answers to common questions about Islamic Connect subscriptions, services, and zakat eligibility. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.faqs, function (faq, index) {
+    "class": "lead text-muted mx-auto"
+  }, " Answers to common questions about Islamic Connect subscriptions, services, and zakat eligibility. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.faqs, function (faq, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
-      "class": "accordion-item border-0 mb-3 shadow-sm animate-fade-in",
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        animationDelay: "".concat(index * 0.1, "s")
-      })
+      "class": "accordion-item border-0 mb-3 shadow-sm"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
       "class": "accordion-header",
       id: 'heading' + index
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "accordion-button collapsed rounded-3 fw-600",
+      "class": "accordion-button collapsed rounded-3 fw-semibold",
       type: "button",
       "data-bs-toggle": "collapse",
       "data-bs-target": '#collapse' + index,
       "aria-expanded": false,
       "aria-controls": 'collapse' + index
-    }, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "fas fa-question-circle text-teal me-3"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_28)], 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_22)], 8 /* PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       id: 'collapse' + index,
       "class": "accordion-collapse collapse",
       "aria-labelledby": 'heading' + index,
       "data-bs-parent": "#faqAccordion"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_29)], 4 /* STYLE */);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Final CTA "), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row align-items-center bg-dark text-white rounded-4 p-4 p-md-5 mb-5 shadow-lg animate-pulse\" data-v-d4146a7c><div class=\"col-md-8\" data-v-d4146a7c><h2 class=\"fw-800 mb-3\" data-v-d4146a7c>Enhance Your Islamic Digital Experience</h2><p class=\"fs-5 mb-0\" data-v-d4146a7c> Join mosques, schools, and individuals using Islamic Connect to access Quran, Hadith, Audio, Video, and accessibility tools. </p></div><div class=\"col-md-4 text-md-end mt-3 mt-md-0\" data-v-d4146a7c><a href=\"#\" class=\"btn btn-teal btn-lg rounded-pill px-4 fw-600 btn-hover-scale\" data-v-d4146a7c>Get Started Today</a></div></div>", 1))])]);
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_23)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Final CTA "), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row align-items-center bg-dark text-white rounded-4 p-4 p-md-5 mb-5 shadow-lg\" data-v-d4146a7c><div class=\"col-md-8\" data-v-d4146a7c><h2 class=\"fw-bold mb-3\" data-v-d4146a7c>Enhance Your Islamic Digital Experience</h2><p class=\"mb-0\" data-v-d4146a7c> Join mosques, schools, and individuals using Islamic Connect to access Quran, Hadith, Audio, Video, and accessibility tools. </p></div><div class=\"col-md-4 text-md-end mt-3 mt-md-0\" data-v-d4146a7c><a href=\"#\" class=\"btn btn-teal btn-lg rounded-pill px-4 fw-semibold\" data-v-d4146a7c>Get Started Today</a></div></div>", 1))])]);
 }
 
 /***/ }),
@@ -179976,8 +179870,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap);"]);
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-d4146a7c]:root {\n  --teal: #0d9488;\n  --teal-light: #ccfbf1;\n  --teal-dark: #0f766e;\n  --dark: #1e293b;\n  --muted: #64748b;\n  --light: #f8fafc;\n  --font-heading: 'Inter', sans-serif;\n  --font-body: 'Inter', sans-serif;\n}\nbody[data-v-d4146a7c] {\n  font-family: var(--font-body);\n  color: var(--dark);\n  background-color: #f9fafb;\n  line-height: 1.7;\n}\nh1[data-v-d4146a7c],\nh2[data-v-d4146a7c],\nh3[data-v-d4146a7c],\nh4[data-v-d4146a7c],\nh5[data-v-d4146a7c],\nh6[data-v-d4146a7c] {\n  font-family: var(--font-heading);\n  line-height: 1.3;\n}\n.fw-600[data-v-d4146a7c] {\n  font-weight: 600 !important;\n}\n.fw-700[data-v-d4146a7c] {\n  font-weight: 700 !important;\n}\n.fw-800[data-v-d4146a7c] {\n  font-weight: 800 !important;\n}\n.fs-5[data-v-d4146a7c] {\n  font-size: 1.1rem !important;\n}\n.section-title[data-v-d4146a7c] {\n  position: relative;\n  display: inline-block;\n  margin-bottom: 1.5rem;\n}\n.section-title[data-v-d4146a7c]:after {\n  content: '';\n  position: absolute;\n  bottom: -10px;\n  left: 50%;\n  transform: translateX(-50%);\n  width: 60px;\n  height: 4px;\n  background: var(--teal);\n  border-radius: 2px;\n}\n.text-teal[data-v-d4146a7c] {\n  color: var(--teal) !important;\n}\n.text-dark[data-v-d4146a7c] {\n  color: var(--dark) !important;\n}\n.pricing-toggle[data-v-d4146a7c] {\n  display: inline-flex;\n  border-radius: 12px;\n  padding: 6px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.pricing-toggle .btn[data-v-d4146a7c] {\n  border-radius: 8px;\n  padding: 0.6rem 1.5rem;\n  font-weight: 600;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c] {\n  background-color: var(--teal);\n  border-color: var(--teal);\n  color: white;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal-dark);\n}\n.btn-outline-teal[data-v-d4146a7c] {\n  color: var(--teal);\n  border-color: var(--teal);\n  transition: all 0.3s ease;\n}\n.btn-outline-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal);\n  color: white;\n}\n.pricing-card[data-v-d4146a7c] {\n  border-radius: 16px;\n  transition: all 0.3s ease;\n  overflow: hidden;\n  background: white;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);\n  border: 1px solid rgba(0, 0, 0, 0.05);\n}\n.pricing-card[data-v-d4146a7c]:hover {\n  transform: translateY(-10px);\n  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);\n}\n.pricing-card.featured-card[data-v-d4146a7c] {\n  transform: scale(1.03);\n  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);\n  border: 2px solid var(--teal);\n  z-index: 2;\n}\n.pricing-card-header[data-v-d4146a7c] {\n  padding: 2rem 2rem 1rem;\n  text-align: center;\n  background: #f8fafc;\n}\n.pricing-card-body[data-v-d4146a7c] {\n  padding: 1rem 2rem 2rem;\n}\n.pricing-icon[data-v-d4146a7c] {\n  width: 80px;\n  height: 80px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 50%;\n  margin: 0 auto 1rem;\n  background: var(--teal-light);\n  color: var(--teal);\n  font-size: 2rem;\n  box-shadow: 0 5px 15px rgba(13, 148, 136, 0.2);\n}\n.featured-card .pricing-icon[data-v-d4146a7c] {\n  background: var(--teal);\n  color: white;\n}\n.price-amount[data-v-d4146a7c] {\n  font-size: 2.5rem;\n  font-weight: 800;\n  margin: 1rem 0 0.5rem;\n  color: var(--dark);\n}\n.price-period[data-v-d4146a7c] {\n  color: var(--muted);\n  font-size: 1rem;\n}\n.pricing-features[data-v-d4146a7c] {\n  list-style: none;\n  padding: 0;\n  margin: 1.5rem 0;\n}\n.pricing-features li[data-v-d4146a7c] {\n  padding: 0.6rem 0;\n  display: flex;\n  align-items: center;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.05);\n}\n.pricing-features li[data-v-d4146a7c]:last-child {\n  border-bottom: none;\n}\n.table-compare[data-v-d4146a7c] {\n  border-collapse: separate;\n  border-spacing: 0;\n  width: 100%;\n}\n.table-compare th[data-v-d4146a7c] {\n  background: #f8fafc;\n  padding: 1rem;\n  font-weight: 700;\n  border-bottom: 2px solid var(--teal);\n}\n.table-compare td[data-v-d4146a7c] {\n  padding: 1rem;\n  border-top: 1px solid #e2e8f0;\n}\n.feature-column[data-v-d4146a7c] {\n  width: 30%;\n  font-weight: 600;\n}\n.accordion-button[data-v-d4146a7c] {\n  font-weight: 600;\n  border-radius: 12px;\n  padding: 1rem;\n  font-size: 1.1rem;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n.accordion-button[data-v-d4146a7c]:not(.collapsed) {\n  background-color: white;\n  color: var(--dark);\n  box-shadow: none;\n  border-radius: 12px;\n}\n.animate-slide-up[data-v-d4146a7c] {\n  animation: slideUp-d4146a7c 0.6s forwards;\n  opacity: 0;\n}\n.animate-fade-in[data-v-d4146a7c] {\n  animation: fadeIn-d4146a7c 0.6s forwards;\n  opacity: 0;\n}\n.animate-pulse[data-v-d4146a7c] {\n  animation: pulse-d4146a7c 2s infinite;\n}\n@keyframes slideUp-d4146a7c {\n0% {\n    opacity: 0;\n    transform: translateY(30px);\n}\n100% {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes fadeIn-d4146a7c {\n0% {\n    opacity: 0;\n}\n100% {\n    opacity: 1;\n}\n}\n@keyframes pulse-d4146a7c {\n0%,\n  100% {\n    transform: scale(1);\n}\n50% {\n    transform: scale(1.02);\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-d4146a7c]:root {\n  --teal: #00bfa6;\n  --teal-light: #e0f7f5;\n  --teal-dark: #009688;\n  --dark: #1e293b;\n  --muted: #64748b;\n  --light: #f8fafc;\n  --font-heading: 'Inter', sans-serif;\n  --font-body: 'Inter', sans-serif;\n}\nbody[data-v-d4146a7c] {\n  font-family: var(--font-body);\n  color: var(--dark);\n  background-color: #f9fafb;\n  line-height: 1.7;\n}\nh1[data-v-d4146a7c],\nh2[data-v-d4146a7c],\nh3[data-v-d4146a7c],\nh4[data-v-d4146a7c],\nh5[data-v-d4146a7c],\nh6[data-v-d4146a7c] {\n  font-family: var(--font-heading);\n  line-height: 1.3;\n}\n.max-w-600[data-v-d4146a7c] {\n  max-width: 600px;\n}\n.max-w-800[data-v-d4146a7c] {\n  max-width: 800px;\n}\n.text-teal[data-v-d4146a7c] {\n  color: var(--teal) !important;\n}\n.bg-teal[data-v-d4146a7c] {\n  background-color: var(--teal) !important;\n}\n.pricing-toggle[data-v-d4146a7c] {\n  display: inline-flex;\n  border-radius: 12px;\n  padding: 6px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.pricing-toggle .btn[data-v-d4146a7c] {\n  border-radius: 8px;\n  padding: 0.6rem 1.5rem;\n  font-weight: 600;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c] {\n  background-color: var(--teal);\n  border-color: var(--teal);\n  color: white;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal-dark);\n  border-color: var(--teal-dark);\n}\n.btn-outline-teal[data-v-d4146a7c] {\n  color: var(--teal);\n  border-color: var(--teal);\n  transition: all 0.3s ease;\n}\n.btn-outline-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal);\n  color: rgb(0, 0, 0);\n}\n.pricing-card[data-v-d4146a7c] {\n  border-radius: 16px;\n  transition: all 0.3s ease;\n  overflow: hidden;\n  background: white;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);\n  border: 1px solid rgba(0, 0, 0, 0.05);\n  position: relative;\n}\n.pricing-card[data-v-d4146a7c]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);\n}\n.pricing-card.featured-card[data-v-d4146a7c] {\n  transform: scale(1.03);\n  box-shadow: 0 25px 50px rgba(0, 191, 166, 0.15);\n  border: 2px solid var(--teal);\n  z-index: 2;\n}\n.featured-badge[data-v-d4146a7c] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  font-size: 0.875rem;\n  font-weight: 600;\n}\n.pricing-card-header[data-v-d4146a7c] {\n  padding: 2rem 2rem 1rem;\n  text-align: center;\n  background: #f8fafc;\n}\n.pricing-card-body[data-v-d4146a7c] {\n  padding: 1rem 2rem 2rem;\n}\n.pricing-icon[data-v-d4146a7c] {\n  width: 80px;\n  height: 80px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 50%;\n  margin: 0 auto 1rem;\n  background: var(--teal-light);\n  color: var(--teal);\n  font-size: 2rem;\n  box-shadow: 0 5px 15px rgba(0, 191, 166, 0.2);\n}\n.featured-card .pricing-icon[data-v-d4146a7c] {\n  background: var(--teal);\n  color: white;\n}\n.price-amount[data-v-d4146a7c] {\n  font-size: 2.5rem;\n  font-weight: 800;\n  margin: 1rem 0 0.5rem;\n  color: var(--dark);\n}\n.price-period[data-v-d4146a7c] {\n  color: var(--muted);\n  font-size: 1rem;\n}\n.pricing-features[data-v-d4146a7c] {\n  list-style: none;\n  padding: 0;\n  margin: 1.5rem 0;\n}\n.pricing-features li[data-v-d4146a7c] {\n  padding: 0.6rem 0;\n  display: flex;\n  align-items: center;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.05);\n}\n.pricing-features li[data-v-d4146a7c]:last-child {\n  border-bottom: none;\n}\n.accordion-button[data-v-d4146a7c] {\n  font-weight: 600;\n  border-radius: 12px;\n  padding: 1rem;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n.accordion-button[data-v-d4146a7c]:not(.collapsed) {\n  background-color: white;\n  color: var(--dark);\n  box-shadow: none;\n  border-radius: 12px;\n}\n@media (max-width: 768px) {\n.pricing-card.featured-card[data-v-d4146a7c] {\n    transform: scale(1);\n}\n.price-amount[data-v-d4146a7c] {\n    font-size: 2rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
