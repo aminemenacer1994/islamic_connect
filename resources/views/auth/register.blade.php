@@ -2,10 +2,89 @@
 
 @section('content')
 
+<div class="bg-light py-3 py-md-5">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
+        <div class="bg-white p-4 p-md-5 rounded shadow-lg" style="border-radius:8px">
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-5">
+                <h1>Create an account</h1>
+              </div>
+            </div>
+          </div>
+          <form method="POST" action="{{ route('register') }}">
+            @csrf              
+            <div class="row gy-3 gy-md-4 overflow-hidden">
+              <div class="col-12">
+                <label for="name" class="text-left" style="font-weight:bold">First Name</label>
 
-<!-- Section: Design Block -->
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                  value="{{ old('name') }}" required autocomplete="name">
+
+                @error('name')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+              <div class="col-12">
+                <label class="form-label text-left" style="font-weight:bold">Email address</label>
+                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                @error('email')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+              </div>
+              <div class="col-12">
+              <label class="form-label text-left" for="form2Example27">Password</label>
+                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                    @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+              </div>
+              <div class="form-outline mb-2">
+                  <label for="password-confirm"
+                    class="col-md-8 col-form-label text-left">{{ __('Confirm Password') }}</label>
+                  <div class="col-md-12">
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
+                      required autocomplete="new-password">
+                  </div>
+                  <div class="col-12">
+                <div class="form-check">
+                  <p class="mb-3 pb-lg-2  custom-text text-left" ><p>Already have an account ? Click <a href="/login">here</a> to login.</p></p>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="d-grid">
+                  <button class="btn btn-lg" style="background: #00BFA6; color:white; font-style:bold" type="submit">Log in now</button>
+                </div>
+              </div>
+                </div>
+              
+              
+            </div>
+
+                  
+            </div>
+            </div>
+          </form>
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Section: Design Block 
 <section class="">
-  <!-- Jumbotron -->
+  
   <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
     <div class="container">
       <div class="row gx-lg-5 align-items-center">
@@ -40,6 +119,8 @@
 
                 <div class="form-outline mb-2">
                   <label for="email" class="col-md-4 col-form-label text-left">{{ __('Email Address') }}</label>
+
+                  
 
                   <div class="col-md-12">
                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
@@ -86,7 +167,7 @@
                   <p class="mt-3 text-center"><b>Already have an account ? Click <a href="/login">here</a> to login.</b></p>
                 </div>
 
-                  <!-- google sign in -->
+                   google sign in 
                   <div class="container-fluid text-center" style="display:flex">
                     <div class="container-fluid text-center">
                       
@@ -121,8 +202,8 @@
       </div>
     </div>
   </div>
-  <!-- Jumbotron -->
-</section>
+Jumbotron 
+</section>-->
 
 @endsection
 <style>
