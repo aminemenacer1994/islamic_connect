@@ -78,7 +78,7 @@
               aria-label="Export to PDF" title="Export to PDF">
               <i class="bi bi-file-earmark-pdf mr-2" style="font-size: 0.8rem;"></i>Export to PDF
             </button>
-            <div v-if="summaries[idx]" class="mt-2 p-3 rounded-3 position-relative" style="background-color: #f7fafc; border: 1px solid #e2e8f0;">
+            <div v-if="summaries[idx]" class="mt-2 p-3 rounded-3 position-relative" style="background-color: #f7fafc; border: 2px solid rgb(103, 153, 103);">
               <button class="btn btn-sm p-0 position-absolute top-0 end-0 m-2" @click="clearSummary(idx)"
                 @keydown.enter="clearSummary(idx)" @keydown.space.prevent="clearSummary(idx)"
                 aria-label="Close summary" title="Close">

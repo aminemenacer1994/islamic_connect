@@ -2272,7 +2272,7 @@ mark {
 
 .summary-card {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border: 1px solid #dee2e6;
+  border: 2px solid rgb(103, 153, 103);
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);

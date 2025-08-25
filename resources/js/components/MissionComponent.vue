@@ -62,11 +62,12 @@
         </div>
 
         <!-- AI Summary Section (Inline) -->
-        <transition name="fade-slide">
+        <transition name="fade-slide" style="border:linear-gradient(to right, #2b5876 0%, #4e4376  51%, #2b5876  100%)"
+        >
           <div v-if="summaryText" class="ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded" ref="summarySection"
-            style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 1px solid #dee2e6;">
+            style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 1px solid rgb(168 85 247);">
             <div class="d-flex align-items-center justify-content-between mb-2">
-              <h6 class="mb-0 text-primary small">
+              <h6 class="mb-0 text-dark small">
                 <i class="bi bi-robot me-1 me-sm-2"></i>
                 AI Summary
               </h6>
@@ -1226,7 +1227,7 @@ mark {
   padding: 1rem;
   border-radius: 0.75rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  border: 1px solid #dee2e6;
+  border: 2px solid rgb(103, 153, 103);
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
