@@ -61,4 +61,36 @@ class User extends Authenticatable
     {
         return $this->hasMany(Collection::class);
     }
+
+    public function hasPremiumAccess(): bool
+    {
+        return $this->subscribed('default') || $this->onTrial('default');
+    }
+
+    public function getSubscriptionStatusAttribute()
+    {
+        if (!$this->stripe_id) {
+            return 'never_subscribed';
+        }
+
+        if ($this->subscribed('default')) {
+            return 'active';
+        }
+
+        if ($this->subscription('default') && $this->subscription('default')->cancelled()) {
+            return 'cancelled';
+        }
+
+        return 'inactive';
+    }
+
+    // public function isAdmin(): bool
+    // {
+    //     // Add your admin logic here
+    //     // For example, check if email is in admin list or has admin role
+    //     return in_array($this->email, [
+    //         'admin@admin.com',
+    //         // Add other admin emails
+    //     ]);
+    // }
 }

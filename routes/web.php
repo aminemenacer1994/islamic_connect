@@ -73,34 +73,76 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
 
-Route::middleware(['auth', 'subscribed'])->group(function () {
-    Route::get('/content', [ContentController::class, 'content']);
+Route::get('/debug-routes', function () {
+    $routes = collect(Route::getRoutes())->map(function ($route) {
+        return [
+            'uri' => $route->uri(),
+            'methods' => $route->methods(),
+            'name' => $route->getName(),
+            'action' => $route->getActionName(),
+        ];
+    })->filter(function ($route) {
+        return str_contains($route['uri'], 'checkout') || str_contains($route['uri'], 'subscription');
+    });
+
+    return response()->json($routes);
 });
 
+// CSRF cookie for SPA authentication
+Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
 
-Route::get('/subscription-success', function (Request $request) {
-    $intended = $request->query('intended', '/');
-    return redirect($intended)->with('success', 'Subscription activated! Content unlocked.');
-})->name('checkout-return');
+// Public API routes
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok', 'timestamp' => now()]);
+});
 
+// Authenticated API routes
 Route::middleware('auth:sanctum')->group(function () {
+    // Subscription management
     Route::get('/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
     Route::post('/create-checkout-session', [SubscriptionController::class, 'createCheckoutSession']);
+    Route::post('/cancel-subscription', [SubscriptionController::class, 'cancelSubscription']);
+    Route::post('/resume-subscription', [SubscriptionController::class, 'resumeSubscription']);
+    
+    // User profile
+    Route::get('/user', function () {
+        return response()->json(auth()->user());
+    });
 });
 
-Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show'])->middleware('web');
+// Protected content routes (require authentication + subscription)
+Route::middleware(['auth', 'subscribed'])->group(function () {
+    Route::get('/content', [ContentController::class, 'content'])->name('content');
+    Route::get('/streaming', [ContentController::class, 'streaming'])->name('streaming');
+});
+
+// Subscription success return route (this should NOT require auth middleware)
+Route::get('/subscription-success', [SubscriptionController::class, 'handleCheckoutReturn'])
+    ->name('checkout-return');
+
+// Admin routes
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+});
+
+
 
 // Auth routes
 Auth::routes();
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    // Other admin routes...
+
+// User dashboard/profile routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+    
+    Route::get('/profile', function () {
+        return view('profile');
+    })->name('profile');
 });
 
 Route::get('api/userId', [UserController::class, 'getUserId']);
-
-
 
 // comment
 Route::get('/notes/{note}/comments', [CommentsController::class, 'getComments']);

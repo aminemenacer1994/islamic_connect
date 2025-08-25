@@ -1,33 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Successful</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div>
-        <h1>Thank you for your purchase!</h1>
-        <p>Your subscription was successful.</p>
-        <p>You will be redirected shortly...</p>
-    </div>
+@extends('layouts.app')
 
-    <script defer>
-        // Redirect to the desired page after a 3-second delay
-        setTimeout(function() {
-            window.location.href = "{{ url('/pricing') }}"; // Change to your desired redirect URL
-        }, 3000); // 3000ms = 3 seconds
-    </script>
-</body>
-</html>
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Payment Successful</div>
+                <div class="card-body text-center">
+                    <div class="success-icon mb-3">
+                        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                    </div>
+                    <h1 class="text-success">Payment Successful!</h1>
+                    <p class="lead">Your subscription was successful.</p>
+                    <p>You will be redirected to the homepage shortly.</p>
+                    <div class="spinner-border text-primary mt-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+setTimeout(function() {
+    window.location.href = '{{ route("home") }}';
+}, 5000);
+</script>
+@endsection

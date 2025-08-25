@@ -71,7 +71,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\CheckRole::class,
         'admin' => \App\Http\Middleware\CheckAdmin::class,
-        'subscribed' => \App\Http\Middleware\RequireSubscription::class,
+        'subscribed' => \App\Http\Middleware\EnsureUserIsSubscribed::class,
+        'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
     ];
 
     protected $middlewareAliases = [

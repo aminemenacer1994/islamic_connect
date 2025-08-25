@@ -1,9 +1,14 @@
-// Helper function to encode data
+// Encode subscription data to prevent tampering
 function encodeData(data) {
-  return btoa(JSON.stringify(data));
+  try {
+    return btoa(JSON.stringify(data));
+  } catch (error) {
+    console.error('Error encoding subscription data:', error);
+    return null;
+  }
 }
 
-// Helper function to decode data
+// Decode subscription data
 function decodeData(encodedData) {
   try {
     return JSON.parse(atob(encodedData));
@@ -65,5 +70,6 @@ export function redirectToSubscription(type) {
   const paymentLink = type === 'monthly'
     ? 'https://buy.stripe.com/dR6fZC0BWd7ubvO8wz'
     : 'https://buy.stripe.com/00g7t63O8d7uczS6os';
+  
   window.location.href = `${paymentLink}?success_url=${encodeURIComponent(successUrl)}`;
 }

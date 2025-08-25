@@ -58,7 +58,7 @@
                 </li>
               </ul>
               <a href="#" class="btn w-100 rounded-pill fw-semibold py-2 mt-auto"
-                :class="plan.isFeatured ? 'btn-teal text-white' : 'btn-outline-teal'">
+                :class="plan.isFeatured ? 'btn-teal ' : 'btn-outline-teal'">
                 {{ plan.buttonText }} <i class="fas fa-arrow-right ms-2"></i>
               </a>
             </div>
@@ -136,8 +136,8 @@ export default {
         icon: 'fas fa-book-quran'
       },
       {
-        id: 'plus',
-        name: 'Plus',
+        id: 'premium',
+        name: 'Premium',
         description: 'For Islamic schools & growing centers',
         price: { monthly: '£1.99', annual: '£1.99' },
         features: [
@@ -261,7 +261,7 @@ h6 {
 .btn-teal {
   background-color: var(--teal);
   border-color: var(--teal);
-  color: white;
+  color: black;
   transition: all 0.3s ease;
 }
 

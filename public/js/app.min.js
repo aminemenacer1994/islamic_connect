@@ -137908,14 +137908,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _mixins_subscriptionMixin_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/subscriptionMixin.js */ "./resources/js/mixins/subscriptionMixin.js");
- // Import the mixin
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mixins: [_mixins_subscriptionMixin_js__WEBPACK_IMPORTED_MODULE_0__["default"]],
-  created: function created() {
-    // Check subscription status on page load or return from Stripe
-    this.fetchStatus();
-  }
+  name: 'MediaCenter',
+  mixins: [_mixins_subscriptionMixin_js__WEBPACK_IMPORTED_MODULE_0__["default"]]
+
+  // The mixin handles all the initialization in mounted()
+  // No need to override created() or mounted() here
 });
 
 /***/ }),
@@ -139957,8 +139956,8 @@ __webpack_require__.r(__webpack_exports__);
       isFeatured: false,
       icon: 'fas fa-book-quran'
     }, {
-      id: 'plus',
-      name: 'Plus',
+      id: 'premium',
+      name: 'Premium',
       description: 'For Islamic schools & growing centers',
       price: {
         monthly: '£1.99',
@@ -163501,97 +163500,116 @@ var _hoisted_1 = {
   "class": "container py-4"
 };
 var _hoisted_2 = {
-  "class": "row g-4"
+  key: 0,
+  "class": "text-center py-5"
 };
 var _hoisted_3 = {
-  "class": "col-md-6 col-lg-4"
+  key: 1,
+  "class": "row g-4"
 };
 var _hoisted_4 = {
+  "class": "col-md-6 col-lg-4"
+};
+var _hoisted_5 = {
   "class": "card custom-card rounded-4 overflow-hidden",
   style: {
     "border": "1px solid grey"
   }
 };
-var _hoisted_5 = {
+var _hoisted_6 = {
   "class": "p-3"
 };
-var _hoisted_6 = {
+var _hoisted_7 = {
   "class": "mb-2 fw-bold display-6 text-dark text-center"
 };
-var _hoisted_7 = {
+var _hoisted_8 = {
   key: 0
 };
-var _hoisted_8 = {
+var _hoisted_9 = {
   "class": "col-md-6 col-lg-4"
 };
-var _hoisted_9 = {
+var _hoisted_10 = {
   "class": "card custom-card shadow-sm rounded-4",
   style: {
     "border": "1px solid grey",
     "background": "whitesmoke"
   }
 };
-var _hoisted_10 = {
+var _hoisted_11 = {
   "class": "p-3"
 };
-var _hoisted_11 = {
+var _hoisted_12 = {
   "class": "mb-2 fw-bold display-6 text-dark text-center"
 };
-var _hoisted_12 = {
+var _hoisted_13 = {
   key: 0
 };
-var _hoisted_13 = {
+var _hoisted_14 = {
   "class": "col-md-6 col-lg-4"
 };
-var _hoisted_14 = {
+var _hoisted_15 = {
   "class": "card custom-card rounded-4 overflow-hidden",
   style: {
     "border": "1px solid grey"
   }
 };
-var _hoisted_15 = {
-  "class": "p-3"
-};
 var _hoisted_16 = {
-  "class": "col-md-6 col-lg-4"
+  "class": "p-3"
 };
 var _hoisted_17 = {
-  "class": "card custom-card shadow-sm rounded-4",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-var _hoisted_18 = {
-  "class": "p-3"
-};
-var _hoisted_19 = {
   "class": "col-md-6 col-lg-4"
 };
-var _hoisted_20 = {
+var _hoisted_18 = {
   "class": "card custom-card shadow-sm rounded-4",
   style: {
     "border": "1px solid grey"
   }
 };
-var _hoisted_21 = {
+var _hoisted_19 = {
   "class": "p-3"
 };
+var _hoisted_20 = {
+  "class": "col-md-6 col-lg-4"
+};
+var _hoisted_21 = {
+  "class": "card custom-card shadow-sm rounded-4",
+  style: {
+    "border": "1px solid grey"
+  }
+};
 var _hoisted_22 = {
-  "class": "modal fade",
-  id: "subscribeModal",
-  tabindex: "-1"
+  "class": "p-3"
 };
 var _hoisted_23 = {
-  "class": "modal-dialog"
+  "class": "modal fade",
+  id: "subscribeModal",
+  tabindex: "-1",
+  "aria-labelledby": "subscribeModalLabel",
+  "aria-hidden": "true"
 };
 var _hoisted_24 = {
-  "class": "modal-content"
+  "class": "modal-dialog"
 };
 var _hoisted_25 = {
-  "class": "modal-footer"
+  "class": "modal-content"
 };
 var _hoisted_26 = {
-  key: 0,
+  "class": "modal-header"
+};
+var _hoisted_27 = ["disabled"];
+var _hoisted_28 = {
+  "class": "modal-footer justify-content-center"
+};
+var _hoisted_29 = ["disabled"];
+var _hoisted_30 = ["disabled"];
+var _hoisted_31 = {
+  key: 0
+};
+var _hoisted_32 = {
+  key: 1
+};
+var _hoisted_33 = {
+  key: 2,
   "class": "alert alert-success text-center",
   style: {
     "position": "fixed",
@@ -163604,28 +163622,35 @@ var _hoisted_26 = {
   }
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "text-center fw-bold display-5 mb-4"
-  }, "Media Center", -1 /* CACHED */)), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Media Center", -1 /* CACHED */)), _cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center mb-4 lead"
-  }, " The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, " The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading spinner while fetching subscription status "), _ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-primary",
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading...")], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mt-2"
+  }, "Loading subscription status...", -1 /* CACHED */)]))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Podcasts Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New", -1 /* CACHED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/ap.avif",
-    alt: "Qibla finder",
+    alt: "Audio Podcasts",
     "class": "w-90 mt-1",
     style: {
       "object-fit": "contain",
       "padding": "20px"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_6, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Audio Podcasts ", -1 /* CACHED */)), _ctx.isLocked('/content') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, "🔒")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_7, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Audio Podcasts ", -1 /* CACHED */)), _ctx.isLocked('/content') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "🔒")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life.", -1 /* CACHED */)), !_ctx.isLocked('/content') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life. ", -1 /* CACHED */)), !_ctx.isLocked('/content') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     "class": "form-control",
     onClick: _cache[0] || (_cache[0] = function ($event) {
@@ -163639,7 +163664,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "0.375rem 0.75rem"
     },
     type: "button"
-  }, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")], -1 /* CACHED */)]))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
@@ -163655,25 +163680,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "0.375rem 0.75rem"
     },
     type: "button"
-  }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Subscribe to Access")], -1 /* CACHED */)])))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Subscribe to Access")], -1 /* CACHED */)])))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Live Streaming Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "badge rounded-pill bg-black text-white position-absolute top-0 start-0 m-2"
-  }, "Under development", -1 /* CACHED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "Under development", -1 /* CACHED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/mtv2.png",
     alt: "Watch Live",
     "class": "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_11, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Live Streaming ", -1 /* CACHED */)), _ctx.isLocked('/streaming') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_12, "🔒")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_12, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Live Streaming ", -1 /* CACHED */)), _ctx.isLocked('/streaming') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_13, "🔒")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Watch Islamic TV channels and live lectures—stream events, khutbahs, educational programs, and spiritual content anytime.", -1 /* CACHED */)), !_ctx.isLocked('/streaming') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, " Watch Islamic TV channels and live lectures—stream events, khutbahs, educational programs, and spiritual content anytime. ", -1 /* CACHED */)), !_ctx.isLocked('/streaming') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     "class": "form-control",
     onClick: _cache[2] || (_cache[2] = function ($event) {
@@ -163687,7 +163712,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "0.375rem 0.75rem"
     },
     type: "button"
-  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Live")], -1 /* CACHED */)]))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
@@ -163703,27 +163728,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "0.375rem 0.75rem"
     },
     type: "button"
-  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Subscribe to Access")], -1 /* CACHED */)])))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Subscribe to Access")], -1 /* CACHED */)])))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reciters Stations Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New", -1 /* CACHED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/radio5.jpg",
     alt: "Radio stations",
     "class": "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Reciters Stations", -1 /* CACHED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Reciters Stations", -1 /* CACHED */)), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Tune in to live Islamic radio from around the world, featuring Qur’an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Tune in to live Islamic radio from around the world, featuring Qur'an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
     onClick: _cache[4] || (_cache[4] = function ($event) {
       return _ctx.goTo('/radio');
@@ -163736,25 +163761,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "0.375rem 0.75rem"
     },
     type: "button"
-  }, _cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Reciters")], -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Reciters")], -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image Gallery Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/img_g.png",
     alt: "Image Gallery",
     "class": "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Image Gallery", -1 /* CACHED */)), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Image Gallery", -1 /* CACHED */)), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and tradition.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and tradition. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
     onClick: _cache[5] || (_cache[5] = function ($event) {
       return _ctx.goTo('/gallery');
@@ -163767,25 +163792,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "0.375rem 0.75rem"
     },
     type: "button"
-  }, _cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")], -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")], -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Gallery Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/vide_g.png",
     alt: "Video Gallery",
     "class": "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Video Gallery", -1 /* CACHED */)), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Video Gallery", -1 /* CACHED */)), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
     onClick: _cache[6] || (_cache[6] = function ($event) {
       return _ctx.goTo('/video');
@@ -163798,30 +163823,34 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "0.375rem 0.75rem"
     },
     type: "button"
-  }, _cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Videos")], -1 /* CACHED */)]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscribe Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "modal-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "modal-title"
-  }, "Subscribe to Access"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Videos")], -1 /* CACHED */)]))])])])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscribe Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "modal-title",
+    id: "subscribeModalLabel"
+  }, "Subscribe to Access Premium Content", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close",
     "data-bs-dismiss": "modal",
-    "aria-label": "Close"
-  })], -1 /* CACHED */)), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "modal-body"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Complete your subscription to unlock this content and more.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "aria-label": "Close",
+    disabled: _ctx.checkoutLoading
+  }, null, 8 /* PROPS */, _hoisted_27)]), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-body\" data-v-63cb17b8><div class=\"text-center\" data-v-63cb17b8><i class=\"fas fa-lock fa-3x text-muted mb-3\" data-v-63cb17b8></i><h6 data-v-63cb17b8>Unlock Premium Islamic Content</h6><p class=\"mb-3\" data-v-63cb17b8>Get access to exclusive podcasts, live streaming, and premium Islamic content.</p><div class=\"pricing-info\" data-v-63cb17b8><h4 class=\"text-primary\" data-v-63cb17b8>$9.99/month</h4><ul class=\"list-unstyled\" data-v-63cb17b8><li data-v-63cb17b8>✓ Unlimited access to audio podcasts</li><li data-v-63cb17b8>✓ Live streaming channels</li><li data-v-63cb17b8>✓ Premium Islamic content</li><li data-v-63cb17b8>✓ Ad-free experience</li></ul></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-secondary",
-    "data-bs-dismiss": "modal"
-  }, "Close", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "data-bs-dismiss": "modal",
+    disabled: _ctx.checkoutLoading
+  }, " Maybe Later ", 8 /* PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    "class": "btn btn-primary",
+    "class": "btn btn-primary px-4",
     onClick: _cache[7] || (_cache[7] = function () {
       return _ctx.checkout && _ctx.checkout.apply(_ctx, arguments);
-    })
-  }, "Subscribe Now")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Message "), _ctx.showSuccessMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, _cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Congratulations!", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "You have subscribed successfully. Redirecting to home in 5 seconds...", -1 /* CACHED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    }),
+    disabled: _ctx.checkoutLoading
+  }, [_ctx.checkoutLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_31, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-spinner fa-spin me-2"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Processing... ", -1 /* CACHED */)]))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_32, _cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-credit-card me-2"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Subscribe Now ", -1 /* CACHED */)])))], 8 /* PROPS */, _hoisted_30)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Message "), _ctx.showSuccessMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, _cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "🎉 Congratulations!", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "You have subscribed successfully. Redirecting to your content...", -1 /* CACHED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -165217,7 +165246,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
     }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "#",
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn w-100 rounded-pill fw-semibold py-2 mt-auto", plan.isFeatured ? 'btn-teal text-white' : 'btn-outline-teal'])
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn w-100 rounded-pill fw-semibold py-2 mt-auto", plan.isFeatured ? 'btn-teal ' : 'btn-outline-teal'])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.buttonText) + " ", 1 /* TEXT */), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "fas fa-arrow-right ms-2"
     }, null, -1 /* CACHED */))], 2 /* CLASS */)])], 2 /* CLASS */)]);
@@ -179748,7 +179777,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-63cb17b8] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n    background: #00bfa6;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-63cb17b8]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.custom-card[data-v-63cb17b8] {\n    height: 100%;\n}\n.custom-card img[data-v-63cb17b8] {\n    height: 180px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: #00bfa6;\n        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-63cb17b8] {\n    animation: borderPulse-63cb17b8 2s infinite ease-in-out;\n    -webkit-animation: borderPulse-63cb17b8 2s infinite ease-in-out;\n    -moz-animation: borderPulse-63cb17b8 2s infinite ease-in-out;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-63cb17b8] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n    background: #00bfa6;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n    transition: all 0.3s ease;\n}\n.card.custom-card button.form-control[data-v-63cb17b8]:hover {\n    background: #00a693;\n    transform: translateY(-1px);\n    box-shadow: rgba(100, 100, 111, 0.3) 0px 10px 35px 0px;\n}\n.custom-card[data-v-63cb17b8]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n    transform: translateY(-2px);\n    transition: all 0.3s ease;\n}\n.custom-card[data-v-63cb17b8] {\n    height: 100%;\n    transition: all 0.3s ease;\n}\n.custom-card img[data-v-63cb17b8] {\n    height: 180px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: #00bfa6;\n        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-63cb17b8] {\n    animation: borderPulse-63cb17b8 2s infinite ease-in-out;\n}\n.modal-content[data-v-63cb17b8] {\n    border-radius: 15px;\n}\n.pricing-info[data-v-63cb17b8] {\n    background: #f8f9fa;\n    padding: 20px;\n    border-radius: 10px;\n    margin: 15px 0;\n}\n.spinner-border[data-v-63cb17b8] {\n    width: 3rem;\n    height: 3rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -179872,7 +179901,7 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap);"]);
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-d4146a7c]:root {\n  --teal: #00bfa6;\n  --teal-light: #e0f7f5;\n  --teal-dark: #009688;\n  --dark: #1e293b;\n  --muted: #64748b;\n  --light: #f8fafc;\n  --font-heading: 'Inter', sans-serif;\n  --font-body: 'Inter', sans-serif;\n}\nbody[data-v-d4146a7c] {\n  font-family: var(--font-body);\n  color: var(--dark);\n  background-color: #f9fafb;\n  line-height: 1.7;\n}\nh1[data-v-d4146a7c],\nh2[data-v-d4146a7c],\nh3[data-v-d4146a7c],\nh4[data-v-d4146a7c],\nh5[data-v-d4146a7c],\nh6[data-v-d4146a7c] {\n  font-family: var(--font-heading);\n  line-height: 1.3;\n}\n.max-w-600[data-v-d4146a7c] {\n  max-width: 600px;\n}\n.max-w-800[data-v-d4146a7c] {\n  max-width: 800px;\n}\n.text-teal[data-v-d4146a7c] {\n  color: var(--teal) !important;\n}\n.bg-teal[data-v-d4146a7c] {\n  background-color: var(--teal) !important;\n}\n.pricing-toggle[data-v-d4146a7c] {\n  display: inline-flex;\n  border-radius: 12px;\n  padding: 6px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.pricing-toggle .btn[data-v-d4146a7c] {\n  border-radius: 8px;\n  padding: 0.6rem 1.5rem;\n  font-weight: 600;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c] {\n  background-color: var(--teal);\n  border-color: var(--teal);\n  color: white;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal-dark);\n  border-color: var(--teal-dark);\n}\n.btn-outline-teal[data-v-d4146a7c] {\n  color: var(--teal);\n  border-color: var(--teal);\n  transition: all 0.3s ease;\n}\n.btn-outline-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal);\n  color: rgb(0, 0, 0);\n}\n.pricing-card[data-v-d4146a7c] {\n  border-radius: 16px;\n  transition: all 0.3s ease;\n  overflow: hidden;\n  background: white;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);\n  border: 1px solid rgba(0, 0, 0, 0.05);\n  position: relative;\n}\n.pricing-card[data-v-d4146a7c]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);\n}\n.pricing-card.featured-card[data-v-d4146a7c] {\n  transform: scale(1.03);\n  box-shadow: 0 25px 50px rgba(0, 191, 166, 0.15);\n  border: 2px solid var(--teal);\n  z-index: 2;\n}\n.featured-badge[data-v-d4146a7c] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  font-size: 0.875rem;\n  font-weight: 600;\n}\n.pricing-card-header[data-v-d4146a7c] {\n  padding: 2rem 2rem 1rem;\n  text-align: center;\n  background: #f8fafc;\n}\n.pricing-card-body[data-v-d4146a7c] {\n  padding: 1rem 2rem 2rem;\n}\n.pricing-icon[data-v-d4146a7c] {\n  width: 80px;\n  height: 80px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 50%;\n  margin: 0 auto 1rem;\n  background: var(--teal-light);\n  color: var(--teal);\n  font-size: 2rem;\n  box-shadow: 0 5px 15px rgba(0, 191, 166, 0.2);\n}\n.featured-card .pricing-icon[data-v-d4146a7c] {\n  background: var(--teal);\n  color: white;\n}\n.price-amount[data-v-d4146a7c] {\n  font-size: 2.5rem;\n  font-weight: 800;\n  margin: 1rem 0 0.5rem;\n  color: var(--dark);\n}\n.price-period[data-v-d4146a7c] {\n  color: var(--muted);\n  font-size: 1rem;\n}\n.pricing-features[data-v-d4146a7c] {\n  list-style: none;\n  padding: 0;\n  margin: 1.5rem 0;\n}\n.pricing-features li[data-v-d4146a7c] {\n  padding: 0.6rem 0;\n  display: flex;\n  align-items: center;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.05);\n}\n.pricing-features li[data-v-d4146a7c]:last-child {\n  border-bottom: none;\n}\n.accordion-button[data-v-d4146a7c] {\n  font-weight: 600;\n  border-radius: 12px;\n  padding: 1rem;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n.accordion-button[data-v-d4146a7c]:not(.collapsed) {\n  background-color: white;\n  color: var(--dark);\n  box-shadow: none;\n  border-radius: 12px;\n}\n@media (max-width: 768px) {\n.pricing-card.featured-card[data-v-d4146a7c] {\n    transform: scale(1);\n}\n.price-amount[data-v-d4146a7c] {\n    font-size: 2rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-d4146a7c]:root {\n  --teal: #00bfa6;\n  --teal-light: #e0f7f5;\n  --teal-dark: #009688;\n  --dark: #1e293b;\n  --muted: #64748b;\n  --light: #f8fafc;\n  --font-heading: 'Inter', sans-serif;\n  --font-body: 'Inter', sans-serif;\n}\nbody[data-v-d4146a7c] {\n  font-family: var(--font-body);\n  color: var(--dark);\n  background-color: #f9fafb;\n  line-height: 1.7;\n}\nh1[data-v-d4146a7c],\nh2[data-v-d4146a7c],\nh3[data-v-d4146a7c],\nh4[data-v-d4146a7c],\nh5[data-v-d4146a7c],\nh6[data-v-d4146a7c] {\n  font-family: var(--font-heading);\n  line-height: 1.3;\n}\n.max-w-600[data-v-d4146a7c] {\n  max-width: 600px;\n}\n.max-w-800[data-v-d4146a7c] {\n  max-width: 800px;\n}\n.text-teal[data-v-d4146a7c] {\n  color: var(--teal) !important;\n}\n.bg-teal[data-v-d4146a7c] {\n  background-color: var(--teal) !important;\n}\n.pricing-toggle[data-v-d4146a7c] {\n  display: inline-flex;\n  border-radius: 12px;\n  padding: 6px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.pricing-toggle .btn[data-v-d4146a7c] {\n  border-radius: 8px;\n  padding: 0.6rem 1.5rem;\n  font-weight: 600;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c] {\n  background-color: var(--teal);\n  border-color: var(--teal);\n  color: black;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal-dark);\n  border-color: var(--teal-dark);\n}\n.btn-outline-teal[data-v-d4146a7c] {\n  color: var(--teal);\n  border-color: var(--teal);\n  transition: all 0.3s ease;\n}\n.btn-outline-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal);\n  color: rgb(0, 0, 0);\n}\n.pricing-card[data-v-d4146a7c] {\n  border-radius: 16px;\n  transition: all 0.3s ease;\n  overflow: hidden;\n  background: white;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);\n  border: 1px solid rgba(0, 0, 0, 0.05);\n  position: relative;\n}\n.pricing-card[data-v-d4146a7c]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);\n}\n.pricing-card.featured-card[data-v-d4146a7c] {\n  transform: scale(1.03);\n  box-shadow: 0 25px 50px rgba(0, 191, 166, 0.15);\n  border: 2px solid var(--teal);\n  z-index: 2;\n}\n.featured-badge[data-v-d4146a7c] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  font-size: 0.875rem;\n  font-weight: 600;\n}\n.pricing-card-header[data-v-d4146a7c] {\n  padding: 2rem 2rem 1rem;\n  text-align: center;\n  background: #f8fafc;\n}\n.pricing-card-body[data-v-d4146a7c] {\n  padding: 1rem 2rem 2rem;\n}\n.pricing-icon[data-v-d4146a7c] {\n  width: 80px;\n  height: 80px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 50%;\n  margin: 0 auto 1rem;\n  background: var(--teal-light);\n  color: var(--teal);\n  font-size: 2rem;\n  box-shadow: 0 5px 15px rgba(0, 191, 166, 0.2);\n}\n.featured-card .pricing-icon[data-v-d4146a7c] {\n  background: var(--teal);\n  color: white;\n}\n.price-amount[data-v-d4146a7c] {\n  font-size: 2.5rem;\n  font-weight: 800;\n  margin: 1rem 0 0.5rem;\n  color: var(--dark);\n}\n.price-period[data-v-d4146a7c] {\n  color: var(--muted);\n  font-size: 1rem;\n}\n.pricing-features[data-v-d4146a7c] {\n  list-style: none;\n  padding: 0;\n  margin: 1.5rem 0;\n}\n.pricing-features li[data-v-d4146a7c] {\n  padding: 0.6rem 0;\n  display: flex;\n  align-items: center;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.05);\n}\n.pricing-features li[data-v-d4146a7c]:last-child {\n  border-bottom: none;\n}\n.accordion-button[data-v-d4146a7c] {\n  font-weight: 600;\n  border-radius: 12px;\n  padding: 1rem;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n.accordion-button[data-v-d4146a7c]:not(.collapsed) {\n  background-color: white;\n  color: var(--dark);\n  box-shadow: none;\n  border-radius: 12px;\n}\n@media (max-width: 768px) {\n.pricing-card.featured-card[data-v-d4146a7c] {\n    transform: scale(1);\n}\n.price-amount[data-v-d4146a7c] {\n    font-size: 2rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -314570,7 +314599,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 /* harmony import */ var admin_lte__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! admin-lte */ "./node_modules/admin-lte/dist/js/adminlte.min.js");
 /* harmony import */ var admin_lte__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(admin_lte__WEBPACK_IMPORTED_MODULE_2__);
-// Import Axios library
 
 
 // Import Bootstrap styles and JavaScript
@@ -314578,18 +314606,45 @@ __webpack_require__.r(__webpack_exports__);
 
 // Import AdminLTE styles and JavaScript
 
-
-// // Import Popper.js for Bootstrap
-// window.Popper = require('@popperjs/core');
-
-// // Import jQuery
-// window.$ = window.jQuery = require('jquery');
-
-// Set Axios as a global variable
 window.axios = axios__WEBPACK_IMPORTED_MODULE_0__["default"];
-
-// Set default headers for Axios requests
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['Accept'] = 'application/json';
+window.axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+/**
+* Configure axios for Laravel Sanctum
+*/
+axios__WEBPACK_IMPORTED_MODULE_0__["default"].defaults.withCredentials = true;
+axios__WEBPACK_IMPORTED_MODULE_0__["default"].defaults.baseURL = window.location.origin;
+
+/**
+* Add request interceptor to log requests for debugging
+*/
+axios__WEBPACK_IMPORTED_MODULE_0__["default"].interceptors.request.use(function (config) {
+  console.log("Making ".concat(config.method.toUpperCase(), " request to: ").concat(config.url));
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
+
+/**
+* Add response interceptor to handle 401 errors globally
+*/
+axios__WEBPACK_IMPORTED_MODULE_0__["default"].interceptors.response.use(function (response) {
+  console.log("Response from ".concat(response.config.url, ":"), response.status);
+  return response;
+}, function (error) {
+  var _error$config, _error$response, _error$response2, _error$response3, _error$response4;
+  console.error("Error response from ".concat((_error$config = error.config) === null || _error$config === void 0 ? void 0 : _error$config.url, ":"), (_error$response = error.response) === null || _error$response === void 0 ? void 0 : _error$response.status, (_error$response2 = error.response) === null || _error$response2 === void 0 ? void 0 : _error$response2.data);
+  if (((_error$response3 = error.response) === null || _error$response3 === void 0 ? void 0 : _error$response3.status) === 401 && !window.location.pathname.includes('/login')) {
+    console.log('Authentication required');
+  }
+  if (((_error$response4 = error.response) === null || _error$response4 === void 0 ? void 0 : _error$response4.status) === 405) {
+    var _error$config2, _error$config3;
+    console.error('Method not allowed:', (_error$config2 = error.config) === null || _error$config2 === void 0 ? void 0 : _error$config2.method, (_error$config3 = error.config) === null || _error$config3 === void 0 ? void 0 : _error$config3.url);
+  }
+  return Promise.reject(error);
+});
 
 /***/ }),
 
@@ -322882,11 +322937,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _stripe_stripe_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @stripe/stripe-js */ "./node_modules/@stripe/stripe-js/dist/stripe.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+// resources/js/mixins/subscriptionMixin.js
 
+
+
+// Configure axios defaults for CSRF and Sanctum
+axios__WEBPACK_IMPORTED_MODULE_1__["default"].defaults.withCredentials = true;
+axios__WEBPACK_IMPORTED_MODULE_1__["default"].defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -322894,7 +322957,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       lockedPaths: ['/content', '/streaming'],
       intended: '',
       stripe: null,
-      showSuccessMessage: false
+      showSuccessMessage: false,
+      loading: true,
+      checkoutLoading: false
     };
   },
   mounted: function mounted() {
@@ -322903,131 +322968,230 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            _this.fetchCsrfToken();
-            _context.next = 3;
-            return (0,_stripe_stripe_js__WEBPACK_IMPORTED_MODULE_0__.loadStripe)(document.querySelector('meta[name="stripe-key"]').content);
-          case 3:
-            _this.stripe = _context.sent;
-            _context.next = 6;
-            return _this.fetchStatus();
-          case 6:
-            // Ensure async call
-            window.addEventListener('focus', _this.fetchStatus);
-          case 7:
+            _context.next = 2;
+            return _this.initializeAuth();
+          case 2:
           case "end":
             return _context.stop();
         }
       }, _callee);
     }))();
   },
-  destroyed: function destroyed() {
-    window.removeEventListener('focus', this.fetchStatus);
-  },
   methods: {
-    fetchCsrfToken: function fetchCsrfToken() {
-      return axios.get('/sanctum/csrf-cookie');
-    },
-    fetchStatus: function fetchStatus() {
+    initializeAuth: function initializeAuth() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var response;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               _context2.prev = 0;
               _context2.next = 3;
-              return axios.get('/subscription-status', {
-                // Changed from '/api/subscription-status'
-                withCredentials: true,
-                headers: {
-                  'Authorization': "Bearer ".concat(localStorage.getItem('sanctum_token') || ''),
-                  'Accept': 'application/json'
-                }
-              });
+              return _this2.fetchCsrfToken();
             case 3:
-              response = _context2.sent;
-              _this2.isSubscribed = response.data.subscribed;
-              _this2.showSuccessMessage = false;
+              _context2.next = 5;
+              return _this2.fetchStatus();
+            case 5:
               _context2.next = 11;
               break;
-            case 8:
-              _context2.prev = 8;
+            case 7:
+              _context2.prev = 7;
               _context2.t0 = _context2["catch"](0);
-              console.error('Error fetching subscription status:', _context2.t0);
+              console.error('Error initializing auth:', _context2.t0);
+              _this2.loading = false;
             case 11:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[0, 8]]);
+        }, _callee2, null, [[0, 7]]);
+      }))();
+    },
+    fetchCsrfToken: function fetchCsrfToken() {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.prev = 0;
+              _context3.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1__["default"].get('/sanctum/csrf-cookie');
+            case 3:
+              console.log('CSRF token fetched successfully');
+              _context3.next = 10;
+              break;
+            case 6:
+              _context3.prev = 6;
+              _context3.t0 = _context3["catch"](0);
+              console.error('Error fetching CSRF token:', _context3.t0);
+              throw _context3.t0;
+            case 10:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3, null, [[0, 6]]);
+      }))();
+    },
+    fetchStatus: function fetchStatus() {
+      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var response, _error$response;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.prev = 0;
+              _context4.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1__["default"].get('/subscription-status');
+            case 3:
+              response = _context4.sent;
+              _this3.isSubscribed = response.data.subscribed;
+              console.log('Subscription status:', response.data);
+              _context4.next = 12;
+              break;
+            case 8:
+              _context4.prev = 8;
+              _context4.t0 = _context4["catch"](0);
+              console.error('Error fetching subscription status:', _context4.t0);
+              if (((_error$response = _context4.t0.response) === null || _error$response === void 0 ? void 0 : _error$response.status) === 401) {
+                _this3.isSubscribed = false;
+                console.log('User not authenticated - treating as not subscribed');
+              }
+            case 12:
+              _context4.prev = 12;
+              _this3.loading = false;
+              return _context4.finish(12);
+            case 15:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4, null, [[0, 8, 12, 15]]);
       }))();
     },
     isLocked: function isLocked(path) {
       return this.lockedPaths.includes(path) && !this.isSubscribed;
     },
-    goTo: function goTo(path) {
-      window.location.href = path;
+    goTo: function goTo(route) {
+      if (this.isLocked(route)) {
+        this.subscribe(route);
+      } else {
+        window.location.href = route;
+      }
     },
-    subscribe: function subscribe(path) {
-      this.intended = path;
-      new bootstrap.Modal(document.getElementById('subscribeModal')).show();
+    subscribe: function subscribe() {
+      var intendedRoute = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/content';
+      this.intended = intendedRoute;
+      var modal = new bootstrap.Modal(document.getElementById('subscribeModal'));
+      modal.show();
     },
     checkout: function checkout() {
-      var _this3 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var response;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var modal, response, stripeKey, stripe, _yield$stripe$redirec, error, _error$response2, _error$response3, _error$response4, _error$response5, errorMessage;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              if (_this3.stripe) {
-                _context3.next = 3;
+              if (!_this4.checkoutLoading) {
+                _context5.next = 2;
                 break;
               }
-              console.error('Stripe not loaded');
-              return _context3.abrupt("return");
-            case 3:
-              _context3.prev = 3;
-              _context3.next = 6;
-              return axios.post('/create-checkout-session', {
-                intended: _this3.intended
+              return _context5.abrupt("return");
+            case 2:
+              // Prevent double clicks
+
+              _this4.checkoutLoading = true;
+              _context5.prev = 3;
+              console.log('Starting checkout process...');
+
+              // Ensure we have fresh CSRF token
+              _context5.next = 7;
+              return _this4.fetchCsrfToken();
+            case 7:
+              // Close the modal first
+              modal = bootstrap.Modal.getInstance(document.getElementById('subscribeModal'));
+              if (modal) {
+                modal.hide();
+              }
+              console.log('Creating checkout session with intended route:', _this4.intended);
+              _context5.next = 12;
+              return axios__WEBPACK_IMPORTED_MODULE_1__["default"].post('/create-checkout-session', {
+                intended: _this4.intended || '/content'
               }, {
                 headers: {
-                  'Authorization': "Bearer ".concat(localStorage.getItem('sanctum_token') || ''),
-                  'Accept': 'application/json',
-                  'X-Requested-With': 'XMLHttpRequest'
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
                 }
               });
-            case 6:
-              response = _context3.sent;
-              _context3.next = 9;
-              return _this3.stripe.redirectToCheckout({
+            case 12:
+              response = _context5.sent;
+              console.log('Checkout session response:', response.data);
+              if (!response.data.id) {
+                _context5.next = 30;
+                break;
+              }
+              stripeKey = process.env.MIX_STRIPE_KEY || 'pk_test_51QIJkjIol4Q5wn4OOOwjUCTuVO7k49YHuLHsnMGjcOAiKesa3CbihaIRvdsXmXrKCUOxbslT1kWyHhbxFEW4TVzf00Kpk3PNUf';
+              _context5.next = 18;
+              return (0,_stripe_stripe_js__WEBPACK_IMPORTED_MODULE_0__.loadStripe)(stripeKey);
+            case 18:
+              stripe = _context5.sent;
+              if (stripe) {
+                _context5.next = 21;
+                break;
+              }
+              throw new Error('Failed to load Stripe');
+            case 21:
+              _context5.next = 23;
+              return stripe.redirectToCheckout({
                 sessionId: response.data.id
               });
-            case 9:
-              _context3.next = 15;
+            case 23:
+              _yield$stripe$redirec = _context5.sent;
+              error = _yield$stripe$redirec.error;
+              if (!error) {
+                _context5.next = 28;
+                break;
+              }
+              console.error('Stripe redirect error:', error);
+              throw error;
+            case 28:
+              _context5.next = 31;
               break;
-            case 11:
-              _context3.prev = 11;
-              _context3.t0 = _context3["catch"](3);
-              console.error('Checkout error:', _context3.t0);
-              alert('Failed to initiate checkout. Please try again.');
-            case 15:
+            case 30:
+              throw new Error('No session ID returned from server');
+            case 31:
+              _context5.next = 40;
+              break;
+            case 33:
+              _context5.prev = 33;
+              _context5.t0 = _context5["catch"](3);
+              console.error('Checkout error:', _context5.t0);
+
+              // Re-show the modal if there was an error
+              setTimeout(function () {
+                var modal = new bootstrap.Modal(document.getElementById('subscribeModal'));
+                modal.show();
+              }, 100);
+              errorMessage = 'Error creating checkout session. Please try again.';
+              if (((_error$response2 = _context5.t0.response) === null || _error$response2 === void 0 ? void 0 : _error$response2.status) === 401) {
+                errorMessage = 'Please log in to subscribe.';
+                setTimeout(function () {
+                  window.location.href = '/login';
+                }, 2000);
+              } else if (((_error$response3 = _context5.t0.response) === null || _error$response3 === void 0 ? void 0 : _error$response3.status) === 405) {
+                errorMessage = 'Configuration error. Please contact support.';
+              } else if (((_error$response4 = _context5.t0.response) === null || _error$response4 === void 0 ? void 0 : _error$response4.status) === 500) {
+                errorMessage = 'Server error. Please try again in a few moments.';
+              } else if ((_error$response5 = _context5.t0.response) !== null && _error$response5 !== void 0 && (_error$response5 = _error$response5.data) !== null && _error$response5 !== void 0 && _error$response5.error) {
+                errorMessage = _context5.t0.response.data.error;
+              }
+              alert(errorMessage);
+            case 40:
+              _context5.prev = 40;
+              _this4.checkoutLoading = false;
+              return _context5.finish(40);
+            case 43:
             case "end":
-              return _context3.stop();
+              return _context5.stop();
           }
-        }, _callee3, null, [[3, 11]]);
+        }, _callee5, null, [[3, 33, 40, 43]]);
       }))();
-    },
-    handleCheckoutSuccess: function handleCheckoutSuccess() {
-      var _this4 = this;
-      this.showSuccessMessage = true;
-      setTimeout(function () {
-        _this4.showSuccessMessage = false;
-        window.location.href = '/';
-      }, 5000);
     }
-  },
-  watch: {
-    '$route': 'fetchStatus'
   }
 });
 
@@ -323058,12 +323222,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   checkSubscriptionStatus: () => (/* binding */ checkSubscriptionStatus),
 /* harmony export */   redirectToSubscription: () => (/* binding */ redirectToSubscription)
 /* harmony export */ });
-// Helper function to encode data
+// Encode subscription data to prevent tampering
 function encodeData(data) {
-  return btoa(JSON.stringify(data));
+  try {
+    return btoa(JSON.stringify(data));
+  } catch (error) {
+    console.error('Error encoding subscription data:', error);
+    return null;
+  }
 }
 
-// Helper function to decode data
+// Decode subscription data
 function decodeData(encodedData) {
   try {
     return JSON.parse(atob(encodedData));

@@ -1,26 +1,18 @@
-<template>
-  <div>
-    <h1>Subscription Canceled</h1>
-    <p>Your payment was canceled. Please try again if you wish to complete the subscription.</p>
-    <p>You will be redirected shortly...</p>
-  </div>
-</template>
+@extends('layouts.app')
 
-<script defer>
-export default {
-  mounted() {
-    // Auto-redirect back to the main page (or another route) after a short delay
-    setTimeout(() => {
-      this.$router.push('/pricing'); // Change '/' to the route where you want the user to be redirected
-    }, 3000); // 3000ms = 3 seconds
-  },
-};
-</script>
-
-<style scoped>
-div {
-  text-align: center;
-  margin-top: 20vh;
-  font-family: Arial, sans-serif;
-}
-</style>
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Subscription Canceled</div>
+                <div class="card-body">
+                    <h1>Subscription Canceled</h1>
+                    <p>Your payment was canceled. Please try again if you wish to complete the subscription.</p>
+                    <a href="{{ route('home') }}" class="btn btn-primary">Return to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
