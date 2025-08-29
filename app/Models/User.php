@@ -25,7 +25,8 @@ class User extends Authenticatable
         'github_id',
         'fb_id',
         'linked_id',
-        'user_id'
+        'user_id',
+        'stripe_id'
     ];
 
     protected $hidden = [
@@ -35,6 +36,8 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'trial_ends_at' => 'datetime',
+        'ends_at' => 'datetime',
     ];
 
     public function notes()

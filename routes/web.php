@@ -73,63 +73,140 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
 
-Route::get('/debug-routes', function () {
-    $routes = collect(Route::getRoutes())->map(function ($route) {
-        return [
-            'uri' => $route->uri(),
-            'methods' => $route->methods(),
-            'name' => $route->getName(),
-            'action' => $route->getActionName(),
-        ];
-    })->filter(function ($route) {
-        return str_contains($route['uri'], 'checkout') || str_contains($route['uri'], 'subscription');
+Route::prefix('debug')->middleware(['web', 'auth'])->group(function () {
+    Route::get('/stripe-config', [DebugSubscriptionController::class, 'testStripeConfig']);
+    Route::get('/checkout-debug', [DebugSubscriptionController::class, 'debugCheckoutSession']);
+    Route::post('/checkout-debug', [DebugSubscriptionController::class, 'createCheckoutSessionDebug']);
+    
+    Route::get('/user-info', function () {
+        $user = auth()->user();
+        return response()->json([
+            'authenticated' => !is_null($user),
+            'user' => $user ? [
+                'id' => $user->id,
+                'email' => $user->email,
+                'stripe_id' => $user->stripe_id,
+                'subscribed' => $user->subscribed('default'),
+                'subscriptions' => $user->subscriptions
+            ] : null,
+            'session' => [
+                'token' => session()->getId(),
+                'csrf' => csrf_token(),
+            ]
+        ]);
     });
-
-    return response()->json($routes);
+    
+    Route::get('/test-endpoint', function () {
+        return response()->json([
+            'status' => 'ok',
+            'timestamp' => now(),
+            'environment' => app()->environment(),
+            'config' => [
+                'app_url' => config('app.url'),
+                'stripe_configured' => !empty(config('services.stripe.secret')),
+            ]
+        ]);
+    });
 });
 
-// CSRF cookie for SPA authentication
-Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
+Route::middleware(['web', 'auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+});
 
-// Public API routes
+Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show'])->middleware('web');
+
 Route::get('/health', function () {
     return response()->json(['status' => 'ok', 'timestamp' => now()]);
 });
 
-// Authenticated API routes
-Route::middleware('auth:sanctum')->group(function () {
-    // Subscription management
+Auth::routes();
+
+Route::get('/', function () {
+    return view('home');
+})->name('home');
+
+Route::get('/media', function () {
+    return view('media');
+})->middleware('web')->name('media');
+
+// Route::get('/content', function () {
+//     return view('content');
+// })->middleware(['web', 'auth', 'verify.subscription'])->name('content');
+
+// Route::get('/streaming', function () {
+//     return view('streaming');
+// })->middleware(['web', 'auth', 'verify.subscription'])->name('streaming');
+
+Route::get('/subscription-success', [SubscriptionController::class, 'handleCheckoutReturn'])
+    ->middleware(['web', 'auth'])
+    ->name('checkout-return');
+
+Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
     Route::post('/create-checkout-session', [SubscriptionController::class, 'createCheckoutSession']);
     Route::post('/cancel-subscription', [SubscriptionController::class, 'cancelSubscription']);
     Route::post('/resume-subscription', [SubscriptionController::class, 'resumeSubscription']);
     
-    // User profile
     Route::get('/user', function () {
         return response()->json(auth()->user());
     });
 });
 
-// Protected content routes (require authentication + subscription)
-Route::middleware(['auth', 'subscribed'])->group(function () {
-    Route::get('/content', [ContentController::class, 'content'])->name('content');
+// Alternative API routes with Sanctum (for API token authentication)
+Route::middleware('auth:sanctum')->group(function () {
+    // Duplicate routes for API access
+    Route::get('/api/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
+    Route::post('/api/create-checkout-session', [SubscriptionController::class, 'createCheckoutSession']);
+    Route::post('/api/cancel-subscription', [SubscriptionController::class, 'cancelSubscription']);
+    Route::post('/api/resume-subscription', [SubscriptionController::class, 'resumeSubscription']);
+    
+    Route::get('/api/user', function () {
+        return response()->json(auth()->user());
+    });
+});
+
+// Protected content routes (require authentication + active subscription)
+// In web.php - Update your protected content routes
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/content', [ContentController::class, 'index']);
     Route::get('/streaming', [ContentController::class, 'streaming'])->name('streaming');
+
+    
+    // Additional routes for free content
+    Route::get('/radio', [ContentController::class, 'radio'])->name('radio');
+    Route::get('/gallery', [ContentController::class, 'gallery'])->name('gallery');
+    Route::get('/video', [ContentController::class, 'video'])->name('video');
 });
 
-// Subscription success return route (this should NOT require auth middleware)
-Route::get('/subscription-success', [SubscriptionController::class, 'handleCheckoutReturn'])
-    ->name('checkout-return');
+// Debug route (remove in production)
+// Route::get('/debug-routes', function () {
+//     $routes = collect(Route::getRoutes())->map(function ($route) {
+//         return [
+//             'uri' => $route->uri(),
+//             'methods' => $route->methods(),
+//             'name' => $route->getName(),
+//             'action' => $route->getActionName(),
+//         ];
+//     })->filter(function ($route) {
+//         return str_contains($route['uri'], 'checkout') || 
+//                str_contains($route['uri'], 'subscription');
+//     });
 
-// Admin routes
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+//     return response()->json($routes);
+// });
+
+// Account/Profile routes (authenticated but no subscription required)
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/account', function () {
+        return view('account');
+    })->name('account');
+    
+    Route::get('/billing', function () {
+        return view('billing');
+    })->name('billing');
 });
-
-
-
 // Auth routes
 Auth::routes();
-
 
 // User dashboard/profile routes
 Route::middleware(['auth'])->group(function () {

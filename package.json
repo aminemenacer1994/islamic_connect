@@ -2,12 +2,12 @@
     "private": true,
     "scripts": {
         "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
+        "development": "npx mix",
+        "watch": "npx mix watch",
+        "watch-poll": "npx mix watch -- --watch-options-poll=1000",
+        "hot": "npx mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production",
+        "production": "npx mix --production",
         "build": "webpack --config webpack.config.js"
     },
     "devDependencies": {
@@ -57,6 +57,7 @@
         "laravel-vue-pagination": "^4.1.3",
         "leaflet": "^1.9.4",
         "masonry-layout": "^4.2.2",
+        "mitt": "^3.0.1",
         "moment": "^2.30.1",
         "moment-hijri": "^3.0.0",
         "papaparse": "^5.4.1",
