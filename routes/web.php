@@ -73,6 +73,8 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
 
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
+
 Route::prefix('debug')->middleware(['web', 'auth'])->group(function () {
     Route::get('/stripe-config', [DebugSubscriptionController::class, 'testStripeConfig']);
     Route::get('/checkout-debug', [DebugSubscriptionController::class, 'debugCheckoutSession']);

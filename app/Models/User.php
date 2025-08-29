@@ -87,6 +87,18 @@ class User extends Authenticatable
         return 'inactive';
     }
 
+    protected $dates = [
+        'email_verified_at',
+        'subscription_ends_at',
+    ];
+
+    public function hasActiveSubscription()
+    {
+        return $this->subscription_status === 'active' 
+            && $this->subscription_ends_at 
+            && $this->subscription_ends_at->isFuture();
+    }
+
     // public function isAdmin(): bool
     // {
     //     // Add your admin logic here
