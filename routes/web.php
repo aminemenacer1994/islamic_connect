@@ -73,7 +73,27 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
 
-Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
+Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show'])->middleware('web');
+
+Route::post('/subscription/checkout', [SubscriptionController::class, 'createCheckoutSession'])->name('subscription.checkout');
+Route::get('/subscription/config', [SubscriptionController::class, 'getSubscriptionConfig'])->name('subscription.config');
+Route::get('/subscription/status', [SubscriptionController::class, 'getSubscriptionStatus'])->name('subscription.status');
+Route::get('/subscription/success', [SubscriptionController::class, 'handleSuccessfulPayment'])->name('subscription.success');
+Route::get('/subscription/cancel', [SubscriptionController::class, 'handleCancelledPayment'])->name('subscription.cancel');
+
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook'])->name('cashier.webhook');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
+    Route::get('/debug-subscription', [DebugSubscriptionController::class, 'debugSubscription']);
+    Route::post('/force-sync-stripe', [DebugSubscriptionController::class, 'forceSyncWithStripe']);
+});
+
+Route::middleware(['auth', 'verify.subscription'])->group(function () {
+    Route::get('/premium-content', function () {
+        return view('premium.content');
+    });
+});
 
 Route::prefix('debug')->middleware(['web', 'auth'])->group(function () {
     Route::get('/stripe-config', [DebugSubscriptionController::class, 'testStripeConfig']);
@@ -115,11 +135,9 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
 
-Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show'])->middleware('web');
 
-Route::get('/health', function () {
-    return response()->json(['status' => 'ok', 'timestamp' => now()]);
-});
+
+
 
 Auth::routes();
 
@@ -139,6 +157,9 @@ Route::get('/media', function () {
 //     return view('streaming');
 // })->middleware(['web', 'auth', 'verify.subscription'])->name('streaming');
 
+Route::get('/subscription-config', [SubscriptionController::class, 'getSubscriptionConfig']);
+
+
 Route::get('/subscription-success', [SubscriptionController::class, 'handleCheckoutReturn'])
     ->middleware(['web', 'auth'])
     ->name('checkout-return');
@@ -157,18 +178,17 @@ Route::middleware(['web', 'auth'])->group(function () {
 // Alternative API routes with Sanctum (for API token authentication)
 Route::middleware('auth:sanctum')->group(function () {
     // Duplicate routes for API access
-    Route::get('/api/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
-    Route::post('/api/create-checkout-session', [SubscriptionController::class, 'createCheckoutSession']);
-    Route::post('/api/cancel-subscription', [SubscriptionController::class, 'cancelSubscription']);
-    Route::post('/api/resume-subscription', [SubscriptionController::class, 'resumeSubscription']);
+    Route::get('/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
+    Route::post('/create-checkout-session', [SubscriptionController::class, 'createCheckoutSession']);
+    Route::post('/cancel-subscription', [SubscriptionController::class, 'cancelSubscription']);
+    Route::post('/resume-subscription', [SubscriptionController::class, 'resumeSubscription']);
     
-    Route::get('/api/user', function () {
+    Route::get('/user', function () {
         return response()->json(auth()->user());
     });
 });
 
-// Protected content routes (require authentication + active subscription)
-// In web.php - Update your protected content routes
+
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/content', [ContentController::class, 'index']);
     Route::get('/streaming', [ContentController::class, 'streaming'])->name('streaming');
@@ -179,23 +199,6 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/gallery', [ContentController::class, 'gallery'])->name('gallery');
     Route::get('/video', [ContentController::class, 'video'])->name('video');
 });
-
-// Debug route (remove in production)
-// Route::get('/debug-routes', function () {
-//     $routes = collect(Route::getRoutes())->map(function ($route) {
-//         return [
-//             'uri' => $route->uri(),
-//             'methods' => $route->methods(),
-//             'name' => $route->getName(),
-//             'action' => $route->getActionName(),
-//         ];
-//     })->filter(function ($route) {
-//         return str_contains($route['uri'], 'checkout') || 
-//                str_contains($route['uri'], 'subscription');
-//     });
-
-//     return response()->json($routes);
-// });
 
 // Account/Profile routes (authenticated but no subscription required)
 Route::middleware(['web', 'auth'])->group(function () {

@@ -56,18 +56,14 @@ return [
     ],
 
     'stripe' => [
-        'secret' => env('STRIPE_SECRET'),
-        'key' => env('STRIPE_KEY'),
-        'price_monthly_id' => env('STRIPE_PRICE_MONTHLY_ID'),
-        'price_yearly_id' => env('STRIPE_PRICE_YEARLY_ID'),
-        'model' => App\Models\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
+        'price_id' => env('STRIPE_PRICE_ID'),
         'webhook' => [
             'secret' => env('STRIPE_WEBHOOK_SECRET'),
             'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
         ],
-        'price_id' => env('STRIPE_PRICE_ID', 'price_1Ry9j2Iol4Q5wn4O7bE9kvbZ'),
+        'model' => App\Models\User::class,
     ],
     
 

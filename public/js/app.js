@@ -147148,8 +147148,6 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 
 
-
-// Create a global event bus
 var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_subscriptionMixin_js__WEBPACK_IMPORTED_MODULE_1__["default"]],
@@ -147157,7 +147155,8 @@ var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
     return {
       intendedPath: null,
       isProcessing: false,
-      showSuccessMessage: false
+      showSuccessMessage: false,
+      stripePrice: null
     };
   },
   methods: {
@@ -147173,95 +147172,178 @@ var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
     initiateSubscription: function initiateSubscription() {
       var _this = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var modalElement, modal, _t;
+        var response, errorData, data, modal, _t;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.p = _context.n) {
             case 0:
-              console.log('Initiating subscription for path:', _this.intendedPath);
+              if (_this.stripePrice) {
+                _context.n = 1;
+                break;
+              }
+              alert('Subscription is currently unavailable. Please try again later.');
+              return _context.a(2);
+            case 1:
               _this.isProcessing = true;
-              _context.p = 1;
-              _context.n = 2;
-              return _this.subscribe(_this.intendedPath || '/content');
-            case 2:
-              modalElement = document.getElementById('subscribeModal');
-              if (modalElement) {
-                modal = bootstrap.Modal.getInstance(modalElement);
-                if (modal) {
-                  modal.hide();
-                }
+              _context.p = 2;
+              _context.n = 3;
+              return fetch('/subscription/checkout', {
+                // Updated to web route
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                  'Authorization': 'Bearer ' + localStorage.getItem('sanctum_token'),
+                  'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                  price_id: _this.stripePrice,
+                  success_url: window.location.origin + '/subscription/success?intended=' + encodeURIComponent(_this.intendedPath || '/content'),
+                  cancel_url: window.location.origin + '/subscription/cancel'
+                })
+              });
+            case 3:
+              response = _context.v;
+              if (response.ok) {
+                _context.n = 5;
+                break;
               }
               _context.n = 4;
+              return response.json();
+            case 4:
+              errorData = _context.v;
+              throw new Error(errorData.message || "HTTP error! status: ".concat(response.status));
+            case 5:
+              _context.n = 6;
+              return response.json();
+            case 6:
+              data = _context.v;
+              console.log('Checkout session response:', data);
+              if (!(data.success && data.checkout_url)) {
+                _context.n = 7;
+                break;
+              }
+              modal = bootstrap.Modal.getInstance(document.getElementById('subscribeModal'));
+              if (modal) {
+                modal.hide();
+              }
+              window.location.href = data.checkout_url;
+              _context.n = 8;
               break;
-            case 3:
-              _context.p = 3;
+            case 7:
+              throw new Error(data.error || 'Failed to create checkout session');
+            case 8:
+              _context.n = 10;
+              break;
+            case 9:
+              _context.p = 9;
               _t = _context.v;
               console.error('Error initiating subscription:', _t);
-              alert('Failed to start subscription process. Please try again.');
-            case 4:
-              _context.p = 4;
+              alert('Error: ' + _t.message);
+            case 10:
+              _context.p = 10;
               _this.isProcessing = false;
-              return _context.f(4);
-            case 5:
+              return _context.f(10);
+            case 11:
               return _context.a(2);
           }
-        }, _callee, null, [[1, 3, 4, 5]]);
+        }, _callee, null, [[2, 9, 10, 11]]);
       }))();
     },
-    checkout: function checkout() {
+    fetchPriceId: function fetchPriceId() {
       var _this2 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-        var intended;
+        var _document$querySelect, token, headers, response, data, _t2;
         return _regenerator().w(function (_context2) {
-          while (1) switch (_context2.n) {
+          while (1) switch (_context2.p = _context2.n) {
             case 0:
-              intended = _this2.intendedPath || new URLSearchParams(window.location.search).get('intended') || '/content';
-              console.log('Checkout called with intended path:', intended);
+              _context2.p = 0;
+              token = localStorage.getItem('sanctum_token') || ((_document$querySelect = document.querySelector('meta[name="api-token"]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.content);
+              headers = {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              };
+              if (token) {
+                headers['Authorization'] = "Bearer ".concat(token);
+              }
               _context2.n = 1;
-              return _this2.subscribe(intended);
+              return fetch('/subscription/config', {
+                // Correct URL for web route
+                headers: headers
+              });
             case 1:
+              response = _context2.v;
+              if (!response.ok) {
+                _context2.n = 3;
+                break;
+              }
+              _context2.n = 2;
+              return response.json();
+            case 2:
+              data = _context2.v;
+              _this2.stripePrice = data.price_id;
+              console.log('Price ID loaded:', _this2.stripePrice);
+              _context2.n = 4;
+              break;
+            case 3:
+              throw new Error('Failed to fetch price ID');
+            case 4:
+              _context2.n = 6;
+              break;
+            case 5:
+              _context2.p = 5;
+              _t2 = _context2.v;
+              console.error('Error fetching price ID:', _t2);
+              alert('Unable to load subscription details. Please try again later.');
+              _this2.stripePrice = null;
+            case 6:
               return _context2.a(2);
           }
-        }, _callee2);
+        }, _callee2, null, [[0, 5]]);
       }))();
     }
   },
   created: function created() {
     var _this3 = this;
-    console.log('MediaCenter created, current path:', window.location.pathname);
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+      var token;
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.n) {
+          case 0:
+            console.log('MediaCenter created, current path:', window.location.pathname);
 
-    // Check for success flash data from Laravel
-    if (window.Laravel && window.Laravel.success) {
-      this.showSuccessMessage = true;
-      this.subscribed = window.Laravel.subscribed || false;
-      setTimeout(function () {
-        _this3.showSuccessMessage = false;
-        _this3.fetchStatus(true); // Force refresh subscription status
-        var urlParams = new URLSearchParams(window.location.search);
-        var intended = urlParams.get('intended') || '/media';
-        window.location.href = intended;
-      }, 3000);
-      return;
-    }
-    var token = localStorage.getItem('sanctum_token');
-    if (token) {
-      console.log('Token found, fetching subscription status');
-      this.fetchStatus(true);
-    } else {
-      console.log('No token found, setting subscribed to false');
-      this.subscribed = false;
-    }
-  },
-  mounted: function mounted() {
-    var _this4 = this;
-    // Listen for subscription updates using mitt
-    emitter.on('subscription-updated', function (subscribed) {
-      _this4.subscribed = subscribed;
-      console.log('Received subscription-updated event:', subscribed);
-    });
-  },
-  beforeUnmount: function beforeUnmount() {
-    // Clean up event listeners
-    emitter.off('subscription-updated');
+            // Load price ID first
+            _context3.n = 1;
+            return _this3.fetchPriceId();
+          case 1:
+            if (!(window.Laravel && window.Laravel.success)) {
+              _context3.n = 2;
+              break;
+            }
+            _this3.showSuccessMessage = true;
+            _this3.subscribed = window.Laravel.subscribed || false;
+            setTimeout(function () {
+              _this3.showSuccessMessage = false;
+              _this3.fetchStatus(true);
+              var urlParams = new URLSearchParams(window.location.search);
+              var intended = urlParams.get('intended') || '/media';
+              window.location.href = intended;
+            }, 3000);
+            return _context3.a(2);
+          case 2:
+            // Check authentication and fetch status
+            token = localStorage.getItem('sanctum_token');
+            if (token) {
+              console.log('Token found, fetching subscription status');
+              _this3.fetchStatus(true);
+            } else {
+              console.log('No token found, setting subscribed to false');
+              _this3.subscribed = false;
+            }
+          case 3:
+            return _context3.a(2);
+        }
+      }, _callee3);
+    }))();
   }
 });
 
@@ -189314,7 +189396,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-63cb17b8] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n    background: #00bfa6;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-63cb17b8]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.custom-card[data-v-63cb17b8] {\n    height: 100%;\n}\n.custom-card img[data-v-63cb17b8] {\n    height: 180px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: #00bfa6;\n        box-shadow: 0 0 10px rgba(32, 178, 170, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-63cb17b8] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n    background: #00bfa6;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-63cb17b8]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.custom-card[data-v-63cb17b8] {\n    height: 100%;\n}\n.custom-card img[data-v-63cb17b8] {\n    height: 180px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n.loading-overlay[data-v-63cb17b8] {\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.5);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    z-index: 1060;\n}\n.loading-spinner[data-v-63cb17b8] {\n    background: white;\n    padding: 2rem;\n    border-radius: 10px;\n    text-align: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -342778,22 +342860,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var mitt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mitt */ "./node_modules/mitt/dist/mitt.mjs");
+/* harmony import */ var mitt__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mitt */ "./node_modules/mitt/dist/mitt.mjs");
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+// subscriptionMixin.js
 
-
-
-// Create a global event bus
-var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_1__["default"])();
+var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       subscribed: false,
-      subscriptionInfo: null
+      subscriptionInfo: null,
+      user: null,
+      loading: false,
+      error: null
     };
   },
   methods: {
@@ -342801,82 +342883,110 @@ var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_1__["default"])();
       var _arguments = arguments,
         _this = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var force, response, _t;
+        var force, _document$querySelect, _document$querySelect2, token, headers, response, data, _t;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.p = _context.n) {
             case 0:
               force = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : false;
               if (force) {
-                _this.subscribed = false; // Reset state
+                _this.subscribed = false;
               }
               _context.p = 1;
+              token = localStorage.getItem('sanctum_token') || ((_document$querySelect = document.querySelector('meta[name="api-token"]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.content);
+              headers = {
+                'X-CSRF-TOKEN': (_document$querySelect2 = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.content,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              };
+              if (token) {
+                headers['Authorization'] = "Bearer ".concat(token);
+              }
               _context.n = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/subscription-status', {
-                headers: {
-                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                }
+              return fetch('/subscription/status', {
+                headers: headers
               });
             case 2:
               response = _context.v;
-              _this.subscribed = response.data.subscribed;
-              _this.subscriptionInfo = response.data.subscription_info;
-              console.log('Subscription status fetched:', response.data);
-              emitter.emit('subscription-updated', _this.subscribed); // Emit event using mitt
-              _context.n = 4;
-              break;
+              if (!response.ok) {
+                _context.n = 4;
+                break;
+              }
+              _context.n = 3;
+              return response.json();
             case 3:
-              _context.p = 3;
+              data = _context.v;
+              _this.subscribed = data.subscribed;
+              _this.subscriptionInfo = data.subscription_info;
+              _this.user = data.user;
+              console.log('Subscription status fetched:', data);
+              emitter.emit('subscription-updated', _this.subscribed);
+              _context.n = 6;
+              break;
+            case 4:
+              if (!(response.status === 401)) {
+                _context.n = 5;
+                break;
+              }
+              console.log('User not authenticated');
+              _this.subscribed = false;
+              _this.subscriptionInfo = null;
+              _this.user = null;
+              _context.n = 6;
+              break;
+            case 5:
+              throw new Error("HTTP ".concat(response.status));
+            case 6:
+              _context.n = 8;
+              break;
+            case 7:
+              _context.p = 7;
               _t = _context.v;
               console.error('Error fetching subscription status:', _t);
               _this.subscribed = false;
               _this.subscriptionInfo = null;
-            case 4:
+              _this.user = null;
+            case 8:
               return _context.a(2);
           }
-        }, _callee, null, [[1, 3]]);
+        }, _callee, null, [[1, 7]]);
       }))();
+    },
+    hasActiveSubscription: function hasActiveSubscription() {
+      var _this$subscriptionInf;
+      return this.subscribed && ((_this$subscriptionInf = this.subscriptionInfo) === null || _this$subscriptionInf === void 0 ? void 0 : _this$subscriptionInf.active);
     },
     isLocked: function isLocked(path) {
       var premiumPaths = ['/content', '/streaming'];
       if (!premiumPaths.includes(path)) {
         return false;
       }
-      return !this.subscribed || this.subscriptionInfo && !this.subscriptionInfo.active;
+      return !this.hasActiveSubscription();
     },
     goTo: function goTo(path) {
+      if (this.isLocked(path)) {
+        console.log('Access denied for path:', path);
+        return;
+      }
       window.location.href = path;
-    },
-    subscribe: function subscribe(path) {
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-        var response, _t2;
-        return _regenerator().w(function (_context2) {
-          while (1) switch (_context2.p = _context2.n) {
-            case 0:
-              _context2.p = 0;
-              _context2.n = 1;
-              return axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('/create-checkout-session', {
-                intended: path
-              }, {
-                headers: {
-                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                }
-              });
-            case 1:
-              response = _context2.v;
-              window.location.href = response.data.checkout_url;
-              _context2.n = 3;
-              break;
-            case 2:
-              _context2.p = 2;
-              _t2 = _context2.v;
-              console.error('Error initiating subscription:', _t2);
-              throw _t2;
-            case 3:
-              return _context2.a(2);
-          }
-        }, _callee2, null, [[0, 2]]);
-      }))();
     }
+  },
+  created: function created() {
+    var _this2 = this;
+    // Check authentication and fetch status
+    var token = localStorage.getItem('sanctum_token');
+    if (token) {
+      this.fetchStatus(true);
+    } else {
+      this.subscribed = false;
+    }
+
+    // Listen for subscription updates
+    emitter.on('subscription-updated', function (subscribed) {
+      _this2.subscribed = subscribed;
+    });
+  },
+  beforeUnmount: function beforeUnmount() {
+    emitter.off('subscription-updated');
   }
 });
 

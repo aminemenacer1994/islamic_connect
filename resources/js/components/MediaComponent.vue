@@ -7,7 +7,8 @@
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
                 <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey;">
-                    <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+                    <span
+                        class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
                     <img src="/images/ap.avif" alt="Qibla finder" class="w-90 mt-1"
                         style="object-fit: contain; padding: 20px;" />
                     <div class="p-3">
@@ -59,7 +60,8 @@
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey;">
-                    <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+                    <span
+                        class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
                     <img src="/images/radio5.jpg" alt="Radio stations" class="w-100" style="object-fit: contain;" />
                     <div class="p-3">
                         <h5 class="mb-2 fw-bold display-6 text-dark text-center">Reciters Stations</h5>
@@ -140,7 +142,8 @@
                     </div>
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Maybe Later</button>
-                        <button type="button" class="btn btn-primary" @click="initiateSubscription" :disabled="isProcessing">
+                        <button type="button" class="btn btn-primary" @click="initiateSubscription"
+                            :disabled="isProcessing">
                             <span v-if="isProcessing">
                                 <i class="fas fa-spinner fa-spin me-2"></i>Processing...
                             </span>
@@ -174,7 +177,6 @@
 import mitt from 'mitt';
 import subscriptionMixin from '../mixins/subscriptionMixin.js';
 
-// Create a global event bus
 const emitter = mitt();
 
 export default {
@@ -183,7 +185,8 @@ export default {
         return {
             intendedPath: null,
             isProcessing: false,
-            showSuccessMessage: false
+            showSuccessMessage: false,
+            stripePrice: null
         };
     },
     methods: {
@@ -196,48 +199,111 @@ export default {
                 modal.show();
             }
         },
+
         async initiateSubscription() {
-            console.log('Initiating subscription for path:', this.intendedPath);
+            if (!this.stripePrice) {
+                alert('Subscription is currently unavailable. Please try again later.');
+                return;
+            }
+
             this.isProcessing = true;
+
             try {
-                await this.subscribe(this.intendedPath || '/content');
-                const modalElement = document.getElementById('subscribeModal');
-                if (modalElement) {
-                    const modal = bootstrap.Modal.getInstance(modalElement);
+                const response = await fetch('/subscription/checkout', {  // Updated to web route
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Authorization': 'Bearer ' + localStorage.getItem('sanctum_token'),
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        price_id: this.stripePrice,
+                        success_url: window.location.origin + '/subscription/success?intended=' + encodeURIComponent(this.intendedPath || '/content'),
+                        cancel_url: window.location.origin + '/subscription/cancel'
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Checkout session response:', data);
+
+                if (data.success && data.checkout_url) {
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('subscribeModal'));
                     if (modal) {
                         modal.hide();
                     }
+                    window.location.href = data.checkout_url;
+                } else {
+                    throw new Error(data.error || 'Failed to create checkout session');
                 }
+
             } catch (error) {
                 console.error('Error initiating subscription:', error);
-                alert('Failed to start subscription process. Please try again.');
+                alert('Error: ' + error.message);
             } finally {
                 this.isProcessing = false;
             }
         },
-        async checkout() {
-            const intended = this.intendedPath || new URLSearchParams(window.location.search).get('intended') || '/content';
-            console.log('Checkout called with intended path:', intended);
-            await this.subscribe(intended);
+
+        async fetchPriceId() {
+            try {
+                const token = localStorage.getItem('sanctum_token') ||
+                    document.querySelector('meta[name="api-token"]')?.content;
+
+                const headers = {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                };
+
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+
+                const response = await fetch('/subscription/config', {  // Correct URL for web route
+                    headers
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    this.stripePrice = data.price_id;
+                    console.log('Price ID loaded:', this.stripePrice);
+                } else {
+                    throw new Error('Failed to fetch price ID');
+                }
+            } catch (error) {
+                console.error('Error fetching price ID:', error);
+                alert('Unable to load subscription details. Please try again later.');
+                this.stripePrice = null;
+            }
         }
     },
-    created() {
+
+    async created() {
         console.log('MediaCenter created, current path:', window.location.pathname);
-        
-        // Check for success flash data from Laravel
+
+        // Load price ID first
+        await this.fetchPriceId();
+
+        // Check for success from Laravel session
         if (window.Laravel && window.Laravel.success) {
             this.showSuccessMessage = true;
             this.subscribed = window.Laravel.subscribed || false;
             setTimeout(() => {
                 this.showSuccessMessage = false;
-                this.fetchStatus(true); // Force refresh subscription status
+                this.fetchStatus(true);
                 const urlParams = new URLSearchParams(window.location.search);
                 const intended = urlParams.get('intended') || '/media';
                 window.location.href = intended;
             }, 3000);
             return;
         }
-        
+
+        // Check authentication and fetch status
         const token = localStorage.getItem('sanctum_token');
         if (token) {
             console.log('Token found, fetching subscription status');
@@ -246,17 +312,6 @@ export default {
             console.log('No token found, setting subscribed to false');
             this.subscribed = false;
         }
-    },
-    mounted() {
-        // Listen for subscription updates using mitt
-        emitter.on('subscription-updated', (subscribed) => {
-            this.subscribed = subscribed;
-            console.log('Received subscription-updated event:', subscribed);
-        });
-    },
-    beforeUnmount() {
-        // Clean up event listeners
-        emitter.off('subscription-updated');
     }
 };
 </script>
@@ -289,20 +344,23 @@ export default {
     object-fit: cover;
 }
 
-@keyframes borderPulse {
-    0% {
-        border-color: lightseagreen;
-        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
-    }
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1060;
+}
 
-    50% {
-        border-color: #00bfa6;
-        box-shadow: 0 0 10px rgba(32, 178, 170, 0.8);
-    }
-
-    100% {
-        border-color: lightseagreen;
-        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
-    }
+.loading-spinner {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
 }
 </style>

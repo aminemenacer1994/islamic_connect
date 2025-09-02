@@ -8,8 +8,7 @@ use Laravel\Cashier\Billable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
-    use Billable;
+    use Notifiable, Billable;
 
     protected $fillable = [
         'name',
@@ -26,7 +25,6 @@ class User extends Authenticatable
         'fb_id',
         'linked_id',
         'user_id',
-        'stripe_id'
     ];
 
     protected $hidden = [
@@ -37,17 +35,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'trial_ends_at' => 'datetime',
-        'ends_at' => 'datetime',
     ];
 
     public function notes()
     {
         return $this->hasMany(Note::class, 'user_id', 'user_id');
-    }
-
-    public function isAdmin()
-    {
-        return $this->role === 'admin';
     }
 
     public function bookmarks()
@@ -65,12 +57,17 @@ class User extends Authenticatable
         return $this->hasMany(Collection::class);
     }
 
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
     public function hasPremiumAccess(): bool
     {
         return $this->subscribed('default') || $this->onTrial('default');
     }
 
-    public function getSubscriptionStatusAttribute()
+    public function getSubscriptionStatusAttribute(): string
     {
         if (!$this->stripe_id) {
             return 'never_subscribed';
@@ -84,28 +81,15 @@ class User extends Authenticatable
             return 'cancelled';
         }
 
+        if ($this->subscription('default') && $this->subscription('default')->onGracePeriod()) {
+            return 'grace_period';
+        }
+
         return 'inactive';
     }
 
-    protected $dates = [
-        'email_verified_at',
-        'subscription_ends_at',
-    ];
-
-    public function hasActiveSubscription()
+    public function hasActiveSubscription(): bool
     {
-        return $this->subscription_status === 'active' 
-            && $this->subscription_ends_at 
-            && $this->subscription_ends_at->isFuture();
+        return $this->subscribed('default');
     }
-
-    // public function isAdmin(): bool
-    // {
-    //     // Add your admin logic here
-    //     // For example, check if email is in admin list or has admin role
-    //     return in_array($this->email, [
-    //         'admin@admin.com',
-    //         // Add other admin emails
-    //     ]);
-    // }
 }

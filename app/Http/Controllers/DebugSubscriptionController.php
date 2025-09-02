@@ -3,132 +3,86 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Laravel\Cashier\Cashier;
-use Stripe\Checkout\Session;
-use Stripe\Stripe;
 use Illuminate\Support\Facades\Log;
-use Exception;
 
-class DebugSubscriptionController extends Controller
+class SubscriptionDebugController extends Controller
 {
-    /**
-     * Test Stripe configuration
-     */
-    public function testStripeConfig()
+    public function debugSubscription(Request $request)
     {
-        return response()->json([
-            'stripe_key_from_config' => config('services.stripe.key') ? 'Present' : 'Missing',
-            'stripe_secret_from_config' => config('services.stripe.secret') ? 'Present' : 'Missing',
-            'stripe_key_length' => strlen(config('services.stripe.key') ?? ''),
-            'stripe_secret_length' => strlen(config('services.stripe.secret') ?? ''),
-            'stripe_key_starts_with' => substr(config('services.stripe.key') ?? '', 0, 7),
-            'stripe_secret_starts_with' => substr(config('services.stripe.secret') ?? '', 0, 7),
-            'env_app_env' => config('app.env'),
-            'cashier_model' => config('services.stripe.model'),
-        ]);
+        $user = auth()->user();
+        
+        if (!$user) {
+            return response()->json(['error' => 'Not authenticated'], 401);
+        }
+
+        // Detailed debug information
+        $debug = [
+            'user_id' => $user->id,
+            'user_email' => $user->email,
+            'stripe_id' => $user->stripe_id,
+            'has_stripe_id' => !empty($user->stripe_id),
+            'subscribed_default' => $user->subscribed('default'),
+            'on_trial' => $user->onTrial('default'),
+            'has_subscription_model' => $user->subscription('default') ? true : false,
+        ];
+
+        // If subscription exists, get more details
+        if ($user->subscription('default')) {
+            $subscription = $user->subscription('default');
+            $debug['subscription_details'] = [
+                'stripe_status' => $subscription->stripe_status,
+                'stripe_id' => $subscription->stripe_id,
+                'ends_at' => $subscription->ends_at,
+                'trial_ends_at' => $subscription->trial_ends_at,
+                'on_grace_period' => $subscription->onGracePeriod(),
+                'cancelled' => $subscription->cancelled(),
+                'valid' => $subscription->valid(),
+                'active' => $subscription->active(),
+            ];
+        }
+
+        // Get all subscriptions for this user
+        $debug['all_subscriptions'] = $user->subscriptions()->get()->map(function($sub) {
+            return [
+                'id' => $sub->id,
+                'name' => $sub->name,
+                'stripe_status' => $sub->stripe_status,
+                'stripe_id' => $sub->stripe_id,
+                'ends_at' => $sub->ends_at,
+                'trial_ends_at' => $sub->trial_ends_at,
+            ];
+        });
+
+        return response()->json($debug);
     }
 
-    /**
-     * Debug checkout session creation
-     */
-    public function createCheckoutSessionDebug(Request $request)
+    public function forceSyncWithStripe(Request $request)
     {
-        $debugInfo = [];
+        $user = auth()->user();
         
+        if (!$user || !$user->stripe_id) {
+            return response()->json(['error' => 'No Stripe customer found'], 400);
+        }
+
         try {
-            // Step 1: Check user authentication
-            $user = auth()->user();
-            $debugInfo['user_authenticated'] = !is_null($user);
-            $debugInfo['user_id'] = $user ? $user->id : null;
-            $debugInfo['user_stripe_id'] = $user ? $user->stripe_id : null;
-            
-            if (!$user) {
-                return response()->json(['error' => 'User not authenticated', 'debug' => $debugInfo], 401);
-            }
-
-            // Step 2: Check Stripe configuration
-            $stripeSecret = config('services.stripe.secret');
-            $debugInfo['stripe_secret_configured'] = !empty($stripeSecret);
-            $debugInfo['stripe_secret_length'] = strlen($stripeSecret ?? '');
-            $debugInfo['stripe_secret_prefix'] = substr($stripeSecret ?? '', 0, 7);
-            
-            if (empty($stripeSecret)) {
-                return response()->json(['error' => 'Stripe secret key not configured', 'debug' => $debugInfo], 500);
-            }
-
-            // Step 3: Set API key and test connection
-            Stripe::setApiKey($stripeSecret);
-            $debugInfo['stripe_api_key_set'] = true;
-            
-            // Test API connection
-            try {
-                $testCustomer = \Stripe\Customer::all(['limit' => 1]);
-                $debugInfo['stripe_api_connection'] = 'Success';
-            } catch (\Exception $apiTest) {
-                $debugInfo['stripe_api_connection'] = 'Failed: ' . $apiTest->getMessage();
-                return response()->json(['error' => 'Stripe API connection failed', 'debug' => $debugInfo], 500);
-            }
-
-            // Step 4: Ensure user has Stripe customer
-            if (!$user->stripe_id) {
-                try {
-                    $stripeCustomer = $user->createAsStripeCustomer();
-                    $debugInfo['stripe_customer_created'] = true;
-                    $debugInfo['new_stripe_id'] = $stripeCustomer->id;
-                } catch (\Exception $customerError) {
-                    $debugInfo['stripe_customer_creation_error'] = $customerError->getMessage();
-                    return response()->json(['error' => 'Failed to create Stripe customer', 'debug' => $debugInfo], 500);
-                }
-            } else {
-                $debugInfo['existing_stripe_id'] = $user->stripe_id;
-            }
-
-            // Step 5: Create checkout session
-            $sessionData = [
-                'customer' => $user->stripe_id,
-                'payment_method_types' => ['card'],
-                'line_items' => [[
-                    'price' => 'price_1Ry9j2Iol4Q5wn4O7bE9kvbZ',
-                    'quantity' => 1,
-                ]],
-                'mode' => 'subscription',
-                'success_url' => route('checkout-return') . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => url('/'),
-            ];
-            
-            $debugInfo['session_data'] = $sessionData;
-            
-            $session = Session::create($sessionData);
-            
-            $debugInfo['session_created'] = true;
-            $debugInfo['session_id'] = $session->id;
-            $debugInfo['session_url'] = $session->url;
+            // Force sync with Stripe
+            $user->syncStripeStatus();
+            $user->refresh();
 
             return response()->json([
-                'success' => true,
-                'checkout_url' => $session->url,
-                'session_id' => $session->id,
-                'debug' => $debugInfo
+                'message' => 'Sync completed',
+                'subscribed' => $user->subscribed('default'),
+                'subscription_details' => $user->subscription('default') ? [
+                    'status' => $user->subscription('default')->stripe_status,
+                    'ends_at' => $user->subscription('default')->ends_at,
+                ] : null
             ]);
-
         } catch (\Exception $e) {
-            $debugInfo['final_error'] = $e->getMessage();
-            $debugInfo['error_trace'] = $e->getTraceAsString();
-            
-            Log::error('Debug checkout session creation failed', $debugInfo);
-            
             return response()->json([
-                'error' => $e->getMessage(),
-                'debug' => $debugInfo
+                'error' => 'Sync failed: ' . $e->getMessage()
             ], 500);
         }
     }
-
-    /**
-     * Show debug form
-     */
-    public function debugCheckoutSession()
-    {
-        return view('debug-checkout');
-    }
 }
+
+?>
