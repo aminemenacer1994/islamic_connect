@@ -130,20 +130,23 @@ class SubscriptionController extends Controller
                 }
             }
 
-            // Conditionally include customer_email only if no stripe_id
+            // Create base checkout options
             $checkoutOptions = [
                 'success_url' => $successUrl . '?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => $cancelUrl,
             ];
 
+            // Create the subscription builder
+            $subscriptionBuilder = $user->newSubscription('default', $priceId);
+
+            // Only add customer_email if user doesn't have a stripe_id
+            // Laravel Cashier will automatically use the existing customer if stripe_id exists
             if (!$user->stripe_id) {
                 $checkoutOptions['customer_email'] = $user->email;
             }
 
-            // Create checkout session using Laravel Cashier
-            $checkout = $user
-                ->newSubscription('default', $priceId)
-                ->checkout($checkoutOptions);
+            // Create checkout session
+            $checkout = $subscriptionBuilder->checkout($checkoutOptions);
 
             return response()->json([
                 'success' => true,
@@ -155,7 +158,8 @@ class SubscriptionController extends Controller
             Log::error('Checkout error: ' . $e->getMessage(), [
                 'user_id' => $user->id ?? null,
                 'price_id' => $priceId ?? null,
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
             ]);
             return response()->json([
                 'success' => false,

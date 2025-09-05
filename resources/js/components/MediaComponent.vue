@@ -18,6 +18,7 @@
                             style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;"> Islamic podcasts
                             offer insightful discussions and teachings from speakers on various aspects of Islamic
                             faith, history, and daily life.</p>
+                        
                         <button v-if="!isLocked('/content')" class="form-control" @click="goTo('/content')"
                             style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                             type="button">

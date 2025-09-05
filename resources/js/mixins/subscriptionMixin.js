@@ -4,100 +4,85 @@ import mitt from 'mitt';
 const emitter = mitt();
 
 export default {
-    data() {
-        return {
-            subscribed: false,
-            subscriptionInfo: null,
-            user: null,
-            loading: false,
-            error: null
-        }
-    },
+  data() {
+    return {
+      subscribed: false,
+      subscriptionInfo: null,
+      user: null,
+      loading: false,
+      error: null,
+      stripe: null
+    };
+  },
 
-    methods: {
-        async fetchStatus(force = false) {
-            if (force) {
-                this.subscribed = false;
-            }
+  mounted() {
+    // Initialize Stripe
+    this.stripe = Stripe(
+      process.env.VUE_APP_STRIPE_KEY ||
+      'pk_test_51QIJkjIol4Q5wn4OOOwjUCTuVO7k49YHuLHsnMGjcOAiKesa3CbihaIRvdsXmXrKCUOxbslT1kWyHhbxFEW4TVzf00Kpk3PNUf'
+    );
+  },
 
-            try {
-                const token = localStorage.getItem('sanctum_token') ||
-                    document.querySelector('meta[name="api-token"]')?.content;
-
-                const headers = {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                };
-
-                if (token) {
-                    headers['Authorization'] = `Bearer ${token}`;
-                }
-
-                const response = await fetch('/subscription/status', { headers });  // Updated to web route
-
-                if (response.ok) {
-                    const data = await response.json();
-                    this.subscribed = data.subscribed;
-                    this.subscriptionInfo = data.subscription_info;
-                    this.user = data.user;
-
-                    console.log('Subscription status fetched:', data);
-                    emitter.emit('subscription-updated', this.subscribed);
-                } else if (response.status === 401) {
-                    console.log('User not authenticated');
-                    this.subscribed = false;
-                    this.subscriptionInfo = null;
-                    this.user = null;
-                } else {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-
-            } catch (error) {
-                console.error('Error fetching subscription status:', error);
-                this.subscribed = false;
-                this.subscriptionInfo = null;
-                this.user = null;
-            }
-        },
-
-        hasActiveSubscription() {
-            return this.subscribed && this.subscriptionInfo?.active;
-        },
-
-        isLocked(path) {
-            const premiumPaths = ['/content', '/streaming'];
-            if (!premiumPaths.includes(path)) {
-                return false;
-            }
-            return !this.hasActiveSubscription();
-        },
-
-        goTo(path) {
-            if (this.isLocked(path)) {
-                console.log('Access denied for path:', path);
-                return;
-            }
-            window.location.href = path;
-        }
-    },
-
-    created() {
-        // Check authentication and fetch status
-        const token = localStorage.getItem('sanctum_token');
-        if (token) {
-            this.fetchStatus(true);
-        } else {
-            this.subscribed = false;
-        }
-
-        // Listen for subscription updates
-        emitter.on('subscription-updated', (subscribed) => {
-            this.subscribed = subscribed;
+  methods: {
+    async fetchSubscriptionStatus() {
+      try {
+        const response = await fetch('/subscription/status', {
+          headers: {
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Authorization': 'Bearer ' + localStorage.getItem('sanctum_token')
+          }
         });
+
+        if (response.ok) {
+          const data = await response.json();
+          this.subscribed = data.subscribed;
+          this.subscriptionInfo = data.subscription_info || null;
+          this.user = data.user || null;
+          emitter.emit('subscription-updated', this.subscribed);
+        } else if (response.status === 401) {
+          this.subscribed = false;
+          this.subscriptionInfo = null;
+          this.user = null;
+        }
+      } catch (error) {
+        console.error('Failed to fetch subscription status:', error);
+        this.subscribed = false;
+        this.subscriptionInfo = null;
+        this.user = null;
+      }
     },
 
-    beforeUnmount() {
-        emitter.off('subscription-updated');
+    hasActiveSubscription() {
+      return this.subscribed && (!this.subscriptionInfo || this.subscriptionInfo.active !== false);
+    },
+
+    isLocked(path) {
+      const premiumPaths = ['/content', '/streaming'];
+      if (!premiumPaths.includes(path)) return false;
+      return !this.hasActiveSubscription();
+    },
+
+    goTo(path) {
+      if (this.isLocked(path)) {
+        console.log('Access denied for path:', path);
+        return;
+      }
+      window.location.href = path;
     }
-}
+  },
+
+  async created() {
+    // Fetch subscription status immediately
+    await this.fetchSubscriptionStatus();
+
+    // Listen for updates
+    emitter.on('subscription-updated', (subscribed) => {
+      this.subscribed = subscribed;
+    });
+  },
+
+  beforeUnmount() {
+    emitter.off('subscription-updated');
+  }
+};

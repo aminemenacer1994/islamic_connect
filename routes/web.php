@@ -73,6 +73,14 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
 
+Route::get('/subscription/status', function () {
+    $user = auth()->user();
+    return response()->json([
+        'subscribed' => $user ? $user->subscribed('default') : false
+    ]);
+})->middleware('auth');
+
+
 Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show'])->middleware('web');
 
 Route::post('/subscription/checkout', [SubscriptionController::class, 'createCheckoutSession'])->name('subscription.checkout');

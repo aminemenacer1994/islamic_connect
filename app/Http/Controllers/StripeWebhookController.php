@@ -17,4 +17,30 @@ class StripeWebhookController extends BaseWebhookController
         }
         return response('Webhook handled', 200);
     }
+
+    protected function handleCheckoutSessionCompleted(array $payload)
+    {
+        $session = $payload['data']['object'];
+
+        $user = \App\Models\User::where('stripe_id', $session['customer'])->first();
+
+        if ($user) {
+            // Sync Stripe customer details
+            $user->createOrGetStripeCustomer();
+            $user->syncStripeCustomerDetails();
+
+            if (!empty($session['subscription'])) {
+                // Store or update subscription in Cashier's subscriptions table
+                $user->subscriptions()->updateOrCreate(
+                    ['stripe_id' => $session['subscription']],
+                    ['stripe_status' => 'active']
+                );
+            }
+        }
+
+        return response('Webhook handled', 200);
+    }
+
+
+
 }
