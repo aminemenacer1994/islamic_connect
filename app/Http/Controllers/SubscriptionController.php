@@ -15,6 +15,7 @@ class SubscriptionController extends Controller
             $user = auth()->user();
             
             if (!$user) {
+                Log::info('Subscription status check - user not authenticated');
                 return response()->json([
                     'subscribed' => false,
                     'subscription_info' => null,
@@ -23,11 +24,18 @@ class SubscriptionController extends Controller
                 ], 401);
             }
 
+            Log::info('Checking subscription status for user', [
+                'user_id' => $user->id,
+                'stripe_id' => $user->stripe_id,
+                'debug' => $request->get('debug', false)
+            ]);
+
             // Force sync with Stripe if user has stripe_id
             if ($user->stripe_id) {
                 try {
                     $user->syncStripeCustomerDetails();
                     $user->refresh();
+                    Log::info('Synced Stripe customer details', ['user_id' => $user->id]);
                 } catch (ApiErrorException $e) {
                     if (str_contains($e->getMessage(), 'No such customer')) {
                         $user->stripe_id = null;
@@ -50,6 +58,14 @@ class SubscriptionController extends Controller
             $hasActiveSubscription = $user->subscribed('default');
             $subscription = $user->subscription('default');
 
+            Log::info('Subscription check results', [
+                'user_id' => $user->id,
+                'has_active_subscription' => $hasActiveSubscription,
+                'subscription_exists' => !!$subscription,
+                'subscription_id' => $subscription ? $subscription->id : null,
+                'stripe_status' => $subscription ? $subscription->stripe_status : null
+            ]);
+
             $subscriptionInfo = null;
             if ($hasActiveSubscription && $subscription) {
                 $subscriptionInfo = [
@@ -64,7 +80,7 @@ class SubscriptionController extends Controller
                 ];
             }
 
-            return response()->json([
+            $response = [
                 'subscribed' => $hasActiveSubscription,
                 'subscription_info' => $subscriptionInfo,
                 'user' => [
@@ -72,16 +88,33 @@ class SubscriptionController extends Controller
                     'email' => $user->email,
                     'name' => $user->name,
                     'has_payment_method' => $user->hasDefaultPaymentMethod(),
+                    'stripe_id' => $user->stripe_id,
                 ]
-            ]);
+            ];
+
+            // Add debug info if requested
+            if ($request->get('debug')) {
+                $response['debug'] = [
+                    'all_subscriptions' => $user->subscriptions()->get()->toArray(),
+                    'stripe_customer_exists' => !!$user->stripe_id,
+                    'raw_subscribed_check' => $hasActiveSubscription,
+                ];
+            }
+
+            Log::info('Returning subscription status', $response);
+            return response()->json($response);
 
         } catch (\Exception $e) {
-            Log::error('Error fetching subscription status: ' . $e->getMessage());
+            Log::error('Error fetching subscription status: ' . $e->getMessage(), [
+                'user_id' => $user->id ?? null,
+                'trace' => $e->getTraceAsString()
+            ]);
             return response()->json([
                 'subscribed' => false,
                 'subscription_info' => null,
                 'user' => null,
-                'message' => 'Error fetching subscription status'
+                'message' => 'Error fetching subscription status',
+                'error' => $e->getMessage()
             ], 500);
         }
     }
@@ -136,17 +169,32 @@ class SubscriptionController extends Controller
                 'cancel_url' => $cancelUrl,
             ];
 
+            // FIXED: Only add customer_email if user doesn't have a stripe_id
+            // Laravel Cashier will automatically handle existing customers
+            if (!$user->stripe_id) {
+                $checkoutOptions['customer_email'] = $user->email;
+                Log::info('Adding customer_email for new customer', [
+                    'user_id' => $user->id,
+                    'email' => $user->email
+                ]);
+            } else {
+                Log::info('Using existing Stripe customer', [
+                    'user_id' => $user->id,
+                    'stripe_id' => $user->stripe_id
+                ]);
+            }
+
             // Create the subscription builder
             $subscriptionBuilder = $user->newSubscription('default', $priceId);
 
-            // Only add customer_email if user doesn't have a stripe_id
-            // Laravel Cashier will automatically use the existing customer if stripe_id exists
-            if (!$user->stripe_id) {
-                $checkoutOptions['customer_email'] = $user->email;
-            }
-
             // Create checkout session
             $checkout = $subscriptionBuilder->checkout($checkoutOptions);
+
+            Log::info('Checkout session created successfully', [
+                'user_id' => $user->id,
+                'session_id' => $checkout->id,
+                'has_stripe_id' => !!$user->stripe_id
+            ]);
 
             return response()->json([
                 'success' => true,
@@ -158,6 +206,7 @@ class SubscriptionController extends Controller
             Log::error('Checkout error: ' . $e->getMessage(), [
                 'user_id' => $user->id ?? null,
                 'price_id' => $priceId ?? null,
+                'has_stripe_id' => $user->stripe_id ?? null,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);

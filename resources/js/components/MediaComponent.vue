@@ -39,7 +39,7 @@
                         development</span>
                     <img src="/images/mtv2.png" alt="Watch Live" class="w-100" style="object-fit: contain;" />
                     <div class="p-3">
-                        <h5 class="mb-2 fw-bold display-6 text-dark text-center">Live Streaming <span
+                        <h5 class="mb-2 fw-bold display-6 text-dark text-center">Live Streams<span
                                 v-if="isLocked('/streaming')">🔒</span></h5>
                         <p class="card-text text-muted text-wrap text-center"
                             style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Watch Islamic TV
@@ -179,7 +179,6 @@ import mitt from 'mitt';
 import subscriptionMixin from '../mixins/subscriptionMixin.js';
 
 const emitter = mitt();
-
 export default {
     mixins: [subscriptionMixin],
     data() {
@@ -187,7 +186,8 @@ export default {
             intendedPath: null,
             isProcessing: false,
             showSuccessMessage: false,
-            stripePrice: null
+            stripePrice: null,
+            debugInfo: null // Add debug info
         };
     },
     methods: {
@@ -210,7 +210,7 @@ export default {
             this.isProcessing = true;
 
             try {
-                const response = await fetch('/subscription/checkout', {  // Updated to web route
+                const response = await fetch('/subscription/checkout', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -265,7 +265,7 @@ export default {
                     headers['Authorization'] = `Bearer ${token}`;
                 }
 
-                const response = await fetch('/subscription/config', {  // Correct URL for web route
+                const response = await fetch('/subscription/config', {
                     headers
                 });
 
@@ -281,22 +281,71 @@ export default {
                 alert('Unable to load subscription details. Please try again later.');
                 this.stripePrice = null;
             }
+        },
+
+        // Add debug method to manually check status (kept for potential future use, but not triggered)
+        async debugSubscriptionStatus() {
+            console.log('=== DEBUG SUBSCRIPTION STATUS ===');
+            
+            const token = localStorage.getItem('sanctum_token');
+            console.log('Token exists:', !!token);
+            
+            if (!token) {
+                console.log('No token found');
+                return;
+            }
+
+            try {
+                const response = await fetch('/subscription/status?debug=1&_t=' + Date.now(), {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + token,
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                });
+
+                console.log('Response status:', response.status);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Subscription data:', data);
+                    this.debugInfo = data;
+                    
+                    // Update local state
+                    this.subscribed = data.subscribed;
+                    this.subscriptionInfo = data.subscription_info;
+                    this.user = data.user;
+                    
+                    console.log('Local state updated:', {
+                        subscribed: this.subscribed,
+                        hasActiveSubscription: this.hasActiveSubscription(),
+                        isContentLocked: this.isLocked('/content')
+                    });
+                } else {
+                    const errorText = await response.text();
+                    console.log('Error response:', errorText);
+                }
+            } catch (error) {
+                console.error('Debug fetch error:', error);
+            }
         }
     },
 
     async created() {
         console.log('MediaCenter created, current path:', window.location.pathname);
+        console.log('URL search params:', window.location.search);
 
         // Load price ID first
         await this.fetchPriceId();
 
         // Check for success from Laravel session
         if (window.Laravel && window.Laravel.success) {
+            console.log('Laravel success flag found');
             this.showSuccessMessage = true;
             this.subscribed = window.Laravel.subscribed || false;
             setTimeout(() => {
                 this.showSuccessMessage = false;
-                this.fetchStatus(true);
+                this.fetchSubscriptionStatus();
                 const urlParams = new URLSearchParams(window.location.search);
                 const intended = urlParams.get('intended') || '/media';
                 window.location.href = intended;
@@ -304,11 +353,34 @@ export default {
             return;
         }
 
+        // Check for session_id in URL (successful Stripe checkout)
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
+        
+        if (sessionId) {
+            console.log('Session ID found:', sessionId);
+            console.log('User returned from Stripe checkout');
+            
+            // Wait a moment for the webhook to process
+            setTimeout(async () => {
+                console.log('Fetching updated subscription status...');
+                await this.fetchSubscriptionStatus(true);
+                
+                console.log('After fetch - subscribed:', this.subscribed);
+                console.log('After fetch - hasActiveSubscription:', this.hasActiveSubscription());
+                
+                // Clean up URL
+                const newUrl = window.location.pathname + window.location.hash;
+                window.history.replaceState({}, document.title, newUrl);
+            }, 2000); // Wait 2 seconds for webhook
+            return;
+        }
+
         // Check authentication and fetch status
         const token = localStorage.getItem('sanctum_token');
         if (token) {
             console.log('Token found, fetching subscription status');
-            this.fetchStatus(true);
+            await this.fetchSubscriptionStatus();
         } else {
             console.log('No token found, setting subscribed to false');
             this.subscribed = false;

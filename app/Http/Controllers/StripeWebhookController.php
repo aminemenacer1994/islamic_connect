@@ -2,45 +2,69 @@
 
 namespace App\Http\Controllers;
 
-use Laravel\Cashier\Http\Controllers\WebhookController as BaseWebhookController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
 
-class StripeWebhookController extends BaseWebhookController
+class StripeWebhookController extends CashierController
 {
-    protected function handleCustomerDeleted(array $payload)
+    /**
+     * Handle invoice payment succeeded.
+     */
+    public function handleInvoicePaymentSucceeded($payload)
     {
-        $user = \App\Models\User::where('stripe_id', $payload['data']['object']['id'])->first();
-        if ($user) {
-            $user->stripe_id = null;
-            $user->save();
-            Log::info('Cleared stripe_id due to customer deletion', ['user_id' => $user->id]);
-        }
-        return response('Webhook handled', 200);
+        Log::info('Invoice payment succeeded webhook received', [
+            'invoice_id' => $payload['data']['object']['id'],
+            'customer_id' => $payload['data']['object']['customer'],
+            'subscription_id' => $payload['data']['object']['subscription']
+        ]);
+
+        return parent::handleInvoicePaymentSucceeded($payload);
     }
 
-    protected function handleCheckoutSessionCompleted(array $payload)
+    /**
+     * Handle customer subscription created.
+     */
+    public function handleCustomerSubscriptionCreated($payload)
     {
-        $session = $payload['data']['object'];
+        Log::info('Customer subscription created webhook received', [
+            'subscription_id' => $payload['data']['object']['id'],
+            'customer_id' => $payload['data']['object']['customer'],
+            'status' => $payload['data']['object']['status']
+        ]);
 
-        $user = \App\Models\User::where('stripe_id', $session['customer'])->first();
-
-        if ($user) {
-            // Sync Stripe customer details
-            $user->createOrGetStripeCustomer();
-            $user->syncStripeCustomerDetails();
-
-            if (!empty($session['subscription'])) {
-                // Store or update subscription in Cashier's subscriptions table
-                $user->subscriptions()->updateOrCreate(
-                    ['stripe_id' => $session['subscription']],
-                    ['stripe_status' => 'active']
-                );
-            }
-        }
-
-        return response('Webhook handled', 200);
+        return parent::handleCustomerSubscriptionCreated($payload);
     }
 
+    /**
+     * Handle customer subscription updated.
+     */
+    public function handleCustomerSubscriptionUpdated($payload)
+    {
+        Log::info('Customer subscription updated webhook received', [
+            'subscription_id' => $payload['data']['object']['id'],
+            'customer_id' => $payload['data']['object']['customer'],
+            'status' => $payload['data']['object']['status']
+        ]);
 
+        return parent::handleCustomerSubscriptionUpdated($payload);
+    }
 
+    /**
+     * Handle checkout session completed.
+     */
+    public function handleCheckoutSessionCompleted($payload)
+    {
+        Log::info('Checkout session completed webhook received', [
+            'session_id' => $payload['data']['object']['id'],
+            'customer_id' => $payload['data']['object']['customer'],
+            'subscription_id' => $payload['data']['object']['subscription'],
+            'payment_status' => $payload['data']['object']['payment_status']
+        ]);
+
+        // The parent Cashier controller should handle the subscription creation
+        // But we can add custom logic here if needed
+        
+        return response('Webhook handled', 200);
+    }
 }

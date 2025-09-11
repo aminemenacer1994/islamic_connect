@@ -24,26 +24,53 @@ export default {
   },
 
   methods: {
-    async fetchSubscriptionStatus() {
+    async fetchSubscriptionStatus(forceRefresh = false) {
       try {
-        const response = await fetch('/subscription/status', {
+        console.log('Fetching subscription status...', forceRefresh ? '(forced)' : '');
+        
+        const token = localStorage.getItem('sanctum_token');
+        if (!token) {
+          console.log('No token found, setting subscribed to false');
+          this.subscribed = false;
+          this.subscriptionInfo = null;
+          this.user = null;
+          return;
+        }
+
+        // Add cache busting parameter if forcing refresh
+        const url = forceRefresh 
+          ? `/subscription/status?_t=${Date.now()}`
+          : '/subscription/status';
+
+        const response = await fetch(url, {
           headers: {
             'Accept': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Authorization': 'Bearer ' + localStorage.getItem('sanctum_token')
+            'Authorization': 'Bearer ' + token
           }
         });
 
         if (response.ok) {
           const data = await response.json();
+          console.log('Subscription status response:', data);
+          
           this.subscribed = data.subscribed;
           this.subscriptionInfo = data.subscription_info || null;
           this.user = data.user || null;
+          
           emitter.emit('subscription-updated', this.subscribed);
+          
+          console.log('Updated subscription status:', {
+            subscribed: this.subscribed,
+            hasActiveSubscription: this.hasActiveSubscription()
+          });
         } else if (response.status === 401) {
+          console.log('Unauthorized, clearing subscription data');
           this.subscribed = false;
           this.subscriptionInfo = null;
           this.user = null;
+        } else {
+          console.error('Failed to fetch subscription status:', response.status);
         }
       } catch (error) {
         console.error('Failed to fetch subscription status:', error);
@@ -53,6 +80,11 @@ export default {
       }
     },
 
+    // Alias for backward compatibility
+    async fetchStatus(forceRefresh = false) {
+      return this.fetchSubscriptionStatus(forceRefresh);
+    },
+
     hasActiveSubscription() {
       return this.subscribed && (!this.subscriptionInfo || this.subscriptionInfo.active !== false);
     },
@@ -60,7 +92,10 @@ export default {
     isLocked(path) {
       const premiumPaths = ['/content', '/streaming'];
       if (!premiumPaths.includes(path)) return false;
-      return !this.hasActiveSubscription();
+      
+      const locked = !this.hasActiveSubscription();
+      console.log(`Path ${path} locked:`, locked, 'hasActiveSubscription:', this.hasActiveSubscription());
+      return locked;
     },
 
     goTo(path) {
@@ -68,6 +103,7 @@ export default {
         console.log('Access denied for path:', path);
         return;
       }
+      console.log('Navigating to:', path);
       window.location.href = path;
     }
   },

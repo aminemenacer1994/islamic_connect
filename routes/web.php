@@ -67,11 +67,22 @@ use App\Http\Controllers\ConvertController;
 use App\Http\Controllers\HolyController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\DebugController;
+use App\Http\Controllers\PaymentMethodController;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
+
+Route::get('/payment-methods', [PaymentMethodController::class, 'index']);
+
+Route::get('/debug/subscription-page', [DebugController::class, 'debugPage'])->name('debug.subscription');
+
+// Add this to routes/api.php
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/debug/subscription', [DebugController::class, 'subscriptionDebug']);
+});
 
 Route::get('/subscription/status', function () {
     $user = auth()->user();
@@ -79,6 +90,10 @@ Route::get('/subscription/status', function () {
         'subscribed' => $user ? $user->subscribed('default') : false
     ]);
 })->middleware('auth');
+
+Route::middleware('auth:sanctum')->get('/content', function() {
+    return view('content'); 
+})->name('content');
 
 
 Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show'])->middleware('web');
@@ -89,7 +104,8 @@ Route::get('/subscription/status', [SubscriptionController::class, 'getSubscript
 Route::get('/subscription/success', [SubscriptionController::class, 'handleSuccessfulPayment'])->name('subscription.success');
 Route::get('/subscription/cancel', [SubscriptionController::class, 'handleCancelledPayment'])->name('subscription.cancel');
 
-Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook'])->name('cashier.webhook');
+// Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook'])->name('cashier.webhook');
+Route::post('/stripe/webhook', [Laravel\Cashier\Http\Controllers\WebhookController::class, 'handleWebhook']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);

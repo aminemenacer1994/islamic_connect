@@ -99,6 +99,7 @@ import ZakatComponent from "./components/ZakatComponent.vue";
 import ConvertComponent from "./components/ConvertComponent.vue";
 import HolyComponent from "./components/HolyComponent.vue";
 import HistoryComponent from "./components/HistoryComponent.vue";
+import PaymentMethodsComponent from "./components/PaymentMethodsComponent.vue";
 
 const app = createApp({
   data() {
@@ -224,5 +225,6 @@ app.component('books-component', BooksComponent);
 app.component('convert-component', ConvertComponent);
 app.component('holy-component', HolyComponent);
 app.component('history-component', HistoryComponent);
+app.component('payment-methods-component', PaymentMethodsComponent);
 
 app.mount("#app");

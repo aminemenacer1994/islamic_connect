@@ -147191,7 +147191,8 @@ var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
       intendedPath: null,
       isProcessing: false,
       showSuccessMessage: false,
-      stripePrice: null
+      stripePrice: null,
+      debugInfo: null // Add debug info
     };
   },
   methods: {
@@ -147222,7 +147223,6 @@ var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
               _context.p = 2;
               _context.n = 3;
               return fetch('/subscription/checkout', {
-                // Updated to web route
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -147302,7 +147302,6 @@ var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
               }
               _context2.n = 1;
               return fetch('/subscription/config', {
-                // Correct URL for web route
                 headers: headers
               });
             case 1:
@@ -147335,49 +147334,161 @@ var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
           }
         }, _callee2, null, [[0, 5]]);
       }))();
+    },
+    // Add debug method to manually check status (kept for potential future use, but not triggered)
+    debugSubscriptionStatus: function debugSubscriptionStatus() {
+      var _this3 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+        var token, response, data, errorText, _t3;
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.p = _context3.n) {
+            case 0:
+              console.log('=== DEBUG SUBSCRIPTION STATUS ===');
+              token = localStorage.getItem('sanctum_token');
+              console.log('Token exists:', !!token);
+              if (token) {
+                _context3.n = 1;
+                break;
+              }
+              console.log('No token found');
+              return _context3.a(2);
+            case 1:
+              _context3.p = 1;
+              _context3.n = 2;
+              return fetch('/subscription/status?debug=1&_t=' + Date.now(), {
+                headers: {
+                  'Accept': 'application/json',
+                  'Authorization': 'Bearer ' + token,
+                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+              });
+            case 2:
+              response = _context3.v;
+              console.log('Response status:', response.status);
+              if (!response.ok) {
+                _context3.n = 4;
+                break;
+              }
+              _context3.n = 3;
+              return response.json();
+            case 3:
+              data = _context3.v;
+              console.log('Subscription data:', data);
+              _this3.debugInfo = data;
+
+              // Update local state
+              _this3.subscribed = data.subscribed;
+              _this3.subscriptionInfo = data.subscription_info;
+              _this3.user = data.user;
+              console.log('Local state updated:', {
+                subscribed: _this3.subscribed,
+                hasActiveSubscription: _this3.hasActiveSubscription(),
+                isContentLocked: _this3.isLocked('/content')
+              });
+              _context3.n = 6;
+              break;
+            case 4:
+              _context3.n = 5;
+              return response.text();
+            case 5:
+              errorText = _context3.v;
+              console.log('Error response:', errorText);
+            case 6:
+              _context3.n = 8;
+              break;
+            case 7:
+              _context3.p = 7;
+              _t3 = _context3.v;
+              console.error('Debug fetch error:', _t3);
+            case 8:
+              return _context3.a(2);
+          }
+        }, _callee3, null, [[1, 7]]);
+      }))();
     }
   },
   created: function created() {
-    var _this3 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-      var token;
-      return _regenerator().w(function (_context3) {
-        while (1) switch (_context3.n) {
+    var _this4 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+      var urlParams, sessionId, token;
+      return _regenerator().w(function (_context5) {
+        while (1) switch (_context5.n) {
           case 0:
             console.log('MediaCenter created, current path:', window.location.pathname);
+            console.log('URL search params:', window.location.search);
 
             // Load price ID first
-            _context3.n = 1;
-            return _this3.fetchPriceId();
+            _context5.n = 1;
+            return _this4.fetchPriceId();
           case 1:
             if (!(window.Laravel && window.Laravel.success)) {
-              _context3.n = 2;
+              _context5.n = 2;
               break;
             }
-            _this3.showSuccessMessage = true;
-            _this3.subscribed = window.Laravel.subscribed || false;
+            console.log('Laravel success flag found');
+            _this4.showSuccessMessage = true;
+            _this4.subscribed = window.Laravel.subscribed || false;
             setTimeout(function () {
-              _this3.showSuccessMessage = false;
-              _this3.fetchStatus(true);
+              _this4.showSuccessMessage = false;
+              _this4.fetchSubscriptionStatus();
               var urlParams = new URLSearchParams(window.location.search);
               var intended = urlParams.get('intended') || '/media';
               window.location.href = intended;
             }, 3000);
-            return _context3.a(2);
+            return _context5.a(2);
           case 2:
+            // Check for session_id in URL (successful Stripe checkout)
+            urlParams = new URLSearchParams(window.location.search);
+            sessionId = urlParams.get('session_id');
+            if (!sessionId) {
+              _context5.n = 3;
+              break;
+            }
+            console.log('Session ID found:', sessionId);
+            console.log('User returned from Stripe checkout');
+
+            // Wait a moment for the webhook to process
+            setTimeout(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+              var newUrl;
+              return _regenerator().w(function (_context4) {
+                while (1) switch (_context4.n) {
+                  case 0:
+                    console.log('Fetching updated subscription status...');
+                    _context4.n = 1;
+                    return _this4.fetchSubscriptionStatus(true);
+                  case 1:
+                    console.log('After fetch - subscribed:', _this4.subscribed);
+                    console.log('After fetch - hasActiveSubscription:', _this4.hasActiveSubscription());
+
+                    // Clean up URL
+                    newUrl = window.location.pathname + window.location.hash;
+                    window.history.replaceState({}, document.title, newUrl);
+                  case 2:
+                    return _context4.a(2);
+                }
+              }, _callee4);
+            })), 2000); // Wait 2 seconds for webhook
+            return _context5.a(2);
+          case 3:
             // Check authentication and fetch status
             token = localStorage.getItem('sanctum_token');
-            if (token) {
-              console.log('Token found, fetching subscription status');
-              _this3.fetchStatus(true);
-            } else {
-              console.log('No token found, setting subscribed to false');
-              _this3.subscribed = false;
+            if (!token) {
+              _context5.n = 5;
+              break;
             }
-          case 3:
-            return _context3.a(2);
+            console.log('Token found, fetching subscription status');
+            _context5.n = 4;
+            return _this4.fetchSubscriptionStatus();
+          case 4:
+            _context5.n = 6;
+            break;
+          case 5:
+            console.log('No token found, setting subscribed to false');
+            _this4.subscribed = false;
+          case 6:
+            return _context5.a(2);
         }
-      }, _callee3);
+      }, _callee5);
     }))();
   }
 });
@@ -148979,6 +149090,48 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         top: 0,
         behavior: 'smooth'
       });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentMethodsComponent.vue?vue&type=script&lang=js":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentMethodsComponent.vue?vue&type=script&lang=js ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      paymentMethods: []
+    };
+  },
+  mounted: function mounted() {
+    this.fetchPaymentMethods(); // Initial fetch
+    this.pollPaymentMethods(); // Optional polling
+  },
+  methods: {
+    fetchPaymentMethods: function fetchPaymentMethods() {
+      var _this = this;
+      axios.get('/api/payment-methods').then(function (response) {
+        _this.paymentMethods = response.data;
+      })["catch"](function (error) {
+        console.error('Error fetching payment methods:', error);
+      });
+    },
+    pollPaymentMethods: function pollPaymentMethods() {
+      var _this2 = this;
+      // Poll every 30 seconds (adjust as needed)
+      setInterval(function () {
+        _this2.fetchPaymentMethods();
+      }, 30000);
     }
   }
 });
@@ -153293,63 +153446,482 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var hls_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! hls.js */ "./node_modules/hls.js/dist/hls.mjs");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'LiveChannels',
   data: function data() {
-    var _ref;
-    return _ref = {
-      showFilters: true,
+    return {
+      showFilters: false,
+      showYouTubeModal: false,
       manualQuality: 'auto',
-      userCountry: ''
-    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "manualQuality", 'auto'), "videoRatio", '21x9'), "selectedLanguage", 'all'), "isLoading", false), "streamError", false), "selectedChannel", null), "hlsInstance", null), "channels", [{
-      name: 'Makkah TV',
-      streamUrlHD: 'https://win.holol.com/live/quran/playlist.m3u8',
-      streamUrlSD: 'https://win.holol.com/live/quran/playlist.m3u8',
-      thumbnail: '/images/makkah_icon.png',
-      description: 'Makkah TV broadcasts 24/7 live from Masjid al-Haram. Watch the Kaaba, live prayers, Taraweeh during Ramadan, and Hajj events from the heart of Islam.',
-      languages: ['arabic']
-    }, {
-      name: 'Madinah TV',
-      streamUrlHD: 'https://win.holol.com/live/sunnah/playlist.m3u8',
-      streamUrlSD: 'https://win.holol.com/live/sunnah/playlist.m3u8',
-      thumbnail: '/images/madina_tv1.png',
-      description: 'Madinah TV streams live from Masjid an-Nabawi. Tune in to see the resting place of the Prophet Muhammad ﷺ, prayers, and peaceful views of the mosque.',
-      languages: ['arabic', 'english']
-    }, {
-      name: 'Eman Channel',
-      streamUrlHD: 'https://ap02.iqplay.tv:8082/iqb8002/3m9n/playlist.m3u8',
-      streamUrlSD: 'https://ap02.iqplay.tv:8082/iqb8002/3m9n/playlist.m3u8',
-      thumbnail: '/images/eman_img.png',
-      description: 'Eman Channel provides Islamic educational content, live events, and discussions relevant to the Muslim community in the UK.',
-      languages: ['english']
-    }, {
-      name: 'Ahlulbayt TV',
-      streamUrlHD: 'https://cdn5.iqsat.net/iqb02/35fae546b99b61a038d52353487e8190.sdp/playlist.m3u8',
-      streamUrlSD: 'https://cdn5.iqsat.net/iqb02/35fae546b99b61a038d52353487e8190.sdp/playlist.m3u8',
-      thumbnail: '/images/ahlubayt_tv.png',
-      description: 'Ahlulbayt TV is the first Shia Islamic channel. It delivers content based on the teachings of the Prophet Muhammad (PBUH).',
-      languages: ['english']
-    }]), "geoQualityMap", ['US', 'CA', 'DE', 'SA', 'AE', 'UK', 'FR']), "isMiniScreen", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "isDragging", false), "initialX", 0), "initialY", 0), "currentX", 0), "currentY", 0);
+      userCountry: '',
+      videoRatio: '16x9',
+      selectedLanguage: 'all',
+      selectedCategory: 'all',
+      selectedTag: 'all',
+      searchQuery: '',
+      isLoading: false,
+      streamError: false,
+      selectedChannel: null,
+      hlsInstance: null,
+      isMiniScreen: false,
+      isDragging: false,
+      initialX: 0,
+      initialY: 0,
+      currentX: 0,
+      currentY: 0,
+      currentPage: 1,
+      itemsPerPage: 9,
+      favorites: JSON.parse(localStorage.getItem('favoriteChannels') || '[]'),
+      channels: [{
+        name: 'Makkah Live HD',
+        streamUrlHD: 'https://shls-makkah-prod-dub.shahid.net/out/v1/d5bbe570e1514d3d9a142657d33d85e6/index.m3u8',
+        streamUrlSD: 'https://shls-makkah-prod-dub.shahid.net/out/v1/d5bbe570e1514d3d9a142657d33d85e6/index.m3u8',
+        youtubeEmbed: 'https://www.youtube.com/embed/kLAzWjh6_QQ?autoplay=1&mute=1',
+        youtubeChannel: 'https://www.youtube.com/watch?v=kLAzWjh6_QQ',
+        websiteUrl: 'https://www.makkah.live',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3',
+        liveTvUrl: 'https://www.makkah.live/stream',
+        thumbnail: 'https://i.ytimg.com/vi/kLAzWjh6_QQ/maxresdefault.jpg',
+        description: 'Live 24/7 HD stream from Masjid al-Haram in Makkah. Watch the Holy Kaaba, Tawaf, daily prayers, and special Islamic events.',
+        languages: ['Arabic'],
+        category: 'Live Prayers',
+        tags: ['Holy Kaaba', 'Tawaf', 'Hajj'],
+        streamType: 'youtube_embed'
+      }, {
+        name: 'Madinah Live HD',
+        streamUrlHD: 'https://shls-madinah-prod-dub.shahid.net/out/v1/88b4bb4af5f84b3ba5a8d126db181027/index.m3u8',
+        streamUrlSD: 'https://shls-madinah-prod-dub.shahid.net/out/v1/88b4bb4af5f84b3ba5a8d126db181027/index.m3u8',
+        youtubeEmbed: 'https://www.youtube.com/embed/Jhi1BbdkdPI?autoplay=1&mute=1',
+        youtubeChannel: 'https://www.youtube.com/watch?v=Jhi1BbdkdPI',
+        websiteUrl: 'https://www.madinah.live',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://www.madinah.live/stream',
+        thumbnail: 'https://i.ytimg.com/vi/Jhi1BbdkdPI/maxresdefault.jpg',
+        description: 'Live 24/7 HD stream from Masjid an-Nabawi in Madinah. Experience the serenity of the Prophet\'s Mosque and daily prayers.',
+        languages: ['Arabic'],
+        category: 'Live Prayers',
+        tags: ['Prophet\'s Mosque', 'Salah', 'Spirituality'],
+        streamType: 'youtube_embed'
+      }, {
+        name: 'Islam Channel',
+        youtubeChannel: 'https://www.youtube.com/@islamchannel',
+        websiteUrl: 'https://watch.islamchannel.tv/live/1025',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://watch.islamchannel.tv/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nKL6hoP9KF2Fkr0mKYhHwU4EqIGjOdPy9VJ8K0Hw=s176-c-k-c0x00ffffff-no-rj',
+        description: 'UK-based Islamic channel providing religious knowledge, news, entertainment, and cultural programming for Muslim families worldwide.',
+        languages: ['English', 'Urdu'],
+        category: 'General',
+        tags: ['News', 'Entertainment', 'Family'],
+        streamType: 'external'
+      }, {
+        name: 'Peace TV English',
+        youtubeChannel: 'https://www.youtube.com/@PeaceTVEnglish',
+        websiteUrl: 'https://peacetv.tv',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3',
+        liveTvUrl: 'https://peacetv.tv/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_k7Ztqr_6tYfBN9mAzIE4S4_EFYhMN5qVUHJhzHIg=s176-c-k-c0x00ffffff-no-rj',
+        description: 'International Islamic educational channel featuring lectures by Dr. Zakir Naik and other renowned Islamic scholars.',
+        languages: ['English'],
+        category: 'Educational',
+        tags: ['Lectures', 'Dawah', 'Zakir Naik'],
+        streamType: 'external'
+      }, {
+        name: 'One Islam TV',
+        youtubeChannel: 'https://www.youtube.com/@OneIslamProductions',
+        websiteUrl: 'https://www.oneislam.tv',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://www.oneislam.tv/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_mK9-cQGQHxoFjCSDt8rWEuFe8VBIzBrRoiPw4k=s176-c-k-c0x00ffffff-no-rj',
+        description: 'High-quality Islamic educational content with zero ads, 100% halal programming, and music-free videos.',
+        languages: ['English'],
+        category: 'Educational',
+        tags: ['Halal', 'Education', 'No Ads'],
+        streamType: 'external'
+      }, {
+        name: 'ARY QTV',
+        youtubeChannel: 'https://www.youtube.com/@ARYQTV',
+        websiteUrl: 'https://aryqtv.tv',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://aryqtv.tv/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nJp8F3I4K8XQx1V5FLrK7VDkXPxDhJmAIhHHFA=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Popular Pakistani Islamic channel featuring Quranic recitations, religious discussions, and live Islamic events.',
+        languages: ['Urdu', 'Arabic'],
+        category: 'Quran',
+        tags: ['Quran', 'Recitations', 'Events'],
+        streamType: 'external'
+      }, {
+        name: 'Huda TV',
+        youtubeChannel: 'https://www.youtube.com/@HudaTV',
+        websiteUrl: 'https://huda.tv',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3',
+        liveTvUrl: 'https://huda.tv/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_kL9X8F4oK7gGrE5ZfJKGb8QU2r6QdwXv5MxIFA=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Islamic lifestyle channel focusing on women and family topics, providing guidance on Islamic living and spirituality.',
+        languages: ['Arabic', 'English'],
+        category: 'Educational',
+        tags: ['Women', 'Family', 'Lifestyle'],
+        streamType: 'external'
+      }, {
+        name: 'Ahlulbayt TV',
+        youtubeChannel: 'https://www.youtube.com/@AhlulbaytTV',
+        websiteUrl: 'https://ahlulbayt.tv',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://ahlulbayt.tv/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nMKGHLQHxvN8F6sL9kRGu3wMEhLGnFxPcJ7jKQ=s176-c-k-c0x00ffffff-no-rj',
+        description: 'The world\'s first Shia Islamic channel, delivering content based on the teachings of the Prophet Muhammad (PBUH).',
+        languages: ['English', 'Arabic'],
+        category: 'Sectarian',
+        tags: ['Shia', 'Teachings', 'Prophet Muhammad'],
+        streamType: 'external'
+      }, {
+        name: 'Madani Channel',
+        youtubeChannel: 'https://www.youtube.com/@MadaniChannelOfficial',
+        websiteUrl: 'https://www.madanichannel.tv',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://www.madanichannel.tv/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nUQH8pL9rGf3MnBgZqKj4F6Y7kX8aKqL1IH2b8=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Popular Pakistani Islamic channel offering diverse Islamic programs, live events, and educational content in Urdu.',
+        languages: ['Urdu', 'Arabic'],
+        category: 'Educational',
+        tags: ['Programs', 'Events', 'Urdu'],
+        streamType: 'external'
+      }, {
+        name: 'Al Jazeera Mubasher',
+        youtubeChannel: 'https://www.youtube.com/@aljazeeramubasher',
+        websiteUrl: 'https://mubasher.aljazeera.net',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3',
+        liveTvUrl: 'https://mubasher.aljazeera.net/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nB8gP5RoL7dQFkVQJ8kI4c3jGH8Q5q4L8TL9iw=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Live Arabic news and Islamic programming from Al Jazeera, including daily prayers, religious discussions, and Islamic events.',
+        languages: ['Arabic'],
+        category: 'News & Current Affairs',
+        tags: ['News', 'Prayers', 'Events'],
+        streamType: 'external'
+      }, {
+        name: 'Iqraa TV',
+        youtubeChannel: 'https://www.youtube.com/@IqraaTVChannel',
+        websiteUrl: 'https://iqraa.com',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://iqraa.com/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_mH7kI2rJ8FgL9vQJ5mE6jK3nL8dF9sQ4N2M1zA=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Leading Arabic Islamic channel offering Quranic recitations, religious programs, and Islamic documentaries.',
+        languages: ['Arabic'],
+        category: 'Quran',
+        tags: ['Quran', 'Documentaries', 'Programs'],
+        streamType: 'external'
+      }, {
+        name: 'Guide US TV',
+        youtubeChannel: 'https://www.youtube.com/@GuideUSTVOfficial',
+        websiteUrl: 'https://guideus.tv',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://guideus.tv/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nP8gH9kL2vQJ4dF8mG7jI5nK6oE3sR1Q8N4M2B=s176-c-k-c0x00ffffff-no-rj',
+        description: 'American Islamic channel featuring Islamic lectures, discussions, and educational content for English-speaking Muslims.',
+        languages: ['English'],
+        category: 'Educational',
+        tags: ['Lectures', 'Discussions', 'Education'],
+        streamType: 'external'
+      }, {
+        name: 'Salam TV',
+        youtubeChannel: 'https://www.youtube.com/@SalamTVOfficial',
+        websiteUrl: 'https://salamtv.org',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://salamtv.org/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_kM9nL8gH2pQJ5dF7mI6jK4oE2sR0Q9N3M1C=s176-c-k-c0x00ffffff-no-rj',
+        description: 'French Islamic channel providing religious education and cultural programming for French-speaking Muslim communities.',
+        languages: ['French', 'Arabic'],
+        category: 'Educational',
+        tags: ['French', 'Culture', 'Education'],
+        streamType: 'external'
+      }, {
+        name: 'Bayyinah Institute',
+        youtubeChannel: 'https://www.youtube.com/@BayyinahInstitute',
+        websiteUrl: 'https://bayyinah.com',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://bayyinah.com/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_lN8mH9kL3vQJ6dF8nI7jK5oE4sR2Q0N4M3D=s176-c-k-c0x00ffffff-no-rj',
+        description: 'High-quality Quranic studies and Arabic language learning content by Ustadh Nouman Ali Khan and team.',
+        languages: ['English'],
+        category: 'Educational',
+        tags: ['Quran', 'Arabic', 'Nouman Ali Khan'],
+        streamType: 'external'
+      }, {
+        name: 'Mercy TV',
+        youtubeChannel: 'https://www.youtube.com/@MercyTVOfficial',
+        websiteUrl: 'https://mercytv.net',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://mercytv.net/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_mO9nM0hL4vQJ7dF9oI8jK6oE5sR3Q1N5M4E=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Islamic channel focusing on mercy, compassion, and spiritual guidance through Islamic teachings.',
+        languages: ['English', 'Arabic'],
+        category: 'Spiritual',
+        tags: ['Mercy', 'Spirituality', 'Guidance'],
+        streamType: 'external'
+      }, {
+        name: 'Al-Resalah TV',
+        youtubeChannel: 'https://www.youtube.com/@AlResalahTV',
+        websiteUrl: 'https://alresalah.net',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://alresalah.net/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nP0oN1hL5wQJ8dF0pI9jK7oE6sR4Q2N6M5F=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Popular Arabic Islamic channel featuring religious dramas, educational programs, and live Islamic events.',
+        languages: ['Arabic'],
+        category: 'Entertainment',
+        tags: ['Dramas', 'Events', 'Education'],
+        streamType: 'external'
+      }, {
+        name: 'IslamQA English',
+        youtubeChannel: 'https://www.youtube.com/@islamqaenglish',
+        websiteUrl: 'https://islamqa.info/en',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://islamqa.info/en/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_oQ1pO2hL6xQJ9dF1qI0jK8oE7sR5Q3N7M6G=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Educational Islamic content providing answers to common Islamic questions and contemporary issues.',
+        languages: ['English'],
+        category: 'Educational',
+        tags: ['Q&A', 'Education', 'Issues'],
+        streamType: 'external'
+      }, {
+        name: 'Dawah Man',
+        youtubeChannel: 'https://www.youtube.com/@DawahMan',
+        websiteUrl: 'https://dawahman.org',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://dawahman.org/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_pR2qP3hL7yQJ0dF2rI1jK9oE8sR6Q4N8M7H=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Islamic dawah content featuring street discussions, debates, and educational videos about Islam.',
+        languages: ['English'],
+        category: 'Dawah',
+        tags: ['Dawah', 'Debates', 'Discussions'],
+        streamType: 'external'
+      }, {
+        name: 'Mufti Menk',
+        youtubeChannel: 'https://www.youtube.com/@muftimenk',
+        websiteUrl: 'https://muftimenk.com',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://muftimenk.com/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_qS3rQ4hL8zQJ1dF3sI2jK0oE9sR7Q5N9M8I=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Inspirational Islamic lectures and guidance by Mufti Ismail Menk, covering various aspects of Islamic life.',
+        languages: ['English', 'Arabic'],
+        category: 'Educational',
+        tags: ['Lectures', 'Inspiration', 'Mufti Menk'],
+        streamType: 'external'
+      }, {
+        name: 'Omar Suleiman',
+        youtubeChannel: 'https://www.youtube.com/@omarsuleiman',
+        websiteUrl: 'https://yaqeeninstitute.org',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://yaqeeninstitute.org/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_rT4sR5hL9AQJ2dF4tI3jK1oF0sR8Q6N0M9J=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Islamic lectures and educational content by Imam Omar Suleiman, focusing on contemporary Islamic issues.',
+        languages: ['English'],
+        category: 'Educational',
+        tags: ['Lectures', 'Issues', 'Omar Suleiman'],
+        streamType: 'external'
+      }, {
+        name: 'Al-Majd TV',
+        youtubeChannel: 'https://www.youtube.com/@AlMajdTV',
+        websiteUrl: 'https://almajd.tv',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://almajd.tv/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_sU5tS6hM0BQJ3dF5uI4jK2oF1sR9Q7N1M0K=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Saudi Arabian Islamic channel offering religious programs, Quranic recitations, and Islamic documentaries.',
+        languages: ['Arabic'],
+        category: 'General',
+        tags: ['Programs', 'Quran', 'Documentaries'],
+        streamType: 'external'
+      }, {
+        name: 'Digital Mimbar',
+        youtubeChannel: 'https://www.youtube.com/@DigitalMimbar',
+        websiteUrl: 'https://digitalmimbar.com',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://digitalmimbar.com/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_tV6uT7hM1CQJ4dF6vI5jK3oF2sR0Q8N2M1L=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Modern Islamic content platform providing digital Islamic education and spiritual guidance.',
+        languages: ['English'],
+        category: 'Educational',
+        tags: ['Digital', 'Education', 'Guidance'],
+        streamType: 'external'
+      }, {
+        name: 'Quran Weekly',
+        youtubeChannel: 'https://www.youtube.com/@QuranWeekly',
+        websiteUrl: 'https://quranweekly.com',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://quranweekly.com/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_uW7vU8hM2DQJ5dF7wI6jK4oF3sR1Q9N3M2M=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Weekly Quranic reflections and Islamic educational content featuring various Islamic scholars.',
+        languages: ['English'],
+        category: 'Quran',
+        tags: ['Quran', 'Reflections', 'Scholars'],
+        streamType: 'external'
+      }, {
+        name: 'Al-Fajr TV',
+        youtubeChannel: 'https://www.youtube.com/@AlFajrTV',
+        websiteUrl: 'https://alfajrtv.com',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://alfajrtv.com/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_vX8wV9hM3EQJ6dF8xI7jK5oF4sR2Q0N4M3N=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Egyptian Islamic channel providing religious education, live prayers, and Islamic cultural programming.',
+        languages: ['Arabic'],
+        category: 'General',
+        tags: ['Prayers', 'Culture', 'Education'],
+        streamType: 'external'
+      }, {
+        name: 'Islamic Finder',
+        youtubeChannel: 'https://www.youtube.com/@IslamicFinder',
+        websiteUrl: 'https://islamicfinder.org',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://islamicfinder.org/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_wY9xW0hM4FQJ7dF9yI8jK6oF5sR3Q1N5M4O=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Comprehensive Islamic resource providing prayer times, Qibla direction, and Islamic educational content.',
+        languages: ['English', 'Arabic', 'Urdu'],
+        category: 'Educational',
+        tags: ['Prayer Times', 'Qibla', 'Education'],
+        streamType: 'external'
+      }, {
+        name: 'Islam Net',
+        youtubeChannel: 'https://www.youtube.com/@IslamNet',
+        websiteUrl: 'https://islamnet.no',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://islamnet.no/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_xZ0yX1hM5GQJ8dF0zI9jK7oF6sR4Q2N6M5P=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Norwegian Islamic organization providing Islamic education, lectures, and community content.',
+        languages: ['English', 'Norwegian', 'Arabic'],
+        category: 'Educational',
+        tags: ['Community', 'Lectures', 'Education'],
+        streamType: 'external'
+      }, {
+        name: 'Al-Hayat TV',
+        youtubeChannel: 'https://www.youtube.com/@AlHayatTV',
+        websiteUrl: 'https://alhayat-tv.net',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://alhayat-tv.net/live',
+        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_yA1zY2hM6HQJ9dF1AI0jK8oF7sR5Q3N7M6Q=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Arabic Islamic channel focusing on Islamic lifestyle, family values, and religious education.',
+        languages: ['Arabic'],
+        category: 'Family & Lifestyle',
+        tags: ['Lifestyle', 'Family', 'Education'],
+        streamType: 'external'
+      }, {
+        name: 'Seekers Guidance',
+        youtubeChannel: 'https://www.youtube.com/@SeekersGuidance',
+        websiteUrl: 'https://seekersguidance.org',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://seekersguidance.org/live',
+        thumbnail: 'https://yt3.ggpht.com/ytc/AIdro_zB2aZ3hM7IQK0dF2BI1jK9oF8sR6Q4N8M7R=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Islamic education platform offering courses, lectures, and guidance on Islamic sciences and spirituality.',
+        languages: ['English', 'Arabic'],
+        category: 'Educational',
+        tags: ['Courses', 'Spirituality', 'Lectures'],
+        streamType: 'external'
+      }, {
+        name: 'Al-Azhar TV',
+        youtubeChannel: 'https://www.youtube.com/@AlAzharTV',
+        websiteUrl: 'https://alazhar.gov.eg',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
+        liveTvUrl: 'https://alazhar.gov.eg/live',
+        thumbnail: 'https://yt3.ggpht.com/ytc/AIdro_AC3bA4hM8JQK1dF3CI2jK0oF9sR7Q5N9M8S=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Official channel of Al-Azhar University, featuring authentic Islamic teachings and scholarly discussions.',
+        languages: ['Arabic'],
+        category: 'Educational',
+        tags: ['Al-Azhar', 'Teachings', 'Scholarly'],
+        streamType: 'external'
+      }, {
+        name: 'Muslim Central',
+        youtubeChannel: 'https://www.youtube.com/@MuslimCentral',
+        websiteUrl: 'https://muslimcentral.com',
+        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
+        liveTvUrl: 'https://muslimcentral.com/live',
+        thumbnail: 'https://yt3.ggpht.com/ytc/AIdro_BD4cB5hM9KQK2dF4DI3jK1oG0sR8Q6N0M9T=s176-c-k-c0x00ffffff-no-rj',
+        description: 'Comprehensive Islamic audio and video library featuring lectures by renowned Islamic scholars worldwide.',
+        languages: ['English'],
+        category: 'Educational',
+        tags: ['Lectures', 'Library', 'Scholars'],
+        streamType: 'external'
+      }],
+      geoQualityMap: ['US', 'CA', 'DE', 'SA', 'AE', 'UK', 'FR']
+    };
   },
   computed: {
     filteredChannels: function filteredChannels() {
       var _this = this;
-      if (this.selectedLanguage === 'all') {
-        return this.channels;
+      var filtered = this.channels;
+
+      // Filter by search query
+      if (this.searchQuery) {
+        filtered = filtered.filter(function (channel) {
+          return channel.name.toLowerCase().includes(_this.searchQuery.toLowerCase());
+        });
       }
-      return this.channels.filter(function (channel) {
-        return channel.languages && channel.languages.includes(_this.selectedLanguage);
-      });
+
+      // Filter by category
+      if (this.selectedCategory !== 'all') {
+        filtered = filtered.filter(function (channel) {
+          return channel.category === _this.selectedCategory;
+        });
+      }
+
+      // Filter by language
+      if (this.selectedLanguage !== 'all') {
+        filtered = filtered.filter(function (channel) {
+          return channel.languages.includes(_this.selectedLanguage);
+        });
+      }
+
+      // Filter by tag
+      if (this.selectedTag !== 'all') {
+        filtered = filtered.filter(function (channel) {
+          return channel.tags.includes(_this.selectedTag);
+        });
+      }
+      return filtered;
+    },
+    paginatedChannels: function paginatedChannels() {
+      var start = (this.currentPage - 1) * this.itemsPerPage;
+      var end = start + this.itemsPerPage;
+      return this.filteredChannels.slice(start, end);
+    },
+    totalPages: function totalPages() {
+      return Math.ceil(this.filteredChannels.length / this.itemsPerPage);
+    },
+    categories: function categories() {
+      return _toConsumableArray(new Set(this.channels.map(function (channel) {
+        return channel.category;
+      }))).sort();
+    },
+    languages: function languages() {
+      return _toConsumableArray(new Set(this.channels.flatMap(function (channel) {
+        return channel.languages;
+      }))).sort();
+    },
+    tags: function tags() {
+      return _toConsumableArray(new Set(this.channels.flatMap(function (channel) {
+        return channel.tags;
+      }))).sort();
     }
   },
-  // Rest of your script remains the same
+  watch: {
+    currentPage: function currentPage() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    },
+    filteredChannels: function filteredChannels() {
+      // Reset to first page when filters change
+      this.currentPage = 1;
+    }
+  },
   mounted: function mounted() {
     var _this2 = this;
+    // Fetch user country
     fetch('https://ipapi.co/json').then(function (res) {
       return res.json();
     }).then(function (data) {
@@ -153357,40 +153929,70 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     })["catch"](function () {
       _this2.userCountry = '';
     });
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', this.handleKeyboard);
+  },
+  beforeUnmount: function beforeUnmount() {
+    // Cleanup HLS instance
+    if (this.hlsInstance) {
+      this.hlsInstance.destroy();
+      this.hlsInstance = null;
+    }
+    // Remove keyboard listener
+    document.removeEventListener('keydown', this.handleKeyboard);
   },
   methods: {
     playChannel: function playChannel(channel) {
-      var _this3 = this;
       this.selectedChannel = channel;
-      this.isLoading = true;
       this.streamError = false;
+      this.isLoading = true;
+      if (channel.streamType === 'youtube_embed') {
+        this.showYouTubeModal = true;
+        this.isLoading = false;
+      } else if (channel.streamType === 'hls') {
+        this.playHLSStream(channel);
+      } else {
+        window.open(channel.youtubeChannel || channel.websiteUrl, '_blank');
+        this.isLoading = false;
+      }
+    },
+    playHLSStream: function playHLSStream(channel) {
+      var _this3 = this;
       this.$nextTick(function () {
         var video = _this3.$refs.video;
-        if (!video) return;
-        video.pause();
-        video.removeAttribute('src');
+        if (!video) {
+          _this3.streamError = true;
+          _this3.isLoading = false;
+          return;
+        }
+
+        // Cleanup existing HLS instance
         if (_this3.hlsInstance) {
           _this3.hlsInstance.destroy();
+          _this3.hlsInstance = null;
         }
-        var source = channel.streamUrlHD; // default HD
-
-        if (_this3.manualQuality === 'sd') {
-          source = channel.streamUrlSD;
-        } else if (_this3.manualQuality === 'auto') {
-          var useHD = _this3.geoQualityMap.includes(_this3.userCountry);
-          source = useHD ? channel.streamUrlHD : channel.streamUrlSD;
-        }
+        video.pause();
+        video.removeAttribute('src');
+        var source = _this3.manualQuality === 'sd' ? channel.streamUrlSD : _this3.manualQuality === 'hd' ? channel.streamUrlHD : _this3.geoQualityMap.includes(_this3.userCountry) ? channel.streamUrlHD : channel.streamUrlSD;
         if (hls_js__WEBPACK_IMPORTED_MODULE_0__["default"].isSupported()) {
-          _this3.hlsInstance = new hls_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+          _this3.hlsInstance = new hls_js__WEBPACK_IMPORTED_MODULE_0__["default"]({
+            enableWorker: true,
+            lowLatencyMode: true
+          });
           _this3.hlsInstance.loadSource(source);
           _this3.hlsInstance.attachMedia(video);
           _this3.hlsInstance.on(hls_js__WEBPACK_IMPORTED_MODULE_0__["default"].Events.MANIFEST_PARSED, function () {
-            video.play();
+            video.play()["catch"](function () {
+              _this3.streamError = true;
+            });
             _this3.isLoading = false;
           });
-          _this3.hlsInstance.on(hls_js__WEBPACK_IMPORTED_MODULE_0__["default"].Events.ERROR, function () {
-            _this3.streamError = true;
-            _this3.isLoading = false;
+          _this3.hlsInstance.on(hls_js__WEBPACK_IMPORTED_MODULE_0__["default"].Events.ERROR, function (event, data) {
+            if (data.fatal) {
+              _this3.streamError = true;
+              _this3.isLoading = false;
+            }
           });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
           video.src = source;
@@ -153400,15 +154002,33 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
             _this3.streamError = true;
             _this3.isLoading = false;
           });
+        } else {
+          _this3.streamError = true;
+          _this3.isLoading = false;
         }
-        setTimeout(function () {
-          _this3.scrollToPlayer();
-        }, 300);
+        _this3.scrollToPlayer();
       });
+    },
+    updateHLSStream: function updateHLSStream() {
+      if (this.selectedChannel && this.selectedChannel.streamType === 'hls') {
+        this.playHLSStream(this.selectedChannel);
+      }
+    },
+    closeYouTubeModal: function closeYouTubeModal() {
+      this.showYouTubeModal = false;
+      this.selectedChannel = null;
+      this.isLoading = false;
+    },
+    openExternal: function openExternal(url) {
+      window.open(url, '_blank');
+    },
+    handleImageError: function handleImageError(event) {
+      var channelName = event.target.alt.replace(' thumbnail', '');
+      event.target.src = "https://via.placeholder.com/400x200/4B5563/FFFFFF?text=".concat(encodeURIComponent(channelName));
     },
     scrollToPlayer: function scrollToPlayer() {
       var el = this.$refs.playerSection;
-      if (el) {
+      if (el && !this.isMiniScreen) {
         el.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
@@ -153417,28 +154037,73 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     },
     toggleScreenMode: function toggleScreenMode() {
       this.isMiniScreen = !this.isMiniScreen;
+      if (!this.isMiniScreen) {
+        this.currentX = 0;
+        this.currentY = 0;
+        if (this.$refs.video) {
+          this.$refs.video.style.transform = 'none';
+        }
+        this.scrollToPlayer();
+      }
     },
     startDrag: function startDrag(event) {
-      this.isDragging = true;
-      this.initialX = event.clientX - this.currentX;
-      this.initialY = event.clientY - this.currentY;
+      if (this.isMiniScreen) {
+        this.isDragging = true;
+        this.initialX = event.clientX - this.currentX;
+        this.initialY = event.clientY - this.currentY;
+      }
     },
     endDrag: function endDrag() {
       this.isDragging = false;
     },
     dragVideo: function dragVideo(event) {
-      if (this.isDragging) {
+      if (this.isDragging && this.isMiniScreen) {
         event.preventDefault();
         this.currentX = event.clientX - this.initialX;
         this.currentY = event.clientY - this.initialY;
-        var video = this.$refs.video;
-        video.style.transform = "translate(".concat(this.currentX, "px, ").concat(this.currentY, "px)");
+        this.$refs.video.parentElement.style.transform = "translate(".concat(this.currentX, "px, ").concat(this.currentY, "px)");
       }
-    }
-  },
-  beforeUnmount: function beforeUnmount() {
-    if (this.hlsInstance) {
-      this.hlsInstance.destroy();
+    },
+    toggleFavorite: function toggleFavorite(channel) {
+      var index = this.favorites.findIndex(function (fav) {
+        return fav.name === channel.name;
+      });
+      if (index === -1) {
+        this.favorites.push(channel);
+      } else {
+        this.favorites.splice(index, 1);
+      }
+      localStorage.setItem('favoriteChannels', JSON.stringify(this.favorites));
+    },
+    isFavorite: function isFavorite(channel) {
+      return this.favorites.some(function (fav) {
+        return fav.name === channel.name;
+      });
+    },
+    enterPictureInPicture: function enterPictureInPicture() {
+      var video = this.$refs.video;
+      if (document.pictureInPictureEnabled && video) {
+        video.requestPictureInPicture()["catch"](function (err) {
+          console.error('PiP failed:', err);
+        });
+      }
+    },
+    filterChannels: function filterChannels() {
+      var _this4 = this;
+      // Debounce search to improve performance
+      clearTimeout(this.debounceTimer);
+      this.debounceTimer = setTimeout(function () {
+        _this4.$forceUpdate();
+      }, 300);
+    },
+    truncateDescription: function truncateDescription(text, maxLength) {
+      if (text.length <= maxLength) return text;
+      return text.substring(0, maxLength) + '...';
+    },
+    handleKeyboard: function handleKeyboard(event) {
+      if (event.key === 'Escape' && this.showYouTubeModal) {
+        this.closeYouTubeModal();
+      }
     }
   }
 });
@@ -173111,7 +173776,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_11, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Live Streaming ", -1 /* CACHED */)), _ctx.isLocked('/streaming') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_12, "🔒")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_11, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Live Streams", -1 /* CACHED */)), _ctx.isLocked('/streaming') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_12, "🔒")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
@@ -174362,6 +175027,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */))]), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     "class": "container"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"filteredNames.length === 0\" class=\"text-center py-5\">\n        <h3 class=\"text-muted\">No names found</h3>\n        <button @click=\"resetFilters\" class=\"btn btn-outline-dark mt-3\">Reset Filters</button>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-show=\"showScrollToTop\" @click=\"scrollToTop\"\n        class=\"btn position-fixed rounded-circle d-flex align-items-center justify-content-center\"\n        style=\"bottom: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; background: rgb(13, 182, 145); color: white;\"\n        title=\"Back to Top\">\n        <i class=\"bi bi-chevron-up h3 fs-5\"></i>\n      </button> ")])]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentMethodsComponent.vue?vue&type=template&id=5d293b14":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentMethodsComponent.vue?vue&type=template&id=5d293b14 ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Payment Methods", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.paymentMethods, function (method) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: method.id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(method.brand) + " ending in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(method.last4), 1 /* TEXT */);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $options.fetchPaymentMethods && $options.fetchPaymentMethods.apply($options, arguments);
+    })
+  }, "Refresh Payment Methods")]);
 }
 
 /***/ }),
@@ -177658,153 +178350,410 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container py-4"
+  "class": "container py-5"
 };
 var _hoisted_2 = {
-  "class": "pb-2"
+  "class": "mb-4 p-4 bg-light rounded-3 shadow-sm"
 };
 var _hoisted_3 = {
-  "class": "row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4"
+  "class": "row g-3 align-items-center"
 };
-var _hoisted_4 = ["onClick"];
-var _hoisted_5 = ["src", "alt"];
-var _hoisted_6 = {
-  "class": "card-body p-4 text-center"
+var _hoisted_4 = {
+  "class": "col-md-3"
 };
+var _hoisted_5 = {
+  "class": "col-md-3"
+};
+var _hoisted_6 = ["value"];
 var _hoisted_7 = {
-  "class": "fw-bold display-6 text-dark text-truncate",
-  style: {
-    "max-width": "100%",
-    "text-align": "center"
-  }
+  "class": "col-md-3"
 };
-var _hoisted_8 = {
-  "class": "card-text text-muted text-wrap",
-  style: {
-    "overflow": "hidden",
-    "text-overflow": "ellipsis",
-    "max-height": "4.5em"
-  }
+var _hoisted_8 = ["value"];
+var _hoisted_9 = {
+  "class": "col-md-3"
 };
-var _hoisted_9 = ["onClick"];
-var _hoisted_10 = {
-  "class": "text-center mb-4"
-};
+var _hoisted_10 = ["value"];
 var _hoisted_11 = {
-  "class": "fw-bold display-6 text-dark"
+  key: 0,
+  "class": "modal fade show d-block",
+  style: {
+    "background-color": "rgba(0,0,0,0.8)"
+  },
+  tabindex: "-1",
+  role: "dialog"
 };
 var _hoisted_12 = {
-  "class": "text-dark"
+  "class": "modal-dialog modal-xl modal-dialog-centered animate__animated animate__fadeIn"
 };
 var _hoisted_13 = {
-  key: 0,
-  "class": "row mb-4 g-3"
+  "class": "modal-content rounded-4"
 };
 var _hoisted_14 = {
-  "class": "col-md-6"
+  "class": "modal-header border-0"
 };
 var _hoisted_15 = {
-  "class": "col-md-6"
+  "class": "modal-title fw-bold"
 };
 var _hoisted_16 = {
-  "class": "shadow-lg overflow-hidden",
-  style: {
-    "max-width": "100%",
-    "margin": "0",
-    "padding": "0"
-  }
+  "class": "modal-body p-0"
 };
 var _hoisted_17 = {
-  id: "video",
-  controls: "",
-  autoplay: "",
-  ref: "video",
+  "class": "ratio ratio-16x9"
+};
+var _hoisted_18 = ["src"];
+var _hoisted_19 = {
+  "class": "modal-footer border-0"
+};
+var _hoisted_20 = {
+  "class": "d-flex gap-2 flex-wrap align-items-center"
+};
+var _hoisted_21 = {
+  "class": "badge bg-primary"
+};
+var _hoisted_22 = {
+  "class": "row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 mb-5"
+};
+var _hoisted_23 = ["onClick", "onKeydown"];
+var _hoisted_24 = ["src", "alt"];
+var _hoisted_25 = {
+  key: 0,
+  "class": "position-absolute top-0 end-0 m-2"
+};
+var _hoisted_26 = {
+  "class": "card-body p-3"
+};
+var _hoisted_27 = {
+  "class": "fw-bold mb-2 text-dark text-truncate",
   style: {
-    "border-radius": "15px",
-    "margin": "0",
-    "padding": "0",
-    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+    "font-size": "1.25rem"
+  }
+};
+var _hoisted_28 = {
+  "class": "card-text text-muted text-wrap mb-3",
+  style: {
+    "font-size": "0.9rem",
+    "line-height": "1.4"
+  }
+};
+var _hoisted_29 = {
+  "class": "mb-3"
+};
+var _hoisted_30 = {
+  "class": "badge bg-primary me-1"
+};
+var _hoisted_31 = {
+  "class": "d-flex gap-2"
+};
+var _hoisted_32 = ["onClick", "disabled"];
+var _hoisted_33 = {
+  key: 0,
+  "class": "spinner-border spinner-border-sm me-2",
+  role: "status"
+};
+var _hoisted_34 = ["onClick"];
+var _hoisted_35 = ["onClick"];
+var _hoisted_36 = ["onClick"];
+var _hoisted_37 = ["onClick"];
+var _hoisted_38 = {
+  "aria-label": "Channels pagination",
+  "class": "d-flex justify-content-center mb-5"
+};
+var _hoisted_39 = {
+  "class": "pagination"
+};
+var _hoisted_40 = ["disabled"];
+var _hoisted_41 = ["onClick"];
+var _hoisted_42 = ["disabled"];
+var _hoisted_43 = {
+  "class": "text-center mb-4"
+};
+var _hoisted_44 = {
+  "class": "fw-bold text-dark"
+};
+var _hoisted_45 = ["disabled"];
+var _hoisted_46 = {
+  key: 0,
+  "class": "alert alert-danger text-center"
+};
+var _hoisted_47 = {
+  key: 1,
+  "class": "text-center my-4"
+};
+var _hoisted_48 = {
+  key: 2,
+  "class": "row mb-4 g-3"
+};
+var _hoisted_49 = {
+  "class": "col-md-6"
+};
+var _hoisted_50 = {
+  "class": "col-md-6"
+};
+var _hoisted_51 = {
+  "class": "shadow-lg rounded-3 overflow-hidden",
+  style: {
+    "max-width": "100%"
   }
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "text-center fw-bold display-4 mb-4"
-  }, "Live Islamic TV Channels", -1 /* CACHED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container mb-4 lead d-none d-md-block"
-  }, " The Seerah Timeline provides an insightful journey through the life of Prophet Muhammad (PBUH). It offers users an accessible and interactive way to explore key moments in Islamic history, helping them better understand the significance of each event. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid Wrapper "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bootstrap Grid Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredChannels, function (channel, index) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "text-center fw-bold display-4 mb-3"
+  }, "Live Islamic TV Channels", -1 /* CACHED */)), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center mb-4 lead d-none d-md-block mx-auto",
+    style: {
+      "max-width": "800px"
+    }
+  }, " Watch live Islamic TV channels from around the world. Experience spiritual content including live prayers from Makkah and Madinah, educational programs, Quranic recitations, and Islamic lifestyle content in multiple languages. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter and Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.searchQuery = $event;
+    }),
+    type: "text",
+    "class": "form-control rounded-pill shadow-sm",
+    placeholder: "Search channels...",
+    onInput: _cache[1] || (_cache[1] = function () {
+      return $options.filterChannels && $options.filterChannels.apply($options, arguments);
+    }),
+    "aria-label": "Search channels"
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.selectedCategory = $event;
+    }),
+    "class": "form-select rounded-pill shadow-sm",
+    onChange: _cache[3] || (_cache[3] = function () {
+      return $options.filterChannels && $options.filterChannels.apply($options, arguments);
+    })
+  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "all"
+  }, "All Categories", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.categories, function (category) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: category,
+      value: category
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category), 9 /* TEXT, PROPS */, _hoisted_6);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.selectedLanguage = $event;
+    }),
+    "class": "form-select rounded-pill shadow-sm",
+    onChange: _cache[5] || (_cache[5] = function () {
+      return $options.filterChannels && $options.filterChannels.apply($options, arguments);
+    })
+  }, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "all"
+  }, "All Languages", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.languages, function (lang) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: lang,
+      value: lang
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lang), 9 /* TEXT, PROPS */, _hoisted_8);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedLanguage]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      return $data.selectedTag = $event;
+    }),
+    "class": "form-select rounded-pill shadow-sm",
+    onChange: _cache[7] || (_cache[7] = function () {
+      return $options.filterChannels && $options.filterChannels.apply($options, arguments);
+    })
+  }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "all"
+  }, "All Tags", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.tags, function (tag) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: tag,
+      value: tag
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 9 /* TEXT, PROPS */, _hoisted_10);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTag]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" YouTube Embed Modal "), $data.showYouTubeModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedChannel.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn-close",
+    onClick: _cache[8] || (_cache[8] = function () {
+      return $options.closeYouTubeModal && $options.closeYouTubeModal.apply($options, arguments);
+    }),
+    "aria-label": "Close"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
+    src: $data.selectedChannel.youtubeEmbed,
+    frameborder: "0",
+    allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+    allowfullscreen: ""
+  }, null, 8 /* PROPS */, _hoisted_18)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedChannel.category), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedChannel.languages, function (lang) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      key: lang,
+      "class": "badge bg-secondary"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lang), 1 /* TEXT */);
+  }), 128 /* KEYED_FRAGMENT */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedChannel.tags, function (tag) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      key: tag,
+      "class": "badge bg-info"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-outline-warning ms-auto",
+    onClick: _cache[9] || (_cache[9] = function ($event) {
+      return $options.toggleFavorite($data.selectedChannel);
+    })
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.isFavorite($data.selectedChannel) ? 'fas fa-star' : 'far fa-star')
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isFavorite($data.selectedChannel) ? 'Remove Favorite' : 'Add Favorite'), 1 /* TEXT */)])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Channels Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedChannels, function (channel, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col",
       key: index
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "card h-100 shadow-md rounded-4 overflow-hidden",
+      "class": "card h-100 shadow rounded-4 overflow-hidden position-relative",
       onClick: function onClick($event) {
         return $options.playChannel(channel);
       },
       style: {
-        "cursor": "pointer",
-        "border": "1px solid gray",
-        "background-color": "#fff"
-      }
+        "cursor": "pointer"
+      },
+      tabindex: "0",
+      onKeydown: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+        return $options.playChannel(channel);
+      }, ["enter"])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: channel.thumbnail,
       alt: "".concat(channel.name, " thumbnail"),
       "class": "w-100",
       style: {
-        "object-fit": "contain",
-        "height": "250px"
-      }
-    }, null, 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "form-control",
+        "object-fit": "cover",
+        "height": "200px"
+      },
+      onError: _cache[10] || (_cache[10] = function () {
+        return $options.handleImageError && $options.handleImageError.apply($options, arguments);
+      })
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_24), $options.isFavorite(channel) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, _toConsumableArray(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-star text-warning"
+    }, null, -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.truncateDescription(channel.description, 100)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.category), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(channel.languages, function (lang) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+        key: lang,
+        "class": "badge bg-secondary me-1"
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lang), 1 /* TEXT */);
+    }), 128 /* KEYED_FRAGMENT */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(channel.tags, function (tag) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+        key: tag,
+        "class": "badge bg-info me-1"
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-primary flex-grow-1 rounded-pill",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
         return $options.playChannel(channel);
       }, ["stop"]),
-      style: {
-        "background": "#00bfa6",
-        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-        "color": "white",
-        "height": "38px",
-        "padding": "0.375rem 0.75rem"
-      },
-      type: "submit"
-    }, _toConsumableArray(_cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
-      "class": "text-center w-100"
-    }, "Display Channel", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_9)])], 8 /* PROPS */, _hoisted_4)]);
-  }), 128 /* KEYED_FRAGMENT */))])]), $data.selectedChannel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    key: 0,
+      disabled: $data.isLoading
+    }, [$data.isLoading && $data.selectedChannel === channel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_33)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.streamType === 'youtube_embed' ? 'Watch Live' : 'Open Channel'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_32), channel.youtubeChannel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 0,
+      "class": "btn btn-outline-danger rounded-pill",
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+        return $options.openExternal(channel.youtubeChannel);
+      }, ["stop"]),
+      title: "YouTube Channel"
+    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fab fa-youtube"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_34)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.websiteUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 1,
+      "class": "btn btn-outline-secondary rounded-pill",
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+        return $options.openExternal(channel.websiteUrl);
+      }, ["stop"]),
+      title: "Website"
+    }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-globe"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_35)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.playlistUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 2,
+      "class": "btn btn-outline-success rounded-pill",
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+        return $options.openExternal(channel.playlistUrl);
+      }, ["stop"]),
+      title: "Playlist"
+    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-list"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_36)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.liveTvUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 3,
+      "class": "btn btn-outline-primary rounded-pill",
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+        return $options.openExternal(channel.liveTvUrl);
+      }, ["stop"]),
+      title: "Live TV"
+    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-tv"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_37)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_23)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
+      disabled: $data.currentPage === 1
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "page-link",
+    onClick: _cache[11] || (_cache[11] = function ($event) {
+      return $data.currentPage--;
+    }),
+    disabled: $data.currentPage === 1
+  }, "Previous", 8 /* PROPS */, _hoisted_40)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
+        active: $data.currentPage === page
+      }]),
+      key: page
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "page-link",
+      onClick: function onClick($event) {
+        return $data.currentPage = page;
+      }
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_41)], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
+      disabled: $data.currentPage === $options.totalPages
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "page-link",
+    onClick: _cache[12] || (_cache[12] = function ($event) {
+      return $data.currentPage++;
+    }),
+    disabled: $data.currentPage === $options.totalPages
+  }, "Next", 8 /* PROPS */, _hoisted_42)], 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" HLS Video Player Section "), $data.selectedChannel && $data.selectedChannel.streamType === 'hls' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 1,
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["mt-5 mb-5 px-3", {
       'mini-screen': $data.isMiniScreen
     }]),
     ref: "playerSection"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Now Playing Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_11, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("🔴 Now Playing: ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedChannel.name), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-secondary mb-3 rounded-pill shadow-md",
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return $data.showFilters = !$data.showFilters;
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_44, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("🔴 Now Playing: ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedChannel.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-outline-secondary me-2 rounded-pill",
+    onClick: _cache[13] || (_cache[13] = function () {
+      return $options.toggleScreenMode && $options.toggleScreenMode.apply($options, arguments);
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showFilters ? 'Hide Filters' : 'Show Filters'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter Controls Row "), $data.showFilters ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isMiniScreen ? 'Maximize' : 'Minimize'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-outline-info rounded-pill",
+    onClick: _cache[14] || (_cache[14] = function () {
+      return $options.enterPictureInPicture && $options.enterPictureInPicture.apply($options, arguments);
+    }),
+    disabled: !_ctx.document.pictureInPictureEnabled
+  }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-expand"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Picture-in-Picture ", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_45)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Message "), $data.streamError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, " Failed to load stream. Please try another channel or check your connection. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Spinner "), $data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-primary",
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading...")], -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter Controls "), $data.showFilters && !$data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "qualitySelect",
     "class": "form-label fw-semibold"
   }, "Stream Quality:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "qualitySelect",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
       return $data.manualQuality = $event;
     }),
-    "class": "form-select shadow-sm rounded-pill"
-  }, _toConsumableArray(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    "class": "form-select rounded-pill shadow-sm",
+    onChange: _cache[16] || (_cache[16] = function () {
+      return $options.updateHLSStream && $options.updateHLSStream.apply($options, arguments);
+    })
+  }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "auto"
   }, "Auto", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "hd"
   }, "HD", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "sd"
-  }, "SD", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.manualQuality]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "SD", -1 /* CACHED */)])), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.manualQuality]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "ratioSelect",
     "class": "form-label fw-semibold"
   }, "Video Ratio:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "ratioSelect",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+    "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
       return $data.videoRatio = $event;
     }),
-    "class": "form-select shadow-sm rounded-pill"
-  }, _toConsumableArray(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    "class": "form-select rounded-pill shadow-sm"
+  }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "16x9"
   }, "16:9 (Widescreen)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "21x9"
@@ -177812,14 +178761,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: "4x3"
   }, "4:3 (Standard)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "1x1"
-  }, "1:1 (Square)", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.videoRatio]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-4\">\n          <label for=\"languageSelect\" class=\"form-label fw-semibold\">Language:</label>\n          <select id=\"languageSelect\" v-model=\"selectedLanguage\" class=\"form-select shadow-sm rounded-pill\">\n            <option value=\"all\">All Languages</option>\n            <option value=\"arabic\">Arabic</option>\n            <option value=\"english\">English</option>\n            <option value=\"urdu\">Urdu</option>\n            <option value=\"french\">French</option>\n          </select>\n        </div> ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Player Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)("ratio ratio-".concat($data.videoRatio)),
+  }, "1:1 (Square)", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.videoRatio]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Player "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)("ratio ratio-".concat($data.videoRatio))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
+    id: "video",
+    ref: "video",
+    controls: "",
+    autoplay: "",
     style: {
-      "position": "relative",
-      "margin": "0",
-      "padding": "0"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", _hoisted_17, null, 512 /* NEED_PATCH */)], 2 /* CLASS */)])], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+      "border-radius": "15px"
+    },
+    onDragstart: _cache[18] || (_cache[18] = function () {
+      return $options.startDrag && $options.startDrag.apply($options, arguments);
+    }),
+    onDragend: _cache[19] || (_cache[19] = function () {
+      return $options.endDrag && $options.endDrag.apply($options, arguments);
+    }),
+    onDrag: _cache[20] || (_cache[20] = function () {
+      return $options.dragVideo && $options.dragVideo.apply($options, arguments);
+    })
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */)], 2 /* CLASS */)])], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -189724,7 +190685,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ndiv[style*=\"overflow-x: overflow\"][data-v-670f86e6]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-670f86e6] {\n  background-color: #f8f9fa;\n}\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-4px);\n  transition: 0.3s ease;\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);\n}\n.mini-screen[data-v-670f86e6] {\n  position: fixed;\n  bottom: 10px;\n  right: 10px;\n  width: 200px;\n  height: 150px;\n  z-index: 9999;\n}\n.mini-video-overlay[data-v-670f86e6] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.6);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.mini-video[data-v-670f86e6] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n@media (max-width: 576px) {\nh1[data-v-670f86e6] {\n    font-size: 1.4rem;\n}\n.card-title[data-v-670f86e6] {\n    font-size: 2rem !important;\n    float: center;\n}\n.card-body[data-v-670f86e6] {\n    padding: 1rem !important;\n}\n.form-select[data-v-670f86e6] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-670f86e6] {\n  background-color: #f8f9fa;\n  font-family: 'Inter', sans-serif;\n}\n.card[data-v-670f86e6] {\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n  border: none;\n  background-color: #fff;\n}\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);\n}\n.card[data-v-670f86e6]:focus {\n  outline: 2px solid #00bfa6;\n  outline-offset: 2px;\n}\n.mini-screen[data-v-670f86e6] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 300px;\n  z-index: 10000;\n  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);\n  border-radius: 10px;\n}\n.btn-primary[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n  color: white;\n  transition: background-color 0.3s ease;\n}\n.btn-primary[data-v-670f86e6]:hover {\n  background-color: #00a58e;\n  border-color: #00a58e;\n}\n.form-control[data-v-670f86e6], .form-select[data-v-670f86e6] {\n  border: 1px solid #dee2e6;\n  transition: border-color 0.3s ease;\n}\n.form-control[data-v-670f86e6]:focus, .form-select[data-v-670f86e6]:focus {\n  border-color: #00bfa6;\n  box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n.modal-content[data-v-670f86e6] {\n  border: none;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);\n}\n@media (max-width: 576px) {\nh1[data-v-670f86e6] {\n    font-size: 1.8rem;\n}\n.card-body[data-v-670f86e6] {\n    padding: 1rem;\n}\n.card img[data-v-670f86e6] {\n    height: 150px;\n}\n.mini-screen[data-v-670f86e6] {\n    width: 200px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -334333,11 +335294,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_ConvertComponent_vue__WEBPACK_IMPORTED_MODULE_88__ = __webpack_require__(/*! ./components/ConvertComponent.vue */ "./resources/js/components/ConvertComponent.vue");
 /* harmony import */ var _components_HolyComponent_vue__WEBPACK_IMPORTED_MODULE_89__ = __webpack_require__(/*! ./components/HolyComponent.vue */ "./resources/js/components/HolyComponent.vue");
 /* harmony import */ var _components_HistoryComponent_vue__WEBPACK_IMPORTED_MODULE_90__ = __webpack_require__(/*! ./components/HistoryComponent.vue */ "./resources/js/components/HistoryComponent.vue");
+/* harmony import */ var _components_PaymentMethodsComponent_vue__WEBPACK_IMPORTED_MODULE_91__ = __webpack_require__(/*! ./components/PaymentMethodsComponent.vue */ "./resources/js/components/PaymentMethodsComponent.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
+
 
 
 
@@ -334542,6 +335505,7 @@ app.component('books-component', _components_BooksComponent_vue__WEBPACK_IMPORTE
 app.component('convert-component', _components_ConvertComponent_vue__WEBPACK_IMPORTED_MODULE_88__["default"]);
 app.component('holy-component', _components_HolyComponent_vue__WEBPACK_IMPORTED_MODULE_89__["default"]);
 app.component('history-component', _components_HistoryComponent_vue__WEBPACK_IMPORTED_MODULE_90__["default"]);
+app.component('payment-methods-component', _components_PaymentMethodsComponent_vue__WEBPACK_IMPORTED_MODULE_91__["default"]);
 app.mount("#app");
 
 /***/ }),
@@ -336819,6 +337783,67 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NameComponent_vue_vue_type_template_id_062ee157_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NameComponent_vue_vue_type_template_id_062ee157_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NameComponent.vue?vue&type=template&id=062ee157&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/NameComponent.vue?vue&type=template&id=062ee157&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PaymentMethodsComponent.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/PaymentMethodsComponent.vue ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _PaymentMethodsComponent_vue_vue_type_template_id_5d293b14__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PaymentMethodsComponent.vue?vue&type=template&id=5d293b14 */ "./resources/js/components/PaymentMethodsComponent.vue?vue&type=template&id=5d293b14");
+/* harmony import */ var _PaymentMethodsComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PaymentMethodsComponent.vue?vue&type=script&lang=js */ "./resources/js/components/PaymentMethodsComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_PaymentMethodsComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_PaymentMethodsComponent_vue_vue_type_template_id_5d293b14__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/PaymentMethodsComponent.vue"]])
+/* hot reload */
+if (false) // removed by dead control flow
+{}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/PaymentMethodsComponent.vue?vue&type=script&lang=js":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/PaymentMethodsComponent.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PaymentMethodsComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PaymentMethodsComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PaymentMethodsComponent.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentMethodsComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/PaymentMethodsComponent.vue?vue&type=template&id=5d293b14":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/PaymentMethodsComponent.vue?vue&type=template&id=5d293b14 ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PaymentMethodsComponent_vue_vue_type_template_id_5d293b14__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PaymentMethodsComponent_vue_vue_type_template_id_5d293b14__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PaymentMethodsComponent.vue?vue&type=template&id=5d293b14 */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentMethodsComponent.vue?vue&type=template&id=5d293b14");
 
 
 /***/ }),
@@ -342921,57 +343946,96 @@ var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
   },
   methods: {
     fetchSubscriptionStatus: function fetchSubscriptionStatus() {
-      var _this = this;
+      var _arguments = arguments,
+        _this = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var response, data, _t;
+        var forceRefresh, token, url, response, data, _t;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.p = _context.n) {
             case 0:
-              _context.p = 0;
-              _context.n = 1;
-              return fetch('/subscription/status', {
+              forceRefresh = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : false;
+              _context.p = 1;
+              console.log('Fetching subscription status...', forceRefresh ? '(forced)' : '');
+              token = localStorage.getItem('sanctum_token');
+              if (token) {
+                _context.n = 2;
+                break;
+              }
+              console.log('No token found, setting subscribed to false');
+              _this.subscribed = false;
+              _this.subscriptionInfo = null;
+              _this.user = null;
+              return _context.a(2);
+            case 2:
+              // Add cache busting parameter if forcing refresh
+              url = forceRefresh ? "/subscription/status?_t=".concat(Date.now()) : '/subscription/status';
+              _context.n = 3;
+              return fetch(url, {
                 headers: {
                   'Accept': 'application/json',
                   'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                  'Authorization': 'Bearer ' + localStorage.getItem('sanctum_token')
+                  'Authorization': 'Bearer ' + token
                 }
               });
-            case 1:
+            case 3:
               response = _context.v;
               if (!response.ok) {
-                _context.n = 3;
+                _context.n = 5;
                 break;
               }
-              _context.n = 2;
+              _context.n = 4;
               return response.json();
-            case 2:
+            case 4:
               data = _context.v;
+              console.log('Subscription status response:', data);
               _this.subscribed = data.subscribed;
               _this.subscriptionInfo = data.subscription_info || null;
               _this.user = data.user || null;
               emitter.emit('subscription-updated', _this.subscribed);
-              _context.n = 4;
-              break;
-            case 3:
-              if (response.status === 401) {
-                _this.subscribed = false;
-                _this.subscriptionInfo = null;
-                _this.user = null;
-              }
-            case 4:
+              console.log('Updated subscription status:', {
+                subscribed: _this.subscribed,
+                hasActiveSubscription: _this.hasActiveSubscription()
+              });
               _context.n = 6;
               break;
             case 5:
-              _context.p = 5;
+              if (response.status === 401) {
+                console.log('Unauthorized, clearing subscription data');
+                _this.subscribed = false;
+                _this.subscriptionInfo = null;
+                _this.user = null;
+              } else {
+                console.error('Failed to fetch subscription status:', response.status);
+              }
+            case 6:
+              _context.n = 8;
+              break;
+            case 7:
+              _context.p = 7;
               _t = _context.v;
               console.error('Failed to fetch subscription status:', _t);
               _this.subscribed = false;
               _this.subscriptionInfo = null;
               _this.user = null;
-            case 6:
+            case 8:
               return _context.a(2);
           }
-        }, _callee, null, [[0, 5]]);
+        }, _callee, null, [[1, 7]]);
+      }))();
+    },
+    // Alias for backward compatibility
+    fetchStatus: function fetchStatus() {
+      var _arguments2 = arguments,
+        _this2 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+        var forceRefresh;
+        return _regenerator().w(function (_context2) {
+          while (1) switch (_context2.n) {
+            case 0:
+              forceRefresh = _arguments2.length > 0 && _arguments2[0] !== undefined ? _arguments2[0] : false;
+              return _context2.a(2, _this2.fetchSubscriptionStatus(forceRefresh));
+          }
+        }, _callee2);
       }))();
     },
     hasActiveSubscription: function hasActiveSubscription() {
@@ -342980,33 +344044,36 @@ var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
     isLocked: function isLocked(path) {
       var premiumPaths = ['/content', '/streaming'];
       if (!premiumPaths.includes(path)) return false;
-      return !this.hasActiveSubscription();
+      var locked = !this.hasActiveSubscription();
+      console.log("Path ".concat(path, " locked:"), locked, 'hasActiveSubscription:', this.hasActiveSubscription());
+      return locked;
     },
     goTo: function goTo(path) {
       if (this.isLocked(path)) {
         console.log('Access denied for path:', path);
         return;
       }
+      console.log('Navigating to:', path);
       window.location.href = path;
     }
   },
   created: function created() {
-    var _this2 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-      return _regenerator().w(function (_context2) {
-        while (1) switch (_context2.n) {
+    var _this3 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.n) {
           case 0:
-            _context2.n = 1;
-            return _this2.fetchSubscriptionStatus();
+            _context3.n = 1;
+            return _this3.fetchSubscriptionStatus();
           case 1:
             // Listen for updates
             emitter.on('subscription-updated', function (subscribed) {
-              _this2.subscribed = subscribed;
+              _this3.subscribed = subscribed;
             });
           case 2:
-            return _context2.a(2);
+            return _context3.a(2);
         }
-      }, _callee2);
+      }, _callee3);
     }))();
   },
   beforeUnmount: function beforeUnmount() {

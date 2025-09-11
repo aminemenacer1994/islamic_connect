@@ -3,6 +3,8 @@
 use App\Http\Controllers\SubscriptionController;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DebugController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -10,3 +12,6 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/debug/subscription', [DebugController::class, 'subscriptionDebug']);
+});
