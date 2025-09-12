@@ -153480,371 +153480,197 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       itemsPerPage: 9,
       favorites: JSON.parse(localStorage.getItem('favoriteChannels') || '[]'),
       channels: [{
-        name: 'Makkah Live HD',
-        streamUrlHD: 'https://shls-makkah-prod-dub.shahid.net/out/v1/d5bbe570e1514d3d9a142657d33d85e6/index.m3u8',
-        streamUrlSD: 'https://shls-makkah-prod-dub.shahid.net/out/v1/d5bbe570e1514d3d9a142657d33d85e6/index.m3u8',
-        youtubeEmbed: 'https://www.youtube.com/embed/kLAzWjh6_QQ?autoplay=1&mute=1',
-        youtubeChannel: 'https://www.youtube.com/watch?v=kLAzWjh6_QQ',
-        websiteUrl: 'https://www.makkah.live',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3',
-        liveTvUrl: 'https://www.makkah.live/stream',
-        thumbnail: 'https://i.ytimg.com/vi/kLAzWjh6_QQ/maxresdefault.jpg',
-        description: 'Live 24/7 HD stream from Masjid al-Haram in Makkah. Watch the Holy Kaaba, Tawaf, daily prayers, and special Islamic events.',
-        languages: ['Arabic'],
-        category: 'Live Prayers',
-        tags: ['Holy Kaaba', 'Tawaf', 'Hajj'],
-        streamType: 'youtube_embed'
+        "name": "Peace TV English",
+        "youtubeChannel": "https://www.youtube.com/@PeaceTVEnglish",
+        "websiteUrl": "https://peacetv.tv",
+        "playlistUrl": "https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3",
+        "liveTvUrl": "https://peacetv.tv/live",
+        "thumbnail": "/images/food.png",
+        "description": "International Islamic educational channel featuring lectures by Dr. Zakir Naik and other renowned Islamic scholars.",
+        "languages": ["English"],
+        "category": "Educational",
+        "tags": ["Lectures", "Dawah", "Zakir Naik"],
+        "streamType": "external",
+        "isLive": false,
+        "viewers": 1200,
+        "schedule": "Daily 8 PM",
+        "location": "Global"
       }, {
-        name: 'Madinah Live HD',
-        streamUrlHD: 'https://shls-madinah-prod-dub.shahid.net/out/v1/88b4bb4af5f84b3ba5a8d126db181027/index.m3u8',
-        streamUrlSD: 'https://shls-madinah-prod-dub.shahid.net/out/v1/88b4bb4af5f84b3ba5a8d126db181027/index.m3u8',
-        youtubeEmbed: 'https://www.youtube.com/embed/Jhi1BbdkdPI?autoplay=1&mute=1',
-        youtubeChannel: 'https://www.youtube.com/watch?v=Jhi1BbdkdPI',
-        websiteUrl: 'https://www.madinah.live',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://www.madinah.live/stream',
-        thumbnail: 'https://i.ytimg.com/vi/Jhi1BbdkdPI/maxresdefault.jpg',
-        description: 'Live 24/7 HD stream from Masjid an-Nabawi in Madinah. Experience the serenity of the Prophet\'s Mosque and daily prayers.',
-        languages: ['Arabic'],
-        category: 'Live Prayers',
-        tags: ['Prophet\'s Mosque', 'Salah', 'Spirituality'],
-        streamType: 'youtube_embed'
+        "name": "One Islam TV",
+        "youtubeChannel": "https://www.youtube.com/@OneIslamProductions",
+        "websiteUrl": "https://www.oneislam.tv",
+        "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
+        "liveTvUrl": "https://www.oneislam.tv/live",
+        "thumbnail": "/images/food.png",
+        "description": "High-quality Islamic educational content with zero ads, 100% halal programming, and music-free videos.",
+        "languages": ["English"],
+        "category": "Educational",
+        "tags": ["Halal", "Education", "No Ads"],
+        "streamType": "external",
+        "isLive": true,
+        "viewers": 850,
+        "schedule": "24/7",
+        "location": "Global"
       }, {
-        name: 'Islam Channel',
-        youtubeChannel: 'https://www.youtube.com/@islamchannel',
-        websiteUrl: 'https://watch.islamchannel.tv/live/1025',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://watch.islamchannel.tv/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nKL6hoP9KF2Fkr0mKYhHwU4EqIGjOdPy9VJ8K0Hw=s176-c-k-c0x00ffffff-no-rj',
-        description: 'UK-based Islamic channel providing religious knowledge, news, entertainment, and cultural programming for Muslim families worldwide.',
-        languages: ['English', 'Urdu'],
-        category: 'General',
-        tags: ['News', 'Entertainment', 'Family'],
-        streamType: 'external'
+        "name": "Madani Channel",
+        "youtubeChannel": "https://www.youtube.com/@MadaniChannelOfficial",
+        "websiteUrl": "https://www.madanichannel.tv",
+        "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+        "liveTvUrl": "https://www.madanichannel.tv/live",
+        "thumbnail": "/images/food.png",
+        "description": "Popular Pakistani Islamic channel offering diverse Islamic programs, live events, and educational content in Urdu.",
+        "languages": ["Urdu", "Arabic"],
+        "category": "Educational",
+        "tags": ["Programs", "Events", "Urdu"],
+        "streamType": "external",
+        "isLive": false,
+        "viewers": 2000,
+        "schedule": "Daily 6 PM",
+        "location": "Pakistan"
       }, {
-        name: 'Peace TV English',
-        youtubeChannel: 'https://www.youtube.com/@PeaceTVEnglish',
-        websiteUrl: 'https://peacetv.tv',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3',
-        liveTvUrl: 'https://peacetv.tv/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_k7Ztqr_6tYfBN9mAzIE4S4_EFYhMN5qVUHJhzHIg=s176-c-k-c0x00ffffff-no-rj',
-        description: 'International Islamic educational channel featuring lectures by Dr. Zakir Naik and other renowned Islamic scholars.',
-        languages: ['English'],
-        category: 'Educational',
-        tags: ['Lectures', 'Dawah', 'Zakir Naik'],
-        streamType: 'external'
+        "name": "Al Jazeera Mubasher",
+        "youtubeChannel": "https://www.youtube.com/@aljazeeramubasher",
+        "websiteUrl": "https://mubasher.aljazeera.net",
+        "playlistUrl": "https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3",
+        "liveTvUrl": "https://mubasher.aljazeera.net/live",
+        "thumbnail": "/images/food.png",
+        "description": "Live Arabic news and Islamic programming from Al Jazeera, including daily prayers, religious discussions, and Islamic events.",
+        "languages": ["Arabic"],
+        "category": "News & Current Affairs",
+        "tags": ["News", "Prayers", "Events"],
+        "streamType": "external",
+        "isLive": true,
+        "viewers": 5000,
+        "schedule": "24/7",
+        "location": "Qatar"
       }, {
-        name: 'One Islam TV',
-        youtubeChannel: 'https://www.youtube.com/@OneIslamProductions',
-        websiteUrl: 'https://www.oneislam.tv',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://www.oneislam.tv/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_mK9-cQGQHxoFjCSDt8rWEuFe8VBIzBrRoiPw4k=s176-c-k-c0x00ffffff-no-rj',
-        description: 'High-quality Islamic educational content with zero ads, 100% halal programming, and music-free videos.',
-        languages: ['English'],
-        category: 'Educational',
-        tags: ['Halal', 'Education', 'No Ads'],
-        streamType: 'external'
+        "name": "Iqraa TV",
+        "youtubeChannel": "https://www.youtube.com/@IqraaTVChannel",
+        "websiteUrl": "https://iqraa.com",
+        "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
+        "liveTvUrl": "https://iqraa.com/live",
+        "thumbnail": "/images/food.png",
+        "description": "Leading Arabic Islamic channel offering Quranic recitations, religious programs, and Islamic documentaries.",
+        "languages": ["Arabic"],
+        "category": "Quran",
+        "tags": ["Quran", "Documentaries", "Programs"],
+        "streamType": "external",
+        "isLive": false,
+        "viewers": 1500,
+        "schedule": "Daily 7 AM",
+        "location": "Saudi Arabia"
       }, {
-        name: 'ARY QTV',
-        youtubeChannel: 'https://www.youtube.com/@ARYQTV',
-        websiteUrl: 'https://aryqtv.tv',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://aryqtv.tv/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nJp8F3I4K8XQx1V5FLrK7VDkXPxDhJmAIhHHFA=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Popular Pakistani Islamic channel featuring Quranic recitations, religious discussions, and live Islamic events.',
-        languages: ['Urdu', 'Arabic'],
-        category: 'Quran',
-        tags: ['Quran', 'Recitations', 'Events'],
-        streamType: 'external'
+        "name": "Al-Resalah TV",
+        "youtubeChannel": "https://www.youtube.com/@AlResalahTV",
+        "websiteUrl": "https://alresalah.net",
+        "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+        "liveTvUrl": "https://alresalah.net/live",
+        "thumbnail": "/images/food.png",
+        "description": "Popular Arabic Islamic channel featuring religious dramas, educational programs, and live Islamic events.",
+        "languages": ["Arabic"],
+        "category": "Entertainment",
+        "tags": ["Dramas", "Events", "Education"],
+        "streamType": "external",
+        "isLive": true,
+        "viewers": 3000,
+        "schedule": "24/7",
+        "location": "Saudi Arabia"
       }, {
-        name: 'Huda TV',
-        youtubeChannel: 'https://www.youtube.com/@HudaTV',
-        websiteUrl: 'https://huda.tv',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3',
-        liveTvUrl: 'https://huda.tv/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_kL9X8F4oK7gGrE5ZfJKGb8QU2r6QdwXv5MxIFA=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Islamic lifestyle channel focusing on women and family topics, providing guidance on Islamic living and spirituality.',
-        languages: ['Arabic', 'English'],
-        category: 'Educational',
-        tags: ['Women', 'Family', 'Lifestyle'],
-        streamType: 'external'
+        "name": "Dawah Man",
+        "youtubeChannel": "https://www.youtube.com/@DawahMan",
+        "websiteUrl": "https://dawahman.org",
+        "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+        "liveTvUrl": "https://dawahman.org/live",
+        "thumbnail": "/images/food.png",
+        "description": "Islamic dawah content featuring street discussions, debates, and educational videos about Islam.",
+        "languages": ["English"],
+        "category": "Dawah",
+        "tags": ["Dawah", "Debates", "Discussions"],
+        "streamType": "external",
+        "isLive": false,
+        "viewers": 900,
+        "schedule": "Weekly",
+        "location": "UK"
       }, {
-        name: 'Ahlulbayt TV',
-        youtubeChannel: 'https://www.youtube.com/@AhlulbaytTV',
-        websiteUrl: 'https://ahlulbayt.tv',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://ahlulbayt.tv/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nMKGHLQHxvN8F6sL9kRGu3wMEhLGnFxPcJ7jKQ=s176-c-k-c0x00ffffff-no-rj',
-        description: 'The world\'s first Shia Islamic channel, delivering content based on the teachings of the Prophet Muhammad (PBUH).',
-        languages: ['English', 'Arabic'],
-        category: 'Sectarian',
-        tags: ['Shia', 'Teachings', 'Prophet Muhammad'],
-        streamType: 'external'
+        "name": "Mufti Menk",
+        "youtubeChannel": "https://www.youtube.com/@muftimenkofficial",
+        "websiteUrl": "https://muftimenk.com",
+        "playlistUrl": "@muftimenkofficial/playlists",
+        "liveTvUrl": "https://muftimenk.com/live",
+        "thumbnail": "/images/food.png",
+        "description": "Inspirational Islamic lectures and guidance by Mufti Ismail Menk, covering various aspects of Islamic life.",
+        "languages": ["English", "Arabic"],
+        "category": "Educational",
+        "tags": ["Lectures", "Inspiration", "Mufti Menk"],
+        "streamType": "external",
+        "isLive": false,
+        "viewers": 2500,
+        "schedule": "Daily 9 PM",
+        "location": "Zimbabwe"
       }, {
-        name: 'Madani Channel',
-        youtubeChannel: 'https://www.youtube.com/@MadaniChannelOfficial',
-        websiteUrl: 'https://www.madanichannel.tv',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://www.madanichannel.tv/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nUQH8pL9rGf3MnBgZqKj4F6Y7kX8aKqL1IH2b8=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Popular Pakistani Islamic channel offering diverse Islamic programs, live events, and educational content in Urdu.',
-        languages: ['Urdu', 'Arabic'],
-        category: 'Educational',
-        tags: ['Programs', 'Events', 'Urdu'],
-        streamType: 'external'
+        "name": "Digital Mimbar",
+        "youtubeChannel": "https://www.youtube.com/@DigitalMimbar",
+        "websiteUrl": "https://digitalmimbar.com",
+        "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+        "liveTvUrl": "https://digitalmimbar.com/live",
+        "thumbnail": "/images/food.png",
+        "description": "Modern Islamic content platform providing digital Islamic education and spiritual guidance.",
+        "languages": ["English"],
+        "category": "Educational",
+        "tags": ["Digital", "Education", "Guidance"],
+        "streamType": "external",
+        "isLive": false,
+        "viewers": 1100,
+        "schedule": "Weekly",
+        "location": "Global"
       }, {
-        name: 'Al Jazeera Mubasher',
-        youtubeChannel: 'https://www.youtube.com/@aljazeeramubasher',
-        websiteUrl: 'https://mubasher.aljazeera.net',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3',
-        liveTvUrl: 'https://mubasher.aljazeera.net/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nB8gP5RoL7dQFkVQJ8kI4c3jGH8Q5q4L8TL9iw=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Live Arabic news and Islamic programming from Al Jazeera, including daily prayers, religious discussions, and Islamic events.',
-        languages: ['Arabic'],
-        category: 'News & Current Affairs',
-        tags: ['News', 'Prayers', 'Events'],
-        streamType: 'external'
+        "name": "Quran Weekly",
+        "youtubeChannel": "https://www.youtube.com/@QuranWeekly",
+        "websiteUrl": "https://quranweekly.com",
+        "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
+        "liveTvUrl": "https://quranweekly.com/live",
+        "thumbnail": "/images/food.png",
+        "description": "Weekly Quranic reflections and Islamic educational content featuring various Islamic scholars.",
+        "languages": ["English"],
+        "category": "Quran",
+        "tags": ["Quran", "Reflections", "Scholars"],
+        "streamType": "external",
+        "isLive": false,
+        "viewers": 1300,
+        "schedule": "Weekly",
+        "location": "USA"
       }, {
-        name: 'Iqraa TV',
-        youtubeChannel: 'https://www.youtube.com/@IqraaTVChannel',
-        websiteUrl: 'https://iqraa.com',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://iqraa.com/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_mH7kI2rJ8FgL9vQJ5mE6jK3nL8dF9sQ4N2M1zA=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Leading Arabic Islamic channel offering Quranic recitations, religious programs, and Islamic documentaries.',
-        languages: ['Arabic'],
-        category: 'Quran',
-        tags: ['Quran', 'Documentaries', 'Programs'],
-        streamType: 'external'
+        "name": "Islamic Finder",
+        "youtubeChannel": "https://www.youtube.com/@IslamicFinder",
+        "websiteUrl": "https://islamicfinder.org",
+        "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
+        "liveTvUrl": "https://islamicfinder.org/live",
+        "thumbnail": "/images/food.png",
+        "description": "Comprehensive Islamic resource providing prayer times, Qibla direction, and Islamic educational content.",
+        "languages": ["English", "Arabic", "Urdu"],
+        "category": "Educational",
+        "tags": ["Prayer Times", "Qibla", "Education"],
+        "streamType": "external",
+        "isLive": false,
+        "viewers": 1700,
+        "schedule": "24/7",
+        "location": "Global"
       }, {
-        name: 'Guide US TV',
-        youtubeChannel: 'https://www.youtube.com/@GuideUSTVOfficial',
-        websiteUrl: 'https://guideus.tv',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://guideus.tv/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nP8gH9kL2vQJ4dF8mG7jI5nK6oE3sR1Q8N4M2B=s176-c-k-c0x00ffffff-no-rj',
-        description: 'American Islamic channel featuring Islamic lectures, discussions, and educational content for English-speaking Muslims.',
-        languages: ['English'],
-        category: 'Educational',
-        tags: ['Lectures', 'Discussions', 'Education'],
-        streamType: 'external'
-      }, {
-        name: 'Salam TV',
-        youtubeChannel: 'https://www.youtube.com/@SalamTVOfficial',
-        websiteUrl: 'https://salamtv.org',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://salamtv.org/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_kM9nL8gH2pQJ5dF7mI6jK4oE2sR0Q9N3M1C=s176-c-k-c0x00ffffff-no-rj',
-        description: 'French Islamic channel providing religious education and cultural programming for French-speaking Muslim communities.',
-        languages: ['French', 'Arabic'],
-        category: 'Educational',
-        tags: ['French', 'Culture', 'Education'],
-        streamType: 'external'
-      }, {
-        name: 'Bayyinah Institute',
-        youtubeChannel: 'https://www.youtube.com/@BayyinahInstitute',
-        websiteUrl: 'https://bayyinah.com',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://bayyinah.com/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_lN8mH9kL3vQJ6dF8nI7jK5oE4sR2Q0N4M3D=s176-c-k-c0x00ffffff-no-rj',
-        description: 'High-quality Quranic studies and Arabic language learning content by Ustadh Nouman Ali Khan and team.',
-        languages: ['English'],
-        category: 'Educational',
-        tags: ['Quran', 'Arabic', 'Nouman Ali Khan'],
-        streamType: 'external'
-      }, {
-        name: 'Mercy TV',
-        youtubeChannel: 'https://www.youtube.com/@MercyTVOfficial',
-        websiteUrl: 'https://mercytv.net',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://mercytv.net/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_mO9nM0hL4vQJ7dF9oI8jK6oE5sR3Q1N5M4E=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Islamic channel focusing on mercy, compassion, and spiritual guidance through Islamic teachings.',
-        languages: ['English', 'Arabic'],
-        category: 'Spiritual',
-        tags: ['Mercy', 'Spirituality', 'Guidance'],
-        streamType: 'external'
-      }, {
-        name: 'Al-Resalah TV',
-        youtubeChannel: 'https://www.youtube.com/@AlResalahTV',
-        websiteUrl: 'https://alresalah.net',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://alresalah.net/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_nP0oN1hL5wQJ8dF0pI9jK7oE6sR4Q2N6M5F=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Popular Arabic Islamic channel featuring religious dramas, educational programs, and live Islamic events.',
-        languages: ['Arabic'],
-        category: 'Entertainment',
-        tags: ['Dramas', 'Events', 'Education'],
-        streamType: 'external'
-      }, {
-        name: 'IslamQA English',
-        youtubeChannel: 'https://www.youtube.com/@islamqaenglish',
-        websiteUrl: 'https://islamqa.info/en',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://islamqa.info/en/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_oQ1pO2hL6xQJ9dF1qI0jK8oE7sR5Q3N7M6G=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Educational Islamic content providing answers to common Islamic questions and contemporary issues.',
-        languages: ['English'],
-        category: 'Educational',
-        tags: ['Q&A', 'Education', 'Issues'],
-        streamType: 'external'
-      }, {
-        name: 'Dawah Man',
-        youtubeChannel: 'https://www.youtube.com/@DawahMan',
-        websiteUrl: 'https://dawahman.org',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://dawahman.org/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_pR2qP3hL7yQJ0dF2rI1jK9oE8sR6Q4N8M7H=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Islamic dawah content featuring street discussions, debates, and educational videos about Islam.',
-        languages: ['English'],
-        category: 'Dawah',
-        tags: ['Dawah', 'Debates', 'Discussions'],
-        streamType: 'external'
-      }, {
-        name: 'Mufti Menk',
-        youtubeChannel: 'https://www.youtube.com/@muftimenk',
-        websiteUrl: 'https://muftimenk.com',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://muftimenk.com/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_qS3rQ4hL8zQJ1dF3sI2jK0oE9sR7Q5N9M8I=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Inspirational Islamic lectures and guidance by Mufti Ismail Menk, covering various aspects of Islamic life.',
-        languages: ['English', 'Arabic'],
-        category: 'Educational',
-        tags: ['Lectures', 'Inspiration', 'Mufti Menk'],
-        streamType: 'external'
-      }, {
-        name: 'Omar Suleiman',
-        youtubeChannel: 'https://www.youtube.com/@omarsuleiman',
-        websiteUrl: 'https://yaqeeninstitute.org',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://yaqeeninstitute.org/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_rT4sR5hL9AQJ2dF4tI3jK1oF0sR8Q6N0M9J=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Islamic lectures and educational content by Imam Omar Suleiman, focusing on contemporary Islamic issues.',
-        languages: ['English'],
-        category: 'Educational',
-        tags: ['Lectures', 'Issues', 'Omar Suleiman'],
-        streamType: 'external'
-      }, {
-        name: 'Al-Majd TV',
-        youtubeChannel: 'https://www.youtube.com/@AlMajdTV',
-        websiteUrl: 'https://almajd.tv',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://almajd.tv/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_sU5tS6hM0BQJ3dF5uI4jK2oF1sR9Q7N1M0K=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Saudi Arabian Islamic channel offering religious programs, Quranic recitations, and Islamic documentaries.',
-        languages: ['Arabic'],
-        category: 'General',
-        tags: ['Programs', 'Quran', 'Documentaries'],
-        streamType: 'external'
-      }, {
-        name: 'Digital Mimbar',
-        youtubeChannel: 'https://www.youtube.com/@DigitalMimbar',
-        websiteUrl: 'https://digitalmimbar.com',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://digitalmimbar.com/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_tV6uT7hM1CQJ4dF6vI5jK3oF2sR0Q8N2M1L=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Modern Islamic content platform providing digital Islamic education and spiritual guidance.',
-        languages: ['English'],
-        category: 'Educational',
-        tags: ['Digital', 'Education', 'Guidance'],
-        streamType: 'external'
-      }, {
-        name: 'Quran Weekly',
-        youtubeChannel: 'https://www.youtube.com/@QuranWeekly',
-        websiteUrl: 'https://quranweekly.com',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://quranweekly.com/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_uW7vU8hM2DQJ5dF7wI6jK4oF3sR1Q9N3M2M=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Weekly Quranic reflections and Islamic educational content featuring various Islamic scholars.',
-        languages: ['English'],
-        category: 'Quran',
-        tags: ['Quran', 'Reflections', 'Scholars'],
-        streamType: 'external'
-      }, {
-        name: 'Al-Fajr TV',
-        youtubeChannel: 'https://www.youtube.com/@AlFajrTV',
-        websiteUrl: 'https://alfajrtv.com',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://alfajrtv.com/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_vX8wV9hM3EQJ6dF8xI7jK5oF4sR2Q0N4M3N=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Egyptian Islamic channel providing religious education, live prayers, and Islamic cultural programming.',
-        languages: ['Arabic'],
-        category: 'General',
-        tags: ['Prayers', 'Culture', 'Education'],
-        streamType: 'external'
-      }, {
-        name: 'Islamic Finder',
-        youtubeChannel: 'https://www.youtube.com/@IslamicFinder',
-        websiteUrl: 'https://islamicfinder.org',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://islamicfinder.org/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_wY9xW0hM4FQJ7dF9yI8jK6oF5sR3Q1N5M4O=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Comprehensive Islamic resource providing prayer times, Qibla direction, and Islamic educational content.',
-        languages: ['English', 'Arabic', 'Urdu'],
-        category: 'Educational',
-        tags: ['Prayer Times', 'Qibla', 'Education'],
-        streamType: 'external'
-      }, {
-        name: 'Islam Net',
-        youtubeChannel: 'https://www.youtube.com/@IslamNet',
-        websiteUrl: 'https://islamnet.no',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://islamnet.no/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_xZ0yX1hM5GQJ8dF0zI9jK7oF6sR4Q2N6M5P=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Norwegian Islamic organization providing Islamic education, lectures, and community content.',
-        languages: ['English', 'Norwegian', 'Arabic'],
-        category: 'Educational',
-        tags: ['Community', 'Lectures', 'Education'],
-        streamType: 'external'
-      }, {
-        name: 'Al-Hayat TV',
-        youtubeChannel: 'https://www.youtube.com/@AlHayatTV',
-        websiteUrl: 'https://alhayat-tv.net',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://alhayat-tv.net/live',
-        thumbnail: 'https://yt3.googleusercontent.com/ytc/AIdro_yA1zY2hM6HQJ9dF1AI0jK8oF7sR5Q3N7M6Q=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Arabic Islamic channel focusing on Islamic lifestyle, family values, and religious education.',
-        languages: ['Arabic'],
-        category: 'Family & Lifestyle',
-        tags: ['Lifestyle', 'Family', 'Education'],
-        streamType: 'external'
-      }, {
-        name: 'Seekers Guidance',
-        youtubeChannel: 'https://www.youtube.com/@SeekersGuidance',
-        websiteUrl: 'https://seekersguidance.org',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://seekersguidance.org/live',
-        thumbnail: 'https://yt3.ggpht.com/ytc/AIdro_zB2aZ3hM7IQK0dF2BI1jK9oF8sR6Q4N8M7R=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Islamic education platform offering courses, lectures, and guidance on Islamic sciences and spirituality.',
-        languages: ['English', 'Arabic'],
-        category: 'Educational',
-        tags: ['Courses', 'Spirituality', 'Lectures'],
-        streamType: 'external'
-      }, {
-        name: 'Al-Azhar TV',
-        youtubeChannel: 'https://www.youtube.com/@AlAzharTV',
-        websiteUrl: 'https://alazhar.gov.eg',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F',
-        liveTvUrl: 'https://alazhar.gov.eg/live',
-        thumbnail: 'https://yt3.ggpht.com/ytc/AIdro_AC3bA4hM8JQK1dF3CI2jK0oF9sR7Q5N9M8S=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Official channel of Al-Azhar University, featuring authentic Islamic teachings and scholarly discussions.',
-        languages: ['Arabic'],
-        category: 'Educational',
-        tags: ['Al-Azhar', 'Teachings', 'Scholarly'],
-        streamType: 'external'
-      }, {
-        name: 'Muslim Central',
-        youtubeChannel: 'https://www.youtube.com/@MuslimCentral',
-        websiteUrl: 'https://muslimcentral.com',
-        playlistUrl: 'https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3',
-        liveTvUrl: 'https://muslimcentral.com/live',
-        thumbnail: 'https://yt3.ggpht.com/ytc/AIdro_BD4cB5hM9KQK2dF4DI3jK1oG0sR8Q6N0M9T=s176-c-k-c0x00ffffff-no-rj',
-        description: 'Comprehensive Islamic audio and video library featuring lectures by renowned Islamic scholars worldwide.',
-        languages: ['English'],
-        category: 'Educational',
-        tags: ['Lectures', 'Library', 'Scholars'],
-        streamType: 'external'
+        "name": "Muslim Central",
+        "youtubeChannel": "https://www.youtube.com/@MuslimCentral",
+        "websiteUrl": "https://muslimcentral.com",
+        "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+        "liveTvUrl": "https://muslimcentral.com/live",
+        "thumbnail": "/images/food.png",
+        "description": "Comprehensive Islamic audio and video library featuring lectures by renowned Islamic scholars worldwide.",
+        "languages": ["English"],
+        "category": "Educational",
+        "tags": ["Lectures", "Library", "Scholars"],
+        "streamType": "external",
+        "isLive": true,
+        "viewers": 2200,
+        "schedule": "24/7",
+        "location": "Global"
       }],
       geoQualityMap: ['US', 'CA', 'DE', 'SA', 'AE', 'UK', 'FR']
     };
@@ -153853,29 +153679,21 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     filteredChannels: function filteredChannels() {
       var _this = this;
       var filtered = this.channels;
-
-      // Filter by search query
       if (this.searchQuery) {
         filtered = filtered.filter(function (channel) {
           return channel.name.toLowerCase().includes(_this.searchQuery.toLowerCase());
         });
       }
-
-      // Filter by category
       if (this.selectedCategory !== 'all') {
         filtered = filtered.filter(function (channel) {
           return channel.category === _this.selectedCategory;
         });
       }
-
-      // Filter by language
       if (this.selectedLanguage !== 'all') {
         filtered = filtered.filter(function (channel) {
           return channel.languages.includes(_this.selectedLanguage);
         });
       }
-
-      // Filter by tag
       if (this.selectedTag !== 'all') {
         filtered = filtered.filter(function (channel) {
           return channel.tags.includes(_this.selectedTag);
@@ -153915,13 +153733,11 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       });
     },
     filteredChannels: function filteredChannels() {
-      // Reset to first page when filters change
       this.currentPage = 1;
     }
   },
   mounted: function mounted() {
     var _this2 = this;
-    // Fetch user country
     fetch('https://ipapi.co/json').then(function (res) {
       return res.json();
     }).then(function (data) {
@@ -153929,17 +153745,13 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     })["catch"](function () {
       _this2.userCountry = '';
     });
-
-    // Add keyboard navigation
     document.addEventListener('keydown', this.handleKeyboard);
   },
   beforeUnmount: function beforeUnmount() {
-    // Cleanup HLS instance
     if (this.hlsInstance) {
       this.hlsInstance.destroy();
       this.hlsInstance = null;
     }
-    // Remove keyboard listener
     document.removeEventListener('keydown', this.handleKeyboard);
   },
   methods: {
@@ -153966,8 +153778,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           _this3.isLoading = false;
           return;
         }
-
-        // Cleanup existing HLS instance
         if (_this3.hlsInstance) {
           _this3.hlsInstance.destroy();
           _this3.hlsInstance = null;
@@ -154090,7 +153900,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     },
     filterChannels: function filterChannels() {
       var _this4 = this;
-      // Debounce search to improve performance
       clearTimeout(this.debounceTimer);
       this.debounceTimer = setTimeout(function () {
         _this4.$forceUpdate();
@@ -178353,157 +178162,113 @@ var _hoisted_1 = {
   "class": "container py-5"
 };
 var _hoisted_2 = {
-  "class": "mb-4 p-4 bg-light rounded-3 shadow-sm"
+  "class": "mb-5 p-4 bg-light rounded-3 shadow-sm",
+  "aria-label": "Channel filters"
 };
 var _hoisted_3 = {
-  "class": "row g-3 align-items-center"
+  "class": "row g-3 text-center text-md-start"
 };
 var _hoisted_4 = {
   "class": "col-md-3"
 };
 var _hoisted_5 = {
+  "class": "input-group"
+};
+var _hoisted_6 = {
   "class": "col-md-3"
 };
-var _hoisted_6 = ["value"];
-var _hoisted_7 = {
+var _hoisted_7 = ["value"];
+var _hoisted_8 = {
   "class": "col-md-3"
 };
-var _hoisted_8 = ["value"];
-var _hoisted_9 = {
+var _hoisted_9 = ["value"];
+var _hoisted_10 = {
   "class": "col-md-3"
 };
-var _hoisted_10 = ["value"];
-var _hoisted_11 = {
-  key: 0,
-  "class": "modal fade show d-block",
-  style: {
-    "background-color": "rgba(0,0,0,0.8)"
-  },
-  tabindex: "-1",
-  role: "dialog"
-};
+var _hoisted_11 = ["value"];
 var _hoisted_12 = {
-  "class": "modal-dialog modal-xl modal-dialog-centered animate__animated animate__fadeIn"
+  "class": "row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5",
+  "aria-label": "Channel grid"
 };
 var _hoisted_13 = {
-  "class": "modal-content rounded-4"
+  "class": "channel-card"
 };
 var _hoisted_14 = {
-  "class": "modal-header border-0"
+  "class": "channel-img-wrapper"
 };
-var _hoisted_15 = {
-  "class": "modal-title fw-bold"
-};
+var _hoisted_15 = ["src", "alt"];
 var _hoisted_16 = {
-  "class": "modal-body p-0"
+  key: 0,
+  "class": "badge bg-danger",
+  style: {
+    "position": "absolute",
+    "top": "10px",
+    "right": "10px",
+    "z-index": "10"
+  }
 };
 var _hoisted_17 = {
-  "class": "ratio ratio-16x9"
+  "class": "channel-body"
 };
-var _hoisted_18 = ["src"];
+var _hoisted_18 = {
+  "class": "fw-bold mb-2"
+};
 var _hoisted_19 = {
-  "class": "modal-footer border-0"
+  "class": "small mb-2"
 };
 var _hoisted_20 = {
-  "class": "d-flex gap-2 flex-wrap align-items-center"
+  "class": "mb-2 d-flex justify-content-between small text-muted"
 };
 var _hoisted_21 = {
-  "class": "badge bg-primary"
+  "class": "mb-3 small text-muted"
 };
 var _hoisted_22 = {
-  "class": "row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 mb-5"
-};
-var _hoisted_23 = ["onClick", "onKeydown"];
-var _hoisted_24 = ["src", "alt"];
-var _hoisted_25 = {
-  key: 0,
-  "class": "position-absolute top-0 end-0 m-2"
-};
-var _hoisted_26 = {
-  "class": "card-body p-3"
-};
-var _hoisted_27 = {
-  "class": "fw-bold mb-2 text-dark text-truncate",
-  style: {
-    "font-size": "1.25rem"
-  }
-};
-var _hoisted_28 = {
-  "class": "card-text text-muted text-wrap mb-3",
-  style: {
-    "font-size": "0.9rem",
-    "line-height": "1.4"
-  }
-};
-var _hoisted_29 = {
   "class": "mb-3"
 };
-var _hoisted_30 = {
+var _hoisted_23 = {
   "class": "badge bg-primary me-1"
 };
+var _hoisted_24 = {
+  "class": "mb-3"
+};
+var _hoisted_25 = {
+  style: {
+    "display": "flex",
+    "flex-wrap": "wrap",
+    "gap": "10px",
+    "justify-content": "center"
+  }
+};
+var _hoisted_26 = ["href"];
+var _hoisted_27 = ["href"];
+var _hoisted_28 = ["href"];
+var _hoisted_29 = ["href"];
+var _hoisted_30 = ["href"];
 var _hoisted_31 = {
-  "class": "d-flex gap-2"
-};
-var _hoisted_32 = ["onClick", "disabled"];
-var _hoisted_33 = {
-  key: 0,
-  "class": "spinner-border spinner-border-sm me-2",
-  role: "status"
-};
-var _hoisted_34 = ["onClick"];
-var _hoisted_35 = ["onClick"];
-var _hoisted_36 = ["onClick"];
-var _hoisted_37 = ["onClick"];
-var _hoisted_38 = {
   "aria-label": "Channels pagination",
   "class": "d-flex justify-content-center mb-5"
 };
-var _hoisted_39 = {
+var _hoisted_32 = {
   "class": "pagination"
 };
-var _hoisted_40 = ["disabled"];
-var _hoisted_41 = ["onClick"];
-var _hoisted_42 = ["disabled"];
-var _hoisted_43 = {
-  "class": "text-center mb-4"
-};
-var _hoisted_44 = {
-  "class": "fw-bold text-dark"
-};
-var _hoisted_45 = ["disabled"];
-var _hoisted_46 = {
-  key: 0,
-  "class": "alert alert-danger text-center"
-};
-var _hoisted_47 = {
-  key: 1,
-  "class": "text-center my-4"
-};
-var _hoisted_48 = {
-  key: 2,
-  "class": "row mb-4 g-3"
-};
-var _hoisted_49 = {
-  "class": "col-md-6"
-};
-var _hoisted_50 = {
-  "class": "col-md-6"
-};
-var _hoisted_51 = {
-  "class": "shadow-lg rounded-3 overflow-hidden",
-  style: {
-    "max-width": "100%"
-  }
-};
+var _hoisted_33 = ["disabled"];
+var _hoisted_34 = ["onClick"];
+var _hoisted_35 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "text-center fw-bold display-4 mb-3"
-  }, "Live Islamic TV Channels", -1 /* CACHED */)), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center mb-4 lead d-none d-md-block mx-auto",
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+    "class": "text-center mb-5"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "fw-bold display-4 mb-3"
+  }, "Live Islamic TV Channels"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead text-muted mx-auto",
     style: {
       "max-width": "800px"
     }
-  }, " Watch live Islamic TV channels from around the world. Experience spiritual content including live prayers from Makkah and Madinah, educational programs, Quranic recitations, and Islamic lifestyle content in multiple languages. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter and Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, " Watch live Islamic TV channels from around the world. Experience spiritual content including live prayers from Makkah and Madinah, educational programs, Quranic recitations, and Islamic lifestyle content in multiple languages. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter/Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "input-group-text bg-white border-0"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-search"
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
@@ -178512,9 +178277,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Search channels...",
     onInput: _cache[1] || (_cache[1] = function () {
       return $options.filterChannels && $options.filterChannels.apply($options, arguments);
-    }),
-    "aria-label": "Search channels"
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    })
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.selectedCategory = $event;
     }),
@@ -178522,14 +178286,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[3] || (_cache[3] = function () {
       return $options.filterChannels && $options.filterChannels.apply($options, arguments);
     })
-  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "all"
   }, "All Categories", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.categories, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: category,
       value: category
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category), 9 /* TEXT, PROPS */, _hoisted_6);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category), 9 /* TEXT, PROPS */, _hoisted_7);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.selectedLanguage = $event;
     }),
@@ -178537,14 +178301,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[5] || (_cache[5] = function () {
       return $options.filterChannels && $options.filterChannels.apply($options, arguments);
     })
-  }, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "all"
   }, "All Languages", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.languages, function (lang) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: lang,
       value: lang
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lang), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedLanguage]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lang), 9 /* TEXT, PROPS */, _hoisted_9);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedLanguage]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.selectedTag = $event;
     }),
@@ -178552,72 +178316,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[7] || (_cache[7] = function () {
       return $options.filterChannels && $options.filterChannels.apply($options, arguments);
     })
-  }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "all"
   }, "All Tags", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.tags, function (tag) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: tag,
       value: tag
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 9 /* TEXT, PROPS */, _hoisted_10);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTag]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" YouTube Embed Modal "), $data.showYouTubeModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedChannel.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn-close",
-    onClick: _cache[8] || (_cache[8] = function () {
-      return $options.closeYouTubeModal && $options.closeYouTubeModal.apply($options, arguments);
-    }),
-    "aria-label": "Close"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
-    src: $data.selectedChannel.youtubeEmbed,
-    frameborder: "0",
-    allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-    allowfullscreen: ""
-  }, null, 8 /* PROPS */, _hoisted_18)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedChannel.category), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedChannel.languages, function (lang) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-      key: lang,
-      "class": "badge bg-secondary"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lang), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedChannel.tags, function (tag) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-      key: tag,
-      "class": "badge bg-info"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-sm btn-outline-warning ms-auto",
-    onClick: _cache[9] || (_cache[9] = function ($event) {
-      return $options.toggleFavorite($data.selectedChannel);
-    })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.isFavorite($data.selectedChannel) ? 'fas fa-star' : 'far fa-star')
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isFavorite($data.selectedChannel) ? 'Remove Favorite' : 'Add Favorite'), 1 /* TEXT */)])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Channels Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedChannels, function (channel, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 9 /* TEXT, PROPS */, _hoisted_11);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTag]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedChannels, function (channel, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       "class": "col",
       key: index
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "card h-100 shadow rounded-4 overflow-hidden position-relative",
-      onClick: function onClick($event) {
-        return $options.playChannel(channel);
-      },
-      style: {
-        "cursor": "pointer"
-      },
-      tabindex: "0",
-      onKeydown: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
-        return $options.playChannel(channel);
-      }, ["enter"])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image Section with overlay and Live Now badge "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: channel.thumbnail,
       alt: "".concat(channel.name, " thumbnail"),
-      "class": "w-100",
-      style: {
-        "object-fit": "cover",
-        "height": "200px"
-      },
-      onError: _cache[10] || (_cache[10] = function () {
+      "class": "channel-img",
+      onError: _cache[8] || (_cache[8] = function () {
         return $options.handleImageError && $options.handleImageError.apply($options, arguments);
       })
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_24), $options.isFavorite(channel) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, _toConsumableArray(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "fas fa-star text-warning"
-    }, null, -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.truncateDescription(channel.description, 100)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.category), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(channel.languages, function (lang) {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_15), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "channel-gradient"
+    }, null, -1 /* CACHED */)), channel.isLive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_16, "Live Now")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Text Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.truncateDescription(channel.description, 80)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-globe me-1"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.streamType === 'youtube_embed' ? 'YouTube Live' : 'Online Channel'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-users me-1"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.viewers || 'N/A') + " viewers", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-clock me-1"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.schedule ? channel.schedule : 'No schedule'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-map-marker-alt me-1"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.location || 'Not specified'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.category), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(channel.languages, function (lang) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: lang,
         "class": "badge bg-secondary me-1"
@@ -178625,62 +178352,140 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }), 128 /* KEYED_FRAGMENT */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(channel.tags, function (tag) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: tag,
-        "class": "badge bg-info me-1"
+        "class": "badge bg-info text-dark me-1"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn btn-primary flex-grow-1 rounded-pill",
-      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-        return $options.playChannel(channel);
-      }, ["stop"]),
-      disabled: $data.isLoading
-    }, [$data.isLoading && $data.selectedChannel === channel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_33)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.streamType === 'youtube_embed' ? 'Watch Live' : 'Open Channel'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_32), channel.youtubeChannel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [channel.youtubeChannel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 0,
-      "class": "btn btn-outline-danger rounded-pill",
-      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-        return $options.openExternal(channel.youtubeChannel);
-      }, ["stop"]),
-      title: "YouTube Channel"
-    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      href: channel.youtubeChannel,
+      target: "_blank",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "display": "flex",
+        "flex-direction": "column",
+        "align-items": "center",
+        "padding": "8px",
+        "border-radius": "6px",
+        "transition": "background-color 0.3s, transform 0.2s",
+        "min-width": "60px",
+        "text-decoration": "none",
+        "color": "#6c757d"
+      }, "&:hover { background-color: #f1f1f1; transform: scale(1.1); } i { color: #ff0000; }"]),
+      title: "YouTube Channel",
+      "aria-label": "Visit YouTube Channel"
+    }, _toConsumableArray(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      style: {
+        "font-size": "1rem",
+        "margin-bottom": "4px",
+        "color": "#6c757d"
+      },
       "class": "fab fa-youtube"
-    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_34)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.websiteUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_26)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.playlistUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 1,
-      "class": "btn btn-outline-secondary rounded-pill",
-      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-        return $options.openExternal(channel.websiteUrl);
-      }, ["stop"]),
-      title: "Website"
-    }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "fas fa-globe"
-    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_35)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.playlistUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      href: channel.playlistUrl,
+      target: "_blank",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "display": "flex",
+        "flex-direction": "column",
+        "align-items": "center",
+        "padding": "8px",
+        "border-radius": "6px",
+        "transition": "background-color 0.3s, transform 0.2s",
+        "min-width": "60px",
+        "text-decoration": "none",
+        "color": "#6c757d"
+      }, "&:hover { background-color: #f1f1f1; transform: scale(1.1); } i { color: #007bff; }"]),
+      title: "Playlists",
+      "aria-label": "View Playlists"
+    }, _toConsumableArray(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      style: {
+        "font-size": "1rem",
+        "margin-bottom": "4px",
+        "color": "#6c757d"
+      },
+      "class": "fas fa-list-ul"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_27)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.liveTvUrl && channel.isLive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 2,
-      "class": "btn btn-outline-success rounded-pill",
-      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-        return $options.openExternal(channel.playlistUrl);
-      }, ["stop"]),
-      title: "Playlist"
-    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "fas fa-list"
-    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_36)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.liveTvUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      href: channel.liveTvUrl,
+      target: "_blank",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "display": "flex",
+        "flex-direction": "column",
+        "align-items": "center",
+        "padding": "8px",
+        "border-radius": "6px",
+        "transition": "background-color 0.3s, transform 0.2s",
+        "min-width": "60px",
+        "text-decoration": "none",
+        "color": "#6c757d"
+      }, "&:hover { background-color: #f1f1f1; transform: scale(1.1); } i { color: #dc3545; }"]),
+      title: "Live TV",
+      "aria-label": "Watch Live TV"
+    }, _toConsumableArray(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      style: {
+        "font-size": "1rem",
+        "margin-bottom": "4px",
+        "color": "#6c757d"
+      },
+      "class": "fas fa-broadcast-tower"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_28)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.websiteUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 3,
-      "class": "btn btn-outline-primary rounded-pill",
-      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-        return $options.openExternal(channel.liveTvUrl);
-      }, ["stop"]),
-      title: "Live TV"
-    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "fas fa-tv"
-    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_37)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_23)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+      href: channel.websiteUrl,
+      target: "_blank",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "display": "flex",
+        "flex-direction": "column",
+        "align-items": "center",
+        "padding": "8px",
+        "border-radius": "6px",
+        "transition": "background-color 0.3s, transform 0.2s",
+        "min-width": "60px",
+        "text-decoration": "none",
+        "color": "#6c757d"
+      }, "&:hover { background-color: #f1f1f1; transform: scale(1.1); } i { color: #28a745; }"]),
+      title: "Website",
+      "aria-label": "Visit Website"
+    }, _toConsumableArray(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      style: {
+        "font-size": "1rem",
+        "margin-bottom": "4px",
+        "color": "#6c757d"
+      },
+      "class": "fas fa-link"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_29)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.youtubeChannel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+      key: 4,
+      href: channel.youtubeChannel + '/videos',
+      target: "_blank",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "display": "flex",
+        "flex-direction": "column",
+        "align-items": "center",
+        "padding": "8px",
+        "border-radius": "6px",
+        "transition": "background-color 0.3s, transform 0.2s",
+        "min-width": "60px",
+        "text-decoration": "none",
+        "color": "#6c757d"
+      }, "&:hover { background-color: #f1f1f1; transform: scale(1.1); } i { color: #17a2b8; }"]),
+      title: "Videos",
+      "aria-label": "View Videos"
+    }, _toConsumableArray(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      style: {
+        "font-size": "1rem",
+        "margin-bottom": "4px",
+        "color": "#6c757d"
+      },
+      "class": "fas fa-video"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_30)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === 1
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "page-link",
-    onClick: _cache[11] || (_cache[11] = function ($event) {
+    onClick: _cache[9] || (_cache[9] = function ($event) {
       return $data.currentPage--;
     }),
     disabled: $data.currentPage === 1
-  }, "Previous", 8 /* PROPS */, _hoisted_40)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
+  }, "«", 8 /* PROPS */, _hoisted_33)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         active: $data.currentPage === page
@@ -178691,96 +178496,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $data.currentPage = page;
       }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_41)], 2 /* CLASS */);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_34)], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === $options.totalPages
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "page-link",
-    onClick: _cache[12] || (_cache[12] = function ($event) {
+    onClick: _cache[10] || (_cache[10] = function ($event) {
       return $data.currentPage++;
     }),
     disabled: $data.currentPage === $options.totalPages
-  }, "Next", 8 /* PROPS */, _hoisted_42)], 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" HLS Video Player Section "), $data.selectedChannel && $data.selectedChannel.streamType === 'hls' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    key: 1,
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["mt-5 mb-5 px-3", {
-      'mini-screen': $data.isMiniScreen
-    }]),
-    ref: "playerSection"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_44, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("🔴 Now Playing: ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedChannel.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-sm btn-outline-secondary me-2 rounded-pill",
-    onClick: _cache[13] || (_cache[13] = function () {
-      return $options.toggleScreenMode && $options.toggleScreenMode.apply($options, arguments);
-    })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isMiniScreen ? 'Maximize' : 'Minimize'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-sm btn-outline-info rounded-pill",
-    onClick: _cache[14] || (_cache[14] = function () {
-      return $options.enterPictureInPicture && $options.enterPictureInPicture.apply($options, arguments);
-    }),
-    disabled: !_ctx.document.pictureInPictureEnabled
-  }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-expand"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Picture-in-Picture ", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_45)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Message "), $data.streamError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, " Failed to load stream. Please try another channel or check your connection. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Spinner "), $data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "spinner-border text-primary",
-    role: "status"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "visually-hidden"
-  }, "Loading...")], -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter Controls "), $data.showFilters && !$data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "qualitySelect",
-    "class": "form-label fw-semibold"
-  }, "Stream Quality:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "qualitySelect",
-    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
-      return $data.manualQuality = $event;
-    }),
-    "class": "form-select rounded-pill shadow-sm",
-    onChange: _cache[16] || (_cache[16] = function () {
-      return $options.updateHLSStream && $options.updateHLSStream.apply($options, arguments);
-    })
-  }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "auto"
-  }, "Auto", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "hd"
-  }, "HD", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "sd"
-  }, "SD", -1 /* CACHED */)])), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.manualQuality]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "ratioSelect",
-    "class": "form-label fw-semibold"
-  }, "Video Ratio:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "ratioSelect",
-    "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
-      return $data.videoRatio = $event;
-    }),
-    "class": "form-select rounded-pill shadow-sm"
-  }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "16x9"
-  }, "16:9 (Widescreen)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "21x9"
-  }, "21:9 (Ultrawide)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "4x3"
-  }, "4:3 (Standard)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "1x1"
-  }, "1:1 (Square)", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.videoRatio]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Player "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)("ratio ratio-".concat($data.videoRatio))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
-    id: "video",
-    ref: "video",
-    controls: "",
-    autoplay: "",
-    style: {
-      "border-radius": "15px"
-    },
-    onDragstart: _cache[18] || (_cache[18] = function () {
-      return $options.startDrag && $options.startDrag.apply($options, arguments);
-    }),
-    onDragend: _cache[19] || (_cache[19] = function () {
-      return $options.endDrag && $options.endDrag.apply($options, arguments);
-    }),
-    onDrag: _cache[20] || (_cache[20] = function () {
-      return $options.dragVideo && $options.dragVideo.apply($options, arguments);
-    })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */)], 2 /* CLASS */)])], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, "»", 8 /* PROPS */, _hoisted_35)], 2 /* CLASS */)])])]);
 }
 
 /***/ }),
@@ -190685,7 +190412,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-670f86e6] {\n  background-color: #f8f9fa;\n  font-family: 'Inter', sans-serif;\n}\n.card[data-v-670f86e6] {\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n  border: none;\n  background-color: #fff;\n}\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);\n}\n.card[data-v-670f86e6]:focus {\n  outline: 2px solid #00bfa6;\n  outline-offset: 2px;\n}\n.mini-screen[data-v-670f86e6] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 300px;\n  z-index: 10000;\n  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);\n  border-radius: 10px;\n}\n.btn-primary[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n  color: white;\n  transition: background-color 0.3s ease;\n}\n.btn-primary[data-v-670f86e6]:hover {\n  background-color: #00a58e;\n  border-color: #00a58e;\n}\n.form-control[data-v-670f86e6], .form-select[data-v-670f86e6] {\n  border: 1px solid #dee2e6;\n  transition: border-color 0.3s ease;\n}\n.form-control[data-v-670f86e6]:focus, .form-select[data-v-670f86e6]:focus {\n  border-color: #00bfa6;\n  box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n.modal-content[data-v-670f86e6] {\n  border: none;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);\n}\n@media (max-width: 576px) {\nh1[data-v-670f86e6] {\n    font-size: 1.8rem;\n}\n.card-body[data-v-670f86e6] {\n    padding: 1rem;\n}\n.card img[data-v-670f86e6] {\n    height: 150px;\n}\n.mini-screen[data-v-670f86e6] {\n    width: 200px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.channel-card[data-v-670f86e6] {\n  border-radius: 1rem;\n  overflow: hidden;\n  background: #fff;\n  display: flex;\n  flex-direction: column;\n  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.channel-card[data-v-670f86e6]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);\n}\n.channel-img-wrapper[data-v-670f86e6] {\n  position: relative;\n  flex: 0 0 auto;\n  /* Proportional sizing */\n  width: 100%;\n  overflow: hidden;\n  aspect-ratio: 4/3;\n  /* Taller image area */\n  display: flex;\n  /* New: For centering the image */\n  align-items: center;\n  justify-content: center;\n}\n.channel-img-wrapper img[data-v-670f86e6] {\n  max-width: 100%;\n  /* Changed: Allows full scaling without forced fill */\n  max-height: 100%;\n  height: auto;\n  /* Ensures proportional height */\n  width: auto;\n  /* Ensures proportional width */\n  -o-object-fit: contain;\n     object-fit: contain;\n  /* Fixed: Scales to fit fully without cropping/cutoff */\n}\n.channel-body[data-v-670f86e6] {\n  flex: 1;\n  /* Fills remaining space */\n  padding: 1rem 1.25rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  background: #fff;\n}\n\n/* Smooth gradient overlay */\n.channel-gradient[data-v-670f86e6] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 40%;\n  /* gradient height */\n  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(219, 220, 220, 0.099) 100%);\n}\ninput.form-control[data-v-670f86e6],\nselect.form-select[data-v-670f86e6] {\n  font-size: 0.9rem;\n}\n\n/* Reduced motion */\n@media (prefers-reduced-motion: reduce) {\n.card[data-v-670f86e6]:hover {\n    transform: none;\n    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);\n}\n.btn-primary[data-v-670f86e6]:hover,\n  .btn-outline-danger[data-v-670f86e6]:hover,\n  .btn-outline-secondary[data-v-670f86e6]:hover,\n  .btn-outline-success[data-v-670f86e6]:hover,\n  .btn-outline-primary[data-v-670f86e6]:hover {\n    transform: none;\n}\n.mini-screen[data-v-670f86e6] {\n    transition: none;\n    animation: none;\n}\n.animate__fadeInDown[data-v-670f86e6],\n  .animate__fadeInUp[data-v-670f86e6],\n  .animate__zoomIn[data-v-670f86e6],\n  .animate__shakeX[data-v-670f86e6],\n  .animate__rotate[data-v-670f86e6] {\n    animation: none;\n}\n}\n.channel-card h5[data-v-670f86e6] {\n  font-size: 1.4rem;\n  /* larger title */\n}\n.channel-card .description[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.channel-card .small-text[data-v-670f86e6] {\n  font-size: 0.95rem;\n}\n.channel-card .btn[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.card h5[data-v-670f86e6] {\n  font-size: 1.25rem;\n  /* slightly larger */\n  font-weight: 700;\n  /* bold, stronger emphasis */\n  color: #212529;\n  /* consistent dark text */\n  margin-bottom: 0.5rem;\n}\n\n/* Card meta info (address, viewers, stream type) */\n.card p[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 400;\n  color: #6c757d;\n  /* muted gray */\n  margin-bottom: 0.35rem;\n  line-height: 1.4;\n}\n.card p i[data-v-670f86e6] {\n  font-size: 0.9rem;\n  margin-right: 0.35rem;\n}\n\n/* Emphasis for important numbers */\n.card p span[data-v-670f86e6] {\n  font-weight: 600;\n  color: #212529;\n}\n\n/* Badge styles */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n  font-weight: 500;\n  padding: 0.4em 0.65em;\n  border-radius: 8px;\n}\n.badge.bg-primary[data-v-670f86e6] {\n  background-color: #00bfa6 !important;\n}\n.badge.bg-secondary[data-v-670f86e6] {\n  background-color: #6c757d !important;\n}\n.badge.bg-info[data-v-670f86e6] {\n  background-color: #e0f7f4 !important;\n  color: #004d43 !important;\n}\n\n/* Buttons inside cards */\n.card .btn[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 600;\n  border-radius: 50px;\n  padding: 0.5rem 1rem;\n}\n.card .btn-success[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n}\n.card .btn-success[data-v-670f86e6]:hover {\n  background-color: #009688;\n  border-color: #009688;\n}\n\n/* Card hover enhancement */\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
