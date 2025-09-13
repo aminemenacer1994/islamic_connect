@@ -1,5 +1,12 @@
 <template>
   <div class="container py-5">
+    <!-- Alert Section -->
+    <section class="mb-3">
+      <div v-if="alertMessage" class="alert alert-success position-fixed top-0 end-0 m-3" role="alert" style="top: 56px; z-index: 1029; max-width: 400px;">
+        {{ alertMessage }}
+        <button type="button" class="btn-close" @click="alertMessage = ''" aria-label="Close"></button>
+      </div>
+    </section>
 
     <!-- Header -->
     <header class="text-center mb-5">
@@ -11,30 +18,104 @@
       </p>
     </header>
 
+    <!-- Favorites Section -->
+    <section v-if="favorites.length > 0" class="mb-5" aria-label="Favorite channels">
+      <h2 class="fw-bold mb-3 d-flex align-items-center" style="cursor: pointer;" @click="toggleFavoritesSection">
+        Your Favorite Channels ({{ favorites.length }})
+        <i :class="showFavorites ? 'fas fa-chevron-up ms-2' : 'fas fa-chevron-down ms-2'"></i>
+      </h2>
+      <div v-if="showFavorites" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5">
+        <article class="col" v-for="(channel, index) in favorites" :key="`fav-${index}`">
+          <div class="channel-card" style="border-radius: 8px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+            <div class="channel-img-wrapper" style="position: relative; height: 300px; overflow: hidden;">
+              <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="channel-img"
+                style="width: 100%; height: 100%; object-fit: cover;" @error="handleImageError">
+              <div class="channel-gradient" style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);"></div>
+              <span v-if="channel.isLive" class="badge bg-danger" style="position: absolute; top: 10px; right: 10px; z-index: 10;">Live Now</span>
+              <button @click="toggleFavorite(channel)" :aria-label="isFavorite(channel) ? 'Remove from favorites' : 'Add to favorites'"
+                style="position: absolute; top: 10px; left: 10px; z-index: 10; background: none; border: none; cursor: pointer; color: #6c757d; transition: color 0.3s;">
+                <i :class="isFavorite(channel) ? 'fas fa-star' : 'far fa-star'" style="font-size: 1.5rem; color: #ffc107;"></i>
+              </button>
+            </div>
+            <div class="channel-body" style="padding: 15px;">
+              <h5 class="fw-bold mb-2">{{ channel.name }}</h5>
+              <p class="small mb-2">{{ truncateDescription(channel.description, 80) }}</p>
+              <div class="mb-2 d-flex justify-content-between small text-muted">
+                <span><i class="fas fa-globe me-1"></i>{{ channel.streamType === 'youtube_embed' ? 'YouTube Live' : 'Online Channel' }}</span>
+                <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} viewers</span>
+                <span><i class="fas fa-clock me-1"></i>{{ channel.schedule ? channel.schedule : 'No schedule' }}</span>
+              </div>
+              <div class="mb-3 small text-muted">
+                <span><i class="fas fa-map-marker-alt me-1"></i>{{ channel.location || 'Not specified' }}</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge bg-primary me-1">{{ channel.category }}</span>
+                <span v-for="lang in channel.languages" :key="lang" class="badge bg-secondary me-1">{{ lang }}</span>
+                <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px; justify-content: center; justify-items: center;">
+                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel" target="_blank"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="YouTube Channel" aria-label="Visit YouTube Channel">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fab fa-youtube"></i>
+                  <small style="font-size: 0.8rem;">Channel</small>
+                </a>
+                <a v-if="channel.playlistUrl" :href="channel.playlistUrl" target="_blank"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Playlists" aria-label="View Playlists">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
+                  <small style="font-size: 0.8rem;">Playlists</small>
+                </a>
+                <a v-if="channel.liveTvUrl && channel.isLive" :href="channel.liveTvUrl" target="_blank"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Live TV" aria-label="Watch Live TV">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-broadcast-tower"></i>
+                  <small style="font-size: 0.8rem;">Live TV</small>
+                </a>
+                <a v-if="channel.websiteUrl" :href="channel.websiteUrl" target="_blank"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Website" aria-label="Visit Website">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-link"></i>
+                  <small style="font-size: 0.8rem;">Website</small>
+                </a>
+                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel + '/videos'" target="_blank"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Videos" aria-label="View Videos">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-video"></i>
+                  <small style="font-size: 0.8rem;">Videos</small>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <!-- Filter/Search Section -->
-    <section class="mb-5 p-4 bg-light rounded-3 shadow-sm" aria-label="Channel filters">
+    <section class="mb-5 p-5 bg-light rounded-3 shadow-sm" style="background: #f8f9fa; border: 1px solid #e0e0e0;" aria-label="Channel filters">
       <div class="row g-3 text-center text-md-start">
-        <div class="col-md-3">
+        <div class="col-12 col-md-3">
           <div class="input-group">
-            <span class="input-group-text bg-white border-0"><i class="fas fa-search"></i></span>
-            <input v-model="searchQuery" type="text" class="form-control rounded-pill shadow-sm"
-              placeholder="Search channels..." @input="filterChannels">
+            <span class="input-group-text bg-white border-0" style="border-radius: 12px 0 0 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+              <i class="fas fa-search"></i>
+            </span>
+            <input v-model="searchQuery" type="text" class="form-control" style="border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;" placeholder="Search channels..." @input="filterChannels" @mouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'" @mouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'">
           </div>
         </div>
-        <div class="col-md-3">
-          <select v-model="selectedCategory" class="form-select rounded-pill shadow-sm" @change="filterChannels">
+        <div class="col-12 col-md-3">
+          <select v-model="selectedCategory" class="form-select" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;" @change="filterChannels" @mouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'" @mouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'">
             <option value="all">All Categories</option>
             <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
           </select>
         </div>
-        <div class="col-md-3">
-          <select v-model="selectedLanguage" class="form-select rounded-pill shadow-sm" @change="filterChannels">
+        <div class="col-12 col-md-3">
+          <select v-model="selectedLanguage" class="form-select" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;" @change="filterChannels" @mouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'" @mouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'">
             <option value="all">All Languages</option>
             <option v-for="lang in languages" :key="lang" :value="lang">{{ lang }}</option>
           </select>
         </div>
-        <div class="col-md-3">
-          <select v-model="selectedTag" class="form-select rounded-pill shadow-sm" @change="filterChannels">
+        <div class="col-12 col-md-3">
+          <select v-model="selectedTag" class="form-select" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;" @change="filterChannels" @mouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'" @mouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'">
             <option value="all">All Tags</option>
             <option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</option>
           </select>
@@ -42,22 +123,23 @@
       </div>
     </section>
 
+    <!-- All Channels Section -->
     <section class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5" aria-label="Channel grid">
       <article class="col" v-for="(channel, index) in paginatedChannels" :key="index">
-        <div class="channel-card">
-          <!-- Image Section with overlay and Live Now badge -->
-          <div class="channel-img-wrapper">
+        <div class="channel-card" style="border-radius: 8px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+          <div class="channel-img-wrapper" style="position: relative; height: 300px; overflow: hidden;">
             <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="channel-img"
-              @error="handleImageError">
-            <div class="channel-gradient"></div>
+              style="width: 100%; height: 100%; object-fit: cover;" @error="handleImageError">
+            <div class="channel-gradient" style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);"></div>
             <span v-if="channel.isLive" class="badge bg-danger" style="position: absolute; top: 10px; right: 10px; z-index: 10;">Live Now</span>
+            <button @click="toggleFavorite(channel)" :aria-label="isFavorite(channel) ? 'Remove from favorites' : 'Add to favorites'"
+              style="position: absolute; top: 10px; left: 10px; z-index: 10; background: none; border: none; cursor: pointer; color: #6c757d; transition: color 0.3s;">
+              <i :class="isFavorite(channel) ? 'fas fa-star' : 'far fa-star'" style="font-size: 1.5rem; color: #ffc107;"></i>
+            </button>
           </div>
-
-          <!-- Text Content -->
-          <div class="channel-body">
+          <div class="channel-body" style="padding: 15px;">
             <h5 class="fw-bold mb-2">{{ channel.name }}</h5>
             <p class="small mb-2">{{ truncateDescription(channel.description, 80) }}</p>
-
             <div class="mb-2 d-flex justify-content-between small text-muted">
               <span><i class="fas fa-globe me-1"></i>{{ channel.streamType === 'youtube_embed' ? 'YouTube Live' : 'Online Channel' }}</span>
               <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} viewers</span>
@@ -66,48 +148,42 @@
             <div class="mb-3 small text-muted">
               <span><i class="fas fa-map-marker-alt me-1"></i>{{ channel.location || 'Not specified' }}</span>
             </div>
-
-
             <div class="mb-3">
               <span class="badge bg-primary me-1">{{ channel.category }}</span>
               <span v-for="lang in channel.languages" :key="lang" class="badge bg-secondary me-1">{{ lang }}</span>
               <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
             </div>
-
-            
-            <div class="mb-3">
-              <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  :style="`&:hover { background-color: #f1f1f1; transform: scale(1.1); } i { color: #ff0000; }`"
-                  title="YouTube Channel" aria-label="Visit YouTube Channel">
-                  <i style="font-size: 1rem; margin-bottom: 4px; color: #6c757d;" class="fab fa-youtube"></i>
-                </a>
-                <a v-if="channel.playlistUrl" :href="channel.playlistUrl" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  :style="`&:hover { background-color: #f1f1f1; transform: scale(1.1); } i { color: #007bff; }`"
-                  title="Playlists" aria-label="View Playlists">
-                  <i style="font-size: 1rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
-                </a>
-                <a v-if="channel.liveTvUrl && channel.isLive" :href="channel.liveTvUrl" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  :style="`&:hover { background-color: #f1f1f1; transform: scale(1.1); } i { color: #dc3545; }`"
-                  title="Live TV" aria-label="Watch Live TV">
-                  <i style="font-size: 1rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-broadcast-tower"></i>
-                </a>
-                <a v-if="channel.websiteUrl" :href="channel.websiteUrl" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  :style="`&:hover { background-color: #f1f1f1; transform: scale(1.1); } i { color: #28a745; }`"
-                  title="Website" aria-label="Visit Website">
-                  <i style="font-size: 1rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-link"></i>
-                </a>
-                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel + '/videos'" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  :style="`&:hover { background-color: #f1f1f1; transform: scale(1.1); } i { color: #17a2b8; }`"
-                  title="Videos" aria-label="View Videos">
-                  <i style="font-size: 1rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-video"></i>
-                </a>
-              </div>
+            <div style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px; justify-content: center; justify-items: center;">
+              <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel" target="_blank"
+                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                title="YouTube Channel" aria-label="Visit YouTube Channel">
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fab fa-youtube"></i>
+                <small style="font-size: 0.8rem;">Channel</small>
+              </a>
+              <a v-if="channel.playlistUrl" :href="channel.playlistUrl" target="_blank"
+                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                title="Playlists" aria-label="View Playlists">
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
+                <small style="font-size: 0.8rem;">Playlists</small>
+              </a>
+              <a v-if="channel.liveTvUrl && channel.isLive" :href="channel.liveTvUrl" target="_blank"
+                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                title="Live TV" aria-label="Watch Live TV">
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-broadcast-tower"></i>
+                <small style="font-size: 0.8rem;">Live TV</small>
+              </a>
+              <a v-if="channel.websiteUrl" :href="channel.websiteUrl" target="_blank"
+                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                title="Website" aria-label="Visit Website">
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-link"></i>
+                <small style="font-size: 0.8rem;">Website</small>
+              </a>
+              <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel + '/videos'" target="_blank"
+                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                title="Videos" aria-label="View Videos">
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-video"></i>
+                <small style="font-size: 0.8rem;">Videos</small>
+              </a>
             </div>
           </div>
         </div>
@@ -128,10 +204,8 @@
         </li>
       </ul>
     </nav>
-
   </div>
 </template>
-
 
 <script>
 import Hls from 'hls.js'
@@ -161,7 +235,10 @@ export default {
       currentY: 0,
       currentPage: 1,
       itemsPerPage: 9,
-      favorites: JSON.parse(localStorage.getItem('favoriteChannels') || '[]'),
+      debounceTimer: null,
+      favorites: [],
+      showFavorites: true,
+      alertMessage: '',
       channels: [
         {
           "name": "Peace TV English",
@@ -414,6 +491,13 @@ export default {
     }
   },
   watch: {
+    alertMessage(newVal) {
+      if (newVal) {
+        setTimeout(() => {
+          this.alertMessage = '';
+        }, 3000);
+      }
+    },
     currentPage() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     },
@@ -422,6 +506,7 @@ export default {
     }
   },
   mounted() {
+    this.favorites = JSON.parse(localStorage.getItem('favoriteChannels') || '[]');
     fetch('https://ipapi.co/json')
       .then(res => res.json())
       .then(data => {
@@ -441,6 +526,21 @@ export default {
     document.removeEventListener('keydown', this.handleKeyboard);
   },
   methods: {
+    toggleFavoritesSection() {
+      this.showFavorites = !this.showFavorites;
+    },
+    toggleFavorite(channel) {
+      const wasFavorite = this.isFavorite(channel);
+      this.favorites = this.favorites.filter(fav => fav.name !== channel.name);
+      if (!wasFavorite) {
+        this.favorites.push(channel);
+        this.alertMessage = `${channel.name} has been added to favorites.`;
+      } else {
+        this.alertMessage = `${channel.name} has been removed from favorites.`;
+      }
+      localStorage.setItem('favoriteChannels', JSON.stringify(this.favorites));
+      this.$forceUpdate(); // Ensure reactivity
+    },
     playChannel(channel) {
       this.selectedChannel = channel;
       this.streamError = false;
@@ -567,15 +667,6 @@ export default {
         this.$refs.video.parentElement.style.transform = `translate(${this.currentX}px, ${this.currentY}px)`;
       }
     },
-    toggleFavorite(channel) {
-      const index = this.favorites.findIndex(fav => fav.name === channel.name);
-      if (index === -1) {
-        this.favorites.push(channel);
-      } else {
-        this.favorites.splice(index, 1);
-      }
-      localStorage.setItem('favoriteChannels', JSON.stringify(this.favorites));
-    },
     isFavorite(channel) {
       return this.favorites.some(fav => fav.name === channel.name);
     },
@@ -607,70 +698,92 @@ export default {
 </script>
 
 <style scoped>
-.channel-card {
-  border-radius: 1rem;
-  overflow: hidden;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
 .channel-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
 }
-
-.channel-img-wrapper {
-  position: relative;
-  flex: 0 0 auto;
-  /* Proportional sizing */
+.channel-img {
   width: 100%;
-  overflow: hidden;
-  aspect-ratio: 4/3;
-  /* Taller image area */
-  display: flex;
-  /* New: For centering the image */
-  align-items: center;
-  justify-content: center;
+  height: 100%;
+  object-fit: cover;
 }
-
-.channel-img-wrapper img {
-  max-width: 100%;
-  /* Changed: Allows full scaling without forced fill */
-  max-height: 100%;
-  height: auto;
-  /* Ensures proportional height */
-  width: auto;
-  /* Ensures proportional width */
-  object-fit: contain;
-  /* Fixed: Scales to fit fully without cropping/cutoff */
-}
-
-.channel-body {
-  flex: 1;
-  /* Fills remaining space */
-  padding: 1rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: #fff;
-}
-
-
-/* Smooth gradient overlay */
 .channel-gradient {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 40%;
-  /* gradient height */
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(219, 220, 220, 0.099) 100%);
+  height: 35%;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+}
+.channel-body {
+  padding: 15px;
+}
+.badge {
+  font-size: 0.75rem;
+}
+.channel-body a:hover {
+  background-color: #f1f1f1;
+  transform: scale(1.1);
 }
 
-
+/* Mobile-specific adjustments */
+@media (max-width: 576px) {
+  .container {
+    padding: 15px;
+  }
+  .channel-card {
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .channel-img-wrapper {
+    height: 220px;
+  }
+  .channel-body {
+    padding: 10px;
+  }
+  .fw-bold.display-4 {
+    font-size: 1.8rem;
+  }
+  .lead {
+    font-size: 1rem;
+    max-width: 100%;
+  }
+  .alert {
+    max-width: calc(100% - 30px);
+    font-size: 0.9rem;
+    margin: 10px;
+    top: 56px;
+  }
+  .channel-body h5 {
+    font-size: 1.1rem;
+  }
+  .channel-body p, .channel-body .small {
+    font-size: 0.85rem;
+  }
+  .channel-body .badge {
+    font-size: 0.65rem;
+  }
+  .channel-body a {
+    min-width: 50px;
+    padding: 6px;
+  }
+  .channel-body a i {
+    font-size: 1rem;
+  }
+  .channel-body a small {
+    font-size: 0.7rem;
+  }
+  .bg-light {
+    padding: 15px !important;
+  }
+  .form-control, .form-select, .input-group-text {
+    font-size: 0.9rem;
+    border-radius: 8px !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  .form-control:hover, .form-select:hover, .input-group-text:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+}
 
 input.form-control,
 select.form-select {
