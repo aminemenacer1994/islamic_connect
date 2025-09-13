@@ -2,7 +2,7 @@
   <div class="container py-5">
     <!-- Alert Section -->
     <section class="mb-3">
-      <div v-if="alertMessage" class="alert alert-success position-fixed top-0 end-0 m-3" role="alert" style="top: 56px; z-index: 1029; max-width: 400px;">
+      <div v-if="alertMessage" class="alert alert-success position-fixed" role="alert" style="top: 70px; right: 15px; z-index: 1050; max-width: 400px; margin: 0;">
         {{ alertMessage }}
         <button type="button" class="btn-close" @click="alertMessage = ''" aria-label="Close"></button>
       </div>
@@ -11,7 +11,7 @@
     <!-- Header -->
     <header class="text-center mb-5">
       <h1 class="fw-bold display-4 mb-3">Live Islamic TV Channels</h1>
-      <p class="lead text-muted mx-auto" style="max-width: 800px;">
+      <p class="lead text-muted mx-auto" >
         Watch live Islamic TV channels from around the world. Experience spiritual content including live prayers from
         Makkah and Madinah, educational programs, Quranic recitations, and Islamic lifestyle content in multiple
         languages.
@@ -20,79 +20,81 @@
 
     <!-- Favorites Section -->
     <section v-if="favorites.length > 0" class="mb-5" aria-label="Favorite channels">
-      <h2 class="fw-bold mb-3 d-flex align-items-center" style="cursor: pointer;" @click="toggleFavoritesSection">
-        Your Favorite Channels ({{ favorites.length }})
+      <h4 class="fw-bold mb-3 d-flex align-items-center" style="cursor: pointer;" @click="toggleFavoritesSection">
+        Favorite Channels ({{ favorites.length }})
         <i :class="showFavorites ? 'fas fa-chevron-up ms-2' : 'fas fa-chevron-down ms-2'"></i>
-      </h2>
-      <div v-if="showFavorites" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5">
-        <article class="col" v-for="(channel, index) in favorites" :key="`fav-${index}`">
-          <div class="channel-card" style="border-radius: 8px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-            <div class="channel-img-wrapper" style="position: relative; height: 300px; overflow: hidden;">
-              <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="channel-img"
-                style="width: 100%; height: 100%; object-fit: cover;" @error="handleImageError">
-              <div class="channel-gradient" style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);"></div>
-              <span v-if="channel.isLive" class="badge bg-danger" style="position: absolute; top: 10px; right: 10px; z-index: 10;">Live Now</span>
-              <button @click="toggleFavorite(channel)" :aria-label="isFavorite(channel) ? 'Remove from favorites' : 'Add to favorites'"
-                style="position: absolute; top: 10px; left: 10px; z-index: 10; background: none; border: none; cursor: pointer; color: #6c757d; transition: color 0.3s;">
-                <i :class="isFavorite(channel) ? 'fas fa-star' : 'far fa-star'" style="font-size: 1.5rem; color: #ffc107;"></i>
-              </button>
+      </h4>
+      <div v-if="showFavorites" style="overflow-x: auto; white-space: nowrap; display: flex; gap: 12px; padding-bottom: 10px; scroll-behavior: smooth;" class="favorites-scroll-container">
+        <div class="row" >
+          <article class="col" v-for="(channel, index) in paginatedChannels" :key="index">
+            <div class="channel-card" :class="{ 'is-live': channel.isLive }" style="border-radius: 8px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+              <div class="channel-img-wrapper" style="position: relative; height: 300px; overflow: hidden;">
+                <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="channel-img"
+                  style="width: 100%; height: 100%; object-fit: cover;" @error="handleImageError">
+                <div class="channel-gradient" style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);"></div>
+                <span v-if="channel.isLive" class="badge bg-danger" style="position: absolute; top: 8px; right: 8px; z-index: 10;">Live Now</span>
+                <button @click="toggleFavorite(channel)" :aria-label="isFavorite(channel) ? 'Remove from favorites' : 'Add to favorites'"
+                  style="position: absolute; top: 8px; left: 8px; z-index: 10; background: none; border: none; cursor: pointer; color: #6c757d; transition: color 0.3s;">
+                  <i :class="isFavorite(channel) ? 'fas fa-star' : 'far fa-star'" style="font-size: 1.2rem; color: #ffc107;"></i>
+                </button>
+              </div>
+              <div class="channel-body" style="padding: 12px;">
+                <h5 class="fw-bold mb-2">{{ channel.name }}</h5>
+                <p class="small mb-2">{{ truncateDescription(channel.description, 60) }}</p>
+                <div class="mb-2 d-flex justify-content-between small text-muted">
+                  <span><i class="fas fa-globe me-1"></i>{{ channel.streamType === 'youtube_embed' ? 'YouTube Live' : 'Online Channel' }}</span>
+                  <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} viewers</span>
+                  <span><i class="fas fa-clock me-1"></i>{{ channel.schedule ? channel.schedule : 'No schedule' }}</span>
+                </div>
+                <div class="mb-2 small text-muted">
+                  <span><i class="fas fa-map-marker-alt me-1"></i>{{ channel.location || 'Not specified' }}</span>
+                </div>
+                <div class="mb-2">
+                  <span class="badge bg-primary me-1">{{ channel.category }}</span>
+                  <span v-for="lang in channel.languages" :key="lang" class="badge bg-secondary me-1">{{ lang }}</span>
+                  <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(5, minmax(50px, 1fr)); gap: 4px; justify-content: center; justify-items: center;">
+                  <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel" target="_blank"
+                    style="display: flex; flex-direction: column; align-items: center; padding: 6px; border-radius: 5px; transition: background-color 0.3s, transform 0.2s; min-width: 50px; text-decoration: none; color: #6c757d;"
+                    title="YouTube Channel" aria-label="Visit YouTube Channel">
+                    <i style="font-size: 1rem; margin-bottom: 3px; color: #6c757d;" class="fab fa-youtube"></i>
+                    <small style="font-size: 0.7rem;">Channel</small>
+                  </a>
+                  <a v-if="channel.playlistUrl" :href="channel.playlistUrl" target="_blank"
+                    style="display: flex; flex-direction: column; align-items: center; padding: 6px; border-radius: 5px; transition: background-color 0.3s, transform 0.2s; min-width: 50px; text-decoration: none; color: #6c757d;"
+                    title="Playlists" aria-label="View Playlists">
+                    <i style="font-size: 1rem; margin-bottom: 3px; color: #6c757d;" class="fas fa-list-ul"></i>
+                    <small style="font-size: 0.7rem;">Playlists</small>
+                  </a>
+                  <a v-if="channel.liveTvUrl && channel.isLive" :href="channel.liveTvUrl" target="_blank"
+                    style="display: flex; flex-direction: column; align-items: center; padding: 6px; border-radius: 5px; transition: background-color 0.3s, transform 0.2s; min-width: 50px; text-decoration: none; color: #6c757d;"
+                    title="Live TV" aria-label="Watch Live TV">
+                    <i style="font-size: 1rem; margin-bottom: 3px; color: #6c757d;" class="fas fa-broadcast-tower"></i>
+                    <small style="font-size: 0.7rem;">Live TV</small>
+                  </a>
+                  <a v-if="channel.websiteUrl" :href="channel.websiteUrl" target="_blank"
+                    style="display: flex; flex-direction: column; align-items: center; padding: 6px; border-radius: 5px; transition: background-color 0.3s, transform 0.2s; min-width: 50px; text-decoration: none; color: #6c757d;"
+                    title="Website" aria-label="Visit Website">
+                    <i style="font-size: 1rem; margin-bottom: 3px; color: #6c757d;" class="fas fa-link"></i>
+                    <small style="font-size: 0.7rem;">Website</small>
+                  </a>
+                  <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel + '/videos'" target="_blank"
+                    style="display: flex; flex-direction: column; align-items: center; padding: 6px; border-radius: 5px; transition: background-color 0.3s, transform 0.2s; min-width: 50px; text-decoration: none; color: #6c757d;"
+                    title="Videos" aria-label="View Videos">
+                    <i style="font-size: 1rem; margin-bottom: 3px; color: #6c757d;" class="fas fa-video"></i>
+                    <small style="font-size: 0.7rem;">Videos</small>
+                  </a>
+                </div>
+              </div>
             </div>
-            <div class="channel-body" style="padding: 15px;">
-              <h5 class="fw-bold mb-2">{{ channel.name }}</h5>
-              <p class="small mb-2">{{ truncateDescription(channel.description, 80) }}</p>
-              <div class="mb-2 d-flex justify-content-between small text-muted">
-                <span><i class="fas fa-globe me-1"></i>{{ channel.streamType === 'youtube_embed' ? 'YouTube Live' : 'Online Channel' }}</span>
-                <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} viewers</span>
-                <span><i class="fas fa-clock me-1"></i>{{ channel.schedule ? channel.schedule : 'No schedule' }}</span>
-              </div>
-              <div class="mb-3 small text-muted">
-                <span><i class="fas fa-map-marker-alt me-1"></i>{{ channel.location || 'Not specified' }}</span>
-              </div>
-              <div class="mb-3">
-                <span class="badge bg-primary me-1">{{ channel.category }}</span>
-                <span v-for="lang in channel.languages" :key="lang" class="badge bg-secondary me-1">{{ lang }}</span>
-                <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
-              </div>
-              <div style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px; justify-content: center; justify-items: center;">
-                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="YouTube Channel" aria-label="Visit YouTube Channel">
-                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fab fa-youtube"></i>
-                  <small style="font-size: 0.8rem;">Channel</small>
-                </a>
-                <a v-if="channel.playlistUrl" :href="channel.playlistUrl" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="Playlists" aria-label="View Playlists">
-                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
-                  <small style="font-size: 0.8rem;">Playlists</small>
-                </a>
-                <a v-if="channel.liveTvUrl && channel.isLive" :href="channel.liveTvUrl" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="Live TV" aria-label="Watch Live TV">
-                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-broadcast-tower"></i>
-                  <small style="font-size: 0.8rem;">Live TV</small>
-                </a>
-                <a v-if="channel.websiteUrl" :href="channel.websiteUrl" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="Website" aria-label="Visit Website">
-                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-link"></i>
-                  <small style="font-size: 0.8rem;">Website</small>
-                </a>
-                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel + '/videos'" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="Videos" aria-label="View Videos">
-                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-video"></i>
-                  <small style="font-size: 0.8rem;">Videos</small>
-                </a>
-              </div>
-            </div>
-          </div>
-        </article>
+          </article>
+        </div>
       </div>
     </section>
 
     <!-- Filter/Search Section -->
-    <section class="mb-5 p-5 bg-light rounded-3 shadow-sm" style="background: #f8f9fa; border: 1px solid #e0e0e0;" aria-label="Channel filters">
+    <section class="mb-5 p-3 bg-light rounded-3 shadow-sm" style="background: #f8f9fa; border: 1px solid #e0e0e0;" aria-label="Channel filters">
       <div class="row g-3 text-center text-md-start">
         <div class="col-12 col-md-3">
           <div class="input-group">
@@ -124,9 +126,9 @@
     </section>
 
     <!-- All Channels Section -->
-    <section class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5" aria-label="Channel grid">
+    <section class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4" aria-label="Channel grid">
       <article class="col" v-for="(channel, index) in paginatedChannels" :key="index">
-        <div class="channel-card" style="border-radius: 8px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <div class="channel-card" :class="{ 'is-live': channel.isLive }" style="border-radius: 8px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
           <div class="channel-img-wrapper" style="position: relative; height: 300px; overflow: hidden;">
             <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="channel-img"
               style="width: 100%; height: 100%; object-fit: cover;" @error="handleImageError">
@@ -191,7 +193,7 @@
     </section>
 
     <!-- Pagination -->
-    <nav aria-label="Channels pagination" class="d-flex justify-content-center mb-5">
+    <nav aria-label="Channels pagination" class="d-flex justify-content-center">
       <ul class="pagination">
         <li class="page-item" :class="{ disabled: currentPage === 1 }">
           <button class="page-link" @click="currentPage--" :disabled="currentPage === 1">&laquo;</button>
@@ -539,7 +541,7 @@ export default {
         this.alertMessage = `${channel.name} has been removed from favorites.`;
       }
       localStorage.setItem('favoriteChannels', JSON.stringify(this.favorites));
-      this.$forceUpdate(); // Ensure reactivity
+      this.$forceUpdate();
     },
     playChannel(channel) {
       this.selectedChannel = channel;
@@ -698,6 +700,20 @@ export default {
 </script>
 
 <style scoped>
+.favorites-scroll-container::-webkit-scrollbar {
+  display: auto;
+}
+.favorites-scroll-container {
+  -ms-overflow-style: none;
+  scrollbar-width:auto;
+}
+
+/* Apply light red shadow to live cards */
+.channel-card.is-live {
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+}
+
+/* Ensure mobile responsiveness */
 .channel-card:hover {
   transform: translateY(-5px);
 }
@@ -725,6 +741,14 @@ export default {
   transform: scale(1.1);
 }
 
+/* Favorites-specific styles */
+.favorites-scroll-container .channel-body {
+  padding: 12px;
+}
+.favorites-scroll-container .badge {
+  font-size: 0.65rem;
+}
+
 /* Mobile-specific adjustments */
 @media (max-width: 576px) {
   .container {
@@ -734,11 +758,20 @@ export default {
     margin-bottom: 15px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
+  .channel-card.is-live {
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
+  }
   .channel-img-wrapper {
     height: 220px;
   }
+  .favorites-scroll-container .channel-img-wrapper {
+    height: 160px;
+  }
   .channel-body {
     padding: 10px;
+  }
+  .favorites-scroll-container .channel-body {
+    padding: 8px;
   }
   .fw-bold.display-4 {
     font-size: 1.8rem;
@@ -750,27 +783,46 @@ export default {
   .alert {
     max-width: calc(100% - 30px);
     font-size: 0.9rem;
-    margin: 10px;
-    top: 56px;
+    top: 70px;
+    right: 15px;
   }
   .channel-body h5 {
     font-size: 1.1rem;
   }
+  .favorites-scroll-container .channel-body h5 {
+    font-size: 1rem;
+  }
   .channel-body p, .channel-body .small {
     font-size: 0.85rem;
   }
+  .favorites-scroll-container .channel-body p, .favorites-scroll-container .channel-body .small {
+    font-size: 0.8rem;
+  }
   .channel-body .badge {
     font-size: 0.65rem;
+  }
+  .favorites-scroll-container .channel-body .badge {
+    font-size: 0.6rem;
   }
   .channel-body a {
     min-width: 50px;
     padding: 6px;
   }
+  .favorites-scroll-container .channel-body a {
+    min-width: 45px;
+    padding: 5px;
+  }
   .channel-body a i {
     font-size: 1rem;
   }
+  .favorites-scroll-container .channel-body a i {
+    font-size: 0.9rem;
+  }
   .channel-body a small {
     font-size: 0.7rem;
+  }
+  .favorites-scroll-container .channel-body a small {
+    font-size: 0.65rem;
   }
   .bg-light {
     padding: 15px !important;
@@ -782,6 +834,9 @@ export default {
   }
   .form-control:hover, .form-select:hover, .input-group-text:hover {
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .favorites-scroll-container .col {
+    width: 200px;
   }
 }
 
