@@ -64,6 +64,17 @@
           </select>
         </div>
         <div class="col-12 col-md-3">
+          <select v-model="sortBy" class="form-select"
+            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
+            @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
+            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+            <option value="name-asc">Name (A-Z)</option>
+            <option value="name-desc">Name (Z-A)</option>
+            <option value="viewers-desc">Viewers (High to Low)</option>
+            <option value="viewers-asc">Viewers (Low to High)</option>
+          </select>
+        </div>
+        <div class="col-12 col-md-3">
           <button class="btn btn-outline-secondary w-100"
             style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
             @click="clearFilters" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
@@ -260,6 +271,7 @@ export default {
       selectedCategory: 'all',
       selectedTag: 'all',
       searchQuery: '',
+      sortBy: 'name-asc',
       isLoading: false,
       streamError: false,
       selectedChannel: null,
@@ -487,7 +499,7 @@ export default {
   },
   computed: {
     filteredChannels() {
-      let filtered = this.channels;
+      let filtered = [...this.channels];
 
       if (this.searchQuery) {
         filtered = filtered.filter(channel =>
@@ -505,6 +517,22 @@ export default {
 
       if (this.selectedTag !== 'all') {
         filtered = filtered.filter(channel => channel.tags.includes(this.selectedTag));
+      }
+
+      // Apply sorting
+      switch (this.sortBy) {
+        case 'name-asc':
+          filtered.sort((a, b) => a.name.localeCompare(b.name));
+          break;
+        case 'name-desc':
+          filtered.sort((a, b) => b.name.localeCompare(a.name));
+          break;
+        case 'viewers-desc':
+          filtered.sort((a, b) => (b.viewers || 0) - (a.viewers || 0));
+          break;
+        case 'viewers-asc':
+          filtered.sort((a, b) => (a.viewers || 0) - (b.viewers || 0));
+          break;
       }
 
       return filtered;
@@ -545,7 +573,6 @@ export default {
   mounted() {
     try {
       const storedFavorites = JSON.parse(localStorage.getItem('favoriteChannels') || '[]');
-      // Ensure favorites only include valid channels from this.channels
       this.favorites = storedFavorites.filter(fav =>
         this.channels.some(channel => channel.name === fav.name)
       );
@@ -596,6 +623,7 @@ export default {
       this.selectedCategory = 'all';
       this.selectedLanguage = 'all';
       this.selectedTag = 'all';
+      this.sortBy = 'name-asc';
       this.filterChannels();
     },
     playChannel(channel) {
