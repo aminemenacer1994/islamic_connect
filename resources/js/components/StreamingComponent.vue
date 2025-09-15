@@ -112,7 +112,22 @@
             </div>
             <div class="channel-body" style="padding: 12px;">
               <h5 class="fw-bold mb-2">{{ channel.name }}</h5>
-              <p class="small mb-2">{{ truncateDescription(channel.description, 60) }}</p>
+              <div class="description-wrapper small mb-2" :class="{ 'expanded': expandedDescriptions[channel.name] }">
+                <p v-if="truncateDescription(channel.description, 60).needsTruncation && !expandedDescriptions[channel.name]"
+                  class="description-text">{{ truncateDescription(channel.description, 60).text }}
+                  <button class="read-more btn btn-link p-0 ms-1" @click="toggleDescription(channel.name)"
+                    :aria-label="`Read more about ${channel.name}`" aria-expanded="false">
+                    Read More
+                  </button>
+                </p>
+                <p v-else class="description-text">{{ channel.description }}
+                  <button v-if="truncateDescription(channel.description, 60).needsTruncation"
+                    class="read-more btn btn-link p-0 ms-1" @click="toggleDescription(channel.name)"
+                    :aria-label="`Read less about ${channel.name}`" aria-expanded="true">
+                    Read Less
+                  </button>
+                </p>
+              </div>
               <div class="mb-2 d-flex justify-content-between small text-muted">
                 <span><i class="fas fa-globe me-1"></i>{{ channel.streamType === 'youtube_embed' ? 'YouTube Live' : 'Online Channel' }}</span>
                 <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} viewers</span>
@@ -187,7 +202,22 @@
           </div>
           <div class="channel-body" style="padding: 15px;">
             <h5 class="fw-bold mb-2">{{ channel.name }}</h5>
-            <p class="small mb-2">{{ truncateDescription(channel.description, 80) }}</p>
+            <div class="description-wrapper small mb-2" :class="{ 'expanded': expandedDescriptions[channel.name] }">
+              <p v-if="truncateDescription(channel.description, 80).needsTruncation && !expandedDescriptions[channel.name]"
+                class="description-text">{{ truncateDescription(channel.description, 80).text }}
+                <button class="read-more btn btn-link p-0 ms-1" @click="toggleDescription(channel.name)"
+                  :aria-label="`Read more about ${channel.name}`" aria-expanded="false">
+                  Read More
+                </button>
+              </p>
+              <p v-else class="description-text">{{ channel.description }}
+                <button v-if="truncateDescription(channel.description, 80).needsTruncation"
+                  class="read-more btn btn-link p-0 ms-1" @click="toggleDescription(channel.name)"
+                  :aria-label="`Read less about ${channel.name}`" aria-expanded="true">
+                  Read Less
+                </button>
+              </p>
+            </div>
             <div class="mb-2 d-flex justify-content-between small text-muted">
               <span><i class="fas fa-globe me-1"></i>{{ channel.streamType === 'youtube_embed' ? 'YouTube Live' : 'Online Channel' }}</span>
               <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} viewers</span>
@@ -304,6 +334,7 @@ export default {
       favorites: [],
       showFavorites: true,
       alertMessage: '',
+      expandedDescriptions: {}, // Track expanded state for each channel
       channels: [
         {
           "name": "Peace TV English",
@@ -628,6 +659,11 @@ export default {
         this.userCountry = '';
       });
 
+    // Initialize expandedDescriptions for all channels
+    this.channels.forEach(channel => {
+      this.expandedDescriptions[channel.name] = false;
+    });
+
     document.addEventListener('keydown', this.handleKeyboard);
   },
   beforeUnmount() {
@@ -655,6 +691,9 @@ export default {
       } catch (error) {
         console.error('Error saving favorites to localStorage:', error);
       }
+    },
+    toggleDescription(channelName) {
+      this.expandedDescriptions[channelName] = !this.expandedDescriptions[channelName];
     },
     clearFilters() {
       this.searchQuery = '';
@@ -804,12 +843,14 @@ export default {
     filterChannels() {
       clearTimeout(this.debounceTimer);
       this.debounceTimer = setTimeout(() => {
-        this.$forceUpdate();
+        // Removed $forceUpdate as it's not needed in Vue 3
       }, 300);
     },
     truncateDescription(text, maxLength) {
-      if (text.length <= maxLength) return text;
-      return text.substring(0, maxLength) + '...';
+      if (text.length <= maxLength) {
+        return { text: text, needsTruncation: false };
+      }
+      return { text: text.substring(0, maxLength) + '...', needsTruncation: true };
     },
     handleKeyboard(event) {
       if (event.key === 'Escape' && this.showYouTubeModal) {
@@ -909,12 +950,45 @@ export default {
   }
 }
 
-/* Mobile-specific adjustments */
+.description-wrapper {
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  max-height: 4em; /* Roughly 2 lines of text at .small font-size */
+}
+
+.description-wrapper.expanded {
+  max-height: 20em; /* Large enough for longest descriptions */
+}
+
+.description-text {
+  margin: 0;
+  display: inline;
+}
+
+.read-more {
+  color: #00bfa6;
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.read-more:hover {
+  color: #008f7a;
+  text-decoration: underline;
+}
+
 @media (max-width: 576px) {
   .pagination .page-item .page-link {
     padding: 0.4rem 0.8rem;
     font-size: 0.9rem;
     min-width: 32px;
+  }
+
+  .description-wrapper {
+    max-height: 3em; /* Tighter for mobile */
+  }
+  .description-wrapper.expanded {
+    max-height: 15em;
   }
   .container {
     padding: 15px;
