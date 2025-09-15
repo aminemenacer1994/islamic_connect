@@ -821,8 +821,17 @@ export default {
 </script>
 
 <style scoped>
+.channel-card {
+  transition: transform 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
 .channel-card:hover {
   transform: translateY(-5px);
+}
+
+.channel-card.is-live {
+  animation: pulse-shadow 1.5s ease-in-out infinite;
 }
 
 .channel-img {
@@ -886,6 +895,18 @@ export default {
   cursor: not-allowed;
   background-color: #ffffff;
   border-color: #000000;
+}
+
+@keyframes pulse-shadow {
+  0% {
+    box-shadow: 0 4px 12px rgba(255,0,0,0.3);
+  }
+  50% {
+    box-shadow: 0 8px 24px rgba(255,0,0,0.5);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(255,0,0,0.3);
+  }
 }
 
 /* Mobile-specific adjustments */
