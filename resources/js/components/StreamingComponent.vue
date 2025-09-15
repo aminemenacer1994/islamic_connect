@@ -239,16 +239,32 @@
     </section>
 
     <!-- Pagination -->
-    <nav aria-label="Channels pagination" class="d-flex justify-content-center mb-3">
-      <ul class="pagination">
+    <nav aria-label="Channels pagination" class="d-flex justify-content-center mb-4">
+      <ul class="pagination pagination-lg">
         <li class="page-item" :class="{ disabled: currentPage === 1 }">
-          <button class="page-link" @click="currentPage--" :disabled="currentPage === 1">&laquo;</button>
+          <button class="page-link" @click="currentPage--" :disabled="currentPage === 1" aria-label="Previous page">
+            Previous
+          </button>
         </li>
-        <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: currentPage === page }">
-          <button class="page-link" @click="currentPage = page">{{ page }}</button>
+        <li v-if="showFirstPage" class="page-item" :class="{ active: currentPage === 1 }">
+          <button class="page-link" @click="currentPage = 1" :aria-current="currentPage === 1 ? 'page' : null">1</button>
+        </li>
+        <li v-if="showLeftEllipsis" class="page-item disabled">
+          <span class="page-link">...</span>
+        </li>
+        <li class="page-item" v-for="page in displayedPages" :key="page" :class="{ active: currentPage === page }">
+          <button class="page-link" @click="currentPage = page" :aria-current="currentPage === page ? 'page' : null">{{ page }}</button>
+        </li>
+        <li v-if="showRightEllipsis" class="page-item disabled">
+          <span class="page-link">...</span>
+        </li>
+        <li v-if="showLastPage" class="page-item" :class="{ active: currentPage === totalPages }">
+          <button class="page-link" @click="currentPage = totalPages" :aria-current="currentPage === totalPages ? 'page' : null">{{ totalPages }}</button>
         </li>
         <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-          <button class="page-link" @click="currentPage++" :disabled="currentPage === totalPages">&raquo;</button>
+          <button class="page-link" @click="currentPage++" :disabled="currentPage === totalPages" aria-label="Next page">
+            Next
+          </button>
         </li>
       </ul>
     </nav>
@@ -519,7 +535,6 @@ export default {
         filtered = filtered.filter(channel => channel.tags.includes(this.selectedTag));
       }
 
-      // Apply sorting
       switch (this.sortBy) {
         case 'name-asc':
           filtered.sort((a, b) => a.name.localeCompare(b.name));
@@ -553,6 +568,29 @@ export default {
     },
     tags() {
       return [...new Set(this.channels.flatMap(channel => channel.tags))].sort();
+    },
+    displayedPages() {
+      const maxPagesToShow = 5; // Show current page ±2
+      const pages = [];
+      const startPage = Math.max(2, this.currentPage - 2);
+      const endPage = Math.min(this.totalPages - 1, this.currentPage + 2);
+
+      for (let page = startPage; page <= endPage; page++) {
+        pages.push(page);
+      }
+      return pages;
+    },
+    showFirstPage() {
+      return this.currentPage > 3 && this.totalPages > 5;
+    },
+    showLastPage() {
+      return this.currentPage < this.totalPages - 2 && this.totalPages > 5;
+    },
+    showLeftEllipsis() {
+      return this.currentPage > 3 && this.totalPages > 5;
+    },
+    showRightEllipsis() {
+      return this.currentPage < this.totalPages - 2 && this.totalPages > 5;
     }
   },
   watch: {
@@ -783,7 +821,6 @@ export default {
 </script>
 
 <style scoped>
-/* Apply light red shadow to live cards */
 .channel-card:hover {
   transform: translateY(-5px);
 }
@@ -812,16 +849,52 @@ export default {
   transform: scale(1.1);
 }
 
-/* Favorites-specific styles */
-.favorites-section .channel-body {
-  padding: 12px;
+/* Pagination Styles */
+.pagination {
+  margin-top: 1.5rem;
 }
-.favorites-section .badge {
-  font-size: 0.65rem;
+
+.pagination .page-item .page-link {
+  border-radius: 8px;
+  margin: 0 4px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000000;
+  border: 1px solid #000000;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  text-align: center;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #00bfa6;
+  border-color: #00bfa6;
+  color: #ffffff;
+}
+
+.pagination .page-item:not(.disabled) .page-link:hover {
+  background-color: #e6f7f5;
+  border-color: #00bfa6;
+  color: #00bfa6;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #6c757d;
+  cursor: not-allowed;
+  background-color: #ffffff;
+  border-color: #000000;
 }
 
 /* Mobile-specific adjustments */
 @media (max-width: 576px) {
+  .pagination .page-item .page-link {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    min-width: 32px;
+  }
   .container {
     padding: 15px;
   }
