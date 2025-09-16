@@ -153484,7 +153484,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       showFavorites: true,
       alertMessage: '',
       expandedDescriptions: {},
-      // Track expanded state for each channel
       channels: [{
         "name": "Peace TV English",
         "youtubeChannel": "https://www.youtube.com/@PeaceTVEnglish",
@@ -153996,7 +153995,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     filterChannels: function filterChannels() {
       clearTimeout(this.debounceTimer);
       this.debounceTimer = setTimeout(function () {
-        // Removed $forceUpdate as it's not needed in Vue 3
+        // Filtering logic handled by computed properties
       }, 300);
     },
     truncateDescription: function truncateDescription(text, maxLength) {
@@ -154015,6 +154014,9 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       if (event.key === 'Escape' && this.showYouTubeModal) {
         this.closeYouTubeModal();
       }
+    },
+    debugLink: function debugLink(url, linkType) {
+      console.log("Clicked ".concat(linkType, " link: ").concat(url));
     }
   }
 });
@@ -178293,22 +178295,22 @@ var _hoisted_6 = {
   "class": "col-12 col-md-3"
 };
 var _hoisted_7 = {
-  "class": "col-12 col-md-3"
-};
-var _hoisted_8 = ["value"];
-var _hoisted_9 = {
-  "class": "col-12 col-md-3"
-};
-var _hoisted_10 = ["value"];
-var _hoisted_11 = {
-  "class": "col-12 col-md-3"
-};
-var _hoisted_12 = ["value"];
-var _hoisted_13 = {
-  "class": "col-12 col-md-6"
-};
-var _hoisted_14 = {
   "class": "input-group"
+};
+var _hoisted_8 = {
+  "class": "col-12 col-md-3"
+};
+var _hoisted_9 = ["value"];
+var _hoisted_10 = {
+  "class": "col-12 col-md-3"
+};
+var _hoisted_11 = ["value"];
+var _hoisted_12 = {
+  "class": "col-12 col-md-3"
+};
+var _hoisted_13 = ["value"];
+var _hoisted_14 = {
+  "class": "col-12 col-md-3"
 };
 var _hoisted_15 = {
   "class": "col-12 col-md-3"
@@ -178375,17 +178377,17 @@ var _hoisted_31 = {
 var _hoisted_32 = {
   style: {
     "display": "grid",
-    "grid-template-columns": "repeat(5, minmax(50px, 1fr))",
-    "gap": "4px",
+    "grid-template-columns": "repeat(5, minmax(60px, 1fr))",
+    "gap": "5px",
     "justify-content": "center",
     "justify-items": "center"
   }
 };
-var _hoisted_33 = ["href"];
-var _hoisted_34 = ["href"];
-var _hoisted_35 = ["href"];
-var _hoisted_36 = ["href"];
-var _hoisted_37 = ["href"];
+var _hoisted_33 = ["href", "onClick"];
+var _hoisted_34 = ["href", "onClick"];
+var _hoisted_35 = ["href", "onClick"];
+var _hoisted_36 = ["href", "onClick"];
+var _hoisted_37 = ["href", "onClick"];
 var _hoisted_38 = {
   "class": "row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-3",
   "aria-label": "Channel grid"
@@ -178450,11 +178452,11 @@ var _hoisted_53 = {
     "justify-items": "center"
   }
 };
-var _hoisted_54 = ["href"];
-var _hoisted_55 = ["href"];
-var _hoisted_56 = ["href"];
-var _hoisted_57 = ["href"];
-var _hoisted_58 = ["href"];
+var _hoisted_54 = ["href", "onClick"];
+var _hoisted_55 = ["href", "onClick"];
+var _hoisted_56 = ["href", "onClick"];
+var _hoisted_57 = ["href", "onClick"];
+var _hoisted_58 = ["href", "onClick"];
 var _hoisted_59 = {
   "aria-label": "Channels pagination",
   "class": "d-flex justify-content-center mb-4"
@@ -178477,30 +178479,40 @@ var _hoisted_66 = ["aria-current"];
 var _hoisted_67 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [$data.alertMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.alertMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Section (unchanged) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [$data.alertMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.alertMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close",
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $data.alertMessage = '';
     }),
     "aria-label": "Close"
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header (unchanged) "), _cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     "class": "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "fw-bold display-4 mb-3"
   }, "Live Islamic TV Channels"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead text-muted mx-auto"
-  }, " Watch live Islamic TV channels from around the world. Experience spiritual content including live prayers from Makkah and Madinah, educational programs, Quranic recitations, and Islamic lifestyle content in multiple languages. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter/Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $data.sortBy = $event;
-    }),
-    "class": "form-select",
+  }, " Watch live Islamic TV channels from around the world. Experience spiritual content including live prayers from Makkah and Madinah, educational programs, Quranic recitations, and Islamic lifestyle content in multiple languages. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter/Search Section (unchanged) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "input-group-text bg-white border-0",
     style: {
-      "border-radius": "12px",
+      "border-radius": "12px 0 0 12px",
+      "box-shadow": "0 2px 8px rgba(0,0,0,0.1)"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-search"
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.searchQuery = $event;
+    }),
+    type: "text",
+    "class": "form-control",
+    style: {
+      "border-radius": "0 12px 12px 0",
       "box-shadow": "0 2px 8px rgba(0,0,0,0.1)",
       "transition": "box-shadow 0.3s"
     },
-    onChange: _cache[2] || (_cache[2] = function () {
+    placeholder: "Search channels...",
+    onInput: _cache[2] || (_cache[2] = function () {
       return $options.filterChannels && $options.filterChannels.apply($options, arguments);
     }),
     onMouseover: _cache[3] || (_cache[3] = function ($event) {
@@ -178509,15 +178521,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onMouseout: _cache[4] || (_cache[4] = function ($event) {
       return _this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
     })
-  }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "name-asc"
-  }, "Name (A-Z)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "name-desc"
-  }, "Name (Z-A)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "viewers-desc"
-  }, "Viewers (High to Low)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "viewers-asc"
-  }, "Viewers (Low to High)", -1 /* CACHED */)])), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.selectedCategory = $event;
     }),
@@ -178542,8 +178546,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: category,
       value: category
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category), 9 /* TEXT, PROPS */, _hoisted_9);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
       return $data.selectedLanguage = $event;
     }),
@@ -178568,8 +178572,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: lang,
       value: lang
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lang), 9 /* TEXT, PROPS */, _hoisted_10);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedLanguage]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lang), 9 /* TEXT, PROPS */, _hoisted_11);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedLanguage]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
       return $data.selectedTag = $event;
     }),
@@ -178594,28 +178598,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: tag,
       value: tag
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 9 /* TEXT, PROPS */, _hoisted_12);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTag]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text bg-white border-0",
-    style: {
-      "border-radius": "12px 0 0 12px",
-      "box-shadow": "0 2px 8px rgba(0,0,0,0.1)"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-search"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 9 /* TEXT, PROPS */, _hoisted_13);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTag]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
-      return $data.searchQuery = $event;
+      return $data.sortBy = $event;
     }),
-    type: "text",
-    "class": "form-control",
+    "class": "form-select",
     style: {
-      "border-radius": "0 12px 12px 0",
+      "border-radius": "12px",
       "box-shadow": "0 2px 8px rgba(0,0,0,0.1)",
       "transition": "box-shadow 0.3s"
     },
-    placeholder: "Search channels...",
-    onInput: _cache[18] || (_cache[18] = function () {
+    onChange: _cache[18] || (_cache[18] = function () {
       return $options.filterChannels && $options.filterChannels.apply($options, arguments);
     }),
     onMouseover: _cache[19] || (_cache[19] = function ($event) {
@@ -178624,7 +178618,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onMouseout: _cache[20] || (_cache[20] = function ($event) {
       return _this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
     })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, _toConsumableArray(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "name-asc"
+  }, "Name (A-Z)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "name-desc"
+  }, "Name (Z-A)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "viewers-desc"
+  }, "Viewers (High to Low)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "viewers-asc"
+  }, "Viewers (Low to High)", -1 /* CACHED */)])), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-outline-secondary w-100",
     style: {
       "border-radius": "12px",
@@ -178746,143 +178748,163 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
     }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [channel.youtubeChannel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 0,
-      href: channel.youtubeChannel,
+      href: channel.youtubeChannel || '#',
       target: "_blank",
+      rel: "noopener noreferrer",
       style: {
         "display": "flex",
         "flex-direction": "column",
         "align-items": "center",
-        "padding": "6px",
-        "border-radius": "5px",
+        "padding": "8px",
+        "border-radius": "6px",
         "transition": "background-color 0.3s, transform 0.2s",
-        "min-width": "50px",
+        "min-width": "60px",
         "text-decoration": "none",
         "color": "#6c757d"
       },
       title: "YouTube Channel",
-      "aria-label": "Visit YouTube Channel"
+      "aria-label": "Visit YouTube Channel",
+      onClick: function onClick($event) {
+        return $options.debugLink(channel.youtubeChannel, 'YouTube Channel');
+      }
     }, _toConsumableArray(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
-        "font-size": "1rem",
-        "margin-bottom": "3px",
+        "font-size": "1.2rem",
+        "margin-bottom": "4px",
         "color": "#6c757d"
       },
       "class": "fab fa-youtube"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
       style: {
-        "font-size": "0.7rem"
+        "font-size": "0.8rem"
       }
     }, "Channel", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_33)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.playlistUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 1,
-      href: channel.playlistUrl,
+      href: channel.playlistUrl || '#',
       target: "_blank",
+      rel: "noopener noreferrer",
       style: {
         "display": "flex",
         "flex-direction": "column",
         "align-items": "center",
-        "padding": "6px",
-        "border-radius": "5px",
+        "padding": "8px",
+        "border-radius": "6px",
         "transition": "background-color 0.3s, transform 0.2s",
-        "min-width": "50px",
+        "min-width": "60px",
         "text-decoration": "none",
         "color": "#6c757d"
       },
       title: "Playlists",
-      "aria-label": "View Playlists"
+      "aria-label": "View Playlists",
+      onClick: function onClick($event) {
+        return $options.debugLink(channel.playlistUrl, 'Playlists');
+      }
     }, _toConsumableArray(_cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
-        "font-size": "1rem",
-        "margin-bottom": "3px",
+        "font-size": "1.2rem",
+        "margin-bottom": "4px",
         "color": "#6c757d"
       },
       "class": "fas fa-list-ul"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
       style: {
-        "font-size": "0.7rem"
+        "font-size": "0.8rem"
       }
     }, "Playlists", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_34)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.liveTvUrl && channel.isLive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 2,
-      href: channel.liveTvUrl,
+      href: channel.liveTvUrl || '#',
       target: "_blank",
+      rel: "noopener noreferrer",
       style: {
         "display": "flex",
         "flex-direction": "column",
         "align-items": "center",
-        "padding": "6px",
-        "border-radius": "5px",
+        "padding": "8px",
+        "border-radius": "6px",
         "transition": "background-color 0.3s, transform 0.2s",
-        "min-width": "50px",
+        "min-width": "60px",
         "text-decoration": "none",
         "color": "#6c757d"
       },
       title: "Live TV",
-      "aria-label": "Watch Live TV"
+      "aria-label": "Watch Live TV",
+      onClick: function onClick($event) {
+        return $options.debugLink(channel.liveTvUrl, 'Live TV');
+      }
     }, _toConsumableArray(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
-        "font-size": "1rem",
-        "margin-bottom": "3px",
+        "font-size": "1.2rem",
+        "margin-bottom": "4px",
         "color": "#6c757d"
       },
       "class": "fas fa-broadcast-tower"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
       style: {
-        "font-size": "0.7rem"
+        "font-size": "0.8rem"
       }
     }, "Live TV", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_35)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.websiteUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 3,
-      href: channel.websiteUrl,
+      href: channel.websiteUrl || '#',
       target: "_blank",
+      rel: "noopener noreferrer",
       style: {
         "display": "flex",
         "flex-direction": "column",
         "align-items": "center",
-        "padding": "6px",
-        "border-radius": "5px",
+        "padding": "8px",
+        "border-radius": "6px",
         "transition": "background-color 0.3s, transform 0.2s",
-        "min-width": "50px",
+        "min-width": "60px",
         "text-decoration": "none",
         "color": "#6c757d"
       },
       title: "Website",
-      "aria-label": "Visit Website"
+      "aria-label": "Visit Website",
+      onClick: function onClick($event) {
+        return $options.debugLink(channel.websiteUrl, 'Website');
+      }
     }, _toConsumableArray(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
-        "font-size": "1rem",
-        "margin-bottom": "3px",
+        "font-size": "1.2rem",
+        "margin-bottom": "4px",
         "color": "#6c757d"
       },
       "class": "fas fa-link"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
       style: {
-        "font-size": "0.7rem"
+        "font-size": "0.8rem"
       }
     }, "Website", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_36)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.youtubeChannel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 4,
-      href: channel.youtubeChannel + '/videos',
+      href: channel.youtubeChannel ? channel.youtubeChannel + '/videos' : '#',
       target: "_blank",
+      rel: "noopener noreferrer",
       style: {
         "display": "flex",
         "flex-direction": "column",
         "align-items": "center",
-        "padding": "6px",
-        "border-radius": "5px",
+        "padding": "8px",
+        "border-radius": "6px",
         "transition": "background-color 0.3s, transform 0.2s",
-        "min-width": "50px",
+        "min-width": "60px",
         "text-decoration": "none",
         "color": "#6c757d"
       },
       title: "Videos",
-      "aria-label": "View Videos"
+      "aria-label": "View Videos",
+      onClick: function onClick($event) {
+        return $options.debugLink(channel.youtubeChannel + '/videos', 'Videos');
+      }
     }, _toConsumableArray(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
-        "font-size": "1rem",
-        "margin-bottom": "3px",
+        "font-size": "1.2rem",
+        "margin-bottom": "4px",
         "color": "#6c757d"
       },
       "class": "fas fa-video"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
       style: {
-        "font-size": "0.7rem"
+        "font-size": "0.8rem"
       }
     }, "Videos", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_37)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 2 /* CLASS */)]);
   }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Channels Section "), _cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
@@ -178983,8 +179005,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
     }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [channel.youtubeChannel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 0,
-      href: channel.youtubeChannel,
+      href: channel.youtubeChannel || '#',
       target: "_blank",
+      rel: "noopener noreferrer",
       style: {
         "display": "flex",
         "flex-direction": "column",
@@ -178997,7 +179020,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "#6c757d"
       },
       title: "YouTube Channel",
-      "aria-label": "Visit YouTube Channel"
+      "aria-label": "Visit YouTube Channel",
+      onClick: function onClick($event) {
+        return $options.debugLink(channel.youtubeChannel, 'YouTube Channel');
+      }
     }, _toConsumableArray(_cache[51] || (_cache[51] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
@@ -179011,8 +179037,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, "Channel", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_54)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.playlistUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 1,
-      href: channel.playlistUrl,
+      href: channel.playlistUrl || '#',
       target: "_blank",
+      rel: "noopener noreferrer",
       style: {
         "display": "flex",
         "flex-direction": "column",
@@ -179025,7 +179052,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "#6c757d"
       },
       title: "Playlists",
-      "aria-label": "View Playlists"
+      "aria-label": "View Playlists",
+      onClick: function onClick($event) {
+        return $options.debugLink(channel.playlistUrl, 'Playlists');
+      }
     }, _toConsumableArray(_cache[52] || (_cache[52] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
@@ -179039,8 +179069,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, "Playlists", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_55)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.liveTvUrl && channel.isLive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 2,
-      href: channel.liveTvUrl,
+      href: channel.liveTvUrl || '#',
       target: "_blank",
+      rel: "noopener noreferrer",
       style: {
         "display": "flex",
         "flex-direction": "column",
@@ -179053,7 +179084,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "#6c757d"
       },
       title: "Live TV",
-      "aria-label": "Watch Live TV"
+      "aria-label": "Watch Live TV",
+      onClick: function onClick($event) {
+        return $options.debugLink(channel.liveTvUrl, 'Live TV');
+      }
     }, _toConsumableArray(_cache[53] || (_cache[53] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
@@ -179067,8 +179101,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, "Live TV", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_56)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.websiteUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 3,
-      href: channel.websiteUrl,
+      href: channel.websiteUrl || '#',
       target: "_blank",
+      rel: "noopener noreferrer",
       style: {
         "display": "flex",
         "flex-direction": "column",
@@ -179081,7 +179116,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "#6c757d"
       },
       title: "Website",
-      "aria-label": "Visit Website"
+      "aria-label": "Visit Website",
+      onClick: function onClick($event) {
+        return $options.debugLink(channel.websiteUrl, 'Website');
+      }
     }, _toConsumableArray(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
@@ -179095,8 +179133,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, "Website", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_57)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.youtubeChannel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 4,
-      href: channel.youtubeChannel + '/videos',
+      href: channel.youtubeChannel ? channel.youtubeChannel + '/videos' : '#',
       target: "_blank",
+      rel: "noopener noreferrer",
       style: {
         "display": "flex",
         "flex-direction": "column",
@@ -179109,7 +179148,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "#6c757d"
       },
       title: "Videos",
-      "aria-label": "View Videos"
+      "aria-label": "View Videos",
+      onClick: function onClick($event) {
+        return $options.debugLink(channel.youtubeChannel + '/videos', 'Videos');
+      }
     }, _toConsumableArray(_cache[55] || (_cache[55] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
@@ -179122,7 +179164,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "font-size": "0.8rem"
       }
     }, "Videos", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_58)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 2 /* CLASS */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination (unchanged) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === 1
     }])
@@ -191088,7 +191130,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.channel-card[data-v-670f86e6] {\n  transition: transform 0.2s;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n}\n.channel-card[data-v-670f86e6]:hover {\n  transform: translateY(-5px);\n}\n.channel-card.is-live[data-v-670f86e6] {\n  animation: pulse-shadow-670f86e6 1.5s ease-in-out infinite;\n}\n.channel-img[data-v-670f86e6] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.channel-gradient[data-v-670f86e6] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 35%;\n  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);\n}\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n}\n.channel-body a[data-v-670f86e6]:hover {\n  background-color: #f1f1f1;\n  transform: scale(1.1);\n}\n\n/* Pagination Styles */\n.pagination[data-v-670f86e6] {\n  margin-top: 1.5rem;\n}\n.pagination .page-item .page-link[data-v-670f86e6] {\n  border-radius: 8px;\n  margin: 0 4px;\n  padding: 0.5rem 1rem;\n  font-size: 1rem;\n  font-weight: 500;\n  color: #000000;\n  border: 1px solid #000000;\n  transition: all 0.2s ease;\n  min-width: 40px;\n  text-align: center;\n}\n.pagination .page-item.active .page-link[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n  color: #ffffff;\n}\n.pagination .page-item:not(.disabled) .page-link[data-v-670f86e6]:hover {\n  background-color: #e6f7f5;\n  border-color: #00bfa6;\n  color: #00bfa6;\n  transform: translateY(-2px);\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n.pagination .page-item.disabled .page-link[data-v-670f86e6] {\n  color: #6c757d;\n  cursor: not-allowed;\n  background-color: #ffffff;\n  border-color: #000000;\n}\n@keyframes pulse-shadow-670f86e6 {\n0% {\n    box-shadow: 0 4px 12px rgba(255,0,0,0.3);\n}\n50% {\n    box-shadow: 0 8px 24px rgba(255,0,0,0.5);\n}\n100% {\n    box-shadow: 0 4px 12px rgba(255,0,0,0.3);\n}\n}\n.description-wrapper[data-v-670f86e6] {\n  overflow: hidden;\n  transition: max-height 0.3s ease-in-out;\n  max-height: 4em; /* Roughly 2 lines of text at .small font-size */\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n  max-height: 20em; /* Large enough for longest descriptions */\n}\n.description-text[data-v-670f86e6] {\n  margin: 0;\n  display: inline;\n}\n.read-more[data-v-670f86e6] {\n  color: #00bfa6;\n  font-size: 0.8rem;\n  text-decoration: none;\n  transition: color 0.2s;\n}\n.read-more[data-v-670f86e6]:hover {\n  color: #008f7a;\n  text-decoration: underline;\n}\n@media (max-width: 576px) {\n.pagination .page-item .page-link[data-v-670f86e6] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.9rem;\n    min-width: 32px;\n}\n.description-wrapper[data-v-670f86e6] {\n    max-height: 3em; /* Tighter for mobile */\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n    max-height: 15em;\n}\n.container[data-v-670f86e6] {\n    padding: 15px;\n}\n.channel-card[data-v-670f86e6] {\n    margin-bottom: 15px;\n    box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n}\n.channel-card.is-live[data-v-670f86e6] {\n    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;\n}\n.channel-img-wrapper[data-v-670f86e6] {\n    height: 220px;\n}\n.favorites-section .channel-img-wrapper[data-v-670f86e6] {\n    height: 160px;\n}\n.channel-body[data-v-670f86e6] {\n    padding: 10px;\n}\n.favorites-section .channel-body[data-v-670f86e6] {\n    padding: 8px;\n}\n.fw-bold.display-4[data-v-670f86e6] {\n    font-size: 1.8rem;\n}\n.lead[data-v-670f86e6] {\n    font-size: 1rem;\n    max-width: 100%;\n}\n.alert[data-v-670f86e6] {\n    max-width: calc(100% - 30px);\n    font-size: 0.9rem;\n    top: 70px;\n    right: 15px;\n}\n.channel-body h5[data-v-670f86e6] {\n    font-size: 1.1rem;\n}\n.favorites-section .channel-body h5[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.channel-body p[data-v-670f86e6], .channel-body .small[data-v-670f86e6] {\n    font-size: 0.85rem;\n}\n.favorites-section .channel-body p[data-v-670f86e6], .favorites-section .channel-body .small[data-v-670f86e6] {\n    font-size: 0.8rem;\n}\n.channel-body .badge[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.favorites-section .channel-body .badge[data-v-670f86e6] {\n    font-size: 0.6rem;\n}\n.channel-body a[data-v-670f86e6] {\n    min-width: 50px;\n    padding: 6px;\n}\n.favorites-section .channel-body a[data-v-670f86e6] {\n    min-width: 45px;\n    padding: 5px;\n}\n.channel-body a i[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.favorites-section .channel-body a i[data-v-670f86e6] {\n    font-size: 0.9rem;\n}\n.channel-body a small[data-v-670f86e6] {\n    font-size: 0.7rem;\n}\n.favorites-section .channel-body a small[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.bg-light[data-v-670f86e6] {\n    padding: 15px !important;\n}\n.form-control[data-v-670f86e6], .form-select[data-v-670f86e6], .input-group-text[data-v-670f86e6] {\n    font-size: 0.9rem;\n    border-radius: 8px !important;\n    box-shadow: 0 1px 4px rgba(0,0,0,0.1);\n}\n.form-control[data-v-670f86e6]:hover, .form-select[data-v-670f86e6]:hover, .input-group-text[data-v-670f86e6]:hover {\n    box-shadow: 0 2px 8px rgba(0,0,0,0.15);\n}\n}\ninput.form-control[data-v-670f86e6],\nselect.form-select[data-v-670f86e6] {\n  font-size: 0.9rem;\n}\n\n/* Reduced motion */\n@media (prefers-reduced-motion: reduce) {\n.card[data-v-670f86e6]:hover {\n    transform: none;\n    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);\n}\n.btn-primary[data-v-670f86e6]:hover,\n  .btn-outline-danger[data-v-670f86e6]:hover,\n  .btn-outline-secondary[data-v-670f86e6]:hover,\n  .btn-outline-success[data-v-670f86e6]:hover,\n  .btn-outline-primary[data-v-670f86e6]:hover {\n    transform: none;\n}\n.mini-screen[data-v-670f86e6] {\n    transition: none;\n    animation: none;\n}\n.animate__fadeInDown[data-v-670f86e6],\n  .animate__fadeInUp[data-v-670f86e6],\n  .animate__zoomIn[data-v-670f86e6],\n  .animate__shakeX[data-v-670f86e6],\n  .animate__rotate[data-v-670f86e6] {\n    animation: none;\n}\n}\n.channel-card h5[data-v-670f86e6] {\n  font-size: 1.4rem;\n  /* larger title */\n}\n.channel-card .description[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.channel-card .small-text[data-v-670f86e6] {\n  font-size: 0.95rem;\n}\n.channel-card .btn[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.card h5[data-v-670f86e6] {\n  font-size: 1.25rem;\n  /* slightly larger */\n  font-weight: 700;\n  /* bold, stronger emphasis */\n  color: #212529;\n  /* consistent dark text */\n  margin-bottom: 0.5rem;\n}\n\n/* Card meta info (address, viewers, stream type) */\n.card p[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 400;\n  color: #6c757d;\n  /* muted gray */\n  margin-bottom: 0.35rem;\n  line-height: 1.4;\n}\n.card p i[data-v-670f86e6] {\n  font-size: 0.9rem;\n  margin-right: 0.35rem;\n}\n\n/* Emphasis for important numbers */\n.card p span[data-v-670f86e6] {\n  font-weight: 600;\n  color: #212529;\n}\n\n/* Badge styles */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n  font-weight: 500;\n  padding: 0.4em 0.65em;\n  border-radius: 8px;\n}\n.badge.bg-primary[data-v-670f86e6] {\n  background-color: #00bfa6 !important;\n}\n.badge.bg-secondary[data-v-670f86e6] {\n  background-color: #6c757d !important;\n}\n.badge.bg-info[data-v-670f86e6] {\n  background-color: #e0f7f4 !important;\n  color: #004d43 !important;\n}\n\n/* Buttons inside cards */\n.card .btn[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 600;\n  border-radius: 50px;\n  padding: 0.5rem 1rem;\n}\n.card .btn-success[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n}\n.card .btn-success[data-v-670f86e6]:hover {\n  background-color: #009688;\n  border-color: #009688;\n}\n\n/* Card hover enhancement */\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.channel-card[data-v-670f86e6] {\n  transition: transform 0.2s;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n}\n.channel-card[data-v-670f86e6]:hover {\n  transform: translateY(-5px);\n}\n.channel-card.is-live[data-v-670f86e6] {\n  animation: pulse-shadow-670f86e6 1.5s ease-in-out infinite;\n}\n.channel-img[data-v-670f86e6] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.channel-gradient[data-v-670f86e6] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 35%;\n  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);\n}\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n}\n.channel-body a[data-v-670f86e6]:hover {\n  background-color: #f1f1f1;\n  transform: scale(1.1);\n}\n\n/* Pagination Styles */\n.pagination[data-v-670f86e6] {\n  margin-top: 1.5rem;\n}\n.pagination .page-item .page-link[data-v-670f86e6] {\n  border-radius: 8px;\n  margin: 0 4px;\n  padding: 0.5rem 1rem;\n  font-size: 1rem;\n  font-weight: 500;\n  color: #000000;\n  border: 1px solid #000000;\n  transition: all 0.2s ease;\n  min-width: 40px;\n  text-align: center;\n}\n.pagination .page-item.active .page-link[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n  color: #ffffff;\n}\n.pagination .page-item:not(.disabled) .page-link[data-v-670f86e6]:hover {\n  background-color: #e6f7f5;\n  border-color: #00bfa6;\n  color: #00bfa6;\n  transform: translateY(-2px);\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}\n.pagination .page-item.disabled .page-link[data-v-670f86e6] {\n  color: #6c757d;\n  cursor: not-allowed;\n  background-color: #ffffff;\n  border-color: #000000;\n}\n@keyframes pulse-shadow-670f86e6 {\n0% {\n    box-shadow: 0 4px 12px rgba(255,0,0,0.3);\n}\n50% {\n    box-shadow: 0 8px 24px rgba(255,0,0,0.5);\n}\n100% {\n    box-shadow: 0 4px 12px rgba(255,0,0,0.3);\n}\n}\n.description-wrapper[data-v-670f86e6] {\n  overflow: hidden;\n  transition: max-height 0.3s ease-in-out;\n  max-height: 4em;\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n  max-height: 20em;\n}\n.description-text[data-v-670f86e6] {\n  margin: 0;\n  display: inline;\n}\n.read-more[data-v-670f86e6] {\n  color: #00bfa6;\n  font-size: 0.8rem;\n  text-decoration: none;\n  transition: color 0.2s;\n}\n.read-more[data-v-670f86e6]:hover {\n  color: #008f7a;\n  text-decoration: underline;\n}\n@media (max-width: 576px) {\n.pagination .page-item .page-link[data-v-670f86e6] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.9rem;\n    min-width: 32px;\n}\n.description-wrapper[data-v-670f86e6] {\n    max-height: 3em;\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n    max-height: 15em;\n}\n.container[data-v-670f86e6] {\n    padding: 15px;\n}\n.channel-card[data-v-670f86e6] {\n    margin-bottom: 15px;\n    box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n}\n.channel-card.is-live[data-v-670f86e6] {\n    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;\n}\n.channel-img-wrapper[data-v-670f86e6] {\n    height: 220px;\n}\n.favorites-section .channel-img-wrapper[data-v-670f86e6] {\n    height: 160px;\n}\n.channel-body[data-v-670f86e6] {\n    padding: 10px;\n}\n.favorites-section .channel-body[data-v-670f86e6] {\n    padding: 8px;\n}\n.fw-bold.display-4[data-v-670f86e6] {\n    font-size: 1.8rem;\n}\n.lead[data-v-670f86e6] {\n    font-size: 1rem;\n    max-width: 100%;\n}\n.alert[data-v-670f86e6] {\n    max-width: calc(100% - 30px);\n    font-size: 0.9rem;\n    top: 70px;\n    right: 15px;\n}\n.channel-body h5[data-v-670f86e6] {\n    font-size: 1.1rem;\n}\n.favorites-section .channel-body h5[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.channel-body p[data-v-670f86e6], .channel-body .small[data-v-670f86e6] {\n    font-size: 0.85rem;\n}\n.favorites-section .channel-body p[data-v-670f86e6], .favorites-section .channel-body .small[data-v-670f86e6] {\n    font-size: 0.8rem;\n}\n.channel-body .badge[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.favorites-section .channel-body .badge[data-v-670f86e6] {\n    font-size: 0.6rem;\n}\n.channel-body a[data-v-670f86e6] {\n    min-width: 50px;\n    padding: 6px;\n}\n.favorites-section .channel-body a[data-v-670f86e6] {\n    min-width: 45px;\n    padding: 5px;\n}\n.channel-body a i[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.favorites-section .channel-body a i[data-v-670f86e6] {\n    font-size: 0.9rem;\n}\n.channel-body a small[data-v-670f86e6] {\n    font-size: 0.7rem;\n}\n.favorites-section .channel-body a small[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.bg-light[data-v-670f86e6] {\n    padding: 15px !important;\n}\n.form-control[data-v-670f86e6], .form-select[data-v-670f86e6], .input-group-text[data-v-670f86e6] {\n    font-size: 0.9rem;\n    border-radius: 8px !important;\n    box-shadow: 0 1px 4px rgba(0,0,0,0.1);\n}\n.form-control[data-v-670f86e6]:hover, .form-select[data-v-670f86e6]:hover, .input-group-text[data-v-670f86e6]:hover {\n    box-shadow: 0 2px 8px rgba(0,0,0,0.15);\n}\n}\ninput.form-control[data-v-670f86e6],\nselect.form-select[data-v-670f86e6] {\n  font-size: 0.9rem;\n}\n\n/* Reduced motion */\n@media (prefers-reduced-motion: reduce) {\n.card[data-v-670f86e6]:hover {\n    transform: none;\n    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);\n}\n.btn-primary[data-v-670f86e6]:hover,\n  .btn-outline-danger[data-v-670f86e6]:hover,\n  .btn-outline-secondary[data-v-670f86e6]:hover,\n  .btn-outline-success[data-v-670f86e6]:hover,\n  .btn-outline-primary[data-v-670f86e6]:hover {\n    transform: none;\n}\n.mini-screen[data-v-670f86e6] {\n    transition: none;\n    animation: none;\n}\n.animate__fadeInDown[data-v-670f86e6],\n  .animate__fadeInUp[data-v-670f86e6],\n  .animate__zoomIn[data-v-670f86e6],\n  .animate__shakeX[data-v-670f86e6],\n  .animate__rotate[data-v-670f86e6] {\n    animation: none;\n}\n}\n.channel-card h5[data-v-670f86e6] {\n  font-size: 1.4rem;\n  /* larger title */\n}\n.channel-card .description[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.channel-card .small-text[data-v-670f86e6] {\n  font-size: 0.95rem;\n}\n.channel-card .btn[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.card h5[data-v-670f86e6] {\n  font-size: 1.25rem;\n  /* slightly larger */\n  font-weight: 700;\n  /* bold, stronger emphasis */\n  color: #212529;\n  /* consistent dark text */\n  margin-bottom: 0.5rem;\n}\n\n/* Card meta info (address, viewers, stream type) */\n.card p[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 400;\n  color: #6c757d;\n  /* muted gray */\n  margin-bottom: 0.35rem;\n  line-height: 1.4;\n}\n.card p i[data-v-670f86e6] {\n  font-size: 0.9rem;\n  margin-right: 0.35rem;\n}\n\n/* Emphasis for important numbers */\n.card p span[data-v-670f86e6] {\n  font-weight: 600;\n  color: #212529;\n}\n\n/* Badge styles */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n  font-weight: 500;\n  padding: 0.4em 0.65em;\n  border-radius: 8px;\n}\n.badge.bg-primary[data-v-670f86e6] {\n  background-color: #00bfa6 !important;\n}\n.badge.bg-secondary[data-v-670f86e6] {\n  background-color: #6c757d !important;\n}\n.badge.bg-info[data-v-670f86e6] {\n  background-color: #e0f7f4 !important;\n  color: #004d43 !important;\n}\n\n/* Buttons inside cards */\n.card .btn[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 600;\n  border-radius: 50px;\n  padding: 0.5rem 1rem;\n}\n.card .btn-success[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n}\n.card .btn-success[data-v-670f86e6]:hover {\n  background-color: #009688;\n  border-color: #009688;\n}\n\n/* Card hover enhancement */\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

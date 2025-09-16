@@ -1,6 +1,6 @@
 <template>
   <div class="container py-5">
-    <!-- Alert Section -->
+    <!-- Alert Section (unchanged) -->
     <section class="mb-3">
       <div v-if="alertMessage" class="alert alert-success position-fixed" role="alert"
         style="top: 70px; right: 15px; z-index: 1050; max-width: 400px; margin: 0;">
@@ -9,7 +9,7 @@
       </div>
     </section>
 
-    <!-- Header -->
+    <!-- Header (unchanged) -->
     <header class="text-center mb-5">
       <h1 class="fw-bold display-4 mb-3">Live Islamic TV Channels</h1>
       <p class="lead text-muted mx-auto">
@@ -19,20 +19,22 @@
       </p>
     </header>
 
-    <!-- Filter/Search Section -->
+    <!-- Filter/Search Section (unchanged) -->
     <section class="mb-5 p-3 bg-light rounded-3 shadow-sm" style="background: #f8f9fa; border: 1px solid #e0e0e0;"
       aria-label="Channel filters">
       <div class="row g-3 text-center text-md-start">
         <div class="col-12 col-md-3">
-          <select v-model="sortBy" class="form-select"
-            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-            @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
-            <option value="name-asc">Name (A-Z)</option>
-            <option value="name-desc">Name (Z-A)</option>
-            <option value="viewers-desc">Viewers (High to Low)</option>
-            <option value="viewers-asc">Viewers (Low to High)</option>
-          </select>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-0"
+              style="border-radius: 12px 0 0 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+              <i class="fas fa-search"></i>
+            </span>
+            <input v-model="searchQuery" type="text" class="form-control"
+              style="border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
+              placeholder="Search channels..." @input="filterChannels"
+              @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
+              @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+          </div>
         </div>
         <div class="col-12 col-md-3">
           <select v-model="selectedCategory" class="form-select"
@@ -61,18 +63,16 @@
             <option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</option>
           </select>
         </div>
-        <div class="col-12 col-md-6">
-          <div class="input-group">
-            <span class="input-group-text bg-white border-0"
-              style="border-radius: 12px 0 0 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-              <i class="fas fa-search"></i>
-            </span>
-            <input v-model="searchQuery" type="text" class="form-control"
-              style="border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-              placeholder="Search channels..." @input="filterChannels"
-              @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-              @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
-          </div>
+        <div class="col-12 col-md-3">
+          <select v-model="sortBy" class="form-select"
+            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
+            @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
+            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+            <option value="name-asc">Name (A-Z)</option>
+            <option value="name-desc">Name (Z-A)</option>
+            <option value="viewers-desc">Viewers (High to Low)</option>
+            <option value="viewers-asc">Viewers (Low to High)</option>
+          </select>
         </div>
         <div class="col-12 col-md-3">
           <button class="btn btn-outline-secondary w-100"
@@ -141,36 +141,36 @@
                 <span v-for="lang in channel.languages" :key="lang" class="badge bg-secondary me-1">{{ lang }}</span>
                 <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
               </div>
-              <div style="display: grid; grid-template-columns: repeat(5, minmax(50px, 1fr)); gap: 4px; justify-content: center; justify-items: center;">
-                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 6px; border-radius: 5px; transition: background-color 0.3s, transform 0.2s; min-width: 50px; text-decoration: none; color: #6c757d;"
-                  title="YouTube Channel" aria-label="Visit YouTube Channel">
-                  <i style="font-size: 1rem; margin-bottom: 3px; color: #6c757d;" class="fab fa-youtube"></i>
-                  <small style="font-size: 0.7rem;">Channel</small>
+              <div style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px; justify-content: center; justify-items: center;">
+                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel || '#'" target="_blank" rel="noopener noreferrer"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="YouTube Channel" aria-label="Visit YouTube Channel" @click="debugLink(channel.youtubeChannel, 'YouTube Channel')">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fab fa-youtube"></i>
+                  <small style="font-size: 0.8rem;">Channel</small>
                 </a>
-                <a v-if="channel.playlistUrl" :href="channel.playlistUrl" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 6px; border-radius: 5px; transition: background-color 0.3s, transform 0.2s; min-width: 50px; text-decoration: none; color: #6c757d;"
-                  title="Playlists" aria-label="View Playlists">
-                  <i style="font-size: 1rem; margin-bottom: 3px; color: #6c757d;" class="fas fa-list-ul"></i>
-                  <small style="font-size: 0.7rem;">Playlists</small>
+                <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank" rel="noopener noreferrer"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Playlists" aria-label="View Playlists" @click="debugLink(channel.playlistUrl, 'Playlists')">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
+                  <small style="font-size: 0.8rem;">Playlists</small>
                 </a>
-                <a v-if="channel.liveTvUrl && channel.isLive" :href="channel.liveTvUrl" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 6px; border-radius: 5px; transition: background-color 0.3s, transform 0.2s; min-width: 50px; text-decoration: none; color: #6c757d;"
-                  title="Live TV" aria-label="Watch Live TV">
-                  <i style="font-size: 1rem; margin-bottom: 3px; color: #6c757d;" class="fas fa-broadcast-tower"></i>
-                  <small style="font-size: 0.7rem;">Live TV</small>
+                <a v-if="channel.liveTvUrl && channel.isLive" :href="channel.liveTvUrl || '#'" target="_blank" rel="noopener noreferrer"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Live TV" aria-label="Watch Live TV" @click="debugLink(channel.liveTvUrl, 'Live TV')">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-broadcast-tower"></i>
+                  <small style="font-size: 0.8rem;">Live TV</small>
                 </a>
-                <a v-if="channel.websiteUrl" :href="channel.websiteUrl" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 6px; border-radius: 5px; transition: background-color 0.3s, transform 0.2s; min-width: 50px; text-decoration: none; color: #6c757d;"
-                  title="Website" aria-label="Visit Website">
-                  <i style="font-size: 1rem; margin-bottom: 3px; color: #6c757d;" class="fas fa-link"></i>
-                  <small style="font-size: 0.7rem;">Website</small>
+                <a v-if="channel.websiteUrl" :href="channel.websiteUrl || '#'" target="_blank" rel="noopener noreferrer"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Website" aria-label="Visit Website" @click="debugLink(channel.websiteUrl, 'Website')">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-link"></i>
+                  <small style="font-size: 0.8rem;">Website</small>
                 </a>
-                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel + '/videos'" target="_blank"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 6px; border-radius: 5px; transition: background-color 0.3s, transform 0.2s; min-width: 50px; text-decoration: none; color: #6c757d;"
-                  title="Videos" aria-label="View Videos">
-                  <i style="font-size: 1rem; margin-bottom: 3px; color: #6c757d;" class="fas fa-video"></i>
-                  <small style="font-size: 0.7rem;">Videos</small>
+                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel ? channel.youtubeChannel + '/videos' : '#'" target="_blank" rel="noopener noreferrer"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Videos" aria-label="View Videos" @click="debugLink(channel.youtubeChannel + '/videos', 'Videos')">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-video"></i>
+                  <small style="font-size: 0.8rem;">Videos</small>
                 </a>
               </div>
             </div>
@@ -232,43 +232,43 @@
               <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
             </div>
             <div style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px; justify-content: center; justify-items: center;">
-              <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel" target="_blank"
-                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                title="YouTube Channel" aria-label="Visit YouTube Channel">
-                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fab fa-youtube"></i>
-                <small style="font-size: 0.8rem;">Channel</small>
-              </a>
-              <a v-if="channel.playlistUrl" :href="channel.playlistUrl" target="_blank"
-                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                title="Playlists" aria-label="View Playlists">
-                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
-                <small style="font-size: 0.8rem;">Playlists</small>
-              </a>
-              <a v-if="channel.liveTvUrl && channel.isLive" :href="channel.liveTvUrl" target="_blank"
-                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                title="Live TV" aria-label="Watch Live TV">
-                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-broadcast-tower"></i>
-                <small style="font-size: 0.8rem;">Live TV</small>
-              </a>
-              <a v-if="channel.websiteUrl" :href="channel.websiteUrl" target="_blank"
-                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                title="Website" aria-label="Visit Website">
-                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-link"></i>
-                <small style="font-size: 0.8rem;">Website</small>
-              </a>
-              <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel + '/videos'" target="_blank"
-                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                title="Videos" aria-label="View Videos">
-                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-video"></i>
-                <small style="font-size: 0.8rem;">Videos</small>
-              </a>
-            </div>
+                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel || '#'" target="_blank" rel="noopener noreferrer"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="YouTube Channel" aria-label="Visit YouTube Channel" @click="debugLink(channel.youtubeChannel, 'YouTube Channel')">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fab fa-youtube"></i>
+                  <small style="font-size: 0.8rem;">Channel</small>
+                </a>
+                <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank" rel="noopener noreferrer"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Playlists" aria-label="View Playlists" @click="debugLink(channel.playlistUrl, 'Playlists')">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
+                  <small style="font-size: 0.8rem;">Playlists</small>
+                </a>
+                <a v-if="channel.liveTvUrl && channel.isLive" :href="channel.liveTvUrl || '#'" target="_blank" rel="noopener noreferrer"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Live TV" aria-label="Watch Live TV" @click="debugLink(channel.liveTvUrl, 'Live TV')">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-broadcast-tower"></i>
+                  <small style="font-size: 0.8rem;">Live TV</small>
+                </a>
+                <a v-if="channel.websiteUrl" :href="channel.websiteUrl || '#'" target="_blank" rel="noopener noreferrer"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Website" aria-label="Visit Website" @click="debugLink(channel.websiteUrl, 'Website')">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-link"></i>
+                  <small style="font-size: 0.8rem;">Website</small>
+                </a>
+                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel ? channel.youtubeChannel + '/videos' : '#'" target="_blank" rel="noopener noreferrer"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Videos" aria-label="View Videos" @click="debugLink(channel.youtubeChannel + '/videos', 'Videos')">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-video"></i>
+                  <small style="font-size: 0.8rem;">Videos</small>
+                </a>
+              </div>
           </div>
         </div>
       </article>
     </section>
 
-    <!-- Pagination -->
+    <!-- Pagination (unchanged) -->
     <nav aria-label="Channels pagination" class="d-flex justify-content-center mb-4">
       <ul class="pagination pagination-lg">
         <li class="page-item" :class="{ disabled: currentPage === 1 }">
@@ -334,7 +334,7 @@ export default {
       favorites: [],
       showFavorites: true,
       alertMessage: '',
-      expandedDescriptions: {}, // Track expanded state for each channel
+      expandedDescriptions: {},
       channels: [
         {
           "name": "Peace TV English",
@@ -843,7 +843,7 @@ export default {
     filterChannels() {
       clearTimeout(this.debounceTimer);
       this.debounceTimer = setTimeout(() => {
-        // Removed $forceUpdate as it's not needed in Vue 3
+        // Filtering logic handled by computed properties
       }, 300);
     },
     truncateDescription(text, maxLength) {
@@ -856,6 +856,9 @@ export default {
       if (event.key === 'Escape' && this.showYouTubeModal) {
         this.closeYouTubeModal();
       }
+    },
+    debugLink(url, linkType) {
+      console.log(`Clicked ${linkType} link: ${url}`);
     }
   }
 }
@@ -953,11 +956,11 @@ export default {
 .description-wrapper {
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
-  max-height: 4em; /* Roughly 2 lines of text at .small font-size */
+  max-height: 4em;
 }
 
 .description-wrapper.expanded {
-  max-height: 20em; /* Large enough for longest descriptions */
+  max-height: 20em;
 }
 
 .description-text {
@@ -985,7 +988,7 @@ export default {
   }
 
   .description-wrapper {
-    max-height: 3em; /* Tighter for mobile */
+    max-height: 3em;
   }
   .description-wrapper.expanded {
     max-height: 15em;
