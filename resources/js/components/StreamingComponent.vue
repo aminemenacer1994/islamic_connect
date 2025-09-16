@@ -23,19 +23,6 @@
       aria-label="Channel filters">
       <div class="row g-3 text-center text-md-start">
         <div class="col-12 col-md-3">
-          <div class="input-group">
-            <span class="input-group-text bg-white border-0"
-              style="border-radius: 12px 0 0 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-              <i class="fas fa-search"></i>
-            </span>
-            <input v-model="searchQuery" type="text" class="form-control"
-              style="border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-              placeholder="Search channels..." @input="filterChannels"
-              @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-              @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
-          </div>
-        </div>
-        <div class="col-12 col-md-3">
           <select v-model="selectedCategory" class="form-select"
             style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
             @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
@@ -72,6 +59,19 @@
             <option value="viewers-desc">Viewers (High to Low)</option>
             <option value="viewers-asc">Viewers (Low to High)</option>
           </select>
+        </div>
+        <div class="col-12 col-md-9">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-0"
+              style="border-radius: 12px 0 0 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+              <i class="fas fa-search"></i>
+            </span>
+            <input v-model="searchQuery" type="text" class="form-control"
+              style="border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
+              placeholder="Search channels..." @input="filterChannels"
+              @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
+              @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+          </div>
         </div>
         <div class="col-12 col-md-3">
           <button class="btn btn-outline-secondary w-100"
@@ -135,7 +135,7 @@
                 <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
               </div>
               <div
-                style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px; justify-content: center; justify-items: center;">
+                style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px;">
                 <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel || '#'" target="_blank"
                   rel="noopener noreferrer"
                   style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
