@@ -5,13 +5,12 @@
       <div v-if="alertMessage" class="alert alert-success position-fixed" role="alert"
         style="top: 70px; right: 15px; z-index: 1050; max-width: 400px; margin: 0;">
         {{ alertMessage }}
-        <button type="button" class="btn-close" @click="alertMessage = ''" aria-label="Close"></button>
       </div>
     </section>
 
     <!-- Header (unchanged) -->
     <header class="text-center mb-5">
-      <h1 class="fw-bold display-4 mb-3">Live Islamic TV Channels</h1>
+      <h1 class="fw-bold display-4 mb-3">Channels Directory</h1>
       <p class="lead text-muted mx-auto">
         Watch live Islamic TV channels from around the world. Experience spiritual content including live prayers from
         Makkah and Madinah, educational programs, Quranic recitations, and Islamic lifestyle content in multiple
@@ -93,16 +92,13 @@
       </h4>
       <div v-if="showFavorites" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
         <article class="col" v-for="(channel, index) in favorites" :key="channel.name">
-          <div class="channel-card" :class="{ 'is-live': channel.isLive }"
+          <div class="channel-card"
             style="border-radius: 8px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
             <div class="channel-img-wrapper" style="position: relative; overflow: hidden;">
               <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="channel-img"
-                style="width: 100%; height: 100%; object-fit: contain;" @error="handleImageError">
-              <div class="channel-gradient"
-                style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%;">
+              style="width: 100%;  object-fit: contain;" @error="handleImageError">
+              <div class="channel-gradient" style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%;">
               </div>
-              <span v-if="channel.isLive" class="badge bg-danger"
-                style="position: absolute; top: 8px; right: 8px; z-index: 10;">Live Now</span>
               <button @click="toggleFavorite(channel)"
                 :aria-label="isFavorite(channel) ? 'Remove from favorites' : 'Add to favorites'"
                 style="position: absolute; top: 8px; left: 8px; z-index: 10; background: none; border: none; cursor: pointer; color: #6c757d; transition: color 0.3s;">
@@ -129,36 +125,31 @@
                 </p>
               </div>
               <div class="mb-2 d-flex justify-content-between small text-muted">
-                <span><i class="fas fa-globe me-1"></i>{{ channel.streamType === 'youtube_embed' ? 'YouTube Live' : 'Online Channel' }}</span>
                 <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} viewers</span>
-                <span><i class="fas fa-clock me-1"></i>{{ channel.schedule ? channel.schedule : 'No schedule' }}</span>
-              </div>
-              <div class="mb-2 small text-muted">
                 <span><i class="fas fa-map-marker-alt me-1"></i>{{ channel.location || 'Not specified' }}</span>
+                <span><i class="fas fa-clock me-1"></i>{{ channel.schedule ? channel.schedule : 'No schedule' }}</span>
               </div>
               <div class="mb-2">
                 <span class="badge bg-primary me-1">{{ channel.category }}</span>
                 <span v-for="lang in channel.languages" :key="lang" class="badge bg-secondary me-1">{{ lang }}</span>
                 <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
               </div>
-              <div style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px; justify-content: center; justify-items: center;">
-                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel || '#'" target="_blank" rel="noopener noreferrer"
+              <div
+                style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px; justify-content: center; justify-items: center;">
+                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel || '#'" target="_blank"
+                  rel="noopener noreferrer"
                   style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="YouTube Channel" aria-label="Visit YouTube Channel" @click="debugLink(channel.youtubeChannel, 'YouTube Channel')">
+                  title="YouTube Channel" aria-label="Visit YouTube Channel"
+                  @click="debugLink(channel.youtubeChannel, 'YouTube Channel')">
                   <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fab fa-youtube"></i>
                   <small style="font-size: 0.8rem;">Channel</small>
                 </a>
-                <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank" rel="noopener noreferrer"
+                <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank"
+                  rel="noopener noreferrer"
                   style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
                   title="Playlists" aria-label="View Playlists" @click="debugLink(channel.playlistUrl, 'Playlists')">
                   <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
                   <small style="font-size: 0.8rem;">Playlists</small>
-                </a>
-                <a v-if="channel.liveTvUrl && channel.isLive" :href="channel.liveTvUrl || '#'" target="_blank" rel="noopener noreferrer"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="Live TV" aria-label="Watch Live TV" @click="debugLink(channel.liveTvUrl, 'Live TV')">
-                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-broadcast-tower"></i>
-                  <small style="font-size: 0.8rem;">Live TV</small>
                 </a>
                 <a v-if="channel.websiteUrl" :href="channel.websiteUrl || '#'" target="_blank" rel="noopener noreferrer"
                   style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
@@ -166,9 +157,12 @@
                   <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-link"></i>
                   <small style="font-size: 0.8rem;">Website</small>
                 </a>
-                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel ? channel.youtubeChannel + '/videos' : '#'" target="_blank" rel="noopener noreferrer"
+                <a v-if="channel.youtubeChannel"
+                  :href="channel.youtubeChannel ? channel.youtubeChannel + '/videos' : '#'" target="_blank"
+                  rel="noopener noreferrer"
                   style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="Videos" aria-label="View Videos" @click="debugLink(channel.youtubeChannel + '/videos', 'Videos')">
+                  title="Videos" aria-label="View Videos"
+                  @click="debugLink(channel.youtubeChannel + '/videos', 'Videos')">
                   <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-video"></i>
                   <small style="font-size: 0.8rem;">Videos</small>
                 </a>
@@ -183,16 +177,13 @@
     <h4 class="fw-bold mb-3 d-flex align-items-center">All Channels</h4>
     <section class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-3" aria-label="Channel grid">
       <article class="col" v-for="(channel, index) in paginatedChannels" :key="index">
-        <div class="channel-card" :class="{ 'is-live': channel.isLive }"
+        <div class="channel-card"
           style="border-radius: 8px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
           <div class="channel-img-wrapper" style="position: relative; height: 300px; overflow: hidden;">
             <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="channel-img"
-              style="width: 100%; height: 100%; object-fit: contain;" @error="handleImageError">
-            <div class="channel-gradient"
-              style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%;">
+              style="width: 100%;  object-fit: contain;" @error="handleImageError">
+            <div class="channel-gradient" style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%;">
             </div>
-            <span v-if="channel.isLive" class="badge bg-danger"
-              style="position: absolute; top: 10px; right: 10px; z-index: 10;">Live Now</span>
             <button @click="toggleFavorite(channel)"
               :aria-label="isFavorite(channel) ? 'Remove from favorites' : 'Add to favorites'"
               style="position: absolute; top: 10px; left: 10px; z-index: 10; background: none; border: none; cursor: pointer; color: #6c757d; transition: color 0.3s;">
@@ -219,11 +210,8 @@
               </p>
             </div>
             <div class="mb-2 d-flex justify-content-between small text-muted">
-              <span><i class="fas fa-globe me-1"></i>{{ channel.streamType === 'youtube_embed' ? 'YouTube Live' : 'Online Channel' }}</span>
               <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} viewers</span>
               <span><i class="fas fa-clock me-1"></i>{{ channel.schedule ? channel.schedule : 'No schedule' }}</span>
-            </div>
-            <div class="mb-3 small text-muted">
               <span><i class="fas fa-map-marker-alt me-1"></i>{{ channel.location || 'Not specified' }}</span>
             </div>
             <div class="mb-3">
@@ -231,38 +219,37 @@
               <span v-for="lang in channel.languages" :key="lang" class="badge bg-secondary me-1">{{ lang }}</span>
               <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px; justify-content: center; justify-items: center;">
-                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel || '#'" target="_blank" rel="noopener noreferrer"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="YouTube Channel" aria-label="Visit YouTube Channel" @click="debugLink(channel.youtubeChannel, 'YouTube Channel')">
-                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fab fa-youtube"></i>
-                  <small style="font-size: 0.8rem;">Channel</small>
-                </a>
-                <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank" rel="noopener noreferrer"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="Playlists" aria-label="View Playlists" @click="debugLink(channel.playlistUrl, 'Playlists')">
-                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
-                  <small style="font-size: 0.8rem;">Playlists</small>
-                </a>
-                <a v-if="channel.liveTvUrl && channel.isLive" :href="channel.liveTvUrl || '#'" target="_blank" rel="noopener noreferrer"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="Live TV" aria-label="Watch Live TV" @click="debugLink(channel.liveTvUrl, 'Live TV')">
-                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-broadcast-tower"></i>
-                  <small style="font-size: 0.8rem;">Live TV</small>
-                </a>
-                <a v-if="channel.websiteUrl" :href="channel.websiteUrl || '#'" target="_blank" rel="noopener noreferrer"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="Website" aria-label="Visit Website" @click="debugLink(channel.websiteUrl, 'Website')">
-                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-link"></i>
-                  <small style="font-size: 0.8rem;">Website</small>
-                </a>
-                <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel ? channel.youtubeChannel + '/videos' : '#'" target="_blank" rel="noopener noreferrer"
-                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                  title="Videos" aria-label="View Videos" @click="debugLink(channel.youtubeChannel + '/videos', 'Videos')">
-                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-video"></i>
-                  <small style="font-size: 0.8rem;">Videos</small>
-                </a>
-              </div>
+            <div
+              style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px; justify-content: center; justify-items: center;" class="text-center">
+              <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel || '#'" target="_blank"
+                rel="noopener noreferrer"
+                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                title="YouTube Channel" aria-label="Visit YouTube Channel"
+                @click="debugLink(channel.youtubeChannel, 'YouTube Channel')">
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fab fa-youtube"></i>
+                <small style="font-size: 0.8rem;">Channel</small>
+              </a>
+              <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank" rel="noopener noreferrer"
+                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                title="Playlists" aria-label="View Playlists" @click="debugLink(channel.playlistUrl, 'Playlists')">
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
+                <small style="font-size: 0.8rem;">Playlists</small>
+              </a>
+              <a v-if="channel.websiteUrl" :href="channel.websiteUrl || '#'" target="_blank" rel="noopener noreferrer"
+                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                title="Website" aria-label="Visit Website" @click="debugLink(channel.websiteUrl, 'Website')">
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-link"></i>
+                <small style="font-size: 0.8rem;">Website</small>
+              </a>
+              <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel ? channel.youtubeChannel + '/videos' : '#'"
+                target="_blank" rel="noopener noreferrer"
+                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                title="Videos" aria-label="View Videos"
+                @click="debugLink(channel.youtubeChannel + '/videos', 'Videos')">
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-video"></i>
+                <small style="font-size: 0.8rem;">Videos</small>
+              </a>
+            </div>
           </div>
         </div>
       </article>
@@ -277,22 +264,26 @@
           </button>
         </li>
         <li v-if="showFirstPage" class="page-item" :class="{ active: currentPage === 1 }">
-          <button class="page-link" @click="currentPage = 1" :aria-current="currentPage === 1 ? 'page' : null">1</button>
+          <button class="page-link" @click="currentPage = 1"
+            :aria-current="currentPage === 1 ? 'page' : null">1</button>
         </li>
         <li v-if="showLeftEllipsis" class="page-item disabled">
           <span class="page-link">...</span>
         </li>
         <li class="page-item" v-for="page in displayedPages" :key="page" :class="{ active: currentPage === page }">
-          <button class="page-link" @click="currentPage = page" :aria-current="currentPage === page ? 'page' : null">{{ page }}</button>
+          <button class="page-link" @click="currentPage = page" :aria-current="currentPage === page ? 'page' : null">{{
+            page }}</button>
         </li>
         <li v-if="showRightEllipsis" class="page-item disabled">
           <span class="page-link">...</span>
         </li>
         <li v-if="showLastPage" class="page-item" :class="{ active: currentPage === totalPages }">
-          <button class="page-link" @click="currentPage = totalPages" :aria-current="currentPage === totalPages ? 'page' : null">{{ totalPages }}</button>
+          <button class="page-link" @click="currentPage = totalPages"
+            :aria-current="currentPage === totalPages ? 'page' : null">{{ totalPages }}</button>
         </li>
         <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-          <button class="page-link" @click="currentPage++" :disabled="currentPage === totalPages" aria-label="Next page">
+          <button class="page-link" @click="currentPage++" :disabled="currentPage === totalPages"
+            aria-label="Next page">
             Next
           </button>
         </li>
@@ -341,14 +332,12 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@PeaceTVEnglish",
           "websiteUrl": "https://peacetv.tv",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3",
-          "liveTvUrl": "https://peacetv.tv/live",
           "thumbnail": "/images/food.png",
           "description": "International Islamic educational channel featuring lectures by Dr. Zakir Naik and other renowned Islamic scholars.",
           "languages": ["English"],
           "category": "Educational",
           "tags": ["Lectures", "Dawah", "Zakir Naik"],
           "streamType": "external",
-          "isLive": false,
           "viewers": 1200,
           "schedule": "Daily 8 PM",
           "location": "Global"
@@ -358,14 +347,12 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@OneIslamProductions",
           "websiteUrl": "https://www.oneislam.tv",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
-          "liveTvUrl": "https://www.oneislam.tv/live",
           "thumbnail": "/images/food.png",
           "description": "High-quality Islamic educational content with zero ads, 100% halal programming, and music-free videos.",
           "languages": ["English"],
           "category": "Educational",
           "tags": ["Halal", "Education", "No Ads"],
           "streamType": "external",
-          "isLive": true,
           "viewers": 850,
           "schedule": "24/7",
           "location": "Global"
@@ -375,14 +362,12 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@MadaniChannelOfficial",
           "websiteUrl": "https://www.madanichannel.tv",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
-          "liveTvUrl": "https://www.madanichannel.tv/live",
           "thumbnail": "/images/food.png",
           "description": "Popular Pakistani Islamic channel offering diverse Islamic programs, live events, and educational content in Urdu.",
           "languages": ["Urdu", "Arabic"],
           "category": "Educational",
           "tags": ["Programs", "Events", "Urdu"],
           "streamType": "external",
-          "isLive": false,
           "viewers": 2000,
           "schedule": "Daily 6 PM",
           "location": "Pakistan"
@@ -392,14 +377,12 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@aljazeeramubasher",
           "websiteUrl": "https://mubasher.aljazeera.net",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3",
-          "liveTvUrl": "https://mubasher.aljazeera.net/live",
           "thumbnail": "/images/food.png",
           "description": "Live Arabic news and Islamic programming from Al Jazeera, including daily prayers, religious discussions, and Islamic events.",
           "languages": ["Arabic"],
           "category": "News & Current Affairs",
           "tags": ["News", "Prayers", "Events"],
           "streamType": "external",
-          "isLive": true,
           "viewers": 5000,
           "schedule": "24/7",
           "location": "Qatar"
@@ -409,14 +392,12 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@IqraaTVChannel",
           "websiteUrl": "https://iqraa.com",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
-          "liveTvUrl": "https://iqraa.com/live",
           "thumbnail": "/images/food.png",
           "description": "Leading Arabic Islamic channel offering Quranic recitations, religious programs, and Islamic documentaries.",
           "languages": ["Arabic"],
           "category": "Quran",
           "tags": ["Quran", "Documentaries", "Programs"],
           "streamType": "external",
-          "isLive": false,
           "viewers": 1500,
           "schedule": "Daily 7 AM",
           "location": "Saudi Arabia"
@@ -426,14 +407,12 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@AlResalahTV",
           "websiteUrl": "https://alresalah.net",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
-          "liveTvUrl": "https://alresalah.net/live",
           "thumbnail": "/images/food.png",
           "description": "Popular Arabic Islamic channel featuring religious dramas, educational programs, and live Islamic events.",
           "languages": ["Arabic"],
           "category": "Entertainment",
           "tags": ["Dramas", "Events", "Education"],
           "streamType": "external",
-          "isLive": true,
           "viewers": 3000,
           "schedule": "24/7",
           "location": "Saudi Arabia"
@@ -443,14 +422,12 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@DawahMan",
           "websiteUrl": "https://dawahman.org",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
-          "liveTvUrl": "https://dawahman.org/live",
           "thumbnail": "/images/food.png",
           "description": "Islamic dawah content featuring street discussions, debates, and educational videos about Islam.",
           "languages": ["English"],
           "category": "Dawah",
           "tags": ["Dawah", "Debates", "Discussions"],
           "streamType": "external",
-          "isLive": false,
           "viewers": 900,
           "schedule": "Weekly",
           "location": "UK"
@@ -460,14 +437,12 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@muftimenkofficial",
           "websiteUrl": "https://muftimenk.com",
           "playlistUrl": "@muftimenkofficial/playlists",
-          "liveTvUrl": "https://muftimenk.com/live",
           "thumbnail": "/images/food.png",
           "description": "Inspirational Islamic lectures and guidance by Mufti Ismail Menk, covering various aspects of Islamic life.",
           "languages": ["English", "Arabic"],
           "category": "Educational",
           "tags": ["Lectures", "Inspiration", "Mufti Menk"],
           "streamType": "external",
-          "isLive": false,
           "viewers": 2500,
           "schedule": "Daily 9 PM",
           "location": "Zimbabwe"
@@ -477,14 +452,12 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@DigitalMimbar",
           "websiteUrl": "https://digitalmimbar.com",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
-          "liveTvUrl": "https://digitalmimbar.com/live",
           "thumbnail": "/images/food.png",
           "description": "Modern Islamic content platform providing digital Islamic education and spiritual guidance.",
           "languages": ["English"],
           "category": "Educational",
           "tags": ["Digital", "Education", "Guidance"],
           "streamType": "external",
-          "isLive": false,
           "viewers": 1100,
           "schedule": "Weekly",
           "location": "Global"
@@ -494,14 +467,12 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@QuranWeekly",
           "websiteUrl": "https://quranweekly.com",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
-          "liveTvUrl": "https://quranweekly.com/live",
           "thumbnail": "/images/food.png",
           "description": "Weekly Quranic reflections and Islamic educational content featuring various Islamic scholars.",
           "languages": ["English"],
           "category": "Quran",
           "tags": ["Quran", "Reflections", "Scholars"],
           "streamType": "external",
-          "isLive": false,
           "viewers": 1300,
           "schedule": "Weekly",
           "location": "USA"
@@ -511,14 +482,12 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@IslamicFinder",
           "websiteUrl": "https://islamicfinder.org",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
-          "liveTvUrl": "https://islamicfinder.org/live",
           "thumbnail": "/images/food.png",
           "description": "Comprehensive Islamic resource providing prayer times, Qibla direction, and Islamic educational content.",
           "languages": ["English", "Arabic", "Urdu"],
           "category": "Educational",
           "tags": ["Prayer Times", "Qibla", "Education"],
           "streamType": "external",
-          "isLive": false,
           "viewers": 1700,
           "schedule": "24/7",
           "location": "Global"
@@ -528,14 +497,12 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@MuslimCentral",
           "websiteUrl": "https://muslimcentral.com",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
-          "liveTvUrl": "https://muslimcentral.com/live",
           "thumbnail": "/images/food.png",
           "description": "Comprehensive Islamic audio and video library featuring lectures by renowned Islamic scholars worldwide.",
           "languages": ["English"],
           "category": "Educational",
           "tags": ["Lectures", "Library", "Scholars"],
           "streamType": "external",
-          "isLive": true,
           "viewers": 2200,
           "schedule": "24/7",
           "location": "Global"
@@ -867,31 +834,29 @@ export default {
 <style scoped>
 .channel-card {
   transition: transform 0.2s;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .channel-card:hover {
   transform: translateY(-5px);
 }
 
-.channel-card.is-live {
-  animation: pulse-shadow 1.5s ease-in-out infinite;
-}
+
 
 .channel-img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: 250px;
+  object-fit: contain;
 }
 
-.channel-gradient {
+/* .channel-gradient {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 35%;
+  height: 15%;
   background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-}
+} */
 
 .badge {
   font-size: 0.75rem;
@@ -931,7 +896,7 @@ export default {
   border-color: #00bfa6;
   color: #00bfa6;
   transform: translateY(-2px);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .pagination .page-item.disabled .page-link {
@@ -943,13 +908,15 @@ export default {
 
 @keyframes pulse-shadow {
   0% {
-    box-shadow: 0 4px 12px rgba(255,0,0,0.3);
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
   }
+
   50% {
-    box-shadow: 0 8px 24px rgba(255,0,0,0.5);
+    box-shadow: 0 8px 24px rgba(255, 0, 0, 0.5);
   }
+
   100% {
-    box-shadow: 0 4px 12px rgba(255,0,0,0.3);
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
   }
 }
 
@@ -990,92 +957,118 @@ export default {
   .description-wrapper {
     max-height: 3em;
   }
+
   .description-wrapper.expanded {
     max-height: 15em;
   }
+
   .container {
     padding: 15px;
   }
+
   .channel-card {
     margin-bottom: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
-  .channel-card.is-live {
-    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
-  }
-  .channel-img-wrapper {
-    height: 220px;
-  }
-  .favorites-section .channel-img-wrapper {
+
+  /* .channel-img-wrapper {
+    height: 280px;
+  } */
+  /* .favorites-section .channel-img-wrapper {
     height: 160px;
-  }
+  } */
   .channel-body {
     padding: 10px;
   }
+
   .favorites-section .channel-body {
     padding: 8px;
   }
+
   .fw-bold.display-4 {
     font-size: 1.8rem;
   }
+
   .lead {
     font-size: 1rem;
     max-width: 100%;
   }
+
   .alert {
     max-width: calc(100% - 30px);
     font-size: 0.9rem;
     top: 70px;
     right: 15px;
   }
+
   .channel-body h5 {
     font-size: 1.1rem;
   }
+
   .favorites-section .channel-body h5 {
     font-size: 1rem;
   }
-  .channel-body p, .channel-body .small {
+
+  .channel-body p,
+  .channel-body .small {
     font-size: 0.85rem;
   }
-  .favorites-section .channel-body p, .favorites-section .channel-body .small {
+
+  .favorites-section .channel-body p,
+  .favorites-section .channel-body .small {
     font-size: 0.8rem;
   }
+
   .channel-body .badge {
     font-size: 0.65rem;
   }
+
   .favorites-section .channel-body .badge {
     font-size: 0.6rem;
   }
+
   .channel-body a {
     min-width: 50px;
     padding: 6px;
   }
+
   .favorites-section .channel-body a {
     min-width: 45px;
     padding: 5px;
   }
+
   .channel-body a i {
     font-size: 1rem;
   }
+
   .favorites-section .channel-body a i {
     font-size: 0.9rem;
   }
+
   .channel-body a small {
     font-size: 0.7rem;
   }
+
   .favorites-section .channel-body a small {
     font-size: 0.65rem;
   }
+
   .bg-light {
     padding: 15px !important;
   }
-  .form-control, .form-select, .input-group-text {
+
+  .form-control,
+  .form-select,
+  .input-group-text {
     font-size: 0.9rem;
     border-radius: 8px !important;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   }
-  .form-control:hover, .form-select:hover, .input-group-text:hover {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+
+  .form-control:hover,
+  .form-select:hover,
+  .input-group-text:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
 }
 
