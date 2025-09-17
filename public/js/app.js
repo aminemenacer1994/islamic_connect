@@ -153487,9 +153487,11 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       channels: [{
         "name": "Peace TV English",
         "youtubeChannel": "https://www.youtube.com/@PeaceTVEnglish",
-        "websiteUrl": "https://peacetv.tv",
-        "playlistUrl": "https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3",
-        "thumbnail": "/images/food.png",
+        "websiteUrl": "https://www.peacetv.tv/en",
+        "playlistUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
+        "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
+        "videoUrl": "https://www.youtube.com/@peacetvenglish214/videos",
+        "thumbnail": "/images/images.png",
         "description": "International Islamic educational channel featuring lectures by Dr. Zakir Naik and other renowned Islamic scholars.",
         "languages": ["English"],
         "category": "Educational",
@@ -153503,7 +153505,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         "youtubeChannel": "https://www.youtube.com/@OneIslamProductions",
         "websiteUrl": "https://www.oneislam.tv",
         "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
-        "thumbnail": "/images/food.png",
+        "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
+        "thumbnail": "/images/one1.png",
         "description": "High-quality Islamic educational content with zero ads, 100% halal programming, and music-free videos.",
         "languages": ["English"],
         "category": "Educational",
@@ -153517,6 +153520,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         "youtubeChannel": "https://www.youtube.com/@MadaniChannelOfficial",
         "websiteUrl": "https://www.madanichannel.tv",
         "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+        "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
         "thumbnail": "/images/food.png",
         "description": "Popular Pakistani Islamic channel offering diverse Islamic programs, live events, and educational content in Urdu.",
         "languages": ["Urdu", "Arabic"],
@@ -153531,7 +153535,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         "youtubeChannel": "https://www.youtube.com/@aljazeeramubasher",
         "websiteUrl": "https://mubasher.aljazeera.net",
         "playlistUrl": "https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3",
-        "thumbnail": "/images/food.png",
+        "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
+        "thumbnail": "/images/j.png",
         "description": "Live Arabic news and Islamic programming from Al Jazeera, including daily prayers, religious discussions, and Islamic events.",
         "languages": ["Arabic"],
         "category": "News & Current Affairs",
@@ -153545,6 +153550,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         "youtubeChannel": "https://www.youtube.com/@IqraaTVChannel",
         "websiteUrl": "https://iqraa.com",
         "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
+        "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
         "thumbnail": "/images/food.png",
         "description": "Leading Arabic Islamic channel offering Quranic recitations, religious programs, and Islamic documentaries.",
         "languages": ["Arabic"],
@@ -153559,6 +153565,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         "youtubeChannel": "https://www.youtube.com/@AlResalahTV",
         "websiteUrl": "https://alresalah.net",
         "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+        "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
         "thumbnail": "/images/food.png",
         "description": "Popular Arabic Islamic channel featuring religious dramas, educational programs, and live Islamic events.",
         "languages": ["Arabic"],
@@ -153573,6 +153580,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         "youtubeChannel": "https://www.youtube.com/@DawahMan",
         "websiteUrl": "https://dawahman.org",
         "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+        "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
         "thumbnail": "/images/food.png",
         "description": "Islamic dawah content featuring street discussions, debates, and educational videos about Islam.",
         "languages": ["English"],
@@ -153587,6 +153595,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         "youtubeChannel": "https://www.youtube.com/@muftimenkofficial",
         "websiteUrl": "https://muftimenk.com",
         "playlistUrl": "@muftimenkofficial/playlists",
+        "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
         "thumbnail": "/images/food.png",
         "description": "Inspirational Islamic lectures and guidance by Mufti Ismail Menk, covering various aspects of Islamic life.",
         "languages": ["English", "Arabic"],
@@ -153601,7 +153610,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         "youtubeChannel": "https://www.youtube.com/@DigitalMimbar",
         "websiteUrl": "https://digitalmimbar.com",
         "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
-        "thumbnail": "/images/food.png",
+        "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
+        "thumbnail": "/images/dm.jpg",
         "description": "Modern Islamic content platform providing digital Islamic education and spiritual guidance.",
         "languages": ["English"],
         "category": "Educational",
@@ -153615,7 +153625,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         "youtubeChannel": "https://www.youtube.com/@QuranWeekly",
         "websiteUrl": "https://quranweekly.com",
         "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
-        "thumbnail": "/images/food.png",
+        "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
+        "thumbnail": "/images/qw.png",
         "description": "Weekly Quranic reflections and Islamic educational content featuring various Islamic scholars.",
         "languages": ["English"],
         "category": "Quran",
@@ -153629,6 +153640,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         "youtubeChannel": "https://www.youtube.com/@IslamicFinder",
         "websiteUrl": "https://islamicfinder.org",
         "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
+        "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
         "thumbnail": "/images/food.png",
         "description": "Comprehensive Islamic resource providing prayer times, Qibla direction, and Islamic educational content.",
         "languages": ["English", "Arabic", "Urdu"],
@@ -153643,6 +153655,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         "youtubeChannel": "https://www.youtube.com/@MuslimCentral",
         "websiteUrl": "https://muslimcentral.com",
         "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+        "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
         "thumbnail": "/images/food.png",
         "description": "Comprehensive Islamic audio and video library featuring lectures by renowned Islamic scholars worldwide.",
         "languages": ["English"],
@@ -178358,13 +178371,15 @@ var _hoisted_33 = ["href", "onClick"];
 var _hoisted_34 = ["href", "onClick"];
 var _hoisted_35 = ["href", "onClick"];
 var _hoisted_36 = {
-  "class": "row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-3",
+  "class": "row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-2",
   "aria-label": "Channel grid"
 };
 var _hoisted_37 = {
-  "class": "channel-card",
+  "class": "channel-card shadow-lg",
   style: {
-    "border-radius": "8px",
+    "border": "3px solid #00bfa6",
+    "border-radius": "15px",
+    "padding": "5px",
     "overflow": "hidden",
     "transition": "transform 0.2s",
     "box-shadow": "0 4px 12px rgba(0,0,0,0.15)"
@@ -178374,7 +178389,6 @@ var _hoisted_38 = {
   "class": "channel-img-wrapper",
   style: {
     "position": "relative",
-    "height": "300px",
     "overflow": "hidden"
   }
 };
@@ -178400,10 +178414,10 @@ var _hoisted_45 = {
 };
 var _hoisted_46 = ["onClick", "aria-label"];
 var _hoisted_47 = {
-  "class": "mb-2 d-flex justify-content-between small text-muted"
+  "class": "mt-3 d-flex justify-content-between small text-muted"
 };
 var _hoisted_48 = {
-  "class": "mb-3"
+  "class": "mt-3"
 };
 var _hoisted_49 = {
   "class": "badge bg-primary me-1"
@@ -178412,39 +178426,38 @@ var _hoisted_50 = {
   style: {
     "display": "grid",
     "grid-template-columns": "repeat(5, minmax(60px, 1fr))",
-    "gap": "5px",
-    "justify-content": "center",
-    "justify-items": "center"
+    "gap": "5px"
   },
-  "class": "text-center"
+  "class": "text-center mt-3"
 };
 var _hoisted_51 = ["href", "onClick"];
 var _hoisted_52 = ["href", "onClick"];
 var _hoisted_53 = ["href", "onClick"];
 var _hoisted_54 = ["href", "onClick"];
-var _hoisted_55 = {
+var _hoisted_55 = ["href", "onClick"];
+var _hoisted_56 = {
   "aria-label": "Channels pagination",
   "class": "d-flex justify-content-center mb-4"
 };
-var _hoisted_56 = {
+var _hoisted_57 = {
   "class": "pagination pagination-lg"
 };
-var _hoisted_57 = ["disabled"];
-var _hoisted_58 = ["aria-current"];
-var _hoisted_59 = {
+var _hoisted_58 = ["disabled"];
+var _hoisted_59 = ["aria-current"];
+var _hoisted_60 = {
   key: 1,
   "class": "page-item disabled"
 };
-var _hoisted_60 = ["onClick", "aria-current"];
-var _hoisted_61 = {
+var _hoisted_61 = ["onClick", "aria-current"];
+var _hoisted_62 = {
   key: 2,
   "class": "page-item disabled"
 };
-var _hoisted_62 = ["aria-current"];
-var _hoisted_63 = ["disabled"];
+var _hoisted_63 = ["aria-current"];
+var _hoisted_64 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Section (unchanged) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [$data.alertMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.alertMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header (unchanged) "), _cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Section (unchanged) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [$data.alertMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.alertMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header (unchanged) "), _cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     "class": "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "fw-bold display-4 mb-3"
@@ -178653,7 +178666,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.isFavorite(channel) ? 'fas fa-star' : 'far fa-star'),
       style: {
-        "font-size": "1.2rem",
+        "font-size": "1.7rem",
         "color": "#ffc107"
       }
     }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_21)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -178820,9 +178833,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "font-size": "0.8rem"
       }
     }, "Videos", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_35)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Channels Section "), _cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "fw-bold mb-3 d-flex align-items-center"
-  }, "All Channels", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedChannels, function (channel, index) {
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Channels Section "), _cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "fw-bold mb-4 d-flex align-items-center"
+  }, "All Channels:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedChannels, function (channel, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       "class": "col",
       key: index
@@ -178874,6 +178887,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }])
     }, [$options.truncateDescription(channel.description, 80).needsTruncation && !$data.expandedDescriptions[channel.name] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.truncateDescription(channel.description, 80).text) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "read-more btn btn-link p-0 ms-1",
+      style: {
+        "text-decoration": "underline"
+      },
       onClick: function onClick($event) {
         return $options.toggleDescription(channel.name);
       },
@@ -178882,6 +178898,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, " Read More ", 8 /* PROPS */, _hoisted_44)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.description) + " ", 1 /* TEXT */), $options.truncateDescription(channel.description, 80).needsTruncation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 0,
       "class": "read-more btn btn-link p-0 ms-1",
+      style: {
+        "text-decoration": "underline"
+      },
       onClick: function onClick($event) {
         return $options.toggleDescription(channel.name);
       },
@@ -178967,8 +178986,40 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "0.8rem"
       }
-    }, "Playlists", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_52)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.websiteUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+    }, "Playlists", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_52)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.playlistUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
       key: 2,
+      href: channel.playlistUrl || '#',
+      target: "_blank",
+      rel: "noopener noreferrer",
+      style: {
+        "display": "flex",
+        "flex-direction": "column",
+        "align-items": "center",
+        "padding": "8px",
+        "border-radius": "6px",
+        "transition": "background-color 0.3s, transform 0.2s",
+        "min-width": "60px",
+        "text-decoration": "none",
+        "color": "#6c757d"
+      },
+      title: "Playlists",
+      "aria-label": "View Playlists",
+      onClick: function onClick($event) {
+        return $options.debugLink(channel.playlistUrl, 'Playlists');
+      }
+    }, _toConsumableArray(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      style: {
+        "font-size": "1.2rem",
+        "margin-bottom": "4px",
+        "color": "#6c757d"
+      },
+      "class": "fas fa-inbox"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+      style: {
+        "font-size": "0.8rem"
+      }
+    }, "Posts", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_53)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.websiteUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+      key: 3,
       href: channel.websiteUrl || '#',
       target: "_blank",
       rel: "noopener noreferrer",
@@ -178988,7 +179039,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.debugLink(channel.websiteUrl, 'Website');
       }
-    }, _toConsumableArray(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[50] || (_cache[50] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
         "margin-bottom": "4px",
@@ -178999,8 +179050,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "0.8rem"
       }
-    }, "Website", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_53)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.youtubeChannel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
-      key: 3,
+    }, "Website", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_54)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), channel.youtubeChannel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+      key: 4,
       href: channel.youtubeChannel ? channel.youtubeChannel + '/videos' : '#',
       target: "_blank",
       rel: "noopener noreferrer",
@@ -179020,7 +179071,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.debugLink(channel.youtubeChannel + '/videos', 'Videos');
       }
-    }, _toConsumableArray(_cache[50] || (_cache[50] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[51] || (_cache[51] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
         "margin-bottom": "4px",
@@ -179031,8 +179082,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "0.8rem"
       }
-    }, "Videos", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_54)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination (unchanged) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    }, "Videos", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_55)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination (unchanged) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === 1
     }])
@@ -179043,7 +179094,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     disabled: $data.currentPage === 1,
     "aria-label": "Previous page"
-  }, " Previous ", 8 /* PROPS */, _hoisted_57)], 2 /* CLASS */), $options.showFirstPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+  }, " Previous ", 8 /* PROPS */, _hoisted_58)], 2 /* CLASS */), $options.showFirstPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
     key: 0,
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       active: $data.currentPage === 1
@@ -179054,7 +179105,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.currentPage = 1;
     }),
     "aria-current": $data.currentPage === 1 ? 'page' : null
-  }, "1", 8 /* PROPS */, _hoisted_58)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.showLeftEllipsis ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_59, _toConsumableArray(_cache[51] || (_cache[51] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "1", 8 /* PROPS */, _hoisted_59)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.showLeftEllipsis ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_60, _toConsumableArray(_cache[52] || (_cache[52] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "page-link"
   }, "...", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.displayedPages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
@@ -179068,8 +179119,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $data.currentPage = page;
       },
       "aria-current": $data.currentPage === page ? 'page' : null
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_60)], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */)), $options.showRightEllipsis ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_61, _toConsumableArray(_cache[52] || (_cache[52] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_61)], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */)), $options.showRightEllipsis ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_62, _toConsumableArray(_cache[53] || (_cache[53] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "page-link"
   }, "...", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.showLastPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
     key: 3,
@@ -179082,7 +179133,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.currentPage = $options.totalPages;
     }),
     "aria-current": $data.currentPage === $options.totalPages ? 'page' : null
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 9 /* TEXT, PROPS */, _hoisted_62)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 9 /* TEXT, PROPS */, _hoisted_63)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === $options.totalPages
     }])
@@ -179093,7 +179144,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     disabled: $data.currentPage === $options.totalPages,
     "aria-label": "Next page"
-  }, " Next ", 8 /* PROPS */, _hoisted_63)], 2 /* CLASS */)])])]);
+  }, " Next ", 8 /* PROPS */, _hoisted_64)], 2 /* CLASS */)])])]);
 }
 
 /***/ }),
@@ -190998,7 +191049,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.channel-card[data-v-670f86e6] {\n  transition: transform 0.2s;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.channel-card[data-v-670f86e6]:hover {\n  transform: translateY(-5px);\n}\n.channel-img[data-v-670f86e6] {\n  width: 100%;\n  height: 250px;\n  -o-object-fit: contain;\n     object-fit: contain;\n}\n\n/* .channel-gradient {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 15%;\n  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);\n} */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n}\n.channel-body a[data-v-670f86e6]:hover {\n  background-color: #f1f1f1;\n  transform: scale(1.1);\n}\n\n/* Pagination Styles */\n.pagination[data-v-670f86e6] {\n  margin-top: 1.5rem;\n}\n.pagination .page-item .page-link[data-v-670f86e6] {\n  border-radius: 8px;\n  margin: 0 4px;\n  padding: 0.5rem 1rem;\n  font-size: 1rem;\n  font-weight: 500;\n  color: #000000;\n  border: 1px solid #000000;\n  transition: all 0.2s ease;\n  min-width: 40px;\n  text-align: center;\n}\n.pagination .page-item.active .page-link[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n  color: #ffffff;\n}\n.pagination .page-item:not(.disabled) .page-link[data-v-670f86e6]:hover {\n  background-color: #e6f7f5;\n  border-color: #00bfa6;\n  color: #00bfa6;\n  transform: translateY(-2px);\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.pagination .page-item.disabled .page-link[data-v-670f86e6] {\n  color: #6c757d;\n  cursor: not-allowed;\n  background-color: #ffffff;\n  border-color: #000000;\n}\n@keyframes pulse-shadow-670f86e6 {\n0% {\n    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);\n}\n50% {\n    box-shadow: 0 8px 24px rgba(255, 0, 0, 0.5);\n}\n100% {\n    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);\n}\n}\n.description-wrapper[data-v-670f86e6] {\n  overflow: hidden;\n  transition: max-height 0.3s ease-in-out;\n  max-height: 4em;\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n  max-height: 20em;\n}\n.description-text[data-v-670f86e6] {\n  margin: 0;\n  display: inline;\n}\n.read-more[data-v-670f86e6] {\n  color: #00bfa6;\n  font-size: 0.8rem;\n  text-decoration: none;\n  transition: color 0.2s;\n}\n.read-more[data-v-670f86e6]:hover {\n  color: #008f7a;\n  text-decoration: underline;\n}\n@media (max-width: 576px) {\n.pagination .page-item .page-link[data-v-670f86e6] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.9rem;\n    min-width: 32px;\n}\n.description-wrapper[data-v-670f86e6] {\n    max-height: 3em;\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n    max-height: 15em;\n}\n.container[data-v-670f86e6] {\n    padding: 15px;\n}\n.channel-card[data-v-670f86e6] {\n    margin-bottom: 15px;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n\n  /* .channel-img-wrapper {\n    height: 280px;\n  } */\n  /* .favorites-section .channel-img-wrapper {\n    height: 160px;\n  } */\n.channel-body[data-v-670f86e6] {\n    padding: 10px;\n}\n.favorites-section .channel-body[data-v-670f86e6] {\n    padding: 8px;\n}\n.fw-bold.display-4[data-v-670f86e6] {\n    font-size: 1.8rem;\n}\n.lead[data-v-670f86e6] {\n    font-size: 1rem;\n    max-width: 100%;\n}\n.alert[data-v-670f86e6] {\n    max-width: calc(100% - 30px);\n    font-size: 0.9rem;\n    top: 70px;\n    right: 15px;\n}\n.channel-body h5[data-v-670f86e6] {\n    font-size: 1.1rem;\n}\n.favorites-section .channel-body h5[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.channel-body p[data-v-670f86e6],\n  .channel-body .small[data-v-670f86e6] {\n    font-size: 0.85rem;\n}\n.favorites-section .channel-body p[data-v-670f86e6],\n  .favorites-section .channel-body .small[data-v-670f86e6] {\n    font-size: 0.8rem;\n}\n.channel-body .badge[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.favorites-section .channel-body .badge[data-v-670f86e6] {\n    font-size: 0.6rem;\n}\n.channel-body a[data-v-670f86e6] {\n    min-width: 50px;\n    padding: 6px;\n}\n.favorites-section .channel-body a[data-v-670f86e6] {\n    min-width: 45px;\n    padding: 5px;\n}\n.channel-body a i[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.favorites-section .channel-body a i[data-v-670f86e6] {\n    font-size: 0.9rem;\n}\n.channel-body a small[data-v-670f86e6] {\n    font-size: 0.7rem;\n}\n.favorites-section .channel-body a small[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.bg-light[data-v-670f86e6] {\n    padding: 15px !important;\n}\n.form-control[data-v-670f86e6],\n  .form-select[data-v-670f86e6],\n  .input-group-text[data-v-670f86e6] {\n    font-size: 0.9rem;\n    border-radius: 8px !important;\n    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);\n}\n.form-control[data-v-670f86e6]:hover,\n  .form-select[data-v-670f86e6]:hover,\n  .input-group-text[data-v-670f86e6]:hover {\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);\n}\n}\ninput.form-control[data-v-670f86e6],\nselect.form-select[data-v-670f86e6] {\n  font-size: 0.9rem;\n}\n\n/* Reduced motion */\n@media (prefers-reduced-motion: reduce) {\n.card[data-v-670f86e6]:hover {\n    transform: none;\n    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);\n}\n.btn-primary[data-v-670f86e6]:hover,\n  .btn-outline-danger[data-v-670f86e6]:hover,\n  .btn-outline-secondary[data-v-670f86e6]:hover,\n  .btn-outline-success[data-v-670f86e6]:hover,\n  .btn-outline-primary[data-v-670f86e6]:hover {\n    transform: none;\n}\n.mini-screen[data-v-670f86e6] {\n    transition: none;\n    animation: none;\n}\n.animate__fadeInDown[data-v-670f86e6],\n  .animate__fadeInUp[data-v-670f86e6],\n  .animate__zoomIn[data-v-670f86e6],\n  .animate__shakeX[data-v-670f86e6],\n  .animate__rotate[data-v-670f86e6] {\n    animation: none;\n}\n}\n.channel-card h5[data-v-670f86e6] {\n  font-size: 1.4rem;\n  /* larger title */\n}\n.channel-card .description[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.channel-card .small-text[data-v-670f86e6] {\n  font-size: 0.95rem;\n}\n.channel-card .btn[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.card h5[data-v-670f86e6] {\n  font-size: 1.25rem;\n  /* slightly larger */\n  font-weight: 700;\n  /* bold, stronger emphasis */\n  color: #212529;\n  /* consistent dark text */\n  margin-bottom: 0.5rem;\n}\n\n/* Card meta info (address, viewers, stream type) */\n.card p[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 400;\n  color: #6c757d;\n  /* muted gray */\n  margin-bottom: 0.35rem;\n  line-height: 1.4;\n}\n.card p i[data-v-670f86e6] {\n  font-size: 0.9rem;\n  margin-right: 0.35rem;\n}\n\n/* Emphasis for important numbers */\n.card p span[data-v-670f86e6] {\n  font-weight: 600;\n  color: #212529;\n}\n\n/* Badge styles */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n  font-weight: 500;\n  padding: 0.4em 0.65em;\n  border-radius: 8px;\n}\n.badge.bg-primary[data-v-670f86e6] {\n  background-color: #00bfa6 !important;\n}\n.badge.bg-secondary[data-v-670f86e6] {\n  background-color: #6c757d !important;\n}\n.badge.bg-info[data-v-670f86e6] {\n  background-color: #e0f7f4 !important;\n  color: #004d43 !important;\n}\n\n/* Buttons inside cards */\n.card .btn[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 600;\n  border-radius: 50px;\n  padding: 0.5rem 1rem;\n}\n.card .btn-success[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n}\n.card .btn-success[data-v-670f86e6]:hover {\n  background-color: #009688;\n  border-color: #009688;\n}\n\n/* Card hover enhancement */\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.channel-card[data-v-670f86e6] {\n  transition: transform 0.2s;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.channel-card[data-v-670f86e6]:hover {\n  transform: translateY(-5px);\n}\n.channel-img[data-v-670f86e6] {\n  width: 100%;\n  height: 250px;\n  -o-object-fit: contain;\n     object-fit: contain;\n}\n\n/* .channel-gradient {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 15%;\n  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);\n} */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n}\n.channel-body a[data-v-670f86e6]:hover {\n  background-color: #f1f1f1;\n  transform: scale(1.1);\n}\n\n/* Pagination Styles */\n.pagination[data-v-670f86e6] {\n  margin-top: 1.5rem;\n}\n.pagination .page-item .page-link[data-v-670f86e6] {\n  border-radius: 8px;\n  margin: 0 4px;\n  padding: 0.5rem 1rem;\n  font-size: 1rem;\n  font-weight: 500;\n  color: #000000;\n  border: 1px solid #000000;\n  transition: all 0.2s ease;\n  min-width: 40px;\n  text-align: center;\n}\n.pagination .page-item.active .page-link[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n  color: #ffffff;\n}\n.pagination .page-item:not(.disabled) .page-link[data-v-670f86e6]:hover {\n  background-color: #e6f7f5;\n  border-color: #00bfa6;\n  color: #00bfa6;\n  transform: translateY(-2px);\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.pagination .page-item.disabled .page-link[data-v-670f86e6] {\n  color: #6c757d;\n  cursor: not-allowed;\n  background-color: #ffffff;\n  border-color: #000000;\n}\n@keyframes pulse-shadow-670f86e6 {\n0% {\n    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);\n}\n50% {\n    box-shadow: 0 8px 24px rgba(255, 0, 0, 0.5);\n}\n100% {\n    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);\n}\n}\n.description-wrapper[data-v-670f86e6] {\n  overflow: hidden;\n  transition: max-height 0.3s ease-in-out;\n  max-height: 6em;\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n  max-height: 23em;\n}\n.description-text[data-v-670f86e6] {\n  margin: 0;\n  display: inline;\n}\n.read-more[data-v-670f86e6] {\n  color: #00bfa6;\n  font-size: 0.8rem;\n  text-decoration: none;\n  transition: color 0.2s;\n}\n.read-more[data-v-670f86e6]:hover {\n  color: #008f7a;\n  text-decoration: underline;\n}\n@media (max-width: 576px) {\n.pagination .page-item .page-link[data-v-670f86e6] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.9rem;\n    min-width: 32px;\n}\n.description-wrapper[data-v-670f86e6] {\n    max-height: 3em;\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n    max-height: 15em;\n}\n.container[data-v-670f86e6] {\n    padding: 15px;\n}\n.channel-card[data-v-670f86e6] {\n    margin-bottom: 15px;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n\n  /* .channel-img-wrapper {\n    height: 280px;\n  } */\n  /* .favorites-section .channel-img-wrapper {\n    height: 160px;\n  } */\n.channel-body[data-v-670f86e6] {\n    padding: 10px;\n}\n.favorites-section .channel-body[data-v-670f86e6] {\n    padding: 8px;\n}\n.fw-bold.display-4[data-v-670f86e6] {\n    font-size: 1.8rem;\n}\n.lead[data-v-670f86e6] {\n    font-size: 1rem;\n    max-width: 100%;\n}\n.alert[data-v-670f86e6] {\n    max-width: calc(100% - 30px);\n    font-size: 0.9rem;\n    top: 70px;\n    right: 15px;\n}\n.channel-body h5[data-v-670f86e6] {\n    font-size: 1.1rem;\n}\n.favorites-section .channel-body h5[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.channel-body p[data-v-670f86e6],\n  .channel-body .small[data-v-670f86e6] {\n    font-size: 0.85rem;\n}\n.favorites-section .channel-body p[data-v-670f86e6],\n  .favorites-section .channel-body .small[data-v-670f86e6] {\n    font-size: 0.8rem;\n}\n.channel-body .badge[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.favorites-section .channel-body .badge[data-v-670f86e6] {\n    font-size: 0.6rem;\n}\n.channel-body a[data-v-670f86e6] {\n    min-width: 50px;\n    padding: 6px;\n}\n.favorites-section .channel-body a[data-v-670f86e6] {\n    min-width: 45px;\n    padding: 5px;\n}\n.channel-body a i[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.favorites-section .channel-body a i[data-v-670f86e6] {\n    font-size: 0.9rem;\n}\n.channel-body a small[data-v-670f86e6] {\n    font-size: 0.7rem;\n}\n.favorites-section .channel-body a small[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.bg-light[data-v-670f86e6] {\n    padding: 15px !important;\n}\n.form-control[data-v-670f86e6],\n  .form-select[data-v-670f86e6],\n  .input-group-text[data-v-670f86e6] {\n    font-size: 0.9rem;\n    border-radius: 8px !important;\n    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);\n}\n.form-control[data-v-670f86e6]:hover,\n  .form-select[data-v-670f86e6]:hover,\n  .input-group-text[data-v-670f86e6]:hover {\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);\n}\n}\ninput.form-control[data-v-670f86e6],\nselect.form-select[data-v-670f86e6] {\n  font-size: 0.9rem;\n}\n\n/* Reduced motion */\n@media (prefers-reduced-motion: reduce) {\n.card[data-v-670f86e6]:hover {\n    transform: none;\n    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);\n}\n.btn-primary[data-v-670f86e6]:hover,\n  .btn-outline-danger[data-v-670f86e6]:hover,\n  .btn-outline-secondary[data-v-670f86e6]:hover,\n  .btn-outline-success[data-v-670f86e6]:hover,\n  .btn-outline-primary[data-v-670f86e6]:hover {\n    transform: none;\n}\n.mini-screen[data-v-670f86e6] {\n    transition: none;\n    animation: none;\n}\n.animate__fadeInDown[data-v-670f86e6],\n  .animate__fadeInUp[data-v-670f86e6],\n  .animate__zoomIn[data-v-670f86e6],\n  .animate__shakeX[data-v-670f86e6],\n  .animate__rotate[data-v-670f86e6] {\n    animation: none;\n}\n}\n.channel-card h5[data-v-670f86e6] {\n  font-size: 1.4rem;\n  /* larger title */\n}\n.channel-card .description[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.channel-card .small-text[data-v-670f86e6] {\n  font-size: 0.95rem;\n}\n.channel-card .btn[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.card h5[data-v-670f86e6] {\n  font-size: 1.25rem;\n  /* slightly larger */\n  font-weight: 700;\n  /* bold, stronger emphasis */\n  color: #212529;\n  /* consistent dark text */\n  margin-bottom: 0.5rem;\n}\n\n/* Card meta info (address, viewers, stream type) */\n.card p[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 400;\n  color: #6c757d;\n  /* muted gray */\n  margin-bottom: 0.35rem;\n  line-height: 1.4;\n}\n.card p i[data-v-670f86e6] {\n  font-size: 0.9rem;\n  margin-right: 0.35rem;\n}\n\n/* Emphasis for important numbers */\n.card p span[data-v-670f86e6] {\n  font-weight: 600;\n  color: #212529;\n}\n\n/* Badge styles */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n  font-weight: 500;\n  padding: 0.4em 0.65em;\n  border-radius: 8px;\n}\n.badge.bg-primary[data-v-670f86e6] {\n  background-color: #00bfa6 !important;\n}\n.badge.bg-secondary[data-v-670f86e6] {\n  background-color: #6c757d !important;\n}\n.badge.bg-info[data-v-670f86e6] {\n  background-color: #e0f7f4 !important;\n  color: #004d43 !important;\n}\n\n/* Buttons inside cards */\n.card .btn[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 600;\n  border-radius: 50px;\n  padding: 0.5rem 1rem;\n}\n.card .btn-success[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n}\n.card .btn-success[data-v-670f86e6]:hover {\n  background-color: #009688;\n  border-color: #009688;\n}\n\n/* Card hover enhancement */\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

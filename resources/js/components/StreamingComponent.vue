@@ -103,7 +103,7 @@
                 :aria-label="isFavorite(channel) ? 'Remove from favorites' : 'Add to favorites'"
                 style="position: absolute; top: 8px; left: 8px; z-index: 10; background: none; border: none; cursor: pointer; color: #6c757d; transition: color 0.3s;">
                 <i :class="isFavorite(channel) ? 'fas fa-star' : 'far fa-star'"
-                  style="font-size: 1.2rem; color: #ffc107;"></i>
+                  style="font-size: 1.7rem; color: #ffc107;"></i>
               </button>
             </div>
             <div class="channel-body" style="padding: 12px;">
@@ -174,12 +174,13 @@
     </section>
 
     <!-- All Channels Section -->
-    <h4 class="fw-bold mb-3 d-flex align-items-center">All Channels</h4>
-    <section class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-3" aria-label="Channel grid">
+    <h1 class="fw-bold mb-4 d-flex align-items-center">All Channels:</h1>
+    <section class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-2" aria-label="Channel grid">
       <article class="col" v-for="(channel, index) in paginatedChannels" :key="index">
-        <div class="channel-card"
-          style="border-radius: 8px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-          <div class="channel-img-wrapper" style="position: relative; height: 300px; overflow: hidden;">
+        <div class="channel-card shadow-lg"
+          style="border:3px solid #00bfa6; border-radius: 15px; padding: 5px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+          
+          <div class="channel-img-wrapper" style="position: relative;  overflow: hidden;">
             <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="channel-img"
               style="width: 100%;  object-fit: contain;" @error="handleImageError">
             <div class="channel-gradient" style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%;">
@@ -191,36 +192,37 @@
                 style="font-size: 1.5rem; color: #ffc107;"></i>
             </button>
           </div>
+          
           <div class="channel-body" style="padding: 15px;">
             <h5 class="fw-bold mb-2">{{ channel.name }}</h5>
             <div class="description-wrapper small mb-2" :class="{ 'expanded': expandedDescriptions[channel.name] }">
               <p v-if="truncateDescription(channel.description, 80).needsTruncation && !expandedDescriptions[channel.name]"
                 class="description-text">{{ truncateDescription(channel.description, 80).text }}
-                <button class="read-more btn btn-link p-0 ms-1" @click="toggleDescription(channel.name)"
+                <button class="read-more btn btn-link p-0 ms-1" style="text-decoration: underline;" @click="toggleDescription(channel.name)"
                   :aria-label="`Read more about ${channel.name}`" aria-expanded="false">
                   Read More
                 </button>
               </p>
               <p v-else class="description-text">{{ channel.description }}
                 <button v-if="truncateDescription(channel.description, 80).needsTruncation"
-                  class="read-more btn btn-link p-0 ms-1" @click="toggleDescription(channel.name)"
+                  class="read-more btn btn-link p-0 ms-1" style="text-decoration: underline;" @click="toggleDescription(channel.name)"
                   :aria-label="`Read less about ${channel.name}`" aria-expanded="true">
                   Read Less
                 </button>
               </p>
             </div>
-            <div class="mb-2 d-flex justify-content-between small text-muted">
+            <div class="mt-3 d-flex justify-content-between small text-muted">
               <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} viewers</span>
               <span><i class="fas fa-clock me-1"></i>{{ channel.schedule ? channel.schedule : 'No schedule' }}</span>
               <span><i class="fas fa-map-marker-alt me-1"></i>{{ channel.location || 'Not specified' }}</span>
             </div>
-            <div class="mb-3">
+            <div class="mt-3">
               <span class="badge bg-primary me-1">{{ channel.category }}</span>
               <span v-for="lang in channel.languages" :key="lang" class="badge bg-secondary me-1">{{ lang }}</span>
               <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
             </div>
             <div
-              style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px; justify-content: center; justify-items: center;" class="text-center">
+              style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px;" class="text-center mt-3">
               <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel || '#'" target="_blank"
                 rel="noopener noreferrer"
                 style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
@@ -234,6 +236,12 @@
                 title="Playlists" aria-label="View Playlists" @click="debugLink(channel.playlistUrl, 'Playlists')">
                 <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
                 <small style="font-size: 0.8rem;">Playlists</small>
+              </a>
+              <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank" rel="noopener noreferrer"
+                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                title="Playlists" aria-label="View Playlists" @click="debugLink(channel.playlistUrl, 'Playlists')">
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-inbox"></i>
+                <small style="font-size: 0.8rem;">Posts</small>
               </a>
               <a v-if="channel.websiteUrl" :href="channel.websiteUrl || '#'" target="_blank" rel="noopener noreferrer"
                 style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
@@ -330,9 +338,11 @@ export default {
         {
           "name": "Peace TV English",
           "youtubeChannel": "https://www.youtube.com/@PeaceTVEnglish",
-          "websiteUrl": "https://peacetv.tv",
-          "playlistUrl": "https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3",
-          "thumbnail": "/images/food.png",
+          "websiteUrl": "https://www.peacetv.tv/en",
+          "playlistUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
+          "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
+          "videoUrl": "https://www.youtube.com/@peacetvenglish214/videos",
+          "thumbnail": "/images/images.png",
           "description": "International Islamic educational channel featuring lectures by Dr. Zakir Naik and other renowned Islamic scholars.",
           "languages": ["English"],
           "category": "Educational",
@@ -347,7 +357,8 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@OneIslamProductions",
           "websiteUrl": "https://www.oneislam.tv",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
-          "thumbnail": "/images/food.png",
+          "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
+          "thumbnail": "/images/one1.png",
           "description": "High-quality Islamic educational content with zero ads, 100% halal programming, and music-free videos.",
           "languages": ["English"],
           "category": "Educational",
@@ -362,6 +373,7 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@MadaniChannelOfficial",
           "websiteUrl": "https://www.madanichannel.tv",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+          "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
           "thumbnail": "/images/food.png",
           "description": "Popular Pakistani Islamic channel offering diverse Islamic programs, live events, and educational content in Urdu.",
           "languages": ["Urdu", "Arabic"],
@@ -377,7 +389,9 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@aljazeeramubasher",
           "websiteUrl": "https://mubasher.aljazeera.net",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL8D2A442E7E97F7A3",
-          "thumbnail": "/images/food.png",
+          "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
+
+          "thumbnail": "/images/j.png",
           "description": "Live Arabic news and Islamic programming from Al Jazeera, including daily prayers, religious discussions, and Islamic events.",
           "languages": ["Arabic"],
           "category": "News & Current Affairs",
@@ -392,6 +406,7 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@IqraaTVChannel",
           "websiteUrl": "https://iqraa.com",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
+          "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
           "thumbnail": "/images/food.png",
           "description": "Leading Arabic Islamic channel offering Quranic recitations, religious programs, and Islamic documentaries.",
           "languages": ["Arabic"],
@@ -407,6 +422,7 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@AlResalahTV",
           "websiteUrl": "https://alresalah.net",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+          "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
           "thumbnail": "/images/food.png",
           "description": "Popular Arabic Islamic channel featuring religious dramas, educational programs, and live Islamic events.",
           "languages": ["Arabic"],
@@ -422,6 +438,7 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@DawahMan",
           "websiteUrl": "https://dawahman.org",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+          "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
           "thumbnail": "/images/food.png",
           "description": "Islamic dawah content featuring street discussions, debates, and educational videos about Islam.",
           "languages": ["English"],
@@ -437,6 +454,7 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@muftimenkofficial",
           "websiteUrl": "https://muftimenk.com",
           "playlistUrl": "@muftimenkofficial/playlists",
+          "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
           "thumbnail": "/images/food.png",
           "description": "Inspirational Islamic lectures and guidance by Mufti Ismail Menk, covering various aspects of Islamic life.",
           "languages": ["English", "Arabic"],
@@ -452,7 +470,8 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@DigitalMimbar",
           "websiteUrl": "https://digitalmimbar.com",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
-          "thumbnail": "/images/food.png",
+          "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
+          "thumbnail": "/images/dm.jpg",
           "description": "Modern Islamic content platform providing digital Islamic education and spiritual guidance.",
           "languages": ["English"],
           "category": "Educational",
@@ -467,7 +486,8 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@QuranWeekly",
           "websiteUrl": "https://quranweekly.com",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
-          "thumbnail": "/images/food.png",
+          "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
+          "thumbnail": "/images/qw.png",
           "description": "Weekly Quranic reflections and Islamic educational content featuring various Islamic scholars.",
           "languages": ["English"],
           "category": "Quran",
@@ -482,6 +502,7 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@IslamicFinder",
           "websiteUrl": "https://islamicfinder.org",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL9F2D3E7A8B9C1D2F",
+          "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
           "thumbnail": "/images/food.png",
           "description": "Comprehensive Islamic resource providing prayer times, Qibla direction, and Islamic educational content.",
           "languages": ["English", "Arabic", "Urdu"],
@@ -497,6 +518,7 @@ export default {
           "youtubeChannel": "https://www.youtube.com/@MuslimCentral",
           "websiteUrl": "https://muslimcentral.com",
           "playlistUrl": "https://www.youtube.com/playlist?list=PL7F2A442E7E97F7A3",
+          "postUrl": "https://www.youtube.com/@peacetvenglish214/playlists",
           "thumbnail": "/images/food.png",
           "description": "Comprehensive Islamic audio and video library featuring lectures by renowned Islamic scholars worldwide.",
           "languages": ["English"],
@@ -923,11 +945,11 @@ export default {
 .description-wrapper {
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
-  max-height: 4em;
+  max-height: 6em;
 }
 
 .description-wrapper.expanded {
-  max-height: 20em;
+  max-height: 23em;
 }
 
 .description-text {
