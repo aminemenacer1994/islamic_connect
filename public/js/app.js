@@ -152379,7 +152379,8 @@ __webpack_require__.r(__webpack_exports__);
       // Sort by latest date
       currentPage: 1,
       itemsPerPage: 9,
-      selectedBlog: null
+      selectedBlog: null,
+      layoutMode: 'grid' // Default to grid layout
     };
   },
   computed: {
@@ -177343,111 +177344,145 @@ var _hoisted_1 = {
   "class": "blog-container"
 };
 var _hoisted_2 = {
-  "class": "container py-5"
+  "class": "page-header"
 };
 var _hoisted_3 = {
-  "class": "row"
+  "class": "container-fluid"
 };
 var _hoisted_4 = {
-  "class": "card-image-container container"
+  "class": "layout-toggle mt-4"
 };
-var _hoisted_5 = ["onClick"];
-var _hoisted_6 = ["innerHTML"];
-var _hoisted_7 = {
-  "class": "text-muted"
+var _hoisted_5 = {
+  "class": "btn-group",
+  role: "group",
+  "aria-label": "Layout toggle"
 };
-var _hoisted_8 = ["onClick"];
+var _hoisted_6 = ["aria-pressed"];
+var _hoisted_7 = ["aria-pressed"];
+var _hoisted_8 = {
+  "class": "container"
+};
 var _hoisted_9 = ["onClick"];
-var _hoisted_10 = {
-  key: 0,
-  "aria-label": "Blog pagination"
-};
+var _hoisted_10 = ["innerHTML"];
 var _hoisted_11 = {
-  "class": "pagination justify-content-center mt-5"
+  "class": "text-muted"
 };
 var _hoisted_12 = ["onClick"];
 var _hoisted_13 = {
-  "class": "modal-content container"
+  key: 0,
+  "aria-label": "Blog pagination"
 };
 var _hoisted_14 = {
-  "class": "modal-header"
+  "class": "pagination justify-content-center mt-5"
 };
-var _hoisted_15 = {
-  "class": "modal-title"
-};
+var _hoisted_15 = ["onClick"];
 var _hoisted_16 = {
-  "class": "modal-body"
+  "class": "modal-content container"
 };
 var _hoisted_17 = {
-  "class": "modal-meta"
+  "class": "modal-header"
 };
 var _hoisted_18 = {
-  "class": "text-muted mb-3"
+  "class": "modal-title"
 };
-var _hoisted_19 = ["innerHTML"];
+var _hoisted_19 = {
+  "class": "modal-body"
+};
 var _hoisted_20 = {
-  "class": "modal-tags"
+  "class": "modal-meta"
 };
 var _hoisted_21 = {
+  "class": "text-muted mb-3"
+};
+var _hoisted_22 = ["innerHTML"];
+var _hoisted_23 = {
+  "class": "modal-tags"
+};
+var _hoisted_24 = {
   "class": "modal-hashtags mt-2"
 };
-var _hoisted_22 = {
+var _hoisted_25 = {
   "class": "modal-footer"
 };
-var _hoisted_23 = {
+var _hoisted_26 = {
   key: 1,
   "class": "modal-backdrop fade show"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Page Header "), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "page-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "container-fluid"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Insights"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 3-Column Grid Layout "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedBlogs, function (blog, index) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Page Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Insights", -1 /* CACHED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-layout", {
+      'btn-active': $data.layoutMode === 'grid'
+    }]),
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $data.layoutMode = 'grid';
+    }),
+    "aria-label": "Switch to grid layout",
+    "aria-pressed": $data.layoutMode === 'grid'
+  }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-th-large me-1"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Grid ", -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-layout", {
+      'btn-active': $data.layoutMode === 'list'
+    }]),
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $data.layoutMode = 'list';
+    }),
+    "aria-label": "Switch to list layout",
+    "aria-pressed": $data.layoutMode === 'list'
+  }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-list me-1"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" List ", -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_7)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Blog Layout "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["row", {
+      'list-layout': $data.layoutMode === 'list'
+    }])
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedBlogs, function (blog, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: blog.id,
-      "class": "col-lg-6 col-md-6 mb-6"
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4')
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "card h-100 shadow-lg border-0 animate-card",
+      "class": "card h-100 animate-card",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         animationDelay: "".concat(index * 0.1, "s")
       })
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img :src=\"blog.image\" class=\"card-img-top\" :alt=\"blog.title\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-image-container", {
+        'container': $data.layoutMode === 'grid',
+        'container-fluid': $data.layoutMode === 'list'
+      }])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img :src=\"blog.image\" class=\"card-img-top\" :alt=\"blog.title\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "card-title",
-      style: {
-        "cursor": "pointer"
-      },
       onClick: function onClick($event) {
         return $options.openModal(blog);
       },
       "aria-label": "Read full blog post"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(blog.title), 9 /* TEXT, PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "card-text",
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(blog.title), 9 /* TEXT, PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-text", {
+        'list-content': $data.layoutMode === 'list'
+      }]),
       innerHTML: blog.content
-    }, null, 8 /* PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_7, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(blog.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, null, 10 /* CLASS, PROPS */, _hoisted_10), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(blog.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      "class": "read-more",
       onClick: function onClick($event) {
         return $options.openModal(blog);
       },
       "aria-label": "Read full blog post"
-    }, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Read More ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "ms-1 fas fa-arrow-right",
-      onClick: function onClick($event) {
-        return $options.openModal(blog);
-      },
-      "aria-label": "Read full blog post"
-    }, null, 8 /* PROPS */, _hoisted_9)], 8 /* PROPS */, _hoisted_8)])], 4 /* STYLE */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Read More ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "ms-1 fas fa-arrow-right"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_12)], 2 /* CLASS */)], 4 /* STYLE */)], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === 1
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "page-link",
     href: "#",
-    onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+    onClick: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $data.currentPage--;
     }, ["prevent"]))
-  }, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-chevron-left me-1"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous ", -1 /* CACHED */)])))], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
@@ -177461,7 +177496,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
         return $data.currentPage = page;
       }, ["prevent"])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_12)], 2 /* CLASS */);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_15)], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === $options.totalPages
@@ -177469,63 +177504,66 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "page-link",
     href: "#",
-    onClick: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $data.currentPage++;
+    onClick: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $data.currentPage && $data.currentPage.apply($data, arguments);
     }, ["prevent"]))
-  }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "ms-1 fas fa-chevron-right"
   }, null, -1 /* CACHED */)])))], 2 /* CLASS */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal for Full Blog Content "), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     "class": "modal show d-block animate-modal",
     tabindex: "-1",
     role: "dialog",
-    onClick: _cache[6] || (_cache[6] = function () {
+    onClick: _cache[8] || (_cache[8] = function () {
       return $options.closeModal && $options.closeModal.apply($options, arguments);
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-dialog modal-xl modal-dialog-centered",
     role: "document",
-    onClick: _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedBlog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedBlog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-circle-fill h3",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[2] || (_cache[2] = function () {
+    onClick: _cache[4] || (_cache[4] = function () {
       return $options.closeModal && $options.closeModal.apply($options, arguments);
-    })
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.selectedBlog.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal-image-container mb-4\">\n                            <img :src=\"selectedBlog.image\" class=\"img-fluid rounded\" :alt=\"selectedBlog.title\">\n                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }),
+    "aria-label": "Close modal"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_21, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.selectedBlog.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal-image-container mb-4\">\n                            <img :src=\"selectedBlog.image\" class=\"img-fluid rounded\" :alt=\"selectedBlog.title\">\n                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-content-text",
     innerHTML: $data.selectedBlog.content
-  }, null, 8 /* PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+  }, null, 8 /* PROPS */, _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     "class": "me-2 fs-5"
   }, "Tags:", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedBlog.tags, function (tag) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: tag,
       "class": "badge me-2 mb-2"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     "class": "me-2 fs-5"
   }, "Hashtags:", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedBlog.hashtags, function (hashtag) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: hashtag,
       "class": "hashtag me-2"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hashtag), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-secondary",
-    onClick: _cache[3] || (_cache[3] = function () {
+    onClick: _cache[5] || (_cache[5] = function () {
       return $options.closeModal && $options.closeModal.apply($options, arguments);
-    })
+    }),
+    "aria-label": "Close modal"
   }, "Close"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     type: "button",
-    "class": "btn btn-primary position-relative",
-    onClick: _cache[4] || (_cache[4] = function ($event) {
+    "class": "btn btn-primary",
+    onClick: _cache[6] || (_cache[6] = function ($event) {
       return $options.shareBlog($data.selectedBlog);
-    })
-  }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }),
+    "aria-label": "Share blog post"
+  }, _toConsumableArray(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "ms-1 fas fa-share"
-  }, null, -1 /* CACHED */)])))), [[_directive_tooltip, 'Copy link to clipboard']])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, null, -1 /* CACHED */)])))), [[_directive_tooltip, 'Copy link to clipboard']])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -191385,7 +191423,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Color Scheme */\n[data-v-9211e7a8]:root {\n    --primary-color: #00c4b4;\n    /* Brighter green for buttons */\n    --primary-dark: #00897b;\n    /* Darker green for hover */\n    --primary-light: #b2dfdb;\n    /* Light green for backgrounds */\n    --white-color: #ffffff;\n    --black-color: #000000;\n    --gray-dark: #333333;\n    --gray-medium: #555555;\n    --gray-light: #f5f5f5;\n}\n/* General Styles */\n.blog-container[data-v-9211e7a8] {\n    font-family: 'Roboto', sans-serif;\n    color: var(--gray-dark);\n    background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);\n    min-height: 100vh;\n}\n/* Page Header */\n.page-header[data-v-9211e7a8] {\n    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);\n    color: var(--white-color);\n    padding: 4rem 0;\n    text-align: center;\n}\n.page-header h1[data-v-9211e7a8] {\n    font-size: 3rem;\n    font-weight: 800;\n    margin-bottom: 0.75rem;\n    letter-spacing: 0.5px;\n}\n.page-header p[data-v-9211e7a8] {\n    font-size: 1.3rem;\n    font-weight: 400;\n    margin: 0 auto;\n    opacity: 0.9;\n}\n/* Card Styles */\n.card[data-v-9211e7a8] {\n    background: var(--white-color);\n    border-radius: 16px;\n    box-shadow: 0 6px 20px rgba(0, 191, 166, 0.15);\n    transition: transform 0.3s ease, box-shadow 0.3s ease;\n    position: relative;\n    overflow: hidden;\n}\n.card[data-v-9211e7a8]::before {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    height: 5px;\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n}\n.card[data-v-9211e7a8]:hover {\n    transform: translateY(-10px) scale(1.02);\n    box-shadow: 0 12px 30px rgba(0, 191, 166, 0.25);\n}\n.card-image-container[data-v-9211e7a8] {\n    position: relative;\n    overflow: hidden;\n    border-top-left-radius: 16px;\n    border-top-right-radius: 16px;\n}\n.card-img-top[data-v-9211e7a8] {\n    height: 240px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    transition: transform 0.4s ease;\n}\n.card:hover .card-img-top[data-v-9211e7a8] {\n    transform: scale(1.08);\n}\n.card-date-overlay[data-v-9211e7a8] {\n    position: absolute;\n    top: 20px;\n    left: 20px;\n    background: var(--primary-dark);\n    color: var(--white-color);\n    padding: 10px 12px;\n    border-radius: 8px;\n    text-align: center;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n}\n.date-day[data-v-9211e7a8] {\n    display: block;\n    font-size: 1.8rem;\n    font-weight: 700;\n}\n.date-month[data-v-9211e7a8] {\n    display: block;\n    font-size: 0.9rem;\n    text-transform: uppercase;\n    font-weight: 500;\n}\n.card-image-container[data-v-9211e7a8] {\n    padding: 2rem;\n    display: flex;\n    flex-direction: column;\n    gap: 1rem;\n}\n.card-title[data-v-9211e7a8] {\n    padding: 15px;\n    font-size: 1.6rem;\n    font-weight: 700;\n    color: var(--black-color);\n    margin-bottom: 1rem;\n    line-height: 1.4;\n}\n.card-text[data-v-9211e7a8] {\n    padding: 15px;\n    font-size: 1.15rem;\n    color: var(--gray-dark);\n    max-height: 350px;\n    overflow: hidden;\n    line-height: 1.7;\n    margin-bottom: 1.7rem;\n    display: -webkit-box;\n    -webkit-line-clamp: 5;\n    -webkit-box-orient: vertical;\n    text-overflow: ellipsis;\n}\n.text-muted[data-v-9211e7a8] {\n    font-size: 1rem;\n    color: var(--gray-medium);\n    font-weight: 400;\n}\n.tags-container[data-v-9211e7a8],\n.hashtags-container[data-v-9211e7a8] {\n    margin-bottom: 0;\n}\n.tags-container strong[data-v-9211e7a8],\n.hashtags-container strong[data-v-9211e7a8] {\n    font-size: 0.95rem;\n    font-weight: 600;\n    color: var(--gray-dark);\n}\n.tags-wrapper[data-v-9211e7a8] {\n    display: flex;\n    flex-wrap: wrap;\n    gap: 0.75rem;\n}\n.badge[data-v-9211e7a8] {\n    background: var(--white-color);\n    color: var(--primary-color);\n    border: 1px solid var(--primary-color);\n    font-size: 0.85rem;\n    font-weight: 500;\n    padding: 6px 12px;\n    border-radius: 20px;\n    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;\n}\n.badge[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: scale(1.05);\n}\n.hashtags-wrapper[data-v-9211e7a8] {\n    display: flex;\n    flex-wrap: wrap;\n    gap: 0.75rem;\n}\n.hashtag[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 0.85rem;\n    font-weight: 500;\n    transition: color 0.2s ease;\n}\n.hashtag[data-v-9211e7a8]:hover {\n    color: var(--primary-dark);\n}\n.card-actions[data-v-9211e7a8] {\n    align-items: center;\n}\n.btn-icon[data-v-9211e7a8] {\n    background: none;\n    border: none;\n    padding: 0;\n    font-size: 1.2rem;\n    color: var(--primary-color);\n    transition: color 0.2s ease, transform 0.2s ease;\n}\n.btn-icon[data-v-9211e7a8]:hover {\n    color: var(--primary-dark);\n    transform: scale(1.1);\n}\n.btn-share[data-v-9211e7a8] {\n    cursor: pointer;\n}\n.word-count[data-v-9211e7a8] {\n    display: flex;\n    align-items: center;\n    gap: 0.5rem;\n    font-size: 0.95rem;\n    color: var(--gray-medium);\n    font-weight: 500;\n}\n.word-count i[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 1.2rem;\n}\n.btn-read-more[data-v-9211e7a8] {\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n    border: none;\n    color: var(--white-color);\n    font-size: 1.15rem;\n    font-weight: 600;\n    border-radius: 8px;\n    padding: 10px 20px;\n    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;\n}\n.btn-read-more[data-v-9211e7a8]:hover {\n    background: var(--primary-dark);\n    transform: scale(1.05);\n    box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);\n}\n.btn-read-more .fa-arrow-right[data-v-9211e7a8] {\n    transition: transform 0.2s ease;\n}\n.btn-read-more:hover .fa-arrow-right[data-v-9211e7a8] {\n    transform: translateX(4px);\n}\n/* Pagination Styles */\n.pagination[data-v-9211e7a8] {\n    gap: 10px;\n}\n.page-link[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 1.15rem;\n    font-weight: 500;\n    border-radius: 8px;\n    padding: 10px 18px;\n    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;\n}\n.page-item.active .page-link[data-v-9211e7a8] {\n    background: var(--primary-color);\n    border-color: var(--primary-color);\n    color: var(--white-color);\n}\n.page-link[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: scale(1.1);\n}\n.page-item.disabled .page-link[data-v-9211e7a8] {\n    color: var(--gray-medium);\n    cursor: not-allowed;\n}\n/* Modal Styles */\n.modal-content[data-v-9211e7a8] {\n    border-radius: 16px;\n    box-shadow: 0 12px 40px rgba(0, 191, 166, 0.3);\n    overflow: hidden;\n}\n.modal-header[data-v-9211e7a8] {\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n    border-bottom: none;\n    padding: 1.75rem 2rem;\n}\n.modal-title[data-v-9211e7a8] {\n    font-size: 2rem;\n    font-weight: 700;\n    color: var(--white-color);\n}\n.bi-x-circle-fill[data-v-9211e7a8] {\n    color: var(--white-color);\n    transition: color 0.2s ease, transform 0.2s ease;\n}\n.bi-x-circle-fill[data-v-9211e7a8]:hover {\n    color: var(--primary-light);\n    transform: scale(1.1);\n}\n.modal-body[data-v-9211e7a8] {\n    font-size: 1.25rem;\n    line-height: 1.8;\n    color: var(--gray-dark);\n    background: var(--white-color);\n}\n.modal-meta[data-v-9211e7a8] {\n    border-bottom: 1px solid var(--primary-light);\n}\n.modal-tags strong[data-v-9211e7a8],\n.modal-hashtags strong[data-v-9211e7a8] {\n    font-size: 1.1rem;\n    font-weight: 600;\n}\n.modal-image-container img[data-v-9211e7a8] {\n    width: 100%;\n    max-height: 350px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 10px;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.modal-content-text[data-v-9211e7a8] h1,\n.modal-content-text[data-v-9211e7a8] h2,\n.modal-content-text[data-v-9211e7a8] h3,\n.modal-content-text[data-v-9211e7a8] h4 {\n    color: var(--primary-dark);\n    margin-bottom: 1.2rem;\n    border-left: 4px solid var(--primary-color);\n    padding-left: 12px;\n}\n.modal-content-text[data-v-9211e7a8] p {\n    margin-bottom: 1.8rem;\n}\n.modal-content-text[data-v-9211e7a8] ul {\n    list-style: none;\n    padding-left: 0;\n    margin-bottom: 1.8rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li {\n    position: relative;\n    padding-left: 24px;\n    margin-bottom: 0.8rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li::before {\n    content: '•';\n    position: absolute;\n    left: 0;\n    color: var(--primary-color);\n    font-size: 1.3rem;\n}\n.modal-content-text[data-v-9211e7a8] blockquote {\n    border-left: 4px solid var(--primary-color);\n    padding-left: 1.2rem;\n    margin: 1.8rem 0;\n    font-style: italic;\n    color: var(--gray-medium);\n    background: var(--gray-light);\n    padding: 1rem;\n    border-radius: 8px;\n}\n.modal-footer[data-v-9211e7a8] {\n    border-top: none;\n    padding: 1.5rem 2rem;\n}\n.btn-secondary[data-v-9211e7a8] {\n    background: var(--gray-medium);\n    border: none;\n    font-size: 1.15rem;\n    font-weight: 600;\n    border-radius: 8px;\n    padding: 12px 24px;\n    transition: transform 0.2s ease, background 0.2s ease;\n}\n.btn-secondary[data-v-9211e7a8]:hover {\n    background: var(--gray-dark);\n    transform: scale(1.05);\n}\n/* Animations */\n.animate-card[data-v-9211e7a8] {\n    animation: fadeInUp-9211e7a8 0.6s ease-out forwards;\n}\n@keyframes fadeInUp-9211e7a8 {\nfrom {\n        opacity: 0;\n        transform: translateY(20px);\n}\nto {\n        opacity: 1;\n        transform: translateY(0);\n}\n}\n.animate-modal[data-v-9211e7a8] {\n    animation: scaleIn-9211e7a8 0.3s ease-out forwards;\n}\n@keyframes scaleIn-9211e7a8 {\nfrom {\n        opacity: 0;\n        transform: scale(0.9);\n}\nto {\n        opacity: 1;\n        transform: scale(1);\n}\n}\n/* Modal Backdrop */\n.modal-backdrop[data-v-9211e7a8] {\n    background: rgba(0, 0, 0, 0.7);\n}\n/* Responsive Adjustments */\n@media (max-width: 992px) {\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2.5rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1.1rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 200px;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.4rem;\n}\n}\n@media (max-width: 768px) {\n.page-header[data-v-9211e7a8] {\n        padding: 3rem 0;\n}\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 180px;\n}\n.card-image-container[data-v-9211e7a8] {\n        padding: 0.9rem;\n}\n.modal-title[data-v-9211e7a8] {\n        font-size: 1.6rem;\n}\n.modal-body[data-v-9211e7a8] {\n        padding: 1.75rem;\n}\n.modal-image-container img[data-v-9211e7a8] {\n        max-height: 250px;\n}\n}\n@media (max-width: 576px) {\n.card-date-overlay[data-v-9211e7a8] {\n        top: 10px;\n        left: 10px;\n        padding: 8px 10px;\n}\n.date-day[data-v-9211e7a8] {\n        font-size: 1.4rem;\n}\n.date-month[data-v-9211e7a8] {\n        font-size: 0.75rem;\n}\n.btn-primary[data-v-9211e7a8],\n    .btn-secondary[data-v-9211e7a8],\n    .btn-read-more[data-v-9211e7a8] {\n        padding: 10px 20px;\n        font-size: 1rem;\n}\n.btn-icon[data-v-9211e7a8],\n    .word-count i[data-v-9211e7a8] {\n        font-size: 1rem;\n}\n.word-count[data-v-9211e7a8] {\n        font-size: 0.85rem;\n}\n.badge[data-v-9211e7a8] {\n        font-size: 0.8rem;\n        padding: 5px 10px;\n}\n.hashtag[data-v-9211e7a8] {\n        font-size: 0.8rem;\n}\n.card-actions .col-auto[data-v-9211e7a8] {\n        flex: 0 0 100%;\n        max-width: 100%;\n        text-align: center;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Color Scheme */\n[data-v-9211e7a8]:root {\n    --primary-color: #00c4b4; /* Brighter green for buttons */\n    --primary-dark: #00897b; /* Darker green for hover */\n    --primary-light: #b2dfdb; /* Light green for backgrounds */\n    --white-color: #ffffff;\n    --black-color: #000000;\n    --gray-dark: #2a2a2a; /* Darker for better contrast */\n    --gray-medium: #4a4a4a; /* Darker for accessibility */\n    --gray-light: #f5f5f5;\n}\n/* General Styles */\n.blog-container[data-v-9211e7a8] {\n    font-family: 'Roboto', 'Open Sans', sans-serif;\n    color: var(--gray-dark);\n    background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);\n    min-height: 100vh;\n}\n/* Page Header */\n.page-header[data-v-9211e7a8] {\n    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);\n    color: var(--white-color);\n    padding: 5rem 0;\n    text-align: center;\n}\n.page-header h1[data-v-9211e7a8] {\n    font-size: 3.5rem;\n    font-weight: 800;\n    margin-bottom: 1rem;\n    letter-spacing: 0.5px;\n    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.page-header p[data-v-9211e7a8] {\n    font-size: 1.4rem;\n    font-weight: 400;\n    margin: 0 auto;\n    max-width: 900px;\n    opacity: 0.95;\n    line-height: 1.8;\n}\n/* Layout Toggle */\n.layout-toggle[data-v-9211e7a8] {\n    display: flex;\n    justify-content: center;\n    margin-top: 2rem;\n}\n.btn-group[data-v-9211e7a8] {\n    border-radius: 50px;\n    overflow: hidden;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n.btn-layout[data-v-9211e7a8] {\n    background: var(--gray-light);\n    color: var(--gray-dark);\n    border: 1px solid var(--primary-color);\n    padding: 10px 20px;\n    font-size: 1.1rem;\n    font-weight: 600;\n    transition: all 0.3s ease;\n}\n.btn-layout[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: translateY(-2px);\n}\n.btn-layout[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.btn-active[data-v-9211e7a8] {\n    background: var(--primary-color);\n    color: var(--white-color);\n    border-color: var(--primary-color);\n}\n.btn-active[data-v-9211e7a8]:hover {\n    background: var(--primary-dark);\n    color: var(--white-color);\n    transform: translateY(-2px);\n}\n/* Card Styles */\n.card[data-v-9211e7a8] {\n    background: linear-gradient(180deg, var(--white-color) 0%, #f8fafc 100%);\n    border-radius: 20px;\n    box-shadow: 0 8px 24px rgba(0, 191, 166, 0.15);\n    transition: transform 0.4s ease, box-shadow 0.4s ease;\n    position: relative;\n    overflow: hidden;\n    border: 1px solid rgba(0, 191, 166, 0.1);\n}\n.card[data-v-9211e7a8]::before {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    height: 6px;\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n}\n.card[data-v-9211e7a8]:hover {\n    transform: translateY(-12px) scale(1.03);\n    box-shadow: 0 16px 32px rgba(0, 191, 166, 0.25);\n}\n.card-image-container[data-v-9211e7a8] {\n    padding: 2.5rem;\n    display: flex;\n    flex-direction: column;\n    gap: 1.5rem;\n}\n.card-img-top[data-v-9211e7a8] {\n    height: 260px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    transition: transform 0.5s ease;\n}\n.card:hover .card-img-top[data-v-9211e7a8] {\n    transform: scale(1.1);\n}\n.card-title[data-v-9211e7a8] {\n    font-size: 1.8rem;\n    font-weight: 700;\n    color: var(--black-color);\n    margin-bottom: 1rem;\n    line-height: 1.4;\n    cursor: pointer;\n    transition: color 0.3s ease;\n    padding: 0;\n}\n.card-title[data-v-9211e7a8]:hover {\n    color: var(--primary-color);\n}\n.card-title[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.card-text[data-v-9211e7a8] {\n    font-size: 1.2rem;\n    color: var(--gray-dark);\n    max-height: 360px;\n    overflow: hidden;\n    line-height: 1.8;\n    margin-bottom: 1.5rem;\n    display: -webkit-box;\n    -webkit-line-clamp: 5;\n    -webkit-box-orient: vertical;\n    text-overflow: ellipsis;\n    padding: 0;\n}\n.list-layout .card-text.list-content[data-v-9211e7a8] {\n    -webkit-line-clamp: 8;\n    max-height: 480px;\n}\n.text-muted[data-v-9211e7a8] {\n    font-size: 0.95rem;\n    color: var(--gray-medium);\n    font-weight: 400;\n    padding: 0;\n}\n.read-more[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 1.2rem;\n    font-weight: 600;\n    cursor: pointer;\n    transition: color 0.3s ease, transform 0.3s ease;\n    padding: 0;\n}\n.read-more[data-v-9211e7a8]:hover {\n    color: var(--primary-dark);\n    transform: translateX(6px);\n}\n.read-more[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.read-more .fa-arrow-right[data-v-9211e7a8] {\n    transition: transform 0.3s ease;\n}\n.read-more:hover .fa-arrow-right[data-v-9211e7a8] {\n    transform: translateX(5px);\n}\n/* List Layout Specific Styles */\n.list-layout .card[data-v-9211e7a8] {\n    display: flex;\n    flex-direction: column;\n}\n.list-layout .card-image-container[data-v-9211e7a8] {\n    padding: 2rem;\n}\n.list-layout .card-title[data-v-9211e7a8] {\n    font-size: 2rem;\n}\n.list-layout .card-text[data-v-9211e7a8] {\n    font-size: 1.25rem;\n}\n/* Pagination Styles */\n.pagination[data-v-9211e7a8] {\n    gap: 12px;\n}\n.page-link[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 1.2rem;\n    font-weight: 600;\n    border-radius: 10px;\n    padding: 12px 20px;\n    transition: all 0.3s ease;\n    border: 1px solid var(--primary-color);\n}\n.page-item.active .page-link[data-v-9211e7a8] {\n    background: var(--primary-color);\n    border-color: var(--primary-color);\n    color: var(--white-color);\n}\n.page-link[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: translateY(-2px);\n}\n.page-link[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.page-item.disabled .page-link[data-v-9211e7a8] {\n    color: var(--gray-medium);\n    cursor: not-allowed;\n    border-color: var(--gray-medium);\n}\n/* Modal Styles */\n.modal-content[data-v-9211e7a8] {\n    border-radius: 20px;\n    box-shadow: 0 16px 40px rgba(0, 191, 166, 0.3);\n    overflow: hidden;\n}\n.modal-header[data-v-9211e7a8] {\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n    border-bottom: none;\n    padding: 2rem;\n}\n.modal-title[data-v-9211e7a8] {\n    font-size: 2.2rem;\n    font-weight: 700;\n    color: var(--white-color);\n}\n.bi-x-circle-fill[data-v-9211e7a8] {\n    color: var(--white-color);\n    transition: all 0.3s ease;\n}\n.bi-x-circle-fill[data-v-9211e7a8]:hover {\n    color: var(--primary-light);\n    transform: scale(1.15);\n}\n.bi-x-circle-fill[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--white-color);\n    outline-offset: 2px;\n}\n.modal-body[data-v-9211e7a8] {\n    font-size: 1.3rem;\n    line-height: 1.9;\n    color: var(--gray-dark);\n    background: var(--white-color);\n    padding: 2rem;\n}\n.modal-meta[data-v-9211e7a8] {\n    border-bottom: 1px solid var(--primary-light);\n    padding-bottom: 1rem;\n}\n.modal-tags strong[data-v-9211e7a8],\n.modal-hashtags strong[data-v-9211e7a8] {\n    font-size: 1.15rem;\n    font-weight: 600;\n}\n.modal-image-container img[data-v-9211e7a8] {\n    width: 100%;\n    max-height: 400px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 12px;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.modal-content-text[data-v-9211e7a8] h1,\n.modal-content-text[data-v-9211e7a8] h2,\n.modal-content-text[data-v-9211e7a8] h3,\n.modal-content-text[data-v-9211e7a8] h4 {\n    color: var(--primary-dark);\n    margin-bottom: 1.5rem;\n    border-left: 4px solid var(--primary-color);\n    padding-left: 14px;\n}\n.modal-content-text[data-v-9211e7a8] p {\n    margin-bottom: 2rem;\n}\n.modal-content-text[data-v-9211e7a8] ul {\n    list-style: none;\n    padding-left: 0;\n    margin-bottom: 2rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li {\n    position: relative;\n    padding-left: 28px;\n    margin-bottom: 1rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li::before {\n    content: '•';\n    position: absolute;\n    left: 0;\n    color: var(--primary-color);\n    font-size: 1.4rem;\n}\n.modal-content-text[data-v-9211e7a8] blockquote {\n    border-left: 4px solid var(--primary-color);\n    padding-left: 1.5rem;\n    margin: 2rem 0;\n    font-style: italic;\n    color: var(--gray-medium);\n    background: var(--gray-light);\n    padding: 1.2rem;\n    border-radius: 10px;\n}\n.modal-footer[data-v-9211e7a8] {\n    border-top: none;\n    padding: 1.5rem 2rem;\n}\n.btn-primary[data-v-9211e7a8] {\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n    border: none;\n    color: var(--white-color);\n    font-size: 1.2rem;\n    font-weight: 600;\n    border-radius: 10px;\n    padding: 12px 28px;\n    transition: all 0.3s ease;\n}\n.btn-primary[data-v-9211e7a8]:hover {\n    background: var(--primary-dark);\n    transform: translateY(-2px);\n    box-shadow: 0 6px 16px rgba(0, 191, 166, 0.3);\n}\n.btn-primary[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.btn-secondary[data-v-9211e7a8] {\n    background: var(--gray-medium);\n    border: none;\n    color: var(--white-color);\n    font-size: 1.2rem;\n    font-weight: 600;\n    border-radius: 10px;\n    padding: 12px 28px;\n    transition: all 0.3s ease;\n}\n.btn-secondary[data-v-9211e7a8]:hover {\n    background: var(--gray-dark);\n    transform: translateY(-2px);\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);\n}\n.btn-secondary[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--gray-dark);\n    outline-offset: 2px;\n}\n/* Animations */\n.animate-card[data-v-9211e7a8] {\n    animation: fadeInUp-9211e7a8 0.7s ease-out forwards;\n}\n@keyframes fadeInUp-9211e7a8 {\nfrom {\n        opacity: 0;\n        transform: translateY(30px);\n}\nto {\n        opacity: 1;\n        transform: translateY(0);\n}\n}\n.animate-modal[data-v-9211e7a8] {\n    animation: scaleIn-9211e7a8 0.4s ease-out forwards;\n}\n@keyframes scaleIn-9211e7a8 {\nfrom {\n        opacity: 0;\n        transform: scale(0.85);\n}\nto {\n        opacity: 1;\n        transform: scale(1);\n}\n}\n/* Modal Backdrop */\n.modal-backdrop[data-v-9211e7a8] {\n    background: rgba(0, 0, 0, 0.75);\n}\n/* Responsive Adjustments */\n@media (max-width: 992px) {\n.page-header h1[data-v-9211e7a8] {\n        font-size: 3rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1.2rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 220px;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.6rem;\n}\n}\n@media (max-width: 768px) {\n.page-header[data-v-9211e7a8] {\n        padding: 4rem 0;\n}\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2.5rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1.1rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 200px;\n}\n.card-image-container[data-v-9211e7a8] {\n        padding: 1.5rem;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.5rem;\n}\n.card-text[data-v-9211e7a8] {\n        font-size: 1.15rem;\n}\n.list-layout .card-title[data-v-9211e7a8] {\n        font-size: 1.8rem;\n}\n.list-layout .card-text[data-v-9211e7a8] {\n        font-size: 1.2rem;\n}\n}\n@media (max-width: 576px) {\n.page-header[data-v-9211e7a8] {\n        padding: 3rem 0;\n}\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1rem;\n}\n.btn-layout[data-v-9211e7a8] {\n        padding: 8px 16px;\n        font-size: 0.95rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 180px;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.4rem;\n}\n.card-text[data-v-9211e7a8] {\n        font-size: 1.1rem;\n        -webkit-line-clamp: 4;\n        max-height: 320px;\n}\n.list-layout .card-title[data-v-9211e7a8] {\n        font-size: 1.6rem;\n}\n.list-layout .card-text[data-v-9211e7a8] {\n        font-size: 1.15rem;\n        -webkit-line-clamp: 6;\n        max-height: 360px;\n}\n.read-more[data-v-9211e7a8] {\n        font-size: 1.1rem;\n}\n.btn-primary[data-v-9211e7a8],\n    .btn-secondary[data-v-9211e7a8] {\n        padding: 10px 20px;\n        font-size: 1rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

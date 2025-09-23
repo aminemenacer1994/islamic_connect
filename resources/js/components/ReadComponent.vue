@@ -7,24 +7,32 @@
                 <p>Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn
                     from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and
                     mind, offering solace, direction, and a deeper connection to faith.</p>
+                <div class="layout-toggle mt-4">
+                    <div class="btn-group" role="group" aria-label="Layout toggle">
+                        <button type="button" class="btn btn-layout" :class="{ 'btn-active': layoutMode === 'grid' }" @click="layoutMode = 'grid'" aria-label="Switch to grid layout" :aria-pressed="layoutMode === 'grid'">
+                            <i class="fas fa-th-large me-1"></i> Grid
+                        </button>
+                        <button type="button" class="btn btn-layout" :class="{ 'btn-active': layoutMode === 'list' }" @click="layoutMode = 'list'" aria-label="Switch to list layout" :aria-pressed="layoutMode === 'list'">
+                            <i class="fas fa-list me-1"></i> List
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- 3-Column Grid Layout -->
-        <div class="container py-5">
-            <div class="row">
-                <div v-for="(blog, index) in paginatedBlogs" :key="blog.id" class="col-lg-6 col-md-6 mb-6">
-                    <div class="card h-100 shadow-lg border-0 animate-card"
-                        :style="{ animationDelay: `${index * 0.1}s` }">
-                        <div class="card-image-container container">
+        <!-- Blog Layout -->
+        <div class="container">
+            <div class="row" :class="{ 'list-layout': layoutMode === 'list' }">
+                <div v-for="(blog, index) in paginatedBlogs" :key="blog.id" :class="layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4'">
+                    <div class="card h-100 animate-card" :style="{ animationDelay: `${index * 0.1}s` }">
+                        <div class="card-image-container" :class="{ 'container': layoutMode === 'grid', 'container-fluid': layoutMode === 'list' }">
                             <!-- <img :src="blog.image" class="card-img-top" :alt="blog.title"> -->
-                            
-                            <h5 class="card-title" style="cursor: pointer;" @click="openModal(blog)" aria-label="Read full blog post">{{ blog.title }}</h5>
-                            <div class="card-text " v-html="blog.content"></div>
+                            <h5 class="card-title" @click="openModal(blog)" aria-label="Read full blog post">{{ blog.title }}</h5>
+                            <div class="card-text" :class="{ 'list-content': layoutMode === 'list' }" v-html="blog.content"></div>
                             <p class="text-muted">Published on: {{ formatDate(blog.date) }}</p>
-                            <p @click="openModal(blog)" aria-label="Read full blog post">Read More <i class="ms-1 fas fa-arrow-right" @click="openModal(blog)" aria-label="Read full blog post"></i></p>
-                            
-
+                            <p class="read-more" @click="openModal(blog)" aria-label="Read full blog post">
+                                Read More <i class="ms-1 fas fa-arrow-right"></i>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -38,12 +46,11 @@
                             <i class="fas fa-chevron-left me-1"></i> Previous
                         </a>
                     </li>
-                    <li v-for="page in totalPages" :key="page" class="page-item"
-                        :class="{ active: currentPage === page }">
+                    <li v-for="page in totalPages" :key="page" class="page-item" :class="{ active: currentPage === page }">
                         <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
                     </li>
                     <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                        <a class="page-link" href="#" @click.prevent="currentPage++">
+                        <a class="page-link" href="#" @click.prevent="currentPage">
                             Next <i class="ms-1 fas fa-chevron-right"></i>
                         </a>
                     </li>
@@ -52,13 +59,12 @@
         </div>
 
         <!-- Modal for Full Blog Content -->
-        <div v-if="selectedBlog" class="modal show d-block animate-modal" tabindex="-1" role="dialog"
-            @click="closeModal">
+        <div v-if="selectedBlog" class="modal show d-block animate-modal" tabindex="-1" role="dialog" @click="closeModal">
             <div class="modal-dialog modal-xl modal-dialog-centered" role="document" @click.stop>
                 <div class="modal-content container">
                     <div class="modal-header">
                         <h4 class="modal-title">{{ selectedBlog.title }}</h4>
-                        <i class="bi bi-x-circle-fill h3" style="cursor: pointer;" @click="closeModal"></i>
+                        <i class="bi bi-x-circle-fill h3" style="cursor: pointer;" @click="closeModal" aria-label="Close modal"></i>
                     </div>
                     <div class="modal-body">
                         <div class="modal-meta">
@@ -74,14 +80,12 @@
                         </div>
                         <div class="modal-hashtags mt-2">
                             <strong class="me-2 fs-5">Hashtags:</strong>
-                            <span v-for="hashtag in selectedBlog.hashtags" :key="hashtag" class="hashtag me-2">{{
-                                hashtag }}</span>
+                            <span v-for="hashtag in selectedBlog.hashtags" :key="hashtag" class="hashtag me-2">{{ hashtag }}</span>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
-                        <button type="button" class="btn btn-primary position-relative" @click="shareBlog(selectedBlog)"
-                            v-tooltip="'Copy link to clipboard'">
+                        <button type="button" class="btn btn-secondary" @click="closeModal" aria-label="Close modal">Close</button>
+                        <button type="button" class="btn btn-primary" @click="shareBlog(selectedBlog)" v-tooltip="'Copy link to clipboard'" aria-label="Share blog post">
                             Share <i class="ms-1 fas fa-share"></i>
                         </button>
                     </div>
@@ -102,6 +106,7 @@ export default {
             currentPage: 1,
             itemsPerPage: 9,
             selectedBlog: null,
+            layoutMode: 'grid', // Default to grid layout
         };
     },
     computed: {
@@ -168,22 +173,19 @@ export default {
 <style scoped>
 /* Color Scheme */
 :root {
-    --primary-color: #00c4b4;
-    /* Brighter green for buttons */
-    --primary-dark: #00897b;
-    /* Darker green for hover */
-    --primary-light: #b2dfdb;
-    /* Light green for backgrounds */
+    --primary-color: #00c4b4; /* Brighter green for buttons */
+    --primary-dark: #00897b; /* Darker green for hover */
+    --primary-light: #b2dfdb; /* Light green for backgrounds */
     --white-color: #ffffff;
     --black-color: #000000;
-    --gray-dark: #333333;
-    --gray-medium: #555555;
+    --gray-dark: #2a2a2a; /* Darker for better contrast */
+    --gray-medium: #4a4a4a; /* Darker for accessibility */
     --gray-light: #f5f5f5;
 }
 
 /* General Styles */
 .blog-container {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', 'Open Sans', sans-serif;
     color: var(--gray-dark);
     background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);
     min-height: 100vh;
@@ -193,32 +195,82 @@ export default {
 .page-header {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: var(--white-color);
-    padding: 4rem 0;
+    padding: 5rem 0;
     text-align: center;
 }
 
 .page-header h1 {
-    font-size: 3rem;
+    font-size: 3.5rem;
     font-weight: 800;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
     letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .page-header p {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 400;
     margin: 0 auto;
-    opacity: 0.9;
+    max-width: 900px;
+    opacity: 0.95;
+    line-height: 1.8;
+}
+
+/* Layout Toggle */
+.layout-toggle {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn-group {
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-layout {
+    background: var(--gray-light);
+    color: var(--gray-dark);
+    border: 1px solid var(--primary-color);
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-layout:hover {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-layout:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.btn-active {
+    background: var(--primary-color);
+    color: var(--white-color);
+    border-color: var(--primary-color);
+}
+
+.btn-active:hover {
+    background: var(--primary-dark);
+    color: var(--white-color);
+    transform: translateY(-2px);
 }
 
 /* Card Styles */
 .card {
-    background: var(--white-color);
-    border-radius: 16px;
-    box-shadow: 0 6px 20px rgba(0, 191, 166, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(180deg, var(--white-color) 0%, #f8fafc 100%);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 191, 166, 0.15);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
     position: relative;
     overflow: hidden;
+    border: 1px solid rgba(0, 191, 166, 0.1);
 }
 
 .card::before {
@@ -227,220 +279,136 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-    height: 5px;
+    height: 6px;
     background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
 }
 
 .card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 12px 30px rgba(0, 191, 166, 0.25);
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: 0 16px 32px rgba(0, 191, 166, 0.25);
 }
 
 .card-image-container {
-    position: relative;
-    overflow: hidden;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .card-img-top {
-    height: 240px;
+    height: 260px;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.5s ease;
 }
 
 .card:hover .card-img-top {
-    transform: scale(1.08);
-}
-
-.card-date-overlay {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: var(--primary-dark);
-    color: var(--white-color);
-    padding: 10px 12px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.date-day {
-    display: block;
-    font-size: 1.8rem;
-    font-weight: 700;
-}
-
-.date-month {
-    display: block;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    font-weight: 500;
-}
-
-.card-image-container {
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    transform: scale(1.1);
 }
 
 .card-title {
-    padding: 15px;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--black-color);
     margin-bottom: 1rem;
     line-height: 1.4;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 0;
+}
+
+.card-title:hover {
+    color: var(--primary-color);
+}
+
+.card-title:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
 
 .card-text {
-    padding: 15px;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     color: var(--gray-dark);
-    max-height: 350px;
+    max-height: 360px;
     overflow: hidden;
-    line-height: 1.7;
-    margin-bottom: 1.7rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
+    padding: 0;
+}
+
+.list-layout .card-text.list-content {
+    -webkit-line-clamp: 8;
+    max-height: 480px;
 }
 
 .text-muted {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--gray-medium);
     font-weight: 400;
-}
-
-
-
-.tags-container,
-.hashtags-container {
-    margin-bottom: 0;
-}
-
-.tags-container strong,
-.hashtags-container strong {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--gray-dark);
-}
-
-.tags-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-}
-
-.badge {
-    background: var(--white-color);
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
-    font-size: 0.85rem;
-    font-weight: 500;
-    padding: 6px 12px;
-    border-radius: 20px;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-}
-
-.badge:hover {
-    background: var(--primary-light);
-    color: var(--primary-dark);
-    transform: scale(1.05);
-}
-
-.hashtags-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-}
-
-.hashtag {
-    color: var(--primary-color);
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: color 0.2s ease;
-}
-
-.hashtag:hover {
-    color: var(--primary-dark);
-}
-
-.card-actions {
-    align-items: center;
-}
-
-.btn-icon {
-    background: none;
-    border: none;
     padding: 0;
-    font-size: 1.2rem;
-    color: var(--primary-color);
-    transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.btn-icon:hover {
-    color: var(--primary-dark);
-    transform: scale(1.1);
-}
-
-.btn-share {
-    cursor: pointer;
-}
-
-.word-count {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.95rem;
-    color: var(--gray-medium);
-    font-weight: 500;
-}
-
-.word-count i {
+.read-more {
     color: var(--primary-color);
     font-size: 1.2rem;
-}
-
-.btn-read-more {
-    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
-    border: none;
-    color: var(--white-color);
-    font-size: 1.15rem;
     font-weight: 600;
-    border-radius: 8px;
-    padding: 10px 20px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+    padding: 0;
 }
 
-.btn-read-more:hover {
-    background: var(--primary-dark);
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);
+.read-more:hover {
+    color: var(--primary-dark);
+    transform: translateX(6px);
 }
 
-.btn-read-more .fa-arrow-right {
-    transition: transform 0.2s ease;
+.read-more:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
 
-.btn-read-more:hover .fa-arrow-right {
-    transform: translateX(4px);
+.read-more .fa-arrow-right {
+    transition: transform 0.3s ease;
+}
+
+.read-more:hover .fa-arrow-right {
+    transform: translateX(5px);
+}
+
+/* List Layout Specific Styles */
+.list-layout .card {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-layout .card-image-container {
+    padding: 2rem;
+}
+
+.list-layout .card-title {
+    font-size: 2rem;
+}
+
+.list-layout .card-text {
+    font-size: 1.25rem;
 }
 
 /* Pagination Styles */
 .pagination {
-    gap: 10px;
+    gap: 12px;
 }
 
 .page-link {
     color: var(--primary-color);
-    font-size: 1.15rem;
-    font-weight: 500;
-    border-radius: 8px;
-    padding: 10px 18px;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 12px 20px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--primary-color);
 }
 
 .page-item.active .page-link {
@@ -452,111 +420,124 @@ export default {
 .page-link:hover {
     background: var(--primary-light);
     color: var(--primary-dark);
-    transform: scale(1.1);
+    transform: translateY(-2px);
+}
+
+.page-link:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
 
 .page-item.disabled .page-link {
     color: var(--gray-medium);
     cursor: not-allowed;
+    border-color: var(--gray-medium);
 }
 
 /* Modal Styles */
 .modal-content {
-    border-radius: 16px;
-    box-shadow: 0 12px 40px rgba(0, 191, 166, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(0, 191, 166, 0.3);
     overflow: hidden;
 }
 
 .modal-header {
     background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
     border-bottom: none;
-    padding: 1.75rem 2rem;
+    padding: 2rem;
 }
 
 .modal-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 700;
     color: var(--white-color);
 }
 
 .bi-x-circle-fill {
     color: var(--white-color);
-    transition: color 0.2s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .bi-x-circle-fill:hover {
     color: var(--primary-light);
-    transform: scale(1.1);
+    transform: scale(1.15);
+}
+
+.bi-x-circle-fill:focus {
+    outline: 2px solid var(--white-color);
+    outline-offset: 2px;
 }
 
 .modal-body {
-    font-size: 1.25rem;
-    line-height: 1.8;
+    font-size: 1.3rem;
+    line-height: 1.9;
     color: var(--gray-dark);
     background: var(--white-color);
+    padding: 2rem;
 }
 
 .modal-meta {
     border-bottom: 1px solid var(--primary-light);
+    padding-bottom: 1rem;
 }
 
 .modal-tags strong,
 .modal-hashtags strong {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 600;
 }
 
 .modal-image-container img {
     width: 100%;
-    max-height: 350px;
+    max-height: 400px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.modal-content-text>>>h1,
-.modal-content-text>>>h2,
-.modal-content-text>>>h3,
-.modal-content-text>>>h4 {
+.modal-content-text >>> h1,
+.modal-content-text >>> h2,
+.modal-content-text >>> h3,
+.modal-content-text >>> h4 {
     color: var(--primary-dark);
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
     border-left: 4px solid var(--primary-color);
-    padding-left: 12px;
+    padding-left: 14px;
 }
 
-.modal-content-text>>>p {
-    margin-bottom: 1.8rem;
+.modal-content-text >>> p {
+    margin-bottom: 2rem;
 }
 
-.modal-content-text>>>ul {
+.modal-content-text >>> ul {
     list-style: none;
     padding-left: 0;
-    margin-bottom: 1.8rem;
+    margin-bottom: 2rem;
 }
 
-.modal-content-text>>>ul li {
+.modal-content-text >>> ul li {
     position: relative;
-    padding-left: 24px;
-    margin-bottom: 0.8rem;
+    padding-left: 28px;
+    margin-bottom: 1rem;
 }
 
-.modal-content-text>>>ul li::before {
+.modal-content-text >>> ul li::before {
     content: '•';
     position: absolute;
     left: 0;
     color: var(--primary-color);
-    font-size: 1.3rem;
+    font-size: 1.4rem;
 }
 
-.modal-content-text>>>blockquote {
+.modal-content-text >>> blockquote {
     border-left: 4px solid var(--primary-color);
-    padding-left: 1.2rem;
-    margin: 1.8rem 0;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
     font-style: italic;
     color: var(--gray-medium);
     background: var(--gray-light);
-    padding: 1rem;
-    border-radius: 8px;
+    padding: 1.2rem;
+    border-radius: 10px;
 }
 
 .modal-footer {
@@ -564,32 +545,60 @@ export default {
     padding: 1.5rem 2rem;
 }
 
+.btn-primary {
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    border: none;
+    color: var(--white-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 12px 28px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 191, 166, 0.3);
+}
+
+.btn-primary:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
 .btn-secondary {
     background: var(--gray-medium);
     border: none;
-    font-size: 1.15rem;
+    color: var(--white-color);
+    font-size: 1.2rem;
     font-weight: 600;
-    border-radius: 8px;
-    padding: 12px 24px;
-    transition: transform 0.2s ease, background 0.2s ease;
+    border-radius: 10px;
+    padding: 12px 28px;
+    transition: all 0.3s ease;
 }
 
 .btn-secondary:hover {
     background: var(--gray-dark);
-    transform: scale(1.05);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary:focus {
+    outline: 2px solid var(--gray-dark);
+    outline-offset: 2px;
 }
 
 /* Animations */
 .animate-card {
-    animation: fadeInUp 0.6s ease-out forwards;
+    animation: fadeInUp 0.7s ease-out forwards;
 }
 
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -597,15 +606,14 @@ export default {
 }
 
 .animate-modal {
-    animation: scaleIn 0.3s ease-out forwards;
+    animation: scaleIn 0.4s ease-out forwards;
 }
 
 @keyframes scaleIn {
     from {
         opacity: 0;
-        transform: scale(0.9);
+        transform: scale(0.85);
     }
-
     to {
         opacity: 1;
         transform: scale(1);
@@ -614,106 +622,95 @@ export default {
 
 /* Modal Backdrop */
 .modal-backdrop {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.75);
 }
 
 /* Responsive Adjustments */
 @media (max-width: 992px) {
     .page-header h1 {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
-
     .page-header p {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
     }
-
     .card-img-top {
-        height: 200px;
+        height: 220px;
     }
-
     .card-title {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
     }
 }
 
 @media (max-width: 768px) {
     .page-header {
-        padding: 3rem 0;
+        padding: 4rem 0;
     }
-
     .page-header h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
-
     .page-header p {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
-
     .card-img-top {
-        height: 180px;
+        height: 200px;
     }
-
     .card-image-container {
-        padding: 0.9rem;
+        padding: 1.5rem;
     }
-
-    .modal-title {
-        font-size: 1.6rem;
+    .card-title {
+        font-size: 1.5rem;
     }
-
-    .modal-body {
-        padding: 1.75rem;
+    .card-text {
+        font-size: 1.15rem;
     }
-
-    .modal-image-container img {
-        max-height: 250px;
+    .list-layout .card-title {
+        font-size: 1.8rem;
+    }
+    .list-layout .card-text {
+        font-size: 1.2rem;
     }
 }
 
 @media (max-width: 576px) {
-    .card-date-overlay {
-        top: 10px;
-        left: 10px;
-        padding: 8px 10px;
+    .page-header {
+        padding: 3rem 0;
     }
-
-    .date-day {
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    .page-header p {
+        font-size: 1rem;
+    }
+    .btn-layout {
+        padding: 8px 16px;
+        font-size: 0.95rem;
+    }
+    .card-img-top {
+        height: 180px;
+    }
+    .card-title {
         font-size: 1.4rem;
     }
-
-    .date-month {
-        font-size: 0.75rem;
+    .card-text {
+        font-size: 1.1rem;
+        -webkit-line-clamp: 4;
+        max-height: 320px;
     }
-
+    .list-layout .card-title {
+        font-size: 1.6rem;
+    }
+    .list-layout .card-text {
+        font-size: 1.15rem;
+        -webkit-line-clamp: 6;
+        max-height: 360px;
+    }
+    .read-more {
+        font-size: 1.1rem;
+    }
     .btn-primary,
-    .btn-secondary,
-    .btn-read-more {
+    .btn-secondary {
         padding: 10px 20px;
         font-size: 1rem;
-    }
-
-    .btn-icon,
-    .word-count i {
-        font-size: 1rem;
-    }
-
-    .word-count {
-        font-size: 0.85rem;
-    }
-
-    .badge {
-        font-size: 0.8rem;
-        padding: 5px 10px;
-    }
-
-    .hashtag {
-        font-size: 0.8rem;
-    }
-
-    .card-actions .col-auto {
-        flex: 0 0 100%;
-        max-width: 100%;
-        text-align: center;
     }
 }
 </style>
