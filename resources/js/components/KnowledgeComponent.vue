@@ -116,7 +116,7 @@
               financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical
               principles.
             </p>
-            <button class="form-control" onclick="window.location.href='/blogs'"
+            <button class="form-control" onclick="window.location.href='/read'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Read More</b></span>

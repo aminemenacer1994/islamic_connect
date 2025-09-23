@@ -247,13 +247,7 @@
                       title="Copy to clipboard">
                       <i class="bi bi-clipboard fs-4"></i>
                     </button>
-                    <!-- <button type="button"
-                      class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
-                      style="width: 48px; height: 48px;" @click="speakTerm(term)"
-                      :disabled="!isSpeechSynthesisSupported" aria-label="Read aloud"
-                      :title="isSpeechSynthesisSupported ? 'Read aloud' : 'Text-to-speech not supported'">
-                      <i class="bi bi-volume-up fs-2"></i>
-                    </button> -->
+                    
                   </div>
                 </div>
               </div>

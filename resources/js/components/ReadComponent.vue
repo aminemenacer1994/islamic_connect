@@ -13,31 +13,18 @@
         <!-- 3-Column Grid Layout -->
         <div class="container py-5">
             <div class="row">
-                <div v-for="(blog, index) in paginatedBlogs" :key="blog.id" class="col-lg-4 col-md-6 mb-4">
+                <div v-for="(blog, index) in paginatedBlogs" :key="blog.id" class="col-lg-6 col-md-6 mb-6">
                     <div class="card h-100 shadow-lg border-0 animate-card"
                         :style="{ animationDelay: `${index * 0.1}s` }">
                         <div class="card-image-container container">
                             <!-- <img :src="blog.image" class="card-img-top" :alt="blog.title"> -->
-                            <!-- <div class="card-date-overlay">
-                                <span class="date-day">{{ getDay(blog.date) }}</span>
-                                <span class="date-month">{{ getMonth(blog.date) }}</span>
-                            </div> -->
-                        
-                            <h5 class="card-title">{{ blog.title }}</h5>
-                            <div class="card-text flex-grow-1" v-html="blog.content"></div>
-                            <p class="text-muted mb-3">Published on: {{ formatDate(blog.date) }}</p>
-                            <div class="tags-container text-muted">
-                                <strong class="d-block mb-2">Tags:</strong>
-                                <span v-for="tag in blog.tags" :key="tag" class="badge me-2 mb-2">{{ tag }}</span>
-                            </div>
-                            <div class="hashtags-container mt-2">
-                                <strong class="d-block mb-2">Hashtags:</strong>
-                                <span v-for="hashtag in blog.hashtags" :key="hashtag" class="hashtag me-2">{{ hashtag
-                                    }}</span>
-                            </div>
-                            <button class="btn mt-4 align-self-start" @click="openModal(blog)">
-                                Read More <i class="ms-1 fas fa-arrow-right"></i>
-                            </button>
+                            
+                            <h5 class="card-title" style="cursor: pointer;" @click="openModal(blog)" aria-label="Read full blog post">{{ blog.title }}</h5>
+                            <div class="card-text " v-html="blog.content"></div>
+                            <p class="text-muted">Published on: {{ formatDate(blog.date) }}</p>
+                            <p @click="openModal(blog)" aria-label="Read full blog post">Read More <i class="ms-1 fas fa-arrow-right" @click="openModal(blog)" aria-label="Read full blog post"></i></p>
+                            
+
                         </div>
                     </div>
                 </div>
@@ -73,7 +60,7 @@
                         <h4 class="modal-title">{{ selectedBlog.title }}</h4>
                         <i class="bi bi-x-circle-fill h3" style="cursor: pointer;" @click="closeModal"></i>
                     </div>
-                    <div class="modal-body ">
+                    <div class="modal-body">
                         <div class="modal-meta">
                             <p class="text-muted mb-3">Published on: {{ formatDate(selectedBlog.date) }}</p>
                         </div>
@@ -87,13 +74,13 @@
                         </div>
                         <div class="modal-hashtags mt-2">
                             <strong class="me-2 fs-5">Hashtags:</strong>
-                            <span v-for="hashtag in selectedBlog.hashtags" :key="hashtag" class="hashtag me-2">{{hashtag }}</span>
+                            <span v-for="hashtag in selectedBlog.hashtags" :key="hashtag" class="hashtag me-2">{{
+                                hashtag }}</span>
                         </div>
                     </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
-                        <button type="button" class="btn btn-primary position-relative" @click="shareBlog"
+                        <button type="button" class="btn btn-primary position-relative" @click="shareBlog(selectedBlog)"
                             v-tooltip="'Copy link to clipboard'">
                             Share <i class="ms-1 fas fa-share"></i>
                         </button>
@@ -148,15 +135,17 @@ export default {
         getMonth(date) {
             return new Date(date).toLocaleDateString('en-US', { month: 'short' });
         },
-        shareBlog() {
-            if (this.selectedBlog) {
-                const blogUrl = `${window.location.origin}/blog/${this.selectedBlog.id}`;
-                navigator.clipboard.writeText(blogUrl).then(() => {
-                    alert('Blog link copied to clipboard!');
-                }).catch(() => {
-                    alert('Failed to copy link. Please try again.');
-                });
-            }
+        shareBlog(blog) {
+            const blogUrl = `${window.location.origin}/blog/${blog.id}`;
+            navigator.clipboard.writeText(blogUrl).then(() => {
+                alert('Blog link copied to clipboard!');
+            }).catch(() => {
+                alert('Failed to copy link. Please try again.');
+            });
+        },
+        getWordCount(content) {
+            const text = content.replace(/<[^>]+>/g, '').trim(); // Strip HTML tags
+            return text ? text.split(/\s+/).filter(word => word.length > 0).length : 0;
         },
     },
     directives: {
@@ -247,12 +236,12 @@ export default {
     box-shadow: 0 12px 30px rgba(0, 191, 166, 0.25);
 }
 
-/* .card-image-container {
+.card-image-container {
     position: relative;
     overflow: hidden;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
-} */
+}
 
 .card-img-top {
     height: 240px;
@@ -289,8 +278,11 @@ export default {
     font-weight: 500;
 }
 
-.card-body {
+.card-image-container {
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .card-title {
@@ -306,11 +298,11 @@ export default {
     padding: 15px;
     font-size: 1.15rem;
     color: var(--gray-dark);
-    max-height: 250px;
+    max-height: 350px;
     overflow: hidden;
     line-height: 1.7;
     margin-bottom: 1.7rem;
-    display: grid;
+    display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
@@ -322,10 +314,11 @@ export default {
     font-weight: 400;
 }
 
-/* Tags and Hashtags */
+
+
 .tags-container,
 .hashtags-container {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
 
 .tags-container strong,
@@ -333,6 +326,12 @@ export default {
     font-size: 0.95rem;
     font-weight: 600;
     color: var(--gray-dark);
+}
+
+.tags-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
 }
 
 .badge {
@@ -343,12 +342,19 @@ export default {
     font-weight: 500;
     padding: 6px 12px;
     border-radius: 20px;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .badge:hover {
     background: var(--primary-light);
     color: var(--primary-dark);
+    transform: scale(1.05);
+}
+
+.hashtags-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
 }
 
 .hashtag {
@@ -362,22 +368,65 @@ export default {
     color: var(--primary-dark);
 }
 
-/* Button Styles */
-.btn-primary {
-    /* background: linear-gradient(90deg, var(--primary-color), var(--primary-dark)); */
+.card-actions {
+    align-items: center;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-icon:hover {
+    color: var(--primary-dark);
+    transform: scale(1.1);
+}
+
+.btn-share {
+    cursor: pointer;
+}
+
+.word-count {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--gray-medium);
+    font-weight: 500;
+}
+
+.word-count i {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.btn-read-more {
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
     border: none;
     color: var(--white-color);
     font-size: 1.15rem;
     font-weight: 600;
     border-radius: 8px;
-    padding: 12px 24px;
+    padding: 10px 20px;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.btn-primary:hover {
+.btn-read-more:hover {
     background: var(--primary-dark);
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);
+}
+
+.btn-read-more .fa-arrow-right {
+    transition: transform 0.2s ease;
+}
+
+.btn-read-more:hover .fa-arrow-right {
+    transform: translateX(4px);
 }
 
 /* Pagination Styles */
@@ -430,14 +479,14 @@ export default {
     color: var(--white-color);
 }
 
-.btn-close {
-    filter: invert(1);
-    opacity: 0.8;
-    transition: opacity 0.2s ease;
+.bi-x-circle-fill {
+    color: var(--white-color);
+    transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.btn-close:hover {
-    opacity: 1;
+.bi-x-circle-fill:hover {
+    color: var(--primary-light);
+    transform: scale(1.1);
 }
 
 .modal-body {
@@ -604,8 +653,8 @@ export default {
         height: 180px;
     }
 
-    .card-body {
-        padding: 1.5rem;
+    .card-image-container {
+        padding: 0.9rem;
     }
 
     .modal-title {
@@ -637,9 +686,34 @@ export default {
     }
 
     .btn-primary,
-    .btn-secondary {
+    .btn-secondary,
+    .btn-read-more {
         padding: 10px 20px;
         font-size: 1rem;
+    }
+
+    .btn-icon,
+    .word-count i {
+        font-size: 1rem;
+    }
+
+    .word-count {
+        font-size: 0.85rem;
+    }
+
+    .badge {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+
+    .hashtag {
+        font-size: 0.8rem;
+    }
+
+    .card-actions .col-auto {
+        flex: 0 0 100%;
+        max-width: 100%;
+        text-align: center;
     }
 }
 </style>

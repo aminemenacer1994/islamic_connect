@@ -152415,15 +152415,19 @@ __webpack_require__.r(__webpack_exports__);
         month: 'short'
       });
     },
-    shareBlog: function shareBlog() {
-      if (this.selectedBlog) {
-        var blogUrl = "".concat(window.location.origin, "/blog/").concat(this.selectedBlog.id);
-        navigator.clipboard.writeText(blogUrl).then(function () {
-          alert('Blog link copied to clipboard!');
-        })["catch"](function () {
-          alert('Failed to copy link. Please try again.');
-        });
-      }
+    shareBlog: function shareBlog(blog) {
+      var blogUrl = "".concat(window.location.origin, "/blog/").concat(blog.id);
+      navigator.clipboard.writeText(blogUrl).then(function () {
+        alert('Blog link copied to clipboard!');
+      })["catch"](function () {
+        alert('Failed to copy link. Please try again.');
+      });
+    },
+    getWordCount: function getWordCount(content) {
+      var text = content.replace(/<[^>]+>/g, '').trim(); // Strip HTML tags
+      return text ? text.split(/\s+/).filter(function (word) {
+        return word.length > 0;
+      }).length : 0;
     }
   },
   directives: {
@@ -167997,7 +168001,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Copy to clipboard"
     }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-clipboard fs-4"
-    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button type=\"button\"\n                      class=\"btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0\"\n                      style=\"width: 48px; height: 48px;\" @click=\"speakTerm(term)\"\n                      :disabled=\"!isSpeechSynthesisSupported\" aria-label=\"Read aloud\"\n                      :title=\"isSpeechSynthesisSupported ? 'Read aloud' : 'Text-to-speech not supported'\">\n                      <i class=\"bi bi-volume-up fs-2\"></i>\n                    </button> ")])])], 46 /* CLASS, STYLE, PROPS, NEED_HYDRATION */, _hoisted_20)]);
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_35)])])], 46 /* CLASS, STYLE, PROPS, NEED_HYDRATION */, _hoisted_20)]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.showPagination ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $options.currentPageNumber === 1
@@ -173506,7 +173510,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, "Islamic finance refers to a financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical principles. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
-    onclick: "window.location.href='/blogs'",
+    onclick: "window.location.href='/read'",
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
@@ -177347,101 +177351,93 @@ var _hoisted_3 = {
 var _hoisted_4 = {
   "class": "card-image-container container"
 };
-var _hoisted_5 = {
-  "class": "card-title"
-};
+var _hoisted_5 = ["onClick"];
 var _hoisted_6 = ["innerHTML"];
 var _hoisted_7 = {
-  "class": "text-muted mb-3"
+  "class": "text-muted"
 };
-var _hoisted_8 = {
-  "class": "tags-container text-muted"
-};
-var _hoisted_9 = {
-  "class": "hashtags-container mt-2"
-};
-var _hoisted_10 = ["onClick"];
-var _hoisted_11 = {
+var _hoisted_8 = ["onClick"];
+var _hoisted_9 = ["onClick"];
+var _hoisted_10 = {
   key: 0,
   "aria-label": "Blog pagination"
 };
-var _hoisted_12 = {
+var _hoisted_11 = {
   "class": "pagination justify-content-center mt-5"
 };
-var _hoisted_13 = ["onClick"];
-var _hoisted_14 = {
+var _hoisted_12 = ["onClick"];
+var _hoisted_13 = {
   "class": "modal-content container"
 };
-var _hoisted_15 = {
+var _hoisted_14 = {
   "class": "modal-header"
 };
-var _hoisted_16 = {
+var _hoisted_15 = {
   "class": "modal-title"
 };
-var _hoisted_17 = {
+var _hoisted_16 = {
   "class": "modal-body"
 };
-var _hoisted_18 = {
+var _hoisted_17 = {
   "class": "modal-meta"
 };
-var _hoisted_19 = {
+var _hoisted_18 = {
   "class": "text-muted mb-3"
 };
-var _hoisted_20 = ["innerHTML"];
-var _hoisted_21 = {
+var _hoisted_19 = ["innerHTML"];
+var _hoisted_20 = {
   "class": "modal-tags"
 };
-var _hoisted_22 = {
+var _hoisted_21 = {
   "class": "modal-hashtags mt-2"
 };
-var _hoisted_23 = {
+var _hoisted_22 = {
   "class": "modal-footer"
 };
-var _hoisted_24 = {
+var _hoisted_23 = {
   key: 1,
   "class": "modal-backdrop fade show"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Page Header "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Page Header "), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "page-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "container-fluid"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Insights"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 3-Column Grid Layout "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedBlogs, function (blog, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: blog.id,
-      "class": "col-lg-4 col-md-6 mb-4"
+      "class": "col-lg-6 col-md-6 mb-6"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "card h-100 shadow-lg border-0 animate-card",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         animationDelay: "".concat(index * 0.1, "s")
       })
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img :src=\"blog.image\" class=\"card-img-top\" :alt=\"blog.title\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"card-date-overlay\">\n                                <span class=\"date-day\">{{ getDay(blog.date) }}</span>\n                                <span class=\"date-month\">{{ getMonth(blog.date) }}</span>\n                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(blog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "card-text flex-grow-1",
-      innerHTML: blog.content
-    }, null, 8 /* PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_7, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(blog.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
-      "class": "d-block mb-2"
-    }, "Tags:", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(blog.tags, function (tag) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-        key: tag,
-        "class": "badge me-2 mb-2"
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
-      "class": "d-block mb-2"
-    }, "Hashtags:", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(blog.hashtags, function (hashtag) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-        key: hashtag,
-        "class": "hashtag me-2"
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hashtag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn mt-4 align-self-start",
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img :src=\"blog.image\" class=\"card-img-top\" :alt=\"blog.title\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      "class": "card-title",
+      style: {
+        "cursor": "pointer"
+      },
       onClick: function onClick($event) {
         return $options.openModal(blog);
-      }
-    }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Read More ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "ms-1 fas fa-arrow-right"
-    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_10)])], 4 /* STYLE */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+      },
+      "aria-label": "Read full blog post"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(blog.title), 9 /* TEXT, PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "card-text",
+      innerHTML: blog.content
+    }, null, 8 /* PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_7, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(blog.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      onClick: function onClick($event) {
+        return $options.openModal(blog);
+      },
+      "aria-label": "Read full blog post"
+    }, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Read More ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "ms-1 fas fa-arrow-right",
+      onClick: function onClick($event) {
+        return $options.openModal(blog);
+      },
+      "aria-label": "Read full blog post"
+    }, null, 8 /* PROPS */, _hoisted_9)], 8 /* PROPS */, _hoisted_8)])], 4 /* STYLE */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === 1
     }])
@@ -177451,7 +177447,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $data.currentPage--;
     }, ["prevent"]))
-  }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-chevron-left me-1"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous ", -1 /* CACHED */)])))], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
@@ -177465,7 +177461,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
         return $data.currentPage = page;
       }, ["prevent"])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_13)], 2 /* CLASS */);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_12)], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === $options.totalPages
@@ -177476,7 +177472,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $data.currentPage++;
     }, ["prevent"]))
-  }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "ms-1 fas fa-chevron-right"
   }, null, -1 /* CACHED */)])))], 2 /* CLASS */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal for Full Blog Content "), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
@@ -177490,7 +177486,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "modal-dialog modal-xl modal-dialog-centered",
     role: "document",
     onClick: _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedBlog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedBlog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-circle-fill h3",
     style: {
       "cursor": "pointer"
@@ -177498,24 +177494,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.closeModal && $options.closeModal.apply($options, arguments);
     })
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.selectedBlog.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal-image-container mb-4\">\n                            <img :src=\"selectedBlog.image\" class=\"img-fluid rounded\" :alt=\"selectedBlog.title\">\n                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.selectedBlog.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal-image-container mb-4\">\n                            <img :src=\"selectedBlog.image\" class=\"img-fluid rounded\" :alt=\"selectedBlog.title\">\n                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-content-text",
     innerHTML: $data.selectedBlog.content
-  }, null, 8 /* PROPS */, _hoisted_20), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+  }, null, 8 /* PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     "class": "me-2 fs-5"
   }, "Tags:", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedBlog.tags, function (tag) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: tag,
       "class": "badge me-2 mb-2"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     "class": "me-2 fs-5"
   }, "Hashtags:", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedBlog.hashtags, function (hashtag) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: hashtag,
       "class": "hashtag me-2"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hashtag), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-secondary",
     onClick: _cache[3] || (_cache[3] = function () {
@@ -177524,12 +177520,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Close"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     type: "button",
     "class": "btn btn-primary position-relative",
-    onClick: _cache[4] || (_cache[4] = function () {
-      return $options.shareBlog && $options.shareBlog.apply($options, arguments);
+    onClick: _cache[4] || (_cache[4] = function ($event) {
+      return $options.shareBlog($data.selectedBlog);
     })
-  }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "ms-1 fas fa-share"
-  }, null, -1 /* CACHED */)])))), [[_directive_tooltip, 'Copy link to clipboard']])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, null, -1 /* CACHED */)])))), [[_directive_tooltip, 'Copy link to clipboard']])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -191389,7 +191385,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Color Scheme */\n[data-v-9211e7a8]:root {\n    --primary-color: #00c4b4;\n    /* Brighter green for buttons */\n    --primary-dark: #00897b;\n    /* Darker green for hover */\n    --primary-light: #b2dfdb;\n    /* Light green for backgrounds */\n    --white-color: #ffffff;\n    --black-color: #000000;\n    --gray-dark: #333333;\n    --gray-medium: #555555;\n    --gray-light: #f5f5f5;\n}\n/* General Styles */\n.blog-container[data-v-9211e7a8] {\n    font-family: 'Roboto', sans-serif;\n    color: var(--gray-dark);\n    background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);\n    min-height: 100vh;\n}\n/* Page Header */\n.page-header[data-v-9211e7a8] {\n    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);\n    color: var(--white-color);\n    padding: 4rem 0;\n    text-align: center;\n}\n.page-header h1[data-v-9211e7a8] {\n    font-size: 3rem;\n    font-weight: 800;\n    margin-bottom: 0.75rem;\n    letter-spacing: 0.5px;\n}\n.page-header p[data-v-9211e7a8] {\n    font-size: 1.3rem;\n    font-weight: 400;\n    margin: 0 auto;\n    opacity: 0.9;\n}\n/* Card Styles */\n.card[data-v-9211e7a8] {\n    background: var(--white-color);\n    border-radius: 16px;\n    box-shadow: 0 6px 20px rgba(0, 191, 166, 0.15);\n    transition: transform 0.3s ease, box-shadow 0.3s ease;\n    position: relative;\n    overflow: hidden;\n}\n.card[data-v-9211e7a8]::before {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    height: 5px;\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n}\n.card[data-v-9211e7a8]:hover {\n    transform: translateY(-10px) scale(1.02);\n    box-shadow: 0 12px 30px rgba(0, 191, 166, 0.25);\n}\n/* .card-image-container {\n    position: relative;\n    overflow: hidden;\n    border-top-left-radius: 16px;\n    border-top-right-radius: 16px;\n} */\n.card-img-top[data-v-9211e7a8] {\n    height: 240px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    transition: transform 0.4s ease;\n}\n.card:hover .card-img-top[data-v-9211e7a8] {\n    transform: scale(1.08);\n}\n.card-date-overlay[data-v-9211e7a8] {\n    position: absolute;\n    top: 20px;\n    left: 20px;\n    background: var(--primary-dark);\n    color: var(--white-color);\n    padding: 10px 12px;\n    border-radius: 8px;\n    text-align: center;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n}\n.date-day[data-v-9211e7a8] {\n    display: block;\n    font-size: 1.8rem;\n    font-weight: 700;\n}\n.date-month[data-v-9211e7a8] {\n    display: block;\n    font-size: 0.9rem;\n    text-transform: uppercase;\n    font-weight: 500;\n}\n.card-body[data-v-9211e7a8] {\n    padding: 2rem;\n}\n.card-title[data-v-9211e7a8] {\n    padding: 15px;\n    font-size: 1.6rem;\n    font-weight: 700;\n    color: var(--black-color);\n    margin-bottom: 1rem;\n    line-height: 1.4;\n}\n.card-text[data-v-9211e7a8] {\n    padding: 15px;\n    font-size: 1.15rem;\n    color: var(--gray-dark);\n    max-height: 250px;\n    overflow: hidden;\n    line-height: 1.7;\n    margin-bottom: 1.7rem;\n    display: grid;\n    -webkit-line-clamp: 5;\n    -webkit-box-orient: vertical;\n    text-overflow: ellipsis;\n}\n.text-muted[data-v-9211e7a8] {\n    font-size: 1rem;\n    color: var(--gray-medium);\n    font-weight: 400;\n}\n/* Tags and Hashtags */\n.tags-container[data-v-9211e7a8],\n.hashtags-container[data-v-9211e7a8] {\n    margin-bottom: 1rem;\n}\n.tags-container strong[data-v-9211e7a8],\n.hashtags-container strong[data-v-9211e7a8] {\n    font-size: 0.95rem;\n    font-weight: 600;\n    color: var(--gray-dark);\n}\n.badge[data-v-9211e7a8] {\n    background: var(--white-color);\n    color: var(--primary-color);\n    border: 1px solid var(--primary-color);\n    font-size: 0.85rem;\n    font-weight: 500;\n    padding: 6px 12px;\n    border-radius: 20px;\n    transition: background 0.2s ease, color 0.2s ease;\n}\n.badge[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n}\n.hashtag[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 0.85rem;\n    font-weight: 500;\n    transition: color 0.2s ease;\n}\n.hashtag[data-v-9211e7a8]:hover {\n    color: var(--primary-dark);\n}\n/* Button Styles */\n.btn-primary[data-v-9211e7a8] {\n    /* background: linear-gradient(90deg, var(--primary-color), var(--primary-dark)); */\n    border: none;\n    color: var(--white-color);\n    font-size: 1.15rem;\n    font-weight: 600;\n    border-radius: 8px;\n    padding: 12px 24px;\n    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;\n}\n.btn-primary[data-v-9211e7a8]:hover {\n    background: var(--primary-dark);\n    transform: scale(1.05);\n    box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);\n}\n/* Pagination Styles */\n.pagination[data-v-9211e7a8] {\n    gap: 10px;\n}\n.page-link[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 1.15rem;\n    font-weight: 500;\n    border-radius: 8px;\n    padding: 10px 18px;\n    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;\n}\n.page-item.active .page-link[data-v-9211e7a8] {\n    background: var(--primary-color);\n    border-color: var(--primary-color);\n    color: var(--white-color);\n}\n.page-link[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: scale(1.1);\n}\n.page-item.disabled .page-link[data-v-9211e7a8] {\n    color: var(--gray-medium);\n    cursor: not-allowed;\n}\n/* Modal Styles */\n.modal-content[data-v-9211e7a8] {\n    border-radius: 16px;\n    box-shadow: 0 12px 40px rgba(0, 191, 166, 0.3);\n    overflow: hidden;\n}\n.modal-header[data-v-9211e7a8] {\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n    border-bottom: none;\n    padding: 1.75rem 2rem;\n}\n.modal-title[data-v-9211e7a8] {\n    font-size: 2rem;\n    font-weight: 700;\n    color: var(--white-color);\n}\n.btn-close[data-v-9211e7a8] {\n    filter: invert(1);\n    opacity: 0.8;\n    transition: opacity 0.2s ease;\n}\n.btn-close[data-v-9211e7a8]:hover {\n    opacity: 1;\n}\n.modal-body[data-v-9211e7a8] {\n    font-size: 1.25rem;\n    line-height: 1.8;\n    color: var(--gray-dark);\n    background: var(--white-color);\n}\n.modal-meta[data-v-9211e7a8] {\n    border-bottom: 1px solid var(--primary-light);\n}\n.modal-tags strong[data-v-9211e7a8],\n.modal-hashtags strong[data-v-9211e7a8] {\n    font-size: 1.1rem;\n    font-weight: 600;\n}\n.modal-image-container img[data-v-9211e7a8] {\n    width: 100%;\n    max-height: 350px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 10px;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.modal-content-text[data-v-9211e7a8] h1,\n.modal-content-text[data-v-9211e7a8] h2,\n.modal-content-text[data-v-9211e7a8] h3,\n.modal-content-text[data-v-9211e7a8] h4 {\n    color: var(--primary-dark);\n    margin-bottom: 1.2rem;\n    border-left: 4px solid var(--primary-color);\n    padding-left: 12px;\n}\n.modal-content-text[data-v-9211e7a8] p {\n    margin-bottom: 1.8rem;\n}\n.modal-content-text[data-v-9211e7a8] ul {\n    list-style: none;\n    padding-left: 0;\n    margin-bottom: 1.8rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li {\n    position: relative;\n    padding-left: 24px;\n    margin-bottom: 0.8rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li::before {\n    content: '•';\n    position: absolute;\n    left: 0;\n    color: var(--primary-color);\n    font-size: 1.3rem;\n}\n.modal-content-text[data-v-9211e7a8] blockquote {\n    border-left: 4px solid var(--primary-color);\n    padding-left: 1.2rem;\n    margin: 1.8rem 0;\n    font-style: italic;\n    color: var(--gray-medium);\n    background: var(--gray-light);\n    padding: 1rem;\n    border-radius: 8px;\n}\n.modal-footer[data-v-9211e7a8] {\n    border-top: none;\n    padding: 1.5rem 2rem;\n}\n.btn-secondary[data-v-9211e7a8] {\n    background: var(--gray-medium);\n    border: none;\n    font-size: 1.15rem;\n    font-weight: 600;\n    border-radius: 8px;\n    padding: 12px 24px;\n    transition: transform 0.2s ease, background 0.2s ease;\n}\n.btn-secondary[data-v-9211e7a8]:hover {\n    background: var(--gray-dark);\n    transform: scale(1.05);\n}\n/* Animations */\n.animate-card[data-v-9211e7a8] {\n    animation: fadeInUp-9211e7a8 0.6s ease-out forwards;\n}\n@keyframes fadeInUp-9211e7a8 {\nfrom {\n        opacity: 0;\n        transform: translateY(20px);\n}\nto {\n        opacity: 1;\n        transform: translateY(0);\n}\n}\n.animate-modal[data-v-9211e7a8] {\n    animation: scaleIn-9211e7a8 0.3s ease-out forwards;\n}\n@keyframes scaleIn-9211e7a8 {\nfrom {\n        opacity: 0;\n        transform: scale(0.9);\n}\nto {\n        opacity: 1;\n        transform: scale(1);\n}\n}\n/* Modal Backdrop */\n.modal-backdrop[data-v-9211e7a8] {\n    background: rgba(0, 0, 0, 0.7);\n}\n/* Responsive Adjustments */\n@media (max-width: 992px) {\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2.5rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1.1rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 200px;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.4rem;\n}\n}\n@media (max-width: 768px) {\n.page-header[data-v-9211e7a8] {\n        padding: 3rem 0;\n}\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 180px;\n}\n.card-body[data-v-9211e7a8] {\n        padding: 1.5rem;\n}\n.modal-title[data-v-9211e7a8] {\n        font-size: 1.6rem;\n}\n.modal-body[data-v-9211e7a8] {\n        padding: 1.75rem;\n}\n.modal-image-container img[data-v-9211e7a8] {\n        max-height: 250px;\n}\n}\n@media (max-width: 576px) {\n.card-date-overlay[data-v-9211e7a8] {\n        top: 10px;\n        left: 10px;\n        padding: 8px 10px;\n}\n.date-day[data-v-9211e7a8] {\n        font-size: 1.4rem;\n}\n.date-month[data-v-9211e7a8] {\n        font-size: 0.75rem;\n}\n.btn-primary[data-v-9211e7a8],\n    .btn-secondary[data-v-9211e7a8] {\n        padding: 10px 20px;\n        font-size: 1rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Color Scheme */\n[data-v-9211e7a8]:root {\n    --primary-color: #00c4b4;\n    /* Brighter green for buttons */\n    --primary-dark: #00897b;\n    /* Darker green for hover */\n    --primary-light: #b2dfdb;\n    /* Light green for backgrounds */\n    --white-color: #ffffff;\n    --black-color: #000000;\n    --gray-dark: #333333;\n    --gray-medium: #555555;\n    --gray-light: #f5f5f5;\n}\n/* General Styles */\n.blog-container[data-v-9211e7a8] {\n    font-family: 'Roboto', sans-serif;\n    color: var(--gray-dark);\n    background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);\n    min-height: 100vh;\n}\n/* Page Header */\n.page-header[data-v-9211e7a8] {\n    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);\n    color: var(--white-color);\n    padding: 4rem 0;\n    text-align: center;\n}\n.page-header h1[data-v-9211e7a8] {\n    font-size: 3rem;\n    font-weight: 800;\n    margin-bottom: 0.75rem;\n    letter-spacing: 0.5px;\n}\n.page-header p[data-v-9211e7a8] {\n    font-size: 1.3rem;\n    font-weight: 400;\n    margin: 0 auto;\n    opacity: 0.9;\n}\n/* Card Styles */\n.card[data-v-9211e7a8] {\n    background: var(--white-color);\n    border-radius: 16px;\n    box-shadow: 0 6px 20px rgba(0, 191, 166, 0.15);\n    transition: transform 0.3s ease, box-shadow 0.3s ease;\n    position: relative;\n    overflow: hidden;\n}\n.card[data-v-9211e7a8]::before {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    height: 5px;\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n}\n.card[data-v-9211e7a8]:hover {\n    transform: translateY(-10px) scale(1.02);\n    box-shadow: 0 12px 30px rgba(0, 191, 166, 0.25);\n}\n.card-image-container[data-v-9211e7a8] {\n    position: relative;\n    overflow: hidden;\n    border-top-left-radius: 16px;\n    border-top-right-radius: 16px;\n}\n.card-img-top[data-v-9211e7a8] {\n    height: 240px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    transition: transform 0.4s ease;\n}\n.card:hover .card-img-top[data-v-9211e7a8] {\n    transform: scale(1.08);\n}\n.card-date-overlay[data-v-9211e7a8] {\n    position: absolute;\n    top: 20px;\n    left: 20px;\n    background: var(--primary-dark);\n    color: var(--white-color);\n    padding: 10px 12px;\n    border-radius: 8px;\n    text-align: center;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n}\n.date-day[data-v-9211e7a8] {\n    display: block;\n    font-size: 1.8rem;\n    font-weight: 700;\n}\n.date-month[data-v-9211e7a8] {\n    display: block;\n    font-size: 0.9rem;\n    text-transform: uppercase;\n    font-weight: 500;\n}\n.card-image-container[data-v-9211e7a8] {\n    padding: 2rem;\n    display: flex;\n    flex-direction: column;\n    gap: 1rem;\n}\n.card-title[data-v-9211e7a8] {\n    padding: 15px;\n    font-size: 1.6rem;\n    font-weight: 700;\n    color: var(--black-color);\n    margin-bottom: 1rem;\n    line-height: 1.4;\n}\n.card-text[data-v-9211e7a8] {\n    padding: 15px;\n    font-size: 1.15rem;\n    color: var(--gray-dark);\n    max-height: 350px;\n    overflow: hidden;\n    line-height: 1.7;\n    margin-bottom: 1.7rem;\n    display: -webkit-box;\n    -webkit-line-clamp: 5;\n    -webkit-box-orient: vertical;\n    text-overflow: ellipsis;\n}\n.text-muted[data-v-9211e7a8] {\n    font-size: 1rem;\n    color: var(--gray-medium);\n    font-weight: 400;\n}\n.tags-container[data-v-9211e7a8],\n.hashtags-container[data-v-9211e7a8] {\n    margin-bottom: 0;\n}\n.tags-container strong[data-v-9211e7a8],\n.hashtags-container strong[data-v-9211e7a8] {\n    font-size: 0.95rem;\n    font-weight: 600;\n    color: var(--gray-dark);\n}\n.tags-wrapper[data-v-9211e7a8] {\n    display: flex;\n    flex-wrap: wrap;\n    gap: 0.75rem;\n}\n.badge[data-v-9211e7a8] {\n    background: var(--white-color);\n    color: var(--primary-color);\n    border: 1px solid var(--primary-color);\n    font-size: 0.85rem;\n    font-weight: 500;\n    padding: 6px 12px;\n    border-radius: 20px;\n    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;\n}\n.badge[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: scale(1.05);\n}\n.hashtags-wrapper[data-v-9211e7a8] {\n    display: flex;\n    flex-wrap: wrap;\n    gap: 0.75rem;\n}\n.hashtag[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 0.85rem;\n    font-weight: 500;\n    transition: color 0.2s ease;\n}\n.hashtag[data-v-9211e7a8]:hover {\n    color: var(--primary-dark);\n}\n.card-actions[data-v-9211e7a8] {\n    align-items: center;\n}\n.btn-icon[data-v-9211e7a8] {\n    background: none;\n    border: none;\n    padding: 0;\n    font-size: 1.2rem;\n    color: var(--primary-color);\n    transition: color 0.2s ease, transform 0.2s ease;\n}\n.btn-icon[data-v-9211e7a8]:hover {\n    color: var(--primary-dark);\n    transform: scale(1.1);\n}\n.btn-share[data-v-9211e7a8] {\n    cursor: pointer;\n}\n.word-count[data-v-9211e7a8] {\n    display: flex;\n    align-items: center;\n    gap: 0.5rem;\n    font-size: 0.95rem;\n    color: var(--gray-medium);\n    font-weight: 500;\n}\n.word-count i[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 1.2rem;\n}\n.btn-read-more[data-v-9211e7a8] {\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n    border: none;\n    color: var(--white-color);\n    font-size: 1.15rem;\n    font-weight: 600;\n    border-radius: 8px;\n    padding: 10px 20px;\n    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;\n}\n.btn-read-more[data-v-9211e7a8]:hover {\n    background: var(--primary-dark);\n    transform: scale(1.05);\n    box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);\n}\n.btn-read-more .fa-arrow-right[data-v-9211e7a8] {\n    transition: transform 0.2s ease;\n}\n.btn-read-more:hover .fa-arrow-right[data-v-9211e7a8] {\n    transform: translateX(4px);\n}\n/* Pagination Styles */\n.pagination[data-v-9211e7a8] {\n    gap: 10px;\n}\n.page-link[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 1.15rem;\n    font-weight: 500;\n    border-radius: 8px;\n    padding: 10px 18px;\n    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;\n}\n.page-item.active .page-link[data-v-9211e7a8] {\n    background: var(--primary-color);\n    border-color: var(--primary-color);\n    color: var(--white-color);\n}\n.page-link[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: scale(1.1);\n}\n.page-item.disabled .page-link[data-v-9211e7a8] {\n    color: var(--gray-medium);\n    cursor: not-allowed;\n}\n/* Modal Styles */\n.modal-content[data-v-9211e7a8] {\n    border-radius: 16px;\n    box-shadow: 0 12px 40px rgba(0, 191, 166, 0.3);\n    overflow: hidden;\n}\n.modal-header[data-v-9211e7a8] {\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n    border-bottom: none;\n    padding: 1.75rem 2rem;\n}\n.modal-title[data-v-9211e7a8] {\n    font-size: 2rem;\n    font-weight: 700;\n    color: var(--white-color);\n}\n.bi-x-circle-fill[data-v-9211e7a8] {\n    color: var(--white-color);\n    transition: color 0.2s ease, transform 0.2s ease;\n}\n.bi-x-circle-fill[data-v-9211e7a8]:hover {\n    color: var(--primary-light);\n    transform: scale(1.1);\n}\n.modal-body[data-v-9211e7a8] {\n    font-size: 1.25rem;\n    line-height: 1.8;\n    color: var(--gray-dark);\n    background: var(--white-color);\n}\n.modal-meta[data-v-9211e7a8] {\n    border-bottom: 1px solid var(--primary-light);\n}\n.modal-tags strong[data-v-9211e7a8],\n.modal-hashtags strong[data-v-9211e7a8] {\n    font-size: 1.1rem;\n    font-weight: 600;\n}\n.modal-image-container img[data-v-9211e7a8] {\n    width: 100%;\n    max-height: 350px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 10px;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.modal-content-text[data-v-9211e7a8] h1,\n.modal-content-text[data-v-9211e7a8] h2,\n.modal-content-text[data-v-9211e7a8] h3,\n.modal-content-text[data-v-9211e7a8] h4 {\n    color: var(--primary-dark);\n    margin-bottom: 1.2rem;\n    border-left: 4px solid var(--primary-color);\n    padding-left: 12px;\n}\n.modal-content-text[data-v-9211e7a8] p {\n    margin-bottom: 1.8rem;\n}\n.modal-content-text[data-v-9211e7a8] ul {\n    list-style: none;\n    padding-left: 0;\n    margin-bottom: 1.8rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li {\n    position: relative;\n    padding-left: 24px;\n    margin-bottom: 0.8rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li::before {\n    content: '•';\n    position: absolute;\n    left: 0;\n    color: var(--primary-color);\n    font-size: 1.3rem;\n}\n.modal-content-text[data-v-9211e7a8] blockquote {\n    border-left: 4px solid var(--primary-color);\n    padding-left: 1.2rem;\n    margin: 1.8rem 0;\n    font-style: italic;\n    color: var(--gray-medium);\n    background: var(--gray-light);\n    padding: 1rem;\n    border-radius: 8px;\n}\n.modal-footer[data-v-9211e7a8] {\n    border-top: none;\n    padding: 1.5rem 2rem;\n}\n.btn-secondary[data-v-9211e7a8] {\n    background: var(--gray-medium);\n    border: none;\n    font-size: 1.15rem;\n    font-weight: 600;\n    border-radius: 8px;\n    padding: 12px 24px;\n    transition: transform 0.2s ease, background 0.2s ease;\n}\n.btn-secondary[data-v-9211e7a8]:hover {\n    background: var(--gray-dark);\n    transform: scale(1.05);\n}\n/* Animations */\n.animate-card[data-v-9211e7a8] {\n    animation: fadeInUp-9211e7a8 0.6s ease-out forwards;\n}\n@keyframes fadeInUp-9211e7a8 {\nfrom {\n        opacity: 0;\n        transform: translateY(20px);\n}\nto {\n        opacity: 1;\n        transform: translateY(0);\n}\n}\n.animate-modal[data-v-9211e7a8] {\n    animation: scaleIn-9211e7a8 0.3s ease-out forwards;\n}\n@keyframes scaleIn-9211e7a8 {\nfrom {\n        opacity: 0;\n        transform: scale(0.9);\n}\nto {\n        opacity: 1;\n        transform: scale(1);\n}\n}\n/* Modal Backdrop */\n.modal-backdrop[data-v-9211e7a8] {\n    background: rgba(0, 0, 0, 0.7);\n}\n/* Responsive Adjustments */\n@media (max-width: 992px) {\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2.5rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1.1rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 200px;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.4rem;\n}\n}\n@media (max-width: 768px) {\n.page-header[data-v-9211e7a8] {\n        padding: 3rem 0;\n}\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 180px;\n}\n.card-image-container[data-v-9211e7a8] {\n        padding: 0.9rem;\n}\n.modal-title[data-v-9211e7a8] {\n        font-size: 1.6rem;\n}\n.modal-body[data-v-9211e7a8] {\n        padding: 1.75rem;\n}\n.modal-image-container img[data-v-9211e7a8] {\n        max-height: 250px;\n}\n}\n@media (max-width: 576px) {\n.card-date-overlay[data-v-9211e7a8] {\n        top: 10px;\n        left: 10px;\n        padding: 8px 10px;\n}\n.date-day[data-v-9211e7a8] {\n        font-size: 1.4rem;\n}\n.date-month[data-v-9211e7a8] {\n        font-size: 0.75rem;\n}\n.btn-primary[data-v-9211e7a8],\n    .btn-secondary[data-v-9211e7a8],\n    .btn-read-more[data-v-9211e7a8] {\n        padding: 10px 20px;\n        font-size: 1rem;\n}\n.btn-icon[data-v-9211e7a8],\n    .word-count i[data-v-9211e7a8] {\n        font-size: 1rem;\n}\n.word-count[data-v-9211e7a8] {\n        font-size: 0.85rem;\n}\n.badge[data-v-9211e7a8] {\n        font-size: 0.8rem;\n        padding: 5px 10px;\n}\n.hashtag[data-v-9211e7a8] {\n        font-size: 0.8rem;\n}\n.card-actions .col-auto[data-v-9211e7a8] {\n        flex: 0 0 100%;\n        max-width: 100%;\n        text-align: center;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
