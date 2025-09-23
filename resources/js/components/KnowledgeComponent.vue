@@ -46,25 +46,7 @@
         </div>
       </div> -->
 
-      <div class="col-md-6 col-lg-4">
-        <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
-          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
-          <img src="/images/duaa1.png" alt="Explore Duas" class="w-100 pt-3" style="object-fit: contain;" />
-          <div class="p-3">
-            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Dua Collection</h5>
-            <p class="card-text text-muted text-wrap text-center"
-              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Authentic Duas from the Qur’an
-              and
-              Sunnah for every occasion—complete with Arabic, translation and audio to help you
-              reflect and connect.</p>
-            <button class="form-control" onclick="window.location.href='/dua'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
-              type="submit">
-              <span class="text-center w-100"><b>Explore Duas</b></span>
-            </button>
-          </div>
-        </div>
-      </div>
+      
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
@@ -115,6 +97,26 @@
               principles.
             </p>
             <button class="form-control" onclick="window.location.href='/finance'"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+              <span class="text-center w-100"><b>Read More</b></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+          <img src="/images/fn.png" alt="Islamic Finance" class="w-100" style="object-fit: contain;" />
+          <div class="p-3">
+            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Smart Studies</h5>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Islamic finance refers to a
+              financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical
+              principles.
+            </p>
+            <button class="form-control" onclick="window.location.href='/blogs'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Read More</b></span>

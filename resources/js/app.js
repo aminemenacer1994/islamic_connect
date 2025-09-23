@@ -100,6 +100,8 @@ import ConvertComponent from "./components/ConvertComponent.vue";
 import HolyComponent from "./components/HolyComponent.vue";
 import HistoryComponent from "./components/HistoryComponent.vue";
 import PaymentMethodsComponent from "./components/PaymentMethodsComponent.vue";
+import ReadComponent from "./components/ReadComponent.vue";
+
 
 const app = createApp({
   data() {
@@ -226,5 +228,6 @@ app.component('convert-component', ConvertComponent);
 app.component('holy-component', HolyComponent);
 app.component('history-component', HistoryComponent);
 app.component('payment-methods-component', PaymentMethodsComponent);
+app.component('read-component', ReadComponent);
 
 app.mount("#app");

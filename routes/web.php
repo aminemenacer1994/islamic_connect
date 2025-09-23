@@ -68,6 +68,8 @@ use App\Http\Controllers\HolyController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\DebugController;
+use App\Http\Controllers\ReadController;
+
 use App\Http\Controllers\PaymentMethodController;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 use Illuminate\Support\Facades\Http;
@@ -506,7 +508,7 @@ Route::get('/video', [VideoController::class, 'index'])->name('video');
 Route::get('/zakat', [ZakatController::class, 'index'])->name('zakat');
 // qibla
 Route::get('/qibla', [QiblaController::class, 'index'])->name('qibla');
-// qibla
+// mosque
 Route::get('/mosque', [MosqueController::class, 'index'])->name('mosque');
 // calendar
 Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
@@ -552,3 +554,5 @@ Route::get('/convert', [ConvertController::class, 'index'])->name('convert');
 Route::get('/holy', [HolyController::class, 'index'])->name('holy');
 // history
 Route::get('/history', [HistoryController::class, 'index'])->name('history');
+// read
+Route::get('/read', [ReadController::class, 'index'])->name('read');

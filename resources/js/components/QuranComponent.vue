@@ -7,9 +7,9 @@
                 The Quran Companion page utilizes AI tools and accessibility features to enrich your learning
                 experience. It offers text-to-speech, speech-to-text, and synchronized highlighting and more.
             </h1>
-            <div v-if="!isVisible">
-                <h4 class="fw-bold text-center pt-2 mb-2 container" v-if="information != null">Search for a word in the
-                    Quran...</h4>
+            <div v-if="!isVisible" class="shadow-md">
+                <!-- <h4 class="fw-bold text-center pt-2 mb-2 container" v-if="information != null">Search for a word in the
+                    Quran...</h4> -->
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
 
             </div>
@@ -31,7 +31,7 @@
 
 
                 <div class="col-md-4 pt-2">
-                    <h4 class="fw-bold text-center pt-2 ">Select a Surah:</h4>
+                    <h5 class="fw-bold text-center pt-2 ">Select a Surah:</h5>
                     <SurahDropdown class="col-md-12" :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
                         :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
 
@@ -42,7 +42,7 @@
 
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
-                    <h4 class="fw-bold text-center" v-if="information != null">Select a Verse:</h4>
+                    <h5 class="fw-bold text-center" v-if="information != null">Select a Verse:</h5>
                     <!-- <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
                         @submit.prevent="scrollToAyah">
                         <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "

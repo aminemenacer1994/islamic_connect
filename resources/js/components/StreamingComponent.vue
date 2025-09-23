@@ -10,7 +10,7 @@
 
     <!-- Header (unchanged) -->
     <header class="text-center mb-5">
-      <h1 class="fw-bold display-4 mb-3">Channels Directory</h1>
+      <h1 class="fw-bold display-4 mb-3">Channels Listing</h1>
       <p class="lead text-muted mx-auto">
         Watch live Islamic TV channels from around the world. Experience spiritual content including live prayers from
         Makkah and Madinah, educational programs, Quranic recitations, and Islamic lifestyle content in multiple
@@ -86,17 +86,17 @@
 
     <!-- Favorites Section -->
     <section v-if="favorites.length > 0" class="mb-5" aria-label="Favorite channels">
-      <h4 class="fw-bold mb-3 d-flex align-items-center" style="cursor: pointer;" @click="toggleFavoritesSection">
+      <h2 class="fw-bold mb-3 d-flex align-items-center" style="cursor: pointer;" @click="toggleFavoritesSection">
         Favorite Channels ({{ favorites.length }})
         <i :class="showFavorites ? 'fas fa-chevron-up ms-2' : 'fas fa-chevron-down ms-2'"></i>
-      </h4>
+      </h2>
       <div v-if="showFavorites" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
         <article class="col" v-for="(channel, index) in favorites" :key="channel.name">
           <div class="channel-card"
             style="border-radius: 8px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
             <div class="channel-img-wrapper" style="position: relative; overflow: hidden;">
               <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="channel-img"
-              style="width: 100%;  object-fit: contain;" @error="handleImageError">
+                style="width: 100%;  object-fit: contain;" @error="handleImageError">
               <div class="channel-gradient" style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%;">
               </div>
               <button @click="toggleFavorite(channel)"
@@ -124,7 +124,7 @@
                   </button>
                 </p>
               </div>
-              <div class="mb-2 d-flex justify-content-between small text-muted">
+              <div class="container mb-2 d-flex justify-content-between small text-muted">
                 <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} viewers</span>
                 <span><i class="fas fa-map-marker-alt me-1"></i>{{ channel.location || 'Not specified' }}</span>
                 <span><i class="fas fa-clock me-1"></i>{{ channel.schedule ? channel.schedule : 'No schedule' }}</span>
@@ -134,8 +134,7 @@
                 <span v-for="lang in channel.languages" :key="lang" class="badge bg-secondary me-1">{{ lang }}</span>
                 <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
               </div>
-              <div
-                style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px;">
+              <div style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px;">
                 <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel || '#'" target="_blank"
                   rel="noopener noreferrer"
                   style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
@@ -150,6 +149,12 @@
                   title="Playlists" aria-label="View Playlists" @click="debugLink(channel.playlistUrl, 'Playlists')">
                   <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
                   <small style="font-size: 0.8rem;">Playlists</small>
+                </a>
+                <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank" rel="noopener noreferrer"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                  title="Playlists" aria-label="View Playlists" @click="debugLink(channel.playlistUrl, 'Playlists')">
+                  <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-inbox"></i>
+                  <small style="font-size: 0.8rem;">Posts</small>
                 </a>
                 <a v-if="channel.websiteUrl" :href="channel.websiteUrl || '#'" target="_blank" rel="noopener noreferrer"
                   style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
@@ -166,6 +171,13 @@
                   <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-video"></i>
                   <small style="font-size: 0.8rem;">Videos</small>
                 </a>
+                <a :href="getWhatsAppShareUrl(channel)" target="_blank" rel="noopener noreferrer"
+                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                title="Videos" aria-label="View Videos"
+                @click.prevent="shareToWhatsApp(channel)">
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-share"></i>
+                <small style="font-size: 0.8rem;">Share</small>
+              </a>
               </div>
             </div>
           </div>
@@ -179,10 +191,10 @@
       <article class="col" v-for="(channel, index) in paginatedChannels" :key="index">
         <div class="channel-card shadow-lg"
           style="border:3px solid #00bfa6; border-radius: 15px; padding: 5px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-          
-          <div class="channel-img-wrapper" style="position: relative;  overflow: hidden;">
+
+          <div class="channel-img-wrapper" style="position: relative; overflow: hidden;">
             <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="channel-img"
-              style="width: 100%;  object-fit: contain;" @error="handleImageError">
+              style="width: 100%; object-fit: contain;" @error="handleImageError">
             <div class="channel-gradient" style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%;">
             </div>
             <button @click="toggleFavorite(channel)"
@@ -192,26 +204,28 @@
                 style="font-size: 1.5rem; color: #ffc107;"></i>
             </button>
           </div>
-          
+
           <div class="channel-body" style="padding: 15px;">
             <h5 class="fw-bold mb-2">{{ channel.name }}</h5>
             <div class="description-wrapper small mb-2" :class="{ 'expanded': expandedDescriptions[channel.name] }">
               <p v-if="truncateDescription(channel.description, 80).needsTruncation && !expandedDescriptions[channel.name]"
                 class="description-text">{{ truncateDescription(channel.description, 80).text }}
-                <button class="read-more btn btn-link p-0 ms-1" style="text-decoration: underline;" @click="toggleDescription(channel.name)"
-                  :aria-label="`Read more about ${channel.name}`" aria-expanded="false">
+                <button class="read-more btn btn-link p-0 ms-1" style="text-decoration: underline;"
+                  @click="toggleDescription(channel.name)" :aria-label="`Read more about ${channel.name}`"
+                  aria-expanded="false">
                   Read More
                 </button>
               </p>
               <p v-else class="description-text">{{ channel.description }}
                 <button v-if="truncateDescription(channel.description, 80).needsTruncation"
-                  class="read-more btn btn-link p-0 ms-1" style="text-decoration: underline;" @click="toggleDescription(channel.name)"
-                  :aria-label="`Read less about ${channel.name}`" aria-expanded="true">
+                  class="read-more btn btn-link p-0 ms-1" style="text-decoration: underline;"
+                  @click="toggleDescription(channel.name)" :aria-label="`Read less about ${channel.name}`"
+                  aria-expanded="true">
                   Read Less
                 </button>
               </p>
             </div>
-            <div class="mt-3 d-flex justify-content-between small text-muted">
+            <div class="container mt-3 d-flex justify-content-between small text-muted">
               <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} viewers</span>
               <span><i class="fas fa-clock me-1"></i>{{ channel.schedule ? channel.schedule : 'No schedule' }}</span>
               <span><i class="fas fa-map-marker-alt me-1"></i>{{ channel.location || 'Not specified' }}</span>
@@ -221,8 +235,8 @@
               <span v-for="lang in channel.languages" :key="lang" class="badge bg-secondary me-1">{{ lang }}</span>
               <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
             </div>
-            <div
-              style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px;" class="text-center mt-3">
+            <div style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px;"
+              class="text-center mt-3">
               <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel || '#'" target="_blank"
                 rel="noopener noreferrer"
                 style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
@@ -257,6 +271,14 @@
                 <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-video"></i>
                 <small style="font-size: 0.8rem;">Videos</small>
               </a>
+              <a :href="getWhatsAppShareUrl(channel)" target="_blank" rel="noopener noreferrer"
+                style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
+                title="Videos" aria-label="View Videos"
+                @click.prevent="shareToWhatsApp(channel)">
+                <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-share"></i>
+                <small style="font-size: 0.8rem;">Share</small>
+              </a>
+              
             </div>
           </div>
         </div>
@@ -646,6 +668,18 @@ export default {
     document.removeEventListener('keydown', this.handleKeyboard);
   },
   methods: {
+    // New WhatsApp Share Methods
+    getWhatsAppShareUrl(channel) {
+      const channelName = encodeURIComponent(channel.name);
+      // Adjust the base URL to your actual channel page URL structure
+      const baseUrl = encodeURIComponent(`https://yourwebsite.com/channel/${channel.name}`);
+      const message = `Check out ${channelName} on our site! ${baseUrl}`;
+      return `https://wa.me/?text=${message}`;
+    },
+    shareToWhatsApp(channel) {
+      const url = this.getWhatsAppShareUrl(channel);
+      window.open(url, '_blank', 'noopener,noreferrer');
+    },
     toggleFavoritesSection() {
       this.showFavorites = !this.showFavorites;
     },
