@@ -152367,9 +152367,78 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_blogs_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/blogs.json */ "./resources/js/components/blogs.json");
+ // Corrected path to match previous setup
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {};
+    return {
+      blogs: _components_blogs_json__WEBPACK_IMPORTED_MODULE_0__.sort(function (a, b) {
+        return new Date(b.date) - new Date(a.date);
+      }),
+      // Sort by latest date
+      currentPage: 1,
+      itemsPerPage: 9,
+      selectedBlog: null
+    };
+  },
+  computed: {
+    totalPages: function totalPages() {
+      return Math.ceil(this.blogs.length / this.itemsPerPage);
+    },
+    paginatedBlogs: function paginatedBlogs() {
+      var start = (this.currentPage - 1) * this.itemsPerPage;
+      return this.blogs.slice(start, start + this.itemsPerPage);
+    }
+  },
+  methods: {
+    openModal: function openModal(blog) {
+      this.selectedBlog = blog;
+      document.body.classList.add('modal-open');
+    },
+    closeModal: function closeModal() {
+      this.selectedBlog = null;
+      document.body.classList.remove('modal-open');
+    },
+    formatDate: function formatDate(date) {
+      return new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    },
+    getDay: function getDay(date) {
+      return new Date(date).getDate();
+    },
+    getMonth: function getMonth(date) {
+      return new Date(date).toLocaleDateString('en-US', {
+        month: 'short'
+      });
+    },
+    shareBlog: function shareBlog() {
+      if (this.selectedBlog) {
+        var blogUrl = "".concat(window.location.origin, "/blog/").concat(this.selectedBlog.id);
+        navigator.clipboard.writeText(blogUrl).then(function () {
+          alert('Blog link copied to clipboard!');
+        })["catch"](function () {
+          alert('Failed to copy link. Please try again.');
+        });
+      }
+    }
+  },
+  directives: {
+    tooltip: {
+      mounted: function mounted(el, binding) {
+        el.setAttribute('data-bs-toggle', 'tooltip');
+        el.setAttribute('data-bs-placement', 'top');
+        el.setAttribute('title', binding.value);
+        new bootstrap.Tooltip(el);
+      },
+      unmounted: function unmounted(el) {
+        var tooltip = bootstrap.Tooltip.getInstance(el);
+        if (tooltip) tooltip.dispose();
+      }
+    }
   }
 });
 
@@ -177247,10 +177316,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ReadComponent.vue?vue&type=template&id=9211e7a8":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ReadComponent.vue?vue&type=template&id=9211e7a8 ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ReadComponent.vue?vue&type=template&id=9211e7a8&scoped=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ReadComponent.vue?vue&type=template&id=9211e7a8&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -177259,12 +177328,208 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container py-4"
+  "class": "blog-container"
+};
+var _hoisted_2 = {
+  "class": "container py-5"
+};
+var _hoisted_3 = {
+  "class": "row"
+};
+var _hoisted_4 = {
+  "class": "card-image-container container"
+};
+var _hoisted_5 = {
+  "class": "card-title"
+};
+var _hoisted_6 = ["innerHTML"];
+var _hoisted_7 = {
+  "class": "text-muted mb-3"
+};
+var _hoisted_8 = {
+  "class": "tags-container text-muted"
+};
+var _hoisted_9 = {
+  "class": "hashtags-container mt-2"
+};
+var _hoisted_10 = ["onClick"];
+var _hoisted_11 = {
+  key: 0,
+  "aria-label": "Blog pagination"
+};
+var _hoisted_12 = {
+  "class": "pagination justify-content-center mt-5"
+};
+var _hoisted_13 = ["onClick"];
+var _hoisted_14 = {
+  "class": "modal-content container"
+};
+var _hoisted_15 = {
+  "class": "modal-header"
+};
+var _hoisted_16 = {
+  "class": "modal-title"
+};
+var _hoisted_17 = {
+  "class": "modal-body"
+};
+var _hoisted_18 = {
+  "class": "modal-meta"
+};
+var _hoisted_19 = {
+  "class": "text-muted mb-3"
+};
+var _hoisted_20 = ["innerHTML"];
+var _hoisted_21 = {
+  "class": "modal-tags"
+};
+var _hoisted_22 = {
+  "class": "modal-hashtags mt-2"
+};
+var _hoisted_23 = {
+  "class": "modal-footer"
+};
+var _hoisted_24 = {
+  key: 1,
+  "class": "modal-backdrop fade show"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, " BLOGS ");
+  var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Page Header "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "page-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "container-fluid"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Insights"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 3-Column Grid Layout "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedBlogs, function (blog, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: blog.id,
+      "class": "col-lg-4 col-md-6 mb-4"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "card h-100 shadow-lg border-0 animate-card",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        animationDelay: "".concat(index * 0.1, "s")
+      })
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img :src=\"blog.image\" class=\"card-img-top\" :alt=\"blog.title\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"card-date-overlay\">\n                                <span class=\"date-day\">{{ getDay(blog.date) }}</span>\n                                <span class=\"date-month\">{{ getMonth(blog.date) }}</span>\n                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(blog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "card-text flex-grow-1",
+      innerHTML: blog.content
+    }, null, 8 /* PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_7, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(blog.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      "class": "d-block mb-2"
+    }, "Tags:", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(blog.tags, function (tag) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+        key: tag,
+        "class": "badge me-2 mb-2"
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      "class": "d-block mb-2"
+    }, "Hashtags:", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(blog.hashtags, function (hashtag) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+        key: hashtag,
+        "class": "hashtag me-2"
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hashtag), 1 /* TEXT */);
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn mt-4 align-self-start",
+      onClick: function onClick($event) {
+        return $options.openModal(blog);
+      }
+    }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Read More ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "ms-1 fas fa-arrow-right"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_10)])], 4 /* STYLE */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
+      disabled: $data.currentPage === 1
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "page-link",
+    href: "#",
+    onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+      return $data.currentPage--;
+    }, ["prevent"]))
+  }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-chevron-left me-1"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous ", -1 /* CACHED */)])))], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: page,
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
+        active: $data.currentPage === page
+      }])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      "class": "page-link",
+      href: "#",
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+        return $data.currentPage = page;
+      }, ["prevent"])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_13)], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
+      disabled: $data.currentPage === $options.totalPages
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "page-link",
+    href: "#",
+    onClick: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+      return $data.currentPage++;
+    }, ["prevent"]))
+  }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "ms-1 fas fa-chevron-right"
+  }, null, -1 /* CACHED */)])))], 2 /* CLASS */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal for Full Blog Content "), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 0,
+    "class": "modal show d-block animate-modal",
+    tabindex: "-1",
+    role: "dialog",
+    onClick: _cache[6] || (_cache[6] = function () {
+      return $options.closeModal && $options.closeModal.apply($options, arguments);
+    })
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "modal-dialog modal-xl modal-dialog-centered",
+    role: "document",
+    onClick: _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedBlog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-x-circle-fill h3",
+    style: {
+      "cursor": "pointer"
+    },
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.closeModal && $options.closeModal.apply($options, arguments);
+    })
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.selectedBlog.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal-image-container mb-4\">\n                            <img :src=\"selectedBlog.image\" class=\"img-fluid rounded\" :alt=\"selectedBlog.title\">\n                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "modal-content-text",
+    innerHTML: $data.selectedBlog.content
+  }, null, 8 /* PROPS */, _hoisted_20), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    "class": "me-2 fs-5"
+  }, "Tags:", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedBlog.tags, function (tag) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      key: tag,
+      "class": "badge me-2 mb-2"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    "class": "me-2 fs-5"
+  }, "Hashtags:", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedBlog.hashtags, function (hashtag) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      key: hashtag,
+      "class": "hashtag me-2"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hashtag), 1 /* TEXT */);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn btn-secondary",
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.closeModal && $options.closeModal.apply($options, arguments);
+    })
+  }, "Close"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    type: "button",
+    "class": "btn btn-primary position-relative",
+    onClick: _cache[4] || (_cache[4] = function () {
+      return $options.shareBlog && $options.shareBlog.apply($options, arguments);
+    })
+  }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "ms-1 fas fa-share"
+  }, null, -1 /* CACHED */)])))), [[_directive_tooltip, 'Copy link to clipboard']])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -191107,6 +191372,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\nbutton.control-btn.play-pause[data-v
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ReadComponent.vue?vue&type=style&index=0&id=9211e7a8&scoped=true&lang=css":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ReadComponent.vue?vue&type=style&index=0&id=9211e7a8&scoped=true&lang=css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Color Scheme */\n[data-v-9211e7a8]:root {\n    --primary-color: #00c4b4;\n    /* Brighter green for buttons */\n    --primary-dark: #00897b;\n    /* Darker green for hover */\n    --primary-light: #b2dfdb;\n    /* Light green for backgrounds */\n    --white-color: #ffffff;\n    --black-color: #000000;\n    --gray-dark: #333333;\n    --gray-medium: #555555;\n    --gray-light: #f5f5f5;\n}\n/* General Styles */\n.blog-container[data-v-9211e7a8] {\n    font-family: 'Roboto', sans-serif;\n    color: var(--gray-dark);\n    background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);\n    min-height: 100vh;\n}\n/* Page Header */\n.page-header[data-v-9211e7a8] {\n    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);\n    color: var(--white-color);\n    padding: 4rem 0;\n    text-align: center;\n}\n.page-header h1[data-v-9211e7a8] {\n    font-size: 3rem;\n    font-weight: 800;\n    margin-bottom: 0.75rem;\n    letter-spacing: 0.5px;\n}\n.page-header p[data-v-9211e7a8] {\n    font-size: 1.3rem;\n    font-weight: 400;\n    margin: 0 auto;\n    opacity: 0.9;\n}\n/* Card Styles */\n.card[data-v-9211e7a8] {\n    background: var(--white-color);\n    border-radius: 16px;\n    box-shadow: 0 6px 20px rgba(0, 191, 166, 0.15);\n    transition: transform 0.3s ease, box-shadow 0.3s ease;\n    position: relative;\n    overflow: hidden;\n}\n.card[data-v-9211e7a8]::before {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    height: 5px;\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n}\n.card[data-v-9211e7a8]:hover {\n    transform: translateY(-10px) scale(1.02);\n    box-shadow: 0 12px 30px rgba(0, 191, 166, 0.25);\n}\n/* .card-image-container {\n    position: relative;\n    overflow: hidden;\n    border-top-left-radius: 16px;\n    border-top-right-radius: 16px;\n} */\n.card-img-top[data-v-9211e7a8] {\n    height: 240px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    transition: transform 0.4s ease;\n}\n.card:hover .card-img-top[data-v-9211e7a8] {\n    transform: scale(1.08);\n}\n.card-date-overlay[data-v-9211e7a8] {\n    position: absolute;\n    top: 20px;\n    left: 20px;\n    background: var(--primary-dark);\n    color: var(--white-color);\n    padding: 10px 12px;\n    border-radius: 8px;\n    text-align: center;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n}\n.date-day[data-v-9211e7a8] {\n    display: block;\n    font-size: 1.8rem;\n    font-weight: 700;\n}\n.date-month[data-v-9211e7a8] {\n    display: block;\n    font-size: 0.9rem;\n    text-transform: uppercase;\n    font-weight: 500;\n}\n.card-body[data-v-9211e7a8] {\n    padding: 2rem;\n}\n.card-title[data-v-9211e7a8] {\n    padding: 15px;\n    font-size: 1.6rem;\n    font-weight: 700;\n    color: var(--black-color);\n    margin-bottom: 1rem;\n    line-height: 1.4;\n}\n.card-text[data-v-9211e7a8] {\n    padding: 15px;\n    font-size: 1.15rem;\n    color: var(--gray-dark);\n    max-height: 250px;\n    overflow: hidden;\n    line-height: 1.7;\n    margin-bottom: 1.7rem;\n    display: grid;\n    -webkit-line-clamp: 5;\n    -webkit-box-orient: vertical;\n    text-overflow: ellipsis;\n}\n.text-muted[data-v-9211e7a8] {\n    font-size: 1rem;\n    color: var(--gray-medium);\n    font-weight: 400;\n}\n/* Tags and Hashtags */\n.tags-container[data-v-9211e7a8],\n.hashtags-container[data-v-9211e7a8] {\n    margin-bottom: 1rem;\n}\n.tags-container strong[data-v-9211e7a8],\n.hashtags-container strong[data-v-9211e7a8] {\n    font-size: 0.95rem;\n    font-weight: 600;\n    color: var(--gray-dark);\n}\n.badge[data-v-9211e7a8] {\n    background: var(--white-color);\n    color: var(--primary-color);\n    border: 1px solid var(--primary-color);\n    font-size: 0.85rem;\n    font-weight: 500;\n    padding: 6px 12px;\n    border-radius: 20px;\n    transition: background 0.2s ease, color 0.2s ease;\n}\n.badge[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n}\n.hashtag[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 0.85rem;\n    font-weight: 500;\n    transition: color 0.2s ease;\n}\n.hashtag[data-v-9211e7a8]:hover {\n    color: var(--primary-dark);\n}\n/* Button Styles */\n.btn-primary[data-v-9211e7a8] {\n    /* background: linear-gradient(90deg, var(--primary-color), var(--primary-dark)); */\n    border: none;\n    color: var(--white-color);\n    font-size: 1.15rem;\n    font-weight: 600;\n    border-radius: 8px;\n    padding: 12px 24px;\n    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;\n}\n.btn-primary[data-v-9211e7a8]:hover {\n    background: var(--primary-dark);\n    transform: scale(1.05);\n    box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);\n}\n/* Pagination Styles */\n.pagination[data-v-9211e7a8] {\n    gap: 10px;\n}\n.page-link[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 1.15rem;\n    font-weight: 500;\n    border-radius: 8px;\n    padding: 10px 18px;\n    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;\n}\n.page-item.active .page-link[data-v-9211e7a8] {\n    background: var(--primary-color);\n    border-color: var(--primary-color);\n    color: var(--white-color);\n}\n.page-link[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: scale(1.1);\n}\n.page-item.disabled .page-link[data-v-9211e7a8] {\n    color: var(--gray-medium);\n    cursor: not-allowed;\n}\n/* Modal Styles */\n.modal-content[data-v-9211e7a8] {\n    border-radius: 16px;\n    box-shadow: 0 12px 40px rgba(0, 191, 166, 0.3);\n    overflow: hidden;\n}\n.modal-header[data-v-9211e7a8] {\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n    border-bottom: none;\n    padding: 1.75rem 2rem;\n}\n.modal-title[data-v-9211e7a8] {\n    font-size: 2rem;\n    font-weight: 700;\n    color: var(--white-color);\n}\n.btn-close[data-v-9211e7a8] {\n    filter: invert(1);\n    opacity: 0.8;\n    transition: opacity 0.2s ease;\n}\n.btn-close[data-v-9211e7a8]:hover {\n    opacity: 1;\n}\n.modal-body[data-v-9211e7a8] {\n    font-size: 1.25rem;\n    line-height: 1.8;\n    color: var(--gray-dark);\n    background: var(--white-color);\n}\n.modal-meta[data-v-9211e7a8] {\n    border-bottom: 1px solid var(--primary-light);\n}\n.modal-tags strong[data-v-9211e7a8],\n.modal-hashtags strong[data-v-9211e7a8] {\n    font-size: 1.1rem;\n    font-weight: 600;\n}\n.modal-image-container img[data-v-9211e7a8] {\n    width: 100%;\n    max-height: 350px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 10px;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.modal-content-text[data-v-9211e7a8] h1,\n.modal-content-text[data-v-9211e7a8] h2,\n.modal-content-text[data-v-9211e7a8] h3,\n.modal-content-text[data-v-9211e7a8] h4 {\n    color: var(--primary-dark);\n    margin-bottom: 1.2rem;\n    border-left: 4px solid var(--primary-color);\n    padding-left: 12px;\n}\n.modal-content-text[data-v-9211e7a8] p {\n    margin-bottom: 1.8rem;\n}\n.modal-content-text[data-v-9211e7a8] ul {\n    list-style: none;\n    padding-left: 0;\n    margin-bottom: 1.8rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li {\n    position: relative;\n    padding-left: 24px;\n    margin-bottom: 0.8rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li::before {\n    content: '•';\n    position: absolute;\n    left: 0;\n    color: var(--primary-color);\n    font-size: 1.3rem;\n}\n.modal-content-text[data-v-9211e7a8] blockquote {\n    border-left: 4px solid var(--primary-color);\n    padding-left: 1.2rem;\n    margin: 1.8rem 0;\n    font-style: italic;\n    color: var(--gray-medium);\n    background: var(--gray-light);\n    padding: 1rem;\n    border-radius: 8px;\n}\n.modal-footer[data-v-9211e7a8] {\n    border-top: none;\n    padding: 1.5rem 2rem;\n}\n.btn-secondary[data-v-9211e7a8] {\n    background: var(--gray-medium);\n    border: none;\n    font-size: 1.15rem;\n    font-weight: 600;\n    border-radius: 8px;\n    padding: 12px 24px;\n    transition: transform 0.2s ease, background 0.2s ease;\n}\n.btn-secondary[data-v-9211e7a8]:hover {\n    background: var(--gray-dark);\n    transform: scale(1.05);\n}\n/* Animations */\n.animate-card[data-v-9211e7a8] {\n    animation: fadeInUp-9211e7a8 0.6s ease-out forwards;\n}\n@keyframes fadeInUp-9211e7a8 {\nfrom {\n        opacity: 0;\n        transform: translateY(20px);\n}\nto {\n        opacity: 1;\n        transform: translateY(0);\n}\n}\n.animate-modal[data-v-9211e7a8] {\n    animation: scaleIn-9211e7a8 0.3s ease-out forwards;\n}\n@keyframes scaleIn-9211e7a8 {\nfrom {\n        opacity: 0;\n        transform: scale(0.9);\n}\nto {\n        opacity: 1;\n        transform: scale(1);\n}\n}\n/* Modal Backdrop */\n.modal-backdrop[data-v-9211e7a8] {\n    background: rgba(0, 0, 0, 0.7);\n}\n/* Responsive Adjustments */\n@media (max-width: 992px) {\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2.5rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1.1rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 200px;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.4rem;\n}\n}\n@media (max-width: 768px) {\n.page-header[data-v-9211e7a8] {\n        padding: 3rem 0;\n}\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 180px;\n}\n.card-body[data-v-9211e7a8] {\n        padding: 1.5rem;\n}\n.modal-title[data-v-9211e7a8] {\n        font-size: 1.6rem;\n}\n.modal-body[data-v-9211e7a8] {\n        padding: 1.75rem;\n}\n.modal-image-container img[data-v-9211e7a8] {\n        max-height: 250px;\n}\n}\n@media (max-width: 576px) {\n.card-date-overlay[data-v-9211e7a8] {\n        top: 10px;\n        left: 10px;\n        padding: 8px 10px;\n}\n.date-day[data-v-9211e7a8] {\n        font-size: 1.4rem;\n}\n.date-month[data-v-9211e7a8] {\n        font-size: 0.75rem;\n}\n.btn-primary[data-v-9211e7a8],\n    .btn-secondary[data-v-9211e7a8] {\n        padding: 10px 20px;\n        font-size: 1rem;\n}\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SchoolComponent.vue?vue&type=style&index=0&id=7fb373ce&scoped=true&lang=css":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SchoolComponent.vue?vue&type=style&index=0&id=7fb373ce&scoped=true&lang=css ***!
@@ -193629,6 +193918,36 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RadioComponent_vue_vue_type_style_index_0_id_87252526_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ReadComponent.vue?vue&type=style&index=0&id=9211e7a8&scoped=true&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ReadComponent.vue?vue&type=style&index=0&id=9211e7a8&scoped=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ReadComponent_vue_vue_type_style_index_0_id_9211e7a8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ReadComponent.vue?vue&type=style&index=0&id=9211e7a8&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ReadComponent.vue?vue&type=style&index=0&id=9211e7a8&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ReadComponent_vue_vue_type_style_index_0_id_9211e7a8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ReadComponent_vue_vue_type_style_index_0_id_9211e7a8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -338770,15 +339089,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ReadComponent_vue_vue_type_template_id_9211e7a8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReadComponent.vue?vue&type=template&id=9211e7a8 */ "./resources/js/components/ReadComponent.vue?vue&type=template&id=9211e7a8");
+/* harmony import */ var _ReadComponent_vue_vue_type_template_id_9211e7a8_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReadComponent.vue?vue&type=template&id=9211e7a8&scoped=true */ "./resources/js/components/ReadComponent.vue?vue&type=template&id=9211e7a8&scoped=true");
 /* harmony import */ var _ReadComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReadComponent.vue?vue&type=script&lang=js */ "./resources/js/components/ReadComponent.vue?vue&type=script&lang=js");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _ReadComponent_vue_vue_type_style_index_0_id_9211e7a8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ReadComponent.vue?vue&type=style&index=0&id=9211e7a8&scoped=true&lang=css */ "./resources/js/components/ReadComponent.vue?vue&type=style&index=0&id=9211e7a8&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_ReadComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ReadComponent_vue_vue_type_template_id_9211e7a8__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/ReadComponent.vue"]])
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_ReadComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ReadComponent_vue_vue_type_template_id_9211e7a8_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-9211e7a8"],['__file',"resources/js/components/ReadComponent.vue"]])
 /* hot reload */
 if (false) // removed by dead control flow
 {}
@@ -338804,18 +339126,31 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/ReadComponent.vue?vue&type=template&id=9211e7a8":
-/*!*********************************************************************************!*\
-  !*** ./resources/js/components/ReadComponent.vue?vue&type=template&id=9211e7a8 ***!
-  \*********************************************************************************/
+/***/ "./resources/js/components/ReadComponent.vue?vue&type=style&index=0&id=9211e7a8&scoped=true&lang=css":
+/*!***********************************************************************************************************!*\
+  !*** ./resources/js/components/ReadComponent.vue?vue&type=style&index=0&id=9211e7a8&scoped=true&lang=css ***!
+  \***********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ReadComponent_vue_vue_type_style_index_0_id_9211e7a8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ReadComponent.vue?vue&type=style&index=0&id=9211e7a8&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ReadComponent.vue?vue&type=style&index=0&id=9211e7a8&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ReadComponent.vue?vue&type=template&id=9211e7a8&scoped=true":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/ReadComponent.vue?vue&type=template&id=9211e7a8&scoped=true ***!
+  \*********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ReadComponent_vue_vue_type_template_id_9211e7a8__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ReadComponent_vue_vue_type_template_id_9211e7a8_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ReadComponent_vue_vue_type_template_id_9211e7a8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ReadComponent.vue?vue&type=template&id=9211e7a8 */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ReadComponent.vue?vue&type=template&id=9211e7a8");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ReadComponent_vue_vue_type_template_id_9211e7a8_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ReadComponent.vue?vue&type=template&id=9211e7a8&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ReadComponent.vue?vue&type=template&id=9211e7a8&scoped=true");
 
 
 /***/ }),
@@ -341425,6 +341760,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UsersComponent_vue_vue_type_template_id_e9381eac__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./UsersComponent.vue?vue&type=template&id=e9381eac */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/admin_panels/UsersComponent.vue?vue&type=template&id=e9381eac");
 
+
+/***/ }),
+
+/***/ "./resources/js/components/blogs.json":
+/*!********************************************!*\
+  !*** ./resources/js/components/blogs.json ***!
+  \********************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('[{"id":1,"title":"The Importance of Salah in Daily Life","image":"https://via.placeholder.com/400x250?text=Salah","content":"<p>Salah, the five daily prayers, is one of the five pillars of Islam and a fundamental act of worship that structures a Muslim\'s day. It serves as a direct connection between the believer and Allah, fostering spiritual discipline, mindfulness, and gratitude. Each prayer—Fajr, Dhuhr, Asr, Maghrib, and Isha—offers a moment to pause, reflect, and seek guidance, helping Muslims maintain a constant awareness of their Creator. Beyond its spiritual significance, Salah promotes mental well-being by providing moments of tranquility in a busy world. It encourages physical discipline through its structured movements and fosters community when performed in congregation. The Quran emphasizes its importance: \'Indeed, those who believe and do righteous deeds and establish prayer and give zakah will have their reward with their Lord\' (Quran 2:277). Salah also teaches time management, as Muslims align their schedules with prayer times, reinforcing a balanced lifestyle. By performing Salah consistently, believers cultivate patience, humility, and a sense of purpose, aligning their actions with Islamic values.</p><p>In addition to its spiritual benefits, Salah has social and psychological impacts. Congregational prayers strengthen community bonds, as Muslims stand shoulder-to-shoulder, regardless of status. This unity reflects the egalitarian ethos of Islam. Psychologically, the act of prayer reduces stress and anxiety, offering a structured way to seek solace. Scholars like Ibn Qayyim Al-Jawziyya have highlighted Salah as a means to purify the heart and protect against sin. By integrating Salah into daily life, Muslims can navigate challenges with resilience and maintain a constant connection with Allah.</p><h4>References</h4><ul><li>Al-Quran, Surah Al-Baqarah, 2:277.</li><li>Ibn Qayyim Al-Jawziyya, \'The Secrets of Prayer,\' Darussalam Publishers.</li><li>Sahih Al-Bukhari, Book of Prayer, Hadith 528.</li></ul>","date":"2025-09-20","tags":["Salah","Prayer","Spirituality"],"hashtags":["#Islam","#Salah","#Faith"]},{"id":2,"title":"Fasting in Ramadan: A Spiritual Journey","image":"https://via.placeholder.com/400x250?text=Ramadan","content":"<p>Fasting during Ramadan, the ninth month of the Islamic lunar calendar, is a profound spiritual practice that purifies the soul and strengthens devotion to Allah. Obligatory for adult Muslims, fasting involves abstaining from food, drink, and other physical needs from dawn until sunset. The Quran states, \'O you who have believed, decreed upon you is fasting as it was decreed upon those before you that you may become righteous\' (Quran 2:183). This month-long practice fosters self-discipline, empathy for the less fortunate, and a deeper connection with Allah through increased worship, charity, and reflection. Ramadan is a time to reset spiritually, seek forgiveness, and engage in acts of kindness, such as feeding the poor or visiting the sick.</p><p>Beyond its spiritual benefits, fasting offers physical and mental advantages. Studies have shown that intermittent fasting can improve metabolic health and mental clarity. Socially, Ramadan strengthens community bonds through shared experiences like Iftar (breaking the fast) and Taraweeh prayers. The Prophet Muhammad (PBUH) said, \'Whoever fasts Ramadan with faith and seeking reward, his previous sins will be forgiven\' (Sahih Muslim, Hadith 760). This promise motivates Muslims to approach fasting with sincerity. Ramadan also encourages charity, with many Muslims giving Sadaqah and Zakat during this month, reinforcing the Islamic principle of social justice. By the end of Ramadan, believers emerge spiritually rejuvenated, with a renewed commitment to their faith and community.</p><h4>References</h4><ul><li>Al-Quran, Surah Al-Baqarah, 2:183.</li><li>Sahih Muslim, Book of Fasting, Hadith 760.</li><li>Esposito, J. L., \'Islam: The Straight Path,\' Oxford University Press, 2011.</li></ul>","date":"2025-09-18","tags":["Ramadan","Fasting","Spirituality"],"hashtags":["#Ramadan","#Islam","#Fasting"]},{"id":3,"title":"The Significance of Zakat","image":"https://via.placeholder.com/400x250?text=Zakat","content":"<p>Zakat, one of the five pillars of Islam, is an obligatory form of charity that purifies wealth and supports the community. It requires Muslims who meet a certain wealth threshold (Nisab) to give 2.5% of their savings annually to those in need. The Quran emphasizes, \'And establish prayer and give zakah, and whatever good you put forward for yourselves—you will find it with Allah\' (Quran 2:110). Zakat is not just a financial transaction but a spiritual act that fosters gratitude, humility, and social responsibility. It ensures wealth circulation, reducing inequality and supporting vulnerable groups like the poor, orphans, and travelers.</p><p>Zakat has profound social and economic impacts. By redistributing wealth, it promotes economic stability and social justice, aligning with Islamic values of compassion and equity. The Prophet Muhammad (PBUH) emphasized its importance, stating, \'The one who pays Zakat on his wealth has purified it\' (Sahih Al-Bukhari, Hadith 1405). Beyond its mandatory form, Zakat encourages a culture of giving, inspiring Muslims to engage in voluntary charity (Sadaqah). Islamic scholars like Yusuf Al-Qaradawi have noted that Zakat strengthens community bonds and fosters a sense of shared responsibility. By fulfilling this obligation, Muslims not only purify their wealth but also contribute to a just society, reflecting the ethical framework of Islam.</p><h4>References</h4><ul><li>Al-Quran, Surah Al-Baqarah, 2:110.</li><li>Sahih Al-Bukhari, Book of Zakat, Hadith 1405.</li><li>Al-Qaradawi, Y., \'Fiqh az-Zakat,\' Islamic Inc., 1999.</li></ul>","date":"2025-09-15","tags":["Zakat","Charity","Community"],"hashtags":["#Zakat","#Islam","#Charity"]},{"id":4,"title":"Hajj: The Journey of a Lifetime","image":"https://via.placeholder.com/400x250?text=Hajj","content":"<p>Hajj, the annual pilgrimage to Mecca, is a profound spiritual journey and one of the five pillars of Islam. Obligatory for Muslims who are physically and financially able, Hajj unites believers from across the globe in worship, symbolizing unity, equality, and devotion. The Quran states, \'And [due] to Allah from the people is a pilgrimage to the House—for whoever is able to find thereto a way\' (Quran 3:97). The rituals of Hajj, including Tawaf (circumambulating the Kaaba), Sa’i (walking between Safa and Marwah), and standing at Arafat, commemorate the trials of Prophet Ibrahim, his wife Hagar, and their son Ismail. These acts reinforce submission to Allah and remind Muslims of their shared faith.</p><p>Hajj fosters a sense of global community, as millions gather in Mecca, dressed in simple white garments (Ihram), erasing distinctions of race, class, or status. The Prophet Muhammad (PBUH) said, \'Whoever performs Hajj for Allah\'s sake and avoids sin, will return as pure as the day he was born\' (Sahih Al-Bukhari, Hadith 1521). Beyond its spiritual significance, Hajj encourages self-reflection and renewal, as pilgrims seek forgiveness and rededicate themselves to Islamic values. The experience leaves a lasting impact, inspiring pilgrims to live with greater piety and compassion. Hajj also showcases the diversity of the Muslim Ummah, reinforcing the universal message of Islam.</p><h4>References</h4><ul><li>Al-Quran, Surah Aal-E-Imran, 3:97.</li><li>Sahih Al-Bukhari, Book of Hajj, Hadith 1521.</li><li>Peters, F. E., \'The Hajj: The Muslim Pilgrimage to Mecca,\' Princeton University Press, 1994.</li></ul>","date":"2025-09-12","tags":["Hajj","Pilgrimage","Faith"],"hashtags":["#Hajj","#Islam","#Mecca"]},{"id":5,"title":"Understanding the Quran","image":"https://via.placeholder.com/400x250?text=Quran","content":"<p>The Quran, the final revelation from Allah, is the primary source of guidance for Muslims, offering wisdom for all aspects of life. Revealed to Prophet Muhammad (PBUH) over 23 years, it addresses spirituality, ethics, law, and personal conduct. The Quran states, \'This is the Book about which there is no doubt, a guidance for those conscious of Allah\' (Quran 2:2). Studying the Quran deepens faith, providing clarity and purpose. Its verses encourage reflection, compassion, and justice, serving as a timeless guide for humanity. Tafsir (exegesis) by scholars like Ibn Kathir helps believers understand its deeper meanings.</p><p>The Quran’s linguistic beauty and structure are unparalleled, with its rhythmic prose and profound messages captivating readers. It emphasizes monotheism (Tawheed), moral integrity, and accountability in the Hereafter. Regular recitation, especially in Arabic, is a spiritual practice that brings peace and strengthens connection with Allah. The Prophet (PBUH) said, \'The best of you are those who learn the Quran and teach it\' (Sahih Al-Bukhari, Hadith 5027). Engaging with the Quran through study groups or memorization (Hifz) fosters a lifelong bond with its teachings. By internalizing its messages, Muslims strive to embody its values in their daily lives, promoting peace and righteousness.</p><h4>References</h4><ul><li>Al-Quran, Surah Al-Baqarah, 2:2.</li><li>Sahih Al-Bukhari, Book of Virtues of the Quran, Hadith 5027.</li><li>Ibn Kathir, \'Tafsir Ibn Kathir,\' Darussalam Publishers.</li></ul>","date":"2025-09-10","tags":["Quran","Revelation","Faith"],"hashtags":["#Quran","#Islam","#Guidance"]},{"id":6,"title":"The Life of Prophet Muhammad (PBUH)","image":"https://via.placeholder.com/400x250?text=Prophet","content":"<p>Prophet Muhammad (PBUH), the final messenger of Islam, is a model of compassion, justice, and devotion. Born in Mecca in 570 CE, his life transformed the Arabian Peninsula and beyond, establishing a community based on monotheism and ethical principles. The Quran describes him as \'a mercy to the worlds\' (Quran 21:107). His Sunnah (practices) and Hadith (sayings) guide Muslims in worship, morality, and daily life. From his early years as an honest merchant to his role as a prophet, his character exemplified integrity and humility.</p><p>The Prophet’s life includes key events like the Night Journey (Isra and Mi’raj), the migration to Medina (Hijrah), and the establishment of the first Islamic state. His leadership balanced justice with mercy, as seen in the Conquest of Mecca, where he forgave his former enemies. The Prophet (PBUH) said, \'I was sent to perfect good character\' (Muwatta Malik, Hadith 47.1.8). His teachings emphasize kindness, charity, and respect for all. Studying his biography (Seerah) inspires Muslims to emulate his patience and resilience, fostering a life aligned with Islamic values.</p><h4>References</h4><ul><li>Al-Quran, Surah Al-Anbiya, 21:107.</li><li>Muwatta Malik, Book of Good Character, Hadith 47.1.8.</li><li>Lings, M., \'Muhammad: His Life Based on the Earliest Sources,\' Inner Traditions, 2006.</li></ul>","date":"2025-09-08","tags":["Prophet Muhammad","Sunnah","Islam"],"hashtags":["#ProphetMuhammad","#Islam","#Sunnah"]},{"id":7,"title":"The Beauty of Islamic Calligraphy","image":"https://via.placeholder.com/400x250?text=Calligraphy","content":"<p>Islamic calligraphy is a revered art form that glorifies the words of Allah, particularly through Quranic verses. Rooted in the Islamic prohibition of figurative imagery in religious contexts, calligraphy became a primary means of artistic expression. Styles like Kufic, Naskh, and Thuluth adorn mosques, manuscripts, and artifacts, reflecting spiritual and aesthetic beauty. The Quran’s eloquence inspired this art, with calligraphers striving to capture its divine essence. As Ibn Muqla, a 10th-century calligrapher, developed proportional scripts, calligraphy became a disciplined craft.</p><p>Beyond aesthetics, calligraphy holds cultural and spiritual significance. It serves as a meditative practice, requiring precision and devotion. Masterpieces like the Topkapi Scroll showcase its complexity, blending geometry with artistry. Calligraphy also preserves Islamic heritage, with works displayed in museums worldwide. The Prophet (PBUH) emphasized the value of beautiful writing, stating, \'He who writes Bismillah beautifully will be forgiven his sins\' (Sunan Abu Dawud, Hadith 5060). Today, calligraphy continues to inspire, connecting Muslims to their faith and history through its timeless elegance.</p><h4>References</h4><ul><li>Sunan Abu Dawud, Book of Knowledge, Hadith 5060.</li><li>Blair, S., \'Islamic Calligraphy,\' Edinburgh University Press, 2006.</li><li>Grabar, O., \'The Mediation of Ornament,\' Princeton University Press, 1992.</li></ul>","date":"2025-09-05","tags":["Calligraphy","Art","Islam"],"hashtags":["#IslamicArt","#Calligraphy","#Culture"]},{"id":8,"title":"Islamic Ethics in Business","image":"https://via.placeholder.com/400x250?text=Business","content":"<p>Islamic ethics in business emphasize honesty, fairness, and compassion, ensuring transactions align with Shariah principles. The Quran instructs, \'O you who have believed, do not consume one another’s wealth unjustly but only [in lawful] business by mutual consent\' (Quran 4:29). Prohibited practices like usury (Riba), deception, and exploitation are replaced with transparency and mutual benefit. Contracts must be clear, and profits should be earned ethically, fostering trust in commerce.</p><p>Islamic business principles encourage risk-sharing, as seen in models like Mudarabah (profit-sharing) and Musharakah (partnership). The Prophet Muhammad (PBUH), a successful merchant, exemplified integrity, saying, \'The truthful and trustworthy merchant is with the prophets, the truthful, and the martyrs\' (Tirmidhi, Hadith 1209). These ethics promote social welfare, with businesses encouraged to support the community through charity and fair wages. Scholars like Muhammad Hashim Kamali highlight that Islamic economics prioritizes human welfare over profit maximization. By adhering to these principles, Muslim entrepreneurs contribute to a just and equitable economy.</p><h4>References</h4><ul><li>Al-Quran, Surah An-Nisa, 4:29.</li><li>Jami’ at-Tirmidhi, Book of Business, Hadith 1209.</li><li>Kamali, M. H., \'Islamic Commercial Law,\' Islamic Texts Society, 2000.</li></ul>","date":"2025-09-03","tags":["Ethics","Business","Islam"],"hashtags":["#IslamicEthics","#Business","#Islam"]},{"id":9,"title":"The Role of Women in Islam","image":"https://via.placeholder.com/400x250?text=Women","content":"<p>Islam grants women significant rights and roles in family, society, and worship, emphasizing dignity and equality in spiritual worth. The Quran states, \'Whoever does righteousness, whether male or female, while being a believer—those will enter Paradise\' (Quran 4:124). Women have the right to education, property, and participation in community affairs, as exemplified by figures like Khadijah, the Prophet’s wife and a successful businesswoman, and Aisha, a renowned scholar.</p><p>Islam protects women’s rights through marriage contracts, inheritance laws, and the obligation to treat them with kindness. The Prophet (PBUH) said, \'The best of you are those who are best to their women\' (Tirmidhi, Hadith 1162). Women contribute to Islamic scholarship, charity, and governance, with historical examples like Umm Salama advising the Prophet. Modern challenges, such as cultural misinterpretations, sometimes obscure these rights, but Islamic teachings advocate empowerment and justice. By honoring women’s contributions, Muslim communities uphold the Quranic vision of equity and compassion.</p><h4>References</h4><ul><li>Al-Quran, Surah An-Nisa, 4:124.</li><li>Jami’ at-Tirmidhi, Book of Marriage, Hadith 1162.</li><li>Badawi, J., \'Gender Equity in Islam,\' American Trust Publications, 1995.</li></ul>","date":"2025-09-01","tags":["Women","Islam","Equality"],"hashtags":["#WomenInIslam","#Islam","#Equality"]},{"id":10,"title":"Charity in Islam: Beyond Zakat","image":"https://via.placeholder.com/400x250?text=Charity","content":"<p>Charity in Islam extends beyond Zakat to include voluntary acts of giving, known as Sadaqah, which encompass money, time, and kind deeds. The Quran encourages, \'Those who spend their wealth [in Allah’s way] by night and by day, secretly and publicly—they will have their reward with their Lord\' (Quran 2:274). Sadaqah fosters compassion and strengthens community bonds, addressing needs like poverty, education, and healthcare.</p><p>Even small acts, like a smile or helping a neighbor, are considered Sadaqah. The Prophet (PBUH) said, \'Every act of goodness is charity\' (Sahih Muslim, Hadith 1005). Unlike Zakat, Sadaqah has no minimum requirement, making it accessible to all. It purifies the giver’s heart and wealth, promoting spiritual growth. Islamic history is rich with examples of generosity, such as Uthman ibn Affan funding community projects. Today, Muslims worldwide support causes through Sadaqah, reflecting Islam’s emphasis on social welfare and empathy.</p><h4>References</h4><ul><li>Al-Quran, Surah Al-Baqarah, 2:274.</li><li>Sahih Muslim, Book of Charity, Hadith 1005.</li><li>Al-Ghazali, \'The Mysteries of Charity,\' Ihya Ulumuddin.</li></ul>","date":"2025-08-30","tags":["Charity","Sadaqah","Islam"],"hashtags":["#Sadaqah","#Islam","#Charity"]},{"id":11,"title":"The Importance of Dua in Islam","image":"https://via.placeholder.com/400x250?text=Dua","content":"<p>Dua, the act of supplication, is a direct and intimate connection between a Muslim and Allah. It is a form of worship that reflects dependence on and trust in the Creator. The Quran states, \'And your Lord says, Call upon Me; I will respond to you\' (Quran 40:60). Dua can be made at any time, seeking guidance, forgiveness, or blessings, and is especially powerful during moments like the last third of the night or after Salah.</p><p>Dua strengthens faith by reminding believers of Allah’s mercy and power. The Prophet (PBUH) said, \'Dua is the essence of worship\' (Tirmidhi, Hadith 3371). It offers comfort during trials and fosters gratitude in times of ease. Islamic scholars emphasize the etiquette of Dua, such as beginning with praise for Allah and sending blessings on the Prophet. Stories like Prophet Yunus’s supplication from the whale’s belly illustrate its transformative power. By making Dua consistently, Muslims cultivate a hopeful and resilient heart, trusting in Allah’s plan.</p><h4>References</h4><ul><li>Al-Quran, Surah Ghafir, 40:60.</li><li>Jami’ at-Tirmidhi, Book of Supplications, Hadith 3371.</li><li>Al-Nawawi, \'The Book of Supplications,\' Darussalam Publishers.</li></ul>","date":"2025-08-28","tags":["Dua","Prayer","Faith"],"hashtags":["#Dua","#Islam","#Faith"]},{"id":12,"title":"Islamic Architecture: A Legacy of Beauty","image":"https://via.placeholder.com/400x250?text=Architecture","content":"<p>Islamic architecture is a testament to the faith’s spiritual and aesthetic values, seen in iconic structures like the Dome of the Rock and the Alhambra. Characterized by domes, minarets, and intricate tilework, it avoids figurative imagery, focusing on geometric patterns and calligraphy. The Quran’s emphasis on beauty inspires these designs, creating spaces that uplift the soul. Mosques, in particular, serve as places of worship and community gathering, reflecting unity and devotion.</p><p>Architectural styles vary across regions, from the ornate Umayyad Mosque in Damascus to the minimalist mosques of West Africa. Features like courtyards and mihrabs enhance functionality and symbolism. The Prophet (PBUH) said, \'When you see a garden, it is a glimpse of paradise\' (Sahih Al-Bukhari, Hadith 696). Islamic architecture embodies this vision, blending art with spirituality. Modern architects continue this legacy, integrating sustainable designs while preserving traditional elements, ensuring the enduring relevance of this cultural heritage.</p><h4>References</h4><ul><li>Sahih Al-Bukhari, Book of Agriculture, Hadith 696.</li><li>Ettinghausen, R., \'Islamic Art and Architecture,\' Yale University Press, 2001.</li><li>Hillenbrand, R., \'Islamic Architecture,\' Columbia University Press, 1994.</li></ul>","date":"2025-08-25","tags":["Architecture","Islam","Culture"],"hashtags":["#IslamicArchitecture","#Islam","#Culture"]}]');
 
 /***/ }),
 
