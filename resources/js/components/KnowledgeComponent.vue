@@ -108,7 +108,7 @@
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
           <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
-          <img src="/images/fn.png" alt="Islamic Finance" class="w-100" style="object-fit: contain;" />
+          <img src="/images/green-book.png" alt="Islamic Finance" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Smart Studies</h5>
             <p class="card-text text-muted text-wrap text-center"
@@ -119,7 +119,7 @@
             <button class="form-control" onclick="window.location.href='/read'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
-              <span class="text-center w-100"><b>Read More</b></span>
+              <span class="text-center w-100"><b>Seach Blogs</b></span>
             </button>
           </div>
         </div>

@@ -21,16 +21,21 @@
         </div>
 
         <!-- Blog Layout -->
-        <div class="container">
+        <div class="container py-5">
             <div class="row" :class="{ 'list-layout': layoutMode === 'list' }">
                 <div v-for="(blog, index) in paginatedBlogs" :key="blog.id" :class="layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4'">
                     <div class="card h-100 animate-card" :style="{ animationDelay: `${index * 0.1}s` }">
                         <div class="card-image-container" :class="{ 'container': layoutMode === 'grid', 'container-fluid': layoutMode === 'list' }">
-                            <!-- <img :src="blog.image" class="card-img-top" :alt="blog.title"> -->
+                            <img :src="blog.image" class="card-img-top mb-4" style="border-radius: 10px;" :alt="blog.title">
                             <h5 class="card-title" @click="openModal(blog)" aria-label="Read full blog post">{{ blog.title }}</h5>
                             <div class="card-text" :class="{ 'list-content': layoutMode === 'list' }" v-html="blog.content"></div>
                             <p class="text-muted">Published on: {{ formatDate(blog.date) }}</p>
-                            <p class="read-more" @click="openModal(blog)" aria-label="Read full blog post">
+                            <div class="card-tags">
+                                <strong class="me-2 ">Tags:</strong>
+                                <span v-if="blog.tags && blog.tags.length" v-for="tag in blog.tags" :key="tag" class="badge me-2 mb-2">{{ tag }}</span>
+                                <span v-else class="text-muted">No tags available</span>
+                            </div>
+                            <p class="read-more mt-4" @click="openModal(blog)" aria-label="Read full blog post">
                                 Read More <i class="ms-1 fas fa-arrow-right"></i>
                             </p>
                         </div>
@@ -50,7 +55,7 @@
                         <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
                     </li>
                     <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                        <a class="page-link" href="#" @click.prevent="currentPage">
+                        <a class="page-link" href="#" @click.prevent="currentPage++">
                             Next <i class="ms-1 fas fa-chevron-right"></i>
                         </a>
                     </li>
@@ -70,25 +75,22 @@
                         <div class="modal-meta">
                             <p class="text-muted mb-3">Published on: {{ formatDate(selectedBlog.date) }}</p>
                         </div>
-                        <!-- <div class="modal-image-container mb-4">
+                        <div class="modal-image-container mb-4">
                             <img :src="selectedBlog.image" class="img-fluid rounded" :alt="selectedBlog.title">
-                        </div> -->
+                        </div>
                         <div class="modal-content-text" v-html="selectedBlog.content"></div>
-                        <div class="modal-tags">
+                        <div class="modal-tags mt-3">
                             <strong class="me-2 fs-5">Tags:</strong>
-                            <span v-for="tag in selectedBlog.tags" :key="tag" class="badge me-2 mb-2">{{ tag }}</span>
+                            <span v-if="selectedBlog.tags && selectedBlog.tags.length" v-for="tag in selectedBlog.tags" :key="tag" class="badge me-2 mb-2">{{ tag }}</span>
+                            <span v-else class="text-muted">No tags available</span>
                         </div>
                         <div class="modal-hashtags mt-2">
                             <strong class="me-2 fs-5">Hashtags:</strong>
-                            <span v-for="hashtag in selectedBlog.hashtags" :key="hashtag" class="hashtag me-2">{{ hashtag }}</span>
+                            <span v-if="selectedBlog.hashtags && selectedBlog.hashtags.length" v-for="hashtag in selectedBlog.hashtags" :key="hashtag" class="hashtag me-2">{{ hashtag }}</span>
+                            <span v-else class="text-muted">No hashtags available</span>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @click="closeModal" aria-label="Close modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="shareBlog(selectedBlog)" v-tooltip="'Copy link to clipboard'" aria-label="Share blog post">
-                            Share <i class="ms-1 fas fa-share"></i>
-                        </button>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -102,7 +104,13 @@ import blogsData from '../components/blogs.json'; // Corrected path to match pre
 export default {
     data() {
         return {
-            blogs: blogsData.sort((a, b) => new Date(b.date) - new Date(a.date)), // Sort by latest date
+            blogs: blogsData
+                .map(blog => ({
+                    ...blog,
+                    tags: blog.tags || [], // Ensure tags is always an array
+                    hashtags: blog.hashtags || [], // Ensure hashtags is always an array
+                }))
+                .sort((a, b) => new Date(b.date) - new Date(a.date)), // Sort by latest date
             currentPage: 1,
             itemsPerPage: 9,
             selectedBlog: null,
@@ -120,6 +128,7 @@ export default {
     },
     methods: {
         openModal(blog) {
+            console.log('Selected Blog:', blog); // Debug to verify tags and hashtags
             this.selectedBlog = blog;
             document.body.classList.add('modal-open');
         },
@@ -177,7 +186,7 @@ export default {
     --primary-dark: #00897b; /* Darker green for hover */
     --primary-light: #b2dfdb; /* Light green for backgrounds */
     --white-color: #ffffff;
-    --black-color: #000000;
+    --black-color: #000000; /* Corrected from #fff to #000000 */
     --gray-dark: #2a2a2a; /* Darker for better contrast */
     --gray-medium: #4a4a4a; /* Darker for accessibility */
     --gray-light: #f5f5f5;
@@ -292,7 +301,6 @@ export default {
     padding: 2.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
 }
 
 .card-img-top {
@@ -349,6 +357,48 @@ export default {
     color: var(--gray-medium);
     font-weight: 400;
     padding: 0;
+}
+
+.card-tags,
+.modal-tags,
+.modal-hashtags {
+    margin-top: 1.5rem;
+}
+
+.card-tags strong,
+.modal-tags strong,
+.modal-hashtags strong {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--gray-dark);
+}
+
+.badge {
+    background: var(--white-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.badge:hover {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    transform: scale(1.05);
+}
+
+.hashtag {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.hashtag:hover {
+    color: var(--primary-dark);
 }
 
 .read-more {
@@ -472,19 +522,12 @@ export default {
     font-size: 1.3rem;
     line-height: 1.9;
     color: var(--gray-dark);
-    background: var(--white-color);
     padding: 2rem;
 }
 
 .modal-meta {
     border-bottom: 1px solid var(--primary-light);
     padding-bottom: 1rem;
-}
-
-.modal-tags strong,
-.modal-hashtags strong {
-    font-size: 1.15rem;
-    font-weight: 600;
 }
 
 .modal-image-container img {
@@ -589,42 +632,6 @@ export default {
     outline-offset: 2px;
 }
 
-/* Animations */
-.animate-card {
-    animation: fadeInUp 0.7s ease-out forwards;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.animate-modal {
-    animation: scaleIn 0.4s ease-out forwards;
-}
-
-@keyframes scaleIn {
-    from {
-        opacity: 0;
-        transform: scale(0.85);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Modal Backdrop */
-.modal-backdrop {
-    background: rgba(0, 0, 0, 0.75);
-}
-
 /* Responsive Adjustments */
 @media (max-width: 992px) {
     .page-header h1 {
@@ -711,6 +718,16 @@ export default {
     .btn-secondary {
         padding: 10px 20px;
         font-size: 1rem;
+    }
+    .card-tags strong,
+    .modal-tags strong,
+    .modal-hashtags strong {
+        font-size: 1rem;
+    }
+    .badge,
+    .hashtag {
+        font-size: 0.85rem;
+        padding: 5px 10px;
     }
 }
 </style>
