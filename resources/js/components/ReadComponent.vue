@@ -2,7 +2,7 @@
     <div class="blog-container">
         <!-- Page Header -->
         <div class="page-header">
-            <div class="container-fluid">
+            <div class="container">
                 <h1>Islamic Insights</h1>
                 <p>Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn
                     from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and
@@ -31,7 +31,7 @@
                             <div class="card-text" :class="{ 'list-content': layoutMode === 'list' }" v-html="blog.content"></div>
                             <p class="text-muted">Published on: {{ formatDate(blog.date) }}</p>
                             <div class="card-tags">
-                                <strong class="me-2 ">Tags:</strong>
+                                <strong class="me-2">Tags:</strong>
                                 <span v-if="blog.tags && blog.tags.length" v-for="tag in blog.tags" :key="tag" class="badge me-2 mb-2">{{ tag }}</span>
                                 <span v-else class="text-muted">No tags available</span>
                             </div>
@@ -90,7 +90,12 @@
                             <span v-else class="text-muted">No hashtags available</span>
                         </div>
                     </div>
-                    
+                    <div class="modal-footer">
+                        
+                        <button type="button" class="btn btn-primary" @click="shareToWhatsApp(selectedBlog)" v-tooltip="'Share to WhatsApp'" aria-label="Share blog to WhatsApp">
+                            Share <i class="ms-1 fas fa-share"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -157,6 +162,13 @@ export default {
                 alert('Failed to copy link. Please try again.');
             });
         },
+        shareToWhatsApp(blog) {
+            const blogUrl = `${window.location.origin}/blog/${blog.id}`;
+            const cleanContent = blog.content.replace(/<[^>]+>/g, '').trim();
+            const message = `Check out this blog: ${blog.title} ${cleanContent}`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://api.whatsapp.com/send?text=${encodedMessage}`, '_blank');
+        },
         getWordCount(content) {
             const text = content.replace(/<[^>]+>/g, '').trim(); // Strip HTML tags
             return text ? text.split(/\s+/).filter(word => word.length > 0).length : 0;
@@ -220,7 +232,6 @@ export default {
     font-size: 1.4rem;
     font-weight: 400;
     margin: 0 auto;
-    max-width: 900px;
     opacity: 0.95;
     line-height: 1.8;
 }
@@ -233,7 +244,6 @@ export default {
 }
 
 .btn-group {
-    border-radius: 50px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -586,6 +596,8 @@ export default {
 .modal-footer {
     border-top: none;
     padding: 1.5rem 2rem;
+    display: flex;
+    gap: 10px; /* Add spacing between buttons */
 }
 
 .btn-primary {
