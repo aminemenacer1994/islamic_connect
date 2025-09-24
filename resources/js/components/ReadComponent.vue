@@ -4,6 +4,7 @@
         <div class="page-header">
             <div class="container">
                 <h1>Islamic Insights</h1>
+                <p>Last Updated: Wednesday, September 24, 2025, 11:23 PM BST</p>
                 <p>Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.</p>
                 <div class="layout-toggle mt-4">
                     <div class="btn-group" role="group" aria-label="Layout toggle">
@@ -19,30 +20,39 @@
         </div>
 
         <!-- Search and Filters -->
-        <div class="container py-3">
-            <div class="row g-3 align-items-center">
-                <div class="col-md-6">
-                    <input v-model="searchTerm" @input="debounceSearch" type="text" class="form-control" placeholder="Search blogs (min 3 chars)..." aria-label="Search blogs">
-                </div>
-                <div class="col-md-2">
-                    <select v-model="selectedCategory" class="form-select" aria-label="Filter by category">
-                        <option value="all">All Categories</option>
-                        <option v-for="cat in uniqueCategories" :key="cat" :value="cat">{{ cat }}</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <select v-model="selectedTag" class="form-select" aria-label="Filter by tag">
-                        <option value="all">All Tags</option>
-                        <option v-for="tag in uniqueTags" :key="tag" :value="tag">{{ tag }}</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <select v-model="sortBy" class="form-select" aria-label="Sort blogs">
-                        <option value="nameAZ">Name A-Z</option>
-                        <option value="nameZA">Name Z-A</option>
-                        <option value="newest">Newest</option>
-                        <option value="oldest">Oldest</option>
-                    </select>
+        <div class="filter-container py-4">
+            <div class="container">
+                <div class="filter-card p-4">
+                    <div class="row g-3 align-items-center justify-content-center">
+                        <div class="col-md-6 col-12 mb-3">
+                            <div class="input-group">
+                                <input v-model="searchTerm" @input="debounceSearch" type="text" class="form-control form-control-lg" placeholder="Search blogs (min 3 chars)..." aria-label="Search blogs">
+                                <span class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6 mb-3">
+                            <select v-model="selectedCategory" class="form-select form-select-lg" aria-label="Filter by category">
+                                <option value="all">All Categories</option>
+                                <option v-for="cat in uniqueCategories" :key="cat" :value="cat">{{ cat }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 col-6 mb-3">
+                            <select v-model="selectedTag" class="form-select form-select-lg" aria-label="Filter by tag">
+                                <option value="all">All Tags</option>
+                                <option v-for="tag in uniqueTags" :key="tag" :value="tag">{{ tag }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 col-12 mb-3">
+                            <select v-model="sortBy" class="form-select form-select-lg" aria-label="Sort blogs">
+                                <option value="nameAZ">Name A-Z</option>
+                                <option value="nameZA">Name Z-A</option>
+                                <option value="newest">Newest</option>
+                                <option value="oldest">Oldest</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -117,10 +127,23 @@
                             <span v-if="selectedBlog.hashtags && selectedBlog.hashtags.length" v-for="hashtag in selectedBlog.hashtags" :key="hashtag" class="hashtag me-2" v-html="highlight(hashtag)"></span>
                             <span v-else class="text-muted">No hashtags available</span>
                         </div>
+                        <div v-if="summaryText" ref="summarySection" class="modal-summary mt-4">
+                            <h5 class="mb-2"><strong>Summary:</strong></h5>
+                            <!-- <i class="bi bi-x-circle-fill close-icon" @click="toggleSummary" aria-label="Close summary"></i> -->
+                            <div v-html="summaryText"></div>
+                        </div>
                     </div>
                     <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" @click="closeModal" aria-label="Close modal">Close</button> -->
+                        <!-- <button type="button" class="btn btn-primary" @click="shareBlog(selectedBlog)" v-tooltip="'Copy link to clipboard'" aria-label="Copy blog link to clipboard">
+                            Share <i class="ms-1 fas fa-share"></i>
+                        </button> -->
                         <button type="button" class="btn btn-primary" @click="shareToWhatsApp(selectedBlog)" v-tooltip="'Share to WhatsApp'" aria-label="Share blog to WhatsApp">
                             Share <i class="ms-1 fas fa-share"></i>
+                        </button>
+                        <button type="button" class="btn btn-info" @click="summarizeBlog" :disabled="summaryLoading" aria-label="Generate summary">
+                            <span v-if="summaryLoading"><i class="fas fa-spinner fa-spin"></i> Generating...</span>
+                            <span v-else>Generate Summary <i class="ms-1 fas fa-book"></i></span>
                         </button>
                     </div>
                 </div>
@@ -150,7 +173,11 @@ export default {
             searchTerm: '',
             selectedCategory: 'all',
             selectedTag: 'all',
-            sortBy: 'newest'
+            sortBy: 'newest',
+            summaryText: '',
+            summaryLoading: false,
+            summaryError: '',
+            showSummary: true
         };
     },
     computed: {
@@ -165,17 +192,14 @@ export default {
         filteredBlogs() {
             let result = [...this.blogs];
 
-            // Apply category filter
             if (this.selectedCategory !== 'all') {
                 result = result.filter(blog => blog.category === this.selectedCategory);
             }
 
-            // Apply tag filter
             if (this.selectedTag !== 'all') {
                 result = result.filter(blog => blog.tags && blog.tags.includes(this.selectedTag));
             }
 
-            // Apply search filter (after 3 characters)
             if (this.searchTerm.length >= 3) {
                 const searchLower = this.searchTerm.toLowerCase();
                 result = result.filter(blog => 
@@ -186,7 +210,6 @@ export default {
                 );
             }
 
-            // Apply sorting
             result = this.sortBlogs(result);
 
             return result;
@@ -200,34 +223,29 @@ export default {
         }
     },
     watch: {
-        searchTerm() {
-            this.currentPage = 1;
-        },
-        selectedCategory() {
-            this.currentPage = 1;
-        },
-        selectedTag() {
-            this.currentPage = 1;
-        },
-        sortBy() {
-            this.currentPage = 1;
-        }
+        searchTerm() { this.currentPage = 1; },
+        selectedCategory() { this.currentPage = 1; },
+        selectedTag() { this.currentPage = 1; },
+        sortBy() { this.currentPage = 1; }
     },
     methods: {
         openModal(blog) {
             this.selectedBlog = blog;
+            this.summaryText = ''; // Reset summary when opening modal
+            this.summaryError = '';
+            this.showSummary = true; // Reset summary visibility
             document.body.classList.add('modal-open');
         },
         closeModal() {
             this.selectedBlog = null;
+            this.summaryText = '';
+            this.summaryLoading = false;
+            this.summaryError = '';
+            this.showSummary = true; // Reset summary visibility
             document.body.classList.remove('modal-open');
         },
         formatDate(date) {
-            return new Date(date).toLocaleDateString('en-GB', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+            return new Date(date).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
         },
         getWordCount(content) {
             const text = content.replace(/<[^>]+>/g, '').trim();
@@ -236,17 +254,10 @@ export default {
         sortBlogs(blogs) {
             return [...blogs].sort((a, b) => {
                 switch (this.sortBy) {
-                    case 'nameZA':
-                        return b.title.localeCompare(a.title);
-                    case 'shortToLong':
-                        return a.wordCount - b.wordCount;
-                    case 'longToShort':
-                        return b.wordCount - a.wordCount;
-                    case 'oldest':
-                        return new Date(a.date) - new Date(b.date);
+                    case 'nameZA': return b.title.localeCompare(a.title);
+                    case 'oldest': return new Date(a.date) - new Date(b.date);
                     case 'newest':
-                    default:
-                        return new Date(b.date) - new Date(a.date);
+                    default: return new Date(b.date) - new Date(a.date);
                 }
             });
         },
@@ -255,9 +266,97 @@ export default {
             const regex = new RegExp(`(${_.escapeRegExp(this.searchTerm)})`, 'gi');
             return typeof text === 'string' ? text.replace(regex, '<span class="highlight">$1</span>') : text;
         },
-        debounceSearch: _.debounce(function() {
-            this.$forceUpdate();
-        }, 200)
+        debounceSearch: _.debounce(function() { this.$forceUpdate(); }, 200),
+        stripHtml(html) {
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            return temp.textContent || temp.innerText || '';
+        },
+        summarizeBlog() {
+            if (!this.selectedBlog || this.summaryLoading) return;
+
+            this.summaryLoading = true;
+            this.summaryText = '';
+            this.summaryError = '';
+
+            try {
+                new Promise(resolve => setTimeout(resolve, 700)).then(() => {
+                    const description = this.stripHtml(this.selectedBlog.content || '');
+                    if (!description) {
+                        this.summaryText = '<em>No summary available for this blog.</em>';
+                        this.summaryLoading = false;
+                        return;
+                    }
+
+                    // Split into sentences
+                    const sentences = description.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 20);
+                    // Use uniqueTags (excluding 'all') as keywords
+                    const keywords = this.uniqueTags.filter(tag => tag !== 'all');
+
+                    // Score sentences by keyword matches and position
+                    const scored = sentences.map((sentence, idx) => {
+                        let score = 0;
+                        keywords.forEach(kw => {
+                            if (sentence.toLowerCase().includes(kw.toLowerCase())) score += 2;
+                        });
+                        if (idx === 0) score += 1.5;
+                        if (idx === sentences.length - 1) score += 1;
+                        return { sentence, score };
+                    });
+                    scored.sort((a, b) => b.score - a.score || sentences.indexOf(a.sentence) - sentences.indexOf(b.sentence));
+
+                    // Remove duplicates
+                    const seen = new Set();
+                    const unique = scored.filter(({ sentence }) => {
+                        const s = sentence.trim();
+                        if (seen.has(s)) return false;
+                        seen.add(s);
+                        return true;
+                    });
+
+                    // Take top 4, always include the first sentence for context
+                    const summarySentences = [unique[0]?.sentence]
+                        .concat(unique.slice(1, 4).map(s => s.sentence))
+                        .filter(Boolean);
+
+                    // Highlight keywords (tags) and dates
+                    const highlight = s =>
+                        s.replace(new RegExp(`(${keywords.join('|')}|\\b\\d{3,4}\\b)`, 'gi'), '<b>$1</b>');
+
+                    let summary = '';
+                    summarySentences.forEach(sentence => {
+                        summary += `<p style="margin-bottom:1em;">${highlight(sentence.trim())}</p>`;
+                    });
+                    if (summarySentences.length === 0) {
+                        summary = '<em>No summary available for this blog.</em>';
+                    }
+
+                    this.summaryText = summary;
+
+                    // Auto-scroll to summary section
+                    this.$nextTick(() => {
+                        if (this.$refs.summarySection) {
+                            this.$refs.summarySection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    });
+                });
+            } catch (err) {
+                this.summaryError = err.message || 'Error generating summary.';
+            } finally {
+                this.summaryLoading = false;
+            }
+        },
+        toggleSummary() {
+            this.showSummary = !this.showSummary;
+        },
+        shareBlog(blog) {
+            const url = window.location.href + '?blog=' + blog.id;
+            navigator.clipboard.writeText(url).then(() => alert('Link copied to clipboard!'));
+        },
+        shareToWhatsApp(blog) {
+            const url = window.location.href + '?blog=' + blog.id;
+            window.open(`https://wa.me/?text=${encodeURIComponent(blog.title + ' ' + url)}`, '_blank');
+        }
     },
     directives: {
         tooltip: {
@@ -335,7 +434,7 @@ export default {
 
 .btn-layout {
     background: var(--gray-light);
-    color: var(--white-color); /* White text */
+    color: var(--white-color);
     border: 1px solid var(--primary-color);
     padding: 10px 20px;
     font-size: 1.1rem;
@@ -345,7 +444,7 @@ export default {
 
 .btn-layout:hover {
     background: var(--primary-light);
-    color: var(--white-color); /* White text on hover */
+    color: var(--white-color);
     transform: translateY(-2px);
 }
 
@@ -355,42 +454,94 @@ export default {
 }
 
 .btn-layout i {
-    color: var(--white-color); /* White icons */
+    color: var(--white-color);
 }
 
 .btn-active {
     background: var(--primary-color);
-    color: var(--white-color); /* White text when active */
+    color: var(--white-color);
     border-color: var(--primary-color);
 }
 
 .btn-active:hover {
     background: var(--primary-dark);
-    color: var(--white-color); /* White text on active hover */
+    color: var(--white-color);
     transform: translateY(-2px);
 }
 
 .btn-active i {
-    color: var(--white-color); /* White icons when active */
+    color: var(--white-color);
+}
+
+/* Filter Container */
+.filter-container {
+    background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);
+    padding: 1rem 0;
+}
+
+.filter-card {
+    background: linear-gradient(135deg, var(--white-color) 0%, #f0f4f8 100%);
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--primary-light);
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 191, 166, 0.2);
 }
 
 /* Search and Filters */
+.input-group {
+    position: relative;
+    width: 100%;
+}
+
 .form-control, .form-select {
     border: 1px solid var(--primary-color);
     border-radius: 10px;
-    padding: 10px 15px;
+    padding: 12px 15px;
     font-size: 1.1rem;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.form-control-lg {
+    font-size: 1.2rem;
+    padding: 14px 20px;
+}
+
+.form-select-lg {
+    font-size: 1.2rem;
+    padding: 14px 20px;
+}
+
 .form-control:focus, .form-select:focus {
     border-color: var(--primary-dark);
-    box-shadow: 0 0 5px rgba(0, 196, 180, 0.5);
+    box-shadow: 0 0 8px rgba(0, 196, 180, 0.4);
     outline: none;
 }
 
 .form-control::placeholder {
     color: var(--gray-medium);
+}
+
+.input-group-text {
+    background: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 0 10px 10px 0;
+    padding: 12px 15px;
+    transition: background 0.3s ease;
+}
+
+.input-group-text:hover {
+    background: var(--primary-dark);
+}
+
+.input-group-text i {
+    font-size: 1.2rem;
 }
 
 /* Card Styles */
@@ -420,7 +571,7 @@ export default {
 }
 
 .card-image-container {
-    padding: 1rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -758,6 +909,52 @@ export default {
     outline-offset: 2px;
 }
 
+.btn-info {
+    background: var(--primary-light);
+    border: none;
+    color: var(--white-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 12px 28px;
+    transition: all 0.3s ease;
+}
+
+.btn-info:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 191, 166, 0.3);
+}
+
+.btn-info:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.btn-info:disabled {
+    background: var(--gray-medium);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Modal Summary */
+.modal-summary {
+    background: var(--gray-light);
+    padding: 1rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.modal-summary h5 {
+    color: var(--primary-dark);
+    font-size: 1.3rem;
+}
+
+.modal-summary b {
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
 /* Highlight Style */
 .highlight {
     background-color: #ffeb3b;
@@ -821,6 +1018,9 @@ export default {
     .card-title {
         font-size: 1.6rem;
     }
+    .filter-card {
+        padding: 1.5rem;
+    }
 }
 
 @media (max-width: 768px) {
@@ -844,6 +1044,19 @@ export default {
     }
     .list-layout .card-title {
         font-size: 1.8rem;
+    }
+    .filter-card .row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .filter-card .col-md-6,
+    .filter-card .col-md-2,
+    .filter-card .col-12 {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    .input-group {
+        width: 100%;
     }
 }
 
@@ -884,7 +1097,8 @@ export default {
         font-size: 1.1rem;
     }
     .btn-primary,
-    .btn-secondary {
+    .btn-secondary,
+    .btn-info {
         padding: 10px 20px;
         font-size: 1rem;
     }
@@ -901,6 +1115,10 @@ export default {
     .form-control, .form-select {
         font-size: 1rem;
         padding: 8px 12px;
+    }
+    .form-control-lg, .form-select-lg {
+        font-size: 1.1rem;
+        padding: 10px 15px;
     }
 }
 </style>
