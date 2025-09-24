@@ -167,7 +167,7 @@ export default {
                 wordCount: this.getWordCount(blog.content)
             })),
             currentPage: 1,
-            itemsPerPage: 9,
+            itemsPerPage: 8,
             selectedBlog: null,
             layoutMode: 'grid',
             searchTerm: '',
