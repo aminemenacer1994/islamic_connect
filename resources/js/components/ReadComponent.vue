@@ -79,6 +79,7 @@
                             <img :src="selectedBlog.image" class="img-fluid rounded" :alt="selectedBlog.title">
                         </div>
                         <div class="modal-content-text" v-html="selectedBlog.content"></div>
+                        <b class="text-muted mb-3"><b>Word Count:</b> {{ getWordCount(selectedBlog.content) }}</b>
                         <div class="modal-tags mt-3">
                             <strong class="me-2 fs-5">Tags:</strong>
                             <span v-if="selectedBlog.tags && selectedBlog.tags.length" v-for="tag in selectedBlog.tags" :key="tag" class="badge me-2 mb-2">{{ tag }}</span>
@@ -170,9 +171,9 @@ export default {
             window.open(`https://api.whatsapp.com/send?text=${encodedMessage}`, '_blank');
         },
         getWordCount(content) {
-            const text = content.replace(/<[^>]+>/g, '').trim(); // Strip HTML tags
+            const text = content.replace(/<[^>]+>/g, '').trim();
             return text ? text.split(/\s+/).filter(word => word.length > 0).length : 0;
-        },
+        }
     },
     directives: {
         tooltip: {

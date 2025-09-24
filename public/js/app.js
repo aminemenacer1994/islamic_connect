@@ -152445,7 +152445,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       window.open("https://api.whatsapp.com/send?text=".concat(encodedMessage), '_blank');
     },
     getWordCount: function getWordCount(content) {
-      var text = content.replace(/<[^>]+>/g, '').trim(); // Strip HTML tags
+      var text = content.replace(/<[^>]+>/g, '').trim();
       return text ? text.split(/\s+/).filter(function (word) {
         return word.length > 0;
       }).length : 0;
@@ -177428,23 +177428,26 @@ var _hoisted_25 = {
 var _hoisted_26 = ["src", "alt"];
 var _hoisted_27 = ["innerHTML"];
 var _hoisted_28 = {
-  "class": "modal-tags mt-3"
+  "class": "text-muted mb-3"
 };
 var _hoisted_29 = {
-  key: 1,
-  "class": "text-muted"
+  "class": "modal-tags mt-3"
 };
 var _hoisted_30 = {
-  "class": "modal-hashtags mt-2"
-};
-var _hoisted_31 = {
   key: 1,
   "class": "text-muted"
 };
+var _hoisted_31 = {
+  "class": "modal-hashtags mt-2"
+};
 var _hoisted_32 = {
-  "class": "modal-footer"
+  key: 1,
+  "class": "text-muted"
 };
 var _hoisted_33 = {
+  "class": "modal-footer"
+};
+var _hoisted_34 = {
   key: 1,
   "class": "modal-backdrop fade show"
 };
@@ -177593,7 +177596,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8 /* PROPS */, _hoisted_26)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-content-text",
     innerHTML: $data.selectedBlog.content
-  }, null, 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+  }, null, 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", _hoisted_28, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Word Count:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getWordCount($data.selectedBlog.content)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     "class": "me-2 fs-5"
   }, "Tags:", -1 /* CACHED */)), $data.selectedBlog.tags && $data.selectedBlog.tags.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
@@ -177602,7 +177605,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: tag,
       "class": "badge me-2 mb-2"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_29, "No tags available"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_30, "No tags available"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     "class": "me-2 fs-5"
   }, "Hashtags:", -1 /* CACHED */)), $data.selectedBlog.hashtags && $data.selectedBlog.hashtags.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
@@ -177611,16 +177614,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: hashtag,
       "class": "hashtag me-2"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hashtag), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_31, "No hashtags available"))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_32, "No hashtags available"))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     type: "button",
     "class": "btn btn-primary",
     onClick: _cache[5] || (_cache[5] = function ($event) {
       return $options.shareToWhatsApp($data.selectedBlog);
     }),
     "aria-label": "Share blog to WhatsApp"
-  }, _toConsumableArray(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "ms-1 fas fa-share"
-  }, null, -1 /* CACHED */)])))), [[_directive_tooltip, 'Share to WhatsApp']])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, null, -1 /* CACHED */)])))), [[_directive_tooltip, 'Share to WhatsApp']])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
