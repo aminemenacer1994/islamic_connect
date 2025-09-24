@@ -4,9 +4,8 @@
         <div class="page-header">
             <div class="container">
                 <h1>Islamic Insights</h1>
-                <p>Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn
-                    from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and
-                    mind, offering solace, direction, and a deeper connection to faith.</p>
+                <p>Last Updated: Wednesday, September 24, 2025, 10:27 PM BST</p>
+                <p>Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.</p>
                 <div class="layout-toggle mt-4">
                     <div class="btn-group" role="group" aria-label="Layout toggle">
                         <button type="button" class="btn btn-layout" :class="{ 'btn-active': layoutMode === 'grid' }" @click="layoutMode = 'grid'" aria-label="Switch to grid layout" :aria-pressed="layoutMode === 'grid'">
@@ -20,19 +19,48 @@
             </div>
         </div>
 
+        <!-- Search and Filters -->
+        <div class="container py-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-6">
+                    <input v-model="searchTerm" @input="debounceSearch" type="text" class="form-control" placeholder="Search blogs (min 3 chars)..." aria-label="Search blogs">
+                </div>
+                <div class="col-md-2">
+                    <select v-model="selectedCategory" class="form-select" aria-label="Filter by category">
+                        <option value="all">All Categories</option>
+                        <option v-for="cat in uniqueCategories" :key="cat" :value="cat">{{ cat }}</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select v-model="selectedTag" class="form-select" aria-label="Filter by tag">
+                        <option value="all">All Tags</option>
+                        <option v-for="tag in uniqueTags" :key="tag" :value="tag">{{ tag }}</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select v-model="sortBy" class="form-select" aria-label="Sort blogs">
+                        <option value="nameAZ">Name A-Z</option>
+                        <option value="nameZA">Name Z-A</option>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
         <!-- Blog Layout -->
         <div class="container py-5">
-            <div class="row" :class="{ 'list-layout': layoutMode === 'list' }">
+            <transition-group name="blog-list" tag="div" class="row" :class="{ 'list-layout': layoutMode === 'list' }">
                 <div v-for="(blog, index) in paginatedBlogs" :key="blog.id" :class="layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4'">
-                    <div class="card h-100 animate-card" :style="{ animationDelay: `${index * 0.1}s` }">
+                    <div class="card h-100 animate-card" :style="{ animationDelay: `${index * 0.05}s` }">
                         <div class="card-image-container" :class="{ 'container': layoutMode === 'grid', 'container-fluid': layoutMode === 'list' }">
                             <img :src="blog.image" class="card-img-top mb-4" style="border-radius: 10px;" :alt="blog.title">
-                            <h5 class="card-title" @click="openModal(blog)" aria-label="Read full blog post">{{ blog.title }}</h5>
-                            <div class="card-text" :class="{ 'list-content': layoutMode === 'list' }" v-html="blog.content"></div>
+                            <h5 class="card-title" @click="openModal(blog)" aria-label="Read full blog post" v-html="highlight(blog.title)"></h5>
+                            <div class="card-text" :class="{ 'list-content': layoutMode === 'list' }" v-html="highlight(blog.content)"></div>
                             <p class="text-muted">Published on: {{ formatDate(blog.date) }}</p>
                             <div class="card-tags">
                                 <strong class="me-2">Tags:</strong>
-                                <span v-if="blog.tags && blog.tags.length" v-for="tag in blog.tags" :key="tag" class="badge me-2 mb-2">{{ tag }}</span>
+                                <span v-if="blog.tags && blog.tags.length" v-for="tag in blog.tags" :key="tag" class="badge me-2 mb-2" v-html="highlight(tag)"></span>
                                 <span v-else class="text-muted">No tags available</span>
                             </div>
                             <p class="read-more mt-4" @click="openModal(blog)" aria-label="Read full blog post">
@@ -41,7 +69,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </transition-group>
 
             <!-- Pagination -->
             <nav aria-label="Blog pagination" v-if="totalPages > 1">
@@ -68,7 +96,7 @@
             <div class="modal-dialog modal-xl modal-dialog-centered" role="document" @click.stop>
                 <div class="modal-content container">
                     <div class="modal-header">
-                        <h4 class="modal-title">{{ selectedBlog.title }}</h4>
+                        <h4 class="modal-title" v-html="highlight(selectedBlog.title)"></h4>
                         <i class="bi bi-x-circle-fill h3" style="cursor: pointer;" @click="closeModal" aria-label="Close modal"></i>
                     </div>
                     <div class="modal-body">
@@ -78,23 +106,26 @@
                         <div class="modal-image-container mb-4">
                             <img :src="selectedBlog.image" class="img-fluid rounded" :alt="selectedBlog.title">
                         </div>
-                        <div class="modal-content-text" v-html="selectedBlog.content"></div>
+                        <div class="modal-content-text" v-html="highlight(selectedBlog.content)"></div>
                         <b class="text-muted mb-3"><b>Word Count:</b> {{ getWordCount(selectedBlog.content) }}</b>
                         <div class="modal-tags mt-3">
                             <strong class="me-2 fs-5">Tags:</strong>
-                            <span v-if="selectedBlog.tags && selectedBlog.tags.length" v-for="tag in selectedBlog.tags" :key="tag" class="badge me-2 mb-2">{{ tag }}</span>
+                            <span v-if="selectedBlog.tags && selectedBlog.tags.length" v-for="tag in selectedBlog.tags" :key="tag" class="badge me-2 mb-2" v-html="highlight(tag)"></span>
                             <span v-else class="text-muted">No tags available</span>
                         </div>
                         <div class="modal-hashtags mt-2">
                             <strong class="me-2 fs-5">Hashtags:</strong>
-                            <span v-if="selectedBlog.hashtags && selectedBlog.hashtags.length" v-for="hashtag in selectedBlog.hashtags" :key="hashtag" class="hashtag me-2">{{ hashtag }}</span>
+                            <span v-if="selectedBlog.hashtags && selectedBlog.hashtags.length" v-for="hashtag in selectedBlog.hashtags" :key="hashtag" class="hashtag me-2" v-html="highlight(hashtag)"></span>
                             <span v-else class="text-muted">No hashtags available</span>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        
-                        <button type="button" class="btn btn-primary" @click="shareToWhatsApp(selectedBlog)" v-tooltip="'Share to WhatsApp'" aria-label="Share blog to WhatsApp">
+                        <button type="button" class="btn btn-secondary" @click="closeModal" aria-label="Close modal">Close</button>
+                        <button type="button" class="btn btn-primary" @click="shareBlog(selectedBlog)" v-tooltip="'Copy link to clipboard'" aria-label="Copy blog link to clipboard">
                             Share <i class="ms-1 fas fa-share"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary" @click="shareToWhatsApp(selectedBlog)" v-tooltip="'Share to WhatsApp'" aria-label="Share blog to WhatsApp">
+                            WhatsApp <i class="ms-1 fab fa-whatsapp"></i>
                         </button>
                     </div>
                 </div>
@@ -105,36 +136,90 @@
 </template>
 
 <script>
-import blogsData from '../components/blogs.json'; // Corrected path to match previous setup
+import blogsData from '../components/blogs.json';
+import _ from 'lodash'; // For debounce
 
 export default {
     data() {
         return {
-            blogs: blogsData
-                .map(blog => ({
-                    ...blog,
-                    tags: blog.tags || [], // Ensure tags is always an array
-                    hashtags: blog.hashtags || [], // Ensure hashtags is always an array
-                }))
-                .sort((a, b) => new Date(b.date) - new Date(a.date)), // Sort by latest date
+            blogs: blogsData.map(blog => ({
+                ...blog,
+                tags: blog.tags || [],
+                hashtags: blog.hashtags || [],
+                wordCount: this.getWordCount(blog.content)
+            })),
             currentPage: 1,
             itemsPerPage: 9,
             selectedBlog: null,
-            layoutMode: 'grid', // Default to grid layout
+            layoutMode: 'grid',
+            searchTerm: '',
+            selectedCategory: 'all',
+            selectedTag: 'all',
+            sortBy: 'newest'
         };
     },
     computed: {
-        totalPages() {
-            return Math.ceil(this.blogs.length / this.itemsPerPage);
+        uniqueCategories() {
+            const categories = new Set(this.blogs.flatMap(blog => blog.category || []));
+            return ['all', ...Array.from(categories)];
+        },
+        uniqueTags() {
+            const tags = new Set(this.blogs.flatMap(blog => blog.tags || []));
+            return ['all', ...Array.from(tags)];
+        },
+        filteredBlogs() {
+            let result = [...this.blogs];
+
+            // Apply category filter
+            if (this.selectedCategory !== 'all') {
+                result = result.filter(blog => blog.category === this.selectedCategory);
+            }
+
+            // Apply tag filter
+            if (this.selectedTag !== 'all') {
+                result = result.filter(blog => blog.tags && blog.tags.includes(this.selectedTag));
+            }
+
+            // Apply search filter (after 3 characters)
+            if (this.searchTerm.length >= 3) {
+                const searchLower = this.searchTerm.toLowerCase();
+                result = result.filter(blog => 
+                    blog.title.toLowerCase().includes(searchLower) ||
+                    blog.content.toLowerCase().includes(searchLower) ||
+                    (blog.tags && blog.tags.some(tag => tag.toLowerCase().includes(searchLower))) ||
+                    (blog.hashtags && blog.hashtags.some(hashtag => hashtag.toLowerCase().includes(searchLower)))
+                );
+            }
+
+            // Apply sorting
+            result = this.sortBlogs(result);
+
+            return result;
         },
         paginatedBlogs() {
             const start = (this.currentPage - 1) * this.itemsPerPage;
-            return this.blogs.slice(start, start + this.itemsPerPage);
+            return this.filteredBlogs.slice(start, start + this.itemsPerPage);
         },
+        totalPages() {
+            return Math.ceil(this.filteredBlogs.length / this.itemsPerPage);
+        }
+    },
+    watch: {
+        searchTerm() {
+            this.currentPage = 1;
+        },
+        selectedCategory() {
+            this.currentPage = 1;
+        },
+        selectedTag() {
+            this.currentPage = 1;
+        },
+        sortBy() {
+            this.currentPage = 1;
+        }
     },
     methods: {
         openModal(blog) {
-            console.log('Selected Blog:', blog); // Debug to verify tags and hashtags
             this.selectedBlog = blog;
             document.body.classList.add('modal-open');
         },
@@ -143,37 +228,41 @@ export default {
             document.body.classList.remove('modal-open');
         },
         formatDate(date) {
-            return new Date(date).toLocaleDateString('en-US', {
+            return new Date(date).toLocaleDateString('en-GB', {
                 year: 'numeric',
                 month: 'long',
-                day: 'numeric',
+                day: 'numeric'
             });
-        },
-        getDay(date) {
-            return new Date(date).getDate();
-        },
-        getMonth(date) {
-            return new Date(date).toLocaleDateString('en-US', { month: 'short' });
-        },
-        shareBlog(blog) {
-            const blogUrl = `${window.location.origin}/blog/${blog.id}`;
-            navigator.clipboard.writeText(blogUrl).then(() => {
-                alert('Blog link copied to clipboard!');
-            }).catch(() => {
-                alert('Failed to copy link. Please try again.');
-            });
-        },
-        shareToWhatsApp(blog) {
-            const blogUrl = `${window.location.origin}/blog/${blog.id}`;
-            const cleanContent = blog.content.replace(/<[^>]+>/g, '').trim();
-            const message = `Check out this blog: ${blog.title} ${cleanContent}`;
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`https://api.whatsapp.com/send?text=${encodedMessage}`, '_blank');
         },
         getWordCount(content) {
             const text = content.replace(/<[^>]+>/g, '').trim();
             return text ? text.split(/\s+/).filter(word => word.length > 0).length : 0;
-        }
+        },
+        sortBlogs(blogs) {
+            return [...blogs].sort((a, b) => {
+                switch (this.sortBy) {
+                    case 'nameZA':
+                        return b.title.localeCompare(a.title);
+                    case 'shortToLong':
+                        return a.wordCount - b.wordCount;
+                    case 'longToShort':
+                        return b.wordCount - a.wordCount;
+                    case 'oldest':
+                        return new Date(a.date) - new Date(b.date);
+                    case 'newest':
+                    default:
+                        return new Date(b.date) - new Date(a.date);
+                }
+            });
+        },
+        highlight(text) {
+            if (!this.searchTerm || this.searchTerm.length < 3) return text;
+            const regex = new RegExp(`(${_.escapeRegExp(this.searchTerm)})`, 'gi');
+            return typeof text === 'string' ? text.replace(regex, '<span class="highlight">$1</span>') : text;
+        },
+        debounceSearch: _.debounce(function() {
+            this.$forceUpdate();
+        }, 200)
     },
     directives: {
         tooltip: {
@@ -186,22 +275,22 @@ export default {
             unmounted(el) {
                 const tooltip = bootstrap.Tooltip.getInstance(el);
                 if (tooltip) tooltip.dispose();
-            },
-        },
-    },
+            }
+        }
+    }
 };
 </script>
 
 <style scoped>
 /* Color Scheme */
 :root {
-    --primary-color: #00c4b4; /* Brighter green for buttons */
-    --primary-dark: #00897b; /* Darker green for hover */
-    --primary-light: #b2dfdb; /* Light green for backgrounds */
+    --primary-color: #00c4b4;
+    --primary-dark: #00897b;
+    --primary-light: #b2dfdb;
     --white-color: #ffffff;
-    --black-color: #000000; /* Corrected from #fff to #000000 */
-    --gray-dark: #2a2a2a; /* Darker for better contrast */
-    --gray-medium: #4a4a4a; /* Darker for accessibility */
+    --black-color: #000000;
+    --gray-dark: #2a2a2a;
+    --gray-medium: #4a4a4a;
     --gray-light: #f5f5f5;
 }
 
@@ -282,6 +371,25 @@ export default {
     transform: translateY(-2px);
 }
 
+/* Search and Filters */
+.form-control, .form-select {
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-size: 1.1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-dark);
+    box-shadow: 0 0 5px rgba(0, 196, 180, 0.5);
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: var(--gray-medium);
+}
+
 /* Card Styles */
 .card {
     background: linear-gradient(180deg, var(--white-color) 0%, #f8fafc 100%);
@@ -309,15 +417,17 @@ export default {
 }
 
 .card-image-container {
-    padding: 2.5rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 }
 
 .card-img-top {
     height: 260px;
     object-fit: cover;
     transition: transform 0.5s ease;
+    border-radius: 10px;
 }
 
 .card:hover .card-img-top {
@@ -446,7 +556,7 @@ export default {
 }
 
 .list-layout .card-image-container {
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 .list-layout .card-title {
@@ -598,7 +708,7 @@ export default {
     border-top: none;
     padding: 1.5rem 2rem;
     display: flex;
-    gap: 10px; /* Add spacing between buttons */
+    gap: 10px;
 }
 
 .btn-primary {
@@ -645,6 +755,55 @@ export default {
     outline-offset: 2px;
 }
 
+/* Highlight Style */
+.highlight {
+    background-color: #ffeb3b;
+    color: #000;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+/* Blog List Transition */
+.blog-list-enter-active, .blog-list-leave-active {
+    transition: all 0.5s ease-out;
+}
+
+.blog-list-enter-from, .blog-list-leave-to {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Animations */
+.animate-card {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.animate-modal {
+    animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 /* Responsive Adjustments */
 @media (max-width: 992px) {
     .page-header h1 {
@@ -680,14 +839,8 @@ export default {
     .card-title {
         font-size: 1.5rem;
     }
-    .card-text {
-        font-size: 1.15rem;
-    }
     .list-layout .card-title {
         font-size: 1.8rem;
-    }
-    .list-layout .card-text {
-        font-size: 1.2rem;
     }
 }
 
@@ -741,6 +894,10 @@ export default {
     .hashtag {
         font-size: 0.85rem;
         padding: 5px 10px;
+    }
+    .form-control, .form-select {
+        font-size: 1rem;
+        padding: 8px 12px;
     }
 }
 </style>

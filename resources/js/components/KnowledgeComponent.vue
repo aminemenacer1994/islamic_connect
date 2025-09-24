@@ -110,7 +110,7 @@
           <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
           <img src="/images/green-book.png" alt="Islamic Finance" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
-            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Smart Studies</h5>
+            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Blogs</h5>
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Islamic finance refers to a
               financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical

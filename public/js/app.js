@@ -152368,45 +152368,115 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_blogs_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/blogs.json */ "./resources/js/components/blogs.json");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
- // Corrected path to match previous setup
+
+ // For debounce
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
+    var _this = this;
     return {
       blogs: _components_blogs_json__WEBPACK_IMPORTED_MODULE_0__.map(function (blog) {
         return _objectSpread(_objectSpread({}, blog), {}, {
           tags: blog.tags || [],
-          // Ensure tags is always an array
-          hashtags: blog.hashtags || [] // Ensure hashtags is always an array
+          hashtags: blog.hashtags || [],
+          wordCount: _this.getWordCount(blog.content)
         });
-      }).sort(function (a, b) {
-        return new Date(b.date) - new Date(a.date);
       }),
-      // Sort by latest date
       currentPage: 1,
       itemsPerPage: 9,
       selectedBlog: null,
-      layoutMode: 'grid' // Default to grid layout
+      layoutMode: 'grid',
+      searchTerm: '',
+      selectedCategory: 'all',
+      selectedTag: 'all',
+      sortBy: 'newest'
     };
   },
   computed: {
-    totalPages: function totalPages() {
-      return Math.ceil(this.blogs.length / this.itemsPerPage);
+    uniqueCategories: function uniqueCategories() {
+      var categories = new Set(this.blogs.flatMap(function (blog) {
+        return blog.category || [];
+      }));
+      return ['all'].concat(_toConsumableArray(Array.from(categories)));
+    },
+    uniqueTags: function uniqueTags() {
+      var tags = new Set(this.blogs.flatMap(function (blog) {
+        return blog.tags || [];
+      }));
+      return ['all'].concat(_toConsumableArray(Array.from(tags)));
+    },
+    filteredBlogs: function filteredBlogs() {
+      var _this2 = this;
+      var result = _toConsumableArray(this.blogs);
+
+      // Apply category filter
+      if (this.selectedCategory !== 'all') {
+        result = result.filter(function (blog) {
+          return blog.category === _this2.selectedCategory;
+        });
+      }
+
+      // Apply tag filter
+      if (this.selectedTag !== 'all') {
+        result = result.filter(function (blog) {
+          return blog.tags && blog.tags.includes(_this2.selectedTag);
+        });
+      }
+
+      // Apply search filter (after 3 characters)
+      if (this.searchTerm.length >= 3) {
+        var searchLower = this.searchTerm.toLowerCase();
+        result = result.filter(function (blog) {
+          return blog.title.toLowerCase().includes(searchLower) || blog.content.toLowerCase().includes(searchLower) || blog.tags && blog.tags.some(function (tag) {
+            return tag.toLowerCase().includes(searchLower);
+          }) || blog.hashtags && blog.hashtags.some(function (hashtag) {
+            return hashtag.toLowerCase().includes(searchLower);
+          });
+        });
+      }
+
+      // Apply sorting
+      result = this.sortBlogs(result);
+      return result;
     },
     paginatedBlogs: function paginatedBlogs() {
       var start = (this.currentPage - 1) * this.itemsPerPage;
-      return this.blogs.slice(start, start + this.itemsPerPage);
+      return this.filteredBlogs.slice(start, start + this.itemsPerPage);
+    },
+    totalPages: function totalPages() {
+      return Math.ceil(this.filteredBlogs.length / this.itemsPerPage);
+    }
+  },
+  watch: {
+    searchTerm: function searchTerm() {
+      this.currentPage = 1;
+    },
+    selectedCategory: function selectedCategory() {
+      this.currentPage = 1;
+    },
+    selectedTag: function selectedTag() {
+      this.currentPage = 1;
+    },
+    sortBy: function sortBy() {
+      this.currentPage = 1;
     }
   },
   methods: {
     openModal: function openModal(blog) {
-      console.log('Selected Blog:', blog); // Debug to verify tags and hashtags
       this.selectedBlog = blog;
       document.body.classList.add('modal-open');
     },
@@ -152415,41 +152485,44 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       document.body.classList.remove('modal-open');
     },
     formatDate: function formatDate(date) {
-      return new Date(date).toLocaleDateString('en-US', {
+      return new Date(date).toLocaleDateString('en-GB', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
       });
-    },
-    getDay: function getDay(date) {
-      return new Date(date).getDate();
-    },
-    getMonth: function getMonth(date) {
-      return new Date(date).toLocaleDateString('en-US', {
-        month: 'short'
-      });
-    },
-    shareBlog: function shareBlog(blog) {
-      var blogUrl = "".concat(window.location.origin, "/blog/").concat(blog.id);
-      navigator.clipboard.writeText(blogUrl).then(function () {
-        alert('Blog link copied to clipboard!');
-      })["catch"](function () {
-        alert('Failed to copy link. Please try again.');
-      });
-    },
-    shareToWhatsApp: function shareToWhatsApp(blog) {
-      var blogUrl = "".concat(window.location.origin, "/blog/").concat(blog.id);
-      var cleanContent = blog.content.replace(/<[^>]+>/g, '').trim();
-      var message = "Check out this blog: ".concat(blog.title, " ").concat(cleanContent);
-      var encodedMessage = encodeURIComponent(message);
-      window.open("https://api.whatsapp.com/send?text=".concat(encodedMessage), '_blank');
     },
     getWordCount: function getWordCount(content) {
       var text = content.replace(/<[^>]+>/g, '').trim();
       return text ? text.split(/\s+/).filter(function (word) {
         return word.length > 0;
       }).length : 0;
-    }
+    },
+    sortBlogs: function sortBlogs(blogs) {
+      var _this3 = this;
+      return _toConsumableArray(blogs).sort(function (a, b) {
+        switch (_this3.sortBy) {
+          case 'nameZA':
+            return b.title.localeCompare(a.title);
+          case 'shortToLong':
+            return a.wordCount - b.wordCount;
+          case 'longToShort':
+            return b.wordCount - a.wordCount;
+          case 'oldest':
+            return new Date(a.date) - new Date(b.date);
+          case 'newest':
+          default:
+            return new Date(b.date) - new Date(a.date);
+        }
+      });
+    },
+    highlight: function highlight(text) {
+      if (!this.searchTerm || this.searchTerm.length < 3) return text;
+      var regex = new RegExp("(".concat(lodash__WEBPACK_IMPORTED_MODULE_1___default().escapeRegExp(this.searchTerm), ")"), 'gi');
+      return typeof text === 'string' ? text.replace(regex, '<span class="highlight">$1</span>') : text;
+    },
+    debounceSearch: lodash__WEBPACK_IMPORTED_MODULE_1___default().debounce(function () {
+      this.$forceUpdate();
+    }, 200)
   },
   directives: {
     tooltip: {
@@ -173522,7 +173595,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "p-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Smart Studies"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Blogs"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
@@ -177380,80 +177453,101 @@ var _hoisted_5 = {
 var _hoisted_6 = ["aria-pressed"];
 var _hoisted_7 = ["aria-pressed"];
 var _hoisted_8 = {
+  "class": "container py-3"
+};
+var _hoisted_9 = {
+  "class": "row g-3 align-items-center"
+};
+var _hoisted_10 = {
+  "class": "col-md-6"
+};
+var _hoisted_11 = {
+  "class": "col-md-2"
+};
+var _hoisted_12 = ["value"];
+var _hoisted_13 = {
+  "class": "col-md-2"
+};
+var _hoisted_14 = ["value"];
+var _hoisted_15 = {
+  "class": "col-md-2"
+};
+var _hoisted_16 = {
   "class": "container py-5"
 };
-var _hoisted_9 = ["src", "alt"];
-var _hoisted_10 = ["onClick"];
-var _hoisted_11 = ["innerHTML"];
-var _hoisted_12 = {
+var _hoisted_17 = ["src", "alt"];
+var _hoisted_18 = ["onClick", "innerHTML"];
+var _hoisted_19 = ["innerHTML"];
+var _hoisted_20 = {
   "class": "text-muted"
 };
-var _hoisted_13 = {
+var _hoisted_21 = {
   "class": "card-tags"
 };
-var _hoisted_14 = {
+var _hoisted_22 = ["innerHTML"];
+var _hoisted_23 = {
   key: 1,
   "class": "text-muted"
 };
-var _hoisted_15 = ["onClick"];
-var _hoisted_16 = {
+var _hoisted_24 = ["onClick"];
+var _hoisted_25 = {
   key: 0,
   "aria-label": "Blog pagination"
 };
-var _hoisted_17 = {
+var _hoisted_26 = {
   "class": "pagination justify-content-center mt-5"
 };
-var _hoisted_18 = ["onClick"];
-var _hoisted_19 = {
+var _hoisted_27 = ["onClick"];
+var _hoisted_28 = {
   "class": "modal-content container"
 };
-var _hoisted_20 = {
+var _hoisted_29 = {
   "class": "modal-header"
 };
-var _hoisted_21 = {
-  "class": "modal-title"
-};
-var _hoisted_22 = {
+var _hoisted_30 = ["innerHTML"];
+var _hoisted_31 = {
   "class": "modal-body"
 };
-var _hoisted_23 = {
+var _hoisted_32 = {
   "class": "modal-meta"
 };
-var _hoisted_24 = {
-  "class": "text-muted mb-3"
-};
-var _hoisted_25 = {
-  "class": "modal-image-container mb-4"
-};
-var _hoisted_26 = ["src", "alt"];
-var _hoisted_27 = ["innerHTML"];
-var _hoisted_28 = {
-  "class": "text-muted mb-3"
-};
-var _hoisted_29 = {
-  "class": "modal-tags mt-3"
-};
-var _hoisted_30 = {
-  key: 1,
-  "class": "text-muted"
-};
-var _hoisted_31 = {
-  "class": "modal-hashtags mt-2"
-};
-var _hoisted_32 = {
-  key: 1,
-  "class": "text-muted"
-};
 var _hoisted_33 = {
-  "class": "modal-footer"
+  "class": "text-muted mb-3"
 };
 var _hoisted_34 = {
+  "class": "modal-image-container mb-4"
+};
+var _hoisted_35 = ["src", "alt"];
+var _hoisted_36 = ["innerHTML"];
+var _hoisted_37 = {
+  "class": "text-muted mb-3"
+};
+var _hoisted_38 = {
+  "class": "modal-tags mt-3"
+};
+var _hoisted_39 = ["innerHTML"];
+var _hoisted_40 = {
+  key: 1,
+  "class": "text-muted"
+};
+var _hoisted_41 = {
+  "class": "modal-hashtags mt-2"
+};
+var _hoisted_42 = ["innerHTML"];
+var _hoisted_43 = {
+  key: 1,
+  "class": "text-muted"
+};
+var _hoisted_44 = {
+  "class": "modal-footer"
+};
+var _hoisted_45 = {
   key: 1,
   "class": "modal-backdrop fade show"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Page Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Insights", -1 /* CACHED */)), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Page Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Insights", -1 /* CACHED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Last Updated: Wednesday, September 24, 2025, 10:27 PM BST", -1 /* CACHED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-layout", {
       'btn-active': $data.layoutMode === 'grid'
@@ -177463,7 +177557,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "aria-label": "Switch to grid layout",
     "aria-pressed": $data.layoutMode === 'grid'
-  }, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-th-large me-1"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Grid ", -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -177475,73 +177569,133 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "aria-label": "Switch to list layout",
     "aria-pressed": $data.layoutMode === 'list'
-  }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-list me-1"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" List ", -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_7)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Blog Layout "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" List ", -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_7)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search and Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.searchTerm = $event;
+    }),
+    onInput: _cache[3] || (_cache[3] = function () {
+      return $options.debounceSearch && $options.debounceSearch.apply($options, arguments);
+    }),
+    type: "text",
+    "class": "form-control",
+    placeholder: "Search blogs (min 3 chars)...",
+    "aria-label": "Search blogs"
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchTerm]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.selectedCategory = $event;
+    }),
+    "class": "form-select",
+    "aria-label": "Filter by category"
+  }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "all"
+  }, "All Categories", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.uniqueCategories, function (cat) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: cat,
+      value: cat
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(cat), 9 /* TEXT, PROPS */, _hoisted_12);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return $data.selectedTag = $event;
+    }),
+    "class": "form-select",
+    "aria-label": "Filter by tag"
+  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "all"
+  }, "All Tags", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.uniqueTags, function (tag) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: tag,
+      value: tag
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 9 /* TEXT, PROPS */, _hoisted_14);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTag]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      return $data.sortBy = $event;
+    }),
+    "class": "form-select",
+    "aria-label": "Sort blogs"
+  }, _toConsumableArray(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "nameAZ"
+  }, "Name A-Z", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "nameZA"
+  }, "Name Z-A", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "newest"
+  }, "Newest", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "oldest"
+  }, "Oldest", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Blog Layout "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
+    name: "blog-list",
+    tag: "div",
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["row", {
       'list-layout': $data.layoutMode === 'list'
     }])
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedBlogs, function (blog, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: blog.id,
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4')
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "card h-100 animate-card",
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        animationDelay: "".concat(index * 0.1, "s")
-      })
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-image-container", {
-        'container': $data.layoutMode === 'grid',
-        'container-fluid': $data.layoutMode === 'list'
-      }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-      src: blog.image,
-      "class": "card-img-top mb-4",
-      style: {
-        "border-radius": "10px"
-      },
-      alt: blog.title
-    }, null, 8 /* PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-      "class": "card-title",
-      onClick: function onClick($event) {
-        return $options.openModal(blog);
-      },
-      "aria-label": "Read full blog post"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(blog.title), 9 /* TEXT, PROPS */, _hoisted_10), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-text", {
-        'list-content': $data.layoutMode === 'list'
-      }]),
-      innerHTML: blog.content
-    }, null, 10 /* CLASS, PROPS */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(blog.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
-      "class": "me-2"
-    }, "Tags:", -1 /* CACHED */)), blog.tags && blog.tags.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-      key: 0
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(blog.tags, function (tag) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-        key: tag,
-        "class": "badge me-2 mb-2"
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_14, "No tags available"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-      "class": "read-more mt-4",
-      onClick: function onClick($event) {
-        return $options.openModal(blog);
-      },
-      "aria-label": "Read full blog post"
-    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Read More ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "ms-1 fas fa-arrow-right"
-    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_15)], 2 /* CLASS */)], 4 /* STYLE */)], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedBlogs, function (blog, index) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+          key: blog.id,
+          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4')
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+          "class": "card h-100 animate-card",
+          style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+            animationDelay: "".concat(index * 0.05, "s")
+          })
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-image-container", {
+            'container': $data.layoutMode === 'grid',
+            'container-fluid': $data.layoutMode === 'list'
+          }])
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+          src: blog.image,
+          "class": "card-img-top mb-4",
+          style: {
+            "border-radius": "10px"
+          },
+          alt: blog.title
+        }, null, 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+          "class": "card-title",
+          onClick: function onClick($event) {
+            return $options.openModal(blog);
+          },
+          "aria-label": "Read full blog post",
+          innerHTML: $options.highlight(blog.title)
+        }, null, 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-text", {
+            'list-content': $data.layoutMode === 'list'
+          }]),
+          innerHTML: $options.highlight(blog.content)
+        }, null, 10 /* CLASS, PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_20, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(blog.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+          "class": "me-2"
+        }, "Tags:", -1 /* CACHED */)), blog.tags && blog.tags.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+          key: 0
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(blog.tags, function (tag) {
+          return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+            key: tag,
+            "class": "badge me-2 mb-2",
+            innerHTML: $options.highlight(tag)
+          }, null, 8 /* PROPS */, _hoisted_22);
+        }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, "No tags available"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+          "class": "read-more mt-4",
+          onClick: function onClick($event) {
+            return $options.openModal(blog);
+          },
+          "aria-label": "Read full blog post"
+        }, _toConsumableArray(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Read More ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+          "class": "ms-1 fas fa-arrow-right"
+        }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_24)], 2 /* CLASS */)], 4 /* STYLE */)], 2 /* CLASS */);
+      }), 128 /* KEYED_FRAGMENT */))];
+    }),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["class"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === 1
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "page-link",
     href: "#",
-    onClick: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+    onClick: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $data.currentPage--;
     }, ["prevent"]))
-  }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-chevron-left me-1"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous ", -1 /* CACHED */)])))], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
@@ -177555,7 +177709,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
         return $data.currentPage = page;
       }, ["prevent"])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_18)], 2 /* CLASS */);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_27)], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === $options.totalPages
@@ -177563,67 +177717,88 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "page-link",
     href: "#",
-    onClick: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+    onClick: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $data.currentPage++;
     }, ["prevent"]))
-  }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "ms-1 fas fa-chevron-right"
   }, null, -1 /* CACHED */)])))], 2 /* CLASS */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal for Full Blog Content "), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     "class": "modal show d-block animate-modal",
     tabindex: "-1",
     role: "dialog",
-    onClick: _cache[7] || (_cache[7] = function () {
+    onClick: _cache[14] || (_cache[14] = function () {
       return $options.closeModal && $options.closeModal.apply($options, arguments);
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-dialog modal-xl modal-dialog-centered",
     role: "document",
-    onClick: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedBlog.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "modal-title",
+    innerHTML: $options.highlight($data.selectedBlog.title)
+  }, null, 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-circle-fill h3",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[4] || (_cache[4] = function () {
+    onClick: _cache[9] || (_cache[9] = function () {
       return $options.closeModal && $options.closeModal.apply($options, arguments);
     }),
     "aria-label": "Close modal"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.selectedBlog.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_33, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.selectedBlog.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: $data.selectedBlog.image,
     "class": "img-fluid rounded",
     alt: $data.selectedBlog.title
-  }, null, 8 /* PROPS */, _hoisted_26)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, _hoisted_35)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-content-text",
-    innerHTML: $data.selectedBlog.content
-  }, null, 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", _hoisted_28, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Word Count:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getWordCount($data.selectedBlog.content)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    innerHTML: $options.highlight($data.selectedBlog.content)
+  }, null, 8 /* PROPS */, _hoisted_36), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", _hoisted_37, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Word Count:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getWordCount($data.selectedBlog.content)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     "class": "me-2 fs-5"
   }, "Tags:", -1 /* CACHED */)), $data.selectedBlog.tags && $data.selectedBlog.tags.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedBlog.tags, function (tag) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: tag,
-      "class": "badge me-2 mb-2"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_30, "No tags available"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      "class": "badge me-2 mb-2",
+      innerHTML: $options.highlight(tag)
+    }, null, 8 /* PROPS */, _hoisted_39);
+  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_40, "No tags available"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     "class": "me-2 fs-5"
   }, "Hashtags:", -1 /* CACHED */)), $data.selectedBlog.hashtags && $data.selectedBlog.hashtags.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedBlog.hashtags, function (hashtag) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: hashtag,
-      "class": "hashtag me-2"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hashtag), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_32, "No hashtags available"))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      "class": "hashtag me-2",
+      innerHTML: $options.highlight(hashtag)
+    }, null, 8 /* PROPS */, _hoisted_42);
+  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_43, "No hashtags available"))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn btn-secondary",
+    onClick: _cache[10] || (_cache[10] = function () {
+      return $options.closeModal && $options.closeModal.apply($options, arguments);
+    }),
+    "aria-label": "Close modal"
+  }, "Close"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     type: "button",
     "class": "btn btn-primary",
-    onClick: _cache[5] || (_cache[5] = function ($event) {
-      return $options.shareToWhatsApp($data.selectedBlog);
+    onClick: _cache[11] || (_cache[11] = function ($event) {
+      return _ctx.shareBlog($data.selectedBlog);
+    }),
+    "aria-label": "Copy blog link to clipboard"
+  }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "ms-1 fas fa-share"
+  }, null, -1 /* CACHED */)])))), [[_directive_tooltip, 'Copy link to clipboard']]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    type: "button",
+    "class": "btn btn-primary",
+    onClick: _cache[12] || (_cache[12] = function ($event) {
+      return _ctx.shareToWhatsApp($data.selectedBlog);
     }),
     "aria-label": "Share blog to WhatsApp"
-  }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "ms-1 fas fa-share"
-  }, null, -1 /* CACHED */)])))), [[_directive_tooltip, 'Share to WhatsApp']])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" WhatsApp ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "ms-1 fab fa-whatsapp"
+  }, null, -1 /* CACHED */)])))), [[_directive_tooltip, 'Share to WhatsApp']])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -191483,7 +191658,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Color Scheme */\n[data-v-9211e7a8]:root {\n    --primary-color: #00c4b4; /* Brighter green for buttons */\n    --primary-dark: #00897b; /* Darker green for hover */\n    --primary-light: #b2dfdb; /* Light green for backgrounds */\n    --white-color: #ffffff;\n    --black-color: #000000; /* Corrected from #fff to #000000 */\n    --gray-dark: #2a2a2a; /* Darker for better contrast */\n    --gray-medium: #4a4a4a; /* Darker for accessibility */\n    --gray-light: #f5f5f5;\n}\n/* General Styles */\n.blog-container[data-v-9211e7a8] {\n    font-family: 'Roboto', 'Open Sans', sans-serif;\n    color: var(--gray-dark);\n    background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);\n    min-height: 100vh;\n}\n/* Page Header */\n.page-header[data-v-9211e7a8] {\n    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);\n    color: var(--white-color);\n    padding: 5rem 0;\n    text-align: center;\n}\n.page-header h1[data-v-9211e7a8] {\n    font-size: 3.5rem;\n    font-weight: 800;\n    margin-bottom: 1rem;\n    letter-spacing: 0.5px;\n    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.page-header p[data-v-9211e7a8] {\n    font-size: 1.4rem;\n    font-weight: 400;\n    margin: 0 auto;\n    opacity: 0.95;\n    line-height: 1.8;\n}\n/* Layout Toggle */\n.layout-toggle[data-v-9211e7a8] {\n    display: flex;\n    justify-content: center;\n    margin-top: 2rem;\n}\n.btn-group[data-v-9211e7a8] {\n    overflow: hidden;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n.btn-layout[data-v-9211e7a8] {\n    background: var(--gray-light);\n    color: var(--gray-dark);\n    border: 1px solid var(--primary-color);\n    padding: 10px 20px;\n    font-size: 1.1rem;\n    font-weight: 600;\n    transition: all 0.3s ease;\n}\n.btn-layout[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: translateY(-2px);\n}\n.btn-layout[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.btn-active[data-v-9211e7a8] {\n    background: var(--primary-color);\n    color: var(--white-color);\n    border-color: var(--primary-color);\n}\n.btn-active[data-v-9211e7a8]:hover {\n    background: var(--primary-dark);\n    color: var(--white-color);\n    transform: translateY(-2px);\n}\n/* Card Styles */\n.card[data-v-9211e7a8] {\n    background: linear-gradient(180deg, var(--white-color) 0%, #f8fafc 100%);\n    border-radius: 20px;\n    box-shadow: 0 8px 24px rgba(0, 191, 166, 0.15);\n    transition: transform 0.4s ease, box-shadow 0.4s ease;\n    position: relative;\n    overflow: hidden;\n    border: 1px solid rgba(0, 191, 166, 0.1);\n}\n.card[data-v-9211e7a8]::before {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    height: 6px;\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n}\n.card[data-v-9211e7a8]:hover {\n    transform: translateY(-12px) scale(1.03);\n    box-shadow: 0 16px 32px rgba(0, 191, 166, 0.25);\n}\n.card-image-container[data-v-9211e7a8] {\n    padding: 2.5rem;\n    display: flex;\n    flex-direction: column;\n}\n.card-img-top[data-v-9211e7a8] {\n    height: 260px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    transition: transform 0.5s ease;\n}\n.card:hover .card-img-top[data-v-9211e7a8] {\n    transform: scale(1.1);\n}\n.card-title[data-v-9211e7a8] {\n    font-size: 1.8rem;\n    font-weight: 700;\n    color: var(--black-color);\n    margin-bottom: 1rem;\n    line-height: 1.4;\n    cursor: pointer;\n    transition: color 0.3s ease;\n    padding: 0;\n}\n.card-title[data-v-9211e7a8]:hover {\n    color: var(--primary-color);\n}\n.card-title[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.card-text[data-v-9211e7a8] {\n    font-size: 1.2rem;\n    color: var(--gray-dark);\n    max-height: 360px;\n    overflow: hidden;\n    line-height: 1.8;\n    margin-bottom: 1.5rem;\n    display: -webkit-box;\n    -webkit-line-clamp: 5;\n    -webkit-box-orient: vertical;\n    text-overflow: ellipsis;\n    padding: 0;\n}\n.list-layout .card-text.list-content[data-v-9211e7a8] {\n    -webkit-line-clamp: 8;\n    max-height: 480px;\n}\n.text-muted[data-v-9211e7a8] {\n    font-size: 0.95rem;\n    color: var(--gray-medium);\n    font-weight: 400;\n    padding: 0;\n}\n.card-tags[data-v-9211e7a8],\n.modal-tags[data-v-9211e7a8],\n.modal-hashtags[data-v-9211e7a8] {\n    margin-top: 1.5rem;\n}\n.card-tags strong[data-v-9211e7a8],\n.modal-tags strong[data-v-9211e7a8],\n.modal-hashtags strong[data-v-9211e7a8] {\n    font-size: 1.15rem;\n    font-weight: 600;\n    color: var(--gray-dark);\n}\n.badge[data-v-9211e7a8] {\n    background: var(--white-color);\n    color: var(--primary-color);\n    border: 1px solid var(--primary-color);\n    font-size: 0.9rem;\n    font-weight: 500;\n    padding: 6px 12px;\n    border-radius: 20px;\n    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;\n}\n.badge[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: scale(1.05);\n}\n.hashtag[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 0.9rem;\n    font-weight: 500;\n    transition: color 0.3s ease;\n}\n.hashtag[data-v-9211e7a8]:hover {\n    color: var(--primary-dark);\n}\n.read-more[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 1.2rem;\n    font-weight: 600;\n    cursor: pointer;\n    transition: color 0.3s ease, transform 0.3s ease;\n    padding: 0;\n}\n.read-more[data-v-9211e7a8]:hover {\n    color: var(--primary-dark);\n    transform: translateX(6px);\n}\n.read-more[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.read-more .fa-arrow-right[data-v-9211e7a8] {\n    transition: transform 0.3s ease;\n}\n.read-more:hover .fa-arrow-right[data-v-9211e7a8] {\n    transform: translateX(5px);\n}\n/* List Layout Specific Styles */\n.list-layout .card[data-v-9211e7a8] {\n    display: flex;\n    flex-direction: column;\n}\n.list-layout .card-image-container[data-v-9211e7a8] {\n    padding: 2rem;\n}\n.list-layout .card-title[data-v-9211e7a8] {\n    font-size: 2rem;\n}\n.list-layout .card-text[data-v-9211e7a8] {\n    font-size: 1.25rem;\n}\n/* Pagination Styles */\n.pagination[data-v-9211e7a8] {\n    gap: 12px;\n}\n.page-link[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 1.2rem;\n    font-weight: 600;\n    border-radius: 10px;\n    padding: 12px 20px;\n    transition: all 0.3s ease;\n    border: 1px solid var(--primary-color);\n}\n.page-item.active .page-link[data-v-9211e7a8] {\n    background: var(--primary-color);\n    border-color: var(--primary-color);\n    color: var(--white-color);\n}\n.page-link[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: translateY(-2px);\n}\n.page-link[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.page-item.disabled .page-link[data-v-9211e7a8] {\n    color: var(--gray-medium);\n    cursor: not-allowed;\n    border-color: var(--gray-medium);\n}\n/* Modal Styles */\n.modal-content[data-v-9211e7a8] {\n    border-radius: 20px;\n    box-shadow: 0 16px 40px rgba(0, 191, 166, 0.3);\n    overflow: hidden;\n}\n.modal-header[data-v-9211e7a8] {\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n    border-bottom: none;\n    padding: 2rem;\n}\n.modal-title[data-v-9211e7a8] {\n    font-size: 2.2rem;\n    font-weight: 700;\n    color: var(--white-color);\n}\n.bi-x-circle-fill[data-v-9211e7a8] {\n    color: var(--white-color);\n    transition: all 0.3s ease;\n}\n.bi-x-circle-fill[data-v-9211e7a8]:hover {\n    color: var(--primary-light);\n    transform: scale(1.15);\n}\n.bi-x-circle-fill[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--white-color);\n    outline-offset: 2px;\n}\n.modal-body[data-v-9211e7a8] {\n    font-size: 1.3rem;\n    line-height: 1.9;\n    color: var(--gray-dark);\n    padding: 2rem;\n}\n.modal-meta[data-v-9211e7a8] {\n    border-bottom: 1px solid var(--primary-light);\n    padding-bottom: 1rem;\n}\n.modal-image-container img[data-v-9211e7a8] {\n    width: 100%;\n    max-height: 400px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 12px;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.modal-content-text[data-v-9211e7a8] h1,\n.modal-content-text[data-v-9211e7a8] h2,\n.modal-content-text[data-v-9211e7a8] h3,\n.modal-content-text[data-v-9211e7a8] h4 {\n    color: var(--primary-dark);\n    margin-bottom: 1.5rem;\n    border-left: 4px solid var(--primary-color);\n    padding-left: 14px;\n}\n.modal-content-text[data-v-9211e7a8] p {\n    margin-bottom: 2rem;\n}\n.modal-content-text[data-v-9211e7a8] ul {\n    list-style: none;\n    padding-left: 0;\n    margin-bottom: 2rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li {\n    position: relative;\n    padding-left: 28px;\n    margin-bottom: 1rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li::before {\n    content: '•';\n    position: absolute;\n    left: 0;\n    color: var(--primary-color);\n    font-size: 1.4rem;\n}\n.modal-content-text[data-v-9211e7a8] blockquote {\n    border-left: 4px solid var(--primary-color);\n    padding-left: 1.5rem;\n    margin: 2rem 0;\n    font-style: italic;\n    color: var(--gray-medium);\n    background: var(--gray-light);\n    padding: 1.2rem;\n    border-radius: 10px;\n}\n.modal-footer[data-v-9211e7a8] {\n    border-top: none;\n    padding: 1.5rem 2rem;\n    display: flex;\n    gap: 10px; /* Add spacing between buttons */\n}\n.btn-primary[data-v-9211e7a8] {\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n    border: none;\n    color: var(--white-color);\n    font-size: 1.2rem;\n    font-weight: 600;\n    border-radius: 10px;\n    padding: 12px 28px;\n    transition: all 0.3s ease;\n}\n.btn-primary[data-v-9211e7a8]:hover {\n    background: var(--primary-dark);\n    transform: translateY(-2px);\n    box-shadow: 0 6px 16px rgba(0, 191, 166, 0.3);\n}\n.btn-primary[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.btn-secondary[data-v-9211e7a8] {\n    background: var(--gray-medium);\n    border: none;\n    color: var(--white-color);\n    font-size: 1.2rem;\n    font-weight: 600;\n    border-radius: 10px;\n    padding: 12px 28px;\n    transition: all 0.3s ease;\n}\n.btn-secondary[data-v-9211e7a8]:hover {\n    background: var(--gray-dark);\n    transform: translateY(-2px);\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);\n}\n.btn-secondary[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--gray-dark);\n    outline-offset: 2px;\n}\n/* Responsive Adjustments */\n@media (max-width: 992px) {\n.page-header h1[data-v-9211e7a8] {\n        font-size: 3rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1.2rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 220px;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.6rem;\n}\n}\n@media (max-width: 768px) {\n.page-header[data-v-9211e7a8] {\n        padding: 4rem 0;\n}\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2.5rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1.1rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 200px;\n}\n.card-image-container[data-v-9211e7a8] {\n        padding: 1.5rem;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.5rem;\n}\n.card-text[data-v-9211e7a8] {\n        font-size: 1.15rem;\n}\n.list-layout .card-title[data-v-9211e7a8] {\n        font-size: 1.8rem;\n}\n.list-layout .card-text[data-v-9211e7a8] {\n        font-size: 1.2rem;\n}\n}\n@media (max-width: 576px) {\n.page-header[data-v-9211e7a8] {\n        padding: 3rem 0;\n}\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1rem;\n}\n.btn-layout[data-v-9211e7a8] {\n        padding: 8px 16px;\n        font-size: 0.95rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 180px;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.4rem;\n}\n.card-text[data-v-9211e7a8] {\n        font-size: 1.1rem;\n        -webkit-line-clamp: 4;\n        max-height: 320px;\n}\n.list-layout .card-title[data-v-9211e7a8] {\n        font-size: 1.6rem;\n}\n.list-layout .card-text[data-v-9211e7a8] {\n        font-size: 1.15rem;\n        -webkit-line-clamp: 6;\n        max-height: 360px;\n}\n.read-more[data-v-9211e7a8] {\n        font-size: 1.1rem;\n}\n.btn-primary[data-v-9211e7a8],\n    .btn-secondary[data-v-9211e7a8] {\n        padding: 10px 20px;\n        font-size: 1rem;\n}\n.card-tags strong[data-v-9211e7a8],\n    .modal-tags strong[data-v-9211e7a8],\n    .modal-hashtags strong[data-v-9211e7a8] {\n        font-size: 1rem;\n}\n.badge[data-v-9211e7a8],\n    .hashtag[data-v-9211e7a8] {\n        font-size: 0.85rem;\n        padding: 5px 10px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Color Scheme */\n[data-v-9211e7a8]:root {\n    --primary-color: #00c4b4;\n    --primary-dark: #00897b;\n    --primary-light: #b2dfdb;\n    --white-color: #ffffff;\n    --black-color: #000000;\n    --gray-dark: #2a2a2a;\n    --gray-medium: #4a4a4a;\n    --gray-light: #f5f5f5;\n}\n/* General Styles */\n.blog-container[data-v-9211e7a8] {\n    font-family: 'Roboto', 'Open Sans', sans-serif;\n    color: var(--gray-dark);\n    background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);\n    min-height: 100vh;\n}\n/* Page Header */\n.page-header[data-v-9211e7a8] {\n    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);\n    color: var(--white-color);\n    padding: 5rem 0;\n    text-align: center;\n}\n.page-header h1[data-v-9211e7a8] {\n    font-size: 3.5rem;\n    font-weight: 800;\n    margin-bottom: 1rem;\n    letter-spacing: 0.5px;\n    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.page-header p[data-v-9211e7a8] {\n    font-size: 1.4rem;\n    font-weight: 400;\n    margin: 0 auto;\n    opacity: 0.95;\n    line-height: 1.8;\n}\n/* Layout Toggle */\n.layout-toggle[data-v-9211e7a8] {\n    display: flex;\n    justify-content: center;\n    margin-top: 2rem;\n}\n.btn-group[data-v-9211e7a8] {\n    overflow: hidden;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n.btn-layout[data-v-9211e7a8] {\n    background: var(--gray-light);\n    color: var(--gray-dark);\n    border: 1px solid var(--primary-color);\n    padding: 10px 20px;\n    font-size: 1.1rem;\n    font-weight: 600;\n    transition: all 0.3s ease;\n}\n.btn-layout[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: translateY(-2px);\n}\n.btn-layout[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.btn-active[data-v-9211e7a8] {\n    background: var(--primary-color);\n    color: var(--white-color);\n    border-color: var(--primary-color);\n}\n.btn-active[data-v-9211e7a8]:hover {\n    background: var(--primary-dark);\n    color: var(--white-color);\n    transform: translateY(-2px);\n}\n/* Search and Filters */\n.form-control[data-v-9211e7a8], .form-select[data-v-9211e7a8] {\n    border: 1px solid var(--primary-color);\n    border-radius: 10px;\n    padding: 10px 15px;\n    font-size: 1.1rem;\n    transition: border-color 0.3s ease, box-shadow 0.3s ease;\n}\n.form-control[data-v-9211e7a8]:focus, .form-select[data-v-9211e7a8]:focus {\n    border-color: var(--primary-dark);\n    box-shadow: 0 0 5px rgba(0, 196, 180, 0.5);\n    outline: none;\n}\n.form-control[data-v-9211e7a8]::-moz-placeholder {\n    color: var(--gray-medium);\n}\n.form-control[data-v-9211e7a8]::placeholder {\n    color: var(--gray-medium);\n}\n/* Card Styles */\n.card[data-v-9211e7a8] {\n    background: linear-gradient(180deg, var(--white-color) 0%, #f8fafc 100%);\n    border-radius: 20px;\n    box-shadow: 0 8px 24px rgba(0, 191, 166, 0.15);\n    transition: transform 0.4s ease, box-shadow 0.4s ease;\n    position: relative;\n    overflow: hidden;\n    border: 1px solid rgba(0, 191, 166, 0.1);\n}\n.card[data-v-9211e7a8]::before {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    height: 6px;\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n}\n.card[data-v-9211e7a8]:hover {\n    transform: translateY(-12px) scale(1.03);\n    box-shadow: 0 16px 32px rgba(0, 191, 166, 0.25);\n}\n.card-image-container[data-v-9211e7a8] {\n    padding: 2rem;\n    display: flex;\n    flex-direction: column;\n    gap: 1rem;\n}\n.card-img-top[data-v-9211e7a8] {\n    height: 260px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    transition: transform 0.5s ease;\n    border-radius: 10px;\n}\n.card:hover .card-img-top[data-v-9211e7a8] {\n    transform: scale(1.1);\n}\n.card-title[data-v-9211e7a8] {\n    font-size: 1.8rem;\n    font-weight: 700;\n    color: var(--black-color);\n    margin-bottom: 1rem;\n    line-height: 1.4;\n    cursor: pointer;\n    transition: color 0.3s ease;\n    padding: 0;\n}\n.card-title[data-v-9211e7a8]:hover {\n    color: var(--primary-color);\n}\n.card-title[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.card-text[data-v-9211e7a8] {\n    font-size: 1.2rem;\n    color: var(--gray-dark);\n    max-height: 360px;\n    overflow: hidden;\n    line-height: 1.8;\n    margin-bottom: 1.5rem;\n    display: -webkit-box;\n    -webkit-line-clamp: 5;\n    -webkit-box-orient: vertical;\n    text-overflow: ellipsis;\n    padding: 0;\n}\n.list-layout .card-text.list-content[data-v-9211e7a8] {\n    -webkit-line-clamp: 8;\n    max-height: 480px;\n}\n.text-muted[data-v-9211e7a8] {\n    font-size: 0.95rem;\n    color: var(--gray-medium);\n    font-weight: 400;\n    padding: 0;\n}\n.card-tags[data-v-9211e7a8],\n.modal-tags[data-v-9211e7a8],\n.modal-hashtags[data-v-9211e7a8] {\n    margin-top: 1.5rem;\n}\n.card-tags strong[data-v-9211e7a8],\n.modal-tags strong[data-v-9211e7a8],\n.modal-hashtags strong[data-v-9211e7a8] {\n    font-size: 1.15rem;\n    font-weight: 600;\n    color: var(--gray-dark);\n}\n.badge[data-v-9211e7a8] {\n    background: var(--white-color);\n    color: var(--primary-color);\n    border: 1px solid var(--primary-color);\n    font-size: 0.9rem;\n    font-weight: 500;\n    padding: 6px 12px;\n    border-radius: 20px;\n    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;\n}\n.badge[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: scale(1.05);\n}\n.hashtag[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 0.9rem;\n    font-weight: 500;\n    transition: color 0.3s ease;\n}\n.hashtag[data-v-9211e7a8]:hover {\n    color: var(--primary-dark);\n}\n.read-more[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 1.2rem;\n    font-weight: 600;\n    cursor: pointer;\n    transition: color 0.3s ease, transform 0.3s ease;\n    padding: 0;\n}\n.read-more[data-v-9211e7a8]:hover {\n    color: var(--primary-dark);\n    transform: translateX(6px);\n}\n.read-more[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.read-more .fa-arrow-right[data-v-9211e7a8] {\n    transition: transform 0.3s ease;\n}\n.read-more:hover .fa-arrow-right[data-v-9211e7a8] {\n    transform: translateX(5px);\n}\n/* List Layout Specific Styles */\n.list-layout .card[data-v-9211e7a8] {\n    display: flex;\n    flex-direction: column;\n}\n.list-layout .card-image-container[data-v-9211e7a8] {\n    padding: 1.5rem;\n}\n.list-layout .card-title[data-v-9211e7a8] {\n    font-size: 2rem;\n}\n.list-layout .card-text[data-v-9211e7a8] {\n    font-size: 1.25rem;\n}\n/* Pagination Styles */\n.pagination[data-v-9211e7a8] {\n    gap: 12px;\n}\n.page-link[data-v-9211e7a8] {\n    color: var(--primary-color);\n    font-size: 1.2rem;\n    font-weight: 600;\n    border-radius: 10px;\n    padding: 12px 20px;\n    transition: all 0.3s ease;\n    border: 1px solid var(--primary-color);\n}\n.page-item.active .page-link[data-v-9211e7a8] {\n    background: var(--primary-color);\n    border-color: var(--primary-color);\n    color: var(--white-color);\n}\n.page-link[data-v-9211e7a8]:hover {\n    background: var(--primary-light);\n    color: var(--primary-dark);\n    transform: translateY(-2px);\n}\n.page-link[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.page-item.disabled .page-link[data-v-9211e7a8] {\n    color: var(--gray-medium);\n    cursor: not-allowed;\n    border-color: var(--gray-medium);\n}\n/* Modal Styles */\n.modal-content[data-v-9211e7a8] {\n    border-radius: 20px;\n    box-shadow: 0 16px 40px rgba(0, 191, 166, 0.3);\n    overflow: hidden;\n}\n.modal-header[data-v-9211e7a8] {\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n    border-bottom: none;\n    padding: 2rem;\n}\n.modal-title[data-v-9211e7a8] {\n    font-size: 2.2rem;\n    font-weight: 700;\n    color: var(--white-color);\n}\n.bi-x-circle-fill[data-v-9211e7a8] {\n    color: var(--white-color);\n    transition: all 0.3s ease;\n}\n.bi-x-circle-fill[data-v-9211e7a8]:hover {\n    color: var(--primary-light);\n    transform: scale(1.15);\n}\n.bi-x-circle-fill[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--white-color);\n    outline-offset: 2px;\n}\n.modal-body[data-v-9211e7a8] {\n    font-size: 1.3rem;\n    line-height: 1.9;\n    color: var(--gray-dark);\n    padding: 2rem;\n}\n.modal-meta[data-v-9211e7a8] {\n    border-bottom: 1px solid var(--primary-light);\n    padding-bottom: 1rem;\n}\n.modal-image-container img[data-v-9211e7a8] {\n    width: 100%;\n    max-height: 400px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 12px;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.modal-content-text[data-v-9211e7a8] h1,\n.modal-content-text[data-v-9211e7a8] h2,\n.modal-content-text[data-v-9211e7a8] h3,\n.modal-content-text[data-v-9211e7a8] h4 {\n    color: var(--primary-dark);\n    margin-bottom: 1.5rem;\n    border-left: 4px solid var(--primary-color);\n    padding-left: 14px;\n}\n.modal-content-text[data-v-9211e7a8] p {\n    margin-bottom: 2rem;\n}\n.modal-content-text[data-v-9211e7a8] ul {\n    list-style: none;\n    padding-left: 0;\n    margin-bottom: 2rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li {\n    position: relative;\n    padding-left: 28px;\n    margin-bottom: 1rem;\n}\n.modal-content-text[data-v-9211e7a8] ul li::before {\n    content: '•';\n    position: absolute;\n    left: 0;\n    color: var(--primary-color);\n    font-size: 1.4rem;\n}\n.modal-content-text[data-v-9211e7a8] blockquote {\n    border-left: 4px solid var(--primary-color);\n    padding-left: 1.5rem;\n    margin: 2rem 0;\n    font-style: italic;\n    color: var(--gray-medium);\n    background: var(--gray-light);\n    padding: 1.2rem;\n    border-radius: 10px;\n}\n.modal-footer[data-v-9211e7a8] {\n    border-top: none;\n    padding: 1.5rem 2rem;\n    display: flex;\n    gap: 10px;\n}\n.btn-primary[data-v-9211e7a8] {\n    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));\n    border: none;\n    color: var(--white-color);\n    font-size: 1.2rem;\n    font-weight: 600;\n    border-radius: 10px;\n    padding: 12px 28px;\n    transition: all 0.3s ease;\n}\n.btn-primary[data-v-9211e7a8]:hover {\n    background: var(--primary-dark);\n    transform: translateY(-2px);\n    box-shadow: 0 6px 16px rgba(0, 191, 166, 0.3);\n}\n.btn-primary[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--primary-color);\n    outline-offset: 2px;\n}\n.btn-secondary[data-v-9211e7a8] {\n    background: var(--gray-medium);\n    border: none;\n    color: var(--white-color);\n    font-size: 1.2rem;\n    font-weight: 600;\n    border-radius: 10px;\n    padding: 12px 28px;\n    transition: all 0.3s ease;\n}\n.btn-secondary[data-v-9211e7a8]:hover {\n    background: var(--gray-dark);\n    transform: translateY(-2px);\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);\n}\n.btn-secondary[data-v-9211e7a8]:focus {\n    outline: 2px solid var(--gray-dark);\n    outline-offset: 2px;\n}\n/* Highlight Style */\n.highlight[data-v-9211e7a8] {\n    background-color: #ffeb3b;\n    color: #000;\n    padding: 0 2px;\n    border-radius: 2px;\n}\n/* Blog List Transition */\n.blog-list-enter-active[data-v-9211e7a8], .blog-list-leave-active[data-v-9211e7a8] {\n    transition: all 0.5s ease-out;\n}\n.blog-list-enter-from[data-v-9211e7a8], .blog-list-leave-to[data-v-9211e7a8] {\n    opacity: 0;\n    transform: translateY(20px);\n}\n/* Animations */\n.animate-card[data-v-9211e7a8] {\n    animation: fadeInUp-9211e7a8 0.5s ease-out;\n}\n.animate-modal[data-v-9211e7a8] {\n    animation: scaleIn-9211e7a8 0.3s ease-out;\n}\n@keyframes fadeInUp-9211e7a8 {\nfrom {\n        opacity: 0;\n        transform: translateY(20px);\n}\nto {\n        opacity: 1;\n        transform: translateY(0);\n}\n}\n@keyframes scaleIn-9211e7a8 {\nfrom {\n        opacity: 0;\n        transform: scale(0.9);\n}\nto {\n        opacity: 1;\n        transform: scale(1);\n}\n}\n/* Responsive Adjustments */\n@media (max-width: 992px) {\n.page-header h1[data-v-9211e7a8] {\n        font-size: 3rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1.2rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 220px;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.6rem;\n}\n}\n@media (max-width: 768px) {\n.page-header[data-v-9211e7a8] {\n        padding: 4rem 0;\n}\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2.5rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1.1rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 200px;\n}\n.card-image-container[data-v-9211e7a8] {\n        padding: 1.5rem;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.5rem;\n}\n.list-layout .card-title[data-v-9211e7a8] {\n        font-size: 1.8rem;\n}\n}\n@media (max-width: 576px) {\n.page-header[data-v-9211e7a8] {\n        padding: 3rem 0;\n}\n.page-header h1[data-v-9211e7a8] {\n        font-size: 2rem;\n}\n.page-header p[data-v-9211e7a8] {\n        font-size: 1rem;\n}\n.btn-layout[data-v-9211e7a8] {\n        padding: 8px 16px;\n        font-size: 0.95rem;\n}\n.card-img-top[data-v-9211e7a8] {\n        height: 180px;\n}\n.card-title[data-v-9211e7a8] {\n        font-size: 1.4rem;\n}\n.card-text[data-v-9211e7a8] {\n        font-size: 1.1rem;\n        -webkit-line-clamp: 4;\n        max-height: 320px;\n}\n.list-layout .card-title[data-v-9211e7a8] {\n        font-size: 1.6rem;\n}\n.list-layout .card-text[data-v-9211e7a8] {\n        font-size: 1.15rem;\n        -webkit-line-clamp: 6;\n        max-height: 360px;\n}\n.read-more[data-v-9211e7a8] {\n        font-size: 1.1rem;\n}\n.btn-primary[data-v-9211e7a8],\n    .btn-secondary[data-v-9211e7a8] {\n        padding: 10px 20px;\n        font-size: 1rem;\n}\n.card-tags strong[data-v-9211e7a8],\n    .modal-tags strong[data-v-9211e7a8],\n    .modal-hashtags strong[data-v-9211e7a8] {\n        font-size: 1rem;\n}\n.badge[data-v-9211e7a8],\n    .hashtag[data-v-9211e7a8] {\n        font-size: 0.85rem;\n        padding: 5px 10px;\n}\n.form-control[data-v-9211e7a8], .form-select[data-v-9211e7a8] {\n        font-size: 1rem;\n        padding: 8px 12px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
