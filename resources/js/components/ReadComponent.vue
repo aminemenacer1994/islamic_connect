@@ -4,7 +4,6 @@
         <div class="page-header">
             <div class="container">
                 <h1>Islamic Insights</h1>
-                <p>Last Updated: Wednesday, September 24, 2025, 10:27 PM BST</p>
                 <p>Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.</p>
                 <div class="layout-toggle mt-4">
                     <div class="btn-group" role="group" aria-label="Layout toggle">
@@ -120,12 +119,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @click="closeModal" aria-label="Close modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="shareBlog(selectedBlog)" v-tooltip="'Copy link to clipboard'" aria-label="Copy blog link to clipboard">
-                            Share <i class="ms-1 fas fa-share"></i>
-                        </button>
                         <button type="button" class="btn btn-primary" @click="shareToWhatsApp(selectedBlog)" v-tooltip="'Share to WhatsApp'" aria-label="Share blog to WhatsApp">
-                            WhatsApp <i class="ms-1 fab fa-whatsapp"></i>
+                            Share <i class="ms-1 fas fa-share"></i>
                         </button>
                     </div>
                 </div>
@@ -340,7 +335,7 @@ export default {
 
 .btn-layout {
     background: var(--gray-light);
-    color: var(--gray-dark);
+    color: var(--white-color); /* White text */
     border: 1px solid var(--primary-color);
     padding: 10px 20px;
     font-size: 1.1rem;
@@ -350,7 +345,7 @@ export default {
 
 .btn-layout:hover {
     background: var(--primary-light);
-    color: var(--primary-dark);
+    color: var(--white-color); /* White text on hover */
     transform: translateY(-2px);
 }
 
@@ -359,16 +354,24 @@ export default {
     outline-offset: 2px;
 }
 
+.btn-layout i {
+    color: var(--white-color); /* White icons */
+}
+
 .btn-active {
     background: var(--primary-color);
-    color: var(--white-color);
+    color: var(--white-color); /* White text when active */
     border-color: var(--primary-color);
 }
 
 .btn-active:hover {
     background: var(--primary-dark);
-    color: var(--white-color);
+    color: var(--white-color); /* White text on active hover */
     transform: translateY(-2px);
+}
+
+.btn-active i {
+    color: var(--white-color); /* White icons when active */
 }
 
 /* Search and Filters */
@@ -417,7 +420,7 @@ export default {
 }
 
 .card-image-container {
-    padding: 2rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
