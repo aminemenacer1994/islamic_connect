@@ -47,6 +47,7 @@
                         </div>
                         <div class="col-md-3 col-12 mb-3">
                             <select v-model="sortBy" class="form-select form-select-lg" aria-label="Sort blogs">
+                                <option value="all">Sort By</option>
                                 <option value="nameAZ">Name A-Z</option>
                                 <option value="nameZA">Name Z-A</option>
                                 <option value="newest">Newest</option>
@@ -180,7 +181,6 @@ export default {
             selectedBlog: null,
             layoutMode: 'grid',
             searchTerm: '',
-            selectedCategory: 'all',
             selectedTag: 'all',
             sortBy: 'id',
             summaryText: '',
@@ -190,27 +190,20 @@ export default {
         };
     },
     computed: {
-        uniqueCategories() {
-            const categories = new Set(this.blogs.flatMap(blog => blog.category || []));
-            return ['all', ...Array.from(categories)];
-        },
         uniqueTags() {
             const tags = new Set(this.blogs.flatMap(blog => blog.tags || []));
             return ['all', ...Array.from(tags)];
         },
         filteredBlogs() {
             let result = [...this.blogs];
-            console.log('Total blogs:', this.blogs.length); // Debug log
-            console.log('Filtered blogs before filtering:', result.length);
+            console.log('Total blogs:', this.blogs.length);
 
-            if (this.selectedCategory !== 'all') {
-                result = result.filter(blog => blog.category === this.selectedCategory);
-            }
-
+            // Filter by tag
             if (this.selectedTag !== 'all') {
                 result = result.filter(blog => blog.tags && blog.tags.includes(this.selectedTag));
             }
 
+            // Filter by search term
             if (this.searchTerm.length >= 3) {
                 const searchLower = this.searchTerm.toLowerCase();
                 result = result.filter(blog =>
@@ -221,33 +214,29 @@ export default {
                 );
             }
 
-            console.log('Filtered blogs after filtering:', result.length);
             result = this.sortBlogs(result);
-
             return result;
         },
         paginatedBlogs() {
             const start = (this.currentPage - 1) * this.itemsPerPage;
             const end = start + this.itemsPerPage;
-            console.log(`Paginating: start=${start}, end=${end}, total=${this.filteredBlogs.length}`); // Debug log
             return this.filteredBlogs.slice(start, end);
         },
         totalPages() {
             return Math.ceil(this.filteredBlogs.length / this.itemsPerPage);
-        },
+        }
     },
     watch: {
         searchTerm() { this.currentPage = 1; },
-        selectedCategory() { this.currentPage = 1; },
         selectedTag() { this.currentPage = 1; },
         sortBy() { this.currentPage = 1; }
     },
     methods: {
         openModal(blog) {
             this.selectedBlog = blog;
-            this.summaryText = ''; // Reset summary when opening modal
+            this.summaryText = '';
             this.summaryError = '';
-            this.showSummary = true; // Reset summary visibility
+            this.showSummary = true;
             document.body.classList.add('modal-open');
         },
         closeModal() {
@@ -255,7 +244,7 @@ export default {
             this.summaryText = '';
             this.summaryLoading = false;
             this.summaryError = '';
-            this.showSummary = true; // Reset summary visibility
+            this.showSummary = true;
             document.body.classList.remove('modal-open');
         },
         formatDate(date) {
@@ -269,7 +258,7 @@ export default {
             return [...blogs].sort((a, b) => {
                 switch (this.sortBy) {
                     case 'id':
-                        return a.id - b.id; // ✅ Always by ID ascending
+                        return a.id - b.id; 
                     case 'nameZA':
                         return b.title.localeCompare(a.title);
                     case 'oldest':
@@ -307,12 +296,9 @@ export default {
                         return;
                     }
 
-                    // Split into sentences
                     const sentences = description.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 20);
-                    // Use uniqueTags (excluding 'all') as keywords
                     const keywords = this.uniqueTags.filter(tag => tag !== 'all');
 
-                    // Score sentences by keyword matches and position
                     const scored = sentences.map((sentence, idx) => {
                         let score = 0;
                         keywords.forEach(kw => {
@@ -322,9 +308,9 @@ export default {
                         if (idx === sentences.length - 1) score += 1;
                         return { sentence, score };
                     });
+
                     scored.sort((a, b) => b.score - a.score || sentences.indexOf(a.sentence) - sentences.indexOf(b.sentence));
 
-                    // Remove duplicates
                     const seen = new Set();
                     const unique = scored.filter(({ sentence }) => {
                         const s = sentence.trim();
@@ -333,12 +319,10 @@ export default {
                         return true;
                     });
 
-                    // Take top 4, always include the first sentence for context
                     const summarySentences = [unique[0]?.sentence]
                         .concat(unique.slice(1, 4).map(s => s.sentence))
                         .filter(Boolean);
 
-                    // Highlight keywords (tags) and dates
                     const highlight = s =>
                         s.replace(new RegExp(`(${keywords.join('|')}|\\b\\d{3,4}\\b)`, 'gi'), '<b>$1</b>');
 
@@ -351,13 +335,6 @@ export default {
                     }
 
                     this.summaryText = summary;
-
-                    // Auto-scroll to summary section
-                    this.$nextTick(() => {
-                        if (this.$refs.summarySection) {
-                            this.$refs.summarySection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
-                    });
                 });
             } catch (err) {
                 this.summaryError = err.message || 'Error generating summary.';
@@ -379,7 +356,6 @@ export default {
         changePage(page) {
             if (page >= 1 && page <= this.totalPages) {
                 this.currentPage = page;
-                console.log(`Changed to page ${this.currentPage}`); // Debug log
             }
         }
     },
@@ -399,6 +375,7 @@ export default {
     }
 };
 </script>
+
 
 <style scoped>
 /* Color Scheme */
