@@ -4,7 +4,7 @@
         <div class="page-header">
             <div class="container">
                 <h1>Islamic Insights</h1>
-                <p>Last Updated: Wednesday, September 24, 2025, 11:23 PM BST</p>
+                <p>Last Updated: Friday, September 26, 2025, 04:35 PM BST</p>
                 <p>Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.</p>
                 <div class="layout-toggle mt-4">
                     <div class="btn-group" role="group" aria-label="Layout toggle">
@@ -20,31 +20,25 @@
         </div>
 
         <!-- Search and Filters -->
-        <div class="filter-container py-4">
+        <div class="filter-container ">
             <div class="container">
-                <div class="filter-card p-4">
+                <div class="filter-card ">
                     <div class="row g-3 align-items-center justify-content-center">
                         <div class="col-md-6 col-12 mb-3">
                             <div class="input-group">
                                 <input v-model="searchTerm" @input="debounceSearch" type="text" class="form-control form-control-lg" placeholder="Search blogs (min 3 chars)..." aria-label="Search blogs">
                                 <span class="input-group-text">
-                                    <i class="fas fa-search"></i>
+                                    <i class="fas fa-search text-white"></i>
                                 </span>
                             </div>
                         </div>
-                        <div class="col-md-2 col-6 mb-3">
-                            <select v-model="selectedCategory" class="form-select form-select-lg" aria-label="Filter by category">
-                                <option value="all">All Categories</option>
-                                <option v-for="cat in uniqueCategories" :key="cat" :value="cat">{{ cat }}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2 col-6 mb-3">
+                        <div class="col-md-3 col-6 mb-3">
                             <select v-model="selectedTag" class="form-select form-select-lg" aria-label="Filter by tag">
-                                <option value="all">All Tags</option>
+                                <option value="all">Categories</option>
                                 <option v-for="tag in uniqueTags" :key="tag" :value="tag">{{ tag }}</option>
                             </select>
                         </div>
-                        <div class="col-md-2 col-12 mb-3">
+                        <div class="col-md-3 col-12 mb-3">
                             <select v-model="sortBy" class="form-select form-select-lg" aria-label="Sort blogs">
                                 <option value="nameAZ">Name A-Z</option>
                                 <option value="nameZA">Name Z-A</option>
@@ -84,15 +78,15 @@
             <nav aria-label="Blog pagination" v-if="totalPages > 1">
                 <ul class="pagination justify-content-center mt-5">
                     <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                        <a class="page-link" href="#" @click.prevent="currentPage--">
+                        <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">
                             <i class="fas fa-chevron-left me-1"></i> Previous
                         </a>
                     </li>
                     <li v-for="page in totalPages" :key="page" class="page-item" :class="{ active: currentPage === page }">
-                        <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
+                        <a class="page-link" href="#" @click.prevent="changePage(page)">{{ page }}</a>
                     </li>
                     <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                        <a class="page-link" href="#" @click.prevent="currentPage++">
+                        <a class="page-link" href="#" @click.prevent="changePage(currentPage + 1)">
                             Next <i class="ms-1 fas fa-chevron-right"></i>
                         </a>
                     </li>
@@ -116,7 +110,6 @@
                             <img :src="selectedBlog.image" class="img-fluid rounded" :alt="selectedBlog.title">
                         </div>
                         <div class="modal-content-text" v-html="highlight(selectedBlog.content)"></div>
-                        <b class="text-muted mb-3"><b>Word Count:</b> {{ getWordCount(selectedBlog.content) }}</b>
                         <div class="modal-tags mt-3">
                             <strong class="me-2 fs-5">Tags:</strong>
                             <span v-if="selectedBlog.tags && selectedBlog.tags.length" v-for="tag in selectedBlog.tags" :key="tag" class="badge me-2 mb-2" v-html="highlight(tag)"></span>
@@ -129,21 +122,16 @@
                         </div>
                         <div v-if="summaryText" ref="summarySection" class="modal-summary mt-4">
                             <h5 class="mb-2"><strong>Summary:</strong></h5>
-                            <!-- <i class="bi bi-x-circle-fill close-icon" @click="toggleSummary" aria-label="Close summary"></i> -->
                             <div v-html="summaryText"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <!-- <button type="button" class="btn btn-secondary" @click="closeModal" aria-label="Close modal">Close</button> -->
-                        <!-- <button type="button" class="btn btn-primary" @click="shareBlog(selectedBlog)" v-tooltip="'Copy link to clipboard'" aria-label="Copy blog link to clipboard">
-                            Share <i class="ms-1 fas fa-share"></i>
-                        </button> -->
-                        <button type="button" class="btn btn-primary" @click="shareToWhatsApp(selectedBlog)" v-tooltip="'Share to WhatsApp'" aria-label="Share blog to WhatsApp">
-                            Share <i class="ms-1 fas fa-share"></i>
+                        <button type="button" class="btn " @click="shareToWhatsApp(selectedBlog)" v-tooltip="'Share to WhatsApp'" aria-label="Share blog to WhatsApp">
+                            <b>Share <i class="ms-1 fas fa-share"></i></b>
                         </button>
-                        <button type="button" class="btn btn-info" @click="summarizeBlog" :disabled="summaryLoading" aria-label="Generate summary">
+                        <button type="button" class="btn " @click="summarizeBlog" :disabled="summaryLoading" v-tooltip="'Generate summary'" aria-label="Generate summary">
                             <span v-if="summaryLoading"><i class="fas fa-spinner fa-spin"></i> Generating...</span>
-                            <span v-else>Generate Summary <i class="ms-1 fas fa-book"></i></span>
+                            <span v-else><b>Generate Summary <i class="ms-1 fas fa-book"></i></b></span>
                         </button>
                     </div>
                 </div>
@@ -191,6 +179,8 @@ export default {
         },
         filteredBlogs() {
             let result = [...this.blogs];
+            console.log('Total blogs:', this.blogs.length); // Debug log
+            console.log('Filtered blogs before filtering:', result.length);
 
             if (this.selectedCategory !== 'all') {
                 result = result.filter(blog => blog.category === this.selectedCategory);
@@ -210,13 +200,16 @@ export default {
                 );
             }
 
+            console.log('Filtered blogs after filtering:', result.length);
             result = this.sortBlogs(result);
 
             return result;
         },
         paginatedBlogs() {
             const start = (this.currentPage - 1) * this.itemsPerPage;
-            return this.filteredBlogs.slice(start, start + this.itemsPerPage);
+            const end = start + this.itemsPerPage;
+            console.log(`Paginating: start=${start}, end=${end}, total=${this.filteredBlogs.length}`); // Debug log
+            return this.filteredBlogs.slice(start, end);
         },
         totalPages() {
             return Math.ceil(this.filteredBlogs.length / this.itemsPerPage);
@@ -356,6 +349,12 @@ export default {
         shareToWhatsApp(blog) {
             const url = window.location.href + '?blog=' + blog.id;
             window.open(`https://wa.me/?text=${encodeURIComponent(blog.title + ' ' + url)}`, '_blank');
+        },
+        changePage(page) {
+            if (page >= 1 && page <= this.totalPages) {
+                this.currentPage = page;
+                console.log(`Changed to page ${this.currentPage}`); // Debug log
+            }
         }
     },
     directives: {
@@ -459,7 +458,7 @@ export default {
 
 .btn-active {
     background: var(--primary-color);
-    color: var(--white-color);
+    color: white;
     border-color: var(--primary-color);
 }
 
@@ -476,7 +475,6 @@ export default {
 /* Filter Container */
 .filter-container {
     background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);
-    padding: 1rem 0;
 }
 
 .filter-card {
@@ -484,7 +482,7 @@ export default {
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--primary-light);
-    padding: 2rem;
+    padding: 0.8rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -509,7 +507,6 @@ export default {
 
 .form-control-lg {
     font-size: 1.2rem;
-    padding: 14px 20px;
 }
 
 .form-select-lg {
@@ -739,7 +736,7 @@ export default {
 .page-item.active .page-link {
     background: var(--primary-color);
     border-color: var(--primary-color);
-    color: var(--white-color);
+    color: white;
 }
 
 .page-link:hover {
@@ -912,7 +909,7 @@ export default {
 .btn-info {
     background: var(--primary-light);
     border: none;
-    color: var(--white-color);
+    /* color: var(--white-color); */
     font-size: 1.2rem;
     font-weight: 600;
     border-radius: 10px;

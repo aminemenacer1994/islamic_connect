@@ -83,6 +83,7 @@
         "video.js": "^8.22.0",
         "vue-highlight-text": "^1.6.2",
         "vue-highlight-words": "^3.0.1",
+        "vue-lazyload": "^3.0.0",
         "vue-quill-editor": "^3.0.6",
         "vue-router": "^4.2.5",
         "vue-star-rating": "^1.7.0",
