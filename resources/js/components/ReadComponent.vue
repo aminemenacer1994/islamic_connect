@@ -7,7 +7,7 @@
                 <p>Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn
                     from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and
                     mind, offering solace, direction, and a deeper connection to faith.</p>
-                <div class="layout-toggle mt-4">
+                <div class="layout-toggle">
                     <div class="btn-group" role="group" aria-label="Layout toggle">
                         <button type="button" class="btn btn-layout" :class="{ 'btn-active': layoutMode === 'grid' }"
                             @click="layoutMode = 'grid'" aria-label="Switch to grid layout"
@@ -46,11 +46,10 @@
                             </select>
                         </div>
                         <div class="col-md-3 col-12 mb-3">
-                            <select v-model="sortBy" class="form-select form-select-lg" aria-label="Sort blogs">
-                                <option value="all">Sort By</option>
+                            <select v-model="sortBy" class="form-select form-select-lg" aria-label="Sort blogs" @change="handleSortChange">
+                                <option value="newest" selected>Newest</option>
                                 <option value="nameAZ">Name A-Z</option>
                                 <option value="nameZA">Name Z-A</option>
-                                <option value="newest">Newest</option>
                                 <option value="oldest">Oldest</option>
                             </select>
                         </div>
@@ -182,7 +181,8 @@ export default {
             layoutMode: 'grid',
             searchTerm: '',
             selectedTag: 'all',
-            sortBy: 'id',
+            sortBy: 'newest',
+            // sortBy: 'id',
             summaryText: '',
             summaryLoading: false,
             summaryError: '',
@@ -402,7 +402,7 @@ export default {
 .page-header {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: var(--white-color);
-    padding: 5rem 0;
+    padding: 2rem 0;
     text-align: center;
 }
 
