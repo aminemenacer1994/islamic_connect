@@ -4,14 +4,19 @@
         <div class="page-header">
             <div class="container">
                 <h1>Islamic Insights</h1>
-                <p>Last Updated: Friday, September 26, 2025, 04:35 PM BST</p>
-                <p>Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.</p>
+                <p>Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn
+                    from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and
+                    mind, offering solace, direction, and a deeper connection to faith.</p>
                 <div class="layout-toggle mt-4">
                     <div class="btn-group" role="group" aria-label="Layout toggle">
-                        <button type="button" class="btn btn-layout" :class="{ 'btn-active': layoutMode === 'grid' }" @click="layoutMode = 'grid'" aria-label="Switch to grid layout" :aria-pressed="layoutMode === 'grid'">
+                        <button type="button" class="btn btn-layout" :class="{ 'btn-active': layoutMode === 'grid' }"
+                            @click="layoutMode = 'grid'" aria-label="Switch to grid layout"
+                            :aria-pressed="layoutMode === 'grid'">
                             <i class="fas fa-th-large me-1"></i> Grid
                         </button>
-                        <button type="button" class="btn btn-layout" :class="{ 'btn-active': layoutMode === 'list' }" @click="layoutMode = 'list'" aria-label="Switch to list layout" :aria-pressed="layoutMode === 'list'">
+                        <button type="button" class="btn btn-layout" :class="{ 'btn-active': layoutMode === 'list' }"
+                            @click="layoutMode = 'list'" aria-label="Switch to list layout"
+                            :aria-pressed="layoutMode === 'list'">
                             <i class="fas fa-list me-1"></i> List
                         </button>
                     </div>
@@ -26,7 +31,9 @@
                     <div class="row g-3 align-items-center justify-content-center">
                         <div class="col-md-6 col-12 mb-3">
                             <div class="input-group">
-                                <input v-model="searchTerm" @input="debounceSearch" type="text" class="form-control form-control-lg" placeholder="Search blogs (min 3 chars)..." aria-label="Search blogs">
+                                <input v-model="searchTerm" @input="debounceSearch" type="text"
+                                    class="form-control form-control-lg" placeholder="Search blogs (min 3 chars)..."
+                                    aria-label="Search blogs">
                                 <span class="input-group-text">
                                     <i class="fas fa-search text-white"></i>
                                 </span>
@@ -54,16 +61,22 @@
         <!-- Blog Layout -->
         <div class="container py-5">
             <transition-group name="blog-list" tag="div" class="row" :class="{ 'list-layout': layoutMode === 'list' }">
-                <div v-for="(blog, index) in paginatedBlogs" :key="blog.id" :class="layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4'">
+                <div v-for="(blog, index) in paginatedBlogs" :key="blog.id"
+                    :class="layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4'">
                     <div class="card h-100 animate-card" :style="{ animationDelay: `${index * 0.05}s` }">
-                        <div class="card-image-container" :class="{ 'container': layoutMode === 'grid', 'container-fluid': layoutMode === 'list' }">
-                            <img :src="blog.image" class="card-img-top mb-4" style="border-radius: 10px;" :alt="blog.title">
-                            <h5 class="card-title" @click="openModal(blog)" aria-label="Read full blog post" v-html="highlight(blog.title)"></h5>
-                            <div class="card-text" :class="{ 'list-content': layoutMode === 'list' }" v-html="highlight(blog.content)"></div>
+                        <div class="card-image-container"
+                            :class="{ 'container': layoutMode === 'grid', 'container-fluid': layoutMode === 'list' }">
+                            <img :src="blog.image" class="card-img-top mb-4" style="border-radius: 10px;"
+                                :alt="blog.title">
+                            <h5 class="card-title" @click="openModal(blog)" aria-label="Read full blog post"
+                                v-html="highlight(blog.title)"></h5>
+                            <div class="card-text" :class="{ 'list-content': layoutMode === 'list' }"
+                                v-html="highlight(blog.content)"></div>
                             <p class="text-muted">Published on: {{ formatDate(blog.date) }}</p>
                             <div class="card-tags">
                                 <strong class="me-2">Tags:</strong>
-                                <span v-if="blog.tags && blog.tags.length" v-for="tag in blog.tags" :key="tag" class="badge me-2 mb-2" v-html="highlight(tag)"></span>
+                                <span v-if="blog.tags && blog.tags.length" v-for="tag in blog.tags" :key="tag"
+                                    class="badge me-2 mb-2" v-html="highlight(tag)"></span>
                                 <span v-else class="text-muted">No tags available</span>
                             </div>
                             <p class="read-more mt-4" @click="openModal(blog)" aria-label="Read full blog post">
@@ -82,7 +95,8 @@
                             <i class="fas fa-chevron-left me-1"></i> Previous
                         </a>
                     </li>
-                    <li v-for="page in totalPages" :key="page" class="page-item" :class="{ active: currentPage === page }">
+                    <li v-for="page in totalPages" :key="page" class="page-item"
+                        :class="{ active: currentPage === page }">
                         <a class="page-link" href="#" @click.prevent="changePage(page)">{{ page }}</a>
                     </li>
                     <li class="page-item" :class="{ disabled: currentPage === totalPages }">
@@ -95,12 +109,14 @@
         </div>
 
         <!-- Modal for Full Blog Content -->
-        <div v-if="selectedBlog" class="modal show d-block animate-modal" tabindex="-1" role="dialog" @click="closeModal">
+        <div v-if="selectedBlog" class="modal show d-block animate-modal" tabindex="-1" role="dialog"
+            @click="closeModal">
             <div class="modal-dialog modal-xl modal-dialog-centered" role="document" @click.stop>
                 <div class="modal-content container">
                     <div class="modal-header">
                         <h4 class="modal-title" v-html="highlight(selectedBlog.title)"></h4>
-                        <i class="bi bi-x-circle-fill h3" style="cursor: pointer;" @click="closeModal" aria-label="Close modal"></i>
+                        <i class="bi bi-x-circle-fill h3" style="cursor: pointer;" @click="closeModal"
+                            aria-label="Close modal"></i>
                     </div>
                     <div class="modal-body">
                         <div class="modal-meta">
@@ -112,12 +128,15 @@
                         <div class="modal-content-text" v-html="highlight(selectedBlog.content)"></div>
                         <div class="modal-tags mt-3">
                             <strong class="me-2 fs-5">Tags:</strong>
-                            <span v-if="selectedBlog.tags && selectedBlog.tags.length" v-for="tag in selectedBlog.tags" :key="tag" class="badge me-2 mb-2" v-html="highlight(tag)"></span>
+                            <span v-if="selectedBlog.tags && selectedBlog.tags.length" v-for="tag in selectedBlog.tags"
+                                :key="tag" class="badge me-2 mb-2" v-html="highlight(tag)"></span>
                             <span v-else class="text-muted">No tags available</span>
                         </div>
                         <div class="modal-hashtags mt-2">
                             <strong class="me-2 fs-5">Hashtags:</strong>
-                            <span v-if="selectedBlog.hashtags && selectedBlog.hashtags.length" v-for="hashtag in selectedBlog.hashtags" :key="hashtag" class="hashtag me-2" v-html="highlight(hashtag)"></span>
+                            <span v-if="selectedBlog.hashtags && selectedBlog.hashtags.length"
+                                v-for="hashtag in selectedBlog.hashtags" :key="hashtag" class="hashtag me-2"
+                                v-html="highlight(hashtag)"></span>
                             <span v-else class="text-muted">No hashtags available</span>
                         </div>
                         <div v-if="summaryText" ref="summarySection" class="modal-summary mt-4">
@@ -126,10 +145,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn " @click="shareToWhatsApp(selectedBlog)" v-tooltip="'Share to WhatsApp'" aria-label="Share blog to WhatsApp">
+                        <button type="button" class="btn " @click="shareToWhatsApp(selectedBlog)"
+                            v-tooltip="'Share to WhatsApp'" aria-label="Share blog to WhatsApp">
                             <b>Share <i class="ms-1 fas fa-share"></i></b>
                         </button>
-                        <button type="button" class="btn " @click="summarizeBlog" :disabled="summaryLoading" v-tooltip="'Generate summary'" aria-label="Generate summary">
+                        <button type="button" class="btn " @click="summarizeBlog" :disabled="summaryLoading"
+                            v-tooltip="'Generate summary'" aria-label="Generate summary">
                             <span v-if="summaryLoading"><i class="fas fa-spinner fa-spin"></i> Generating...</span>
                             <span v-else><b>Generate Summary <i class="ms-1 fas fa-book"></i></b></span>
                         </button>
@@ -161,7 +182,7 @@ export default {
             searchTerm: '',
             selectedCategory: 'all',
             selectedTag: 'all',
-            sortBy: 'newest',
+            sortBy: 'id',
             summaryText: '',
             summaryLoading: false,
             summaryError: '',
@@ -192,7 +213,7 @@ export default {
 
             if (this.searchTerm.length >= 3) {
                 const searchLower = this.searchTerm.toLowerCase();
-                result = result.filter(blog => 
+                result = result.filter(blog =>
                     blog.title.toLowerCase().includes(searchLower) ||
                     blog.content.toLowerCase().includes(searchLower) ||
                     (blog.tags && blog.tags.some(tag => tag.toLowerCase().includes(searchLower))) ||
@@ -213,7 +234,7 @@ export default {
         },
         totalPages() {
             return Math.ceil(this.filteredBlogs.length / this.itemsPerPage);
-        }
+        },
     },
     watch: {
         searchTerm() { this.currentPage = 1; },
@@ -247,10 +268,15 @@ export default {
         sortBlogs(blogs) {
             return [...blogs].sort((a, b) => {
                 switch (this.sortBy) {
-                    case 'nameZA': return b.title.localeCompare(a.title);
-                    case 'oldest': return new Date(a.date) - new Date(b.date);
+                    case 'id':
+                        return a.id - b.id; // ✅ Always by ID ascending
+                    case 'nameZA':
+                        return b.title.localeCompare(a.title);
+                    case 'oldest':
+                        return new Date(a.date) - new Date(b.date);
                     case 'newest':
-                    default: return new Date(b.date) - new Date(a.date);
+                    default:
+                        return new Date(b.date) - new Date(a.date);
                 }
             });
         },
@@ -259,7 +285,7 @@ export default {
             const regex = new RegExp(`(${_.escapeRegExp(this.searchTerm)})`, 'gi');
             return typeof text === 'string' ? text.replace(regex, '<span class="highlight">$1</span>') : text;
         },
-        debounceSearch: _.debounce(function() { this.$forceUpdate(); }, 200),
+        debounceSearch: _.debounce(function () { this.$forceUpdate(); }, 200),
         stripHtml(html) {
             const temp = document.createElement('div');
             temp.innerHTML = html;
@@ -497,7 +523,8 @@ export default {
     width: 100%;
 }
 
-.form-control, .form-select {
+.form-control,
+.form-select {
     border: 1px solid var(--primary-color);
     border-radius: 10px;
     padding: 12px 15px;
@@ -514,7 +541,8 @@ export default {
     padding: 14px 20px;
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
     border-color: var(--primary-dark);
     box-shadow: 0 0 8px rgba(0, 196, 180, 0.4);
     outline: none;
@@ -810,33 +838,33 @@ export default {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.modal-content-text >>> h1,
-.modal-content-text >>> h2,
-.modal-content-text >>> h3,
-.modal-content-text >>> h4 {
+.modal-content-text>>>h1,
+.modal-content-text>>>h2,
+.modal-content-text>>>h3,
+.modal-content-text>>>h4 {
     color: var(--primary-dark);
     margin-bottom: 1.5rem;
     border-left: 4px solid var(--primary-color);
     padding-left: 14px;
 }
 
-.modal-content-text >>> p {
+.modal-content-text>>>p {
     margin-bottom: 2rem;
 }
 
-.modal-content-text >>> ul {
+.modal-content-text>>>ul {
     list-style: none;
     padding-left: 0;
     margin-bottom: 2rem;
 }
 
-.modal-content-text >>> ul li {
+.modal-content-text>>>ul li {
     position: relative;
     padding-left: 28px;
     margin-bottom: 1rem;
 }
 
-.modal-content-text >>> ul li::before {
+.modal-content-text>>>ul li::before {
     content: '•';
     position: absolute;
     left: 0;
@@ -844,7 +872,7 @@ export default {
     font-size: 1.4rem;
 }
 
-.modal-content-text >>> blockquote {
+.modal-content-text>>>blockquote {
     border-left: 4px solid var(--primary-color);
     padding-left: 1.5rem;
     margin: 2rem 0;
@@ -961,11 +989,13 @@ export default {
 }
 
 /* Blog List Transition */
-.blog-list-enter-active, .blog-list-leave-active {
+.blog-list-enter-active,
+.blog-list-leave-active {
     transition: all 0.5s ease-out;
 }
 
-.blog-list-enter-from, .blog-list-leave-to {
+.blog-list-enter-from,
+.blog-list-leave-to {
     opacity: 0;
     transform: translateY(20px);
 }
@@ -984,6 +1014,7 @@ export default {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -995,6 +1026,7 @@ export default {
         opacity: 0;
         transform: scale(0.9);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -1006,15 +1038,19 @@ export default {
     .page-header h1 {
         font-size: 3rem;
     }
+
     .page-header p {
         font-size: 1.2rem;
     }
+
     .card-img-top {
         height: 220px;
     }
+
     .card-title {
         font-size: 1.6rem;
     }
+
     .filter-card {
         padding: 1.5rem;
     }
@@ -1024,34 +1060,43 @@ export default {
     .page-header {
         padding: 4rem 0;
     }
+
     .page-header h1 {
         font-size: 2.5rem;
     }
+
     .page-header p {
         font-size: 1.1rem;
     }
+
     .card-img-top {
         height: 200px;
     }
+
     .card-image-container {
         padding: 1.5rem;
     }
+
     .card-title {
         font-size: 1.5rem;
     }
+
     .list-layout .card-title {
         font-size: 1.8rem;
     }
+
     .filter-card .row {
         flex-direction: column;
         align-items: stretch;
     }
+
     .filter-card .col-md-6,
     .filter-card .col-md-2,
     .filter-card .col-12 {
         width: 100%;
         margin-bottom: 1rem;
     }
+
     .input-group {
         width: 100%;
     }
@@ -1061,59 +1106,75 @@ export default {
     .page-header {
         padding: 3rem 0;
     }
+
     .page-header h1 {
         font-size: 2rem;
     }
+
     .page-header p {
         font-size: 1rem;
     }
+
     .btn-layout {
         padding: 8px 16px;
         font-size: 0.95rem;
     }
+
     .card-img-top {
         height: 180px;
     }
+
     .card-title {
         font-size: 1.4rem;
     }
+
     .card-text {
         font-size: 1.1rem;
         -webkit-line-clamp: 4;
         max-height: 320px;
     }
+
     .list-layout .card-title {
         font-size: 1.6rem;
     }
+
     .list-layout .card-text {
         font-size: 1.15rem;
         -webkit-line-clamp: 6;
         max-height: 360px;
     }
+
     .read-more {
         font-size: 1.1rem;
     }
+
     .btn-primary,
     .btn-secondary,
     .btn-info {
         padding: 10px 20px;
         font-size: 1rem;
     }
+
     .card-tags strong,
     .modal-tags strong,
     .modal-hashtags strong {
         font-size: 1rem;
     }
+
     .badge,
     .hashtag {
         font-size: 0.85rem;
         padding: 5px 10px;
     }
-    .form-control, .form-select {
+
+    .form-control,
+    .form-select {
         font-size: 1rem;
         padding: 8px 12px;
     }
-    .form-control-lg, .form-select-lg {
+
+    .form-control-lg,
+    .form-select-lg {
         font-size: 1.1rem;
         padding: 10px 15px;
     }
