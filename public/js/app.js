@@ -173668,7 +173668,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/green-book.png",
+    src: "/images/copywriter.png",
     alt: "Islamic Finance",
     "class": "w-100",
     style: {
