@@ -84,7 +84,6 @@
       </div>
     </section>
 
-    <!-- Favorites Section -->
     <section v-if="favorites.length > 0" class="mb-5" aria-label="Favorite channels">
       <h2 class="fw-bold mb-3 d-flex align-items-center" style="cursor: pointer;" @click="toggleFavoritesSection">
         Favorite Channels ({{ favorites.length }})
@@ -92,16 +91,12 @@
       </h2>
       <div v-if="showFavorites" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
         <article class="col" v-for="(channel, index) in favorites" :key="channel.name">
-          <div class="channel-card"
-            style="border-radius: 8px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-            <div class="channel-img-wrapper" style="position: relative; overflow: hidden;">
-              <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="channel-img"
-                style="width: 100%;  object-fit: contain;" @error="handleImageError">
-              <div class="channel-gradient" style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%;">
-              </div>
+          <div class="channel-card shadow-lg"
+          style="border:3px solid #00bfa6; border-radius: 15px; padding: 5px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+            <div class="channel-img-wrapper" style="position: relative; overflow: hidden; width: 20%; height: 50px;">
               <button @click="toggleFavorite(channel)"
                 :aria-label="isFavorite(channel) ? 'Remove from favorites' : 'Add to favorites'"
-                style="position: absolute; top: 8px; left: 8px; z-index: 10; background: none; border: none; cursor: pointer; color: #6c757d; transition: color 0.3s;">
+                style="position: absolute; top: 8px; left: 8px; z-index: 10; background: none; border: none; cursor: pointer; transition: color 0.3s;">
                 <i :class="isFavorite(channel) ? 'fas fa-star' : 'far fa-star'"
                   style="font-size: 1.7rem; color: #ffc107;"></i>
               </button>
@@ -127,7 +122,7 @@
               <div class="container mb-2 d-flex justify-content-between small text-muted">
                 <span><i class="fas fa-users me-1"></i>{{ channel.viewers || 'N/A' }} viewers</span>
                 <span><i class="fas fa-map-marker-alt me-1"></i>{{ channel.location || 'Not specified' }}</span>
-                <span><i class="fas fa-clock me-1"></i>{{ channel.schedule ? channel.schedule : 'No schedule' }}</span>
+                <span><i class="fas fa-clock me-1"></i>{{ channel.schedule || 'No schedule' }}</span>
               </div>
               <div class="mb-2">
                 <span class="badge bg-primary me-1">{{ channel.category }}</span>
@@ -192,11 +187,7 @@
         <div class="channel-card shadow-lg"
           style="border:3px solid #00bfa6; border-radius: 15px; padding: 5px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
 
-          <div class="channel-img-wrapper" style="position: relative; overflow: hidden;">
-            <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="channel-img"
-              style="width: 100%; object-fit: contain;" @error="handleImageError">
-            <div class="channel-gradient" style="position: absolute; bottom: 0; left: 0; right: 0; height: 35%;">
-            </div>
+          <div class="channel-img-wrapper" style="position: relative; overflow: hidden; width: 50px; height: 50px;">
             <button @click="toggleFavorite(channel)"
               :aria-label="isFavorite(channel) ? 'Remove from favorites' : 'Add to favorites'"
               style="position: absolute; top: 10px; left: 10px; z-index: 10; background: none; border: none; cursor: pointer; color: #6c757d; transition: color 0.3s;">
