@@ -97,7 +97,7 @@ body{
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav justify-content-end pr-4 flex-grow-1">                
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3" href="/home" data-path="/home"><b style="color:black">Home</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3" href="/welcome" data-path="/home"><b style="color:black">Home</b></a></h6>
                     </li>
                     <!-- <li class="nav-item dropdown pt-3 pl-3">
                         <a class="nav-link dropdown-toggle" href="/holy" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
@@ -130,7 +130,7 @@ body{
                     </li>
 
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/pricing" data-path="/pricing"><b style="color:black">Donations</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/pricing"><b style="color:black">Donations</b></a></h6>
                     </li>
                                     
                     @guest

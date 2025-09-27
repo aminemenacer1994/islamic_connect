@@ -1,66 +1,235 @@
 <template>
-  <div>
-    <section class="py-5">
-      <div class="container pt-3 pb-3">
-        <div class="row gx-4 align-items-center justify-content-between">
-          <div class="col-md-10 order-2 order-md-1 pb-3">
-            <div class="mt-3 mt-md-0">
-              <h2 class="display-5 fw-bold pb-3">Unlock Islamic Knowledge for Every Muslim With Your Help</h2>
+  <div class="donation-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center text-white">
+            <h1 class="mb-4">Support Islamic Connect's Mission</h1>
+            <p class="lead mb-5">Making Islamic knowledge accessible through innovative technology</p>
 
-              <p class="lead lh-base mb-3">
-                🌍 Around the world, millions of Muslims are still struggling to access the Quran and authentic Islamic
-                knowledge — especially reverts, people with disabilities, and those in under-resourced communities.
-              </p>
-
-              <p class="lead lh-base mb-4">
-                🚀 At <b>Islamic Connect</b>, we’re building a game-changing platform that makes learning Islam easy,
-                inclusive, and accessible for all — powered by AI, voice tools, and disability-friendly features.
-              </p>
-
-              <p class="lead lh-base mb-4">
-                👉 <b>Your donation is more than charity — it’s Sadaqah Jariyah.</b> Every contribution helps someone connect
-                with the Quran, learn a dua, or discover Islam for the first time — and you share in every reward.
-              </p>
-
-              <h2 class="display-5 fw-bold pb-3 mt-4">📦 Where Your Donation Goes</h2>
-
-              <ul class="lead lh-base ps-3 mb-4" style="list-style-type: none;">
-                <li class="mb-2">📚 <b>Content Expansion</b> – Adding more Quranic content, Hadith, Seerah, Duas,
-                  lectures, and educational materials.</li>
-                <li class="mb-2">♿ <b>Accessibility Tools</b> – Improving features for the blind, deaf, and physically
-                  disabled (screen readers, TTS, voice search, etc.).</li>
-                <li class="mb-2">🤖 <b>AI Development</b> – Building voice search, personalized recitation tools, and
-                  smart learning experiences.</li>
-                <li class="mb-2">🔐 <b>Essential Costs</b> – Covering servers, security and third-party services.</li>
-                <li class="mb-2">👨‍💻 <b>Team Support</b> – Supporting our small team of developers working around the
-                  clock to serve the ummah.</li>
-              </ul>
-
-              <h3 class="display-5 fw-bold pb-3 mt-4">Why Give?</h3>
-
-              <p class="lead lh-base mb-4">
-                Because your donation could be the reason someone:
-              </p>
-
-              <ul class="lead lh-base ps-3 mb-4" style="list-style-type: none;">
-                <li class="mb-2">📖 Hears the Quran for the first time</li>
-                <li class="mb-2">🕋 Learns how to pray</li>
-                <li class="mb-2">🤲 Finds peace through a dua</li>
-                <li class="mb-2">🕌 Connects to Allah in a way they never could before</li>
-              </ul>
-
-              <p class="lead lh-base mb-4">
-                🌟 <b>Make an impact that lasts.</b><br />
-                Support Islamic Connect and donate today.
-              </p>
-
-              <div class="col-md-10">
-                <button class="container form-control"
-                  style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
-                  onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
-                  <div style="font-size:1.5em"><b>Donate Now</b></div>
-                </button>
+            <!-- Impact Metrics -->
+            <div class="row">
+              <div class="col-md-4 mb-4">
+                <div class="metric-item">
+                  <h3>1,600+</h3>
+                  <p>Users Served</p>
+                  <span>12 months</span>
+                </div>
               </div>
+              <div class="col-md-4 mb-4">
+                <div class="metric-item">
+                  <h3>2.3 min</h3>
+                  <p>Avg Engagement</p>
+                  <span>Per session</span>
+                </div>
+              </div>
+              <div class="col-md-4 mb-4">
+                <div class="metric-item">
+                  <h3>30+</h3>
+                  <p>Countries</p>
+                  <span>Global reach</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Value Proposition -->
+    <section class="impact-stats-section">
+      <div class="container">
+
+        <!-- Stats Section -->
+        <div class="row justify-content-center mb-5">
+          <div class="col-lg-10 text-center">
+            <h2 class="section-title">Our Impact in Numbers</h2>
+            <p class="section-lead">Measurable results showing how we're making Islamic knowledge accessible to all</p>
+
+            <div class="row stats-grid">
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>30+</h3>
+                  <p>Countries</p>
+                  <small>Global reach</small>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>2.3 min</h3>
+                  <p>Avg. Engagement</p>
+                  <small>Per session</small>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>100%</h3>
+                  <p>Accessibility</p>
+                  <small>Score</small>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>370%</h3>
+                  <p>Growth</p>
+                  <small>Returning users</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Strategic Impact Areas -->
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <h2 class="text-center mb-5">How Your Support Makes a Difference</h2>
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <div class="value-card">
+                  <h4>Content Development</h4>
+                  <p>Expanding Quranic explanations, Hadith collections, and educational resources</p>
+                </div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <div class="value-card">
+                  <h4>Accessibility Technology</h4>
+                  <p>Screen reader compatibility and voice interface development</p>
+                </div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <div class="value-card">
+                  <h4>Platform Infrastructure</h4>
+                  <p>Server maintenance and scalability for global user base</p>
+                </div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <div class="value-card">
+                  <h4>Global Expansion</h4>
+                  <p>Reaching underserved communities in 30+ countries</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Donation Form -->
+    <section class="donation-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div class="donation-form">
+              <div class="form-header text-center mb-4">
+                <h3 class="mb-3">Make a Contribution</h3>
+                <p class="text-muted">Select your donation amount and frequency</p>
+              </div>
+
+              <!-- Amount Selection -->
+              <div class="amount-section mb-4">
+                <label class="form-label">Donation Amount</label>
+                <div class="row g-3 mb-3">
+                  <div class="col-6">
+                    <button class="btn btn-amount w-100" :class="{ 'active': amount === 10 }" @click="setAmount(10)">
+                      £10
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-amount w-100" :class="{ 'active': amount === 25 }" @click="setAmount(25)">
+                      £25
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-amount w-100" :class="{ 'active': amount === 50 }" @click="setAmount(50)">
+                      £50
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-amount w-100" :class="{ 'active': amount === 100 }" @click="setAmount(100)">
+                      £100
+                    </button>
+                  </div>
+                </div>
+
+                <div class="custom-amount">
+                  <label class="form-label">Custom Amount</label>
+                  <div class="input-group">
+                    <span class="input-group-text">£</span>
+                    <input type="number" class="form-control" v-model="customAmount" placeholder="Enter amount" min="1"
+                      @input="handleCustomAmount">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Donation Type -->
+              <div class="frequency-section mb-4">
+                <label class="form-label">Donation Frequency</label>
+                <div class="btn-group w-100" role="group">
+                  <button type="button" class="btn btn-frequency" :class="{ 'active': donationType === 'one-time' }"
+                    @click="donationType = 'one-time'">
+                    One-time
+                  </button>
+                  <button type="button" class="btn btn-frequency" :class="{ 'active': donationType === 'monthly' }"
+                    @click="donationType = 'monthly'">
+                    Monthly
+                  </button>
+                </div>
+              </div>
+
+              <!-- Zakat Option -->
+              <div class="zakat-section mb-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" v-model="isZakat" id="zakat-eligibility">
+                  <label class="form-check-label" for="zakat-eligibility">
+                    This contribution qualifies as Zakat
+                  </label>
+                </div>
+              </div>
+
+              <!-- Summary -->
+              <div v-if="isValidAmount" class="summary-section mb-4">
+                <div class="summary-item">
+                  <span>Amount:</span>
+                  <strong>£{{ finalAmount }}</strong>
+                </div>
+                <div class="summary-item">
+                  <span>Frequency:</span>
+                  <strong>{{ donationType === 'monthly' ? 'Monthly' : 'One-time' }}</strong>
+                </div>
+                <div v-if="isZakat" class="summary-item">
+                  <span>Type:</span>
+                  <strong>Zakat-eligible</strong>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button class="btn btn-primary w-100" @click="processDonation" :disabled="!isValidAmount">
+                <span v-if="donationType === 'monthly'">Setup Monthly Contribution</span>
+                <span v-else>Proceed to Secure Payment</span>
+              </button>
+
+              <div class="security-notice text-center mt-3">
+                <small class="text-muted">Secured by Stripe Payments</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="testimonial-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="testimonial-card">
+              <blockquote>
+                <p>"Islamic Connect represents the future of Islamic education technology. Their commitment to
+                  accessibility sets a new standard for digital religious platforms."</p>
+                <footer>Technology Advisor, Islamic Education Sector</footer>
+              </blockquote>
             </div>
           </div>
         </div>
@@ -70,102 +239,303 @@
 </template>
 
 <script>
-import {
-  loadStripe
-} from "@stripe/stripe-js";
-import axios from "axios"; // Assuming axios is imported to handle the API call
-
 export default {
   data() {
     return {
-      stripe: null,
-      amount: 0, // Start with 0 so user has to input their own amount
-    };
+      amount: 0,
+      customAmount: '',
+      donationType: 'one-time',
+      isZakat: false
+    }
   },
-  mounted() {
-    // Initialize Stripe with your publishable key
-    loadStripe("pk_live_51QIJkjIol4Q5wn4Og4nYBjG25zNBFSnvTIfivJvDdHt6u0CD364TMcQHvGmrh6TOBNPDi9xwRDz7Zoirdl6NSDoB00JEFToo7F").then(
-      (stripe) => {
-        this.stripe = stripe;
-      }
-    );
+  computed: {
+    finalAmount() {
+      return this.customAmount ? parseInt(this.customAmount) : this.amount;
+    },
+    isValidAmount() {
+      return this.finalAmount > 0;
+    }
   },
   methods: {
-    async donate() {
-      if (this.amount <= 0) {
-        alert("Please enter a valid donation amount.");
-        return;
-      }
-
-      try {
-        // Send the dynamically selected donation amount to the backend
-        const response = await axios.post('/create-checkout-session', {
-          amount: this.amount,
-        });
-
-        const {
-          id
-        } = response.data;
-
-        // Redirect to Stripe Checkout page
-        const {
-          error
-        } = await this.stripe.redirectToCheckout({
-          sessionId: id,
-        });
-
-        if (error) {
-          console.error('Error redirecting to checkout:', error.message);
-        }
-      } catch (error) {
-        console.error('Error creating checkout session:', error.message);
+    setAmount(amount) {
+      this.amount = amount;
+      this.customAmount = '';
+    },
+    handleCustomAmount() {
+      if (this.customAmount) {
+        this.amount = 0;
       }
     },
-  },
-};
+    processDonation() {
+      if (!this.isValidAmount) {
+        alert('Please enter a valid donation amount.');
+        return;
+      }
+      window.location.href = 'https://donate.stripe.com/6oE5kY84oc3q7fy145';
+    }
+  }
+}
 </script>
 
-<style>
-/* Stripe-like theme for the input */
-.stripe-input {
-  background-color: #f7f7f8;
-  border: 1px solid #ccd0d5;
-  border-radius: 4px;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: 400;
-  color: #333;
-  width: 100%;
-  box-sizing: border-box;
-  transition: border-color 0.2s ease-in-out;
+<style scoped>
+
+.donation-page {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-.stripe-input:focus {
-  border-color: #00bfa6;
-  outline: none;
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #1a5f7a 0%, #2c3e50 100%);
+  padding: 80px 0 60px 0;
+  color: white;
 }
 
-.stripe-input::placeholder {
-  color: #ccc;
+.hero-section h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
-/* Additional button styles */
-.donate {
-  background-color: #00BFA6;
-  border-radius: 8px;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: bold;
-  font-weight: 400;
-  outline: none;
-  padding: 10px 25px;
+.hero-section .lead {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin-bottom: 3rem;
+}
+
+.metric-item {
   text-align: center;
-  transform: translateY(0);
-  transition: transform 150ms, box-shadow 150ms;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
+  padding: 0 1rem;
+}
+
+.metric-item h3 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.metric-item p {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  opacity: 0.9;
+}
+
+.metric-item span {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* Value Section */
+.value-section {
+  padding: 80px 0;
+  background: #f8f9fa;
+}
+
+.value-section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.value-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  height: 100%;
+  transition: transform 0.2s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.value-card h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a5f7a;
+  margin-bottom: 1rem;
+}
+
+.value-card p {
+  color: #6c757d;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Donation Section */
+.donation-section {
+  padding: 80px 0;
+  background: white;
+}
+
+.donation-form {
+  background: #fff;
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.form-header h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.form-header p {
+  font-size: 1.1rem;
+  color: #6c757d;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+/* Amount Buttons */
+.btn-amount {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  color: #495057;
+  padding: 12px 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-amount:hover,
+.btn-amount.active {
+  background: #1a5f7a;
+  border-color: #1a5f7a;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Frequency Buttons */
+.btn-frequency {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  color: #495057;
+  padding: 10px 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-frequency.active {
+  background: #1a5f7a;
+  border-color: #1a5f7a;
+  color: white;
+}
+
+/* Primary Button */
+.btn-primary {
+  background: #1a5f7a;
+  border: none;
+  color: white;
+  padding: 14px 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #144a5f;
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Summary Section */
+.summary-section {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #1a5f7a;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.summary-item:not(:last-child) {
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Testimonial Section */
+.testimonial-section {
+  padding: 80px 0;
+  background: #f8f9fa;
+}
+
+.testimonial-card {
+  background: white;
+  padding: 3rem;
+  border-radius: 16px;
+  border-left: 4px solid #1a5f7a;
+}
+
+.testimonial-card blockquote p {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #495057;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.testimonial-card blockquote footer {
+  font-weight: 600;
+  color: #1a5f7a;
+}
+
+/* Form Elements */
+.form-check-input:checked {
+  background-color: #1a5f7a;
+  border-color: #1a5f7a;
+}
+
+.input-group-text {
+  background: #f8f9fa;
+  border-color: #ced4da;
+}
+
+.form-control {
+  border-color: #ced4da;
+}
+
+.form-control:focus {
+  border-color: #1a5f7a;
+  box-shadow: 0 0 0 0.2rem rgba(26, 95, 122, 0.25);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 60px 0 40px 0;
+  }
+
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .value-section,
+  .donation-section,
+  .testimonial-section {
+    padding: 60px 0;
+  }
+
+  .donation-form {
+    padding: 2rem;
+  }
 }
 </style>

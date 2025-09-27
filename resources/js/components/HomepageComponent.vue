@@ -381,6 +381,50 @@
       </div>
     </section>
 
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 text-center">
+            <h2 class="section-title">Our Impact in Numbers</h2>
+            <p class="section-lead">Measurable results showing how we're making Islamic knowledge accessible to all</p>
+
+            <div class="row container-fluid stats-grid">
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>30+</h3>
+                  <p>Countries</p>
+                  <small>Global reach</small>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>2.3 min</h3>
+                  <p>Avg. Engagement</p>
+                  <small>Per session</small>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>100%</h3>
+                  <p>Accessibility</p>
+                  <small>Score</small>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>370%</h3>
+                  <p>Growth</p>
+                  <small>Returning users</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
     <!-- newsletter -->
     <!-- <section class="py-4 my-md-5">
       <div class="container">
@@ -517,7 +561,7 @@
     -->
 
     <!-- contact -->
-    <section class="py-5" style="background: #e3e3e3; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+    <section class="py-5" style="background: #fff; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
       <div class="container-fluid">
         <div class="row justify-content-center text-center">
           <div class="col-lg-8 col-xxl-7">
@@ -952,6 +996,116 @@ export default {
 };
 </script>
 <style scoped>
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.stats-section {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #1a5f7a 0%, #2c3e50 100%);
+  color: white;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.section-lead {
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+  opacity: 0.9;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stats-grid {
+  margin-top: 2rem;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.stat-card h3 {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.stat-card p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-card small {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.value-section {
+  padding: 5rem 0;
+  background: #f8f9fa;
+}
+
+.value-section h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.value-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.value-card h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a5f7a;
+  margin-bottom: 1rem;
+}
+
+.value-card p {
+  color: #6c757d;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats-section,
+  .value-section {
+    padding: 3rem 0;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .stat-card h3 {
+    font-size: 2.25rem;
+  }
+  
+  .value-card {
+    padding: 2rem;
+  }
+}
+
 .partner-icon {
   width: 150px;
   height: 150px;
