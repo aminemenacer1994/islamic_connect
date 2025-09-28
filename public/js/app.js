@@ -177440,17 +177440,17 @@ var _hoisted_16 = {
   "class": "row g-3 align-items-center justify-content-center"
 };
 var _hoisted_17 = {
-  "class": "col-md-6 col-12 mb-3"
+  "class": "col-md-6 col-12 mb-2"
 };
 var _hoisted_18 = {
   "class": "input-group"
 };
 var _hoisted_19 = {
-  "class": "col-md-3 col-6 mb-3"
+  "class": "col-md-3 col-12 mb-2"
 };
 var _hoisted_20 = ["value"];
 var _hoisted_21 = {
-  "class": "col-md-3 col-12 mb-3"
+  "class": "col-md-3 col-12 mb-2"
 };
 var _hoisted_22 = {
   "class": "container py-5"

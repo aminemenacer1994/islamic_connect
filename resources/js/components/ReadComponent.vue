@@ -68,7 +68,7 @@
             <div class="container">
                 <div class="filter-card ">
                     <div class="row g-3 align-items-center justify-content-center">
-                        <div class="col-md-6 col-12 mb-3">
+                        <div class="col-md-6 col-12 mb-2">
                             <div class="input-group">
                                 <input v-model="searchTerm" @input="debounceSearch" type="text"
                                     class="form-control form-control-lg" placeholder="Search blogs (min 3 chars)..."
@@ -78,13 +78,13 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6 mb-3">
+                        <div class="col-md-3 col-12 mb-2">
                             <select v-model="selectedTag" class="form-select form-select-lg" aria-label="Filter by tag">
                                 <option value="all">Categories</option>
                                 <option v-for="tag in uniqueTags" :key="tag" :value="tag">{{ tag }}</option>
                             </select>
                         </div>
-                        <div class="col-md-3 col-12 mb-3">
+                        <div class="col-md-3 col-12 mb-2">
                             <select v-model="sortBy" class="form-select form-select-lg" aria-label="Sort blogs" @change="handleSortChange">
                                 <option value="newest" selected>Newest</option>
                                 <option value="nameAZ">Name A-Z</option>
