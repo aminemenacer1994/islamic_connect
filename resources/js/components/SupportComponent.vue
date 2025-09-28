@@ -267,21 +267,6 @@ export default {
   background: #f8f9fa;
 }
 
-/* .value-proposition-wrapper {
-  background: white;
-  padding: 3rem;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e9ecef;
-  height: 100%;
-}
-
-.value-proposition-wrapper h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 2rem;
-} */
 
 /* Value Cards */
 .value-card {

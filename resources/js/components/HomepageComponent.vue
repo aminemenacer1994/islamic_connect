@@ -254,30 +254,6 @@
       </div>
     </section>
 
-    <!-- Featured Blogs Section -->
-    <section class="featured-blogs">
-      <div class="container">
-          <div class="row justify-content-center text-center mb-5">
-              <div class="col-lg-8 col-xl-7">
-                  <h1 class="display-4 mb-3 fw-bold">Featured Islamic Insights</h1>
-                  <p class="lead">
-                      Discover profound wisdom and spiritual guidance through our carefully curated collection of Islamic insights, 
-                      stories, and reflections that illuminate the heart and strengthen faith.
-                  </p>
-              </div>
-          </div>
-          
-          <div class="row g-4" id="featuredBlogsContainer">
-              <!-- Featured blogs will be loaded here by JavaScript -->
-          </div>
-          
-          <div class="text-center">
-              <a href="#blogs" class="view-all-blogs-btn" onclick="navigateToBlogs()">
-                  View All Islamic Insights <i class="bi bi-arrow-right ms-1"></i>
-              </a>
-          </div>
-      </div>
-    </section>
 
     <!-- Stats Section -->
     <section class="stats-section">
@@ -324,6 +300,110 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-5 combined-section">
+      <div class="container-fluid">
+        <div class="row align-items-stretch">
+          <!-- Value Proposition Column -->
+          <div class="col-lg-1 mb-4">
+          </div>
+          <div class="col-lg-5 mb-4">
+            <div class="value-proposition-wrapper">
+              
+              <div class="form-header text-center mb-4">
+                <h2 class="mb-3">Strategic Impact Areas</h2>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="value-card">
+                    <div class="value-icon">📚</div>
+                    <h4>Educational Content</h4>
+                    <p>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="value-card">
+                    <div class="value-icon">♿</div>
+                    <h4>Accessibility Features</h4>
+                    <p>Implementing screen reader support and voice interfaces for inclusive access</p>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="value-card">
+                    <div class="value-icon">⚙️</div>
+                    <h4>Platform Infrastructure</h4>
+                    <p>Maintaining robust servers and scalable architecture for global user base</p>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="value-card">
+                    <div class="value-icon">🌍</div>
+                    <h4>Global Outreach</h4>
+                    <p>Expanding to underserved Muslim communities worldwide</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Donation Section Column -->
+          <div class="col-lg-5 mb-4">
+            <div class="donation-form">
+              <div class="form-header text-center mb-4">
+                <h3 class="mb-3">Make a Difference</h3>
+                <p class="text-muted">Your support enables us to continue our mission</p>
+              </div>
+
+              <!-- Trust Indicators -->
+              <div class="trust-indicators mb-4">
+                <div class="trust-item">
+                  <i class="fas fa-lock"></i>
+                  <span>Secure Payment</span>
+                </div>
+                <div class="trust-item">
+                  <i class="fas fa-shield-alt"></i>
+                  <span>SSL Encrypted</span>
+                </div>
+                <div class="trust-item">
+                  <i class="fas fa-certificate"></i>
+                  <span>Stripe Verified</span>
+                </div>
+              </div>
+
+              <!-- Summary -->
+              <div v-if="isValidAmount" class="summary-section mb-4">
+                <div class="summary-header">
+                  <h6>Ready to Contribute</h6>
+                </div>
+                <div class="summary-item">
+                  <span>Amount:</span>
+                  <strong>£{{ finalAmount }}</strong>
+                </div>
+                <div class="summary-item">
+                  <span>Your Impact:</span>
+                  <strong>{{ impactMessage }}</strong>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button class="btn btn-primary w-100" @click="processDonation" :disabled="!isValidAmount">
+                <i class="fas fa-lock me-2"></i>
+                Proceed to Secure Payment
+              </button>
+
+              <div class="security-guarantee text-center mt-3">
+                <p class="small text-muted">
+                  <i class="fas fa-shield-alt me-1"></i>
+                  Your contribution is securely processed by Stripe. We never store your payment details.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-1 mb-4">
           </div>
         </div>
       </div>
@@ -926,6 +1006,7 @@ export default {
   },
   data() {
     return {
+      amount: 10,
       partners: [
         { name: "Ana Atlou", icon: "/images/aatlout.webp" },
         { name: "Noor Taibah", icon: "/images/algerian.png" },
@@ -956,9 +1037,33 @@ export default {
         chunks.push(this.partners.slice(i, i + this.chunkSize));
       }
       return chunks;
+    },
+    finalAmount() {
+      return this.amount;
+    },
+    isValidAmount() {
+      return this.finalAmount > 0;
+    },
+    impactMessage() {
+      if (this.amount >= 100) return 'Major platform enhancement';
+      if (this.amount >= 50) return 'Content development for many users';
+      if (this.amount >= 25) return 'Supports multiple users monthly';
+      return 'Helps maintain basic access';
+    },
+    stripeUrl() {
+      const amountInCents = this.finalAmount * 100;
+      return `https://donate.stripe.com/6oE5kY84oc3q7fy145?amount=${amountInCents}`;
     }
   },
   methods: {
+    processDonation() {
+      if (!this.isValidAmount) {
+        alert('Please select a contribution amount.');
+        return;
+      }
+      
+      window.location.href = this.stripeUrl;
+    },
     sendMessage() {
       Swal.fire({
         title: "Are you sure?",
@@ -1030,6 +1135,193 @@ export default {
 };
 </script>
 <style scoped>
+/* Combined Section */
+.combined-section {
+  padding: 80px 0;
+  background: #f8f9fa;
+}
+
+
+/* Value Cards */
+.value-card {
+  background: #fafbfc;
+  padding: 2rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  height: 100%;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.value-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: #1a5f7a;
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.value-card:hover::before {
+  transform: scaleY(1);
+}
+
+.value-icon {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.value-card h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a5f7a;
+  margin-bottom: 1rem;
+}
+
+.value-card p {
+  color: #6c757d;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Donation Section */
+.donation-form {
+  background: #fff;
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  position: relative;
+  height: 100%;
+}
+
+.donation-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1a5f7a, #2c3e50);
+  border-radius: 16px 16px 0 0;
+}
+
+.form-header h3 {
+  font-size: 1.75rem;
+  padding-top: 5px;
+  font-weight: 800;
+  color: #2c3e50;
+}
+.form-header h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #2c3e50;
+}
+
+.form-header p {
+  font-size: 1.1rem;
+  color: #6c757d;
+}
+
+/* Trust Indicators */
+.trust-indicators {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+.trust-item i {
+  color: #1a5f7a;
+}
+
+/* Enhanced Summary */
+.summary-section {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid #1a5f7a;
+}
+
+.summary-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.summary-header h6 {
+  margin: 0;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+}
+
+.summary-item:not(:last-child) {
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Enhanced Primary Button */
+.btn-primary {
+  background: #1a5f7a;
+  border: none;
+  color: white;
+  padding: 1.25rem 2rem;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #144a5f;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(26, 95, 122, 0.4);
+}
+
+.btn-primary:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.security-guarantee {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
 .card:hover {
   transform: translateY(-5px);
 }
