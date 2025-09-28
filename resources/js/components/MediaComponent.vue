@@ -39,12 +39,10 @@
                         development</span>
                     <img src="/images/mtv2.png" alt="Watch Live" class="w-100" style="object-fit: contain;" />
                     <div class="p-3">
-                        <h5 class="mb-2 fw-bold display-6 text-dark text-center">Channel Listing<span
+                        <h5 class="mb-2 fw-bold display-6 text-dark text-center">Channel Guide<span
                                 v-if="isLocked('/streaming')">🔒</span></h5>
                         <p class="card-text text-muted text-wrap text-center"
-                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Watch Islamic TV
-                            channels and live lectures—stream events, khutbahs, educational programs, and spiritual
-                            content anytime.</p>
+                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Find Islamic channels and access their posts, playlists, and videos directly on YouTube.</p>
                         <button v-if="!isLocked('/streaming')" class="form-control" @click="goTo('/streaming')"
                             style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                             type="button">

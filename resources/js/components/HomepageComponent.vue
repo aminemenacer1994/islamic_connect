@@ -254,6 +254,49 @@
       </div>
     </section>
 
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 text-center">
+            <h2 class="section-title">Our Impact in Numbers</h2>
+            <p class="section-lead">Measurable results showing how we're making Islamic knowledge accessible to all</p>
+
+            <div class="row container-fluid stats-grid">
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>30+</h3>
+                  <p>Countries</p>
+                  <small>Global reach</small>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>2.3 min</h3>
+                  <p>Average Engagement</p>
+                  <small>Per session</small>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>100%</h3>
+                  <p>Accessibility</p>
+                  <small>Score</small>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>370%</h3>
+                  <p>Growth</p>
+                  <small>Returning users</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- AI tools & features -->
     <section class="py-5">
       <div class="container pt-3">
@@ -381,48 +424,7 @@
       </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats-section">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-10 text-center">
-            <h2 class="section-title">Our Impact in Numbers</h2>
-            <p class="section-lead">Measurable results showing how we're making Islamic knowledge accessible to all</p>
-
-            <div class="row container-fluid stats-grid">
-              <div class="col-md-3 col-6 mb-4">
-                <div class="stat-card">
-                  <h3>30+</h3>
-                  <p>Countries</p>
-                  <small>Global reach</small>
-                </div>
-              </div>
-              <div class="col-md-3 col-6 mb-4">
-                <div class="stat-card">
-                  <h3>2.3 min</h3>
-                  <p>Avg. Engagement</p>
-                  <small>Per session</small>
-                </div>
-              </div>
-              <div class="col-md-3 col-6 mb-4">
-                <div class="stat-card">
-                  <h3>100%</h3>
-                  <p>Accessibility</p>
-                  <small>Score</small>
-                </div>
-              </div>
-              <div class="col-md-3 col-6 mb-4">
-                <div class="stat-card">
-                  <h3>370%</h3>
-                  <p>Growth</p>
-                  <small>Returning users</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  
 
 
     <!-- newsletter -->
@@ -1007,7 +1009,7 @@ export default {
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: 2.7rem;
   font-weight: 700;
   margin-bottom: 1rem;
   color: white;

@@ -24,8 +24,47 @@
             </div>
         </div>
 
+        <!-- Category Pills Section -->
+        <div class="category-pills-container mb-3">
+            <div class="container">
+                <div class="pills-wrapper">
+                    <button 
+                        v-if="showLeftArrow" 
+                        @click="scrollLeft" 
+                        class="scroll-arrow scroll-arrow-left"
+                        aria-label="Scroll categories left">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    
+                    <div 
+                        ref="pillsContainer" 
+                        class="pills-scroll-container"
+                        @scroll="updateArrowVisibility">
+                        <div class="pills-list">
+                            <button
+                                v-for="category in categories"
+                                :key="category.id"
+                                @click="selectCategory(category)"
+                                :class="['category-pill', { 'active': selectedCategory.id === category.id }]">
+                                <i :class="category.icon" class="me-2"></i>
+                                {{ category.name }}
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button 
+                        v-if="showRightArrow" 
+                        @click="scrollRight" 
+                        class="scroll-arrow scroll-arrow-right"
+                        aria-label="Scroll categories right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Search and Filters -->
-        <div class="filter-container ">
+        <div class="filter-container mt-3">
             <div class="container">
                 <div class="filter-card ">
                     <div class="row g-3 align-items-center justify-content-center">
@@ -182,11 +221,24 @@ export default {
             searchTerm: '',
             selectedTag: 'all',
             sortBy: 'newest',
-            // sortBy: 'id',
             summaryText: '',
             summaryLoading: false,
             summaryError: '',
-            showSummary: true
+            showSummary: true,
+            // Category pills data
+            categories: [
+                { id: 1, name: 'Prayers', icon: 'fas fa-pray', tag: 'prayer' },
+                { id: 2, name: 'Fasting', icon: 'fas fa-moon', tag: 'fasting' },
+                { id: 3, name: 'Kindness', icon: 'fas fa-heart', tag: 'kindness' },
+                { id: 4, name: 'Quran', icon: 'fas fa-book-open', tag: 'quran' },
+                { id: 5, name: 'Hadith', icon: 'fas fa-scroll', tag: 'hadith' },
+                { id: 6, name: 'Charity', icon: 'fas fa-hand-holding-heart', tag: 'charity' },
+                { id: 7, name: 'Wisdom', icon: 'fas fa-lightbulb', tag: 'wisdom' },
+                { id: 8, name: 'Spirituality', icon: 'fas fa-star-and-crescent', tag: 'spirituality' }
+            ],
+            selectedCategory: { id: 0, name: 'All Categories', icon: 'fas fa-list', tag: 'all' },
+            showLeftArrow: false,
+            showRightArrow: true
         };
     },
     computed: {
@@ -196,9 +248,17 @@ export default {
         },
         filteredBlogs() {
             let result = [...this.blogs];
-            console.log('Total blogs:', this.blogs.length);
 
-            // Filter by tag
+            // Filter by category pill selection
+            if (this.selectedCategory.tag !== 'all') {
+                result = result.filter(blog => 
+                    blog.tags && blog.tags.some(tag => 
+                        tag.toLowerCase().includes(this.selectedCategory.tag.toLowerCase())
+                    )
+                );
+            }
+
+            // Filter by tag dropdown
             if (this.selectedTag !== 'all') {
                 result = result.filter(blog => blog.tags && blog.tags.includes(this.selectedTag));
             }
@@ -229,9 +289,38 @@ export default {
     watch: {
         searchTerm() { this.currentPage = 1; },
         selectedTag() { this.currentPage = 1; },
-        sortBy() { this.currentPage = 1; }
+        sortBy() { this.currentPage = 1; },
+        selectedCategory() { this.currentPage = 1; }
+    },
+    mounted() {
+        // Add all categories option at the beginning
+        this.categories.unshift({ id: 0, name: 'All Categories', icon: 'fas fa-list', tag: 'all' });
+        this.selectedCategory = this.categories[0];
+        
+        // Initialize arrow visibility
+        this.$nextTick(() => {
+            this.updateArrowVisibility();
+        });
     },
     methods: {
+        selectCategory(category) {
+            this.selectedCategory = category;
+        },
+        scrollLeft() {
+            const container = this.$refs.pillsContainer;
+            container.scrollBy({ left: -200, behavior: 'smooth' });
+        },
+        scrollRight() {
+            const container = this.$refs.pillsContainer;
+            container.scrollBy({ left: 200, behavior: 'smooth' });
+        },
+        updateArrowVisibility() {
+            const container = this.$refs.pillsContainer;
+            if (!container) return;
+            
+            this.showLeftArrow = container.scrollLeft > 0;
+            this.showRightArrow = container.scrollLeft < (container.scrollWidth - container.clientWidth);
+        },
         openModal(blog) {
             this.selectedBlog = blog;
             this.summaryText = '';
@@ -376,7 +465,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 /* Color Scheme */
 :root {
@@ -388,6 +476,110 @@ export default {
     --gray-dark: #2a2a2a;
     --gray-medium: #4a4a4a;
     --gray-light: #f5f5f5;
+}
+
+/* Category Pills Styles */
+/* .category-pills-container {
+    background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(0, 196, 180, 0.1);
+} */
+
+.pills-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pills-scroll-container {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.pills-scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+.pills-list {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    white-space: nowrap;
+    min-width: max-content;
+}
+
+.category-pill {
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 20px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    min-width: max-content;
+}
+
+.category-pill:hover {
+    background: var(--primary-color);
+    color: var(--white-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 196, 180, 0.2);
+}
+
+.category-pill.active {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 196, 180, 0.3);
+}
+
+.category-pill.active:hover {
+    background: var(--primary-dark);
+    color: var(--white-color);
+}
+
+.category-pill i {
+    font-size: 0.9rem;
+}
+
+.scroll-arrow {
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: none;
+    flex-shrink: 0;
+}
+
+.scroll-arrow:hover {
+    background: var(--primary-color);
+    color: var(--white-color);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
+}
+
+.scroll-arrow:active {
+    transform: scale(0.95);
+}
+
+.scroll-arrow i {
+    font-size: 1rem;
 }
 
 /* General Styles */
@@ -477,6 +669,7 @@ export default {
 
 /* Filter Container */
 .filter-container {
+    padding-top: 5px;
     background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);
 }
 
@@ -914,7 +1107,6 @@ export default {
 .btn-info {
     background: var(--primary-light);
     border: none;
-    /* color: var(--white-color); */
     font-size: 1.2rem;
     font-weight: 600;
     border-radius: 10px;
@@ -1031,6 +1223,38 @@ export default {
     .filter-card {
         padding: 1.5rem;
     }
+
+    .category-pill {
+        background: transparent;
+        padding: 0.7rem 1.2rem;
+        font-size: 0.95rem;
+        min-height: 40px;
+        border-width: 2px;
+    }
+
+    .category-pill:hover {
+        background: var(--primary-color);
+        color: var(--white-color);
+        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
+    }
+
+    .scroll-arrow {
+        width: 38px;
+        height: 38px;
+        background: transparent;
+        border: 2px solid var(--primary-color);
+        box-shadow: none;
+    }
+
+    .scroll-arrow:hover {
+        background: var(--primary-color);
+        color: var(--white-color);
+        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
+    }
+
+    .scroll-arrow i {
+        font-size: 1.1rem;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1077,6 +1301,65 @@ export default {
     .input-group {
         width: 100%;
     }
+
+    .category-pill {
+        background: transparent;
+        padding: 0.8rem 1.3rem;
+        font-size: 1rem;
+        min-height: 44px;
+        border-width: 2px;
+        font-weight: 700;
+    }
+
+    .category-pill:hover {
+        background: var(--primary-color);
+        color: var(--white-color);
+        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.25);
+        transform: translateY(-2px);
+    }
+
+    .category-pill.active {
+        background: var(--primary-color);
+        color: white;
+        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.3);
+        transform: translateY(-1px);
+    }
+
+    .category-pill i {
+        font-size: 1rem;
+        margin-right: 0.5rem;
+    }
+
+    .pills-wrapper {
+        gap: 0.8rem;
+    }
+
+    .pills-list {
+        gap: 1rem;
+    }
+
+    .scroll-arrow {
+        width: 40px;
+        height: 40px;
+        background: transparent;
+        border: 2px solid var(--primary-color);
+        box-shadow: none;
+    }
+
+    .scroll-arrow:hover {
+        background: var(--primary-color);
+        color: var(--white-color);
+        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
+    }
+
+    .scroll-arrow i {
+        font-size: 1.2rem;
+    }
+
+    /* .category-pills-container {
+        padding: 2.5rem 0;
+        background: linear-gradient(135deg, #f8fffe 0%, #e0f7f5 100%);
+    } */
 }
 
 @media (max-width: 576px) {
@@ -1155,5 +1438,127 @@ export default {
         font-size: 1.1rem;
         padding: 10px 15px;
     }
+
+    .category-pill {
+        background: transparent;
+        padding: 1rem 1.4rem;
+        font-size: 1.05rem;
+        min-height: 46px;
+        border-width: 2px;
+        font-weight: 700;
+        box-shadow: none;
+        white-space: nowrap;
+    }
+
+    .category-pill:hover {
+        background: var(--primary-color);
+        color: var(--white-color);
+        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.25);
+        transform: translateY(-2px);
+    }
+
+    .category-pill.active {
+        background: var(--primary-color);
+        color: white;
+        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.3);
+        transform: translateY(-1px);
+    }
+
+    .category-pill i {
+        font-size: 1.05rem;
+        margin-right: 0.5rem;
+    }
+
+    /* .category-pills-container {
+        padding: 2.5rem 0;
+        background: linear-gradient(135deg, #f0fffd 0%, #d1f5f0 100%);
+        border-bottom: 2px solid rgba(0, 196, 180, 0.2);
+    } */
+
+    .pills-list {
+        gap: 1rem;
+        padding: 0.8rem 0;
+    }
+
+    .pills-wrapper {
+        gap: 1rem;
+    }
+
+    .scroll-arrow {
+        width: 42px;
+        height: 42px;
+        background: transparent;
+        border: 2px solid var(--primary-color);
+        box-shadow: none;
+    }
+
+    .scroll-arrow:hover {
+        background: var(--primary-color);
+        color: var(--white-color);
+        box-shadow: 0 6px 16px rgba(0, 196, 180, 0.5);
+        transform: scale(1.1);
+    }
+
+    .scroll-arrow i {
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .pills-scroll-container {
+        padding: 0.5rem 0;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 375px) {
+    .category-pill {
+        background: transparent;
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        min-height: 42px;
+    }
+
+    .category-pill:hover {
+        background: var(--primary-color);
+        color: var(--white-color);
+        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
+    }
+
+    .category-pill.active {
+        background: var(--primary-color);
+        color: var(--white-color);
+        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
+    }
+
+    .category-pill i {
+        font-size: 1rem;
+        margin-right: 0.4rem;
+    }
+
+    .scroll-arrow {
+        width: 38px;
+        height: 38px;
+        background: transparent;
+        border: 2px solid var(--primary-color);
+        box-shadow: none;
+    }
+
+    .scroll-arrow:hover {
+        background: var(--primary-color);
+        color: var(--white-color);
+        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
+    }
+
+    .scroll-arrow i {
+        font-size: 1rem;
+    }
+
+    .pills-list {
+        gap: 0.8rem;
+    }
+
+    /* .category-pills-container {
+        padding: 2rem 0;
+    } */
 }
 </style>

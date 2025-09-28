@@ -10,11 +10,9 @@
 
     <!-- Header (unchanged) -->
     <header class="text-center mb-5">
-      <h1 class="fw-bold display-4 mb-3">Channels Listing</h1>
+      <h1 class="fw-bold display-4 mb-3">Channel Guide</h1>
       <p class="lead text-muted mx-auto">
-        Watch live Islamic TV channels from around the world. Experience spiritual content including live prayers from
-        Makkah and Madinah, educational programs, Quranic recitations, and Islamic lifestyle content in multiple
-        languages.
+        Discover and explore Islamic channels easily. This feature helps you connect with authentic Islamic content by directing you to each channel’s posts, playlists, and videos on YouTube, you can quickly find and access valuable resources all in one place.
       </p>
     </header>
 
