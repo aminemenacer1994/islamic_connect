@@ -254,6 +254,31 @@
       </div>
     </section>
 
+    <!-- Featured Blogs Section -->
+    <section class="featured-blogs">
+      <div class="container">
+          <div class="row justify-content-center text-center mb-5">
+              <div class="col-lg-8 col-xl-7">
+                  <h1 class="display-4 mb-3 fw-bold">Featured Islamic Insights</h1>
+                  <p class="lead">
+                      Discover profound wisdom and spiritual guidance through our carefully curated collection of Islamic insights, 
+                      stories, and reflections that illuminate the heart and strengthen faith.
+                  </p>
+              </div>
+          </div>
+          
+          <div class="row g-4" id="featuredBlogsContainer">
+              <!-- Featured blogs will be loaded here by JavaScript -->
+          </div>
+          
+          <div class="text-center">
+              <a href="#blogs" class="view-all-blogs-btn" onclick="navigateToBlogs()">
+                  View All Islamic Insights <i class="bi bi-arrow-right ms-1"></i>
+              </a>
+          </div>
+      </div>
+    </section>
+
     <!-- Stats Section -->
     <section class="stats-section">
       <div class="container">
@@ -272,11 +297,18 @@
               </div>
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
+                  <h3>200+</h3>
+                  <p>Cities</p>
+                  <small>Worldwide presence</small>
+                </div>
+              </div>
+              <!-- <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
                   <h3>2.3 min</h3>
                   <p>Average Engagement</p>
                   <small>Per session</small>
                 </div>
-              </div>
+              </div> -->
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
                   <h3>100%</h3>
