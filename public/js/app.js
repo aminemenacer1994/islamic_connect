@@ -173747,10 +173747,9 @@ var _hoisted_8 = {
   "class": "col-md-6 col-lg-4"
 };
 var _hoisted_9 = {
-  "class": "card custom-card shadow-sm rounded-4",
+  "class": "card custom-card rounded-4 overflow-hidden",
   style: {
-    "border": "1px solid grey",
-    "background": "whitesmoke"
+    "border": "1px solid grey"
   }
 };
 var _hoisted_10 = {
@@ -173893,8 +173892,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-credit-card me-2"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Subscribe to Access")], -1 /* CACHED */)]))))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "badge rounded-pill bg-black text-white position-absolute top-0 start-0 m-2"
-  }, "Under development", -1 /* CACHED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    "class": "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
+  }, "New", -1 /* CACHED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/mtv2.png",
     alt: "Watch Live",
     "class": "w-100",
@@ -173908,7 +173907,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Find Islamic channels and access their posts, playlists, and videos directly on YouTube.", -1 /* CACHED */)), !_ctx.isLocked('/streaming') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, "Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube.", -1 /* CACHED */)), !_ctx.isLocked('/streaming') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     "class": "form-control",
     onClick: _cache[2] || (_cache[2] = function ($event) {
@@ -191508,7 +191507,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-63cb17b8] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n    background: #00bfa6;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-63cb17b8]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.custom-card[data-v-63cb17b8] {\n    height: 100%;\n}\n.custom-card img[data-v-63cb17b8] {\n    height: 180px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n.loading-overlay[data-v-63cb17b8] {\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.5);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    z-index: 1060;\n}\n.loading-spinner[data-v-63cb17b8] {\n    background: white;\n    padding: 2rem;\n    border-radius: 10px;\n    text-align: center;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-63cb17b8] {\n  max-height: 4.5em;\n  text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n  background: #00bfa6;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  color: white;\n  height: 38px;\n  padding: 0.375rem 0.75rem;\n  border: none;\n  /* Good to be explicit */\n}\n.custom-card[data-v-63cb17b8]:hover {\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.custom-card[data-v-63cb17b8] {\n  height: 100%;\n}\n.custom-card img[data-v-63cb17b8] {\n  height: 180px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.loading-overlay[data-v-63cb17b8] {\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.5);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    z-index: 1060;\n}\n.loading-spinner[data-v-63cb17b8] {\n    background: white;\n    padding: 2rem;\n    border-radius: 10px;\n    text-align: center;\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n    border-color: #00bfa6;\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

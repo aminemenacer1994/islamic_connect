@@ -1,325 +1,462 @@
-@extends('layouts.app')
 
+@extends('layouts.app')
 @section('content')
 
-
-<!-- Login 2 - Bootstrap Brain Component -->
-<div class="bg-light py-3 py-md-5">
-  <div class="container">
-    <div class="row justify-content-md-center">
-      <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
-        <div class="bg-white p-4 p-md-5 rounded shadow-lg" style="border-radius:8px">
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-5">
-                <h1>Log in</h1>
-              </div>
+<!-- Main Content -->
+<main id="main-content">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to access Quranic resources and Islamic knowledge</p>
             </div>
-          </div>
-          <form method="POST" action="{{ route('login') }}">
-          @csrf
-            <div class="row gy-3 gy-md-4 overflow-hidden">
-              <div class="col-12">
-              <div class="form-outline mb-4">
-                    <label class="form-label text-left" style="font-weight:bold">Email address</label>
-                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+            
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
+                            name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
+                            placeholder="Enter your email" aria-describedby="emailHelp">
                     @error('email')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
-              </div>
-              <div class="col-12">
-              <label class="form-label text-left" for="form2Example27">Password</label>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
+                            name="password" required autocomplete="current-password"
+                            placeholder="Enter your password">
                     @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
-              </div>
-              <div class="col-12">
-                <p class="mb-3 pb-lg-2 pt-2 custom-text text-left" ><p>Don't have an account? <a style="text-decoration: none" href="/register" style="color: #00BFA6;">Register here</a></p></p>
-              </div>
-              <div class="col-12">
-                <div class="d-grid">
-                  <button class="btn btn-lg" style="background: #00BFA6; color:white; font-style:bold" type="submit">Log in now</button>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row text-center mt-5">
-                    <a href="/register" class="link-secondary text-center text-decoration-none">Create new account</a>
-                    <!-- <a href="#!" class="link-secondary text-decoration-none">Forgot password</a> -->
-                </div>
-              </div>
-    
-            </div>
-
-              <!-- <div class="row mt-3 text-center">
-                <div class="col w-100">
-                    <button onclick="event.preventDefault(); window.location.href='{{ url('/auth/google') }}'" class="gsi-material-button">
-                    <div class="gsi-material-button-state"></div>
-                        <div class="gsi-material-button-content-wrapper">
-                        <div class="gsi-material-button-icon">
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;">
-                                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-                                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-                                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-                                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-                                <path fill="none" d="M0 0h48v48H0z"></path>
-                            </svg>
-                        </div>
-                        <span class="gsi-material-button-contents">Sign up with Google</span>
-                        <span style="display: none;">Sign up with Google</span>
-                        </div>
-                    </button>
-                </div> -->
-                    <div class="col-12">
-                    <p class="mt-2 mb-4">Or sign in with</p>
-                    <div class="d-flex gap-3 flex-column flex-md-row">
-                        <a href="#!" class="btn bsb-btn-xl btn-outline-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
-                            <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
-                        </svg>
-                        <span class="ms-2 fs-6">Google</span>
-                        </a>
-                        <a href="#!" class="btn bsb-btn-xl btn-outline-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                        </svg>
-                        <span class="ms-2 fs-6">Facebook</span>
-                        </a>
-                        <a href="#!" class="btn bsb-btn-xl btn-outline-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
-                            <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
-                        </svg>
-                        <span class="ms-2 fs-6">Twitter</span>
-                        </a>
+                
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <label class="form-check-label" for="remember">
+                            Remember me
+                        </label>
                     </div>
-                    </div>
+                    <a href="#" class="text-decoration-none" style="color: var(--primary-color);">Forgot password?</a>
                 </div>
+                
+                <div class="d-grid mb-3">
+                    <button type="submit" style="background:rgb(53, 163, 139); color:white" class="btn btn-lg">Sign In</button>
+                </div>
+            </form>
+            
+            <div class="divider">
+                <span class="divider-text">Or continue with</span>
             </div>
+            
+            <div class="social-login">
+                <a href="/auth/google" class="social-btn btn-google" aria-label="Sign in with Google">
+                    <i class="bi bi-google"></i> Google
+                </a>
             </div>
-          </form>
-          
-          
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- <section class="">
-    <div class="px-4 py-5 px-md-5 text-center text-lg-start">
-        <div class="container">
-            <div class="row gx-lg-5 align-items-center">
-                <div class="col-lg-6 mb-lg-0 hide-on-mobile">
-                    <img src="{{ asset('images/mob-auth.png') }}" width="90%" alt="Auth Image" loading="lazy">
-                </div>
-                <div class="col-lg-6 mb-lg-0">
-                    <div class="card" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; border-radius:10px">
-                        <div class="card-body px-md-5">
-                            <form method="POST" action="{{ route('login') }}">
-                                @csrf
-                                <h2 class="fw-normal mt-4 pb-3" style="font-family:inter"><b>Login to your account</b></h2>
-                                <div class="row">
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label text-left" style="font-weight:bold">Email address</label>
-                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                        @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label text-left" for="form2Example27">Password</label>
-                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-                                        @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="pt-1 mb-2">
-                                    <button type="submit" class="btn btn-lg btn-block text-white" style="background: #00BFA6">Login</button>
-                                </div>
-                                <div class="text-center">
-                                    {{-- @if (Route::has('password.request'))
-                                        <a class="btn btn-link" style="text-decoration: none" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
-                                        </a>
-                                    @endif --}}
-                                    <p class="mb-3 pb-lg-2 pt-2 custom-text" ><b>Don't have an account? <a style="text-decoration: none" href="/register" style="color: #00BFA6;">Register here</a></b></p>
-
-                                    <!-- google sign in -->
-                                    <!-- <div class="container-fluid text-center" style="display:flex">
-                                        <div class="container-fluid text-center">
-                                        
-                                        
-                                        <div class="row">
-                                        <div class="col w-100">
-                                            <button onclick="event.preventDefault(); window.location.href='{{ url('/auth/google') }}'" class="gsi-material-button">
-                                            <div class="gsi-material-button-state"></div>
-                                                <div class="gsi-material-button-content-wrapper">
-                                                <div class="gsi-material-button-icon">
-                                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;">
-                                                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-                                                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-                                                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-                                                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-                                                        <path fill="none" d="M0 0h48v48H0z"></path>
-                                                    </svg>
-                                                </div>
-                                                <span class="gsi-material-button-contents">Sign up with Google</span>
-                                                <span style="display: none;">Sign up with Google</span>
-                                                </div>
-                                            </button>
-                                        </div>
-                                        </div>
-                                        </div>
-                                    </div> -->
-                                </div>
-                                
-                            </form>
-                        </div>
-                    </div>
-                </div>
+            
+            <div class="login-footer">
+                <p>Don't have an account? <a href="/register">Create account</a></p>
             </div>
         </div>
     </div>
-</section>  
+</main>
+
 @endsection
 
 <style>
-      .gsi-material-button {
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  -webkit-appearance: none;
-  background-color: WHITE;
-  background-image: none;
-  border: 1px solid #747775;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  color: #1f1f1f;
-  cursor: pointer;
-  font-family: 'Roboto', arial, sans-serif;
-  font-size: 14px;
-  height: 40px;
-  letter-spacing: 0.25px;
-  outline: none;
-  overflow: hidden;
-  padding: 0 12px;
-  position: relative;
-  text-align: center;
-  -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
-  transition: background-color .218s, border-color .218s, box-shadow .218s;
-  vertical-align: middle;
-  white-space: nowrap;
-  width: auto;
-  
-}
-
-input:focus, textarea:focus, select:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-.gsi-material-button .gsi-material-button-icon {
-  height: 20px;
-  margin-right: 12px;
-  min-width: 20px;
-  width: 20px;
-}
-
-.gsi-material-button .gsi-material-button-content-wrapper {
-  -webkit-align-items: center;
-  align-items: center;
-  display: flex;
-  -webkit-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: nowrap;
-  flex-wrap: nowrap;
-  height: 100%;
-  justify-content: space-between;
-  position: relative;
-  width: 100%;
-}
-
-.gsi-material-button .gsi-material-button-contents {
-  -webkit-flex-grow: 1;
-  flex-grow: 1;
-  font-family: 'Roboto', arial, sans-serif;
-  font-weight: 500;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  vertical-align: top;
-}
-
-.gsi-material-button .gsi-material-button-state {
-  -webkit-transition: opacity .218s;
-  transition: opacity .218s;
-  bottom: 0;
-  left: 0;
-  opacity: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.gsi-material-button:disabled {
-  cursor: default;
-  background-color: #ffffff61;
-  border-color: #1f1f1f1f;
-}
-
-.gsi-material-button:disabled .gsi-material-button-contents {
-  opacity: 38%;
-}
-
-.gsi-material-button:disabled .gsi-material-button-icon {
-  opacity: 38%;
-}
-
-.gsi-material-button:not(:disabled):active .gsi-material-button-state, 
-.gsi-material-button:not(:disabled):focus .gsi-material-button-state {
-  background-color: #303030;
-  opacity: 12%;
-}
-
-.gsi-material-button:not(:disabled):hover {
-  -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
-  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
-}
-
-.gsi-material-button:not(:disabled):hover .gsi-material-button-state {
-  background-color: #303030;
-  opacity: 8%;
-}
-
-@media (max-width: 575px) {
-    .hide-on-mobile {
-        display: none;
+    :root {
+        --primary-color: #35a38b;
+        --primary-hover: #2d8c77;
+        --text-color: #1a1a1a;
+        --light-bg: #f8f9fa;
+        --border-radius: 8px;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --transition: all 0.3s ease;
     }
-    .custom-dropdown {
-        max-height: 200px;
-        overflow-y: auto;
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
-}
-@media (max-width: 767px) {
-    .hide-on-mobile {
-        display: none;
+    
+    body {
+        background-color: var(--light-bg);
+        font-family: 'Inter', sans-serif;
+        color: var(--text-color);
+        line-height: 1.6;
+        padding-top: 70px;
     }
-    .custom-dropdown {
-        max-height: 200px;
-        overflow-y: auto;
+    
+    /* Navbar Styles - Matching your existing navbar */
+    .navbar {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     }
-}
+    
+    .navbar-brand img {
+        max-height: 50px;
+        width: auto;
+    }
+    
+    .nav-link {
+        color: black;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .nav-link:hover {
+        color: var(--primary-color);
+        transition: color 0.3s ease;
+    }
+    
+    .nav-link.active {
+        font-weight: bold;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
+        transition: color 0.3s ease, border-bottom 0.3s ease;
+    }
+    
+    .navbar-toggler {
+        border: none;
+    }
+    
+    /* Login Container */
+    .login-container {
+        min-height: calc(100vh - 70px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
+    
+    .login-card {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 450px;
+        transition: var(--transition);
+        border-top: 4px solid var(--primary-color);
+    }
+    
+    .login-card:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+    
+    .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .login-header h1 {
+        font-weight: 600;
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+        font-size: 1.75rem;
+    }
+    
+    .login-header p {
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+    
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+        padding: 0.75rem 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        transition: var(--transition);
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(53, 163, 139, 0.25);
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        padding: 0.75rem;
+        font-weight: 500;
+        transition: var(--transition);
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(53, 163, 139, 0.3);
+    }
+    
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 1.5rem 0;
+    }
+    
+    .divider::before,
+    .divider::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .divider-text {
+        padding: 0 1rem;
+        color: #6c757d;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    
+    .social-login {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .social-btn {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        background: white;
+        transition: var(--transition);
+        font-weight: 500;
+        color: #5f6368;
+        text-decoration: none;
+    }
+    
+    .social-btn:hover {
+        background-color: #f8f9fa;
+        border-color: #adb5bd;
+        transform: translateY(-1px);
+        color: #5f6368;
+    }
+    
+    .social-btn i {
+        margin-right: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .btn-google {
+        color: #5f6368;
+    }
+    
+    .btn-google:hover {
+        background-color: #f8f9fa;
+        border-color: #dadce0;
+    }
+    
+    .login-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #6c757d;
+    }
+    
+    .login-footer a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .login-footer a:hover {
+        text-decoration: underline;
+    }
+    
+    .invalid-feedback {
+        display: block;
+    }
+    
+    /* Skip to main content for accessibility */
+    .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: var(--primary-color);
+        color: white;
+        padding: 8px;
+        z-index: 100;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+    
+    .skip-link:focus {
+        top: 6px;
+    }
+    
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .login-card {
+            padding: 2rem 1.5rem;
+            margin: 0 1rem;
+        }
+        
+        .social-login {
+            flex-direction: column;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .login-header h1 {
+            font-size: 1.5rem;
+        }
+        
+        .login-card {
+            padding: 1.5rem 1rem;
+        }
+        
+        .btn-primary {
+            padding: 0.65rem;
+        }
+    }
+    
+    /* Focus styles for accessibility */
+    button:focus, 
+    a:focus, 
+    input:focus, 
+    select:focus, 
+    textarea:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+    }
+    
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+        :root {
+            --text-color: #000;
+        }
+        
+        .navbar {
+            border-bottom: 2px solid #000;
+        }
+        
+        .login-card {
+            border: 1px solid #000;
+        }
+    }
+    
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            transition: none !important;
+        }
+    }
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Enhanced form validation
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            // Email validation
+            if (!emailInput.value || !isValidEmail(emailInput.value)) {
+                showError(emailInput, 'Please enter a valid email address');
+                isValid = false;
+            } else {
+                removeError(emailInput);
+            }
+            
+            // Password validation
+            if (!passwordInput.value) {
+                showError(passwordInput, 'Please enter your password');
+                isValid = false;
+            } else {
+                removeError(passwordInput);
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                // Focus on first invalid field
+                const firstInvalid = form.querySelector('.is-invalid');
+                if (firstInvalid) {
+                    firstInvalid.focus();
+                }
+            }
+        });
+        
+        function isValidEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+        
+        function showError(input, message) {
+            input.classList.add('is-invalid');
+            let errorElement = input.parentNode.querySelector('.invalid-feedback');
+            if (!errorElement) {
+                errorElement = document.createElement('div');
+                errorElement.className = 'invalid-feedback';
+                input.parentNode.appendChild(errorElement);
+            }
+            errorElement.textContent = message;
+            errorElement.setAttribute('role', 'alert');
+        }
+        
+        function removeError(input) {
+            input.classList.remove('is-invalid');
+            const errorElement = input.parentNode.querySelector('.invalid-feedback');
+            if (errorElement) {
+                errorElement.remove();
+            }
+        }
+        
+        // Real-time validation
+        emailInput.addEventListener('blur', function() {
+            if (this.value && !isValidEmail(this.value)) {
+                showError(this, 'Please enter a valid email address');
+            } else {
+                removeError(this);
+            }
+        });
+        
+        passwordInput.addEventListener('blur', function() {
+            if (!this.value) {
+                showError(this, 'Please enter your password');
+            } else if (this.value.length < 6) {
+                showError(this, 'Password must be at least 6 characters');
+            } else {
+                removeError(this);
+            }
+        });
+        
+        // Navbar active link highlighting
+        const navLinks = document.querySelectorAll('.nav-link');
+        const currentPath = localStorage.getItem('activeNav') || window.location.pathname;
+        
+        navLinks.forEach(link => {
+            if (link.dataset.path === currentPath) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+            
+            link.addEventListener('click', () => {
+                localStorage.setItem('activeNav', link.dataset.path);
+            });
+        });
+    });
+</script>

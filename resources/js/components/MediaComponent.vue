@@ -6,9 +6,8 @@
             helping you stay connected, informed, and uplifted. </p>
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
-                <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey;">
-                    <span
-                        class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+                <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+                    <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
                     <img src="/images/ap.avif" alt="Qibla finder" class="w-90 mt-1"
                         style="object-fit: contain; padding: 20px;" />
                     <div class="p-3">
@@ -34,15 +33,14 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card custom-card shadow-sm rounded-4" style="border: 1px solid grey; background:whitesmoke">
-                    <span class="badge rounded-pill bg-black text-white position-absolute top-0 start-0 m-2">Under
-                        development</span>
+                <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+                    <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
                     <img src="/images/mtv2.png" alt="Watch Live" class="w-100" style="object-fit: contain;" />
                     <div class="p-3">
                         <h5 class="mb-2 fw-bold display-6 text-dark text-center">Channel Guide<span
                                 v-if="isLocked('/streaming')">🔒</span></h5>
                         <p class="card-text text-muted text-wrap text-center"
-                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Find Islamic channels and access their posts, playlists, and videos directly on YouTube.</p>
+                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube.</p>
                         <button v-if="!isLocked('/streaming')" class="form-control" @click="goTo('/streaming')"
                             style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                             type="button">
@@ -58,9 +56,8 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey;">
-                    <span
-                        class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+                <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+                    <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
                     <img src="/images/radio5.jpg" alt="Radio stations" class="w-100" style="object-fit: contain;" />
                     <div class="p-3">
                         <h5 class="mb-2 fw-bold display-6 text-dark text-center">Reciters Stations</h5>
@@ -389,31 +386,34 @@ export default {
 
 <style scoped>
 .card.custom-card .card-text {
-    max-height: 4.5em;
-    text-overflow: ellipsis;
+  max-height: 4.5em;
+  text-overflow: ellipsis;
 }
 
 .card.custom-card button.form-control {
-    background: #00bfa6;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    color: white;
-    height: 38px;
-    padding: 0.375rem 0.75rem;
-    border: none;
+  background: #00bfa6;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  color: white;
+  height: 38px;
+  padding: 0.375rem 0.75rem;
+  border: none;
+  /* Good to be explicit */
 }
 
+
 .custom-card:hover {
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .custom-card {
-    height: 100%;
+  height: 100%;
 }
 
 .custom-card img {
-    height: 180px;
-    object-fit: cover;
+  height: 180px;
+  object-fit: cover;
 }
+
 
 .loading-overlay {
     position: fixed;
@@ -433,5 +433,22 @@ export default {
     padding: 2rem;
     border-radius: 10px;
     text-align: center;
+}
+
+@keyframes borderPulse {
+  0% {
+    border-color: lightseagreen;
+    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
+  }
+
+  50% {
+    border-color: #00bfa6;
+    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);
+  }
+
+  100% {
+    border-color: lightseagreen;
+    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
+  }
 }
 </style>

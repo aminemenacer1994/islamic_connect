@@ -1,349 +1,522 @@
 @extends('layouts.app')
-
 @section('content')
 
-<div class="bg-light py-3 py-md-5">
-  <div class="container">
-    <div class="row justify-content-md-center">
-      <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
-        <div class="bg-white p-4 p-md-5 rounded shadow-lg" style="border-radius:8px">
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-5">
-                <h1>Create an account</h1>
-              </div>
+<!-- Main Content -->
+<main id="main-content">
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-header">
+                <h1>Create an Account</h1>
+                <p>Join Islamic Connect to access Quranic resources and Islamic knowledge</p>
             </div>
-          </div>
-          <form method="POST" action="{{ route('register') }}">
-            @csrf              
-            <div class="row gy-3 gy-md-4 overflow-hidden">
-              <div class="col-12">
-                <label for="name" class="text-left" style="font-weight:bold">First Name</label>
-
-                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                  value="{{ old('name') }}" required autocomplete="name">
-
-                @error('name')
-                <span class="invalid-feedback" role="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-              </div>
-              <div class="col-12">
-                <label class="form-label text-left" style="font-weight:bold">Email address</label>
-                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-              </div>
-              <div class="col-12">
-              <label class="form-label text-left" for="form2Example27">Password</label>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+            
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
+                <div class="mb-3">
+                    <label for="name" class="form-label">First Name</label>
+                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" 
+                            name="name" value="{{ old('name') }}" required autocomplete="name" autofocus
+                            placeholder="Enter your first name">
+                    @error('name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
+                            name="email" value="{{ old('email') }}" required autocomplete="email"
+                            placeholder="Enter your email">
+                    @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
+                            name="password" required autocomplete="new-password"
+                            placeholder="Create a password">
+                    <div class="password-requirements">
+                        Password must be at least 8 characters
+                    </div>
                     @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
-              </div>
-              <div class="form-outline mb-2">
-                  <label for="password-confirm"
-                    class="col-md-8 col-form-label text-left">{{ __('Confirm Password') }}</label>
-                  <div class="col-md-12">
-                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
-                      required autocomplete="new-password">
-                  </div>
-                  <div class="col-12">
-                <div class="form-check">
-                  <p class="mb-3 pb-lg-2  custom-text text-left" ><p>Already have an account ? Click <a href="/login">here</a> to login.</p></p>
                 </div>
-              </div>
-              <div class="col-12">
-                <div class="d-grid">
-                  <button class="btn btn-lg" style="background: #00BFA6; color:white; font-style:bold" type="submit">Log in now</button>
+                
+                <div class="mb-3">
+                    <label for="password-confirm" class="form-label">Confirm Password</label>
+                    <input id="password-confirm" type="password" class="form-control" 
+                            name="password_confirmation" required autocomplete="new-password"
+                            placeholder="Confirm your password">
                 </div>
-              </div>
+                
+                <div class="d-grid mb-3">
+                    <button type="submit" style="background:rgb(53, 163, 139); color:white" class="btn btn-lg">Create Account</button>
                 </div>
-              
-              
+            </form>
+            
+            <div class="divider">
+                <span class="divider-text">Or sign up with</span>
             </div>
-
-                  
+            
+            <div class="social-register">
+                <a href="/auth/google" class="social-btn btn-google" aria-label="Sign up with Google">
+                    <i class="bi bi-google"></i> Google
+                </a>
             </div>
+            
+            <div class="register-footer">
+                <p>Already have an account? <a href="/login">Sign in here</a></p>
             </div>
-          </form>
-          
-          
         </div>
-      </div>
     </div>
-  </div>
-</div>
-
-
-<!-- Section: Design Block 
-<section class="">
-  
-  <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
-    <div class="container">
-      <div class="row gx-lg-5 align-items-center">
-
-        <div class="col-lg-6  mb-lg-0 hide-on-mobile">
-          <img src="images/mob-auth.png" width="90%" loading="lazy">
-        </div>
-
-
-        <div class="col-lg-6 mb-lg-0">
-          <div class="card" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; border-radius:10px">
-            <div class="card-body px-md-5">
-              <form method="POST" action="{{ route('register') }}">
-                @csrf
-                <h2 class="fw-normal mt-4 pb-3" style="font-family:inter"><b>Create an account</b></h2>
-
-
-                <div class="form-outline mb-2">
-                  <label for="name" class="col-md-4 col-form-label text-left">{{ __('Name') }}</label>
-
-                  <div class="col-md-12">
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                      value="{{ old('name') }}" required autocomplete="name">
-
-                    @error('name')
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                  </div>
-                </div>
-
-                <div class="form-outline mb-2">
-                  <label for="email" class="col-md-4 col-form-label text-left">{{ __('Email Address') }}</label>
-
-                  
-
-                  <div class="col-md-12">
-                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                      name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                    @error('email')
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                  </div>
-                </div>
-
-                <div class="form-outline mb-2">
-                  <label for="password" class="col-md-4 col-form-label text-left">{{ __('Password') }}</label>
-
-                  <div class="col-md-12">
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                      name="password" required autocomplete="new-password">
-
-                    @error('password')
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                  </div>
-                </div>
-
-                <div class="form-outline mb-2">
-                  <label for="password-confirm"
-                    class="col-md-4 col-form-label text-left">{{ __('Confirm Password') }}</label>
-
-                  <div class="col-md-12">
-                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
-                      required autocomplete="new-password">
-                  </div>
-                </div>
-
-                <div class="row mb-0">
-                  <div class="pt-1 mb-2">
-                    <button type="submit" class="btn btn-lg btn-block text-white" style="background: #00BFA6;"
-                      type="button">Submit</button>
-                  </div>
-                  <p class="mt-3 text-center"><b>Already have an account ? Click <a href="/login">here</a> to login.</b></p>
-                </div>
-
-                   google sign in 
-                  <div class="container-fluid text-center" style="display:flex">
-                    <div class="container-fluid text-center">
-                      
-                    
-                    <div class="row">
-                      <div class="col w-100">
-                        <button onclick="event.preventDefault(); window.location.href='{{ url('/auth/google') }}'" class="gsi-material-button">
-                          <div class="gsi-material-button-state"></div>
-                            <div class="gsi-material-button-content-wrapper">
-                              <div class="gsi-material-button-icon">
-                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;">
-                                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-                                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-                                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-                                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-                                    <path fill="none" d="M0 0h48v48H0z"></path>
-                                </svg>
-                              </div>
-                              <span class="gsi-material-button-contents">Sign up with Google</span>
-                              <span style="display: none;">Sign up with Google</span>
-                            </div>
-                        </button>
-                      </div>
-                    </div>
-                    </div>
-                  </div>
-                </div> 
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-Jumbotron 
-</section>-->
+</main>
 
 @endsection
+
+
 <style>
-  @media (max-width: 575px) {
-
-    /* Hide the content on mobile devices */
-    .hide-on-mobile {
-      display: none;
+    :root {
+        --primary-color: #35a38b;
+        --primary-hover: #2d8c77;
+        --text-color: #1a1a1a;
+        --light-bg: #f8f9fa;
+        --border-radius: 8px;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --transition: all 0.3s ease;
     }
-
-    .custom-dropdown {
-      max-height: 200px;
-      /* Adjust the value as needed */
-      overflow-y: auto;
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
-  }
-
-  @media (max-width: 767px) {
-
-    /* Hide the content on mobile devices */
-    .hide-on-mobile {
-      display: none;
+    
+    body {
+        background-color: var(--light-bg);
+        font-family: 'Inter', sans-serif;
+        color: var(--text-color);
+        line-height: 1.6;
+        padding-top: 70px;
     }
-
-    .custom-dropdown {
-      max-height: 200px;
-      /* Adjust the value as needed */
-      overflow-y: auto;
+    
+    /* Navbar Styles - Matching your existing navbar */
+    .navbar {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     }
-
-  }
- 
-  .gsi-material-button {
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  -webkit-appearance: none;
-  background-color: WHITE;
-  background-image: none;
-  border: 1px solid #747775;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  color: #1f1f1f;
-  cursor: pointer;
-  font-family: 'Roboto', arial, sans-serif;
-  font-size: 14px;
-  height: 40px;
-  letter-spacing: 0.25px;
-  outline: none;
-  overflow: hidden;
-  padding: 0 12px;
-  position: relative;
-  text-align: center;
-  -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
-  transition: background-color .218s, border-color .218s, box-shadow .218s;
-  vertical-align: middle;
-  white-space: nowrap;
-  width: auto;
-  
-}
-
-input:focus, textarea:focus, select:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-.gsi-material-button .gsi-material-button-icon {
-  height: 20px;
-  margin-right: 12px;
-  min-width: 20px;
-  width: 20px;
-}
-
-.gsi-material-button .gsi-material-button-content-wrapper {
-  -webkit-align-items: center;
-  align-items: center;
-  display: flex;
-  -webkit-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: nowrap;
-  flex-wrap: nowrap;
-  height: 100%;
-  justify-content: space-between;
-  position: relative;
-  width: 100%;
-}
-
-.gsi-material-button .gsi-material-button-contents {
-  -webkit-flex-grow: 1;
-  flex-grow: 1;
-  font-family: 'Roboto', arial, sans-serif;
-  font-weight: 500;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  vertical-align: top;
-}
-
-.gsi-material-button .gsi-material-button-state {
-  -webkit-transition: opacity .218s;
-  transition: opacity .218s;
-  bottom: 0;
-  left: 0;
-  opacity: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.gsi-material-button:disabled {
-  cursor: default;
-  background-color: #ffffff61;
-  border-color: #1f1f1f1f;
-}
-
-.gsi-material-button:disabled .gsi-material-button-contents {
-  opacity: 38%;
-}
-
-.gsi-material-button:disabled .gsi-material-button-icon {
-  opacity: 38%;
-}
-
-.gsi-material-button:not(:disabled):active .gsi-material-button-state, 
-.gsi-material-button:not(:disabled):focus .gsi-material-button-state {
-  background-color: #303030;
-  opacity: 12%;
-}
-
-.gsi-material-button:not(:disabled):hover {
-  -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
-  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
-}
-
-.gsi-material-button:not(:disabled):hover .gsi-material-button-state {
-  background-color: #303030;
-  opacity: 8%;
-}
-
-
+    
+    .navbar-brand img {
+        max-height: 50px;
+        width: auto;
+    }
+    
+    .nav-link {
+        color: black;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .nav-link:hover {
+        color: var(--primary-color);
+        transition: color 0.3s ease;
+    }
+    
+    .nav-link.active {
+        font-weight: bold;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
+        transition: color 0.3s ease, border-bottom 0.3s ease;
+    }
+    
+    .navbar-toggler {
+        border: none;
+    }
+    
+    /* Register Container */
+    .register-container {
+        min-height: calc(100vh - 70px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
+    
+    .register-card {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 450px;
+        transition: var(--transition);
+        border-top: 4px solid var(--primary-color);
+    }
+    
+    .register-card:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+    
+    .register-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .register-header h1 {
+        font-weight: 600;
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+        font-size: 1.75rem;
+    }
+    
+    .register-header p {
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+    
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+        padding: 0.75rem 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        transition: var(--transition);
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(53, 163, 139, 0.25);
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        padding: 0.75rem;
+        font-weight: 500;
+        transition: var(--transition);
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(53, 163, 139, 0.3);
+    }
+    
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 1.5rem 0;
+    }
+    
+    .divider::before,
+    .divider::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .divider-text {
+        padding: 0 1rem;
+        color: #6c757d;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    
+    .social-register {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .social-btn {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        background: white;
+        transition: var(--transition);
+        font-weight: 500;
+        color: #5f6368;
+        text-decoration: none;
+    }
+    
+    .social-btn:hover {
+        background-color: #f8f9fa;
+        border-color: #adb5bd;
+        transform: translateY(-1px);
+        color: #5f6368;
+    }
+    
+    .social-btn i {
+        margin-right: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .btn-google {
+        color: #5f6368;
+    }
+    
+    .btn-google:hover {
+        background-color: #f8f9fa;
+        border-color: #dadce0;
+    }
+    
+    .register-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #6c757d;
+    }
+    
+    .register-footer a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .register-footer a:hover {
+        text-decoration: underline;
+    }
+    
+    .invalid-feedback {
+        display: block;
+    }
+    
+    .password-requirements {
+        font-size: 0.8rem;
+        color: #6c757d;
+        margin-top: 0.25rem;
+    }
+    
+    /* Skip to main content for accessibility */
+    .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: var(--primary-color);
+        color: white;
+        padding: 8px;
+        z-index: 100;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+    
+    .skip-link:focus {
+        top: 6px;
+    }
+    
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .register-card {
+            padding: 2rem 1.5rem;
+            margin: 0 1rem;
+        }
+        
+        .social-register {
+            flex-direction: column;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .register-header h1 {
+            font-size: 1.5rem;
+        }
+        
+        .register-card {
+            padding: 1.5rem 1rem;
+        }
+        
+        .btn-primary {
+            padding: 0.65rem;
+        }
+    }
+    
+    /* Focus styles for accessibility */
+    button:focus, 
+    a:focus, 
+    input:focus, 
+    select:focus, 
+    textarea:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+    }
+    
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+        :root {
+            --text-color: #000;
+        }
+        
+        .navbar {
+            border-bottom: 2px solid #000;
+        }
+        
+        .register-card {
+            border: 1px solid #000;
+        }
+    }
+    
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            transition: none !important;
+        }
+    }
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Enhanced form validation
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const passwordConfirmInput = document.getElementById('password-confirm');
+        
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            // Name validation
+            if (!nameInput.value.trim()) {
+                showError(nameInput, 'Please enter your name');
+                isValid = false;
+            } else {
+                removeError(nameInput);
+            }
+            
+            // Email validation
+            if (!emailInput.value || !isValidEmail(emailInput.value)) {
+                showError(emailInput, 'Please enter a valid email address');
+                isValid = false;
+            } else {
+                removeError(emailInput);
+            }
+            
+            // Password validation
+            if (!passwordInput.value) {
+                showError(passwordInput, 'Please enter a password');
+                isValid = false;
+            } else if (passwordInput.value.length < 8) {
+                showError(passwordInput, 'Password must be at least 8 characters');
+                isValid = false;
+            } else {
+                removeError(passwordInput);
+            }
+            
+            // Password confirmation validation
+            if (!passwordConfirmInput.value) {
+                showError(passwordConfirmInput, 'Please confirm your password');
+                isValid = false;
+            } else if (passwordInput.value !== passwordConfirmInput.value) {
+                showError(passwordConfirmInput, 'Passwords do not match');
+                isValid = false;
+            } else {
+                removeError(passwordConfirmInput);
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                // Focus on first invalid field
+                const firstInvalid = form.querySelector('.is-invalid');
+                if (firstInvalid) {
+                    firstInvalid.focus();
+                }
+            }
+        });
+        
+        function isValidEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+        
+        function showError(input, message) {
+            input.classList.add('is-invalid');
+            let errorElement = input.parentNode.querySelector('.invalid-feedback');
+            if (!errorElement) {
+                errorElement = document.createElement('div');
+                errorElement.className = 'invalid-feedback';
+                input.parentNode.appendChild(errorElement);
+            }
+            errorElement.textContent = message;
+            errorElement.setAttribute('role', 'alert');
+        }
+        
+        function removeError(input) {
+            input.classList.remove('is-invalid');
+            const errorElement = input.parentNode.querySelector('.invalid-feedback');
+            if (errorElement) {
+                errorElement.remove();
+            }
+        }
+        
+        // Real-time validation
+        nameInput.addEventListener('blur', function() {
+            if (!this.value.trim()) {
+                showError(this, 'Please enter your name');
+            } else {
+                removeError(this);
+            }
+        });
+        
+        emailInput.addEventListener('blur', function() {
+            if (this.value && !isValidEmail(this.value)) {
+                showError(this, 'Please enter a valid email address');
+            } else {
+                removeError(this);
+            }
+        });
+        
+        passwordInput.addEventListener('blur', function() {
+            if (!this.value) {
+                showError(this, 'Please enter a password');
+            } else if (this.value.length < 8) {
+                showError(this, 'Password must be at least 8 characters');
+            } else {
+                removeError(this);
+            }
+        });
+        
+        passwordConfirmInput.addEventListener('blur', function() {
+            if (!this.value) {
+                showError(this, 'Please confirm your password');
+            } else if (passwordInput.value !== this.value) {
+                showError(this, 'Passwords do not match');
+            } else {
+                removeError(this);
+            }
+        });
+        
+        // Navbar active link highlighting
+        const navLinks = document.querySelectorAll('.nav-link');
+        const currentPath = localStorage.getItem('activeNav') || window.location.pathname;
+        
+        navLinks.forEach(link => {
+            if (link.dataset.path === currentPath) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+            
+            link.addEventListener('click', () => {
+                localStorage.setItem('activeNav', link.dataset.path);
+            });
+        });
+    });
+</script>
