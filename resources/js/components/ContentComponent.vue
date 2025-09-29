@@ -386,13 +386,13 @@ export default {
           desc: `A podcast that engages in thoughtful discussions on Islamic beliefs, contemporary issues, and interviews with experts in various fields.`,
           image: "./images/tm.png",
         },
-        {
-          name: "Sultans and Sneakers",
-          rssUrl: "https://sultansandsneakers.libsyn.com/rss",
-          desc: `Hosted by Mahin Islam, Sultans and Sneakers explores the intersection of faith, culture, and modern life through conversations with scholars, athletes, and influencers.  
-          The podcast covers topics like masculinity, spirituality, and navigating Islam in the West.`,
-          image: "./images/ss.jpg",
-        },
+        // {
+        //   name: "Sultans and Sneakers",
+        //   rssUrl: "https://sultansandsneakers.libsyn.com/rss",
+        //   desc: `Hosted by Mahin Islam, Sultans and Sneakers explores the intersection of faith, culture, and modern life through conversations with scholars, athletes, and influencers.  
+        //   The podcast covers topics like masculinity, spirituality, and navigating Islam in the West.`,
+        //   image: "./images/ss.jpg",
+        // },
         {
           name: "Wives of Jannah",
           rssUrl: "https://wivesofjannah.libsyn.com/rss",
@@ -409,51 +409,6 @@ export default {
         },
         
       ],
-      islamicEbooks: [
-  {
-    title: "The Sealed Nectar (Ar-Raheeq Al-Makhtum)",
-    author: "Sheikh Safi-ur-Rahman al-Mubarakpuri",
-    url: "https://d1.islamhouse.com/data/en/ih_books/single/en_The_Sealed_Nectar.pdf",
-    desc: `An award-winning biography of Prophet Muhammad ﷺ detailing his life, mission, and struggles. A must-read for anyone interested in the Seerah.`,
-    image: "./images/sealed_nectar.jpg",
-  },
-  {
-    title: "Fortress of the Muslim",
-    author: "Saeed bin Ali bin Wahf al-Qahtani",
-    url: "https://d1.islamhouse.com/data/en/ih_books/single/en_Fortress_of_the_Muslim.pdf",
-    desc: `A collection of authentic duas (supplications) from the Qur'an and Sunnah, organized by situation and occasion.`,
-    image: "./images/fortress_muslim.jpg",
-  },
-  {
-    title: "Stories of the Prophets",
-    author: "Ibn Kathir",
-    url: "https://d1.islamhouse.com/data/en/ih_books/single/en_Stories_of_the_Prophets.pdf",
-    desc: `Classic work by Ibn Kathir retelling the stories of the Prophets in chronological order from Adam to Muhammad ﷺ.`,
-    image: "./images/stories_prophets.jpg",
-  },
-  {
-    title: "Explanation of the Three Fundamental Principles",
-    author: "Shaykh Muhammad ibn Abdul Wahhab",
-    url: "https://d1.islamhouse.com/data/en/ih_books/single/en_Three_Fundamental_Principles.pdf",
-    desc: `A concise but essential Islamic text explaining the core tenets of faith every Muslim should know.`,
-    image: "./images/three_principles.jpg",
-  },
-  {
-    title: "Riyadh As-Salihin",
-    author: "Imam an-Nawawi",
-    url: "https://d1.islamhouse.com/data/en/ih_books/single/en_Riyad_us_Saliheen.pdf",
-    desc: `A famous hadith collection covering all aspects of Islamic manners, ethics, and worship.`,
-    image: "./images/riyadh_saliheen.jpg",
-  },
-  {
-    title: "Hisnul Muslim (Fortress of the Muslim) – Urdu",
-    author: "Saeed bin Ali bin Wahf al-Qahtani",
-    url: "https://d1.islamhouse.com/data/ur/ih_books/single/ur_fortress_of_the_muslim.pdf",
-    desc: `Urdu version of the famous Fortress of the Muslim dua compilation.`,
-    image: "./images/fortress_muslim_ur.jpg",
-  }
-],
-
       playingIndex: null,
       selectedPodcast: "", // Stores the selected podcast object
       isDownloading: false,

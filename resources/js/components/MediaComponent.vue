@@ -385,6 +385,7 @@ export default {
 </script>
 
 <style scoped>
+
 .card.custom-card .card-text {
   max-height: 4.5em;
   text-overflow: ellipsis;
@@ -413,6 +414,32 @@ export default {
   height: 180px;
   object-fit: cover;
 }
+
+@keyframes borderPulse {
+  0% {
+    border-color: lightseagreen;
+    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
+  }
+
+  50% {
+    border-color: #00bfa6;
+    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);
+  }
+
+  100% {
+    border-color: lightseagreen;
+    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
+  }
+}
+
+.card.custom-card {
+  animation: borderPulse 2s infinite ease-in-out;
+  -webkit-animation: borderPulse 2s infinite ease-in-out;
+  /* For Safari/Chrome */
+  -moz-animation: borderPulse 2s infinite ease-in-out;
+  /* For Firefox */
+}
+
 
 
 .loading-overlay {

@@ -44,7 +44,7 @@
                             Remember me
                         </label>
                     </div>
-                    <a href="#" class="text-decoration-none" style="color: var(--primary-color);">Forgot password?</a>
+                    <!-- <a href="#" class="text-decoration-none" style="color: var(--primary-color);">Forgot password?</a> -->
                 </div>
                 
                 <div class="d-grid mb-3">
