@@ -156,7 +156,7 @@
         box-shadow: var(--shadow);
         padding: 2.5rem;
         width: 100%;
-        max-width: 450px;
+        max-width: 550px;
         transition: var(--transition);
         border-top: 4px solid var(--primary-color);
     }
