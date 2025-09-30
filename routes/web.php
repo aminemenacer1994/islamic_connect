@@ -16,7 +16,7 @@ use App\Http\Controllers\MailingListController;
 use App\Http\Controllers\CorrectionController;
 use App\Http\Controllers\QuranController;
 use App\Http\Controllers\SurahController;
-use App\Http\Controllers\AboutController;
+// use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\JoinUsController;
@@ -48,7 +48,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\DateController;
 use App\Http\Controllers\HadithController;
 use App\Http\Controllers\ShopController;
-use App\Http\Controllers\TasbeehController;
+// use App\Http\Controllers\TasbeehController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\AthkarController;
 use App\Http\Controllers\UmrahController;
@@ -82,84 +82,83 @@ Route::get('/payment-methods', [PaymentMethodController::class, 'index']);
 Route::get('/debug/subscription-page', [DebugController::class, 'debugPage'])->name('debug.subscription');
 
 // Add this to routes/api.php
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/debug/subscription', [DebugController::class, 'subscriptionDebug']);
-});
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('/debug/subscription', [DebugController::class, 'subscriptionDebug']);
+// });
 
-Route::get('/subscription/status', function () {
-    $user = auth()->user();
-    return response()->json([
-        'subscribed' => $user ? $user->subscribed('default') : false
-    ]);
-})->middleware('auth');
+// Route::get('/subscription/status', function () {
+//     $user = auth()->user();
+//     return response()->json([
+//         'subscribed' => $user ? $user->subscribed('default') : false
+//     ]);
+// })->middleware('auth');
 
-Route::middleware('auth:sanctum')->get('/content', function() {
-    return view('content'); 
-})->name('content');
+// Route::middleware('auth:sanctum')->get('/content', function() {
+//     return view('content'); 
+// })->name('content');
 
 
-Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show'])->middleware('web');
+// Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show'])->middleware('web');
 
-Route::post('/subscription/checkout', [SubscriptionController::class, 'createCheckoutSession'])->name('subscription.checkout');
-Route::get('/subscription/config', [SubscriptionController::class, 'getSubscriptionConfig'])->name('subscription.config');
-Route::get('/subscription/status', [SubscriptionController::class, 'getSubscriptionStatus'])->name('subscription.status');
-Route::get('/subscription/success', [SubscriptionController::class, 'handleSuccessfulPayment'])->name('subscription.success');
-Route::get('/subscription/cancel', [SubscriptionController::class, 'handleCancelledPayment'])->name('subscription.cancel');
+// Route::post('/subscription/checkout', [SubscriptionController::class, 'createCheckoutSession'])->name('subscription.checkout');
+// Route::get('/subscription/config', [SubscriptionController::class, 'getSubscriptionConfig'])->name('subscription.config');
+// Route::get('/subscription/status', [SubscriptionController::class, 'getSubscriptionStatus'])->name('subscription.status');
+// Route::get('/subscription/success', [SubscriptionController::class, 'handleSuccessfulPayment'])->name('subscription.success');
+// Route::get('/subscription/cancel', [SubscriptionController::class, 'handleCancelledPayment'])->name('subscription.cancel');
 
-// Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook'])->name('cashier.webhook');
-Route::post('/stripe/webhook', [Laravel\Cashier\Http\Controllers\WebhookController::class, 'handleWebhook']);
+// Route::post('/stripe/webhook', [Laravel\Cashier\Http\Controllers\WebhookController::class, 'handleWebhook']);
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
-    Route::get('/debug-subscription', [DebugSubscriptionController::class, 'debugSubscription']);
-    Route::post('/force-sync-stripe', [DebugSubscriptionController::class, 'forceSyncWithStripe']);
-});
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
+//     Route::get('/debug-subscription', [DebugSubscriptionController::class, 'debugSubscription']);
+//     Route::post('/force-sync-stripe', [DebugSubscriptionController::class, 'forceSyncWithStripe']);
+// });
 
-Route::middleware(['auth', 'verify.subscription'])->group(function () {
-    Route::get('/premium-content', function () {
-        return view('premium.content');
-    });
-});
+// Route::middleware(['auth', 'verify.subscription'])->group(function () {
+//     Route::get('/premium-content', function () {
+//         return view('premium.content');
+//     });
+// });
 
-Route::prefix('debug')->middleware(['web', 'auth'])->group(function () {
-    Route::get('/stripe-config', [DebugSubscriptionController::class, 'testStripeConfig']);
-    Route::get('/checkout-debug', [DebugSubscriptionController::class, 'debugCheckoutSession']);
-    Route::post('/checkout-debug', [DebugSubscriptionController::class, 'createCheckoutSessionDebug']);
+// Route::prefix('debug')->middleware(['web', 'auth'])->group(function () {
+//     Route::get('/stripe-config', [DebugSubscriptionController::class, 'testStripeConfig']);
+//     Route::get('/checkout-debug', [DebugSubscriptionController::class, 'debugCheckoutSession']);
+//     Route::post('/checkout-debug', [DebugSubscriptionController::class, 'createCheckoutSessionDebug']);
     
-    Route::get('/user-info', function () {
-        $user = auth()->user();
-        return response()->json([
-            'authenticated' => !is_null($user),
-            'user' => $user ? [
-                'id' => $user->id,
-                'email' => $user->email,
-                'stripe_id' => $user->stripe_id,
-                'subscribed' => $user->subscribed('default'),
-                'subscriptions' => $user->subscriptions
-            ] : null,
-            'session' => [
-                'token' => session()->getId(),
-                'csrf' => csrf_token(),
-            ]
-        ]);
-    });
+//     Route::get('/user-info', function () {
+//         $user = auth()->user();
+//         return response()->json([
+//             'authenticated' => !is_null($user),
+//             'user' => $user ? [
+//                 'id' => $user->id,
+//                 'email' => $user->email,
+//                 'stripe_id' => $user->stripe_id,
+//                 'subscribed' => $user->subscribed('default'),
+//                 'subscriptions' => $user->subscriptions
+//             ] : null,
+//             'session' => [
+//                 'token' => session()->getId(),
+//                 'csrf' => csrf_token(),
+//             ]
+//         ]);
+//     });
     
-    Route::get('/test-endpoint', function () {
-        return response()->json([
-            'status' => 'ok',
-            'timestamp' => now(),
-            'environment' => app()->environment(),
-            'config' => [
-                'app_url' => config('app.url'),
-                'stripe_configured' => !empty(config('services.stripe.secret')),
-            ]
-        ]);
-    });
-});
+//     Route::get('/test-endpoint', function () {
+//         return response()->json([
+//             'status' => 'ok',
+//             'timestamp' => now(),
+//             'environment' => app()->environment(),
+//             'config' => [
+//                 'app_url' => config('app.url'),
+//                 'stripe_configured' => !empty(config('services.stripe.secret')),
+//             ]
+//         ]);
+//     });
+// });
 
-Route::middleware(['web', 'auth', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-});
+// Route::middleware(['web', 'auth', 'admin'])->group(function () {
+//     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+// });
 
 
 
@@ -173,7 +172,7 @@ Route::get('/', function () {
 
 Route::get('/media', function () {
     return view('media');
-})->middleware('web')->name('media');
+})->name('media');
 
 // Route::get('/content', function () {
 //     return view('content');
@@ -183,40 +182,40 @@ Route::get('/media', function () {
 //     return view('streaming');
 // })->middleware(['web', 'auth', 'verify.subscription'])->name('streaming');
 
-Route::get('/subscription-config', [SubscriptionController::class, 'getSubscriptionConfig']);
+// Route::get('/subscription-config', [SubscriptionController::class, 'getSubscriptionConfig']);
 
 
-Route::get('/subscription-success', [SubscriptionController::class, 'handleCheckoutReturn'])
-    ->middleware(['web', 'auth'])
-    ->name('checkout-return');
+// Route::get('/subscription-success', [SubscriptionController::class, 'handleCheckoutReturn'])
+//     ->middleware(['web', 'auth'])
+//     ->name('checkout-return');
 
-Route::middleware(['web', 'auth'])->group(function () {
-    Route::get('/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
-    Route::post('/create-checkout-session', [SubscriptionController::class, 'createCheckoutSession']);
-    Route::post('/cancel-subscription', [SubscriptionController::class, 'cancelSubscription']);
-    Route::post('/resume-subscription', [SubscriptionController::class, 'resumeSubscription']);
+// Route::middleware(['web', 'auth'])->group(function () {
+//     Route::get('/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
+//     Route::post('/create-checkout-session', [SubscriptionController::class, 'createCheckoutSession']);
+//     Route::post('/cancel-subscription', [SubscriptionController::class, 'cancelSubscription']);
+//     Route::post('/resume-subscription', [SubscriptionController::class, 'resumeSubscription']);
     
-    Route::get('/user', function () {
-        return response()->json(auth()->user());
-    });
-});
+//     Route::get('/user', function () {
+//         return response()->json(auth()->user());
+//     });
+// });
 
 // Alternative API routes with Sanctum (for API token authentication)
-Route::middleware('auth:sanctum')->group(function () {
-    // Duplicate routes for API access
-    Route::get('/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
-    Route::post('/create-checkout-session', [SubscriptionController::class, 'createCheckoutSession']);
-    Route::post('/cancel-subscription', [SubscriptionController::class, 'cancelSubscription']);
-    Route::post('/resume-subscription', [SubscriptionController::class, 'resumeSubscription']);
+// Route::middleware('auth:sanctum')->group(function () {
+//     // Duplicate routes for API access
+//     Route::get('/subscription-status', [SubscriptionController::class, 'getSubscriptionStatus']);
+//     Route::post('/create-checkout-session', [SubscriptionController::class, 'createCheckoutSession']);
+//     Route::post('/cancel-subscription', [SubscriptionController::class, 'cancelSubscription']);
+//     Route::post('/resume-subscription', [SubscriptionController::class, 'resumeSubscription']);
     
-    Route::get('/user', function () {
-        return response()->json(auth()->user());
-    });
-});
+//     Route::get('/user', function () {
+//         return response()->json(auth()->user());
+//     });
+// });
 
 
-Route::middleware(['web', 'auth'])->group(function () {
-    Route::get('/content', [ContentController::class, 'index']);
+// Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/content', [ContentController::class, 'index'])->name('content');
     Route::get('/streaming', [ContentController::class, 'streaming'])->name('streaming');
 
     
@@ -224,18 +223,18 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/radio', [ContentController::class, 'radio'])->name('radio');
     Route::get('/gallery', [ContentController::class, 'gallery'])->name('gallery');
     Route::get('/video', [ContentController::class, 'video'])->name('video');
-});
+// });
 
 // Account/Profile routes (authenticated but no subscription required)
-Route::middleware(['web', 'auth'])->group(function () {
-    Route::get('/account', function () {
-        return view('account');
-    })->name('account');
+// Route::middleware(['web', 'auth'])->group(function () {
+//     Route::get('/account', function () {
+//         return view('account');
+//     })->name('account');
     
-    Route::get('/billing', function () {
-        return view('billing');
-    })->name('billing');
-});
+//     Route::get('/billing', function () {
+//         return view('billing');
+//     })->name('billing');
+// });
 // Auth routes
 Auth::routes();
 
@@ -473,7 +472,7 @@ Route::get('/charity', [CharityController::class, 'index'])->name('charity');
 // volunteer
 Route::get('/volunteer', [VolunteerController::class, 'index'])->name('volunteer');
 // about
-Route::get('/about', [AboutController::class, 'index'])->name('about');
+// Route::get('/about', [AboutController::class, 'index'])->name('about');
 // collection
 Route::get('/collection', [CollectionController::class, 'index'])->name('collection');
 // faq
@@ -519,11 +518,11 @@ Route::get('/hadith', [HadithController::class, 'index'])->name('hadith');
 // shop
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 // tasbeeh
-Route::get('/tasbeeh', [TasbeehController::class, 'index'])->name('tasbeeh');
+// Route::get('/tasbeeh', [TasbeehController::class, 'index'])->name('tasbeeh');
 // finance
 Route::get('/finance', [FinanceController::class, 'index'])->name('finance');
 // tasbeeh
-Route::get('/athkar', [AthkarController::class, 'index'])->name('athkar');
+// Route::get('/athkar', [AthkarController::class, 'index'])->name('athkar');
 // umrah
 Route::get('/umrah', [UmrahController::class, 'index'])->name('umrah');
 // names

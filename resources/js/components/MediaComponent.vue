@@ -11,24 +11,24 @@
                     <img src="/images/ap.avif" alt="Qibla finder" class="w-90 mt-1"
                         style="object-fit: contain; padding: 20px;" />
                     <div class="p-3">
-                        <h5 class="mb-2 fw-bold display-6 text-dark text-center">Audio Podcasts <span
-                                v-if="isLocked('/content')">🔒</span></h5>
+                        <h5 class="mb-2 fw-bold display-6 text-dark text-center">Audio Podcasts</h5> 
+                            <!-- <span v-if="isLocked('/content')">🔒</span> -->
                         <p class="card-text text-muted text-wrap text-center"
                             style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;"> Islamic podcasts
                             offer insightful discussions and teachings from speakers on various aspects of Islamic
                             faith, history, and daily life.</p>
                         
-                        <button v-if="!isLocked('/content')" class="form-control" @click="goTo('/content')"
+                        <button class="form-control" onclick="window.location.href='/content'"
                             style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                             type="button">
                             <span class="text-center w-100"><b>Stream Podcasts</b></span>
                         </button>
-                        <button v-else class="form-control" @click="showSubscribeModal('/content')"
+                        <!-- <button v-else class="form-control" @click="showSubscribeModal('/content')"
                             style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                             type="button">
                             <span class="text-center w-100"><i class="fas fa-credit-card me-2"></i><b>Subscribe to
                                     Access</b></span>
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -37,21 +37,22 @@
                     <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
                     <img src="/images/mtv2.png" alt="Watch Live" class="w-100" style="object-fit: contain;" />
                     <div class="p-3">
-                        <h5 class="mb-2 fw-bold display-6 text-dark text-center">Channel Guide<span
-                                v-if="isLocked('/streaming')">🔒</span></h5>
+                        <h5 class="mb-2 fw-bold display-6 text-dark text-center">Channel Guide</h5>
+                            <!-- <span v-if="isLocked('/streaming')">🔒</span> -->
                         <p class="card-text text-muted text-wrap text-center"
                             style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube.</p>
-                        <button v-if="!isLocked('/streaming')" class="form-control" @click="goTo('/streaming')"
+                        <button  class="form-control" onclick="window.location.href='/streaming'"
                             style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                             type="button">
-                            <span class="text-center w-100"><b>Watch Live</b></span>
+                            <span class="text-center w-100"><b>View Channels</b></span>
                         </button>
+                        <!-- v-if="!isLocked('/streaming')"
                         <button v-else class="form-control" @click="showSubscribeModal('/streaming')"
                             style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                             type="button">
                             <span class="text-center w-100"><i class="fas fa-credit-card me-2"></i><b>Subscribe to
                                     Access</b></span>
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -110,7 +111,7 @@
         </div>
 
         <!-- Subscribe Modal -->
-        <div class="modal fade" id="subscribeModal" tabindex="-1">
+        <!-- <div class="modal fade" id="subscribeModal" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -152,20 +153,20 @@
             </div>
         </div>
 
-        <!-- Success Message -->
+        -- Success Message --
         <div v-if="showSuccessMessage" class="alert alert-success text-center"
             style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050; width: 80%; max-width: 500px;">
             <h4>Subscription Successful!</h4>
             <p>Welcome to premium content. Redirecting in a few seconds...</p>
         </div>
 
-        <!-- Loading Overlay -->
+        -- Loading Overlay --
         <div v-if="isProcessing" class="loading-overlay">
             <div class="loading-spinner">
                 <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
                 <p class="mt-3">Setting up your subscription...</p>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -196,87 +197,87 @@ export default {
             }
         },
 
-        async initiateSubscription() {
-            if (!this.stripePrice) {
-                alert('Subscription is currently unavailable. Please try again later.');
-                return;
-            }
+        // async initiateSubscription() {
+        //     if (!this.stripePrice) {
+        //         alert('Subscription is currently unavailable. Please try again later.');
+        //         return;
+        //     }
 
-            this.isProcessing = true;
+        //     this.isProcessing = true;
 
-            try {
-                const response = await fetch('/subscription/checkout', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Authorization': 'Bearer ' + localStorage.getItem('sanctum_token'),
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        price_id: this.stripePrice,
-                        success_url: window.location.origin + '/subscription/success?intended=' + encodeURIComponent(this.intendedPath || '/content'),
-                        cancel_url: window.location.origin + '/subscription/cancel'
-                    })
-                });
+        //     try {
+        //         const response = await fetch('/subscription/checkout', {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        //                 'Authorization': 'Bearer ' + localStorage.getItem('sanctum_token'),
+        //                 'Accept': 'application/json'
+        //             },
+        //             body: JSON.stringify({
+        //                 price_id: this.stripePrice,
+        //                 success_url: window.location.origin + '/subscription/success?intended=' + encodeURIComponent(this.intendedPath || '/content'),
+        //                 cancel_url: window.location.origin + '/subscription/cancel'
+        //             })
+        //         });
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-                }
+        //         if (!response.ok) {
+        //             const errorData = await response.json();
+        //             throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+        //         }
 
-                const data = await response.json();
-                console.log('Checkout session response:', data);
+        //         const data = await response.json();
+        //         console.log('Checkout session response:', data);
 
-                if (data.success && data.checkout_url) {
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('subscribeModal'));
-                    if (modal) {
-                        modal.hide();
-                    }
-                    window.location.href = data.checkout_url;
-                } else {
-                    throw new Error(data.error || 'Failed to create checkout session');
-                }
+        //         if (data.success && data.checkout_url) {
+        //             const modal = bootstrap.Modal.getInstance(document.getElementById('subscribeModal'));
+        //             if (modal) {
+        //                 modal.hide();
+        //             }
+        //             window.location.href = data.checkout_url;
+        //         } else {
+        //             throw new Error(data.error || 'Failed to create checkout session');
+        //         }
 
-            } catch (error) {
-                console.error('Error initiating subscription:', error);
-                alert('Error: ' + error.message);
-            } finally {
-                this.isProcessing = false;
-            }
-        },
+        //     } catch (error) {
+        //         console.error('Error initiating subscription:', error);
+        //         alert('Error: ' + error.message);
+        //     } finally {
+        //         this.isProcessing = false;
+        //     }
+        // },
 
-        async fetchPriceId() {
-            try {
-                const token = localStorage.getItem('sanctum_token') ||
-                    document.querySelector('meta[name="api-token"]')?.content;
+        // async fetchPriceId() {
+        //     try {
+        //         const token = localStorage.getItem('sanctum_token') ||
+        //             document.querySelector('meta[name="api-token"]')?.content;
 
-                const headers = {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                };
+        //         const headers = {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json',
+        //         };
 
-                if (token) {
-                    headers['Authorization'] = `Bearer ${token}`;
-                }
+        //         if (token) {
+        //             headers['Authorization'] = `Bearer ${token}`;
+        //         }
 
-                const response = await fetch('/subscription/config', {
-                    headers
-                });
+        //         const response = await fetch('/subscription/config', {
+        //             headers
+        //         });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    this.stripePrice = data.price_id;
-                    console.log('Price ID loaded:', this.stripePrice);
-                } else {
-                    throw new Error('Failed to fetch price ID');
-                }
-            } catch (error) {
-                console.error('Error fetching price ID:', error);
-                alert('Unable to load subscription details. Please try again later.');
-                this.stripePrice = null;
-            }
-        },
+        //         if (response.ok) {
+        //             const data = await response.json();
+        //             this.stripePrice = data.price_id;
+        //             console.log('Price ID loaded:', this.stripePrice);
+        //         } else {
+        //             throw new Error('Failed to fetch price ID');
+        //         }
+        //     } catch (error) {
+        //         console.error('Error fetching price ID:', error);
+        //         alert('Unable to load subscription details. Please try again later.');
+        //         this.stripePrice = null;
+        //     }
+        // },
 
         // Add debug method to manually check status (kept for potential future use, but not triggered)
         async debugSubscriptionStatus() {

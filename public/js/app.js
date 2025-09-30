@@ -140785,10 +140785,10 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=script&lang=js":
-/*!*********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=script&lang=js ***!
-  \*********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=script&setup=true&lang=js":
+/*!********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=script&setup=true&lang=js ***!
+  \********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -140796,134 +140796,418 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
-function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+// Custom composables to replace external dependencies
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  data: function data() {
-    return {
-      searchQuery: 'Quran',
-      // Default to a more specific Islamic term
-      books: [],
-      loading: false,
-      error: null,
-      selectedBookIa: null,
-      selectedBookTitle: '',
-      bookReaderId: 'bookreader',
-      useIframeFallback: false,
-      readerError: null,
-      iframeSrc: '',
-      archiveUrl: '' // Direct archive.org link
-    };
-  },
-  methods: {
-    fetchBooks: function fetchBooks() {
-      var _this = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var response, data, _t;
-        return _regenerator().w(function (_context) {
-          while (1) switch (_context.p = _context.n) {
-            case 0:
-              _this.loading = true;
-              _this.error = null;
-              _this.closeBookReader();
-              _context.p = 1;
-              _context.n = 2;
-              return fetch("https://openlibrary.org/search.json?q=".concat(encodeURIComponent(_this.searchQuery), "+subject:Islam&limit=20&sort=relevance"));
-            case 2:
-              response = _context.v;
-              if (response.ok) {
-                _context.n = 3;
-                break;
-              }
-              throw new Error('Failed to fetch books');
-            case 3:
-              _context.n = 4;
-              return response.json();
-            case 4:
-              data = _context.v;
-              _this.books = data.docs.filter(function (book) {
-                return book.subject && book.subject.includes('Islam');
-              }) // Ensure Islamic relevance
-              .map(function (book) {
-                return {
-                  key: book.key,
-                  title: book.title,
-                  author_name: book.author_name || [],
-                  first_publish_year: book.first_publish_year,
-                  subject: book.subject || [],
-                  ia: book.ia ? book.ia[0] : null
-                };
-              });
-              if (_this.books.length === 0) {
-                _this.error = 'No Islamic books found for this search. Try "Quran" or "Hadith".';
-              }
-              _context.n = 6;
-              break;
-            case 5:
-              _context.p = 5;
-              _t = _context.v;
-              _this.error = 'Error fetching books: ' + _t.message;
-            case 6:
-              _context.p = 6;
-              _this.loading = false;
-              return _context.f(6);
-            case 7:
-              return _context.a(2);
-          }
-        }, _callee, null, [[1, 5, 6, 7]]);
-      }))();
-    },
-    openBookReader: function openBookReader(ia, title) {
-      var _this2 = this;
-      console.log('Opening book with IA ID:', ia, 'Title:', title);
-      this.selectedBookIa = ia;
-      this.selectedBookTitle = title;
-      this.readerError = null;
-      this.useIframeFallback = false;
-      this.iframeSrc = "https://archive.org/embed/".concat(ia);
-      this.archiveUrl = "https://archive.org/details/".concat(ia);
-      this.$nextTick(function () {
-        var script = document.createElement('script');
-        script.src = 'https://archive.org/bookreader/BookReader.js';
-        script.onerror = function () {
-          console.error('Failed to load BookReader script');
-          _this2.readerError = 'Failed to load book reader. Using fallback view.';
-          _this2.useIframeFallback = true;
-        };
-        script.onload = function () {
-          try {
-            var br = new window.BookReader({
-              el: "#".concat(_this2.bookReaderId),
-              ui: 'full',
-              bookId: ia,
-              defaultStartLeaf: 0
-            });
-            br.init();
-            console.log('BookReader initialized for:', ia);
-          } catch (err) {
-            console.error('BookReader error:', err);
-            _this2.readerError = 'Unable to load book. Using fallback view or visit Archive.org.';
-            _this2.useIframeFallback = true;
-          }
-        };
-        document.head.appendChild(script);
+  __name: 'AboutComponent',
+  setup: function setup(__props, _ref) {
+    var __expose = _ref.expose;
+    __expose();
+    function useLocalStorage(key, defaultValue) {
+      var stored = localStorage.getItem(key);
+      var value = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(stored ? JSON.parse(stored) : defaultValue);
+      var updateStorage = function updateStorage(newValue) {
+        localStorage.setItem(key, JSON.stringify(newValue));
+      };
+      (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(value, function (newValue) {
+        updateStorage(newValue);
       });
-    },
-    closeBookReader: function closeBookReader() {
-      this.selectedBookIa = null;
-      this.selectedBookTitle = '';
-      this.readerError = null;
-      this.useIframeFallback = false;
-      this.iframeSrc = '';
-      this.archiveUrl = '';
-      var readerDiv = document.getElementById(this.bookReaderId);
-      if (readerDiv) readerDiv.innerHTML = '';
+      return value;
     }
-  },
-  created: function created() {
-    this.fetchBooks();
+    function useVibrate() {
+      var vibrate = function vibrate(pattern) {
+        if ('vibrate' in navigator) {
+          navigator.vibrate(pattern);
+        }
+      };
+      return {
+        vibrate: vibrate
+      };
+    }
+    function useSpeechRecognition() {
+      var isListening = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+      var result = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+      var error = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+      var isSupported = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+      var recognition = null;
+
+      // Check if speech recognition is supported
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        isSupported.value = true;
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.continuous = true;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+        recognition.onresult = function (event) {
+          var transcript = Array.from(event.results).map(function (result) {
+            return result[0].transcript;
+          }).join('');
+          result.value = transcript;
+        };
+        recognition.onerror = function (event) {
+          error.value = event.error;
+          isListening.value = false;
+        };
+        recognition.onend = function () {
+          isListening.value = false;
+        };
+      }
+      var start = function start() {
+        if (recognition && !isListening.value) {
+          try {
+            recognition.start();
+            isListening.value = true;
+          } catch (err) {
+            console.error('Speech recognition error:', err);
+          }
+        }
+      };
+      var stop = function stop() {
+        if (recognition && isListening.value) {
+          recognition.stop();
+          isListening.value = false;
+        }
+      };
+      return {
+        isListening: isListening,
+        result: result,
+        error: error,
+        isSupported: isSupported,
+        start: start,
+        stop: stop
+      };
+    }
+    function useShakeDetection(onShake) {
+      var isSupported = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('DeviceOrientationEvent' in window);
+      var lastShakeTime = 0;
+      var handleDeviceMotion = function handleDeviceMotion(event) {
+        var acceleration = event.accelerationIncludingGravity;
+        if (!acceleration) return;
+        var totalAcceleration = Math.sqrt(acceleration.x * acceleration.x + acceleration.y * acceleration.y + acceleration.z * acceleration.z);
+        var currentTime = Date.now();
+
+        // Detect shake (high acceleration)
+        if (totalAcceleration > 15 && currentTime - lastShakeTime > 1000) {
+          lastShakeTime = currentTime;
+          onShake();
+        }
+      };
+      (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
+        if (isSupported.value) {
+          window.addEventListener('devicemotion', handleDeviceMotion);
+        }
+      });
+      (0,vue__WEBPACK_IMPORTED_MODULE_0__.onUnmounted)(function () {
+        if (isSupported.value) {
+          window.removeEventListener('devicemotion', handleDeviceMotion);
+        }
+      });
+      return {
+        isSupported: isSupported
+      };
+    }
+
+    // Reactive state
+    var count = useLocalStorage('tasbeeh-count', 0);
+    var currentDhikr = useLocalStorage('tasbeeh-current-dhikr', null);
+    var theme = useLocalStorage('tasbeeh-theme', 'light');
+    var vibration = useLocalStorage('tasbeeh-vibration', true);
+    var sound = useLocalStorage('tasbeeh-sound', true);
+    var autoReset = useLocalStorage('tasbeeh-auto-reset', false);
+
+    // Statistics
+    var todayCount = useLocalStorage('tasbeeh-today', 0);
+    var weeklyCount = useLocalStorage('tasbeeh-weekly', 0);
+    var totalCount = useLocalStorage('tasbeeh-total', 0);
+    var streakCount = useLocalStorage('tasbeeh-streak', 0);
+    var lastActivityDate = useLocalStorage('tasbeeh-last-activity', new Date().toDateString());
+
+    // Notifications
+    var notifications = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
+
+    // Available dhikr types
+    var availableDhikr = [{
+      id: 'subhanallah',
+      name: 'Subhanallah',
+      target: 33
+    }, {
+      id: 'alhamdulillah',
+      name: 'Alhamdulillah',
+      target: 33
+    }, {
+      id: 'allahuakbar',
+      name: 'Allahu Akbar',
+      target: 34
+    }, {
+      id: 'astaghfirullah',
+      name: 'Astaghfirullah',
+      target: 100
+    }, {
+      id: 'laillahaillallah',
+      name: 'La ilaha illallah',
+      target: 100
+    }, {
+      id: 'salawat',
+      name: 'Salawat',
+      target: 100
+    }];
+
+    // AI Features
+    var speechRecognition = useSpeechRecognition();
+    var isListening = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var isSpeechSupported = speechRecognition.isSupported;
+
+    // Shake detection
+    var handleShake = function handleShake() {
+      resetCounter();
+      showNotification('Shake detected - Counter reset!', 'info');
+    };
+    var _useShakeDetection = useShakeDetection(handleShake),
+      isShakeSupported = _useShakeDetection.isSupported;
+
+    // Computed properties
+    var formattedCount = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      return count.value.toString().padStart(3, '0');
+    });
+    var progress = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      if (!currentDhikr.value) return 0;
+      return Math.min(Math.round(count.value / currentDhikr.value.target * 100), 100);
+    });
+    var themeClasses = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      return {
+        'theme-light': theme.value === 'light',
+        'theme-dark': theme.value === 'dark',
+        'theme-sepia': theme.value === 'sepia'
+      };
+    });
+
+    // Vibration
+    var _useVibrate = useVibrate(),
+      vibrate = _useVibrate.vibrate;
+
+    // Methods
+    var increment = function increment() {
+      count.value++;
+      updateStatistics();
+
+      // Haptic feedback
+      if (vibration.value) {
+        vibrate([50]);
+      }
+
+      // Sound feedback
+      if (sound.value) {
+        playClickSound();
+      }
+
+      // Check if target reached
+      if (currentDhikr.value && count.value >= currentDhikr.value.target) {
+        showNotification('Target reached! Masha Allah!', 'success');
+        if (autoReset.value) {
+          setTimeout(resetCounter, 1000);
+        }
+      }
+    };
+    var resetCounter = function resetCounter() {
+      count.value = 0;
+      showNotification('Counter reset', 'info');
+    };
+    var selectDhikr = function selectDhikr(dhikr) {
+      currentDhikr.value = dhikr;
+      resetCounter();
+      showNotification("Selected: ".concat(dhikr.name), 'info');
+    };
+    var toggleVoiceRecognition = function toggleVoiceRecognition() {
+      if (!isSpeechSupported) {
+        showNotification('Speech recognition not supported in your browser', 'error');
+        return;
+      }
+      if (isListening.value) {
+        speechRecognition.stop();
+        isListening.value = false;
+      } else {
+        speechRecognition.start();
+        isListening.value = true;
+      }
+    };
+    var playClickSound = function playClickSound() {
+      // Simple beep sound using Web Audio API
+      try {
+        var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var oscillator = audioContext.createOscillator();
+        var gainNode = audioContext.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sine';
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.1);
+      } catch (error) {
+        console.log('Audio not supported:', error);
+      }
+    };
+    var showNotification = function showNotification(message) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'info';
+      var id = Date.now();
+      notifications.value.push({
+        id: id,
+        message: message,
+        type: type
+      });
+      setTimeout(function () {
+        notifications.value = notifications.value.filter(function (n) {
+          return n.id !== id;
+        });
+      }, 3000);
+    };
+    var updateStatistics = function updateStatistics() {
+      var today = new Date().toDateString();
+      var lastDate = new Date(lastActivityDate.value);
+      var currentDate = new Date();
+
+      // Reset daily count if new day
+      if (today !== lastActivityDate.value) {
+        todayCount.value = 0;
+
+        // Update streak
+        var dayDiff = Math.floor((currentDate - lastDate) / (1000 * 60 * 60 * 24));
+        if (dayDiff === 1) {
+          streakCount.value++;
+        } else if (dayDiff > 1) {
+          streakCount.value = 1; // Reset streak if missed days
+        }
+        lastActivityDate.value = today;
+      }
+      todayCount.value++;
+      weeklyCount.value++;
+      totalCount.value++;
+    };
+    var resetStatistics = function resetStatistics() {
+      todayCount.value = 0;
+      weeklyCount.value = 0;
+      totalCount.value = 0;
+      streakCount.value = 0;
+      showNotification('Statistics reset', 'info');
+    };
+
+    // Voice command processing
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(speechRecognition.result, function (newResult) {
+      if (!newResult) return;
+      var command = newResult.toLowerCase();
+      if (command.includes('count') || command.includes('add') || command.includes('increment')) {
+        increment();
+      } else if (command.includes('reset') || command.includes('clear')) {
+        resetCounter();
+      } else if (command.includes('next')) {
+        var currentIndex = availableDhikr.findIndex(function (d) {
+          var _currentDhikr$value;
+          return d.id === ((_currentDhikr$value = currentDhikr.value) === null || _currentDhikr$value === void 0 ? void 0 : _currentDhikr$value.id);
+        });
+        var nextIndex = (currentIndex + 1) % availableDhikr.length;
+        selectDhikr(availableDhikr[nextIndex]);
+      } else if (command.includes('previous') || command.includes('prev') || command.includes('back')) {
+        var _currentIndex = availableDhikr.findIndex(function (d) {
+          var _currentDhikr$value2;
+          return d.id === ((_currentDhikr$value2 = currentDhikr.value) === null || _currentDhikr$value2 === void 0 ? void 0 : _currentDhikr$value2.id);
+        });
+        var prevIndex = (_currentIndex - 1 + availableDhikr.length) % availableDhikr.length;
+        selectDhikr(availableDhikr[prevIndex]);
+      }
+    });
+
+    // Keyboard shortcuts
+    var handleKeyPress = function handleKeyPress(event) {
+      if (event.code === 'Space' || event.code === 'Enter') {
+        event.preventDefault();
+        increment();
+      } else if (event.code === 'Escape') {
+        resetCounter();
+      } else if (event.code === 'ArrowRight') {
+        var currentIndex = availableDhikr.findIndex(function (d) {
+          var _currentDhikr$value3;
+          return d.id === ((_currentDhikr$value3 = currentDhikr.value) === null || _currentDhikr$value3 === void 0 ? void 0 : _currentDhikr$value3.id);
+        });
+        var nextIndex = (currentIndex + 1) % availableDhikr.length;
+        selectDhikr(availableDhikr[nextIndex]);
+      } else if (event.code === 'ArrowLeft') {
+        var _currentIndex2 = availableDhikr.findIndex(function (d) {
+          var _currentDhikr$value4;
+          return d.id === ((_currentDhikr$value4 = currentDhikr.value) === null || _currentDhikr$value4 === void 0 ? void 0 : _currentDhikr$value4.id);
+        });
+        var prevIndex = (_currentIndex2 - 1 + availableDhikr.length) % availableDhikr.length;
+        selectDhikr(availableDhikr[prevIndex]);
+      }
+    };
+
+    // Lifecycle
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
+      document.addEventListener('keydown', handleKeyPress);
+      // Initialize with first dhikr
+      if (!currentDhikr.value) {
+        selectDhikr(availableDhikr[0]);
+      }
+
+      // Update streak on app start
+      updateStatistics();
+    });
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onUnmounted)(function () {
+      document.removeEventListener('keydown', handleKeyPress);
+      if (isListening.value) {
+        speechRecognition.stop();
+      }
+    });
+    var __returned__ = {
+      useLocalStorage: useLocalStorage,
+      useVibrate: useVibrate,
+      useSpeechRecognition: useSpeechRecognition,
+      useShakeDetection: useShakeDetection,
+      count: count,
+      currentDhikr: currentDhikr,
+      theme: theme,
+      vibration: vibration,
+      sound: sound,
+      autoReset: autoReset,
+      todayCount: todayCount,
+      weeklyCount: weeklyCount,
+      totalCount: totalCount,
+      streakCount: streakCount,
+      lastActivityDate: lastActivityDate,
+      notifications: notifications,
+      availableDhikr: availableDhikr,
+      speechRecognition: speechRecognition,
+      isListening: isListening,
+      isSpeechSupported: isSpeechSupported,
+      handleShake: handleShake,
+      isShakeSupported: isShakeSupported,
+      formattedCount: formattedCount,
+      progress: progress,
+      themeClasses: themeClasses,
+      vibrate: vibrate,
+      increment: increment,
+      resetCounter: resetCounter,
+      selectDhikr: selectDhikr,
+      toggleVoiceRecognition: toggleVoiceRecognition,
+      playClickSound: playClickSound,
+      showNotification: showNotification,
+      updateStatistics: updateStatistics,
+      resetStatistics: resetStatistics,
+      handleKeyPress: handleKeyPress,
+      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
+      computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed,
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
+      onUnmounted: vue__WEBPACK_IMPORTED_MODULE_0__.onUnmounted,
+      watch: vue__WEBPACK_IMPORTED_MODULE_0__.watch
+    };
+    Object.defineProperty(__returned__, '__isScriptSetup', {
+      enumerable: false,
+      value: true
+    });
+    return __returned__;
   }
 });
 
@@ -147010,156 +147294,96 @@ var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
         modal.show();
       }
     },
-    initiateSubscription: function initiateSubscription() {
-      var _this = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var response, errorData, data, modal, _t;
-        return _regenerator().w(function (_context) {
-          while (1) switch (_context.p = _context.n) {
-            case 0:
-              if (_this.stripePrice) {
-                _context.n = 1;
-                break;
-              }
-              alert('Subscription is currently unavailable. Please try again later.');
-              return _context.a(2);
-            case 1:
-              _this.isProcessing = true;
-              _context.p = 2;
-              _context.n = 3;
-              return fetch('/subscription/checkout', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                  'Authorization': 'Bearer ' + localStorage.getItem('sanctum_token'),
-                  'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                  price_id: _this.stripePrice,
-                  success_url: window.location.origin + '/subscription/success?intended=' + encodeURIComponent(_this.intendedPath || '/content'),
-                  cancel_url: window.location.origin + '/subscription/cancel'
-                })
-              });
-            case 3:
-              response = _context.v;
-              if (response.ok) {
-                _context.n = 5;
-                break;
-              }
-              _context.n = 4;
-              return response.json();
-            case 4:
-              errorData = _context.v;
-              throw new Error(errorData.message || "HTTP error! status: ".concat(response.status));
-            case 5:
-              _context.n = 6;
-              return response.json();
-            case 6:
-              data = _context.v;
-              console.log('Checkout session response:', data);
-              if (!(data.success && data.checkout_url)) {
-                _context.n = 7;
-                break;
-              }
-              modal = bootstrap.Modal.getInstance(document.getElementById('subscribeModal'));
-              if (modal) {
-                modal.hide();
-              }
-              window.location.href = data.checkout_url;
-              _context.n = 8;
-              break;
-            case 7:
-              throw new Error(data.error || 'Failed to create checkout session');
-            case 8:
-              _context.n = 10;
-              break;
-            case 9:
-              _context.p = 9;
-              _t = _context.v;
-              console.error('Error initiating subscription:', _t);
-              alert('Error: ' + _t.message);
-            case 10:
-              _context.p = 10;
-              _this.isProcessing = false;
-              return _context.f(10);
-            case 11:
-              return _context.a(2);
-          }
-        }, _callee, null, [[2, 9, 10, 11]]);
-      }))();
-    },
-    fetchPriceId: function fetchPriceId() {
-      var _this2 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-        var _document$querySelect, token, headers, response, data, _t2;
-        return _regenerator().w(function (_context2) {
-          while (1) switch (_context2.p = _context2.n) {
-            case 0:
-              _context2.p = 0;
-              token = localStorage.getItem('sanctum_token') || ((_document$querySelect = document.querySelector('meta[name="api-token"]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.content);
-              headers = {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              };
-              if (token) {
-                headers['Authorization'] = "Bearer ".concat(token);
-              }
-              _context2.n = 1;
-              return fetch('/subscription/config', {
-                headers: headers
-              });
-            case 1:
-              response = _context2.v;
-              if (!response.ok) {
-                _context2.n = 3;
-                break;
-              }
-              _context2.n = 2;
-              return response.json();
-            case 2:
-              data = _context2.v;
-              _this2.stripePrice = data.price_id;
-              console.log('Price ID loaded:', _this2.stripePrice);
-              _context2.n = 4;
-              break;
-            case 3:
-              throw new Error('Failed to fetch price ID');
-            case 4:
-              _context2.n = 6;
-              break;
-            case 5:
-              _context2.p = 5;
-              _t2 = _context2.v;
-              console.error('Error fetching price ID:', _t2);
-              alert('Unable to load subscription details. Please try again later.');
-              _this2.stripePrice = null;
-            case 6:
-              return _context2.a(2);
-          }
-        }, _callee2, null, [[0, 5]]);
-      }))();
-    },
+    // async initiateSubscription() {
+    //     if (!this.stripePrice) {
+    //         alert('Subscription is currently unavailable. Please try again later.');
+    //         return;
+    //     }
+    //     this.isProcessing = true;
+    //     try {
+    //         const response = await fetch('/subscription/checkout', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    //                 'Authorization': 'Bearer ' + localStorage.getItem('sanctum_token'),
+    //                 'Accept': 'application/json'
+    //             },
+    //             body: JSON.stringify({
+    //                 price_id: this.stripePrice,
+    //                 success_url: window.location.origin + '/subscription/success?intended=' + encodeURIComponent(this.intendedPath || '/content'),
+    //                 cancel_url: window.location.origin + '/subscription/cancel'
+    //             })
+    //         });
+    //         if (!response.ok) {
+    //             const errorData = await response.json();
+    //             throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    //         }
+    //         const data = await response.json();
+    //         console.log('Checkout session response:', data);
+    //         if (data.success && data.checkout_url) {
+    //             const modal = bootstrap.Modal.getInstance(document.getElementById('subscribeModal'));
+    //             if (modal) {
+    //                 modal.hide();
+    //             }
+    //             window.location.href = data.checkout_url;
+    //         } else {
+    //             throw new Error(data.error || 'Failed to create checkout session');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error initiating subscription:', error);
+    //         alert('Error: ' + error.message);
+    //     } finally {
+    //         this.isProcessing = false;
+    //     }
+    // },
+    // async fetchPriceId() {
+    //     try {
+    //         const token = localStorage.getItem('sanctum_token') ||
+    //             document.querySelector('meta[name="api-token"]')?.content;
+    //         const headers = {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json',
+    //         };
+    //         if (token) {
+    //             headers['Authorization'] = `Bearer ${token}`;
+    //         }
+    //         const response = await fetch('/subscription/config', {
+    //             headers
+    //         });
+    //         if (response.ok) {
+    //             const data = await response.json();
+    //             this.stripePrice = data.price_id;
+    //             console.log('Price ID loaded:', this.stripePrice);
+    //         } else {
+    //             throw new Error('Failed to fetch price ID');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error fetching price ID:', error);
+    //         alert('Unable to load subscription details. Please try again later.');
+    //         this.stripePrice = null;
+    //     }
+    // },
     // Add debug method to manually check status (kept for potential future use, but not triggered)
     debugSubscriptionStatus: function debugSubscriptionStatus() {
-      var _this3 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-        var token, response, data, errorText, _t3;
-        return _regenerator().w(function (_context3) {
-          while (1) switch (_context3.p = _context3.n) {
+      var _this = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        var token, response, data, errorText, _t;
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.p = _context.n) {
             case 0:
               console.log('=== DEBUG SUBSCRIPTION STATUS ===');
               token = localStorage.getItem('sanctum_token');
               console.log('Token exists:', !!token);
               if (token) {
-                _context3.n = 1;
+                _context.n = 1;
                 break;
               }
               console.log('No token found');
-              return _context3.a(2);
+              return _context.a(2);
             case 1:
-              _context3.p = 1;
-              _context3.n = 2;
+              _context.p = 1;
+              _context.n = 2;
               return fetch('/subscription/status?debug=1&_t=' + Date.now(), {
                 headers: {
                   'Accept': 'application/json',
@@ -147168,132 +147392,132 @@ var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
                 }
               });
             case 2:
-              response = _context3.v;
+              response = _context.v;
               console.log('Response status:', response.status);
               if (!response.ok) {
-                _context3.n = 4;
+                _context.n = 4;
                 break;
               }
-              _context3.n = 3;
+              _context.n = 3;
               return response.json();
             case 3:
-              data = _context3.v;
+              data = _context.v;
               console.log('Subscription data:', data);
-              _this3.debugInfo = data;
+              _this.debugInfo = data;
 
               // Update local state
-              _this3.subscribed = data.subscribed;
-              _this3.subscriptionInfo = data.subscription_info;
-              _this3.user = data.user;
+              _this.subscribed = data.subscribed;
+              _this.subscriptionInfo = data.subscription_info;
+              _this.user = data.user;
               console.log('Local state updated:', {
-                subscribed: _this3.subscribed,
-                hasActiveSubscription: _this3.hasActiveSubscription(),
-                isContentLocked: _this3.isLocked('/content')
+                subscribed: _this.subscribed,
+                hasActiveSubscription: _this.hasActiveSubscription(),
+                isContentLocked: _this.isLocked('/content')
               });
-              _context3.n = 6;
+              _context.n = 6;
               break;
             case 4:
-              _context3.n = 5;
+              _context.n = 5;
               return response.text();
             case 5:
-              errorText = _context3.v;
+              errorText = _context.v;
               console.log('Error response:', errorText);
             case 6:
-              _context3.n = 8;
+              _context.n = 8;
               break;
             case 7:
-              _context3.p = 7;
-              _t3 = _context3.v;
-              console.error('Debug fetch error:', _t3);
+              _context.p = 7;
+              _t = _context.v;
+              console.error('Debug fetch error:', _t);
             case 8:
-              return _context3.a(2);
+              return _context.a(2);
           }
-        }, _callee3, null, [[1, 7]]);
+        }, _callee, null, [[1, 7]]);
       }))();
     }
   },
   created: function created() {
-    var _this4 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+    var _this2 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
       var urlParams, sessionId, token;
-      return _regenerator().w(function (_context5) {
-        while (1) switch (_context5.n) {
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.n) {
           case 0:
             console.log('MediaCenter created, current path:', window.location.pathname);
             console.log('URL search params:', window.location.search);
 
             // Load price ID first
-            _context5.n = 1;
-            return _this4.fetchPriceId();
+            _context3.n = 1;
+            return _this2.fetchPriceId();
           case 1:
             if (!(window.Laravel && window.Laravel.success)) {
-              _context5.n = 2;
+              _context3.n = 2;
               break;
             }
             console.log('Laravel success flag found');
-            _this4.showSuccessMessage = true;
-            _this4.subscribed = window.Laravel.subscribed || false;
+            _this2.showSuccessMessage = true;
+            _this2.subscribed = window.Laravel.subscribed || false;
             setTimeout(function () {
-              _this4.showSuccessMessage = false;
-              _this4.fetchSubscriptionStatus();
+              _this2.showSuccessMessage = false;
+              _this2.fetchSubscriptionStatus();
               var urlParams = new URLSearchParams(window.location.search);
               var intended = urlParams.get('intended') || '/media';
               window.location.href = intended;
             }, 3000);
-            return _context5.a(2);
+            return _context3.a(2);
           case 2:
             // Check for session_id in URL (successful Stripe checkout)
             urlParams = new URLSearchParams(window.location.search);
             sessionId = urlParams.get('session_id');
             if (!sessionId) {
-              _context5.n = 3;
+              _context3.n = 3;
               break;
             }
             console.log('Session ID found:', sessionId);
             console.log('User returned from Stripe checkout');
 
             // Wait a moment for the webhook to process
-            setTimeout(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+            setTimeout(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
               var newUrl;
-              return _regenerator().w(function (_context4) {
-                while (1) switch (_context4.n) {
+              return _regenerator().w(function (_context2) {
+                while (1) switch (_context2.n) {
                   case 0:
                     console.log('Fetching updated subscription status...');
-                    _context4.n = 1;
-                    return _this4.fetchSubscriptionStatus(true);
+                    _context2.n = 1;
+                    return _this2.fetchSubscriptionStatus(true);
                   case 1:
-                    console.log('After fetch - subscribed:', _this4.subscribed);
-                    console.log('After fetch - hasActiveSubscription:', _this4.hasActiveSubscription());
+                    console.log('After fetch - subscribed:', _this2.subscribed);
+                    console.log('After fetch - hasActiveSubscription:', _this2.hasActiveSubscription());
 
                     // Clean up URL
                     newUrl = window.location.pathname + window.location.hash;
                     window.history.replaceState({}, document.title, newUrl);
                   case 2:
-                    return _context4.a(2);
+                    return _context2.a(2);
                 }
-              }, _callee4);
+              }, _callee2);
             })), 2000); // Wait 2 seconds for webhook
-            return _context5.a(2);
+            return _context3.a(2);
           case 3:
             // Check authentication and fetch status
             token = localStorage.getItem('sanctum_token');
             if (!token) {
-              _context5.n = 5;
+              _context3.n = 5;
               break;
             }
             console.log('Token found, fetching subscription status');
-            _context5.n = 4;
-            return _this4.fetchSubscriptionStatus();
+            _context3.n = 4;
+            return _this2.fetchSubscriptionStatus();
           case 4:
-            _context5.n = 6;
+            _context3.n = 6;
             break;
           case 5:
             console.log('No token found, setting subscribed to false');
-            _this4.subscribed = false;
+            _this2.subscribed = false;
           case 6:
-            return _context5.a(2);
+            return _context3.a(2);
         }
-      }, _callee5);
+      }, _callee3);
     }))();
   }
 });
@@ -166734,91 +166958,197 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "library-container"
+  "class": "app-header"
 };
 var _hoisted_2 = {
-  "class": "search-bar"
+  "class": "counter-main"
 };
 var _hoisted_3 = {
-  key: 0,
-  "class": "loading"
+  "class": "counter-display"
 };
 var _hoisted_4 = {
-  key: 1,
-  "class": "error"
+  "class": "current-count",
+  "aria-live": "polite",
+  "aria-atomic": "true"
 };
 var _hoisted_5 = {
-  key: 2,
-  "class": "book-list"
+  "class": "counter-label"
 };
 var _hoisted_6 = {
-  "class": "book-actions"
+  "class": "progress-container"
 };
-var _hoisted_7 = ["onClick"];
+var _hoisted_7 = ["value"];
 var _hoisted_8 = {
-  key: 1
+  "class": "progress-text"
 };
 var _hoisted_9 = {
-  key: 3,
-  "class": "book-reader"
+  "class": "counter-controls"
 };
-var _hoisted_10 = {
-  key: 0,
-  "class": "error"
+var _hoisted_10 = ["onKeydown"];
+var _hoisted_11 = ["disabled"];
+var _hoisted_12 = {
+  "class": "btn-icon"
 };
-var _hoisted_11 = {
-  key: 1,
-  "class": "book-reader-frame"
-};
-var _hoisted_12 = ["src"];
 var _hoisted_13 = {
-  key: 0,
-  "class": "fallback-link"
+  "class": "btn-text"
 };
-var _hoisted_14 = ["href"];
-var _hoisted_15 = ["id"];
+var _hoisted_14 = {
+  key: 0,
+  "class": "gesture-info"
+};
+var _hoisted_15 = {
+  key: 1,
+  "class": "gesture-info"
+};
+var _hoisted_16 = {
+  "class": "dhikr-selection"
+};
+var _hoisted_17 = {
+  "class": "dhikr-grid"
+};
+var _hoisted_18 = ["onClick"];
+var _hoisted_19 = {
+  "class": "dhikr-name"
+};
+var _hoisted_20 = {
+  "class": "dhikr-target"
+};
+var _hoisted_21 = {
+  "class": "statistics"
+};
+var _hoisted_22 = {
+  "class": "stats-grid"
+};
+var _hoisted_23 = {
+  "class": "stat-card"
+};
+var _hoisted_24 = {
+  "class": "stat-value"
+};
+var _hoisted_25 = {
+  "class": "stat-card"
+};
+var _hoisted_26 = {
+  "class": "stat-value"
+};
+var _hoisted_27 = {
+  "class": "stat-card"
+};
+var _hoisted_28 = {
+  "class": "stat-value"
+};
+var _hoisted_29 = {
+  "class": "stat-card"
+};
+var _hoisted_30 = {
+  "class": "stat-value"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Connect eBook Library", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  var _$setup$currentDhikr;
+  var _component_ThemeToggle = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ThemeToggle");
+  var _component_SettingsPanel = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("SettingsPanel");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["tasbeeh-counter", $setup.themeClasses])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_1, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "app-title"
+  }, "AI Tasbeeh Counter", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ThemeToggle, {
+    modelValue: $setup.theme,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.searchQuery = $event;
-    }),
-    type: "text",
-    placeholder: "Search for Islamic books (e.g., Quran, Hadith, Tafsir)",
-    onInput: _cache[1] || (_cache[1] = function () {
-      return $options.fetchBooks && $options.fetchBooks.apply($options, arguments);
+      return $setup.theme = $event;
     })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, "Loading books...")) : $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.books, function (book) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: book.key,
-      "class": "book-card"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Author:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.author_name ? book.author_name.join(', ') : 'Unknown'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Published:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.first_publish_year || 'N/A'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Subjects:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.subject ? book.subject.join(', ') : 'N/A'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [book.ia ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 0,
+  }, null, 8 /* PROPS */, ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Counter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Counter Display "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formattedCount), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_$setup$currentDhikr = $setup.currentDhikr) === null || _$setup$currentDhikr === void 0 ? void 0 : _$setup$currentDhikr.name) || 'Select Dhikr'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("progress", {
+    "class": "counter-progress",
+    value: $setup.progress,
+    max: "100",
+    "aria-label": "Progress towards target"
+  }, null, 8 /* PROPS */, _hoisted_7), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.progress) + "%", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "control-btn increment-btn",
+    onClick: $setup.increment,
+    onKeydown: [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.increment, ["prevent"]), ["space"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.increment, ["prevent"]), ["enter"])],
+    "aria-label": "Increment count"
+  }, _toConsumableArray(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "btn-icon"
+  }, "➕", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "btn-text"
+  }, "Count", -1 /* CACHED */)])), 40 /* PROPS, NEED_HYDRATION */, _hoisted_10), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "control-btn reset-btn",
+    onClick: $setup.resetCounter,
+    "aria-label": "Reset counter"
+  }, _toConsumableArray(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "btn-icon"
+  }, "🔄", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "btn-text"
+  }, "Reset", -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["control-btn voice-btn", {
+      'listening': $setup.isListening
+    }]),
+    onClick: $setup.toggleVoiceRecognition,
+    disabled: !$setup.isSpeechSupported,
+    "aria-label": "Voice recognition"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.isListening ? '🎤' : '🎙️'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.isListening ? 'Listening...' : 'Voice'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_11)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Gesture Instructions "), $setup.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Voice commands: \"count\", \"reset\", \"next\", \"previous\"", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Shake Instructions "), $setup.isShakeSupported ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "🤲 Shake device to reset counter", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dhikr Selection "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_16, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "section-title"
+  }, "Select Dhikr", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.availableDhikr, function (dhikr) {
+    var _$setup$currentDhikr2;
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      key: dhikr.id,
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["dhikr-card", {
+        'active': ((_$setup$currentDhikr2 = $setup.currentDhikr) === null || _$setup$currentDhikr2 === void 0 ? void 0 : _$setup$currentDhikr2.id) === dhikr.id
+      }]),
       onClick: function onClick($event) {
-        return $options.openBookReader(book.ia, book.title);
+        return $setup.selectDhikr(dhikr);
       },
-      "class": "btn"
-    }, "Read Now", 8 /* PROPS */, _hoisted_7)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "No read option available"))])]);
-  }), 128 /* KEYED_FRAGMENT */))])), $data.selectedBookIa ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Reading: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedBookTitle), 1 /* TEXT */), $data.readerError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readerError), 1 /* TEXT */)) : $data.useIframeFallback ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
-    src: $data.iframeSrc,
-    width: "100%",
-    height: "600px",
-    frameborder: "0",
-    allowfullscreen: ""
-  }, null, 8 /* PROPS */, _hoisted_12), $data.readerError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: $data.archiveUrl,
-    target: "_blank"
-  }, "View on Archive.org", 8 /* PROPS */, _hoisted_14)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    key: 2,
-    id: $data.bookReaderId,
-    "class": "book-reader-frame"
-  }, null, 8 /* PROPS */, _hoisted_15)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[2] || (_cache[2] = function () {
-      return $options.closeBookReader && $options.closeBookReader.apply($options, arguments);
+      "aria-pressed": "currentDhikr?.id === dhikr.id"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dhikr.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, "Target: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dhikr.target), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_18);
+  }), 64 /* STABLE_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Statistics "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_21, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "section-title"
+  }, "Statistics", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.todayCount), 1 /* TEXT */), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "stat-label"
+  }, "Today", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.weeklyCount), 1 /* TEXT */), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "stat-label"
+  }, "This Week", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.totalCount), 1 /* TEXT */), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "stat-label"
+  }, "Total", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.streakCount), 1 /* TEXT */), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "stat-label"
+  }, "Day Streak", -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Settings "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SettingsPanel, {
+    theme: $setup.theme,
+    "onUpdate:theme": _cache[1] || (_cache[1] = function ($event) {
+      return $setup.theme = $event;
     }),
-    "class": "btn close-btn"
-  }, "Close Reader")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    vibration: $setup.vibration,
+    "onUpdate:vibration": _cache[2] || (_cache[2] = function ($event) {
+      return $setup.vibration = $event;
+    }),
+    sound: $setup.sound,
+    "onUpdate:sound": _cache[3] || (_cache[3] = function ($event) {
+      return $setup.sound = $event;
+    }),
+    autoReset: $setup.autoReset,
+    "onUpdate:autoReset": _cache[4] || (_cache[4] = function ($event) {
+      return $setup.autoReset = $event;
+    }),
+    onResetStats: $setup.resetStatistics
+  }, null, 8 /* PROPS */, ["theme", "vibration", "sound", "autoReset"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notifications "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
+    name: "notification"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.notifications, function (notification) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+          key: notification.id,
+          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["notification", notification.type]),
+          role: "alert"
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(notification.message), 3 /* TEXT, CLASS */);
+      }), 128 /* KEYED_FRAGMENT */))];
+    }),
+    _: 1 /* STABLE */
+  })], 2 /* CLASS */);
 }
 
 /***/ }),
@@ -173015,7 +173345,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     src: "/images/surat2.png",
     "class": "d-block w-100 img-mobile-bigger",
     alt: "Quran companion"
-  })])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Section "), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"stats-section\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center\" data-v-2ba25654><div class=\"col-lg-10 text-center\" data-v-2ba25654><h2 class=\"section-title\" data-v-2ba25654>Our Impact in Numbers</h2><p class=\"section-lead\" data-v-2ba25654>Measurable results showing how we&#39;re making Islamic knowledge accessible to all</p><div class=\"row container-fluid stats-grid\" data-v-2ba25654><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>30+</h3><p data-v-2ba25654>Countries</p><small data-v-2ba25654>Global reach</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>200+</h3><p data-v-2ba25654>Cities</p><small data-v-2ba25654>Worldwide presence</small></div></div><!-- &lt;div class=&quot;col-md-3 col-6 mb-4&quot;&gt;\n                &lt;div class=&quot;stat-card&quot;&gt;\n                  &lt;h3&gt;2.3 min&lt;/h3&gt;\n                  &lt;p&gt;Average Engagement&lt;/p&gt;\n                  &lt;small&gt;Per session&lt;/small&gt;\n                &lt;/div&gt;\n              &lt;/div&gt; --><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>100%</h3><p data-v-2ba25654>Accessibility</p><small data-v-2ba25654>Score</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>370%</h3><p data-v-2ba25654>Growth</p><small data-v-2ba25654>Returning users</small></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Value Proposition Column "), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-lg-1 mb-4\" data-v-2ba25654></div><div class=\"col-lg-5 mb-4\" data-v-2ba25654><div class=\"value-proposition-wrapper\" data-v-2ba25654><div class=\"form-header text-center mb-4\" data-v-2ba25654><h2 class=\"mb-3\" data-v-2ba25654>Strategic Impact Areas</h2></div><div class=\"row\" data-v-2ba25654><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>📚</div><h4 data-v-2ba25654>Educational Content</h4><p data-v-2ba25654>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>♿</div><h4 data-v-2ba25654>Accessibility Features</h4><p data-v-2ba25654>Implementing screen reader support and voice interfaces for inclusive access</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>⚙️</div><h4 data-v-2ba25654>Platform Infrastructure</h4><p data-v-2ba25654>Maintaining robust servers and scalable architecture for global user base</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>🌍</div><h4 data-v-2ba25654>Global Outreach</h4><p data-v-2ba25654>Expanding to underserved Muslim communities worldwide</p></div></div></div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Donation Section Column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Section "), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"stats-section\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center\" data-v-2ba25654><div class=\"col-lg-10 text-center\" data-v-2ba25654><h2 class=\"section-title\" data-v-2ba25654>Our Impact in Numbers</h2><p class=\"section-lead\" data-v-2ba25654>Measurable results showing how we&#39;re making Islamic knowledge accessible to all</p><div class=\"row container-fluid stats-grid\" data-v-2ba25654><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>60+</h3><p data-v-2ba25654>Countries</p><small data-v-2ba25654>Global reach</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>500+</h3><p data-v-2ba25654>Cities</p><small data-v-2ba25654>Worldwide presence</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>100%</h3><p data-v-2ba25654>Accessibility &amp; SEO</p><small data-v-2ba25654>Score</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>1,090.9%</h3><p data-v-2ba25654>Growth</p><small data-v-2ba25654>Returning users</small></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Value Proposition Column "), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-lg-1 mb-4\" data-v-2ba25654></div><div class=\"col-lg-5 mb-4\" data-v-2ba25654><div class=\"value-proposition-wrapper\" data-v-2ba25654><div class=\"form-header text-center mb-4\" data-v-2ba25654><h2 class=\"mb-3\" data-v-2ba25654>Strategic Impact Areas</h2></div><div class=\"row\" data-v-2ba25654><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>📚</div><h4 data-v-2ba25654>Educational Content</h4><p data-v-2ba25654>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>♿</div><h4 data-v-2ba25654>Accessibility Features</h4><p data-v-2ba25654>Implementing screen reader support and voice interfaces for inclusive access</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>⚙️</div><h4 data-v-2ba25654>Platform Infrastructure</h4><p data-v-2ba25654>Maintaining robust servers and scalable architecture for global user base</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>🌍</div><h4 data-v-2ba25654>Global Outreach</h4><p data-v-2ba25654>Expanding to underserved Muslim communities worldwide</p></div></div></div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Donation Section Column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "form-header text-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "mb-3"
@@ -173039,7 +173369,256 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "fas fa-shield-alt me-1"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Your contribution is securely processed by Stripe. We never store your payment details. ")])], -1 /* CACHED */))])]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-1 mb-4"
-  }, null, -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI tools & features "), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h1 class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>AI Tools and Their Impact</h1></div></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><h3 class=\"lead container pt-3 text-center\" style=\"line-height:1.8em;\" data-v-2ba25654> At Islamic Connect, our mission is deeply rooted in making the Quran and Islamic knowledge accessible to everyone, regardless of their abilities or learning needs. By harnessing the power of advanced AI tools, we are creating a platform that’s not just about providing information, but about empowering individuals through an inclusive and personalized learning experience. they benefit users: </h3><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speech-to-Text for Islamic Notes and Reflections </h4><p data-v-2ba25654> Capture your spoken reflections, making it easier to document your thoughts and reflections on Islamic teachings, while ensuring accessibility for those who prefer audio to written text. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"70px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speak, explore, and connect deeply with Quranic teachings. </h4><p data-v-2ba25654> Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless, accessible way to connect with Islam. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Versatile Note Editor with Advanced Customization Features </h4><p data-v-2ba25654> A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing capabilities with extensive customization options. This tool emphasizes seamless accessibility. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/content.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Generate Text Summary - Turn Long Text into Clear, Quick Insights </h4><p data-v-2ba25654> Quickly condense long pieces of text into clear, concise summaries. This feature uses AI to extract the key points and main ideas, helping you understand content faster and save time. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Audio Synchronization with Word-by-Word Quranic Highlighting </h4><p data-v-2ba25654> Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the words. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Text-to-Speech for English Translation and Tafsir </h4><p data-v-2ba25654> High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran and enriching connection to the sacred text. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" newsletter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-4 my-md-5\">\n      <div class=\"container\">\n        <div class=\"text-center\">\n          <div class=\"row justify-content-center\">\n            <div class=\"col-lg-8\">\n              <span class=\"text-muted\">Newsletter</span>\n              <h2 class=\"display-5 fw-bold\">Subscribe Today</h2>\n              <p class=\"lead\">\n                Stay connected with Islamic Connect — subscribe to our newsletter for the latest updates, new features,\n                inspiring articles, and resources to deepen your Islamic knowledge.\n              </p>\n              <div class=\"mx-auto mt-3\">\n                <form class=\"row g-3\">\n                  <div class=\"col-md-4\">\n                    <input class=\"form-control bg-light\" placeholder=\"Full name\" type=\"text\">\n                  </div>\n                  <div class=\"col-md-4\">\n                    <input class=\"form-control bg-light\" placeholder=\"Email address\" type=\"text\">\n                  </div>\n                  <div class=\"col-md-4\">\n                    <div class=\"d-grid\">\n                      <button class=\"form-control btn \"\n                        style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; \"\n                        type=\"button\">\n                        <b>Subscribe</b>\n                      </button>\n                    </div>\n                  </div>\n                </form>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" faq \n    <section class=\"py-5\">\n      <div class=\"container\">\n        <div class=\"row justify-content-center text-center mb-5\">\n          <div class=\"col-lg-8 col-xxl-7\">\n            <h1 class=\"display-5 fw-bold  mb-3\">Frequently Asked Questions</h1>\n            <p class=\"lead text-muted fw-normal lh-base\">\n              Have questions or need assistance? We're here to help! Reach out to Islamic Connect via email for support,\n              feedback, or inquiries about our content and services.\n            </p>\n          </div>\n        </div>\n\n        <div class=\"accordion\" id=\"faqAccordion\">\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading1\">\n              <button class=\"accordion-button fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse1\" aria-expanded=\"true\" aria-controls=\"faqCollapse1\">\n                What is Islamic Connect and how can it benefit me?\n              </button>\n            </h2>\n            <div id=\"faqCollapse1\" class=\"accordion-collapse collapse show\" aria-labelledby=\"faqHeading1\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                <strong>Islamic Connect</strong> is a digital platform offering Quranic content, live streams, articles,\n                and more — designed to improve your learning and spiritual experience with accessibility-first features.\n              </div>\n            </div>\n          </div>\n\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading2\">\n              <button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse2\" aria-expanded=\"false\" aria-controls=\"faqCollapse2\">\n                How can I listen to Quran recitations on your platform?\n              </button>\n            </h2>\n            <div id=\"faqCollapse2\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading2\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                You can browse any Surah and tap the play icon beside a verse to hear its recitation. Features like\n                auto-scroll and synced highlighting enhance the experience.\n              </div>\n            </div>\n          </div>\n\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading3\">\n              <button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse3\" aria-expanded=\"false\" aria-controls=\"faqCollapse3\">\n                Is Islamic Connect accessible for visually impaired users?\n              </button>\n            </h2>\n            <div id=\"faqCollapse3\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading3\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                Yes. Our platform supports screen readers, keyboard navigation, gesture controls, and text-to-speech so\n                all users — especially the visually impaired — can benefit.\n              </div>\n            </div>\n          </div>\n\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading4\">\n              <button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse4\" aria-expanded=\"false\" aria-controls=\"faqCollapse4\">\n                Can I bookmark or save verses for later?\n              </button>\n            </h2>\n            <div id=\"faqCollapse4\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading4\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                Yes, you can bookmark ayahs, organize them into collections with custom names, colors, and even add\n                dates. Bookmarks are saved locally or to your profile if logged in.\n              </div>\n            </div>\n          </div>\n\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading5\">\n              <button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse5\" aria-expanded=\"false\" aria-controls=\"faqCollapse5\">\n                How do I report errors or suggest improvements?\n              </button>\n            </h2>\n            <div id=\"faqCollapse5\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading5\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                Please email us at <a href=\"mailto:support@islamicconnect.org\">support@islamicconnect.org</a> to report\n                issues, bugs, or to suggest new features. Your feedback helps us grow.\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>\n    "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI tools & features "), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h1 class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>AI Tools and Their Impact</h1></div></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><h3 class=\"lead container pt-3 text-center\" style=\"line-height:1.8em;\" data-v-2ba25654> At Islamic Connect, our mission is deeply rooted in making the Quran and Islamic knowledge accessible to everyone, regardless of their abilities or learning needs. By harnessing the power of advanced AI tools, we are creating a platform that’s not just about providing information, but about empowering individuals through an inclusive and personalized learning experience. they benefit users: </h3><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speech-to-Text for Islamic Notes and Reflections </h4><p data-v-2ba25654> Capture your spoken reflections, making it easier to document your thoughts and reflections on Islamic teachings, while ensuring accessibility for those who prefer audio to written text. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"70px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speak, explore, and connect deeply with Quranic teachings. </h4><p data-v-2ba25654> Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless, accessible way to connect with Islam. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Versatile Note Editor with Advanced Customization Features </h4><p data-v-2ba25654> A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing capabilities with extensive customization options. This tool emphasizes seamless accessibility. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/content.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Generate Text Summary - Turn Long Text into Clear, Quick Insights </h4><p data-v-2ba25654> Quickly condense long pieces of text into clear, concise summaries. This feature uses AI to extract the key points and main ideas, helping you understand content faster and save time. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Audio Synchronization with Word-by-Word Quranic Highlighting </h4><p data-v-2ba25654> Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the words. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Text-to-Speech for English Translation and Tafsir </h4><p data-v-2ba25654> High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran and enriching connection to the sacred text. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quick Join Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Enhanced Quick Join Section "), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
+    "class": "py-5 quick-join-section",
+    style: {
+      "background": "linear-gradient(135deg, #00bfa6 0%, #1a5f7a 100%)",
+      "position": "relative",
+      "overflow": "hidden"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Elements "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "position": "absolute",
+      "top": "-50%",
+      "right": "-10%",
+      "width": "300px",
+      "height": "300px",
+      "background": "rgba(255, 255, 255, 0.1)",
+      "border-radius": "50%",
+      "animation": "float 8s ease-in-out infinite"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "position": "absolute",
+      "bottom": "-30%",
+      "left": "-5%",
+      "width": "200px",
+      "height": "200px",
+      "background": "rgba(255, 255, 255, 0.1)",
+      "border-radius": "50%",
+      "animation": "float 6s ease-in-out infinite 2s"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "position": "absolute",
+      "top": "20%",
+      "left": "10%",
+      "width": "100px",
+      "height": "100px",
+      "background": "rgba(255, 255, 255, 0.05)",
+      "border-radius": "50%",
+      "animation": "float 10s ease-in-out infinite 1s"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "container",
+    style: {
+      "position": "relative",
+      "z-index": "2"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row align-items-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-lg-7 text-center text-lg-start"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "text-white fw-bold mb-3",
+    style: {
+      "font-size": "2.5rem",
+      "text-shadow": "0 2px 10px rgba(0, 0, 0, 0.2)",
+      "background": "linear-gradient(45deg, #ffffff, #e8fefe)",
+      "-webkit-background-clip": "text",
+      "-webkit-text-fill-color": "transparent",
+      "background-clip": "text"
+    }
+  }, "Ready to Transform Your Daily Spiritual Journey?"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-white mb-4",
+    style: {
+      "font-size": "1.2rem",
+      "opacity": "0.9",
+      "text-shadow": "0 1px 3px rgba(0, 0, 0, 0.3)"
+    }
+  }, "Join now and receive your first spiritual reminder within minutes. Start your day with divine inspiration! ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-lg-5 text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Join Cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row g-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-12"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "background": "rgba(255, 255, 255, 0.95)",
+      "padding": "1.5rem",
+      "border-radius": "20px",
+      "box-shadow": "0 15px 35px rgba(0, 0, 0, 0.2)",
+      "border": "2px solid rgba(255, 255, 255, 0.3)",
+      "backdrop-filter": "blur(10px)",
+      "transition": "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      "position": "relative",
+      "overflow": "hidden"
+    },
+    "class": "join-card-hover"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-flex align-items-center mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "width": "50px",
+      "height": "50px",
+      "background": "linear-gradient(135deg, #25D366, #128C7E)",
+      "border-radius": "50%",
+      "display": "flex",
+      "align-items": "center",
+      "justify-content": "center",
+      "margin-right": "1rem",
+      "box-shadow": "0 5px 15px rgba(37, 211, 102, 0.4)"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fab fa-whatsapp text-white",
+    style: {
+      "font-size": "1.5rem"
+    }
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-start"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "fw-bold mb-1",
+    style: {
+      "color": "#1a5f7a"
+    }
+  }, "WhatsApp Channel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    "class": "text-muted"
+  }, "Daily verses & instant reminders")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "https://lnkd.in/ebUNhthw",
+    "class": "btn w-100",
+    target: "_blank",
+    style: {
+      "background": "linear-gradient(135deg, #25D366, #128C7E)",
+      "color": "white",
+      "font-weight": "700",
+      "padding": "1rem 2rem",
+      "border-radius": "12px",
+      "border": "none",
+      "font-size": "1.1rem",
+      "transition": "all 0.3s ease",
+      "box-shadow": "0 5px 15px rgba(37, 211, 102, 0.4)",
+      "position": "relative",
+      "overflow": "hidden"
+    },
+    onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(37, 211, 102, 0.6)';",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(37, 211, 102, 0.4)';"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fab fa-whatsapp me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Join WhatsApp Channel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    style: {
+      "position": "absolute",
+      "top": "50%",
+      "right": "1rem",
+      "transform": "translateY(-50%)",
+      "font-size": "0.9rem",
+      "opacity": "0.9"
+    }
+  }, "→")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"mt-2\">\n                    <small class=\"text-muted\" style=\"font-weight: 500;\">\n                      <i class=\"fas fa-users me-1\"></i>2,800+ active members\n                    </small>\n                  </div> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-12"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "background": "rgba(255, 255, 255, 0.95)",
+      "padding": "1.5rem",
+      "border-radius": "20px",
+      "box-shadow": "0 15px 35px rgba(0, 0, 0, 0.2)",
+      "border": "2px solid rgba(255, 255, 255, 0.3)",
+      "backdrop-filter": "blur(10px)",
+      "transition": "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      "position": "relative",
+      "overflow": "hidden"
+    },
+    "class": "join-card-hover"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Telegram Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-flex align-items-center mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "width": "50px",
+      "height": "50px",
+      "background": "linear-gradient(135deg, #0088cc, #006699)",
+      "border-radius": "50%",
+      "display": "flex",
+      "align-items": "center",
+      "justify-content": "center",
+      "margin-right": "1rem",
+      "box-shadow": "0 5px 15px rgba(0, 136, 204, 0.4)"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fab fa-telegram text-white",
+    style: {
+      "font-size": "1.5rem"
+    }
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-start"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "fw-bold mb-1",
+    style: {
+      "color": "#1a5f7a"
+    }
+  }, "Telegram Community"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    "class": "text-muted"
+  }, "In-depth content & discussions")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "https://lnkd.in/e8sT525W",
+    "class": "btn w-100",
+    target: "_blank",
+    style: {
+      "background": "linear-gradient(135deg, #0088cc, #006699)",
+      "color": "white",
+      "font-weight": "700",
+      "padding": "1rem 2rem",
+      "border-radius": "12px",
+      "border": "none",
+      "font-size": "1.1rem",
+      "transition": "all 0.3s ease",
+      "box-shadow": "0 5px 15px rgba(0, 136, 204, 0.4)",
+      "position": "relative",
+      "overflow": "hidden"
+    },
+    onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 136, 204, 0.6)';",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0, 136, 204, 0.4)';"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fab fa-telegram me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Join Telegram Community "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    style: {
+      "position": "absolute",
+      "top": "50%",
+      "right": "1rem",
+      "transform": "translateY(-50%)",
+      "font-size": "0.9rem",
+      "opacity": "0.9"
+    }
+  }, "→")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"mt-2\">\n                    <small class=\"text-muted\" style=\"font-weight: 500;\">\n                      <i class=\"fas fa-users me-1\"></i>3,200+ active members\n                    </small>\n                  </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Trust Badge "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "mt-3",
+    style: {
+      "background": "rgba(255, 255, 255, 0.2)",
+      "padding": "0.75rem 1.5rem",
+      "border-radius": "50px",
+      "backdrop-filter": "blur(10px)",
+      "display": "inline-block"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-flex align-items-center",
+    style: {
+      "gap": "0.5rem"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-shield-alt text-white",
+    style: {
+      "font-size": "1.1rem"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    "class": "text-white fw-bold"
+  }, "100% Free • Easy Unsubscribe")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "position": "absolute",
+      "bottom": "20px",
+      "right": "20px",
+      "opacity": "0.1",
+      "font-size": "3rem",
+      "animation": "float 4s ease-in-out infinite"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-quran"
+  })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" newsletter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-4 my-md-5\">\n      <div class=\"container\">\n        <div class=\"text-center\">\n          <div class=\"row justify-content-center\">\n            <div class=\"col-lg-8\">\n              <span class=\"text-muted\">Newsletter</span>\n              <h2 class=\"display-5 fw-bold\">Subscribe Today</h2>\n              <p class=\"lead\">\n                Stay connected with Islamic Connect — subscribe to our newsletter for the latest updates, new features,\n                inspiring articles, and resources to deepen your Islamic knowledge.\n              </p>\n              <div class=\"mx-auto mt-3\">\n                <form class=\"row g-3\">\n                  <div class=\"col-md-4\">\n                    <input class=\"form-control bg-light\" placeholder=\"Full name\" type=\"text\">\n                  </div>\n                  <div class=\"col-md-4\">\n                    <input class=\"form-control bg-light\" placeholder=\"Email address\" type=\"text\">\n                  </div>\n                  <div class=\"col-md-4\">\n                    <div class=\"d-grid\">\n                      <button class=\"form-control btn \"\n                        style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; \"\n                        type=\"button\">\n                        <b>Subscribe</b>\n                      </button>\n                    </div>\n                  </div>\n                </form>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" faq \n    <section class=\"py-5\">\n      <div class=\"container\">\n        <div class=\"row justify-content-center text-center mb-5\">\n          <div class=\"col-lg-8 col-xxl-7\">\n            <h1 class=\"display-5 fw-bold  mb-3\">Frequently Asked Questions</h1>\n            <p class=\"lead text-muted fw-normal lh-base\">\n              Have questions or need assistance? We're here to help! Reach out to Islamic Connect via email for support,\n              feedback, or inquiries about our content and services.\n            </p>\n          </div>\n        </div>\n\n        <div class=\"accordion\" id=\"faqAccordion\">\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading1\">\n              <button class=\"accordion-button fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse1\" aria-expanded=\"true\" aria-controls=\"faqCollapse1\">\n                What is Islamic Connect and how can it benefit me?\n              </button>\n            </h2>\n            <div id=\"faqCollapse1\" class=\"accordion-collapse collapse show\" aria-labelledby=\"faqHeading1\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                <strong>Islamic Connect</strong> is a digital platform offering Quranic content, live streams, articles,\n                and more — designed to improve your learning and spiritual experience with accessibility-first features.\n              </div>\n            </div>\n          </div>\n\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading2\">\n              <button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse2\" aria-expanded=\"false\" aria-controls=\"faqCollapse2\">\n                How can I listen to Quran recitations on your platform?\n              </button>\n            </h2>\n            <div id=\"faqCollapse2\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading2\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                You can browse any Surah and tap the play icon beside a verse to hear its recitation. Features like\n                auto-scroll and synced highlighting enhance the experience.\n              </div>\n            </div>\n          </div>\n\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading3\">\n              <button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse3\" aria-expanded=\"false\" aria-controls=\"faqCollapse3\">\n                Is Islamic Connect accessible for visually impaired users?\n              </button>\n            </h2>\n            <div id=\"faqCollapse3\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading3\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                Yes. Our platform supports screen readers, keyboard navigation, gesture controls, and text-to-speech so\n                all users — especially the visually impaired — can benefit.\n              </div>\n            </div>\n          </div>\n\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading4\">\n              <button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse4\" aria-expanded=\"false\" aria-controls=\"faqCollapse4\">\n                Can I bookmark or save verses for later?\n              </button>\n            </h2>\n            <div id=\"faqCollapse4\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading4\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                Yes, you can bookmark ayahs, organize them into collections with custom names, colors, and even add\n                dates. Bookmarks are saved locally or to your profile if logged in.\n              </div>\n            </div>\n          </div>\n\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading5\">\n              <button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse5\" aria-expanded=\"false\" aria-controls=\"faqCollapse5\">\n                How do I report errors or suggest improvements?\n              </button>\n            </h2>\n            <div id=\"faqCollapse5\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading5\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                Please email us at <a href=\"mailto:support@islamicconnect.org\">support@islamicconnect.org</a> to report\n                issues, bugs, or to suggest new features. Your feedback helps us grow.\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>\n    "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-8 col-xxl-7"
@@ -173115,7 +173694,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "height": "48px"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Send message")])])], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" footer "), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-4\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><footer data-v-2ba25654><div class=\"container-fluid\" data-v-2ba25654><div class=\"row align-items-center text-center text-lg-start\" data-v-2ba25654><!-- Copyright --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><h5 class=\"mb-0 fs-5\" data-v-2ba25654>© 2025 Islamic Connect. All rights reserved.</h5></div><!-- Navigation Links --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><!-- &lt;div class=&quot;d-flex justify-content-center flex-wrap gap-3&quot;&gt;\n                &lt;a href=&quot;/home&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Home&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/about&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;About Us&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/faq&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;FAQ&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/contact&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Contact&lt;/h6&gt;\n                &lt;/a&gt;\n\n              &lt;/div&gt; --></div><!-- Social Icons --><div class=\"col-12 col-lg-4 px-4\" data-v-2ba25654><div class=\"d-flex justify-content-center justify-content-lg-end gap-3\" data-v-2ba25654><a href=\"https://www.instagram.com/islamicconnect24/\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-instagram h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://www.tiktok.com/@islamic_connect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-tiktok h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/?viewAsMember=true\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-linkedin h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://x.com/islamiconnect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-twitter-x h4\" style=\"color:black;\" data-v-2ba25654></i></a></div></div></div></div></footer></section>", 1))]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Send message")])])], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" footer "), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-4\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><footer data-v-2ba25654><div class=\"container-fluid\" data-v-2ba25654><div class=\"row align-items-center text-center text-lg-start\" data-v-2ba25654><!-- Copyright --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><h5 class=\"mb-0 fs-5\" data-v-2ba25654>© 2025 Islamic Connect. All rights reserved.</h5></div><!-- Navigation Links --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><!-- &lt;div class=&quot;d-flex justify-content-center flex-wrap gap-3&quot;&gt;\n                &lt;a href=&quot;/home&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Home&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/about&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;About Us&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/faq&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;FAQ&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/contact&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Contact&lt;/h6&gt;\n                &lt;/a&gt;\n\n              &lt;/div&gt; --></div><!-- Social Icons --><div class=\"col-12 col-lg-4 px-4\" data-v-2ba25654><div class=\"d-flex justify-content-center justify-content-lg-end gap-3\" data-v-2ba25654><a href=\"https://www.instagram.com/islamicconnect24/\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-instagram h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://www.tiktok.com/@islamic_connect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-tiktok h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/?viewAsMember=true\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-linkedin h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://x.com/islamiconnect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-twitter-x h4\" style=\"color:black;\" data-v-2ba25654></i></a></div></div></div></div></footer></section>", 1))]);
 }
 
 /***/ }),
@@ -173541,111 +174120,44 @@ var _hoisted_5 = {
   "class": "p-3"
 };
 var _hoisted_6 = {
-  "class": "mb-2 fw-bold display-6 text-dark text-center"
+  "class": "col-md-6 col-lg-4"
 };
 var _hoisted_7 = {
-  key: 0
+  "class": "card custom-card shadow-sm rounded-4",
+  style: {
+    "border": "1px solid grey"
+  }
 };
 var _hoisted_8 = {
-  "class": "col-md-6 col-lg-4"
+  "class": "p-3"
 };
 var _hoisted_9 = {
-  "class": "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
+  "class": "col-md-6 col-lg-4"
 };
 var _hoisted_10 = {
-  "class": "p-3"
+  "class": "card custom-card shadow-sm rounded-4",
+  style: {
+    "border": "1px solid grey"
+  }
 };
 var _hoisted_11 = {
-  "class": "mb-2 fw-bold display-6 text-dark text-center"
-};
-var _hoisted_12 = {
-  key: 0
-};
-var _hoisted_13 = {
-  "class": "col-md-6 col-lg-4"
-};
-var _hoisted_14 = {
-  "class": "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-var _hoisted_15 = {
   "class": "p-3"
-};
-var _hoisted_16 = {
-  "class": "col-md-6 col-lg-4"
-};
-var _hoisted_17 = {
-  "class": "card custom-card shadow-sm rounded-4",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-var _hoisted_18 = {
-  "class": "p-3"
-};
-var _hoisted_19 = {
-  "class": "col-md-6 col-lg-4"
-};
-var _hoisted_20 = {
-  "class": "card custom-card shadow-sm rounded-4",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-var _hoisted_21 = {
-  "class": "p-3"
-};
-var _hoisted_22 = {
-  "class": "modal fade",
-  id: "subscribeModal",
-  tabindex: "-1"
-};
-var _hoisted_23 = {
-  "class": "modal-dialog modal-dialog-centered"
-};
-var _hoisted_24 = {
-  "class": "modal-content"
-};
-var _hoisted_25 = {
-  "class": "modal-footer justify-content-center"
-};
-var _hoisted_26 = ["disabled"];
-var _hoisted_27 = {
-  key: 0
-};
-var _hoisted_28 = {
-  key: 1
-};
-var _hoisted_29 = {
-  key: 0,
-  "class": "alert alert-success text-center",
-  style: {
-    "position": "fixed",
-    "top": "50%",
-    "left": "50%",
-    "transform": "translate(-50%, -50%)",
-    "z-index": "1050",
-    "width": "80%",
-    "max-width": "500px"
-  }
-};
-var _hoisted_30 = {
-  key: 1,
-  "class": "loading-overlay"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "text-center fw-bold display-5 mb-4"
-  }, "Media Center", -1 /* CACHED */)), _cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Media Center", -1 /* CACHED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center mb-4 lead"
-  }, " The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, " The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/ap.avif",
     alt: "Qibla finder",
     "class": "w-90 mt-1",
@@ -173653,19 +174165,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "object-fit": "contain",
       "padding": "20px"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_6, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Audio Podcasts ", -1 /* CACHED */)), _ctx.isLocked('/content') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, "🔒")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Audio Podcasts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span v-if=\"isLocked('/content')\">🔒</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life.", -1 /* CACHED */)), !_ctx.isLocked('/content') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.goTo('/content');
-    }),
+    onclick: "window.location.href='/content'",
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
@@ -173674,48 +174187,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "0.375rem 0.75rem"
     },
     type: "button"
-  }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")], -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 1,
-    "class": "form-control",
-    onClick: _cache[1] || (_cache[1] = function ($event) {
-      return $options.showSubscribeModal('/content');
-    }),
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-else class=\"form-control\" @click=\"showSubscribeModal('/content')\"\n                            style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                            type=\"button\">\n                            <span class=\"text-center w-100\"><i class=\"fas fa-credit-card me-2\"></i><b>Subscribe to\n                                    Access</b></span>\n                        </button> ")])])], -1 /* CACHED */)), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card rounded-4 overflow-hidden",
     style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "button"
-  }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-credit-card me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Subscribe to Access")], -1 /* CACHED */)]))))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/mtv2.png",
     alt: "Watch Live",
     "class": "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_11, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Channel Guide", -1 /* CACHED */)), _ctx.isLocked('/streaming') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_12, "🔒")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Channel Guide"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span v-if=\"isLocked('/streaming')\">🔒</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube.", -1 /* CACHED */)), !_ctx.isLocked('/streaming') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, "Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
-    onClick: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.goTo('/streaming');
-    }),
+    onclick: "window.location.href='/streaming'",
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
@@ -173724,38 +174227,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "0.375rem 0.75rem"
     },
     type: "button"
-  }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Live")], -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 1,
-    "class": "form-control",
-    onClick: _cache[3] || (_cache[3] = function ($event) {
-      return $options.showSubscribeModal('/streaming');
-    }),
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "button"
-  }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-credit-card me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Subscribe to Access")], -1 /* CACHED */)]))))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Channels")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" v-if=\"!isLocked('/streaming')\"\n                        <button v-else class=\"form-control\" @click=\"showSubscribeModal('/streaming')\"\n                            style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                            type=\"button\">\n                            <span class=\"text-center w-100\"><i class=\"fas fa-credit-card me-2\"></i><b>Subscribe to\n                                    Access</b></span>\n                        </button> ")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New", -1 /* CACHED */)), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/radio5.jpg",
     alt: "Radio stations",
     "class": "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Reciters Stations", -1 /* CACHED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Reciters Stations", -1 /* CACHED */)), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
@@ -173764,7 +174249,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, " Tune in to live Islamic radio from around the world, featuring Qur'an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
-    onClick: _cache[4] || (_cache[4] = function ($event) {
+    onClick: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.goTo('/radio');
     }),
     style: {
@@ -173775,18 +174260,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "0.375rem 0.75rem"
     },
     type: "button"
-  }, _toConsumableArray(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _toConsumableArray(_cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Reciters")], -1 /* CACHED */)])))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Reciters")], -1 /* CACHED */)])))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/img_g.png",
     alt: "Image Gallery",
     "class": "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Image Gallery", -1 /* CACHED */)), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Image Gallery", -1 /* CACHED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
@@ -173795,7 +174280,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, "Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and tradition.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
-    onClick: _cache[5] || (_cache[5] = function ($event) {
+    onClick: _cache[1] || (_cache[1] = function ($event) {
       return _ctx.goTo('/gallery');
     }),
     style: {
@@ -173806,18 +174291,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "0.375rem 0.75rem"
     },
     type: "button"
-  }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")], -1 /* CACHED */)])))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")], -1 /* CACHED */)])))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/vide_g.png",
     alt: "Video Gallery",
     "class": "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Video Gallery", -1 /* CACHED */)), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Video Gallery", -1 /* CACHED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
@@ -173826,7 +174311,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, "Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
-    onClick: _cache[6] || (_cache[6] = function ($event) {
+    onClick: _cache[2] || (_cache[2] = function ($event) {
       return _ctx.goTo('/video');
     }),
     style: {
@@ -173837,30 +174322,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "0.375rem 0.75rem"
     },
     type: "button"
-  }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Videos")], -1 /* CACHED */)])))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscribe Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-header\" data-v-63cb17b8><h5 class=\"modal-title\" data-v-63cb17b8>Subscribe to Access Premium Content</h5><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\" data-v-63cb17b8></button></div><div class=\"modal-body text-center\" data-v-63cb17b8><div class=\"mb-3\" data-v-63cb17b8><i class=\"fas fa-crown text-warning fa-3x mb-3\" data-v-63cb17b8></i><h4 data-v-63cb17b8>Unlock Premium Content</h4><p data-v-63cb17b8>Get access to exclusive Islamic podcasts and live streaming content.</p></div><div class=\"pricing-info mb-3\" data-v-63cb17b8><h5 class=\"text-success\" data-v-63cb17b8>£4.99/month</h5><small class=\"text-muted\" data-v-63cb17b8>Cancel anytime</small></div><div class=\"features mb-3\" data-v-63cb17b8><ul class=\"list-unstyled\" data-v-63cb17b8><li data-v-63cb17b8><i class=\"fas fa-check text-success me-2\" data-v-63cb17b8></i>Access to all Audio Podcasts</li><li data-v-63cb17b8><i class=\"fas fa-check text-success me-2\" data-v-63cb17b8></i>Live Streaming Content</li><li data-v-63cb17b8><i class=\"fas fa-check text-success me-2\" data-v-63cb17b8></i>Ad-free Experience</li><li data-v-63cb17b8><i class=\"fas fa-check text-success me-2\" data-v-63cb17b8></i>New Content Weekly</li></ul></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn btn-secondary",
-    "data-bs-dismiss": "modal"
-  }, "Maybe Later", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn btn-primary",
-    onClick: _cache[7] || (_cache[7] = function () {
-      return $options.initiateSubscription && $options.initiateSubscription.apply($options, arguments);
-    }),
-    disabled: $data.isProcessing
-  }, [$data.isProcessing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_27, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-spinner fa-spin me-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Processing... ", -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_28, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-credit-card me-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Subscribe Now ", -1 /* CACHED */)]))))], 8 /* PROPS */, _hoisted_26)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Message "), $data.showSuccessMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, _toConsumableArray(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Subscription Successful!", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Welcome to premium content. Redirecting in a few seconds...", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Overlay "), $data.isProcessing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, _toConsumableArray(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "loading-spinner"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-spinner fa-spin fa-3x text-primary"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "mt-3"
-  }, "Setting up your subscription...")], -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Videos")], -1 /* CACHED */)])))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscribe Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"subscribeModal\" tabindex=\"-1\">\n            <div class=\"modal-dialog modal-dialog-centered\">\n                <div class=\"modal-content\">\n                    <div class=\"modal-header\">\n                        <h5 class=\"modal-title\">Subscribe to Access Premium Content</h5>\n                        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n                    </div>\n                    <div class=\"modal-body text-center\">\n                        <div class=\"mb-3\">\n                            <i class=\"fas fa-crown text-warning fa-3x mb-3\"></i>\n                            <h4>Unlock Premium Content</h4>\n                            <p>Get access to exclusive Islamic podcasts and live streaming content.</p>\n                        </div>\n                        <div class=\"pricing-info mb-3\">\n                            <h5 class=\"text-success\">£4.99/month</h5>\n                            <small class=\"text-muted\">Cancel anytime</small>\n                        </div>\n                        <div class=\"features mb-3\">\n                            <ul class=\"list-unstyled\">\n                                <li><i class=\"fas fa-check text-success me-2\"></i>Access to all Audio Podcasts</li>\n                                <li><i class=\"fas fa-check text-success me-2\"></i>Live Streaming Content</li>\n                                <li><i class=\"fas fa-check text-success me-2\"></i>Ad-free Experience</li>\n                                <li><i class=\"fas fa-check text-success me-2\"></i>New Content Weekly</li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"modal-footer justify-content-center\">\n                        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Maybe Later</button>\n                        <button type=\"button\" class=\"btn btn-primary\" @click=\"initiateSubscription\"\n                            :disabled=\"isProcessing\">\n                            <span v-if=\"isProcessing\">\n                                <i class=\"fas fa-spinner fa-spin me-2\"></i>Processing...\n                            </span>\n                            <span v-else>\n                                <i class=\"fas fa-credit-card me-2\"></i>Subscribe Now\n                            </span>\n                        </button>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        -- Success Message --\n        <div v-if=\"showSuccessMessage\" class=\"alert alert-success text-center\"\n            style=\"position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050; width: 80%; max-width: 500px;\">\n            <h4>Subscription Successful!</h4>\n            <p>Welcome to premium content. Redirecting in a few seconds...</p>\n        </div>\n\n        -- Loading Overlay --\n        <div v-if=\"isProcessing\" class=\"loading-overlay\">\n            <div class=\"loading-spinner\">\n                <i class=\"fas fa-spinner fa-spin fa-3x text-primary\"></i>\n                <p class=\"mt-3\">Setting up your subscription...</p>\n            </div>\n        </div> ")]);
 }
 
 /***/ }),
@@ -179695,7 +180159,7 @@ var _hoisted_9 = {
 };
 var _hoisted_10 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"hero-section\" data-v-57940159><div class=\"container\" data-v-57940159><div class=\"row justify-content-center\" data-v-57940159><div class=\"col-lg-10 text-center text-white\" data-v-57940159><h1 class=\"mb-4 text-white\" data-v-57940159>Support Islamic Education Technology</h1><p class=\"lead mb-5\" data-v-57940159>Your contribution helps make authentic Islamic knowledge accessible to a global audience</p><!-- Impact Metrics --><div class=\"row\" data-v-57940159><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>1,600+</h3><p data-v-57940159>Active Users</p></div></div><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>30+</h3><p data-v-57940159>Countries</p></div></div><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>200+</h3><p data-v-57940159>Cities</p></div></div><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>370%</h3><p data-v-57940159>User Growth</p></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Combined Value Proposition and Donation Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Value Proposition Column "), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-lg-1 mb-4\" data-v-57940159></div><div class=\"col-lg-5 mb-4\" data-v-57940159><div class=\"value-proposition-wrapper\" data-v-57940159><div class=\"form-header text-center mb-4\" data-v-57940159><h2 class=\"mb-3\" data-v-57940159>Strategic Impact Areas</h2></div><div class=\"row\" data-v-57940159><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>📚</div><h4 data-v-57940159>Educational Content</h4><p data-v-57940159>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p></div></div><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>♿</div><h4 data-v-57940159>Accessibility Features</h4><p data-v-57940159>Implementing screen reader support and voice interfaces for inclusive access</p></div></div><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>⚙️</div><h4 data-v-57940159>Platform Infrastructure</h4><p data-v-57940159>Maintaining robust servers and scalable architecture for global user base</p></div></div><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>🌍</div><h4 data-v-57940159>Global Outreach</h4><p data-v-57940159>Expanding to underserved Muslim communities worldwide</p></div></div></div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Donation Section Column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"hero-section\" data-v-57940159><div class=\"container\" data-v-57940159><div class=\"row justify-content-center\" data-v-57940159><div class=\"col-lg-10 text-center text-white\" data-v-57940159><h1 class=\"mb-4 text-white\" data-v-57940159>Support Islamic Education Technology</h1><p class=\"lead mb-5\" data-v-57940159>Your contribution helps make authentic Islamic knowledge accessible to a global audience</p><!-- Impact Metrics --><div class=\"row\" data-v-57940159><div class=\"col-md-3 mb-4\" data-v-57940159><h3 data-v-57940159>100%</h3><p data-v-57940159>Accessibility &amp; SEO Score</p></div><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>60+</h3><p data-v-57940159>Countries</p></div></div><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>500+</h3><p data-v-57940159>Cities</p></div></div><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>1,090.9%</h3><p data-v-57940159>User Growth</p></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Combined Value Proposition and Donation Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Value Proposition Column "), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-lg-1 mb-4\" data-v-57940159></div><div class=\"col-lg-5 mb-4\" data-v-57940159><div class=\"value-proposition-wrapper\" data-v-57940159><div class=\"form-header text-center mb-4\" data-v-57940159><h2 class=\"mb-3\" data-v-57940159>Strategic Impact Areas</h2></div><div class=\"row\" data-v-57940159><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>📚</div><h4 data-v-57940159>Educational Content</h4><p data-v-57940159>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p></div></div><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>♿</div><h4 data-v-57940159>Accessibility Features</h4><p data-v-57940159>Implementing screen reader support and voice interfaces for inclusive access</p></div></div><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>⚙️</div><h4 data-v-57940159>Platform Infrastructure</h4><p data-v-57940159>Maintaining robust servers and scalable architecture for global user base</p></div></div><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>🌍</div><h4 data-v-57940159>Global Outreach</h4><p data-v-57940159>Expanding to underserved Muslim communities worldwide</p></div></div></div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Donation Section Column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "form-header text-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "mb-3"
@@ -190701,7 +191165,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.library-container[data-v-5049bb1b] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 20px;\n  font-family: Arial, sans-serif;\n}\nh1[data-v-5049bb1b], h2[data-v-5049bb1b] {\n  text-align: center;\n  color: #2c3e50;\n}\n.search-bar[data-v-5049bb1b] {\n  margin: 20px 0;\n  text-align: center;\n}\n.search-bar input[data-v-5049bb1b] {\n  width: 100%;\n  max-width: 500px;\n  padding: 10px;\n  font-size: 16px;\n  border: 1px solid #ccc;\n  border-radius: 5px;\n}\n.book-list[data-v-5049bb1b] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));\n  gap: 20px;\n}\n.book-card[data-v-5049bb1b] {\n  background: #f9f9f9;\n  border: 1px solid #ddd;\n  border-radius: 8px;\n  padding: 15px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.book-card h3[data-v-5049bb1b] {\n  margin: 0 0 10px;\n  font-size: 18px;\n  color: #34495e;\n}\n.book-card p[data-v-5049bb1b] {\n  margin: 5px 0;\n  font-size: 14px;\n}\n.book-actions[data-v-5049bb1b] {\n  margin-top: 10px;\n}\n.btn[data-v-5049bb1b] {\n  display: inline-block;\n  padding: 8px 16px;\n  background: #3498db;\n  color: white;\n  text-decoration: none;\n  border-radius: 5px;\n  border: none;\n  cursor: pointer;\n}\n.btn[data-v-5049bb1b]:hover {\n  background: #2980b9;\n}\n.loading[data-v-5049bb1b], .error[data-v-5049bb1b] {\n  text-align: center;\n  font-size: 16px;\n  margin: 20px 0;\n}\n.error[data-v-5049bb1b] {\n  color: red;\n}\n.book-reader[data-v-5049bb1b] {\n  margin-top: 40px;\n  border-top: 1px solid #ddd;\n  padding-top: 20px;\n}\n.book-reader-frame[data-v-5049bb1b] {\n  width: 100%;\n  height: 600px;\n  border: 1px solid #ccc;\n  border-radius: 5px;\n}\n.fallback-link[data-v-5049bb1b] {\n  text-align: center;\n  margin-top: 10px;\n}\n.close-btn[data-v-5049bb1b] {\n  display: block;\n  margin: 20px auto;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Add the same CSS styles as previous implementation */\n.tasbeeh-counter[data-v-5049bb1b] {\n  min-height: 100vh;\n  padding: 1rem;\n  transition: all 0.3s ease;\n}\n/* Theme Styles */\n.theme-light[data-v-5049bb1b] {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  color: #333;\n}\n.theme-dark[data-v-5049bb1b] {\n  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);\n  color: #fff;\n}\n.theme-sepia[data-v-5049bb1b] {\n  background: linear-gradient(135deg, #e6dcb5 0%, #d2b48c 100%);\n  color: #5c4b37;\n}\n.app-header[data-v-5049bb1b] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 2rem;\n}\n.app-title[data-v-5049bb1b] {\n  font-size: 1.5rem;\n  font-weight: 700;\n}\n.counter-main[data-v-5049bb1b] {\n  text-align: center;\n  margin-bottom: 3rem;\n}\n.counter-display[data-v-5049bb1b] {\n  margin-bottom: 2rem;\n}\n.current-count[data-v-5049bb1b] {\n  font-size: 6rem;\n  font-weight: 900;\n  margin-bottom: 0.5rem;\n  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);\n}\n.counter-label[data-v-5049bb1b] {\n  font-size: 1.5rem;\n  margin-bottom: 1rem;\n  opacity: 0.9;\n}\n.progress-container[data-v-5049bb1b] {\n  position: relative;\n  max-width: 300px;\n  margin: 0 auto;\n}\n.counter-progress[data-v-5049bb1b] {\n  width: 100%;\n  height: 20px;\n  border-radius: 10px;\n  overflow: hidden;\n}\n.progress-text[data-v-5049bb1b] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  font-size: 0.8rem;\n  font-weight: bold;\n}\n.counter-controls[data-v-5049bb1b] {\n  display: flex;\n  gap: 1rem;\n  justify-content: center;\n  margin-bottom: 2rem;\n}\n.control-btn[data-v-5049bb1b] {\n  padding: 1rem 1.5rem;\n  border: none;\n  border-radius: 50px;\n  font-size: 1rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  min-width: 120px;\n  justify-content: center;\n}\n.control-btn[data-v-5049bb1b]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.control-btn[data-v-5049bb1b]:focus {\n  outline: 3px solid currentColor;\n  outline-offset: 2px;\n}\n.control-btn[data-v-5049bb1b]:hover:not(:disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0,0,0,0.3);\n}\n.increment-btn[data-v-5049bb1b] {\n  background: linear-gradient(135deg, #4CAF50, #45a049);\n  color: white;\n}\n.reset-btn[data-v-5049bb1b] {\n  background: linear-gradient(135deg, #ff6b6b, #ee5a52);\n  color: white;\n}\n.voice-btn[data-v-5049bb1b] {\n  background: linear-gradient(135deg, #48cae4, #0096c7);\n  color: white;\n}\n.voice-btn.listening[data-v-5049bb1b] {\n  animation: pulse-5049bb1b 1.5s infinite;\n}\n@keyframes pulse-5049bb1b {\n0% { transform: scale(1);\n}\n50% { transform: scale(1.05);\n}\n100% { transform: scale(1);\n}\n}\n.dhikr-selection[data-v-5049bb1b],\n.statistics[data-v-5049bb1b] {\n  margin-bottom: 2rem;\n}\n.section-title[data-v-5049bb1b] {\n  font-size: 1.25rem;\n  margin-bottom: 1rem;\n  text-align: center;\n}\n.dhikr-grid[data-v-5049bb1b],\n.stats-grid[data-v-5049bb1b] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n  gap: 1rem;\n  margin-bottom: 1rem;\n}\n.dhikr-card[data-v-5049bb1b],\n.stat-card[data-v-5049bb1b] {\n  padding: 1rem;\n  border-radius: 12px;\n  text-align: center;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n}\n.dhikr-card[data-v-5049bb1b] {\n  background: rgba(255,255,255,0.1);\n  backdrop-filter: blur(10px);\n}\n.dhikr-card[data-v-5049bb1b]:hover,\n.dhikr-card.active[data-v-5049bb1b] {\n  border-color: currentColor;\n  transform: translateY(-2px);\n}\n.dhikr-card.active[data-v-5049bb1b] {\n  background: rgba(255,255,255,0.2);\n}\n.stat-card[data-v-5049bb1b] {\n  background: rgba(255,255,255,0.15);\n  backdrop-filter: blur(10px);\n}\n.stat-value[data-v-5049bb1b] {\n  font-size: 2rem;\n  font-weight: bold;\n  margin-bottom: 0.5rem;\n}\n.stat-label[data-v-5049bb1b] {\n  font-size: 0.9rem;\n  opacity: 0.8;\n}\n.gesture-info[data-v-5049bb1b] {\n  background: rgba(255,255,255,0.1);\n  padding: 1rem;\n  border-radius: 8px;\n  margin-top: 1rem;\n  backdrop-filter: blur(10px);\n}\n.notification[data-v-5049bb1b] {\n  position: fixed;\n  top: 1rem;\n  right: 1rem;\n  padding: 1rem 1.5rem;\n  border-radius: 8px;\n  color: white;\n  font-weight: 600;\n  z-index: 1000;\n  max-width: 300px;\n}\n.notification.success[data-v-5049bb1b] {\n  background: #4CAF50;\n}\n.notification.info[data-v-5049bb1b] {\n  background: #2196F3;\n}\n.notification.error[data-v-5049bb1b] {\n  background: #f44336;\n}\n.notification-enter-active[data-v-5049bb1b],\n.notification-leave-active[data-v-5049bb1b] {\n  transition: all 0.5s ease;\n}\n.notification-enter-from[data-v-5049bb1b] {\n  opacity: 0;\n  transform: translateX(100px);\n}\n.notification-leave-to[data-v-5049bb1b] {\n  opacity: 0;\n  transform: translateX(100px);\n}\n/* Responsive Design */\n@media (max-width: 768px) {\n.counter-controls[data-v-5049bb1b] {\n    flex-direction: column;\n    align-items: center;\n}\n.control-btn[data-v-5049bb1b] {\n    width: 200px;\n}\n.current-count[data-v-5049bb1b] {\n    font-size: 4rem;\n}\n.dhikr-grid[data-v-5049bb1b],\n  .stats-grid[data-v-5049bb1b] {\n    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));\n}\n}\n/* High contrast support */\n@media (prefers-contrast: high) {\n.control-btn[data-v-5049bb1b] {\n    border: 2px solid currentColor;\n}\n}\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n[data-v-5049bb1b] {\n    animation-duration: 0.01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: 0.01ms !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -191157,7 +191621,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.partner-icon[data-v-2ba25654] {\n  width: 120px;\n  height: 120px;\n  -o-object-fit: contain;\n     object-fit: contain;\n  transition: filter 0.3s ease, transform 0.3s ease;\n}\n.partner-icon[data-v-2ba25654]:hover {\n  transform: scale(1.1);\n}\n@media (max-width: 576px) {\n.partner-icon[data-v-2ba25654] {\n    width: 64px;\n    height: 64px;\n}\nh5[data-v-2ba25654] {\n    font-size: 1.25rem;\n}\np.fs-6[data-v-2ba25654] {\n    font-size: 0.95rem;\n}\n}\n.controls[data-v-2ba25654] {\n  margin-top: 20px;\n}\n.controls button[data-v-2ba25654] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background 0.3s ease;\n}\n.controls button[data-v-2ba25654]:disabled {\n  background-color: #bdc3c7;\n  cursor: not-allowed;\n}\n.controls button[data-v-2ba25654]:hover:not(:disabled) {\n  background-color: #0db691;\n}\n\n/* .service-1 {\n  font-family: \"Montserrat\", sans-serif;\n  color: #8d97ad;\n  font-weight: 300;\n} */\n.service-1 h1[data-v-2ba25654],\n.service-1 h2[data-v-2ba25654],\n.service-1 h3[data-v-2ba25654],\n.service-1 h4[data-v-2ba25654],\n.service-1 h5[data-v-2ba25654],\n.service-1 h6[data-v-2ba25654] {\n  color: #3e4555;\n}\n.service-1 .font-weight-medium[data-v-2ba25654] {\n  font-weight: 500;\n}\n.service-1 .bg-light[data-v-2ba25654] {\n  background-color: #f4f8fa !important;\n}\n.service-1 .subtitle[data-v-2ba25654] {\n  color: #8d97ad;\n  line-height: 24px;\n}\n.service-1 .card.card-shadow[data-v-2ba25654] {\n  box-shadow: 0px 0px 30px rgba(115, 128, 157, 0.1);\n}\n.service-1 .wrap-service1-box .card-body[data-v-2ba25654] {\n  padding: 40px;\n}\n.service-1 .btn-success-gradiant[data-v-2ba25654] {\n  background: #2cdd9b;\n  background: linear-gradient(to right, #2cdd9b 0%, #1dc8cc 100%);\n  border: 0px;\n}\n.service-1 .btn-success-gradiant[data-v-2ba25654]:hover {\n  background: #1dc8cc;\n  background: linear-gradient(to right, #1dc8cc 0%, #2cdd9b 100%);\n}\n.service-1 .btn-md[data-v-2ba25654] {\n  padding: 15px 45px;\n  font-size: 16px;\n}\n.jumbotron-overlay[data-v-2ba25654] {\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.6);\n  z-index: 1;\n}\n.jumbotron-content[data-v-2ba25654] {\n  position: relative;\n  z-index: 2;\n}\n\n/* CSS */\n.button-37[data-v-2ba25654] {\n  background-color: rgb(53, 163, 139);\n  border: 1px solid darkgreen;\n  border-radius: 4px;\n  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;\n  box-sizing: border-box;\n  color: #fff;\n  cursor: pointer;\n  font-family: \"Akzidenz Grotesk BQ Medium\", -apple-system, BlinkMacSystemFont,\n    sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  outline: none;\n  outline: 0;\n  padding: 10px 25px;\n  text-align: center;\n  transform: translateY(0);\n  transition: transform 150ms, box-shadow 150ms;\n  -moz-user-select: none;\n       user-select: none;\n  -webkit-user-select: none;\n  touch-action: manipulation;\n}\n.button-37[data-v-2ba25654]:hover {\n  box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;\n  transform: translateY(-2px);\n}\n@media (min-width: 768px) {\n.img-mobile-bigger[data-v-2ba25654] {\n    width: 160%;\n}\n.button-37[data-v-2ba25654] {\n    padding: 10px 30px;\n}\n.controls {\n.controls[data-v-2ba25654] {\n      margin-top: 20px;\n}\n.controls button[data-v-2ba25654] {\n      margin: 5px;\n      padding: 10px 20px;\n      border: none;\n      background-color: darkgreen;\n      color: white;\n      border-radius: 5px;\n      cursor: pointer;\n      font-weight: bold;\n      transition: background 0.3s ease;\n}\n.controls button[data-v-2ba25654]:disabled {\n      background-color: #bdc3c7;\n      cursor: not-allowed;\n}\n.controls button[data-v-2ba25654]:hover:not(:disabled) {\n      background-color: darkgreen;\n}\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@keyframes float-2ba25654 {\n0%,\n  100% {\n    transform: translateY(0) rotate(0deg);\n}\n50% {\n    transform: translateY(-20px) rotate(5deg);\n}\n}\n@keyframes pulse-2ba25654 {\n0%,\n  100% {\n    opacity: 1;\n}\n50% {\n    opacity: 0.5;\n}\n}\n.join-card-hover[data-v-2ba25654]:hover {\n  transform: translateY(-5px) scale(1.02);\n  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;\n}\n\n/* Mobile Responsiveness */\n@media (max-width: 768px) {\n.quick-join-section[data-v-2ba25654] {\n    padding: 3rem 0 !important;\n}\n.quick-join-section h2[data-v-2ba25654] {\n    font-size: 2rem !important;\n    text-align: center !important;\n}\n.join-card-hover[data-v-2ba25654] {\n    margin-bottom: 1rem;\n}\n}\n.partner-icon[data-v-2ba25654] {\n  width: 120px;\n  height: 120px;\n  -o-object-fit: contain;\n     object-fit: contain;\n  transition: filter 0.3s ease, transform 0.3s ease;\n}\n.partner-icon[data-v-2ba25654]:hover {\n  transform: scale(1.1);\n}\n@media (max-width: 576px) {\n.partner-icon[data-v-2ba25654] {\n    width: 64px;\n    height: 64px;\n}\nh5[data-v-2ba25654] {\n    font-size: 1.25rem;\n}\np.fs-6[data-v-2ba25654] {\n    font-size: 0.95rem;\n}\n}\n.controls[data-v-2ba25654] {\n  margin-top: 20px;\n}\n.controls button[data-v-2ba25654] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background 0.3s ease;\n}\n.controls button[data-v-2ba25654]:disabled {\n  background-color: #bdc3c7;\n  cursor: not-allowed;\n}\n.controls button[data-v-2ba25654]:hover:not(:disabled) {\n  background-color: #0db691;\n}\n\n/* .service-1 {\n  font-family: \"Montserrat\", sans-serif;\n  color: #8d97ad;\n  font-weight: 300;\n} */\n.service-1 h1[data-v-2ba25654],\n.service-1 h2[data-v-2ba25654],\n.service-1 h3[data-v-2ba25654],\n.service-1 h4[data-v-2ba25654],\n.service-1 h5[data-v-2ba25654],\n.service-1 h6[data-v-2ba25654] {\n  color: #3e4555;\n}\n.service-1 .font-weight-medium[data-v-2ba25654] {\n  font-weight: 500;\n}\n.service-1 .bg-light[data-v-2ba25654] {\n  background-color: #f4f8fa !important;\n}\n.service-1 .subtitle[data-v-2ba25654] {\n  color: #8d97ad;\n  line-height: 24px;\n}\n.service-1 .card.card-shadow[data-v-2ba25654] {\n  box-shadow: 0px 0px 30px rgba(115, 128, 157, 0.1);\n}\n.service-1 .wrap-service1-box .card-body[data-v-2ba25654] {\n  padding: 40px;\n}\n.service-1 .btn-success-gradiant[data-v-2ba25654] {\n  background: #2cdd9b;\n  background: linear-gradient(to right, #2cdd9b 0%, #1dc8cc 100%);\n  border: 0px;\n}\n.service-1 .btn-success-gradiant[data-v-2ba25654]:hover {\n  background: #1dc8cc;\n  background: linear-gradient(to right, #1dc8cc 0%, #2cdd9b 100%);\n}\n.service-1 .btn-md[data-v-2ba25654] {\n  padding: 15px 45px;\n  font-size: 16px;\n}\n.jumbotron-overlay[data-v-2ba25654] {\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.6);\n  z-index: 1;\n}\n.jumbotron-content[data-v-2ba25654] {\n  position: relative;\n  z-index: 2;\n}\n\n/* CSS */\n.button-37[data-v-2ba25654] {\n  background-color: rgb(53, 163, 139);\n  border: 1px solid darkgreen;\n  border-radius: 4px;\n  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;\n  box-sizing: border-box;\n  color: #fff;\n  cursor: pointer;\n  font-family: \"Akzidenz Grotesk BQ Medium\", -apple-system, BlinkMacSystemFont,\n    sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  outline: none;\n  outline: 0;\n  padding: 10px 25px;\n  text-align: center;\n  transform: translateY(0);\n  transition: transform 150ms, box-shadow 150ms;\n  -moz-user-select: none;\n       user-select: none;\n  -webkit-user-select: none;\n  touch-action: manipulation;\n}\n.button-37[data-v-2ba25654]:hover {\n  box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;\n  transform: translateY(-2px);\n}\n@media (min-width: 768px) {\n.img-mobile-bigger[data-v-2ba25654] {\n    width: 160%;\n}\n.button-37[data-v-2ba25654] {\n    padding: 10px 30px;\n}\n.controls {\n.controls[data-v-2ba25654] {\n      margin-top: 20px;\n}\n.controls button[data-v-2ba25654] {\n      margin: 5px;\n      padding: 10px 20px;\n      border: none;\n      background-color: darkgreen;\n      color: white;\n      border-radius: 5px;\n      cursor: pointer;\n      font-weight: bold;\n      transition: background 0.3s ease;\n}\n.controls button[data-v-2ba25654]:disabled {\n      background-color: #bdc3c7;\n      cursor: not-allowed;\n}\n.controls button[data-v-2ba25654]:hover:not(:disabled) {\n      background-color: darkgreen;\n}\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -336525,7 +336989,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _AboutComponent_vue_vue_type_template_id_5049bb1b_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AboutComponent.vue?vue&type=template&id=5049bb1b&scoped=true */ "./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b&scoped=true");
-/* harmony import */ var _AboutComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AboutComponent.vue?vue&type=script&lang=js */ "./resources/js/components/AboutComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _AboutComponent_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AboutComponent.vue?vue&type=script&setup=true&lang=js */ "./resources/js/components/AboutComponent.vue?vue&type=script&setup=true&lang=js");
 /* harmony import */ var _AboutComponent_vue_vue_type_style_index_0_id_5049bb1b_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css */ "./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css");
 /* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
@@ -336535,7 +336999,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AboutComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AboutComponent_vue_vue_type_template_id_5049bb1b_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-5049bb1b"],['__file',"resources/js/components/AboutComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AboutComponent_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AboutComponent_vue_vue_type_template_id_5049bb1b_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-5049bb1b"],['__file',"resources/js/components/AboutComponent.vue"]])
 /* hot reload */
 if (false) // removed by dead control flow
 {}
@@ -336545,18 +337009,18 @@ if (false) // removed by dead control flow
 
 /***/ }),
 
-/***/ "./resources/js/components/AboutComponent.vue?vue&type=script&lang=js":
-/*!****************************************************************************!*\
-  !*** ./resources/js/components/AboutComponent.vue?vue&type=script&lang=js ***!
-  \****************************************************************************/
+/***/ "./resources/js/components/AboutComponent.vue?vue&type=script&setup=true&lang=js":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/AboutComponent.vue?vue&type=script&setup=true&lang=js ***!
+  \***************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AboutComponent.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AboutComponent.vue?vue&type=script&setup=true&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=script&setup=true&lang=js");
  
 
 /***/ }),

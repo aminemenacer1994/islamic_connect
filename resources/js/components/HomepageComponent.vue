@@ -266,35 +266,29 @@
             <div class="row container-fluid stats-grid">
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>30+</h3>
+                  <h3>60+</h3>
                   <p>Countries</p>
                   <small>Global reach</small>
                 </div>
               </div>
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>200+</h3>
+                  <h3>500+</h3>
                   <p>Cities</p>
                   <small>Worldwide presence</small>
                 </div>
               </div>
-              <!-- <div class="col-md-3 col-6 mb-4">
-                <div class="stat-card">
-                  <h3>2.3 min</h3>
-                  <p>Average Engagement</p>
-                  <small>Per session</small>
-                </div>
-              </div> -->
+
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
                   <h3>100%</h3>
-                  <p>Accessibility</p>
+                  <p>Accessibility & SEO</p>
                   <small>Score</small>
                 </div>
               </div>
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>370%</h3>
+                  <h3>1,090.9%</h3>
                   <p>Growth</p>
                   <small>Returning users</small>
                 </div>
@@ -313,7 +307,7 @@
           </div>
           <div class="col-lg-5 mb-4">
             <div class="value-proposition-wrapper">
-              
+
               <div class="form-header text-center mb-4">
                 <h2 class="mb-3">Strategic Impact Areas</h2>
               </div>
@@ -536,7 +530,227 @@
       </div>
     </section>
 
-  
+    <!-- Quick Join Section -->
+    <!-- Enhanced Quick Join Section -->
+    <section class="py-5 quick-join-section" style="
+  background: linear-gradient(135deg, #00bfa6 0%, #1a5f7a 100%);
+  position: relative;
+  overflow: hidden;
+">
+      <!-- Background Elements -->
+      <div style="
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+  "></div>
+      <div style="
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite 2s;
+  "></div>
+      <div style="
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    animation: float 10s ease-in-out infinite 1s;
+  "></div>
+
+      <div class="container" style="position: relative; z-index: 2;">
+        <div class="row align-items-center">
+          <div class="col-lg-7 text-center text-lg-start">
+            <h2 class="text-white fw-bold mb-3" style="
+          font-size: 2.5rem;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          background: linear-gradient(45deg, #ffffff, #e8fefe);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        ">Ready to Transform Your Daily Spiritual Journey?</h2>
+            <p class="text-white mb-4" style="
+          font-size: 1.2rem;
+          opacity: 0.9;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        ">Join now and receive your first spiritual reminder within minutes. Start your day with divine inspiration!
+            </p>
+
+          </div>
+
+          <div class="col-lg-5 text-center">
+            <!-- Join Cards -->
+            <div class="row g-3">
+              <div class="col-12">
+                <div style="
+              background: rgba(255, 255, 255, 0.95);
+              padding: 1.5rem;
+              border-radius: 20px;
+              box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              backdrop-filter: blur(10px);
+              transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+              position: relative;
+              overflow: hidden;
+            " class="join-card-hover">
+                  <!-- WhatsApp Card -->
+                  <div class="d-flex align-items-center mb-3">
+                    <div style="
+                  width: 50px;
+                  height: 50px;
+                  background: linear-gradient(135deg, #25D366, #128C7E);
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  margin-right: 1rem;
+                  box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+                ">
+                      <i class="fab fa-whatsapp text-white" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <div class="text-start">
+                      <h5 class="fw-bold mb-1" style="color: #1a5f7a;">WhatsApp Channel</h5>
+                      <small class="text-muted">Daily verses & instant reminders</small>
+                    </div>
+                  </div>
+                  <a href="https://lnkd.in/ebUNhthw" class="btn w-100" target="_blank" style="
+                background: linear-gradient(135deg, #25D366, #128C7E);
+                color: white;
+                font-weight: 700;
+                padding: 1rem 2rem;
+                border-radius: 12px;
+                border: none;
+                font-size: 1.1rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+                position: relative;
+                overflow: hidden;
+              " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(37, 211, 102, 0.6)';"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(37, 211, 102, 0.4)';">
+                    <i class="fab fa-whatsapp me-2"></i>Join WhatsApp Channel
+                    <span style="
+                  position: absolute;
+                  top: 50%;
+                  right: 1rem;
+                  transform: translateY(-50%);
+                  font-size: 0.9rem;
+                  opacity: 0.9;
+                ">→</span>
+                  </a>
+                  <!-- <div class="mt-2">
+                    <small class="text-muted" style="font-weight: 500;">
+                      <i class="fas fa-users me-1"></i>2,800+ active members
+                    </small>
+                  </div> -->
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div style="
+              background: rgba(255, 255, 255, 0.95);
+              padding: 1.5rem;
+              border-radius: 20px;
+              box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              backdrop-filter: blur(10px);
+              transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+              position: relative;
+              overflow: hidden;
+            " class="join-card-hover">
+                  <!-- Telegram Card -->
+                  <div class="d-flex align-items-center mb-3">
+                    <div style="
+                  width: 50px;
+                  height: 50px;
+                  background: linear-gradient(135deg, #0088cc, #006699);
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  margin-right: 1rem;
+                  box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
+                ">
+                      <i class="fab fa-telegram text-white" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <div class="text-start">
+                      <h5 class="fw-bold mb-1" style="color: #1a5f7a;">Telegram Community</h5>
+                      <small class="text-muted">In-depth content & discussions</small>
+                    </div>
+                  </div>
+                  <a href="https://lnkd.in/e8sT525W" class="btn w-100" target="_blank" style="
+                background: linear-gradient(135deg, #0088cc, #006699);
+                color: white;
+                font-weight: 700;
+                padding: 1rem 2rem;
+                border-radius: 12px;
+                border: none;
+                font-size: 1.1rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
+                position: relative;
+                overflow: hidden;
+              " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 136, 204, 0.6)';"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0, 136, 204, 0.4)';">
+                    <i class="fab fa-telegram me-2"></i>Join Telegram Community
+                    <span style="
+                  position: absolute;
+                  top: 50%;
+                  right: 1rem;
+                  transform: translateY(-50%);
+                  font-size: 0.9rem;
+                  opacity: 0.9;
+                ">→</span>
+                  </a>
+                  <!-- <div class="mt-2">
+                    <small class="text-muted" style="font-weight: 500;">
+                      <i class="fas fa-users me-1"></i>3,200+ active members
+                    </small>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Trust Badge -->
+            <div class="mt-3" style="
+          background: rgba(255, 255, 255, 0.2);
+          padding: 0.75rem 1.5rem;
+          border-radius: 50px;
+          backdrop-filter: blur(10px);
+          display: inline-block;
+        ">
+              <div class="d-flex align-items-center" style="gap: 0.5rem;">
+                <i class="fas fa-shield-alt text-white" style="font-size: 1.1rem;"></i>
+                <small class="text-white fw-bold">100% Free • Easy Unsubscribe</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Icons -->
+      <div style="
+          position: absolute;
+          bottom: 20px;
+          right: 20px;
+          opacity: 0.1;
+          font-size: 3rem;
+          animation: float 4s ease-in-out infinite;
+        ">
+        <i class="fas fa-quran"></i>
+      </div>
+    </section>
+
 
 
     <!-- newsletter -->
@@ -801,6 +1015,51 @@
   </div>
 </template>
 <style scoped>
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.join-card-hover:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .quick-join-section {
+    padding: 3rem 0 !important;
+  }
+
+  .quick-join-section h2 {
+    font-size: 2rem !important;
+    text-align: center !important;
+  }
+
+  .join-card-hover {
+    margin-bottom: 1rem;
+  }
+}
+
 .partner-icon {
   width: 120px;
   height: 120px;
@@ -1061,7 +1320,7 @@ export default {
         alert('Please select a contribution amount.');
         return;
       }
-      
+
       window.location.href = this.stripeUrl;
     },
     sendMessage() {
@@ -1223,6 +1482,7 @@ export default {
   font-weight: 800;
   color: #2c3e50;
 }
+
 .form-header h2 {
   font-size: 1.75rem;
   font-weight: 800;
@@ -1414,19 +1674,20 @@ export default {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
   .stats-section,
   .value-section {
     padding: 3rem 0;
   }
-  
+
   .section-title {
     font-size: 2rem;
   }
-  
+
   .stat-card h3 {
     font-size: 2.25rem;
   }
-  
+
   .value-card {
     padding: 2rem;
   }

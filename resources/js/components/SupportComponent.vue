@@ -11,26 +11,24 @@
             <!-- Impact Metrics -->
             <div class="row">
               <div class="col-md-3 mb-4">
-                <div class="metric-item">
-                  <h3>1,600+</h3>
-                  <p>Active Users</p>
-                </div>
+                <h3>100%</h3>
+                <p>Accessibility & SEO Score</p>
               </div>
               <div class="col-md-3 mb-4">
                 <div class="metric-item">
-                  <h3>30+</h3>
+                  <h3>60+</h3>
                   <p>Countries</p>
                 </div>
               </div>
               <div class="col-md-3 mb-4">
                 <div class="metric-item">
-                  <h3>200+</h3>
+                  <h3>500+</h3>
                   <p>Cities</p>
                 </div>
               </div>
               <div class="col-md-3 mb-4">
                 <div class="metric-item">
-                  <h3>370%</h3>
+                  <h3>1,090.9%</h3>
                   <p>User Growth</p>
                 </div>
               </div>

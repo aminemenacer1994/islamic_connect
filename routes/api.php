@@ -12,6 +12,6 @@ use App\Http\Controllers\DebugController;
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/debug/subscription', [DebugController::class, 'subscriptionDebug']);
-});
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('/debug/subscription', [DebugController::class, 'subscriptionDebug']);
+// });
