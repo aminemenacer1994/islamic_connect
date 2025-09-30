@@ -5,9 +5,6 @@
         <!-- Text column -->
         <div class="col-lg-7 order-lg-1 order-2 d-none d-lg-block">
           <div class="text-content mt-3 animated-slide-up">
-            <div class="quran-icon">
-              <i class="fas fa-quran"></i>
-            </div>
             <p class="section-text" style="font-size: 1.3rem;">
               "Read in the name of your Lord who created." (Quran 96:1)<br>
               A sacred sanctuary for reflecting on the divine words of the Quran. This space fosters spiritual growth, uniting hearts in the pursuit of Allah’s guidance and wisdom, illuminating the path to righteousness through His eternal revelation.

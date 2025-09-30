@@ -1019,12 +1019,11 @@ audio.custom-audio {
 }
 
 .card {
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 0px;
 }
 
 .selected {
-  background-color: #d1e7dd;
+  background-color: rgba(0, 191, 166, 0.233);
 }
 
 .custom-scrollbar {

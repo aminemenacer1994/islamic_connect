@@ -31,27 +31,25 @@
 
 
                 <div class="col-md-4 pt-2">
-                    <h5 class="fw-bold text-center pt-2 ">Select a Surah:</h5>
+                    <h5 class="fw-bold text-left -2 ">Select a Surah:</h5>
                     <SurahDropdown class="col-md-12" :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
                         :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
 
                     <!-- <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" /> -->
-                    <!-- <div style="display: flex" class="row"> -->
-                    <!-- <AyahOfTheDay /> -->
-
+                   
 
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
-                    <h5 class="fw-bold text-center" v-if="information != null">Select a Verse:</h5>
-                    <!-- <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
+                    <h5 class="fw-bold text-left mb-2" v-if="information != null">Select a Verse:</h5>
+                    <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
                         @submit.prevent="scrollToAyah">
                         <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
                             type="number" placeholder="Enter Verse Number" v-model="verseNumber" required />
-                        <button class="btn btn-success mb-1 ml-1" style="background: #00bfa6;border-radius: 10px;"
+                        <button class="btn btn-success mb-1 ml-1" style="background: #00bfa6;border-radius: 5px;"
                             type="submit">
                             Search
                         </button>
-                    </form> -->
+                    </form>
                     <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"
@@ -67,25 +65,7 @@
                             <ErrorAlert :showError="showError" @dismiss-error="dismissError" />
 
                             <div class="row ">
-                                <!-- <hr class="container" style="height: 4px; background: lightgrey" /> -->
 
-                                <!-- <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
-                                    @update-information="updateInformation" :style="{
-                                        
-                                        color: 'black',
-                                        borderRadius: '15px',
-                                        border: '2px solid rgba(0, 0, 0, 0.1)',
-                                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
-                                    }" class="icon-container mb-3">
-                                    <i class="bi bi-chevron-bar-left h4 pt- custom-prev-ayah"
-                                        style="cursor: pointer" @click="goToFirstAyah" title="First verse"></i>
-                                    <i class="bi bi-arrow-left-circle pt-2 h4 custom-prev-ayah desktop-icon"
-                                        style="cursor: pointer" @click="goToPreviousAyah" title="Previous verse"></i>
-                                    <i class="bi bi-arrow-right-circle pt-2 h4 custom-prev-ayah desktop-icon"
-                                        style="cursor: pointer" @click="goToNextAyah" title="Next verse"></i>
-                                    <i class="bi bi-chevron-bar-right pt-2 h4 custom-prev-ayah desktop-icon"
-                                        style="cursor: pointer" @click="goToLastAyah" title="Last verse"></i>
-                                </div> -->
                                 <div class="custom-scrollbar pb-3 w-100" style="
                                     overflow-y: auto; cursor: pointer;                             
                                     border: 1px solid #31464338; border-radius: 8px;
@@ -106,7 +86,7 @@
                                             }" style="
                                             padding: 8px;
                                             border-radius: 15px;">
-                                            <h5 class="text-right" style="display: flex">
+                                            <h5 class="text-right" style="display: flex; font-weight: bold;">
                                                 Verse: {{ ayah.ayah_id }}
                                             </h5>
                                             <h5 class="text-right">
@@ -252,12 +232,12 @@
                                         </div>
                                         <!-- desktop top features -->
                                         <div v-if="!isVisible" :style="iconStyle">
-                                            <div class="col pb-2">
+                                            <!-- <div class="col pb-2">
                                                 <i :class="isOpen
                                                     ? 'bi bi-x-circle-fill'
                                                     : 'bi bi-plus-circle-fill'
                                                     " class="text-left hide-on-mobile h4" @click="toggleContent"></i>
-                                            </div>
+                                            </div> -->
                                             <div v-if="isOpen" class="hide-on-mobile">
                                                 <div class="text-center">
                                                     <div class="row pt-2 text-center">
@@ -334,7 +314,7 @@
                                                     " />
                                             </div>
 
-                                            <div v-if="!isVisible" class="container-fluid text-center mobile-only">
+                                            <!-- <div v-if="!isVisible" class="container-fluid text-center mobile-only">
                                                 <div class="row">
                                                     <div class="col">
                                                         <i :class="isOpen
@@ -344,7 +324,7 @@
                                                             @click="toggleContent"></i>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                             <!-- toolbar mobile -->
                                             <div v-if="isOpen" class="collapse-content mobile-only">
@@ -393,13 +373,13 @@
                                             </div>
                                             <!-- desktop top features -->
                                             <div v-if="!isVisible" :style="iconStyle">
-                                                <div class="col pb-2">
+                                                <!-- <div class="col pb-2">
                                                     <i :class="isOpen
                                                         ? 'bi bi-x-circle-fill'
                                                         : 'bi bi-plus-circle-fill'
                                                         " class="text-left hide-on-mobile h4"
                                                         @click="toggleContent"></i>
-                                                </div>
+                                                </div> -->
                                                 <div v-if="isOpen" class="icon-container-fluid hide-on-mobile">
                                                     <div class="text-center">
                                                         <div class="row pt-2">
@@ -554,13 +534,13 @@
                                                 </div>
                                                 <!-- desktop top features -->
                                                 <div :style="iconStyle">
-                                                    <div v-if="!isVisible" class="col pb-2">
+                                                    <!-- <div v-if="!isVisible" class="col pb-2">
                                                         <i :class="isOpen
                                                             ? 'bi bi-x-circle-fill'
                                                             : 'bi bi-plus-circle-fill'
                                                             " class="text-left hide-on-mobile h4"
                                                             @click="toggleContent"></i>
-                                                    </div>
+                                                    </div> -->
                                                     <div v-if="isOpen" class="hide-on-mobile">
                                                         <div class="text-center">
                                                             <div class="row pt-2">
@@ -883,115 +863,8 @@ export default {
             isVisible: false,
             showSuccessMessage: false, // Controls visibility of success messag
             selectedStyle: null,
-            defaultStyles: [
-                {
-                    name: "Default",
-                    backgroundColor: "#ffffff",
-                    iconColor: "#000000",
-                    textColor: "#000000",
-                    fontStyle: "Arial, sans-serif",
-                    textShadow: "None",
-                    shadow: "none",
-                },
-                {
-                    name: "Dyslexia",
-                    backgroundColor: "#FDFD96",
-                    iconColor: "#000000",
-                    textColor: "#000080",
-                    fontStyle: "Arial, sans-serif",
-                    textShadow: "None",
-                    shadow: "none",
-                },
-                {
-                    name: "Dysgraphia",
-                    backgroundColor: "#FFFDD0",
-                    iconColor: "#000000",
-                    textColor: "#00008B",
-                    fontStyle: "Arial, sans-serif",
-                    textShadow: "None",
-                    shadow: "none",
-                },
-                {
-                    name: "Hyperlexia",
-                    backgroundColor: "#F5F5DC",
-                    iconColor: "#000000",
-                    textColor: "#06402B",
-                    fontStyle: "Arial, sans-serif",
-                    textShadow: "None",
-                    shadow: "none",
-                },
-                {
-                    name: "Visual Proccesing disorder",
-                    backgroundColor: "#fff",
-                    iconColor: "#000000",
-                    textColor: "black",
-                    fontStyle: "Arial, sans-serif",
-                    textShadow: "None",
-                    shadow: "none",
-                },
-                {
-                    name: "ADHD",
-                    backgroundColor: "#ADD8E6",
-                    iconColor: "#000000",
-                    textColor: "#696969",
-                    fontStyle: "Arial, sans-serif",
-                    textShadow: "None",
-                    shadow: "none",
-                },
-            ],
-            fontFamilies: [
-                "Arial, sans-serif",
-                "Courier New, Courier, monospace",
-                "Georgia, serif",
-                "Times New Roman, Times, serif",
-                "Verdana, sans-serif",
-                "Trebuchet MS, sans-serif",
-                "Tahoma, sans-serif",
-                "Impact, sans-serif",
-                "Comic Sans MS, cursive, sans-serif",
-                "Helvetica, Arial, sans-serif",
-            ],
-            // List of shadow options
-            shadows: [
-                { name: "None", style: "none" },
-                {
-                    name: "Small Shadow",
-                    style: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                },
-                {
-                    name: "Medium Shadow",
-                    style: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-                },
-                {
-                    name: "Large Shadow",
-                    style: "4px 4px 8px rgba(0, 0, 0, 0.5)",
-                },
-                {
-                    name: "Deep Shadow",
-                    style: "6px 6px 12px rgba(0, 0, 0, 0.7)",
-                },
-                {
-                    name: "Soft Glow",
-                    style: "0px 0px 10px rgba(255, 255, 255, 0.7)",
-                },
-                { name: "Dark Glow", style: "0px 0px 10px rgba(0, 0, 0, 0.9)" },
-            ],
-            selectedStyle: {
-                textColor: "#000",
-                backgroundColor: "#fff",
-                iconColor: "#000000",
-            },
-            // Initial styles
-            fontFamily: "Arial, sans-serif",
-            fontSize: 20,
-            fontSpacing: 0,
-            selectedShadow: "none",
-            // Font style options
-            isBold: false,
-            isItalic: false,
-            isLight: false,
-            isUnderline: false,
-            isStrikethrough: false,
+            
+            
             // Text transformation and alignment
             textTransform: "none",
             textAlign: "left",
@@ -1000,7 +873,6 @@ export default {
             isCollapsed: false,
             showSuccessMessage: false,
             showMessage: false,
-            message: "Theme has been applied successfully!",
             filteredSurah: [],
             //twitter/whatsapp
             information: {
@@ -1034,13 +906,7 @@ export default {
             expanded: false,
             //full screen toggle
             isFullScreen: false,
-            //swipe gestures
-            touchStartX: 0, // Starting X coordinate
-            touchStartY: 0, // Starting Y coordinate (optional for vertical checks)
-            touchEndX: 0, // Ending X coordinate
-            touchEndY: 0, // Ending Y coordinate (optional for vertical checks)
-            tapThreshold: 10, // Max distance for a tap
-            swipeThreshold: 100, // Min distance for a swipe
+            
             // auth login
             isLoggedIn: false,
             // main search
@@ -1105,48 +971,7 @@ export default {
                     : this.information.translation;
             return `Translation: ${translation}`;
         },
-        fullAudioLink() {
-            if (this.information && this.information.ayah.audio_links) {
-                return this.information.ayah.audio_links.startsWith("http")
-                    ? this.information.ayah.audio_links
-                    : `${window.location.origin}${this.information.ayah.audio_links}`;
-            }
-            return "";
-        },
-        containerStyle() {
-            return {
-                backgroundColor: this.bgColor,
-                color: this.textColor,
-                fontFamily: this.fontFamily,
-                fontSize: `${this.fontSize}px`,
-                letterSpacing: `${this.fontSpacing}px`,
-                fontWeight: this.isBold
-                    ? "bold"
-                    : this.isLight
-                        ? "300"
-                        : "normal",
-                fontStyle: this.isItalic ? "italic" : "normal",
-                textShadow: this.selectedShadow,
-                textDecoration: this.isUnderline
-                    ? "underline"
-                    : this.isStrikethrough
-                        ? "line-through"
-                        : "none",
-                textTransform: this.textTransform,
-                textAlign: this.textAlign,
-            };
-        },
-        iconStyle() {
-            return {
-                color: this.iconColor,
-                fill: this.iconColor, // Add this line for SVG icons
-            };
-        },
-        textStyle() {
-            return {
-                color: this.textColor,
-            };
-        },
+        
     },
     methods: {
         redirectToMonthlySubscription() {
@@ -1262,11 +1087,6 @@ export default {
                 }
             });
         },
-        // fetchAyat() {
-        //     // Fetch ayat for the selected surah and set the first ayah as highlighted
-        //     // Example fetch request
-        //     this.ayat = [];
-        // },
         fetchAyat: async function () {
 
             try {
@@ -1471,137 +1291,7 @@ export default {
                     this.selectedStyle.fontStyle || this.fontFamily;
             }
         },
-        loadBackgroundColor() {
-            // Check if a background color is saved in localStorage
-            const savedBgColor = localStorage.getItem("bgColor");
-            const savedtextColor = localStorage.getItem("textColor");
-            const savediconColor = localStorage.getItem("iconColor");
-            if (savedBgColor) {
-                this.bgColor = savedBgColor; // Set the color picker to the saved color
-                this.textColor = savedtextColor;
-                this.iconColor = savediconColor;
-            }
-        },
-        applyCustomStyles() {
-            const settings = {
-                bgColor: this.bgColor,
-                textColor: this.textColor,
-                fontFamily: this.fontFamily,
-                fontSize: this.fontSize,
-                fontSpacing: this.fontSpacing,
-                selectedShadow: this.selectedShadow,
-                isBold: this.isBold,
-                isItalic: this.isItalic,
-                isLight: this.isLight,
-                isUnderline: this.isUnderline,
-                isStrikethrough: this.isStrikethrough,
-                textTransform: this.textTransform,
-                textAlign: this.textAlign,
-                iconColor: this.iconColor,
-            };
-            localStorage.setItem("textStyles", JSON.stringify(settings));
-            localStorage.setItem("bgColor", this.bgColor);
-            localStorage.setItem("textColor", this.textColor);
-            localStorage.setItem("iconColor", this.iconColor);
-
-            // Apply styles to the container
-            // Object.assign(this.$el.style, this.containerStyle);
-
-            // Apply icon color to all icons
-            const icons = this.$el.querySelectorAll("i");
-            icons.forEach((icon) => {
-                icon.style.color = this.iconColor;
-            });
-
-            // Save settings to localStorage
-            localStorage.setItem("textStyles", JSON.stringify(settings));
-
-            // Apply styles to the card content
-            this.applyStylesToCards(); // Ensure this method is defined and applied
-
-            this.showSuccessMessage = true;
-
-            setTimeout(() => {
-                this.showSuccessMessage = false;
-
-                // Find the modal element
-                const modalElement = document.getElementById("styleModal");
-
-                // Check for an existing modal instance or create a new one if not already initialized
-                let modalInstance = bootstrap.Modal.getInstance(modalElement);
-                if (!modalInstance) {
-                    modalInstance = new bootstrap.Modal(modalElement);
-                }
-
-                // Hide the modal
-                modalInstance.hide();
-            }, 3000);
-        },
-        applyStylesToCards() {
-            // Example of applying styles to card elements
-            const cards = document.querySelectorAll(".card");
-            cards.forEach((card) => {
-                card.style.backgroundColor = this.bgColor;
-                card.style.color = this.textColor;
-                card.style.fontFamily = this.fontFamily;
-                card.style.fontSize = `${this.fontSize}px`;
-                card.style.letterSpacing = `${this.fontSpacing}px`;
-                card.style.fontWeight = this.isBold
-                    ? "bold"
-                    : this.isLight
-                        ? "300"
-                        : "normal";
-                card.style.fontStyle = this.isItalic ? "italic" : "normal";
-                card.style.textShadow = this.selectedShadow;
-                card.style.textDecoration = this.isUnderline
-                    ? "underline"
-                    : this.isStrikethrough
-                        ? "line-through"
-                        : "none";
-                card.style.textTransform = this.textTransform;
-                card.style.textAlign = this.textAlign;
-                card.style.iconColor = this.iconColor;
-            });
-        },
-        loadSavedStyles() {
-            const savedSettings = JSON.parse(
-                localStorage.getItem("textStyles")
-            );
-            if (savedSettings) {
-                this.bgColor = savedSettings.bgColor || this.bgColor;
-                this.textColor = savedSettings.textColor || this.textColor;
-                this.fontFamily = savedSettings.fontFamily || this.fontFamily;
-                this.fontSize = savedSettings.fontSize || this.fontSize;
-                this.fontSpacing =
-                    savedSettings.fontSpacing || this.fontSpacing;
-                this.selectedShadow =
-                    savedSettings.selectedShadow || this.selectedShadow;
-                this.isBold = savedSettings.isBold || this.isBold;
-                this.isItalic = savedSettings.isItalic || this.isItalic;
-                this.isLight = savedSettings.isLight || this.isLight;
-                this.isUnderline =
-                    savedSettings.isUnderline || this.isUnderline;
-                this.isStrikethrough =
-                    savedSettings.isStrikethrough || this.isStrikethrough;
-                this.textTransform =
-                    savedSettings.textTransform || this.textTransform;
-                this.textAlign = savedSettings.textAlign || this.textAlign;
-                this.iconColor = savedSettings.iconColor || this.iconColor;
-
-                // Apply the loaded styles to the container
-                this.applyCustomStyles(); // Ensure this applies the styles to the container
-            }
-        },
-        saveStyle() {
-            localStorage.setItem(
-                "selectedStyle",
-                JSON.stringify(this.selectedStyle)
-            );
-        },
-        getStoredStyle() {
-            const storedStyle = localStorage.getItem("selectedStyle");
-            return storedStyle ? JSON.parse(storedStyle) : null;
-        },
+        
         toggleVisibility() {
             this.isVisible = !this.isVisible;
         },
