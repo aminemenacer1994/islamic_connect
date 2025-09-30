@@ -206,8 +206,22 @@
       </div>
       </hr>
     </div>
-    <section>
-      <PrayerTimes class="mb-3" />
+    <section aria-labelledby="prayer-times-heading">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <!-- SEO Optimized Heading -->
+            <h2 id="prayer-times-heading" class="text-center mb-4" style="color: black; font-weight: 800;">
+              Today's Prayer Times
+            </h2>
+
+            <!-- Performance & Accessibility Enhanced Component -->
+            <PrayerTimes class="mb-3 prayer-times-enhanced" :lazy-load="true" :reduce-motion="true" aria-live="polite"
+              aria-atomic="true" />
+
+          </div>
+        </div>
+      </div>
     </section>
 
     <section aria-labelledby="services-heading">
@@ -284,7 +298,7 @@
                   </div>
                   <h2 class="h3 fw-bold mb-3">Learn Your Way</h2>
                   <p class="mb-4" style="font-size: 16px; line-height: 1.6; color: #4a5568;">
-                    Text-to-speech, screen reader support, and bookmarking ensure accessible learning
+                    Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible learning
                     for everyone, regardless of ability.
                   </p>
                   <div class="d-grid">
@@ -878,69 +892,94 @@
 
 
     <!-- contact -->
-    <section class="py-5" style="background: #fff; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+    <section class="py-5 contact-section" aria-labelledby="contact-heading"
+      style="background: #fff; box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);">
       <div class="container-fluid">
         <div class="row justify-content-center text-center">
           <div class="col-lg-8 col-xxl-7">
-            <h1 class="display-5 fw-bold mb-3">Contact Us</h1>
-            <b class="lead">
-              Have questions or need assistance? We're here to help! Reach out
-              to Islamic Connect via email for support, feedback or inquiries
-              about our content and services.
-            </b>
+            <h1 id="contact-heading" class="display-5 fw-bold mb-3">Get In Touch</h1>
+            <p class="lead fw-semibold text-muted">
+              Have questions or need assistance? We're here to help! Reach out to Islamic Connect
+              for support, feedback, or inquiries about our content and services.
+            </p>
           </div>
         </div>
+
         <div class="row justify-content-center">
-          <div class="col-md-10 col-lg-6 mt-2">
-            <form @reset="reset" @submit.prevent="sendMessage()">
-              <div class="row justify-content-center">
+          <div class="col-md-10 col-lg-6 mt-4">
+            <form @reset="reset" @submit.prevent="sendMessage()" role="form" aria-label="Contact form">
+              <div class="row g-3">
+                <!-- First Name -->
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <input class="form-control bg-light" v-model="form.firstname" name="firstname"
-                      placeholder="First name" type="text" />
+                    <label for="firstname" class="form-label visually-hidden">First Name</label>
+                    <input id="firstname" class="form-control form-control-lg bg-light" v-model="form.firstname"
+                      name="firstname" placeholder="First name" type="text" aria-required="true" required />
                   </div>
                 </div>
+
+                <!-- Last Name -->
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <input class="form-control bg-light" v-model="form.lastname" name="lastname" placeholder="Last name"
-                      type="text" />
+                    <label for="lastname" class="form-label visually-hidden">Last Name</label>
+                    <input id="lastname" class="form-control form-control-lg bg-light" v-model="form.lastname"
+                      name="lastname" placeholder="Last name" type="text" aria-required="true" required />
                   </div>
                 </div>
+
+                <!-- Email -->
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <input class="form-control bg-light" v-model="form.email" name="email" placeholder="Email Adress"
-                      type="email" />
+                    <label for="email" class="form-label visually-hidden">Email Address</label>
+                    <input id="email" class="form-control form-control-lg bg-light" v-model="form.email" name="email"
+                      placeholder="Email address" type="email" aria-required="true" required />
                   </div>
                 </div>
+
+                <!-- Subject -->
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <input class="form-control bg-light" v-model="form.subject" name="subject" placeholder="subject"
-                      type="text" />
+                    <label for="subject" class="form-label visually-hidden">Subject</label>
+                    <input id="subject" class="form-control form-control-lg bg-light" v-model="form.subject"
+                      name="subject" placeholder="Subject" type="text" aria-required="true" required />
                   </div>
                 </div>
+
+                <!-- Phone Number -->
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <input class="form-control bg-light" v-model="form.mobile" name="mobile" placeholder="Phone number"
-                      type="number" />
+                    <label for="mobile" class="form-label visually-hidden">Phone Number</label>
+                    <input id="mobile" class="form-control form-control-lg bg-light" v-model="form.mobile" name="mobile"
+                      placeholder="Phone number (optional)" type="tel" pattern="[0-9]{10,15}"
+                      title="Please enter a valid phone number" />
                   </div>
                 </div>
-                <div class="col-md-6">
+
+                <!-- Message -->
+                <div class="col-12">
                   <div class="mb-3">
-                    <textarea class="form-control bg-light" v-model="form.message" name="message"
-                      placeholder="Your message" rows="4"></textarea>
+                    <label for="message" class="form-label visually-hidden">Your Message</label>
+                    <textarea id="message" class="form-control form-control-lg bg-light" v-model="form.message"
+                      name="message" placeholder="Your message" rows="5" aria-required="true" required></textarea>
                   </div>
                 </div>
-                <div class="col-md-12">
+
+                <!-- Submit Button -->
+                <div class="col-12">
                   <div class="d-grid">
-                    <button class="form-control"
-                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
-                      type="submit">
-                      <b>Send message</b>
+                    <button type="submit" class="btn btn-primary btn-lg fw-bold py-3"
+                      style="background: #00bfa6; border: none; box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);"
+                      aria-label="Send your message">
+                      <span class="d-flex align-items-center justify-content-center">
+                        <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>
+                        Send Message
+                      </span>
                     </button>
                   </div>
                 </div>
               </div>
             </form>
+
           </div>
         </div>
       </div>
@@ -948,59 +987,86 @@
 
 
 
-    <!-- footer -->
-    <section class="py-4" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
-      <footer>
-        <div class="container-fluid">
-          <div class="row align-items-center text-center text-lg-start">
+    <footer class="py-4" style="box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2); background: #f8f9fa;">
+      <div class="container-fluid">
+        <div class="row align-items-center text-center text-lg-start">
 
-            <!-- Copyright -->
-            <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-4">
-              <h5 class="mb-0 fs-5">© 2025 Islamic Connect. All rights reserved.</h5>
-            </div>
-
-            <!-- Navigation Links -->
-            <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-4">
-              <!-- <div class="d-flex justify-content-center flex-wrap gap-3">
-                <a href="/home" class="text-dark text-decoration-none">
-                  <h6 class="mb-0 fs-6">Home</h6>
-                </a>
-                <a href="/about" class="text-dark text-decoration-none">
-                  <h6 class="mb-0 fs-6">About Us</h6>
-                </a>
-                <a href="/faq" class="text-dark text-decoration-none">
-                  <h6 class="mb-0 fs-6">FAQ</h6>
-                </a>
-                <a href="/contact" class="text-dark text-decoration-none">
-                  <h6 class="mb-0 fs-6">Contact</h6>
-                </a>
-
-              </div> -->
-            </div>
-
-            <!-- Social Icons -->
-            <div class="col-12 col-lg-4 px-4">
-              <div class="d-flex justify-content-center justify-content-lg-end gap-3">
-                <a href="https://www.instagram.com/islamicconnect24/" class="text-decoration-none">
-                  <i class="bi bi-instagram h4" style="color: black"></i>
-                </a>
-                <a href="https://www.tiktok.com/@islamic_connect24" class="text-decoration-none">
-                  <i class="bi bi-tiktok h4" style="color: black;"></i>
-                </a>
-                <a href="https://www.linkedin.com/company/islamic-connect/?viewAsMember=true"
-                  class="text-decoration-none">
-                  <i class="bi bi-linkedin h4" style="color: black;"></i>
-                </a>
-                <a href="https://x.com/islamiconnect24" class="text-decoration-none">
-                  <i class="bi bi-twitter-x h4" style="color: black;"></i>
-                </a>
+          <!-- Copyright & Brand -->
+          <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-3 px-md-4">
+            <div class="d-flex flex-column flex-sm-row align-items-center align-items-lg-start gap-2 mt-2">
+              <div>
+                <h5 class="mb-0 fs-6 fw-semibold text-dark">© 2025 Islamic Connect</h5>
+                <small class="text-muted d-none d-sm-block">Making Islamic knowledge accessible to all</small>
               </div>
             </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-3 px-md-4">
+            <nav aria-label="Footer navigation">
+              <div class="d-flex justify-content-center flex-wrap gap-3 gap-md-4">
+                <a href="/privacy" class="text-decoration-none text-dark hover-primary"
+                  style="transition: color 0.2s ease;" onmouseover="this.style.color='#00bfa6'"
+                  onmouseout="this.style.color='#000'">
+                  <span class="fw-medium">Privacy Policy</span>
+                </a>
+                <a href="/terms" class="text-decoration-none text-dark hover-primary"
+                  style="transition: color 0.2s ease;" onmouseover="this.style.color='#00bfa6'"
+                  onmouseout="this.style.color='#000'">
+                  <span class="fw-medium">Terms of Service</span>
+                </a>
+                <a href="/contact" class="text-decoration-none text-dark hover-primary"
+                  style="transition: color 0.2s ease;" onmouseover="this.style.color='#00bfa6'"
+                  onmouseout="this.style.color='#000'">
+                  <span class="fw-medium">Contact Us</span>
+                </a>
+              </div>
+            </nav>
+          </div>
+
+          <!-- Social Media -->
+          <div class="col-12 col-lg-4 px-3 px-md-4">
+            <div class="d-flex justify-content-center justify-content-lg-end gap-3 gap-md-4">
+              <a href="https://www.instagram.com/islamicconnect24/" class="text-decoration-none social-icon"
+                aria-label="Follow us on Instagram" target="_blank" rel="noopener noreferrer"
+                style="transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'"
+                onmouseout="this.style.transform='translateY(0)'">
+                <i class="bi bi-instagram h4" style="color: #E4405F;" aria-hidden="true"></i>
+              </a>
+              <a href="https://www.tiktok.com/@islamic_connect24" class="text-decoration-none social-icon"
+                aria-label="Follow us on TikTok" target="_blank" rel="noopener noreferrer"
+                style="transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'"
+                onmouseout="this.style.transform='translateY(0)'">
+                <i class="bi bi-tiktok h4" style="color: #000000;" aria-hidden="true"></i>
+              </a>
+              <a href="https://www.linkedin.com/company/islamic-connect/" class="text-decoration-none social-icon"
+                aria-label="Follow us on LinkedIn" target="_blank" rel="noopener noreferrer"
+                style="transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'"
+                onmouseout="this.style.transform='translateY(0)'">
+                <i class="bi bi-linkedin h4" style="color: #0A66C2;" aria-hidden="true"></i>
+              </a>
+              <a href="https://x.com/islamiconnect24" class="text-decoration-none social-icon"
+                aria-label="Follow us on X (Twitter)" target="_blank" rel="noopener noreferrer"
+                style="transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'"
+                onmouseout="this.style.transform='translateY(0)'">
+                <i class="bi bi-twitter-x h4" style="color: #000000;" aria-hidden="true"></i>
+              </a>
+            </div>
+
 
           </div>
         </div>
-      </footer>
-    </section>
+
+        <!-- Additional Info -->
+        <div class="row mt-2">
+          <div class="col-12 text-center">
+            <small class="text-muted">
+              Serving the global Muslim community since 2024
+            </small>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 <style scoped>
@@ -1048,6 +1114,30 @@
 .service-1 .card:focus-within {
   outline: 2px solid #00bfa6;
   outline-offset: 2px;
+}
+
+.contact-section {
+  /* Performance: Reduce paint operations */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Improved focus styles for accessibility */
+.form-control:focus {
+  border-color: #00bfa6;
+  box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);
+  outline: none;
+}
+
+/* Better button states */
+.btn-primary:hover {
+  background: #009c85 !important;
+  transform: translateY(-1px);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:active {
+  transform: translateY(0);
 }
 
 @keyframes float {
@@ -1103,6 +1193,20 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
+  .contact-section {
+    padding: 2rem 0 !important;
+  }
+
+  .form-control-lg {
+    font-size: 1rem !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  .btn-lg {
+    padding: 0.875rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+
   .card-body {
     padding: 1.5rem !important;
   }
