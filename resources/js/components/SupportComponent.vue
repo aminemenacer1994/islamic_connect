@@ -11,8 +11,10 @@
             <!-- Impact Metrics -->
             <div class="row">
               <div class="col-md-3 mb-4">
-                <h3>100%</h3>
-                <p>Accessibility & SEO Score</p>
+                <div class="metric-item">
+                  <h3>100%</h3>
+                  <p>Accessibility & SEO Score</p>
+                </div>
               </div>
               <div class="col-md-3 mb-4">
                 <div class="metric-item">
@@ -28,7 +30,7 @@
               </div>
               <div class="col-md-3 mb-4">
                 <div class="metric-item">
-                  <h3>1,090.9%</h3>
+                  <h3>1,090%</h3>
                   <p>User Growth</p>
                 </div>
               </div>

@@ -95,8 +95,8 @@
                     <div style="color: #718096; font-size: 0.85rem; font-weight: 600;">Accessible</div>
                   </div>
                   <div class="col-4 text-center">
-                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">24/7</div>
-                    <div style="color: #718096; font-size: 0.85rem; font-weight: 600;">Available</div>
+                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">500+</div>
+                    <div style="color: #718096; font-size: 0.85rem; font-weight: 600;">Cities/Towns</div>
                   </div>
                 </div>
 
@@ -415,7 +415,7 @@
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
                   <h3>500+</h3>
-                  <p>Cities</p>
+                  <p>Cities/Towns</p>
                   <small>Worldwide presence</small>
                 </div>
               </div>
@@ -429,7 +429,7 @@
               </div>
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>1,090.9%</h3>
+                  <h3>1,090%</h3>
                   <p>Growth</p>
                   <small>Returning users</small>
                 </div>
@@ -993,34 +993,20 @@
 
           <!-- Copyright & Brand -->
           <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-3 px-md-4">
-            <div class="d-flex flex-column flex-sm-row align-items-center align-items-lg-start gap-2 mt-2">
+            <div class="d-flex flex-column flex-sm-row align-items-center align-items-lg-start gap-2">
               <div>
-                <h5 class="mb-0 fs-6 fw-semibold text-dark">© 2025 Islamic Connect</h5>
-                <small class="text-muted d-none d-sm-block">Making Islamic knowledge accessible to all</small>
+                <h1 class="mb-0 fs-6 fw-bold text-dark">© 2025 Islamic Connect</h1>
               </div>
             </div>
           </div>
 
           <!-- Quick Links -->
           <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-3 px-md-4">
+            
             <nav aria-label="Footer navigation">
-              <div class="d-flex justify-content-center flex-wrap gap-3 gap-md-4">
-                <a href="/privacy" class="text-decoration-none text-dark hover-primary"
-                  style="transition: color 0.2s ease;" onmouseover="this.style.color='#00bfa6'"
-                  onmouseout="this.style.color='#000'">
-                  <span class="fw-medium">Privacy Policy</span>
-                </a>
-                <a href="/terms" class="text-decoration-none text-dark hover-primary"
-                  style="transition: color 0.2s ease;" onmouseover="this.style.color='#00bfa6'"
-                  onmouseout="this.style.color='#000'">
-                  <span class="fw-medium">Terms of Service</span>
-                </a>
-                <a href="/contact" class="text-decoration-none text-dark hover-primary"
-                  style="transition: color 0.2s ease;" onmouseover="this.style.color='#00bfa6'"
-                  onmouseout="this.style.color='#000'">
-                  <span class="fw-medium">Contact Us</span>
-                </a>
-              </div>
+              <!-- <small class="text-muted">
+                Serving the global Muslim community since 2024
+              </small> -->
             </nav>
           </div>
 
@@ -1058,13 +1044,13 @@
         </div>
 
         <!-- Additional Info -->
-        <div class="row mt-2">
+        <!-- <div class="row mt-2">
           <div class="col-12 text-center">
             <small class="text-muted">
               Serving the global Muslim community since 2024
             </small>
           </div>
-        </div>
+        </div> -->
       </div>
     </footer>
   </div>

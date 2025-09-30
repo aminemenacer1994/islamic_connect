@@ -453,7 +453,18 @@ export default {
       this.summaries[idx] = null;
     },
     formatKey(key) {
-      return key ? key.replace(/_/g, ' ') : '';
+      if (!key) return '';
+      const lowercaseWords = ['and', 'or', 'the', 'a', 'an', 'in', 'on', 'at', 'to', 'for', 'of', 'by'];
+      return key.replace(/_/g, ' ')
+        .split(' ')
+        .map((word, index) => {
+          // Always capitalize first word, or if not in lowercaseWords list
+          if (index === 0 || !lowercaseWords.includes(word.toLowerCase())) {
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+          }
+          return word.toLowerCase();
+        })
+      .join(' ');
     },
     isRegularSection(item) {
       return item && typeof item === 'object' && !item.conclusion && !item.references && !item.faq;
