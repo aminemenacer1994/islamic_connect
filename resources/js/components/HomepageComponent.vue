@@ -5,96 +5,203 @@
 
       <!-- Content -->
       <div class="container-fluid" style="position: relative; z-index: 2">
-        <div class="container-fluid text-center">
-          <div class="row mb-2 ">
+        <!-- Enhanced Hero Section -->
+        <div class="container-fluid text-center" style="position: relative; overflow: hidden;">
+          <!-- Background Elements -->
+          <div style="
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(0, 191, 166, 0.1) 0%, rgba(26, 95, 122, 0.1) 100%);
+            border-radius: 50%;
+            animation: float-hero 8s ease-in-out infinite;
+            z-index: 1;
+          "></div>
+                  <div style="
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(26, 95, 122, 0.08) 0%, rgba(0, 191, 166, 0.08) 100%);
+            border-radius: 50%;
+            animation: float-hero 6s ease-in-out infinite 2s;
+            z-index: 1;
+          "></div>
+
+          <div class="row mb-2 align-items-center" style="position: relative; z-index: 2;">
             <div class="col-md-6">
-              <h1 class="display-4 mt-1 fw-bold text-left container">
-                Connecting You to Islamic Knowledge Seamlessly and Accessibly
-              </h1>
-              <h2 class="lead container pt-3 text-left" style="line-height: 1.8em">
-                <strong>
-                  Islamic Connect is your all-in-one Islamic platform designed to help you explore the Quran, learn from
-                  trusted Islamic content, and access AI-powered tools for a better spiritual experience anytime,
-                  anywhere.</strong>
-              </h2>
-              <div class="row mb-3">
-                <div class="col-12">
-                  <div class="controls d-flex flex-row justify-content-start text-left">
-                    <button style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="btn btn-lg me-2"
-                      onclick="window.location.href='/quran'">Get Started</button>
-                    <button style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="btn btn-lg"
-                      onclick="window.location.href='/support'">Donate Today</button>
+              <div class="text-left" style="padding-right: 2rem;">
+                <!-- Badge -->
+                <div style="
+          background: linear-gradient(135deg, #00bfa6, #1a5f7a);
+          color: white;
+          padding: 0.5rem 1.5rem;
+          border-radius: 50px;
+          display: inline-block;
+          margin-bottom: 1.5rem;
+          box-shadow: 0 5px 15px rgba(0, 191, 166, 0.3);
+          font-weight: 600;
+          font-size: 0.9rem;
+          letter-spacing: 0.5px;
+        ">
+                  <i class="fas fa-star me-2"></i>Trusted by 1000's of Muslims Worldwide
+                </div>
+
+                <h1 class="display-4 mt-1 fw-bold text-left" style="
+          background: linear-gradient(135deg, #1a5f7a, #2c3e50);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          line-height: 1.2;
+          margin-bottom: 1.5rem;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          font-size: 3.5rem;
+        ">
+                  Connecting You to Islamic Knowledge Seamlessly and Accessibly
+                </h1>
+
+                <h2 class="lead pt-3 text-left" style="
+                line-height: 1.8em;
+                font-size: 1.3rem;
+                color: #4a5568;
+                font-weight: 500;
+                margin-bottom: 2rem;
+                padding-right: 1rem;
+              ">
+                  <strong>
+                    Your all-in-one Islamic platform to explore the Quran, learn from trusted content,
+                    and access AI-powered tools for a transformative spiritual experience anytime, anywhere.
+                  </strong>
+                </h2>
+
+                <!-- Stats Row -->
+                <div class="row mb-4" style="
+              background: rgba(255, 255, 255, 0.8);
+              padding: 1.5rem;
+              border-radius: 15px;
+              box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+              border: 1px solid rgba(0, 191, 166, 0.2);
+              backdrop-filter: blur(10px);
+            ">
+                  <div class="col-4 text-center">
+                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">60+</div>
+                    <div style="color: #718096; font-size: 0.85rem; font-weight: 600;">Countries</div>
+                  </div>
+                  <div class="col-4 text-center">
+                    <div style="color: #00bfa6; font-weight: 800; font-size: 1.8rem; line-height: 1;">100%</div>
+                    <div style="color: #718096; font-size: 0.85rem; font-weight: 600;">Accessible</div>
+                  </div>
+                  <div class="col-4 text-center">
+                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">24/7</div>
+                    <div style="color: #718096; font-size: 0.85rem; font-weight: 600;">Available</div>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-12">
+                    <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
+                      <button onclick="window.location.href='/quran'" style="
+                background: linear-gradient(135deg, #00bfa6, #1a5f7a);
+                color: white;
+                border: none;
+                padding: 1rem 2.5rem;
+                border-radius: 12px;
+                font-weight: 700;
+                font-size: 1.1rem;
+                box-shadow: 0 8px 25px rgba(0, 191, 166, 0.4);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+                overflow: hidden;
+              " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(0, 191, 166, 0.6)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(0, 191, 166, 0.4)';">
+                        <i class="fas fa-rocket me-2"></i>Get Started Free
+                        <span style="
+                  position: absolute;
+                  top: 50%;
+                  right: 1.5rem;
+                  transform: translateY(-50%);
+                  font-size: 1.1rem;
+                  opacity: 0.9;
+                ">→</span>
+                      </button>
+
+                      <button onclick="window.location.href='/support'" style="
+                background: rgba(255, 255, 255, 0.9);
+                color: #1a5f7a;
+                border: 2px solid #1a5f7a;
+                padding: 1rem 2rem;
+                border-radius: 12px;
+                font-weight: 700;
+                font-size: 1.1rem;
+                box-shadow: 0 5px 20px rgba(26, 95, 122, 0.2);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                backdrop-filter: blur(10px);
+              " onmouseover="this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';">
+                        <i class="fas fa-heart me-2"></i>Support Our Mission
+                      </button>
+                    </div>
+
+                    <!-- Trust Indicators -->
+                    <div class="mt-3 d-flex align-items-center" style="gap: 1.5rem;">
+                      <div class="d-flex align-items-center">
+                        <i class="fas fa-shield-alt text-success me-2"></i>
+                        <small style="color: #718096; font-weight: 600;">Secure Platform</small>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <i class="fas fa-clock text-warning me-2"></i>
+                        <small style="color: #718096; font-weight: 600;">Instant Access</small>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <i class="fas fa-user-check text-info me-2"></i>
+                        <small style="color: #718096; font-weight: 600;">No Registration</small>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-
-
-
             </div>
+
             <div class="col-md-6">
-
-              <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item active" data-bs-interval="3000">
-                    <img src="/images/companion2.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
+              
+                <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img src="/images/companion2.png" class="d-block w-100" alt="Quran companion">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="/images/surat2.png" class="d-block w-100" alt="Quran explorer">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="/images/podcast2.png" class="d-block w-100" alt="Audio podcasts">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="/images/seerah2.png" class="d-block w-100" alt="Seerah timeline">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="/images/radio2.png" class="d-block w-100" alt="Islamic Radio">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="/images/locator2.png" class="d-block w-100" alt="Mosque Locator">
+                    </div>
                   </div>
-                  <div class="carousel-item" data-bs-interval="3000">
-                    <img src="/images/surat2.png" class="d-block w-100 img-mobile-bigger" alt="Quran explorer">
-                  </div>
-                  <div class="carousel-item" data-bs-interval="3000">
-                    <img src="/images/podcast2.png" class="d-block w-100 img-mobile-bigger" alt="Audio podcasts">
-                  </div>
-                  <div class="carousel-item" data-bs-interval="3000">
-                    <img src="/images/seerah2.png" class="d-block w-100 img-mobile-bigger" alt="Seerah timeline">
-                  </div>
-                  <div class="carousel-item" data-bs-interval="3000">
-                    <img src="/images/radio2.png" class="d-block w-100 img-mobile-bigger" alt="Seerah timeline">
-                  </div>
-                  <div class="carousel-item" data-bs-interval="3000">
-                    <img src="/images/locator2.png" class="d-block w-100 img-mobile-bigger" alt="Seerah timeline">
-                  </div>
-                </div>
-                <button class="carousel-control-prev text-dark" type="button" data-bs-target="#carouselExampleInterval"
-                  data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon text-dark" aria-hidden="true"></span>
-                  <span class="visually-hidden text-dark">Previous</span>
-                </button>
-                <button class="carousel-control-next text-dark" type="button" data-bs-target="#carouselExampleInterval"
-                  data-bs-slide="next">
-                  <span class="carousel-control-next-icon text-dark" aria-hidden="true"></span>
-                  <span class="visually-hidden text-dark">Next</span>
-                </button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-
-        <!-- <section class="py-5 bg-transparent">
-          <div class="container text-center mb-4">
-            <h1 class="display-4 fw-bold mb-4">Our Trusted Partners</h1>
-            <h2 class="lead container" style="line-height: 1.8em">
-              We proudly collaborate with ethical and impactful platforms to bring you accessible, faith-driven
-              experiences.
-            </h2>
-          </div>
-
-          <div id="partnersCarousel" class="carousel slide py-2" data-bs-ride="carousel" data-bs-interval="4000">
-            <div class="carousel-inner">
-              <div v-for="(chunk, index) in chunkedPartners" :key="index"
-                :class="['carousel-item', { active: index === 0 }]">
-                <div class="row justify-content-center text-center">
-                  <div v-for="(partner, i) in chunk" :key="i" class="col-6 col-md-3 mb-5">
-                    <img :src="partner.icon" :alt="partner.name" class="partner-icon mb-4" />
-                    <h4 class="fw-bold text-dark">{{ partner.name }}</h4>
+                  
+                  <!-- Simple Indicators -->
+                  <div class="carousel-indicators mt-2 mb-2">
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2"></button>
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="3"></button>
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4"></button>
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="5"></button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </section> -->
-
       </div>
       </hr>
     </div>

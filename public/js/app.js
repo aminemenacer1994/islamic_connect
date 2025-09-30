@@ -173051,108 +173051,301 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "position": "relative",
       "z-index": "2"
     }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "container-fluid text-center"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "row mb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Enhanced Hero Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "container-fluid text-center",
+    style: {
+      "position": "relative",
+      "overflow": "hidden"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Elements "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "position": "absolute",
+      "top": "-20%",
+      "right": "-10%",
+      "width": "400px",
+      "height": "400px",
+      "background": "linear-gradient(135deg, rgba(0, 191, 166, 0.1) 0%, rgba(26, 95, 122, 0.1) 100%)",
+      "border-radius": "50%",
+      "animation": "float-hero 8s ease-in-out infinite",
+      "z-index": "1"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "position": "absolute",
+      "bottom": "-30%",
+      "left": "-5%",
+      "width": "300px",
+      "height": "300px",
+      "background": "linear-gradient(135deg, rgba(26, 95, 122, 0.08) 0%, rgba(0, 191, 166, 0.08) 100%)",
+      "border-radius": "50%",
+      "animation": "float-hero 6s ease-in-out infinite 2s",
+      "z-index": "1"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row mb-2 align-items-center",
+    style: {
+      "position": "relative",
+      "z-index": "2"
+    }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-4 mt-1 fw-bold text-left container"
-  }, " Connecting You to Islamic Knowledge Seamlessly and Accessibly "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "lead container pt-3 text-left",
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-left",
     style: {
-      "line-height": "1.8em"
+      "padding-right": "2rem"
     }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, " Islamic Connect is your all-in-one Islamic platform designed to help you explore the Quran, learn from trusted Islamic content, and access AI-powered tools for a better spiritual experience anytime, anywhere.")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Badge "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "background": "linear-gradient(135deg, #00bfa6, #1a5f7a)",
+      "color": "white",
+      "padding": "0.5rem 1.5rem",
+      "border-radius": "50px",
+      "display": "inline-block",
+      "margin-bottom": "1.5rem",
+      "box-shadow": "0 5px 15px rgba(0, 191, 166, 0.3)",
+      "font-weight": "600",
+      "font-size": "0.9rem",
+      "letter-spacing": "0.5px"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-star me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Trusted by 1000's of Muslims Worldwide ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-4 mt-1 fw-bold text-left",
+    style: {
+      "background": "linear-gradient(135deg, #1a5f7a, #2c3e50)",
+      "-webkit-background-clip": "text",
+      "-webkit-text-fill-color": "transparent",
+      "background-clip": "text",
+      "line-height": "1.2",
+      "margin-bottom": "1.5rem",
+      "text-shadow": "0 2px 10px rgba(0, 0, 0, 0.1)",
+      "font-size": "3.5rem"
+    }
+  }, " Connecting You to Islamic Knowledge Seamlessly and Accessibly "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "lead pt-3 text-left",
+    style: {
+      "line-height": "1.8em",
+      "font-size": "1.3rem",
+      "color": "#4a5568",
+      "font-weight": "500",
+      "margin-bottom": "2rem",
+      "padding-right": "1rem"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, " Your all-in-one Islamic platform to explore the Quran, learn from trusted content, and access AI-powered tools for a transformative spiritual experience anytime, anywhere. ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row mb-4",
+    style: {
+      "background": "rgba(255, 255, 255, 0.8)",
+      "padding": "1.5rem",
+      "border-radius": "15px",
+      "box-shadow": "0 5px 20px rgba(0, 0, 0, 0.08)",
+      "border": "1px solid rgba(0, 191, 166, 0.2)",
+      "backdrop-filter": "blur(10px)"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-4 text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "color": "#1a5f7a",
+      "font-weight": "800",
+      "font-size": "1.8rem",
+      "line-height": "1"
+    }
+  }, "60+"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "color": "#718096",
+      "font-size": "0.85rem",
+      "font-weight": "600"
+    }
+  }, "Countries")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-4 text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "color": "#00bfa6",
+      "font-weight": "800",
+      "font-size": "1.8rem",
+      "line-height": "1"
+    }
+  }, "100%"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "color": "#718096",
+      "font-size": "0.85rem",
+      "font-weight": "600"
+    }
+  }, "Accessible")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-4 text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "color": "#1a5f7a",
+      "font-weight": "800",
+      "font-size": "1.8rem",
+      "line-height": "1"
+    }
+  }, "24/7"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "color": "#718096",
+      "font-size": "0.85rem",
+      "font-weight": "600"
+    }
+  }, "Available")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-12"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "controls d-flex flex-row justify-content-start text-left"
+    "class": "controls d-flex flex-row justify-content-start text-left",
+    style: {
+      "gap": "1rem"
+    }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onclick: "window.location.href='/quran'",
     style: {
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+      "background": "linear-gradient(135deg, #00bfa6, #1a5f7a)",
+      "color": "white",
+      "border": "none",
+      "padding": "1rem 2.5rem",
+      "border-radius": "12px",
+      "font-weight": "700",
+      "font-size": "1.1rem",
+      "box-shadow": "0 8px 25px rgba(0, 191, 166, 0.4)",
+      "transition": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      "position": "relative",
+      "overflow": "hidden"
     },
-    "class": "btn btn-lg me-2",
-    onclick: "window.location.href='/quran'"
-  }, "Get Started"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onmouseover: "this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(0, 191, 166, 0.6)';",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(0, 191, 166, 0.4)';"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-rocket me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Get Started Free "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     style: {
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+      "position": "absolute",
+      "top": "50%",
+      "right": "1.5rem",
+      "transform": "translateY(-50%)",
+      "font-size": "1.1rem",
+      "opacity": "0.9"
+    }
+  }, "→")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onclick: "window.location.href='/support'",
+    style: {
+      "background": "rgba(255, 255, 255, 0.9)",
+      "color": "#1a5f7a",
+      "border": "2px solid #1a5f7a",
+      "padding": "1rem 2rem",
+      "border-radius": "12px",
+      "font-weight": "700",
+      "font-size": "1.1rem",
+      "box-shadow": "0 5px 20px rgba(26, 95, 122, 0.2)",
+      "transition": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      "backdrop-filter": "blur(10px)"
     },
-    "class": "btn btn-lg",
-    onclick: "window.location.href='/support'"
-  }, "Donate Today")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onmouseover: "this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-heart me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Support Our Mission ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Trust Indicators "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "mt-3 d-flex align-items-center",
+    style: {
+      "gap": "1.5rem"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-flex align-items-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-shield-alt text-success me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    style: {
+      "color": "#718096",
+      "font-weight": "600"
+    }
+  }, "Secure Platform")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-flex align-items-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-clock text-warning me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    style: {
+      "color": "#718096",
+      "font-weight": "600"
+    }
+  }, "Instant Access")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-flex align-items-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-user-check text-info me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    style: {
+      "color": "#718096",
+      "font-weight": "600"
+    }
+  }, "No Registration")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "carouselExampleInterval",
     "class": "carousel slide",
-    "data-bs-ride": "carousel"
+    "data-bs-ride": "carousel",
+    "data-bs-interval": "4000"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-inner"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-item active",
-    "data-bs-interval": "3000"
+    "class": "carousel-item active"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/companion2.png",
-    "class": "d-block w-100 img-mobile-bigger",
+    "class": "d-block w-100",
     alt: "Quran companion"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-item",
-    "data-bs-interval": "3000"
+    "class": "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/surat2.png",
-    "class": "d-block w-100 img-mobile-bigger",
+    "class": "d-block w-100",
     alt: "Quran explorer"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-item",
-    "data-bs-interval": "3000"
+    "class": "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/podcast2.png",
-    "class": "d-block w-100 img-mobile-bigger",
+    "class": "d-block w-100",
     alt: "Audio podcasts"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-item",
-    "data-bs-interval": "3000"
+    "class": "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/seerah2.png",
-    "class": "d-block w-100 img-mobile-bigger",
+    "class": "d-block w-100",
     alt: "Seerah timeline"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-item",
-    "data-bs-interval": "3000"
+    "class": "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/radio2.png",
-    "class": "d-block w-100 img-mobile-bigger",
-    alt: "Seerah timeline"
+    "class": "d-block w-100",
+    alt: "Islamic Radio"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-item",
-    "data-bs-interval": "3000"
+    "class": "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/locator2.png",
-    "class": "d-block w-100 img-mobile-bigger",
-    alt: "Seerah timeline"
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "carousel-control-prev text-dark",
+    "class": "d-block w-100",
+    alt: "Mosque Locator"
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Simple Indicators "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "carousel-indicators mt-2 mb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "data-bs-target": "#carouselExampleInterval",
-    "data-bs-slide": "prev"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "carousel-control-prev-icon text-dark",
-    "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "visually-hidden text-dark"
-  }, "Previous")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "carousel-control-next text-dark",
+    "data-bs-slide-to": "0",
+    "class": "active"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "data-bs-target": "#carouselExampleInterval",
-    "data-bs-slide": "next"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "carousel-control-next-icon text-dark",
-    "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "visually-hidden text-dark"
-  }, "Next")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-5 bg-transparent\">\n          <div class=\"container text-center mb-4\">\n            <h1 class=\"display-4 fw-bold mb-4\">Our Trusted Partners</h1>\n            <h2 class=\"lead container\" style=\"line-height: 1.8em\">\n              We proudly collaborate with ethical and impactful platforms to bring you accessible, faith-driven\n              experiences.\n            </h2>\n          </div>\n\n          <div id=\"partnersCarousel\" class=\"carousel slide py-2\" data-bs-ride=\"carousel\" data-bs-interval=\"4000\">\n            <div class=\"carousel-inner\">\n              <div v-for=\"(chunk, index) in chunkedPartners\" :key=\"index\"\n                :class=\"['carousel-item', { active: index === 0 }]\">\n                <div class=\"row justify-content-center text-center\">\n                  <div v-for=\"(partner, i) in chunk\" :key=\"i\" class=\"col-6 col-md-3 mb-5\">\n                    <img :src=\"partner.icon\" :alt=\"partner.name\" class=\"partner-icon mb-4\" />\n                    <h4 class=\"fw-bold text-dark\">{{ partner.name }}</h4>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </section> ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_PrayerTimes, {
+    "data-bs-slide-to": "1"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "data-bs-target": "#carouselExampleInterval",
+    "data-bs-slide-to": "2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "data-bs-target": "#carouselExampleInterval",
+    "data-bs-slide-to": "3"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "data-bs-target": "#carouselExampleInterval",
+    "data-bs-slide-to": "4"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "data-bs-target": "#carouselExampleInterval",
+    "data-bs-slide-to": "5"
+  })])])])])])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_PrayerTimes, {
     "class": "mb-3"
   })]), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "py-5 service-1"
