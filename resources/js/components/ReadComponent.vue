@@ -54,32 +54,42 @@
         <!-- Search and Filters -->
         <div class="filter-container mt-3">
             <div class="container">
-                <div class="filter-card ">
-                    <div class="row g-3 align-items-center justify-content-center">
-                        <div class="col-md-6 col-12 mb-2">
-                            <div class="input-group">
-                                <input v-model="searchTerm" @input="debounceSearch" type="text"
-                                    class="form-control form-control-lg" placeholder="Search blogs (min 3 chars)..."
-                                    aria-label="Search blogs">
-                                <span class="input-group-text">
-                                    <i class="fas fa-search text-white"></i>
-                                </span>
+                <div class="filter-card">
+                    <div class="filter-header d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0 fw-bold">Search & Filters</h5>
+                        <button class="btn btn-sm btn-outline-secondary toggle-btn" @click="toggleFilters">
+                            <i :class="filtersVisible ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+                            <span class="ml-2">{{ filtersVisible ? 'Hide Filters' : 'Show Filters' }}</span>
+                        </button>
+                    </div>
+                    <div class="filter-content" :class="{ 'd-none': !filtersVisible }">
+                        <div class="row g-3 align-items-center justify-content-center">
+                            <div class="col-12 col-md-6 ">
+                                <div class="input-group">
+                                    <input v-model="searchTerm" @input="debounceSearch" type="text"
+                                        class="form-control form-control-lg" placeholder="Search blogs (min 3 chars)..."
+                                        aria-label="Search blogs">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-search text-white"></i>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 col-12 mb-2">
-                            <select v-model="selectedTag" class="form-select form-select-lg" aria-label="Filter by tag">
-                                <option value="all">Categories</option>
-                                <option v-for="tag in uniqueTags" :key="tag" :value="tag">{{ tag }}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 col-12 mb-2">
-                            <select v-model="sortBy" class="form-select form-select-lg" aria-label="Sort blogs"
-                                @change="handleSortChange">
-                                <option value="newest" selected>Newest</option>
-                                <option value="nameAZ">Name A-Z</option>
-                                <option value="nameZA">Name Z-A</option>
-                                <option value="oldest">Oldest</option>
-                            </select>
+                            <div class="col-12 col-md-3 ">
+                                <select v-model="selectedTag" class="form-select form-select-lg"
+                                    aria-label="Filter by tag">
+                                    <option value="all">Categories</option>
+                                    <option v-for="tag in uniqueTags" :key="tag" :value="tag">{{ tag }}</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-3 ">
+                                <select v-model="sortBy" class="form-select form-select-lg" aria-label="Sort blogs"
+                                    @change="handleSortChange">
+                                    <option value="newest" selected>Newest</option>
+                                    <option value="nameAZ">Name A-Z</option>
+                                    <option value="nameZA">Name Z-A</option>
+                                    <option value="oldest">Oldest</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -90,7 +100,7 @@
         <div class="container py-5">
             <transition-group name="blog-list" tag="div" class="row" :class="{ 'list-layout': layoutMode === 'list' }">
                 <div v-for="(blog, index) in paginatedBlogs" :key="blog.id"
-                    :class="layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4'">
+                    :class="layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4'" :ref="`blog-${blog.id}`">
                     <div class="card h-100 animate-card" :style="{ animationDelay: `${index * 0.05}s` }">
                         <div class="card-image-container"
                             :class="{ 'container': layoutMode === 'grid', 'container-fluid': layoutMode === 'list' }">
@@ -203,6 +213,8 @@ export default {
                 hashtags: blog.hashtags || [],
                 wordCount: this.getWordCount(blog.content)
             })),
+            filtersVisible: true,
+            uniqueTags: [],
             currentPage: 1,
             itemsPerPage: 8,
             selectedBlog: null,
@@ -292,6 +304,9 @@ export default {
         });
     },
     methods: {
+        toggleFilters() {
+            this.filtersVisible = !this.filtersVisible;
+        },
         selectCategory(category) {
             this.selectedCategory = category;
         },
@@ -475,12 +490,34 @@ export default {
     --gray-light: #f5f5f5;
 }
 
-/* Category Pills Styles */
-/* .category-pills-container {
-    background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);
-    padding: 1.5rem 0;
-    border-bottom: 1px solid rgba(0, 196, 180, 0.1);
-} */
+.filter-container {
+    padding: 1rem 0;
+}
+
+.filter-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-header {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.toggle-btn {
+    transition: all 0.3s ease;
+}
+
+.filter-content {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.filter-content.d-none {
+    display: none !important;
+}
 
 .pills-wrapper {
     position: relative;
@@ -1357,6 +1394,50 @@ export default {
         padding: 2.5rem 0;
         background: linear-gradient(135deg, #f8fffe 0%, #e0f7f5 100%);
     } */
+}
+
+@media (max-width: 767.98px) {
+    .category-pill {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .scroll-arrow {
+        padding: 0.3rem;
+    }
+    .filter-card {
+        padding: 1rem;
+    }
+
+    .form-control-lg,
+    .form-select-lg {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+
+    .input-group-text {
+        padding: 0.5rem;
+    }
+
+    .toggle-btn {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .filter-header h5 {
+        font-size: 1rem;
+    }
+}
+
+/* Ensure proper stacking on mobile */
+@media (max-width: 575.98px) {
+    .row.g-3 {
+        flex-direction: column;
+    }
+
+    .col-12 {
+        width: 100%;
+    }
 }
 
 @media (max-width: 576px) {

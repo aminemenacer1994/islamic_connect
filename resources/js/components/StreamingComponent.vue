@@ -17,70 +17,58 @@
     </header>
 
     <!-- Filter/Search Section (unchanged) -->
-    <section class="mb-5 p-3 bg-light rounded-3 shadow-sm" style="background: #f8f9fa; border: 1px solid #e0e0e0;"
-      aria-label="Channel filters">
-      <div class="row g-3 text-center text-md-start">
-        <div class="col-12 col-md-3">
-          <select v-model="selectedCategory" class="form-select"
-            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-            @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
-            <option value="all">All Categories</option>
-            <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
-          </select>
-        </div>
-        <div class="col-12 col-md-3">
-          <select v-model="selectedLanguage" class="form-select"
-            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-            @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
-            <option value="all">All Languages</option>
-            <option v-for="lang in languages" :key="lang" :value="lang">{{ lang }}</option>
-          </select>
-        </div>
-        <div class="col-12 col-md-3">
-          <select v-model="selectedTag" class="form-select"
-            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-            @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
-            <option value="all">All Tags</option>
-            <option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</option>
-          </select>
-        </div>
-        <div class="col-12 col-md-3">
-          <select v-model="sortBy" class="form-select"
-            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-            @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
-            <option value="name-asc">Name (A-Z)</option>
-            <option value="name-desc">Name (Z-A)</option>
-            <option value="viewers-desc">Viewers (High to Low)</option>
-            <option value="viewers-asc">Viewers (Low to High)</option>
-          </select>
-        </div>
-        <div class="col-12 col-md-9">
-          <div class="input-group">
-            <span class="input-group-text bg-white border-0"
-              style="border-radius: 12px 0 0 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-              <i class="fas fa-search"></i>
-            </span>
-            <input v-model="searchQuery" type="text" class="form-control"
-              style="border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-              placeholder="Search channels..." @input="filterChannels"
-              @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-              @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
-          </div>
-        </div>
-        <div class="col-12 col-md-3">
-          <button class="btn btn-outline-secondary w-100"
-            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-            @click="clearFilters" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
-            Clear All Filters
-          </button>
+    <section class="mb-5 p-3 bg-light rounded-3 shadow-sm" style="background: #f8f9fa; border: 1px solid #e0e0e0;" aria-label="Channel filters">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0 fw-bold">Search & Filters</h5>
+    <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="true" aria-controls="filterCollapse" @click="toggleCollapse">
+      <i class="fas" :class="isCollapsed ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+      {{ isCollapsed ? 'Show Filters' : 'Hide Filters' }}
+    </button>
+  </div>
+  <div class="collapse show" id="filterCollapse">
+    <div class="row g-3 text-center text-md-start">
+      <div class="col-12 col-sm-6 col-md-3">
+        <select v-model="selectedCategory" class="form-select" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;" @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'" @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+          <option value="all">All Categories</option>
+          <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
+        </select>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <select v-model="selectedLanguage" class="form-select" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;" @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'" @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+          <option value="all">All Languages</option>
+          <option v-for="lang in languages" :key="lang" :value="lang">{{ lang }}</option>
+        </select>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <select v-model="selectedTag" class="form-select" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;" @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'" @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+          <option value="all">All Tags</option>
+          <option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</option>
+        </select>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <select v-model="sortBy" class="form-select" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;" @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'" @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+          <option value="name-asc">Name (A-Z)</option>
+          <option value="name-desc">Name (Z-A)</option>
+          <option value="viewers-desc">Viewers (High to Low)</option>
+          <option value="viewers-asc">Viewers (Low to High)</option>
+        </select>
+      </div>
+      <div class="col-12 col-md-9">
+        <div class="input-group">
+          <span class="input-group-text bg-white border-0" style="border-radius: 12px 0 0 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            <i class="fas fa-search"></i>
+          </span>
+          <input v-model="searchQuery" type="text" class="form-control" style="border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;" placeholder="Search channels..." @input="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'" @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
         </div>
       </div>
-    </section>
+      <div class="col-12 col-md-3">
+        <button class="btn btn-outline-secondary w-100" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;" @click="clearFilters" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'" @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+          Clear All Filters
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
 
     <section v-if="favorites.length > 0" class="mb-5" aria-label="Favorite channels">
       <h2 class="fw-bold mb-3 d-flex align-items-center" style="cursor: pointer;" @click="toggleFavoritesSection">
