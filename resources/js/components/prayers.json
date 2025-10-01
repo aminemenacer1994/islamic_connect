@@ -1,0 +1,222 @@
+{
+    "app": {
+      "title": "Islamic Prayer Guide",
+      "subtitle": "Step-by-Step Guide to Performing Salat",
+      "description": "Learn how to perform Salat (Islamic prayer) with detailed step-by-step instructions, images, and important guidelines."
+    },
+    "header": {
+      "nextPrayer": "Dhuhr",
+      "prayerTime": "12:30 PM"
+    },
+    "introduction": {
+      "title": "The Importance of Salat",
+      "content": "Salat (prayer) is one of the Five Pillars of Islam and is obligatory for all Muslims. It is a direct link between the worshipper and Allah, performed five times a day as a means of spiritual purification and connection with the Creator.",
+      "pillars": ["First Pillar", "Daily Practice", "Spiritual Connection"]
+    },
+    "prerequisites": {
+      "title": "Prerequisites for Salat",
+      "subtitle": "Essential requirements before beginning your prayer",
+      "dos": [
+        {
+          "title": "Perform Wudu (ablution)",
+          "description": "Purify yourself with proper washing before prayer"
+        },
+        {
+          "title": "Wear clean clothing",
+          "description": "Ensure clothes cover your Awrah properly"
+        },
+        {
+          "title": "Face the Qibla",
+          "description": "Direction of Kaaba in Mecca"
+        },
+        {
+          "title": "Pray at prescribed times",
+          "description": "Follow the five daily prayer schedules"
+        },
+        {
+          "title": "Sincere intention (Niyyah)",
+          "description": "Have pure intention in your heart"
+        }
+      ],
+      "donts": [
+        {
+          "title": "Pray without Wudu",
+          "description": "Ablution is mandatory for valid prayer"
+        },
+        {
+          "title": "Dirty prayer area",
+          "description": "Ensure cleanliness of prayer space"
+        },
+        {
+          "title": "Talk during prayer",
+          "description": "Maintain focus and concentration"
+        },
+        {
+          "title": "Unnecessary movement",
+          "description": "Minimize distractions and maintain stillness"
+        },
+        {
+          "title": "Rushing through prayers",
+          "description": "Perform each movement with mindfulness"
+        }
+      ]
+    },
+    "steps": {
+      "title": "Step-by-Step Salat Guide",
+      "subtitle": "Learn how to perform prayer correctly with visual guidance",
+      "steps": [
+        {
+          "title": "Make Intention (Niyyah)",
+          "description": "Begin by making your intention to perform the prayer in your heart. The intention should be for the specific prayer you are about to perform (Fajr, Dhuhr, Asr, Maghrib, or Isha). Focus your mind and heart on worshiping Allah alone.",
+          "arabic": "نَوَيْتُ أَنْ أُصَلِّيَ",
+          "translation": "I intend to pray",
+          "image": "https://images.unsplash.com/photo-1560421683-2b17c0c13d3d?w=500&h=500&fit=crop&crop=center",
+          "type": "Intention",
+          "rakahs": "All Prayers"
+        },
+        {
+          "title": "Stand Facing Qibla (Takbir)",
+          "description": "Stand upright facing the direction of the Kaaba (Qibla). Raise your hands to your ears with palms facing forward and say 'Allahu Akbar' (God is the Greatest). This marks the beginning of your formal prayer.",
+          "arabic": "اللهُ أَكْبَرُ",
+          "translation": "Allah is the Greatest",
+          "image": "https://images.unsplash.com/photo-1541643600914-78b084683601?w=500&h=500&fit=crop&crop=center",
+          "type": "Standing",
+          "rakahs": "First Movement"
+        },
+        {
+          "title": "Recite Opening Supplication",
+          "description": "Place your right hand over your left on your chest. Recite the opening supplication (Thana), then Surah Al-Fatihah followed by another Surah from the Quran. Maintain focus and reverence throughout the recitation.",
+          "arabic": "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ",
+          "translation": "Glory and praise be to You, O Allah",
+          "image": "https://images.unsplash.com/photo-1560421683-6857d04b14d9?w=500&h=500&fit=crop&crop=center",
+          "type": "Recitation",
+          "rakahs": "First Rak'ah"
+        },
+        {
+          "title": "Bow Down (Ruku)",
+          "description": "Bow down with your back straight, placing your hands on your knees. Keep your head in line with your back and say 'Subhana Rabbiyal Adheem' (Glory to my Lord the Almighty) three times. Feel humility in this position.",
+          "arabic": "سُبْحَانَ رَبِّيَ الْعَظِيمِ",
+          "translation": "Glory to my Lord, the Almighty",
+          "image": "https://images.unsplash.com/photo-1560421683-2b17c0c13d3d?w=500&h=500&fit=crop&crop=center",
+          "type": "Bowing",
+          "rakahs": "All Rak'ahs"
+        },
+        {
+          "title": "Stand Up from Bowing",
+          "description": "Raise yourself from the bowing position while saying 'Sami Allahu liman hamidah' (Allah hears those who praise Him). Then say 'Rabbana wa lakal hamd' (Our Lord, to You is all praise) while standing upright.",
+          "arabic": "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ",
+          "translation": "Allah hears the one who praises Him",
+          "image": "https://images.unsplash.com/photo-1541643600914-78b084683601?w=500&h=500&fit=crop&crop=center",
+          "type": "Standing",
+          "rakahs": "All Rak'ahs"
+        },
+        {
+          "title": "Prostrate (Sujood)",
+          "description": "Go down into prostration with your forehead, nose, palms, knees, and toes touching the ground. Keep your elbows raised and say 'Subhana Rabbiyal A'la' (Glory to my Lord, the Most High) three times. This is the position of utmost humility.",
+          "arabic": "سُبْحَانَ رَبِّيَ الْأَعْلَى",
+          "translation": "Glory to my Lord, the Most High",
+          "image": "https://images.unsplash.com/photo-1560421683-6857d04b14d9?w=500&h=500&fit=crop&crop=center",
+          "type": "Prostration",
+          "rakahs": "All Rak'ahs"
+        },
+        {
+          "title": "Sit Between Prostrations",
+          "description": "Sit up from the prostration while saying 'Allahu Akbar'. Sit briefly in a resting position with your left foot flat and right foot upright. Say 'Rabbi ighfir li' (My Lord, forgive me) before performing the second prostration.",
+          "arabic": "رَبِّ اغْفِرْ لِي",
+          "translation": "My Lord, forgive me",
+          "image": "https://images.unsplash.com/photo-1560421683-2b17c0c13d3d?w=500&h=500&fit=crop&crop=center",
+          "type": "Sitting",
+          "rakahs": "Between Prostrations"
+        },
+        {
+          "title": "Second Prostration",
+          "description": "Perform the second prostration exactly like the first one, again saying 'Subhana Rabbiyal A'la' three times. Maintain the same posture and mindfulness as in the first prostration.",
+          "arabic": "سُبْحَانَ رَبِّيَ الْأَعْلَى",
+          "translation": "Glory to my Lord, the Most High",
+          "image": "https://images.unsplash.com/photo-1541643600914-78b084683601?w=500&h=500&fit=crop&crop=center",
+          "type": "Prostration",
+          "rakahs": "All Rak'ahs"
+        },
+        {
+          "title": "Final Tashahhud and Salam",
+          "description": "In the final sitting position, recite the Tashahhud (testimony of faith) and send blessings upon the Prophet Muhammad (peace be upon him). End the prayer by turning your head to the right and then to the left, saying 'Assalamu alaikum wa rahmatullah' (Peace and mercy of Allah be upon you).",
+          "arabic": "التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ",
+          "translation": "All greetings, prayers and good things are for Allah",
+          "image": "https://images.unsplash.com/photo-1560421683-6857d04b14d9?w=500&h=500&fit=crop&crop=center",
+          "type": "Conclusion",
+          "rakahs": "Final Sitting"
+        }
+      ]
+    },
+    "prayerTimes": {
+      "title": "Daily Prayer Times",
+      "subtitle": "Timings for the five obligatory prayers",
+      "prayers": [
+        {
+          "name": "Fajr",
+          "start": "Dawn",
+          "end": "Sunrise",
+          "rakahs": "2",
+          "icon": "fas fa-sun"
+        },
+        {
+          "name": "Dhuhr",
+          "start": "After noon",
+          "end": "Asr",
+          "rakahs": "4",
+          "icon": "fas fa-sun"
+        },
+        {
+          "name": "Asr",
+          "start": "Late afternoon",
+          "end": "Sunset",
+          "rakahs": "4",
+          "icon": "fas fa-sun"
+        },
+        {
+          "name": "Maghrib",
+          "start": "After sunset",
+          "end": "Dusk",
+          "rakahs": "3",
+          "icon": "fas fa-moon"
+        },
+        {
+          "name": "Isha",
+          "start": "Dusk",
+          "end": "Dawn",
+          "rakahs": "4",
+          "icon": "fas fa-moon"
+        }
+      ]
+    },
+    "resources": {
+      "title": "Additional Resources",
+      "subtitle": "Tools to enhance your prayer experience",
+      "items": [
+        {
+          "title": "Qibla Direction",
+          "description": "Find the accurate direction to face during prayer",
+          "icon": "fas fa-compass",
+          "buttonText": "Find Qibla"
+        },
+        {
+          "title": "Prayer Times",
+          "description": "Get precise prayer schedules for your location",
+          "icon": "fas fa-clock",
+          "buttonText": "Set Location"
+        },
+        {
+          "title": "Wudu Guide",
+          "description": "Learn the proper method of ablution",
+          "icon": "fas fa-water",
+          "buttonText": "Learn Wudu"
+        }
+      ]
+    },
+    "footer": {
+      "copyright": "© 2023 Islamic Prayer Guide",
+      "message": "May Allah accept our prayers",
+      "quote": "Indeed, prayer has been decreed upon the believers a decree of specified times.",
+      "source": "Quran 4:103"
+    }
+  }

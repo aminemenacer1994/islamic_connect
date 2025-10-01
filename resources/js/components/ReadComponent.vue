@@ -28,34 +28,22 @@
         <div class="category-pills-container mb-3">
             <div class="container">
                 <div class="pills-wrapper">
-                    <button 
-                        v-if="showLeftArrow" 
-                        @click="scrollLeft" 
-                        class="scroll-arrow scroll-arrow-left"
+                    <button v-if="showLeftArrow" @click="scrollLeft" class="scroll-arrow scroll-arrow-left"
                         aria-label="Scroll categories left">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    
-                    <div 
-                        ref="pillsContainer" 
-                        class="pills-scroll-container"
-                        @scroll="updateArrowVisibility">
+
+                    <div ref="pillsContainer" class="pills-scroll-container" @scroll="updateArrowVisibility">
                         <div class="pills-list">
-                            <button
-                                v-for="category in categories"
-                                :key="category.id"
-                                @click="selectCategory(category)"
+                            <button v-for="category in categories" :key="category.id" @click="selectCategory(category)"
                                 :class="['category-pill', { 'active': selectedCategory.id === category.id }]">
                                 <i :class="category.icon" class="me-2"></i>
                                 {{ category.name }}
                             </button>
                         </div>
                     </div>
-                    
-                    <button 
-                        v-if="showRightArrow" 
-                        @click="scrollRight" 
-                        class="scroll-arrow scroll-arrow-right"
+
+                    <button v-if="showRightArrow" @click="scrollRight" class="scroll-arrow scroll-arrow-right"
                         aria-label="Scroll categories right">
                         <i class="fas fa-chevron-right"></i>
                     </button>
@@ -85,7 +73,8 @@
                             </select>
                         </div>
                         <div class="col-md-3 col-12 mb-2">
-                            <select v-model="sortBy" class="form-select form-select-lg" aria-label="Sort blogs" @change="handleSortChange">
+                            <select v-model="sortBy" class="form-select form-select-lg" aria-label="Sort blogs"
+                                @change="handleSortChange">
                                 <option value="newest" selected>Newest</option>
                                 <option value="nameAZ">Name A-Z</option>
                                 <option value="nameZA">Name Z-A</option>
@@ -251,8 +240,8 @@ export default {
 
             // Filter by category pill selection
             if (this.selectedCategory.tag !== 'all') {
-                result = result.filter(blog => 
-                    blog.tags && blog.tags.some(tag => 
+                result = result.filter(blog =>
+                    blog.tags && blog.tags.some(tag =>
                         tag.toLowerCase().includes(this.selectedCategory.tag.toLowerCase())
                     )
                 );
@@ -296,7 +285,7 @@ export default {
         // Add all categories option at the beginning
         this.categories.unshift({ id: 0, name: 'All Categories', icon: 'fas fa-list', tag: 'all' });
         this.selectedCategory = this.categories[0];
-        
+
         // Initialize arrow visibility
         this.$nextTick(() => {
             this.updateArrowVisibility();
@@ -317,7 +306,7 @@ export default {
         updateArrowVisibility() {
             const container = this.$refs.pillsContainer;
             if (!container) return;
-            
+
             this.showLeftArrow = container.scrollLeft > 0;
             this.showRightArrow = container.scrollLeft < (container.scrollWidth - container.clientWidth);
         },
@@ -347,7 +336,7 @@ export default {
             return [...blogs].sort((a, b) => {
                 switch (this.sortBy) {
                     case 'id':
-                        return a.id - b.id; 
+                        return a.id - b.id;
                     case 'nameZA':
                         return b.title.localeCompare(a.title);
                     case 'oldest':
@@ -434,13 +423,21 @@ export default {
         toggleSummary() {
             this.showSummary = !this.showSummary;
         },
-        shareBlog(blog) {
-            const url = window.location.href + '?blog=' + blog.id;
-            navigator.clipboard.writeText(url).then(() => alert('Link copied to clipboard!'));
-        },
         shareToWhatsApp(blog) {
             const url = window.location.href + '?blog=' + blog.id;
-            window.open(`https://wa.me/?text=${encodeURIComponent(blog.title + ' ' + url)}`, '_blank');
+
+            // Take the full modal content (already loaded into your modal)
+            const cleanContent = blog.fullContent
+                ? blog.fullContent.replace(/<[^>]*>/g, '') // if you store full content separately
+                : blog.content.replace(/<[^>]*>/g, '');    // fallback to card content
+
+            // Format message
+            const message = `${blog.title}\n\n${cleanContent}\n\n`;
+
+            window.open(
+                `https://wa.me/?text=${encodeURIComponent(message)}`,
+                '_blank'
+            );
         },
         changePage(page) {
             if (page >= 1 && page <= this.totalPages) {

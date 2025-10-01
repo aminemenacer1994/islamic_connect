@@ -1,782 +1,1213 @@
 <template>
-  <div class="tasbeeh-counter" :class="themeClasses">
-    <!-- Header -->
-    <header class="app-header">
-      <h1 class="app-title">AI Tasbeeh Counter</h1>
-      <ThemeToggle v-model="theme" />
+  <div class="salat-guide-container">
+    <!-- Liquid Glass Header -->
+    <header class="liquid-header">
+      <div class="container">
+        <div class="header-content">
+          <div class="header-text">
+            <div class="app-icon">
+              <i class="fas fa-mosque"></i>
+            </div>
+            <div>
+              <h1 class="app-title">{{ data.app.title }}</h1>
+              <p class="app-subtitle">{{ data.app.subtitle }}</p>
+            </div>
+          </div>
+          <div class="prayer-indicator">
+            <div class="prayer-bubble">
+              <div class="bubble-content">
+                <span class="prayer-label">Next Prayer</span>
+                <strong class="prayer-name">{{ data.header.nextPrayer }}</strong>
+                <span class="prayer-time">{{ data.header.prayerTime }}</span>
+              </div>
+              <div class="bubble-glow"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="header-backdrop"></div>
     </header>
 
-    <!-- Main Counter -->
-    <main class="counter-main">
-      <!-- Counter Display -->
-      <div class="counter-display">
-        <div class="current-count" aria-live="polite" aria-atomic="true">
-          {{ formattedCount }}
+    <main class="container">
+      <!-- Hero Section with Glass Morphism -->
+      <section class="hero-section">
+        <div class="hero-glass">
+          <div class="hero-content">
+            <div class="islamic-ornament">
+              <i class="fas fa-star-and-crescent"></i>
+            </div>
+            <h2 class="hero-title">{{ data.introduction.title }}</h2>
+            <p class="hero-description">{{ data.introduction.content }}</p>
+            <div class="pillar-chips">
+              <span 
+                v-for="(pillar, index) in data.introduction.pillars" 
+                :key="index"
+                class="pillar-chip"
+              >
+                {{ pillar }}
+              </span>
+            </div>
+          </div>
+          <div class="glass-reflection"></div>
         </div>
-        <div class="counter-label">{{ currentDhikr?.name || 'Select Dhikr' }}</div>
-        <div class="progress-container">
-          <progress 
-            class="counter-progress" 
-            :value="progress" 
-            max="100"
-            aria-label="Progress towards target"
-          ></progress>
-          <span class="progress-text">{{ progress }}%</span>
+      </section>
+
+      <!-- Prerequisites Section -->
+      <section class="prerequisites-section">
+        <div class="section-header">
+          <h2 class="section-title">{{ data.prerequisites.title }}</h2>
+          <p class="section-subtitle">{{ data.prerequisites.subtitle }}</p>
         </div>
-      </div>
+        
+        <div class="prerequisites-grid">
+          <!-- Do's Card -->
+          <div class="glass-card positive">
+            <div class="card-glow"></div>
+            <div class="card-header">
+              <div class="status-indicator positive">
+                <i class="fas fa-check"></i>
+              </div>
+              <h3 class="card-title">Do's</h3>
+            </div>
+            <div class="card-content">
+              <div 
+                v-for="(item, index) in data.prerequisites.dos" 
+                :key="index"
+                class="checklist-item"
+              >
+                <div class="check-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="check-content">
+                  <strong>{{ item.title }}</strong>
+                  <p>{{ item.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-      <!-- Controls -->
-      <div class="counter-controls">
-        <button 
-          class="control-btn increment-btn"
-          @click="increment"
-          @keydown.space.prevent="increment"
-          @keydown.enter.prevent="increment"
-          aria-label="Increment count"
-        >
-          <span class="btn-icon">➕</span>
-          <span class="btn-text">Count</span>
-        </button>
+          <!-- Don'ts Card -->
+          <div class="glass-card negative">
+            <div class="card-glow"></div>
+            <div class="card-header">
+              <div class="status-indicator negative">
+                <i class="fas fa-times"></i>
+              </div>
+              <h3 class="card-title">Don'ts</h3>
+            </div>
+            <div class="card-content">
+              <div 
+                v-for="(item, index) in data.prerequisites.donts" 
+                :key="index"
+                class="checklist-item"
+              >
+                <div class="check-icon">
+                  <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="check-content">
+                  <strong>{{ item.title }}</strong>
+                  <p>{{ item.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <button 
-          class="control-btn reset-btn"
-          @click="resetCounter"
-          aria-label="Reset counter"
-        >
-          <span class="btn-icon">🔄</span>
-          <span class="btn-text">Reset</span>
-        </button>
+      <!-- Step-by-Step Guide -->
+      <section class="steps-section">
+        <div class="section-header text-center">
+          <h2 class="section-title">{{ data.steps.title }}</h2>
+          <p class="section-subtitle">{{ data.steps.subtitle }}</p>
+        </div>
 
-        <button 
-          class="control-btn voice-btn"
-          @click="toggleVoiceRecognition"
-          :class="{ 'listening': isListening }"
-          :disabled="!isSpeechSupported"
-          aria-label="Voice recognition"
-        >
-          <span class="btn-icon">{{ isListening ? '🎤' : '🎙️' }}</span>
-          <span class="btn-text">{{ isListening ? 'Listening...' : 'Voice' }}</span>
-        </button>
-      </div>
+        <!-- Liquid Progress Bar -->
+        <div class="liquid-progress">
+          <div class="progress-track">
+            <div 
+              class="progress-fill"
+              :style="{ width: `${(currentStep / (data.steps.steps.length - 1)) * 100}%` }"
+            ></div>
+          </div>
+          <div class="step-dots">
+            <div 
+              v-for="(step, index) in data.steps.steps" 
+              :key="index"
+              class="step-dot"
+              :class="{ 
+                'active': currentStep === index, 
+                'completed': currentStep > index 
+              }"
+              @click="setCurrentStep(index)"
+            >
+              <span class="dot-core"></span>
+              <span class="step-number">{{ index + 1 }}</span>
+            </div>
+          </div>
+        </div>
 
-      <!-- Gesture Instructions -->
-      <div class="gesture-info" v-if="isListening">
-        <p>Voice commands: "count", "reset", "next", "previous"</p>
-      </div>
+        <!-- Step Content -->
+        <div class="step-glass-card">
+          <div class="step-visual">
+            <img 
+              :src="data.steps.steps[currentStep].image" 
+              :alt="data.steps.steps[currentStep].title"
+              class="step-image"
+            />
+            <div class="step-overlay">
+              <div class="step-badge">
+                <span class="current">{{ currentStep + 1 }}</span>
+                <span class="total">/ {{ data.steps.steps.length }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="step-content">
+            <div class="step-header">
+              <h3 class="step-title">{{ data.steps.steps[currentStep].title }}</h3>
+              <div class="step-meta">
+                <span class="step-type">{{ data.steps.steps[currentStep].type }}</span>
+                <span class="step-rakahs">{{ data.steps.steps[currentStep].rakahs }}</span>
+              </div>
+            </div>
 
-      <!-- Shake Instructions -->
-      <div class="gesture-info" v-if="isShakeSupported">
-        <p>🤲 Shake device to reset counter</p>
-      </div>
+            <div class="step-description">
+              <h4 class="description-title">Description</h4>
+              <p>{{ data.steps.steps[currentStep].description }}</p>
+            </div>
+
+            <div class="step-recitation">
+              <h4 class="recitation-title">Recitation</h4>
+              <div class="arabic-glass">
+                <div class="arabic-text" dir="rtl">
+                  {{ data.steps.steps[currentStep].arabic }}
+                </div>
+                <div class="translation">
+                  <i class="fas fa-language"></i>
+                  {{ data.steps.steps[currentStep].translation }}
+                </div>
+              </div>
+            </div>
+
+            <div class="step-actions">
+              <button 
+                class="btn-glass prev"
+                @click="previousStep"
+                :disabled="currentStep === 0"
+              >
+                <i class="fas fa-arrow-left"></i>
+                Previous
+              </button>
+              <button 
+                class="btn-glass next"
+                @click="nextStep"
+                :disabled="currentStep === data.steps.steps.length - 1"
+              >
+                Next
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Prayer Times -->
+      <section class="prayer-times-section">
+        <div class="section-header">
+          <h2 class="section-title">{{ data.prayerTimes.title }}</h2>
+          <p class="section-subtitle">{{ data.prayerTimes.subtitle }}</p>
+        </div>
+
+        <div class="prayer-cards">
+          <div 
+            v-for="(prayer, index) in data.prayerTimes.prayers" 
+            :key="index"
+            class="prayer-glass-card"
+            :class="{ 'active': prayer.name === data.header.nextPrayer }"
+          >
+            <div class="prayer-icon">
+              <i :class="prayer.icon"></i>
+            </div>
+            <div class="prayer-info">
+              <h4 class="prayer-name">{{ prayer.name }}</h4>
+              <div class="prayer-time-range">
+                <span class="start">{{ prayer.start }}</span>
+                <span class="separator">-</span>
+                <span class="end">{{ prayer.end }}</span>
+              </div>
+              <div class="prayer-rakahs">
+                {{ prayer.rakahs }} Rak'ahs
+              </div>
+            </div>
+            <div class="prayer-glow"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resources -->
+      <section class="resources-section">
+        <div class="section-header">
+          <h2 class="section-title">{{ data.resources.title }}</h2>
+          <p class="section-subtitle">{{ data.resources.subtitle }}</p>
+        </div>
+
+        <div class="resources-grid">
+          <div 
+            v-for="(resource, index) in data.resources.items" 
+            :key="index"
+            class="resource-glass-card"
+          >
+            <div class="resource-icon">
+              <i :class="resource.icon"></i>
+            </div>
+            <div class="resource-content">
+              <h4>{{ resource.title }}</h4>
+              <p>{{ resource.description }}</p>
+              <button class="btn-resource">
+                {{ resource.buttonText }}
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+            <div class="resource-glow"></div>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <!-- Dhikr Selection -->
-    <section class="dhikr-selection">
-      <h2 class="section-title">Select Dhikr</h2>
-      <div class="dhikr-grid">
-        <button
-          v-for="dhikr in availableDhikr"
-          :key="dhikr.id"
-          class="dhikr-card"
-          :class="{ 'active': currentDhikr?.id === dhikr.id }"
-          @click="selectDhikr(dhikr)"
-          aria-pressed="currentDhikr?.id === dhikr.id"
-        >
-          <div class="dhikr-name">{{ dhikr.name }}</div>
-          <div class="dhikr-target">Target: {{ dhikr.target }}</div>
-        </button>
-      </div>
-    </section>
-
-    <!-- Statistics -->
-    <section class="statistics">
-      <h2 class="section-title">Statistics</h2>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value">{{ todayCount }}</div>
-          <div class="stat-label">Today</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">{{ weeklyCount }}</div>
-          <div class="stat-label">This Week</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">{{ totalCount }}</div>
-          <div class="stat-label">Total</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">{{ streakCount }}</div>
-          <div class="stat-label">Day Streak</div>
+    <!-- Footer -->
+    <footer class="liquid-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <div class="brand-icon">
+              <i class="fas fa-mosque"></i>
+            </div>
+            <div>
+              <p class="copyright">{{ data.footer.copyright }}</p>
+              <small class="footer-message">{{ data.footer.message }}</small>
+            </div>
+          </div>
+          <div class="footer-quote">
+            <p class="quote-text">"{{ data.footer.quote }}"</p>
+            <small class="quote-source">{{ data.footer.source }}</small>
+          </div>
         </div>
       </div>
-    </section>
-
-    <!-- Settings -->
-    <SettingsPanel 
-      v-model:theme="theme"
-      v-model:vibration="vibration"
-      v-model:sound="sound"
-      v-model:autoReset="autoReset"
-      @reset-stats="resetStatistics"
-    />
-
-    <!-- Notifications -->
-    <TransitionGroup name="notification">
-      <div 
-        v-for="notification in notifications"
-        :key="notification.id"
-        class="notification"
-        :class="notification.type"
-        role="alert"
-      >
-        {{ notification.message }}
-      </div>
-    </TransitionGroup>
+    </footer>
   </div>
 </template>
 
-<script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+<script>
+// Import the JSON data
+import appData from '../components/prayers.json';
 
-// Custom composables to replace external dependencies
-function useLocalStorage(key, defaultValue) {
-  const stored = localStorage.getItem(key)
-  const value = ref(stored ? JSON.parse(stored) : defaultValue)
-  
-  const updateStorage = (newValue) => {
-    localStorage.setItem(key, JSON.stringify(newValue))
-  }
-  
-  watch(value, (newValue) => {
-    updateStorage(newValue)
-  })
-  
-  return value
-}
-
-function useVibrate() {
-  const vibrate = (pattern) => {
-    if ('vibrate' in navigator) {
-      navigator.vibrate(pattern)
+export default {
+  name: 'SalatGuide',
+  data() {
+    return {
+      data: appData,
+      currentStep: 0
     }
-  }
-  
-  return { vibrate }
-}
-
-function useSpeechRecognition() {
-  const isListening = ref(false)
-  const result = ref('')
-  const error = ref('')
-  const isSupported = ref(false)
-  
-  let recognition = null
-
-  // Check if speech recognition is supported
-  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-    isSupported.value = true
-    recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
-    
-    recognition.continuous = true
-    recognition.interimResults = false
-    recognition.lang = 'en-US'
-
-    recognition.onresult = (event) => {
-      const transcript = Array.from(event.results)
-        .map(result => result[0].transcript)
-        .join('')
-      result.value = transcript
-    }
-
-    recognition.onerror = (event) => {
-      error.value = event.error
-      isListening.value = false
-    }
-
-    recognition.onend = () => {
-      isListening.value = false
-    }
-  }
-
-  const start = () => {
-    if (recognition && !isListening.value) {
-      try {
-        recognition.start()
-        isListening.value = true
-      } catch (err) {
-        console.error('Speech recognition error:', err)
+  },
+  methods: {
+    nextStep() {
+      if (this.currentStep < this.data.steps.steps.length - 1) {
+        this.currentStep++;
       }
-    }
-  }
-
-  const stop = () => {
-    if (recognition && isListening.value) {
-      recognition.stop()
-      isListening.value = false
-    }
-  }
-
-  return {
-    isListening,
-    result,
-    error,
-    isSupported,
-    start,
-    stop
-  }
-}
-
-function useShakeDetection(onShake) {
-  const isSupported = ref('DeviceOrientationEvent' in window)
-  let lastShakeTime = 0
-  
-  const handleDeviceMotion = (event) => {
-    const acceleration = event.accelerationIncludingGravity
-    if (!acceleration) return
-    
-    const totalAcceleration = Math.sqrt(
-      acceleration.x * acceleration.x +
-      acceleration.y * acceleration.y +
-      acceleration.z * acceleration.z
-    )
-    
-    const currentTime = Date.now()
-    
-    // Detect shake (high acceleration)
-    if (totalAcceleration > 15 && currentTime - lastShakeTime > 1000) {
-      lastShakeTime = currentTime
-      onShake()
-    }
-  }
-  
-  onMounted(() => {
-    if (isSupported.value) {
-      window.addEventListener('devicemotion', handleDeviceMotion)
-    }
-  })
-  
-  onUnmounted(() => {
-    if (isSupported.value) {
-      window.removeEventListener('devicemotion', handleDeviceMotion)
-    }
-  })
-  
-  return { isSupported }
-}
-
-// Reactive state
-const count = useLocalStorage('tasbeeh-count', 0)
-const currentDhikr = useLocalStorage('tasbeeh-current-dhikr', null)
-const theme = useLocalStorage('tasbeeh-theme', 'light')
-const vibration = useLocalStorage('tasbeeh-vibration', true)
-const sound = useLocalStorage('tasbeeh-sound', true)
-const autoReset = useLocalStorage('tasbeeh-auto-reset', false)
-
-// Statistics
-const todayCount = useLocalStorage('tasbeeh-today', 0)
-const weeklyCount = useLocalStorage('tasbeeh-weekly', 0)
-const totalCount = useLocalStorage('tasbeeh-total', 0)
-const streakCount = useLocalStorage('tasbeeh-streak', 0)
-const lastActivityDate = useLocalStorage('tasbeeh-last-activity', new Date().toDateString())
-
-// Notifications
-const notifications = ref([])
-
-// Available dhikr types
-const availableDhikr = [
-  { id: 'subhanallah', name: 'Subhanallah', target: 33 },
-  { id: 'alhamdulillah', name: 'Alhamdulillah', target: 33 },
-  { id: 'allahuakbar', name: 'Allahu Akbar', target: 34 },
-  { id: 'astaghfirullah', name: 'Astaghfirullah', target: 100 },
-  { id: 'laillahaillallah', name: 'La ilaha illallah', target: 100 },
-  { id: 'salawat', name: 'Salawat', target: 100 }
-]
-
-// AI Features
-const speechRecognition = useSpeechRecognition()
-const isListening = ref(false)
-const isSpeechSupported = speechRecognition.isSupported
-
-// Shake detection
-const handleShake = () => {
-  resetCounter()
-  showNotification('Shake detected - Counter reset!', 'info')
-}
-
-const { isSupported: isShakeSupported } = useShakeDetection(handleShake)
-
-// Computed properties
-const formattedCount = computed(() => count.value.toString().padStart(3, '0'))
-const progress = computed(() => {
-  if (!currentDhikr.value) return 0
-  return Math.min(Math.round((count.value / currentDhikr.value.target) * 100), 100)
-})
-
-const themeClasses = computed(() => ({
-  'theme-light': theme.value === 'light',
-  'theme-dark': theme.value === 'dark',
-  'theme-sepia': theme.value === 'sepia'
-}))
-
-// Vibration
-const { vibrate } = useVibrate()
-
-// Methods
-const increment = () => {
-  count.value++
-  updateStatistics()
-  
-  // Haptic feedback
-  if (vibration.value) {
-    vibrate([50])
-  }
-  
-  // Sound feedback
-  if (sound.value) {
-    playClickSound()
-  }
-  
-  // Check if target reached
-  if (currentDhikr.value && count.value >= currentDhikr.value.target) {
-    showNotification('Target reached! Masha Allah!', 'success')
-    if (autoReset.value) {
-      setTimeout(resetCounter, 1000)
+    },
+    previousStep() {
+      if (this.currentStep > 0) {
+        this.currentStep--;
+      }
+    },
+    setCurrentStep(step) {
+      this.currentStep = step;
     }
   }
 }
-
-const resetCounter = () => {
-  count.value = 0
-  showNotification('Counter reset', 'info')
-}
-
-const selectDhikr = (dhikr) => {
-  currentDhikr.value = dhikr
-  resetCounter()
-  showNotification(`Selected: ${dhikr.name}`, 'info')
-}
-
-const toggleVoiceRecognition = () => {
-  if (!isSpeechSupported) {
-    showNotification('Speech recognition not supported in your browser', 'error')
-    return
-  }
-  
-  if (isListening.value) {
-    speechRecognition.stop()
-    isListening.value = false
-  } else {
-    speechRecognition.start()
-    isListening.value = true
-  }
-}
-
-const playClickSound = () => {
-  // Simple beep sound using Web Audio API
-  try {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)()
-    const oscillator = audioContext.createOscillator()
-    const gainNode = audioContext.createGain()
-    
-    oscillator.connect(gainNode)
-    gainNode.connect(audioContext.destination)
-    
-    oscillator.frequency.value = 800
-    oscillator.type = 'sine'
-    
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime)
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1)
-    
-    oscillator.start(audioContext.currentTime)
-    oscillator.stop(audioContext.currentTime + 0.1)
-  } catch (error) {
-    console.log('Audio not supported:', error)
-  }
-}
-
-const showNotification = (message, type = 'info') => {
-  const id = Date.now()
-  notifications.value.push({ id, message, type })
-  setTimeout(() => {
-    notifications.value = notifications.value.filter(n => n.id !== id)
-  }, 3000)
-}
-
-const updateStatistics = () => {
-  const today = new Date().toDateString()
-  const lastDate = new Date(lastActivityDate.value)
-  const currentDate = new Date()
-  
-  // Reset daily count if new day
-  if (today !== lastActivityDate.value) {
-    todayCount.value = 0
-    
-    // Update streak
-    const dayDiff = Math.floor((currentDate - lastDate) / (1000 * 60 * 60 * 24))
-    if (dayDiff === 1) {
-      streakCount.value++
-    } else if (dayDiff > 1) {
-      streakCount.value = 1 // Reset streak if missed days
-    }
-    
-    lastActivityDate.value = today
-  }
-  
-  todayCount.value++
-  weeklyCount.value++
-  totalCount.value++
-}
-
-const resetStatistics = () => {
-  todayCount.value = 0
-  weeklyCount.value = 0
-  totalCount.value = 0
-  streakCount.value = 0
-  showNotification('Statistics reset', 'info')
-}
-
-// Voice command processing
-watch(speechRecognition.result, (newResult) => {
-  if (!newResult) return
-  
-  const command = newResult.toLowerCase()
-  
-  if (command.includes('count') || command.includes('add') || command.includes('increment')) {
-    increment()
-  } else if (command.includes('reset') || command.includes('clear')) {
-    resetCounter()
-  } else if (command.includes('next')) {
-    const currentIndex = availableDhikr.findIndex(d => d.id === currentDhikr.value?.id)
-    const nextIndex = (currentIndex + 1) % availableDhikr.length
-    selectDhikr(availableDhikr[nextIndex])
-  } else if (command.includes('previous') || command.includes('prev') || command.includes('back')) {
-    const currentIndex = availableDhikr.findIndex(d => d.id === currentDhikr.value?.id)
-    const prevIndex = (currentIndex - 1 + availableDhikr.length) % availableDhikr.length
-    selectDhikr(availableDhikr[prevIndex])
-  }
-})
-
-// Keyboard shortcuts
-const handleKeyPress = (event) => {
-  if (event.code === 'Space' || event.code === 'Enter') {
-    event.preventDefault()
-    increment()
-  } else if (event.code === 'Escape') {
-    resetCounter()
-  } else if (event.code === 'ArrowRight') {
-    const currentIndex = availableDhikr.findIndex(d => d.id === currentDhikr.value?.id)
-    const nextIndex = (currentIndex + 1) % availableDhikr.length
-    selectDhikr(availableDhikr[nextIndex])
-  } else if (event.code === 'ArrowLeft') {
-    const currentIndex = availableDhikr.findIndex(d => d.id === currentDhikr.value?.id)
-    const prevIndex = (currentIndex - 1 + availableDhikr.length) % availableDhikr.length
-    selectDhikr(availableDhikr[prevIndex])
-  }
-}
-
-// Lifecycle
-onMounted(() => {
-  document.addEventListener('keydown', handleKeyPress)
-  // Initialize with first dhikr
-  if (!currentDhikr.value) {
-    selectDhikr(availableDhikr[0])
-  }
-  
-  // Update streak on app start
-  updateStatistics()
-})
-
-onUnmounted(() => {
-  document.removeEventListener('keydown', handleKeyPress)
-  if (isListening.value) {
-    speechRecognition.stop()
-  }
-})
 </script>
 
 <style scoped>
-/* Add the same CSS styles as previous implementation */
-.tasbeeh-counter {
+/* CSS Variables for Design System */
+:root {
+  --primary-green: #00bfa6;
+  --primary-dark: #008e7a;
+  --primary-light: #33ccb8;
+  --primary-lighter: #e6f7f5;
+  --glass-bg: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --text-dark: #1a202c;
+  --text-light: #718096;
+  --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Base Styles */
+.salat-guide-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  color: var(--text-dark);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   min-height: 100vh;
-  padding: 1rem;
-  transition: all 0.3s ease;
+  backdrop-filter: blur(20px);
 }
 
-/* Theme Styles */
-.theme-light {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #333;
+/* Liquid Glass Header */
+.liquid-header {
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 2rem 0;
 }
 
-.theme-dark {
-  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-  color: #fff;
-}
-
-.theme-sepia {
-  background: linear-gradient(135deg, #e6dcb5 0%, #d2b48c 100%);
-  color: #5c4b37;
-}
-
-.app-header {
+.header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+}
+
+.header-text {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app-icon {
+  width: 50px;
+  height: 50px;
+  background: var(--primary-green);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
 }
 
 .app-title {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
+  margin: 0;
+  background: linear-gradient(135deg, var(--text-dark), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.counter-main {
-  text-align: center;
-  margin-bottom: 3rem;
+.app-subtitle {
+  color: var(--text-light);
+  margin: 0;
 }
 
-.counter-display {
-  margin-bottom: 2rem;
-}
-
-.current-count {
-  font-size: 6rem;
-  font-weight: 900;
-  margin-bottom: 0.5rem;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
-.counter-label {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  opacity: 0.9;
-}
-
-.progress-container {
+.prayer-bubble {
   position: relative;
-  max-width: 300px;
-  margin: 0 auto;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 1rem 1.5rem;
+  box-shadow: var(--glass-shadow);
 }
 
-.counter-progress {
-  width: 100%;
-  height: 20px;
-  border-radius: 10px;
+.bubble-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.prayer-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-bottom: 0.25rem;
+}
+
+.prayer-name {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.prayer-time {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+.bubble-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary-green), transparent);
+  border-radius: 20px;
+  opacity: 0.1;
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { opacity: 0.1; }
+  to { opacity: 0.2; }
+}
+
+/* Hero Section */
+.hero-section {
+  margin: 3rem 0;
+}
+
+.hero-glass {
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: var(--glass-shadow);
   overflow: hidden;
 }
 
-.progress-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 0.8rem;
-  font-weight: bold;
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
 }
 
-.counter-controls {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
+.islamic-ornament {
+  font-size: 3rem;
+  color: var(--primary-green);
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--text-dark), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-description {
+  font-size: 1.125rem;
+  color: var(--text-light);
+  line-height: 1.6;
   margin-bottom: 2rem;
 }
 
-.control-btn {
-  padding: 1rem 1.5rem;
-  border: none;
-  border-radius: 50px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.pillar-chips {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 120px;
   justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-.control-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.pillar-chip {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-dark);
 }
 
-.control-btn:focus {
-  outline: 3px solid currentColor;
-  outline-offset: 2px;
+.glass-reflection {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  animation: reflection 6s ease-in-out infinite;
 }
 
-.control-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+@keyframes reflection {
+  0%, 100% { transform: rotate(45deg) translateX(-100%); }
+  50% { transform: rotate(45deg) translateX(100%); }
 }
 
-.increment-btn {
-  background: linear-gradient(135deg, #4CAF50, #45a049);
-  color: white;
-}
-
-.reset-btn {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-  color: white;
-}
-
-.voice-btn {
-  background: linear-gradient(135deg, #48cae4, #0096c7);
-  color: white;
-}
-
-.voice-btn.listening {
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-.dhikr-selection,
-.statistics {
+/* Section Headers */
+.section-header {
   margin-bottom: 2rem;
 }
 
 .section-title {
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--text-dark), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.dhikr-grid,
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+.section-subtitle {
+  color: var(--text-light);
+  font-size: 1.125rem;
+}
+
+/* Glass Cards */
+.glass-card {
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--glass-shadow);
+  overflow: hidden;
+}
+
+.card-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary-green), transparent);
+  opacity: 0.05;
+  border-radius: 20px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.dhikr-card,
-.stat-card {
-  padding: 1rem;
+.status-indicator {
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1rem;
+}
+
+.status-indicator.positive {
+  background: var(--primary-green);
+}
+
+.status-indicator.negative {
+  background: #f56565;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.checklist-item:last-child {
+  border-bottom: none;
+}
+
+.check-icon {
+  margin-top: 0.25rem;
+  flex-shrink: 0;
+}
+
+.check-icon i {
+  font-size: 1.25rem;
+}
+
+.glass-card.positive .check-icon i {
+  color: var(--primary-green);
+}
+
+.glass-card.negative .check-icon i {
+  color: #f56565;
+}
+
+.check-content strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--text-dark);
+}
+
+.check-content p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+/* Prerequisites Grid */
+.prerequisites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* Liquid Progress */
+.liquid-progress {
+  position: relative;
+  margin: 3rem 0;
+}
+
+.progress-track {
+  height: 6px;
+  background: var(--glass-bg);
+  border-radius: 3px;
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-green), var(--primary-light));
+  border-radius: 3px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.step-dots {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+}
+
+.step-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  border: 2px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
-.dhikr-card {
-  background: rgba(255,255,255,0.1);
+.step-dot.active {
+  background: var(--primary-green);
+  border-color: var(--primary-green);
+  transform: scale(1.2);
+}
+
+.step-dot.completed {
+  background: var(--primary-green);
+  border-color: var(--primary-green);
+}
+
+.step-dot.completed::after {
+  content: '✓';
+  color: white;
+  font-weight: bold;
+  font-size: 0.75rem;
+}
+
+.dot-core {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--primary-green);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.step-dot.active .dot-core {
+  opacity: 1;
+}
+
+.step-number {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.step-dot.active .step-number,
+.step-dot.completed .step-number {
+  color: white;
+}
+
+/* Step Glass Card */
+.step-glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--glass-shadow);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 500px;
+}
+
+.step-visual {
+  position: relative;
+  background: var(--bg-gradient);
+}
+
+.step-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.step-overlay {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.step-badge {
+  background: var(--glass-bg);
   backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 15px;
+  padding: 0.5rem 1rem;
+  color: white;
+  font-weight: 600;
 }
 
-.dhikr-card:hover,
-.dhikr-card.active {
-  border-color: currentColor;
+.current {
+  font-size: 1.125rem;
+}
+
+.total {
+  opacity: 0.7;
+}
+
+.step-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.step-header {
+  margin-bottom: 2rem;
+}
+
+.step-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--text-dark), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.step-meta {
+  display: flex;
+  gap: 1rem;
+}
+
+.step-type,
+.step-rakahs {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 15px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.step-description,
+.step-recitation {
+  margin-bottom: 2rem;
+}
+
+.description-title,
+.recitation-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--text-dark);
+}
+
+.arabic-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 15px;
+  padding: 1.5rem;
+}
+
+.arabic-text {
+  font-family: 'Traditional Arabic', 'Times New Roman', serif;
+  font-size: 1.5rem;
+  line-height: 2;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+}
+
+.translation {
+  text-align: center;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+.step-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-glass {
+  flex: 1;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-glass:hover:not(:disabled) {
+  background: var(--primary-green);
+  color: white;
   transform: translateY(-2px);
 }
 
-.dhikr-card.active {
-  background: rgba(255,255,255,0.2);
+.btn-glass:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
 }
 
-.stat-card {
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(10px);
+.btn-glass.next {
+  background: var(--primary-green);
+  color: white;
 }
 
-.stat-value {
-  font-size: 2rem;
-  font-weight: bold;
+.btn-glass.next:hover:not(:disabled) {
+  background: var(--primary-dark);
+}
+
+/* Prayer Cards */
+.prayer-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.prayer-glass-card {
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.prayer-glass-card.active {
+  border-color: var(--primary-green);
+  transform: translateY(-4px);
+}
+
+.prayer-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary-green), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 20px;
+}
+
+.prayer-glass-card.active .prayer-glow {
+  opacity: 0.1;
+}
+
+.prayer-icon {
+  width: 50px;
+  height: 50px;
+  background: var(--glass-bg);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-green);
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.prayer-name {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+}
+
+.prayer-time-range {
+  font-size: 0.875rem;
+  color: var(--text-light);
   margin-bottom: 0.5rem;
 }
 
-.stat-label {
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-.gesture-info {
-  background: rgba(255,255,255,0.1);
-  padding: 1rem;
-  border-radius: 8px;
-  margin-top: 1rem;
-  backdrop-filter: blur(10px);
-}
-
-.notification {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
+.prayer-rakahs {
+  background: var(--primary-green);
   color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.75rem;
   font-weight: 600;
-  z-index: 1000;
-  max-width: 300px;
+  display: inline-block;
 }
 
-.notification.success {
-  background: #4CAF50;
+/* Resources Grid */
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
-.notification.info {
-  background: #2196F3;
+.resource-glass-card {
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  text-align: center;
 }
 
-.notification.error {
-  background: #f44336;
+.resource-glass-card:hover {
+  transform: translateY(-4px);
 }
 
-.notification-enter-active,
-.notification-leave-active {
-  transition: all 0.5s ease;
-}
-
-.notification-enter-from {
+.resource-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary-green), transparent);
   opacity: 0;
-  transform: translateX(100px);
+  transition: opacity 0.3s ease;
+  border-radius: 20px;
 }
 
-.notification-leave-to {
-  opacity: 0;
-  transform: translateX(100px);
+.resource-glass-card:hover .resource-glow {
+  opacity: 0.1;
+}
+
+.resource-icon {
+  width: 70px;
+  height: 70px;
+  background: var(--glass-bg);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: var(--primary-green);
+  font-size: 1.75rem;
+}
+
+.resource-content h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+}
+
+.resource-content p {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.btn-resource {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-resource:hover {
+  background: var(--primary-green);
+  color: white;
+}
+
+/* Footer */
+.liquid-footer {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--glass-border);
+  margin-top: 4rem;
+  padding: 2rem 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-green);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.copyright {
+  margin: 0;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.footer-message {
+  color: var(--text-light);
+}
+
+.footer-quote {
+  text-align: right;
+}
+
+.quote-text {
+  margin: 0 0 0.25rem 0;
+  font-style: italic;
+  color: var(--text-dark);
+}
+
+.quote-source {
+  color: var(--text-light);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .counter-controls {
+  .header-content {
     flex-direction: column;
-    align-items: center;
+    gap: 1rem;
+    text-align: center;
   }
-  
-  .control-btn {
-    width: 200px;
+
+  .header-text {
+    flex-direction: column;
   }
-  
-  .current-count {
-    font-size: 4rem;
+
+  .step-glass-card {
+    grid-template-columns: 1fr;
   }
-  
-  .dhikr-grid,
-  .stats-grid {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+
+  .step-visual {
+    height: 250px;
+  }
+
+  .prerequisites-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .prayer-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .resources-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .footer-quote {
+    text-align: center;
   }
 }
 
-/* High contrast support */
-@media (prefers-contrast: high) {
-  .control-btn {
-    border: 2px solid currentColor;
-  }
-}
-
-/* Reduced motion support */
+/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus styles */
+.btn-glass:focus,
+.step-dot:focus,
+.btn-resource:focus {
+  outline: 2px solid var(--primary-green);
+  outline-offset: 2px;
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(0, 0, 0, 0.3);
+    --text-dark: #000000;
+    --text-light: #333333;
   }
 }
 </style>

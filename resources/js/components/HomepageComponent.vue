@@ -170,7 +170,7 @@
               <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src="/images/companion2.png" class="d-block w-100" alt="Quran companion">
+                    <img src="/images/qe.png" class="d-block w-100" alt="Quran companion">
                   </div>
                   <div class="carousel-item">
                     <img src="/images/surat2.png" class="d-block w-100" alt="Quran explorer">
@@ -870,7 +870,7 @@
         ">
               <div class="d-flex align-items-center" style="gap: 0.5rem;">
                 <i class="fas fa-shield-alt text-white" style="font-size: 1.1rem;"></i>
-                <small class="text-white fw-bold">100% Free • Easy Unsubscribe</small>
+                <small class="text-white fw-bold">100% Free • Easy Subscribe</small>
               </div>
             </div>
           </div>
@@ -1255,7 +1255,7 @@
   }
 
   p.fs-6 {
-    font-size: 0.95rem;
+    font-size: 1.3rem;
   }
 }
 

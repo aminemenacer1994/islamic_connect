@@ -143,12 +143,12 @@
                   <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-list-ul"></i>
                   <small style="font-size: 0.8rem;">Playlists</small>
                 </a>
-                <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank" rel="noopener noreferrer"
+                <!-- <a v-if="channel.playlistUrl" :href="channel.playlistUrl || '#'" target="_blank" rel="noopener noreferrer"
                   style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
                   title="Playlists" aria-label="View Playlists" @click="debugLink(channel.playlistUrl, 'Playlists')">
                   <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-inbox"></i>
                   <small style="font-size: 0.8rem;">Posts</small>
-                </a>
+                </a> -->
                 <a v-if="channel.websiteUrl" :href="channel.websiteUrl || '#'" target="_blank" rel="noopener noreferrer"
                   style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
                   title="Website" aria-label="Visit Website" @click="debugLink(channel.websiteUrl, 'Website')">
