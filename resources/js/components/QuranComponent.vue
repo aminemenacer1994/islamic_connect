@@ -41,7 +41,7 @@
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
                     <h5 class="fw-bold text-left mb-2" v-if="information != null">Select a Verse:</h5>
-                    <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
+                    <!-- <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
                         @submit.prevent="scrollToAyah">
                         <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
                             type="number" placeholder="Enter Verse Number" v-model="verseNumber" required />
@@ -49,7 +49,7 @@
                             type="submit">
                             Search
                         </button>
-                    </form>
+                    </form> -->
                     <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"
@@ -288,9 +288,9 @@
                                                     @click="goToFirstAyah()" title="Last verse"></i>
                                                 <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
                                                     @click="goToPreviousAyah()" title="Previous verse"></i>
-                                                <i @click="submitForm" class="bi bi-bookmark mb-2 h4"
+                                                <!-- <i @click="submitForm" class="bi bi-bookmark mb-2 h4"
                                                     aria-expanded="false" data-bs-placement="top"
-                                                    title="Bookmark verse"></i>
+                                                    title="Bookmark verse"></i> -->
                                                 <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
                                                     @click="goToNextAyah()" title="Next verse"></i>
                                                 <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
@@ -447,9 +447,9 @@
                                                         @click="goToFirstAyah()" title="Last verse"></i>
                                                     <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
                                                         @click="goToPreviousAyah()" title="Previous verse"></i>
-                                                    <i @click="submitFormTafseer" class="bi bi-bookmark mb-2 h4"
+                                                    <!-- <i @click="submitFormTafseer" class="bi bi-bookmark mb-2 h4"
                                                         aria-expanded="false" data-bs-placement="top"
-                                                        title="Bookmark verse"></i>
+                                                        title="Bookmark verse"></i> -->
                                                     <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
                                                         @click="goToNextAyah()" title="Next verse"></i>
                                                     <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
@@ -614,9 +614,9 @@
                                                             @click="goToFirstAyah()" title="Last verse"></i>
                                                         <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
                                                             @click="goToPreviousAyah()" title="Previous verse"></i>
-                                                        <i @click="submitFormTransliteration"
+                                                        <!-- <i @click="submitFormTransliteration"
                                                             class="bi bi-bookmark mb-2 h4" aria-expanded="false"
-                                                            data-bs-placement="top" title="Bookmark verse"></i>
+                                                            data-bs-placement="top" title="Bookmark verse"></i> -->
                                                         <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
                                                             @click="goToNextAyah()" title="Next verse"></i>
                                                         <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
@@ -738,8 +738,6 @@ import AyahOfTheDay from './translation/AyahOfTheDay.vue';
 import PrayerTimes from "./translation/PrayerTimes.vue";
 import HelpGuideModal from "./translation/HelpGuideModal.vue";
 
-import { checkSubscriptionStatus, redirectToSubscription } from '../../../utils/subscriptionUtils.js';
-
 
 
 export default {
@@ -797,35 +795,14 @@ export default {
     },
 
     mounted() {
-        setTimeout(() => {
-            const { success, subscriptionType } = checkSubscriptionStatus();
-            if (success) {
-                this.isVisible = true; // Show premium features
-                if (subscriptionType) {
-                    this.showSuccessMessage = true; // Show success message
-                    setTimeout(() => {
-                        this.showSuccessMessage = false;
-                    }, 3000);
-                }
-            }
-        }, 500);
+        
         const savedState = localStorage.getItem("toggleState");
         if (savedState !== null) {
             this.isVisible = JSON.parse(savedState);
         }
         this.fetchAyat();
-        const themesFromStorage = localStorage.getItem("savedThemes");
-        if (themesFromStorage) {
-            this.savedThemes = JSON.parse(themesFromStorage);
-        }
-        this.loadSavedStyles();
-        this.applyStylesToCards(); // Ensure styles are applied to cards initially
+       
         this.getSurat(); // Call getSurat to populate the surah list
-        if (this.defaultStyles.length > 0) {
-            this.selectedStyle = this.defaultStyles[0];
-            this.applyStyle();
-        }
-        this.loadBackgroundColor();
         this.prepareAyahText();
 
     },
@@ -974,12 +951,7 @@ export default {
         
     },
     methods: {
-        redirectToMonthlySubscription() {
-            redirectToSubscription('monthly');
-        },
-        redirectToYearlySubscription() {
-            redirectToSubscription('yearly');
-        },
+        
         handleDarkModeChange(isDarkMode) {
             this.isDarkMode = isDarkMode;
         },
@@ -1435,16 +1407,6 @@ export default {
         cancelHold() {
             this.touchStartTime = 0; // Reset hold detection
         },
-        onSwipeLeft() {
-            this.goToPreviousAyah();
-            this.clearHighlight();
-            console.log("Swiped left");
-        },
-        onSwipeRight() {
-            this.goToNextAyah();
-            this.clearHighlight();
-            console.log("Swiped right");
-        },
         goToFirstAyah() {
             this.selectAyah(0);
         },
@@ -1469,17 +1431,7 @@ export default {
             this.selectAyah(this.ayat.length - 1);
         },
 
-        detectSwipe() {
-            const swipeDistance = this.touchStartX - this.touchEndX;
-            console.log("Swipe distance:", swipeDistance);
-            if (swipeDistance > 50) {
-                console.log("Swipe left detected");
-                alert("Swipe left detected");
-            } else if (swipeDistance < -50) {
-                console.log("Swipe right detected");
-                alert("Swipe right detected");
-            }
-        },
+        
         handleNoteClick() {
             if (this.isLoggedIn) {
                 this.showAlertTextNote = false;

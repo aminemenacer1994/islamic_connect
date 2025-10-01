@@ -514,10 +514,10 @@
                 <div class="summary-header">
                   <h6>Ready to Contribute</h6>
                 </div>
-                <div class="summary-item">
+                <!-- <div class="summary-item">
                   <span>Amount:</span>
                   <strong>£{{ finalAmount }}</strong>
-                </div>
+                </div> -->
                 <div class="summary-item">
                   <span>Your Impact:</span>
                   <strong>{{ impactMessage }}</strong>

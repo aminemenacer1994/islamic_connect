@@ -115,10 +115,10 @@
                 <div class="summary-header">
                   <h6>Ready to Contribute</h6>
                 </div>
-                <div class="summary-item">
+                <!-- <div class="summary-item">
                   <span>Amount:</span>
                   <strong>£{{ finalAmount }}</strong>
-                </div>
+                </div> -->
                 <div class="summary-item">
                   <span>Your Impact:</span>
                   <strong>{{ impactMessage }}</strong>
@@ -145,21 +145,6 @@
       </div>
     </section>
 
-    <!-- Testimonial -->
-    <section class="testimonial-section">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-8">
-            <div class="testimonial-card">
-              <blockquote>
-                <p>"Islamic Connect represents the future of Islamic education technology. Their commitment to accessibility sets a new standard for digital religious platforms."</p>
-                <footer>Technology Advisor, Islamic Education Sector</footer>
-              </blockquote>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 
