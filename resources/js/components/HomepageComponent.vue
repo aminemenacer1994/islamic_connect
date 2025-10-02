@@ -170,7 +170,7 @@
               <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src="/images/qe.png" class="d-block w-100" alt="Quran companion">
+                    <img src="/images/qenew.png" class="d-block w-100" alt="Quran companion">
                   </div>
                   <div class="carousel-item">
                     <img src="/images/surat2.png" class="d-block w-100" alt="Quran explorer">

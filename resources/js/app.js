@@ -65,7 +65,6 @@ import GuideComponent from "./components/GuideComponent.vue";
 import StreamingComponent from "./components/StreamingComponent.vue";
 import ToolkitComponent from "./components/ToolkitComponent.vue";
 import VideoComponent from "./components/VideoComponent.vue";
-import BlogComponent from "./components/ZakatComponent.vue";
 import QiblaComponent from "./components/QiblaComponent.vue";
 import MosqueComponent from "./components/MosqueComponent.vue";
 import CalendarComponent from "./components/CalendarComponent.vue";
