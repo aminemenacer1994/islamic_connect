@@ -96,38 +96,47 @@
         <h2 class="section-title">Your Favorites</h2>
         <p class="section-subtitle">Quick access to episodes you loved</p>
       </div>
-      <div class="podcast-cards-grid border-md" style="padding: 5px;">
-        <div v-for="fav in favourites" :key="fav.title + fav.audioUrl" class="podcast-card-wrapper">
-          <div :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(fav) }]" style="padding: 1.2rem;">
-            <div class="card-body">
-              <div class="podcast-card-top">
-                <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
-                <div class="podcast-card-info">
-                  <h4 class="podcast-title">{{ fav.title }}</h4>
-                  <div class="podcast-extra-info">
-                    <span class="lang-badge" :title="'Published'">
-                      <i class="bi bi-calendar3" style="font-size:1.1rem;"></i>
-                      {{ formatDate(fav.pubDate) }}
-                    </span>
-                    <span v-if="fav.likedAt" class="lang-badge" :title="'Liked on'" style="margin-left:8px;">
-                      <i class="bi bi-heart-fill" style="font-size:1.1rem;"></i>
-                      {{ new Date(fav.likedAt).toLocaleString() }}
-                    </span>
-                  </div>
+      <div>
+    <button 
+      class="toggle-button" 
+      @click="toggleVisibility" 
+      style="margin-bottom: 10px; padding: 8px 16px; cursor: pointer;"
+    >
+      {{ isVisible ? 'Hide Favourites' : 'Show Favourites' }}
+    </button>
+    <div v-if="isVisible" class="podcast-cards-grid border-md" style="padding: 5px;">
+      <div v-for="fav in favourites" :key="fav.title + fav.audioUrl" class="podcast-card-wrapper">
+        <div :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(fav) }]" style="padding: 1.2rem;">
+          <div class="card-body">
+            <div class="podcast-card-top">
+              <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
+              <div class="podcast-card-info">
+                <h4 class="podcast-title">{{ fav.title }}</h4>
+                <div class="podcast-extra-info">
+                  <span class="lang-badge" :title="'Published'">
+                    <i class="bi bi-calendar3" style="font-size:1.1rem;"></i>
+                    {{ formatDate(fav.pubDate) }}
+                  </span>
+                  <span v-if="fav.likedAt" class="lang-badge" :title="'Liked on'" style="margin-left:8px;">
+                    <i class="bi bi-heart-fill" style="font-size:1.1rem;"></i>
+                    {{ new Date(fav.likedAt).toLocaleString() }}
+                  </span>
                 </div>
-                <div class="audio-controls-inline">
-                  <button class="control-button play-btn" @click="playFromFavourites(fav)" title="Play">
-                    <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
-                  </button>
-                  <button class="control-button" @click="toggleFavourite(fav)" title="Remove from favorites">
-                    <i class="bi bi-heart-fill text-danger" style="font-size:1.3rem;"></i>
-                  </button>
-                </div>
+              </div>
+              <div class="audio-controls-inline">
+                <button class="control-button play-btn" @click="playFromFavourites(fav)" title="Play">
+                  <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
+                </button>
+                <button class="control-button" @click="toggleFavourite(fav)" title="Remove from favorites">
+                  <i class="bi bi-heart-fill text-danger" style="font-size:1.3rem;"></i>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
     </div>
 
     <!-- Recently Played Section -->
@@ -402,6 +411,7 @@ export default {
   },
   data() {
     return {
+      isVisible: true,
       showAudioPlayer: false,
       repeatStates: {},
       playingIndex: null,
@@ -679,6 +689,9 @@ export default {
   },
 
   methods: {
+    toggleVisibility() {
+      this.isVisible = !this.isVisible;
+    },
     onSearchInput() {
       if (this.searchDebounceTimer) clearTimeout(this.searchDebounceTimer);
       this.searchDebounceTimer = setTimeout(() => {
@@ -1512,6 +1525,16 @@ export default {
 </script>
 
 <style scoped>
+.toggle-button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.toggle-button:hover {
+  background-color: #e0e0e0;
+}
 .audio-actions {
   display: flex;
   align-items: center;
