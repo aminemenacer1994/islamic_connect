@@ -149155,67 +149155,291 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  setup: function setup() {
-    var isAnnual = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
-    var plans = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([{
-      id: 'basic',
-      name: 'Basic',
-      description: 'For individual users & small mosques',
-      price: {
-        monthly: '£0',
-        annual: '£0'
-      },
-      features: ['Access to Quran & translation', 'Daily Ayah notifications', 'Audio recitation streaming', 'Community support'],
-      buttonText: 'Start Free',
-      isFeatured: false,
-      icon: 'fas fa-book-quran'
-    }, {
-      id: 'premium',
-      name: 'Premium',
-      description: 'For Islamic schools & growing centers',
-      price: {
-        monthly: '£1.99',
-        annual: '£1.99'
-      },
-      features: ['All Basic features', 'Hadith & Seerah libraries', 'Live radio & podcasts', 'Multi-user access', 'Customizable dashboard'],
-      buttonText: 'Start Trial',
-      isFeatured: true,
-      icon: 'fas fa-mosque'
-    }, {
-      id: 'lifetime',
-      name: 'Lifetime',
-      description: 'For large institutions & organizations',
-      price: {
-        monthly: '£15.99',
-        annual: '£15.99'
-      },
-      features: ['Unlimited users & devices', 'Full content library', 'Accessibility tools (TTS, STT, gestures)', 'Dedicated support & training', 'Zakat eligible subscriptions'],
-      buttonText: 'Contact Sales',
-      isFeatured: false,
-      icon: 'fas fa-star-and-crescent'
-    }]);
-    var faqs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([{
-      question: 'Can Islamic institutions use zakat funds for this platform?',
-      answer: 'Yes, the Barakah plan is designed to be zakat eligible, allowing mosques and Islamic centers to use zakat funds.'
-    }, {
-      question: 'Does the platform support accessibility for all users?',
-      answer: 'Yes, we provide text-to-speech, speech-to-text, gesture navigation, and other accessibility features.'
-    }, {
-      question: 'Are there special discounts for Islamic centers?',
-      answer: 'Yes, mosques, schools, and charitable organizations can access discounted pricing upon request.'
-    }]);
-    var priceKey = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
-      return isAnnual.value ? 'annual' : 'monthly';
-    });
+  name: 'SubscriptionComponent',
+  data: function data() {
+    var _document$querySelect;
     return {
-      isAnnual: isAnnual,
-      plans: plans,
-      faqs: faqs,
-      priceKey: priceKey
+      csrfToken: ((_document$querySelect = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getAttribute('content')) || '',
+      selectedPlan: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+      loading: true,
+      submitting: false,
+      cancelling: false,
+      error: '',
+      success: '',
+      isSubscribed: false,
+      subscription: null,
+      plans: [{
+        value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
+        name: 'Monthly',
+        price: '£1.99',
+        period: 'per month',
+        icon: 'fas fa-calendar',
+        badge: 'Flexible',
+        featured: false,
+        features: ['All premium features', 'Cancel anytime', 'Monthly billing', '24/7 support']
+      }, {
+        value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+        name: 'Yearly',
+        price: '£18',
+        period: 'per year',
+        savings: 'Save £5.88 per year',
+        icon: 'fas fa-star',
+        badge: 'Most Popular',
+        featured: true,
+        features: ['All premium features', 'Best value', 'Annual billing', 'Priority support']
+      }, {
+        value: 'price_1SDrmPGsDD2PdzHqvk1SOoT3',
+        name: 'Lifetime',
+        price: '£25',
+        period: 'one-time payment',
+        savings: 'Never pay again',
+        icon: 'fas fa-infinity',
+        badge: 'Best Deal',
+        featured: false,
+        features: ['All premium features', 'Lifetime access', 'One-time payment', 'VIP support']
+      }],
+      planDetails: {
+        'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
+        'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly',
+        'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime'
+      }
     };
+  },
+  computed: {
+    planDisplayName: function planDisplayName() {
+      var _this$subscription;
+      if (!((_this$subscription = this.subscription) !== null && _this$subscription !== void 0 && _this$subscription.stripe_price)) return 'Free';
+      return this.planDetails[this.subscription.stripe_price] || 'Premium';
+    }
+  },
+  mounted: function mounted() {
+    this.checkUrlParams();
+  },
+  methods: {
+    formatDate: function formatDate(dateString) {
+      if (!dateString) return 'Never';
+      return new Date(dateString).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+    },
+    fetchSubscriptionStatus: function fetchSubscriptionStatus() {
+      var _this = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        var response, data, _t;
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.p = _context.n) {
+            case 0:
+              _context.p = 0;
+              _context.n = 1;
+              return fetch('/subscription-status', {
+                headers: {
+                  'X-CSRF-TOKEN': _this.csrfToken,
+                  'Accept': 'application/json'
+                }
+              });
+            case 1:
+              response = _context.v;
+              if (response.ok) {
+                _context.n = 2;
+                break;
+              }
+              throw new Error('Failed to fetch subscription status');
+            case 2:
+              _context.n = 3;
+              return response.json();
+            case 3:
+              data = _context.v;
+              _this.isSubscribed = data.is_subscribed;
+              _this.subscription = {
+                stripe_price: data.plan !== 'free' ? data.plan : null,
+                ends_at: data.ends_at
+              };
+              return _context.a(2, data.is_subscribed);
+            case 4:
+              _context.p = 4;
+              _t = _context.v;
+              console.error('Error fetching subscription:', _t);
+              _this.error = 'Error loading subscription status. Please refresh the page.';
+              return _context.a(2, false);
+          }
+        }, _callee, null, [[0, 4]]);
+      }))();
+    },
+    waitForSubscription: function waitForSubscription() {
+      var _this2 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+        var attempts, maxAttempts, _checkStatus;
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.n) {
+            case 0:
+              _this2.success = 'Subscription successful! Activating your subscription...';
+              attempts = 0;
+              maxAttempts = 15;
+              _checkStatus = /*#__PURE__*/function () {
+                var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+                  var subscribed;
+                  return _regenerator().w(function (_context2) {
+                    while (1) switch (_context2.n) {
+                      case 0:
+                        attempts++;
+                        _context2.n = 1;
+                        return _this2.fetchSubscriptionStatus();
+                      case 1:
+                        subscribed = _context2.v;
+                        if (!subscribed) {
+                          _context2.n = 2;
+                          break;
+                        }
+                        _this2.success = 'Subscription activated successfully! Welcome to Premium.';
+                        _this2.loading = false;
+                        setTimeout(function () {
+                          _this2.success = '';
+                        }, 5000);
+                        return _context2.a(2, true);
+                      case 2:
+                        if (!(attempts >= maxAttempts)) {
+                          _context2.n = 3;
+                          break;
+                        }
+                        _this2.error = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
+                        _this2.success = '';
+                        _this2.loading = false;
+                        return _context2.a(2, false);
+                      case 3:
+                        setTimeout(_checkStatus, 2000);
+                        return _context2.a(2, false);
+                    }
+                  }, _callee2);
+                }));
+                return function checkStatus() {
+                  return _ref.apply(this, arguments);
+                };
+              }();
+              _context3.n = 1;
+              return _checkStatus();
+            case 1:
+              return _context3.a(2);
+          }
+        }, _callee3);
+      }))();
+    },
+    checkUrlParams: function checkUrlParams() {
+      var _this3 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+        var urlParams;
+        return _regenerator().w(function (_context4) {
+          while (1) switch (_context4.n) {
+            case 0:
+              urlParams = new URLSearchParams(window.location.search);
+              if (!urlParams.has('success')) {
+                _context4.n = 2;
+                break;
+              }
+              _context4.n = 1;
+              return _this3.waitForSubscription();
+            case 1:
+              window.history.replaceState({}, document.title, window.location.pathname);
+              _context4.n = 6;
+              break;
+            case 2:
+              if (!urlParams.has('cancelled')) {
+                _context4.n = 4;
+                break;
+              }
+              _this3.error = 'Subscription cancelled. You can try again when ready.';
+              _context4.n = 3;
+              return _this3.fetchSubscriptionStatus();
+            case 3:
+              _this3.loading = false;
+              window.history.replaceState({}, document.title, window.location.pathname);
+              _context4.n = 6;
+              break;
+            case 4:
+              _context4.n = 5;
+              return _this3.fetchSubscriptionStatus();
+            case 5:
+              _this3.loading = false;
+            case 6:
+              return _context4.a(2);
+          }
+        }, _callee4);
+      }))();
+    },
+    handleCancelSubscription: function handleCancelSubscription() {
+      var _this4 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+        var response, data, _t2;
+        return _regenerator().w(function (_context5) {
+          while (1) switch (_context5.p = _context5.n) {
+            case 0:
+              if (confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
+                _context5.n = 1;
+                break;
+              }
+              return _context5.a(2);
+            case 1:
+              _this4.cancelling = true;
+              _this4.error = '';
+              _context5.p = 2;
+              _context5.n = 3;
+              return fetch('/cancel', {
+                method: 'POST',
+                headers: {
+                  'X-CSRF-TOKEN': _this4.csrfToken,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                }
+              });
+            case 3:
+              response = _context5.v;
+              _context5.n = 4;
+              return response.json();
+            case 4:
+              data = _context5.v;
+              if (!(response.ok && data.success)) {
+                _context5.n = 6;
+                break;
+              }
+              _context5.n = 5;
+              return _this4.fetchSubscriptionStatus();
+            case 5:
+              _this4.success = "Subscription cancelled. You'll have access until ".concat(_this4.formatDate(data.ends_at), ".");
+              setTimeout(function () {
+                _this4.success = '';
+              }, 8000);
+              _context5.n = 7;
+              break;
+            case 6:
+              throw new Error(data.message || 'Failed to cancel subscription');
+            case 7:
+              _context5.n = 9;
+              break;
+            case 8:
+              _context5.p = 8;
+              _t2 = _context5.v;
+              console.error('Error cancelling subscription:', _t2);
+              _this4.error = _t2.message || 'Error cancelling subscription. Please try again.';
+            case 9:
+              _context5.p = 9;
+              _this4.cancelling = false;
+              return _context5.f(9);
+            case 10:
+              return _context5.a(2);
+          }
+        }, _callee5, null, [[2, 8, 9, 10]]);
+      }))();
+    },
+    handleSubmit: function handleSubmit(e) {
+      this.submitting = true;
+      e.target.submit();
+    }
   }
 });
 
@@ -153578,223 +153802,280 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-stripe-elements-plus */ "./node_modules/vue-stripe-elements-plus/dist/index.js");
-/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_1__);
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'SubscriptionForm',
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
-    var _useStripe = (0,vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_1__.useStripe)(),
-      stripe = _useStripe.stripe;
-    var selectedPlan = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
-    var cardholderName = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
-    var loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    var selectedPlan = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('price_1SDrmPGsDD2PdzHqTgawcJZd');
+    var loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(true);
+    var submitting = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var cancelling = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var error = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
     var success = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
     var isSubscribed = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
-    var plan = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('Free');
-    var endsAt = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
-    var hasPaymentMethod = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
-    var card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
-    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-      var response, data, _t;
-      return _regenerator().w(function (_context) {
-        while (1) switch (_context.p = _context.n) {
-          case 0:
-            _context.p = 0;
-            _context.n = 1;
-            return fetch('/subscription-status', {
-              headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-              }
-            });
-          case 1:
-            response = _context.v;
-            if (response.ok) {
-              _context.n = 2;
-              break;
-            }
-            throw new Error('Failed to fetch status');
-          case 2:
-            _context.n = 3;
-            return response.json();
-          case 3:
-            data = _context.v;
-            isSubscribed.value = data.is_subscribed;
-            plan.value = data.plan === 'free' ? 'Free' : data.plan;
-            endsAt.value = data.ends_at ? new Date(data.ends_at).toLocaleDateString() : '';
-            hasPaymentMethod.value = !!localStorage.getItem('payment_method');
-            _context.n = 5;
-            break;
-          case 4:
-            _context.p = 4;
-            _t = _context.v;
-            error.value = 'Error loading subscription status';
-          case 5:
-            return _context.a(2);
-        }
-      }, _callee, null, [[0, 4]]);
-    })));
-    var selectPlan = function selectPlan(lookupKey) {
-      selectedPlan.value = lookupKey;
-      error.value = '';
+    var subscription = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    var planDetails = {
+      'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly (£1.99)',
+      'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly (£18)',
+      'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime (£25)'
     };
-    var onCardError = function onCardError(e) {
-      error.value = e.message;
+    var planDisplayName = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      var _subscription$value;
+      if (!((_subscription$value = subscription.value) !== null && _subscription$value !== void 0 && _subscription$value.stripe_price)) return 'Free';
+      return planDetails[subscription.value.stripe_price] || 'Premium';
+    });
+    var formatDate = function formatDate(dateString) {
+      if (!dateString) return 'Never';
+      return new Date(dateString).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
     };
-    var handlePayment = /*#__PURE__*/function () {
-      var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(e) {
-        var _yield$stripe$value$c, paymentMethod, pmError, formData, response, data, _t2;
-        return _regenerator().w(function (_context2) {
-          while (1) switch (_context2.p = _context2.n) {
+    var fetchSubscriptionStatus = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        var response, data, _t;
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.p = _context.n) {
             case 0:
-              e.preventDefault();
-              loading.value = true;
-              error.value = '';
-              _context2.p = 1;
-              _context2.n = 2;
-              return stripe.value.createPaymentMethod({
-                type: 'card',
-                card: card.value.element,
-                billing_details: {
-                  name: cardholderName.value
-                }
-              });
-            case 2:
-              _yield$stripe$value$c = _context2.v;
-              paymentMethod = _yield$stripe$value$c.paymentMethod;
-              pmError = _yield$stripe$value$c.error;
-              if (!pmError) {
-                _context2.n = 3;
-                break;
-              }
-              error.value = pmError.message;
-              return _context2.a(2);
-            case 3:
-              formData = new FormData();
-              formData.append('price_lookup_key', selectedPlan.value);
-              formData.append('payment_method', paymentMethod.id);
-              formData.append('cardholder_name', cardholderName.value);
-              _context2.n = 4;
-              return fetch('/subscribe', {
-                method: 'POST',
-                body: formData,
+              _context.p = 0;
+              _context.n = 1;
+              return fetch('/subscription-status', {
                 headers: {
-                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-              });
-            case 4:
-              response = _context2.v;
-              _context2.n = 5;
-              return response.json();
-            case 5:
-              data = _context2.v;
-              if (!response.ok) {
-                _context2.n = 6;
-                break;
-              }
-              success.value = 'Subscription successful!';
-              isSubscribed.value = true;
-              plan.value = selectedPlan.value;
-              endsAt.value = data.ends_at ? new Date(data.ends_at).toLocaleDateString() : '';
-              localStorage.setItem('payment_method', paymentMethod.id);
-              _context2.n = 7;
-              break;
-            case 6:
-              throw new Error(data.error || 'Subscription failed');
-            case 7:
-              _context2.n = 9;
-              break;
-            case 8:
-              _context2.p = 8;
-              _t2 = _context2.v;
-              error.value = _t2.message;
-            case 9:
-              _context2.p = 9;
-              loading.value = false;
-              return _context2.f(9);
-            case 10:
-              return _context2.a(2);
-          }
-        }, _callee2, null, [[1, 8, 9, 10]]);
-      }));
-      return function handlePayment(_x) {
-        return _ref3.apply(this, arguments);
-      };
-    }();
-    var cancelSubscription = /*#__PURE__*/function () {
-      var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-        var response, _t3;
-        return _regenerator().w(function (_context3) {
-          while (1) switch (_context3.p = _context3.n) {
-            case 0:
-              _context3.p = 0;
-              _context3.n = 1;
-              return fetch('/cancel', {
-                method: 'POST',
-                headers: {
-                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                  'X-CSRF-TOKEN': csrfToken,
+                  'Accept': 'application/json'
                 }
               });
             case 1:
-              response = _context3.v;
-              if (!response.ok) {
-                _context3.n = 2;
+              response = _context.v;
+              if (response.ok) {
+                _context.n = 2;
                 break;
               }
-              isSubscribed.value = false;
-              plan.value = 'Free';
-              endsAt.value = '';
-              success.value = 'Cancelled!';
-              _context3.n = 3;
-              break;
+              throw new Error('Failed to fetch subscription status');
             case 2:
-              throw new Error('Cancellation failed');
+              _context.n = 3;
+              return response.json();
             case 3:
-              _context3.n = 5;
-              break;
+              data = _context.v;
+              isSubscribed.value = data.is_subscribed;
+              subscription.value = {
+                stripe_price: data.plan !== 'free' ? data.plan : null,
+                ends_at: data.ends_at
+              };
+              return _context.a(2, data.is_subscribed);
             case 4:
-              _context3.p = 4;
-              _t3 = _context3.v;
-              error.value = _t3.message;
-            case 5:
+              _context.p = 4;
+              _t = _context.v;
+              console.error('Error fetching subscription:', _t);
+              error.value = 'Error loading subscription status. Please refresh the page.';
+              return _context.a(2, false);
+          }
+        }, _callee, null, [[0, 4]]);
+      }));
+      return function fetchSubscriptionStatus() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+    var waitForSubscription = /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+        var attempts, maxAttempts, _checkStatus;
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.n) {
+            case 0:
+              success.value = 'Subscription successful! Activating your subscription...';
+              attempts = 0;
+              maxAttempts = 15; // 30 seconds total (15 attempts × 2 seconds)
+              _checkStatus = /*#__PURE__*/function () {
+                var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+                  var subscribed;
+                  return _regenerator().w(function (_context2) {
+                    while (1) switch (_context2.n) {
+                      case 0:
+                        attempts++;
+                        _context2.n = 1;
+                        return fetchSubscriptionStatus();
+                      case 1:
+                        subscribed = _context2.v;
+                        if (!subscribed) {
+                          _context2.n = 2;
+                          break;
+                        }
+                        success.value = 'Subscription activated successfully!';
+                        loading.value = false;
+                        // Clear success message after 5 seconds
+                        setTimeout(function () {
+                          success.value = '';
+                        }, 5000);
+                        return _context2.a(2, true);
+                      case 2:
+                        if (!(attempts >= maxAttempts)) {
+                          _context2.n = 3;
+                          break;
+                        }
+                        error.value = 'Subscription is taking longer than expected to activate. Please refresh the page in a few moments or contact support if the issue persists.';
+                        success.value = '';
+                        loading.value = false;
+                        return _context2.a(2, false);
+                      case 3:
+                        // Continue checking
+                        setTimeout(_checkStatus, 2000);
+                        return _context2.a(2, false);
+                    }
+                  }, _callee2);
+                }));
+                return function checkStatus() {
+                  return _ref4.apply(this, arguments);
+                };
+              }();
+              _context3.n = 1;
+              return _checkStatus();
+            case 1:
               return _context3.a(2);
           }
-        }, _callee3, null, [[0, 4]]);
+        }, _callee3);
       }));
-      return function cancelSubscription() {
-        return _ref4.apply(this, arguments);
+      return function waitForSubscription() {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+      var urlParams;
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.n) {
+          case 0:
+            urlParams = new URLSearchParams(window.location.search); // Check if returning from successful payment
+            if (!urlParams.has('success')) {
+              _context4.n = 2;
+              break;
+            }
+            _context4.n = 1;
+            return waitForSubscription();
+          case 1:
+            // Clean up URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+            _context4.n = 6;
+            break;
+          case 2:
+            if (!urlParams.has('cancelled')) {
+              _context4.n = 4;
+              break;
+            }
+            error.value = 'Subscription cancelled. You can try again when ready.';
+            _context4.n = 3;
+            return fetchSubscriptionStatus();
+          case 3:
+            loading.value = false;
+            // Clean up URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+            _context4.n = 6;
+            break;
+          case 4:
+            _context4.n = 5;
+            return fetchSubscriptionStatus();
+          case 5:
+            loading.value = false;
+          case 6:
+            return _context4.a(2);
+        }
+      }, _callee4);
+    })));
+    var handleCancelSubscription = /*#__PURE__*/function () {
+      var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+        var response, data, _t2;
+        return _regenerator().w(function (_context5) {
+          while (1) switch (_context5.p = _context5.n) {
+            case 0:
+              if (confirm('Are you sure you want to cancel your subscription? It will remain active until the end of your billing period.')) {
+                _context5.n = 1;
+                break;
+              }
+              return _context5.a(2);
+            case 1:
+              cancelling.value = true;
+              error.value = '';
+              _context5.p = 2;
+              _context5.n = 3;
+              return fetch('/cancel', {
+                method: 'POST',
+                headers: {
+                  'X-CSRF-TOKEN': csrfToken,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                }
+              });
+            case 3:
+              response = _context5.v;
+              _context5.n = 4;
+              return response.json();
+            case 4:
+              data = _context5.v;
+              if (!(response.ok && data.success)) {
+                _context5.n = 6;
+                break;
+              }
+              _context5.n = 5;
+              return fetchSubscriptionStatus();
+            case 5:
+              success.value = "Subscription cancelled. Access continues until ".concat(new Date(data.ends_at).toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+              }), ".");
+              setTimeout(function () {
+                success.value = '';
+              }, 8000);
+              _context5.n = 7;
+              break;
+            case 6:
+              throw new Error(data.message || 'Failed to cancel subscription');
+            case 7:
+              _context5.n = 9;
+              break;
+            case 8:
+              _context5.p = 8;
+              _t2 = _context5.v;
+              console.error('Error cancelling subscription:', _t2);
+              error.value = _t2.message || 'Error cancelling subscription. Please try again.';
+            case 9:
+              _context5.p = 9;
+              cancelling.value = false;
+              return _context5.f(9);
+            case 10:
+              return _context5.a(2);
+          }
+        }, _callee5, null, [[2, 8, 9, 10]]);
+      }));
+      return function handleCancelSubscription() {
+        return _ref6.apply(this, arguments);
       };
     }();
     var __returned__ = {
-      stripe: stripe,
+      csrfToken: csrfToken,
       selectedPlan: selectedPlan,
-      cardholderName: cardholderName,
       loading: loading,
+      submitting: submitting,
+      cancelling: cancelling,
       error: error,
       success: success,
       isSubscribed: isSubscribed,
-      plan: plan,
-      endsAt: endsAt,
-      hasPaymentMethod: hasPaymentMethod,
-      card: card,
-      selectPlan: selectPlan,
-      onCardError: onCardError,
-      handlePayment: handlePayment,
-      cancelSubscription: cancelSubscription,
+      subscription: subscription,
+      planDetails: planDetails,
+      planDisplayName: planDisplayName,
+      formatDate: formatDate,
+      fetchSubscriptionStatus: fetchSubscriptionStatus,
+      waitForSubscription: waitForSubscription,
+      handleCancelSubscription: handleCancelSubscription,
       ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
-      computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed,
-      get useStripe() {
-        return vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_1__.useStripe;
-      }
+      computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -175926,156 +176207,212 @@ var _hoisted_1 = {
   "class": "container"
 };
 var _hoisted_2 = {
-  id: "pricing",
   "class": "container pb-5"
 };
 var _hoisted_3 = {
-  "class": "d-flex justify-content-center mb-5"
+  key: 0,
+  "class": "alert alert-success alert-dismissible fade show shadow-sm mb-4",
+  role: "status"
 };
 var _hoisted_4 = {
-  "class": "pricing-toggle bg-light rounded-3 p-1 shadow-sm",
-  role: "group",
-  "aria-label": "Billing period selector"
+  key: 1,
+  "class": "alert alert-danger alert-dismissible fade show shadow-sm mb-4",
+  role: "alert"
 };
 var _hoisted_5 = {
-  "class": "row row-cols-1 row-cols-md-3 g-4 mb-5"
+  key: 2,
+  "class": "text-center my-5 py-5"
 };
 var _hoisted_6 = {
+  "class": "row justify-content-center"
+};
+var _hoisted_7 = {
+  "class": "col-lg-8"
+};
+var _hoisted_8 = {
+  "class": "card pricing-card border-0 shadow-lg"
+};
+var _hoisted_9 = {
+  "class": "pricing-card-header text-center"
+};
+var _hoisted_10 = {
+  "class": "card-title mt-3 fw-bold"
+};
+var _hoisted_11 = {
+  "class": "mt-3 p-3 bg-light rounded"
+};
+var _hoisted_12 = {
+  "class": "mb-0"
+};
+var _hoisted_13 = {
+  "class": "text-teal fw-bold fs-5 mb-0"
+};
+var _hoisted_14 = {
+  "class": "card-body pricing-card-body"
+};
+var _hoisted_15 = ["disabled"];
+var _hoisted_16 = {
+  "class": "row row-cols-1 row-cols-md-3 g-4 mb-4"
+};
+var _hoisted_17 = ["onClick"];
+var _hoisted_18 = {
   key: 0,
   "class": "featured-badge bg-teal text-white py-2 text-center"
 };
-var _hoisted_7 = {
+var _hoisted_19 = {
   "class": "pricing-card-header text-center"
 };
-var _hoisted_8 = {
-  "class": "pricing-icon mt-3 mx-auto rounded-circle d-flex align-items-center justify-content-center"
-};
-var _hoisted_9 = {
+var _hoisted_20 = {
   "class": "card-title mt-3 fw-bold"
 };
-var _hoisted_10 = {
+var _hoisted_21 = {
   "class": "price-amount"
 };
-var _hoisted_11 = {
-  key: 0
-};
-var _hoisted_12 = {
-  key: 1
-};
-var _hoisted_13 = {
-  key: 2,
-  "class": "price-period"
-};
-var _hoisted_14 = {
+var _hoisted_22 = {
   "class": "text-muted mb-0"
 };
-var _hoisted_15 = {
+var _hoisted_23 = {
   key: 0,
-  "class": "text-success small mt-1"
+  "class": "text-success small mt-1 fw-semibold"
 };
-var _hoisted_16 = {
+var _hoisted_24 = {
   "class": "card-body pricing-card-body d-flex flex-column"
 };
-var _hoisted_17 = {
+var _hoisted_25 = {
   "class": "pricing-features list-unstyled mb-4"
 };
-var _hoisted_18 = {
-  "class": "row justify-content-center mb-5"
+var _hoisted_26 = {
+  "class": "form-check mt-auto"
 };
-var _hoisted_19 = {
-  "class": "col-lg-10"
+var _hoisted_27 = ["id", "value"];
+var _hoisted_28 = ["for"];
+var _hoisted_29 = {
+  "class": "row justify-content-center"
 };
-var _hoisted_20 = {
-  "class": "accordion accordion-flush",
-  id: "faqAccordion"
+var _hoisted_30 = {
+  "class": "col-lg-6"
 };
-var _hoisted_21 = ["id"];
-var _hoisted_22 = ["data-bs-target", "aria-controls"];
-var _hoisted_23 = ["id", "aria-labelledby"];
-var _hoisted_24 = {
-  "class": "accordion-body pt-0"
-};
+var _hoisted_31 = ["value"];
+var _hoisted_32 = ["value"];
+var _hoisted_33 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  var _$data$subscription, _$data$subscription2;
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     "class": "text-center py-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "fw-bold display-5 mb-3"
-  }, "Pricing Plans"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead text-muted mx-auto"
-  }, " Choose a plan that suits your Islamic Connect needs. All plans include 24/7 support and a free 14-day trial. Special discounts are available for mosques, Islamic schools, and community centers. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Subscription Management"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead text-muted mx-auto max-w-600"
+  }, " Manage your Islamic Connect subscription. Unlock premium features and support our mission. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Alert "), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-check-circle me-2"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.success) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", {
-      'btn-teal': !$setup.isAnnual,
-      'btn-light': $setup.isAnnual
-    }]),
+    "class": "btn-close",
     onClick: _cache[0] || (_cache[0] = function ($event) {
-      return $setup.isAnnual = false;
+      return $data.success = '';
     }),
-    "aria-pressed": "!isAnnual"
-  }, " Monthly Billing ", 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "aria-label": "Close"
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Alert "), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-exclamation-triangle me-2"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn position-relative", {
-      'btn-teal': $setup.isAnnual,
-      'btn-light': !$setup.isAnnual
-    }]),
+    "class": "btn-close",
     onClick: _cache[1] || (_cache[1] = function ($event) {
-      return $setup.isAnnual = true;
+      return $data.error = '';
     }),
-    "aria-pressed": "isAnnual"
-  }, _toConsumableArray(_cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Annual Billing ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "badge bg-success ms-2 fw-semibold"
-  }, "Save 20%", -1 /* CACHED */)])), 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pricing Cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.plans, function (plan, index) {
+    "aria-label": "Close"
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, _toConsumableArray(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-teal",
+    role: "status",
+    style: {
+      "width": "3rem",
+      "height": "3rem"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading...")], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mt-3 text-muted"
+  }, "Loading subscription details...", -1 /* CACHED */)])))) : $data.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 3
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "featured-badge bg-teal text-white py-2 text-center"
+  }, " Active Subscription ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "pricing-icon mt-3 mx-auto rounded-circle d-flex align-items-center justify-content-center bg-teal"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-check-circle text-white"
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.planDisplayName), 1 /* TEXT */), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted mb-2"
+  }, "You're currently subscribed", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? 'Access until:' : 'Status:'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription2 = $data.subscription) !== null && _$data$subscription2 !== void 0 && _$data$subscription2.ends_at ? $options.formatDate($data.subscription.ends_at) : 'Active & Unlimited'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<ul class=\"pricing-features list-unstyled mb-4\" data-v-d4146a7c><li class=\"py-2\" data-v-d4146a7c><i class=\"fas fa-check-circle me-2 text-teal\" data-v-d4146a7c></i>Ad-free experience </li><li class=\"py-2\" data-v-d4146a7c><i class=\"fas fa-check-circle me-2 text-teal\" data-v-d4146a7c></i>Offline access to content </li><li class=\"py-2\" data-v-d4146a7c><i class=\"fas fa-check-circle me-2 text-teal\" data-v-d4146a7c></i>Advanced prayer time settings </li><li class=\"py-2\" data-v-d4146a7c><i class=\"fas fa-check-circle me-2 text-teal\" data-v-d4146a7c></i>Priority support </li><li class=\"py-2\" data-v-d4146a7c><i class=\"fas fa-check-circle me-2 text-teal\" data-v-d4146a7c></i>Early access to new features </li></ul>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.handleCancelSubscription && $options.handleCancelSubscription.apply($options, arguments);
+    }),
+    "class": "btn btn-outline-danger w-100 rounded-pill fw-semibold py-2",
+    disabled: $data.cancelling
+  }, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-times-circle me-2"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : 'Cancel Subscription'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_15)])])])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 4
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center mb-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "fw-bold mb-3"
+  }, "Choose Your Plan"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted"
+  }, "Select the plan that works best for you")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    method: "POST",
+    action: "/subscribe",
+    onSubmit: _cache[4] || (_cache[4] = function ($event) {
+      return $data.submitting = true;
+    })
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.plans, function (plan) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: plan.id,
+      key: plan.value,
       "class": "col"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 pricing-card border-0 shadow-lg", {
-        'featured-card': plan.isFeatured
-      }])
-    }, [plan.isFeatured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, " Most Popular ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(plan.icon)
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [plan.price[$setup.priceKey] !== 'Custom' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.isAnnual ? "\xA3".concat((parseFloat(plan.price.monthly.replace('£', '')) * 12 * 0.8).toFixed(2)) : plan.price[$setup.priceKey]), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price[$setup.priceKey]), 1 /* TEXT */)), plan.price[$setup.priceKey] !== 'Custom' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_13, "/month")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.description), 1 /* TEXT */), $setup.isAnnual && plan.price[$setup.priceKey] !== 'Custom' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_15, " Billed annually (save 20%) ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 pricing-card border-0 shadow-lg plan-selector", {
+        'featured-card': plan.value === $data.selectedPlan
+      }]),
+      onClick: function onClick($event) {
+        return $data.selectedPlan = plan.value;
+      }
+    }, [plan.featured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.badge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["pricing-icon mt-3 mx-auto rounded-circle d-flex align-items-center justify-content-center", plan.value === $data.selectedPlan ? 'bg-teal' : ''])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([plan.icon, plan.value === $data.selectedPlan ? 'text-white' : 'text-teal'])
+    }, null, 2 /* CLASS */)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_25, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: feature,
         "class": "py-2"
-      }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "fas fa-check-circle me-2 text-teal"
       }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      href: "#",
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn w-100 rounded-pill fw-semibold py-2 mt-auto", plan.isFeatured ? 'btn-teal ' : 'btn-outline-teal'])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.buttonText) + " ", 1 /* TEXT */), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "fas fa-arrow-right ms-2"
-    }, null, -1 /* CACHED */))], 2 /* CLASS */)])], 2 /* CLASS */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-center mb-5"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "fw-bold text-dark mb-4"
-  }, "Frequently Asked Questions"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead text-muted mx-auto"
-  }, " Answers to common questions about Islamic Connect subscriptions, services, and zakat eligibility. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.faqs, function (faq, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: index,
-      "class": "accordion-item border-0 mb-3 shadow-sm"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-      "class": "accordion-header",
-      id: 'heading' + index
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "accordion-button collapsed rounded-3 fw-semibold",
-      type: "button",
-      "data-bs-toggle": "collapse",
-      "data-bs-target": '#collapse' + index,
-      "aria-expanded": false,
-      "aria-controls": 'collapse' + index
-    }, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "fas fa-question-circle text-teal me-3"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_22)], 8 /* PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      id: 'collapse' + index,
-      "class": "accordion-collapse collapse",
-      "aria-labelledby": 'heading' + index,
-      "data-bs-parent": "#faqAccordion"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_23)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Final CTA "), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row align-items-center bg-dark text-white rounded-4 p-4 p-md-5 mb-5 shadow-lg\" data-v-d4146a7c><div class=\"col-md-8\" data-v-d4146a7c><h2 class=\"fw-bold mb-3\" data-v-d4146a7c>Enhance Your Islamic Digital Experience</h2><p class=\"mb-0\" data-v-d4146a7c> Join mosques, schools, and individuals using Islamic Connect to access Quran, Hadith, Audio, Video, and accessibility tools. </p></div><div class=\"col-md-4 text-md-end mt-3 mt-md-0\" data-v-d4146a7c><a href=\"#\" class=\"btn btn-teal btn-lg rounded-pill px-4 fw-semibold\" data-v-d4146a7c>Get Started Today</a></div></div>", 1))])]);
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "class": "form-check-input",
+      type: "radio",
+      id: plan.value,
+      value: plan.value,
+      "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+        return $data.selectedPlan = $event;
+      })
+    }, null, 8 /* PROPS */, _hoisted_27), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "class": "form-check-label fw-semibold",
+      "for": plan.value
+    }, " Select this plan ", 8 /* PROPS */, _hoisted_28)])])], 10 /* CLASS, PROPS */, _hoisted_17)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "hidden",
+    name: "_token",
+    value: $data.csrfToken
+  }, null, 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "hidden",
+    name: "price_lookup_key",
+    value: $data.selectedPlan
+  }, null, 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "submit",
+    "class": "btn btn-teal btn-lg w-100 rounded-pill fw-semibold py-3",
+    disabled: $data.submitting
+  }, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-credit-card me-2"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing...' : 'Continue to Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_33)])])], 32 /* NEED_HYDRATION */)])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])]);
 }
 
 /***/ }),
@@ -180351,102 +180688,81 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
+  "class": "subscription-wrapper"
+};
+var _hoisted_2 = {
   key: 0,
-  "class": "plans",
-  role: "radiogroup",
-  "aria-labelledby": "planHeading"
-};
-var _hoisted_2 = ["aria-checked"];
-var _hoisted_3 = ["aria-checked"];
-var _hoisted_4 = ["aria-checked"];
-var _hoisted_5 = {
-  key: 1
-};
-var _hoisted_6 = ["value"];
-var _hoisted_7 = {
-  "class": "mb-3"
-};
-var _hoisted_8 = ["disabled", "aria-busy"];
-var _hoisted_9 = {
-  key: 3,
-  "class": "error",
-  role: "alert",
-  "aria-live": "assertive"
-};
-var _hoisted_10 = {
-  key: 4,
-  "class": "success",
+  "class": "alert alert-success",
   role: "status",
   "aria-live": "polite"
 };
+var _hoisted_3 = {
+  key: 1,
+  "class": "alert alert-error",
+  role: "alert",
+  "aria-live": "assertive"
+};
+var _hoisted_4 = {
+  key: 2,
+  "class": "loading"
+};
+var _hoisted_5 = {
+  "class": "subscription-details"
+};
+var _hoisted_6 = {
+  "class": "subscription-card"
+};
+var _hoisted_7 = {
+  "class": "plan-name"
+};
+var _hoisted_8 = {
+  "class": "ends-at"
+};
+var _hoisted_9 = ["disabled"];
+var _hoisted_10 = {
+  "class": "plans"
+};
+var _hoisted_11 = {
+  method: "POST",
+  action: "/subscribe",
+  "class": "subscription-form"
+};
+var _hoisted_12 = ["value"];
+var _hoisted_13 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_stripe_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("stripe-card");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  var _$setup$subscription, _$setup$subscription2;
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Subscription", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Message "), $setup.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.success), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Message "), $setup.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $setup.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, _toConsumableArray(_cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading subscription details...", -1 /* CACHED */)])))) : $setup.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 3
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscribed View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Active Subscription", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.planDisplayName), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$subscription = $setup.subscription) !== null && _$setup$subscription !== void 0 && _$setup$subscription.ends_at ? 'Ends:' : 'Status:'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$subscription2 = $setup.subscription) !== null && _$setup$subscription2 !== void 0 && _$setup$subscription2.ends_at ? $setup.formatDate($setup.subscription.ends_at) : 'Active'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: $setup.handleCancelSubscription,
+    "class": "btn btn-danger",
+    disabled: $setup.cancelling
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.cancelling ? 'Cancelling...' : 'Cancel Subscription'), 9 /* TEXT, PROPS */, _hoisted_9)])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 4
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Selection View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     id: "planHeading"
-  }, "Choose Your Plan", -1 /* CACHED */)), !$setup.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "plan",
-    role: "radio",
-    "aria-checked": $setup.selectedPlan === 'price_premium_monthly',
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return $setup.selectPlan('price_premium_monthly');
-    })
-  }, _toConsumableArray(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Monthly", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "£1.99 / month", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "plan",
-    role: "radio",
-    "aria-checked": $setup.selectedPlan === 'price_premium_yearly',
-    onClick: _cache[1] || (_cache[1] = function ($event) {
-      return $setup.selectPlan('price_premium_yearly');
-    })
-  }, _toConsumableArray(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Yearly", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "£18 / year (Save 25%)", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "plan",
-    role: "radio",
-    "aria-checked": $setup.selectedPlan === 'price_premium_lifetime',
-    onClick: _cache[2] || (_cache[2] = function ($event) {
-      return $setup.selectPlan('price_premium_lifetime');
-    })
-  }, _toConsumableArray(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Lifetime", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "£25 once", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_4)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "You're on " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.plan) + " plan! Ends: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.endsAt), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: $setup.cancelSubscription,
-    "class": "btn btn-primary"
-  }, "Cancel Subscription")])), $setup.selectedPlan && !$setup.hasPaymentMethod ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("form", {
-    key: 2,
-    onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.handlePayment, ["prevent"]),
-    method: "post",
-    action: "/subscribe",
-    "aria-describedby": "paymentHelp",
-    novalidate: ""
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Choose Your Plan", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
+    name: "_token",
+    value: $setup.csrfToken
+  }, null, 8 /* PROPS */, _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     name: "price_lookup_key",
-    value: $setup.selectedPlan
-  }, null, 8 /* PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "cardholderName",
-    "class": "form-label"
-  }, "Cardholder Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-      return $setup.cardholderName = $event;
-    }),
-    id: "cardholderName",
-    type: "text",
-    "class": "form-control",
     required: "",
-    placeholder: "Enter your name",
-    autocomplete: "cc-name"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.cardholderName]])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_stripe_card, {
-    ref: "card",
-    key: $setup.selectedPlan,
-    "class": "form-control",
-    stripe: "stripe",
-    onStripeError: $setup.onCardError,
-    "aria-label": "Card details"
-  })), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    id: "paymentHelp",
-    "class": "sr-only"
-  }, "Your payment is processed securely by Stripe.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $setup.selectedPlan = $event;
+    }),
+    "class": "form-control"
+  }, _toConsumableArray(_cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "price_1SDrmPGsDD2PdzHqTgawcJZd"
+  }, "Premium Monthly (£1.99)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "price_1SDrmPGsDD2PdzHqDOScwoI2"
+  }, "Premium Yearly (£18)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "price_1SDrmPGsDD2PdzHqvk1SOoT3"
+  }, "Premium Lifetime (£25)", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
-    disabled: $setup.loading,
     "class": "btn btn-primary",
-    "aria-busy": $setup.loading.toString()
-  }, "Subscribe", 8 /* PROPS */, _hoisted_8)], 32 /* NEED_HYDRATION */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.success), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    disabled: $setup.submitting
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.submitting ? 'Processing...' : 'Subscribe'), 9 /* TEXT, PROPS */, _hoisted_13)])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))]);
 }
 
 /***/ }),
@@ -192240,10 +192556,9 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap);"]);
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-d4146a7c]:root {\n  --teal: #00bfa6;\n  --teal-light: #e0f7f5;\n  --teal-dark: #009688;\n  --dark: #1e293b;\n  --muted: #64748b;\n  --light: #f8fafc;\n  --font-heading: 'Inter', sans-serif;\n  --font-body: 'Inter', sans-serif;\n}\nbody[data-v-d4146a7c] {\n  font-family: var(--font-body);\n  color: var(--dark);\n  background-color: #f9fafb;\n  line-height: 1.7;\n}\nh1[data-v-d4146a7c],\nh2[data-v-d4146a7c],\nh3[data-v-d4146a7c],\nh4[data-v-d4146a7c],\nh5[data-v-d4146a7c],\nh6[data-v-d4146a7c] {\n  font-family: var(--font-heading);\n  line-height: 1.3;\n}\n.max-w-600[data-v-d4146a7c] {\n  max-width: 600px;\n}\n.max-w-800[data-v-d4146a7c] {\n  max-width: 800px;\n}\n.text-teal[data-v-d4146a7c] {\n  color: var(--teal) !important;\n}\n.bg-teal[data-v-d4146a7c] {\n  background-color: var(--teal) !important;\n}\n.pricing-toggle[data-v-d4146a7c] {\n  display: inline-flex;\n  border-radius: 12px;\n  padding: 6px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.pricing-toggle .btn[data-v-d4146a7c] {\n  border-radius: 8px;\n  padding: 0.6rem 1.5rem;\n  font-weight: 600;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c] {\n  background-color: var(--teal);\n  border-color: var(--teal);\n  color: black;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal-dark);\n  border-color: var(--teal-dark);\n}\n.btn-outline-teal[data-v-d4146a7c] {\n  color: var(--teal);\n  border-color: var(--teal);\n  transition: all 0.3s ease;\n}\n.btn-outline-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal);\n  color: rgb(0, 0, 0);\n}\n.pricing-card[data-v-d4146a7c] {\n  border-radius: 16px;\n  transition: all 0.3s ease;\n  overflow: hidden;\n  background: white;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);\n  border: 1px solid rgba(0, 0, 0, 0.05);\n  position: relative;\n}\n.pricing-card[data-v-d4146a7c]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);\n}\n.pricing-card.featured-card[data-v-d4146a7c] {\n  transform: scale(1.03);\n  box-shadow: 0 25px 50px rgba(0, 191, 166, 0.15);\n  border: 2px solid var(--teal);\n  z-index: 2;\n}\n.featured-badge[data-v-d4146a7c] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  font-size: 0.875rem;\n  font-weight: 600;\n}\n.pricing-card-header[data-v-d4146a7c] {\n  padding: 2rem 2rem 1rem;\n  text-align: center;\n  background: #f8fafc;\n}\n.pricing-card-body[data-v-d4146a7c] {\n  padding: 1rem 2rem 2rem;\n}\n.pricing-icon[data-v-d4146a7c] {\n  width: 80px;\n  height: 80px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 50%;\n  margin: 0 auto 1rem;\n  background: var(--teal-light);\n  color: var(--teal);\n  font-size: 2rem;\n  box-shadow: 0 5px 15px rgba(0, 191, 166, 0.2);\n}\n.featured-card .pricing-icon[data-v-d4146a7c] {\n  background: var(--teal);\n  color: white;\n}\n.price-amount[data-v-d4146a7c] {\n  font-size: 2.5rem;\n  font-weight: 800;\n  margin: 1rem 0 0.5rem;\n  color: var(--dark);\n}\n.price-period[data-v-d4146a7c] {\n  color: var(--muted);\n  font-size: 1rem;\n}\n.pricing-features[data-v-d4146a7c] {\n  list-style: none;\n  padding: 0;\n  margin: 1.5rem 0;\n}\n.pricing-features li[data-v-d4146a7c] {\n  padding: 0.6rem 0;\n  display: flex;\n  align-items: center;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.05);\n}\n.pricing-features li[data-v-d4146a7c]:last-child {\n  border-bottom: none;\n}\n.accordion-button[data-v-d4146a7c] {\n  font-weight: 600;\n  border-radius: 12px;\n  padding: 1rem;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n}\n.accordion-button[data-v-d4146a7c]:not(.collapsed) {\n  background-color: white;\n  color: var(--dark);\n  box-shadow: none;\n  border-radius: 12px;\n}\n@media (max-width: 768px) {\n.pricing-card.featured-card[data-v-d4146a7c] {\n    transform: scale(1);\n}\n.price-amount[data-v-d4146a7c] {\n    font-size: 2rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-d4146a7c]:root {\n  --teal: #35a38b;\n  --teal-light: #e0f7f5;\n  --teal-dark: #2d8c77;\n  --dark: #1e293b;\n  --muted: #64748b;\n}\n.max-w-600[data-v-d4146a7c] {\n  max-width: 600px;\n}\n.text-teal[data-v-d4146a7c] {\n  color: var(--teal) !important;\n}\n.bg-teal[data-v-d4146a7c] {\n  background-color: var(--teal) !important;\n  color: white !important;\n}\n.btn-teal[data-v-d4146a7c] {\n  background-color: var(--teal);\n  border-color: var(--teal);\n  color: white;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal-dark);\n  border-color: var(--teal-dark);\n  color: white;\n}\n.pricing-card[data-v-d4146a7c] {\n  border-radius: 16px;\n  transition: all 0.3s ease;\n  overflow: hidden;\n  background: white;\n  position: relative;\n  cursor: pointer;\n}\n.pricing-card[data-v-d4146a7c]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;\n}\n.pricing-card.featured-card[data-v-d4146a7c] {\n  transform: scale(1.05);\n  box-shadow: 0 25px 50px rgba(53, 163, 139, 0.2) !important;\n  border: 2px solid var(--teal) !important;\n  z-index: 2;\n}\n.plan-selector[data-v-d4146a7c] {\n  cursor: pointer;\n}\n.featured-badge[data-v-d4146a7c] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  font-size: 0.875rem;\n  font-weight: 600;\n  z-index: 1;\n}\n.pricing-card-header[data-v-d4146a7c] {\n  padding: 2rem 2rem 1rem;\n  background: #f8fafc;\n}\n.pricing-card-body[data-v-d4146a7c] {\n  padding: 1rem 2rem 2rem;\n}\n.pricing-icon[data-v-d4146a7c] {\n  width: 80px;\n  height: 80px;\n  background: var(--teal-light);\n  color: var(--teal);\n  font-size: 2rem;\n  transition: all 0.3s ease;\n}\n.featured-card .pricing-icon[data-v-d4146a7c] {\n  background: var(--teal);\n  color: white;\n}\n.price-amount[data-v-d4146a7c] {\n  font-size: 2.5rem;\n  font-weight: 800;\n  margin: 1rem 0 0.5rem;\n  color: var(--dark);\n}\n.pricing-features li[data-v-d4146a7c] {\n  display: flex;\n  align-items: center;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.05);\n}\n.pricing-features li[data-v-d4146a7c]:last-child {\n  border-bottom: none;\n}\n.spinner-border.text-teal[data-v-d4146a7c] {\n  color: var(--teal) !important;\n}\n@media (max-width: 768px) {\n.pricing-card.featured-card[data-v-d4146a7c] {\n    transform: scale(1);\n}\n.price-amount[data-v-d4146a7c] {\n    font-size: 2rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -192460,7 +192775,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.plans[data-v-55d8ed6c] {\n    display: flex;\n    gap: 1rem;\n    margin: 1rem 0;\n}\n.plan[data-v-55d8ed6c] {\n    border: 1px solid #ccc;\n    padding: 1rem;\n    cursor: pointer;\n    border-radius: 6px;\n}\n.plan[data-v-55d8ed6c]:hover {\n    background: #f5f5f5;\n}\n.form-control[data-v-55d8ed6c] {\n    border: 1px solid #dee2e6;\n    padding: 0.75rem 1rem;\n    border-radius: 6px;\n    width: 100%;\n}\n.btn-primary[data-v-55d8ed6c] {\n    background-color: #35a38b;\n    border-color: #35a38b;\n    color: white;\n    padding: 0.75rem;\n}\n.btn-primary[data-v-55d8ed6c]:hover {\n    background-color: #2d8c77;\n    border-color: #2d8c77;\n}\n.btn-primary[data-v-55d8ed6c]:disabled {\n    background: #ccc;\n    cursor: not-allowed;\n}\n.error[data-v-55d8ed6c] {\n    color: #dc3545;\n    margin-top: 0.5rem;\n}\n.success[data-v-55d8ed6c] {\n    color: #28a745;\n    margin-top: 0.5rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.subscription-wrapper[data-v-55d8ed6c] {\n    max-width: 600px;\n    margin: 2rem auto;\n    padding: 0 1rem;\n}\nh1[data-v-55d8ed6c] {\n    font-size: 2rem;\n    margin-bottom: 1.5rem;\n    color: #333;\n}\n.alert[data-v-55d8ed6c] {\n    padding: 1rem;\n    border-radius: 8px;\n    margin-bottom: 1.5rem;\n}\n.alert-success[data-v-55d8ed6c] {\n    background-color: #d4edda;\n    border: 1px solid #c3e6cb;\n    color: #155724;\n}\n.alert-error[data-v-55d8ed6c] {\n    background-color: #f8d7da;\n    border: 1px solid #f5c6cb;\n    color: #721c24;\n}\n.loading[data-v-55d8ed6c] {\n    text-align: center;\n    padding: 2rem;\n    color: #666;\n}\n.subscription-card[data-v-55d8ed6c] {\n    background: #f8f9fa;\n    border: 1px solid #dee2e6;\n    border-radius: 8px;\n    padding: 2rem;\n    text-align: center;\n}\n.subscription-card h2[data-v-55d8ed6c] {\n    font-size: 1.5rem;\n    margin-bottom: 1rem;\n    color: #35a38b;\n}\n.plan-name[data-v-55d8ed6c] {\n    font-size: 1.25rem;\n    font-weight: 600;\n    margin-bottom: 0.5rem;\n    color: #333;\n}\n.ends-at[data-v-55d8ed6c] {\n    margin-bottom: 1.5rem;\n    color: #666;\n}\n.plans[data-v-55d8ed6c] {\n    background: #fff;\n    border: 1px solid #dee2e6;\n    border-radius: 8px;\n    padding: 2rem;\n}\n#planHeading[data-v-55d8ed6c] {\n    font-size: 1.5rem;\n    margin-bottom: 1.5rem;\n    color: #333;\n}\n.subscription-form[data-v-55d8ed6c] {\n    display: flex;\n    flex-direction: column;\n    gap: 1rem;\n}\n.form-control[data-v-55d8ed6c] {\n    border: 1px solid #dee2e6;\n    padding: 0.75rem;\n    border-radius: 6px;\n    width: 100%;\n    font-size: 1rem;\n}\n.btn[data-v-55d8ed6c] {\n    padding: 0.75rem 1.5rem;\n    border-radius: 6px;\n    border: none;\n    font-size: 1rem;\n    cursor: pointer;\n    transition: all 0.3s ease;\n}\n.btn[data-v-55d8ed6c]:disabled {\n    opacity: 0.6;\n    cursor: not-allowed;\n}\n.btn-primary[data-v-55d8ed6c] {\n    background-color: #35a38b;\n    color: white;\n}\n.btn-primary[data-v-55d8ed6c]:hover:not(:disabled) {\n    background-color: #2d8c77;\n}\n.btn-danger[data-v-55d8ed6c] {\n    background-color: #dc3545;\n    color: white;\n}\n.btn-danger[data-v-55d8ed6c]:hover:not(:disabled) {\n    background-color: #c82333;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

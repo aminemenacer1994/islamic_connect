@@ -10,7 +10,7 @@ class SubscriptionController extends Controller
     public function show()
     {
         $user = Auth::user();
-        return view('subscribe', ['user' => $user]);
+        return view('subscribe');
     }
 
     public function createSubscription(Request $request)
@@ -35,21 +35,6 @@ class SubscriptionController extends Controller
         }
     }
 
-    public function success()
-    {
-        return view('subscribe-success')->with('message', 'Subscription successful!');
-    }
-
-    public function cancel(Request $request)
-    {
-        $user = Auth::user();
-        if ($user->subscription('premium')) {
-            $user->subscription('premium')->cancel();
-            return redirect()->route('subscribe')->with('message', 'Subscription cancelled.');
-        }
-        return redirect()->route('subscribe')->with('message', 'No active subscription to cancel.');
-    }
-
     public function subscriptionStatus()
     {
         $user = Auth::user();
@@ -63,6 +48,56 @@ class SubscriptionController extends Controller
         ]);
     }
 
+    
+
+    public function success(Request $request)
+    {
+        $user = Auth::user();
+        $sessionId = $request->query('session_id');
+
+        if ($sessionId) {
+            try {
+                // Explicitly set the Stripe API key
+                \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+                // Retrieve the checkout session from Stripe
+                $session = \Stripe\Checkout\Session::retrieve($sessionId, [
+                    'expand' => ['customer'],
+                ]);
+
+                // Ensure the user is linked to the Stripe customer
+                if (!$user->stripe_id) {
+                    $user->stripe_id = $session->customer;
+                    $user->save();
+                    \Log::info('Linked user to Stripe customer: ' . $user->id, [
+                        'customer_id' => $session->customer,
+                    ]);
+                }
+
+                // Check if the subscription exists
+                $subscription = $user->subscription('premium');
+                if ($subscription) {
+                    \Log::info('Subscription found for user: ' . $user->id, [
+                        'subscription_id' => $subscription->stripe_id,
+                        'stripe_price' => $subscription->stripe_price,
+                    ]);
+                } else {
+                    \Log::info('Subscription not yet synced for user: ' . $user->id, [
+                        'session_id' => $sessionId,
+                    ]);
+                    // Note: Webhook will handle subscription creation
+                }
+
+                return redirect()->route('subscribe')->with('message', 'Subscription successful! Please wait a moment for the subscription to activate.');
+            } catch (\Exception $e) {
+                \Log::error('Error processing checkout session: ' . $e->getMessage());
+                return redirect()->route('subscribe')->with('message', 'Error verifying subscription: ' . $e->getMessage());
+            }
+        }
+
+        return redirect()->route('subscribe')->with('message', 'No session ID provided.');
+    }
+
     public function cancelSubscription(Request $request)
     {
         $user = Auth::user();
@@ -70,10 +105,14 @@ class SubscriptionController extends Controller
 
         if ($subscription) {
             $subscription->cancel();
+            
+            // Refresh to get updated ends_at
+            $subscription = $subscription->fresh();
+            
             return response()->json([
                 'success' => true,
                 'message' => 'Subscription cancelled.',
-                'ends_at' => $subscription->ends_at->toDateString(),
+                'ends_at' => $subscription->ends_at ? $subscription->ends_at->toDateString() : null,
             ]);
         }
 
@@ -82,6 +121,9 @@ class SubscriptionController extends Controller
             'message' => 'No active subscription to cancel.',
         ], 400);
     }
+
+    
+    
 
     public function addPaymentMethod(Request $request)
     {

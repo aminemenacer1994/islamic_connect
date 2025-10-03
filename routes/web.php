@@ -78,18 +78,101 @@ use GuzzleHttp\Client;
 use App\Http\Controllers\WebhookController;
 
 
+
 // stripe
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
-// Route::stripeWebhooks('stripe/webhook');
 
 Route::get('/', fn() => view('app'));
+
 Route::middleware(['web', 'auth'])->group(function () {
+
     Route::get('/subscribe', [SubscriptionController::class, 'show'])->name('subscribe');
     Route::post('/subscribe', [SubscriptionController::class, 'createSubscription']);
+    Route::get('/subscription-status', [SubscriptionController::class, 'subscriptionStatus']);
+    Route::post('/cancel', [SubscriptionController::class, 'cancelSubscription'])->name('cancel');
+
+
     Route::get('/subscribe/success', [SubscriptionController::class, 'success'])->name('subscribe.success');
     Route::get('/subscribe/cancel', [SubscriptionController::class, 'cancel'])->name('subscribe.cancel');
-    Route::get('/subscription-status', [SubscriptionController::class, 'subscriptionStatus']);
-    Route::post('/cancel', [SubscriptionController::class, 'cancelSubscription']);
+    
+    Route::get('/fix-stripe-customer', function () {
+        // ... the code you just used successfully
+    });
+    
+    // ADD THIS ROUTE RIGHT HERE:
+    Route::get('/sync-stripe-subscription', function () {
+        $user = Auth::user();
+        
+        if (!$user->stripe_id) {
+            return response()->json(['error' => 'No Stripe customer ID found']);
+        }
+
+        try {
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+            
+            $stripeSubscriptions = \Stripe\Subscription::all([
+                'customer' => $user->stripe_id,
+                'status' => 'active',
+                'limit' => 1,
+            ]);
+
+            if (count($stripeSubscriptions->data) === 0) {
+                return response()->json(['error' => 'No active subscriptions found in Stripe']);
+            }
+
+            $stripeSubscription = $stripeSubscriptions->data[0];
+            
+            $existingSubscription = $user->subscriptions()
+                ->where('stripe_id', $stripeSubscription->id)
+                ->first();
+
+            if ($existingSubscription) {
+                return response()->json([
+                    'message' => 'Subscription already synced',
+                    'subscription' => $existingSubscription
+                ]);
+            }
+
+            $priceId = $stripeSubscription->items->data[0]->price->id;
+
+            $subscription = $user->subscriptions()->create([
+                'name' => 'premium',
+                'stripe_id' => $stripeSubscription->id,
+                'stripe_status' => $stripeSubscription->status,
+                'stripe_price' => $priceId,
+                'quantity' => 1,
+                'trial_ends_at' => null,
+                'ends_at' => null,
+            ]);
+
+            $subscription->items()->create([
+                'stripe_id' => $stripeSubscription->items->data[0]->id,
+                'stripe_product' => $stripeSubscription->items->data[0]->price->product,
+                'stripe_price' => $priceId,
+                'quantity' => 1,
+            ]);
+
+            \Log::info('Subscription synced manually', [
+                'user_id' => $user->id,
+                'subscription_id' => $subscription->id,
+                'stripe_id' => $stripeSubscription->id,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Subscription synced successfully!',
+                'subscription' => $subscription,
+                'is_subscribed' => $user->fresh()->subscribed('premium')
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Sync failed: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Failed to sync subscription',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    });
 });
 
 Route::get('/login', function () {

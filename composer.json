@@ -10,12 +10,15 @@
     "require": {
         "php": "^8.0",
         "almasaeed2010/adminlte": "~3.2",
+        "barryvdh/laravel-dompdf": "^1.0",
+        "dompdf/dompdf": "^1.2.2",
         "fruitcake/laravel-cors": "^3.0",
         "google/cloud": "^0.263.0",
         "google/cloud-speech": "^1.19",
         "google/cloud-storage": "^1.36",
         "guzzlehttp/guzzle": "^7.9",
         "jeroennoten/laravel-adminlte": "^3.9",
+        "laravel/cashier": "^14.14",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.3",
         "laravel/socialite": "^5.18",
@@ -28,12 +31,9 @@
         "phpoffice/phpspreadsheet": "^1.29",
         "spatie/laravel-analytics": "^4.1",
         "spatie/laravel-honeypot": "^4.5",
+        "stripe/stripe-php": "^7.128",
         "tinymce/tinymce": "^7.2",
-        "yooper/php-text-analysis": "^1.9",
-        "laravel/cashier": "^12.17",
-        "dompdf/dompdf": "^1.2.2",
-        "barryvdh/laravel-dompdf": "^1.0",
-        "stripe/stripe-php": "^7.128"
+        "yooper/php-text-analysis": "^1.9"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

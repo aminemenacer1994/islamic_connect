@@ -1,239 +1,368 @@
 <template>
   <div id="app" class="container">
-
     <header class="text-center py-5">
-      <h1 class="fw-bold display-5 mb-3">Pricing Plans</h1>
-      <p class="lead text-muted mx-auto">
-        Choose a plan that suits your Islamic Connect needs. All plans include 24/7 support and a free 14-day trial.
-        Special discounts are available for mosques, Islamic schools, and community centers.
+      <h1 class="fw-bold display-5 mb-3">Subscription Management</h1>
+      <p class="lead text-muted mx-auto max-w-600">
+        Manage your Islamic Connect subscription. Unlock premium features and support our mission.
       </p>
     </header>
 
-    <!-- Pricing Section -->
-    <div id="pricing" class="container pb-5">
-      <!-- Pricing Toggle -->
-      <div class="d-flex justify-content-center mb-5">
-        <div class="pricing-toggle bg-light rounded-3 p-1 shadow-sm" role="group" aria-label="Billing period selector">
-          <button type="button" class="btn" :class="{ 'btn-teal': !isAnnual, 'btn-light': isAnnual }"
-            @click="isAnnual = false" aria-pressed="!isAnnual">
-            Monthly Billing
-          </button>
-          <button type="button" class="btn position-relative" :class="{ 'btn-teal': isAnnual, 'btn-light': !isAnnual }"
-            @click="isAnnual = true" aria-pressed="isAnnual">
-            Annual Billing
-            <span class="badge bg-success ms-2 fw-semibold">Save 20%</span>
-          </button>
-        </div>
+    <div class="container pb-5">
+      <!-- Success Alert -->
+      <div v-if="success" class="alert alert-success alert-dismissible fade show shadow-sm mb-4" role="status">
+        <i class="fas fa-check-circle me-2"></i>{{ success }}
+        <button type="button" class="btn-close" @click="success = ''" aria-label="Close"></button>
+      </div>
+      
+      <!-- Error Alert -->
+      <div v-if="error" class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
+        <i class="fas fa-exclamation-triangle me-2"></i>{{ error }}
+        <button type="button" class="btn-close" @click="error = ''" aria-label="Close"></button>
       </div>
 
-      <!-- Pricing Cards -->
-      <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
-        <div v-for="(plan, index) in plans" :key="plan.id" class="col">
-          <div class="card h-100 pricing-card border-0 shadow-lg"
-            :class="{ 'featured-card': plan.isFeatured }">
-            <div v-if="plan.isFeatured" class="featured-badge bg-teal text-white py-2 text-center">
-              Most Popular
+      <!-- Loading State -->
+      <div v-if="loading" class="text-center my-5 py-5">
+        <div class="spinner-border text-teal" role="status" style="width: 3rem; height: 3rem;">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3 text-muted">Loading subscription details...</p>
+      </div>
+
+      <!-- Active Subscription View -->
+      <div v-else-if="isSubscribed" class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card pricing-card border-0 shadow-lg">
+            <div class="featured-badge bg-teal text-white py-2 text-center">
+              Active Subscription
             </div>
-            <div class="pricing-card-header text-center ">
-              <div class="pricing-icon mt-3 mx-auto rounded-circle d-flex align-items-center justify-content-center">
-                <i :class="plan.icon"></i>
+            <div class="pricing-card-header text-center">
+              <div class="pricing-icon mt-3 mx-auto rounded-circle d-flex align-items-center justify-content-center bg-teal">
+                <i class="fas fa-check-circle text-white"></i>
               </div>
-              <h5 class="card-title mt-3 fw-bold">{{ plan.name }}</h5>
-              <div class="price-amount">
-                <span v-if="plan.price[priceKey] !== 'Custom'">
-                  {{ isAnnual ? `£${(parseFloat(plan.price.monthly.replace('£', '')) * 12 * 0.8).toFixed(2)}` : plan.price[priceKey] }}
-                </span>
-                <span v-else>{{ plan.price[priceKey] }}</span>
-                <small class="price-period" v-if="plan.price[priceKey] !== 'Custom'">/month</small>
+              <h5 class="card-title mt-3 fw-bold">{{ planDisplayName }}</h5>
+              <p class="text-muted mb-2">You're currently subscribed</p>
+              <div class="mt-3 p-3 bg-light rounded">
+                <p class="mb-0">
+                  <strong>{{ subscription?.ends_at ? 'Access until:' : 'Status:' }}</strong>
+                </p>
+                <p class="text-teal fw-bold fs-5 mb-0">
+                  {{ subscription?.ends_at ? formatDate(subscription.ends_at) : 'Active & Unlimited' }}
+                </p>
               </div>
-              <p class="text-muted mb-0">{{ plan.description }}</p>
-              <p v-if="isAnnual && plan.price[priceKey] !== 'Custom'" class="text-success small mt-1">
-                Billed annually (save 20%)
-              </p>
             </div>
-            <div class="card-body pricing-card-body d-flex flex-column">
+            <div class="card-body pricing-card-body">
               <ul class="pricing-features list-unstyled mb-4">
-                <li v-for="feature in plan.features" :key="feature" class="py-2">
-                  <i class="fas fa-check-circle me-2 text-teal"></i>{{ feature }}
+                <li class="py-2">
+                  <i class="fas fa-check-circle me-2 text-teal"></i>Ad-free experience
+                </li>
+                <li class="py-2">
+                  <i class="fas fa-check-circle me-2 text-teal"></i>Offline access to content
+                </li>
+                <li class="py-2">
+                  <i class="fas fa-check-circle me-2 text-teal"></i>Advanced prayer time settings
+                </li>
+                <li class="py-2">
+                  <i class="fas fa-check-circle me-2 text-teal"></i>Priority support
+                </li>
+                <li class="py-2">
+                  <i class="fas fa-check-circle me-2 text-teal"></i>Early access to new features
                 </li>
               </ul>
-              <a href="#" class="btn w-100 rounded-pill fw-semibold py-2 mt-auto"
-                :class="plan.isFeatured ? 'btn-teal ' : 'btn-outline-teal'">
-                {{ plan.buttonText }} <i class="fas fa-arrow-right ms-2"></i>
-              </a>
+              <button @click="handleCancelSubscription" 
+                class="btn btn-outline-danger w-100 rounded-pill fw-semibold py-2" 
+                :disabled="cancelling">
+                <i class="fas fa-times-circle me-2"></i>
+                {{ cancelling ? 'Cancelling...' : 'Cancel Subscription' }}
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- FAQ Section -->
-      <div class="text-center mb-5">
-        <h1 class="fw-bold text-dark mb-4">Frequently Asked Questions</h1>
-        <p class="lead text-muted mx-auto">
-          Answers to common questions about Islamic Connect subscriptions, services, and zakat eligibility.
-        </p>
-      </div>
-      <div class="row justify-content-center mb-5">
-        <div class="col-lg-10">
-          <div class="accordion accordion-flush" id="faqAccordion">
-            <div v-for="(faq, index) in faqs" :key="index"
-              class="accordion-item border-0 mb-3 shadow-sm">
-              <h2 class="accordion-header" :id="'heading' + index">
-                <button class="accordion-button collapsed rounded-3 fw-semibold" type="button" data-bs-toggle="collapse"
-                  :data-bs-target="'#collapse' + index" :aria-expanded="false" :aria-controls="'collapse' + index">
-                  <i class="fas fa-question-circle text-teal me-3"></i>{{ faq.question }}
-                </button>
-              </h2>
-              <div :id="'collapse' + index" class="accordion-collapse collapse" :aria-labelledby="'heading' + index"
-                data-bs-parent="#faqAccordion">
-                <div class="accordion-body pt-0">
-                  {{ faq.answer }}
+      <!-- Subscription Plans View -->
+      <div v-else>
+        <div class="text-center mb-4">
+          <h2 class="fw-bold mb-3">Choose Your Plan</h2>
+          <p class="text-muted">Select the plan that works best for you</p>
+        </div>
+
+        <form method="POST" action="/subscribe" @submit="submitting = true">
+          <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+            <div v-for="plan in plans" :key="plan.value" class="col">
+              <div class="card h-100 pricing-card border-0 shadow-lg plan-selector"
+                :class="{ 'featured-card': plan.value === selectedPlan }"
+                @click="selectedPlan = plan.value">
+                <div v-if="plan.featured" class="featured-badge bg-teal text-white py-2 text-center">
+                  {{ plan.badge }}
+                </div>
+                <div class="pricing-card-header text-center">
+                  <div class="pricing-icon mt-3 mx-auto rounded-circle d-flex align-items-center justify-content-center"
+                    :class="plan.value === selectedPlan ? 'bg-teal' : ''">
+                    <i :class="[plan.icon, plan.value === selectedPlan ? 'text-white' : 'text-teal']"></i>
+                  </div>
+                  <h5 class="card-title mt-3 fw-bold">{{ plan.name }}</h5>
+                  <div class="price-amount">{{ plan.price }}</div>
+                  <p class="text-muted mb-0">{{ plan.period }}</p>
+                  <p v-if="plan.savings" class="text-success small mt-1 fw-semibold">{{ plan.savings }}</p>
+                </div>
+                <div class="card-body pricing-card-body d-flex flex-column">
+                  <ul class="pricing-features list-unstyled mb-4">
+                    <li v-for="feature in plan.features" :key="feature" class="py-2">
+                      <i class="fas fa-check-circle me-2 text-teal"></i>{{ feature }}
+                    </li>
+                  </ul>
+                  <div class="form-check mt-auto">
+                    <input class="form-check-input" type="radio" 
+                      :id="plan.value" 
+                      :value="plan.value" 
+                      v-model="selectedPlan">
+                    <label class="form-check-label fw-semibold" :for="plan.value">
+                      Select this plan
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Final CTA -->
-      <div class="row align-items-center bg-dark text-white rounded-4 p-4 p-md-5 mb-5 shadow-lg">
-        <div class="col-md-8">
-          <h2 class="fw-bold mb-3">Enhance Your Islamic Digital Experience</h2>
-          <p class="mb-0">
-            Join mosques, schools, and individuals using Islamic Connect to access Quran, Hadith, Audio, Video, and
-            accessibility tools.
-          </p>
-        </div>
-        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-          <a href="#" class="btn btn-teal btn-lg rounded-pill px-4 fw-semibold">Get Started Today</a>
-        </div>
+          <div class="row justify-content-center">
+            <div class="col-lg-6">
+              <input type="hidden" name="_token" :value="csrfToken">
+              <input type="hidden" name="price_lookup_key" :value="selectedPlan">
+              <button type="submit" class="btn btn-teal btn-lg w-100 rounded-pill fw-semibold py-3" :disabled="submitting">
+                <i class="fas fa-credit-card me-2"></i>
+                {{ submitting ? 'Processing...' : 'Continue to Payment' }}
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, computed } from "vue";
-
 export default {
-  setup() {
-    const isAnnual = ref(false);
-
-    const plans = ref([
-      {
-        id: 'basic',
-        name: 'Basic',
-        description: 'For individual users & small mosques',
-        price: { monthly: '£0', annual: '£0' },
-        features: [
-          'Access to Quran & translation',
-          'Daily Ayah notifications',
-          'Audio recitation streaming',
-          'Community support'
-        ],
-        buttonText: 'Start Free',
-        isFeatured: false,
-        icon: 'fas fa-book-quran'
-      },
-      {
-        id: 'premium',
-        name: 'Premium',
-        description: 'For Islamic schools & growing centers',
-        price: { monthly: '£1.99', annual: '£1.99' },
-        features: [
-          'All Basic features',
-          'Hadith & Seerah libraries',
-          'Live radio & podcasts',
-          'Multi-user access',
-          'Customizable dashboard'
-        ],
-        buttonText: 'Start Trial',
-        isFeatured: true,
-        icon: 'fas fa-mosque'
-      },
-      {
-        id: 'lifetime',
-        name: 'Lifetime',
-        description: 'For large institutions & organizations',
-        price: { monthly: '£15.99', annual: '£15.99' },
-        features: [
-          'Unlimited users & devices',
-          'Full content library',
-          'Accessibility tools (TTS, STT, gestures)',
-          'Dedicated support & training',
-          'Zakat eligible subscriptions'
-        ],
-        buttonText: 'Contact Sales',
-        isFeatured: false,
-        icon: 'fas fa-star-and-crescent'
-      }
-    ]);
-
-    const faqs = ref([
-      {
-        question: 'Can Islamic institutions use zakat funds for this platform?',
-        answer: 'Yes, the Barakah plan is designed to be zakat eligible, allowing mosques and Islamic centers to use zakat funds.'
-      },
-      {
-        question: 'Does the platform support accessibility for all users?',
-        answer: 'Yes, we provide text-to-speech, speech-to-text, gesture navigation, and other accessibility features.'
-      },
-      {
-        question: 'Are there special discounts for Islamic centers?',
-        answer: 'Yes, mosques, schools, and charitable organizations can access discounted pricing upon request.'
-      }
-    ]);
-
-    const priceKey = computed(() => isAnnual.value ? 'annual' : 'monthly');
-
+  name: 'SubscriptionComponent',
+  data() {
     return {
-      isAnnual,
-      plans,
-      faqs,
-      priceKey
+      csrfToken: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+      selectedPlan: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+      loading: true,
+      submitting: false,
+      cancelling: false,
+      error: '',
+      success: '',
+      isSubscribed: false,
+      subscription: null,
+      plans: [
+        {
+          value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
+          name: 'Monthly',
+          price: '£1.99',
+          period: 'per month',
+          icon: 'fas fa-calendar',
+          badge: 'Flexible',
+          featured: false,
+          features: [
+            'All premium features',
+            'Cancel anytime',
+            'Monthly billing',
+            '24/7 support'
+          ]
+        },
+        {
+          value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+          name: 'Yearly',
+          price: '£18',
+          period: 'per year',
+          savings: 'Save £5.88 per year',
+          icon: 'fas fa-star',
+          badge: 'Most Popular',
+          featured: true,
+          features: [
+            'All premium features',
+            'Best value',
+            'Annual billing',
+            'Priority support'
+          ]
+        },
+        {
+          value: 'price_1SDrmPGsDD2PdzHqvk1SOoT3',
+          name: 'Lifetime',
+          price: '£25',
+          period: 'one-time payment',
+          savings: 'Never pay again',
+          icon: 'fas fa-infinity',
+          badge: 'Best Deal',
+          featured: false,
+          features: [
+            'All premium features',
+            'Lifetime access',
+            'One-time payment',
+            'VIP support'
+          ]
+        }
+      ],
+      planDetails: {
+        'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
+        'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly',
+        'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime',
+      }
     };
+  },
+  computed: {
+    planDisplayName() {
+      if (!this.subscription?.stripe_price) return 'Free';
+      return this.planDetails[this.subscription.stripe_price] || 'Premium';
+    }
+  },
+  mounted() {
+    this.checkUrlParams();
+  },
+  methods: {
+    formatDate(dateString) {
+      if (!dateString) return 'Never';
+      return new Date(dateString).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+    },
+    
+    async fetchSubscriptionStatus() {
+      try {
+        const response = await fetch('/subscription-status', {
+          headers: { 
+            'X-CSRF-TOKEN': this.csrfToken,
+            'Accept': 'application/json'
+          },
+        });
+        
+        if (!response.ok) throw new Error('Failed to fetch subscription status');
+        
+        const data = await response.json();
+        this.isSubscribed = data.is_subscribed;
+        this.subscription = {
+          stripe_price: data.plan !== 'free' ? data.plan : null,
+          ends_at: data.ends_at
+        };
+        
+        return data.is_subscribed;
+      } catch (err) {
+        console.error('Error fetching subscription:', err);
+        this.error = 'Error loading subscription status. Please refresh the page.';
+        return false;
+      }
+    },
+    
+    async waitForSubscription() {
+      this.success = 'Subscription successful! Activating your subscription...';
+      let attempts = 0;
+      const maxAttempts = 15;
+      
+      const checkStatus = async () => {
+        attempts++;
+        const subscribed = await this.fetchSubscriptionStatus();
+        
+        if (subscribed) {
+          this.success = 'Subscription activated successfully! Welcome to Premium.';
+          this.loading = false;
+          setTimeout(() => {
+            this.success = '';
+          }, 5000);
+          return true;
+        }
+        
+        if (attempts >= maxAttempts) {
+          this.error = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
+          this.success = '';
+          this.loading = false;
+          return false;
+        }
+        
+        setTimeout(checkStatus, 2000);
+        return false;
+      };
+      
+      await checkStatus();
+    },
+    
+    async checkUrlParams() {
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      if (urlParams.has('success')) {
+        await this.waitForSubscription();
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } else if (urlParams.has('cancelled')) {
+        this.error = 'Subscription cancelled. You can try again when ready.';
+        await this.fetchSubscriptionStatus();
+        this.loading = false;
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } else {
+        await this.fetchSubscriptionStatus();
+        this.loading = false;
+      }
+    },
+    
+    async handleCancelSubscription() {
+      if (!confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
+        return;
+      }
+      
+      this.cancelling = true;
+      this.error = '';
+      
+      try {
+        const response = await fetch('/cancel', {
+          method: 'POST',
+          headers: { 
+            'X-CSRF-TOKEN': this.csrfToken,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+          await this.fetchSubscriptionStatus();
+          this.success = `Subscription cancelled. You'll have access until ${this.formatDate(data.ends_at)}.`;
+          setTimeout(() => {
+            this.success = '';
+          }, 8000);
+        } else {
+          throw new Error(data.message || 'Failed to cancel subscription');
+        }
+      } catch (err) {
+        console.error('Error cancelling subscription:', err);
+        this.error = err.message || 'Error cancelling subscription. Please try again.';
+      } finally {
+        this.cancelling = false;
+      }
+    },
+    
+    handleSubmit(e) {
+      this.submitting = true;
+      e.target.submit();
+    }
   }
 };
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 
 :root {
-  --teal: #00bfa6;
+  --teal: #35a38b;
   --teal-light: #e0f7f5;
-  --teal-dark: #009688;
+  --teal-dark: #2d8c77;
   --dark: #1e293b;
   --muted: #64748b;
-  --light: #f8fafc;
-  --font-heading: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
-}
-
-body {
-  font-family: var(--font-body);
-  color: var(--dark);
-  background-color: #f9fafb;
-  line-height: 1.7;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading);
-  line-height: 1.3;
 }
 
 .max-w-600 {
   max-width: 600px;
-}
-
-.max-w-800 {
-  max-width: 800px;
 }
 
 .text-teal {
@@ -242,43 +371,20 @@ h6 {
 
 .bg-teal {
   background-color: var(--teal) !important;
-}
-
-.pricing-toggle {
-  display: inline-flex;
-  border-radius: 12px;
-  padding: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.pricing-toggle .btn {
-  border-radius: 8px;
-  padding: 0.6rem 1.5rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  color: white !important;
 }
 
 .btn-teal {
   background-color: var(--teal);
   border-color: var(--teal);
-  color: black;
+  color: white;
   transition: all 0.3s ease;
 }
 
 .btn-teal:hover {
   background-color: var(--teal-dark);
   border-color: var(--teal-dark);
-}
-
-.btn-outline-teal {
-  color: var(--teal);
-  border-color: var(--teal);
-  transition: all 0.3s ease;
-}
-
-.btn-outline-teal:hover {
-  background-color: var(--teal);
-  color: rgb(0, 0, 0);
+  color: white;
 }
 
 .pricing-card {
@@ -286,21 +392,24 @@ h6 {
   transition: all 0.3s ease;
   overflow: hidden;
   background: white;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(0, 0, 0, 0.05);
   position: relative;
+  cursor: pointer;
 }
 
 .pricing-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
 }
 
 .pricing-card.featured-card {
-  transform: scale(1.03);
-  box-shadow: 0 25px 50px rgba(0, 191, 166, 0.15);
-  border: 2px solid var(--teal);
+  transform: scale(1.05);
+  box-shadow: 0 25px 50px rgba(53, 163, 139, 0.2) !important;
+  border: 2px solid var(--teal) !important;
   z-index: 2;
+}
+
+.plan-selector {
+  cursor: pointer;
 }
 
 .featured-badge {
@@ -310,11 +419,11 @@ h6 {
   right: 0;
   font-size: 0.875rem;
   font-weight: 600;
+  z-index: 1;
 }
 
 .pricing-card-header {
   padding: 2rem 2rem 1rem;
-  text-align: center;
   background: #f8fafc;
 }
 
@@ -325,15 +434,10 @@ h6 {
 .pricing-icon {
   width: 80px;
   height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  margin: 0 auto 1rem;
   background: var(--teal-light);
   color: var(--teal);
   font-size: 2rem;
-  box-shadow: 0 5px 15px rgba(0, 191, 166, 0.2);
+  transition: all 0.3s ease;
 }
 
 .featured-card .pricing-icon {
@@ -348,19 +452,7 @@ h6 {
   color: var(--dark);
 }
 
-.price-period {
-  color: var(--muted);
-  font-size: 1rem;
-}
-
-.pricing-features {
-  list-style: none;
-  padding: 0;
-  margin: 1.5rem 0;
-}
-
 .pricing-features li {
-  padding: 0.6rem 0;
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -370,18 +462,8 @@ h6 {
   border-bottom: none;
 }
 
-.accordion-button {
-  font-weight: 600;
-  border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.accordion-button:not(.collapsed) {
-  background-color: white;
-  color: var(--dark);
-  box-shadow: none;
-  border-radius: 12px;
+.spinner-border.text-teal {
+  color: var(--teal) !important;
 }
 
 @media (max-width: 768px) {

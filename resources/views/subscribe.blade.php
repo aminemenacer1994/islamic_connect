@@ -1,29 +1,14 @@
-@if (!$user->subscribed('premium'))
-    <form method="POST" action="{{ route('subscribe') }}" class="subscription-form">
-        @csrf
-        <select name="price_lookup_key" required>
-            <option value="price_1SDrmPGsDD2PdzHqTgawcJZd">Premium Monthly (£1.99)</option>
-            <option value="price_1SDrmPGsDD2PdzHqDOScwoI2">Premium Yearly (£18)</option>
-            <option value="price_1SDrmPGsDD2PdzHqvk1SOoT3">Premium Lifetime (£25)</option>
-        </select>
-        <button type="submit">Subscribe</button>
-    </form>
-@else
-    @php
-        $subscription = $user->subscription('premium');
-        $planDetails = [
-            'price_1SDrmPGsDD2PdzHqTgawcJZd' => 'Monthly (£1.99)',
-            'price_1SDrmPGsDD2PdzHqDOScwoI2' => 'Yearly (£18)',
-            'price_1SDrmPGsDD2PdzHqvk1SOoT3' => 'Lifetime (£25)',
-        ];
-        $planName = $subscription?->stripe_price ? ($planDetails[$subscription->stripe_price] ?? 'Unknown') : 'free';
-    @endphp
-    <div class="subscription-details">
-        <p>Debug: Subscribed = {{ $user->subscribed('premium') ? 'Yes' : 'No' }}, Stripe Price = {{ $subscription?->stripe_price ?? 'None' }}</p>
-        <p>You’re on the {{ $planName }} plan! Ends: {{ $subscription?->ends_at?->toDateString() ?? 'Never' }}</p>
-        <form method="POST" action="{{ route('cancel') }}" class="cancel-form">
-            @csrf
-            <button type="submit">Cancel Subscription</button>
-        </form>
-    </div>
-@endif
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Subscribe - Islamic Connect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <subscription-component></subscription-component>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
