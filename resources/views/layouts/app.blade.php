@@ -72,8 +72,116 @@
 body{
     padding-top: 70px;
 }
+
+/* Screen-reader utilities */
+.sr-only{
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+}
+.sr-only-focusable:active,.sr-only-focusable:focus{
+    position:static;
+    width:auto;
+    height:auto;
+    margin:0;
+    overflow:visible;
+    clip:auto;
+    white-space:normal;
+}
+
+/* Skip link */
+.skip-to-content{
+    position:absolute;
+    top:-40px;
+    left:8px;
+    background:#fff;
+    color:#000;
+    padding:8px 12px;
+    z-index:10000;
+    border-radius:6px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+.skip-to-content:focus{
+    top:8px;
+}
+
+/* Focus visibility */
+:focus-visible{
+    outline:3px solid #35a38b;
+    outline-offset:2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+    *{
+        animation-duration:0.001ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:0.001ms !important;
+        scroll-behavior:auto !important;
+    }
+}
+
+/* Class-driven reduced motion (user preference) */
+.reduced-motion *{
+    animation-duration:0.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.001ms !important;
+    scroll-behavior:auto !important;
+}
+
+/* High contrast mode */
+.high-contrast body{
+    background-color:#ffffff !important;
+    color:#000000 !important;
+}
+.high-contrast a,.high-contrast .nav-link{
+    color:#004085 !important;
+}
+.high-contrast a:focus-visible,
+.high-contrast button:focus-visible,
+.high-contrast [role="button"]:focus-visible{
+    outline:3px solid #000 !important;
+}
+.high-contrast .btn-primary{
+    background-color:#0d6efd !important;
+    border-color:#0d6efd !important;
+    color:#fff !important;
+}
+.a11y-toggle{
+    position:fixed;
+    right:16px;
+    bottom:16px;
+    z-index:1100;
+}
+.a11y-panel{
+    position:fixed;
+    right:16px;
+    bottom:64px;
+    width:280px;
+    max-width:90vw;
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 8px 24px rgba(0,0,0,.2);
+    z-index:1100;
+}
+.a11y-panel header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 12px;
+    border-bottom:1px solid #e5e7eb;
+}
+.a11y-panel .content{ padding:12px; }
+.a11y-panel[hidden]{ display:none; }
 </style>
 <body>
+    <a class="skip-to-content" href="#main-content">Skip to main content</a>
     <div id="app">
         <!-- Navbar -->
     <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm py-1">
@@ -179,7 +287,7 @@ body{
         </div>
     </nav>
         <!-- Main Content -->
-        <main>
+        <main id="main-content" role="main" tabindex="-1">
             @yield('content')
         </main>
     </div>
@@ -205,8 +313,91 @@ body{
                     localStorage.setItem('activeNav', link.dataset.path);
                 });
             });
+
+            // Initialize Accessibility preferences
+            const root = document.documentElement;
+            const highContrast = localStorage.getItem('a11y_high_contrast') === 'true';
+            const reducedMotion = localStorage.getItem('a11y_reduced_motion') === 'true';
+            root.classList.toggle('high-contrast', highContrast);
+            root.classList.toggle('reduced-motion', reducedMotion);
+
+            // Wire up panel toggles if present
+            const hcToggle = document.getElementById('a11yHighContrast');
+            const rmToggle = document.getElementById('a11yReducedMotion');
+            if (hcToggle){
+                hcToggle.checked = highContrast;
+                hcToggle.addEventListener('change', () => {
+                    root.classList.toggle('high-contrast', hcToggle.checked);
+                    localStorage.setItem('a11y_high_contrast', hcToggle.checked);
+                });
+            }
+            if (rmToggle){
+                rmToggle.checked = reducedMotion;
+                rmToggle.addEventListener('change', () => {
+                    root.classList.toggle('reduced-motion', rmToggle.checked);
+                    localStorage.setItem('a11y_reduced_motion', rmToggle.checked);
+                });
+            }
+
+            // Toggle panel visibility
+            const panel = document.getElementById('a11yPanel');
+            const openBtn = document.getElementById('a11yOpen');
+            const closeBtn = document.getElementById('a11yClose');
+            if (openBtn && panel){
+                openBtn.addEventListener('click', () => {
+                    panel.hidden = false;
+                    panel.querySelector('h3')?.focus();
+                });
+            }
+            if (closeBtn && panel){
+                closeBtn.addEventListener('click', () => {
+                    panel.hidden = true;
+                    openBtn.focus();
+                });
+            }
         });
     </script>
+    
+    <!-- Accessibility floating controls
+    <button id="a11yOpen" class="btn btn-light a11y-toggle" type="button" aria-haspopup="dialog" aria-controls="a11yPanel" aria-expanded="false">
+        <i class="bi bi-universal-access"></i> Accessibility
+    </button>
+    <section id="a11yPanel" class="a11y-panel" role="dialog" aria-modal="true" aria-labelledby="a11yTitle" hidden>
+        <header>
+            <h3 id="a11yTitle" class="m-0">Accessibility</h3>
+            <button id="a11yClose" class="btn btn-sm btn-outline-secondary" type="button" aria-label="Close accessibility settings">
+                <i class="bi bi-x"></i>
+            </button>
+        </header>
+        <div class="content">
+            <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" id="a11yHighContrast">
+                <label class="form-check-label" for="a11yHighContrast">High contrast mode</label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="a11yReducedMotion">
+                <label class="form-check-label" for="a11yReducedMotion">Reduce motion</label>
+            </div>
+        </div>
+    </section> -->
+
+    @if (app()->environment('local'))
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.7.2/axe.min.js" integrity="sha512-y+Q+1e8p91bQm9b5wz9mKZ9WgSJND0bKx9D6o1XyJQPUWq2wYtGPB+8v8N+Zm0g5oY4KZq2rJb6z5m9q5y0kYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        window.addEventListener('load', function(){
+            if (window.axe){
+                axe.run().then(results => {
+                    if (results && results.violations && results.violations.length){
+                        // Log concise output for devs
+                        console.group('[axe] Accessibility issues');
+                        results.violations.forEach(v => console.warn(v.id, v.impact, v.description, v.nodes));
+                        console.groupEnd();
+                    }
+                }).catch(e => console.warn('axe scan failed', e));
+            }
+        });
+    </script>
+    @endif
         
 </body>
 </html>

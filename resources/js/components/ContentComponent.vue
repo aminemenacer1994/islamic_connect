@@ -20,7 +20,7 @@
         <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="podcast-selection-item"
           @click="selectPodcast(podcast)">
           <div class="podcast-image-wrapper">
-            <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image">
+            <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image" loading="lazy">
             <div class="podcast-overlay">
               <i class="bi bi-play-circle-fill"></i>
               <span class="play-text">Click to Select</span>
@@ -49,11 +49,117 @@
           </div>
         </div>
         <div class="selected-podcast-image-container">
-          <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-image">
+          <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-image" loading="lazy">
         </div>
       </div>
       <div class="selected-podcast-description">
         <p>{{ selectedPodcast.desc }}</p>
+      </div>
+    </div>
+
+    <!-- Continue Listening Section -->
+    <div v-if="selectedPodcast && continueListening.length" class="continue-listening-section">
+      <div class="section-header">
+        <h2 class="section-title">Continue Listening</h2>
+        <p class="section-subtitle">Pick up where you left off</p>
+      </div>
+      <div class="podcast-cards-grid border-md" style="padding: 5px;">
+        <div v-for="(item, idx) in continueListening" :key="item.title" class="podcast-card-wrapper">
+          <div class="podcast-card" style="padding: 1.2rem;">
+            <div class="card-body">
+              <div class="podcast-card-top">
+                <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
+                <div class="podcast-card-info">
+                  <h4 class="podcast-title">{{ item.title }}</h4>
+                  <div class="podcast-extra-info">
+                    <span class="duration-badge">
+                      <i class="bi bi-clock" style="font-size:1.1rem;"></i>
+                      {{ formatTime(item.savedTime) }} / {{ formatTime(item.duration || 0) }}
+                    </span>
+                  </div>
+                </div>
+                <div class="audio-controls-inline">
+                  <button class="control-button play-btn" @click="resumeFromSaved(item)" aria-label="Resume">
+                    <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Favorites Section -->
+    <div v-if="favourites && favourites.length" class="favorites-section">
+      <div class="section-header">
+        <h2 class="section-title">Your Favorites</h2>
+        <p class="section-subtitle">Quick access to episodes you loved</p>
+      </div>
+      <div class="podcast-cards-grid border-md" style="padding: 5px;">
+        <div v-for="fav in favourites" :key="fav.title + fav.audioUrl" class="podcast-card-wrapper">
+          <div :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(fav) }]" style="padding: 1.2rem;">
+            <div class="card-body">
+              <div class="podcast-card-top">
+                <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
+                <div class="podcast-card-info">
+                  <h4 class="podcast-title">{{ fav.title }}</h4>
+                  <div class="podcast-extra-info">
+                    <span class="lang-badge" :title="'Published'">
+                      <i class="bi bi-calendar3" style="font-size:1.1rem;"></i>
+                      {{ formatDate(fav.pubDate) }}
+                    </span>
+                    <span v-if="fav.likedAt" class="lang-badge" :title="'Liked on'" style="margin-left:8px;">
+                      <i class="bi bi-heart-fill" style="font-size:1.1rem;"></i>
+                      {{ new Date(fav.likedAt).toLocaleString() }}
+                    </span>
+                  </div>
+                </div>
+                <div class="audio-controls-inline">
+                  <button class="control-button play-btn" @click="playFromFavourites(fav)" title="Play">
+                    <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
+                  </button>
+                  <button class="control-button" @click="toggleFavourite(fav)" title="Remove from favorites">
+                    <i class="bi bi-heart-fill text-danger" style="font-size:1.3rem;"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recently Played Section -->
+    <div v-if="recentPlays && recentPlays.length" class="recently-played-section">
+      <div class="section-header">
+        <h2 class="section-title">Recently Played</h2>
+        <p class="section-subtitle">Your recent listening history</p>
+      </div>
+      <div class="podcast-cards-grid border-md" style="padding: 5px;">
+        <div v-for="rp in recentPlays" :key="rp.title + rp.audioUrl + rp.playedAt" class="podcast-card-wrapper">
+          <div :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(rp) }]" style="padding: 1.2rem;">
+            <div class="card-body">
+              <div class="podcast-card-top">
+                <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
+                <div class="podcast-card-info">
+                  <h4 class="podcast-title">{{ rp.title }}</h4>
+                  <div class="podcast-extra-info">
+                    <span class="lang-badge" :title="'Played at'">
+                      <i class="bi bi-clock" style="font-size:1.1rem;"></i>
+                      {{ new Date(rp.playedAt).toLocaleString() }}
+                    </span>
+                  </div>
+                </div>
+                <div class="audio-controls-inline">
+                  <button class="control-button play-btn" @click="playFromHistory(rp)" title="Play">
+                    <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -68,7 +174,7 @@
           <div class="col-12 col-md-3">
             <div class="input-group search-group">
               <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
-              <input v-model="searchQuery" type="text" class="form-control border-start-0"
+              <input v-model="searchInput" @input="onSearchInput" type="text" class="form-control border-start-0"
                 placeholder="Search episodes..." />
             </div>
           </div>
@@ -137,7 +243,7 @@
               <div class="podcast-card-top">
                 <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image"
                   :alt="selectedPodcast.name" class="episode-avatar podcast-image-clickable"
-                  @click="scrollToFirstEpisode" style="cursor:pointer;" />
+                  @click="scrollToFirstEpisode" style="cursor:pointer;" loading="lazy" />
                 <div class="podcast-card-info">
                   <h4 class="podcast-title" v-html="highlightText(podcast.title)"></h4>
                   <div class="podcast-extra-info">
@@ -156,8 +262,10 @@
                   <button class="control-button play-btn" @click="toggleAudioPlayer(index)"
                     :class="{ 'playing': isAudioPlaying[index] }"
                     :aria-label="isAudioPlaying[index] ? 'Pause' : 'Play'">
-                    <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'"
-                      style="font-size:1.5rem;"></i>
+                    <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'" style="font-size:1.5rem; cursor:pointer;"></i>
+                  </button>
+                  <button class="control-button" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'" :title="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" @click.stop="toggleFavourite(podcast)">
+                    <i class="bi" :class="isFavourite(podcast) ? 'bi-heart-fill text-danger' : 'bi-heart'" style="font-size:1.3rem;"></i>
                   </button>
                 </div>
               </div>
@@ -229,7 +337,7 @@
 
     <!-- Audio Player -->
     <div v-if="showAudioPlayer" class="audio-player-container">
-      <div class="custom-audio-player">
+      <div class="custom-audio-player" :class="{ minimized: isPlayerMinimized }">
         <div class="controls">
           <div class="control-group">
             <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind">
@@ -248,8 +356,8 @@
 
           </div>
           <div class="info-section">
-            <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{
-              formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+            <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+            <span class="episode-title" v-if="paginatedPodcasts[currentlyPlayingIndex]">• {{ paginatedPodcasts[currentlyPlayingIndex].title }}</span>
           </div>
           <div class="audio-actions" style="display: flex; align-items: center; gap: 18px;">
             <div style="display: flex; align-items: center; gap: 10px;">
@@ -259,6 +367,19 @@
               <input v-if="showVolumeBar" type="range" min="0" max="1" step="0.01" v-model.number="volume"
                 @input="updateVolume" class="volume-slider" style="width: 80px;" aria-label="Volume" />
             </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <label for="speedSelect" class="visually-hidden">Speed</label>
+              <select id="speedSelect" v-model.number="playbackSpeed" @change="updatePlaybackSpeed" class="form-select form-select-sm" style="width: 90px;">
+                <option :value="0.75">0.75x</option>
+                <option :value="1">1x</option>
+                <option :value="1.25">1.25x</option>
+                <option :value="1.5">1.5x</option>
+                <option :value="2">2x</option>
+              </select>
+            </div>
+            <button @click="isPlayerMinimized = !isPlayerMinimized" class="control-btn" :title="isPlayerMinimized ? 'Expand Player' : 'Minimize Player'">
+              <i class="bi" :class="isPlayerMinimized ? 'bi-arrows-angle-expand' : 'bi-arrows-angle-contract'"></i>
+            </button>
             <button @click="closeAudioPlayer" class="control-btn close-btn" title="Close">
               <i class="bi bi-x-lg"></i>
             </button>
@@ -306,6 +427,8 @@ export default {
       sortBy: 'most-viewed',
       selectedDateFilter: 'select date filter',
       selectedPodcast: "",
+      lastSelectedPodcastKey: 'content_last_selected_podcast',
+      continueListening: [],
       volume: 1,
       showVolumeBar: false,
       islamicPodcasts: [
@@ -419,10 +542,13 @@ export default {
       loading: true,
       rssUrl: 'https://themadmamluks.libsyn.com/rss',
       searchQuery: '',
+      searchInput: '',
+      searchDebounceTimer: null,
       currentPage: 1,
       podcastsPerPage: 8,
       bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
       favourites: JSON.parse(localStorage.getItem('favourites')) || [],
+      recentPlays: JSON.parse(localStorage.getItem('recentPlays') || '[]'),
       sortOption: 'mostViewed',
       dateFilter: 'weekly',
       durationFilter: '',
@@ -437,6 +563,7 @@ export default {
       audioPlayerJustOpened: false,
       isSeeking: false,
       languageFilter: '',
+      isPlayerMinimized: false,
     };
   },
 
@@ -516,6 +643,34 @@ export default {
 
     // Add keyboard event listener for closing audio player
     document.addEventListener('keydown', this.handleKeydown);
+
+    // Restore persisted settings
+    try {
+      const savedVolume = localStorage.getItem('content_volume');
+      if (savedVolume !== null) this.volume = Number(savedVolume);
+    } catch (e) {}
+    try {
+      const savedSpeed = localStorage.getItem('content_speed');
+      if (savedSpeed !== null) this.playbackSpeed = Number(savedSpeed) || 1.0;
+    } catch (e) {}
+
+    // Restore last selected podcast
+    try {
+      const savedPodcast = localStorage.getItem(this.lastSelectedPodcastKey);
+      if (savedPodcast) {
+        const parsed = JSON.parse(savedPodcast);
+        if (parsed && parsed.rssUrl) this.selectedPodcast = parsed;
+      }
+    } catch (e) {}
+
+    // Build Continue Listening list from localStorage for current selection
+    this.buildContinueListening();
+
+    // Prune recent plays to last 50
+    if (Array.isArray(this.recentPlays) && this.recentPlays.length > 50) {
+      this.recentPlays = this.recentPlays.slice(0, 50);
+      try { localStorage.setItem('recentPlays', JSON.stringify(this.recentPlays)); } catch (e) {}
+    }
   },
 
   beforeUnmount() {
@@ -524,12 +679,20 @@ export default {
   },
 
   methods: {
+    onSearchInput() {
+      if (this.searchDebounceTimer) clearTimeout(this.searchDebounceTimer);
+      this.searchDebounceTimer = setTimeout(() => {
+        this.searchQuery = (this.searchInput || '').trim();
+        this.currentPage = 1;
+      }, 250);
+    },
     toggleVolume() {
       this.showVolumeBar = !this.showVolumeBar;
     },
     updateVolume() {
       const audio = this.audioElements[this.currentlyPlayingIndex];
       if (audio) audio.volume = this.volume;
+      try { localStorage.setItem('content_volume', String(this.volume)); } catch (e) {}
     },
     onPlay(index) {
       this.$refs.audioPlayers.forEach((audio, i) => {
@@ -789,8 +952,22 @@ export default {
         console.error('Play error:', err);
         this.handlePodcastEnd(index);
       });
-      this.isAudioPlaying[index] = true;
+      this.isAudioPlaying = this.isAudioPlaying.map((_, i) => i === index);
+      this.playingIndex = index;
+      // Ensure the corresponding card is scrolled into view on mobile
+      this.$nextTick(() => {
+        const cards = document.querySelectorAll('.podcast-card-wrapper');
+        const card = cards[index];
+        if (card && window.innerWidth < 768) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
       this.showAudioPlayer = true;
+      // Save to recent plays
+      try {
+        const ep = this.paginatedPodcasts[index];
+        const entry = { title: ep?.title, audioUrl: ep?.audioUrl, playedAt: Date.now(), pubDate: ep?.pubDate };
+        this.recentPlays = [entry, ...this.recentPlays.filter(r => !(r.title === entry.title && r.audioUrl === entry.audioUrl))].slice(0, 50);
+        localStorage.setItem('recentPlays', JSON.stringify(this.recentPlays));
+      } catch (e) {}
       this.$nextTick(() => {
         const player = document.querySelector('.audio-player-container');
         if (player) player.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -799,6 +976,11 @@ export default {
       setTimeout(() => {
         this.audioPlayerJustOpened = false;
       }, 300);
+    },
+    isCurrentlyPlaying(item) {
+      const cur = this.paginatedPodcasts[this.currentlyPlayingIndex];
+      if (!cur || !item) return false;
+      return cur.title === item.title && cur.audioUrl === item.audioUrl && this.isAudioPlaying[this.currentlyPlayingIndex];
     },
     handlePodcastEnd(index) {
       if (this.isAudioPlaying[index]) {
@@ -938,6 +1120,7 @@ export default {
 
     selectPodcast(podcast) {
       this.selectedPodcast = podcast;
+      try { localStorage.setItem(this.lastSelectedPodcastKey, JSON.stringify(podcast)); } catch (e) {}
       this.fetchPodcasts();
       this.$nextTick(() => {
         const section = this.$refs.podcastDetailSection;
@@ -1015,11 +1198,52 @@ export default {
         const audio = new Audio(podcast.audioUrl || '');
         audio.playbackRate = this.playbackSpeed;
         audio.volume = this.volume;
-        audio.addEventListener('timeupdate', () => this.updateProgress(index));
+        audio.addEventListener('timeupdate', () => {
+          this.updateProgress(index);
+          try {
+            const key = `content_progress_${podcast.title}`;
+            localStorage.setItem(key, String(audio.currentTime || 0));
+          } catch (e) {}
+        });
         audio.addEventListener('loadedmetadata', () => { this.progress[index] = 0; });
         audio.addEventListener('ended', () => this.handlePodcastEnd(index));
         return audio;
       });
+    },
+
+    buildContinueListening() {
+      try {
+        const entries = [];
+        const prefix = 'content_progress_';
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (!key || !key.startsWith(prefix)) continue;
+          const title = key.substring(prefix.length);
+          const savedTime = Number(localStorage.getItem(key));
+          if (isNaN(savedTime) || savedTime < 5) continue;
+          const match = this.podcasts.find(p => p.title === title) || this.filteredPodcasts.find(p => p.title === title);
+          entries.push({ title, savedTime, duration: match?.duration || 0 });
+        }
+        // Sort by most recent progress (approx by storage order not guaranteed) then limit
+        this.continueListening = entries.slice(0, 6);
+      } catch (e) { this.continueListening = []; }
+    },
+
+    resumeFromSaved(item) {
+      // Find index in current paginated list; if not present, attempt to locate in full list and adjust pagination
+      const fullIndex = this.filteredAndSearchedPodcasts.findIndex(p => p.title === item.title);
+      if (fullIndex >= 0) {
+        const page = Math.floor(fullIndex / this.podcastsPerPage) + 1;
+        if (page !== this.currentPage) this.currentPage = page;
+        this.$nextTick(() => {
+          const localIndex = this.paginatedPodcasts.findIndex(p => p.title === item.title);
+          if (localIndex >= 0) {
+            this.playAudio(localIndex);
+            if (this.currentlyPlaying) this.currentlyPlaying.currentTime = item.savedTime;
+            this.showAudioPlayer = true;
+          }
+        });
+      }
     },
     playAudio(index) {
       if (this.currentlyPlaying !== null && this.currentlyPlaying !== this.audioElements[index]) {
@@ -1032,6 +1256,15 @@ export default {
       this.currentlyPlaying = this.audioElements[index];
       this.currentlyPlayingIndex = index;
       this.playingIndex = index;
+      // Restore last position for this episode
+      try {
+        const podcast = this.paginatedPodcasts[index];
+        const key = `content_progress_${podcast.title}`;
+        const saved = Number(localStorage.getItem(key));
+        if (!isNaN(saved) && saved > 0 && this.currentlyPlaying && Math.abs((this.currentlyPlaying.currentTime || 0) - saved) > 1) {
+          this.currentlyPlaying.currentTime = saved;
+        }
+      } catch (e) {}
       this.currentlyPlaying.play().catch((err) => {
         console.error('Play error:', err);
         this.handlePodcastEnd(index);
@@ -1129,6 +1362,54 @@ export default {
           slider.style.setProperty('--val', this.volume);
         }
       });
+      try { localStorage.setItem('content_volume', String(this.volume)); } catch (e) {}
+    },
+    updatePlaybackSpeed() {
+      try { localStorage.setItem('content_speed', String(this.playbackSpeed)); } catch (e) {}
+      if (this.audioElements && this.audioElements.forEach) {
+        this.audioElements.forEach((audio) => { if (audio) audio.playbackRate = this.playbackSpeed; });
+      }
+      if (this.currentlyPlaying) this.currentlyPlaying.playbackRate = this.playbackSpeed;
+    },
+    isFavourite(podcast) {
+      return this.favourites.some(f => f.title === podcast.title && f.audioUrl === podcast.audioUrl);
+    },
+    toggleFavourite(podcast) {
+      const exists = this.isFavourite(podcast);
+      if (exists) {
+        this.favourites = this.favourites.filter(f => !(f.title === podcast.title && f.audioUrl === podcast.audioUrl));
+      } else {
+        this.favourites = [{ title: podcast.title, audioUrl: podcast.audioUrl, pubDate: podcast.pubDate, views: podcast.views, likedAt: Date.now() }, ...this.favourites].slice(0, 100);
+      }
+      try { localStorage.setItem('favourites', JSON.stringify(this.favourites)); } catch (e) {}
+    },
+    playFromFavourites(fav) {
+      const fullIndex = this.filteredAndSearchedPodcasts.findIndex(p => p.title === fav.title && p.audioUrl === fav.audioUrl);
+      if (fullIndex >= 0) {
+        const page = Math.floor(fullIndex / this.podcastsPerPage) + 1;
+        if (page !== this.currentPage) this.currentPage = page;
+        this.$nextTick(() => {
+          const localIndex = this.paginatedPodcasts.findIndex(p => p.title === fav.title && p.audioUrl === fav.audioUrl);
+          if (localIndex >= 0) {
+            this.playAudio(localIndex);
+            this.showAudioPlayer = true;
+          }
+        });
+      }
+    },
+    playFromHistory(item) {
+      const fullIndex = this.filteredAndSearchedPodcasts.findIndex(p => p.title === item.title && p.audioUrl === item.audioUrl);
+      if (fullIndex >= 0) {
+        const page = Math.floor(fullIndex / this.podcastsPerPage) + 1;
+        if (page !== this.currentPage) this.currentPage = page;
+        this.$nextTick(() => {
+          const localIndex = this.paginatedPodcasts.findIndex(p => p.title === item.title && p.audioUrl === item.audioUrl);
+          if (localIndex >= 0) {
+            this.playAudio(localIndex);
+            this.showAudioPlayer = true;
+          }
+        });
+      }
     },
     closeAudioPlayer() {
       if (this.currentlyPlayingIndex !== null) {

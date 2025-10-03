@@ -1,38 +1,39 @@
 <template>
     <div>
-        <h2>Choose Your Plan</h2>
-        <div v-if="!isSubscribed" class="plans">
-            <div class="plan" @click="selectPlan('price_premium_monthly')">
+        <h2 id="planHeading">Choose Your Plan</h2>
+        <div v-if="!isSubscribed" class="plans" role="radiogroup" aria-labelledby="planHeading">
+            <button class="plan" role="radio" :aria-checked="selectedPlan === 'price_premium_monthly'" @click="selectPlan('price_premium_monthly')">
                 <h3>Premium Monthly</h3>
                 <p>£1.99 / month</p>
-            </div>
-            <div class="plan" @click="selectPlan('price_premium_yearly')">
+            </button>
+            <button class="plan" role="radio" :aria-checked="selectedPlan === 'price_premium_yearly'" @click="selectPlan('price_premium_yearly')">
                 <h3>Premium Yearly</h3>
                 <p>£18 / year (Save 25%)</p>
-            </div>
-            <div class="plan" @click="selectPlan('price_premium_lifetime')">
+            </button>
+            <button class="plan" role="radio" :aria-checked="selectedPlan === 'price_premium_lifetime'" @click="selectPlan('price_premium_lifetime')">
                 <h3>Premium Lifetime</h3>
                 <p>£25 once</p>
-            </div>
+            </button>
         </div>
         <div v-else>
             <p>You're on {{ plan }} plan! Ends: {{ endsAt }}</p>
             <button @click="cancelSubscription" class="btn btn-primary">Cancel Subscription</button>
         </div>
         <form v-if="selectedPlan && !hasPaymentMethod" @submit.prevent="handlePayment" method="post"
-            action="/subscribe">
+            action="/subscribe" aria-describedby="paymentHelp" novalidate>
             <input type="hidden" name="price_lookup_key" :value="selectedPlan">
             <div class="mb-3">
                 <label for="cardholderName" class="form-label">Cardholder Name</label>
                 <input v-model="cardholderName" id="cardholderName" type="text" class="form-control" required
-                    placeholder="Enter your name">
+                    placeholder="Enter your name" autocomplete="cc-name">
             </div>
             <stripe-card ref="card" :key="selectedPlan" class="form-control" stripe="stripe"
-                @stripe-error="onCardError" />
-            <button type="submit" :disabled="loading" class="btn btn-primary">Subscribe</button>
+                @stripe-error="onCardError" aria-label="Card details"></stripe-card>
+            <p id="paymentHelp" class="sr-only">Your payment is processed securely by Stripe.</p>
+            <button type="submit" :disabled="loading" class="btn btn-primary" :aria-busy="loading.toString()">Subscribe</button>
         </form>
-        <p v-if="error" class="error">{{ error }}</p>
-        <p v-if="success" class="success">{{ success }}</p>
+        <p v-if="error" class="error" role="alert" aria-live="assertive">{{ error }}</p>
+        <p v-if="success" class="success" role="status" aria-live="polite">{{ success }}</p>
     </div>
 </template>
 

@@ -142245,7 +142245,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       selectedDateFilter: 'Select a Date filter',
       currentDate: new Date(),
       sortBy: 'most-viewed'
-    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "selectedDateFilter", 'select date filter'), "selectedPodcast", ""), "volume", 1), "showVolumeBar", false), "islamicPodcasts", [{
+    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "selectedDateFilter", 'select date filter'), "selectedPodcast", ""), "lastSelectedPodcastKey", 'content_last_selected_podcast'), "continueListening", []), "volume", 1), "showVolumeBar", false), "islamicPodcasts", [{
       name: "The Mad Mamluks",
       rssUrl: "https://themadmamluks.libsyn.com/rss",
       desc: "The Mad Mamluks is a podcast that delves into contemporary issues, politics, theology, and culture from a Muslim perspective. Hosted by a group of Muslim men, the show features in-depth discussions with scholars, activists, and community leaders.  \n                The topics range from faith, Islamic history, and jurisprudence to social justice, current affairs, and political challenges faced by Muslims today.",
@@ -142318,7 +142318,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       rssUrl: "https://feeds.buzzsprout.com/1658500.rss",
       desc: "The Light of Reflection offers daily Quranic reflections and short reminders to inspire spiritual growth.  \n          It provides practical insights for Muslims seeking to connect with the Quran.",
       image: "./images/rl.jpeg"
-    }]), "playingIndex", null), "selectedPodcast", ""), "isDownloading", false), "showToast", false), "toastType", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "podcasts", []), "filteredPodcasts", []), "loading", true), "rssUrl", 'https://themadmamluks.libsyn.com/rss'), "searchQuery", ''), "currentPage", 1), "podcastsPerPage", 8), "bookmarks", JSON.parse(localStorage.getItem('bookmarks')) || []), "favourites", JSON.parse(localStorage.getItem('favourites')) || []), "sortOption", 'mostViewed'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "dateFilter", 'weekly'), "durationFilter", ''), "isAudioPlaying", []), "currentlyPlaying", null), "currentlyPlayingIndex", 0), "audioElements", []), "showAudioPlayer", false), "showVolumeBar", false), "volume", 1.0), "playbackSpeed", 1.0), _defineProperty(_defineProperty(_defineProperty(_ref, "audioPlayerJustOpened", false), "isSeeking", false), "languageFilter", '');
+    }]), "playingIndex", null), "selectedPodcast", ""), "isDownloading", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "showToast", false), "toastType", ''), "podcasts", []), "filteredPodcasts", []), "loading", true), "rssUrl", 'https://themadmamluks.libsyn.com/rss'), "searchQuery", ''), "searchInput", ''), "searchDebounceTimer", null), "currentPage", 1), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "podcastsPerPage", 8), "bookmarks", JSON.parse(localStorage.getItem('bookmarks')) || []), "favourites", JSON.parse(localStorage.getItem('favourites')) || []), "recentPlays", JSON.parse(localStorage.getItem('recentPlays') || '[]')), "sortOption", 'mostViewed'), "dateFilter", 'weekly'), "durationFilter", ''), "isAudioPlaying", []), "currentlyPlaying", null), "currentlyPlayingIndex", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "audioElements", []), "showAudioPlayer", false), "showVolumeBar", false), "volume", 1.0), "playbackSpeed", 1.0), "audioPlayerJustOpened", false), "isSeeking", false), "languageFilter", ''), "isPlayerMinimized", false);
   },
   computed: {
     totalPages: function totalPages() {
@@ -142418,18 +142418,59 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
     // Add keyboard event listener for closing audio player
     document.addEventListener('keydown', this.handleKeydown);
+
+    // Restore persisted settings
+    try {
+      var savedVolume = localStorage.getItem('content_volume');
+      if (savedVolume !== null) this.volume = Number(savedVolume);
+    } catch (e) {}
+    try {
+      var savedSpeed = localStorage.getItem('content_speed');
+      if (savedSpeed !== null) this.playbackSpeed = Number(savedSpeed) || 1.0;
+    } catch (e) {}
+
+    // Restore last selected podcast
+    try {
+      var savedPodcast = localStorage.getItem(this.lastSelectedPodcastKey);
+      if (savedPodcast) {
+        var parsed = JSON.parse(savedPodcast);
+        if (parsed && parsed.rssUrl) this.selectedPodcast = parsed;
+      }
+    } catch (e) {}
+
+    // Build Continue Listening list from localStorage for current selection
+    this.buildContinueListening();
+
+    // Prune recent plays to last 50
+    if (Array.isArray(this.recentPlays) && this.recentPlays.length > 50) {
+      this.recentPlays = this.recentPlays.slice(0, 50);
+      try {
+        localStorage.setItem('recentPlays', JSON.stringify(this.recentPlays));
+      } catch (e) {}
+    }
   },
   beforeUnmount: function beforeUnmount() {
     // Remove keyboard event listener
     document.removeEventListener('keydown', this.handleKeydown);
   },
   methods: (_methods = {
+    onSearchInput: function onSearchInput() {
+      var _this3 = this;
+      if (this.searchDebounceTimer) clearTimeout(this.searchDebounceTimer);
+      this.searchDebounceTimer = setTimeout(function () {
+        _this3.searchQuery = (_this3.searchInput || '').trim();
+        _this3.currentPage = 1;
+      }, 250);
+    },
     toggleVolume: function toggleVolume() {
       this.showVolumeBar = !this.showVolumeBar;
     },
     updateVolume: function updateVolume() {
       var audio = this.audioElements[this.currentlyPlayingIndex];
       if (audio) audio.volume = this.volume;
+      try {
+        localStorage.setItem('content_volume', String(this.volume));
+      } catch (e) {}
     },
     onPlay: function onPlay(index) {
       this.$refs.audioPlayers.forEach(function (audio, i) {
@@ -142585,11 +142626,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     console.log("Updating podcasts...");
     this.fetchPodcasts();
   }), "applyDateFilter", function applyDateFilter(filtered) {
-    var _this3 = this;
+    var _this4 = this;
     var now = new Date();
     return filtered.filter(function (podcast) {
       var pubDate = new Date(podcast.pubDate);
-      switch (_this3.selectedDateFilter) {
+      switch (_this4.selectedDateFilter) {
         case "yearly":
           return pubDate.getFullYear() === now.getFullYear();
         case "monthly":
@@ -142612,23 +142653,23 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     // Fetch audio podcasts based on selected filters
     this.fetchPodcasts();
   }), "fetchPodcasts", function fetchPodcasts() {
-    var _this4 = this;
+    var _this5 = this;
     return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
       var response, data, parser, xmlDoc, items, _t;
       return _regenerator().w(function (_context) {
         while (1) switch (_context.p = _context.n) {
           case 0:
-            if (_this4.selectedPodcast) {
+            if (_this5.selectedPodcast) {
               _context.n = 1;
               break;
             }
             return _context.a(2);
           case 1:
-            _this4.loading = true;
-            _this4.rssUrl = _this4.selectedPodcast.rssUrl;
+            _this5.loading = true;
+            _this5.rssUrl = _this5.selectedPodcast.rssUrl;
             _context.p = 2;
             _context.n = 3;
-            return fetch(_this4.rssUrl);
+            return fetch(_this5.rssUrl);
           case 3:
             response = _context.v;
             _context.n = 4;
@@ -142638,10 +142679,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
             parser = new DOMParser();
             xmlDoc = parser.parseFromString(data, 'text/xml');
             items = xmlDoc.getElementsByTagName('item'); // Store the number of episodes
-            _this4.selectedPodcast.episodeCount = items.length;
+            _this5.selectedPodcast.episodeCount = items.length;
 
             // Process and sort podcasts
-            _this4.podcasts = Array.from(items).map(function (item) {
+            _this5.podcasts = Array.from(items).map(function (item) {
               var _item$getElementsByTa, _item$getElementsByTa2, _item$getElementsByTa3, _item$getElementsByTa4, _item$getElementsByTa5;
               var pubDate = ((_item$getElementsByTa = item.getElementsByTagName('pubDate')[0]) === null || _item$getElementsByTa === void 0 ? void 0 : _item$getElementsByTa.textContent) || 'Unknown';
               console.log('Raw pubDate:', pubDate); // Log raw value
@@ -142652,7 +142693,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
                 audioUrl: ((_item$getElementsByTa4 = item.getElementsByTagName('enclosure')[0]) === null || _item$getElementsByTa4 === void 0 ? void 0 : _item$getElementsByTa4.getAttribute('url')) || null,
                 views: Math.floor(Math.random() * 1000),
                 duration: Math.floor(Math.random() * 60) + 5,
-                language: _this4.detectLanguage(((_item$getElementsByTa5 = item.getElementsByTagName('title')[0]) === null || _item$getElementsByTa5 === void 0 ? void 0 : _item$getElementsByTa5.textContent) || '')
+                language: _this5.detectLanguage(((_item$getElementsByTa5 = item.getElementsByTagName('title')[0]) === null || _item$getElementsByTa5 === void 0 ? void 0 : _item$getElementsByTa5.textContent) || '')
               };
             }).filter(function (podcast) {
               return podcast.audioUrl;
@@ -142665,14 +142706,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
             });
 
             // Assign sorted podcasts to paginatedPodcasts
-            _this4.paginatedPodcasts = _toConsumableArray(_this4.podcasts);
-            console.log('Sorted podcasts:', _this4.paginatedPodcasts.map(function (p) {
+            _this5.paginatedPodcasts = _toConsumableArray(_this5.podcasts);
+            console.log('Sorted podcasts:', _this5.paginatedPodcasts.map(function (p) {
               return {
                 title: p.title,
                 pubDate: p.pubDate
               };
             }));
-            _this4.applyFilters(); // Apply filters after fetching
+            _this5.applyFilters(); // Apply filters after fetching
             _context.n = 6;
             break;
           case 5:
@@ -142681,7 +142722,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
             console.error("Error fetching podcasts:", _t);
           case 6:
             _context.p = 6;
-            _this4.loading = false;
+            _this5.loading = false;
             return _context.f(6);
           case 7:
             return _context.a(2);
@@ -142689,7 +142730,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }, _callee, null, [[2, 5, 6, 7]]);
     }))();
   }), "playAudio", function playAudio(index) {
-    var _this5 = this;
+    var _this6 = this;
     // Only one audio at a time
     if (this.currentlyPlaying !== null && this.currentlyPlaying !== this.audioElements[index]) {
       if (this.currentlyPlaying.pause) {
@@ -142705,10 +142746,36 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.playingIndex = index;
     this.currentlyPlaying.play()["catch"](function (err) {
       console.error('Play error:', err);
-      _this5.handlePodcastEnd(index);
+      _this6.handlePodcastEnd(index);
     });
-    this.isAudioPlaying[index] = true;
+    this.isAudioPlaying = this.isAudioPlaying.map(function (_, i) {
+      return i === index;
+    });
+    this.playingIndex = index;
+    // Ensure the corresponding card is scrolled into view on mobile
+    this.$nextTick(function () {
+      var cards = document.querySelectorAll('.podcast-card-wrapper');
+      var card = cards[index];
+      if (card && window.innerWidth < 768) card.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    });
     this.showAudioPlayer = true;
+    // Save to recent plays
+    try {
+      var ep = this.paginatedPodcasts[index];
+      var entry = {
+        title: ep === null || ep === void 0 ? void 0 : ep.title,
+        audioUrl: ep === null || ep === void 0 ? void 0 : ep.audioUrl,
+        playedAt: Date.now(),
+        pubDate: ep === null || ep === void 0 ? void 0 : ep.pubDate
+      };
+      this.recentPlays = [entry].concat(_toConsumableArray(this.recentPlays.filter(function (r) {
+        return !(r.title === entry.title && r.audioUrl === entry.audioUrl);
+      }))).slice(0, 50);
+      localStorage.setItem('recentPlays', JSON.stringify(this.recentPlays));
+    } catch (e) {}
     this.$nextTick(function () {
       var player = document.querySelector('.audio-player-container');
       if (player) player.scrollIntoView({
@@ -142718,8 +142785,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     });
     this.audioPlayerJustOpened = true;
     setTimeout(function () {
-      _this5.audioPlayerJustOpened = false;
+      _this6.audioPlayerJustOpened = false;
     }, 300);
+  }), "isCurrentlyPlaying", function isCurrentlyPlaying(item) {
+    var cur = this.paginatedPodcasts[this.currentlyPlayingIndex];
+    if (!cur || !item) return false;
+    return cur.title === item.title && cur.audioUrl === item.audioUrl && this.isAudioPlaying[this.currentlyPlayingIndex];
   }), "handlePodcastEnd", function handlePodcastEnd(index) {
     if (this.isAudioPlaying[index]) {
       this.stopAudio(index);
@@ -142751,7 +142822,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       this.playedPercentage = _objectSpread(_objectSpread({}, this.playedPercentage), {}, _defineProperty({}, index, played.toFixed(1)));
       this.remainingPercentage = _objectSpread(_objectSpread({}, this.remainingPercentage), {}, _defineProperty({}, index, remaining.toFixed(1)));
     }
-  }), "formatDate", function formatDate(dateString) {
+  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "formatDate", function formatDate(dateString) {
     var options = {
       year: 'numeric',
       month: 'long',
@@ -142759,14 +142830,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     };
     var date = new Date(dateString);
     return date.toLocaleDateString('en-GB', options); // Using 'en-GB' for British date format
-  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "applyFilters", function applyFilters() {
-    var _this6 = this;
+  }), "applyFilters", function applyFilters() {
+    var _this7 = this;
     var filtered = _toConsumableArray(this.podcasts);
 
     // Apply language filter
     if (this.selectedLanguageFilter) {
       filtered = filtered.filter(function (podcast) {
-        return podcast.language === _this6.selectedLanguageFilter;
+        return podcast.language === _this7.selectedLanguageFilter;
       });
     }
 
@@ -142794,13 +142865,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       return 'Unknown';
     }
   }), "applyDateFilter", function applyDateFilter(filtered) {
-    var _this7 = this;
+    var _this8 = this;
     var now = new Date();
     return filtered.filter(function (podcast) {
       var pubDate = new Date(podcast.pubDate);
-      if (_this7.selectedDateFilter === "weekly") {
+      if (_this8.selectedDateFilter === "weekly") {
         return (now - pubDate) / (1000 * 60 * 60 * 24) <= 7;
-      } else if (_this7.selectedDateFilter === "monthly") {
+      } else if (_this8.selectedDateFilter === "monthly") {
         return (now - pubDate) / (1000 * 60 * 60 * 24) <= 30;
       }
       return true;
@@ -142835,13 +142906,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         return podcasts;
     }
   }), "fetchEpisodeCounts", function fetchEpisodeCounts() {
-    var _this8 = this;
+    var _this9 = this;
     return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
       var _iterator, _step, podcast, response, data, parser, xmlDoc, episodeCount, _t2, _t3;
       return _regenerator().w(function (_context2) {
         while (1) switch (_context2.p = _context2.n) {
           case 0:
-            _iterator = _createForOfIteratorHelper(_this8.islamicPodcasts);
+            _iterator = _createForOfIteratorHelper(_this9.islamicPodcasts);
             _context2.p = 1;
             _iterator.s();
           case 2:
@@ -142892,11 +142963,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     // TODO: Implement RSS parsing logic
     console.log("Processing RSS Feed...");
   }), "selectPodcast", function selectPodcast(podcast) {
-    var _this9 = this;
+    var _this0 = this;
     this.selectedPodcast = podcast;
+    try {
+      localStorage.setItem(this.lastSelectedPodcastKey, JSON.stringify(podcast));
+    } catch (e) {}
     this.fetchPodcasts();
     this.$nextTick(function () {
-      var section = _this9.$refs.podcastDetailSection;
+      var section = _this0.$refs.podcastDetailSection;
       if (section) {
         section.scrollIntoView({
           behavior: 'smooth'
@@ -142912,13 +142986,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   }), "highlightText", function highlightText(title) {
     if (!this.searchQuery) return title;
     return title.replace(new RegExp("(".concat(this.searchQuery, ")"), "gi"), "<span style=\"background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;\">$1</span>");
-  }), "toggleBookmark", function toggleBookmark(podcast) {
+  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "toggleBookmark", function toggleBookmark(podcast) {
     var index = this.bookmarks.findIndex(function (item) {
       return item.title === podcast.title;
     });
     if (index > -1) this.bookmarks.splice(index, 1);else this.bookmarks.push(podcast);
     localStorage.setItem('bookmarks', JSON.stringify(this.bookmarks));
-  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "toggleFavourite", function toggleFavourite(podcast) {
+  }), "toggleFavourite", function toggleFavourite(podcast) {
     var index = this.favourites.findIndex(function (item) {
       return item.title === podcast.title;
     });
@@ -142952,24 +143026,80 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     var end = start + 9;
     this.paginatedPodcasts = this.podcasts.slice(start, end);
   }), "initializeAudioElements", function initializeAudioElements() {
-    var _this0 = this;
+    var _this1 = this;
     this.audioElements = this.paginatedPodcasts.map(function (podcast, index) {
       var audio = new Audio(podcast.audioUrl || '');
-      audio.playbackRate = _this0.playbackSpeed;
-      audio.volume = _this0.volume;
+      audio.playbackRate = _this1.playbackSpeed;
+      audio.volume = _this1.volume;
       audio.addEventListener('timeupdate', function () {
-        return _this0.updateProgress(index);
+        _this1.updateProgress(index);
+        try {
+          var key = "content_progress_".concat(podcast.title);
+          localStorage.setItem(key, String(audio.currentTime || 0));
+        } catch (e) {}
       });
       audio.addEventListener('loadedmetadata', function () {
-        _this0.progress[index] = 0;
+        _this1.progress[index] = 0;
       });
       audio.addEventListener('ended', function () {
-        return _this0.handlePodcastEnd(index);
+        return _this1.handlePodcastEnd(index);
       });
       return audio;
     });
-  }), "playAudio", function playAudio(index) {
-    var _this1 = this;
+  }), "buildContinueListening", function buildContinueListening() {
+    var _this10 = this;
+    try {
+      var entries = [];
+      var prefix = 'content_progress_';
+      var _loop = function _loop() {
+          var key = localStorage.key(i);
+          if (!key || !key.startsWith(prefix)) return 0; // continue
+          var title = key.substring(prefix.length);
+          var savedTime = Number(localStorage.getItem(key));
+          if (isNaN(savedTime) || savedTime < 5) return 0; // continue
+          var match = _this10.podcasts.find(function (p) {
+            return p.title === title;
+          }) || _this10.filteredPodcasts.find(function (p) {
+            return p.title === title;
+          });
+          entries.push({
+            title: title,
+            savedTime: savedTime,
+            duration: (match === null || match === void 0 ? void 0 : match.duration) || 0
+          });
+        },
+        _ret;
+      for (var i = 0; i < localStorage.length; i++) {
+        _ret = _loop();
+        if (_ret === 0) continue;
+      }
+      // Sort by most recent progress (approx by storage order not guaranteed) then limit
+      this.continueListening = entries.slice(0, 6);
+    } catch (e) {
+      this.continueListening = [];
+    }
+  }), "resumeFromSaved", function resumeFromSaved(item) {
+    var _this11 = this;
+    // Find index in current paginated list; if not present, attempt to locate in full list and adjust pagination
+    var fullIndex = this.filteredAndSearchedPodcasts.findIndex(function (p) {
+      return p.title === item.title;
+    });
+    if (fullIndex >= 0) {
+      var page = Math.floor(fullIndex / this.podcastsPerPage) + 1;
+      if (page !== this.currentPage) this.currentPage = page;
+      this.$nextTick(function () {
+        var localIndex = _this11.paginatedPodcasts.findIndex(function (p) {
+          return p.title === item.title;
+        });
+        if (localIndex >= 0) {
+          _this11.playAudio(localIndex);
+          if (_this11.currentlyPlaying) _this11.currentlyPlaying.currentTime = item.savedTime;
+          _this11.showAudioPlayer = true;
+        }
+      });
+    }
+  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "playAudio", function playAudio(index) {
+    var _this12 = this;
     if (this.currentlyPlaying !== null && this.currentlyPlaying !== this.audioElements[index]) {
       if (this.currentlyPlaying.pause) {
         this.currentlyPlaying.pause();
@@ -142982,9 +143112,18 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.currentlyPlaying = this.audioElements[index];
     this.currentlyPlayingIndex = index;
     this.playingIndex = index;
+    // Restore last position for this episode
+    try {
+      var podcast = this.paginatedPodcasts[index];
+      var key = "content_progress_".concat(podcast.title);
+      var saved = Number(localStorage.getItem(key));
+      if (!isNaN(saved) && saved > 0 && this.currentlyPlaying && Math.abs((this.currentlyPlaying.currentTime || 0) - saved) > 1) {
+        this.currentlyPlaying.currentTime = saved;
+      }
+    } catch (e) {}
     this.currentlyPlaying.play()["catch"](function (err) {
       console.error('Play error:', err);
-      _this1.handlePodcastEnd(index);
+      _this12.handlePodcastEnd(index);
     });
     this.isAudioPlaying[index] = true;
     this.showAudioPlayer = true;
@@ -142997,7 +143136,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     });
     this.audioPlayerJustOpened = true;
     setTimeout(function () {
-      _this1.audioPlayerJustOpened = false;
+      _this12.audioPlayerJustOpened = false;
     }, 300);
   }), "pauseAudio", function pauseAudio(index) {
     if (this.audioElements[index]) {
@@ -143013,7 +143152,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       this.pauseAudio(index);
       this.playingIndex = null;
     }
-  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "stopAudio", function stopAudio(index) {
+  }), "stopAudio", function stopAudio(index) {
     if (this.audioElements[index]) {
       this.audioElements[index].pause();
       this.audioElements[index].currentTime = 0;
@@ -143049,25 +143188,97 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       var nextIndex = (this.currentlyPlayingIndex + 1) % this.paginatedPodcasts.length;
       this.playAudio(nextIndex);
     }
-  }), "toggleVolume", function toggleVolume() {
+  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "toggleVolume", function toggleVolume() {
     this.showVolumeBar = !this.showVolumeBar;
   }), "updateVolume", function updateVolume() {
-    var _this10 = this;
+    var _this13 = this;
     if (this.currentlyPlaying) {
       this.currentlyPlaying.volume = this.volume;
     }
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(function (audio) {
-        if (audio) audio.volume = _this10.volume;
+        if (audio) audio.volume = _this13.volume;
       });
     }
     // Update the --val CSS variable for the volume slider
     this.$nextTick(function () {
       var slider = document.querySelector('.volume-slider');
       if (slider) {
-        slider.style.setProperty('--val', _this10.volume);
+        slider.style.setProperty('--val', _this13.volume);
       }
     });
+    try {
+      localStorage.setItem('content_volume', String(this.volume));
+    } catch (e) {}
+  }), "updatePlaybackSpeed", function updatePlaybackSpeed() {
+    var _this14 = this;
+    try {
+      localStorage.setItem('content_speed', String(this.playbackSpeed));
+    } catch (e) {}
+    if (this.audioElements && this.audioElements.forEach) {
+      this.audioElements.forEach(function (audio) {
+        if (audio) audio.playbackRate = _this14.playbackSpeed;
+      });
+    }
+    if (this.currentlyPlaying) this.currentlyPlaying.playbackRate = this.playbackSpeed;
+  }), "isFavourite", function isFavourite(podcast) {
+    return this.favourites.some(function (f) {
+      return f.title === podcast.title && f.audioUrl === podcast.audioUrl;
+    });
+  }), "toggleFavourite", function toggleFavourite(podcast) {
+    var exists = this.isFavourite(podcast);
+    if (exists) {
+      this.favourites = this.favourites.filter(function (f) {
+        return !(f.title === podcast.title && f.audioUrl === podcast.audioUrl);
+      });
+    } else {
+      this.favourites = [{
+        title: podcast.title,
+        audioUrl: podcast.audioUrl,
+        pubDate: podcast.pubDate,
+        views: podcast.views,
+        likedAt: Date.now()
+      }].concat(_toConsumableArray(this.favourites)).slice(0, 100);
+    }
+    try {
+      localStorage.setItem('favourites', JSON.stringify(this.favourites));
+    } catch (e) {}
+  }), "playFromFavourites", function playFromFavourites(fav) {
+    var _this15 = this;
+    var fullIndex = this.filteredAndSearchedPodcasts.findIndex(function (p) {
+      return p.title === fav.title && p.audioUrl === fav.audioUrl;
+    });
+    if (fullIndex >= 0) {
+      var page = Math.floor(fullIndex / this.podcastsPerPage) + 1;
+      if (page !== this.currentPage) this.currentPage = page;
+      this.$nextTick(function () {
+        var localIndex = _this15.paginatedPodcasts.findIndex(function (p) {
+          return p.title === fav.title && p.audioUrl === fav.audioUrl;
+        });
+        if (localIndex >= 0) {
+          _this15.playAudio(localIndex);
+          _this15.showAudioPlayer = true;
+        }
+      });
+    }
+  }), "playFromHistory", function playFromHistory(item) {
+    var _this16 = this;
+    var fullIndex = this.filteredAndSearchedPodcasts.findIndex(function (p) {
+      return p.title === item.title && p.audioUrl === item.audioUrl;
+    });
+    if (fullIndex >= 0) {
+      var page = Math.floor(fullIndex / this.podcastsPerPage) + 1;
+      if (page !== this.currentPage) this.currentPage = page;
+      this.$nextTick(function () {
+        var localIndex = _this16.paginatedPodcasts.findIndex(function (p) {
+          return p.title === item.title && p.audioUrl === item.audioUrl;
+        });
+        if (localIndex >= 0) {
+          _this16.playAudio(localIndex);
+          _this16.showAudioPlayer = true;
+        }
+      });
+    }
   }), "closeAudioPlayer", function closeAudioPlayer() {
     if (this.currentlyPlayingIndex !== null) {
       this.stopAudio(this.currentlyPlayingIndex);
@@ -143076,7 +143287,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.currentlyPlayingIndex = 0;
     this.currentlyPlaying = null;
     this.audioPlayerJustOpened = false;
-  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "handleAudioPlayerClick", function handleAudioPlayerClick(event) {
+  }), "handleAudioPlayerClick", function handleAudioPlayerClick(event) {
     if (this.audioPlayerJustOpened) {
       this.audioPlayerJustOpened = false;
       return;
@@ -143086,7 +143297,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     if (event.key === 'Escape' && this.showAudioPlayer) {
       this.closeAudioPlayer();
     }
-  }), "isNewEpisode", function isNewEpisode(pubDate) {
+  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "isNewEpisode", function isNewEpisode(pubDate) {
     var now = new Date();
     var published = new Date(pubDate);
     var diffDays = (now - published) / (1000 * 60 * 60 * 24);
@@ -143125,10 +143336,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     window.removeEventListener('mouseup', this.stopSeek);
   }))
 }, "mounted", function mounted() {
-  var _this11 = this;
+  var _this17 = this;
   this.fetchPodcasts().then(function () {
-    _this11.applyFilters(); // Apply filters once podcasts are loaded
-    _this11.fetchEpisodeCounts();
+    _this17.applyFilters(); // Apply filters once podcasts are loaded
+    _this17.fetchEpisodeCounts();
   });
 }), "watch", {
   volume: function volume(newVal) {
@@ -143149,11 +143360,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   durationFilter: 'applyFilters',
   dateFilter: 'applyFilters',
   paginatedPodcasts: function paginatedPodcasts(newPodcasts) {
-    var _this12 = this;
+    var _this18 = this;
     this.isAudioPlaying = new Array(newPodcasts.length).fill(false);
     this.progress = new Array(newPodcasts.length).fill(0);
     this.$nextTick(function () {
-      _this12.initializeAudioElements();
+      _this18.initializeAudioElements();
     });
   }
 }));
@@ -168231,161 +168442,279 @@ var _hoisted_18 = {
 };
 var _hoisted_19 = {
   key: 1,
-  "class": "episodes-section"
+  "class": "continue-listening-section"
 };
 var _hoisted_20 = {
-  "class": "episodes-filters-bar-wrapper"
+  "class": "podcast-cards-grid border-md",
+  style: {
+    "padding": "5px"
+  }
 };
 var _hoisted_21 = {
-  "class": "row g-3"
+  "class": "podcast-card",
+  style: {
+    "padding": "1.2rem"
+  }
 };
 var _hoisted_22 = {
-  "class": "col-12 col-md-3"
+  "class": "card-body"
 };
 var _hoisted_23 = {
-  "class": "input-group search-group"
+  "class": "podcast-card-top"
 };
-var _hoisted_24 = {
-  "class": "col-12 col-md-3"
-};
+var _hoisted_24 = ["src", "alt"];
 var _hoisted_25 = {
-  "class": "input-group filter-group"
+  "class": "podcast-card-info"
 };
 var _hoisted_26 = {
-  "class": "col-12 col-md-3"
+  "class": "podcast-title"
 };
 var _hoisted_27 = {
-  "class": "input-group filter-group"
+  "class": "podcast-extra-info"
 };
 var _hoisted_28 = {
-  "class": "col-12 col-md-3"
+  "class": "duration-badge"
 };
 var _hoisted_29 = {
+  "class": "audio-controls-inline"
+};
+var _hoisted_30 = ["onClick"];
+var _hoisted_31 = {
+  key: 2,
+  "class": "favorites-section"
+};
+var _hoisted_32 = {
+  "class": "podcast-cards-grid border-md",
+  style: {
+    "padding": "5px"
+  }
+};
+var _hoisted_33 = {
+  "class": "card-body"
+};
+var _hoisted_34 = {
+  "class": "podcast-card-top"
+};
+var _hoisted_35 = ["src", "alt"];
+var _hoisted_36 = {
+  "class": "podcast-card-info"
+};
+var _hoisted_37 = {
+  "class": "podcast-title"
+};
+var _hoisted_38 = {
+  "class": "podcast-extra-info"
+};
+var _hoisted_39 = {
+  "class": "lang-badge",
+  title: 'Published'
+};
+var _hoisted_40 = {
+  key: 0,
+  "class": "lang-badge",
+  title: 'Liked on',
+  style: {
+    "margin-left": "8px"
+  }
+};
+var _hoisted_41 = {
+  "class": "audio-controls-inline"
+};
+var _hoisted_42 = ["onClick"];
+var _hoisted_43 = ["onClick"];
+var _hoisted_44 = {
+  key: 3,
+  "class": "recently-played-section"
+};
+var _hoisted_45 = {
+  "class": "podcast-cards-grid border-md",
+  style: {
+    "padding": "5px"
+  }
+};
+var _hoisted_46 = {
+  "class": "card-body"
+};
+var _hoisted_47 = {
+  "class": "podcast-card-top"
+};
+var _hoisted_48 = ["src", "alt"];
+var _hoisted_49 = {
+  "class": "podcast-card-info"
+};
+var _hoisted_50 = {
+  "class": "podcast-title"
+};
+var _hoisted_51 = {
+  "class": "podcast-extra-info"
+};
+var _hoisted_52 = {
+  "class": "lang-badge",
+  title: 'Played at'
+};
+var _hoisted_53 = {
+  "class": "audio-controls-inline"
+};
+var _hoisted_54 = ["onClick"];
+var _hoisted_55 = {
+  key: 4,
+  "class": "episodes-section"
+};
+var _hoisted_56 = {
+  "class": "episodes-filters-bar-wrapper"
+};
+var _hoisted_57 = {
+  "class": "row g-3"
+};
+var _hoisted_58 = {
+  "class": "col-12 col-md-3"
+};
+var _hoisted_59 = {
+  "class": "input-group search-group"
+};
+var _hoisted_60 = {
+  "class": "col-12 col-md-3"
+};
+var _hoisted_61 = {
   "class": "input-group filter-group"
 };
-var _hoisted_30 = {
+var _hoisted_62 = {
+  "class": "col-12 col-md-3"
+};
+var _hoisted_63 = {
+  "class": "input-group filter-group"
+};
+var _hoisted_64 = {
+  "class": "col-12 col-md-3"
+};
+var _hoisted_65 = {
+  "class": "input-group filter-group"
+};
+var _hoisted_66 = {
   key: 0,
   "class": "loading-container"
 };
-var _hoisted_31 = {
+var _hoisted_67 = {
   key: 1,
   "class": "podcast-cards-grid border-md",
   style: {
     "padding": "5px"
   }
 };
-var _hoisted_32 = {
+var _hoisted_68 = {
   "class": "card-header"
 };
-var _hoisted_33 = {
+var _hoisted_69 = {
   "class": "podcast-meta"
 };
-var _hoisted_34 = {
+var _hoisted_70 = {
   "class": "views-badge",
   title: 'Views'
 };
-var _hoisted_35 = {
+var _hoisted_71 = {
   "class": "meta-text"
 };
-var _hoisted_36 = {
+var _hoisted_72 = {
   "class": "date-badge",
   title: 'Published date'
 };
-var _hoisted_37 = {
+var _hoisted_73 = {
   "class": "meta-text"
 };
-var _hoisted_38 = {
+var _hoisted_74 = {
   key: 0,
   "class": "new-badge",
   "aria-label": "New episode"
 };
-var _hoisted_39 = {
+var _hoisted_75 = {
   "class": "card-body"
 };
-var _hoisted_40 = {
+var _hoisted_76 = {
   "class": "podcast-card-top"
 };
-var _hoisted_41 = ["src", "alt"];
-var _hoisted_42 = {
+var _hoisted_77 = ["src", "alt"];
+var _hoisted_78 = {
   "class": "podcast-card-info"
 };
-var _hoisted_43 = ["innerHTML"];
-var _hoisted_44 = {
+var _hoisted_79 = ["innerHTML"];
+var _hoisted_80 = {
   "class": "podcast-extra-info"
 };
-var _hoisted_45 = {
+var _hoisted_81 = {
   "class": "lang-badge",
   title: 'Language'
 };
-var _hoisted_46 = {
+var _hoisted_82 = {
   "class": "audio-controls-inline"
 };
-var _hoisted_47 = ["onClick", "aria-label"];
-var _hoisted_48 = {
+var _hoisted_83 = ["onClick", "aria-label"];
+var _hoisted_84 = ["aria-pressed", "title", "onClick"];
+var _hoisted_85 = {
   key: 2,
   "class": "pagination-container",
   "aria-label": "Episode pagination"
 };
-var _hoisted_49 = {
+var _hoisted_86 = {
   "class": "pagination-wrapper"
 };
-var _hoisted_50 = ["disabled"];
-var _hoisted_51 = {
+var _hoisted_87 = ["disabled"];
+var _hoisted_88 = {
   "class": "page-numbers"
 };
-var _hoisted_52 = ["onClick", "aria-label", "aria-current"];
-var _hoisted_53 = {
+var _hoisted_89 = ["onClick", "aria-label", "aria-current"];
+var _hoisted_90 = {
   key: 0,
   "class": "page-ellipsis"
 };
-var _hoisted_54 = ["onClick", "aria-label", "aria-current"];
-var _hoisted_55 = {
+var _hoisted_91 = ["onClick", "aria-label", "aria-current"];
+var _hoisted_92 = {
   key: 1,
   "class": "page-ellipsis"
 };
-var _hoisted_56 = ["aria-label"];
-var _hoisted_57 = ["disabled"];
-var _hoisted_58 = {
+var _hoisted_93 = ["aria-label"];
+var _hoisted_94 = ["disabled"];
+var _hoisted_95 = {
   "class": "mobile-page-info"
 };
-var _hoisted_59 = {
+var _hoisted_96 = {
   "class": "page-info-text"
 };
-var _hoisted_60 = {
-  key: 2,
+var _hoisted_97 = {
+  key: 5,
   "class": "empty-state"
 };
-var _hoisted_61 = {
+var _hoisted_98 = {
   "class": "empty-state-content text-center mb-2"
 };
-var _hoisted_62 = {
-  key: 3,
+var _hoisted_99 = {
+  key: 6,
   "class": "audio-player-container"
 };
-var _hoisted_63 = {
-  "class": "custom-audio-player"
-};
-var _hoisted_64 = {
+var _hoisted_100 = {
   "class": "controls"
 };
-var _hoisted_65 = {
+var _hoisted_101 = {
   "class": "control-group"
 };
-var _hoisted_66 = {
+var _hoisted_102 = {
   key: 0,
   "class": "bi bi-pause-fill"
 };
-var _hoisted_67 = {
+var _hoisted_103 = {
   key: 1,
   "class": "bi bi-play-fill"
 };
-var _hoisted_68 = {
+var _hoisted_104 = {
   "class": "info-section"
 };
-var _hoisted_69 = {
+var _hoisted_105 = {
   "class": "time"
 };
-var _hoisted_70 = {
+var _hoisted_106 = {
+  key: 0,
+  "class": "episode-title"
+};
+var _hoisted_107 = {
   "class": "audio-actions",
   style: {
     "display": "flex",
@@ -168393,20 +168722,28 @@ var _hoisted_70 = {
     "gap": "18px"
   }
 };
-var _hoisted_71 = {
+var _hoisted_108 = {
   style: {
     "display": "flex",
     "align-items": "center",
     "gap": "10px"
   }
 };
+var _hoisted_109 = {
+  style: {
+    "display": "flex",
+    "align-items": "center",
+    "gap": "6px"
+  }
+};
+var _hoisted_110 = ["title"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$audioElements$, _$data$audioElements$2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-4 fw-bold text-center"
   }, "Islamic Podcasts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
-  }, " Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions, thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen your understanding of Islam. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Selection Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions, thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen your understanding of Islam. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Selection Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "section-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "section-title"
@@ -168422,58 +168759,195 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: podcast.image,
       alt: podcast.name,
-      "class": "podcast-selection-image"
-    }, null, 8 /* PROPS */, _hoisted_6), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "podcast-selection-image",
+      loading: "lazy"
+    }, null, 8 /* PROPS */, _hoisted_6), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "podcast-overlay"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-play-circle-fill"
     }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "play-text"
     }, "Click to Select")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.name), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_4);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Selected Podcast Details "), $data.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Selected Podcast Details "), $data.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "section-title"
-  }, "Now Playing", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, "Episodes from " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Now Playing", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, "Episodes from " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-collection-play"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.episodeCount > 0 ? $data.selectedPodcast.episodeCount : 'Data not available') + " Episodes Available ", 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: $data.selectedPodcast.image,
     alt: $data.selectedPodcast.name,
-    "class": "selected-podcast-image"
-  }, null, 8 /* PROPS */, _hoisted_17)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.desc), 1 /* TEXT */)])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Episodes Section "), !$data.loading && $options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "selected-podcast-image",
+    loading: "lazy"
+  }, null, 8 /* PROPS */, _hoisted_17)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.desc), 1 /* TEXT */)])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Continue Listening Section "), $data.selectedPodcast && $data.continueListening.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "section-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "section-title"
+  }, "Continue Listening"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "section-subtitle"
+  }, "Pick up where you left off")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.continueListening, function (item, idx) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: item.title,
+      "class": "podcast-card-wrapper"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [$data.selectedPodcast && $data.selectedPodcast.image ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+      key: 0,
+      src: $data.selectedPodcast.image,
+      alt: $data.selectedPodcast.name,
+      "class": "episode-avatar",
+      loading: "lazy"
+    }, null, 8 /* PROPS */, _hoisted_24)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-clock",
+      style: {
+        "font-size": "1.1rem"
+      }
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(item.savedTime)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(item.duration || 0)), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "control-button play-btn",
+      onClick: function onClick($event) {
+        return $options.resumeFromSaved(item);
+      },
+      "aria-label": "Resume"
+    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-play-fill",
+      style: {
+        "font-size": "1.5rem",
+        "cursor": "pointer"
+      }
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_30)])])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Favorites Section "), $data.favourites && $data.favourites.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "section-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "section-title"
+  }, "Your Favorites"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "section-subtitle"
+  }, "Quick access to episodes you loved")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.favourites, function (fav) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: fav.title + fav.audioUrl,
+      "class": "podcast-card-wrapper"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['podcast-card', {
+        'highlighted': $options.isCurrentlyPlaying(fav)
+      }]),
+      style: {
+        "padding": "1.2rem"
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [$data.selectedPodcast && $data.selectedPodcast.image ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+      key: 0,
+      src: $data.selectedPodcast.image,
+      alt: $data.selectedPodcast.name,
+      "class": "episode-avatar",
+      loading: "lazy"
+    }, null, 8 /* PROPS */, _hoisted_35)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(fav.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_39, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-calendar3",
+      style: {
+        "font-size": "1.1rem"
+      }
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(fav.pubDate)), 1 /* TEXT */)]), fav.likedAt ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_40, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-heart-fill",
+      style: {
+        "font-size": "1.1rem"
+      }
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(new Date(fav.likedAt).toLocaleString()), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "control-button play-btn",
+      onClick: function onClick($event) {
+        return $options.playFromFavourites(fav);
+      },
+      title: "Play"
+    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-play-fill",
+      style: {
+        "font-size": "1.5rem",
+        "cursor": "pointer"
+      }
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_42), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "control-button",
+      onClick: function onClick($event) {
+        return $options.toggleFavourite(fav);
+      },
+      title: "Remove from favorites"
+    }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-heart-fill text-danger",
+      style: {
+        "font-size": "1.3rem"
+      }
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_43)])])])], 2 /* CLASS */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Recently Played Section "), $data.recentPlays && $data.recentPlays.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "section-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "section-title"
+  }, "Recently Played"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "section-subtitle"
+  }, "Your recent listening history")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.recentPlays, function (rp) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: rp.title + rp.audioUrl + rp.playedAt,
+      "class": "podcast-card-wrapper"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['podcast-card', {
+        'highlighted': $options.isCurrentlyPlaying(rp)
+      }]),
+      style: {
+        "padding": "1.2rem"
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [$data.selectedPodcast && $data.selectedPodcast.image ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+      key: 0,
+      src: $data.selectedPodcast.image,
+      alt: $data.selectedPodcast.name,
+      "class": "episode-avatar",
+      loading: "lazy"
+    }, null, 8 /* PROPS */, _hoisted_48)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rp.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-clock",
+      style: {
+        "font-size": "1.1rem"
+      }
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(new Date(rp.playedAt).toLocaleString()), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "control-button play-btn",
+      onClick: function onClick($event) {
+        return $options.playFromHistory(rp);
+      },
+      title: "Play"
+    }, _toConsumableArray(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-play-fill",
+      style: {
+        "font-size": "1.5rem",
+        "cursor": "pointer"
+      }
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_54)])])])], 2 /* CLASS */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Episodes Section "), !$data.loading && $options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_55, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "section-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "section-title"
   }, "Available Episodes"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "section-subtitle"
-  }, "Click the play button to start listening")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Click the play button to start listening")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-white border-end-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-search"
   })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.searchQuery = $event;
+      return $data.searchInput = $event;
+    }),
+    onInput: _cache[1] || (_cache[1] = function () {
+      return $options.onSearchInput && $options.onSearchInput.apply($options, arguments);
     }),
     type: "text",
     "class": "form-control border-start-0",
     placeholder: "Search episodes..."
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchInput]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-white border-end-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-hourglass-split"
   })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.durationFilter = $event;
     }),
     "class": "form-select border-start-0"
-  }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"\" disabled selected hidden data-v-e4489e22>Select Duration</option><option value=\"0-10\" data-v-e4489e22>0-10 min</option><option value=\"10-30\" data-v-e4489e22>10-30 min</option><option value=\"30-60\" data-v-e4489e22>30-60 min</option><option value=\"more-than-60\" data-v-e4489e22>60+ min</option>", 5)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.durationFilter]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _toConsumableArray(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"\" disabled selected hidden data-v-e4489e22>Select Duration</option><option value=\"0-10\" data-v-e4489e22>0-10 min</option><option value=\"10-30\" data-v-e4489e22>10-30 min</option><option value=\"30-60\" data-v-e4489e22>30-60 min</option><option value=\"more-than-60\" data-v-e4489e22>60+ min</option>", 5)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.durationFilter]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-white border-end-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-translate"
   })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.languageFilter = $event;
     }),
     "class": "form-select border-start-0"
-  }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, _toConsumableArray(_cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "All Languages", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "English"
@@ -168481,16 +168955,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: "Arabic"
   }, "Arabic", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "Unknown"
-  }, "Unknown", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.languageFilter]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Unknown", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.languageFilter]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-white border-end-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-funnel"
   })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.sortOption = $event;
     }),
     "class": "form-select border-start-0"
-  }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, _toConsumableArray(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "mostViewed"
   }, "Most Viewed", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "leastViewed"
@@ -168498,7 +168972,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: "newest"
   }, "Newest", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "oldest"
-  }, "Oldest", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortOption]])])])])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Oldest", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortOption]])])])])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_66, _toConsumableArray(_cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "loading-spinner"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-success",
@@ -168509,7 +168983,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "loading-text"
   }, "Loading episodes, please wait...", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "loading-subtext"
-  }, "This may take a few moments", -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedPodcasts, function (podcast, index) {
+  }, "This may take a few moments", -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_67, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedPodcasts, function (podcast, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: podcast.title,
       "class": "podcast-card-wrapper"
@@ -168520,36 +168994,37 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "padding": "1.2rem"
       }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-eye-fill",
       style: {
         "font-size": "1.2rem"
       }
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.views) + " views", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_71, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.views) + " views", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-calendar3",
       style: {
         "font-size": "1.2rem"
       }
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(podcast.pubDate)), 1 /* TEXT */), $options.isNewEpisode(podcast.pubDate) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_38, "NEW")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [$data.selectedPodcast && $data.selectedPodcast.image ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(podcast.pubDate)), 1 /* TEXT */), $options.isNewEpisode(podcast.pubDate) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_74, "NEW")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [$data.selectedPodcast && $data.selectedPodcast.image ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
       key: 0,
       src: $data.selectedPodcast.image,
       alt: $data.selectedPodcast.name,
       "class": "episode-avatar podcast-image-clickable",
-      onClick: _cache[4] || (_cache[4] = function () {
+      onClick: _cache[5] || (_cache[5] = function () {
         return $options.scrollToFirstEpisode && $options.scrollToFirstEpisode.apply($options, arguments);
       }),
       style: {
         "cursor": "pointer"
-      }
-    }, null, 8 /* PROPS */, _hoisted_41)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+      },
+      loading: "lazy"
+    }, null, 8 /* PROPS */, _hoisted_77)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "podcast-title",
       innerHTML: $options.highlightText(podcast.title)
-    }, null, 8 /* PROPS */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"duration-badge\" :title=\"'Duration'\">\n                      <i class=\"bi bi-clock\" style=\"font-size:1.1rem;\"></i>\n                      {{ podcast.duration ? podcast.duration + ' min' : 'N/A' }}\n                    </span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_45, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 8 /* PROPS */, _hoisted_79), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"duration-badge\" :title=\"'Duration'\">\n                      <i class=\"bi bi-clock\" style=\"font-size:1.1rem;\"></i>\n                      {{ podcast.duration ? podcast.duration + ' min' : 'N/A' }}\n                    </span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_81, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-translate",
       style: {
         "font-size": "1.1rem"
       }
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.language), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.language), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["control-button play-btn", {
         'playing': $data.isAudioPlaying[index]
       }]),
@@ -168560,17 +169035,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill']),
       style: {
-        "font-size": "1.5rem"
+        "font-size": "1.5rem",
+        "cursor": "pointer"
       }
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_47)])])])], 2 /* CLASS */)]);
-  }), 128 /* KEYED_FRAGMENT */))])), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_48, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_83), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "control-button",
+      "aria-pressed": $options.isFavourite(podcast) ? 'true' : 'false',
+      title: $options.isFavourite(podcast) ? 'Unfavorite' : 'Favorite',
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+        return $options.toggleFavourite(podcast);
+      }, ["stop"])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $options.isFavourite(podcast) ? 'bi-heart-fill text-danger' : 'bi-heart']),
+      style: {
+        "font-size": "1.3rem"
+      }
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_84)])])])], 2 /* CLASS */)]);
+  }), 128 /* KEYED_FRAGMENT */))])), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_85, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "pagination-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "pagination-title"
   }, "Browse More Episodes"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "pagination-subtitle"
-  }, "Use the buttons below to see more episodes")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[5] || (_cache[5] = function ($event) {
+  }, "Use the buttons below to see more episodes")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[6] || (_cache[6] = function ($event) {
       return $options.changePage($data.currentPage - 1);
     }),
     disabled: $data.currentPage === 1,
@@ -168578,11 +169066,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       'disabled': $data.currentPage === 1
     }]),
     "aria-label": "Go to previous page"
-  }, _toConsumableArray(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[50] || (_cache[50] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-chevron-left"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "btn-text"
-  }, "Previous Page", -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_50), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [$options.totalPages <= 7 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, "Previous Page", -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_87), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [$options.totalPages <= 7 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
@@ -168595,18 +169083,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }]),
       "aria-label": "Go to page ".concat(page),
       "aria-current": $data.currentPage === page ? 'page' : null
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 11 /* TEXT, CLASS, PROPS */, _hoisted_52);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 11 /* TEXT, CLASS, PROPS */, _hoisted_89);
   }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[6] || (_cache[6] = function ($event) {
+    onClick: _cache[7] || (_cache[7] = function ($event) {
       return $options.changePage(1);
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-number", {
       'active': $data.currentPage === 1
     }]),
     "aria-label": "Go to page 1"
-  }, " 1 ", 2 /* CLASS */), $data.currentPage > 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_53, "...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getVisiblePages(), function (page) {
+  }, " 1 ", 2 /* CLASS */), $data.currentPage > 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_90, "...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getVisiblePages(), function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: page,
       onClick: function onClick($event) {
@@ -168617,17 +169105,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }]),
       "aria-label": "Go to page ".concat(page),
       "aria-current": $data.currentPage === page ? 'page' : null
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 11 /* TEXT, CLASS, PROPS */, _hoisted_54);
-  }), 128 /* KEYED_FRAGMENT */)), $data.currentPage < $options.totalPages - 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_55, "...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[7] || (_cache[7] = function ($event) {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 11 /* TEXT, CLASS, PROPS */, _hoisted_91);
+  }), 128 /* KEYED_FRAGMENT */)), $data.currentPage < $options.totalPages - 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_92, "...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[8] || (_cache[8] = function ($event) {
       return $options.changePage($options.totalPages);
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-number", {
       'active': $data.currentPage === $options.totalPages
     }]),
     "aria-label": "Go to page ".concat($options.totalPages)
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 11 /* TEXT, CLASS, PROPS */, _hoisted_56)], 64 /* STABLE_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[8] || (_cache[8] = function ($event) {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 11 /* TEXT, CLASS, PROPS */, _hoisted_93)], 64 /* STABLE_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[9] || (_cache[9] = function ($event) {
       return $options.changePage($data.currentPage + 1);
     }),
     disabled: $data.currentPage === $options.totalPages,
@@ -168635,55 +169123,59 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       'disabled': $data.currentPage === $options.totalPages
     }]),
     "aria-label": "Go to next page"
-  }, _toConsumableArray(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _toConsumableArray(_cache[51] || (_cache[51] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "btn-text"
   }, "Next Page", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-chevron-right"
-  }, null, -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_57)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_59, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : !$data.loading && !$options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_94)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_96, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : !$data.loading && !$options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-headphones empty-state-icon"
-  }, null, -1 /* CACHED */)), _cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, null, -1 /* CACHED */)), _cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "empty-state-title"
-  }, "No Episodes Found", -1 /* CACHED */)), _cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "No Episodes Found", -1 /* CACHED */)), _cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "empty-state-description"
   }, "Try selecting a different podcast or check back later for new episodes.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "empty-state-button btn btn-success text-white mb-2",
-    onClick: _cache[9] || (_cache[9] = function ($event) {
+    onClick: _cache[10] || (_cache[10] = function ($event) {
       return $data.selectedPodcast = null;
     })
-  }, _toConsumableArray(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Choose Another Podcast", -1 /* CACHED */)])))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Player "), $data.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[10] || (_cache[10] = function ($event) {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Choose Another Podcast", -1 /* CACHED */)])))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Player "), $data.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_99, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["custom-audio-player", {
+      minimized: $data.isPlayerMinimized
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_101, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[11] || (_cache[11] = function ($event) {
       return $options.rewindAudio($data.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Rewind"
-  }, _toConsumableArray(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-backward-fill"
   }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[11] || (_cache[11] = function ($event) {
+    onClick: _cache[12] || (_cache[12] = function ($event) {
       return $options.toggleAudioPlayer($data.currentlyPlayingIndex);
     }),
     "class": "control-btn play-pause",
     title: "Play/Pause"
-  }, [$data.isAudioPlaying[$data.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_66)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_67))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[12] || (_cache[12] = function ($event) {
+  }, [$data.isAudioPlaying[$data.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_102)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_103))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[13] || (_cache[13] = function ($event) {
       return $options.fastForwardAudio($data.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Fast Forward"
-  }, _toConsumableArray(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[59] || (_cache[59] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-forward-fill"
   }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[13] || (_cache[13] = function ($event) {
+    onClick: _cache[14] || (_cache[14] = function ($event) {
       return $options.stopAudio($data.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Stop"
-  }, _toConsumableArray(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[60] || (_cache[60] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop-fill"
-  }, null, -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$ = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$ === void 0 ? void 0 : _$data$audioElements$.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$2 = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$2 === void 0 ? void 0 : _$data$audioElements$2.duration) || 0)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[14] || (_cache[14] = function () {
+  }, null, -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_105, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$ = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$ === void 0 ? void 0 : _$data$audioElements$.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$2 = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$2 === void 0 ? void 0 : _$data$audioElements$2.duration) || 0)), 1 /* TEXT */), $options.paginatedPodcasts[$data.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_106, "• " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.paginatedPodcasts[$data.currentlyPlayingIndex].title), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_107, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[15] || (_cache[15] = function () {
       return $options.toggleVolume && $options.toggleVolume.apply($options, arguments);
     }),
     "class": "control-btn",
@@ -168696,10 +169188,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     min: "0",
     max: "1",
     step: "0.01",
-    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+    "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
       return $data.volume = $event;
     }),
-    onInput: _cache[16] || (_cache[16] = function () {
+    onInput: _cache[17] || (_cache[17] = function () {
       return $options.updateVolume && $options.updateVolume.apply($options, arguments);
     }),
     "class": "volume-slider",
@@ -168709,20 +169201,55 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Volume"
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volume, void 0, {
     number: true
-  }]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[17] || (_cache[17] = function () {
+  }]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "speedSelect",
+    "class": "visually-hidden"
+  }, "Speed", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "speedSelect",
+    "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
+      return $data.playbackSpeed = $event;
+    }),
+    onChange: _cache[19] || (_cache[19] = function () {
+      return $options.updatePlaybackSpeed && $options.updatePlaybackSpeed.apply($options, arguments);
+    }),
+    "class": "form-select form-select-sm",
+    style: {
+      "width": "90px"
+    }
+  }, _toConsumableArray(_cache[61] || (_cache[61] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: 0.75
+  }, "0.75x", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: 1
+  }, "1x", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: 1.25
+  }, "1.25x", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: 1.5
+  }, "1.5x", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: 2
+  }, "2x", -1 /* CACHED */)])), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.playbackSpeed, void 0, {
+    number: true
+  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[20] || (_cache[20] = function ($event) {
+      return $data.isPlayerMinimized = !$data.isPlayerMinimized;
+    }),
+    "class": "control-btn",
+    title: $data.isPlayerMinimized ? 'Expand Player' : 'Minimize Player'
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.isPlayerMinimized ? 'bi-arrows-angle-expand' : 'bi-arrows-angle-contract'])
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_110), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[21] || (_cache[21] = function () {
       return $options.closeAudioPlayer && $options.closeAudioPlayer.apply($options, arguments);
     }),
     "class": "control-btn close-btn",
     title: "Close"
-  }, _toConsumableArray(_cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[63] || (_cache[63] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-lg"
   }, null, -1 /* CACHED */)])))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress-bar",
-    onMousedown: _cache[18] || (_cache[18] = function () {
+    onMousedown: _cache[22] || (_cache[22] = function () {
       return $options.startSeek && $options.startSeek.apply($options, arguments);
     }),
-    onClick: _cache[19] || (_cache[19] = function () {
+    onClick: _cache[23] || (_cache[23] = function () {
       return $options.seekAudio && $options.seekAudio.apply($options, arguments);
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -168730,7 +169257,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: $data.progress[$data.currentlyPlayingIndex] + '%'
     })
-  }, null, 4 /* STYLE */)], 32 /* NEED_HYDRATION */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, null, 4 /* STYLE */)], 32 /* NEED_HYDRATION */)], 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -179810,54 +180337,73 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 
 var _hoisted_1 = {
   key: 0,
-  "class": "plans"
+  "class": "plans",
+  role: "radiogroup",
+  "aria-labelledby": "planHeading"
 };
-var _hoisted_2 = {
+var _hoisted_2 = ["aria-checked"];
+var _hoisted_3 = ["aria-checked"];
+var _hoisted_4 = ["aria-checked"];
+var _hoisted_5 = {
   key: 1
 };
-var _hoisted_3 = ["value"];
-var _hoisted_4 = {
+var _hoisted_6 = ["value"];
+var _hoisted_7 = {
   "class": "mb-3"
 };
-var _hoisted_5 = ["disabled"];
-var _hoisted_6 = {
+var _hoisted_8 = ["disabled", "aria-busy"];
+var _hoisted_9 = {
   key: 3,
-  "class": "error"
+  "class": "error",
+  role: "alert",
+  "aria-live": "assertive"
 };
-var _hoisted_7 = {
+var _hoisted_10 = {
   key: 4,
-  "class": "success"
+  "class": "success",
+  role: "status",
+  "aria-live": "polite"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_stripe_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("stripe-card");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Choose Your Plan", -1 /* CACHED */)), !$setup.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    id: "planHeading"
+  }, "Choose Your Plan", -1 /* CACHED */)), !$setup.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "plan",
+    role: "radio",
+    "aria-checked": $setup.selectedPlan === 'price_premium_monthly',
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $setup.selectPlan('price_premium_monthly');
     })
-  }, _toConsumableArray(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Monthly", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "£1.99 / month", -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, _toConsumableArray(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Monthly", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "£1.99 / month", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "plan",
+    role: "radio",
+    "aria-checked": $setup.selectedPlan === 'price_premium_yearly',
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $setup.selectPlan('price_premium_yearly');
     })
-  }, _toConsumableArray(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Yearly", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "£18 / year (Save 25%)", -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, _toConsumableArray(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Yearly", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "£18 / year (Save 25%)", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "plan",
+    role: "radio",
+    "aria-checked": $setup.selectedPlan === 'price_premium_lifetime',
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $setup.selectPlan('price_premium_lifetime');
     })
-  }, _toConsumableArray(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Lifetime", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "£25 once", -1 /* CACHED */)])))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "You're on " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.plan) + " plan! Ends: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.endsAt), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, _toConsumableArray(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Lifetime", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "£25 once", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_4)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "You're on " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.plan) + " plan! Ends: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.endsAt), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: $setup.cancelSubscription,
     "class": "btn btn-primary"
   }, "Cancel Subscription")])), $setup.selectedPlan && !$setup.hasPaymentMethod ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("form", {
     key: 2,
     onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.handlePayment, ["prevent"]),
     method: "post",
-    action: "/subscribe"
+    action: "/subscribe",
+    "aria-describedby": "paymentHelp",
+    novalidate: ""
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
     name: "price_lookup_key",
     value: $setup.selectedPlan
-  }, null, 8 /* PROPS */, _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 8 /* PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "cardholderName",
     "class": "form-label"
   }, "Cardholder Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -179868,18 +180414,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "text",
     "class": "form-control",
     required: "",
-    placeholder: "Enter your name"
+    placeholder: "Enter your name",
+    autocomplete: "cc-name"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.cardholderName]])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_stripe_card, {
     ref: "card",
     key: $setup.selectedPlan,
     "class": "form-control",
     stripe: "stripe",
-    onStripeError: $setup.onCardError
-  })), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onStripeError: $setup.onCardError,
+    "aria-label": "Card details"
+  })), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    id: "paymentHelp",
+    "class": "sr-only"
+  }, "Your payment is processed securely by Stripe.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     disabled: $setup.loading,
-    "class": "btn btn-primary"
-  }, "Subscribe", 8 /* PROPS */, _hoisted_5)], 32 /* NEED_HYDRATION */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.success), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    "class": "btn btn-primary",
+    "aria-busy": $setup.loading.toString()
+  }, "Subscribe", 8 /* PROPS */, _hoisted_8)], 32 /* NEED_HYDRATION */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.success), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
