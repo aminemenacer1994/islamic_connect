@@ -2,6 +2,8 @@
 @extends('layouts.app')
 @section('content')
 
+
+
 <!-- Main Content -->
 <main id="main-content">
     <div class="login-container">

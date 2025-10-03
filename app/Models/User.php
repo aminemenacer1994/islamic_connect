@@ -8,33 +8,21 @@ use Laravel\Cashier\Billable;
 
 class User extends Authenticatable
 {
-    use Notifiable, Billable;
+    use Billable, Notifiable;
 
     protected $fillable = [
-        'name',
-        'lastname',
-        'phone',
-        'user_type',
-        'status',
-        'email',
-        'password',
-        'subscribe',
-        'role',
-        'google_id',
-        'github_id',
-        'fb_id',
-        'linked_id',
-        'user_id',
+        'name', 'lastname', 'phone', 'user_type', 'status', 'email', 'password',
+        'subscribe', 'role', 'google_id', 'github_id', 'fb_id', 'linked_id', 'user_id', 'stripe_id'
     ];
 
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', 'remember_token',
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'trial_ends_at' => 'datetime',
+        // Use Cashier's default 'ends_at' instead of 'subscription_ends_at'
+        // 'subscription_ends_at' => 'datetime', // Remove this
     ];
 
     public function notes()
@@ -64,7 +52,7 @@ class User extends Authenticatable
 
     public function hasPremiumAccess(): bool
     {
-        return $this->subscribed('default') || $this->onTrial('default');
+        return $this->subscribed('premium') || $this->onTrial('premium');
     }
 
     public function getSubscriptionStatusAttribute(): string
@@ -73,15 +61,15 @@ class User extends Authenticatable
             return 'never_subscribed';
         }
 
-        if ($this->subscribed('default')) {
+        if ($this->subscribed('premium')) {
             return 'active';
         }
 
-        if ($this->subscription('default') && $this->subscription('default')->cancelled()) {
+        if ($this->subscription('premium') && $this->subscription('premium')->cancelled()) {
             return 'cancelled';
         }
 
-        if ($this->subscription('default') && $this->subscription('default')->onGracePeriod()) {
+        if ($this->subscription('premium') && $this->subscription('premium')->onGracePeriod()) {
             return 'grace_period';
         }
 
@@ -90,6 +78,6 @@ class User extends Authenticatable
 
     public function hasActiveSubscription(): bool
     {
-        return $this->subscribed('default');
+        return $this->subscribed('premium');
     }
 }

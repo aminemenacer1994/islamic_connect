@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('facebook_id')->unique()->nullable();
             $table->string('linkedin_id')->nullable();
             $table->string('github_id')->nullable();
-            
+            $table->string('stripe_id')->nullable();
             // Subscription fields (removed 'after' clauses)
             $table->string('subscription_status')->nullable();
             $table->string('stripe_customer_id')->nullable();

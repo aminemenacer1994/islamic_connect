@@ -158,8 +158,8 @@
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <div class="mb-3" @click="shareOnWhatsApp(ayah)">
-                  <i class="bi bi-whatsapp" style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip"
+                <div @click="shareOnWhatsApp(ayah)" style="cursor: pointer;">
+                  <i class="bi bi-whatsapp" style="font-size: 1.5rem;" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Share on WhatsApp"></i>
                 </div>
               </div>
@@ -191,6 +191,10 @@
           <button @click="toggleVolume" class="control-btn" title="Volume">
             <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
           </button>
+          <button @click="cyclePlaybackSpeed" class="control-btn" :title="'Speed: ' + playbackSpeed + 'x'">
+            <i class="bi bi-speedometer2" :style="{ color: playbackSpeed !== 1 ? '#ff6b6b' : '#ccc' }"></i>
+            <span class="speed-indicator">{{ playbackSpeed }}x</span>
+          </button>
           <div v-if="showVolumeBar" class="volume-bar-container">
             <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
               class="volume-slider" />
@@ -201,8 +205,14 @@
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
-        <div class="progress-bar">
+        <div class="progress-bar" @click="seekToPosition" ref="progressBar">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
+          <div class="audio-visualizer" ref="visualizer">
+            <div v-for="(bar, index) in visualizerBars" :key="index" 
+                 class="visualizer-bar" 
+                 :style="{ height: bar + '%', animationDelay: (index * 0.1) + 's' }">
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -240,14 +250,10 @@ export default {
       isHighlighted: false,
       wordTimings: [],
       isLoading: false,
-      autoScrollFrame: null,
-      autoScrollInterval: null,
-      isManualScrolling: false,
-      lastScrollTime: 0,
-      scrollAttempts: 0,
-      lastScrollPosition: null,
       continuousPlayback: true, // New data property for playback mode
-      isAutoScrolling: true,
+      visualizerBars: Array(20).fill(10),
+      playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2],
+      currentSpeedIndex: 2,
     };
   },
   computed: {
@@ -268,7 +274,6 @@ export default {
         this.savePreference("selectedReciter", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-        this.stopAutoScroll();
 
         // Ensure we start at the top
         window.scrollTo({ top: 0, behavior: 'instant' });
@@ -294,7 +299,6 @@ export default {
         this.savePreference("selectedTranslation", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-        this.stopAutoScroll();
 
         // Ensure we start at the top
         window.scrollTo({ top: 0, behavior: 'instant' });
@@ -319,7 +323,6 @@ export default {
         this.savePreference("selectedSurah", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-        this.stopAutoScroll();
 
         // Ensure we start at the top
         window.scrollTo({ top: 0, behavior: 'instant' });
@@ -454,56 +457,6 @@ export default {
       }
     },
 
-    scrollToAyahByIndex: function (index) {
-      if (!this.isAutoScrolling || !this.$refs.audioCard || !this.$refs.audioCard[index]) {
-        return;
-      }
-      if (index < 0 || index >= this.filteredAyahs.length) {
-        console.warn(`Invalid ayah index: ${index}`);
-        return;
-      }
-
-      this.$nextTick(() => {
-
-        this.$refs.audioCard[index].scrollIntoView({
-          behavior: 'smooth',
-          block: 'center', // Center the ayah in the viewport
-          inline: 'nearest',
-        });
-
-        const audioCards = Array.isArray(this.$refs.audioCard) ? this.$refs.audioCard : [];
-        if (!audioCards[index]) {
-          console.warn(`Audio card for index ${index} not found`);
-          return;
-        }
-
-        const element = audioCards[index];
-
-        // Check if element is valid before scrolling
-        if (!this.isElementValid(element)) {
-          console.warn(`Element for ayah ${index + 1} is not valid, skipping scroll`);
-          return;
-        }
-
-        // For the first ayah, ensure we're at the top first
-        if (index === 0) {
-          const currentScrollY = window.scrollY;
-          if (currentScrollY > 100) { // If we're not near the top
-            console.log(`First ayah detected, scrolling to top first`);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            // Wait for top scroll to complete, then scroll to ayah
-            setTimeout(() => {
-              this.scrollToElement(element, index);
-            }, 500);
-            return;
-          }
-        }
-
-        // For other ayahs, scroll directly
-        this.scrollToElement(element, index);
-      });
-    },
 
     scrollToElement: function (element, index) {
       // Use scrollIntoView for more reliable scrolling
@@ -586,174 +539,6 @@ export default {
 
         window.scrollTo({ top: finalTargetY, behavior: 'smooth' });
       });
-    },
-    startAutoScroll: function () {
-      if (this.autoScrollFrame || this.isManualScrolling) {
-        console.warn(`Cannot start auto-scroll: frame=${!!this.autoScrollFrame}, isManualScrolling=${this.isManualScrolling}`);
-        return;
-      }
-
-      // Check if elements are ready
-      const audioCards = Array.isArray(this.$refs.audioCard) ? this.$refs.audioCard : [];
-      if (!audioCards[this.currentlyPlayingIndex]) {
-        console.warn(`Audio card for index ${this.currentlyPlayingIndex} not found, delaying auto-scroll start`);
-        setTimeout(() => this.startAutoScroll(), 500);
-        return;
-      }
-
-      // Check if the element position is reasonable
-      const element = audioCards[this.currentlyPlayingIndex];
-      const elementTop = this.getElementPosition(element);
-      if (elementTop === null) {
-        console.warn(`Element position not valid for ayah ${this.currentlyPlayingIndex + 1}, delaying auto-scroll start`);
-        setTimeout(() => this.startAutoScroll(), 1000);
-        return;
-      }
-
-      console.log('Starting auto-scroll for ayah', this.currentlyPlayingIndex + 1);
-
-      // Reset scroll tracking
-      this.scrollAttempts = 0;
-      this.lastScrollPosition = null;
-      this.lastScrollTime = 0;
-
-      const scrollStep = () => {
-        if (!this.isAudioPlaying[this.currentlyPlayingIndex] || !this.currentlyPlaying || this.isLoading || this.isManualScrolling) {
-          console.log('Auto-scroll stopped: isPlaying=', this.isAudioPlaying[this.currentlyPlayingIndex], 'currentlyPlaying=', !!this.currentlyPlaying, 'isLoading=', this.isLoading, 'isManualScrolling=', this.isManualScrolling);
-          this.stopAutoScroll();
-          return;
-        }
-
-        // Get current element position
-        const audioCards = Array.isArray(this.$refs.audioCard) ? this.$refs.audioCard : [];
-        if (!audioCards[this.currentlyPlayingIndex]) {
-          console.warn(`Audio card for index ${this.currentlyPlayingIndex} not found during auto-scroll`);
-          this.stopAutoScroll();
-          return;
-        }
-
-        const element = audioCards[this.currentlyPlayingIndex];
-
-        // Get element position using the reliable method
-        const elementTop = this.getElementPosition(element);
-        if (elementTop === null) {
-          console.warn(`Could not get valid position for ayah ${this.currentlyPlayingIndex + 1}`);
-          this.stopAutoScroll();
-          return;
-        }
-
-        const rect = element.getBoundingClientRect();
-        const elementBottom = rect.bottom + window.scrollY;
-        const windowTop = window.scrollY;
-        const windowHeight = window.innerHeight;
-
-        const stickyDropdown = this.$refs.stickyDropdown;
-        const stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : (this.isVisible ? 80 : 60);
-        const audioPlayerHeight = this.showAudioPlayer ? (document.querySelector('.audio-player-container')?.getBoundingClientRect().height || 0) : 0;
-        const buffer = 100; // Increased buffer for better following
-
-        // Calculate viewport boundaries
-        const viewportTop = windowTop + stickyHeight + buffer;
-        const viewportBottom = windowTop + windowHeight - audioPlayerHeight - buffer;
-
-        // Check if the ayah is outside the visible viewport
-        const isAboveViewport = elementTop < viewportTop;
-        const isBelowViewport = elementBottom > viewportBottom;
-
-        // Add some tolerance to prevent micro-adjustments
-        const tolerance = 50;
-        const isAboveViewportWithTolerance = elementTop < (viewportTop - tolerance);
-        const isBelowViewportWithTolerance = elementBottom > (viewportBottom + tolerance);
-
-        // Check if ayah is outside the viewport (less aggressive, with tolerance)
-        const isNotWellPositioned = isAboveViewportWithTolerance || isBelowViewportWithTolerance;
-
-        if (isNotWellPositioned) {
-          const now = Date.now();
-          // Throttle scrolling to prevent too frequent scrolls
-          if (now - this.lastScrollTime > 2000) { // Increased to 2 seconds to prevent loops
-            if (this.lastScrollPosition === elementTop && this.scrollAttempts > 3) {
-              console.warn(`Infinite scroll loop detected for ayah ${this.currentlyPlayingIndex + 1}, stopping auto-scroll`);
-              this.stopAutoScroll();
-              return;
-            }
-
-            console.log(`Ayah ${this.currentlyPlayingIndex + 1} needs repositioning - above: ${isAboveViewport}, below: ${isBelowViewport}, elementTop: ${elementTop}, viewportTop: ${viewportTop}, viewportBottom: ${viewportBottom}`);
-            this.scrollToAyahByIndex(this.currentlyPlayingIndex);
-            this.lastScrollTime = now;
-            this.lastScrollPosition = elementTop;
-            this.scrollAttempts++;
-          }
-        } else {
-          // Reset scroll attempts when ayah is well positioned
-          this.scrollAttempts = 0;
-          this.lastScrollPosition = null;
-        }
-
-        this.autoScrollFrame = requestAnimationFrame(scrollStep);
-      };
-
-      // Start the auto-scroll loop
-      this.autoScrollFrame = requestAnimationFrame(scrollStep);
-
-      // Also add a periodic check every 2 seconds to ensure we're following
-      this.autoScrollInterval = setInterval(() => {
-        if (this.isAudioPlaying[this.currentlyPlayingIndex] && !this.isManualScrolling) {
-          const audioCards = Array.isArray(this.$refs.audioCard) ? this.$refs.audioCard : [];
-          if (audioCards[this.currentlyPlayingIndex]) {
-            const element = audioCards[this.currentlyPlayingIndex];
-            const elementTop = this.getElementPosition(element);
-
-            if (elementTop === null) {
-              console.warn(`Could not get valid position for ayah ${this.currentlyPlayingIndex + 1} in periodic check`);
-              return;
-            }
-
-            const windowTop = window.scrollY;
-            const stickyHeight = this.$refs.stickyDropdown ? this.$refs.stickyDropdown.getBoundingClientRect().height : (this.isVisible ? 80 : 60);
-            const audioPlayerHeight = this.showAudioPlayer ? (document.querySelector('.audio-player-container')?.getBoundingClientRect().height || 0) : 0;
-            const buffer = 100;
-
-            // Check if ayah is well positioned
-            const viewportTop = windowTop + stickyHeight + buffer;
-            const viewportBottom = windowTop + window.innerHeight - audioPlayerHeight - buffer;
-            const isWellPositioned = elementTop >= viewportTop && elementTop <= viewportBottom;
-
-            if (!isWellPositioned) {
-              const now = Date.now();
-              // Throttle scrolling to prevent too frequent scrolls
-              if (now - this.lastScrollTime > 2000) { // Increased to 2 seconds to prevent loops
-                console.log(`Periodic check: Ayah ${this.currentlyPlayingIndex + 1} not well positioned, scrolling...`);
-                this.scrollToAyahByIndex(this.currentlyPlayingIndex);
-                this.lastScrollTime = now;
-              }
-            }
-          }
-        }
-      }, 2000);
-    },
-    stopAutoScroll: function () {
-      if (this.autoScrollFrame) {
-        cancelAnimationFrame(this.autoScrollFrame);
-        this.autoScrollFrame = null;
-        console.log('Auto-scroll frame stopped');
-      }
-
-      if (this.autoScrollInterval) {
-        clearInterval(this.autoScrollInterval);
-        this.autoScrollInterval = null;
-        console.log('Auto-scroll interval stopped');
-      }
-    },
-    handleManualScroll: function () {
-      if (this.autoScrollFrame || this.autoScrollInterval) {
-        console.log('Manual scroll detected, stopping auto-scroll');
-        this.isManualScrolling = true;
-        this.stopAutoScroll();
-        // Do not resume auto-scroll
-        // Removed: setTimeout to restart auto-scroll
-        this.isManualScrolling = false; // Reset manual scrolling flag immediately
-      }
     },
     highlightedText: function (ayah) {
       if (!ayah.text) return "";
@@ -920,7 +705,9 @@ export default {
           this.isHighlighted = true;
           this.showAudioPlayer = true;
           this.preloadNextAyahs(index + 1);
-          // --- Auto-scroll code removed ---
+          
+          // Start visualizer animation
+          this.animateVisualizer();
         }).catch(err => {
           console.error(`Play error for ayah ${index + 1}:`, err);
           if (this.currentlyPlaying.readyState < 2) {
@@ -950,7 +737,6 @@ export default {
         this.audioElements[index].pause();
         this.isAudioPlaying[index] = false;
         this.isAudioLoading[index] = false;
-        this.stopAutoScroll();
       }
     },
     toggleAudioPlayer: function (index) {
@@ -975,7 +761,6 @@ export default {
         this.isAudioLoading[index] = false;
         this.progress[index] = 0;
         this.isHighlighted = false;
-        this.stopAutoScroll();
       }
     },
     rewindAudio: function (index) {
@@ -1297,6 +1082,52 @@ export default {
         return currentTime >= t && (i === arr.length - 1 || currentTime < arr[i + 1]);
       });
       this.highlightedWordIndex = index;
+    },
+    seekToPosition: function (event) {
+      const audio = this.audioElements[this.currentlyPlayingIndex];
+      if (!audio || !audio.duration) return;
+
+      const progressBar = this.$refs.progressBar;
+      if (!progressBar) return;
+
+      const rect = progressBar.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const percentage = clickX / rect.width;
+      const newTime = percentage * audio.duration;
+
+      audio.currentTime = Math.max(0, Math.min(newTime, audio.duration));
+      
+      // Update progress immediately
+      this.updateProgress(this.currentlyPlayingIndex);
+      
+      console.log(`Seeking to ${newTime.toFixed(2)}s (${(percentage * 100).toFixed(1)}%)`);
+    },
+    cyclePlaybackSpeed: function () {
+      this.currentSpeedIndex = (this.currentSpeedIndex + 1) % this.playbackSpeeds.length;
+      this.playbackSpeed = this.playbackSpeeds[this.currentSpeedIndex];
+      
+      // Update all audio elements
+      if (this.audioElements && this.audioElements.forEach) {
+        this.audioElements.forEach(audio => {
+          if (audio) audio.playbackRate = this.playbackSpeed;
+        });
+      }
+      
+      this.savePreference('playbackSpeed', this.playbackSpeed);
+      console.log(`Playback speed set to ${this.playbackSpeed}x`);
+    },
+    animateVisualizer: function () {
+      if (!this.isAudioPlaying[this.currentlyPlayingIndex]) return;
+      
+      // Create animated bars based on audio volume (simulated)
+      const audio = this.audioElements[this.currentlyPlayingIndex];
+      const volume = audio ? Math.min(audio.volume * 2, 1) : 0.3;
+      
+      this.visualizerBars = this.visualizerBars.map(() => 
+        Math.random() * 80 * volume + 10
+      );
+      
+      requestAnimationFrame(() => this.animateVisualizer());
     }
   },
   mounted: function () {
@@ -1306,6 +1137,7 @@ export default {
     this.currentlyPlayingIndex = 0;
     this.isHighlighted = false;
     this.continuousPlayback = JSON.parse(localStorage.getItem('continuousPlayback')) ?? true; // Load preference
+    this.playbackSpeed = JSON.parse(localStorage.getItem('playbackSpeed')) ?? 1; // Load playback speed preference
 
     // Ensure we start at the top
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -1326,17 +1158,14 @@ export default {
       });
     });
 
-    window.addEventListener('scroll', this.handleManualScroll);
   },
   beforeUnmount: function () {
-    this.stopAutoScroll();
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(audio => {
         if (audio && audio.pause) audio.pause();
         if (audio && audio.remove) audio.remove();
       });
     }
-    window.removeEventListener('scroll', this.handleManualScroll);
   }
 };
 </script>
@@ -1486,10 +1315,17 @@ html {
 
 .progress-bar {
   width: 100%;
-  height: 4px;
+  height: 8px;
   background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
+  border-radius: 4px;
   overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.progress-bar:hover {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .progress {
@@ -1608,6 +1444,73 @@ html {
   border-radius: 4px;
   padding: 0 2px;
   transition: background 0.2s;
+}
+
+/* Audio Visualizer Styles */
+.audio-visualizer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  padding: 0 2px;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.visualizer-bar {
+  width: 2px;
+  background: linear-gradient(to top, #00bfa6, #87ceeb);
+  border-radius: 1px;
+  animation: pulse-visualizer 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-visualizer {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+
+/* Speed Indicator */
+.speed-indicator {
+  font-size: 0.7rem;
+  font-weight: bold;
+  margin-left: 2px;
+  color: #ff6b6b;
+}
+
+
+/* Enhanced Control Buttons */
+.control-btn {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.control-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.control-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .speed-indicator {
+    font-size: 0.6rem;
+  }
+  
+  .visualizer-bar {
+    width: 1px;
+  }
+  
+  .audio-visualizer {
+    padding: 0 1px;
+  }
 }
 </style>
 ```

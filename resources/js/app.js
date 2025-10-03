@@ -4,7 +4,6 @@ import 'bootstrap';
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import $ from 'jquery';
 import { Form } from "vform";
 import swal from "sweetalert2";
@@ -100,9 +99,19 @@ import HolyComponent from "./components/HolyComponent.vue";
 import HistoryComponent from "./components/HistoryComponent.vue";
 import PaymentMethodsComponent from "./components/PaymentMethodsComponent.vue";
 import ReadComponent from "./components/ReadComponent.vue";
-
+import SubscriptionForm from './components/SubscriptionForm.vue';
+import { StripePlugin } from 'vue-stripe-elements-plus';
+import { ref, onMounted } from 'vue';
 
 const app = createApp({
+  components: { SubscriptionForm },
+  setup() {
+    const isAuthenticated = ref(!!document.querySelector('meta[name="user"]'));
+    onMounted(() => {
+        isAuthenticated.value = !!document.querySelector('meta[name="user"]');
+    });
+    return { isAuthenticated };
+  },
   data() {
     return {
       darkModeState: {
@@ -144,7 +153,9 @@ window.$ = window.jQuery = $;
 
 
 app.use(PrimeVue);
-
+app.use(StripePlugin, {
+  key: process.env.MIX_STRIPE_PUBLISHABLE_KEY,
+});
 app.component("Column", Column);
 app.component("DataTable", DataTable);
 app.component("Button", Button);
@@ -160,6 +171,9 @@ app.component("Panel", Panel);
 app.component("Dialog", Dialog);
 app.component("Image", Image);
 app.component("Editor", Editor);
+app.use(StripePlugin, {
+  key: process.env.MIX_STRIPE_PUBLISHABLE_KEY,
+});
 
 app.component('dark-mode-toggle', DarkModeToggle);
 app.component("users-component", UsersComponent);

@@ -6,10 +6,26 @@
       {{ isPlaying ? "Pause" : "Play" }} Audio
     </button>
   </div>
+
+  <div id="app" v-if="isAuthenticated">
+    <subscription-form />
+  </div>
 </template>
 
 <script defer>
+import SubscriptionForm from './components/SubscriptionForm.vue';
+import { onMounted, ref } from 'vue';
 export default {
+  components: { SubscriptionForm },
+  setup() {
+    const isAuthenticated = ref(!!document.querySelector('meta[name="user"]'));
+
+    onMounted(() => {
+      isAuthenticated.value = !!document.querySelector('meta[name="user"]');
+    });
+
+    return { isAuthenticated };
+  },
   name: "App",
   data() {
     return {

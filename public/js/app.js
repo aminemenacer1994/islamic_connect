@@ -153351,6 +153351,246 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionForm.vue?vue&type=script&setup=true&lang=js":
+/*!**********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionForm.vue?vue&type=script&setup=true&lang=js ***!
+  \**********************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-stripe-elements-plus */ "./node_modules/vue-stripe-elements-plus/dist/index.js");
+/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_1__);
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  __name: 'SubscriptionForm',
+  setup: function setup(__props, _ref) {
+    var __expose = _ref.expose;
+    __expose();
+    var _useStripe = (0,vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_1__.useStripe)(),
+      stripe = _useStripe.stripe;
+    var selectedPlan = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    var cardholderName = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var error = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var success = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var isSubscribed = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var plan = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('Free');
+    var endsAt = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var hasPaymentMethod = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+      var response, data, _t;
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.p = _context.n) {
+          case 0:
+            _context.p = 0;
+            _context.n = 1;
+            return fetch('/subscription-status', {
+              headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+              }
+            });
+          case 1:
+            response = _context.v;
+            if (response.ok) {
+              _context.n = 2;
+              break;
+            }
+            throw new Error('Failed to fetch status');
+          case 2:
+            _context.n = 3;
+            return response.json();
+          case 3:
+            data = _context.v;
+            isSubscribed.value = data.is_subscribed;
+            plan.value = data.plan === 'free' ? 'Free' : data.plan;
+            endsAt.value = data.ends_at ? new Date(data.ends_at).toLocaleDateString() : '';
+            hasPaymentMethod.value = !!localStorage.getItem('payment_method');
+            _context.n = 5;
+            break;
+          case 4:
+            _context.p = 4;
+            _t = _context.v;
+            error.value = 'Error loading subscription status';
+          case 5:
+            return _context.a(2);
+        }
+      }, _callee, null, [[0, 4]]);
+    })));
+    var selectPlan = function selectPlan(lookupKey) {
+      selectedPlan.value = lookupKey;
+      error.value = '';
+    };
+    var onCardError = function onCardError(e) {
+      error.value = e.message;
+    };
+    var handlePayment = /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(e) {
+        var _yield$stripe$value$c, paymentMethod, pmError, formData, response, data, _t2;
+        return _regenerator().w(function (_context2) {
+          while (1) switch (_context2.p = _context2.n) {
+            case 0:
+              e.preventDefault();
+              loading.value = true;
+              error.value = '';
+              _context2.p = 1;
+              _context2.n = 2;
+              return stripe.value.createPaymentMethod({
+                type: 'card',
+                card: card.value.element,
+                billing_details: {
+                  name: cardholderName.value
+                }
+              });
+            case 2:
+              _yield$stripe$value$c = _context2.v;
+              paymentMethod = _yield$stripe$value$c.paymentMethod;
+              pmError = _yield$stripe$value$c.error;
+              if (!pmError) {
+                _context2.n = 3;
+                break;
+              }
+              error.value = pmError.message;
+              return _context2.a(2);
+            case 3:
+              formData = new FormData();
+              formData.append('price_lookup_key', selectedPlan.value);
+              formData.append('payment_method', paymentMethod.id);
+              formData.append('cardholder_name', cardholderName.value);
+              _context2.n = 4;
+              return fetch('/subscribe', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+              });
+            case 4:
+              response = _context2.v;
+              _context2.n = 5;
+              return response.json();
+            case 5:
+              data = _context2.v;
+              if (!response.ok) {
+                _context2.n = 6;
+                break;
+              }
+              success.value = 'Subscription successful!';
+              isSubscribed.value = true;
+              plan.value = selectedPlan.value;
+              endsAt.value = data.ends_at ? new Date(data.ends_at).toLocaleDateString() : '';
+              localStorage.setItem('payment_method', paymentMethod.id);
+              _context2.n = 7;
+              break;
+            case 6:
+              throw new Error(data.error || 'Subscription failed');
+            case 7:
+              _context2.n = 9;
+              break;
+            case 8:
+              _context2.p = 8;
+              _t2 = _context2.v;
+              error.value = _t2.message;
+            case 9:
+              _context2.p = 9;
+              loading.value = false;
+              return _context2.f(9);
+            case 10:
+              return _context2.a(2);
+          }
+        }, _callee2, null, [[1, 8, 9, 10]]);
+      }));
+      return function handlePayment(_x) {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+    var cancelSubscription = /*#__PURE__*/function () {
+      var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+        var response, _t3;
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.p = _context3.n) {
+            case 0:
+              _context3.p = 0;
+              _context3.n = 1;
+              return fetch('/cancel', {
+                method: 'POST',
+                headers: {
+                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+              });
+            case 1:
+              response = _context3.v;
+              if (!response.ok) {
+                _context3.n = 2;
+                break;
+              }
+              isSubscribed.value = false;
+              plan.value = 'Free';
+              endsAt.value = '';
+              success.value = 'Cancelled!';
+              _context3.n = 3;
+              break;
+            case 2:
+              throw new Error('Cancellation failed');
+            case 3:
+              _context3.n = 5;
+              break;
+            case 4:
+              _context3.p = 4;
+              _t3 = _context3.v;
+              error.value = _t3.message;
+            case 5:
+              return _context3.a(2);
+          }
+        }, _callee3, null, [[0, 4]]);
+      }));
+      return function cancelSubscription() {
+        return _ref4.apply(this, arguments);
+      };
+    }();
+    var __returned__ = {
+      stripe: stripe,
+      selectedPlan: selectedPlan,
+      cardholderName: cardholderName,
+      loading: loading,
+      error: error,
+      success: success,
+      isSubscribed: isSubscribed,
+      plan: plan,
+      endsAt: endsAt,
+      hasPaymentMethod: hasPaymentMethod,
+      card: card,
+      selectPlan: selectPlan,
+      onCardError: onCardError,
+      handlePayment: handlePayment,
+      cancelSubscription: cancelSubscription,
+      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
+      computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed,
+      get useStripe() {
+        return vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_1__.useStripe;
+      }
+    };
+    Object.defineProperty(__returned__, '__isScriptSetup', {
+      enumerable: false,
+      value: true
+    });
+    return __returned__;
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SupportComponent.vue?vue&type=script&lang=js":
 /*!***********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SupportComponent.vue?vue&type=script&lang=js ***!
@@ -153455,15 +153695,11 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       isHighlighted: false,
       wordTimings: [],
       isLoading: false,
-      autoScrollFrame: null,
-      autoScrollInterval: null,
-      isManualScrolling: false,
-      lastScrollTime: 0,
-      scrollAttempts: 0,
-      lastScrollPosition: null,
       continuousPlayback: true,
       // New data property for playback mode
-      isAutoScrolling: true
+      visualizerBars: Array(20).fill(10),
+      playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2],
+      currentSpeedIndex: 2
     };
   },
   computed: {
@@ -153484,7 +153720,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         this.savePreference("selectedReciter", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-        this.stopAutoScroll();
 
         // Ensure we start at the top
         window.scrollTo({
@@ -153516,7 +153751,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         this.savePreference("selectedTranslation", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-        this.stopAutoScroll();
 
         // Ensure we start at the top
         window.scrollTo({
@@ -153547,7 +153781,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         this.savePreference("selectedSurah", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-        this.stopAutoScroll();
 
         // Ensure we start at the top
         window.scrollTo({
@@ -153681,60 +153914,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         return null;
       }
     },
-    scrollToAyahByIndex: function scrollToAyahByIndex(index) {
-      var _this6 = this;
-      if (!this.isAutoScrolling || !this.$refs.audioCard || !this.$refs.audioCard[index]) {
-        return;
-      }
-      if (index < 0 || index >= this.filteredAyahs.length) {
-        console.warn("Invalid ayah index: ".concat(index));
-        return;
-      }
-      this.$nextTick(function () {
-        _this6.$refs.audioCard[index].scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-          // Center the ayah in the viewport
-          inline: 'nearest'
-        });
-        var audioCards = Array.isArray(_this6.$refs.audioCard) ? _this6.$refs.audioCard : [];
-        if (!audioCards[index]) {
-          console.warn("Audio card for index ".concat(index, " not found"));
-          return;
-        }
-        var element = audioCards[index];
-
-        // Check if element is valid before scrolling
-        if (!_this6.isElementValid(element)) {
-          console.warn("Element for ayah ".concat(index + 1, " is not valid, skipping scroll"));
-          return;
-        }
-
-        // For the first ayah, ensure we're at the top first
-        if (index === 0) {
-          var currentScrollY = window.scrollY;
-          if (currentScrollY > 100) {
-            // If we're not near the top
-            console.log("First ayah detected, scrolling to top first");
-            window.scrollTo({
-              top: 0,
-              behavior: 'smooth'
-            });
-
-            // Wait for top scroll to complete, then scroll to ayah
-            setTimeout(function () {
-              _this6.scrollToElement(element, index);
-            }, 500);
-            return;
-          }
-        }
-
-        // For other ayahs, scroll directly
-        _this6.scrollToElement(element, index);
-      });
-    },
     scrollToElement: function scrollToElement(element, index) {
-      var _this7 = this;
+      var _this6 = this;
       // Use scrollIntoView for more reliable scrolling
       try {
         element.scrollIntoView({
@@ -153746,8 +153927,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 
         // Wait a bit for the scroll to complete before allowing more scrolls
         setTimeout(function () {
-          _this7.scrollAttempts = 0;
-          _this7.lastScrollPosition = null;
+          _this6.scrollAttempts = 0;
+          _this6.lastScrollPosition = null;
         }, 1000);
       } catch (error) {
         console.error("Error scrolling to ayah ".concat(index + 1, ":"), error);
@@ -153756,13 +153937,13 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }
     },
     smoothScrollToAyah: function smoothScrollToAyah(index) {
-      var _this8 = this;
+      var _this7 = this;
       if (index < 0 || index >= this.filteredAyahs.length || this.isManualScrolling) {
         console.warn("Cannot scroll: invalid index (".concat(index, ") or manual scrolling active (").concat(this.isManualScrolling, ")"));
         return;
       }
       this.$nextTick(function () {
-        var audioCards = Array.isArray(_this8.$refs.audioCard) ? _this8.$refs.audioCard : [];
+        var audioCards = Array.isArray(_this7.$refs.audioCard) ? _this7.$refs.audioCard : [];
         if (!audioCards[index]) {
           console.warn("Audio card for index ".concat(index, " not found"));
           return;
@@ -153772,7 +153953,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         var element = audioCards[index];
 
         // Check if element is valid (has proper dimensions and position)
-        if (!_this8.isElementValid(element)) {
+        if (!_this7.isElementValid(element)) {
           console.warn("Element for ayah ".concat(index + 1, " is not valid or has invalid dimensions"));
           return;
         }
@@ -153790,10 +153971,10 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         console.log("Ayah ".concat(index + 1, " - Element top: ").concat(elementTop, ", Window scrollY: ").concat(window.scrollY, ", Rect top: ").concat(rect.top, ", Document height: ").concat(documentHeight, ", Element height: ").concat(rect.height));
 
         // Calculate target scroll position
-        var stickyDropdown = _this8.$refs.stickyDropdown;
+        var stickyDropdown = _this7.$refs.stickyDropdown;
         var audioPlayer = document.querySelector('.audio-player-container');
-        var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : _this8.isVisible ? 80 : 60;
-        var audioPlayerHeight = _this8.showAudioPlayer ? (audioPlayer === null || audioPlayer === void 0 ? void 0 : audioPlayer.getBoundingClientRect().height) || 0 : 0;
+        var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : _this7.isVisible ? 80 : 60;
+        var audioPlayerHeight = _this7.showAudioPlayer ? (audioPlayer === null || audioPlayer === void 0 ? void 0 : audioPlayer.getBoundingClientRect().height) || 0 : 0;
         var buffer = 50; // Fixed buffer for consistent positioning
 
         // Calculate the target scroll position to position the ayah at the top of the viewport
@@ -153815,182 +153996,17 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         });
       });
     },
-    startAutoScroll: function startAutoScroll() {
-      var _this9 = this;
-      if (this.autoScrollFrame || this.isManualScrolling) {
-        console.warn("Cannot start auto-scroll: frame=".concat(!!this.autoScrollFrame, ", isManualScrolling=").concat(this.isManualScrolling));
-        return;
-      }
-
-      // Check if elements are ready
-      var audioCards = Array.isArray(this.$refs.audioCard) ? this.$refs.audioCard : [];
-      if (!audioCards[this.currentlyPlayingIndex]) {
-        console.warn("Audio card for index ".concat(this.currentlyPlayingIndex, " not found, delaying auto-scroll start"));
-        setTimeout(function () {
-          return _this9.startAutoScroll();
-        }, 500);
-        return;
-      }
-
-      // Check if the element position is reasonable
-      var element = audioCards[this.currentlyPlayingIndex];
-      var elementTop = this.getElementPosition(element);
-      if (elementTop === null) {
-        console.warn("Element position not valid for ayah ".concat(this.currentlyPlayingIndex + 1, ", delaying auto-scroll start"));
-        setTimeout(function () {
-          return _this9.startAutoScroll();
-        }, 1000);
-        return;
-      }
-      console.log('Starting auto-scroll for ayah', this.currentlyPlayingIndex + 1);
-
-      // Reset scroll tracking
-      this.scrollAttempts = 0;
-      this.lastScrollPosition = null;
-      this.lastScrollTime = 0;
-      var _scrollStep = function scrollStep() {
-        var _document$querySelect;
-        if (!_this9.isAudioPlaying[_this9.currentlyPlayingIndex] || !_this9.currentlyPlaying || _this9.isLoading || _this9.isManualScrolling) {
-          console.log('Auto-scroll stopped: isPlaying=', _this9.isAudioPlaying[_this9.currentlyPlayingIndex], 'currentlyPlaying=', !!_this9.currentlyPlaying, 'isLoading=', _this9.isLoading, 'isManualScrolling=', _this9.isManualScrolling);
-          _this9.stopAutoScroll();
-          return;
-        }
-
-        // Get current element position
-        var audioCards = Array.isArray(_this9.$refs.audioCard) ? _this9.$refs.audioCard : [];
-        if (!audioCards[_this9.currentlyPlayingIndex]) {
-          console.warn("Audio card for index ".concat(_this9.currentlyPlayingIndex, " not found during auto-scroll"));
-          _this9.stopAutoScroll();
-          return;
-        }
-        var element = audioCards[_this9.currentlyPlayingIndex];
-
-        // Get element position using the reliable method
-        var elementTop = _this9.getElementPosition(element);
-        if (elementTop === null) {
-          console.warn("Could not get valid position for ayah ".concat(_this9.currentlyPlayingIndex + 1));
-          _this9.stopAutoScroll();
-          return;
-        }
-        var rect = element.getBoundingClientRect();
-        var elementBottom = rect.bottom + window.scrollY;
-        var windowTop = window.scrollY;
-        var windowHeight = window.innerHeight;
-        var stickyDropdown = _this9.$refs.stickyDropdown;
-        var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : _this9.isVisible ? 80 : 60;
-        var audioPlayerHeight = _this9.showAudioPlayer ? ((_document$querySelect = document.querySelector('.audio-player-container')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getBoundingClientRect().height) || 0 : 0;
-        var buffer = 100; // Increased buffer for better following
-
-        // Calculate viewport boundaries
-        var viewportTop = windowTop + stickyHeight + buffer;
-        var viewportBottom = windowTop + windowHeight - audioPlayerHeight - buffer;
-
-        // Check if the ayah is outside the visible viewport
-        var isAboveViewport = elementTop < viewportTop;
-        var isBelowViewport = elementBottom > viewportBottom;
-
-        // Add some tolerance to prevent micro-adjustments
-        var tolerance = 50;
-        var isAboveViewportWithTolerance = elementTop < viewportTop - tolerance;
-        var isBelowViewportWithTolerance = elementBottom > viewportBottom + tolerance;
-
-        // Check if ayah is outside the viewport (less aggressive, with tolerance)
-        var isNotWellPositioned = isAboveViewportWithTolerance || isBelowViewportWithTolerance;
-        if (isNotWellPositioned) {
-          var now = Date.now();
-          // Throttle scrolling to prevent too frequent scrolls
-          if (now - _this9.lastScrollTime > 2000) {
-            // Increased to 2 seconds to prevent loops
-            if (_this9.lastScrollPosition === elementTop && _this9.scrollAttempts > 3) {
-              console.warn("Infinite scroll loop detected for ayah ".concat(_this9.currentlyPlayingIndex + 1, ", stopping auto-scroll"));
-              _this9.stopAutoScroll();
-              return;
-            }
-            console.log("Ayah ".concat(_this9.currentlyPlayingIndex + 1, " needs repositioning - above: ").concat(isAboveViewport, ", below: ").concat(isBelowViewport, ", elementTop: ").concat(elementTop, ", viewportTop: ").concat(viewportTop, ", viewportBottom: ").concat(viewportBottom));
-            _this9.scrollToAyahByIndex(_this9.currentlyPlayingIndex);
-            _this9.lastScrollTime = now;
-            _this9.lastScrollPosition = elementTop;
-            _this9.scrollAttempts++;
-          }
-        } else {
-          // Reset scroll attempts when ayah is well positioned
-          _this9.scrollAttempts = 0;
-          _this9.lastScrollPosition = null;
-        }
-        _this9.autoScrollFrame = requestAnimationFrame(_scrollStep);
-      };
-
-      // Start the auto-scroll loop
-      this.autoScrollFrame = requestAnimationFrame(_scrollStep);
-
-      // Also add a periodic check every 2 seconds to ensure we're following
-      this.autoScrollInterval = setInterval(function () {
-        if (_this9.isAudioPlaying[_this9.currentlyPlayingIndex] && !_this9.isManualScrolling) {
-          var _audioCards = Array.isArray(_this9.$refs.audioCard) ? _this9.$refs.audioCard : [];
-          if (_audioCards[_this9.currentlyPlayingIndex]) {
-            var _document$querySelect2;
-            var _element = _audioCards[_this9.currentlyPlayingIndex];
-            var _elementTop = _this9.getElementPosition(_element);
-            if (_elementTop === null) {
-              console.warn("Could not get valid position for ayah ".concat(_this9.currentlyPlayingIndex + 1, " in periodic check"));
-              return;
-            }
-            var windowTop = window.scrollY;
-            var stickyHeight = _this9.$refs.stickyDropdown ? _this9.$refs.stickyDropdown.getBoundingClientRect().height : _this9.isVisible ? 80 : 60;
-            var audioPlayerHeight = _this9.showAudioPlayer ? ((_document$querySelect2 = document.querySelector('.audio-player-container')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.getBoundingClientRect().height) || 0 : 0;
-            var buffer = 100;
-
-            // Check if ayah is well positioned
-            var viewportTop = windowTop + stickyHeight + buffer;
-            var viewportBottom = windowTop + window.innerHeight - audioPlayerHeight - buffer;
-            var isWellPositioned = _elementTop >= viewportTop && _elementTop <= viewportBottom;
-            if (!isWellPositioned) {
-              var now = Date.now();
-              // Throttle scrolling to prevent too frequent scrolls
-              if (now - _this9.lastScrollTime > 2000) {
-                // Increased to 2 seconds to prevent loops
-                console.log("Periodic check: Ayah ".concat(_this9.currentlyPlayingIndex + 1, " not well positioned, scrolling..."));
-                _this9.scrollToAyahByIndex(_this9.currentlyPlayingIndex);
-                _this9.lastScrollTime = now;
-              }
-            }
-          }
-        }
-      }, 2000);
-    },
-    stopAutoScroll: function stopAutoScroll() {
-      if (this.autoScrollFrame) {
-        cancelAnimationFrame(this.autoScrollFrame);
-        this.autoScrollFrame = null;
-        console.log('Auto-scroll frame stopped');
-      }
-      if (this.autoScrollInterval) {
-        clearInterval(this.autoScrollInterval);
-        this.autoScrollInterval = null;
-        console.log('Auto-scroll interval stopped');
-      }
-    },
-    handleManualScroll: function handleManualScroll() {
-      if (this.autoScrollFrame || this.autoScrollInterval) {
-        console.log('Manual scroll detected, stopping auto-scroll');
-        this.isManualScrolling = true;
-        this.stopAutoScroll();
-        // Do not resume auto-scroll
-        // Removed: setTimeout to restart auto-scroll
-        this.isManualScrolling = false; // Reset manual scrolling flag immediately
-      }
-    },
     highlightedText: function highlightedText(ayah) {
-      var _this0 = this;
+      var _this8 = this;
       if (!ayah.text) return "";
       var words = ayah.text.split(" ");
       return words.map(function (word, index) {
-        var isHighlighted = index === _this0.highlightedWordIndex ? "highlighted-word" : "";
+        var isHighlighted = index === _this8.highlightedWordIndex ? "highlighted-word" : "";
         return "<span class=\"".concat(isHighlighted, "\">").concat(word, "</span>");
       }).join(" ");
     },
     initializeAudioElements: function initializeAudioElements() {
-      var _this1 = this;
+      var _this9 = this;
       console.log('Initializing audio elements for', this.filteredAyahs.length, 'ayahs');
       if (!this.$refs.audioCard || !this.$refs.audioCard.length) {
         console.warn('No audio cards available for initialization');
@@ -154011,48 +154027,48 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           var audio = new Audio(ayah.audio);
           audio.preload = index < 5 ? 'auto' : 'metadata';
           audio.load();
-          audio.playbackRate = _this1.playbackSpeed;
-          audio.volume = _this1.volume;
+          audio.playbackRate = _this9.playbackSpeed;
+          audio.volume = _this9.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this1.updateProgress(index);
+            return _this9.updateProgress(index);
           });
           audio.addEventListener("loadedmetadata", function () {
             console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(audio.duration));
-            _this1.progress[index] = 0;
-            _this1.isAudioLoading[index] = false;
+            _this9.progress[index] = 0;
+            _this9.isAudioLoading[index] = false;
           });
           audio.addEventListener("canplay", function () {
             console.log("Audio can play for ayah ".concat(index + 1));
-            _this1.isAudioLoading[index] = false;
-            if (index === _this1.currentlyPlayingIndex && _this1.isAudioPlaying[index]) {
-              _this1.playAudio(index);
+            _this9.isAudioLoading[index] = false;
+            if (index === _this9.currentlyPlayingIndex && _this9.isAudioPlaying[index]) {
+              _this9.playAudio(index);
             }
           });
           audio.addEventListener("ended", function () {
-            return _this1.handleAyahEnd(index);
+            return _this9.handleAyahEnd(index);
           });
           audio.addEventListener("error", function (e) {
-            var _this1$$toast;
+            var _this9$$toast;
             console.error("Audio error for ayah ".concat(index + 1, ":"), e);
-            _this1.isAudioLoading[index] = false;
-            (_this1$$toast = _this1.$toast) === null || _this1$$toast === void 0 || _this1$$toast.error("Failed to load audio for ayah ".concat(index + 1));
+            _this9.isAudioLoading[index] = false;
+            (_this9$$toast = _this9.$toast) === null || _this9$$toast === void 0 || _this9$$toast.error("Failed to load audio for ayah ".concat(index + 1));
           });
           return audio;
         } catch (e) {
-          var _this1$$toast2;
+          var _this9$$toast2;
           console.error("Failed to create audio for ayah ".concat(index + 1, ":"), e);
-          (_this1$$toast2 = _this1.$toast) === null || _this1$$toast2 === void 0 || _this1$$toast2.error("Failed to create audio for ayah ".concat(index + 1));
+          (_this9$$toast2 = _this9.$toast) === null || _this9$$toast2 === void 0 || _this9$$toast2.error("Failed to create audio for ayah ".concat(index + 1));
           return null;
         }
       });
       console.log('Audio elements initialized:', this.audioElements.length, 'elements');
     },
     preloadNextAyahs: function preloadNextAyahs(startIndex) {
-      var _this10 = this;
+      var _this0 = this;
       var maxPreload = 5;
       this.filteredAyahs.slice(startIndex, startIndex + maxPreload).forEach(function (ayah, index) {
         var realIndex = startIndex + index;
-        if (realIndex >= _this10.audioElements.length || _this10.audioElements[realIndex]) return;
+        if (realIndex >= _this0.audioElements.length || _this0.audioElements[realIndex]) return;
         if (!ayah.audio) {
           console.warn("No audio URL for ayah ".concat(realIndex + 1));
           return;
@@ -154061,40 +154077,40 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           var audio = new Audio(ayah.audio);
           audio.preload = 'metadata';
           audio.load();
-          audio.playbackRate = _this10.playbackSpeed;
-          audio.volume = _this10.volume;
+          audio.playbackRate = _this0.playbackSpeed;
+          audio.volume = _this0.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this10.updateProgress(realIndex);
+            return _this0.updateProgress(realIndex);
           });
           audio.addEventListener("loadedmetadata", function () {
             console.log("Metadata loaded for ayah ".concat(realIndex + 1, ", duration: ").concat(audio.duration));
-            _this10.progress[realIndex] = 0;
-            _this10.isAudioLoading[realIndex] = false;
+            _this0.progress[realIndex] = 0;
+            _this0.isAudioLoading[realIndex] = false;
           });
           audio.addEventListener("canplay", function () {
             console.log("Audio can play for ayah ".concat(realIndex + 1));
-            _this10.isAudioLoading[realIndex] = false;
+            _this0.isAudioLoading[realIndex] = false;
           });
           audio.addEventListener("ended", function () {
-            return _this10.handleAyahEnd(realIndex);
+            return _this0.handleAyahEnd(realIndex);
           });
           audio.addEventListener("error", function (e) {
-            var _this10$$toast;
+            var _this0$$toast;
             console.error("Audio error for ayah ".concat(realIndex + 1, ":"), e);
-            _this10.isAudioLoading[realIndex] = false;
-            (_this10$$toast = _this10.$toast) === null || _this10$$toast === void 0 || _this10$$toast.error("Failed to load audio for ayah ".concat(realIndex + 1));
+            _this0.isAudioLoading[realIndex] = false;
+            (_this0$$toast = _this0.$toast) === null || _this0$$toast === void 0 || _this0$$toast.error("Failed to load audio for ayah ".concat(realIndex + 1));
           });
-          _this10.audioElements[realIndex] = audio;
+          _this0.audioElements[realIndex] = audio;
         } catch (e) {
-          var _this10$$toast2;
+          var _this0$$toast2;
           console.error("Failed to create audio for ayah ".concat(realIndex + 1, ":"), e);
-          (_this10$$toast2 = _this10.$toast) === null || _this10$$toast2 === void 0 || _this10$$toast2.error("Failed to create audio for ayah ".concat(realIndex + 1));
+          (_this0$$toast2 = _this0.$toast) === null || _this0$$toast2 === void 0 || _this0$$toast2.error("Failed to create audio for ayah ".concat(realIndex + 1));
         }
       });
       console.log("Preloaded audio elements for ayahs ".concat(startIndex + 1, " to ").concat(Math.min(startIndex + maxPreload, this.filteredAyahs.length)));
     },
     playAudio: function playAudio(index) {
-      var _this11 = this;
+      var _this1 = this;
       console.log('Attempting to play audio for index:', index);
       if (index < 0 || index >= this.filteredAyahs.length || !this.audioElements[index]) {
         var _this$$toast;
@@ -154122,18 +154138,18 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 
       // Setup metadata and word timing
       this.currentlyPlaying.onloadedmetadata = function () {
-        console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(_this11.currentlyPlaying.duration));
-        var duration = _this11.currentlyPlaying.duration;
+        console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(_this1.currentlyPlaying.duration));
+        var duration = _this1.currentlyPlaying.duration;
         var wordCount = ayah.text.split(' ').length;
         if (wordCount > 0 && duration > 0) {
           var step = duration / wordCount;
-          _this11.wordTimings = Array.from({
+          _this1.wordTimings = Array.from({
             length: wordCount
           }, function (_, i) {
             return i * step;
           });
         } else {
-          _this11.wordTimings = [];
+          _this1.wordTimings = [];
         }
       };
       if (this.currentlyPlaying.readyState >= 1) {
@@ -154141,44 +154157,46 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }
       this.highlightedWordIndex = -1;
       this.currentlyPlaying.ontimeupdate = function () {
-        _this11.syncHighlight();
-        _this11.updateProgress(index);
+        _this1.syncHighlight();
+        _this1.updateProgress(index);
       };
       var _attemptPlay = function attemptPlay() {
         var attempts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
         var maxAttempts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
         if (attempts >= maxAttempts) {
-          var _this11$$toast;
+          var _this1$$toast;
           console.error("Failed to play audio for ayah ".concat(index + 1, " after ").concat(maxAttempts, " attempts"));
-          _this11.isAudioPlaying[index] = false;
-          _this11.isAudioLoading[index] = false;
-          _this11.isHighlighted = false;
-          (_this11$$toast = _this11.$toast) === null || _this11$$toast === void 0 || _this11$$toast.error("Failed to play audio for ayah ".concat(index + 1));
+          _this1.isAudioPlaying[index] = false;
+          _this1.isAudioLoading[index] = false;
+          _this1.isHighlighted = false;
+          (_this1$$toast = _this1.$toast) === null || _this1$$toast === void 0 || _this1$$toast.error("Failed to play audio for ayah ".concat(index + 1));
           return;
         }
-        _this11.currentlyPlaying.play().then(function () {
+        _this1.currentlyPlaying.play().then(function () {
           console.log("Playing audio for ayah ".concat(index + 1));
-          _this11.isAudioPlaying[index] = true;
-          _this11.isAudioLoading[index] = false;
-          _this11.isHighlighted = true;
-          _this11.showAudioPlayer = true;
-          _this11.preloadNextAyahs(index + 1);
-          // --- Auto-scroll code removed ---
+          _this1.isAudioPlaying[index] = true;
+          _this1.isAudioLoading[index] = false;
+          _this1.isHighlighted = true;
+          _this1.showAudioPlayer = true;
+          _this1.preloadNextAyahs(index + 1);
+
+          // Start visualizer animation
+          _this1.animateVisualizer();
         })["catch"](function (err) {
           console.error("Play error for ayah ".concat(index + 1, ":"), err);
-          if (_this11.currentlyPlaying.readyState < 2) {
+          if (_this1.currentlyPlaying.readyState < 2) {
             console.log("Audio not ready, retrying in 50ms for ayah ".concat(index + 1, " (attempt ").concat(attempts + 1, ")"));
             setTimeout(function () {
               return _attemptPlay(attempts + 1, maxAttempts);
             }, 50);
           } else {
-            var _this11$$toast2;
+            var _this1$$toast2;
             console.error("Unrecoverable play error for ayah ".concat(index + 1, ":"), err);
-            _this11.isAudioPlaying[index] = false;
-            _this11.isAudioLoading[index] = false;
-            _this11.isHighlighted = false;
-            (_this11$$toast2 = _this11.$toast) === null || _this11$$toast2 === void 0 || _this11$$toast2.error("Failed to play audio for ayah ".concat(index + 1));
-            _this11.handleAyahEnd(index);
+            _this1.isAudioPlaying[index] = false;
+            _this1.isAudioLoading[index] = false;
+            _this1.isHighlighted = false;
+            (_this1$$toast2 = _this1.$toast) === null || _this1$$toast2 === void 0 || _this1$$toast2.error("Failed to play audio for ayah ".concat(index + 1));
+            _this1.handleAyahEnd(index);
           }
         });
       };
@@ -154199,7 +154217,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         this.audioElements[index].pause();
         this.isAudioPlaying[index] = false;
         this.isAudioLoading[index] = false;
-        this.stopAutoScroll();
       }
     },
     toggleAudioPlayer: function toggleAudioPlayer(index) {
@@ -154225,7 +154242,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         this.isAudioLoading[index] = false;
         this.progress[index] = 0;
         this.isHighlighted = false;
-        this.stopAutoScroll();
       }
     }
   }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "rewindAudio", function rewindAudio(index) {
@@ -154271,36 +154287,36 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     });
     return highlightedText;
   }), "toggleVisibility", function toggleVisibility() {
-    var _this12 = this;
+    var _this10 = this;
     this.isVisible = !this.isVisible;
     this.$nextTick(function () {
-      _this12.ensureCardPositionsCached(function () {
-        if (_this12.isAudioPlaying[_this12.currentlyPlayingIndex]) {
-          _this12.smoothScrollToAyah(_this12.currentlyPlayingIndex);
+      _this10.ensureCardPositionsCached(function () {
+        if (_this10.isAudioPlaying[_this10.currentlyPlayingIndex]) {
+          _this10.smoothScrollToAyah(_this10.currentlyPlayingIndex);
         }
       });
     });
   }), "increaseFontSize", function increaseFontSize() {
-    var _this13 = this;
+    var _this11 = this;
     if (this.arabicFontSize < 40) this.arabicFontSize += 2;
     if (this.translationFontSize < 30) this.translationFontSize += 2;
     this.$nextTick(function () {
-      _this13.cardPositions = [];
-      _this13.ensureCardPositionsCached(function () {
-        if (_this13.isAudioPlaying[_this13.currentlyPlayingIndex]) {
-          _this13.smoothScrollToAyah(_this13.currentlyPlayingIndex);
+      _this11.cardPositions = [];
+      _this11.ensureCardPositionsCached(function () {
+        if (_this11.isAudioPlaying[_this11.currentlyPlayingIndex]) {
+          _this11.smoothScrollToAyah(_this11.currentlyPlayingIndex);
         }
       });
     });
   }), "decreaseFontSize", function decreaseFontSize() {
-    var _this14 = this;
+    var _this12 = this;
     if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
     if (this.translationFontSize > 12) this.translationFontSize -= 2;
     this.$nextTick(function () {
-      _this14.cardPositions = [];
-      _this14.ensureCardPositionsCached(function () {
-        if (_this14.isAudioPlaying[_this14.currentlyPlayingIndex]) {
-          _this14.smoothScrollToAyah(_this14.currentlyPlayingIndex);
+      _this12.cardPositions = [];
+      _this12.ensureCardPositionsCached(function () {
+        if (_this12.isAudioPlaying[_this12.currentlyPlayingIndex]) {
+          _this12.smoothScrollToAyah(_this12.currentlyPlayingIndex);
         }
       });
     });
@@ -154329,28 +154345,28 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     };
     return languageFlags[lang.toLowerCase()] || '🌐';
   }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "fetchSurahs", function fetchSurahs() {
-    var _this15 = this;
+    var _this13 = this;
     this.isLoading = true;
     fetch("https://api.alquran.cloud/v1/surah").then(function (response) {
       if (!response.ok) throw new Error("Failed to fetch Surahs: ".concat(response.status));
       return response.json();
     }).then(function (data) {
-      if (!_this15._isDestroyed) {
-        _this15.surahs = data.data || [];
+      if (!_this13._isDestroyed) {
+        _this13.surahs = data.data || [];
       }
-      _this15.isLoading = false;
+      _this13.isLoading = false;
     })["catch"](function (error) {
       console.error("Error fetching Surahs:", error);
-      _this15.isLoading = false;
+      _this13.isLoading = false;
     });
   }), "fetchReciters", function fetchReciters() {
-    var _this16 = this;
+    var _this14 = this;
     return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
       var response, data, _t;
       return _regenerator().w(function (_context) {
         while (1) switch (_context.p = _context.n) {
           case 0:
-            _this16.isLoading = true;
+            _this14.isLoading = true;
             _context.p = 1;
             _context.n = 2;
             return fetch("https://api.alquran.cloud/v1/edition/format/audio");
@@ -154366,8 +154382,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
             return response.json();
           case 4:
             data = _context.v;
-            if (!_this16._isDestroyed) {
-              _this16.reciters = data.data.filter(function (reciter) {
+            if (!_this14._isDestroyed) {
+              _this14.reciters = data.data.filter(function (reciter) {
                 return reciter.identifier && reciter.englishName;
               }).map(function (reciter) {
                 return {
@@ -154378,27 +154394,27 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
                 return !['elmir kuliev 2 by 1muslimapp', 'elmir kuliev by 1muslimapp', 'elmir kuliev elevatemuslim', 'elmir kuliev 1muslim', 'elmir kuliev 2muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(reciter.englishName.toLowerCase());
               });
             }
-            _this16.isLoading = false;
+            _this14.isLoading = false;
             _context.n = 6;
             break;
           case 5:
             _context.p = 5;
             _t = _context.v;
             console.error("Error fetching Reciters:", _t);
-            _this16.isLoading = false;
+            _this14.isLoading = false;
           case 6:
             return _context.a(2);
         }
       }, _callee, null, [[1, 5]]);
     }))();
   }), "fetchTranslations", function fetchTranslations() {
-    var _this17 = this;
+    var _this15 = this;
     return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-      var response, data, translations, _this17$$toast, _t2;
+      var response, data, translations, _this15$$toast, _t2;
       return _regenerator().w(function (_context2) {
         while (1) switch (_context2.p = _context2.n) {
           case 0:
-            _this17.isLoading = true;
+            _this15.isLoading = true;
             _context2.p = 1;
             _context2.n = 2;
             return fetch("https://api.alquran.cloud/v1/edition/type/translation");
@@ -154414,7 +154430,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
             return response.json();
           case 4:
             data = _context2.v;
-            if (!_this17._isDestroyed) {
+            if (!_this15._isDestroyed) {
               _context2.n = 5;
               break;
             }
@@ -154425,8 +154441,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
               break;
             }
             console.error("No translation data received from API");
-            _this17.translations = [];
-            _this17.isLoading = false;
+            _this15.translations = [];
+            _this15.isLoading = false;
             return _context2.a(2);
           case 6:
             translations = data.data.map(function (translation) {
@@ -154434,7 +154450,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
                 identifier: translation.identifier,
                 englishName: translation.englishName || "Unknown Translation",
                 language: translation.language || "Unknown",
-                flag: _this17.getFlagFromLanguage(translation.language || "Unknown")
+                flag: _this15.getFlagFromLanguage(translation.language || "Unknown")
               };
             }).filter(function (translation) {
               return translation.flag !== '🌐';
@@ -154446,36 +154462,36 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
               if (a.englishName > b.englishName) return 1;
               return 0;
             });
-            _this17.translations = translations;
+            _this15.translations = translations;
             console.log('Translations fetched:', translations);
-            _this17.isLoading = false;
+            _this15.isLoading = false;
             _context2.n = 8;
             break;
           case 7:
             _context2.p = 7;
             _t2 = _context2.v;
             console.error("Error fetching Translations:", _t2);
-            _this17.translations = [];
-            (_this17$$toast = _this17.$toast) === null || _this17$$toast === void 0 || _this17$$toast.error("Failed to load translations");
-            _this17.isLoading = false;
+            _this15.translations = [];
+            (_this15$$toast = _this15.$toast) === null || _this15$$toast === void 0 || _this15$$toast.error("Failed to load translations");
+            _this15.isLoading = false;
           case 8:
             return _context2.a(2);
         }
       }, _callee2, null, [[1, 7]]);
     }))();
   }), "fetchSurahDetails", function fetchSurahDetails() {
-    var _this18 = this;
+    var _this16 = this;
     if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return Promise.resolve();
     this.isLoading = true;
     return fetch("https://api.alquran.cloud/v1/surah/".concat(this.selectedSurah, "/editions/").concat(this.selectedReciter, ",").concat(this.selectedTranslation)).then(function (response) {
       if (!response.ok) throw new Error("Failed to fetch Surah details: ".concat(response.status));
       return response.json();
     }).then(function (data) {
-      if (_this18._isDestroyed) return;
+      if (_this16._isDestroyed) return;
       var arabicText = data.data[0];
       var translation = data.data[1];
-      _this18.surahDetails = {
-        surahNumber: _this18.selectedSurah,
+      _this16.surahDetails = {
+        surahNumber: _this16.selectedSurah,
         englishName: arabicText.englishName,
         name: arabicText.name,
         ayahs: arabicText.ayahs.map(function (ayah, index) {
@@ -154487,29 +154503,29 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           };
         })
       };
-      console.log('Surah details fetched:', _this18.surahDetails);
-      _this18.isLoading = false;
+      console.log('Surah details fetched:', _this16.surahDetails);
+      _this16.isLoading = false;
     })["catch"](function (error) {
       console.error("Error fetching Surah details:", error);
-      _this18.isLoading = false;
+      _this16.isLoading = false;
     });
   }), "resetAllAudioPlayers", function resetAllAudioPlayers() {
-    var _this19 = this;
+    var _this17 = this;
     this.$nextTick(function () {
-      if (_this19.currentlyPlaying) {
-        _this19.currentlyPlaying.pause();
-        _this19.currentlyPlaying = null;
-        _this19.currentlyPlayingIndex = 0;
+      if (_this17.currentlyPlaying) {
+        _this17.currentlyPlaying.pause();
+        _this17.currentlyPlaying = null;
+        _this17.currentlyPlayingIndex = 0;
       }
-      if (_this19.audioElements && _this19.audioElements.forEach) {
-        _this19.audioElements.forEach(function (audio) {
+      if (_this17.audioElements && _this17.audioElements.forEach) {
+        _this17.audioElements.forEach(function (audio) {
           if (audio && audio.remove) audio.remove();
         });
       }
-      _this19.initializeAudioElements();
-      _this19.isAudioPlaying = new Array(_this19.filteredAyahs.length).fill(false);
-      _this19.isAudioLoading = new Array(_this19.filteredAyahs.length).fill(false);
-      _this19.progress = new Array(_this19.filteredAyahs.length).fill(0);
+      _this17.initializeAudioElements();
+      _this17.isAudioPlaying = new Array(_this17.filteredAyahs.length).fill(false);
+      _this17.isAudioLoading = new Array(_this17.filteredAyahs.length).fill(false);
+      _this17.progress = new Array(_this17.filteredAyahs.length).fill(0);
     });
   }), "savePreference", function savePreference(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
@@ -154534,17 +154550,17 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
   }), "toggleVolume", function toggleVolume() {
     this.showVolumeBar = !this.showVolumeBar;
   }), "updateVolume", function updateVolume() {
-    var _this20 = this;
+    var _this18 = this;
     if (this.currentlyPlaying) {
       this.currentlyPlaying.volume = this.volume;
     }
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(function (audio) {
-        if (audio) audio.volume = _this20.volume;
+        if (audio) audio.volume = _this18.volume;
       });
     }
-  }), _defineProperty(_defineProperty(_methods, "closeAudioPlayer", function closeAudioPlayer() {
-    var _this21 = this;
+  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "closeAudioPlayer", function closeAudioPlayer() {
+    var _this19 = this;
     if (this.currentlyPlayingIndex !== null) {
       this.stopAudio(this.currentlyPlayingIndex);
     }
@@ -154561,7 +154577,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           top: 0,
           behavior: 'smooth'
         });
-        _this21.ensureCardPositionsCached(function () {});
+        _this19.ensureCardPositionsCached(function () {});
       }, 200);
     });
   }), "syncHighlight", function syncHighlight() {
@@ -154572,9 +154588,50 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       return currentTime >= t && (i === arr.length - 1 || currentTime < arr[i + 1]);
     });
     this.highlightedWordIndex = index;
+  }), "seekToPosition", function seekToPosition(event) {
+    var audio = this.audioElements[this.currentlyPlayingIndex];
+    if (!audio || !audio.duration) return;
+    var progressBar = this.$refs.progressBar;
+    if (!progressBar) return;
+    var rect = progressBar.getBoundingClientRect();
+    var clickX = event.clientX - rect.left;
+    var percentage = clickX / rect.width;
+    var newTime = percentage * audio.duration;
+    audio.currentTime = Math.max(0, Math.min(newTime, audio.duration));
+
+    // Update progress immediately
+    this.updateProgress(this.currentlyPlayingIndex);
+    console.log("Seeking to ".concat(newTime.toFixed(2), "s (").concat((percentage * 100).toFixed(1), "%)"));
+  }), "cyclePlaybackSpeed", function cyclePlaybackSpeed() {
+    var _this20 = this;
+    this.currentSpeedIndex = (this.currentSpeedIndex + 1) % this.playbackSpeeds.length;
+    this.playbackSpeed = this.playbackSpeeds[this.currentSpeedIndex];
+
+    // Update all audio elements
+    if (this.audioElements && this.audioElements.forEach) {
+      this.audioElements.forEach(function (audio) {
+        if (audio) audio.playbackRate = _this20.playbackSpeed;
+      });
+    }
+    this.savePreference('playbackSpeed', this.playbackSpeed);
+    console.log("Playback speed set to ".concat(this.playbackSpeed, "x"));
+  }), "animateVisualizer", function animateVisualizer() {
+    var _this21 = this;
+    if (!this.isAudioPlaying[this.currentlyPlayingIndex]) return;
+
+    // Create animated bars based on audio volume (simulated)
+    var audio = this.audioElements[this.currentlyPlayingIndex];
+    var volume = audio ? Math.min(audio.volume * 2, 1) : 0.3;
+    this.visualizerBars = this.visualizerBars.map(function () {
+      return Math.random() * 80 * volume + 10;
+    });
+    requestAnimationFrame(function () {
+      return _this21.animateVisualizer();
+    });
   })),
   mounted: function mounted() {
     var _JSON$parse,
+      _JSON$parse2,
       _this22 = this;
     this.selectedSurah = "1";
     this.selectedReciter = "ar.alafasy";
@@ -154582,6 +154639,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     this.currentlyPlayingIndex = 0;
     this.isHighlighted = false;
     this.continuousPlayback = (_JSON$parse = JSON.parse(localStorage.getItem('continuousPlayback'))) !== null && _JSON$parse !== void 0 ? _JSON$parse : true; // Load preference
+    this.playbackSpeed = (_JSON$parse2 = JSON.parse(localStorage.getItem('playbackSpeed'))) !== null && _JSON$parse2 !== void 0 ? _JSON$parse2 : 1; // Load playback speed preference
 
     // Ensure we start at the top
     window.scrollTo({
@@ -154601,17 +154659,14 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         }, 1000);
       });
     });
-    window.addEventListener('scroll', this.handleManualScroll);
   },
   beforeUnmount: function beforeUnmount() {
-    this.stopAutoScroll();
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(function (audio) {
         if (audio && audio.pause) audio.pause();
         if (audio && audio.remove) audio.remove();
       });
     }
-    window.removeEventListener('scroll', this.handleManualScroll);
   }
 });
 
@@ -179734,6 +179789,101 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionForm.vue?vue&type=template&id=55d8ed6c&scoped=true":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionForm.vue?vue&type=template&id=55d8ed6c&scoped=true ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+
+var _hoisted_1 = {
+  key: 0,
+  "class": "plans"
+};
+var _hoisted_2 = {
+  key: 1
+};
+var _hoisted_3 = ["value"];
+var _hoisted_4 = {
+  "class": "mb-3"
+};
+var _hoisted_5 = ["disabled"];
+var _hoisted_6 = {
+  key: 3,
+  "class": "error"
+};
+var _hoisted_7 = {
+  key: 4,
+  "class": "success"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_stripe_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("stripe-card");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Choose Your Plan", -1 /* CACHED */)), !$setup.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "plan",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $setup.selectPlan('price_premium_monthly');
+    })
+  }, _toConsumableArray(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Monthly", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "£1.99 / month", -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "plan",
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $setup.selectPlan('price_premium_yearly');
+    })
+  }, _toConsumableArray(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Yearly", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "£18 / year (Save 25%)", -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "plan",
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $setup.selectPlan('price_premium_lifetime');
+    })
+  }, _toConsumableArray(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Lifetime", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "£25 once", -1 /* CACHED */)])))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "You're on " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.plan) + " plan! Ends: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.endsAt), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: $setup.cancelSubscription,
+    "class": "btn btn-primary"
+  }, "Cancel Subscription")])), $setup.selectedPlan && !$setup.hasPaymentMethod ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("form", {
+    key: 2,
+    onSubmit: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($setup.handlePayment, ["prevent"]),
+    method: "post",
+    action: "/subscribe"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "hidden",
+    name: "price_lookup_key",
+    value: $setup.selectedPlan
+  }, null, 8 /* PROPS */, _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "cardholderName",
+    "class": "form-label"
+  }, "Cardholder Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $setup.cardholderName = $event;
+    }),
+    id: "cardholderName",
+    type: "text",
+    "class": "form-control",
+    required: "",
+    placeholder: "Enter your name"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.cardholderName]])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_stripe_card, {
+    ref: "card",
+    key: $setup.selectedPlan,
+    "class": "form-control",
+    stripe: "stripe",
+    onStripeError: $setup.onCardError
+  })), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "submit",
+    disabled: $setup.loading,
+    "class": "btn btn-primary"
+  }, "Subscribe", 8 /* PROPS */, _hoisted_5)], 32 /* NEED_HYDRATION */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.success), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+}
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SupportComponent.vue?vue&type=template&id=57940159&scoped=true":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SupportComponent.vue?vue&type=template&id=57940159&scoped=true ***!
@@ -180007,19 +180157,24 @@ var _hoisted_48 = {
   key: 2,
   "class": "bi bi-play-fill"
 };
-var _hoisted_49 = {
+var _hoisted_49 = ["title"];
+var _hoisted_50 = {
+  "class": "speed-indicator"
+};
+var _hoisted_51 = {
   key: 0,
   "class": "volume-bar-container"
 };
-var _hoisted_50 = {
+var _hoisted_52 = {
   "class": "time"
 };
-var _hoisted_51 = {
-  "class": "progress-bar"
+var _hoisted_53 = {
+  "class": "audio-visualizer",
+  ref: "visualizer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _ctx$audioElements$_c, _ctx$audioElements$_c2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-10 col-xl-10"
@@ -180041,7 +180196,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     }
-  }, [_ctx.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_2)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [_ctx.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_2)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "surah-select",
     "class": "form-label text-white"
   }, "Select Surah:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -180053,7 +180208,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[2] || (_cache[2] = function () {
       return $options.fetchSurahDetails && $options.fetchSurahDetails.apply($options, arguments);
     })
-  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a Surah", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.surahs, function (surah) {
@@ -180061,7 +180216,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: surah.number,
       value: surah.number
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number) + ". " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name) + ") ", 9 /* TEXT, PROPS */, _hoisted_6);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "reciter-select",
     "class": "form-label text-white"
   }, "Select Reciter:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -180070,7 +180225,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return _ctx.selectedReciter = $event;
     })
-  }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a reciter", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.reciters, function (reciter) {
@@ -180078,7 +180233,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: reciter.identifier,
       value: reciter.identifier
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "translation-select",
     "class": "form-label text-white"
   }, "Select Translation:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -180087,7 +180242,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return _ctx.selectedTranslation = $event;
     })
-  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select Translation", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.translations, function (translation) {
@@ -180109,7 +180264,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         'highlighted': _ctx.isHighlighted && _ctx.currentlyPlayingIndex === index,
         'currently-playing': _ctx.isAudioPlaying[index]
       }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "/images/art.png",
       width: "35px",
       alt: "Art Icon"
@@ -180119,7 +180274,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_19), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_19), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
@@ -180147,7 +180302,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[5] || (_cache[5] = function () {
         return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
       })
-    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "cursor": "pointer",
         "font-size": "1.5rem"
@@ -180161,7 +180316,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[6] || (_cache[6] = function () {
         return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
       })
-    }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "cursor": "pointer",
         "font-size": "1.5rem"
@@ -180175,7 +180330,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(ayah);
       }
-    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-share-fill",
       style: {
         "cursor": "pointer",
@@ -180184,13 +180339,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "right",
       title: "Share on WhatsApp"
-    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_26)])])]), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_26)])])]), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "arabic-text p-2 rtl-text fw-bold text-end mb-3",
       innerHTML: $options.highlightedText(ayah),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_28), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_28), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
@@ -180205,7 +180360,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-dash-circle-fill",
       style: {
         "font-size": "1.7rem"
@@ -180220,7 +180375,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-plus-circle-fill",
       style: {
         "font-size": "1.7rem"
@@ -180251,7 +180406,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-backward-circle-fill",
       style: {
         "font-size": "1.7rem"
@@ -180266,7 +180421,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-forward-circle-fill",
       style: {
         "font-size": "1.7rem"
@@ -180275,14 +180430,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-placement": "top",
       title: "Fast Forward"
     }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_40)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "mb-3",
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(ayah);
+      },
+      style: {
+        "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-whatsapp",
       style: {
-        "cursor": "pointer",
         "font-size": "1.5rem"
       },
       "data-bs-toggle": "tooltip",
@@ -180295,7 +180451,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "class": "control-btn",
     title: "Rewind"
-  }, _toConsumableArray(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-backward-fill"
   }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[10] || (_cache[10] = function ($event) {
@@ -180309,7 +180465,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "class": "control-btn",
     title: "Fast Forward"
-  }, _toConsumableArray(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-forward-fill"
   }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[12] || (_cache[12] = function ($event) {
@@ -180317,7 +180473,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "class": "control-btn",
     title: "Stop"
-  }, _toConsumableArray(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop-fill"
   }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[13] || (_cache[13] = function () {
@@ -180327,20 +180483,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Volume"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", "bi-volume-".concat(_ctx.volume > 0.5 ? 'up' : _ctx.volume > 0 ? 'down' : 'mute', "-fill")])
-  }, null, 2 /* CLASS */)]), _ctx.showVolumeBar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[14] || (_cache[14] = function () {
+      return $options.cyclePlaybackSpeed && $options.cyclePlaybackSpeed.apply($options, arguments);
+    }),
+    "class": "control-btn",
+    title: 'Speed: ' + _ctx.playbackSpeed + 'x'
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-speedometer2",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      color: _ctx.playbackSpeed !== 1 ? '#ff6b6b' : '#ccc'
+    })
+  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.playbackSpeed) + "x", 1 /* TEXT */)], 8 /* PROPS */, _hoisted_49), _ctx.showVolumeBar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "range",
-    "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
+    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
       return _ctx.volume = $event;
     }),
     min: "0",
     max: "1",
     step: "0.1",
-    onInput: _cache[15] || (_cache[15] = function () {
+    onInput: _cache[16] || (_cache[16] = function () {
       return $options.updateVolume && $options.updateVolume.apply($options, arguments);
     }),
     "class": "volume-slider"
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.volume]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_ctx$audioElements$_c = _ctx.audioElements[_ctx.currentlyPlayingIndex]) === null || _ctx$audioElements$_c === void 0 ? void 0 : _ctx$audioElements$_c.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_ctx$audioElements$_c2 = _ctx.audioElements[_ctx.currentlyPlayingIndex]) === null || _ctx$audioElements$_c2 === void 0 ? void 0 : _ctx$audioElements$_c2.duration) || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[16] || (_cache[16] = function () {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.volume]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_ctx$audioElements$_c = _ctx.audioElements[_ctx.currentlyPlayingIndex]) === null || _ctx$audioElements$_c === void 0 ? void 0 : _ctx$audioElements$_c.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_ctx$audioElements$_c2 = _ctx.audioElements[_ctx.currentlyPlayingIndex]) === null || _ctx$audioElements$_c2 === void 0 ? void 0 : _ctx$audioElements$_c2.duration) || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[17] || (_cache[17] = function () {
       return $options.closeAudioPlayer && $options.closeAudioPlayer.apply($options, arguments);
     }),
     "class": "control-btn",
@@ -180348,14 +180515,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "margin-left": "auto"
     }
-  }, _toConsumableArray(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-lg"
-  }, null, -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress-bar",
+    onClick: _cache[18] || (_cache[18] = function () {
+      return $options.seekToPosition && $options.seekToPosition.apply($options, arguments);
+    }),
+    ref: "progressBar"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: _ctx.progress[_ctx.currentlyPlayingIndex] + '%'
     })
-  }, null, 4 /* STYLE */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visualizerBars, function (bar, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: index,
+      "class": "visualizer-bar",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        height: bar + '%',
+        animationDelay: index * 0.1 + 's'
+      })
+    }, null, 4 /* STYLE */);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)], 512 /* NEED_PATCH */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -191694,6 +191876,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.channel-card[data-v-670f86e6] {\n  
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionForm.vue?vue&type=style&index=0&id=55d8ed6c&scoped=true&lang=css":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionForm.vue?vue&type=style&index=0&id=55d8ed6c&scoped=true&lang=css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.plans[data-v-55d8ed6c] {\n    display: flex;\n    gap: 1rem;\n    margin: 1rem 0;\n}\n.plan[data-v-55d8ed6c] {\n    border: 1px solid #ccc;\n    padding: 1rem;\n    cursor: pointer;\n    border-radius: 6px;\n}\n.plan[data-v-55d8ed6c]:hover {\n    background: #f5f5f5;\n}\n.form-control[data-v-55d8ed6c] {\n    border: 1px solid #dee2e6;\n    padding: 0.75rem 1rem;\n    border-radius: 6px;\n    width: 100%;\n}\n.btn-primary[data-v-55d8ed6c] {\n    background-color: #35a38b;\n    border-color: #35a38b;\n    color: white;\n    padding: 0.75rem;\n}\n.btn-primary[data-v-55d8ed6c]:hover {\n    background-color: #2d8c77;\n    border-color: #2d8c77;\n}\n.btn-primary[data-v-55d8ed6c]:disabled {\n    background: #ccc;\n    cursor: not-allowed;\n}\n.error[data-v-55d8ed6c] {\n    color: #dc3545;\n    margin-top: 0.5rem;\n}\n.success[data-v-55d8ed6c] {\n    color: #28a745;\n    margin-top: 0.5rem;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SupportComponent.vue?vue&type=style&index=0&id=57940159&scoped=true&lang=css":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SupportComponent.vue?vue&type=style&index=0&id=57940159&scoped=true&lang=css ***!
@@ -191759,7 +191965,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nhtml[data-v-828f3036] {\n  scroll-behavior: smooth;\n}\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n  animation: pulse-828f3036 0.5s ease-in-out;\n}\n.currently-playing[data-v-828f3036] {\n  background-color: #00bfa640;\n  border: 2px solid #00bfa640;\n  border-radius: 8px;\n  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);\n  transform: scale(1.02);\n  transition: all 0.3s ease;\n}\n@keyframes pulse-828f3036 {\n0% {\n    border: 2px solid #00bfa6;\n}\n100% {\n    border: 2px solid transparent;\n}\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  transition: top 0.3s ease, height 0.3s ease;\n}\n@media (max-width: 768px) {\n.container[data-v-828f3036] {\n    padding-bottom: calc(100px + env(safe-area-inset-bottom));\n}\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.container[data-v-828f3036] {\n  padding-bottom: calc(120px + env(safe-area-inset-bottom));\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 5px 10px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n@media (max-width: 768px) {\n.controls .control-btn[title=\"Close\"][data-v-828f3036] {\n    margin-left: 0;\n    /* Remove the margin-left: auto to align with other buttons */\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.5rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 4px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n.ayah-card-container[data-v-828f3036] {\n  scroll-margin-top: 100px;\n}\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.7rem !important;\n    /* line-height: 5.8vh; */\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    /* line-height: 1.6; */\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(52, 58, 64, 0.95);\n}\n}\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n.loading-placeholder[data-v-828f3036] {\n  text-align: center;\n  padding: 20px;\n  font-size: 1.2rem;\n  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.highlighted-word[data-v-828f3036] {\n  background: #00bfa6;\n  color: #fff;\n  border-radius: 4px;\n  padding: 0 2px;\n  transition: background 0.2s;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nhtml[data-v-828f3036] {\n  scroll-behavior: smooth;\n}\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n  animation: pulse-828f3036 0.5s ease-in-out;\n}\n.currently-playing[data-v-828f3036] {\n  background-color: #00bfa640;\n  border: 2px solid #00bfa640;\n  border-radius: 8px;\n  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);\n  transform: scale(1.02);\n  transition: all 0.3s ease;\n}\n@keyframes pulse-828f3036 {\n0% {\n    border: 2px solid #00bfa6;\n}\n100% {\n    border: 2px solid transparent;\n}\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  transition: top 0.3s ease, height 0.3s ease;\n}\n@media (max-width: 768px) {\n.container[data-v-828f3036] {\n    padding-bottom: calc(100px + env(safe-area-inset-bottom));\n}\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.container[data-v-828f3036] {\n  padding-bottom: calc(120px + env(safe-area-inset-bottom));\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 5px 10px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n@media (max-width: 768px) {\n.controls .control-btn[title=\"Close\"][data-v-828f3036] {\n    margin-left: 0;\n    /* Remove the margin-left: auto to align with other buttons */\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.5rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 8px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 4px;\n  overflow: hidden;\n  cursor: pointer;\n  position: relative;\n  transition: background-color 0.2s ease;\n}\n.progress-bar[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n.ayah-card-container[data-v-828f3036] {\n  scroll-margin-top: 100px;\n}\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.7rem !important;\n    /* line-height: 5.8vh; */\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    /* line-height: 1.6; */\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(52, 58, 64, 0.95);\n}\n}\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n.loading-placeholder[data-v-828f3036] {\n  text-align: center;\n  padding: 20px;\n  font-size: 1.2rem;\n  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.highlighted-word[data-v-828f3036] {\n  background: #00bfa6;\n  color: #fff;\n  border-radius: 4px;\n  padding: 0 2px;\n  transition: background 0.2s;\n}\n\n/* Audio Visualizer Styles */\n.audio-visualizer[data-v-828f3036] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 100%;\n  display: flex;\n  align-items: flex-end;\n  justify-content: space-around;\n  padding: 0 2px;\n  opacity: 0.7;\n  pointer-events: none;\n}\n.visualizer-bar[data-v-828f3036] {\n  width: 2px;\n  background: linear-gradient(to top, #00bfa6, #87ceeb);\n  border-radius: 1px;\n  animation: pulse-visualizer-828f3036 0.6s ease-in-out infinite alternate;\n}\n@keyframes pulse-visualizer-828f3036 {\n0% { opacity: 0.4;\n}\n100% { opacity: 1;\n}\n}\n\n/* Speed Indicator */\n.speed-indicator[data-v-828f3036] {\n  font-size: 0.7rem;\n  font-weight: bold;\n  margin-left: 2px;\n  color: #ff6b6b;\n}\n\n/* Enhanced Control Buttons */\n.control-btn[data-v-828f3036] {\n  transition: all 0.3s ease;\n  border-radius: 8px;\n}\n.control-btn[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.1);\n  transform: translateY(-2px);\n}\n.control-btn[data-v-828f3036]:active {\n  transform: translateY(0);\n}\n\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.speed-indicator[data-v-828f3036] {\n    font-size: 0.6rem;\n}\n.visualizer-bar[data-v-828f3036] {\n    width: 1px;\n}\n.audio-visualizer[data-v-828f3036] {\n    padding: 0 1px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -194275,6 +194481,36 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_style_index_0_id_670f86e6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionForm.vue?vue&type=style&index=0&id=55d8ed6c&scoped=true&lang=css":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionForm.vue?vue&type=style&index=0&id=55d8ed6c&scoped=true&lang=css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionForm_vue_vue_type_style_index_0_id_55d8ed6c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SubscriptionForm.vue?vue&type=style&index=0&id=55d8ed6c&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionForm.vue?vue&type=style&index=0&id=55d8ed6c&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionForm_vue_vue_type_style_index_0_id_55d8ed6c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionForm_vue_vue_type_style_index_0_id_55d8ed6c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -335954,6 +336190,16 @@ exports["default"] = (sfc, props) => {
 
 /***/ }),
 
+/***/ "./node_modules/vue-stripe-elements-plus/dist/index.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/vue-stripe-elements-plus/dist/index.js ***!
+  \*************************************************************/
+/***/ (function(module) {
+
+!function(t,e){ true?module.exports=e():0}(this,(function(){return function(){var t={8257:function(t,e,n){var r=n(7583),o=n(9212),i=n(5637),u=r.TypeError;t.exports=function(t){if(o(t))return t;throw u(i(t)+" is not a function")}},2569:function(t,e,n){var r=n(7583),o=n(794),i=r.String,u=r.TypeError;t.exports=function(t){if(o(t))return t;throw u(i(t)+" is not an object")}},5766:function(t,e,n){var r=n(2977),o=n(6782),i=n(1825),u=function(t){return function(e,n,u){var c,s=r(e),f=i(s),a=o(u,f);if(t&&n!=n){for(;f>a;)if((c=s[a++])!=c)return!0}else for(;f>a;a++)if((t||a in s)&&s[a]===n)return t||a||0;return!t&&-1}};t.exports={includes:u(!0),indexOf:u(!1)}},9624:function(t,e,n){var r=n(7386),o=r({}.toString),i=r("".slice);t.exports=function(t){return i(o(t),8,-1)}},3058:function(t,e,n){var r=n(7583),o=n(8191),i=n(9212),u=n(9624),c=n(3649)("toStringTag"),s=r.Object,f="Arguments"==u(function(){return arguments}());t.exports=o?u:function(t){var e,n,r;return void 0===t?"Undefined":null===t?"Null":"string"==typeof(n=function(t,e){try{return t[e]}catch(t){}}(e=s(t),c))?n:f?u(e):"Object"==(r=u(e))&&i(e.callee)?"Arguments":r}},3478:function(t,e,n){var r=n(2870),o=n(929),i=n(6683),u=n(4615);t.exports=function(t,e){for(var n=o(e),c=u.f,s=i.f,f=0;f<n.length;f++){var a=n[f];r(t,a)||c(t,a,s(e,a))}}},57:function(t,e,n){var r=n(8494),o=n(4615),i=n(4677);t.exports=r?function(t,e,n){return o.f(t,e,i(1,n))}:function(t,e,n){return t[e]=n,t}},4677:function(t){t.exports=function(t,e){return{enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:e}}},8494:function(t,e,n){var r=n(6544);t.exports=!r((function(){return 7!=Object.defineProperty({},1,{get:function(){return 7}})[1]}))},6668:function(t,e,n){var r=n(7583),o=n(794),i=r.document,u=o(i)&&o(i.createElement);t.exports=function(t){return u?i.createElement(t):{}}},6918:function(t,e,n){var r=n(5897);t.exports=r("navigator","userAgent")||""},4061:function(t,e,n){var r,o,i=n(7583),u=n(6918),c=i.process,s=i.Deno,f=c&&c.versions||s&&s.version,a=f&&f.v8;a&&(o=(r=a.split("."))[0]>0&&r[0]<4?1:+(r[0]+r[1])),!o&&u&&(!(r=u.match(/Edge\/(\d+)/))||r[1]>=74)&&(r=u.match(/Chrome\/(\d+)/))&&(o=+r[1]),t.exports=o},5690:function(t){t.exports=["constructor","hasOwnProperty","isPrototypeOf","propertyIsEnumerable","toLocaleString","toString","valueOf"]},7263:function(t,e,n){var r=n(7583),o=n(6683).f,i=n(57),u=n(1270),c=n(460),s=n(3478),f=n(4451);t.exports=function(t,e){var n,a,p,l,v,m=t.target,d=t.global,h=t.stat;if(n=d?r:h?r[m]||c(m,{}):(r[m]||{}).prototype)for(a in e){if(l=e[a],p=t.noTargetGet?(v=o(n,a))&&v.value:n[a],!f(d?a:m+(h?".":"#")+a,t.forced)&&void 0!==p){if(typeof l==typeof p)continue;s(l,p)}(t.sham||p&&p.sham)&&i(l,"sham",!0),u(n,a,l,t)}}},6544:function(t){t.exports=function(t){try{return!!t()}catch(t){return!0}}},8262:function(t){var e=Function.prototype.call;t.exports=e.bind?e.bind(e):function(){return e.apply(e,arguments)}},4340:function(t,e,n){var r=n(8494),o=n(2870),i=Function.prototype,u=r&&Object.getOwnPropertyDescriptor,c=o(i,"name"),s=c&&"something"===function(){}.name,f=c&&(!r||r&&u(i,"name").configurable);t.exports={EXISTS:c,PROPER:s,CONFIGURABLE:f}},7386:function(t){var e=Function.prototype,n=e.bind,r=e.call,o=n&&n.bind(r);t.exports=n?function(t){return t&&o(r,t)}:function(t){return t&&function(){return r.apply(t,arguments)}}},5897:function(t,e,n){var r=n(7583),o=n(9212),i=function(t){return o(t)?t:void 0};t.exports=function(t,e){return arguments.length<2?i(r[t]):r[t]&&r[t][e]}},911:function(t,e,n){var r=n(8257);t.exports=function(t,e){var n=t[e];return null==n?void 0:r(n)}},7583:function(t,e,n){var r=function(t){return t&&t.Math==Math&&t};t.exports=r("object"==typeof globalThis&&globalThis)||r("object"==typeof window&&window)||r("object"==typeof self&&self)||r("object"==typeof n.g&&n.g)||function(){return this}()||Function("return this")()},2870:function(t,e,n){var r=n(7386),o=n(1324),i=r({}.hasOwnProperty);t.exports=Object.hasOwn||function(t,e){return i(o(t),e)}},4639:function(t){t.exports={}},275:function(t,e,n){var r=n(8494),o=n(6544),i=n(6668);t.exports=!r&&!o((function(){return 7!=Object.defineProperty(i("div"),"a",{get:function(){return 7}}).a}))},5044:function(t,e,n){var r=n(7583),o=n(7386),i=n(6544),u=n(9624),c=r.Object,s=o("".split);t.exports=i((function(){return!c("z").propertyIsEnumerable(0)}))?function(t){return"String"==u(t)?s(t,""):c(t)}:c},9734:function(t,e,n){var r=n(7386),o=n(9212),i=n(1314),u=r(Function.toString);o(i.inspectSource)||(i.inspectSource=function(t){return u(t)}),t.exports=i.inspectSource},2743:function(t,e,n){var r,o,i,u=n(9491),c=n(7583),s=n(7386),f=n(794),a=n(57),p=n(2870),l=n(1314),v=n(9137),m=n(4639),d="Object already initialized",h=c.TypeError,y=c.WeakMap;if(u||l.state){var b=l.state||(l.state=new y),g=s(b.get),x=s(b.has),S=s(b.set);r=function(t,e){if(x(b,t))throw new h(d);return e.facade=t,S(b,t,e),e},o=function(t){return g(b,t)||{}},i=function(t){return x(b,t)}}else{var O=v("state");m[O]=!0,r=function(t,e){if(p(t,O))throw new h(d);return e.facade=t,a(t,O,e),e},o=function(t){return p(t,O)?t[O]:{}},i=function(t){return p(t,O)}}t.exports={set:r,get:o,has:i,enforce:function(t){return i(t)?o(t):r(t,{})},getterFor:function(t){return function(e){var n;if(!f(e)||(n=o(e)).type!==t)throw h("Incompatible receiver, "+t+" required");return n}}}},9212:function(t){t.exports=function(t){return"function"==typeof t}},4451:function(t,e,n){var r=n(6544),o=n(9212),i=/#|\.prototype\./,u=function(t,e){var n=s[c(t)];return n==a||n!=f&&(o(e)?r(e):!!e)},c=u.normalize=function(t){return String(t).replace(i,".").toLowerCase()},s=u.data={},f=u.NATIVE="N",a=u.POLYFILL="P";t.exports=u},794:function(t,e,n){var r=n(9212);t.exports=function(t){return"object"==typeof t?null!==t:r(t)}},6268:function(t){t.exports=!1},5871:function(t,e,n){var r=n(7583),o=n(5897),i=n(9212),u=n(2447),c=n(7786),s=r.Object;t.exports=c?function(t){return"symbol"==typeof t}:function(t){var e=o("Symbol");return i(e)&&u(e.prototype,s(t))}},1825:function(t,e,n){var r=n(97);t.exports=function(t){return r(t.length)}},8640:function(t,e,n){var r=n(4061),o=n(6544);t.exports=!!Object.getOwnPropertySymbols&&!o((function(){var t=Symbol();return!String(t)||!(Object(t)instanceof Symbol)||!Symbol.sham&&r&&r<41}))},9491:function(t,e,n){var r=n(7583),o=n(9212),i=n(9734),u=r.WeakMap;t.exports=o(u)&&/native code/.test(i(u))},4615:function(t,e,n){var r=n(7583),o=n(8494),i=n(275),u=n(2569),c=n(8734),s=r.TypeError,f=Object.defineProperty;e.f=o?f:function(t,e,n){if(u(t),e=c(e),u(n),i)try{return f(t,e,n)}catch(t){}if("get"in n||"set"in n)throw s("Accessors not supported");return"value"in n&&(t[e]=n.value),t}},6683:function(t,e,n){var r=n(8494),o=n(8262),i=n(112),u=n(4677),c=n(2977),s=n(8734),f=n(2870),a=n(275),p=Object.getOwnPropertyDescriptor;e.f=r?p:function(t,e){if(t=c(t),e=s(e),a)try{return p(t,e)}catch(t){}if(f(t,e))return u(!o(i.f,t,e),t[e])}},9275:function(t,e,n){var r=n(8356),o=n(5690).concat("length","prototype");e.f=Object.getOwnPropertyNames||function(t){return r(t,o)}},4012:function(t,e){e.f=Object.getOwnPropertySymbols},2447:function(t,e,n){var r=n(7386);t.exports=r({}.isPrototypeOf)},8356:function(t,e,n){var r=n(7386),o=n(2870),i=n(2977),u=n(5766).indexOf,c=n(4639),s=r([].push);t.exports=function(t,e){var n,r=i(t),f=0,a=[];for(n in r)!o(c,n)&&o(r,n)&&s(a,n);for(;e.length>f;)o(r,n=e[f++])&&(~u(a,n)||s(a,n));return a}},5432:function(t,e,n){var r=n(8356),o=n(5690);t.exports=Object.keys||function(t){return r(t,o)}},112:function(t,e){"use strict";var n={}.propertyIsEnumerable,r=Object.getOwnPropertyDescriptor,o=r&&!n.call({1:2},1);e.f=o?function(t){var e=r(this,t);return!!e&&e.enumerable}:n},3060:function(t,e,n){"use strict";var r=n(8191),o=n(3058);t.exports=r?{}.toString:function(){return"[object "+o(this)+"]"}},6252:function(t,e,n){var r=n(7583),o=n(8262),i=n(9212),u=n(794),c=r.TypeError;t.exports=function(t,e){var n,r;if("string"===e&&i(n=t.toString)&&!u(r=o(n,t)))return r;if(i(n=t.valueOf)&&!u(r=o(n,t)))return r;if("string"!==e&&i(n=t.toString)&&!u(r=o(n,t)))return r;throw c("Can't convert object to primitive value")}},929:function(t,e,n){var r=n(5897),o=n(7386),i=n(9275),u=n(4012),c=n(2569),s=o([].concat);t.exports=r("Reflect","ownKeys")||function(t){var e=i.f(c(t)),n=u.f;return n?s(e,n(t)):e}},1270:function(t,e,n){var r=n(7583),o=n(9212),i=n(2870),u=n(57),c=n(460),s=n(9734),f=n(2743),a=n(4340).CONFIGURABLE,p=f.get,l=f.enforce,v=String(String).split("String");(t.exports=function(t,e,n,s){var f,p=!!s&&!!s.unsafe,m=!!s&&!!s.enumerable,d=!!s&&!!s.noTargetGet,h=s&&void 0!==s.name?s.name:e;o(n)&&("Symbol("===String(h).slice(0,7)&&(h="["+String(h).replace(/^Symbol\(([^)]*)\)/,"$1")+"]"),(!i(n,"name")||a&&n.name!==h)&&u(n,"name",h),(f=l(n)).source||(f.source=v.join("string"==typeof h?h:""))),t!==r?(p?!d&&t[e]&&(m=!0):delete t[e],m?t[e]=n:u(t,e,n)):m?t[e]=n:c(e,n)})(Function.prototype,"toString",(function(){return o(this)&&p(this).source||s(this)}))},3955:function(t,e,n){var r=n(7583).TypeError;t.exports=function(t){if(null==t)throw r("Can't call method on "+t);return t}},460:function(t,e,n){var r=n(7583),o=Object.defineProperty;t.exports=function(t,e){try{o(r,t,{value:e,configurable:!0,writable:!0})}catch(n){r[t]=e}return e}},9137:function(t,e,n){var r=n(7836),o=n(8284),i=r("keys");t.exports=function(t){return i[t]||(i[t]=o(t))}},1314:function(t,e,n){var r=n(7583),o=n(460),i="__core-js_shared__",u=r[i]||o(i,{});t.exports=u},7836:function(t,e,n){var r=n(6268),o=n(1314);(t.exports=function(t,e){return o[t]||(o[t]=void 0!==e?e:{})})("versions",[]).push({version:"3.19.1",mode:r?"pure":"global",copyright:"© 2021 Denis Pushkarev (zloirock.ru)"})},6782:function(t,e,n){var r=n(7486),o=Math.max,i=Math.min;t.exports=function(t,e){var n=r(t);return n<0?o(n+e,0):i(n,e)}},2977:function(t,e,n){var r=n(5044),o=n(3955);t.exports=function(t){return r(o(t))}},7486:function(t){var e=Math.ceil,n=Math.floor;t.exports=function(t){var r=+t;return r!=r||0===r?0:(r>0?n:e)(r)}},97:function(t,e,n){var r=n(7486),o=Math.min;t.exports=function(t){return t>0?o(r(t),9007199254740991):0}},1324:function(t,e,n){var r=n(7583),o=n(3955),i=r.Object;t.exports=function(t){return i(o(t))}},2670:function(t,e,n){var r=n(7583),o=n(8262),i=n(794),u=n(5871),c=n(911),s=n(6252),f=n(3649),a=r.TypeError,p=f("toPrimitive");t.exports=function(t,e){if(!i(t)||u(t))return t;var n,r=c(t,p);if(r){if(void 0===e&&(e="default"),n=o(r,t,e),!i(n)||u(n))return n;throw a("Can't convert object to primitive value")}return void 0===e&&(e="number"),s(t,e)}},8734:function(t,e,n){var r=n(2670),o=n(5871);t.exports=function(t){var e=r(t,"string");return o(e)?e:e+""}},8191:function(t,e,n){var r={};r[n(3649)("toStringTag")]="z",t.exports="[object z]"===String(r)},5637:function(t,e,n){var r=n(7583).String;t.exports=function(t){try{return r(t)}catch(t){return"Object"}}},8284:function(t,e,n){var r=n(7386),o=0,i=Math.random(),u=r(1..toString);t.exports=function(t){return"Symbol("+(void 0===t?"":t)+")_"+u(++o+i,36)}},7786:function(t,e,n){var r=n(8640);t.exports=r&&!Symbol.sham&&"symbol"==typeof Symbol.iterator},3649:function(t,e,n){var r=n(7583),o=n(7836),i=n(2870),u=n(8284),c=n(8640),s=n(7786),f=o("wks"),a=r.Symbol,p=a&&a.for,l=s?a:a&&a.withoutSetter||u;t.exports=function(t){if(!i(f,t)||!c&&"string"!=typeof f[t]){var e="Symbol."+t;c&&i(a,t)?f[t]=a[t]:f[t]=s&&p?p(e):l(e)}return f[t]}},9751:function(t,e,n){var r=n(7263),o=n(1324),i=n(5432);r({target:"Object",stat:!0,forced:n(6544)((function(){i(1)}))},{keys:function(t){return i(o(t))}})},6394:function(t,e,n){var r=n(8191),o=n(1270),i=n(3060);r||o(Object.prototype,"toString",i,{unsafe:!0})}},e={};function n(r){var o=e[r];if(void 0!==o)return o.exports;var i=e[r]={exports:{}};return t[r](i,i.exports,n),i.exports}n.d=function(t,e){for(var r in e)n.o(e,r)&&!n.o(t,r)&&Object.defineProperty(t,r,{enumerable:!0,get:e[r]})},n.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(t){if("object"==typeof window)return window}}(),n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})};var r={};return function(){"use strict";n.r(r),n.d(r,{StripeElement:function(){return s},StripeElements:function(){return p},createElement:function(){return i},createElements:function(){return o},initStripe:function(){return e}});var t=function(){var t=this.$createElement;return(this._self._c||t)("div")};t._withStripped=!0;n(9751),n(6394);var e=function(t,e){if(void 0===window.Stripe){var n="Stripe v3 library is not loaded";return console.error(n),n}return window.Stripe(t,e)},o=function(t,e){if(void 0===t){var n="Instance object is not defined, make sure you initialized Stripe before creating elements";return console.error(n),n}return t.elements(e)},i=function(t,e,n){if(void 0===t){var r="Elements object is not defined. You can not create stripe element without it";return console.error(r),r}if(void 0===e){var o="elementType is required. You can not create stripe element without it";return console.error(o),o}return t.create(e,n)};function u(t,e,n,r,o,i,u,c){var s,f="function"==typeof t?t.options:t;if(e&&(f.render=e,f.staticRenderFns=n,f._compiled=!0),r&&(f.functional=!0),i&&(f._scopeId="data-v-"+i),u?(s=function(t){(t=t||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext)||"undefined"==typeof __VUE_SSR_CONTEXT__||(t=__VUE_SSR_CONTEXT__),o&&o.call(this,t),t&&t._registeredComponents&&t._registeredComponents.add(u)},f._ssrRegister=s):o&&(s=c?function(){o.call(this,(f.functional?this.parent:this).$root.$options.shadowRoot)}:o),s)if(f.functional){f._injectStyles=s;var a=f.render;f.render=function(t,e){return s.call(e),a(t,e)}}else{var p=f.beforeCreate;f.beforeCreate=p?[].concat(p,s):[s]}return{exports:t,options:f}}var c=u({name:"StripeElement",props:{elements:{type:Object,required:!0},type:{type:String,default:function(){return"card"}},options:{type:[Object,void 0],default:function(){}}},data:function(){return{stripeElement:void 0,domElement:document.createElement("div")}},computed:{elementsUsable:function(){return!!this.elements&&Object.keys(this.elements).length>0}},watch:{options:{handler:function(t){t&&this.stripeElement&&this.stripeElement.update(t)},deep:!0}},beforeDestroy:function(){this.stripeElement&&(this.stripeElement.unmount(),this.stripeElement.destroy())},mounted:function(){this.elementsUsable&&(this.mountElement(),this.handleEvents())},methods:{mountElement:function(){var t=this.domElement;return this.stripeElement=i(this.elements,this.type,this.options),this.stripeElement.mount(t),this.$el.appendChild(t),this.stripeElement},handleEvents:function(){var t=this;["change","ready","focus","blur","escape"].forEach((function(e){t.stripeElement.on(e,t.eventHandler.bind(t,e))}))},eventHandler:function(t,e){return this.$emit(t,e)}}},t,[],!1,null,null,null);c.options.__file="src/components/StripeElement.vue";var s=c.exports,f=function(){var t=this,e=t.$createElement,n=t._self._c||e;return t.elementsUsable?n("div",[t._t("default",null,{instance:t.instance,elements:t.elements})],2):t._e()};f._withStripped=!0;var a=u({name:"StripeElements",props:{stripeKey:{type:String,required:!0},instanceOptions:{type:Object,default:function(){return{}}},elementsOptions:{type:Object,default:function(){return{}}}},data:function(){return{instance:{},elements:{}}},computed:{elementsUsable:function(){var t=this.elements;return!!t&&Object.keys(t).length>0}},mounted:function(){this.instance=e(this.stripeKey,this.instanceOptions),this.elements=o(this.instance,this.elementsOptions)}},f,[],!1,null,null,null);a.options.__file="src/components/StripeElements.vue";var p=a.exports}(),r}()}));
+
+/***/ }),
+
 /***/ "./node_modules/vue/dist/vue.esm-bundler.js":
 /*!**************************************************!*\
   !*** ./node_modules/vue/dist/vue.esm-bundler.js ***!
@@ -336328,6 +336574,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_HistoryComponent_vue__WEBPACK_IMPORTED_MODULE_90__ = __webpack_require__(/*! ./components/HistoryComponent.vue */ "./resources/js/components/HistoryComponent.vue");
 /* harmony import */ var _components_PaymentMethodsComponent_vue__WEBPACK_IMPORTED_MODULE_91__ = __webpack_require__(/*! ./components/PaymentMethodsComponent.vue */ "./resources/js/components/PaymentMethodsComponent.vue");
 /* harmony import */ var _components_ReadComponent_vue__WEBPACK_IMPORTED_MODULE_92__ = __webpack_require__(/*! ./components/ReadComponent.vue */ "./resources/js/components/ReadComponent.vue");
+/* harmony import */ var _components_SubscriptionForm_vue__WEBPACK_IMPORTED_MODULE_93__ = __webpack_require__(/*! ./components/SubscriptionForm.vue */ "./resources/js/components/SubscriptionForm.vue");
+/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94__ = __webpack_require__(/*! vue-stripe-elements-plus */ "./node_modules/vue-stripe-elements-plus/dist/index.js");
+/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94___default = /*#__PURE__*/__webpack_require__.n(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94__);
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
@@ -336424,7 +336674,22 @@ window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
 
 
 
+
+
+
 var app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
+  components: {
+    SubscriptionForm: _components_SubscriptionForm_vue__WEBPACK_IMPORTED_MODULE_93__["default"]
+  },
+  setup: function setup() {
+    var isAuthenticated = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(!!document.querySelector('meta[name="user"]'));
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
+      isAuthenticated.value = !!document.querySelector('meta[name="user"]');
+    });
+    return {
+      isAuthenticated: isAuthenticated
+    };
+  },
   data: function data() {
     return {
       darkModeState: {
@@ -336458,6 +336723,9 @@ window.Form = vform__WEBPACK_IMPORTED_MODULE_4__.Form;
 window.Swal = (sweetalert2__WEBPACK_IMPORTED_MODULE_5___default());
 window.$ = window.jQuery = (jquery__WEBPACK_IMPORTED_MODULE_3___default());
 app.use(primevue_config__WEBPACK_IMPORTED_MODULE_7__["default"]);
+app.use(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94__.StripePlugin, {
+  key: process.env.MIX_STRIPE_PUBLISHABLE_KEY
+});
 app.component("Column", primevue_column__WEBPACK_IMPORTED_MODULE_11__["default"]);
 app.component("DataTable", primevue_datatable__WEBPACK_IMPORTED_MODULE_10__["default"]);
 app.component("Button", primevue_button__WEBPACK_IMPORTED_MODULE_12__["default"]);
@@ -336473,6 +336741,9 @@ app.component("Panel", primevue_panel__WEBPACK_IMPORTED_MODULE_21__["default"]);
 app.component("Dialog", primevue_dialog__WEBPACK_IMPORTED_MODULE_22__["default"]);
 app.component("Image", primevue_image__WEBPACK_IMPORTED_MODULE_23__["default"]);
 app.component("Editor", primevue_editor__WEBPACK_IMPORTED_MODULE_24__["default"]);
+app.use(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94__.StripePlugin, {
+  key: process.env.MIX_STRIPE_PUBLISHABLE_KEY
+});
 app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_84__["default"]);
 app.component("users-component", _components_admin_panels_UsersComponent_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
 app.component("mailing-list-component", _components_admin_panels_MailingListComponent_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
@@ -339712,6 +339983,83 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_template_id_670f86e6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_template_id_670f86e6_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./StreamingComponent.vue?vue&type=template&id=670f86e6&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/SubscriptionForm.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/SubscriptionForm.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SubscriptionForm_vue_vue_type_template_id_55d8ed6c_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubscriptionForm.vue?vue&type=template&id=55d8ed6c&scoped=true */ "./resources/js/components/SubscriptionForm.vue?vue&type=template&id=55d8ed6c&scoped=true");
+/* harmony import */ var _SubscriptionForm_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SubscriptionForm.vue?vue&type=script&setup=true&lang=js */ "./resources/js/components/SubscriptionForm.vue?vue&type=script&setup=true&lang=js");
+/* harmony import */ var _SubscriptionForm_vue_vue_type_style_index_0_id_55d8ed6c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SubscriptionForm.vue?vue&type=style&index=0&id=55d8ed6c&scoped=true&lang=css */ "./resources/js/components/SubscriptionForm.vue?vue&type=style&index=0&id=55d8ed6c&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_SubscriptionForm_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_SubscriptionForm_vue_vue_type_template_id_55d8ed6c_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-55d8ed6c"],['__file',"resources/js/components/SubscriptionForm.vue"]])
+/* hot reload */
+if (false) // removed by dead control flow
+{}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/SubscriptionForm.vue?vue&type=script&setup=true&lang=js":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/SubscriptionForm.vue?vue&type=script&setup=true&lang=js ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionForm_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionForm_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SubscriptionForm.vue?vue&type=script&setup=true&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionForm.vue?vue&type=script&setup=true&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/SubscriptionForm.vue?vue&type=style&index=0&id=55d8ed6c&scoped=true&lang=css":
+/*!**************************************************************************************************************!*\
+  !*** ./resources/js/components/SubscriptionForm.vue?vue&type=style&index=0&id=55d8ed6c&scoped=true&lang=css ***!
+  \**************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionForm_vue_vue_type_style_index_0_id_55d8ed6c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SubscriptionForm.vue?vue&type=style&index=0&id=55d8ed6c&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionForm.vue?vue&type=style&index=0&id=55d8ed6c&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/SubscriptionForm.vue?vue&type=template&id=55d8ed6c&scoped=true":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/SubscriptionForm.vue?vue&type=template&id=55d8ed6c&scoped=true ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionForm_vue_vue_type_template_id_55d8ed6c_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionForm_vue_vue_type_template_id_55d8ed6c_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SubscriptionForm.vue?vue&type=template&id=55d8ed6c&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionForm.vue?vue&type=template&id=55d8ed6c&scoped=true");
 
 
 /***/ }),

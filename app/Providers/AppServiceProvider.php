@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,11 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // \Gate::define('ManageProducts', function ($user) {
-        //     if ($user->role_id == '1') {
-        //         return true;
-        //     }
-        //     return false;
-        // });
+
     }
 }

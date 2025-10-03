@@ -68,14 +68,49 @@ use App\Http\Controllers\HolyController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\DebugController;
 use App\Http\Controllers\ReadController;
+use App\Http\Controllers\SubscriptionController;
 
 use App\Http\Controllers\PaymentMethodController;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use App\Http\Controllers\WebhookController;
 
 
+// stripe
+Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
+// Route::stripeWebhooks('stripe/webhook');
+
+Route::get('/', fn() => view('app'));
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/subscribe', [SubscriptionController::class, 'show'])->name('subscribe');
+    Route::post('/subscribe', [SubscriptionController::class, 'createSubscription']);
+    Route::get('/subscribe/success', [SubscriptionController::class, 'success'])->name('subscribe.success');
+    Route::get('/subscribe/cancel', [SubscriptionController::class, 'cancel'])->name('subscribe.cancel');
+    Route::get('/subscription-status', [SubscriptionController::class, 'subscriptionStatus']);
+    Route::post('/cancel', [SubscriptionController::class, 'cancelSubscription']);
+});
+
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+
+Route::post('/login', function (Request $request) {
+    $credentials = $request->only('email', 'password');
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+        return redirect('/');
+    }
+    return back()->withErrors(['email' => 'Invalid credentials']);
+});
+
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/login');
+});
 
 
 // Auth routes
