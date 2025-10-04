@@ -109,7 +109,7 @@
               <p>Select the plan that works best for you</p>
             </div>
   
-            <form @submit.prevent="handleSubmit" class="subscription-form">
+            <form method="POST" action="/subscribe">
               <!-- Plans Grid -->
               <div class="plans-grid">
                 <div 
@@ -451,41 +451,7 @@
           this.cancelling = false;
         }
       },
-      
-      async handleSubmit() {
-        this.submitting = true;
-        this.error = '';
-        this.success = '';
-  
-        try {
-          const response = await fetch('/subscribe', {
-            method: 'POST',
-            headers: {
-              'X-CSRF-TOKEN': this.csrfToken,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ price_lookup_key: this.selectedPlan })
-          });
-  
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Failed to initiate subscription');
-          }
-  
-          const data = await response.json();
-          if (data.url) {
-            window.location.href = data.url; // Redirect to Stripe Checkout URL
-          } else {
-            throw new Error('No redirect URL received from server');
-          }
-        } catch (err) {
-          console.error('Submission error:', err);
-          this.error = err.message || 'Error initiating subscription. Please try again.';
-        } finally {
-          this.submitting = false;
-        }
-      }
+    
     }
   };
   </script>

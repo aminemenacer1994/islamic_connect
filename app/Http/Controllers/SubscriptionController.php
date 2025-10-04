@@ -25,14 +25,14 @@ class SubscriptionController extends Controller
 
         try {
             $checkout = $user->newSubscription('premium', $request->price_lookup_key)->checkout([
-                'success_url' => route('subscribe.success') . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => route('subscribe.cancel'),
+                'success_url' => route('subscribe') . '?success=1',
+                'cancel_url' => route('subscribe') . '?cancelled=1',
             ]);
 
             return redirect()->away($checkout->url);
         } catch (\Exception $e) {
             \Log::error('Subscription error: ' . $e->getMessage());
-            return redirect()->back()->with('message', 'Error: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
         }
     }
 
