@@ -153950,176 +153950,211 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         }, _callee, null, [[0, 4]]);
       }))();
     },
-    waitForSubscription: function waitForSubscription() {
+    checkSubscriptionStatus: function checkSubscriptionStatus() {
       var _this2 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-        var attempts, maxAttempts, _checkStatus;
-        return _regenerator().w(function (_context3) {
-          while (1) switch (_context3.n) {
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+        var response, _t2;
+        return _regenerator().w(function (_context2) {
+          while (1) switch (_context2.p = _context2.n) {
             case 0:
-              _this2.success = 'Subscription successful! Activating your subscription...';
+              _context2.p = 0;
+              _context2.n = 1;
+              return axios.get('/sync-stripe-subscription');
+            case 1:
+              response = _context2.v;
+              if (response.data.is_subscribed && response.data.subscription.stripe_status === 'active') {
+                _this2.subscriptionStatus = 'active';
+                _this2.loading = false;
+              } else {
+                setTimeout(function () {
+                  return _this2.checkSubscriptionStatus();
+                }, 5000);
+              }
+              _context2.n = 3;
+              break;
+            case 2:
+              _context2.p = 2;
+              _t2 = _context2.v;
+              console.error('Error checking subscription:', _t2);
+              _this2.error = true;
+              _this2.errorMessage = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
+              _this2.loading = false;
+            case 3:
+              return _context2.a(2);
+          }
+        }, _callee2, null, [[0, 2]]);
+      }))();
+    },
+    waitForSubscription: function waitForSubscription() {
+      var _this3 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+        var attempts, maxAttempts, _checkStatus;
+        return _regenerator().w(function (_context4) {
+          while (1) switch (_context4.n) {
+            case 0:
+              _this3.success = 'Subscription successful! Activating your subscription...';
               attempts = 0;
               maxAttempts = 15;
               _checkStatus = /*#__PURE__*/function () {
-                var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+                var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
                   var subscribed;
-                  return _regenerator().w(function (_context2) {
-                    while (1) switch (_context2.n) {
+                  return _regenerator().w(function (_context3) {
+                    while (1) switch (_context3.n) {
                       case 0:
                         attempts++;
-                        _context2.n = 1;
-                        return _this2.fetchSubscriptionStatus();
+                        _context3.n = 1;
+                        return _this3.fetchSubscriptionStatus();
                       case 1:
-                        subscribed = _context2.v;
+                        subscribed = _context3.v;
                         if (!subscribed) {
-                          _context2.n = 2;
+                          _context3.n = 2;
                           break;
                         }
-                        _this2.success = 'Subscription activated successfully! Welcome to Premium.';
-                        _this2.loading = false;
+                        _this3.success = 'Subscription activated successfully! Welcome to Premium.';
+                        _this3.loading = false;
                         setTimeout(function () {
-                          _this2.success = '';
+                          _this3.success = '';
                         }, 5000);
-                        return _context2.a(2, true);
+                        return _context3.a(2, true);
                       case 2:
                         if (!(attempts >= maxAttempts)) {
-                          _context2.n = 3;
+                          _context3.n = 3;
                           break;
                         }
-                        _this2.error = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
-                        _this2.success = '';
-                        _this2.loading = false;
-                        return _context2.a(2, false);
+                        _this3.error = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
+                        _this3.success = '';
+                        _this3.loading = false;
+                        return _context3.a(2, false);
                       case 3:
                         setTimeout(_checkStatus, 2000);
-                        return _context2.a(2, false);
+                        return _context3.a(2, false);
                     }
-                  }, _callee2);
+                  }, _callee3);
                 }));
                 return function checkStatus() {
                   return _ref.apply(this, arguments);
                 };
               }();
-              _context3.n = 1;
+              _context4.n = 1;
               return _checkStatus();
             case 1:
-              return _context3.a(2);
-          }
-        }, _callee3);
-      }))();
-    },
-    checkUrlParams: function checkUrlParams() {
-      var _this3 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
-        var urlParams, _this3$subscription, endsAtDate, now;
-        return _regenerator().w(function (_context4) {
-          while (1) switch (_context4.n) {
-            case 0:
-              urlParams = new URLSearchParams(window.location.search);
-              if (!urlParams.has('success')) {
-                _context4.n = 2;
-                break;
-              }
-              _context4.n = 1;
-              return _this3.waitForSubscription();
-            case 1:
-              window.history.replaceState({}, document.title, window.location.pathname);
-              _context4.n = 6;
-              break;
-            case 2:
-              if (!urlParams.has('cancelled')) {
-                _context4.n = 4;
-                break;
-              }
-              _this3.error = 'Subscription cancelled. You can try again when ready.';
-              _context4.n = 3;
-              return _this3.fetchSubscriptionStatus();
-            case 3:
-              _this3.loading = false;
-              window.history.replaceState({}, document.title, window.location.pathname);
-              _context4.n = 6;
-              break;
-            case 4:
-              _context4.n = 5;
-              return _this3.fetchSubscriptionStatus();
-            case 5:
-              // Check if subscription has actually ended
-              if (_this3.isSubscribed && (_this3$subscription = _this3.subscription) !== null && _this3$subscription !== void 0 && _this3$subscription.ends_at) {
-                endsAtDate = new Date(_this3.subscription.ends_at);
-                now = new Date(); // If the subscription end date has passed, show them as not subscribed
-                if (endsAtDate < now) {
-                  _this3.isSubscribed = false;
-                }
-              }
-              _this3.loading = false;
-            case 6:
               return _context4.a(2);
           }
         }, _callee4);
       }))();
     },
-    handleCancelSubscription: function handleCancelSubscription() {
+    checkUrlParams: function checkUrlParams() {
       var _this4 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-        var response, data, _t2;
+        var urlParams, _this4$subscription, endsAtDate, now;
         return _regenerator().w(function (_context5) {
-          while (1) switch (_context5.p = _context5.n) {
+          while (1) switch (_context5.n) {
             case 0:
-              if (confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
-                _context5.n = 1;
+              urlParams = new URLSearchParams(window.location.search);
+              if (!urlParams.has('success')) {
+                _context5.n = 2;
                 break;
               }
-              return _context5.a(2);
+              _context5.n = 1;
+              return _this4.waitForSubscription();
             case 1:
-              _this4.cancelling = true;
-              _this4.error = '';
-              _context5.p = 2;
+              window.history.replaceState({}, document.title, window.location.pathname);
+              _context5.n = 6;
+              break;
+            case 2:
+              if (!urlParams.has('cancelled')) {
+                _context5.n = 4;
+                break;
+              }
+              _this4.error = 'Subscription cancelled. You can try again when ready.';
               _context5.n = 3;
+              return _this4.fetchSubscriptionStatus();
+            case 3:
+              _this4.loading = false;
+              window.history.replaceState({}, document.title, window.location.pathname);
+              _context5.n = 6;
+              break;
+            case 4:
+              _context5.n = 5;
+              return _this4.fetchSubscriptionStatus();
+            case 5:
+              // Check if subscription has actually ended
+              if (_this4.isSubscribed && (_this4$subscription = _this4.subscription) !== null && _this4$subscription !== void 0 && _this4$subscription.ends_at) {
+                endsAtDate = new Date(_this4.subscription.ends_at);
+                now = new Date(); // If the subscription end date has passed, show them as not subscribed
+                if (endsAtDate < now) {
+                  _this4.isSubscribed = false;
+                }
+              }
+              _this4.loading = false;
+            case 6:
+              return _context5.a(2);
+          }
+        }, _callee5);
+      }))();
+    },
+    handleCancelSubscription: function handleCancelSubscription() {
+      var _this5 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+        var response, data, _t3;
+        return _regenerator().w(function (_context6) {
+          while (1) switch (_context6.p = _context6.n) {
+            case 0:
+              if (confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
+                _context6.n = 1;
+                break;
+              }
+              return _context6.a(2);
+            case 1:
+              _this5.cancelling = true;
+              _this5.error = '';
+              _context6.p = 2;
+              _context6.n = 3;
               return fetch('/cancel', {
                 method: 'POST',
                 headers: {
-                  'X-CSRF-TOKEN': _this4.csrfToken,
+                  'X-CSRF-TOKEN': _this5.csrfToken,
                   'Accept': 'application/json',
                   'Content-Type': 'application/json'
                 }
               });
             case 3:
-              response = _context5.v;
-              _context5.n = 4;
+              response = _context6.v;
+              _context6.n = 4;
               return response.json();
             case 4:
-              data = _context5.v;
+              data = _context6.v;
               if (!(response.ok && data.success)) {
-                _context5.n = 6;
+                _context6.n = 6;
                 break;
               }
-              _context5.n = 5;
-              return _this4.fetchSubscriptionStatus();
+              _context6.n = 5;
+              return _this5.fetchSubscriptionStatus();
             case 5:
-              _this4.success = "Subscription cancelled. You'll have access until ".concat(_this4.formatDate(data.ends_at), ".");
+              _this5.success = "Subscription cancelled. You'll have access until ".concat(_this5.formatDate(data.ends_at), ".");
               setTimeout(function () {
-                _this4.success = '';
+                _this5.success = '';
               }, 8000);
-              _context5.n = 7;
+              _context6.n = 7;
               break;
             case 6:
               throw new Error(data.message || 'Failed to cancel subscription');
             case 7:
-              _context5.n = 9;
+              _context6.n = 9;
               break;
             case 8:
-              _context5.p = 8;
-              _t2 = _context5.v;
-              console.error('Error cancelling subscription:', _t2);
-              _this4.error = _t2.message || 'Error cancelling subscription. Please try again.';
+              _context6.p = 8;
+              _t3 = _context6.v;
+              console.error('Error cancelling subscription:', _t3);
+              _this5.error = _t3.message || 'Error cancelling subscription. Please try again.';
             case 9:
-              _context5.p = 9;
-              _this4.cancelling = false;
-              return _context5.f(9);
+              _context6.p = 9;
+              _this5.cancelling = false;
+              return _context6.f(9);
             case 10:
-              return _context5.a(2);
+              return _context6.a(2);
           }
-        }, _callee5, null, [[2, 8, 9, 10]]);
+        }, _callee6, null, [[2, 8, 9, 10]]);
       }))();
     }
   }

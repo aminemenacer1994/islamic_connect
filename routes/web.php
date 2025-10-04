@@ -80,7 +80,10 @@ use App\Http\Controllers\WebhookController;
 
 
 // stripe
-Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
+Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook'])
+    ->name('cashier.webhook')
+    ->middleware('web')
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 
 Route::get('/', fn() => view('app'));
 

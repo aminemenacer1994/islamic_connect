@@ -353,6 +353,23 @@
           return false;
         }
       },
+
+      async checkSubscriptionStatus() {
+        try {
+          const response = await axios.get('/sync-stripe-subscription');
+          if (response.data.is_subscribed && response.data.subscription.stripe_status === 'active') {
+            this.subscriptionStatus = 'active';
+            this.loading = false;
+          } else {
+            setTimeout(() => this.checkSubscriptionStatus(), 5000);
+          }
+        } catch (error) {
+          console.error('Error checking subscription:', error);
+          this.error = true;
+          this.errorMessage = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
+          this.loading = false;
+        }
+      },
       
       async waitForSubscription() {
         this.success = 'Subscription successful! Activating your subscription...';
