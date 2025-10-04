@@ -1,143 +1,214 @@
 <template>
-  <div id="app" class="container">
-    <header class="text-center py-5">
-      <h1 class="fw-bold display-5 mb-3">Subscription Management</h1>
-      <p class="lead text-muted mx-auto max-w-600">
-        Manage your Islamic Connect subscription. Unlock premium features and support our mission.
-      </p>
+  <div id="app" class="subscription-container">
+    <!-- Header Section -->
+    <header class="subscription-header">
+      <div class="container">
+        <div class="header-content">
+          <h1>Subscription Management</h1>
+          <p>Manage your Islamic Connect subscription. Unlock premium features and support our mission.</p>
+        </div>
+      </div>
     </header>
 
-    <div class="container pb-5">
-      <!-- Success Alert -->
-      <div v-if="success" class="alert alert-success alert-dismissible fade show shadow-sm mb-4" role="status">
-        <i class="fas fa-check-circle me-2"></i>{{ success }}
-        <button type="button" class="btn-close" @click="success = ''" aria-label="Close"></button>
-      </div>
-      
-      <!-- Error Alert -->
-      <div v-if="error" class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
-        <i class="fas fa-exclamation-triangle me-2"></i>{{ error }}
-        <button type="button" class="btn-close" @click="error = ''" aria-label="Close"></button>
-      </div>
-
-      <!-- Loading State -->
-      <div v-if="loading" class="text-center my-5 py-5">
-        <div class="spinner-border text-teal" role="status" style="width: 3rem; height: 3rem;">
-          <span class="visually-hidden">Loading...</span>
+    <!-- Main Content -->
+    <main class="subscription-main">
+      <div class="container">
+        <!-- Notifications -->
+        <div v-if="success" class="notification success">
+          <i class="fas fa-check-circle"></i>
+          <span>{{ success }}</span>
+          <button @click="success = ''" class="close-btn">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
-        <p class="mt-3 text-muted">Loading subscription details...</p>
-      </div>
 
-      <!-- Active Subscription View -->
-      <div v-else-if="isSubscribed" class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="card pricing-card border-0 shadow-lg">
-            <div class="featured-badge bg-teal text-white py-2 text-center">
+        <div v-if="error" class="notification error">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>{{ error }}</span>
+          <button @click="error = ''" class="close-btn">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <!-- Loading State -->
+        <div v-if="loading" class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading subscription details...</p>
+        </div>
+
+        <!-- Active Subscription View -->
+        <div v-else-if="isSubscribed" class="active-subscription">
+          <div class="subscription-card">
+            <div class="card-badge">
+              <i class="fas fa-crown"></i>
               Active Subscription
             </div>
-            <div class="pricing-card-header text-center">
-              <div class="pricing-icon mt-3 mx-auto rounded-circle d-flex align-items-center justify-content-center bg-teal">
-                <i class="fas fa-check-circle text-white"></i>
+            
+            <div class="card-header">
+              <div class="status-icon">
+                <i class="fas fa-check-circle"></i>
               </div>
-              <h5 class="card-title mt-3 fw-bold">{{ planDisplayName }}</h5>
-              <p class="text-muted mb-2">You're currently subscribed</p>
-              <div class="mt-3 p-3 bg-light rounded">
-                <p class="mb-0">
-                  <strong>{{ subscription?.ends_at ? 'Access until:' : 'Status:' }}</strong>
-                </p>
-                <p class="text-teal fw-bold fs-5 mb-0">
-                  {{ subscription?.ends_at ? formatDate(subscription.ends_at) : 'Active & Unlimited' }}
-                </p>
+              <h2>{{ planDisplayName }}</h2>
+              <p class="subtitle">You're currently subscribed</p>
+              
+              <div class="status-info">
+                <div class="status-item">
+                  <span class="label">{{ subscription?.ends_at ? 'Access until' : 'Status' }}</span>
+                  <span class="value">{{ subscription?.ends_at ? formatDate(subscription.ends_at) : 'Active & Unlimited' }}</span>
+                </div>
               </div>
             </div>
-            <div class="card-body pricing-card-body">
-              <ul class="pricing-features list-unstyled mb-4">
-                <li class="py-2">
-                  <i class="fas fa-check-circle me-2 text-teal"></i>Ad-free experience
-                </li>
-                <li class="py-2">
-                  <i class="fas fa-check-circle me-2 text-teal"></i>Offline access to content
-                </li>
-                <li class="py-2">
-                  <i class="fas fa-check-circle me-2 text-teal"></i>Advanced prayer time settings
-                </li>
-                <li class="py-2">
-                  <i class="fas fa-check-circle me-2 text-teal"></i>Priority support
-                </li>
-                <li class="py-2">
-                  <i class="fas fa-check-circle me-2 text-teal"></i>Early access to new features
-                </li>
-              </ul>
-              <button @click="handleCancelSubscription" 
-                class="btn btn-outline-danger w-100 rounded-pill fw-semibold py-2" 
-                :disabled="cancelling">
-                <i class="fas fa-times-circle me-2"></i>
+
+            <div class="card-body">
+              <h3>Premium Benefits</h3>
+              <div class="benefits-list">
+                <div class="benefit-item">
+                  <i class="fas fa-check"></i>
+                  <span>Ad-free experience</span>
+                </div>
+                <div class="benefit-item">
+                  <i class="fas fa-check"></i>
+                  <span>Offline access to content</span>
+                </div>
+                <div class="benefit-item">
+                  <i class="fas fa-check"></i>
+                  <span>Advanced prayer time settings</span>
+                </div>
+                <div class="benefit-item">
+                  <i class="fas fa-check"></i>
+                  <span>Priority support</span>
+                </div>
+                <div class="benefit-item">
+                  <i class="fas fa-check"></i>
+                  <span>Early access to new features</span>
+                </div>
+              </div>
+
+              <button 
+                @click="handleCancelSubscription" 
+                class="btn btn-cancel"
+                :disabled="cancelling"
+              >
+                <i class="fas fa-times-circle"></i>
                 {{ cancelling ? 'Cancelling...' : 'Cancel Subscription' }}
               </button>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Subscription Plans View -->
-      <div v-else>
-        <div class="text-center mb-4">
-          <h2 class="fw-bold mb-3">Choose Your Plan</h2>
-          <p class="text-muted">Select the plan that works best for you</p>
-        </div>
+        <!-- Subscription Plans View -->
+        <div v-else class="plans-view">
+          <div class="plans-header">
+            <h2>Choose Your Plan</h2>
+            <p>Select the plan that works best for you</p>
+          </div>
 
-        <form method="POST" action="/subscribe" @submit="submitting = true">
-          <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-            <div v-for="plan in plans" :key="plan.value" class="col">
-              <div class="card h-100 pricing-card border-0 shadow-lg plan-selector"
-                :class="{ 'featured-card': plan.value === selectedPlan }"
-                @click="selectedPlan = plan.value">
-                <div v-if="plan.featured" class="featured-badge bg-teal text-white py-2 text-center">
+          <form method="POST" action="/subscribe" @submit="handleSubmit">
+            <!-- Plans Grid -->
+            <div class="plans-grid">
+              <div 
+                v-for="plan in plans" 
+                :key="plan.value"
+                class="plan-card"
+                :class="{ 
+                  'featured': plan.featured,
+                  'selected': plan.value === selectedPlan 
+                }"
+                @click="selectedPlan = plan.value"
+              >
+                <div v-if="plan.featured" class="plan-badge">
                   {{ plan.badge }}
                 </div>
-                <div class="pricing-card-header text-center">
-                  <div class="pricing-icon mt-3 mx-auto rounded-circle d-flex align-items-center justify-content-center"
-                    :class="plan.value === selectedPlan ? 'bg-teal' : ''">
-                    <i :class="[plan.icon, plan.value === selectedPlan ? 'text-white' : 'text-teal']"></i>
+
+                <div class="plan-header">
+                  <div class="plan-icon">
+                    <i :class="plan.icon"></i>
                   </div>
-                  <h5 class="card-title mt-3 fw-bold">{{ plan.name }}</h5>
-                  <div class="price-amount">{{ plan.price }}</div>
-                  <p class="text-muted mb-0">{{ plan.period }}</p>
-                  <p v-if="plan.savings" class="text-success small mt-1 fw-semibold">{{ plan.savings }}</p>
+                  <h3>{{ plan.name }}</h3>
+                  <div class="plan-price">
+                    <span class="amount">{{ plan.price }}</span>
+                    <span class="period">{{ plan.period }}</span>
+                  </div>
+                  <p v-if="plan.savings" class="savings">{{ plan.savings }}</p>
                 </div>
-                <div class="card-body pricing-card-body d-flex flex-column">
-                  <ul class="pricing-features list-unstyled mb-4">
-                    <li v-for="feature in plan.features" :key="feature" class="py-2">
-                      <i class="fas fa-check-circle me-2 text-teal"></i>{{ feature }}
-                    </li>
-                  </ul>
-                  <div class="form-check mt-auto">
-                    <input class="form-check-input" type="radio" 
-                      :id="plan.value" 
-                      :value="plan.value" 
-                      v-model="selectedPlan">
-                    <label class="form-check-label fw-semibold" :for="plan.value">
-                      Select this plan
-                    </label>
+
+                <div class="plan-features">
+                  <div 
+                    v-for="feature in plan.features" 
+                    :key="feature"
+                    class="feature-item"
+                  >
+                    <i class="fas fa-check"></i>
+                    <span>{{ feature }}</span>
                   </div>
+                </div>
+
+                <div class="plan-selector">
+                  <input 
+                    type="radio" 
+                    :id="plan.value"
+                    :value="plan.value"
+                    v-model="selectedPlan"
+                    class="radio-input"
+                  >
+                  <label :for="plan.value" class="radio-label">
+                    {{ plan.value === selectedPlan ? 'Selected' : 'Select Plan' }}
+                  </label>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="row justify-content-center">
-            <div class="col-lg-6">
+            <!-- Payment Section -->
+            <div class="payment-section">
               <input type="hidden" name="_token" :value="csrfToken">
               <input type="hidden" name="price_lookup_key" :value="selectedPlan">
-              <button type="submit" class="btn btn-teal btn-lg w-100 rounded-pill fw-semibold py-3" :disabled="submitting">
-                <i class="fas fa-credit-card me-2"></i>
+              
+              <button 
+                type="submit" 
+                class="btn btn-primary"
+                :disabled="submitting"
+              >
+                <i class="fas fa-credit-card"></i>
                 {{ submitting ? 'Processing...' : 'Continue to Payment' }}
               </button>
+              
+              <div class="security-note">
+                <i class="fas fa-lock"></i>
+                Secure payment powered by Stripe
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+      <div class="container">
+        <div class="faq-header">
+          <h3>Frequently Asked Questions</h3>
+        </div>
+        
+        <div class="faq-list">
+          <div 
+            v-for="(faq, index) in faqs" 
+            :key="index"
+            class="faq-item"
+          >
+            <div 
+              class="faq-question"
+              @click="toggleFaq(index)"
+            >
+              <h4>{{ faq.question }}</h4>
+              <i class="fas fa-chevron-down" :class="{ 'open': faq.open }"></i>
+            </div>
+            <div v-if="faq.open" class="faq-answer">
+              <p>{{ faq.answer }}</p>
             </div>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -155,13 +226,30 @@ export default {
       success: '',
       isSubscribed: false,
       subscription: null,
+      faqs: [
+        {
+          question: 'Can I cancel my subscription anytime?',
+          answer: 'Yes, you can cancel your subscription at any time. If you cancel, you\'ll continue to have access to premium features until the end of your current billing period.',
+          open: false
+        },
+        {
+          question: 'What payment methods do you accept?',
+          answer: 'We accept all major credit and debit cards through our secure payment processor, Stripe.',
+          open: false
+        },
+        {
+          question: 'Is there a free trial available?',
+          answer: 'We don\'t currently offer a free trial, but we have a free tier with basic features. You can upgrade to premium anytime to unlock all features.',
+          open: false
+        }
+      ],
       plans: [
         {
           value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
           name: 'Monthly',
           price: '£1.99',
           period: 'per month',
-          icon: 'fas fa-calendar',
+          icon: 'fas fa-calendar-alt',
           badge: 'Flexible',
           featured: false,
           features: [
@@ -228,6 +316,10 @@ export default {
         month: 'long',
         year: 'numeric'
       });
+    },
+    
+    toggleFaq(index) {
+      this.faqs[index].open = !this.faqs[index].open;
     },
     
     async fetchSubscriptionStatus() {
@@ -351,128 +443,554 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
-
-:root {
-  --teal: #35a38b;
-  --teal-light: #e0f7f5;
-  --teal-dark: #2d8c77;
-  --dark: #1e293b;
-  --muted: #64748b;
+/* Base Styles */
+.subscription-container {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.max-w-600 {
-  max-width: 600px;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.text-teal {
-  color: var(--teal) !important;
-}
-
-.bg-teal {
-  background-color: var(--teal) !important;
-  color: white !important;
-}
-
-.btn-teal {
-  background-color: var(--teal);
-  border-color: var(--teal);
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.btn-teal:hover {
-  background-color: var(--teal-dark);
-  border-color: var(--teal-dark);
-  color: white;
-}
-
-.pricing-card {
-  border-radius: 16px;
-  transition: all 0.3s ease;
-  overflow: hidden;
+/* Header */
+.subscription-header {
   background: white;
+  padding: 60px 0 40px;
+  text-align: center;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.header-content h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 16px;
+}
+
+.header-content p {
+  font-size: 1.125rem;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Notifications */
+.notification {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+
+.notification.success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+.notification.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.notification i {
+  flex-shrink: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  margin-left: auto;
+  padding: 4px;
+}
+
+/* Loading State */
+.loading-state {
+  text-align: center;
+  padding: 80px 0;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e2e8f0;
+  border-top: 4px solid #35a38b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+.loading-state p {
+  color: #64748b;
+  font-size: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Subscription Card */
+.subscription-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-badge {
+  background: #35a38b;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.card-badge i {
+  margin-right: 8px;
+}
+
+.card-header {
+  padding: 40px 32px 24px;
+  text-align: center;
+}
+
+.status-icon {
+  width: 80px;
+  height: 80px;
+  background: #e0f7f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: #35a38b;
+  font-size: 2rem;
+}
+
+.card-header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #64748b;
+  margin-bottom: 24px;
+}
+
+.status-info {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.status-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.label {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #35a38b;
+}
+
+.card-body {
+  padding: 0 32px 32px;
+}
+
+.card-body h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.benefits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.benefit-item i {
+  color: #35a38b;
+  flex-shrink: 0;
+}
+
+.benefit-item span {
+  color: #475569;
+}
+
+/* Buttons */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #35a38b;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #2d8c77;
+}
+
+.btn-cancel {
+  background: white;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+}
+
+.btn-cancel:hover:not(:disabled) {
+  background: #fef2f2;
+}
+
+/* Plans View */
+.plans-view {
+  padding: 40px 0;
+}
+
+.plans-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.plans-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.plans-header p {
+  color: #64748b;
+  font-size: 1.125rem;
+}
+
+/* Plans Grid */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.plan-card {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 32px;
   position: relative;
   cursor: pointer;
+  transition: all 0.2s;
 }
 
-.pricing-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+.plan-card:hover {
+  border-color: #35a38b;
 }
 
-.pricing-card.featured-card {
-  transform: scale(1.05);
-  box-shadow: 0 25px 50px rgba(53, 163, 139, 0.2) !important;
-  border: 2px solid var(--teal) !important;
-  z-index: 2;
+.plan-card.selected {
+  border-color: #35a38b;
+  background: #f0fdfa;
+}
+
+.plan-card.featured {
+  border-color: #35a38b;
+}
+
+.plan-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #35a38b;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.plan-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.plan-icon {
+  width: 64px;
+  height: 64px;
+  background: #e0f7f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  color: #35a38b;
+  font-size: 1.5rem;
+}
+
+.plan-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.plan-price {
+  margin-bottom: 8px;
+}
+
+.amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.period {
+  color: #64748b;
+  font-size: 1rem;
+}
+
+.savings {
+  color: #059669;
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.plan-features {
+  margin-bottom: 24px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.feature-item i {
+  color: #35a38b;
+  flex-shrink: 0;
+  font-size: 0.875rem;
+}
+
+.feature-item span {
+  color: #475569;
+  font-size: 0.875rem;
 }
 
 .plan-selector {
-  cursor: pointer;
+  margin-top: auto;
 }
 
-.featured-badge {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  font-size: 0.875rem;
-  font-weight: 600;
-  z-index: 1;
+.radio-input {
+  display: none;
 }
 
-.pricing-card-header {
-  padding: 2rem 2rem 1rem;
-  background: #f8fafc;
-}
-
-.pricing-card-body {
-  padding: 1rem 2rem 2rem;
-}
-
-.pricing-icon {
-  width: 80px;
-  height: 80px;
-  background: var(--teal-light);
-  color: var(--teal);
-  font-size: 2rem;
-  transition: all 0.3s ease;
-}
-
-.featured-card .pricing-icon {
-  background: var(--teal);
+.radio-label {
+  display: block;
+  text-align: center;
+  padding: 12px 16px;
+  background: #35a38b;
   color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.price-amount {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin: 1rem 0 0.5rem;
-  color: var(--dark);
+.radio-label:hover {
+  background: #2d8c77;
 }
 
-.pricing-features li {
+.plan-card.selected .radio-label {
+  background: #2d8c77;
+}
+
+/* Payment Section */
+.payment-section {
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.security-note {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  justify-content: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 0.875rem;
+  margin-top: 16px;
 }
 
-.pricing-features li:last-child {
-  border-bottom: none;
+/* FAQ Section */
+.faq-section {
+  background: white;
+  padding: 80px 0;
+  border-top: 1px solid #e2e8f0;
 }
 
-.spinner-border.text-teal {
-  color: var(--teal) !important;
+.faq-header {
+  text-align: center;
+  margin-bottom: 48px;
 }
 
+.faq-header h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: between;
+  padding: 24px 0;
+  cursor: pointer;
+  gap: 16px;
+}
+
+.faq-question h4 {
+  flex: 1;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.faq-question i {
+  color: #64748b;
+  transition: transform 0.2s;
+}
+
+.faq-question i.open {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding-bottom: 24px;
+}
+
+.faq-answer p {
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .pricing-card.featured-card {
-    transform: scale(1);
+  .container {
+    padding: 0 16px;
   }
   
-  .price-amount {
+  .subscription-header {
+    padding: 40px 0 32px;
+  }
+  
+  .header-content h1 {
     font-size: 2rem;
+  }
+  
+  .plans-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .plan-card {
+    padding: 24px;
+  }
+  
+  .card-header {
+    padding: 32px 24px 20px;
+  }
+  
+  .card-body {
+    padding: 0 24px 24px;
+  }
+  
+  .faq-section {
+    padding: 60px 0;
+  }
+  
+  .faq-question h4 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-content h1 {
+    font-size: 1.75rem;
+  }
+  
+  .plans-header h2 {
+    font-size: 1.75rem;
+  }
+  
+  .amount {
+    font-size: 2rem;
+  }
+  
+  .notification {
+    padding: 12px 16px;
   }
 }
 </style>

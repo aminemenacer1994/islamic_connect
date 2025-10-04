@@ -149173,12 +149173,25 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       success: '',
       isSubscribed: false,
       subscription: null,
+      faqs: [{
+        question: 'Can I cancel my subscription anytime?',
+        answer: 'Yes, you can cancel your subscription at any time. If you cancel, you\'ll continue to have access to premium features until the end of your current billing period.',
+        open: false
+      }, {
+        question: 'What payment methods do you accept?',
+        answer: 'We accept all major credit and debit cards through our secure payment processor, Stripe.',
+        open: false
+      }, {
+        question: 'Is there a free trial available?',
+        answer: 'We don\'t currently offer a free trial, but we have a free tier with basic features. You can upgrade to premium anytime to unlock all features.',
+        open: false
+      }],
       plans: [{
         value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
         name: 'Monthly',
         price: '£1.99',
         period: 'per month',
-        icon: 'fas fa-calendar',
+        icon: 'fas fa-calendar-alt',
         badge: 'Flexible',
         featured: false,
         features: ['All premium features', 'Cancel anytime', 'Monthly billing', '24/7 support']
@@ -149228,6 +149241,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         month: 'long',
         year: 'numeric'
       });
+    },
+    toggleFaq: function toggleFaq(index) {
+      this.faqs[index].open = !this.faqs[index].open;
     },
     fetchSubscriptionStatus: function fetchSubscriptionStatus() {
       var _this = this;
@@ -153784,6 +153800,393 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     },
     debugLink: function debugLink(url, linkType) {
       console.log("Clicked ".concat(linkType, " link: ").concat(url));
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionComponent.vue?vue&type=script&lang=js":
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionComponent.vue?vue&type=script&lang=js ***!
+  \****************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'SubscriptionComponent',
+  data: function data() {
+    var _document$querySelect;
+    return {
+      csrfToken: ((_document$querySelect = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getAttribute('content')) || '',
+      selectedPlan: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+      loading: true,
+      submitting: false,
+      cancelling: false,
+      error: '',
+      success: '',
+      isSubscribed: false,
+      subscription: null,
+      faqs: [{
+        question: 'Can I cancel my subscription anytime?',
+        answer: 'Yes, you can cancel your subscription at any time. If you cancel, you\'ll continue to have access to premium features until the end of your current billing period.',
+        open: false
+      }, {
+        question: 'What payment methods do you accept?',
+        answer: 'We accept all major credit and debit cards through our secure payment processor, Stripe.',
+        open: false
+      }, {
+        question: 'Is there a free trial available?',
+        answer: 'We don\'t currently offer a free trial, but we have a free tier with basic features. You can upgrade to premium anytime to unlock all features.',
+        open: false
+      }],
+      plans: [{
+        value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
+        name: 'Monthly',
+        price: '£1.99',
+        period: 'per month',
+        icon: 'fas fa-calendar-alt',
+        badge: 'Flexible',
+        featured: false,
+        features: ['All premium features', 'Cancel anytime', 'Monthly billing', '24/7 support']
+      }, {
+        value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+        name: 'Yearly',
+        price: '£18',
+        period: 'per year',
+        savings: 'Save £5.88 per year',
+        icon: 'fas fa-star',
+        badge: 'Most Popular',
+        featured: true,
+        features: ['All premium features', 'Best value', 'Annual billing', 'Priority support']
+      }, {
+        value: 'price_1SDrmPGsDD2PdzHqvk1SOoT3',
+        name: 'Lifetime',
+        price: '£25',
+        period: 'one-time payment',
+        savings: 'Never pay again',
+        icon: 'fas fa-infinity',
+        badge: 'Best Deal',
+        featured: false,
+        features: ['All premium features', 'Lifetime access', 'One-time payment', 'VIP support']
+      }],
+      planDetails: {
+        'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
+        'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly',
+        'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime'
+      }
+    };
+  },
+  computed: {
+    planDisplayName: function planDisplayName() {
+      var _this$subscription;
+      if (!((_this$subscription = this.subscription) !== null && _this$subscription !== void 0 && _this$subscription.stripe_price)) return 'Free';
+      return this.planDetails[this.subscription.stripe_price] || 'Premium';
+    }
+  },
+  mounted: function mounted() {
+    this.checkUrlParams();
+  },
+  methods: {
+    formatDate: function formatDate(dateString) {
+      if (!dateString) return 'Never';
+      return new Date(dateString).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+    },
+    toggleFaq: function toggleFaq(index) {
+      this.faqs[index].open = !this.faqs[index].open;
+    },
+    fetchSubscriptionStatus: function fetchSubscriptionStatus() {
+      var _this = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        var response, data, _t;
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.p = _context.n) {
+            case 0:
+              _context.p = 0;
+              _context.n = 1;
+              return fetch('/subscription-status', {
+                headers: {
+                  'X-CSRF-TOKEN': _this.csrfToken,
+                  'Accept': 'application/json'
+                }
+              });
+            case 1:
+              response = _context.v;
+              if (response.ok) {
+                _context.n = 2;
+                break;
+              }
+              throw new Error('Failed to fetch subscription status');
+            case 2:
+              _context.n = 3;
+              return response.json();
+            case 3:
+              data = _context.v;
+              _this.isSubscribed = data.is_subscribed;
+              _this.subscription = {
+                stripe_price: data.plan !== 'free' ? data.plan : null,
+                ends_at: data.ends_at
+              };
+              return _context.a(2, data.is_subscribed);
+            case 4:
+              _context.p = 4;
+              _t = _context.v;
+              console.error('Error fetching subscription:', _t);
+              _this.error = 'Error loading subscription status. Please refresh the page.';
+              return _context.a(2, false);
+          }
+        }, _callee, null, [[0, 4]]);
+      }))();
+    },
+    waitForSubscription: function waitForSubscription() {
+      var _this2 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+        var attempts, maxAttempts, _checkStatus;
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.n) {
+            case 0:
+              _this2.success = 'Subscription successful! Activating your subscription...';
+              attempts = 0;
+              maxAttempts = 15;
+              _checkStatus = /*#__PURE__*/function () {
+                var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+                  var subscribed;
+                  return _regenerator().w(function (_context2) {
+                    while (1) switch (_context2.n) {
+                      case 0:
+                        attempts++;
+                        _context2.n = 1;
+                        return _this2.fetchSubscriptionStatus();
+                      case 1:
+                        subscribed = _context2.v;
+                        if (!subscribed) {
+                          _context2.n = 2;
+                          break;
+                        }
+                        _this2.success = 'Subscription activated successfully! Welcome to Premium.';
+                        _this2.loading = false;
+                        setTimeout(function () {
+                          _this2.success = '';
+                        }, 5000);
+                        return _context2.a(2, true);
+                      case 2:
+                        if (!(attempts >= maxAttempts)) {
+                          _context2.n = 3;
+                          break;
+                        }
+                        _this2.error = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
+                        _this2.success = '';
+                        _this2.loading = false;
+                        return _context2.a(2, false);
+                      case 3:
+                        setTimeout(_checkStatus, 2000);
+                        return _context2.a(2, false);
+                    }
+                  }, _callee2);
+                }));
+                return function checkStatus() {
+                  return _ref.apply(this, arguments);
+                };
+              }();
+              _context3.n = 1;
+              return _checkStatus();
+            case 1:
+              return _context3.a(2);
+          }
+        }, _callee3);
+      }))();
+    },
+    checkUrlParams: function checkUrlParams() {
+      var _this3 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+        var urlParams, _this3$subscription, endsAtDate, now;
+        return _regenerator().w(function (_context4) {
+          while (1) switch (_context4.n) {
+            case 0:
+              urlParams = new URLSearchParams(window.location.search);
+              if (!urlParams.has('success')) {
+                _context4.n = 2;
+                break;
+              }
+              _context4.n = 1;
+              return _this3.waitForSubscription();
+            case 1:
+              window.history.replaceState({}, document.title, window.location.pathname);
+              _context4.n = 6;
+              break;
+            case 2:
+              if (!urlParams.has('cancelled')) {
+                _context4.n = 4;
+                break;
+              }
+              _this3.error = 'Subscription cancelled. You can try again when ready.';
+              _context4.n = 3;
+              return _this3.fetchSubscriptionStatus();
+            case 3:
+              _this3.loading = false;
+              window.history.replaceState({}, document.title, window.location.pathname);
+              _context4.n = 6;
+              break;
+            case 4:
+              _context4.n = 5;
+              return _this3.fetchSubscriptionStatus();
+            case 5:
+              // Check if subscription has actually ended
+              if (_this3.isSubscribed && (_this3$subscription = _this3.subscription) !== null && _this3$subscription !== void 0 && _this3$subscription.ends_at) {
+                endsAtDate = new Date(_this3.subscription.ends_at);
+                now = new Date(); // If the subscription end date has passed, show them as not subscribed
+                if (endsAtDate < now) {
+                  _this3.isSubscribed = false;
+                }
+              }
+              _this3.loading = false;
+            case 6:
+              return _context4.a(2);
+          }
+        }, _callee4);
+      }))();
+    },
+    handleCancelSubscription: function handleCancelSubscription() {
+      var _this4 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+        var response, data, _t2;
+        return _regenerator().w(function (_context5) {
+          while (1) switch (_context5.p = _context5.n) {
+            case 0:
+              if (confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
+                _context5.n = 1;
+                break;
+              }
+              return _context5.a(2);
+            case 1:
+              _this4.cancelling = true;
+              _this4.error = '';
+              _context5.p = 2;
+              _context5.n = 3;
+              return fetch('/cancel', {
+                method: 'POST',
+                headers: {
+                  'X-CSRF-TOKEN': _this4.csrfToken,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                }
+              });
+            case 3:
+              response = _context5.v;
+              _context5.n = 4;
+              return response.json();
+            case 4:
+              data = _context5.v;
+              if (!(response.ok && data.success)) {
+                _context5.n = 6;
+                break;
+              }
+              _context5.n = 5;
+              return _this4.fetchSubscriptionStatus();
+            case 5:
+              _this4.success = "Subscription cancelled. You'll have access until ".concat(_this4.formatDate(data.ends_at), ".");
+              setTimeout(function () {
+                _this4.success = '';
+              }, 8000);
+              _context5.n = 7;
+              break;
+            case 6:
+              throw new Error(data.message || 'Failed to cancel subscription');
+            case 7:
+              _context5.n = 9;
+              break;
+            case 8:
+              _context5.p = 8;
+              _t2 = _context5.v;
+              console.error('Error cancelling subscription:', _t2);
+              _this4.error = _t2.message || 'Error cancelling subscription. Please try again.';
+            case 9:
+              _context5.p = 9;
+              _this4.cancelling = false;
+              return _context5.f(9);
+            case 10:
+              return _context5.a(2);
+          }
+        }, _callee5, null, [[2, 8, 9, 10]]);
+      }))();
+    },
+    handleSubmit: function handleSubmit() {
+      var _this5 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+        var response, errorData, data, _t3;
+        return _regenerator().w(function (_context6) {
+          while (1) switch (_context6.p = _context6.n) {
+            case 0:
+              _this5.submitting = true;
+              _this5.error = '';
+              _this5.success = '';
+              _context6.p = 1;
+              _context6.n = 2;
+              return fetch('/subscribe', {
+                method: 'POST',
+                headers: {
+                  'X-CSRF-TOKEN': _this5.csrfToken,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  price_lookup_key: _this5.selectedPlan
+                })
+              });
+            case 2:
+              response = _context6.v;
+              if (response.ok) {
+                _context6.n = 4;
+                break;
+              }
+              _context6.n = 3;
+              return response.json();
+            case 3:
+              errorData = _context6.v;
+              throw new Error(errorData.error || 'Failed to initiate subscription');
+            case 4:
+              _context6.n = 5;
+              return response.json();
+            case 5:
+              data = _context6.v;
+              if (!data.url) {
+                _context6.n = 6;
+                break;
+              }
+              window.location.href = data.url; // Redirect to Stripe Checkout URL
+              _context6.n = 7;
+              break;
+            case 6:
+              throw new Error('No redirect URL received from server');
+            case 7:
+              _context6.n = 9;
+              break;
+            case 8:
+              _context6.p = 8;
+              _t3 = _context6.v;
+              console.error('Submission error:', _t3);
+              _this5.error = _t3.message || 'Error initiating subscription. Please try again.';
+            case 9:
+              _context6.p = 9;
+              _this5.submitting = false;
+              return _context6.f(9);
+            case 10:
+              return _context6.a(2);
+          }
+        }, _callee6, null, [[1, 8, 9, 10]]);
+      }))();
     }
   }
 });
@@ -176204,201 +176607,199 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 
 var _hoisted_1 = {
   id: "app",
-  "class": "container"
+  "class": "subscription-container"
 };
 var _hoisted_2 = {
-  "class": "container pb-5"
+  "class": "subscription-main"
 };
 var _hoisted_3 = {
-  key: 0,
-  "class": "alert alert-success alert-dismissible fade show shadow-sm mb-4",
-  role: "status"
+  "class": "container"
 };
 var _hoisted_4 = {
-  key: 1,
-  "class": "alert alert-danger alert-dismissible fade show shadow-sm mb-4",
-  role: "alert"
+  key: 0,
+  "class": "notification success"
 };
 var _hoisted_5 = {
-  key: 2,
-  "class": "text-center my-5 py-5"
+  key: 1,
+  "class": "notification error"
 };
 var _hoisted_6 = {
-  "class": "row justify-content-center"
+  key: 2,
+  "class": "loading-state"
 };
 var _hoisted_7 = {
-  "class": "col-lg-8"
+  "class": "active-subscription"
 };
 var _hoisted_8 = {
-  "class": "card pricing-card border-0 shadow-lg"
+  "class": "subscription-card"
 };
 var _hoisted_9 = {
-  "class": "pricing-card-header text-center"
+  "class": "card-header"
 };
 var _hoisted_10 = {
-  "class": "card-title mt-3 fw-bold"
+  "class": "status-info"
 };
 var _hoisted_11 = {
-  "class": "mt-3 p-3 bg-light rounded"
+  "class": "status-item"
 };
 var _hoisted_12 = {
-  "class": "mb-0"
+  "class": "label"
 };
 var _hoisted_13 = {
-  "class": "text-teal fw-bold fs-5 mb-0"
+  "class": "value"
 };
 var _hoisted_14 = {
-  "class": "card-body pricing-card-body"
+  "class": "card-body"
 };
 var _hoisted_15 = ["disabled"];
 var _hoisted_16 = {
-  "class": "row row-cols-1 row-cols-md-3 g-4 mb-4"
+  "class": "plans-view"
 };
-var _hoisted_17 = ["onClick"];
-var _hoisted_18 = {
-  key: 0,
-  "class": "featured-badge bg-teal text-white py-2 text-center"
+var _hoisted_17 = {
+  "class": "plans-grid"
 };
+var _hoisted_18 = ["onClick"];
 var _hoisted_19 = {
-  "class": "pricing-card-header text-center"
+  key: 0,
+  "class": "plan-badge"
 };
 var _hoisted_20 = {
-  "class": "card-title mt-3 fw-bold"
+  "class": "plan-header"
 };
 var _hoisted_21 = {
-  "class": "price-amount"
+  "class": "plan-icon"
 };
 var _hoisted_22 = {
-  "class": "text-muted mb-0"
+  "class": "plan-price"
 };
 var _hoisted_23 = {
-  key: 0,
-  "class": "text-success small mt-1 fw-semibold"
+  "class": "amount"
 };
 var _hoisted_24 = {
-  "class": "card-body pricing-card-body d-flex flex-column"
+  "class": "period"
 };
 var _hoisted_25 = {
-  "class": "pricing-features list-unstyled mb-4"
+  key: 0,
+  "class": "savings"
 };
 var _hoisted_26 = {
-  "class": "form-check mt-auto"
+  "class": "plan-features"
 };
-var _hoisted_27 = ["id", "value"];
-var _hoisted_28 = ["for"];
-var _hoisted_29 = {
-  "class": "row justify-content-center"
+var _hoisted_27 = {
+  "class": "plan-selector"
 };
+var _hoisted_28 = ["id", "value"];
+var _hoisted_29 = ["for"];
 var _hoisted_30 = {
-  "class": "col-lg-6"
+  "class": "payment-section"
 };
 var _hoisted_31 = ["value"];
 var _hoisted_32 = ["value"];
 var _hoisted_33 = ["disabled"];
+var _hoisted_34 = {
+  "class": "faq-section"
+};
+var _hoisted_35 = {
+  "class": "container"
+};
+var _hoisted_36 = {
+  "class": "faq-list"
+};
+var _hoisted_37 = ["onClick"];
+var _hoisted_38 = {
+  key: 0,
+  "class": "faq-answer"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$subscription, _$data$subscription2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
-    "class": "text-center py-5"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "fw-bold display-5 mb-3"
-  }, "Subscription Management"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead text-muted mx-auto max-w-600"
-  }, " Manage your Islamic Connect subscription. Unlock premium features and support our mission. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Alert "), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-check-circle me-2"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.success) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn-close",
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+    "class": "subscription-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "container"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "header-content"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Subscription Management"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Manage your Islamic Connect subscription. Unlock premium features and support our mission.")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notifications "), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-check-circle"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.success), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $data.success = '';
     }),
-    "aria-label": "Close"
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Alert "), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-exclamation-triangle me-2"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn-close",
+    "class": "close-btn"
+  }, _toConsumableArray(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-times"
+  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-exclamation-triangle"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $data.error = '';
     }),
-    "aria-label": "Close"
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, _toConsumableArray(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "spinner-border text-teal",
-    role: "status",
-    style: {
-      "width": "3rem",
-      "height": "3rem"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "visually-hidden"
-  }, "Loading...")], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "mt-3 text-muted"
-  }, "Loading subscription details...", -1 /* CACHED */)])))) : $data.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    "class": "close-btn"
+  }, _toConsumableArray(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-times"
+  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading subscription details...", -1 /* CACHED */)])))) : $data.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 3
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "featured-badge bg-teal text-white py-2 text-center"
-  }, " Active Subscription ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "pricing-icon mt-3 mx-auto rounded-circle d-flex align-items-center justify-content-center bg-teal"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-badge"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-check-circle text-white"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.planDisplayName), 1 /* TEXT */), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-muted mb-2"
-  }, "You're currently subscribed", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? 'Access until:' : 'Status:'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription2 = $data.subscription) !== null && _$data$subscription2 !== void 0 && _$data$subscription2.ends_at ? $options.formatDate($data.subscription.ends_at) : 'Active & Unlimited'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<ul class=\"pricing-features list-unstyled mb-4\" data-v-d4146a7c><li class=\"py-2\" data-v-d4146a7c><i class=\"fas fa-check-circle me-2 text-teal\" data-v-d4146a7c></i>Ad-free experience </li><li class=\"py-2\" data-v-d4146a7c><i class=\"fas fa-check-circle me-2 text-teal\" data-v-d4146a7c></i>Offline access to content </li><li class=\"py-2\" data-v-d4146a7c><i class=\"fas fa-check-circle me-2 text-teal\" data-v-d4146a7c></i>Advanced prayer time settings </li><li class=\"py-2\" data-v-d4146a7c><i class=\"fas fa-check-circle me-2 text-teal\" data-v-d4146a7c></i>Priority support </li><li class=\"py-2\" data-v-d4146a7c><i class=\"fas fa-check-circle me-2 text-teal\" data-v-d4146a7c></i>Early access to new features </li></ul>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "fas fa-crown"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Active Subscription ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "status-icon"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-check-circle"
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.planDisplayName), 1 /* TEXT */), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "subtitle"
+  }, "You're currently subscribed", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? 'Access until' : 'Status'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription2 = $data.subscription) !== null && _$data$subscription2 !== void 0 && _$data$subscription2.ends_at ? $options.formatDate($data.subscription.ends_at) : 'Active & Unlimited'), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<h3 data-v-d4146a7c>Premium Benefits</h3><div class=\"benefits-list\" data-v-d4146a7c><div class=\"benefit-item\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i><span data-v-d4146a7c>Ad-free experience</span></div><div class=\"benefit-item\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i><span data-v-d4146a7c>Offline access to content</span></div><div class=\"benefit-item\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i><span data-v-d4146a7c>Advanced prayer time settings</span></div><div class=\"benefit-item\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i><span data-v-d4146a7c>Priority support</span></div><div class=\"benefit-item\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i><span data-v-d4146a7c>Early access to new features</span></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.handleCancelSubscription && $options.handleCancelSubscription.apply($options, arguments);
     }),
-    "class": "btn btn-outline-danger w-100 rounded-pill fw-semibold py-2",
+    "class": "btn btn-cancel",
     disabled: $data.cancelling
-  }, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-times-circle me-2"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : 'Cancel Subscription'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_15)])])])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-times-circle"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : 'Cancel Subscription'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_15)])])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 4
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-center mb-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "fw-bold mb-3"
-  }, "Choose Your Plan"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-muted"
-  }, "Select the plan that works best for you")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "plans-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Choose Your Plan"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Select the plan that works best for you")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     method: "POST",
     action: "/subscribe",
-    onSubmit: _cache[4] || (_cache[4] = function ($event) {
-      return $data.submitting = true;
+    onSubmit: _cache[4] || (_cache[4] = function () {
+      return $options.handleSubmit && $options.handleSubmit.apply($options, arguments);
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.plans, function (plan) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Plans Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.plans, function (plan) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: plan.value,
-      "class": "col"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 pricing-card border-0 shadow-lg plan-selector", {
-        'featured-card': plan.value === $data.selectedPlan
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["plan-card", {
+        'featured': plan.featured,
+        'selected': plan.value === $data.selectedPlan
       }]),
       onClick: function onClick($event) {
         return $data.selectedPlan = plan.value;
       }
-    }, [plan.featured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.badge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["pricing-icon mt-3 mx-auto rounded-circle d-flex align-items-center justify-content-center", plan.value === $data.selectedPlan ? 'bg-teal' : ''])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([plan.icon, plan.value === $data.selectedPlan ? 'text-white' : 'text-teal'])
-    }, null, 2 /* CLASS */)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_25, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+    }, [plan.featured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.badge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(plan.icon)
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */)]), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: feature,
-        "class": "py-2"
-      }, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "fas fa-check-circle me-2 text-teal"
-      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "class": "form-check-input",
+        "class": "feature-item"
+      }, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "fas fa-check"
+      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "radio",
       id: plan.value,
       value: plan.value,
       "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
         return $data.selectedPlan = $event;
-      })
-    }, null, 8 /* PROPS */, _hoisted_27), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-      "class": "form-check-label fw-semibold",
-      "for": plan.value
-    }, " Select this plan ", 8 /* PROPS */, _hoisted_28)])])], 10 /* CLASS, PROPS */, _hoisted_17)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }),
+      "class": "radio-input"
+    }, null, 8 /* PROPS */, _hoisted_28), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "for": plan.value,
+      "class": "radio-label"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.value === $data.selectedPlan ? 'Selected' : 'Select Plan'), 9 /* TEXT, PROPS */, _hoisted_29)])], 10 /* CLASS, PROPS */, _hoisted_18);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Payment Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
     name: "_token",
     value: $data.csrfToken
@@ -176408,11 +176809,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: $data.selectedPlan
   }, null, 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
-    "class": "btn btn-teal btn-lg w-100 rounded-pill fw-semibold py-3",
+    "class": "btn btn-primary",
     disabled: $data.submitting
-  }, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-credit-card me-2"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing...' : 'Continue to Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_33)])])], 32 /* NEED_HYDRATION */)])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])]);
+  }, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-credit-card"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing...' : 'Continue to Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_33), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "security-note"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-lock"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment powered by Stripe ")], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "faq-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Frequently Asked Questions")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, function (faq, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: index,
+      "class": "faq-item"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "faq-question",
+      onClick: function onClick($event) {
+        return $options.toggleFaq(index);
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas fa-chevron-down", {
+        'open': faq.open
+      }])
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_37), faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))])])])]);
 }
 
 /***/ }),
@@ -180664,6 +181085,268 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: $data.currentPage === $options.totalPages,
     "aria-label": "Next page"
   }, " Next ", 8 /* PROPS */, _hoisted_65)], 2 /* CLASS */)])])]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionComponent.vue?vue&type=template&id=0ca26305&scoped=true":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionComponent.vue?vue&type=template&id=0ca26305&scoped=true ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+
+var _hoisted_1 = {
+  id: "app",
+  "class": "subscription-container"
+};
+var _hoisted_2 = {
+  "class": "subscription-main"
+};
+var _hoisted_3 = {
+  "class": "container"
+};
+var _hoisted_4 = {
+  key: 0,
+  "class": "notification success"
+};
+var _hoisted_5 = {
+  key: 1,
+  "class": "notification error"
+};
+var _hoisted_6 = {
+  key: 2,
+  "class": "loading-state"
+};
+var _hoisted_7 = {
+  "class": "active-subscription"
+};
+var _hoisted_8 = {
+  "class": "subscription-card"
+};
+var _hoisted_9 = {
+  "class": "card-badge"
+};
+var _hoisted_10 = {
+  "class": "card-header"
+};
+var _hoisted_11 = {
+  "class": "subtitle"
+};
+var _hoisted_12 = {
+  "class": "status-info"
+};
+var _hoisted_13 = {
+  "class": "status-item"
+};
+var _hoisted_14 = {
+  "class": "label"
+};
+var _hoisted_15 = {
+  "class": "value"
+};
+var _hoisted_16 = {
+  "class": "card-body"
+};
+var _hoisted_17 = ["disabled"];
+var _hoisted_18 = {
+  key: 1,
+  "class": "cancellation-notice"
+};
+var _hoisted_19 = {
+  "class": "plans-view"
+};
+var _hoisted_20 = {
+  "class": "plans-grid"
+};
+var _hoisted_21 = ["onClick"];
+var _hoisted_22 = {
+  key: 0,
+  "class": "plan-badge"
+};
+var _hoisted_23 = {
+  "class": "plan-header"
+};
+var _hoisted_24 = {
+  "class": "plan-icon"
+};
+var _hoisted_25 = {
+  "class": "plan-price"
+};
+var _hoisted_26 = {
+  "class": "amount"
+};
+var _hoisted_27 = {
+  "class": "period"
+};
+var _hoisted_28 = {
+  key: 0,
+  "class": "savings"
+};
+var _hoisted_29 = {
+  "class": "plan-features"
+};
+var _hoisted_30 = {
+  "class": "plan-selector"
+};
+var _hoisted_31 = ["id", "value"];
+var _hoisted_32 = ["for"];
+var _hoisted_33 = {
+  "class": "payment-section"
+};
+var _hoisted_34 = ["value"];
+var _hoisted_35 = ["value"];
+var _hoisted_36 = ["disabled"];
+var _hoisted_37 = {
+  "class": "faq-section"
+};
+var _hoisted_38 = {
+  "class": "container"
+};
+var _hoisted_39 = {
+  "class": "faq-list"
+};
+var _hoisted_40 = ["onClick"];
+var _hoisted_41 = {
+  key: 0,
+  "class": "faq-answer"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _$data$subscription, _$data$subscription2, _$data$subscription3, _$data$subscription4, _$data$subscription5, _$data$subscription6, _$data$subscription7;
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+    "class": "subscription-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "container"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "header-content"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Subscription Management"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Manage your Islamic Connect subscription. Unlock premium features and support our mission.")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notifications "), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-check-circle"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.success), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $data.success = '';
+    }),
+    "class": "close-btn"
+  }, _toConsumableArray(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-times"
+  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-exclamation-triangle"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $data.error = '';
+    }),
+    "class": "close-btn"
+  }, _toConsumableArray(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-times"
+  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading subscription details...", -1 /* CACHED */)])))) : $data.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 3
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-crown"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? 'Subscription Ending Soon' : 'Active Subscription'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["status-icon", {
+      'cancelled': (_$data$subscription2 = $data.subscription) === null || _$data$subscription2 === void 0 ? void 0 : _$data$subscription2.ends_at
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", (_$data$subscription3 = $data.subscription) !== null && _$data$subscription3 !== void 0 && _$data$subscription3.ends_at ? 'fa-calendar-times' : 'fa-check-circle'])
+  }, null, 2 /* CLASS */)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.planDisplayName), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription4 = $data.subscription) !== null && _$data$subscription4 !== void 0 && _$data$subscription4.ends_at ? 'Cancellation scheduled' : 'You\'re currently subscribed'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription5 = $data.subscription) !== null && _$data$subscription5 !== void 0 && _$data$subscription5.ends_at ? 'Access until' : 'Status'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription6 = $data.subscription) !== null && _$data$subscription6 !== void 0 && _$data$subscription6.ends_at ? $options.formatDate($data.subscription.ends_at) : 'Active & Unlimited'), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<h3 data-v-0ca26305>Premium Benefits</h3><div class=\"benefits-list\" data-v-0ca26305><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Ad-free experience</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Offline access to content</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Advanced prayer time settings</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Priority support</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Early access to new features</span></div></div>", 2)), !((_$data$subscription7 = $data.subscription) !== null && _$data$subscription7 !== void 0 && _$data$subscription7.ends_at) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.handleCancelSubscription && $options.handleCancelSubscription.apply($options, arguments);
+    }),
+    "class": "btn btn-cancel",
+    disabled: $data.cancelling
+  }, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-times-circle"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : 'Cancel Subscription'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_17)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-info-circle"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Your subscription has been cancelled and will not renew. ", -1 /* CACHED */)]))))])])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 4
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "plans-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Choose Your Plan"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Select the plan that works best for you")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.handleSubmit && $options.handleSubmit.apply($options, arguments);
+    }, ["prevent"])),
+    "class": "subscription-form"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Plans Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.plans, function (plan) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: plan.value,
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["plan-card", {
+        'featured': plan.featured,
+        'selected': plan.value === $data.selectedPlan
+      }]),
+      onClick: function onClick($event) {
+        return $data.selectedPlan = plan.value;
+      }
+    }, [plan.featured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.badge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(plan.icon)
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */)]), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+        key: feature,
+        "class": "feature-item"
+      }, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "fas fa-check"
+      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "radio",
+      id: plan.value,
+      value: plan.value,
+      "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+        return $data.selectedPlan = $event;
+      }),
+      "class": "radio-input"
+    }, null, 8 /* PROPS */, _hoisted_31), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "for": plan.value,
+      "class": "radio-label"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.value === $data.selectedPlan ? 'Selected' : 'Select Plan'), 9 /* TEXT, PROPS */, _hoisted_32)])], 10 /* CLASS, PROPS */, _hoisted_21);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Payment Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "hidden",
+    name: "_token",
+    value: $data.csrfToken
+  }, null, 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "hidden",
+    name: "price_lookup_key",
+    value: $data.selectedPlan
+  }, null, 8 /* PROPS */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "submit",
+    "class": "btn btn-primary",
+    disabled: $data.submitting
+  }, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-credit-card"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing...' : 'Continue to Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_36), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "security-note"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-lock"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment powered by Stripe ")], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "faq-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Frequently Asked Questions")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, function (faq, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: index,
+      "class": "faq-item"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "faq-question",
+      onClick: function onClick($event) {
+        return $options.toggleFaq(index);
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas fa-chevron-down", {
+        'open': faq.open
+      }])
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_40), faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))])])])]);
 }
 
 /***/ }),
@@ -192556,9 +193239,8 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-d4146a7c]:root {\n  --teal: #35a38b;\n  --teal-light: #e0f7f5;\n  --teal-dark: #2d8c77;\n  --dark: #1e293b;\n  --muted: #64748b;\n}\n.max-w-600[data-v-d4146a7c] {\n  max-width: 600px;\n}\n.text-teal[data-v-d4146a7c] {\n  color: var(--teal) !important;\n}\n.bg-teal[data-v-d4146a7c] {\n  background-color: var(--teal) !important;\n  color: white !important;\n}\n.btn-teal[data-v-d4146a7c] {\n  background-color: var(--teal);\n  border-color: var(--teal);\n  color: white;\n  transition: all 0.3s ease;\n}\n.btn-teal[data-v-d4146a7c]:hover {\n  background-color: var(--teal-dark);\n  border-color: var(--teal-dark);\n  color: white;\n}\n.pricing-card[data-v-d4146a7c] {\n  border-radius: 16px;\n  transition: all 0.3s ease;\n  overflow: hidden;\n  background: white;\n  position: relative;\n  cursor: pointer;\n}\n.pricing-card[data-v-d4146a7c]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;\n}\n.pricing-card.featured-card[data-v-d4146a7c] {\n  transform: scale(1.05);\n  box-shadow: 0 25px 50px rgba(53, 163, 139, 0.2) !important;\n  border: 2px solid var(--teal) !important;\n  z-index: 2;\n}\n.plan-selector[data-v-d4146a7c] {\n  cursor: pointer;\n}\n.featured-badge[data-v-d4146a7c] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  font-size: 0.875rem;\n  font-weight: 600;\n  z-index: 1;\n}\n.pricing-card-header[data-v-d4146a7c] {\n  padding: 2rem 2rem 1rem;\n  background: #f8fafc;\n}\n.pricing-card-body[data-v-d4146a7c] {\n  padding: 1rem 2rem 2rem;\n}\n.pricing-icon[data-v-d4146a7c] {\n  width: 80px;\n  height: 80px;\n  background: var(--teal-light);\n  color: var(--teal);\n  font-size: 2rem;\n  transition: all 0.3s ease;\n}\n.featured-card .pricing-icon[data-v-d4146a7c] {\n  background: var(--teal);\n  color: white;\n}\n.price-amount[data-v-d4146a7c] {\n  font-size: 2.5rem;\n  font-weight: 800;\n  margin: 1rem 0 0.5rem;\n  color: var(--dark);\n}\n.pricing-features li[data-v-d4146a7c] {\n  display: flex;\n  align-items: center;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.05);\n}\n.pricing-features li[data-v-d4146a7c]:last-child {\n  border-bottom: none;\n}\n.spinner-border.text-teal[data-v-d4146a7c] {\n  color: var(--teal) !important;\n}\n@media (max-width: 768px) {\n.pricing-card.featured-card[data-v-d4146a7c] {\n    transform: scale(1);\n}\n.price-amount[data-v-d4146a7c] {\n    font-size: 2rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Base Styles */\n.subscription-container[data-v-d4146a7c] {\n  min-height: 100vh;\n  background-color: #f8fafc;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n.container[data-v-d4146a7c] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 20px;\n}\n/* Header */\n.subscription-header[data-v-d4146a7c] {\n  background: white;\n  padding: 60px 0 40px;\n  text-align: center;\n  border-bottom: 1px solid #e2e8f0;\n}\n.header-content h1[data-v-d4146a7c] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 16px;\n}\n.header-content p[data-v-d4146a7c] {\n  font-size: 1.125rem;\n  color: #64748b;\n  max-width: 600px;\n  margin: 0 auto;\n  line-height: 1.6;\n}\n/* Notifications */\n.notification[data-v-d4146a7c] {\n  display: flex;\n  align-items: center;\n  padding: 16px 20px;\n  border-radius: 8px;\n  margin-bottom: 24px;\n  gap: 12px;\n}\n.notification.success[data-v-d4146a7c] {\n  background: #f0fdf4;\n  border: 1px solid #bbf7d0;\n  color: #166534;\n}\n.notification.error[data-v-d4146a7c] {\n  background: #fef2f2;\n  border: 1px solid #fecaca;\n  color: #991b1b;\n}\n.notification i[data-v-d4146a7c] {\n  flex-shrink: 0;\n}\n.close-btn[data-v-d4146a7c] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  margin-left: auto;\n  padding: 4px;\n}\n/* Loading State */\n.loading-state[data-v-d4146a7c] {\n  text-align: center;\n  padding: 80px 0;\n}\n.spinner[data-v-d4146a7c] {\n  width: 48px;\n  height: 48px;\n  border: 4px solid #e2e8f0;\n  border-top: 4px solid #35a38b;\n  border-radius: 50%;\n  animation: spin-d4146a7c 1s linear infinite;\n  margin: 0 auto 20px;\n}\n.loading-state p[data-v-d4146a7c] {\n  color: #64748b;\n  font-size: 1rem;\n}\n@keyframes spin-d4146a7c {\n0% { transform: rotate(0deg);\n}\n100% { transform: rotate(360deg);\n}\n}\n/* Subscription Card */\n.subscription-card[data-v-d4146a7c] {\n  background: white;\n  border-radius: 12px;\n  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  max-width: 500px;\n  margin: 0 auto;\n  position: relative;\n  overflow: hidden;\n}\n.card-badge[data-v-d4146a7c] {\n  background: #35a38b;\n  color: white;\n  padding: 12px 20px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n}\n.card-badge i[data-v-d4146a7c] {\n  margin-right: 8px;\n}\n.card-header[data-v-d4146a7c] {\n  padding: 40px 32px 24px;\n  text-align: center;\n}\n.status-icon[data-v-d4146a7c] {\n  width: 80px;\n  height: 80px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 20px;\n  color: #35a38b;\n  font-size: 2rem;\n}\n.card-header h2[data-v-d4146a7c] {\n  font-size: 1.75rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-d4146a7c] {\n  color: #64748b;\n  margin-bottom: 24px;\n}\n.status-info[data-v-d4146a7c] {\n  background: #f8fafc;\n  border-radius: 8px;\n  padding: 20px;\n}\n.status-item[data-v-d4146a7c] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-d4146a7c] {\n  font-size: 0.875rem;\n  color: #64748b;\n}\n.value[data-v-d4146a7c] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #35a38b;\n}\n.card-body[data-v-d4146a7c] {\n  padding: 0 32px 32px;\n}\n.card-body h3[data-v-d4146a7c] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 20px;\n  text-align: center;\n}\n.benefits-list[data-v-d4146a7c] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 32px;\n}\n.benefit-item[data-v-d4146a7c] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n}\n.benefit-item i[data-v-d4146a7c] {\n  color: #35a38b;\n  flex-shrink: 0;\n}\n.benefit-item span[data-v-d4146a7c] {\n  color: #475569;\n}\n/* Buttons */\n.btn[data-v-d4146a7c] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 16px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.btn[data-v-d4146a7c]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-d4146a7c] {\n  background: #35a38b;\n  color: white;\n}\n.btn-primary[data-v-d4146a7c]:hover:not(:disabled) {\n  background: #2d8c77;\n}\n.btn-cancel[data-v-d4146a7c] {\n  background: white;\n  color: #dc2626;\n  border: 1px solid #dc2626;\n}\n.btn-cancel[data-v-d4146a7c]:hover:not(:disabled) {\n  background: #fef2f2;\n}\n/* Plans View */\n.plans-view[data-v-d4146a7c] {\n  padding: 40px 0;\n}\n.plans-header[data-v-d4146a7c] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.plans-header h2[data-v-d4146a7c] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-d4146a7c] {\n  color: #64748b;\n  font-size: 1.125rem;\n}\n/* Plans Grid */\n.plans-grid[data-v-d4146a7c] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n.plan-card[data-v-d4146a7c] {\n  background: white;\n  border: 2px solid #e2e8f0;\n  border-radius: 12px;\n  padding: 32px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.plan-card[data-v-d4146a7c]:hover {\n  border-color: #35a38b;\n}\n.plan-card.selected[data-v-d4146a7c] {\n  border-color: #35a38b;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-d4146a7c] {\n  border-color: #35a38b;\n}\n.plan-badge[data-v-d4146a7c] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: #35a38b;\n  color: white;\n  padding: 6px 16px;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n.plan-header[data-v-d4146a7c] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-d4146a7c] {\n  width: 64px;\n  height: 64px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #35a38b;\n  font-size: 1.5rem;\n}\n.plan-header h3[data-v-d4146a7c] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-d4146a7c] {\n  margin-bottom: 8px;\n}\n.amount[data-v-d4146a7c] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.period[data-v-d4146a7c] {\n  color: #64748b;\n  font-size: 1rem;\n}\n.savings[data-v-d4146a7c] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n  margin: 0;\n}\n.plan-features[data-v-d4146a7c] {\n  margin-bottom: 24px;\n}\n.feature-item[data-v-d4146a7c] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 8px 0;\n}\n.feature-item i[data-v-d4146a7c] {\n  color: #35a38b;\n  flex-shrink: 0;\n  font-size: 0.875rem;\n}\n.feature-item span[data-v-d4146a7c] {\n  color: #475569;\n  font-size: 0.875rem;\n}\n.plan-selector[data-v-d4146a7c] {\n  margin-top: auto;\n}\n.radio-input[data-v-d4146a7c] {\n  display: none;\n}\n.radio-label[data-v-d4146a7c] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: #35a38b;\n  color: white;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.radio-label[data-v-d4146a7c]:hover {\n  background: #2d8c77;\n}\n.plan-card.selected .radio-label[data-v-d4146a7c] {\n  background: #2d8c77;\n}\n/* Payment Section */\n.payment-section[data-v-d4146a7c] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-d4146a7c] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #64748b;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n/* FAQ Section */\n.faq-section[data-v-d4146a7c] {\n  background: white;\n  padding: 80px 0;\n  border-top: 1px solid #e2e8f0;\n}\n.faq-header[data-v-d4146a7c] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.faq-header h3[data-v-d4146a7c] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.faq-list[data-v-d4146a7c] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-d4146a7c] {\n  border-bottom: 1px solid #e2e8f0;\n}\n.faq-question[data-v-d4146a7c] {\n  display: flex;\n  align-items: center;\n  justify-content: between;\n  padding: 24px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-d4146a7c] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin: 0;\n}\n.faq-question i[data-v-d4146a7c] {\n  color: #64748b;\n  transition: transform 0.2s;\n}\n.faq-question i.open[data-v-d4146a7c] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-d4146a7c] {\n  padding-bottom: 24px;\n}\n.faq-answer p[data-v-d4146a7c] {\n  color: #64748b;\n  line-height: 1.6;\n  margin: 0;\n}\n/* Responsive Design */\n@media (max-width: 768px) {\n.container[data-v-d4146a7c] {\n    padding: 0 16px;\n}\n.subscription-header[data-v-d4146a7c] {\n    padding: 40px 0 32px;\n}\n.header-content h1[data-v-d4146a7c] {\n    font-size: 2rem;\n}\n.plans-grid[data-v-d4146a7c] {\n    grid-template-columns: 1fr;\n    gap: 20px;\n}\n.plan-card[data-v-d4146a7c] {\n    padding: 24px;\n}\n.card-header[data-v-d4146a7c] {\n    padding: 32px 24px 20px;\n}\n.card-body[data-v-d4146a7c] {\n    padding: 0 24px 24px;\n}\n.faq-section[data-v-d4146a7c] {\n    padding: 60px 0;\n}\n.faq-question h4[data-v-d4146a7c] {\n    font-size: 1rem;\n}\n}\n@media (max-width: 480px) {\n.header-content h1[data-v-d4146a7c] {\n    font-size: 1.75rem;\n}\n.plans-header h2[data-v-d4146a7c] {\n    font-size: 1.75rem;\n}\n.amount[data-v-d4146a7c] {\n    font-size: 2rem;\n}\n.notification[data-v-d4146a7c] {\n    padding: 12px 16px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -192752,6 +193434,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.channel-card[data-v-670f86e6] {\n  transition: transform 0.2s;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.channel-card[data-v-670f86e6]:hover {\n  transform: translateY(-5px);\n}\n.channel-img[data-v-670f86e6] {\n  width: 100%;\n  height: 250px;\n  -o-object-fit: contain;\n     object-fit: contain;\n}\n\n/* .channel-gradient {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 15%;\n  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);\n} */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n}\n.channel-body a[data-v-670f86e6]:hover {\n  background-color: #f1f1f1;\n  transform: scale(1.1);\n}\n\n/* Pagination Styles */\n.pagination[data-v-670f86e6] {\n  margin-top: 1.5rem;\n}\n.pagination .page-item .page-link[data-v-670f86e6] {\n  border-radius: 8px;\n  margin: 0 4px;\n  padding: 0.5rem 1rem;\n  font-size: 1rem;\n  font-weight: 500;\n  color: #000000;\n  border: 1px solid #000000;\n  transition: all 0.2s ease;\n  min-width: 40px;\n  text-align: center;\n}\n.pagination .page-item.active .page-link[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n  color: #ffffff;\n}\n.pagination .page-item:not(.disabled) .page-link[data-v-670f86e6]:hover {\n  background-color: #e6f7f5;\n  border-color: #00bfa6;\n  color: #00bfa6;\n  transform: translateY(-2px);\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.pagination .page-item.disabled .page-link[data-v-670f86e6] {\n  color: #6c757d;\n  cursor: not-allowed;\n  background-color: #ffffff;\n  border-color: #000000;\n}\n@keyframes pulse-shadow-670f86e6 {\n0% {\n    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);\n}\n50% {\n    box-shadow: 0 8px 24px rgba(255, 0, 0, 0.5);\n}\n100% {\n    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);\n}\n}\n.description-wrapper[data-v-670f86e6] {\n  overflow: hidden;\n  transition: max-height 0.3s ease-in-out;\n  max-height: 6em;\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n  max-height: 23em;\n}\n.description-text[data-v-670f86e6] {\n  margin: 0;\n  display: inline;\n}\n.read-more[data-v-670f86e6] {\n  color: #00bfa6;\n  font-size: 0.8rem;\n  text-decoration: none;\n  transition: color 0.2s;\n}\n.read-more[data-v-670f86e6]:hover {\n  color: #008f7a;\n  text-decoration: underline;\n}\n@media (max-width: 576px) {\n.pagination .page-item .page-link[data-v-670f86e6] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.9rem;\n    min-width: 32px;\n}\n.description-wrapper[data-v-670f86e6] {\n    max-height: 3em;\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n    max-height: 15em;\n}\n.container[data-v-670f86e6] {\n    padding: 15px;\n}\n.channel-card[data-v-670f86e6] {\n    margin-bottom: 15px;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n\n  /* .channel-img-wrapper {\n    height: 280px;\n  } */\n  /* .favorites-section .channel-img-wrapper {\n    height: 160px;\n  } */\n.channel-body[data-v-670f86e6] {\n    padding: 10px;\n}\n.favorites-section .channel-body[data-v-670f86e6] {\n    padding: 8px;\n}\n.fw-bold.display-4[data-v-670f86e6] {\n    font-size: 1.8rem;\n}\n.lead[data-v-670f86e6] {\n    font-size: 1rem;\n    max-width: 100%;\n}\n.alert[data-v-670f86e6] {\n    max-width: calc(100% - 30px);\n    font-size: 0.9rem;\n    top: 70px;\n    right: 15px;\n}\n.channel-body h5[data-v-670f86e6] {\n    font-size: 1.1rem;\n}\n.favorites-section .channel-body h5[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.channel-body p[data-v-670f86e6],\n  .channel-body .small[data-v-670f86e6] {\n    font-size: 0.85rem;\n}\n.favorites-section .channel-body p[data-v-670f86e6],\n  .favorites-section .channel-body .small[data-v-670f86e6] {\n    font-size: 0.8rem;\n}\n.channel-body .badge[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.favorites-section .channel-body .badge[data-v-670f86e6] {\n    font-size: 0.6rem;\n}\n.channel-body a[data-v-670f86e6] {\n    min-width: 50px;\n    padding: 6px;\n}\n.favorites-section .channel-body a[data-v-670f86e6] {\n    min-width: 45px;\n    padding: 5px;\n}\n.channel-body a i[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.favorites-section .channel-body a i[data-v-670f86e6] {\n    font-size: 0.9rem;\n}\n.channel-body a small[data-v-670f86e6] {\n    font-size: 0.7rem;\n}\n.favorites-section .channel-body a small[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.bg-light[data-v-670f86e6] {\n    padding: 15px !important;\n}\n.form-control[data-v-670f86e6],\n  .form-select[data-v-670f86e6],\n  .input-group-text[data-v-670f86e6] {\n    font-size: 0.9rem;\n    border-radius: 8px !important;\n    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);\n}\n.form-control[data-v-670f86e6]:hover,\n  .form-select[data-v-670f86e6]:hover,\n  .input-group-text[data-v-670f86e6]:hover {\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);\n}\n}\ninput.form-control[data-v-670f86e6],\nselect.form-select[data-v-670f86e6] {\n  font-size: 0.9rem;\n}\n\n/* Reduced motion */\n@media (prefers-reduced-motion: reduce) {\n.card[data-v-670f86e6]:hover {\n    transform: none;\n    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);\n}\n.btn-primary[data-v-670f86e6]:hover,\n  .btn-outline-danger[data-v-670f86e6]:hover,\n  .btn-outline-secondary[data-v-670f86e6]:hover,\n  .btn-outline-success[data-v-670f86e6]:hover,\n  .btn-outline-primary[data-v-670f86e6]:hover {\n    transform: none;\n}\n.mini-screen[data-v-670f86e6] {\n    transition: none;\n    animation: none;\n}\n.animate__fadeInDown[data-v-670f86e6],\n  .animate__fadeInUp[data-v-670f86e6],\n  .animate__zoomIn[data-v-670f86e6],\n  .animate__shakeX[data-v-670f86e6],\n  .animate__rotate[data-v-670f86e6] {\n    animation: none;\n}\n}\n.channel-card h5[data-v-670f86e6] {\n  font-size: 1.4rem;\n  /* larger title */\n}\n.channel-card .description[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.channel-card .small-text[data-v-670f86e6] {\n  font-size: 0.95rem;\n}\n.channel-card .btn[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.card h5[data-v-670f86e6] {\n  font-size: 1.25rem;\n  /* slightly larger */\n  font-weight: 700;\n  /* bold, stronger emphasis */\n  color: #212529;\n  /* consistent dark text */\n  margin-bottom: 0.5rem;\n}\n\n/* Card meta info (address, viewers, stream type) */\n.card p[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 400;\n  color: #6c757d;\n  /* muted gray */\n  margin-bottom: 0.35rem;\n  line-height: 1.4;\n}\n.card p i[data-v-670f86e6] {\n  font-size: 0.9rem;\n  margin-right: 0.35rem;\n}\n\n/* Emphasis for important numbers */\n.card p span[data-v-670f86e6] {\n  font-weight: 600;\n  color: #212529;\n}\n\n/* Badge styles */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n  font-weight: 500;\n  padding: 0.4em 0.65em;\n  border-radius: 8px;\n}\n.badge.bg-primary[data-v-670f86e6] {\n  background-color: #00bfa6 !important;\n}\n.badge.bg-secondary[data-v-670f86e6] {\n  background-color: #6c757d !important;\n}\n.badge.bg-info[data-v-670f86e6] {\n  background-color: #e0f7f4 !important;\n  color: #004d43 !important;\n}\n\n/* Buttons inside cards */\n.card .btn[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 600;\n  border-radius: 50px;\n  padding: 0.5rem 1rem;\n}\n.card .btn-success[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n}\n.card .btn-success[data-v-670f86e6]:hover {\n  background-color: #009688;\n  border-color: #009688;\n}\n\n/* Card hover enhancement */\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionComponent.vue?vue&type=style&index=0&id=0ca26305&scoped=true&lang=css":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionComponent.vue?vue&type=style&index=0&id=0ca26305&scoped=true&lang=css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n  /* Base Styles */\n.subscription-container[data-v-0ca26305] {\n    min-height: 100vh;\n    background-color: #f8fafc;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n.container[data-v-0ca26305] {\n    max-width: 1200px;\n    margin: 0 auto;\n    padding: 0 20px;\n}\n  /* Header */\n.subscription-header[data-v-0ca26305] {\n    background: white;\n    padding: 60px 0 40px;\n    text-align: center;\n    border-bottom: 1px solid #e2e8f0;\n}\n.header-content h1[data-v-0ca26305] {\n    font-size: 2.5rem;\n    font-weight: 700;\n    color: #1e293b;\n    margin-bottom: 16px;\n}\n.header-content p[data-v-0ca26305] {\n    font-size: 1.125rem;\n    color: #64748b;\n    max-width: 600px;\n    margin: 0 auto;\n    line-height: 1.6;\n}\n.subscription-main[data-v-0ca26305] {\n    padding: 40px 0;\n}\n  /* Notifications */\n.notification[data-v-0ca26305] {\n    display: flex;\n    align-items: center;\n    padding: 16px 20px;\n    border-radius: 8px;\n    margin-bottom: 24px;\n    gap: 12px;\n}\n.notification.success[data-v-0ca26305] {\n    background: #f0fdf4;\n    border: 1px solid #bbf7d0;\n    color: #166534;\n}\n.notification.error[data-v-0ca26305] {\n    background: #fef2f2;\n    border: 1px solid #fecaca;\n    color: #991b1b;\n}\n.notification i[data-v-0ca26305] {\n    flex-shrink: 0;\n}\n.close-btn[data-v-0ca26305] {\n    background: none;\n    border: none;\n    color: inherit;\n    cursor: pointer;\n    margin-left: auto;\n    padding: 4px;\n    font-size: 1.25rem;\n}\n  /* Loading State */\n.loading-state[data-v-0ca26305] {\n    text-align: center;\n    padding: 80px 0;\n}\n.spinner[data-v-0ca26305] {\n    width: 48px;\n    height: 48px;\n    border: 4px solid #e2e8f0;\n    border-top: 4px solid #35a38b;\n    border-radius: 50%;\n    animation: spin-0ca26305 1s linear infinite;\n    margin: 0 auto 20px;\n}\n.loading-state p[data-v-0ca26305] {\n    color: #64748b;\n    font-size: 1rem;\n}\n@keyframes spin-0ca26305 {\n0% { transform: rotate(0deg);\n}\n100% { transform: rotate(360deg);\n}\n}\n  /* Subscription Card */\n.active-subscription[data-v-0ca26305] {\n    max-width: 600px;\n    margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n    background: white;\n    border-radius: 12px;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n    overflow: hidden;\n}\n.card-badge[data-v-0ca26305] {\n    background: #35a38b;\n    color: white;\n    padding: 12px 20px;\n    text-align: center;\n    font-weight: 600;\n    font-size: 0.875rem;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n    padding: 40px 32px 24px;\n    text-align: center;\n}\n.status-icon[data-v-0ca26305] {\n    width: 80px;\n    height: 80px;\n    background: #e0f7f5;\n    border-radius: 50%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    margin: 0 auto 20px;\n    color: #35a38b;\n    font-size: 2rem;\n}\n.status-icon.cancelled[data-v-0ca26305] {\n    background: #fef2f2;\n    color: #dc2626;\n}\n.card-header h2[data-v-0ca26305] {\n    font-size: 1.75rem;\n    font-weight: 700;\n    color: #1e293b;\n    margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n    color: #64748b;\n    margin-bottom: 24px;\n}\n.status-info[data-v-0ca26305] {\n    background: #f8fafc;\n    border-radius: 8px;\n    padding: 20px;\n}\n.status-item[data-v-0ca26305] {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    gap: 4px;\n}\n.label[data-v-0ca26305] {\n    font-size: 0.875rem;\n    color: #64748b;\n}\n.value[data-v-0ca26305] {\n    font-size: 1.25rem;\n    font-weight: 600;\n    color: #35a38b;\n}\n.card-body[data-v-0ca26305] {\n    padding: 0 32px 32px;\n}\n.card-body h3[data-v-0ca26305] {\n    font-size: 1.25rem;\n    font-weight: 600;\n    color: #1e293b;\n    margin-bottom: 20px;\n    text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n    display: flex;\n    flex-direction: column;\n    gap: 12px;\n    margin-bottom: 32px;\n}\n.benefit-item[data-v-0ca26305] {\n    display: flex;\n    align-items: center;\n    gap: 12px;\n    padding: 12px 0;\n    border-bottom: 1px solid #e2e8f0;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n    border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n    color: #35a38b;\n    flex-shrink: 0;\n}\n.benefit-item span[data-v-0ca26305] {\n    color: #475569;\n}\n.cancellation-notice[data-v-0ca26305] {\n    background: #fef2f2;\n    border: 1px solid #fecaca;\n    color: #991b1b;\n    padding: 1rem;\n    border-radius: 8px;\n    display: flex;\n    align-items: center;\n    gap: 12px;\n}\n  /* Buttons */\n.btn[data-v-0ca26305] {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    gap: 8px;\n    width: 100%;\n    padding: 16px 24px;\n    border: none;\n    border-radius: 8px;\n    font-weight: 600;\n    font-size: 1rem;\n    cursor: pointer;\n    transition: all 0.2s;\n}\n.btn[data-v-0ca26305]:disabled {\n    opacity: 0.6;\n    cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n    background: #35a38b;\n    color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n    background: #2d8c77;\n}\n.btn-cancel[data-v-0ca26305] {\n    background: white;\n    color: #dc2626;\n    border: 1px solid #dc2626;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(:disabled) {\n    background: #fef2f2;\n}\n  /* Plans View */\n.plans-view[data-v-0ca26305] {\n    max-width: 1000px;\n    margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n    text-align: center;\n    margin-bottom: 48px;\n}\n.plans-header h2[data-v-0ca26305] {\n    font-size: 2rem;\n    font-weight: 700;\n    color: #1e293b;\n    margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n    color: #64748b;\n    font-size: 1.125rem;\n}\n  /* Plans Grid */\n.plans-grid[data-v-0ca26305] {\n    display: grid;\n    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n    gap: 24px;\n    margin-bottom: 48px;\n}\n.plan-card[data-v-0ca26305] {\n    background: white;\n    border: 2px solid #e2e8f0;\n    border-radius: 12px;\n    padding: 32px 24px;\n    position: relative;\n    cursor: pointer;\n    transition: all 0.2s;\n}\n.plan-card[data-v-0ca26305]:hover {\n    border-color: #35a38b;\n    transform: translateY(-4px);\n    box-shadow: 0 8px 16px rgba(0,0,0,0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n    border-color: #35a38b;\n    background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n    border-color: #35a38b;\n    transform: scale(1.05);\n}\n.plan-badge[data-v-0ca26305] {\n    position: absolute;\n    top: -12px;\n    left: 50%;\n    transform: translateX(-50%);\n    background: #35a38b;\n    color: white;\n    padding: 6px 16px;\n    border-radius: 20px;\n    font-size: 0.75rem;\n    font-weight: 600;\n}\n.plan-header[data-v-0ca26305] {\n    text-align: center;\n    margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n    width: 64px;\n    height: 64px;\n    background: #e0f7f5;\n    border-radius: 50%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    margin: 0 auto 16px;\n    color: #35a38b;\n    font-size: 1.5rem;\n}\n.plan-header h3[data-v-0ca26305] {\n    font-size: 1.5rem;\n    font-weight: 600;\n    color: #1e293b;\n    margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n    margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n    font-size: 2.5rem;\n    font-weight: 700;\n    color: #1e293b;\n}\n.period[data-v-0ca26305] {\n    color: #64748b;\n    font-size: 1rem;\n}\n.savings[data-v-0ca26305] {\n    color: #059669;\n    font-weight: 600;\n    font-size: 0.875rem;\n    margin: 0;\n}\n.plan-features[data-v-0ca26305] {\n    margin-bottom: 24px;\n}\n.feature-item[data-v-0ca26305] {\n    display: flex;\n    align-items: center;\n    gap: 12px;\n    padding: 10px 0;\n    border-bottom: 1px solid #e2e8f0;\n}\n.feature-item[data-v-0ca26305]:last-child {\n    border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n    color: #35a38b;\n    flex-shrink: 0;\n    font-size: 0.875rem;\n}\n.feature-item span[data-v-0ca26305] {\n    color: #475569;\n    font-size: 0.875rem;\n}\n.plan-selector[data-v-0ca26305] {\n    margin-top: auto;\n}\n.radio-input[data-v-0ca26305] {\n    display: none;\n}\n.radio-label[data-v-0ca26305] {\n    display: block;\n    text-align: center;\n    padding: 12px 16px;\n    background: #35a38b;\n    color: white;\n    border-radius: 6px;\n    font-weight: 600;\n    cursor: pointer;\n    transition: background 0.2s;\n}\n.radio-label[data-v-0ca26305]:hover {\n    background: #2d8c77;\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n    background: #2d8c77;\n}\n  /* Payment Section */\n.payment-section[data-v-0ca26305] {\n    text-align: center;\n    max-width: 400px;\n    margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    gap: 8px;\n    color: #64748b;\n    font-size: 0.875rem;\n    margin-top: 16px;\n}\n  /* FAQ Section */\n.faq-section[data-v-0ca26305] {\n    background: white;\n    padding: 80px 0;\n    border-top: 1px solid #e2e8f0;\n}\n.faq-header[data-v-0ca26305] {\n    text-align: center;\n    margin-bottom: 48px;\n}\n.faq-header h3[data-v-0ca26305] {\n    font-size: 2rem;\n    font-weight: 700;\n    color: #1e293b;\n}\n.faq-list[data-v-0ca26305] {\n    max-width: 800px;\n    margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n    border-bottom: 1px solid #e2e8f0;\n}\n.faq-question[data-v-0ca26305] {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    padding: 24px 0;\n    cursor: pointer;\n    gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n    flex: 1;\n    font-size: 1.125rem;\n    font-weight: 600;\n    color: #1e293b;\n    margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n    color: #64748b;\n    transition: transform 0.2s;\n}\n.faq-question i.open[data-v-0ca26305] {\n    transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n    padding-bottom: 24px;\n}\n.faq-answer p[data-v-0ca26305] {\n    color: #64748b;\n    line-height: 1.6;\n    margin: 0;\n}\n  /* Responsive Design */\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n      font-size: 2rem;\n}\n.plans-grid[data-v-0ca26305] {\n      grid-template-columns: 1fr;\n      gap: 20px;\n}\n.plan-card.featured[data-v-0ca26305] {\n      transform: scale(1);\n}\n.card-header[data-v-0ca26305],\n    .card-body[data-v-0ca26305] {\n      padding: 24px 20px;\n}\n}\n  ", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -195363,6 +196069,36 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_style_index_0_id_670f86e6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionComponent.vue?vue&type=style&index=0&id=0ca26305&scoped=true&lang=css":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionComponent.vue?vue&type=style&index=0&id=0ca26305&scoped=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionComponent_vue_vue_type_style_index_0_id_0ca26305_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SubscriptionComponent.vue?vue&type=style&index=0&id=0ca26305&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionComponent.vue?vue&type=style&index=0&id=0ca26305&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionComponent_vue_vue_type_style_index_0_id_0ca26305_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionComponent_vue_vue_type_style_index_0_id_0ca26305_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -337457,14 +338193,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_PaymentMethodsComponent_vue__WEBPACK_IMPORTED_MODULE_91__ = __webpack_require__(/*! ./components/PaymentMethodsComponent.vue */ "./resources/js/components/PaymentMethodsComponent.vue");
 /* harmony import */ var _components_ReadComponent_vue__WEBPACK_IMPORTED_MODULE_92__ = __webpack_require__(/*! ./components/ReadComponent.vue */ "./resources/js/components/ReadComponent.vue");
 /* harmony import */ var _components_SubscriptionForm_vue__WEBPACK_IMPORTED_MODULE_93__ = __webpack_require__(/*! ./components/SubscriptionForm.vue */ "./resources/js/components/SubscriptionForm.vue");
-/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94__ = __webpack_require__(/*! vue-stripe-elements-plus */ "./node_modules/vue-stripe-elements-plus/dist/index.js");
-/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94___default = /*#__PURE__*/__webpack_require__.n(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94__);
+/* harmony import */ var _components_SubscriptionComponent_vue__WEBPACK_IMPORTED_MODULE_94__ = __webpack_require__(/*! ./components/SubscriptionComponent.vue */ "./resources/js/components/SubscriptionComponent.vue");
+/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_95__ = __webpack_require__(/*! vue-stripe-elements-plus */ "./node_modules/vue-stripe-elements-plus/dist/index.js");
+/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_95___default = /*#__PURE__*/__webpack_require__.n(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_95__);
 /* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
+
 
 
 
@@ -337605,7 +338343,7 @@ window.Form = vform__WEBPACK_IMPORTED_MODULE_4__.Form;
 window.Swal = (sweetalert2__WEBPACK_IMPORTED_MODULE_5___default());
 window.$ = window.jQuery = (jquery__WEBPACK_IMPORTED_MODULE_3___default());
 app.use(primevue_config__WEBPACK_IMPORTED_MODULE_7__["default"]);
-app.use(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94__.StripePlugin, {
+app.use(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_95__.StripePlugin, {
   key: process.env.MIX_STRIPE_PUBLISHABLE_KEY
 });
 app.component("Column", primevue_column__WEBPACK_IMPORTED_MODULE_11__["default"]);
@@ -337623,10 +338361,12 @@ app.component("Panel", primevue_panel__WEBPACK_IMPORTED_MODULE_21__["default"]);
 app.component("Dialog", primevue_dialog__WEBPACK_IMPORTED_MODULE_22__["default"]);
 app.component("Image", primevue_image__WEBPACK_IMPORTED_MODULE_23__["default"]);
 app.component("Editor", primevue_editor__WEBPACK_IMPORTED_MODULE_24__["default"]);
-app.use(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94__.StripePlugin, {
+app.use(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_95__.StripePlugin, {
   key: process.env.MIX_STRIPE_PUBLISHABLE_KEY
 });
+app.component('subscription-component', _components_SubscriptionComponent_vue__WEBPACK_IMPORTED_MODULE_94__["default"]);
 app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_84__["default"]);
+app.component("users-component", _components_admin_panels_UsersComponent_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
 app.component("users-component", _components_admin_panels_UsersComponent_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
 app.component("mailing-list-component", _components_admin_panels_MailingListComponent_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
 app.component("feedback-component", _components_admin_panels_FeedbackComponent_vue__WEBPACK_IMPORTED_MODULE_27__["default"]);
@@ -340865,6 +341605,83 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_template_id_670f86e6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_template_id_670f86e6_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./StreamingComponent.vue?vue&type=template&id=670f86e6&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/SubscriptionComponent.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/SubscriptionComponent.vue ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SubscriptionComponent_vue_vue_type_template_id_0ca26305_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubscriptionComponent.vue?vue&type=template&id=0ca26305&scoped=true */ "./resources/js/components/SubscriptionComponent.vue?vue&type=template&id=0ca26305&scoped=true");
+/* harmony import */ var _SubscriptionComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SubscriptionComponent.vue?vue&type=script&lang=js */ "./resources/js/components/SubscriptionComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _SubscriptionComponent_vue_vue_type_style_index_0_id_0ca26305_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SubscriptionComponent.vue?vue&type=style&index=0&id=0ca26305&scoped=true&lang=css */ "./resources/js/components/SubscriptionComponent.vue?vue&type=style&index=0&id=0ca26305&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_SubscriptionComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_SubscriptionComponent_vue_vue_type_template_id_0ca26305_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-0ca26305"],['__file',"resources/js/components/SubscriptionComponent.vue"]])
+/* hot reload */
+if (false) // removed by dead control flow
+{}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/SubscriptionComponent.vue?vue&type=script&lang=js":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/SubscriptionComponent.vue?vue&type=script&lang=js ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SubscriptionComponent.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/SubscriptionComponent.vue?vue&type=style&index=0&id=0ca26305&scoped=true&lang=css":
+/*!*******************************************************************************************************************!*\
+  !*** ./resources/js/components/SubscriptionComponent.vue?vue&type=style&index=0&id=0ca26305&scoped=true&lang=css ***!
+  \*******************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionComponent_vue_vue_type_style_index_0_id_0ca26305_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SubscriptionComponent.vue?vue&type=style&index=0&id=0ca26305&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionComponent.vue?vue&type=style&index=0&id=0ca26305&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/SubscriptionComponent.vue?vue&type=template&id=0ca26305&scoped=true":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/components/SubscriptionComponent.vue?vue&type=template&id=0ca26305&scoped=true ***!
+  \*****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionComponent_vue_vue_type_template_id_0ca26305_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SubscriptionComponent_vue_vue_type_template_id_0ca26305_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SubscriptionComponent.vue?vue&type=template&id=0ca26305&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SubscriptionComponent.vue?vue&type=template&id=0ca26305&scoped=true");
 
 
 /***/ }),

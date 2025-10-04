@@ -13,6 +13,7 @@ class SubscriptionController extends Controller
         return view('subscribe');
     }
 
+
     public function createSubscription(Request $request)
     {
         $request->validate([
@@ -38,8 +39,31 @@ class SubscriptionController extends Controller
     public function subscriptionStatus()
     {
         $user = Auth::user();
-        $isSubscribed = $user->subscribed('premium');
+        
+        if (!$user) {
+            return response()->json([
+                'is_subscribed' => false,
+                'plan' => 'free',
+                'ends_at' => null
+            ], 401);
+        }
+        
         $subscription = $user->subscription('premium');
+        
+        // If subscription is cancelled (has ends_at), allow resubscribing
+        if ($subscription && $subscription->ends_at) {
+            return response()->json([
+                'is_subscribed' => false,
+                'plan' => 'free',
+                'ends_at' => $subscription->ends_at->toDateString(),
+                'current_subscription' => [
+                    'plan' => $subscription->stripe_price,
+                    'ends_at' => $subscription->ends_at->toDateString()
+                ]
+            ]);
+        }
+        
+        $isSubscribed = $user->subscribed('premium');
 
         return response()->json([
             'is_subscribed' => $isSubscribed,

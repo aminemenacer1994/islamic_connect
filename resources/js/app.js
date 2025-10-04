@@ -100,6 +100,8 @@ import HistoryComponent from "./components/HistoryComponent.vue";
 import PaymentMethodsComponent from "./components/PaymentMethodsComponent.vue";
 import ReadComponent from "./components/ReadComponent.vue";
 import SubscriptionForm from './components/SubscriptionForm.vue';
+import SubscriptionComponent from './components/SubscriptionComponent.vue';
+
 import { StripePlugin } from 'vue-stripe-elements-plus';
 import { ref, onMounted } from 'vue';
 
@@ -175,7 +177,9 @@ app.use(StripePlugin, {
   key: process.env.MIX_STRIPE_PUBLISHABLE_KEY,
 });
 
+app.component('subscription-component', SubscriptionComponent);
 app.component('dark-mode-toggle', DarkModeToggle);
+app.component("users-component", UsersComponent);
 app.component("users-component", UsersComponent);
 app.component("mailing-list-component", MailingListComponent);
 app.component("feedback-component", FeedbackComponent);

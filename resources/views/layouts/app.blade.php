@@ -238,6 +238,10 @@ body{
                     </li>
 
                     <li class="nav-item mt-3">
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/subscribe" data-path="/subscribe"><b style="color:black">Pricings</b></a></h6>
+                    </li>
+
+                    <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/pricing"><b style="color:black">Donations</b></a></h6>
                     </li>
                                     

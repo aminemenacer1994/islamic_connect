@@ -85,26 +85,78 @@ Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 Route::get('/', fn() => view('app'));
 
 Route::middleware(['web', 'auth'])->group(function () {
-
+    
+    // Dashboard & Profile
+    Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
+    Route::get('/profile', fn() => view('profile'))->name('profile');
+    Route::get('api/fetch-dashboard', [DashboardController::class, 'getDashboard'])->name('fetch_dashboard');
+    
+    // Subscription Management
     Route::get('/subscribe', [SubscriptionController::class, 'show'])->name('subscribe');
     Route::post('/subscribe', [SubscriptionController::class, 'createSubscription']);
     Route::get('/subscription-status', [SubscriptionController::class, 'subscriptionStatus']);
     Route::post('/cancel', [SubscriptionController::class, 'cancelSubscription'])->name('cancel');
-
-
-    Route::get('/subscribe/success', [SubscriptionController::class, 'success'])->name('subscribe.success');
-    Route::get('/subscribe/cancel', [SubscriptionController::class, 'cancel'])->name('subscribe.cancel');
     
-    Route::get('/fix-stripe-customer', function () {
-        // ... the code you just used successfully
+    // Debug Routes (Remove these in production)
+    Route::get('/debug-subscription', function () {
+        $user = Auth::user();
+        
+        return response()->json([
+            'current_user_id' => $user->id,
+            'current_user_email' => $user->email,
+            'stripe_id' => $user->stripe_id,
+            'has_premium_sub' => $user->subscribed('premium'),
+            'all_subs' => $user->subscriptions->map(fn($s) => [
+                'id' => $s->id,
+                'stripe_id' => $s->stripe_id,
+                'stripe_price' => $s->stripe_price,
+                'ends_at' => $s->ends_at
+            ])
+        ]);
     });
     
-    // ADD THIS ROUTE RIGHT HERE:
+    Route::get('/fix-stripe-customer', function () {
+        $user = Auth::user();
+        
+        try {
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+            
+            $customers = \Stripe\Customer::all([
+                'email' => $user->email,
+                'limit' => 1,
+            ]);
+            
+            if (count($customers->data) > 0) {
+                $customer = $customers->data[0];
+                $user->stripe_id = $customer->id;
+                $user->save();
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Stripe customer ID added to your account!',
+                    'stripe_id' => $customer->id,
+                    'user_email' => $user->email,
+                ]);
+            } else {
+                return response()->json([
+                    'error' => 'No Stripe customer found with your email',
+                    'email' => $user->email,
+                    'note' => 'Complete a payment to create a Stripe customer'
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to link Stripe customer',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    });
+    
     Route::get('/sync-stripe-subscription', function () {
         $user = Auth::user();
         
         if (!$user->stripe_id) {
-            return response()->json(['error' => 'No Stripe customer ID found']);
+            return response()->json(['error' => 'No Stripe customer ID found. Visit /fix-stripe-customer first.']);
         }
 
         try {
@@ -164,7 +216,6 @@ Route::middleware(['web', 'auth'])->group(function () {
                 'subscription' => $subscription,
                 'is_subscribed' => $user->fresh()->subscribed('premium')
             ]);
-
         } catch (\Exception $e) {
             \Log::error('Sync failed: ' . $e->getMessage());
             return response()->json([
