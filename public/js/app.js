@@ -153893,6 +153893,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
   },
   mounted: function mounted() {
+    this.checkSubscriptionStatus();
     this.checkUrlParams();
   },
   methods: {
@@ -153968,7 +153969,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               } else {
                 setTimeout(function () {
                   return _this2.checkSubscriptionStatus();
-                }, 5000);
+                }, 5000); // Poll every 5 seconds
               }
               _context2.n = 3;
               break;
@@ -153985,176 +153986,192 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         }, _callee2, null, [[0, 2]]);
       }))();
     },
-    waitForSubscription: function waitForSubscription() {
+    retrySubscription: function retrySubscription() {
       var _this3 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
-        var attempts, maxAttempts, _checkStatus;
-        return _regenerator().w(function (_context4) {
-          while (1) switch (_context4.n) {
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.n) {
             case 0:
-              _this3.success = 'Subscription successful! Activating your subscription...';
+              _this3.loading = true;
+              _this3.error = false;
+              _context3.n = 1;
+              return _this3.checkSubscriptionStatus();
+            case 1:
+              return _context3.a(2);
+          }
+        }, _callee3);
+      }))();
+    },
+    waitForSubscription: function waitForSubscription() {
+      var _this4 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+        var attempts, maxAttempts, _checkStatus;
+        return _regenerator().w(function (_context5) {
+          while (1) switch (_context5.n) {
+            case 0:
+              _this4.success = 'Subscription successful! Activating your subscription...';
               attempts = 0;
               maxAttempts = 15;
               _checkStatus = /*#__PURE__*/function () {
-                var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+                var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
                   var subscribed;
-                  return _regenerator().w(function (_context3) {
-                    while (1) switch (_context3.n) {
+                  return _regenerator().w(function (_context4) {
+                    while (1) switch (_context4.n) {
                       case 0:
                         attempts++;
-                        _context3.n = 1;
-                        return _this3.fetchSubscriptionStatus();
+                        _context4.n = 1;
+                        return _this4.fetchSubscriptionStatus();
                       case 1:
-                        subscribed = _context3.v;
+                        subscribed = _context4.v;
                         if (!subscribed) {
-                          _context3.n = 2;
+                          _context4.n = 2;
                           break;
                         }
-                        _this3.success = 'Subscription activated successfully! Welcome to Premium.';
-                        _this3.loading = false;
+                        _this4.success = 'Subscription activated successfully! Welcome to Premium.';
+                        _this4.loading = false;
                         setTimeout(function () {
-                          _this3.success = '';
+                          _this4.success = '';
                         }, 5000);
-                        return _context3.a(2, true);
+                        return _context4.a(2, true);
                       case 2:
                         if (!(attempts >= maxAttempts)) {
-                          _context3.n = 3;
+                          _context4.n = 3;
                           break;
                         }
-                        _this3.error = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
-                        _this3.success = '';
-                        _this3.loading = false;
-                        return _context3.a(2, false);
+                        _this4.error = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
+                        _this4.success = '';
+                        _this4.loading = false;
+                        return _context4.a(2, false);
                       case 3:
                         setTimeout(_checkStatus, 2000);
-                        return _context3.a(2, false);
+                        return _context4.a(2, false);
                     }
-                  }, _callee3);
+                  }, _callee4);
                 }));
                 return function checkStatus() {
                   return _ref.apply(this, arguments);
                 };
               }();
-              _context4.n = 1;
+              _context5.n = 1;
               return _checkStatus();
             case 1:
-              return _context4.a(2);
-          }
-        }, _callee4);
-      }))();
-    },
-    checkUrlParams: function checkUrlParams() {
-      var _this4 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-        var urlParams, _this4$subscription, endsAtDate, now;
-        return _regenerator().w(function (_context5) {
-          while (1) switch (_context5.n) {
-            case 0:
-              urlParams = new URLSearchParams(window.location.search);
-              if (!urlParams.has('success')) {
-                _context5.n = 2;
-                break;
-              }
-              _context5.n = 1;
-              return _this4.waitForSubscription();
-            case 1:
-              window.history.replaceState({}, document.title, window.location.pathname);
-              _context5.n = 6;
-              break;
-            case 2:
-              if (!urlParams.has('cancelled')) {
-                _context5.n = 4;
-                break;
-              }
-              _this4.error = 'Subscription cancelled. You can try again when ready.';
-              _context5.n = 3;
-              return _this4.fetchSubscriptionStatus();
-            case 3:
-              _this4.loading = false;
-              window.history.replaceState({}, document.title, window.location.pathname);
-              _context5.n = 6;
-              break;
-            case 4:
-              _context5.n = 5;
-              return _this4.fetchSubscriptionStatus();
-            case 5:
-              // Check if subscription has actually ended
-              if (_this4.isSubscribed && (_this4$subscription = _this4.subscription) !== null && _this4$subscription !== void 0 && _this4$subscription.ends_at) {
-                endsAtDate = new Date(_this4.subscription.ends_at);
-                now = new Date(); // If the subscription end date has passed, show them as not subscribed
-                if (endsAtDate < now) {
-                  _this4.isSubscribed = false;
-                }
-              }
-              _this4.loading = false;
-            case 6:
               return _context5.a(2);
           }
         }, _callee5);
       }))();
     },
-    handleCancelSubscription: function handleCancelSubscription() {
+    checkUrlParams: function checkUrlParams() {
       var _this5 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
-        var response, data, _t3;
+        var urlParams, _this5$subscription, endsAtDate, now;
         return _regenerator().w(function (_context6) {
-          while (1) switch (_context6.p = _context6.n) {
+          while (1) switch (_context6.n) {
             case 0:
-              if (confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
-                _context6.n = 1;
+              urlParams = new URLSearchParams(window.location.search);
+              if (!urlParams.has('success')) {
+                _context6.n = 2;
                 break;
               }
-              return _context6.a(2);
+              _context6.n = 1;
+              return _this5.waitForSubscription();
             case 1:
-              _this5.cancelling = true;
-              _this5.error = '';
-              _context6.p = 2;
+              window.history.replaceState({}, document.title, window.location.pathname);
+              _context6.n = 6;
+              break;
+            case 2:
+              if (!urlParams.has('cancelled')) {
+                _context6.n = 4;
+                break;
+              }
+              _this5.error = 'Subscription cancelled. You can try again when ready.';
               _context6.n = 3;
+              return _this5.fetchSubscriptionStatus();
+            case 3:
+              _this5.loading = false;
+              window.history.replaceState({}, document.title, window.location.pathname);
+              _context6.n = 6;
+              break;
+            case 4:
+              _context6.n = 5;
+              return _this5.fetchSubscriptionStatus();
+            case 5:
+              // Check if subscription has actually ended
+              if (_this5.isSubscribed && (_this5$subscription = _this5.subscription) !== null && _this5$subscription !== void 0 && _this5$subscription.ends_at) {
+                endsAtDate = new Date(_this5.subscription.ends_at);
+                now = new Date(); // If the subscription end date has passed, show them as not subscribed
+                if (endsAtDate < now) {
+                  _this5.isSubscribed = false;
+                }
+              }
+              _this5.loading = false;
+            case 6:
+              return _context6.a(2);
+          }
+        }, _callee6);
+      }))();
+    },
+    handleCancelSubscription: function handleCancelSubscription() {
+      var _this6 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
+        var response, data, _t3;
+        return _regenerator().w(function (_context7) {
+          while (1) switch (_context7.p = _context7.n) {
+            case 0:
+              if (confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
+                _context7.n = 1;
+                break;
+              }
+              return _context7.a(2);
+            case 1:
+              _this6.cancelling = true;
+              _this6.error = '';
+              _context7.p = 2;
+              _context7.n = 3;
               return fetch('/cancel', {
                 method: 'POST',
                 headers: {
-                  'X-CSRF-TOKEN': _this5.csrfToken,
+                  'X-CSRF-TOKEN': _this6.csrfToken,
                   'Accept': 'application/json',
                   'Content-Type': 'application/json'
                 }
               });
             case 3:
-              response = _context6.v;
-              _context6.n = 4;
+              response = _context7.v;
+              _context7.n = 4;
               return response.json();
             case 4:
-              data = _context6.v;
+              data = _context7.v;
               if (!(response.ok && data.success)) {
-                _context6.n = 6;
+                _context7.n = 6;
                 break;
               }
-              _context6.n = 5;
-              return _this5.fetchSubscriptionStatus();
+              _context7.n = 5;
+              return _this6.fetchSubscriptionStatus();
             case 5:
-              _this5.success = "Subscription cancelled. You'll have access until ".concat(_this5.formatDate(data.ends_at), ".");
+              _this6.success = "Subscription cancelled. You'll have access until ".concat(_this6.formatDate(data.ends_at), ".");
               setTimeout(function () {
-                _this5.success = '';
+                _this6.success = '';
               }, 8000);
-              _context6.n = 7;
+              _context7.n = 7;
               break;
             case 6:
               throw new Error(data.message || 'Failed to cancel subscription');
             case 7:
-              _context6.n = 9;
+              _context7.n = 9;
               break;
             case 8:
-              _context6.p = 8;
-              _t3 = _context6.v;
+              _context7.p = 8;
+              _t3 = _context7.v;
               console.error('Error cancelling subscription:', _t3);
-              _this5.error = _t3.message || 'Error cancelling subscription. Please try again.';
+              _this6.error = _t3.message || 'Error cancelling subscription. Please try again.';
             case 9:
-              _context6.p = 9;
-              _this5.cancelling = false;
-              return _context6.f(9);
+              _context7.p = 9;
+              _this6.cancelling = false;
+              return _context7.f(9);
             case 10:
-              return _context6.a(2);
+              return _context7.a(2);
           }
-        }, _callee6, null, [[2, 8, 9, 10]]);
+        }, _callee7, null, [[2, 8, 9, 10]]);
       }))();
     }
   }
@@ -193425,7 +193442,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n  /* Base Styles */\n.subscription-container[data-v-0ca26305] {\n    min-height: 100vh;\n    background-color: #f8fafc;\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n.container[data-v-0ca26305] {\n    max-width: 1200px;\n    margin: 0 auto;\n    padding: 0 20px;\n}\n  /* Header */\n.subscription-header[data-v-0ca26305] {\n    background: white;\n    padding: 60px 0 40px;\n    text-align: center;\n    border-bottom: 1px solid #e2e8f0;\n}\n.header-content h1[data-v-0ca26305] {\n    font-size: 2.5rem;\n    font-weight: 700;\n    color: #1e293b;\n    margin-bottom: 16px;\n}\n.header-content p[data-v-0ca26305] {\n    font-size: 1.125rem;\n    color: #64748b;\n    max-width: 600px;\n    margin: 0 auto;\n    line-height: 1.6;\n}\n.subscription-main[data-v-0ca26305] {\n    padding: 40px 0;\n}\n  /* Notifications */\n.notification[data-v-0ca26305] {\n    display: flex;\n    align-items: center;\n    padding: 16px 20px;\n    border-radius: 8px;\n    margin-bottom: 24px;\n    gap: 12px;\n}\n.notification.success[data-v-0ca26305] {\n    background: #f0fdf4;\n    border: 1px solid #bbf7d0;\n    color: #166534;\n}\n.notification.error[data-v-0ca26305] {\n    background: #fef2f2;\n    border: 1px solid #fecaca;\n    color: #991b1b;\n}\n.notification i[data-v-0ca26305] {\n    flex-shrink: 0;\n}\n.close-btn[data-v-0ca26305] {\n    background: none;\n    border: none;\n    color: inherit;\n    cursor: pointer;\n    margin-left: auto;\n    padding: 4px;\n    font-size: 1.25rem;\n}\n  /* Loading State */\n.loading-state[data-v-0ca26305] {\n    text-align: center;\n    padding: 80px 0;\n}\n.spinner[data-v-0ca26305] {\n    width: 48px;\n    height: 48px;\n    border: 4px solid #e2e8f0;\n    border-top: 4px solid #35a38b;\n    border-radius: 50%;\n    animation: spin-0ca26305 1s linear infinite;\n    margin: 0 auto 20px;\n}\n.loading-state p[data-v-0ca26305] {\n    color: #64748b;\n    font-size: 1rem;\n}\n@keyframes spin-0ca26305 {\n0% { transform: rotate(0deg);\n}\n100% { transform: rotate(360deg);\n}\n}\n  /* Subscription Card */\n.active-subscription[data-v-0ca26305] {\n    max-width: 600px;\n    margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n    background: white;\n    border-radius: 12px;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n    overflow: hidden;\n}\n.card-badge[data-v-0ca26305] {\n    background: #35a38b;\n    color: white;\n    padding: 12px 20px;\n    text-align: center;\n    font-weight: 600;\n    font-size: 0.875rem;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n    padding: 40px 32px 24px;\n    text-align: center;\n}\n.status-icon[data-v-0ca26305] {\n    width: 80px;\n    height: 80px;\n    background: #e0f7f5;\n    border-radius: 50%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    margin: 0 auto 20px;\n    color: #35a38b;\n    font-size: 2rem;\n}\n.status-icon.cancelled[data-v-0ca26305] {\n    background: #fef2f2;\n    color: #dc2626;\n}\n.card-header h2[data-v-0ca26305] {\n    font-size: 1.75rem;\n    font-weight: 700;\n    color: #1e293b;\n    margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n    color: #64748b;\n    margin-bottom: 24px;\n}\n.status-info[data-v-0ca26305] {\n    background: #f8fafc;\n    border-radius: 8px;\n    padding: 20px;\n}\n.status-item[data-v-0ca26305] {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    gap: 4px;\n}\n.label[data-v-0ca26305] {\n    font-size: 0.875rem;\n    color: #64748b;\n}\n.value[data-v-0ca26305] {\n    font-size: 1.25rem;\n    font-weight: 600;\n    color: #35a38b;\n}\n.card-body[data-v-0ca26305] {\n    padding: 0 32px 32px;\n}\n.card-body h3[data-v-0ca26305] {\n    font-size: 1.25rem;\n    font-weight: 600;\n    color: #1e293b;\n    margin-bottom: 20px;\n    text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n    display: flex;\n    flex-direction: column;\n    gap: 12px;\n    margin-bottom: 32px;\n}\n.benefit-item[data-v-0ca26305] {\n    display: flex;\n    align-items: center;\n    gap: 12px;\n    padding: 12px 0;\n    border-bottom: 1px solid #e2e8f0;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n    border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n    color: #35a38b;\n    flex-shrink: 0;\n}\n.benefit-item span[data-v-0ca26305] {\n    color: #475569;\n}\n.cancellation-notice[data-v-0ca26305] {\n    background: #fef2f2;\n    border: 1px solid #fecaca;\n    color: #991b1b;\n    padding: 1rem;\n    border-radius: 8px;\n    display: flex;\n    align-items: center;\n    gap: 12px;\n}\n  /* Buttons */\n.btn[data-v-0ca26305] {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    gap: 8px;\n    width: 100%;\n    padding: 16px 24px;\n    border: none;\n    border-radius: 8px;\n    font-weight: 600;\n    font-size: 1rem;\n    cursor: pointer;\n    transition: all 0.2s;\n}\n.btn[data-v-0ca26305]:disabled {\n    opacity: 0.6;\n    cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n    background: #35a38b;\n    color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n    background: #2d8c77;\n}\n.btn-cancel[data-v-0ca26305] {\n    background: white;\n    color: #dc2626;\n    border: 1px solid #dc2626;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(:disabled) {\n    background: #fef2f2;\n}\n  /* Plans View */\n.plans-view[data-v-0ca26305] {\n    max-width: 1000px;\n    margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n    text-align: center;\n    margin-bottom: 48px;\n}\n.plans-header h2[data-v-0ca26305] {\n    font-size: 2rem;\n    font-weight: 700;\n    color: #1e293b;\n    margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n    color: #64748b;\n    font-size: 1.125rem;\n}\n  /* Plans Grid */\n.plans-grid[data-v-0ca26305] {\n    display: grid;\n    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n    gap: 24px;\n    margin-bottom: 48px;\n}\n.plan-card[data-v-0ca26305] {\n    background: white;\n    border: 2px solid #e2e8f0;\n    border-radius: 12px;\n    padding: 32px 24px;\n    position: relative;\n    cursor: pointer;\n    transition: all 0.2s;\n}\n.plan-card[data-v-0ca26305]:hover {\n    border-color: #35a38b;\n    transform: translateY(-4px);\n    box-shadow: 0 8px 16px rgba(0,0,0,0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n    border-color: #35a38b;\n    background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n    border-color: #35a38b;\n    transform: scale(1.05);\n}\n.plan-badge[data-v-0ca26305] {\n    position: absolute;\n    top: -12px;\n    left: 50%;\n    transform: translateX(-50%);\n    background: #35a38b;\n    color: white;\n    padding: 6px 16px;\n    border-radius: 20px;\n    font-size: 0.75rem;\n    font-weight: 600;\n}\n.plan-header[data-v-0ca26305] {\n    text-align: center;\n    margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n    width: 64px;\n    height: 64px;\n    background: #e0f7f5;\n    border-radius: 50%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    margin: 0 auto 16px;\n    color: #35a38b;\n    font-size: 1.5rem;\n}\n.plan-header h3[data-v-0ca26305] {\n    font-size: 1.5rem;\n    font-weight: 600;\n    color: #1e293b;\n    margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n    margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n    font-size: 2.5rem;\n    font-weight: 700;\n    color: #1e293b;\n}\n.period[data-v-0ca26305] {\n    color: #64748b;\n    font-size: 1rem;\n}\n.savings[data-v-0ca26305] {\n    color: #059669;\n    font-weight: 600;\n    font-size: 0.875rem;\n    margin: 0;\n}\n.plan-features[data-v-0ca26305] {\n    margin-bottom: 24px;\n}\n.feature-item[data-v-0ca26305] {\n    display: flex;\n    align-items: center;\n    gap: 12px;\n    padding: 10px 0;\n    border-bottom: 1px solid #e2e8f0;\n}\n.feature-item[data-v-0ca26305]:last-child {\n    border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n    color: #35a38b;\n    flex-shrink: 0;\n    font-size: 0.875rem;\n}\n.feature-item span[data-v-0ca26305] {\n    color: #475569;\n    font-size: 0.875rem;\n}\n.plan-selector[data-v-0ca26305] {\n    margin-top: auto;\n}\n.radio-input[data-v-0ca26305] {\n    display: none;\n}\n.radio-label[data-v-0ca26305] {\n    display: block;\n    text-align: center;\n    padding: 12px 16px;\n    background: #35a38b;\n    color: white;\n    border-radius: 6px;\n    font-weight: 600;\n    cursor: pointer;\n    transition: background 0.2s;\n}\n.radio-label[data-v-0ca26305]:hover {\n    background: #2d8c77;\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n    background: #2d8c77;\n}\n  /* Payment Section */\n.payment-section[data-v-0ca26305] {\n    text-align: center;\n    max-width: 400px;\n    margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    gap: 8px;\n    color: #64748b;\n    font-size: 0.875rem;\n    margin-top: 16px;\n}\n  /* FAQ Section */\n.faq-section[data-v-0ca26305] {\n    background: white;\n    padding: 80px 0;\n    border-top: 1px solid #e2e8f0;\n}\n.faq-header[data-v-0ca26305] {\n    text-align: center;\n    margin-bottom: 48px;\n}\n.faq-header h3[data-v-0ca26305] {\n    font-size: 2rem;\n    font-weight: 700;\n    color: #1e293b;\n}\n.faq-list[data-v-0ca26305] {\n    max-width: 800px;\n    margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n    border-bottom: 1px solid #e2e8f0;\n}\n.faq-question[data-v-0ca26305] {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    padding: 24px 0;\n    cursor: pointer;\n    gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n    flex: 1;\n    font-size: 1.125rem;\n    font-weight: 600;\n    color: #1e293b;\n    margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n    color: #64748b;\n    transition: transform 0.2s;\n}\n.faq-question i.open[data-v-0ca26305] {\n    transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n    padding-bottom: 24px;\n}\n.faq-answer p[data-v-0ca26305] {\n    color: #64748b;\n    line-height: 1.6;\n    margin: 0;\n}\n  /* Responsive Design */\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n      font-size: 2rem;\n}\n.plans-grid[data-v-0ca26305] {\n      grid-template-columns: 1fr;\n      gap: 20px;\n}\n.plan-card.featured[data-v-0ca26305] {\n      transform: scale(1);\n}\n.card-header[data-v-0ca26305],\n    .card-body[data-v-0ca26305] {\n      padding: 24px 20px;\n}\n}\n  ", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Base Styles */\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background-color: #f8fafc;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n.container[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 20px;\n}\n/* Header */\n.subscription-header[data-v-0ca26305] {\n  background: white;\n  padding: 60px 0 40px;\n  text-align: center;\n  border-bottom: 1px solid #e2e8f0;\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 16px;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #64748b;\n  max-width: 600px;\n  margin: 0 auto;\n  line-height: 1.6;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 40px 0;\n}\n/* Notifications */\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 20px;\n  border-radius: 8px;\n  margin-bottom: 24px;\n  gap: 12px;\n}\n.notification.success[data-v-0ca26305] {\n  background: #f0fdf4;\n  border: 1px solid #bbf7d0;\n  color: #166534;\n}\n.notification.error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #fecaca;\n  color: #991b1b;\n}\n.notification i[data-v-0ca26305] {\n  flex-shrink: 0;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  margin-left: auto;\n  padding: 4px;\n  font-size: 1.25rem;\n}\n/* Loading State */\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 80px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 48px;\n  height: 48px;\n  border: 4px solid #e2e8f0;\n  border-top: 4px solid #35a38b;\n  border-radius: 50%;\n  animation: spin-0ca26305 1s linear infinite;\n  margin: 0 auto 20px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1rem;\n}\n@keyframes spin-0ca26305 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n/* Subscription Card */\n.active-subscription[data-v-0ca26305] {\n  max-width: 600px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 12px;\n  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  overflow: hidden;\n}\n.card-badge[data-v-0ca26305] {\n  background: #35a38b;\n  color: white;\n  padding: 12px 20px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n  padding: 40px 32px 24px;\n  text-align: center;\n}\n.status-icon[data-v-0ca26305] {\n  width: 80px;\n  height: 80px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 20px;\n  color: #35a38b;\n  font-size: 2rem;\n}\n.status-icon.cancelled[data-v-0ca26305] {\n  background: #fef2f2;\n  color: #dc2626;\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.75rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #64748b;\n  margin-bottom: 24px;\n}\n.status-info[data-v-0ca26305] {\n  background: #f8fafc;\n  border-radius: 8px;\n  padding: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #64748b;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #35a38b;\n}\n.card-body[data-v-0ca26305] {\n  padding: 0 32px 32px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 20px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 32px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e2e8f0;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #35a38b;\n  flex-shrink: 0;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #475569;\n}\n.cancellation-notice[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #fecaca;\n  color: #991b1b;\n  padding: 1rem;\n  border-radius: 8px;\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n/* Buttons */\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 16px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: #35a38b;\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: #2d8c77;\n}\n.btn-cancel[data-v-0ca26305] {\n  background: white;\n  color: #dc2626;\n  border: 1px solid #dc2626;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(:disabled) {\n  background: #fef2f2;\n}\n/* Plans View */\n.plans-view[data-v-0ca26305] {\n  max-width: 1000px;\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1.125rem;\n}\n/* Plans Grid */\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e2e8f0;\n  border-radius: 12px;\n  padding: 32px 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #35a38b;\n  transform: translateY(-4px);\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #35a38b;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #35a38b;\n  transform: scale(1.05);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: #35a38b;\n  color: white;\n  padding: 6px 16px;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 64px;\n  height: 64px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #35a38b;\n  font-size: 1.5rem;\n}\n.plan-header h3[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.period[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n  margin: 0;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 24px;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e2e8f0;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #35a38b;\n  flex-shrink: 0;\n  font-size: 0.875rem;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #475569;\n  font-size: 0.875rem;\n}\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: #35a38b;\n  color: white;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: #2d8c77;\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: #2d8c77;\n}\n/* Payment Section */\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #64748b;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n/* FAQ Section */\n.faq-section[data-v-0ca26305] {\n  background: white;\n  padding: 80px 0;\n  border-top: 1px solid #e2e8f0;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e2e8f0;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 24px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #64748b;\n  transition: transform 0.2s;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 24px;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #64748b;\n  line-height: 1.6;\n  margin: 0;\n}\n/* Responsive Design */\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n    font-size: 2rem;\n}\n.plans-grid[data-v-0ca26305] {\n    grid-template-columns: 1fr;\n    gap: 20px;\n}\n.plan-card.featured[data-v-0ca26305] {\n    transform: scale(1);\n}\n.card-header[data-v-0ca26305],\n  .card-body[data-v-0ca26305] {\n    padding: 24px 20px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
