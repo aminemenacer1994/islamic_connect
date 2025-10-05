@@ -15,21 +15,13 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'subscription-success'],
-    
+    'paths' => ['api/*', 'subscribe', 'subscription-status', 'cancel', 'sanctum/csrf-cookie'],
     'allowed_methods' => ['*'],
-
-    'allowed_origins' => ['http://localhost:3000'], // Adjust to your frontend URL
-
+    'allowed_origins' => ['http://localhost:8000', 'https://rightful-nonintroverted-dominic.ngrok-free.dev'],
     'allowed_origins_patterns' => [],
-
     'allowed_headers' => ['*'],
-
     'exposed_headers' => [],
-
     'max_age' => 0,
-
     'supports_credentials' => true,
-
 
 ];

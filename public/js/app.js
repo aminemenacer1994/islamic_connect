@@ -147100,14 +147100,71 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var mitt__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mitt */ "./node_modules/mitt/dist/mitt.mjs");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 
-var emitter = (0,mitt__WEBPACK_IMPORTED_MODULE_0__["default"])();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {};
+    return {
+      isAuthenticated: false,
+      isSubscribed: false,
+      loading: true
+    };
   },
-  methods: {}
+  methods: {
+    goTo: function goTo(path) {
+      window.location.href = path;
+    },
+    checkSubscription: function checkSubscription() {
+      var _this = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        var response, subscription, _t;
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.p = _context.n) {
+            case 0:
+              _this.loading = true;
+              _context.p = 1;
+              _context.n = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/user');
+            case 2:
+              response = _context.v;
+              _this.isAuthenticated = !!response.data;
+              if (!_this.isAuthenticated) {
+                _context.n = 4;
+                break;
+              }
+              _context.n = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/subscription-status');
+            case 3:
+              subscription = _context.v;
+              console.log('Subscription data:', subscription.data); // Debug
+
+              // Fix: Just check is_subscribed
+              _this.isSubscribed = subscription.data.is_subscribed;
+            case 4:
+              _context.n = 6;
+              break;
+            case 5:
+              _context.p = 5;
+              _t = _context.v;
+              console.error('Subscription check failed:', _t);
+              _this.isAuthenticated = false;
+              _this.isSubscribed = false;
+            case 6:
+              _this.loading = false;
+            case 7:
+              return _context.a(2);
+          }
+        }, _callee, null, [[1, 5]]);
+      }))();
+    }
+  },
+  mounted: function mounted() {
+    this.checkSubscription();
+  }
 });
 
 /***/ }),
@@ -153817,10 +153874,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'SubscriptionComponent',
   data: function data() {
@@ -153828,6 +153887,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     return {
       csrfToken: ((_document$querySelect = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getAttribute('content')) || '',
       selectedPlan: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+      // Default to Yearly
       loading: true,
       submitting: false,
       cancelling: false,
@@ -153837,15 +153897,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       subscription: null,
       faqs: [{
         question: 'Can I cancel my subscription anytime?',
-        answer: 'Yes, you can cancel your subscription at any time. If you cancel, you\'ll continue to have access to premium features until the end of your current billing period.',
+        answer: 'Yes, you can cancel anytime. Access continues until the billing period ends.',
         open: false
       }, {
         question: 'What payment methods do you accept?',
-        answer: 'We accept all major credit and debit cards through our secure payment processor, Stripe.',
+        answer: 'We accept major credit/debit cards via Stripe (test mode).',
         open: false
       }, {
         question: 'Is there a free trial available?',
-        answer: 'We don\'t currently offer a free trial, but we have a free tier with basic features. You can upgrade to premium anytime to unlock all features.',
+        answer: 'No free trial, but a free tier is available. Upgrade anytime.',
         open: false
       }],
       plans: [{
@@ -153888,252 +153948,340 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   computed: {
     planDisplayName: function planDisplayName() {
       var _this$subscription;
-      if (!((_this$subscription = this.subscription) !== null && _this$subscription !== void 0 && _this$subscription.stripe_price)) return 'Free';
-      return this.planDetails[this.subscription.stripe_price] || 'Premium';
+      return (_this$subscription = this.subscription) !== null && _this$subscription !== void 0 && _this$subscription.stripe_price ? this.planDetails[this.subscription.stripe_price] || 'Premium' : 'Free';
     }
   },
   mounted: function mounted() {
     this.checkSubscriptionStatus();
     this.checkUrlParams();
+    fetch('/subscription-status', {
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(function (r) {
+      return r.json();
+    }).then(function (data) {
+      return console.log('Subscription status:', data);
+    })["catch"](function (e) {
+      return console.error('Subscription check error:', e);
+    });
   },
   methods: {
     formatDate: function formatDate(dateString) {
-      if (!dateString) return 'Never';
-      return new Date(dateString).toLocaleDateString('en-GB', {
+      return dateString ? new Date(dateString).toLocaleDateString('en-GB', {
         day: 'numeric',
         month: 'long',
         year: 'numeric'
-      });
+      }) : 'Never';
     },
     toggleFaq: function toggleFaq(index) {
       this.faqs[index].open = !this.faqs[index].open;
     },
-    fetchSubscriptionStatus: function fetchSubscriptionStatus() {
+    checkSubscription: function checkSubscription() {
       var _this = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var response, data, _t;
+        var response, subscription, _t;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.p = _context.n) {
             case 0:
-              _context.p = 0;
-              _context.n = 1;
-              return fetch('/subscription-status', {
-                headers: {
-                  'X-CSRF-TOKEN': _this.csrfToken,
-                  'Accept': 'application/json'
-                }
-              });
-            case 1:
+              _this.loading = true;
+              _context.p = 1;
+              _context.n = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/user');
+            case 2:
               response = _context.v;
-              if (response.ok) {
-                _context.n = 2;
+              _this.isAuthenticated = !!response.data;
+              if (!_this.isAuthenticated) {
+                _context.n = 4;
                 break;
               }
-              throw new Error('Failed to fetch subscription status');
-            case 2:
               _context.n = 3;
-              return response.json();
+              return axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/subscription-status');
             case 3:
-              data = _context.v;
-              _this.isSubscribed = data.is_subscribed;
-              _this.subscription = {
-                stripe_price: data.plan !== 'free' ? data.plan : null,
-                ends_at: data.ends_at
-              };
-              return _context.a(2, data.is_subscribed);
+              subscription = _context.v;
+              // Fix: Check the correct property name
+              _this.isSubscribed = subscription.data.is_subscribed;
             case 4:
-              _context.p = 4;
+              _context.n = 6;
+              break;
+            case 5:
+              _context.p = 5;
               _t = _context.v;
-              console.error('Error fetching subscription:', _t);
-              _this.error = 'Error loading subscription status. Please refresh the page.';
-              return _context.a(2, false);
+              console.error('Subscription check failed:', _t);
+              _this.isAuthenticated = false;
+              _this.isSubscribed = false;
+            case 6:
+              _this.loading = false;
+            case 7:
+              return _context.a(2);
           }
-        }, _callee, null, [[0, 4]]);
+        }, _callee, null, [[1, 5]]);
       }))();
     },
-    checkSubscriptionStatus: function checkSubscriptionStatus() {
+    fetchSubscriptionStatus: function fetchSubscriptionStatus() {
       var _this2 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-        var response, _t2;
+        var response, data, _t2;
         return _regenerator().w(function (_context2) {
           while (1) switch (_context2.p = _context2.n) {
             case 0:
               _context2.p = 0;
               _context2.n = 1;
-              return axios.get('/sync-stripe-subscription');
+              return fetch('/subscription-status', {
+                headers: {
+                  'X-CSRF-TOKEN': _this2.csrfToken,
+                  'Accept': 'application/json'
+                }
+              });
             case 1:
               response = _context2.v;
-              if (response.data.is_subscribed && response.data.subscription.stripe_status === 'active') {
-                _this2.subscriptionStatus = 'active';
-                _this2.loading = false;
-              } else {
-                setTimeout(function () {
-                  return _this2.checkSubscriptionStatus();
-                }, 5000); // Poll every 5 seconds
+              if (response.ok) {
+                _context2.n = 2;
+                break;
               }
-              _context2.n = 3;
-              break;
+              throw new Error('Failed to fetch subscription status');
             case 2:
-              _context2.p = 2;
-              _t2 = _context2.v;
-              console.error('Error checking subscription:', _t2);
-              _this2.error = true;
-              _this2.errorMessage = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
-              _this2.loading = false;
+              _context2.n = 3;
+              return response.json();
             case 3:
-              return _context2.a(2);
+              data = _context2.v;
+              _this2.isSubscribed = data.is_subscribed;
+              _this2.subscription = data.is_subscribed ? {
+                stripe_price: data.plan,
+                ends_at: data.ends_at
+              } : null;
+              return _context2.a(2, data.is_subscribed);
+            case 4:
+              _context2.p = 4;
+              _t2 = _context2.v;
+              console.error('Error fetching subscription:', _t2);
+              _this2.error = 'Error loading subscription status. Please refresh the page.';
+              return _context2.a(2, false);
           }
-        }, _callee2, null, [[0, 2]]);
+        }, _callee2, null, [[0, 4]]);
       }))();
     },
-    retrySubscription: function retrySubscription() {
+    checkSubscriptionStatus: function checkSubscriptionStatus() {
       var _this3 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+        var response, _t3;
         return _regenerator().w(function (_context3) {
-          while (1) switch (_context3.n) {
+          while (1) switch (_context3.p = _context3.n) {
             case 0:
               _this3.loading = true;
-              _this3.error = false;
-              _context3.n = 1;
-              return _this3.checkSubscriptionStatus();
-            case 1:
+              _context3.p = 1;
+              _context3.n = 2;
+              return _this3.fetchSubscriptionStatus();
+            case 2:
+              response = _context3.v;
+              if (!response && !_this3.error) {
+                _this3.error = 'Subscription status unavailable. Please try again.';
+              }
+              _context3.n = 4;
+              break;
+            case 3:
+              _context3.p = 3;
+              _t3 = _context3.v;
+              _this3.error = 'Error checking subscription. Please try again.';
+            case 4:
+              _context3.p = 4;
+              _this3.loading = false;
+              return _context3.f(4);
+            case 5:
               return _context3.a(2);
           }
-        }, _callee3);
+        }, _callee3, null, [[1, 3, 4, 5]]);
+      }))();
+    },
+    checkUrlParams: function checkUrlParams() {
+      var _this4 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+        var urlParams;
+        return _regenerator().w(function (_context4) {
+          while (1) switch (_context4.n) {
+            case 0:
+              urlParams = new URLSearchParams(window.location.search);
+              if (!urlParams.has('success')) {
+                _context4.n = 2;
+                break;
+              }
+              _context4.n = 1;
+              return _this4.waitForSubscription();
+            case 1:
+              window.history.replaceState({}, document.title, window.location.pathname);
+              _context4.n = 5;
+              break;
+            case 2:
+              if (!urlParams.has('cancelled')) {
+                _context4.n = 4;
+                break;
+              }
+              _this4.error = 'Subscription cancelled. You can try again when ready.';
+              _context4.n = 3;
+              return _this4.fetchSubscriptionStatus();
+            case 3:
+              window.history.replaceState({}, document.title, window.location.pathname);
+              _context4.n = 5;
+              break;
+            case 4:
+              _context4.n = 5;
+              return _this4.fetchSubscriptionStatus();
+            case 5:
+              return _context4.a(2);
+          }
+        }, _callee4);
       }))();
     },
     waitForSubscription: function waitForSubscription() {
-      var _this4 = this;
+      var _this5 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-        var attempts, maxAttempts, _checkStatus;
+        var attempts, maxAttempts, subscribed;
         return _regenerator().w(function (_context5) {
           while (1) switch (_context5.n) {
             case 0:
-              _this4.success = 'Subscription successful! Activating your subscription...';
+              _this5.success = 'Subscription successful! Activating your subscription...';
               attempts = 0;
               maxAttempts = 15;
-              _checkStatus = /*#__PURE__*/function () {
-                var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
-                  var subscribed;
-                  return _regenerator().w(function (_context4) {
-                    while (1) switch (_context4.n) {
-                      case 0:
-                        attempts++;
-                        _context4.n = 1;
-                        return _this4.fetchSubscriptionStatus();
-                      case 1:
-                        subscribed = _context4.v;
-                        if (!subscribed) {
-                          _context4.n = 2;
-                          break;
-                        }
-                        _this4.success = 'Subscription activated successfully! Welcome to Premium.';
-                        _this4.loading = false;
-                        setTimeout(function () {
-                          _this4.success = '';
-                        }, 5000);
-                        return _context4.a(2, true);
-                      case 2:
-                        if (!(attempts >= maxAttempts)) {
-                          _context4.n = 3;
-                          break;
-                        }
-                        _this4.error = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
-                        _this4.success = '';
-                        _this4.loading = false;
-                        return _context4.a(2, false);
-                      case 3:
-                        setTimeout(_checkStatus, 2000);
-                        return _context4.a(2, false);
-                    }
-                  }, _callee4);
-                }));
-                return function checkStatus() {
-                  return _ref.apply(this, arguments);
-                };
-              }();
-              _context5.n = 1;
-              return _checkStatus();
             case 1:
+              if (!(attempts < maxAttempts)) {
+                _context5.n = 5;
+                break;
+              }
+              attempts++;
+              _context5.n = 2;
+              return _this5.fetchSubscriptionStatus();
+            case 2:
+              subscribed = _context5.v;
+              if (!subscribed) {
+                _context5.n = 3;
+                break;
+              }
+              _this5.success = 'Subscription activated successfully! Welcome to Premium.';
+              setTimeout(function () {
+                return _this5.success = '';
+              }, 5000);
+              return _context5.a(2);
+            case 3:
+              _context5.n = 4;
+              return new Promise(function (resolve) {
+                return setTimeout(resolve, 2000);
+              });
+            case 4:
+              _context5.n = 1;
+              break;
+            case 5:
+              _this5.error = 'Subscription is taking longer than expected. Please refresh or contact support.';
+              _this5.success = '';
+            case 6:
               return _context5.a(2);
           }
         }, _callee5);
       }))();
     },
-    checkUrlParams: function checkUrlParams() {
-      var _this5 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
-        var urlParams, _this5$subscription, endsAtDate, now;
-        return _regenerator().w(function (_context6) {
-          while (1) switch (_context6.n) {
-            case 0:
-              urlParams = new URLSearchParams(window.location.search);
-              if (!urlParams.has('success')) {
-                _context6.n = 2;
-                break;
-              }
-              _context6.n = 1;
-              return _this5.waitForSubscription();
-            case 1:
-              window.history.replaceState({}, document.title, window.location.pathname);
-              _context6.n = 6;
-              break;
-            case 2:
-              if (!urlParams.has('cancelled')) {
-                _context6.n = 4;
-                break;
-              }
-              _this5.error = 'Subscription cancelled. You can try again when ready.';
-              _context6.n = 3;
-              return _this5.fetchSubscriptionStatus();
-            case 3:
-              _this5.loading = false;
-              window.history.replaceState({}, document.title, window.location.pathname);
-              _context6.n = 6;
-              break;
-            case 4:
-              _context6.n = 5;
-              return _this5.fetchSubscriptionStatus();
-            case 5:
-              // Check if subscription has actually ended
-              if (_this5.isSubscribed && (_this5$subscription = _this5.subscription) !== null && _this5$subscription !== void 0 && _this5$subscription.ends_at) {
-                endsAtDate = new Date(_this5.subscription.ends_at);
-                now = new Date(); // If the subscription end date has passed, show them as not subscribed
-                if (endsAtDate < now) {
-                  _this5.isSubscribed = false;
-                }
-              }
-              _this5.loading = false;
-            case 6:
-              return _context6.a(2);
-          }
-        }, _callee6);
-      }))();
+    clearNotification: function clearNotification() {
+      this.error = '';
+      this.success = '';
+    },
+    getPlanBenefits: function getPlanBenefits() {
+      var _this6 = this;
+      var plan = this.plans.find(function (p) {
+        var _this6$subscription;
+        return p.value === ((_this6$subscription = _this6.subscription) === null || _this6$subscription === void 0 ? void 0 : _this6$subscription.stripe_price);
+      });
+      return plan ? plan.features : ['Basic access only'];
     },
     handleCancelSubscription: function handleCancelSubscription() {
-      var _this6 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
-        var response, data, _t3;
-        return _regenerator().w(function (_context7) {
-          while (1) switch (_context7.p = _context7.n) {
+      var _this7 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+        var response, data, _t4;
+        return _regenerator().w(function (_context6) {
+          while (1) switch (_context6.p = _context6.n) {
             case 0:
               if (confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
-                _context7.n = 1;
+                _context6.n = 1;
                 break;
               }
-              return _context7.a(2);
+              return _context6.a(2);
             case 1:
-              _this6.cancelling = true;
-              _this6.error = '';
-              _context7.p = 2;
-              _context7.n = 3;
+              _this7.cancelling = true;
+              _context6.p = 2;
+              _context6.n = 3;
               return fetch('/cancel', {
                 method: 'POST',
                 headers: {
-                  'X-CSRF-TOKEN': _this6.csrfToken,
+                  'X-CSRF-TOKEN': _this7.csrfToken,
                   'Accept': 'application/json',
                   'Content-Type': 'application/json'
                 }
+              });
+            case 3:
+              response = _context6.v;
+              _context6.n = 4;
+              return response.json();
+            case 4:
+              data = _context6.v;
+              if (!(response.ok && data.success)) {
+                _context6.n = 6;
+                break;
+              }
+              _context6.n = 5;
+              return _this7.fetchSubscriptionStatus();
+            case 5:
+              _this7.success = "Subscription cancelled. You'll have access until ".concat(_this7.formatDate(data.ends_at), ".");
+              setTimeout(function () {
+                return _this7.success = '';
+              }, 8000);
+              _context6.n = 7;
+              break;
+            case 6:
+              throw new Error(data.message || 'Failed to cancel subscription');
+            case 7:
+              _context6.n = 9;
+              break;
+            case 8:
+              _context6.p = 8;
+              _t4 = _context6.v;
+              _this7.error = _t4.message || 'Error cancelling subscription. Please try again.';
+            case 9:
+              _context6.p = 9;
+              _this7.cancelling = false;
+              return _context6.f(9);
+            case 10:
+              return _context6.a(2);
+          }
+        }, _callee6, null, [[2, 8, 9, 10]]);
+      }))();
+    },
+    handleSubmit: function handleSubmit() {
+      var _this8 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
+        var _document$querySelect2, csrfToken, response, data, _t5;
+        return _regenerator().w(function (_context7) {
+          while (1) switch (_context7.p = _context7.n) {
+            case 0:
+              _this8.submitting = true;
+              _this8.error = '';
+              _this8.success = '';
+              _context7.p = 1;
+              csrfToken = (_document$querySelect2 = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.getAttribute('content');
+              if (csrfToken) {
+                _context7.n = 2;
+                break;
+              }
+              throw new Error('CSRF token not found. Please refresh the page.');
+            case 2:
+              _context7.n = 3;
+              return fetch('/subscribe', {
+                method: 'POST',
+                headers: {
+                  'X-CSRF-TOKEN': csrfToken,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                  price_lookup_key: _this8.selectedPlan
+                })
               });
             case 3:
               response = _context7.v;
@@ -154141,37 +154289,36 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 4:
               data = _context7.v;
-              if (!(response.ok && data.success)) {
-                _context7.n = 6;
-                break;
+              console.log('Full response:', response.status, data); // DEBUG LINE
+
+              if (response.ok) {
+                if (data.redirect) {
+                  window.location.href = data.redirect;
+                }
+              } else {
+                // Show detailed validation errors
+                if (data.errors) {
+                  console.error('Validation errors:', data.errors);
+                  _this8.error = Object.values(data.errors).flat().join(' ');
+                } else {
+                  _this8.error = data.message || 'An error occurred. Please try again.';
+                }
               }
-              _context7.n = 5;
-              return _this6.fetchSubscriptionStatus();
+              _context7.n = 6;
+              break;
             case 5:
-              _this6.success = "Subscription cancelled. You'll have access until ".concat(_this6.formatDate(data.ends_at), ".");
-              setTimeout(function () {
-                _this6.success = '';
-              }, 8000);
-              _context7.n = 7;
-              break;
+              _context7.p = 5;
+              _t5 = _context7.v;
+              console.error('Error submitting form:', _t5);
+              _this8.error = _t5.message || 'Network error. Please try again.';
             case 6:
-              throw new Error(data.message || 'Failed to cancel subscription');
+              _context7.p = 6;
+              _this8.submitting = false;
+              return _context7.f(6);
             case 7:
-              _context7.n = 9;
-              break;
-            case 8:
-              _context7.p = 8;
-              _t3 = _context7.v;
-              console.error('Error cancelling subscription:', _t3);
-              _this6.error = _t3.message || 'Error cancelling subscription. Please try again.';
-            case 9:
-              _context7.p = 9;
-              _this6.cancelling = false;
-              return _context7.f(9);
-            case 10:
               return _context7.a(2);
           }
-        }, _callee7, null, [[2, 8, 9, 10]]);
+        }, _callee7, null, [[1, 5, 6, 7]]);
       }))();
     }
   }
@@ -175065,44 +175212,106 @@ var _hoisted_5 = {
   "class": "p-3"
 };
 var _hoisted_6 = {
-  "class": "col-md-6 col-lg-4"
+  key: 1,
+  "class": "restricted-access text-center p-2",
+  style: {
+    "background": "#f8f9fa",
+    "border-radius": "5px",
+    "animation": "borderPulse 2s infinite ease-in-out"
+  }
 };
 var _hoisted_7 = {
-  "class": "card custom-card shadow-sm rounded-4",
+  "class": "col-md-6 col-lg-4"
+};
+var _hoisted_8 = {
+  "class": "card custom-card rounded-4 overflow-hidden",
   style: {
     "border": "1px solid grey"
   }
 };
-var _hoisted_8 = {
+var _hoisted_9 = {
   "class": "p-3"
 };
-var _hoisted_9 = {
-  "class": "col-md-6 col-lg-4"
-};
 var _hoisted_10 = {
-  "class": "card custom-card shadow-sm rounded-4",
+  key: 1,
+  "class": "restricted-access text-center p-2",
   style: {
-    "border": "1px solid grey"
+    "background": "#f8f9fa",
+    "border-radius": "5px",
+    "animation": "borderPulse 2s infinite ease-in-out"
   }
 };
 var _hoisted_11 = {
+  "class": "col-md-6 col-lg-4"
+};
+var _hoisted_12 = {
+  "class": "card custom-card rounded-4 overflow-hidden",
+  style: {
+    "border": "1px solid grey"
+  }
+};
+var _hoisted_13 = {
   "class": "p-3"
 };
+var _hoisted_14 = {
+  key: 1,
+  "class": "restricted-access text-center p-2",
+  style: {
+    "background": "#f8f9fa",
+    "border-radius": "5px",
+    "animation": "borderPulse 2s infinite ease-in-out"
+  }
+};
+var _hoisted_15 = {
+  "class": "col-md-6 col-lg-4"
+};
+var _hoisted_16 = {
+  "class": "card custom-card shadow-sm rounded-4",
+  style: {
+    "border": "1px solid grey"
+  }
+};
+var _hoisted_17 = {
+  "class": "p-3"
+};
+var _hoisted_18 = {
+  key: 1,
+  "class": "restricted-access text-center p-2",
+  style: {
+    "background": "#f8f9fa",
+    "border-radius": "5px",
+    "animation": "borderPulse 2s infinite ease-in-out"
+  }
+};
+var _hoisted_19 = {
+  "class": "col-md-6 col-lg-4"
+};
+var _hoisted_20 = {
+  "class": "card custom-card shadow-sm rounded-4",
+  style: {
+    "border": "1px solid grey"
+  }
+};
+var _hoisted_21 = {
+  "class": "p-3"
+};
+var _hoisted_22 = {
+  key: 1,
+  "class": "restricted-access text-center p-2",
+  style: {
+    "background": "#f8f9fa",
+    "border-radius": "5px",
+    "animation": "borderPulse 2s infinite ease-in-out"
+  }
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "text-center fw-bold display-5 mb-4"
-  }, "Media Center", -1 /* CACHED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Media Center", -1 /* CACHED */)), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center mb-4 lead"
-  }, " The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New", -1 /* CACHED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/ap.avif",
     alt: "Qibla finder",
     "class": "w-90 mt-1",
@@ -175110,166 +175319,209 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "object-fit": "contain",
       "padding": "20px"
     }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Audio Podcasts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Audio Podcasts", -1 /* CACHED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life. ", -1 /* CACHED */)), $data.isAuthenticated && $data.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
     "class": "form-control",
-    onclick: "window.location.href='/content'",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $options.goTo('/content');
+    }),
+    type: "button",
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    },
-    type: "button"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")])])])])], -1 /* CACHED */)), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
     }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _toConsumableArray(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")], -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, _toConsumableArray(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mb-1 text-muted small"
+  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "/subscribe",
+    "class": "text-decoration-none",
+    style: {
+      "color": "#00bfa6",
+      "font-weight": "bold"
+    }
+  }, "Subscribe Now", -1 /* CACHED */)]))))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New", -1 /* CACHED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/mtv2.png",
     alt: "Watch Live",
     "class": "w-100",
     style: {
       "object-fit": "contain"
     }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Channel Guide"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Channel Guide", -1 /* CACHED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube. ", -1 /* CACHED */)), $data.isAuthenticated && $data.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
     "class": "form-control",
-    onclick: "window.location.href='/streaming'",
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $options.goTo('/streaming');
+    }),
+    type: "button",
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    },
-    type: "button"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }
+  }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Channels")])])])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Channels")], -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mb-1 text-muted small"
+  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "/subscribe",
+    "class": "text-decoration-none",
+    style: {
+      "color": "#00bfa6",
+      "font-weight": "bold"
+    }
+  }, "Subscribe Now", -1 /* CACHED */)]))))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New", -1 /* CACHED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/radio5.jpg",
     alt: "Radio stations",
     "class": "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Reciters Stations", -1 /* CACHED */)), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Reciters Stations", -1 /* CACHED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Tune in to live Islamic radio from around the world, featuring Qur'an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Tune in to live Islamic radio from around the world, featuring Qur'an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages. ", -1 /* CACHED */)), $data.isAuthenticated && $data.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
     "class": "form-control",
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.goTo('/radio');
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $options.goTo('/radio');
     }),
+    type: "button",
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    },
-    type: "button"
-  }, _toConsumableArray(_cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }
+  }, _toConsumableArray(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Reciters")], -1 /* CACHED */)])))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Reciters")], -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, _toConsumableArray(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mb-1 text-muted small"
+  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "/subscribe",
+    "class": "text-decoration-none",
+    style: {
+      "color": "#00bfa6",
+      "font-weight": "bold"
+    }
+  }, "Subscribe Now", -1 /* CACHED */)]))))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/img_g.png",
     alt: "Image Gallery",
     "class": "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Image Gallery", -1 /* CACHED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Image Gallery", -1 /* CACHED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and tradition.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and tradition. ", -1 /* CACHED */)), $data.isAuthenticated && $data.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
     "class": "form-control",
-    onClick: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.goTo('/gallery');
+    onClick: _cache[3] || (_cache[3] = function ($event) {
+      return $options.goTo('/gallery');
     }),
+    type: "button",
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    },
-    type: "button"
-  }, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }
+  }, _toConsumableArray(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")], -1 /* CACHED */)])))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")], -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _toConsumableArray(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mb-1 text-muted small"
+  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "/subscribe",
+    "class": "text-decoration-none",
+    style: {
+      "color": "#00bfa6",
+      "font-weight": "bold"
+    }
+  }, "Subscribe Now", -1 /* CACHED */)]))))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/vide_g.png",
     alt: "Video Gallery",
     "class": "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Video Gallery", -1 /* CACHED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Video Gallery", -1 /* CACHED */)), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections. ", -1 /* CACHED */)), $data.isAuthenticated && $data.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
     "class": "form-control",
-    onClick: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.goTo('/video');
+    onClick: _cache[4] || (_cache[4] = function ($event) {
+      return $options.goTo('/video');
     }),
+    type: "button",
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    },
-    type: "button"
-  }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }
+  }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Videos")], -1 /* CACHED */)])))])])])])]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Videos")], -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mb-1 text-muted small"
+  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "/subscribe",
+    "class": "text-decoration-none",
+    style: {
+      "color": "#00bfa6",
+      "font-weight": "bold"
+    }
+  }, "Subscribe Now", -1 /* CACHED */)]))))])])])])]);
 }
 
 /***/ }),
@@ -181155,95 +181407,91 @@ var _hoisted_19 = {
   "class": "plans-view"
 };
 var _hoisted_20 = {
-  method: "POST",
-  action: "/subscribe"
-};
-var _hoisted_21 = {
   "class": "plans-grid"
 };
-var _hoisted_22 = ["onClick"];
-var _hoisted_23 = {
+var _hoisted_21 = ["onClick"];
+var _hoisted_22 = {
   key: 0,
   "class": "plan-badge"
 };
-var _hoisted_24 = {
+var _hoisted_23 = {
   "class": "plan-header"
 };
-var _hoisted_25 = {
+var _hoisted_24 = {
   "class": "plan-icon"
 };
-var _hoisted_26 = {
+var _hoisted_25 = {
   "class": "plan-price"
 };
-var _hoisted_27 = {
+var _hoisted_26 = {
   "class": "amount"
 };
-var _hoisted_28 = {
+var _hoisted_27 = {
   "class": "period"
 };
-var _hoisted_29 = {
+var _hoisted_28 = {
   key: 0,
   "class": "savings"
 };
-var _hoisted_30 = {
+var _hoisted_29 = {
   "class": "plan-features"
 };
-var _hoisted_31 = {
+var _hoisted_30 = {
   "class": "plan-selector"
 };
-var _hoisted_32 = ["id", "value"];
-var _hoisted_33 = ["for"];
-var _hoisted_34 = {
+var _hoisted_31 = ["id", "value"];
+var _hoisted_32 = ["for"];
+var _hoisted_33 = {
   "class": "payment-section"
 };
+var _hoisted_34 = ["value"];
 var _hoisted_35 = ["value"];
-var _hoisted_36 = ["value"];
-var _hoisted_37 = ["disabled"];
-var _hoisted_38 = {
+var _hoisted_36 = ["disabled"];
+var _hoisted_37 = {
   "class": "faq-section"
 };
-var _hoisted_39 = {
+var _hoisted_38 = {
   "class": "container"
 };
-var _hoisted_40 = {
+var _hoisted_39 = {
   "class": "faq-list"
 };
-var _hoisted_41 = ["onClick"];
-var _hoisted_42 = {
+var _hoisted_40 = ["onClick"];
+var _hoisted_41 = {
   key: 0,
   "class": "faq-answer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$subscription, _$data$subscription2, _$data$subscription3, _$data$subscription4, _$data$subscription5, _$data$subscription6, _$data$subscription7;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     "class": "subscription-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "container"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "header-content"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Subscription Management"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Manage your Islamic Connect subscription. Unlock premium features and support our mission.")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notifications "), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Subscription Management"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Manage your Islamic Connect subscription. Unlock premium features and support our mission.")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notifications "), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-check-circle"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.success), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $data.success = '';
     }),
     "class": "close-btn"
-  }, _toConsumableArray(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times"
-  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-exclamation-triangle"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $data.error = '';
     }),
     "class": "close-btn"
-  }, _toConsumableArray(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times"
-  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading subscription details...", -1 /* CACHED */)])))) : $data.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 3
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-crown"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? 'Subscription Ending Soon' : 'Active Subscription'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["status-icon", {
@@ -181251,22 +181499,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", (_$data$subscription3 = $data.subscription) !== null && _$data$subscription3 !== void 0 && _$data$subscription3.ends_at ? 'fa-calendar-times' : 'fa-check-circle'])
-  }, null, 2 /* CLASS */)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.planDisplayName), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription4 = $data.subscription) !== null && _$data$subscription4 !== void 0 && _$data$subscription4.ends_at ? 'Cancellation scheduled' : 'You\'re currently subscribed'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription5 = $data.subscription) !== null && _$data$subscription5 !== void 0 && _$data$subscription5.ends_at ? 'Access until' : 'Status'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription6 = $data.subscription) !== null && _$data$subscription6 !== void 0 && _$data$subscription6.ends_at ? $options.formatDate($data.subscription.ends_at) : 'Active & Unlimited'), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<h3 data-v-0ca26305>Premium Benefits</h3><div class=\"benefits-list\" data-v-0ca26305><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Ad-free experience</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Offline access to content</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Advanced prayer time settings</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Priority support</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Early access to new features</span></div></div>", 2)), !((_$data$subscription7 = $data.subscription) !== null && _$data$subscription7 !== void 0 && _$data$subscription7.ends_at) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, null, 2 /* CLASS */)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.planDisplayName), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription4 = $data.subscription) !== null && _$data$subscription4 !== void 0 && _$data$subscription4.ends_at ? 'Cancellation scheduled' : 'You\'re currently subscribed'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription5 = $data.subscription) !== null && _$data$subscription5 !== void 0 && _$data$subscription5.ends_at ? 'Access until' : 'Status'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription6 = $data.subscription) !== null && _$data$subscription6 !== void 0 && _$data$subscription6.ends_at ? $options.formatDate($data.subscription.ends_at) : 'Active & Unlimited'), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<h3 data-v-0ca26305>Premium Benefits</h3><div class=\"benefits-list\" data-v-0ca26305><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Ad-free experience</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Offline access to content</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Advanced prayer time settings</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Priority support</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Early access to new features</span></div></div>", 2)), !((_$data$subscription7 = $data.subscription) !== null && _$data$subscription7 !== void 0 && _$data$subscription7.ends_at) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.handleCancelSubscription && $options.handleCancelSubscription.apply($options, arguments);
     }),
     "class": "btn btn-cancel",
     disabled: $data.cancelling
-  }, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times-circle"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : 'Cancel Subscription'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_17)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : 'Cancel Subscription'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_17)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-info-circle"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Your subscription has been cancelled and will not renew. ", -1 /* CACHED */)]))))])])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 4
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "plans-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Choose Your Plan"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Select the plan that works best for you")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Plans Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.plans, function (plan) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Choose Your Plan"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Select the plan that works best for you")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    method: "POST",
+    action: "/subscribe",
+    onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.handleSubmit && $options.handleSubmit.apply($options, arguments);
+    }, ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Plans Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.plans, function (plan) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: plan.value,
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["plan-card", {
@@ -181276,16 +181530,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $data.selectedPlan = plan.value;
       }
-    }, [plan.featured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.badge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [plan.featured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.badge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(plan.icon)
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */)]), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */)]), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: feature,
         "class": "feature-item"
-      }, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "fas fa-check"
       }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "radio",
       id: plan.value,
       value: plan.value,
@@ -181293,31 +181547,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $data.selectedPlan = $event;
       }),
       "class": "radio-input"
-    }, null, 8 /* PROPS */, _hoisted_32), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, null, 8 /* PROPS */, _hoisted_31), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": plan.value,
       "class": "radio-label"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.value === $data.selectedPlan ? 'Selected' : 'Select Plan'), 9 /* TEXT, PROPS */, _hoisted_33)])], 10 /* CLASS, PROPS */, _hoisted_22);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Payment Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.value === $data.selectedPlan ? 'Selected' : 'Select Plan'), 9 /* TEXT, PROPS */, _hoisted_32)])], 10 /* CLASS, PROPS */, _hoisted_21);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Payment Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
     name: "_token",
     value: $data.csrfToken
-  }, null, 8 /* PROPS */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
     name: "price_lookup_key",
     value: $data.selectedPlan
-  }, null, 8 /* PROPS */, _hoisted_36), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     "class": "btn btn-primary",
     disabled: $data.submitting
-  }, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-credit-card"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing...' : 'Continue to Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_37), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing...' : 'Continue to Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_36), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "security-note"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-lock"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment powered by Stripe ")], -1 /* CACHED */))])])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment powered by Stripe ")], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "faq-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Frequently Asked Questions")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, function (faq, index) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Frequently Asked Questions")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, function (faq, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
       "class": "faq-item"
@@ -181330,7 +181584,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas fa-chevron-down", {
         'open': faq.open
       }])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_41), faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_40), faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
   }), 128 /* KEYED_FRAGMENT */))])])])]);
 }
 
@@ -193103,7 +193357,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-63cb17b8] {\n  max-height: 4.5em;\n  text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n  background: #00bfa6;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  color: white;\n  height: 38px;\n  padding: 0.375rem 0.75rem;\n  border: none;\n  /* Good to be explicit */\n}\n.custom-card[data-v-63cb17b8]:hover {\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.custom-card[data-v-63cb17b8] {\n  height: 100%;\n}\n.custom-card img[data-v-63cb17b8] {\n  height: 180px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n    border-color: #00bfa6;\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-63cb17b8] {\n  animation: borderPulse-63cb17b8 2s infinite ease-in-out;\n  -webkit-animation: borderPulse-63cb17b8 2s infinite ease-in-out;\n  /* For Safari/Chrome */\n  -moz-animation: borderPulse-63cb17b8 2s infinite ease-in-out;\n  /* For Firefox */\n}\n.loading-overlay[data-v-63cb17b8] {\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.5);\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    z-index: 1060;\n}\n.loading-spinner[data-v-63cb17b8] {\n    background: white;\n    padding: 2rem;\n    border-radius: 10px;\n    text-align: center;\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n    border-color: #00bfa6;\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-63cb17b8] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n    background: #00bfa6;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-63cb17b8]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n    transition: box-shadow 0.3s ease-in-out;\n}\n.custom-card[data-v-63cb17b8] {\n    height: 100%;\n    transition: all 0.3s ease;\n}\n.custom-card img[data-v-63cb17b8] {\n    height: 180px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    transition: transform 0.3s ease;\n}\n.custom-card:hover img[data-v-63cb17b8] {\n    transform: scale(1.05);\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: #00bfa6;\n        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-63cb17b8] {\n    animation: borderPulse-63cb17b8 2s infinite ease-in-out;\n}\n.restricted-access[data-v-63cb17b8] {\n    transition: all 0.3s ease;\n}\n.restricted-access[data-v-63cb17b8]:hover {\n    background: #e9ecef;\n    transform: translateY(-2px);\n}\n.restricted-access a[data-v-63cb17b8]:hover {\n    color: #009e87;\n    text-decoration: underline;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -234546,23 +234800,6 @@ function toNumber(value) {
 }
 
 module.exports = toNumber;
-
-
-/***/ }),
-
-/***/ "./node_modules/mitt/dist/mitt.mjs":
-/*!*****************************************!*\
-  !*** ./node_modules/mitt/dist/mitt.mjs ***!
-  \*****************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(n){return{all:n=n||new Map,on:function(t,e){var i=n.get(t);i?i.push(e):n.set(t,[e])},off:function(t,e){var i=n.get(t);i&&(e?i.splice(i.indexOf(e)>>>0,1):n.set(t,[]))},emit:function(t,e){var i=n.get(t);i&&i.slice().map(function(n){n(e)}),(i=n.get("*"))&&i.slice().map(function(n){n(t,e)})}}}
-//# sourceMappingURL=mitt.mjs.map
 
 
 /***/ }),

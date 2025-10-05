@@ -107,7 +107,7 @@
             <p>Select the plan that works best for you</p>
           </div>
 
-          <form method="POST" action="/subscribe">
+          <form method="POST" action="/subscribe" @submit.prevent="handleSubmit">
             <!-- Plans Grid -->
             <div class="plans-grid">
               <div v-for="plan in plans" :key="plan.value" class="plan-card" :class="{
@@ -190,12 +190,14 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'SubscriptionComponent',
   data() {
     return {
       csrfToken: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
-      selectedPlan: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+      selectedPlan: 'price_1SDrmPGsDD2PdzHqDOScwoI2', // Default to Yearly
       loading: true,
       submitting: false,
       cancelling: false,
@@ -204,120 +206,74 @@ export default {
       isSubscribed: false,
       subscription: null,
       faqs: [
-        {
-          question: 'Can I cancel my subscription anytime?',
-          answer: 'Yes, you can cancel your subscription at any time. If you cancel, you\'ll continue to have access to premium features until the end of your current billing period.',
-          open: false
-        },
-        {
-          question: 'What payment methods do you accept?',
-          answer: 'We accept all major credit and debit cards through our secure payment processor, Stripe.',
-          open: false
-        },
-        {
-          question: 'Is there a free trial available?',
-          answer: 'We don\'t currently offer a free trial, but we have a free tier with basic features. You can upgrade to premium anytime to unlock all features.',
-          open: false
-        }
+        { question: 'Can I cancel my subscription anytime?', answer: 'Yes, you can cancel anytime. Access continues until the billing period ends.', open: false },
+        { question: 'What payment methods do you accept?', answer: 'We accept major credit/debit cards via Stripe (test mode).', open: false },
+        { question: 'Is there a free trial available?', answer: 'No free trial, but a free tier is available. Upgrade anytime.', open: false }
       ],
       plans: [
-        {
-          value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
-          name: 'Monthly',
-          price: '£1.99',
-          period: 'per month',
-          icon: 'fas fa-calendar-alt',
-          badge: 'Flexible',
-          featured: false,
-          features: [
-            'All premium features',
-            'Cancel anytime',
-            'Monthly billing',
-            '24/7 support'
-          ]
-        },
-        {
-          value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
-          name: 'Yearly',
-          price: '£18',
-          period: 'per year',
-          savings: 'Save £5.88 per year',
-          icon: 'fas fa-star',
-          badge: 'Most Popular',
-          featured: true,
-          features: [
-            'All premium features',
-            'Best value',
-            'Annual billing',
-            'Priority support'
-          ]
-        },
-        {
-          value: 'price_1SDrmPGsDD2PdzHqvk1SOoT3',
-          name: 'Lifetime',
-          price: '£25',
-          period: 'one-time payment',
-          savings: 'Never pay again',
-          icon: 'fas fa-infinity',
-          badge: 'Best Deal',
-          featured: false,
-          features: [
-            'All premium features',
-            'Lifetime access',
-            'One-time payment',
-            'VIP support'
-          ]
-        }
+        { value: 'price_1SDrmPGsDD2PdzHqTgawcJZd', name: 'Monthly', price: '£1.99', period: 'per month', icon: 'fas fa-calendar-alt', badge: 'Flexible', featured: false, features: ['All premium features', 'Cancel anytime', 'Monthly billing', '24/7 support'] },
+        { value: 'price_1SDrmPGsDD2PdzHqDOScwoI2', name: 'Yearly', price: '£18', period: 'per year', savings: 'Save £5.88 per year', icon: 'fas fa-star', badge: 'Most Popular', featured: true, features: ['All premium features', 'Best value', 'Annual billing', 'Priority support'] },
+        { value: 'price_1SDrmPGsDD2PdzHqvk1SOoT3', name: 'Lifetime', price: '£25', period: 'one-time payment', savings: 'Never pay again', icon: 'fas fa-infinity', badge: 'Best Deal', featured: false, features: ['All premium features', 'Lifetime access', 'One-time payment', 'VIP support'] }
       ],
       planDetails: {
         'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
         'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly',
-        'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime',
+        'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime'
       }
     };
   },
   computed: {
     planDisplayName() {
-      if (!this.subscription?.stripe_price) return 'Free';
-      return this.planDetails[this.subscription.stripe_price] || 'Premium';
+      return this.subscription?.stripe_price ? this.planDetails[this.subscription.stripe_price] || 'Premium' : 'Free';
     }
   },
   mounted() {
     this.checkSubscriptionStatus();
     this.checkUrlParams();
+    
+    fetch('/subscription-status', {
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(r => r.json())
+    .then(data => console.log('Subscription status:', data))
+    .catch(e => console.error('Subscription check error:', e));
   },
   methods: {
     formatDate(dateString) {
-      if (!dateString) return 'Never';
-      return new Date(dateString).toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      });
+      return dateString ? new Date(dateString).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Never';
     },
-
     toggleFaq(index) {
       this.faqs[index].open = !this.faqs[index].open;
     },
-
+    async checkSubscription() {
+      this.loading = true;
+      try {
+        const response = await axios.get('/user');
+        this.isAuthenticated = !!response.data;
+        if (this.isAuthenticated) {
+          const subscription = await axios.get('/subscription-status');
+          // Fix: Check the correct property name
+          this.isSubscribed = subscription.data.is_subscribed;
+        }
+      } catch (error) {
+        console.error('Subscription check failed:', error);
+        this.isAuthenticated = false;
+        this.isSubscribed = false;
+      }
+      this.loading = false;
+    },
     async fetchSubscriptionStatus() {
       try {
         const response = await fetch('/subscription-status', {
-          headers: {
-            'X-CSRF-TOKEN': this.csrfToken,
-            'Accept': 'application/json'
-          },
+          headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' }
         });
-
         if (!response.ok) throw new Error('Failed to fetch subscription status');
-
         const data = await response.json();
         this.isSubscribed = data.is_subscribed;
-        this.subscription = {
-          stripe_price: data.plan !== 'free' ? data.plan : null,
+        this.subscription = data.is_subscribed ? {
+          stripe_price: data.plan,
           ends_at: data.ends_at
-        };
-
+        } : null;
         return data.is_subscribed;
       } catch (err) {
         console.error('Error fetching subscription:', err);
@@ -325,127 +281,121 @@ export default {
         return false;
       }
     },
-
     async checkSubscriptionStatus() {
+      this.loading = true;
       try {
-        const response = await axios.get('/sync-stripe-subscription');
-        if (response.data.is_subscribed && response.data.subscription.stripe_status === 'active') {
-          this.subscriptionStatus = 'active';
-          this.loading = false;
-        } else {
-          setTimeout(() => this.checkSubscriptionStatus(), 5000); // Poll every 5 seconds
+        const response = await this.fetchSubscriptionStatus();
+        if (!response && !this.error) {
+          this.error = 'Subscription status unavailable. Please try again.';
         }
       } catch (error) {
-        console.error('Error checking subscription:', error);
-        this.error = true;
-        this.errorMessage = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
+        this.error = 'Error checking subscription. Please try again.';
+      } finally {
         this.loading = false;
       }
     },
-    async retrySubscription() {
-      this.loading = true;
-      this.error = false;
-      await this.checkSubscriptionStatus();
-    },
-
-    async waitForSubscription() {
-      this.success = 'Subscription successful! Activating your subscription...';
-      let attempts = 0;
-      const maxAttempts = 15;
-
-      const checkStatus = async () => {
-        attempts++;
-        const subscribed = await this.fetchSubscriptionStatus();
-
-        if (subscribed) {
-          this.success = 'Subscription activated successfully! Welcome to Premium.';
-          this.loading = false;
-          setTimeout(() => {
-            this.success = '';
-          }, 5000);
-          return true;
-        }
-
-        if (attempts >= maxAttempts) {
-          this.error = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
-          this.success = '';
-          this.loading = false;
-          return false;
-        }
-
-        setTimeout(checkStatus, 2000);
-        return false;
-      };
-
-      await checkStatus();
-    },
-
     async checkUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
-
       if (urlParams.has('success')) {
         await this.waitForSubscription();
         window.history.replaceState({}, document.title, window.location.pathname);
       } else if (urlParams.has('cancelled')) {
         this.error = 'Subscription cancelled. You can try again when ready.';
         await this.fetchSubscriptionStatus();
-        this.loading = false;
         window.history.replaceState({}, document.title, window.location.pathname);
       } else {
         await this.fetchSubscriptionStatus();
-
-        // Check if subscription has actually ended
-        if (this.isSubscribed && this.subscription?.ends_at) {
-          const endsAtDate = new Date(this.subscription.ends_at);
-          const now = new Date();
-
-          // If the subscription end date has passed, show them as not subscribed
-          if (endsAtDate < now) {
-            this.isSubscribed = false;
-          }
-        }
-
-        this.loading = false;
       }
     },
-
-    async handleCancelSubscription() {
-      if (!confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
-        return;
+    async waitForSubscription() {
+      this.success = 'Subscription successful! Activating your subscription...';
+      let attempts = 0;
+      const maxAttempts = 15;
+      while (attempts < maxAttempts) {
+        attempts++;
+        const subscribed = await this.fetchSubscriptionStatus();
+        if (subscribed) {
+          this.success = 'Subscription activated successfully! Welcome to Premium.';
+          setTimeout(() => this.success = '', 5000);
+          return;
+        }
+        await new Promise(resolve => setTimeout(resolve, 2000));
       }
-
-      this.cancelling = true;
+      this.error = 'Subscription is taking longer than expected. Please refresh or contact support.';
+      this.success = '';
+    },
+    clearNotification() {
       this.error = '';
-
+      this.success = '';
+    },
+    getPlanBenefits() {
+      const plan = this.plans.find(p => p.value === this.subscription?.stripe_price);
+      return plan ? plan.features : ['Basic access only'];
+    },
+    async handleCancelSubscription() {
+      if (!confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) return;
+      this.cancelling = true;
       try {
         const response = await fetch('/cancel', {
           method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': this.csrfToken,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
+          headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json', 'Content-Type': 'application/json' }
         });
-
         const data = await response.json();
-
         if (response.ok && data.success) {
           await this.fetchSubscriptionStatus();
           this.success = `Subscription cancelled. You'll have access until ${this.formatDate(data.ends_at)}.`;
-          setTimeout(() => {
-            this.success = '';
-          }, 8000);
+          setTimeout(() => this.success = '', 8000);
         } else {
           throw new Error(data.message || 'Failed to cancel subscription');
         }
       } catch (err) {
-        console.error('Error cancelling subscription:', err);
         this.error = err.message || 'Error cancelling subscription. Please try again.';
       } finally {
         this.cancelling = false;
       }
     },
+    async handleSubmit() {
+      this.submitting = true;
+      this.error = '';
+      this.success = '';
+      try {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) throw new Error('CSRF token not found. Please refresh the page.');
 
+        const response = await fetch('/subscribe', {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          credentials: 'same-origin',
+          body: JSON.stringify({ price_lookup_key: this.selectedPlan })
+        });
+
+        const data = await response.json();
+        console.log('Full response:', response.status, data); // DEBUG LINE
+
+        if (response.ok) {
+          if (data.redirect) {
+            window.location.href = data.redirect;
+          }
+        } else {
+          // Show detailed validation errors
+          if (data.errors) {
+            console.error('Validation errors:', data.errors);
+            this.error = Object.values(data.errors).flat().join(' ');
+          } else {
+            this.error = data.message || 'An error occurred. Please try again.';
+          }
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        this.error = error.message || 'Network error. Please try again.';
+      } finally {
+        this.submitting = false;
+      }
+    }
   }
 };
 </script>

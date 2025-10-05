@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
 
 class SubscriptionController extends Controller
 {
@@ -13,6 +15,178 @@ class SubscriptionController extends Controller
         return view('subscribe');
     }
 
+    public function success(Request $request)
+    {
+        $user = auth()->user();
+        
+        if (!$user) {
+            \Log::error('Success callback: No authenticated user');
+            return redirect('/')->with('error', 'User not found.');
+        }
+
+        $sessionId = $request->query('session_id');
+        
+        if (!$sessionId) {
+            \Log::error('Success callback: No session_id provided');
+            return redirect('/subscribe?error=1');
+        }
+
+        try {
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+            
+            $session = \Stripe\Checkout\Session::retrieve([
+                'id' => $sessionId,
+                'expand' => ['subscription']
+            ]);
+            
+            \Log::info('Stripe session retrieved', [
+                'session_id' => $sessionId,
+                'subscription' => $session->subscription,
+                'customer' => $session->customer,
+                'payment_status' => $session->payment_status,
+                'user_id' => $user->id
+            ]);
+            
+            if (!$session->subscription) {
+                \Log::error('No subscription in session');
+                return redirect('/subscribe?error=1');
+            }
+            
+            // Get the full subscription object
+            if (is_string($session->subscription)) {
+                $stripeSubscription = \Stripe\Subscription::retrieve($session->subscription);
+            } else {
+                $stripeSubscription = $session->subscription;
+            }
+            
+            \Log::info('Creating subscription record', [
+                'stripe_id' => $stripeSubscription->id,
+                'status' => $stripeSubscription->status,
+                'price' => $stripeSubscription->items->data[0]->price->id
+            ]);
+            
+            // Create or update subscription
+            $subscription = $user->subscriptions()->updateOrCreate(
+                ['stripe_id' => $stripeSubscription->id],
+                [
+                    'name' => 'premium',
+                    'stripe_status' => $stripeSubscription->status,
+                    'stripe_price' => $stripeSubscription->items->data[0]->price->id,
+                    'quantity' => 1,
+                    'trial_ends_at' => null,
+                    'ends_at' => null,
+                ]
+            );
+            
+            \Log::info('Subscription record created', ['id' => $subscription->id]);
+            
+            return redirect('/subscribe?success=1');
+            
+        } catch (\Exception $e) {
+            \Log::error('Error in success callback', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return redirect('/subscribe?error=1');
+        }
+    }
+
+    public function handleWebhook(Request $request)
+    {
+        $payload = $request->getContent();
+        $sigHeader = $request->header('Stripe-Signature');
+        $webhookSecret = config('services.stripe.webhook_secret');
+
+        try {
+            $event = \Stripe\Webhook::constructEvent(
+                $payload,
+                $sigHeader,
+                $webhookSecret
+            );
+        } catch (\Exception $e) {
+            \Log::error('Webhook signature verification failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Invalid signature'], 400);
+        }
+
+        \Log::info('Webhook received: ' . $event->type);
+
+        // Handle the event
+        switch ($event->type) {
+            case 'checkout.session.completed':
+                $session = $event->data->object;
+                $this->handleCheckoutSessionCompleted($session);
+                break;
+                
+            case 'customer.subscription.created':
+            case 'customer.subscription.updated':
+                $subscription = $event->data->object;
+                $this->handleSubscriptionUpdated($subscription);
+                break;
+                
+            case 'customer.subscription.deleted':
+                $subscription = $event->data->object;
+                $this->handleSubscriptionDeleted($subscription);
+                break;
+        }
+
+        return response()->json(['status' => 'success']);
+    }
+
+    protected function handleCheckoutSessionCompleted($session)
+    {
+        \Log::info('Checkout completed', ['session_id' => $session->id]);
+        
+        // Find user by customer ID
+        $user = \App\Models\User::where('stripe_id', $session->customer)->first();
+        
+        if ($user && $session->subscription) {
+            \Log::info('Creating subscription for user: ' . $user->id);
+            
+            // Laravel Cashier will handle this automatically if set up correctly
+            // But you can manually sync if needed
+            $user->subscriptions()->updateOrCreate(
+                ['stripe_id' => $session->subscription],
+                [
+                    'name' => 'premium',
+                    'stripe_status' => 'active',
+                    'stripe_price' => $session->line_items->data[0]->price->id ?? null,
+                ]
+            );
+        }
+    }
+
+    protected function handleSubscriptionUpdated($subscription)
+    {
+        $user = \App\Models\User::where('stripe_id', $subscription->customer)->first();
+        
+        if ($user) {
+            \Log::info('Updating subscription for user: ' . $user->id);
+            
+            $user->subscriptions()->updateOrCreate(
+                ['stripe_id' => $subscription->id],
+                [
+                    'stripe_status' => $subscription->status,
+                    'stripe_price' => $subscription->items->data[0]->price->id ?? null,
+                    'quantity' => $subscription->items->data[0]->quantity ?? 1,
+                    'trial_ends_at' => $subscription->trial_end ? \Carbon\Carbon::createFromTimestamp($subscription->trial_end) : null,
+                    'ends_at' => $subscription->cancel_at ? \Carbon\Carbon::createFromTimestamp($subscription->cancel_at) : null,
+                ]
+            );
+        }
+    }
+
+    protected function handleSubscriptionDeleted($subscription)
+    {
+        $user = \App\Models\User::where('stripe_id', $subscription->customer)->first();
+        
+        if ($user) {
+            \Log::info('Subscription cancelled for user: ' . $user->id);
+            
+            $user->subscriptions()
+                ->where('stripe_id', $subscription->id)
+                ->update(['stripe_status' => 'canceled']);
+        }
+    }
 
     public function createSubscription(Request $request)
     {
@@ -21,18 +195,42 @@ class SubscriptionController extends Controller
         ]);
 
         $user = Auth::user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Please create an account to subscribe.',
+                'errors' => ['auth' => ['You must be logged in to subscribe.']]
+            ], 401); // Changed from 422 to 401
+        }
+
         \Log::info('Creating subscription for user: ' . $user->id . ' with price: ' . $request->price_lookup_key);
 
         try {
-            $checkout = $user->newSubscription('premium', $request->price_lookup_key)->checkout([
-                'success_url' => route('subscribe') . '?success=1',
+            Stripe::setApiKey(config('services.stripe.secret'));
+            
+            // Add more logging
+            \Log::info('Stripe API Key set');
+            
+            $checkoutSession = Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    'price' => $request->price_lookup_key,
+                    'quantity' => 1,
+                ]],
+                'mode' => 'subscription',
+                'success_url' => route('subscribe.success') . '?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('subscribe') . '?cancelled=1',
+                'customer' => $user->createOrGetStripeCustomer()->id,
             ]);
 
-            return redirect()->away($checkout->url);
+            \Log::info('Checkout session created: ' . $checkoutSession->id);
+
+            return response()->json(['redirect' => $checkoutSession->url]);
         } catch (\Exception $e) {
             \Log::error('Subscription error: ' . $e->getMessage());
-            return redirect()->back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
+            return response()->json([
+                'message' => 'Error processing subscription: ' . $e->getMessage(), 
+                'errors' => ['stripe' => [$e->getMessage()]]
+            ], 422);
         }
     }
 
@@ -50,16 +248,12 @@ class SubscriptionController extends Controller
         
         $subscription = $user->subscription('premium');
         
-        // If subscription is cancelled (has ends_at), allow resubscribing
+        // Check if subscription is cancelled but still active
         if ($subscription && $subscription->ends_at) {
             return response()->json([
-                'is_subscribed' => false,
-                'plan' => 'free',
+                'is_subscribed' => true, // Still has access until ends_at
+                'plan' => $subscription->stripe_price ?? 'free',
                 'ends_at' => $subscription->ends_at->toDateString(),
-                'current_subscription' => [
-                    'plan' => $subscription->stripe_price,
-                    'ends_at' => $subscription->ends_at->toDateString()
-                ]
             ]);
         }
         
@@ -72,56 +266,6 @@ class SubscriptionController extends Controller
         ]);
     }
 
-    
-
-    public function success(Request $request)
-    {
-        $user = Auth::user();
-        $sessionId = $request->query('session_id');
-
-        if ($sessionId) {
-            try {
-                // Explicitly set the Stripe API key
-                \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-
-                // Retrieve the checkout session from Stripe
-                $session = \Stripe\Checkout\Session::retrieve($sessionId, [
-                    'expand' => ['customer'],
-                ]);
-
-                // Ensure the user is linked to the Stripe customer
-                if (!$user->stripe_id) {
-                    $user->stripe_id = $session->customer;
-                    $user->save();
-                    \Log::info('Linked user to Stripe customer: ' . $user->id, [
-                        'customer_id' => $session->customer,
-                    ]);
-                }
-
-                // Check if the subscription exists
-                $subscription = $user->subscription('premium');
-                if ($subscription) {
-                    \Log::info('Subscription found for user: ' . $user->id, [
-                        'subscription_id' => $subscription->stripe_id,
-                        'stripe_price' => $subscription->stripe_price,
-                    ]);
-                } else {
-                    \Log::info('Subscription not yet synced for user: ' . $user->id, [
-                        'session_id' => $sessionId,
-                    ]);
-                    // Note: Webhook will handle subscription creation
-                }
-
-                return redirect()->route('subscribe')->with('message', 'Subscription successful! Please wait a moment for the subscription to activate.');
-            } catch (\Exception $e) {
-                \Log::error('Error processing checkout session: ' . $e->getMessage());
-                return redirect()->route('subscribe')->with('message', 'Error verifying subscription: ' . $e->getMessage());
-            }
-        }
-
-        return redirect()->route('subscribe')->with('message', 'No session ID provided.');
-    }
-
     public function cancelSubscription(Request $request)
     {
         $user = Auth::user();
@@ -129,10 +273,7 @@ class SubscriptionController extends Controller
 
         if ($subscription) {
             $subscription->cancel();
-            
-            // Refresh to get updated ends_at
             $subscription = $subscription->fresh();
-            
             return response()->json([
                 'success' => true,
                 'message' => 'Subscription cancelled.',
@@ -145,9 +286,6 @@ class SubscriptionController extends Controller
             'message' => 'No active subscription to cancel.',
         ], 400);
     }
-
-    
-    
 
     public function addPaymentMethod(Request $request)
     {

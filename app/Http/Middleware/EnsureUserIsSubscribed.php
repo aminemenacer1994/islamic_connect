@@ -18,22 +18,19 @@ class EnsureUserIsSubscribed
     public function handle(Request $request, Closure $next)
     {
         $user = $request->user();
+        
+        \Log::info('Subscription middleware check', [
+            'user_id' => $user?->id,
+            'has_subscription' => $user?->subscribed('premium'),
+            'path' => $request->path()
+        ]);
 
         if (!$user) {
-            // User not authenticated
-            return redirect()->route('login')->with('error', 'Please log in to access this content.');
+            return redirect('/login')->with('error', 'Please log in to access this content.');
         }
 
-        if (!$user->subscribed('default')) {
-            // User not subscribed
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'error' => 'Subscription required',
-                    'message' => 'This content requires an active subscription.'
-                ], 403);
-            }
-
-            return redirect()->route('media-center')->with('error', 'This content requires an active subscription.');
+        if (!$user->subscribed('premium')) {
+            return redirect('/subscribe')->with('error', 'This content requires an active subscription.');
         }
 
         return $next($request);
