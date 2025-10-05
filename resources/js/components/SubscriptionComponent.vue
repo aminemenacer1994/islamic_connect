@@ -50,13 +50,13 @@
               </div>
               <h2>{{ planDisplayName }}</h2>
               <p class="subtitle">{{ subscription?.ends_at ? 'Cancellation scheduled' : 'You\'re currently subscribed'
-                }}</p>
+              }}</p>
 
               <div class="status-info">
                 <div class="status-item">
                   <span class="label">{{ subscription?.ends_at ? 'Access until' : 'Status' }}</span>
                   <span class="value">{{ subscription?.ends_at ? formatDate(subscription.ends_at) : 'Active & Unlimited'
-                    }}</span>
+                  }}</span>
                 </div>
               </div>
             </div>
@@ -230,13 +230,13 @@ export default {
   mounted() {
     this.checkSubscriptionStatus();
     this.checkUrlParams();
-    
+
     fetch('/subscription-status', {
-        headers: { 'Accept': 'application/json' }
+      headers: { 'Accept': 'application/json' }
     })
-    .then(r => r.json())
-    .then(data => console.log('Subscription status:', data))
-    .catch(e => console.error('Subscription check error:', e));
+      .then(r => r.json())
+      .then(data => console.log('Subscription status:', data))
+      .catch(e => console.error('Subscription check error:', e));
   },
   methods: {
     formatDate(dateString) {
@@ -245,53 +245,62 @@ export default {
     toggleFaq(index) {
       this.faqs[index].open = !this.faqs[index].open;
     },
-    async checkSubscription() {
+    async checkSubscriptionStatus() {
       this.loading = true;
+      this.error = ''; // Clear any previous errors
       try {
-        const response = await axios.get('/user');
-        this.isAuthenticated = !!response.data;
-        if (this.isAuthenticated) {
-          const subscription = await axios.get('/subscription-status');
-          // Fix: Check the correct property name
-          this.isSubscribed = subscription.data.is_subscribed;
-        }
+        await this.fetchSubscriptionStatus();
       } catch (error) {
-        console.error('Subscription check failed:', error);
-        this.isAuthenticated = false;
-        this.isSubscribed = false;
+        console.error('Error checking subscription:', error);
+        this.error = 'Error checking subscription. Please try again.';
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
     },
     async fetchSubscriptionStatus() {
       try {
         const response = await fetch('/subscription-status', {
-          headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' }
+            headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' }
         });
-        if (!response.ok) throw new Error('Failed to fetch subscription status');
+        
+        // If 401, user is not logged in - this is expected, not an error
+        if (response.status === 401) {
+            this.isSubscribed = false;
+            this.subscription = null;
+            return false;
+        }
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch subscription status');
+        }
+        
         const data = await response.json();
         this.isSubscribed = data.is_subscribed;
         this.subscription = data.is_subscribed ? {
-          stripe_price: data.plan,
-          ends_at: data.ends_at
+            stripe_price: data.plan,
+            ends_at: data.ends_at
         } : null;
+        
         return data.is_subscribed;
       } catch (err) {
         console.error('Error fetching subscription:', err);
-        this.error = 'Error loading subscription status. Please refresh the page.';
+        // Don't show error to user - just default to not subscribed
+        this.isSubscribed = false;
+        this.subscription = null;
         return false;
       }
     },
     async checkSubscriptionStatus() {
       this.loading = true;
+      this.error = ''; // Clear any previous errors
       try {
-        const response = await this.fetchSubscriptionStatus();
-        if (!response && !this.error) {
-          this.error = 'Subscription status unavailable. Please try again.';
-        }
+          await this.fetchSubscriptionStatus();
+          // Don't set error here - the function handles it internally
       } catch (error) {
-        this.error = 'Error checking subscription. Please try again.';
+          console.error('Error checking subscription:', error);
+          // Only show error for actual failures, not for being logged out
       } finally {
-        this.loading = false;
+          this.loading = false;
       }
     },
     async checkUrlParams() {
