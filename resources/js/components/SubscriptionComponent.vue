@@ -14,13 +14,13 @@
     <main class="subscription-main">
       <div class="container">
         <!-- Notifications -->
-        <div v-if="success" class="notification success">
+        <!-- <div v-if="success" class="notification success">
           <i class="fas fa-check-circle"></i>
           <span>{{ success }}</span>
           <button @click="success = ''" class="close-btn">
             <i class="fas fa-times"></i>
           </button>
-        </div>
+        </div> -->
 
         <div v-if="error" class="notification error">
           <i class="fas fa-exclamation-triangle"></i>
@@ -37,26 +37,24 @@
         </div>
 
         <!-- Active Subscription View -->
-        <div v-else-if="isSubscribed" class="active-subscription">
+        <div v-else-if="isSubscribed && !subscription?.ends_at" class="active-subscription">
           <div class="subscription-card">
             <div class="card-badge">
               <i class="fas fa-crown"></i>
-              {{ subscription?.ends_at ? 'Subscription Ending Soon' : 'Active Subscription' }}
+              Active Subscription
             </div>
 
             <div class="card-header">
-              <div class="status-icon" :class="{ 'cancelled': subscription?.ends_at }">
-                <i class="fas" :class="subscription?.ends_at ? 'fa-calendar-times' : 'fa-check-circle'"></i>
+              <div class="status-icon">
+                <i class="fas fa-check-circle"></i>
               </div>
               <h2>{{ planDisplayName }}</h2>
-              <p class="subtitle">{{ subscription?.ends_at ? 'Cancellation scheduled' : 'You\'re currently subscribed'
-              }}</p>
+              <p class="subtitle">You're currently subscribed</p>
 
               <div class="status-info">
                 <div class="status-item">
-                  <span class="label">{{ subscription?.ends_at ? 'Access until' : 'Status' }}</span>
-                  <span class="value">{{ subscription?.ends_at ? formatDate(subscription.ends_at) : 'Active & Unlimited'
-                  }}</span>
+                  <span class="label">Status</span>
+                  <span class="value">Active & Unlimited</span>
                 </div>
               </div>
             </div>
@@ -86,22 +84,25 @@
                 </div>
               </div>
 
-              <button v-if="!subscription?.ends_at" @click="handleCancelSubscription" class="btn btn-cancel"
-                :disabled="cancelling">
+              <button @click="handleCancelSubscription" class="btn btn-cancel" :disabled="cancelling">
                 <i class="fas fa-times-circle"></i>
                 {{ cancelling ? 'Cancelling...' : 'Cancel Subscription' }}
               </button>
-
-              <div v-else class="cancellation-notice">
-                <i class="fas fa-info-circle"></i>
-                Your subscription has been cancelled and will not renew.
-              </div>
             </div>
           </div>
         </div>
 
         <!-- Subscription Plans View -->
         <div v-else class="plans-view">
+          <!-- Cancelled Subscription Notice -->
+          <div v-if="subscription?.ends_at" class="notification" style="background: #f0f9ff; border: 1px solid #bae6fd; color: #0369a1; margin-bottom: 32px;">
+            <i class="fas fa-info-circle"></i>
+            <span>Your subscription ends on {{ formatDate(subscription.ends_at) }}. Subscribe again to continue enjoying premium features after this date.</span>
+            <button @click="subscription = null" class="close-btn" style="color: #0369a1;">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
           <div class="plans-header">
             <h2>Choose Your Plan</h2>
             <p>Select the plan that works best for you</p>
