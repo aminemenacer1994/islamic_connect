@@ -257,21 +257,25 @@ class SubscriptionController extends Controller
         
         $subscription = $user->subscription('premium');
         
-        // Check if subscription is cancelled but still active
-        if ($subscription && $subscription->ends_at) {
+        if ($subscription) {
+            $stripeSubscription = $subscription->asStripeSubscription();
+            $endsAt = $stripeSubscription->cancel_at 
+                ? \Carbon\Carbon::createFromTimestamp($stripeSubscription->cancel_at) 
+                : ($stripeSubscription->current_period_end 
+                    ? \Carbon\Carbon::createFromTimestamp($stripeSubscription->current_period_end) 
+                    : null);
+            $isSubscribed = $subscription->active() || $subscription->onGracePeriod();
             return response()->json([
-                'is_subscribed' => true, // Still has access until ends_at
-                'plan' => $subscription->stripe_price ?? 'free',
-                'ends_at' => $subscription->ends_at->toDateString(),
+                'is_subscribed' => $isSubscribed,
+                'plan' => $subscription->stripe_price,
+                'ends_at' => $endsAt ? $endsAt->toIso8601String() : null,
             ]);
         }
         
-        $isSubscribed = $user->subscribed('premium');
-
         return response()->json([
-            'is_subscribed' => $isSubscribed,
-            'plan' => $subscription?->stripe_price ?? 'free',
-            'ends_at' => optional($subscription)->ends_at?->toDateString(),
+            'is_subscribed' => false,
+            'plan' => 'free',
+            'ends_at' => null,
         ]);
     }
 
@@ -279,44 +283,25 @@ class SubscriptionController extends Controller
     public function cancelSubscription(Request $request)
     {
         $user = Auth::user();
-        $subscription = $user->subscription('premium'); // Adjust 'premium' to your subscription name
-
-        if (!$subscription) {
-            return response()->json(['success' => false, 'message' => 'You do not have an active subscription to cancel.'], 400);
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
         }
 
-        try {
-            if ($subscription->canceled_at) {
-                // Already canceled; update ends_at to now if not set or in the future
-                if (!$subscription->ends_at || new \DateTime($subscription->ends_at) > now()) {
-                    $subscription->ends_at = now();
-                    $subscription->save();
-                    Log::info('Updated ends_at for already canceled subscription', ['user_id' => $user->id, 'ends_at' => $subscription->ends_at]);
-                }
-                return response()->json(['success' => true, 'message' => 'Your subscription is already canceled. Access ends on ' . $subscription->ends_at->toDateString(), 'ends_at' => $subscription->ends_at]);
-            }
+        $subscription = $user->subscription('premium');
+        if ($subscription && $subscription->active()) {
+            $subscription->cancel();
+            $stripeSubscription = $subscription->asStripeSubscription();
+            $endsAt = \Carbon\Carbon::createFromTimestamp($stripeSubscription->current_period_end)->toIso8601String();
+            $subscription->ends_at = $endsAt;
+            $subscription->save();
 
-            // Cancel the subscription immediately
-            $subscription->cancelNow(); // Use cancelNow() instead of cancel() to end immediately
-            Log::info('Canceled subscription immediately', ['user_id' => $user->id, 'ends_at' => $subscription->ends_at]);
-            return response()->json(['success' => true, 'message' => 'Your subscription has been canceled. Access ends now.', 'ends_at' => $subscription->ends_at]);
-        } catch (\Stripe\Exception\InvalidRequestException $e) {
-            // Handle case where cancellation fails (e.g., already canceled)
-            if (strpos($e->getMessage(), 'canceled subscription') !== false) {
-                $subscription->ends_at = now();
-                $subscription->save();
-                Log::warning('Forced ends_at update due to Stripe error', ['user_id' => $user->id, 'error' => $e->getMessage(), 'ends_at' => $subscription->ends_at]);
-                return response()->json(['success' => true, 'message' => 'Your subscription was already canceled. Access ends now.', 'ends_at' => $subscription->ends_at]);
-            }
-            Log::error('Stripe cancellation error', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while canceling your subscription: ' . $e->getMessage(),
-            ], 500);
-        } catch (\Exception $e) {
-            Log::error('Unexpected cancellation error', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-            return response()->json(['success' => false, 'message' => 'An unexpected error occurred: ' . $e->getMessage()], 500);
+                'success' => true,
+                'ends_at' => $endsAt,
+            ]);
         }
+
+        return response()->json(['success' => false, 'message' => 'No active subscription to cancel']);
     }
 
 

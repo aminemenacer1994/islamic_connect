@@ -153955,9 +153955,19 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var _this$subscription2;
       var currentDate = new Date();
       var endsAtDate = (_this$subscription2 = this.subscription) !== null && _this$subscription2 !== void 0 && _this$subscription2.ends_at ? new Date(this.subscription.ends_at) : null;
-      var canCancelValue = endsAtDate && endsAtDate > currentDate;
+      var canCancelValue = endsAtDate ? endsAtDate > currentDate : true; // Treat null as active and cancellable
       console.log('canCancel check - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString(), 'currentDate:', currentDate.toISOString(), 'canCancel:', canCancelValue);
       return canCancelValue;
+    },
+    showPlans: function showPlans() {
+      return !this.isSubscribed; // Hide plans if subscribed
+    },
+    subscriptionStatus: function subscriptionStatus() {
+      var _this$subscription3;
+      if (!this.isSubscribed) return 'Free';
+      var endsAtDate = (_this$subscription3 = this.subscription) !== null && _this$subscription3 !== void 0 && _this$subscription3.ends_at ? new Date(this.subscription.ends_at) : null;
+      var currentDate = new Date();
+      return endsAtDate && endsAtDate <= currentDate ? 'Cancelled' : 'Active & Unlimited';
     }
   },
   mounted: function mounted() {
@@ -153980,13 +153990,16 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }).then(function (r) {
       return r.json();
     }).then(function (data) {
-      console.log('Fetched subscription status:', data);
+      console.log('Fetched subscription status (raw):', JSON.stringify(data, null, 2));
       if (data.is_subscribed !== undefined) {
         _this.isSubscribed = data.is_subscribed;
         _this.subscription = data.is_subscribed ? {
           stripe_price: data.plan,
           ends_at: data.ends_at
         } : null;
+        console.log('Updated state - isSubscribed:', _this.isSubscribed, 'subscription:', _this.subscription);
+      } else {
+        console.error('Invalid subscription data:', JSON.stringify(data, null, 2));
       }
     })["catch"](function (e) {
       return console.error('Error fetching subscription status:', e);
@@ -154020,7 +154033,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               });
             case 1:
               response = _context.v;
-              console.log('User authentication response:', response.status, response.data);
+              console.log('User authentication response (raw):', response.status, JSON.stringify(response.data, null, 2));
               _this2.isAuthenticated = !!response.data;
               _context.n = 3;
               break;
@@ -154072,19 +154085,24 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 4:
               data = _context2.v;
-              console.log('Subscription details:', data);
-              _this3.isAuthenticated = true;
-              _this3.isSubscribed = data.is_subscribed;
-              _this3.subscription = data.is_subscribed ? {
-                stripe_price: data.plan,
-                ends_at: data.ends_at
-              } : null;
+              console.log('Fetched subscription status (parsed):', JSON.stringify(data, null, 2));
+              if (data.is_subscribed !== undefined && data.plan !== undefined) {
+                _this3.isSubscribed = data.is_subscribed;
+                _this3.subscription = data.is_subscribed ? {
+                  stripe_price: data.plan,
+                  ends_at: data.ends_at
+                } : null;
+                console.log('Updated state after fetch - isSubscribed:', _this3.isSubscribed, 'subscription:', _this3.subscription);
+              } else {
+                console.error('Invalid subscription data structure:', JSON.stringify(data, null, 2));
+                _this3.isSubscribed = false;
+                _this3.subscription = null;
+              }
               return _context2.a(2, data.is_subscribed);
             case 5:
               _context2.p = 5;
               _t2 = _context2.v;
               console.error('Error loading subscription:', _t2);
-              _this3.isAuthenticated = false;
               _this3.isSubscribed = false;
               _this3.subscription = null;
               return _context2.a(2, false);
@@ -154118,6 +154136,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           while (1) switch (_context4.n) {
             case 0:
               urlParams = new URLSearchParams(window.location.search);
+              console.log('checkUrlParams - URL params:', Array.from(urlParams.entries()));
               if (!urlParams.has('success')) {
                 _context4.n = 2;
                 break;
@@ -154169,6 +154188,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return _this6.fetchSubscriptionStatus();
             case 2:
               subscribed = _context5.v;
+              console.log("waitForSubscription - Attempt ".concat(attempts, ": isSubscribed = ").concat(subscribed, ", subscription ="), _this6.subscription);
               if (!subscribed) {
                 _context5.n = 3;
                 break;
@@ -154238,15 +154258,26 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 4:
               data = _context6.v;
-              console.log('Cancellation response:', data);
+              console.log('handleCancelSubscription - Cancellation response:', JSON.stringify(data, null, 2));
               if (!(response.ok && data.success)) {
                 _context6.n = 6;
                 break;
               }
+              // Safely update subscription if it exists
+              if (_this8.subscription) {
+                _this8.subscription.ends_at = data.ends_at || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // Default to 1 day
+              } else {
+                _this8.subscription = {
+                  stripe_price: _this8.selectedPlan,
+                  ends_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+                };
+                _this8.isSubscribed = true;
+              }
               _context6.n = 5;
-              return _this8.waitForCancellationUpdate();
+              return _this8.fetchSubscriptionStatus();
             case 5:
-              _this8.success = "Subscription canceled. You\u2019ll have access until ".concat(_this8.formatDate(data.ends_at), ".");
+              // Refresh to sync with backend
+              _this8.success = "Subscription canceled. You\u2019ll have access until ".concat(_this8.formatDate(_this8.subscription.ends_at), ".");
               setTimeout(function () {
                 return _this8.success = '';
               }, 8000);
@@ -154257,9 +154288,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context6.n = 8;
                 break;
               }
-              _this8.subscription.ends_at = new Date().toISOString();
+              _this8.subscription = _this8.subscription || {
+                stripe_price: _this8.selectedPlan,
+                ends_at: new Date().toISOString()
+              };
               _context6.n = 7;
-              return _this8.waitForCancellationUpdate();
+              return _this8.fetchSubscriptionStatus();
             case 7:
               _this8.success = 'Your subscription is already canceled. Access ends now.';
               setTimeout(function () {
@@ -154276,7 +154310,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context6.p = 10;
               _t3 = _context6.v;
               _this8.error = _t3.message || 'An error occurred while canceling. Please try again.';
-              console.error('Cancellation error:', _t3);
+              console.error('handleCancelSubscription - Error:', _t3);
             case 11:
               _context6.p = 11;
               _this8.cancelling = false;
@@ -154310,7 +154344,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context7.n = 3;
                 break;
               }
-              console.log('Cancellation state confirmed - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString());
+              console.log('waitForCancellationUpdate - Cancellation state confirmed - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString());
               return _context7.a(2);
             case 3:
               attempts++;
@@ -154322,7 +154356,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context7.n = 1;
               break;
             case 5:
-              console.warn('Failed to confirm cancellation state after max attempts');
+              console.warn('waitForCancellationUpdate - Failed to confirm cancellation state after max attempts');
             case 6:
               return _context7.a(2);
           }
@@ -154366,14 +154400,14 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 4:
               data = _context8.v;
-              console.log('Subscription response:', response.status, data);
+              console.log('handleSubmit - Subscription response:', response.status, JSON.stringify(data, null, 2));
               if (response.ok) {
                 if (data.redirect) {
                   window.location.href = data.redirect;
                 }
               } else {
                 if (data.errors) {
-                  console.error('Validation errors:', data.errors);
+                  console.error('handleSubmit - Validation errors:', data.errors);
                   _this0.error = Object.values(data.errors).flat().join(' ');
                 } else {
                   _this0.error = data.message || 'An error occurred. Please try again.';
@@ -154384,7 +154418,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 5:
               _context8.p = 5;
               _t4 = _context8.v;
-              console.error('Subscription error:', _t4);
+              console.error('handleSubmit - Subscription error:', _t4);
               _this0.error = _t4.message || 'A network error occurred. Please try again.';
             case 6:
               _context8.p = 6;
@@ -154408,7 +154442,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     subscription: {
       handler: function handler(newVal) {
-        console.log('Subscription updated:', newVal);
+        console.log('watch - Subscription updated:', JSON.stringify(newVal, null, 2));
       },
       deep: true
     }
@@ -181479,12 +181513,15 @@ var _hoisted_11 = {
 var _hoisted_12 = {
   "class": "card-body"
 };
-var _hoisted_13 = ["disabled"];
-var _hoisted_14 = {
+var _hoisted_13 = {
+  "class": "benefits-list"
+};
+var _hoisted_14 = ["disabled"];
+var _hoisted_15 = {
   key: 5,
   "class": "plans-view"
 };
-var _hoisted_15 = {
+var _hoisted_16 = {
   key: 0,
   "class": "notification",
   style: {
@@ -181494,64 +181531,64 @@ var _hoisted_15 = {
     "margin-bottom": "32px"
   }
 };
-var _hoisted_16 = {
+var _hoisted_17 = {
   "class": "plans-grid"
 };
-var _hoisted_17 = ["onClick"];
-var _hoisted_18 = {
+var _hoisted_18 = ["onClick"];
+var _hoisted_19 = {
   key: 0,
   "class": "plan-badge"
 };
-var _hoisted_19 = {
+var _hoisted_20 = {
   "class": "plan-header"
 };
-var _hoisted_20 = {
+var _hoisted_21 = {
   "class": "plan-icon"
 };
-var _hoisted_21 = {
+var _hoisted_22 = {
   "class": "plan-price"
 };
-var _hoisted_22 = {
+var _hoisted_23 = {
   "class": "amount"
 };
-var _hoisted_23 = {
+var _hoisted_24 = {
   "class": "period"
 };
-var _hoisted_24 = {
+var _hoisted_25 = {
   key: 0,
   "class": "savings"
 };
-var _hoisted_25 = {
+var _hoisted_26 = {
   "class": "plan-features"
 };
-var _hoisted_26 = {
+var _hoisted_27 = {
   "class": "plan-selector"
 };
-var _hoisted_27 = ["id", "value"];
-var _hoisted_28 = ["for"];
-var _hoisted_29 = {
+var _hoisted_28 = ["id", "value"];
+var _hoisted_29 = ["for"];
+var _hoisted_30 = {
   "class": "payment-section"
 };
-var _hoisted_30 = ["value"];
 var _hoisted_31 = ["value"];
-var _hoisted_32 = ["disabled"];
-var _hoisted_33 = {
+var _hoisted_32 = ["value"];
+var _hoisted_33 = ["disabled"];
+var _hoisted_34 = {
   "class": "faq-section"
 };
-var _hoisted_34 = {
+var _hoisted_35 = {
   "class": "container"
 };
-var _hoisted_35 = {
+var _hoisted_36 = {
   "class": "faq-list"
 };
-var _hoisted_36 = ["onClick"];
-var _hoisted_37 = {
+var _hoisted_37 = ["onClick"];
+var _hoisted_38 = {
   key: 0,
   "class": "faq-answer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$data$subscription, _$data$subscription2, _$data$subscription3;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  var _$data$subscription;
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     "class": "subscription-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "container"
@@ -181588,7 +181625,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.showSuccessImage = false;
     }),
     "class": "btn btn-primary"
-  }, "Continue")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription View "), (_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Continue")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription View "), $data.isSubscribed && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card-badge"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-crown"
@@ -181605,7 +181642,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       color: $options.canCancel ? '#35a38b' : '#9ca3af'
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.canCancel ? 'Active & Unlimited' : 'Cancelled'), 5 /* TEXT, STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<h3 data-v-0ca26305>Premium Benefits</h3><div class=\"benefits-list\" data-v-0ca26305><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Ad-free experience</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Offline access to content</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Advanced prayer time settings</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Priority support</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Early access to new features</span></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.subscriptionStatus), 5 /* TEXT, STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Benefits", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPlanBenefits(), function (benefit) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "benefit-item",
+      key: benefit
+    }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-check"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(benefit), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[3] || (_cache[3] = function () {
       return $options.handleCancelSubscription && $options.handleCancelSubscription.apply($options, arguments);
     }),
@@ -181613,9 +181657,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       'disabled': !$options.canCancel
     }]),
     disabled: $data.cancelling || !$options.canCancel
-  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times-circle"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : $options.canCancel ? 'Cancel Subscription' : 'Already Cancelled'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_13)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), !((_$data$subscription2 = $data.subscription) !== null && _$data$subscription2 !== void 0 && _$data$subscription2.ends_at) && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cancelled Subscription Notice "), (_$data$subscription3 = $data.subscription) !== null && _$data$subscription3 !== void 0 && _$data$subscription3.ends_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : $options.canCancel ? 'Cancel Subscription' : 'Already Cancelled'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_14)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), $options.showPlans && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-info-circle"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your subscription ends on " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.subscription.ends_at)) + ". Subscribe again to continue enjoying premium features after this date.", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[4] || (_cache[4] = function ($event) {
@@ -181625,9 +181669,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "color": "#0369a1"
     }
-  }, _toConsumableArray(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times"
-  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "plans-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Choose Your Plan"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Select the plan that works best for you")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     method: "POST",
@@ -181635,7 +181679,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onSubmit: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.handleSubmit && $options.handleSubmit.apply($options, arguments);
     }, ["prevent"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Plans Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.plans, function (plan) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.plans, function (plan) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: plan.value,
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["plan-card", {
@@ -181645,16 +181689,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $data.selectedPlan = plan.value;
       }
-    }, [plan.featured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.badge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [plan.featured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.badge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(plan.icon)
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */)]), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */)]), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: feature,
         "class": "feature-item"
-      }, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "fas fa-check"
       }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "radio",
       id: plan.value,
       value: plan.value,
@@ -181662,31 +181706,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $data.selectedPlan = $event;
       }),
       "class": "radio-input"
-    }, null, 8 /* PROPS */, _hoisted_27), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, null, 8 /* PROPS */, _hoisted_28), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": plan.value,
       "class": "radio-label"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.value === $data.selectedPlan ? 'Selected' : 'Select Plan'), 9 /* TEXT, PROPS */, _hoisted_28)])], 10 /* CLASS, PROPS */, _hoisted_17);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Payment Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.value === $data.selectedPlan ? 'Selected' : 'Select Plan'), 9 /* TEXT, PROPS */, _hoisted_29)])], 10 /* CLASS, PROPS */, _hoisted_18);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
     name: "_token",
     value: $data.csrfToken
-  }, null, 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
     name: "price_lookup_key",
     value: $data.selectedPlan
-  }, null, 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     "class": "btn btn-primary",
     disabled: $data.submitting
-  }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-credit-card"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing...' : 'Continue to Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_32), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing...' : 'Continue to Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_33), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "security-note"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-lock"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment powered by Stripe ")], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment powered by Stripe ")], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "faq-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Frequently Asked Questions")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, function (faq, index) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Frequently Asked Questions")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, function (faq, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
       "class": "faq-item"
@@ -181699,7 +181743,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas fa-chevron-down", {
         'open': faq.open
       }])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_36), faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_37), faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
   }), 128 /* KEYED_FRAGMENT */))])])])]);
 }
 

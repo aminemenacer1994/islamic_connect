@@ -44,7 +44,7 @@
         </div>
 
         <!-- Active Subscription View -->
-        <div v-if="subscription?.ends_at && !showSuccessImage" class="active-subscription">
+        <div v-if="isSubscribed && !showSuccessImage" class="active-subscription">
           <div class="subscription-card">
             <div class="card-badge">
               <i class="fas fa-crown"></i>
@@ -61,34 +61,17 @@
               <div class="status-item">
                 <span class="label">Status</span>
                 <span class="value" :style="{ color: canCancel ? '#35a38b' : '#9ca3af' }">
-                  {{ canCancel ? 'Active & Unlimited' : 'Cancelled' }}
+                  {{ subscriptionStatus }}
                 </span>
               </div>
-
             </div>
 
             <div class="card-body">
               <h3>Premium Benefits</h3>
               <div class="benefits-list">
-                <div class="benefit-item">
+                <div class="benefit-item" v-for="benefit in getPlanBenefits()" :key="benefit">
                   <i class="fas fa-check"></i>
-                  <span>Ad-free experience</span>
-                </div>
-                <div class="benefit-item">
-                  <i class="fas fa-check"></i>
-                  <span>Offline access to content</span>
-                </div>
-                <div class="benefit-item">
-                  <i class="fas fa-check"></i>
-                  <span>Advanced prayer time settings</span>
-                </div>
-                <div class="benefit-item">
-                  <i class="fas fa-check"></i>
-                  <span>Priority support</span>
-                </div>
-                <div class="benefit-item">
-                  <i class="fas fa-check"></i>
-                  <span>Early access to new features</span>
+                  <span>{{ benefit }}</span>
                 </div>
               </div>
 
@@ -105,8 +88,7 @@
         </div>
 
         <!-- Subscription Plans View -->
-        <div v-if="!subscription?.ends_at && !showSuccessImage" class="plans-view">
-          <!-- Cancelled Subscription Notice -->
+        <div v-if="showPlans && !showSuccessImage" class="plans-view">
           <div v-if="subscription?.ends_at" class="notification" style="background: #f0f9ff; border: 1px solid #bae6fd; color: #0369a1; margin-bottom: 32px;">
             <i class="fas fa-info-circle"></i>
             <span>Your subscription ends on {{ formatDate(subscription.ends_at) }}. Subscribe again to continue enjoying premium features after this date.</span>
@@ -121,7 +103,6 @@
           </div>
 
           <form method="POST" action="/subscribe" @submit.prevent="handleSubmit">
-            <!-- Plans Grid -->
             <div class="plans-grid">
               <div v-for="plan in plans" :key="plan.value" class="plan-card" :class="{
                 'featured': plan.featured,
@@ -159,7 +140,6 @@
               </div>
             </div>
 
-            <!-- Payment Section -->
             <div class="payment-section">
               <input type="hidden" name="_token" :value="csrfToken">
               <input type="hidden" name="price_lookup_key" :value="selectedPlan">
@@ -243,9 +223,18 @@ export default {
     canCancel() {
       const currentDate = new Date();
       const endsAtDate = this.subscription?.ends_at ? new Date(this.subscription.ends_at) : null;
-      const canCancelValue = endsAtDate && endsAtDate > currentDate;
+      const canCancelValue = endsAtDate ? endsAtDate > currentDate : true; // Treat null as active and cancellable
       console.log('canCancel check - ends_at:', endsAtDate?.toISOString(), 'currentDate:', currentDate.toISOString(), 'canCancel:', canCancelValue);
       return canCancelValue;
+    },
+    showPlans() {
+      return !this.isSubscribed; // Hide plans if subscribed
+    },
+    subscriptionStatus() {
+      if (!this.isSubscribed) return 'Free';
+      const endsAtDate = this.subscription?.ends_at ? new Date(this.subscription.ends_at) : null;
+      const currentDate = new Date();
+      return endsAtDate && endsAtDate <= currentDate ? 'Cancelled' : 'Active & Unlimited';
     }
   },
   mounted() {
@@ -267,10 +256,13 @@ export default {
     })
       .then(r => r.json())
       .then(data => {
-        console.log('Fetched subscription status:', data);
+        console.log('Fetched subscription status (raw):', JSON.stringify(data, null, 2));
         if (data.is_subscribed !== undefined) {
           this.isSubscribed = data.is_subscribed;
           this.subscription = data.is_subscribed ? { stripe_price: data.plan, ends_at: data.ends_at } : null;
+          console.log('Updated state - isSubscribed:', this.isSubscribed, 'subscription:', this.subscription);
+        } else {
+          console.error('Invalid subscription data:', JSON.stringify(data, null, 2));
         }
       })
       .catch(e => console.error('Error fetching subscription status:', e));
@@ -287,7 +279,7 @@ export default {
         const response = await axios.get('/user', {
           headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' }
         });
-        console.log('User authentication response:', response.status, response.data);
+        console.log('User authentication response (raw):', response.status, JSON.stringify(response.data, null, 2));
         this.isAuthenticated = !!response.data;
       } catch (error) {
         this.isAuthenticated = false;
@@ -308,14 +300,19 @@ export default {
         }
         if (!response.ok) throw new Error('Failed to load subscription details');
         const data = await response.json();
-        console.log('Subscription details:', data);
-        this.isAuthenticated = true;
-        this.isSubscribed = data.is_subscribed;
-        this.subscription = data.is_subscribed ? { stripe_price: data.plan, ends_at: data.ends_at } : null;
+        console.log('Fetched subscription status (parsed):', JSON.stringify(data, null, 2));
+        if (data.is_subscribed !== undefined && data.plan !== undefined) {
+          this.isSubscribed = data.is_subscribed;
+          this.subscription = data.is_subscribed ? { stripe_price: data.plan, ends_at: data.ends_at } : null;
+          console.log('Updated state after fetch - isSubscribed:', this.isSubscribed, 'subscription:', this.subscription);
+        } else {
+          console.error('Invalid subscription data structure:', JSON.stringify(data, null, 2));
+          this.isSubscribed = false;
+          this.subscription = null;
+        }
         return data.is_subscribed;
       } catch (err) {
         console.error('Error loading subscription:', err);
-        this.isAuthenticated = false;
         this.isSubscribed = false;
         this.subscription = null;
         return false;
@@ -329,6 +326,7 @@ export default {
     },
     async checkUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
+      console.log('checkUrlParams - URL params:', Array.from(urlParams.entries()));
       if (urlParams.has('success')) {
         await this.waitForSubscription();
         window.history.replaceState({}, document.title, window.location.pathname);
@@ -347,6 +345,7 @@ export default {
       while (attempts < maxAttempts) {
         attempts++;
         const subscribed = await this.fetchSubscriptionStatus();
+        console.log(`waitForSubscription - Attempt ${attempts}: isSubscribed = ${subscribed}, subscription =`, this.subscription);
         if (subscribed) {
           this.showSuccessImage = true;
           this.success = 'Premium access activated! Enjoy your benefits.';
@@ -375,14 +374,21 @@ export default {
           headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json', 'Content-Type': 'application/json' }
         });
         const data = await response.json();
-        console.log('Cancellation response:', data);
+        console.log('handleCancelSubscription - Cancellation response:', JSON.stringify(data, null, 2));
         if (response.ok && data.success) {
-          await this.waitForCancellationUpdate();
-          this.success = `Subscription canceled. You’ll have access until ${this.formatDate(data.ends_at)}.`;
+          // Safely update subscription if it exists
+          if (this.subscription) {
+            this.subscription.ends_at = data.ends_at || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // Default to 1 day
+          } else {
+            this.subscription = { stripe_price: this.selectedPlan, ends_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() };
+            this.isSubscribed = true;
+          }
+          await this.fetchSubscriptionStatus(); // Refresh to sync with backend
+          this.success = `Subscription canceled. You’ll have access until ${this.formatDate(this.subscription.ends_at)}.`;
           setTimeout(() => this.success = '', 8000);
         } else if (data.message && data.message.includes('canceled subscription')) {
-          this.subscription.ends_at = new Date().toISOString();
-          await this.waitForCancellationUpdate();
+          this.subscription = this.subscription || { stripe_price: this.selectedPlan, ends_at: new Date().toISOString() };
+          await this.fetchSubscriptionStatus();
           this.success = 'Your subscription is already canceled. Access ends now.';
           setTimeout(() => this.success = '', 8000);
         } else {
@@ -390,7 +396,7 @@ export default {
         }
       } catch (err) {
         this.error = err.message || 'An error occurred while canceling. Please try again.';
-        console.error('Cancellation error:', err);
+        console.error('handleCancelSubscription - Error:', err);
       } finally {
         this.cancelling = false;
       }
@@ -403,13 +409,13 @@ export default {
         const endsAtDate = this.subscription?.ends_at ? new Date(this.subscription.ends_at) : null;
         const currentDate = new Date();
         if (!endsAtDate || endsAtDate <= currentDate) {
-          console.log('Cancellation state confirmed - ends_at:', endsAtDate?.toISOString());
+          console.log('waitForCancellationUpdate - Cancellation state confirmed - ends_at:', endsAtDate?.toISOString());
           return;
         }
         attempts++;
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second before retrying
+        await new Promise(resolve => setTimeout(resolve, 1000));
       }
-      console.warn('Failed to confirm cancellation state after max attempts');
+      console.warn('waitForCancellationUpdate - Failed to confirm cancellation state after max attempts');
     },
     async handleSubmit() {
       this.submitting = true;
@@ -431,7 +437,7 @@ export default {
         });
 
         const data = await response.json();
-        console.log('Subscription response:', response.status, data);
+        console.log('handleSubmit - Subscription response:', response.status, JSON.stringify(data, null, 2));
 
         if (response.ok) {
           if (data.redirect) {
@@ -439,14 +445,14 @@ export default {
           }
         } else {
           if (data.errors) {
-            console.error('Validation errors:', data.errors);
+            console.error('handleSubmit - Validation errors:', data.errors);
             this.error = Object.values(data.errors).flat().join(' ');
           } else {
             this.error = data.message || 'An error occurred. Please try again.';
           }
         }
       } catch (error) {
-        console.error('Subscription error:', error);
+        console.error('handleSubmit - Subscription error:', error);
         this.error = error.message || 'A network error occurred. Please try again.';
       } finally {
         this.submitting = false;
@@ -463,7 +469,7 @@ export default {
     },
     subscription: {
       handler(newVal) {
-        console.log('Subscription updated:', newVal);
+        console.log('watch - Subscription updated:', JSON.stringify(newVal, null, 2));
       },
       deep: true
     }
