@@ -36,8 +36,15 @@
           <p>Loading subscription details...</p>
         </div>
 
+        <!-- Successful Subscription Image -->
+        <div v-if="showSuccessImage" class="success-image-container">
+          <img src="/images/subscription-success.jpg" alt="Subscription Success" class="success-image">
+          <p class="success-message">Thank you for subscribing! Enjoy your premium features.</p>
+          <button @click="showSuccessImage = false" class="btn btn-primary">Continue</button>
+        </div>
+
         <!-- Active Subscription View -->
-        <div v-if="subscription?.ends_at" class="active-subscription">
+        <div v-if="subscription?.ends_at && !showSuccessImage" class="active-subscription">
           <div class="subscription-card">
             <div class="card-badge">
               <i class="fas fa-crown"></i>
@@ -51,12 +58,13 @@
               <h2>{{ planDisplayName }}</h2>
               <p class="subtitle">You're currently subscribed</p>
 
-              <div class="status-info">
-                <div class="status-item">
-                  <span class="label">Status</span>
-                  <span class="value">Active & Unlimited</span>
-                </div>
+              <div class="status-item">
+                <span class="label">Status</span>
+                <span class="value" :style="{ color: canCancel ? '#35a38b' : '#9ca3af' }">
+                  {{ canCancel ? 'Active & Unlimited' : 'Cancelled' }}
+                </span>
               </div>
+
             </div>
 
             <div class="card-body">
@@ -84,16 +92,20 @@
                 </div>
               </div>
 
-              <button @click="handleCancelSubscription" class="btn btn-cancel" :disabled="cancelling">
+              <button 
+                @click="handleCancelSubscription" 
+                class="btn btn-cancel" 
+                :disabled="cancelling || !canCancel"
+                :class="{ 'disabled': !canCancel }">
                 <i class="fas fa-times-circle"></i>
-                {{ cancelling ? 'Cancelling...' : 'Cancel Subscription' }}
+                {{ cancelling ? 'Cancelling...' : canCancel ? 'Cancel Subscription' : 'Already Cancelled' }}
               </button>
             </div>
           </div>
         </div>
 
         <!-- Subscription Plans View -->
-        <div v-else class="plans-view">
+        <div v-if="!subscription?.ends_at && !showSuccessImage" class="plans-view">
           <!-- Cancelled Subscription Notice -->
           <div v-if="subscription?.ends_at" class="notification" style="background: #f0f9ff; border: 1px solid #bae6fd; color: #0369a1; margin-bottom: 32px;">
             <i class="fas fa-info-circle"></i>
@@ -197,15 +209,16 @@ export default {
   data() {
     return {
       csrfToken: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
-      selectedPlan: 'price_1SDrmPGsDD2PdzHqDOScwoI2', // Default to Yearly
+      selectedPlan: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
       loading: true,
       submitting: false,
       cancelling: false,
       error: '',
       success: '',
-      isAuthenticated: false, // Track authentication state
+      isAuthenticated: false,
       isSubscribed: false,
       subscription: null,
+      showSuccessImage: false,
       faqs: [
         { question: 'Can I cancel my subscription anytime?', answer: 'Yes, you can cancel anytime. Access continues until the billing period ends.', open: false },
         { question: 'What payment methods do you accept?', answer: 'We accept major credit/debit cards via Stripe (test mode).', open: false },
@@ -226,6 +239,13 @@ export default {
   computed: {
     planDisplayName() {
       return this.subscription?.stripe_price ? this.planDetails[this.subscription.stripe_price] || 'Premium' : 'Free';
+    },
+    canCancel() {
+      const currentDate = new Date();
+      const endsAtDate = this.subscription?.ends_at ? new Date(this.subscription.ends_at) : null;
+      const canCancelValue = endsAtDate && endsAtDate > currentDate;
+      console.log('canCancel computation - ends_at:', endsAtDate?.toISOString(), 'currentDate:', currentDate.toISOString(), 'canCancel:', canCancelValue);
+      return canCancelValue;
     }
   },
   mounted() {
@@ -233,7 +253,6 @@ export default {
     this.checkUrlParams();
     this.checkAuthentication();
 
-    // Handle flash messages from Blade
     if (window.flashError) {
       this.error = window.flashError;
       delete window.flashError;
@@ -248,7 +267,7 @@ export default {
     })
       .then(r => r.json())
       .then(data => {
-        console.log('Subscription status:', data);
+        console.log('Fetched subscription status:', data);
         if (data.is_subscribed !== undefined) {
           this.isSubscribed = data.is_subscribed;
           this.subscription = data.is_subscribed ? { stripe_price: data.plan, ends_at: data.ends_at } : null;
@@ -268,10 +287,11 @@ export default {
         const response = await axios.get('/user', {
           headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' }
         });
+        console.log('Response from /user:', response.status, response.data);
         this.isAuthenticated = !!response.data;
       } catch (error) {
         this.isAuthenticated = false;
-        // No error message on load; handled by middleware redirect if needed
+        console.error('Authentication error:', error);
       }
     },
     async fetchSubscriptionStatus() {
@@ -283,10 +303,12 @@ export default {
           this.isAuthenticated = false;
           this.isSubscribed = false;
           this.subscription = null;
+          console.log('401 Unauthorized - Resetting subscription');
           return false;
         }
         if (!response.ok) throw new Error('Failed to fetch subscription status');
         const data = await response.json();
+        console.log('Subscription data from fetch:', data);
         this.isAuthenticated = true;
         this.isSubscribed = data.is_subscribed;
         this.subscription = data.is_subscribed ? { stripe_price: data.plan, ends_at: data.ends_at } : null;
@@ -326,6 +348,7 @@ export default {
         attempts++;
         const subscribed = await this.fetchSubscriptionStatus();
         if (subscribed) {
+          this.showSuccessImage = true;
           this.success = 'Subscription activated successfully! Welcome to Premium.';
           setTimeout(() => this.success = '', 5000);
           return;
@@ -352,15 +375,23 @@ export default {
           headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json', 'Content-Type': 'application/json' }
         });
         const data = await response.json();
+        console.log('Cancel response:', data);
         if (response.ok && data.success) {
-          await this.fetchSubscriptionStatus();
+          await this.fetchSubscriptionStatus(); // Refresh to get updated ends_at
           this.success = `Subscription cancelled. You'll have access until ${this.formatDate(data.ends_at)}.`;
+          setTimeout(() => this.success = '', 8000);
+        } else if (data.message && data.message.includes('canceled subscription')) {
+          // Handle already canceled or failed cancellation
+          this.subscription.ends_at = new Date().toISOString(); // Force local update
+          await this.fetchSubscriptionStatus(); // Sync with server
+          this.success = 'Subscription is already canceled or cancellation failed. Access ends soon.';
           setTimeout(() => this.success = '', 8000);
         } else {
           throw new Error(data.message || 'Failed to cancel subscription');
         }
       } catch (err) {
         this.error = err.message || 'Error cancelling subscription. Please try again.';
+        console.error('Cancel error:', err);
       } finally {
         this.cancelling = false;
       }
@@ -385,7 +416,7 @@ export default {
         });
 
         const data = await response.json();
-        console.log('Full response:', response.status, data); // DEBUG LINE
+        console.log('Full response:', response.status, data);
 
         if (response.ok) {
           if (data.redirect) {
@@ -412,9 +443,15 @@ export default {
       if (newVal) {
         setTimeout(() => {
           this.error = '';
-        }, 5000); // 5 seconds
+        }, 5000);
       }
     },
+    subscription: {
+      handler(newVal) {
+        console.log('Subscription updated:', newVal);
+      },
+      deep: true
+    }
   },
 };
 </script>
@@ -430,6 +467,49 @@ export default {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+}
+
+.btn-cancel {
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.btn-cancel:hover:not(.disabled) {
+  background-color: #dc2626;
+}
+
+.btn-cancel.disabled {
+  background-color: #d1d5db73;
+  color: #000;
+  border: 2px solid #000;
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Success Image Container */
+.success-image-container {
+  text-align: center;
+  padding: 40px 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.success-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.success-message {
+  color: #64748b;
+  font-size: 1.125rem;
+  margin-bottom: 20px;
 }
 
 /* Header */

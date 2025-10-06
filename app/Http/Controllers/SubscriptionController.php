@@ -277,22 +277,43 @@ class SubscriptionController extends Controller
     public function cancelSubscription(Request $request)
     {
         $user = Auth::user();
-        $subscription = $user->subscription('premium');
+        $subscription = $user->subscription('premium'); // Adjust 'premium' to your subscription name
 
-        if ($subscription) {
-            $subscription->cancel();
-            $subscription = $subscription->fresh();
-            return response()->json([
-                'success' => true,
-                'message' => 'Subscription cancelled.',
-                'ends_at' => $subscription->ends_at ? $subscription->ends_at->toDateString() : null,
-            ]);
+        if (!$subscription) {
+            return response()->json(['success' => false, 'message' => 'No active subscription'], 400);
         }
 
-        return response()->json([
-            'success' => false,
-            'message' => 'No active subscription to cancel.',
-        ], 400);
+        try {
+            if ($subscription->canceled_at) {
+                // Subscription is already canceled; update ends_at to now if not set
+                if (!$subscription->ends_at || new \DateTime($subscription->ends_at) > now()) {
+                    $subscription->ends_at = now(); // Set to current time
+                    $subscription->save();
+                }
+                return response()->json(['success' => true, 'ends_at' => $subscription->ends_at]);
+            }
+
+            // Cancel the subscription if not already canceled
+            $subscription->cancel();
+            return response()->json(['success' => true, 'ends_at' => $subscription->ends_at]);
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
+            // Handle case where cancellation fails (e.g., already canceled)
+            if (strpos($e->getMessage(), 'canceled subscription') !== false) {
+                $subscription->ends_at = now(); // Force update to current time
+                $subscription->save();
+                return response()->json(['success' => true, 'ends_at' => $subscription->ends_at]);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'exception' => get_class($e),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTrace()
+            ], 500);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 
     public function addPaymentMethod(Request $request)
