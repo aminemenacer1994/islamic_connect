@@ -22,9 +22,23 @@
           </button>
         </div>
 
-        <div v-if="error" class="notification error">
+        <div v-if="error" class="notification error text-center">
           <i class="fas fa-exclamation-triangle"></i>
-          <span>test</span>
+          <span class="text-center">Please <strong href="/login">login</strong> or <strong href="/register">register</strong> to proceed with purchasing a payment plan.</span>
+          <button @click="error = ''" class="close-btn">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div v-if="error" class="notification error text-center">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span class="text-center">
+            Please 
+            <a href="/login"><strong>login</strong></a> 
+            or 
+            <a href="/register"><strong>register</strong></a> 
+            to proceed with purchasing a payment plan.
+          </span>
           <button @click="error = ''" class="close-btn">
             <i class="fas fa-times"></i>
           </button>
@@ -406,7 +420,16 @@ export default {
         this.submitting = false;
       }
     }
-  }
+  },
+  watch: {
+    error(newVal) {
+      if (newVal) {
+        setTimeout(() => {
+          this.error = '';
+        }, 5000); // 5 seconds
+      }
+    },
+  },
 };
 </script>
 
