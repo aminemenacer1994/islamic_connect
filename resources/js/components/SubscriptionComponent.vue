@@ -30,14 +30,6 @@
           </button>
         </div>
 
-        <div v-if="!isAuthenticated" class="notification error text-center">
-          <i class="fas fa-exclamation-triangle"></i>
-          <span class="text-center">Please <a href="/login">login</a> or <a href="/register">register</a> to proceed with purchasing a payment plan.</span>
-          <button @click="error = ''" class="close-btn">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-
         <!-- Loading State -->
         <div v-if="loading" class="loading-state">
           <div class="spinner"></div>
@@ -131,7 +123,7 @@
                   <div class="plan-icon">
                     <i :class="plan.icon"></i>
                   </div>
-                  <h3>{{ plan.name }}</h3>
+                  <h2>{{ plan.name }}</h2>
                   <div class="plan-price">
                     <span class="amount">{{ plan.price }}</span>
                     <span class="period">{{ plan.period }}</span>
@@ -197,7 +189,6 @@
     </section>
   </div>
 </template>
-
 <script>
 import axios from 'axios';
 
@@ -280,7 +271,7 @@ export default {
         this.isAuthenticated = !!response.data;
       } catch (error) {
         this.isAuthenticated = false;
-        // No need to set error here; the template handles it with !isAuthenticated
+        // No error message on load; handled by middleware redirect if needed
       }
     },
     async fetchSubscriptionStatus() {
@@ -427,7 +418,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 /* Base Styles */
 .subscription-container {
