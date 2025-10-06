@@ -78,14 +78,15 @@
               <button 
                 @click="handleCancelSubscription" 
                 class="btn btn-cancel" 
-                :disabled="cancelling || !canCancel"
-                :class="{ 'disabled': !canCancel }">
+                :disabled="cancelling || !canCancel || isCancelled"
+                :class="{ 'disabled': !canCancel || isCancelled, 'cancelled': isCancelled }">
                 <i class="fas fa-times-circle"></i>
-                {{ cancelling ? 'Cancelling...' : canCancel ? 'Cancel Subscription' : 'Already Cancelled' }}
+                {{ cancelling ? 'Cancelling...' : isCancelled ? 'Subscription Cancelled' : 'Cancel Subscription' }}
               </button>
             </div>
           </div>
         </div>
+
 
         <!-- Subscription Plans View -->
         <div v-if="showPlans && !showSuccessImage" class="plans-view">
@@ -195,10 +196,12 @@ export default {
       cancelling: false,
       error: '',
       success: '',
-      isAuthenticated: false,
-      isSubscribed: false,
+      isAuthenticated: true, // Forced to true for testing
+      isSubscribed: false, // Will be set by fetch
       subscription: null,
       showSuccessImage: false,
+      isCancelled: false,
+      debugInfo: true, // Enable debug info for troubleshooting
       faqs: [
         { question: 'Can I cancel my subscription anytime?', answer: 'Yes, you can cancel at any time. You’ll keep access until the end of your current billing period.', open: false },
         { question: 'What payment methods do you accept?', answer: 'We accept major credit and debit cards through Stripe.', open: false },
@@ -223,12 +226,12 @@ export default {
     canCancel() {
       const currentDate = new Date();
       const endsAtDate = this.subscription?.ends_at ? new Date(this.subscription.ends_at) : null;
-      const canCancelValue = endsAtDate ? endsAtDate > currentDate : true; // Treat null as active and cancellable
-      console.log('canCancel check - ends_at:', endsAtDate?.toISOString(), 'currentDate:', currentDate.toISOString(), 'canCancel:', canCancelValue);
+      const canCancelValue = endsAtDate ? endsAtDate > currentDate : true;
+      console.log('canCancel check - ends_at:', endsAtDate?.toISOString(), 'currentDate:', currentDate.toISOString(), 'canCancel:', canCancelValue, 'isCancelled:', this.isCancelled);
       return canCancelValue && !this.isCancelled;
     },
     showPlans() {
-      return !this.isSubscribed; // Hide plans if subscribed
+      return !this.isSubscribed;
     },
     subscriptionStatus() {
       if (!this.isSubscribed) return 'Free';
@@ -237,8 +240,7 @@ export default {
       return endsAtDate && endsAtDate <= currentDate ? 'Cancelled' : 'Active & Unlimited';
     },
     isCancelled() {
-      // Check if subscription is cancelled based on ends_at or backend confirmation
-      return this.subscription?.ends_at && this.success.includes('Subscription canceled');
+      return this.isCancelled || (this.subscription?.ends_at && new Date(this.subscription.ends_at) > new Date() && this.success.includes('Subscription canceled'));
     }
   },
   mounted() {
@@ -254,7 +256,19 @@ export default {
       this.success = window.flashSuccess;
       delete window.flashSuccess;
     }
-
+  },
+  mounted() {
+    this.checkSubscriptionStatus();
+    this.checkUrlParams();
+    this.checkAuthentication();
+    if (window.flashError) {
+      this.error = window.flashError;
+      delete window.flashError;
+    }
+    if (window.flashSuccess) {
+      this.success = window.flashSuccess;
+      delete window.flashSuccess;
+    }
     fetch('/subscription-status', {
       headers: { 'Accept': 'application/json' }
     })
@@ -264,7 +278,8 @@ export default {
         if (data.is_subscribed !== undefined) {
           this.isSubscribed = data.is_subscribed;
           this.subscription = data.is_subscribed ? { stripe_price: data.plan, ends_at: data.ends_at } : null;
-          console.log('Updated state - isSubscribed:', this.isSubscribed, 'subscription:', this.subscription);
+          this.isCancelled = data.is_subscribed && data.ends_at && new Date(data.ends_at) > new Date();
+          console.log('Updated state - isSubscribed:', this.isSubscribed, 'subscription:', this.subscription, 'isCancelled:', this.isCancelled);
         } else {
           console.error('Invalid subscription data:', JSON.stringify(data, null, 2));
         }
@@ -280,9 +295,7 @@ export default {
     },
     async checkAuthentication() {
       try {
-        const response = await axios.get('/user', {
-          headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' }
-        });
+        const response = await axios.get('/user', { headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' } });
         console.log('User authentication response (raw):', response.status, JSON.stringify(response.data, null, 2));
         this.isAuthenticated = !!response.data;
       } catch (error) {
@@ -292,13 +305,12 @@ export default {
     },
     async fetchSubscriptionStatus() {
       try {
-        const response = await fetch('/subscription-status', {
-          headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' }
-        });
+        const response = await fetch('/subscription-status', { headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' } });
         if (response.status === 401) {
           this.isAuthenticated = false;
           this.isSubscribed = false;
           this.subscription = null;
+          this.isCancelled = false;
           console.log('Unauthorized access - Resetting subscription');
           return false;
         }
@@ -308,17 +320,20 @@ export default {
         if (data.is_subscribed !== undefined && data.plan !== undefined) {
           this.isSubscribed = data.is_subscribed;
           this.subscription = data.is_subscribed ? { stripe_price: data.plan, ends_at: data.ends_at } : null;
-          console.log('Updated state after fetch - isSubscribed:', this.isSubscribed, 'subscription:', this.subscription);
+          this.isCancelled = data.is_subscribed && data.ends_at && new Date(data.ends_at) > new Date();
+          console.log('Updated state after fetch - isSubscribed:', this.isSubscribed, 'subscription:', this.subscription, 'isCancelled:', this.isCancelled);
         } else {
           console.error('Invalid subscription data structure:', JSON.stringify(data, null, 2));
           this.isSubscribed = false;
           this.subscription = null;
+          this.isCancelled = false;
         }
         return data.is_subscribed;
       } catch (err) {
         console.error('Error loading subscription:', err);
         this.isSubscribed = false;
         this.subscription = null;
+        this.isCancelled = false;
         return false;
       }
     },
@@ -380,18 +395,19 @@ export default {
         const data = await response.json();
         console.log('handleCancelSubscription - Cancellation response:', JSON.stringify(data, null, 2));
         if (response.ok && data.success) {
-          // Safely update subscription if it exists
           if (this.subscription) {
-            this.subscription.ends_at = data.ends_at || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // Default to 1 day
+            this.subscription.ends_at = data.ends_at || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
           } else {
             this.subscription = { stripe_price: this.selectedPlan, ends_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() };
             this.isSubscribed = true;
           }
-          await this.fetchSubscriptionStatus(); // Refresh to sync with backend
+          this.isCancelled = true;
+          await this.fetchSubscriptionStatus();
           this.success = `Subscription canceled. You’ll have access until ${this.formatDate(this.subscription.ends_at)}.`;
           setTimeout(() => this.success = '', 8000);
         } else if (data.message && data.message.includes('canceled subscription')) {
           this.subscription = this.subscription || { stripe_price: this.selectedPlan, ends_at: new Date().toISOString() };
+          this.isCancelled = true;
           await this.fetchSubscriptionStatus();
           this.success = 'Your subscription is already canceled. Access ends now.';
           setTimeout(() => this.success = '', 8000);
@@ -431,11 +447,7 @@ export default {
 
         const response = await fetch('/subscribe', {
           method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
+          headers: { 'X-CSRF-TOKEN': csrfToken, 'Accept': 'application/json', 'Content-Type': 'application/json' },
           credentials: 'same-origin',
           body: JSON.stringify({ price_lookup_key: this.selectedPlan })
         });
@@ -443,10 +455,10 @@ export default {
         const data = await response.json();
         console.log('handleSubmit - Subscription response:', response.status, JSON.stringify(data, null, 2));
 
-        if (response.ok) {
-          if (data.redirect) {
-            window.location.href = data.redirect;
-          }
+        if (response.ok && data.redirect) {
+          window.location.href = data.redirect;
+          // After redirect, wait for success callback to update state
+          this.waitForSubscription();
         } else {
           if (data.errors) {
             console.error('handleSubmit - Validation errors:', data.errors);
@@ -465,11 +477,7 @@ export default {
   },
   watch: {
     error(newVal) {
-      if (newVal) {
-        setTimeout(() => {
-          this.error = '';
-        }, 5000);
-      }
+      if (newVal) setTimeout(() => this.error = '', 5000);
     },
     subscription: {
       handler(newVal) {
@@ -501,10 +509,11 @@ export default {
   border-radius: 4px;
   cursor: pointer;
   transition: opacity 0.3s;
+  background-color: #dc2626; /* Red background for cancel button */
 }
 
-.btn-cancel:hover:not(.disabled) {
-  background-color: #dc2626;
+.btn-cancel:hover:not(.disabled):not(.cancelled) {
+  background-color: #b91c1c; /* Darker red on hover */
 }
 
 .btn-cancel.disabled {
@@ -514,6 +523,17 @@ export default {
   cursor: not-allowed;
   opacity: 0.6;
   pointer-events: none;
+}
+
+.btn-cancel.cancelled {
+  background-color: #9ca3af; /* Grey for cancelled state */
+  color: white;
+  border: none;
+  cursor: default;
+}
+
+.btn-cancel.cancelled:hover {
+  background-color: #9ca3af; /* No hover effect when cancelled */
 }
 
 /* Success Image Container */
@@ -622,13 +642,8 @@ export default {
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Subscription Card */
@@ -655,6 +670,10 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 8px;
+}
+
+.card-badge.cancelled {
+  background: #9ca3af; /* Grey for cancelled state */
 }
 
 .card-header {
@@ -797,16 +816,6 @@ export default {
   background: #2d8c77;
 }
 
-.btn-cancel {
-  background: white;
-  color: #dc2626;
-  border: 1px solid #dc2626;
-}
-
-.btn-cancel:hover:not(:disabled) {
-  background: #fef2f2;
-}
-
 /* Plans View */
 .plans-view {
   max-width: 1000px;
@@ -895,7 +904,7 @@ export default {
   font-size: 1.5rem;
 }
 
-.plan-header h3 {
+.plan-header h2 {
   font-size: 1.5rem;
   font-weight: 600;
   color: #1e293b;

@@ -153875,12 +153875,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_defineProperty(_defineProperty(_defineProperty({
   name: 'SubscriptionComponent',
   data: function data() {
     var _document$querySelect;
@@ -153892,10 +153896,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       cancelling: false,
       error: '',
       success: '',
-      isAuthenticated: false,
+      isAuthenticated: true,
+      // Forced to true for testing
       isSubscribed: false,
+      // Will be set by fetch
       subscription: null,
       showSuccessImage: false,
+      isCancelled: false,
+      debugInfo: true,
+      // Enable debug info for troubleshooting
       faqs: [{
         question: 'Can I cancel my subscription anytime?',
         answer: 'Yes, you can cancel at any time. You’ll keep access until the end of your current billing period.',
@@ -153955,12 +153964,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var _this$subscription2;
       var currentDate = new Date();
       var endsAtDate = (_this$subscription2 = this.subscription) !== null && _this$subscription2 !== void 0 && _this$subscription2.ends_at ? new Date(this.subscription.ends_at) : null;
-      var canCancelValue = endsAtDate ? endsAtDate > currentDate : true; // Treat null as active and cancellable
-      console.log('canCancel check - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString(), 'currentDate:', currentDate.toISOString(), 'canCancel:', canCancelValue);
+      var canCancelValue = endsAtDate ? endsAtDate > currentDate : true;
+      console.log('canCancel check - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString(), 'currentDate:', currentDate.toISOString(), 'canCancel:', canCancelValue, 'isCancelled:', this.isCancelled);
       return canCancelValue && !this.isCancelled;
     },
     showPlans: function showPlans() {
-      return !this.isSubscribed; // Hide plans if subscribed
+      return !this.isSubscribed;
     },
     subscriptionStatus: function subscriptionStatus() {
       var _this$subscription3;
@@ -153971,12 +153980,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     isCancelled: function isCancelled() {
       var _this$subscription4;
-      // Check if subscription is cancelled based on ends_at or backend confirmation
-      return ((_this$subscription4 = this.subscription) === null || _this$subscription4 === void 0 ? void 0 : _this$subscription4.ends_at) && this.success.includes('Subscription canceled');
+      return this.isCancelled || ((_this$subscription4 = this.subscription) === null || _this$subscription4 === void 0 ? void 0 : _this$subscription4.ends_at) && new Date(this.subscription.ends_at) > new Date() && this.success.includes('Subscription canceled');
     }
   },
   mounted: function mounted() {
-    var _this = this;
     this.checkSubscriptionStatus();
     this.checkUrlParams();
     this.checkAuthentication();
@@ -153988,471 +153995,485 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.success = window.flashSuccess;
       delete window.flashSuccess;
     }
-    fetch('/subscription-status', {
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(function (r) {
-      return r.json();
-    }).then(function (data) {
-      console.log('Fetched subscription status (raw):', JSON.stringify(data, null, 2));
-      if (data.is_subscribed !== undefined) {
-        _this.isSubscribed = data.is_subscribed;
-        _this.subscription = data.is_subscribed ? {
-          stripe_price: data.plan,
-          ends_at: data.ends_at
-        } : null;
-        console.log('Updated state - isSubscribed:', _this.isSubscribed, 'subscription:', _this.subscription);
-      } else {
-        console.error('Invalid subscription data:', JSON.stringify(data, null, 2));
-      }
-    })["catch"](function (e) {
-      return console.error('Error fetching subscription status:', e);
-    });
-  },
-  methods: {
-    formatDate: function formatDate(dateString) {
-      return dateString ? new Date(dateString).toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      }) : 'Never';
-    },
-    toggleFaq: function toggleFaq(index) {
-      this.faqs[index].open = !this.faqs[index].open;
-    },
-    checkAuthentication: function checkAuthentication() {
-      var _this2 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var response, _t;
-        return _regenerator().w(function (_context) {
-          while (1) switch (_context.p = _context.n) {
-            case 0:
-              _context.p = 0;
-              _context.n = 1;
-              return axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/user', {
-                headers: {
-                  'X-CSRF-TOKEN': _this2.csrfToken,
-                  'Accept': 'application/json'
-                }
-              });
-            case 1:
-              response = _context.v;
-              console.log('User authentication response (raw):', response.status, JSON.stringify(response.data, null, 2));
-              _this2.isAuthenticated = !!response.data;
-              _context.n = 3;
-              break;
-            case 2:
-              _context.p = 2;
-              _t = _context.v;
-              _this2.isAuthenticated = false;
-              console.error('Authentication error:', _t);
-            case 3:
-              return _context.a(2);
-          }
-        }, _callee, null, [[0, 2]]);
-      }))();
-    },
-    fetchSubscriptionStatus: function fetchSubscriptionStatus() {
-      var _this3 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-        var response, data, _t2;
-        return _regenerator().w(function (_context2) {
-          while (1) switch (_context2.p = _context2.n) {
-            case 0:
-              _context2.p = 0;
-              _context2.n = 1;
-              return fetch('/subscription-status', {
-                headers: {
-                  'X-CSRF-TOKEN': _this3.csrfToken,
-                  'Accept': 'application/json'
-                }
-              });
-            case 1:
-              response = _context2.v;
-              if (!(response.status === 401)) {
-                _context2.n = 2;
-                break;
-              }
-              _this3.isAuthenticated = false;
-              _this3.isSubscribed = false;
-              _this3.subscription = null;
-              console.log('Unauthorized access - Resetting subscription');
-              return _context2.a(2, false);
-            case 2:
-              if (response.ok) {
-                _context2.n = 3;
-                break;
-              }
-              throw new Error('Failed to load subscription details');
-            case 3:
-              _context2.n = 4;
-              return response.json();
-            case 4:
-              data = _context2.v;
-              console.log('Fetched subscription status (parsed):', JSON.stringify(data, null, 2));
-              if (data.is_subscribed !== undefined && data.plan !== undefined) {
-                _this3.isSubscribed = data.is_subscribed;
-                _this3.subscription = data.is_subscribed ? {
-                  stripe_price: data.plan,
-                  ends_at: data.ends_at
-                } : null;
-                console.log('Updated state after fetch - isSubscribed:', _this3.isSubscribed, 'subscription:', _this3.subscription);
-              } else {
-                console.error('Invalid subscription data structure:', JSON.stringify(data, null, 2));
-                _this3.isSubscribed = false;
-                _this3.subscription = null;
-              }
-              return _context2.a(2, data.is_subscribed);
-            case 5:
-              _context2.p = 5;
-              _t2 = _context2.v;
-              console.error('Error loading subscription:', _t2);
-              _this3.isSubscribed = false;
-              _this3.subscription = null;
-              return _context2.a(2, false);
-          }
-        }, _callee2, null, [[0, 5]]);
-      }))();
-    },
-    checkSubscriptionStatus: function checkSubscriptionStatus() {
-      var _this4 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-        return _regenerator().w(function (_context3) {
-          while (1) switch (_context3.n) {
-            case 0:
-              _this4.loading = true;
-              _this4.error = '';
-              _context3.n = 1;
-              return _this4.fetchSubscriptionStatus();
-            case 1:
-              _this4.loading = false;
-            case 2:
-              return _context3.a(2);
-          }
-        }, _callee3);
-      }))();
-    },
-    checkUrlParams: function checkUrlParams() {
-      var _this5 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
-        var urlParams;
-        return _regenerator().w(function (_context4) {
-          while (1) switch (_context4.n) {
-            case 0:
-              urlParams = new URLSearchParams(window.location.search);
-              console.log('checkUrlParams - URL params:', Array.from(urlParams.entries()));
-              if (!urlParams.has('success')) {
-                _context4.n = 2;
-                break;
-              }
-              _context4.n = 1;
-              return _this5.waitForSubscription();
-            case 1:
-              window.history.replaceState({}, document.title, window.location.pathname);
-              _context4.n = 5;
-              break;
-            case 2:
-              if (!urlParams.has('cancelled')) {
-                _context4.n = 4;
-                break;
-              }
-              _this5.error = 'Your subscription has been canceled. Subscribe again to continue.';
-              _context4.n = 3;
-              return _this5.fetchSubscriptionStatus();
-            case 3:
-              window.history.replaceState({}, document.title, window.location.pathname);
-              _context4.n = 5;
-              break;
-            case 4:
-              _context4.n = 5;
-              return _this5.fetchSubscriptionStatus();
-            case 5:
-              return _context4.a(2);
-          }
-        }, _callee4);
-      }))();
-    },
-    waitForSubscription: function waitForSubscription() {
-      var _this6 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-        var attempts, maxAttempts, subscribed;
-        return _regenerator().w(function (_context5) {
-          while (1) switch (_context5.n) {
-            case 0:
-              _this6.success = 'Subscription successful! Activating your premium access...';
-              attempts = 0;
-              maxAttempts = 15;
-            case 1:
-              if (!(attempts < maxAttempts)) {
-                _context5.n = 5;
-                break;
-              }
-              attempts++;
-              _context5.n = 2;
-              return _this6.fetchSubscriptionStatus();
-            case 2:
-              subscribed = _context5.v;
-              console.log("waitForSubscription - Attempt ".concat(attempts, ": isSubscribed = ").concat(subscribed, ", subscription ="), _this6.subscription);
-              if (!subscribed) {
-                _context5.n = 3;
-                break;
-              }
-              _this6.showSuccessImage = true;
-              _this6.success = 'Premium access activated! Enjoy your benefits.';
-              setTimeout(function () {
-                return _this6.success = '';
-              }, 5000);
-              return _context5.a(2);
-            case 3:
-              _context5.n = 4;
-              return new Promise(function (resolve) {
-                return setTimeout(resolve, 2000);
-              });
-            case 4:
-              _context5.n = 1;
-              break;
-            case 5:
-              _this6.error = 'Activation is taking longer than expected. Please refresh or contact support.';
-              _this6.success = '';
-            case 6:
-              return _context5.a(2);
-          }
-        }, _callee5);
-      }))();
-    },
-    clearNotification: function clearNotification() {
-      this.error = '';
-      this.success = '';
-    },
-    getPlanBenefits: function getPlanBenefits() {
-      var _this7 = this;
-      var plan = this.plans.find(function (p) {
-        var _this7$subscription;
-        return p.value === ((_this7$subscription = _this7.subscription) === null || _this7$subscription === void 0 ? void 0 : _this7$subscription.stripe_price);
-      });
-      return plan ? plan.features : ['Basic access only'];
-    },
-    handleCancelSubscription: function handleCancelSubscription() {
-      var _this8 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
-        var response, data, _t3;
-        return _regenerator().w(function (_context6) {
-          while (1) switch (_context6.p = _context6.n) {
-            case 0:
-              if (confirm('Are you sure you want to cancel your subscription? You’ll keep access until your current period ends.')) {
-                _context6.n = 1;
-                break;
-              }
-              return _context6.a(2);
-            case 1:
-              _this8.cancelling = true;
-              _context6.p = 2;
-              _context6.n = 3;
-              return fetch('/cancel', {
-                method: 'POST',
-                headers: {
-                  'X-CSRF-TOKEN': _this8.csrfToken,
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-                }
-              });
-            case 3:
-              response = _context6.v;
-              _context6.n = 4;
-              return response.json();
-            case 4:
-              data = _context6.v;
-              console.log('handleCancelSubscription - Cancellation response:', JSON.stringify(data, null, 2));
-              if (!(response.ok && data.success)) {
-                _context6.n = 6;
-                break;
-              }
-              // Safely update subscription if it exists
-              if (_this8.subscription) {
-                _this8.subscription.ends_at = data.ends_at || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // Default to 1 day
-              } else {
-                _this8.subscription = {
-                  stripe_price: _this8.selectedPlan,
-                  ends_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
-                };
-                _this8.isSubscribed = true;
-              }
-              _context6.n = 5;
-              return _this8.fetchSubscriptionStatus();
-            case 5:
-              // Refresh to sync with backend
-              _this8.success = "Subscription canceled. You\u2019ll have access until ".concat(_this8.formatDate(_this8.subscription.ends_at), ".");
-              setTimeout(function () {
-                return _this8.success = '';
-              }, 8000);
-              _context6.n = 9;
-              break;
-            case 6:
-              if (!(data.message && data.message.includes('canceled subscription'))) {
-                _context6.n = 8;
-                break;
-              }
-              _this8.subscription = _this8.subscription || {
-                stripe_price: _this8.selectedPlan,
-                ends_at: new Date().toISOString()
-              };
-              _context6.n = 7;
-              return _this8.fetchSubscriptionStatus();
-            case 7:
-              _this8.success = 'Your subscription is already canceled. Access ends now.';
-              setTimeout(function () {
-                return _this8.success = '';
-              }, 8000);
-              _context6.n = 9;
-              break;
-            case 8:
-              throw new Error(data.message || 'Failed to cancel your subscription.');
-            case 9:
-              _context6.n = 11;
-              break;
-            case 10:
-              _context6.p = 10;
-              _t3 = _context6.v;
-              _this8.error = _t3.message || 'An error occurred while canceling. Please try again.';
-              console.error('handleCancelSubscription - Error:', _t3);
-            case 11:
-              _context6.p = 11;
-              _this8.cancelling = false;
-              return _context6.f(11);
-            case 12:
-              return _context6.a(2);
-          }
-        }, _callee6, null, [[2, 10, 11, 12]]);
-      }))();
-    },
-    waitForCancellationUpdate: function waitForCancellationUpdate() {
-      var _this9 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
-        var attempts, maxAttempts, _this9$subscription, endsAtDate, currentDate;
-        return _regenerator().w(function (_context7) {
-          while (1) switch (_context7.n) {
-            case 0:
-              attempts = 0;
-              maxAttempts = 10;
-            case 1:
-              if (!(attempts < maxAttempts)) {
-                _context7.n = 5;
-                break;
-              }
-              _context7.n = 2;
-              return _this9.fetchSubscriptionStatus();
-            case 2:
-              endsAtDate = (_this9$subscription = _this9.subscription) !== null && _this9$subscription !== void 0 && _this9$subscription.ends_at ? new Date(_this9.subscription.ends_at) : null;
-              currentDate = new Date();
-              if (!(!endsAtDate || endsAtDate <= currentDate)) {
-                _context7.n = 3;
-                break;
-              }
-              console.log('waitForCancellationUpdate - Cancellation state confirmed - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString());
-              return _context7.a(2);
-            case 3:
-              attempts++;
-              _context7.n = 4;
-              return new Promise(function (resolve) {
-                return setTimeout(resolve, 1000);
-              });
-            case 4:
-              _context7.n = 1;
-              break;
-            case 5:
-              console.warn('waitForCancellationUpdate - Failed to confirm cancellation state after max attempts');
-            case 6:
-              return _context7.a(2);
-          }
-        }, _callee7);
-      }))();
-    },
-    handleSubmit: function handleSubmit() {
-      var _this0 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
-        var _document$querySelect2, csrfToken, response, data, _t4;
-        return _regenerator().w(function (_context8) {
-          while (1) switch (_context8.p = _context8.n) {
-            case 0:
-              _this0.submitting = true;
-              _this0.error = '';
-              _this0.success = '';
-              _context8.p = 1;
-              csrfToken = (_document$querySelect2 = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.getAttribute('content');
-              if (csrfToken) {
-                _context8.n = 2;
-                break;
-              }
-              throw new Error('Please refresh the page to continue.');
-            case 2:
-              _context8.n = 3;
-              return fetch('/subscribe', {
-                method: 'POST',
-                headers: {
-                  'X-CSRF-TOKEN': csrfToken,
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-                },
-                credentials: 'same-origin',
-                body: JSON.stringify({
-                  price_lookup_key: _this0.selectedPlan
-                })
-              });
-            case 3:
-              response = _context8.v;
-              _context8.n = 4;
-              return response.json();
-            case 4:
-              data = _context8.v;
-              console.log('handleSubmit - Subscription response:', response.status, JSON.stringify(data, null, 2));
-              if (response.ok) {
-                if (data.redirect) {
-                  window.location.href = data.redirect;
-                }
-              } else {
-                if (data.errors) {
-                  console.error('handleSubmit - Validation errors:', data.errors);
-                  _this0.error = Object.values(data.errors).flat().join(' ');
-                } else {
-                  _this0.error = data.message || 'An error occurred. Please try again.';
-                }
-              }
-              _context8.n = 6;
-              break;
-            case 5:
-              _context8.p = 5;
-              _t4 = _context8.v;
-              console.error('handleSubmit - Subscription error:', _t4);
-              _this0.error = _t4.message || 'A network error occurred. Please try again.';
-            case 6:
-              _context8.p = 6;
-              _this0.submitting = false;
-              return _context8.f(6);
-            case 7:
-              return _context8.a(2);
-          }
-        }, _callee8, null, [[1, 5, 6, 7]]);
-      }))();
-    }
-  },
-  watch: {
-    error: function error(newVal) {
-      var _this1 = this;
-      if (newVal) {
-        setTimeout(function () {
-          _this1.error = '';
-        }, 5000);
-      }
-    },
-    subscription: {
-      handler: function handler(newVal) {
-        console.log('watch - Subscription updated:', JSON.stringify(newVal, null, 2));
-      },
-      deep: true
-    }
   }
-});
+}, "mounted", function mounted() {
+  var _this = this;
+  this.checkSubscriptionStatus();
+  this.checkUrlParams();
+  this.checkAuthentication();
+  if (window.flashError) {
+    this.error = window.flashError;
+    delete window.flashError;
+  }
+  if (window.flashSuccess) {
+    this.success = window.flashSuccess;
+    delete window.flashSuccess;
+  }
+  fetch('/subscription-status', {
+    headers: {
+      'Accept': 'application/json'
+    }
+  }).then(function (r) {
+    return r.json();
+  }).then(function (data) {
+    console.log('Fetched subscription status (raw):', JSON.stringify(data, null, 2));
+    if (data.is_subscribed !== undefined) {
+      _this.isSubscribed = data.is_subscribed;
+      _this.subscription = data.is_subscribed ? {
+        stripe_price: data.plan,
+        ends_at: data.ends_at
+      } : null;
+      _this.isCancelled = data.is_subscribed && data.ends_at && new Date(data.ends_at) > new Date();
+      console.log('Updated state - isSubscribed:', _this.isSubscribed, 'subscription:', _this.subscription, 'isCancelled:', _this.isCancelled);
+    } else {
+      console.error('Invalid subscription data:', JSON.stringify(data, null, 2));
+    }
+  })["catch"](function (e) {
+    return console.error('Error fetching subscription status:', e);
+  });
+}), "methods", {
+  formatDate: function formatDate(dateString) {
+    return dateString ? new Date(dateString).toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }) : 'Never';
+  },
+  toggleFaq: function toggleFaq(index) {
+    this.faqs[index].open = !this.faqs[index].open;
+  },
+  checkAuthentication: function checkAuthentication() {
+    var _this2 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+      var response, _t;
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.p = _context.n) {
+          case 0:
+            _context.p = 0;
+            _context.n = 1;
+            return axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/user', {
+              headers: {
+                'X-CSRF-TOKEN': _this2.csrfToken,
+                'Accept': 'application/json'
+              }
+            });
+          case 1:
+            response = _context.v;
+            console.log('User authentication response (raw):', response.status, JSON.stringify(response.data, null, 2));
+            _this2.isAuthenticated = !!response.data;
+            _context.n = 3;
+            break;
+          case 2:
+            _context.p = 2;
+            _t = _context.v;
+            _this2.isAuthenticated = false;
+            console.error('Authentication error:', _t);
+          case 3:
+            return _context.a(2);
+        }
+      }, _callee, null, [[0, 2]]);
+    }))();
+  },
+  fetchSubscriptionStatus: function fetchSubscriptionStatus() {
+    var _this3 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+      var response, data, _t2;
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.p = _context2.n) {
+          case 0:
+            _context2.p = 0;
+            _context2.n = 1;
+            return fetch('/subscription-status', {
+              headers: {
+                'X-CSRF-TOKEN': _this3.csrfToken,
+                'Accept': 'application/json'
+              }
+            });
+          case 1:
+            response = _context2.v;
+            if (!(response.status === 401)) {
+              _context2.n = 2;
+              break;
+            }
+            _this3.isAuthenticated = false;
+            _this3.isSubscribed = false;
+            _this3.subscription = null;
+            _this3.isCancelled = false;
+            console.log('Unauthorized access - Resetting subscription');
+            return _context2.a(2, false);
+          case 2:
+            if (response.ok) {
+              _context2.n = 3;
+              break;
+            }
+            throw new Error('Failed to load subscription details');
+          case 3:
+            _context2.n = 4;
+            return response.json();
+          case 4:
+            data = _context2.v;
+            console.log('Fetched subscription status (parsed):', JSON.stringify(data, null, 2));
+            if (data.is_subscribed !== undefined && data.plan !== undefined) {
+              _this3.isSubscribed = data.is_subscribed;
+              _this3.subscription = data.is_subscribed ? {
+                stripe_price: data.plan,
+                ends_at: data.ends_at
+              } : null;
+              _this3.isCancelled = data.is_subscribed && data.ends_at && new Date(data.ends_at) > new Date();
+              console.log('Updated state after fetch - isSubscribed:', _this3.isSubscribed, 'subscription:', _this3.subscription, 'isCancelled:', _this3.isCancelled);
+            } else {
+              console.error('Invalid subscription data structure:', JSON.stringify(data, null, 2));
+              _this3.isSubscribed = false;
+              _this3.subscription = null;
+              _this3.isCancelled = false;
+            }
+            return _context2.a(2, data.is_subscribed);
+          case 5:
+            _context2.p = 5;
+            _t2 = _context2.v;
+            console.error('Error loading subscription:', _t2);
+            _this3.isSubscribed = false;
+            _this3.subscription = null;
+            _this3.isCancelled = false;
+            return _context2.a(2, false);
+        }
+      }, _callee2, null, [[0, 5]]);
+    }))();
+  },
+  checkSubscriptionStatus: function checkSubscriptionStatus() {
+    var _this4 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.n) {
+          case 0:
+            _this4.loading = true;
+            _this4.error = '';
+            _context3.n = 1;
+            return _this4.fetchSubscriptionStatus();
+          case 1:
+            _this4.loading = false;
+          case 2:
+            return _context3.a(2);
+        }
+      }, _callee3);
+    }))();
+  },
+  checkUrlParams: function checkUrlParams() {
+    var _this5 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+      var urlParams;
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.n) {
+          case 0:
+            urlParams = new URLSearchParams(window.location.search);
+            console.log('checkUrlParams - URL params:', Array.from(urlParams.entries()));
+            if (!urlParams.has('success')) {
+              _context4.n = 2;
+              break;
+            }
+            _context4.n = 1;
+            return _this5.waitForSubscription();
+          case 1:
+            window.history.replaceState({}, document.title, window.location.pathname);
+            _context4.n = 5;
+            break;
+          case 2:
+            if (!urlParams.has('cancelled')) {
+              _context4.n = 4;
+              break;
+            }
+            _this5.error = 'Your subscription has been canceled. Subscribe again to continue.';
+            _context4.n = 3;
+            return _this5.fetchSubscriptionStatus();
+          case 3:
+            window.history.replaceState({}, document.title, window.location.pathname);
+            _context4.n = 5;
+            break;
+          case 4:
+            _context4.n = 5;
+            return _this5.fetchSubscriptionStatus();
+          case 5:
+            return _context4.a(2);
+        }
+      }, _callee4);
+    }))();
+  },
+  waitForSubscription: function waitForSubscription() {
+    var _this6 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+      var attempts, maxAttempts, subscribed;
+      return _regenerator().w(function (_context5) {
+        while (1) switch (_context5.n) {
+          case 0:
+            _this6.success = 'Subscription successful! Activating your premium access...';
+            attempts = 0;
+            maxAttempts = 15;
+          case 1:
+            if (!(attempts < maxAttempts)) {
+              _context5.n = 5;
+              break;
+            }
+            attempts++;
+            _context5.n = 2;
+            return _this6.fetchSubscriptionStatus();
+          case 2:
+            subscribed = _context5.v;
+            console.log("waitForSubscription - Attempt ".concat(attempts, ": isSubscribed = ").concat(subscribed, ", subscription ="), _this6.subscription);
+            if (!subscribed) {
+              _context5.n = 3;
+              break;
+            }
+            _this6.showSuccessImage = true;
+            _this6.success = 'Premium access activated! Enjoy your benefits.';
+            setTimeout(function () {
+              return _this6.success = '';
+            }, 5000);
+            return _context5.a(2);
+          case 3:
+            _context5.n = 4;
+            return new Promise(function (resolve) {
+              return setTimeout(resolve, 2000);
+            });
+          case 4:
+            _context5.n = 1;
+            break;
+          case 5:
+            _this6.error = 'Activation is taking longer than expected. Please refresh or contact support.';
+            _this6.success = '';
+          case 6:
+            return _context5.a(2);
+        }
+      }, _callee5);
+    }))();
+  },
+  clearNotification: function clearNotification() {
+    this.error = '';
+    this.success = '';
+  },
+  getPlanBenefits: function getPlanBenefits() {
+    var _this7 = this;
+    var plan = this.plans.find(function (p) {
+      var _this7$subscription;
+      return p.value === ((_this7$subscription = _this7.subscription) === null || _this7$subscription === void 0 ? void 0 : _this7$subscription.stripe_price);
+    });
+    return plan ? plan.features : ['Basic access only'];
+  },
+  handleCancelSubscription: function handleCancelSubscription() {
+    var _this8 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+      var response, data, _t3;
+      return _regenerator().w(function (_context6) {
+        while (1) switch (_context6.p = _context6.n) {
+          case 0:
+            if (confirm('Are you sure you want to cancel your subscription? You’ll keep access until your current period ends.')) {
+              _context6.n = 1;
+              break;
+            }
+            return _context6.a(2);
+          case 1:
+            _this8.cancelling = true;
+            _context6.p = 2;
+            _context6.n = 3;
+            return fetch('/cancel', {
+              method: 'POST',
+              headers: {
+                'X-CSRF-TOKEN': _this8.csrfToken,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
+            });
+          case 3:
+            response = _context6.v;
+            _context6.n = 4;
+            return response.json();
+          case 4:
+            data = _context6.v;
+            console.log('handleCancelSubscription - Cancellation response:', JSON.stringify(data, null, 2));
+            if (!(response.ok && data.success)) {
+              _context6.n = 6;
+              break;
+            }
+            if (_this8.subscription) {
+              _this8.subscription.ends_at = data.ends_at || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+            } else {
+              _this8.subscription = {
+                stripe_price: _this8.selectedPlan,
+                ends_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+              };
+              _this8.isSubscribed = true;
+            }
+            _this8.isCancelled = true;
+            _context6.n = 5;
+            return _this8.fetchSubscriptionStatus();
+          case 5:
+            _this8.success = "Subscription canceled. You\u2019ll have access until ".concat(_this8.formatDate(_this8.subscription.ends_at), ".");
+            setTimeout(function () {
+              return _this8.success = '';
+            }, 8000);
+            _context6.n = 9;
+            break;
+          case 6:
+            if (!(data.message && data.message.includes('canceled subscription'))) {
+              _context6.n = 8;
+              break;
+            }
+            _this8.subscription = _this8.subscription || {
+              stripe_price: _this8.selectedPlan,
+              ends_at: new Date().toISOString()
+            };
+            _this8.isCancelled = true;
+            _context6.n = 7;
+            return _this8.fetchSubscriptionStatus();
+          case 7:
+            _this8.success = 'Your subscription is already canceled. Access ends now.';
+            setTimeout(function () {
+              return _this8.success = '';
+            }, 8000);
+            _context6.n = 9;
+            break;
+          case 8:
+            throw new Error(data.message || 'Failed to cancel your subscription.');
+          case 9:
+            _context6.n = 11;
+            break;
+          case 10:
+            _context6.p = 10;
+            _t3 = _context6.v;
+            _this8.error = _t3.message || 'An error occurred while canceling. Please try again.';
+            console.error('handleCancelSubscription - Error:', _t3);
+          case 11:
+            _context6.p = 11;
+            _this8.cancelling = false;
+            return _context6.f(11);
+          case 12:
+            return _context6.a(2);
+        }
+      }, _callee6, null, [[2, 10, 11, 12]]);
+    }))();
+  },
+  waitForCancellationUpdate: function waitForCancellationUpdate() {
+    var _this9 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
+      var attempts, maxAttempts, _this9$subscription, endsAtDate, currentDate;
+      return _regenerator().w(function (_context7) {
+        while (1) switch (_context7.n) {
+          case 0:
+            attempts = 0;
+            maxAttempts = 10;
+          case 1:
+            if (!(attempts < maxAttempts)) {
+              _context7.n = 5;
+              break;
+            }
+            _context7.n = 2;
+            return _this9.fetchSubscriptionStatus();
+          case 2:
+            endsAtDate = (_this9$subscription = _this9.subscription) !== null && _this9$subscription !== void 0 && _this9$subscription.ends_at ? new Date(_this9.subscription.ends_at) : null;
+            currentDate = new Date();
+            if (!(!endsAtDate || endsAtDate <= currentDate)) {
+              _context7.n = 3;
+              break;
+            }
+            console.log('waitForCancellationUpdate - Cancellation state confirmed - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString());
+            return _context7.a(2);
+          case 3:
+            attempts++;
+            _context7.n = 4;
+            return new Promise(function (resolve) {
+              return setTimeout(resolve, 1000);
+            });
+          case 4:
+            _context7.n = 1;
+            break;
+          case 5:
+            console.warn('waitForCancellationUpdate - Failed to confirm cancellation state after max attempts');
+          case 6:
+            return _context7.a(2);
+        }
+      }, _callee7);
+    }))();
+  },
+  handleSubmit: function handleSubmit() {
+    var _this0 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
+      var _document$querySelect2, csrfToken, response, data, _t4;
+      return _regenerator().w(function (_context8) {
+        while (1) switch (_context8.p = _context8.n) {
+          case 0:
+            _this0.submitting = true;
+            _this0.error = '';
+            _this0.success = '';
+            _context8.p = 1;
+            csrfToken = (_document$querySelect2 = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.getAttribute('content');
+            if (csrfToken) {
+              _context8.n = 2;
+              break;
+            }
+            throw new Error('Please refresh the page to continue.');
+          case 2:
+            _context8.n = 3;
+            return fetch('/subscribe', {
+              method: 'POST',
+              headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              credentials: 'same-origin',
+              body: JSON.stringify({
+                price_lookup_key: _this0.selectedPlan
+              })
+            });
+          case 3:
+            response = _context8.v;
+            _context8.n = 4;
+            return response.json();
+          case 4:
+            data = _context8.v;
+            console.log('handleSubmit - Subscription response:', response.status, JSON.stringify(data, null, 2));
+            if (response.ok && data.redirect) {
+              window.location.href = data.redirect;
+              // After redirect, wait for success callback to update state
+              _this0.waitForSubscription();
+            } else {
+              if (data.errors) {
+                console.error('handleSubmit - Validation errors:', data.errors);
+                _this0.error = Object.values(data.errors).flat().join(' ');
+              } else {
+                _this0.error = data.message || 'An error occurred. Please try again.';
+              }
+            }
+            _context8.n = 6;
+            break;
+          case 5:
+            _context8.p = 5;
+            _t4 = _context8.v;
+            console.error('handleSubmit - Subscription error:', _t4);
+            _this0.error = _t4.message || 'A network error occurred. Please try again.';
+          case 6:
+            _context8.p = 6;
+            _this0.submitting = false;
+            return _context8.f(6);
+          case 7:
+            return _context8.a(2);
+        }
+      }, _callee8, null, [[1, 5, 6, 7]]);
+    }))();
+  }
+}), "watch", {
+  error: function error(newVal) {
+    var _this1 = this;
+    if (newVal) setTimeout(function () {
+      return _this1.error = '';
+    }, 5000);
+  },
+  subscription: {
+    handler: function handler(newVal) {
+      console.log('watch - Subscription updated:', JSON.stringify(newVal, null, 2));
+    },
+    deep: true
+  }
+}));
 
 /***/ }),
 
@@ -181659,12 +181680,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.handleCancelSubscription && $options.handleCancelSubscription.apply($options, arguments);
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-cancel", {
-      'disabled': !$options.canCancel
+      'disabled': !$options.canCancel || $options.isCancelled,
+      'cancelled': $options.isCancelled
     }]),
-    disabled: $data.cancelling || !$options.canCancel
+    disabled: $data.cancelling || !$options.canCancel || $options.isCancelled
   }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times-circle"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : $options.canCancel ? 'Cancel Subscription' : 'Already Cancelled'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_14)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), $options.showPlans && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : $options.isCancelled ? 'Subscription Cancelled' : 'Cancel Subscription'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_14)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), $options.showPlans && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-info-circle"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your subscription ends on " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.subscription.ends_at)) + ". Subscribe again to continue enjoying premium features after this date.", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[4] || (_cache[4] = function ($event) {
@@ -193860,7 +193882,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Base Styles */\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background-color: #f8fafc;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n.container[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 20px;\n}\n.btn-cancel[data-v-0ca26305] {\n  color: white;\n  padding: 10px 20px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: opacity 0.3s;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(.disabled) {\n  background-color: #dc2626;\n}\n.btn-cancel.disabled[data-v-0ca26305] {\n  background-color: #d1d5db73;\n  color: #000;\n  border: 2px solid #000;\n  cursor: not-allowed;\n  opacity: 0.6;\n  pointer-events: none;\n}\n/* Success Image Container */\n.success-image-container[data-v-0ca26305] {\n  text-align: center;\n  padding: 40px 0;\n  max-width: 600px;\n  margin: 0 auto;\n}\n.success-image[data-v-0ca26305] {\n  max-width: 100%;\n  height: auto;\n  border-radius: 8px;\n  margin-bottom: 20px;\n}\n.success-message[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1.125rem;\n  margin-bottom: 20px;\n}\n/* Header */\n.subscription-header[data-v-0ca26305] {\n  background: white;\n  padding: 60px 0 40px;\n  text-align: center;\n  border-bottom: 1px solid #e2e8f0;\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 16px;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #64748b;\n  max-width: 600px;\n  margin: 0 auto;\n  line-height: 1.6;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 40px 0;\n}\n/* Notifications */\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 20px;\n  border-radius: 8px;\n  margin-bottom: 24px;\n  gap: 12px;\n}\n.notification.success[data-v-0ca26305] {\n  background: #f0fdf4;\n  border: 1px solid #bbf7d0;\n  color: #166534;\n}\n.notification.error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #fecaca;\n  color: #991b1b;\n}\n.notification i[data-v-0ca26305] {\n  flex-shrink: 0;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  margin-left: auto;\n  padding: 4px;\n  font-size: 1.25rem;\n}\n/* Loading State */\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 80px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 48px;\n  height: 48px;\n  border: 4px solid #e2e8f0;\n  border-top: 4px solid #35a38b;\n  border-radius: 50%;\n  animation: spin-0ca26305 1s linear infinite;\n  margin: 0 auto 20px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1rem;\n}\n@keyframes spin-0ca26305 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n/* Subscription Card */\n.active-subscription[data-v-0ca26305] {\n  max-width: 600px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 12px;\n  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  overflow: hidden;\n}\n.card-badge[data-v-0ca26305] {\n  background: #35a38b;\n  color: white;\n  padding: 12px 20px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n  padding: 40px 32px 24px;\n  text-align: center;\n}\n.status-icon[data-v-0ca26305] {\n  width: 80px;\n  height: 80px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 20px;\n  color: #35a38b;\n  font-size: 2rem;\n}\n.status-icon.cancelled[data-v-0ca26305] {\n  background: #fef2f2;\n  color: #dc2626;\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.75rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #64748b;\n  margin-bottom: 24px;\n}\n.status-info[data-v-0ca26305] {\n  background: #f8fafc;\n  border-radius: 8px;\n  padding: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #64748b;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #35a38b;\n}\n.card-body[data-v-0ca26305] {\n  padding: 0 32px 32px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 20px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 32px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e2e8f0;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #35a38b;\n  flex-shrink: 0;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #475569;\n}\n.cancellation-notice[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #fecaca;\n  color: #991b1b;\n  padding: 1rem;\n  border-radius: 8px;\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n/* Buttons */\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 16px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: #35a38b;\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: #2d8c77;\n}\n.btn-cancel[data-v-0ca26305] {\n  background: white;\n  color: #dc2626;\n  border: 1px solid #dc2626;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(:disabled) {\n  background: #fef2f2;\n}\n/* Plans View */\n.plans-view[data-v-0ca26305] {\n  max-width: 1000px;\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1.125rem;\n}\n/* Plans Grid */\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e2e8f0;\n  border-radius: 12px;\n  padding: 32px 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #35a38b;\n  transform: translateY(-4px);\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #35a38b;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #35a38b;\n  transform: scale(1.05);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: #35a38b;\n  color: white;\n  padding: 6px 16px;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 64px;\n  height: 64px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #35a38b;\n  font-size: 1.5rem;\n}\n.plan-header h3[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.period[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n  margin: 0;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 24px;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e2e8f0;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #35a38b;\n  flex-shrink: 0;\n  font-size: 0.875rem;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #475569;\n  font-size: 0.875rem;\n}\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: #35a38b;\n  color: white;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: #2d8c77;\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: #2d8c77;\n}\n/* Payment Section */\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #64748b;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n/* FAQ Section */\n.faq-section[data-v-0ca26305] {\n  background: white;\n  padding: 80px 0;\n  border-top: 1px solid #e2e8f0;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e2e8f0;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 24px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #64748b;\n  transition: transform 0.2s;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 24px;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #64748b;\n  line-height: 1.6;\n  margin: 0;\n}\n/* Responsive Design */\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n    font-size: 2rem;\n}\n.plans-grid[data-v-0ca26305] {\n    grid-template-columns: 1fr;\n    gap: 20px;\n}\n.plan-card.featured[data-v-0ca26305] {\n    transform: scale(1);\n}\n.card-header[data-v-0ca26305],\n  .card-body[data-v-0ca26305] {\n    padding: 24px 20px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Base Styles */\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background-color: #f8fafc;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n.container[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 20px;\n}\n.btn-cancel[data-v-0ca26305] {\n  color: white;\n  padding: 10px 20px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: opacity 0.3s;\n  background-color: #dc2626; /* Red background for cancel button */\n}\n.btn-cancel[data-v-0ca26305]:hover:not(.disabled):not(.cancelled) {\n  background-color: #b91c1c; /* Darker red on hover */\n}\n.btn-cancel.disabled[data-v-0ca26305] {\n  background-color: #d1d5db73;\n  color: #000;\n  border: 2px solid #000;\n  cursor: not-allowed;\n  opacity: 0.6;\n  pointer-events: none;\n}\n.btn-cancel.cancelled[data-v-0ca26305] {\n  background-color: #9ca3af; /* Grey for cancelled state */\n  color: white;\n  border: none;\n  cursor: default;\n}\n.btn-cancel.cancelled[data-v-0ca26305]:hover {\n  background-color: #9ca3af; /* No hover effect when cancelled */\n}\n/* Success Image Container */\n.success-image-container[data-v-0ca26305] {\n  text-align: center;\n  padding: 40px 0;\n  max-width: 600px;\n  margin: 0 auto;\n}\n.success-image[data-v-0ca26305] {\n  max-width: 100%;\n  height: auto;\n  border-radius: 8px;\n  margin-bottom: 20px;\n}\n.success-message[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1.125rem;\n  margin-bottom: 20px;\n}\n/* Header */\n.subscription-header[data-v-0ca26305] {\n  background: white;\n  padding: 60px 0 40px;\n  text-align: center;\n  border-bottom: 1px solid #e2e8f0;\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 16px;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #64748b;\n  max-width: 600px;\n  margin: 0 auto;\n  line-height: 1.6;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 40px 0;\n}\n/* Notifications */\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 20px;\n  border-radius: 8px;\n  margin-bottom: 24px;\n  gap: 12px;\n}\n.notification.success[data-v-0ca26305] {\n  background: #f0fdf4;\n  border: 1px solid #bbf7d0;\n  color: #166534;\n}\n.notification.error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #fecaca;\n  color: #991b1b;\n}\n.notification i[data-v-0ca26305] {\n  flex-shrink: 0;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  margin-left: auto;\n  padding: 4px;\n  font-size: 1.25rem;\n}\n/* Loading State */\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 80px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 48px;\n  height: 48px;\n  border: 4px solid #e2e8f0;\n  border-top: 4px solid #35a38b;\n  border-radius: 50%;\n  animation: spin-0ca26305 1s linear infinite;\n  margin: 0 auto 20px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1rem;\n}\n@keyframes spin-0ca26305 {\n0% { transform: rotate(0deg);\n}\n100% { transform: rotate(360deg);\n}\n}\n/* Subscription Card */\n.active-subscription[data-v-0ca26305] {\n  max-width: 600px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 12px;\n  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  overflow: hidden;\n}\n.card-badge[data-v-0ca26305] {\n  background: #35a38b;\n  color: white;\n  padding: 12px 20px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-badge.cancelled[data-v-0ca26305] {\n  background: #9ca3af; /* Grey for cancelled state */\n}\n.card-header[data-v-0ca26305] {\n  padding: 40px 32px 24px;\n  text-align: center;\n}\n.status-icon[data-v-0ca26305] {\n  width: 80px;\n  height: 80px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 20px;\n  color: #35a38b;\n  font-size: 2rem;\n}\n.status-icon.cancelled[data-v-0ca26305] {\n  background: #fef2f2;\n  color: #dc2626;\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.75rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #64748b;\n  margin-bottom: 24px;\n}\n.status-info[data-v-0ca26305] {\n  background: #f8fafc;\n  border-radius: 8px;\n  padding: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #64748b;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #35a38b;\n}\n.card-body[data-v-0ca26305] {\n  padding: 0 32px 32px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 20px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 32px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e2e8f0;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #35a38b;\n  flex-shrink: 0;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #475569;\n}\n.cancellation-notice[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #fecaca;\n  color: #991b1b;\n  padding: 1rem;\n  border-radius: 8px;\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n/* Buttons */\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 16px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: #35a38b;\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: #2d8c77;\n}\n/* Plans View */\n.plans-view[data-v-0ca26305] {\n  max-width: 1000px;\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1.125rem;\n}\n/* Plans Grid */\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e2e8f0;\n  border-radius: 12px;\n  padding: 32px 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #35a38b;\n  transform: translateY(-4px);\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #35a38b;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #35a38b;\n  transform: scale(1.05);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: #35a38b;\n  color: white;\n  padding: 6px 16px;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 64px;\n  height: 64px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #35a38b;\n  font-size: 1.5rem;\n}\n.plan-header h2[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.period[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n  margin: 0;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 24px;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e2e8f0;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #35a38b;\n  flex-shrink: 0;\n  font-size: 0.875rem;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #475569;\n  font-size: 0.875rem;\n}\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: #35a38b;\n  color: white;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: #2d8c77;\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: #2d8c77;\n}\n/* Payment Section */\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #64748b;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n/* FAQ Section */\n.faq-section[data-v-0ca26305] {\n  background: white;\n  padding: 80px 0;\n  border-top: 1px solid #e2e8f0;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e2e8f0;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 24px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #64748b;\n  transition: transform 0.2s;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 24px;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #64748b;\n  line-height: 1.6;\n  margin: 0;\n}\n/* Responsive Design */\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n    font-size: 2rem;\n}\n.plans-grid[data-v-0ca26305] {\n    grid-template-columns: 1fr;\n    gap: 20px;\n}\n.plan-card.featured[data-v-0ca26305] {\n    transform: scale(1);\n}\n.card-header[data-v-0ca26305],\n  .card-body[data-v-0ca26305] {\n    padding: 24px 20px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
