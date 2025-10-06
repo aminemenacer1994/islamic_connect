@@ -14,17 +14,17 @@
     <main class="subscription-main">
       <div class="container">
         <!-- Notifications -->
-        <!-- <div v-if="success" class="notification success">
+        <div v-if="success" class="notification success">
           <i class="fas fa-check-circle"></i>
           <span>{{ success }}</span>
           <button @click="success = ''" class="close-btn">
             <i class="fas fa-times"></i>
           </button>
-        </div> -->
+        </div>
 
         <div v-if="error" class="notification error">
           <i class="fas fa-exclamation-triangle"></i>
-          <span>{{ error }}</span>
+          <span>test</span>
           <button @click="error = ''" class="close-btn">
             <i class="fas fa-times"></i>
           </button>

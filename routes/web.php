@@ -195,6 +195,7 @@ Route::get('/convert', [ConvertController::class, 'index'])->name('convert');
 Route::get('/holy', [HolyController::class, 'index'])->name('holy');
 Route::get('/history', [HistoryController::class, 'index'])->name('history');
 Route::get('/read', [ReadController::class, 'index'])->name('read');
+Route::get('/media', [MediaController::class, 'index'])->name('media');
 
 // ========================================
 // AUTHENTICATED ROUTES (No Subscription Required)
@@ -212,7 +213,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('api/fetch-dashboard', [DashboardController::class, 'getDashboard'])->name('fetch_dashboard');
     
     // Media Center (viewable but content locked)
-    Route::get('/media', [MediaController::class, 'index'])->name('media');
+    
     
     // Bookmarks & Folders
     Route::get('/bookmarks', [BookmarkController::class, 'index']);
