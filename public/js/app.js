@@ -153907,7 +153907,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       // Enable debug info for troubleshooting
       faqs: [{
         question: 'Can I cancel my subscription anytime?',
-        answer: 'Yes, you can cancel at any time. You’ll keep access until the end of your current billing period.',
+        answer: 'Yes, you can cancel at any time. Access ends immediately once you cancel.',
         open: false
       }, {
         question: 'What payment methods do you accept?',
@@ -153976,7 +153976,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       if (!this.isSubscribed) return 'Free';
       var endsAtDate = (_this$subscription3 = this.subscription) !== null && _this$subscription3 !== void 0 && _this$subscription3.ends_at ? new Date(this.subscription.ends_at) : null;
       var currentDate = new Date();
-      return endsAtDate && endsAtDate <= currentDate ? 'Cancelled' : 'Active & Unlimited';
+      return endsAtDate && endsAtDate <= currentDate ? 'Cancelled' : 'Active';
     },
     isCancelled: function isCancelled() {
       var _this$subscription4;
@@ -154265,7 +154265,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       return _regenerator().w(function (_context6) {
         while (1) switch (_context6.p = _context6.n) {
           case 0:
-            if (confirm('Are you sure you want to cancel your subscription? You’ll keep access until your current period ends.')) {
+            if (confirm('Are you sure you want to cancel your subscription? Access will end immediately.')) {
               _context6.n = 1;
               break;
             }
@@ -154293,20 +154293,11 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context6.n = 6;
               break;
             }
-            if (_this8.subscription) {
-              _this8.subscription.ends_at = data.ends_at || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-            } else {
-              _this8.subscription = {
-                stripe_price: _this8.selectedPlan,
-                ends_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
-              };
-              _this8.isSubscribed = true;
-            }
             _this8.isCancelled = true;
             _context6.n = 5;
             return _this8.fetchSubscriptionStatus();
           case 5:
-            _this8.success = "Subscription canceled. You\u2019ll have access until ".concat(_this8.formatDate(_this8.subscription.ends_at), ".");
+            _this8.success = 'Subscription canceled. Access has ended immediately.';
             setTimeout(function () {
               return _this8.success = '';
             }, 8000);
@@ -154317,15 +154308,11 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context6.n = 8;
               break;
             }
-            _this8.subscription = _this8.subscription || {
-              stripe_price: _this8.selectedPlan,
-              ends_at: new Date().toISOString()
-            };
             _this8.isCancelled = true;
             _context6.n = 7;
             return _this8.fetchSubscriptionStatus();
           case 7:
-            _this8.success = 'Your subscription is already canceled. Access ends now.';
+            _this8.success = 'Your subscription is already canceled. Access has already ended.';
             setTimeout(function () {
               return _this8.success = '';
             }, 8000);

@@ -331,19 +331,12 @@ class SubscriptionController extends Controller
         }
 
         try {
-            $subscription->cancel();
-            
-            // Get the updated subscription details
-            $stripeSubscription = $subscription->asStripeSubscription();
-            $endsAt = Carbon::createFromTimestamp($stripeSubscription->current_period_end);
-            
-            // Update local database
-            $subscription->ends_at = $endsAt;
-            $subscription->save();
+            $subscription->cancelNow();
+            $subscription->refresh();
 
             return response()->json([
                 'success' => true,
-                'ends_at' => $endsAt->toIso8601String(),
+                'ends_at' => optional($subscription->ends_at)->toIso8601String(),
                 'message' => 'Subscription cancelled successfully'
             ]);
             

@@ -203,7 +203,7 @@ export default {
       isCancelled: false,
       debugInfo: true, // Enable debug info for troubleshooting
       faqs: [
-        { question: 'Can I cancel my subscription anytime?', answer: 'Yes, you can cancel at any time. You’ll keep access until the end of your current billing period.', open: false },
+        { question: 'Can I cancel my subscription anytime?', answer: 'Yes, you can cancel at any time. Access ends immediately once you cancel.', open: false },
         { question: 'What payment methods do you accept?', answer: 'We accept major credit and debit cards through Stripe.', open: false },
         { question: 'Is there a free trial available?', answer: 'There’s no free trial, but a free tier is available. Upgrade anytime.', open: false }
       ],
@@ -237,7 +237,7 @@ export default {
       if (!this.isSubscribed) return 'Free';
       const endsAtDate = this.subscription?.ends_at ? new Date(this.subscription.ends_at) : null;
       const currentDate = new Date();
-      return endsAtDate && endsAtDate <= currentDate ? 'Cancelled' : 'Active & Unlimited';
+      return endsAtDate && endsAtDate <= currentDate ? 'Cancelled' : 'Active';
     },
     isCancelled() {
       return this.isCancelled || (this.subscription?.ends_at && new Date(this.subscription.ends_at) > new Date() && this.success.includes('Subscription canceled'));
@@ -385,7 +385,7 @@ export default {
       return plan ? plan.features : ['Basic access only'];
     },
     async handleCancelSubscription() {
-      if (!confirm('Are you sure you want to cancel your subscription? You’ll keep access until your current period ends.')) return;
+      if (!confirm('Are you sure you want to cancel your subscription? Access will end immediately.')) return;
       this.cancelling = true;
       try {
         const response = await fetch('/cancel', {
@@ -395,21 +395,14 @@ export default {
         const data = await response.json();
         console.log('handleCancelSubscription - Cancellation response:', JSON.stringify(data, null, 2));
         if (response.ok && data.success) {
-          if (this.subscription) {
-            this.subscription.ends_at = data.ends_at || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-          } else {
-            this.subscription = { stripe_price: this.selectedPlan, ends_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() };
-            this.isSubscribed = true;
-          }
           this.isCancelled = true;
           await this.fetchSubscriptionStatus();
-          this.success = `Subscription canceled. You’ll have access until ${this.formatDate(this.subscription.ends_at)}.`;
+          this.success = 'Subscription canceled. Access has ended immediately.';
           setTimeout(() => this.success = '', 8000);
         } else if (data.message && data.message.includes('canceled subscription')) {
-          this.subscription = this.subscription || { stripe_price: this.selectedPlan, ends_at: new Date().toISOString() };
           this.isCancelled = true;
           await this.fetchSubscriptionStatus();
-          this.success = 'Your subscription is already canceled. Access ends now.';
+          this.success = 'Your subscription is already canceled. Access has already ended.';
           setTimeout(() => this.success = '', 8000);
         } else {
           throw new Error(data.message || 'Failed to cancel your subscription.');
