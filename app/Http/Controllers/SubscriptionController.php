@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
+use Illuminate\Support\Facades\Log;
 
 class SubscriptionController extends Controller
 {
@@ -274,6 +275,7 @@ class SubscriptionController extends Controller
         ]);
     }
 
+
     public function cancelSubscription(Request $request)
     {
         $user = Auth::user();
@@ -285,36 +287,38 @@ class SubscriptionController extends Controller
 
         try {
             if ($subscription->canceled_at) {
-                // Subscription is already canceled; update ends_at to now if still in the future
+                // Already canceled; update ends_at to now if not set or in the future
                 if (!$subscription->ends_at || new \DateTime($subscription->ends_at) > now()) {
-                    $subscription->ends_at = now(); // Set to current time
+                    $subscription->ends_at = now();
                     $subscription->save();
+                    Log::info('Updated ends_at for already canceled subscription', ['user_id' => $user->id, 'ends_at' => $subscription->ends_at]);
                 }
                 return response()->json(['success' => true, 'message' => 'Your subscription is already canceled. Access ends on ' . $subscription->ends_at->toDateString(), 'ends_at' => $subscription->ends_at]);
             }
 
-            // Cancel the subscription if not already canceled
-            $subscription->cancel();
-            return response()->json(['success' => true, 'message' => 'Your subscription has been canceled. Access ends on ' . $subscription->ends_at->toDateString(), 'ends_at' => $subscription->ends_at]);
+            // Cancel the subscription immediately
+            $subscription->cancelNow(); // Use cancelNow() instead of cancel() to end immediately
+            Log::info('Canceled subscription immediately', ['user_id' => $user->id, 'ends_at' => $subscription->ends_at]);
+            return response()->json(['success' => true, 'message' => 'Your subscription has been canceled. Access ends now.', 'ends_at' => $subscription->ends_at]);
         } catch (\Stripe\Exception\InvalidRequestException $e) {
             // Handle case where cancellation fails (e.g., already canceled)
             if (strpos($e->getMessage(), 'canceled subscription') !== false) {
-                $subscription->ends_at = now(); // Force update to current time
+                $subscription->ends_at = now();
                 $subscription->save();
+                Log::warning('Forced ends_at update due to Stripe error', ['user_id' => $user->id, 'error' => $e->getMessage(), 'ends_at' => $subscription->ends_at]);
                 return response()->json(['success' => true, 'message' => 'Your subscription was already canceled. Access ends now.', 'ends_at' => $subscription->ends_at]);
             }
+            Log::error('Stripe cancellation error', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return response()->json([
                 'success' => false,
                 'message' => 'An error occurred while canceling your subscription: ' . $e->getMessage(),
-                'exception' => get_class($e),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTrace()
             ], 500);
         } catch (\Exception $e) {
+            Log::error('Unexpected cancellation error', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return response()->json(['success' => false, 'message' => 'An unexpected error occurred: ' . $e->getMessage()], 500);
         }
     }
+
 
     public function addPaymentMethod(Request $request)
     {

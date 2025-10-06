@@ -154244,7 +154244,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 break;
               }
               _context6.n = 5;
-              return _this8.fetchSubscriptionStatus();
+              return _this8.waitForCancellationUpdate();
             case 5:
               _this8.success = "Subscription canceled. You\u2019ll have access until ".concat(_this8.formatDate(data.ends_at), ".");
               setTimeout(function () {
@@ -154259,7 +154259,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               }
               _this8.subscription.ends_at = new Date().toISOString();
               _context6.n = 7;
-              return _this8.fetchSubscriptionStatus();
+              return _this8.waitForCancellationUpdate();
             case 7:
               _this8.success = 'Your subscription is already canceled. Access ends now.';
               setTimeout(function () {
@@ -154287,25 +154287,67 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         }, _callee6, null, [[2, 10, 11, 12]]);
       }))();
     },
-    handleSubmit: function handleSubmit() {
+    waitForCancellationUpdate: function waitForCancellationUpdate() {
       var _this9 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
-        var _document$querySelect2, csrfToken, response, data, _t4;
+        var attempts, maxAttempts, _this9$subscription, endsAtDate, currentDate;
         return _regenerator().w(function (_context7) {
-          while (1) switch (_context7.p = _context7.n) {
+          while (1) switch (_context7.n) {
             case 0:
-              _this9.submitting = true;
-              _this9.error = '';
-              _this9.success = '';
-              _context7.p = 1;
+              attempts = 0;
+              maxAttempts = 10;
+            case 1:
+              if (!(attempts < maxAttempts)) {
+                _context7.n = 5;
+                break;
+              }
+              _context7.n = 2;
+              return _this9.fetchSubscriptionStatus();
+            case 2:
+              endsAtDate = (_this9$subscription = _this9.subscription) !== null && _this9$subscription !== void 0 && _this9$subscription.ends_at ? new Date(_this9.subscription.ends_at) : null;
+              currentDate = new Date();
+              if (!(!endsAtDate || endsAtDate <= currentDate)) {
+                _context7.n = 3;
+                break;
+              }
+              console.log('Cancellation state confirmed - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString());
+              return _context7.a(2);
+            case 3:
+              attempts++;
+              _context7.n = 4;
+              return new Promise(function (resolve) {
+                return setTimeout(resolve, 1000);
+              });
+            case 4:
+              _context7.n = 1;
+              break;
+            case 5:
+              console.warn('Failed to confirm cancellation state after max attempts');
+            case 6:
+              return _context7.a(2);
+          }
+        }, _callee7);
+      }))();
+    },
+    handleSubmit: function handleSubmit() {
+      var _this0 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
+        var _document$querySelect2, csrfToken, response, data, _t4;
+        return _regenerator().w(function (_context8) {
+          while (1) switch (_context8.p = _context8.n) {
+            case 0:
+              _this0.submitting = true;
+              _this0.error = '';
+              _this0.success = '';
+              _context8.p = 1;
               csrfToken = (_document$querySelect2 = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.getAttribute('content');
               if (csrfToken) {
-                _context7.n = 2;
+                _context8.n = 2;
                 break;
               }
               throw new Error('Please refresh the page to continue.');
             case 2:
-              _context7.n = 3;
+              _context8.n = 3;
               return fetch('/subscribe', {
                 method: 'POST',
                 headers: {
@@ -154315,15 +154357,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 },
                 credentials: 'same-origin',
                 body: JSON.stringify({
-                  price_lookup_key: _this9.selectedPlan
+                  price_lookup_key: _this0.selectedPlan
                 })
               });
             case 3:
-              response = _context7.v;
-              _context7.n = 4;
+              response = _context8.v;
+              _context8.n = 4;
               return response.json();
             case 4:
-              data = _context7.v;
+              data = _context8.v;
               console.log('Subscription response:', response.status, data);
               if (response.ok) {
                 if (data.redirect) {
@@ -154332,35 +154374,35 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               } else {
                 if (data.errors) {
                   console.error('Validation errors:', data.errors);
-                  _this9.error = Object.values(data.errors).flat().join(' ');
+                  _this0.error = Object.values(data.errors).flat().join(' ');
                 } else {
-                  _this9.error = data.message || 'An error occurred. Please try again.';
+                  _this0.error = data.message || 'An error occurred. Please try again.';
                 }
               }
-              _context7.n = 6;
+              _context8.n = 6;
               break;
             case 5:
-              _context7.p = 5;
-              _t4 = _context7.v;
+              _context8.p = 5;
+              _t4 = _context8.v;
               console.error('Subscription error:', _t4);
-              _this9.error = _t4.message || 'A network error occurred. Please try again.';
+              _this0.error = _t4.message || 'A network error occurred. Please try again.';
             case 6:
-              _context7.p = 6;
-              _this9.submitting = false;
-              return _context7.f(6);
+              _context8.p = 6;
+              _this0.submitting = false;
+              return _context8.f(6);
             case 7:
-              return _context7.a(2);
+              return _context8.a(2);
           }
-        }, _callee7, null, [[1, 5, 6, 7]]);
+        }, _callee8, null, [[1, 5, 6, 7]]);
       }))();
     }
   },
   watch: {
     error: function error(newVal) {
-      var _this0 = this;
+      var _this1 = this;
       if (newVal) {
         setTimeout(function () {
-          _this0.error = '';
+          _this1.error = '';
         }, 5000);
       }
     },

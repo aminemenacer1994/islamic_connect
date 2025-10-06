@@ -377,12 +377,12 @@ export default {
         const data = await response.json();
         console.log('Cancellation response:', data);
         if (response.ok && data.success) {
-          await this.fetchSubscriptionStatus();
+          await this.waitForCancellationUpdate();
           this.success = `Subscription canceled. You’ll have access until ${this.formatDate(data.ends_at)}.`;
           setTimeout(() => this.success = '', 8000);
         } else if (data.message && data.message.includes('canceled subscription')) {
           this.subscription.ends_at = new Date().toISOString();
-          await this.fetchSubscriptionStatus();
+          await this.waitForCancellationUpdate();
           this.success = 'Your subscription is already canceled. Access ends now.';
           setTimeout(() => this.success = '', 8000);
         } else {
@@ -394,6 +394,22 @@ export default {
       } finally {
         this.cancelling = false;
       }
+    },
+    async waitForCancellationUpdate() {
+      let attempts = 0;
+      const maxAttempts = 10;
+      while (attempts < maxAttempts) {
+        await this.fetchSubscriptionStatus();
+        const endsAtDate = this.subscription?.ends_at ? new Date(this.subscription.ends_at) : null;
+        const currentDate = new Date();
+        if (!endsAtDate || endsAtDate <= currentDate) {
+          console.log('Cancellation state confirmed - ends_at:', endsAtDate?.toISOString());
+          return;
+        }
+        attempts++;
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second before retrying
+      }
+      console.warn('Failed to confirm cancellation state after max attempts');
     },
     async handleSubmit() {
       this.submitting = true;
