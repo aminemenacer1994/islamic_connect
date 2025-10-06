@@ -225,7 +225,7 @@ export default {
       const endsAtDate = this.subscription?.ends_at ? new Date(this.subscription.ends_at) : null;
       const canCancelValue = endsAtDate ? endsAtDate > currentDate : true; // Treat null as active and cancellable
       console.log('canCancel check - ends_at:', endsAtDate?.toISOString(), 'currentDate:', currentDate.toISOString(), 'canCancel:', canCancelValue);
-      return canCancelValue;
+      return canCancelValue && !this.isCancelled;
     },
     showPlans() {
       return !this.isSubscribed; // Hide plans if subscribed
@@ -235,6 +235,10 @@ export default {
       const endsAtDate = this.subscription?.ends_at ? new Date(this.subscription.ends_at) : null;
       const currentDate = new Date();
       return endsAtDate && endsAtDate <= currentDate ? 'Cancelled' : 'Active & Unlimited';
+    },
+    isCancelled() {
+      // Check if subscription is cancelled based on ends_at or backend confirmation
+      return this.subscription?.ends_at && this.success.includes('Subscription canceled');
     }
   },
   mounted() {

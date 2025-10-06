@@ -153957,7 +153957,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var endsAtDate = (_this$subscription2 = this.subscription) !== null && _this$subscription2 !== void 0 && _this$subscription2.ends_at ? new Date(this.subscription.ends_at) : null;
       var canCancelValue = endsAtDate ? endsAtDate > currentDate : true; // Treat null as active and cancellable
       console.log('canCancel check - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString(), 'currentDate:', currentDate.toISOString(), 'canCancel:', canCancelValue);
-      return canCancelValue;
+      return canCancelValue && !this.isCancelled;
     },
     showPlans: function showPlans() {
       return !this.isSubscribed; // Hide plans if subscribed
@@ -153968,6 +153968,11 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var endsAtDate = (_this$subscription3 = this.subscription) !== null && _this$subscription3 !== void 0 && _this$subscription3.ends_at ? new Date(this.subscription.ends_at) : null;
       var currentDate = new Date();
       return endsAtDate && endsAtDate <= currentDate ? 'Cancelled' : 'Active & Unlimited';
+    },
+    isCancelled: function isCancelled() {
+      var _this$subscription4;
+      // Check if subscription is cancelled based on ends_at or backend confirmation
+      return ((_this$subscription4 = this.subscription) === null || _this$subscription4 === void 0 ? void 0 : _this$subscription4.ends_at) && this.success.includes('Subscription canceled');
     }
   },
   mounted: function mounted() {
