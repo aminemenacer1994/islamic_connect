@@ -280,39 +280,39 @@ class SubscriptionController extends Controller
         $subscription = $user->subscription('premium'); // Adjust 'premium' to your subscription name
 
         if (!$subscription) {
-            return response()->json(['success' => false, 'message' => 'No active subscription'], 400);
+            return response()->json(['success' => false, 'message' => 'You do not have an active subscription to cancel.'], 400);
         }
 
         try {
             if ($subscription->canceled_at) {
-                // Subscription is already canceled; update ends_at to now if not set
+                // Subscription is already canceled; update ends_at to now if still in the future
                 if (!$subscription->ends_at || new \DateTime($subscription->ends_at) > now()) {
                     $subscription->ends_at = now(); // Set to current time
                     $subscription->save();
                 }
-                return response()->json(['success' => true, 'ends_at' => $subscription->ends_at]);
+                return response()->json(['success' => true, 'message' => 'Your subscription is already canceled. Access ends on ' . $subscription->ends_at->toDateString(), 'ends_at' => $subscription->ends_at]);
             }
 
             // Cancel the subscription if not already canceled
             $subscription->cancel();
-            return response()->json(['success' => true, 'ends_at' => $subscription->ends_at]);
+            return response()->json(['success' => true, 'message' => 'Your subscription has been canceled. Access ends on ' . $subscription->ends_at->toDateString(), 'ends_at' => $subscription->ends_at]);
         } catch (\Stripe\Exception\InvalidRequestException $e) {
             // Handle case where cancellation fails (e.g., already canceled)
             if (strpos($e->getMessage(), 'canceled subscription') !== false) {
                 $subscription->ends_at = now(); // Force update to current time
                 $subscription->save();
-                return response()->json(['success' => true, 'ends_at' => $subscription->ends_at]);
+                return response()->json(['success' => true, 'message' => 'Your subscription was already canceled. Access ends now.', 'ends_at' => $subscription->ends_at]);
             }
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => 'An error occurred while canceling your subscription: ' . $e->getMessage(),
                 'exception' => get_class($e),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
                 'trace' => $e->getTrace()
             ], 500);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'An unexpected error occurred: ' . $e->getMessage()], 500);
         }
     }
 

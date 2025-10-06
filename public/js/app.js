@@ -153898,15 +153898,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       showSuccessImage: false,
       faqs: [{
         question: 'Can I cancel my subscription anytime?',
-        answer: 'Yes, you can cancel anytime. Access continues until the billing period ends.',
+        answer: 'Yes, you can cancel at any time. You’ll keep access until the end of your current billing period.',
         open: false
       }, {
         question: 'What payment methods do you accept?',
-        answer: 'We accept major credit/debit cards via Stripe (test mode).',
+        answer: 'We accept major credit and debit cards through Stripe.',
         open: false
       }, {
         question: 'Is there a free trial available?',
-        answer: 'No free trial, but a free tier is available. Upgrade anytime.',
+        answer: 'There’s no free trial, but a free tier is available. Upgrade anytime.',
         open: false
       }],
       plans: [{
@@ -153917,27 +153917,27 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         icon: 'fas fa-calendar-alt',
         badge: 'Flexible',
         featured: false,
-        features: ['All premium features', 'Cancel anytime', 'Monthly billing', '24/7 support']
+        features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', '24/7 support']
       }, {
         value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
         name: 'Yearly',
         price: '£18',
         period: 'per year',
-        savings: 'Save £5.88 per year',
+        savings: 'Save £5.88 annually',
         icon: 'fas fa-star',
         badge: 'Most Popular',
         featured: true,
-        features: ['All premium features', 'Best value', 'Annual billing', 'Priority support']
+        features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', 'Priority support']
       }, {
         value: 'price_1SDrmPGsDD2PdzHqvk1SOoT3',
         name: 'Lifetime',
         price: '£25',
-        period: 'one-time payment',
+        period: 'one-time',
         savings: 'Never pay again',
         icon: 'fas fa-infinity',
-        badge: 'Best Deal',
+        badge: 'Best Value',
         featured: false,
-        features: ['All premium features', 'Lifetime access', 'One-time payment', 'VIP support']
+        features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', 'VIP support']
       }],
       planDetails: {
         'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
@@ -153956,7 +153956,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var currentDate = new Date();
       var endsAtDate = (_this$subscription2 = this.subscription) !== null && _this$subscription2 !== void 0 && _this$subscription2.ends_at ? new Date(this.subscription.ends_at) : null;
       var canCancelValue = endsAtDate && endsAtDate > currentDate;
-      console.log('canCancel computation - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString(), 'currentDate:', currentDate.toISOString(), 'canCancel:', canCancelValue);
+      console.log('canCancel check - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString(), 'currentDate:', currentDate.toISOString(), 'canCancel:', canCancelValue);
       return canCancelValue;
     }
   },
@@ -153989,7 +153989,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         } : null;
       }
     })["catch"](function (e) {
-      return console.error('Subscription check error:', e);
+      return console.error('Error fetching subscription status:', e);
     });
   },
   methods: {
@@ -154020,7 +154020,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               });
             case 1:
               response = _context.v;
-              console.log('Response from /user:', response.status, response.data);
+              console.log('User authentication response:', response.status, response.data);
               _this2.isAuthenticated = !!response.data;
               _context.n = 3;
               break;
@@ -154059,20 +154059,20 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _this3.isAuthenticated = false;
               _this3.isSubscribed = false;
               _this3.subscription = null;
-              console.log('401 Unauthorized - Resetting subscription');
+              console.log('Unauthorized access - Resetting subscription');
               return _context2.a(2, false);
             case 2:
               if (response.ok) {
                 _context2.n = 3;
                 break;
               }
-              throw new Error('Failed to fetch subscription status');
+              throw new Error('Failed to load subscription details');
             case 3:
               _context2.n = 4;
               return response.json();
             case 4:
               data = _context2.v;
-              console.log('Subscription data from fetch:', data);
+              console.log('Subscription details:', data);
               _this3.isAuthenticated = true;
               _this3.isSubscribed = data.is_subscribed;
               _this3.subscription = data.is_subscribed ? {
@@ -154083,7 +154083,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 5:
               _context2.p = 5;
               _t2 = _context2.v;
-              console.error('Error fetching subscription:', _t2);
+              console.error('Error loading subscription:', _t2);
               _this3.isAuthenticated = false;
               _this3.isSubscribed = false;
               _this3.subscription = null;
@@ -154133,7 +154133,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context4.n = 4;
                 break;
               }
-              _this5.error = 'Subscription cancelled. You can try again when ready.';
+              _this5.error = 'Your subscription has been canceled. Subscribe again to continue.';
               _context4.n = 3;
               return _this5.fetchSubscriptionStatus();
             case 3:
@@ -154156,7 +154156,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         return _regenerator().w(function (_context5) {
           while (1) switch (_context5.n) {
             case 0:
-              _this6.success = 'Subscription successful! Activating your subscription...';
+              _this6.success = 'Subscription successful! Activating your premium access...';
               attempts = 0;
               maxAttempts = 15;
             case 1:
@@ -154174,7 +154174,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 break;
               }
               _this6.showSuccessImage = true;
-              _this6.success = 'Subscription activated successfully! Welcome to Premium.';
+              _this6.success = 'Premium access activated! Enjoy your benefits.';
               setTimeout(function () {
                 return _this6.success = '';
               }, 5000);
@@ -154188,7 +154188,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context5.n = 1;
               break;
             case 5:
-              _this6.error = 'Subscription is taking longer than expected. Please refresh or contact support.';
+              _this6.error = 'Activation is taking longer than expected. Please refresh or contact support.';
               _this6.success = '';
             case 6:
               return _context5.a(2);
@@ -154215,7 +154215,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         return _regenerator().w(function (_context6) {
           while (1) switch (_context6.p = _context6.n) {
             case 0:
-              if (confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
+              if (confirm('Are you sure you want to cancel your subscription? You’ll keep access until your current period ends.')) {
                 _context6.n = 1;
                 break;
               }
@@ -154238,7 +154238,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 4:
               data = _context6.v;
-              console.log('Cancel response:', data);
+              console.log('Cancellation response:', data);
               if (!(response.ok && data.success)) {
                 _context6.n = 6;
                 break;
@@ -154246,8 +154246,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context6.n = 5;
               return _this8.fetchSubscriptionStatus();
             case 5:
-              // Refresh to get updated ends_at
-              _this8.success = "Subscription cancelled. You'll have access until ".concat(_this8.formatDate(data.ends_at), ".");
+              _this8.success = "Subscription canceled. You\u2019ll have access until ".concat(_this8.formatDate(data.ends_at), ".");
               setTimeout(function () {
                 return _this8.success = '';
               }, 8000);
@@ -154258,28 +154257,26 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context6.n = 8;
                 break;
               }
-              // Handle already canceled or failed cancellation
-              _this8.subscription.ends_at = new Date().toISOString(); // Force local update
+              _this8.subscription.ends_at = new Date().toISOString();
               _context6.n = 7;
               return _this8.fetchSubscriptionStatus();
             case 7:
-              // Sync with server
-              _this8.success = 'Subscription is already canceled or cancellation failed. Access ends soon.';
+              _this8.success = 'Your subscription is already canceled. Access ends now.';
               setTimeout(function () {
                 return _this8.success = '';
               }, 8000);
               _context6.n = 9;
               break;
             case 8:
-              throw new Error(data.message || 'Failed to cancel subscription');
+              throw new Error(data.message || 'Failed to cancel your subscription.');
             case 9:
               _context6.n = 11;
               break;
             case 10:
               _context6.p = 10;
               _t3 = _context6.v;
-              _this8.error = _t3.message || 'Error cancelling subscription. Please try again.';
-              console.error('Cancel error:', _t3);
+              _this8.error = _t3.message || 'An error occurred while canceling. Please try again.';
+              console.error('Cancellation error:', _t3);
             case 11:
               _context6.p = 11;
               _this8.cancelling = false;
@@ -154306,7 +154303,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context7.n = 2;
                 break;
               }
-              throw new Error('CSRF token not found. Please refresh the page.');
+              throw new Error('Please refresh the page to continue.');
             case 2:
               _context7.n = 3;
               return fetch('/subscribe', {
@@ -154327,7 +154324,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 4:
               data = _context7.v;
-              console.log('Full response:', response.status, data);
+              console.log('Subscription response:', response.status, data);
               if (response.ok) {
                 if (data.redirect) {
                   window.location.href = data.redirect;
@@ -154345,8 +154342,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 5:
               _context7.p = 5;
               _t4 = _context7.v;
-              console.error('Error submitting form:', _t4);
-              _this9.error = _t4.message || 'Network error. Please try again.';
+              console.error('Subscription error:', _t4);
+              _this9.error = _t4.message || 'A network error occurred. Please try again.';
             case 6:
               _context7.p = 6;
               _this9.submitting = false;
