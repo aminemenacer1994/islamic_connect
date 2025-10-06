@@ -14,6 +14,6 @@ class Subscribed
             return $next($request);
         }
 
-        return redirect('/pricing')->with('error', 'You need an active subscription to access this content.');
+        return redirect('/subscribe')->with('error', 'You need an active subscription to access this content.');
     }
 }

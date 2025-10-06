@@ -15,6 +15,14 @@ class SubscriptionController extends Controller
         return view('subscribe');
     }
 
+    public function getUser()
+    {
+        if (Auth::check()) {
+            return response()->json(Auth::user());
+        }
+        return response()->json(['error' => 'Unauthenticated'], 401);
+    }
+
     public function success(Request $request)
     {
         $user = auth()->user();

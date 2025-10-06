@@ -153874,10 +153874,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
@@ -153896,6 +153893,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       cancelling: false,
       error: '',
       success: '',
+      isAuthenticated: false,
+      // Track authentication state
       isSubscribed: false,
       subscription: null,
       faqs: [{
@@ -153955,8 +153954,20 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
   },
   mounted: function mounted() {
+    var _this = this;
     this.checkSubscriptionStatus();
     this.checkUrlParams();
+    this.checkAuthentication();
+
+    // Handle flash messages from Blade
+    if (window.flashError) {
+      this.error = window.flashError;
+      delete window.flashError;
+    }
+    if (window.flashSuccess) {
+      this.success = window.flashSuccess;
+      delete window.flashSuccess;
+    }
     fetch('/subscription-status', {
       headers: {
         'Accept': 'application/json'
@@ -153964,12 +153975,19 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }).then(function (r) {
       return r.json();
     }).then(function (data) {
-      return console.log('Subscription status:', data);
+      console.log('Subscription status:', data);
+      if (data.is_subscribed !== undefined) {
+        _this.isSubscribed = data.is_subscribed;
+        _this.subscription = data.is_subscribed ? {
+          stripe_price: data.plan,
+          ends_at: data.ends_at
+        } : null;
+      }
     })["catch"](function (e) {
       return console.error('Subscription check error:', e);
     });
   },
-  methods: _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+  methods: {
     formatDate: function formatDate(dateString) {
       return dateString ? new Date(dateString).toLocaleDateString('en-GB', {
         day: 'numeric',
@@ -153980,38 +153998,39 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     toggleFaq: function toggleFaq(index) {
       this.faqs[index].open = !this.faqs[index].open;
     },
-    checkSubscriptionStatus: function checkSubscriptionStatus() {
-      var _this = this;
+    checkAuthentication: function checkAuthentication() {
+      var _this2 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var _t;
+        var response, _t;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.p = _context.n) {
             case 0:
-              _this.loading = true;
-              _this.error = ''; // Clear any previous errors
-              _context.p = 1;
-              _context.n = 2;
-              return _this.fetchSubscriptionStatus();
-            case 2:
-              _context.n = 4;
+              _context.p = 0;
+              _context.n = 1;
+              return axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/user', {
+                headers: {
+                  'X-CSRF-TOKEN': _this2.csrfToken,
+                  'Accept': 'application/json'
+                }
+              });
+            case 1:
+              response = _context.v;
+              _this2.isAuthenticated = !!response.data;
+              _context.n = 3;
               break;
-            case 3:
-              _context.p = 3;
+            case 2:
+              _context.p = 2;
               _t = _context.v;
-              console.error('Error checking subscription:', _t);
-              _this.error = 'Error checking subscription. Please try again.';
-            case 4:
-              _context.p = 4;
-              _this.loading = false;
-              return _context.f(4);
-            case 5:
+              _this2.isAuthenticated = false;
+              // No need to set error here; the template handles it with !isAuthenticated
+            case 3:
               return _context.a(2);
           }
-        }, _callee, null, [[1, 3, 4, 5]]);
+        }, _callee, null, [[0, 2]]);
       }))();
     },
     fetchSubscriptionStatus: function fetchSubscriptionStatus() {
-      var _this2 = this;
+      var _this3 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
         var response, data, _t2;
         return _regenerator().w(function (_context2) {
@@ -154021,7 +154040,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context2.n = 1;
               return fetch('/subscription-status', {
                 headers: {
-                  'X-CSRF-TOKEN': _this2.csrfToken,
+                  'X-CSRF-TOKEN': _this3.csrfToken,
                   'Accept': 'application/json'
                 }
               });
@@ -154031,8 +154050,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context2.n = 2;
                 break;
               }
-              _this2.isSubscribed = false;
-              _this2.subscription = null;
+              _this3.isAuthenticated = false;
+              _this3.isSubscribed = false;
+              _this3.subscription = null;
               return _context2.a(2, false);
             case 2:
               if (response.ok) {
@@ -154045,8 +154065,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 4:
               data = _context2.v;
-              _this2.isSubscribed = data.is_subscribed;
-              _this2.subscription = data.is_subscribed ? {
+              _this3.isAuthenticated = true;
+              _this3.isSubscribed = data.is_subscribed;
+              _this3.subscription = data.is_subscribed ? {
                 stripe_price: data.plan,
                 ends_at: data.ends_at
               } : null;
@@ -154055,272 +154076,266 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context2.p = 5;
               _t2 = _context2.v;
               console.error('Error fetching subscription:', _t2);
-              // Don't show error to user - just default to not subscribed
-              _this2.isSubscribed = false;
-              _this2.subscription = null;
+              _this3.isAuthenticated = false;
+              _this3.isSubscribed = false;
+              _this3.subscription = null;
               return _context2.a(2, false);
           }
         }, _callee2, null, [[0, 5]]);
       }))();
-    }
-  }, "checkSubscriptionStatus", function checkSubscriptionStatus() {
-    var _this3 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-      var _t3;
-      return _regenerator().w(function (_context3) {
-        while (1) switch (_context3.p = _context3.n) {
-          case 0:
-            _this3.loading = true;
-            _this3.error = ''; // Clear any previous errors
-            _context3.p = 1;
-            _context3.n = 2;
-            return _this3.fetchSubscriptionStatus();
-          case 2:
-            _context3.n = 4;
-            break;
-          case 3:
-            _context3.p = 3;
-            _t3 = _context3.v;
-            console.error('Error checking subscription:', _t3);
-            // Only show error for actual failures, not for being logged out
-          case 4:
-            _context3.p = 4;
-            _this3.loading = false;
-            return _context3.f(4);
-          case 5:
-            return _context3.a(2);
-        }
-      }, _callee3, null, [[1, 3, 4, 5]]);
-    }))();
-  }), "checkUrlParams", function checkUrlParams() {
-    var _this4 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
-      var urlParams;
-      return _regenerator().w(function (_context4) {
-        while (1) switch (_context4.n) {
-          case 0:
-            urlParams = new URLSearchParams(window.location.search);
-            if (!urlParams.has('success')) {
-              _context4.n = 2;
-              break;
-            }
-            _context4.n = 1;
-            return _this4.waitForSubscription();
-          case 1:
-            window.history.replaceState({}, document.title, window.location.pathname);
-            _context4.n = 5;
-            break;
-          case 2:
-            if (!urlParams.has('cancelled')) {
-              _context4.n = 4;
-              break;
-            }
-            _this4.error = 'Subscription cancelled. You can try again when ready.';
-            _context4.n = 3;
-            return _this4.fetchSubscriptionStatus();
-          case 3:
-            window.history.replaceState({}, document.title, window.location.pathname);
-            _context4.n = 5;
-            break;
-          case 4:
-            _context4.n = 5;
-            return _this4.fetchSubscriptionStatus();
-          case 5:
-            return _context4.a(2);
-        }
-      }, _callee4);
-    }))();
-  }), "waitForSubscription", function waitForSubscription() {
-    var _this5 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-      var attempts, maxAttempts, subscribed;
-      return _regenerator().w(function (_context5) {
-        while (1) switch (_context5.n) {
-          case 0:
-            _this5.success = 'Subscription successful! Activating your subscription...';
-            attempts = 0;
-            maxAttempts = 15;
-          case 1:
-            if (!(attempts < maxAttempts)) {
-              _context5.n = 5;
-              break;
-            }
-            attempts++;
-            _context5.n = 2;
-            return _this5.fetchSubscriptionStatus();
-          case 2:
-            subscribed = _context5.v;
-            if (!subscribed) {
-              _context5.n = 3;
-              break;
-            }
-            _this5.success = 'Subscription activated successfully! Welcome to Premium.';
-            setTimeout(function () {
-              return _this5.success = '';
-            }, 5000);
-            return _context5.a(2);
-          case 3:
-            _context5.n = 4;
-            return new Promise(function (resolve) {
-              return setTimeout(resolve, 2000);
-            });
-          case 4:
-            _context5.n = 1;
-            break;
-          case 5:
-            _this5.error = 'Subscription is taking longer than expected. Please refresh or contact support.';
-            _this5.success = '';
-          case 6:
-            return _context5.a(2);
-        }
-      }, _callee5);
-    }))();
-  }), "clearNotification", function clearNotification() {
-    this.error = '';
-    this.success = '';
-  }), "getPlanBenefits", function getPlanBenefits() {
-    var _this6 = this;
-    var plan = this.plans.find(function (p) {
-      var _this6$subscription;
-      return p.value === ((_this6$subscription = _this6.subscription) === null || _this6$subscription === void 0 ? void 0 : _this6$subscription.stripe_price);
-    });
-    return plan ? plan.features : ['Basic access only'];
-  }), "handleCancelSubscription", function handleCancelSubscription() {
-    var _this7 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
-      var response, data, _t4;
-      return _regenerator().w(function (_context6) {
-        while (1) switch (_context6.p = _context6.n) {
-          case 0:
-            if (confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
-              _context6.n = 1;
-              break;
-            }
-            return _context6.a(2);
-          case 1:
-            _this7.cancelling = true;
-            _context6.p = 2;
-            _context6.n = 3;
-            return fetch('/cancel', {
-              method: 'POST',
-              headers: {
-                'X-CSRF-TOKEN': _this7.csrfToken,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+    },
+    checkSubscriptionStatus: function checkSubscriptionStatus() {
+      var _this4 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.n) {
+            case 0:
+              _this4.loading = true;
+              _this4.error = '';
+              _context3.n = 1;
+              return _this4.fetchSubscriptionStatus();
+            case 1:
+              _this4.loading = false;
+            case 2:
+              return _context3.a(2);
+          }
+        }, _callee3);
+      }))();
+    },
+    checkUrlParams: function checkUrlParams() {
+      var _this5 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+        var urlParams;
+        return _regenerator().w(function (_context4) {
+          while (1) switch (_context4.n) {
+            case 0:
+              urlParams = new URLSearchParams(window.location.search);
+              if (!urlParams.has('success')) {
+                _context4.n = 2;
+                break;
               }
-            });
-          case 3:
-            response = _context6.v;
-            _context6.n = 4;
-            return response.json();
-          case 4:
-            data = _context6.v;
-            if (!(response.ok && data.success)) {
-              _context6.n = 6;
+              _context4.n = 1;
+              return _this5.waitForSubscription();
+            case 1:
+              window.history.replaceState({}, document.title, window.location.pathname);
+              _context4.n = 5;
               break;
-            }
-            _context6.n = 5;
-            return _this7.fetchSubscriptionStatus();
-          case 5:
-            _this7.success = "Subscription cancelled. You'll have access until ".concat(_this7.formatDate(data.ends_at), ".");
-            setTimeout(function () {
-              return _this7.success = '';
-            }, 8000);
-            _context6.n = 7;
-            break;
-          case 6:
-            throw new Error(data.message || 'Failed to cancel subscription');
-          case 7:
-            _context6.n = 9;
-            break;
-          case 8:
-            _context6.p = 8;
-            _t4 = _context6.v;
-            _this7.error = _t4.message || 'Error cancelling subscription. Please try again.';
-          case 9:
-            _context6.p = 9;
-            _this7.cancelling = false;
-            return _context6.f(9);
-          case 10:
-            return _context6.a(2);
-        }
-      }, _callee6, null, [[2, 8, 9, 10]]);
-    }))();
-  }), "handleSubmit", function handleSubmit() {
-    var _this8 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
-      var _document$querySelect2, csrfToken, response, data, _t5;
-      return _regenerator().w(function (_context7) {
-        while (1) switch (_context7.p = _context7.n) {
-          case 0:
-            _this8.submitting = true;
-            _this8.error = '';
-            _this8.success = '';
-            _context7.p = 1;
-            csrfToken = (_document$querySelect2 = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.getAttribute('content');
-            if (csrfToken) {
-              _context7.n = 2;
+            case 2:
+              if (!urlParams.has('cancelled')) {
+                _context4.n = 4;
+                break;
+              }
+              _this5.error = 'Subscription cancelled. You can try again when ready.';
+              _context4.n = 3;
+              return _this5.fetchSubscriptionStatus();
+            case 3:
+              window.history.replaceState({}, document.title, window.location.pathname);
+              _context4.n = 5;
               break;
-            }
-            throw new Error('CSRF token not found. Please refresh the page.');
-          case 2:
-            _context7.n = 3;
-            return fetch('/subscribe', {
-              method: 'POST',
-              headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              credentials: 'same-origin',
-              body: JSON.stringify({
-                price_lookup_key: _this8.selectedPlan
-              })
-            });
-          case 3:
-            response = _context7.v;
-            _context7.n = 4;
-            return response.json();
-          case 4:
-            data = _context7.v;
-            console.log('Full response:', response.status, data); // DEBUG LINE
+            case 4:
+              _context4.n = 5;
+              return _this5.fetchSubscriptionStatus();
+            case 5:
+              return _context4.a(2);
+          }
+        }, _callee4);
+      }))();
+    },
+    waitForSubscription: function waitForSubscription() {
+      var _this6 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+        var attempts, maxAttempts, subscribed;
+        return _regenerator().w(function (_context5) {
+          while (1) switch (_context5.n) {
+            case 0:
+              _this6.success = 'Subscription successful! Activating your subscription...';
+              attempts = 0;
+              maxAttempts = 15;
+            case 1:
+              if (!(attempts < maxAttempts)) {
+                _context5.n = 5;
+                break;
+              }
+              attempts++;
+              _context5.n = 2;
+              return _this6.fetchSubscriptionStatus();
+            case 2:
+              subscribed = _context5.v;
+              if (!subscribed) {
+                _context5.n = 3;
+                break;
+              }
+              _this6.success = 'Subscription activated successfully! Welcome to Premium.';
+              setTimeout(function () {
+                return _this6.success = '';
+              }, 5000);
+              return _context5.a(2);
+            case 3:
+              _context5.n = 4;
+              return new Promise(function (resolve) {
+                return setTimeout(resolve, 2000);
+              });
+            case 4:
+              _context5.n = 1;
+              break;
+            case 5:
+              _this6.error = 'Subscription is taking longer than expected. Please refresh or contact support.';
+              _this6.success = '';
+            case 6:
+              return _context5.a(2);
+          }
+        }, _callee5);
+      }))();
+    },
+    clearNotification: function clearNotification() {
+      this.error = '';
+      this.success = '';
+    },
+    getPlanBenefits: function getPlanBenefits() {
+      var _this7 = this;
+      var plan = this.plans.find(function (p) {
+        var _this7$subscription;
+        return p.value === ((_this7$subscription = _this7.subscription) === null || _this7$subscription === void 0 ? void 0 : _this7$subscription.stripe_price);
+      });
+      return plan ? plan.features : ['Basic access only'];
+    },
+    handleCancelSubscription: function handleCancelSubscription() {
+      var _this8 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+        var response, data, _t3;
+        return _regenerator().w(function (_context6) {
+          while (1) switch (_context6.p = _context6.n) {
+            case 0:
+              if (confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
+                _context6.n = 1;
+                break;
+              }
+              return _context6.a(2);
+            case 1:
+              _this8.cancelling = true;
+              _context6.p = 2;
+              _context6.n = 3;
+              return fetch('/cancel', {
+                method: 'POST',
+                headers: {
+                  'X-CSRF-TOKEN': _this8.csrfToken,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                }
+              });
+            case 3:
+              response = _context6.v;
+              _context6.n = 4;
+              return response.json();
+            case 4:
+              data = _context6.v;
+              if (!(response.ok && data.success)) {
+                _context6.n = 6;
+                break;
+              }
+              _context6.n = 5;
+              return _this8.fetchSubscriptionStatus();
+            case 5:
+              _this8.success = "Subscription cancelled. You'll have access until ".concat(_this8.formatDate(data.ends_at), ".");
+              setTimeout(function () {
+                return _this8.success = '';
+              }, 8000);
+              _context6.n = 7;
+              break;
+            case 6:
+              throw new Error(data.message || 'Failed to cancel subscription');
+            case 7:
+              _context6.n = 9;
+              break;
+            case 8:
+              _context6.p = 8;
+              _t3 = _context6.v;
+              _this8.error = _t3.message || 'Error cancelling subscription. Please try again.';
+            case 9:
+              _context6.p = 9;
+              _this8.cancelling = false;
+              return _context6.f(9);
+            case 10:
+              return _context6.a(2);
+          }
+        }, _callee6, null, [[2, 8, 9, 10]]);
+      }))();
+    },
+    handleSubmit: function handleSubmit() {
+      var _this9 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
+        var _document$querySelect2, csrfToken, response, data, _t4;
+        return _regenerator().w(function (_context7) {
+          while (1) switch (_context7.p = _context7.n) {
+            case 0:
+              _this9.submitting = true;
+              _this9.error = '';
+              _this9.success = '';
+              _context7.p = 1;
+              csrfToken = (_document$querySelect2 = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.getAttribute('content');
+              if (csrfToken) {
+                _context7.n = 2;
+                break;
+              }
+              throw new Error('CSRF token not found. Please refresh the page.');
+            case 2:
+              _context7.n = 3;
+              return fetch('/subscribe', {
+                method: 'POST',
+                headers: {
+                  'X-CSRF-TOKEN': csrfToken,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                  price_lookup_key: _this9.selectedPlan
+                })
+              });
+            case 3:
+              response = _context7.v;
+              _context7.n = 4;
+              return response.json();
+            case 4:
+              data = _context7.v;
+              console.log('Full response:', response.status, data); // DEBUG LINE
 
-            if (response.ok) {
-              if (data.redirect) {
-                window.location.href = data.redirect;
-              }
-            } else {
-              // Show detailed validation errors
-              if (data.errors) {
-                console.error('Validation errors:', data.errors);
-                _this8.error = Object.values(data.errors).flat().join(' ');
+              if (response.ok) {
+                if (data.redirect) {
+                  window.location.href = data.redirect;
+                }
               } else {
-                _this8.error = data.message || 'An error occurred. Please try again.';
+                if (data.errors) {
+                  console.error('Validation errors:', data.errors);
+                  _this9.error = Object.values(data.errors).flat().join(' ');
+                } else {
+                  _this9.error = data.message || 'An error occurred. Please try again.';
+                }
               }
-            }
-            _context7.n = 6;
-            break;
-          case 5:
-            _context7.p = 5;
-            _t5 = _context7.v;
-            console.error('Error submitting form:', _t5);
-            _this8.error = _t5.message || 'Network error. Please try again.';
-          case 6:
-            _context7.p = 6;
-            _this8.submitting = false;
-            return _context7.f(6);
-          case 7:
-            return _context7.a(2);
-        }
-      }, _callee7, null, [[1, 5, 6, 7]]);
-    }))();
-  }),
+              _context7.n = 6;
+              break;
+            case 5:
+              _context7.p = 5;
+              _t4 = _context7.v;
+              console.error('Error submitting form:', _t4);
+              _this9.error = _t4.message || 'Network error. Please try again.';
+            case 6:
+              _context7.p = 6;
+              _this9.submitting = false;
+              return _context7.f(6);
+            case 7:
+              return _context7.a(2);
+          }
+        }, _callee7, null, [[1, 5, 6, 7]]);
+      }))();
+    }
+  },
   watch: {
     error: function error(newVal) {
-      var _this9 = this;
+      var _this0 = this;
       if (newVal) {
         setTimeout(function () {
-          _this9.error = '';
+          _this0.error = '';
         }, 5000); // 5 seconds
       }
     }
@@ -181365,7 +181380,7 @@ var _hoisted_4 = {
 };
 var _hoisted_5 = {
   key: 1,
-  "class": "notification error text-center"
+  "class": "notification error"
 };
 var _hoisted_6 = {
   key: 2,
@@ -181376,6 +181391,7 @@ var _hoisted_7 = {
   "class": "loading-state"
 };
 var _hoisted_8 = {
+  key: 4,
   "class": "active-subscription"
 };
 var _hoisted_9 = {
@@ -181458,7 +181474,7 @@ var _hoisted_36 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$subscription, _$data$subscription2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     "class": "subscription-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "container"
@@ -181475,57 +181491,49 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "fas fa-times"
   }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-exclamation-triangle"
-  }, null, -1 /* CACHED */)), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Please "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
-    href: "/login"
-  }, "login"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" or "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
-    href: "/register"
-  }, "register"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" to proceed with purchasing a payment plan.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $data.error = '';
     }),
     "class": "close-btn"
   }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times"
-  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.isAuthenticated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-exclamation-triangle"
-  }, null, -1 /* CACHED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Please "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Please "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/login"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "login")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" or "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, "login"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" or "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/register"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "register")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" to proceed with purchasing a payment plan. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "register"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" to proceed with purchasing a payment plan.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $data.error = '';
     }),
     "class": "close-btn"
-  }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times"
-  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading subscription details...", -1 /* CACHED */)])))) : $data.isSubscribed && !((_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 4
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading subscription details...", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription View "), (_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card-badge"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-crown"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Active Subscription ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Active Subscription ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "status-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-check-circle"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.planDisplayName), 1 /* TEXT */), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<p class=\"subtitle\" data-v-0ca26305>You&#39;re currently subscribed</p><div class=\"status-info\" data-v-0ca26305><div class=\"status-item\" data-v-0ca26305><span class=\"label\" data-v-0ca26305>Status</span><span class=\"value\" data-v-0ca26305>Active &amp; Unlimited</span></div></div>", 2))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<h3 data-v-0ca26305>Premium Benefits</h3><div class=\"benefits-list\" data-v-0ca26305><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Ad-free experience</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Offline access to content</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Advanced prayer time settings</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Priority support</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Early access to new features</span></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.planDisplayName), 1 /* TEXT */), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<p class=\"subtitle\" data-v-0ca26305>You&#39;re currently subscribed</p><div class=\"status-info\" data-v-0ca26305><div class=\"status-item\" data-v-0ca26305><span class=\"label\" data-v-0ca26305>Status</span><span class=\"value\" data-v-0ca26305>Active &amp; Unlimited</span></div></div>", 2))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<h3 data-v-0ca26305>Premium Benefits</h3><div class=\"benefits-list\" data-v-0ca26305><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Ad-free experience</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Offline access to content</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Advanced prayer time settings</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Priority support</span></div><div class=\"benefit-item\" data-v-0ca26305><i class=\"fas fa-check\" data-v-0ca26305></i><span data-v-0ca26305>Early access to new features</span></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[3] || (_cache[3] = function () {
       return $options.handleCancelSubscription && $options.handleCancelSubscription.apply($options, arguments);
     }),
     "class": "btn btn-cancel",
     disabled: $data.cancelling
-  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times-circle"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : 'Cancel Subscription'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_12)])])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : 'Cancel Subscription'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_12)])])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 5
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cancelled Subscription Notice "), (_$data$subscription2 = $data.subscription) !== null && _$data$subscription2 !== void 0 && _$data$subscription2.ends_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cancelled Subscription Notice "), (_$data$subscription2 = $data.subscription) !== null && _$data$subscription2 !== void 0 && _$data$subscription2.ends_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-info-circle"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your subscription ends on " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.subscription.ends_at)) + ". Subscribe again to continue enjoying premium features after this date.", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[4] || (_cache[4] = function ($event) {
@@ -181535,9 +181543,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "color": "#0369a1"
     }
-  }, _toConsumableArray(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times"
-  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "plans-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Choose Your Plan"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Select the plan that works best for you")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     method: "POST",
@@ -181561,7 +181569,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: feature,
         "class": "feature-item"
-      }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "fas fa-check"
       }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
     }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -181588,13 +181596,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit",
     "class": "btn btn-primary",
     disabled: $data.submitting
-  }, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-credit-card"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing...' : 'Continue to Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_31), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing...' : 'Continue to Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_31), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "security-note"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-lock"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment powered by Stripe ")], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment powered by Stripe ")], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "faq-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Frequently Asked Questions")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, function (faq, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {

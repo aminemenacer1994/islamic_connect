@@ -22,23 +22,17 @@
           </button>
         </div>
 
-        <div v-if="error" class="notification error text-center">
+        <div v-if="error" class="notification error">
           <i class="fas fa-exclamation-triangle"></i>
-          <span class="text-center">Please <strong href="/login">login</strong> or <strong href="/register">register</strong> to proceed with purchasing a payment plan.</span>
+          <span>{{ error }}</span>
           <button @click="error = ''" class="close-btn">
             <i class="fas fa-times"></i>
           </button>
         </div>
 
-        <div v-if="error" class="notification error text-center">
+        <div v-if="!isAuthenticated" class="notification error text-center">
           <i class="fas fa-exclamation-triangle"></i>
-          <span class="text-center">
-            Please 
-            <a href="/login"><strong>login</strong></a> 
-            or 
-            <a href="/register"><strong>register</strong></a> 
-            to proceed with purchasing a payment plan.
-          </span>
+          <span class="text-center">Please <a href="/login">login</a> or <a href="/register">register</a> to proceed with purchasing a payment plan.</span>
           <button @click="error = ''" class="close-btn">
             <i class="fas fa-times"></i>
           </button>
@@ -51,7 +45,7 @@
         </div>
 
         <!-- Active Subscription View -->
-        <div v-else-if="isSubscribed && !subscription?.ends_at" class="active-subscription">
+        <div v-if="subscription?.ends_at" class="active-subscription">
           <div class="subscription-card">
             <div class="card-badge">
               <i class="fas fa-crown"></i>
@@ -218,6 +212,7 @@ export default {
       cancelling: false,
       error: '',
       success: '',
+      isAuthenticated: false, // Track authentication state
       isSubscribed: false,
       subscription: null,
       faqs: [
@@ -245,12 +240,29 @@ export default {
   mounted() {
     this.checkSubscriptionStatus();
     this.checkUrlParams();
+    this.checkAuthentication();
+
+    // Handle flash messages from Blade
+    if (window.flashError) {
+      this.error = window.flashError;
+      delete window.flashError;
+    }
+    if (window.flashSuccess) {
+      this.success = window.flashSuccess;
+      delete window.flashSuccess;
+    }
 
     fetch('/subscription-status', {
       headers: { 'Accept': 'application/json' }
     })
       .then(r => r.json())
-      .then(data => console.log('Subscription status:', data))
+      .then(data => {
+        console.log('Subscription status:', data);
+        if (data.is_subscribed !== undefined) {
+          this.isSubscribed = data.is_subscribed;
+          this.subscription = data.is_subscribed ? { stripe_price: data.plan, ends_at: data.ends_at } : null;
+        }
+      })
       .catch(e => console.error('Subscription check error:', e));
   },
   methods: {
@@ -260,46 +272,37 @@ export default {
     toggleFaq(index) {
       this.faqs[index].open = !this.faqs[index].open;
     },
-    async checkSubscriptionStatus() {
-      this.loading = true;
-      this.error = ''; // Clear any previous errors
+    async checkAuthentication() {
       try {
-        await this.fetchSubscriptionStatus();
+        const response = await axios.get('/user', {
+          headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' }
+        });
+        this.isAuthenticated = !!response.data;
       } catch (error) {
-        console.error('Error checking subscription:', error);
-        this.error = 'Error checking subscription. Please try again.';
-      } finally {
-        this.loading = false;
+        this.isAuthenticated = false;
+        // No need to set error here; the template handles it with !isAuthenticated
       }
     },
     async fetchSubscriptionStatus() {
       try {
         const response = await fetch('/subscription-status', {
-            headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' }
+          headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' }
         });
-        
-        // If 401, user is not logged in - this is expected, not an error
         if (response.status === 401) {
-            this.isSubscribed = false;
-            this.subscription = null;
-            return false;
+          this.isAuthenticated = false;
+          this.isSubscribed = false;
+          this.subscription = null;
+          return false;
         }
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch subscription status');
-        }
-        
+        if (!response.ok) throw new Error('Failed to fetch subscription status');
         const data = await response.json();
+        this.isAuthenticated = true;
         this.isSubscribed = data.is_subscribed;
-        this.subscription = data.is_subscribed ? {
-            stripe_price: data.plan,
-            ends_at: data.ends_at
-        } : null;
-        
+        this.subscription = data.is_subscribed ? { stripe_price: data.plan, ends_at: data.ends_at } : null;
         return data.is_subscribed;
       } catch (err) {
         console.error('Error fetching subscription:', err);
-        // Don't show error to user - just default to not subscribed
+        this.isAuthenticated = false;
         this.isSubscribed = false;
         this.subscription = null;
         return false;
@@ -307,16 +310,9 @@ export default {
     },
     async checkSubscriptionStatus() {
       this.loading = true;
-      this.error = ''; // Clear any previous errors
-      try {
-          await this.fetchSubscriptionStatus();
-          // Don't set error here - the function handles it internally
-      } catch (error) {
-          console.error('Error checking subscription:', error);
-          // Only show error for actual failures, not for being logged out
-      } finally {
-          this.loading = false;
-      }
+      this.error = '';
+      await this.fetchSubscriptionStatus();
+      this.loading = false;
     },
     async checkUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -405,7 +401,6 @@ export default {
             window.location.href = data.redirect;
           }
         } else {
-          // Show detailed validation errors
           if (data.errors) {
             console.error('Validation errors:', data.errors);
             this.error = Object.values(data.errors).flat().join(' ');

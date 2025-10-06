@@ -81,7 +81,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\CheckRole::class,
         'admin' => \App\Http\Middleware\CheckAdmin::class,
-        'subscribed' => \App\Http\Middleware\EnsureUserIsSubscribed::class, // Add this line
+        // 'subscribed' => \App\Http\Middleware\EnsureUserIsSubscribed::class,
+        'subscribed' => \App\Http\Middleware\Subscribed::class,
 
     ];
 }

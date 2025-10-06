@@ -201,6 +201,7 @@ Route::get('/media', [MediaController::class, 'index'])->name('media');
 // AUTHENTICATED ROUTES (No Subscription Required)
 // ========================================
 Route::middleware(['auth', 'web'])->group(function () {
+
     // User & Subscription
     Route::get('/user', [MediaController::class, 'getUser']);
     Route::get('/subscription-status', [SubscriptionController::class, 'subscriptionStatus']);
