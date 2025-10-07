@@ -1,4 +1,3 @@
-
 <template>
   <div id="app" class="subscription-container">
     <!-- Header Section -->
@@ -25,7 +24,7 @@
 
         <div v-if="error" class="notification error">
           <i class="fas fa-exclamation-triangle"></i>
-          <span>You must be logged in to proceed. Please sign in <a href="/login" class="text-decoration:underline">here</a> to continue.</span>
+          <span>{{ error }}</span>
           <button @click="clearNotification" class="close-btn">
             <i class="fas fa-times"></i>
           </button>
@@ -342,7 +341,6 @@ export default {
       const urlParams = new URLSearchParams(window.location.search);
       console.log('checkUrlParams - URL params:', Array.from(urlParams.entries()));
       if (urlParams.has('success')) {
-        // Only proceed if subscription is confirmed, no immediate message
         this.isAuthenticated = true;
         const subscribed = await this.fetchSubscriptionStatus();
         if (subscribed) {
@@ -352,7 +350,6 @@ export default {
         }
         window.history.replaceState({}, document.title, window.location.pathname);
       } else if (urlParams.has('cancelled')) {
-        // No message on cancellation return
         await this.fetchSubscriptionStatus();
         window.history.replaceState({}, document.title, window.location.pathname);
       } else {
@@ -380,6 +377,10 @@ export default {
     clearNotification() {
       this.error = '';
       this.success = '';
+    },
+    getPlanBenefits() {
+      const plan = this.plans.find(p => p.value === this.subscription?.stripe_price);
+      return plan ? plan.features : ['Basic access only'];
     },
     async handleCancelSubscription() {
       const modal = new bootstrap.Modal(document.getElementById('cancelConfirmationModal'));
@@ -470,7 +471,6 @@ export default {
 
         if (response.ok && data.redirect) {
           window.location.href = data.redirect;
-          // Do not call waitForSubscription here to avoid premature message
         } else {
           if (data.errors) {
             console.error('handleSubmit - Validation errors:', data.errors);
