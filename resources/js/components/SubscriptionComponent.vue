@@ -1,3 +1,4 @@
+
 <template>
   <div id="app" class="subscription-container">
     <!-- Header Section -->
@@ -24,8 +25,7 @@
 
         <div v-if="error" class="notification error">
           <i class="fas fa-exclamation-triangle"></i>
-          <span>You must be logged in to proceed. Please sign in <a href="/login"
-              class="text-decoration:underline">here</a> to continue.</span>
+          <span>{{ error }}</span>
           <button @click="clearNotification" class="close-btn">
             <i class="fas fa-times"></i>
           </button>
@@ -220,12 +220,12 @@ export default {
       cancelling: false,
       error: '',
       success: '',
-      isAuthenticated: true, // Forced to true for testing
-      isSubscribed: false, // Will be set by fetch
+      isAuthenticated: true,
+      isSubscribed: false,
       subscription: null,
       showSuccessImage: false,
       isCancelled: false,
-      debugInfo: true, // Enable debug info for troubleshooting
+      debugInfo: true,
       faqs: [
         { question: 'Can I cancel my subscription anytime?', answer: 'Yes, you can cancel at any time. Access ends immediately once you cancel.', open: false },
         { question: 'What payment methods do you accept?', answer: 'We accept major credit and debit cards through Stripe.', open: false },
@@ -270,7 +270,6 @@ export default {
   mounted() {
     this.checkSubscriptionStatus();
     this.checkUrlParams();
-    this.checkAuthentication();
 
     if (window.flashError) {
       this.error = window.flashError;
@@ -294,7 +293,6 @@ export default {
         console.log('User authentication response (raw):', response.status, JSON.stringify(response.data, null, 2));
         this.isAuthenticated = !!response.data;
       } catch (error) {
-        this.isAuthenticated = false;
         console.error('Authentication error:', error);
       }
     },
@@ -302,11 +300,11 @@ export default {
       try {
         const response = await fetch('/subscription-status', { headers: { 'X-CSRF-TOKEN': this.csrfToken, 'Accept': 'application/json' } });
         if (response.status === 401) {
-          this.isAuthenticated = false;
+          console.log('Unauthorized access - Resetting subscription');
           this.isSubscribed = false;
           this.subscription = null;
           this.isCancelled = false;
-          console.log('Unauthorized access - Resetting subscription');
+          this.loading = false;
           return false;
         }
         if (!response.ok) throw new Error('Failed to load subscription details');
@@ -323,10 +321,11 @@ export default {
           this.subscription = null;
           this.isCancelled = false;
         }
-        this.loading = false; // Ensure loading stops
+        this.loading = false;
         return data.is_subscribed;
       } catch (err) {
         console.error('Error loading subscription:', err);
+        this.error = 'Failed to load subscription details. Please try again.';
         this.isSubscribed = false;
         this.subscription = null;
         this.isCancelled = false;
@@ -343,10 +342,17 @@ export default {
       const urlParams = new URLSearchParams(window.location.search);
       console.log('checkUrlParams - URL params:', Array.from(urlParams.entries()));
       if (urlParams.has('success')) {
-        await this.waitForSubscription();
+        // Only proceed if subscription is confirmed, no immediate message
+        this.isAuthenticated = true;
+        const subscribed = await this.fetchSubscriptionStatus();
+        if (subscribed) {
+          this.showSuccessImage = true;
+          this.success = 'Premium access activated! Enjoy your benefits.';
+          setTimeout(() => this.success = '', 5000);
+        }
         window.history.replaceState({}, document.title, window.location.pathname);
       } else if (urlParams.has('cancelled')) {
-        this.error = 'Your subscription has been canceled. Subscribe again to continue.';
+        // No message on cancellation return
         await this.fetchSubscriptionStatus();
         window.history.replaceState({}, document.title, window.location.pathname);
       } else {
@@ -354,7 +360,6 @@ export default {
       }
     },
     async waitForSubscription() {
-      this.success = 'Subscription successful! Activating your premium access...';
       let attempts = 0;
       const maxAttempts = 15;
       while (attempts < maxAttempts) {
@@ -376,10 +381,6 @@ export default {
       this.error = '';
       this.success = '';
     },
-    getPlanBenefits() {
-      const plan = this.plans.find(p => p.value === this.subscription?.stripe_price);
-      return plan ? plan.features : ['Basic access only'];
-    },
     async handleCancelSubscription() {
       const modal = new bootstrap.Modal(document.getElementById('cancelConfirmationModal'));
       modal.show();
@@ -397,12 +398,12 @@ export default {
             this.isCancelled = true;
             await this.fetchSubscriptionStatus();
             this.success = 'Subscription canceled. Access has ended immediately.';
-            setTimeout(() => this.success = '', 5000); // Clear success message after 5 seconds
+            setTimeout(() => this.success = '', 5000);
           } else if (data.message && data.message.includes('canceled subscription')) {
             this.isCancelled = true;
             await this.fetchSubscriptionStatus();
             this.success = 'Your subscription is already canceled. Access has already ended.';
-            setTimeout(() => this.success = '', 5000); // Clear success message after 5 seconds
+            setTimeout(() => this.success = '', 5000);
           } else {
             throw new Error(data.message || 'Failed to cancel your subscription.');
           }
@@ -428,7 +429,6 @@ export default {
       `;
       alertContainer.appendChild(alertDiv);
 
-      // Auto-dismiss after 8 seconds
       setTimeout(() => {
         const alertInstance = bootstrap.Alert.getOrCreateInstance(alertDiv);
         alertInstance.close();
@@ -470,7 +470,7 @@ export default {
 
         if (response.ok && data.redirect) {
           window.location.href = data.redirect;
-          this.waitForSubscription();
+          // Do not call waitForSubscription here to avoid premature message
         } else {
           if (data.errors) {
             console.error('handleSubmit - Validation errors:', data.errors);
@@ -500,9 +500,9 @@ export default {
   },
 };
 </script>
-
 <style scoped>
-/* Base Styles */
+
+/* [Keep the existing styles unchanged] */
 .subscription-container {
   min-height: 100vh;
   background-color: #f8fafc;
@@ -523,12 +523,10 @@ export default {
   cursor: pointer;
   transition: opacity 0.3s;
   background-color: #dc2626;
-  /* Red background for cancel button */
 }
 
 .btn-cancel:hover:not(.disabled):not(.cancelled) {
   background-color: #b91c1c;
-  /* Darker red on hover */
 }
 
 .btn-cancel.disabled {
@@ -542,7 +540,6 @@ export default {
 
 .btn-cancel.cancelled {
   background-color: #9ca3af;
-  /* Grey for cancelled state */
   color: white;
   border: none;
   cursor: default;
@@ -550,7 +547,6 @@ export default {
 
 .btn-cancel.cancelled:hover {
   background-color: #9ca3af;
-  /* No hover effect when cancelled */
 }
 
 /* Success Image Container */
@@ -659,13 +655,8 @@ export default {
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Subscription Card */
@@ -1071,22 +1062,9 @@ export default {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .header-content h1 {
-    font-size: 2rem;
-  }
-
-  .plans-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .plan-card.featured {
-    transform: scale(1);
-  }
-
-  .card-header,
-  .card-body {
-    padding: 24px 20px;
-  }
+  .header-content h1 { font-size: 2rem; }
+  .plans-grid { grid-template-columns: 1fr; gap: 20px; }
+  .plan-card.featured { transform: scale(1); }
+  .card-header, .card-body { padding: 24px 20px; }
 }
 </style>
