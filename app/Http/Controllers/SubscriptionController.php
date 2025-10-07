@@ -22,7 +22,7 @@ class SubscriptionController extends Controller
             return response()->json(Auth::user());
         }
 
-        return response()->json(['error' => 'Unauthenticated'], 401);
+        return response()->json(['error' => 'You must be logged in to proceed. Please sign in to continue.'], 401);
     }
 
     public function success(Request $request)
@@ -307,7 +307,7 @@ class SubscriptionController extends Controller
         if (!$user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Unauthorized'
+                'message' => 'You must be logged in to proceed. Please sign in to continue.'
             ], 401);
         }
 

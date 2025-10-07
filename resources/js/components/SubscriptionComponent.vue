@@ -24,7 +24,7 @@
 
         <div v-if="error" class="notification error">
           <i class="fas fa-exclamation-triangle"></i>
-          <span>{{ error }}</span>
+          <span>You must be logged in to proceed. Please sign in <a href="/login" class="text-decoration:underline">here</a> to continue.</span>
           <button @click="error = ''" class="close-btn">
             <i class="fas fa-times"></i>
           </button>
@@ -368,10 +368,10 @@ export default {
         if (subscribed) {
           this.showSuccessImage = true;
           this.success = 'Premium access activated! Enjoy your benefits.';
-          setTimeout(() => this.success = '', 5000);
+          setTimeout(() => this.success = '', 10000);
           return;
         }
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 8000));
       }
       this.error = 'Activation is taking longer than expected. Please refresh or contact support.';
       this.success = '';
