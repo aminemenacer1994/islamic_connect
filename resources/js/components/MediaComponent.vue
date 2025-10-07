@@ -198,12 +198,10 @@ export default {
 
 .restricted-access {
     transition: all 0.3s ease;
-    border: 1px solid black;
 }
 
 .restricted-access:hover {
-    background: #bfc3c6;
-    border: 1px solid black;
+    background: #e9ecef;
     transform: translateY(-2px);
 }
 

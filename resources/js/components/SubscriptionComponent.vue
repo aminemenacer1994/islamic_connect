@@ -24,7 +24,7 @@
 
         <div v-if="error" class="notification error">
           <i class="fas fa-exclamation-triangle"></i>
-          <span>{{ error }}</span>
+          <span>You must be logged in to proceed. Please sign in <a href="/login" class="text-decoration:underline">here</a> to continue.</span>
           <button @click="clearNotification" class="close-btn">
             <i class="fas fa-times"></i>
           </button>
@@ -341,15 +341,12 @@ export default {
       const urlParams = new URLSearchParams(window.location.search);
       console.log('checkUrlParams - URL params:', Array.from(urlParams.entries()));
       if (urlParams.has('success')) {
+        // No error or success message on return from Stripe
         this.isAuthenticated = true;
-        const subscribed = await this.fetchSubscriptionStatus();
-        if (subscribed) {
-          this.showSuccessImage = true;
-          this.success = 'Premium access activated! Enjoy your benefits.';
-          setTimeout(() => this.success = '', 5000);
-        }
+        await this.waitForSubscription();
         window.history.replaceState({}, document.title, window.location.pathname);
       } else if (urlParams.has('cancelled')) {
+        // No error message on cancellation return from Stripe
         await this.fetchSubscriptionStatus();
         window.history.replaceState({}, document.title, window.location.pathname);
       } else {
@@ -357,6 +354,7 @@ export default {
       }
     },
     async waitForSubscription() {
+      this.success = 'Subscription successful! Activating your premium access...';
       let attempts = 0;
       const maxAttempts = 15;
       while (attempts < maxAttempts) {
@@ -377,10 +375,6 @@ export default {
     clearNotification() {
       this.error = '';
       this.success = '';
-    },
-    getPlanBenefits() {
-      const plan = this.plans.find(p => p.value === this.subscription?.stripe_price);
-      return plan ? plan.features : ['Basic access only'];
     },
     async handleCancelSubscription() {
       const modal = new bootstrap.Modal(document.getElementById('cancelConfirmationModal'));
@@ -471,6 +465,7 @@ export default {
 
         if (response.ok && data.redirect) {
           window.location.href = data.redirect;
+          this.waitForSubscription();
         } else {
           if (data.errors) {
             console.error('handleSubmit - Validation errors:', data.errors);
@@ -500,6 +495,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 
 /* [Keep the existing styles unchanged] */
