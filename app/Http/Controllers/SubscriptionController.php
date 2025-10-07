@@ -21,21 +21,21 @@ class SubscriptionController extends Controller
         if (Auth::check()) {
             return response()->json(Auth::user());
         }
-        
+
         return response()->json(['error' => 'Unauthenticated'], 401);
     }
 
     public function success(Request $request)
     {
         $user = auth()->user();
-        
+
         if (!$user) {
             Log::error('Success callback: No authenticated user');
             return redirect('/subscribe')->with('error', 'User not found.');
         }
 
         $sessionId = $request->query('session_id');
-        
+
         if (!$sessionId) {
             Log::error('Success callback: No session_id provided');
             return redirect('/subscribe?error=1');
@@ -43,12 +43,12 @@ class SubscriptionController extends Controller
 
         try {
             Stripe::setApiKey(config('services.stripe.secret'));
-            
+
             $session = \Stripe\Checkout\Session::retrieve([
                 'id' => $sessionId,
                 'expand' => ['subscription']
             ]);
-            
+
             Log::info('Stripe session retrieved', [
                 'session_id' => $sessionId,
                 'subscription' => $session->subscription,
@@ -56,25 +56,25 @@ class SubscriptionController extends Controller
                 'payment_status' => $session->payment_status,
                 'user_id' => $user->id
             ]);
-            
+
             if (!$session->subscription) {
                 Log::error('No subscription in session');
                 return redirect('/subscribe?error=1');
             }
-            
+
             // Get the full subscription object
             if (is_string($session->subscription)) {
                 $stripeSubscription = \Stripe\Subscription::retrieve($session->subscription);
             } else {
                 $stripeSubscription = $session->subscription;
             }
-            
+
             Log::info('Creating subscription record', [
                 'stripe_id' => $stripeSubscription->id,
                 'status' => $stripeSubscription->status,
                 'price' => $stripeSubscription->items->data[0]->price->id
             ]);
-            
+
             // Create or update subscription
             $subscription = $user->subscriptions()->updateOrCreate(
                 ['stripe_id' => $stripeSubscription->id],
@@ -87,17 +87,16 @@ class SubscriptionController extends Controller
                     'ends_at' => null,
                 ]
             );
-            
+
             Log::info('Subscription record created', ['id' => $subscription->id]);
-            
+
             return redirect('/subscribe?success=1');
-            
         } catch (\Exception $e) {
             Log::error('Error in success callback', [
                 'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             return redirect('/subscribe?error=1');
         }
     }
@@ -126,13 +125,13 @@ class SubscriptionController extends Controller
                 $session = $event->data->object;
                 $this->handleCheckoutSessionCompleted($session);
                 break;
-                
+
             case 'customer.subscription.created':
             case 'customer.subscription.updated':
                 $subscription = $event->data->object;
                 $this->handleSubscriptionUpdated($subscription);
                 break;
-                
+
             case 'customer.subscription.deleted':
                 $subscription = $event->data->object;
                 $this->handleSubscriptionDeleted($subscription);
@@ -145,12 +144,12 @@ class SubscriptionController extends Controller
     protected function handleCheckoutSessionCompleted($session)
     {
         Log::info('Checkout completed', ['session_id' => $session->id]);
-        
+
         $user = \App\Models\User::where('stripe_id', $session->customer)->first();
-        
+
         if ($user && $session->subscription) {
             Log::info('Creating subscription for user: ' . $user->id);
-            
+
             $user->subscriptions()->updateOrCreate(
                 ['stripe_id' => $session->subscription],
                 [
@@ -168,10 +167,10 @@ class SubscriptionController extends Controller
     protected function handleSubscriptionUpdated($subscription)
     {
         $user = \App\Models\User::where('stripe_id', $subscription->customer)->first();
-        
+
         if ($user) {
             Log::info('Updating subscription for user: ' . $user->id);
-            
+
             $user->subscriptions()->updateOrCreate(
                 ['stripe_id' => $subscription->id],
                 [
@@ -179,11 +178,11 @@ class SubscriptionController extends Controller
                     'stripe_status' => $subscription->status,
                     'stripe_price' => $subscription->items->data[0]->price->id ?? null,
                     'quantity' => $subscription->items->data[0]->quantity ?? 1,
-                    'trial_ends_at' => $subscription->trial_end 
-                        ? Carbon::createFromTimestamp($subscription->trial_end) 
+                    'trial_ends_at' => $subscription->trial_end
+                        ? Carbon::createFromTimestamp($subscription->trial_end)
                         : null,
-                    'ends_at' => $subscription->cancel_at 
-                        ? Carbon::createFromTimestamp($subscription->cancel_at) 
+                    'ends_at' => $subscription->cancel_at
+                        ? Carbon::createFromTimestamp($subscription->cancel_at)
                         : null,
                 ]
             );
@@ -193,14 +192,14 @@ class SubscriptionController extends Controller
     protected function handleSubscriptionDeleted($subscription)
     {
         $user = \App\Models\User::where('stripe_id', $subscription->customer)->first();
-        
+
         if ($user) {
             Log::info('Subscription cancelled for user: ' . $user->id);
-            
+
             $dbSubscription = $user->subscriptions()
                 ->where('stripe_id', $subscription->id)
                 ->first();
-                
+
             if ($dbSubscription) {
                 $dbSubscription->update([
                     'stripe_status' => 'canceled',
@@ -217,7 +216,7 @@ class SubscriptionController extends Controller
         ]);
 
         $user = Auth::user();
-        
+
         if (!$user) {
             return response()->json([
                 'message' => 'Please create an account to subscribe.',
@@ -229,9 +228,9 @@ class SubscriptionController extends Controller
 
         try {
             Stripe::setApiKey(config('services.stripe.secret'));
-            
+
             Log::info('Stripe API Key set');
-            
+
             $checkoutSession = Session::create([
                 'payment_method_types' => ['card'],
                 'line_items' => [[
@@ -247,12 +246,11 @@ class SubscriptionController extends Controller
             Log::info('Checkout session created: ' . $checkoutSession->id);
 
             return response()->json(['redirect' => $checkoutSession->url]);
-            
         } catch (\Exception $e) {
             Log::error('Subscription error: ' . $e->getMessage());
-            
+
             return response()->json([
-                'message' => 'Error processing subscription: ' . $e->getMessage(), 
+                'message' => 'Error processing subscription: ' . $e->getMessage(),
                 'errors' => ['stripe' => [$e->getMessage()]]
             ], 422);
         }
@@ -261,7 +259,7 @@ class SubscriptionController extends Controller
     public function subscriptionStatus()
     {
         $user = Auth::user();
-        
+
         if (!$user) {
             return response()->json([
                 'is_subscribed' => false,
@@ -269,33 +267,32 @@ class SubscriptionController extends Controller
                 'ends_at' => null
             ], 401);
         }
-        
+
         $subscription = $user->subscription('premium');
-        
+
         if ($subscription && ($subscription->active() || $subscription->onGracePeriod())) {
             try {
                 $stripeSubscription = $subscription->asStripeSubscription();
-                
+
                 // Determine ends_at based on cancellation status
                 $endsAt = null;
-                
+
                 if ($stripeSubscription->cancel_at) {
                     $endsAt = Carbon::createFromTimestamp($stripeSubscription->cancel_at);
                 } elseif ($subscription->ends_at) {
                     $endsAt = Carbon::parse($subscription->ends_at);
                 }
-                
+
                 return response()->json([
                     'is_subscribed' => true,
                     'plan' => $subscription->stripe_price,
                     'ends_at' => $endsAt ? $endsAt->toIso8601String() : null,
                 ]);
-                
             } catch (\Exception $e) {
                 Log::error('Error fetching Stripe subscription: ' . $e->getMessage());
             }
         }
-        
+
         return response()->json([
             'is_subscribed' => false,
             'plan' => 'free',
@@ -306,26 +303,26 @@ class SubscriptionController extends Controller
     public function cancelSubscription(Request $request)
     {
         $user = Auth::user();
-        
+
         if (!$user) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => 'Unauthorized'
             ], 401);
         }
 
         $subscription = $user->subscription('premium');
-        
+
         if (!$subscription) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => 'No subscription found'
             ], 404);
         }
 
         if (!$subscription->active()) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => 'Cannot cancel an already canceled subscription'
             ], 400);
         }
@@ -339,12 +336,11 @@ class SubscriptionController extends Controller
                 'ends_at' => optional($subscription->ends_at)->toIso8601String(),
                 'message' => 'Subscription cancelled successfully'
             ]);
-            
         } catch (\Exception $e) {
             Log::error('Error cancelling subscription: ' . $e->getMessage());
-            
+
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => 'Error cancelling subscription: ' . $e->getMessage()
             ], 500);
         }
@@ -358,11 +354,11 @@ class SubscriptionController extends Controller
         ]);
 
         $user = Auth::user();
-        
+
         if (!$user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Unauthorized'
+                'message' => 'You must be logged in to proceed. Please sign in to continue.',
             ], 401);
         }
 
@@ -374,10 +370,9 @@ class SubscriptionController extends Controller
                 'success' => true,
                 'message' => 'Payment method added successfully',
             ]);
-            
         } catch (\Exception $e) {
             Log::error('Error adding payment method: ' . $e->getMessage());
-            
+
             return response()->json([
                 'success' => false,
                 'message' => 'Error adding payment method: ' . $e->getMessage()
