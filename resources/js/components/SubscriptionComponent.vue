@@ -25,7 +25,7 @@
 
         <div v-if="error" class="notification error">
           <i class="fas fa-exclamation-triangle"></i>
-          <span>{{ error }}</span>
+          <span>You must be logged in to proceed. Please sign in <a href="/login" class="text-decoration:underline">here</a> to continue.</span>
           <button @click="clearNotification" class="close-btn">
             <i class="fas fa-times"></i>
           </button>
