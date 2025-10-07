@@ -38,7 +38,7 @@
 
         <!-- Successful Subscription Image -->
         <div v-if="showSuccessImage" class="success-image-container">
-          <img src="/images/subscription-success.jpg" alt="Subscription Success" class="success-image">
+          <img src="/images/mark1.png" width="100" alt="Subscription Success" class="success-image text-center">
           <p class="success-message">Thank you for subscribing! Enjoy your premium features.</p>
           <button @click="showSuccessImage = false" class="btn btn-primary">Continue</button>
         </div>
