@@ -154261,6 +154261,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                       return _this7.fetchSubscriptionStatus();
                     case 4:
                       _this7.success = 'Subscription canceled. Access has ended immediately.';
+                      setTimeout(function () {
+                        return _this7.success = '';
+                      }, 5000); // Clear success message after 5 seconds
                       _context6.n = 8;
                       break;
                     case 5:
@@ -154273,6 +154276,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                       return _this7.fetchSubscriptionStatus();
                     case 6:
                       _this7.success = 'Your subscription is already canceled. Access has already ended.';
+                      setTimeout(function () {
+                        return _this7.success = '';
+                      }, 5000); // Clear success message after 5 seconds
                       _context6.n = 8;
                       break;
                     case 7:

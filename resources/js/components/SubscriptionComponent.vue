@@ -24,7 +24,8 @@
 
         <div v-if="error" class="notification error">
           <i class="fas fa-exclamation-triangle"></i>
-          <span>You must be logged in to proceed. Please sign in <a href="/login" class="text-decoration:underline">here</a> to continue.</span>
+          <span>You must be logged in to proceed. Please sign in <a href="/login"
+              class="text-decoration:underline">here</a> to continue.</span>
           <button @click="clearNotification" class="close-btn">
             <i class="fas fa-times"></i>
           </button>
@@ -184,7 +185,8 @@
     </section>
 
     <!-- Confirmation Modal -->
-    <div class="modal fade" id="cancelConfirmationModal" tabindex="-1" aria-labelledby="cancelConfirmationLabel" aria-hidden="true">
+    <div class="modal fade" id="cancelConfirmationModal" tabindex="-1" aria-labelledby="cancelConfirmationLabel"
+      aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -395,10 +397,12 @@ export default {
             this.isCancelled = true;
             await this.fetchSubscriptionStatus();
             this.success = 'Subscription canceled. Access has ended immediately.';
+            setTimeout(() => this.success = '', 5000); // Clear success message after 5 seconds
           } else if (data.message && data.message.includes('canceled subscription')) {
             this.isCancelled = true;
             await this.fetchSubscriptionStatus();
             this.success = 'Your subscription is already canceled. Access has already ended.';
+            setTimeout(() => this.success = '', 5000); // Clear success message after 5 seconds
           } else {
             throw new Error(data.message || 'Failed to cancel your subscription.');
           }
