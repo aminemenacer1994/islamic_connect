@@ -24,7 +24,8 @@
 
         <div v-if="error" class="notification error">
           <i class="fas fa-exclamation-triangle"></i>
-          <span>You must be logged in to proceed. Please sign in <a href="/login" class="text-decoration:underline">here</a> to continue.</span>
+          <span>You must be logged in to proceed. Please sign in <a href="/login"
+              class="text-decoration:underline">here</a> to continue.</span>
           <button @click="clearNotification" class="close-btn">
             <i class="fas fa-times"></i>
           </button>
@@ -167,15 +168,16 @@
       <div class="container">
         <div class="faq-header">
           <h3>Frequently Asked Questions</h3>
+          <p class="faq-subtitle">Explore answers to common queries about payments on our Islamic Insights platform.</p>
         </div>
 
         <div class="faq-list">
           <div v-for="(faq, index) in faqs" :key="index" class="faq-item">
-            <div class="faq-question" @click="toggleFaq(index)">
-              <h4>{{ faq.question }}</h4>
+            <div class="faq-question" @click="toggleFaq(index)" role="button" :aria-expanded="faq.open" :aria-controls="`faq-answer-${index}`">
+              <h4 style="padding-left: 10px;">{{ faq.question }}</h4>
               <i class="fas fa-chevron-down" :class="{ 'open': faq.open }"></i>
             </div>
-            <div v-if="faq.open" class="faq-answer">
+            <div v-if="faq.open" :id="`faq-answer-${index}`" class="faq-answer" role="region">
               <p>{{ faq.answer }}</p>
             </div>
           </div>
@@ -184,7 +186,8 @@
     </section>
 
     <!-- Confirmation Modal -->
-    <div class="modal fade" id="cancelConfirmationModal" tabindex="-1" aria-labelledby="cancelConfirmationLabel" aria-hidden="true">
+    <div class="modal fade" id="cancelConfirmationModal" tabindex="-1" aria-labelledby="cancelConfirmationLabel"
+      aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -225,9 +228,11 @@ export default {
       isCancelled: false,
       debugInfo: true, // Enable debug info for troubleshooting
       faqs: [
-        { question: 'Can I cancel my subscription anytime?', answer: 'Yes, you can cancel at any time. Access ends immediately once you cancel.', open: false },
-        { question: 'What payment methods do you accept?', answer: 'We accept major credit and debit cards through Stripe.', open: false },
-        { question: 'Is there a free trial available?', answer: 'There’s no free trial, but a free tier is available. Upgrade anytime.', open: false }
+        { question: 'Can I cancel my subscription anytime?', answer: 'Yes, you can cancel your subscription at any time. Access will end immediately upon cancellation.', open: false },
+        { question: 'What payment methods do you accept?', answer: 'We accept major credit and debit cards through Stripe, including Visa, Mastercard, and American Express.', open: false },
+        { question: 'Is there a free trial available?', answer: 'There’s no free trial, but we offer a free tier with limited access. You can upgrade to a paid plan anytime.', open: false },
+        { question: 'What is your refund policy?', answer: 'We offer refunds within 14 days of purchase if no significant content has been accessed. Contact support for assistance.', open: false },
+        { question: 'How are subscription fees billed?', answer: 'Subscription fees are billed monthly or annually, depending on your chosen plan, via automatic recurring payments.', open: false }
       ],
       plans: [
         { value: 'price_1SDrmPGsDD2PdzHqTgawcJZd', name: 'Monthly', price: '£1.99', period: 'per month', icon: 'fas fa-calendar-alt', badge: 'Flexible', featured: false, features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', '24/7 support'] },
@@ -498,6 +503,154 @@ export default {
 </script>
 
 <style scoped>
+/* FAQ Section */
+.faq-section {
+  background: #f8fafc;
+  padding: 80px 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.faq-header h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.faq-header p {
+  color: #64748b;
+  font-size: 1.125rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.faq-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #ffffff 0%, #f9fafb 100%);
+  transition: background 0.3s ease;
+}
+
+.faq-question:hover {
+  background: #f9fafb;
+}
+
+.faq-question h4 {
+  flex: 1;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.faq-question:hover h4 {
+  color: #35a38b;
+}
+
+.faq-question i {
+  color: #64748b;
+  font-size: 1.25rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.faq-question i.open {
+  transform: rotate(180deg);
+  color: #35a38b;
+}
+
+.faq-answer {
+  padding: 16px 24px 24px;
+  background: white;
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.6;
+  border-top: 1px solid #e2e8f0;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* [Rest of your existing styles remain unchanged] */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .faq-header h3 {
+    font-size: 1.75rem;
+  }
+
+  .faq-header p {
+    font-size: 1rem;
+  }
+
+  .faq-question {
+    padding: 16px 20px;
+  }
+
+  .faq-question h4 {
+    font-size: 1rem;
+  }
+
+  .faq-answer {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+
+  .header-content h1 {
+    font-size: 2rem;
+  }
+
+  .plans-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .plan-card.featured {
+    transform: scale(1);
+  }
+
+  .card-header,
+  .card-body {
+    padding: 24px 20px;
+  }
+}
 /* Base Styles */
 .subscription-container {
   min-height: 100vh;

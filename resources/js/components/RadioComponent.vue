@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="container py-5">
-      <h1 class="main-title fw-bold">Islamic Radio Stations</h1>
+      <h1 class="main-title fw-bold">Islamic Reciters Stations</h1>
 
       <p class="text-center lead" style="font-size: 1.25rem;">
-        Discover live Quranic radio stations from renowned reciters worldwide.
+        Discover live Quranic reciters stations from renowned reciters worldwide.
       </p>
 
       <!-- Search Bar and Category Dropdown -->
@@ -109,10 +109,10 @@
         <hr />
       </section>
 
-      <!-- All Radio Stations -->
+      <!-- All Reciters Stations -->
       <section class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="fw-bold fs-3 text-dark"><img src="images/art.png" width="30px" class="mb-1" /> Radio Stations:</h3>
+          <h3 class="fw-bold fs-3 text-dark"><img src="images/art.png" width="30px" class="mb-1" /> Reciters Stations:</h3>
           <div class="d-flex align-items-center gap-2">
             <button @click="viewMode = 'grid'" class="btn btn-outline-dark" :class="{ active: viewMode === 'grid' }"
               aria-label="Grid View">
