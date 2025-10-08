@@ -142245,12 +142245,15 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       rssUrl: "https://themadmamluks.libsyn.com/rss",
       desc: "The Mad Mamluks is a podcast that delves into contemporary issues, politics, theology, and culture from a Muslim perspective. Hosted by a group of Muslim men, the show features in-depth discussions with scholars, activists, and community leaders.  \n                The topics range from faith, Islamic history, and jurisprudence to social justice, current affairs, and political challenges faced by Muslims today.",
       image: "./images/mad_mamluk.jpg"
-    }, {
-      name: "The Deen Show",
-      rssUrl: "https://muslimcentral.com/audio/wahaj-tarin/feed/",
-      desc: "The Deen Show is an American Islamic talk show hosted by Eddie, a convert to Islam, who engages with scholars, experts, and influential speakers to educate both Muslims and non-Muslims about Islam.  \n                With a focus on dawah (Islamic outreach), Eddie explores fundamental beliefs, misconceptions about Islam, and the lives of prominent Muslim figures.",
-      image: "./images/deen_show.png"
-    }, {
+    },
+    // {
+    //   name: "The Deen Show",
+    //   rssUrl: "https://muslimcentral.com/audio/wahaj-tarin/feed/",
+    //   desc: `The Deen Show is an American Islamic talk show hosted by Eddie, a convert to Islam, who engages with scholars, experts, and influential speakers to educate both Muslims and non-Muslims about Islam.  
+    //         With a focus on dawah (Islamic outreach), Eddie explores fundamental beliefs, misconceptions about Islam, and the lives of prominent Muslim figures.`,
+    //   image: "./images/deen_show.png",
+    // },
+    {
       name: "Yaqeen",
       rssUrl: "https://feeds.buzzsprout.com/1014445.rss",
       desc: "The Yaqeen Podcast, produced by Yaqeen Institute, features discussions led by scholars such as Dr. Omar Suleiman and others.  \n                Topics range from Islamic theology, spirituality, and social justice to modern challenges facing the Muslim community.  \n                This podcast aims to provide deep insights into faith and identity while addressing contemporary issues.",
