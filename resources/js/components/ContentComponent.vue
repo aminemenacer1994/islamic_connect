@@ -1992,77 +1992,307 @@ export default {
 }
 
 /* Enhanced Responsive Design for Cards */
-@media (max-width: 768px) {
-  .audio-player-container {
-    border-radius: 12px 12px 0 0;
-    padding: 8px 0 0 0;
+@media (min-width: 769px) and (max-width: 1024px) {
+  .pagination-btn {
+    padding: 0.7rem 1.1rem;
+    font-size: 0.9rem;
+    min-width: 95px;
   }
 
+  .page-number {
+    width: 42px;
+    height: 42px;
+    font-size: 0.9rem;
+    min-width: 42px;
+    min-height: 42px;
+  }
+}
+
+/* Focus states for accessibility */
+.pagination-btn:focus,
+.page-number:focus {
+  outline: 2px solid #0db6a1;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .pagination-btn {
+    border: 2px solid #0db6a1;
+  }
+
+  .page-number {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+  .pagination-btn,
+  .page-number {
+    transition: none;
+  }
+
+  .pagination-btn:hover:not(.disabled),
+  .page-number:hover:not(.active) {
+    transform: none;
+  }
+}
+
+/* Audio Player Styles */
+.audio-player-container {
+  border-radius: 12px 12px 0 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #2c2c2c;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  padding: 8px 12px;
+}
+
+.custom-audio-player {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px;
+  color: #ccc;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.info-section {
+  align-items: center;
+  gap: 12px;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.play-pause {
+  font-size: 1.5rem;
+  padding: 6px;
+  width: 40px;
+  height: 40px;
+}
+
+.time {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ccc;
+  min-width: 70px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ccc;
+  min-width: 100px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.close-btn {
+  font-size: 1.2rem;
+  padding: 6px;
+  width: 36px;
+  height: 36px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #555;
+  cursor: pointer;
+  position: relative;
+  margin: 4px 0;
+}
+
+.progress {
+  height: 100%;
+  background: #00ffcc;
+  position: absolute;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
   .custom-audio-player {
-    border-radius: 14px 14px 0 0;
-    padding: 14px 18px 14px 18px;
+    padding: 6px;
   }
 
   .controls {
-    gap: 14px;
+    gap: 8px;
+  }
+
+  .control-group {
+    gap: 8px;
+  }
+
+  .info-section {
+    gap: 8px;
   }
 
   .control-btn {
-    padding: 12px;
+    font-size: 1.1rem;
+    width: 32px;
+    height: 32px;
+  }
+
+  .play-pause {
     font-size: 1.3rem;
-    min-width: 44px;
-    min-height: 44px;
+    width: 36px;
+    height: 36px;
   }
 
   .time {
+    font-size: 0.85rem;
+    min-width: 60px;
+  }
+
+  .episode-title {
+    font-size: 0.85rem;
+    min-width: 80px;
+  }
+
+  .close-btn {
     font-size: 1.1rem;
-    min-width: 90px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .progress-bar {
+    height: 3px;
+  }
+}
+
+@media (max-width: 768px) {
+  .audio-player-container {
+    padding: 6px 8px;
+  }
+
+  .controls {
+    gap: 6px;
+    justify-content: flex-start;
+  }
+
+  .info-section {
+    flex-grow: 0;
+    order: 1;
+  }
+
+  .control-btn {
+    font-size: 1rem;
+    width: 30px;
+    height: 30px;
+  }
+
+  .play-pause {
+    font-size: 1.2rem;
+    width: 34px;
+    height: 34px;
+  }
+
+  .time {
+    font-size: 0.8rem;
+    min-width: 50px;
+  }
+
+  .episode-title {
+    display: none; /* Hide title on mobile */
+  }
+
+  .close-btn {
+    order: 2;
+    font-size: 1rem;
+    width: 30px;
+    height: 30px;
+  }
+
+  .progress-bar {
+    height: 3px;
   }
 }
 
 @media (max-width: 576px) {
   .audio-player-container {
-    padding: 6px 0 0 0;
-  }
-
-  .custom-audio-player {
-    border-radius: 14px 14px 0 0;
-    padding: 10px 8px 12px 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .controls {
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: space-around;
-    width: 100% !important;
-    /* Bootstrap w-100 equivalent */
-  }
-
-  .control-btn {
-    padding: 10px;
-    font-size: 1.1rem;
-    min-width: 40px;
-    min-height: 40px;
-    width: 100% !important;
-  }
-
-  .time {
-    font-size: 1rem;
-    min-width: 90px;
-  }
-
-  .progress-bar-container {
-    flex-direction: row;
-    gap: 10px;
-    margin-top: 10px;
+    padding: 4px 6px;
   }
 
   .info-section {
-    margin-left: 10px;
-    text-align: right;
+    flex-direction: column;
+    align-items: flex-start;
+    order: 1;
+  }
+
+  .control-btn {
+    font-size: 0.9rem;
+    width: 28px;
+    height: 28px;
+  }
+
+  .play-pause {
+    font-size: 1.1rem;
+    width: 32px;
+    height: 32px;
+  }
+
+  .time {
+    font-size: 0.7rem;
+    min-width: 40px;
+  }
+
+  .episode-title {
+    display: none; /* Ensure title remains hidden on smaller screens */
+  }
+
+  .close-btn {
+    order: 2;
+    font-size: 0.9rem;
+    width: 28px;
+    height: 28px;
+  }
+
+  .progress-bar {
+    height: 2px;
   }
 }
 
