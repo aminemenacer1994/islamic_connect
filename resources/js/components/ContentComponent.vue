@@ -386,9 +386,7 @@
                 <option :value="2">2x</option>
               </select>
             </div>
-            <button @click="isPlayerMinimized = !isPlayerMinimized" class="control-btn" :title="isPlayerMinimized ? 'Expand Player' : 'Minimize Player'">
-              <i class="bi" :class="isPlayerMinimized ? 'bi-arrows-angle-expand' : 'bi-arrows-angle-contract'"></i>
-            </button>
+            
             <button @click="closeAudioPlayer" class="control-btn close-btn" title="Close">
               <i class="bi bi-x-lg"></i>
             </button>
