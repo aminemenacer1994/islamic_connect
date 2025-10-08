@@ -17,8 +17,6 @@
                 terms and their meanings</p>
             </div>
 
-
-
             <div>
               <!-- Search Stats -->
               <div class="mb-4" v-if="searchQuery || selectedSubject">
@@ -188,7 +186,7 @@
           </div>
 
           <!-- Terms grid -->
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4 ">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4">
             <div v-for="term in displayedTerms" :key="term.id" class="col mb-4">
               <div class="card h-100 shadow-sm border-3 border shadow-md"
                 style="border:2px solid #d1e0e7; border-radius: 10px;"
@@ -240,14 +238,12 @@
                       title="Increase font size">
                       <i class="bi bi-plus-lg fs-4"></i>
                     </button>
-
                     <button type="button"
                       class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
                       style="width: 48px; height: 48px;" @click="copyToClipboard(term)" aria-label="Copy to clipboard"
                       title="Copy to clipboard">
                       <i class="bi bi-clipboard fs-4"></i>
                     </button>
-                    
                   </div>
                 </div>
               </div>
@@ -257,18 +253,17 @@
           <!-- Pagination -->
           <nav v-if="showPagination" class="mt-5" aria-label="Page navigation">
             <ul class="pagination justify-content-center flex-wrap gap-2">
-              <li class="page-item" :class="{ disabled: currentPageNumber === 1 }">
-                <button class="page-link rounded-pill mx-1 px-4 py-2" @click="goToPage(currentPageNumber - 1)"
+              <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                <button class="page-link rounded-pill mx-1 px-4 py-2" @click="goToPage(currentPage - 1)"
                   aria-label="Previous">
                   <span aria-hidden="true">«</span>
                 </button>
               </li>
               <li class="page-item disabled">
-                <span class="page-link rounded-pill mx-1 px-4 py-2">Page {{ currentPageNumber }} of {{ totalPages
-                  }}</span>
+                <span class="page-link rounded-pill mx-1 px-4 py-2">Page {{ currentPage }} of {{ totalPages }}</span>
               </li>
-              <li class="page-item" :class="{ disabled: currentPageNumber === totalPages }">
-                <button class="page-link rounded-pill mx-1 px-4 py-2" @click="goToPage(currentPageNumber + 1)"
+              <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                <button class="page-link rounded-pill mx-1 px-4 py-2" @click="goToPage(currentPage + 1)"
                   aria-label="Next">
                   <span aria-hidden="true">»</span>
                 </button>
@@ -312,8 +307,6 @@ export default {
       suggestions: [],
       favorites: [],
       currentPage: 1,
-      currentPageNumber: 1,
-      totalPages: 1,
       termFontSizes: {},
       baseFontSize: 1,
       minFontSize: 0.8,
@@ -331,26 +324,27 @@ export default {
       let terms = this.terms;
       if (this.searchQuery) {
         terms = terms.filter(term => {
+          if (!term) return false; // Guard against null/undefined terms
           const q = this.searchQuery.toLowerCase();
           return (
-            term.term.toLowerCase().includes(q) ||
-            term.meaning.toLowerCase().includes(q) ||
-            term.phrase.toLowerCase().includes(q) ||
-            term.reference.toLowerCase().includes(q)
+            (term.term && term.term.toLowerCase().includes(q)) ||
+            (term.meaning && term.meaning.toLowerCase().includes(q)) ||
+            (term.phrase && term.phrase.toLowerCase().includes(q)) ||
+            (term.reference && term.reference.toLowerCase().includes(q))
           );
         });
       }
       if (this.selectedSubject && this.selectedSubject !== 'all') {
-        terms = terms.filter(term => term.subject === this.selectedSubject);
+        terms = terms.filter(term => term && term.subject === this.selectedSubject);
       }
       if (this.sortBy === 'term') {
         terms.sort((a, b) => a.term.localeCompare(b.term));
       } else if (this.sortBy === 'term-desc') {
-        terms.sort((a, b) => b.term.localeCompare(a.term));
+        terms.sort((a, b) => b.term.localeCompare(b.term));
       } else if (this.sortBy === 'subject') {
         terms.sort((a, b) => a.subject.localeCompare(b.subject));
       } else if (this.sortBy === 'recent') {
-        terms.sort((a, b) => new Date(b.lastViewed) - new Date(a.lastViewed));
+        terms.sort((a, b) => new Date(b.lastViewed || 0) - new Date(a.lastViewed || 0));
       } else if (this.sortBy === 'favorites') {
         terms.sort((a, b) => {
           const aIsFavorite = this.favorites.includes(a.id);
@@ -368,12 +362,13 @@ export default {
       // Deduplicate by term (case-insensitive)
       const seen = new Set();
       return this.terms.filter(term => {
+        if (!term) return false;
         const match = (
-          term.term.toLowerCase().includes(q) ||
-          term.meaning.toLowerCase().includes(q) ||
-          term.reference.toLowerCase().includes(q)
+          (term.term && term.term.toLowerCase().includes(q)) ||
+          (term.meaning && term.meaning.toLowerCase().includes(q)) ||
+          (term.reference && term.reference.toLowerCase().includes(q))
         );
-        const key = term.term.toLowerCase();
+        const key = term.term ? term.term.toLowerCase() : '';
         if (match && !seen.has(key)) {
           seen.add(key);
           return true;
@@ -384,30 +379,31 @@ export default {
     displayedTerms() {
       // Deduplicate by term (case-insensitive)
       const seen = new Set();
-      return this.filteredTerms.filter(term => {
+      const terms = this.filteredTerms.filter(term => {
+        if (!term || !term.term) return false;
         const key = term.term.toLowerCase();
         if (!seen.has(key)) {
           seen.add(key);
           return true;
         }
         return false;
-      }).slice((this.currentPageNumber - 1) * 12, this.currentPageNumber * 12);
+      });
+      return terms.slice((this.currentPage - 1) * 12, this.currentPage * 12);
     },
     totalTerms() {
       return this.filteredTerms.length;
     },
     showPagination() {
-      return this.totalTerms > 15;
-    },
-    currentPageNumber() {
-      return this.currentPage;
+      return this.totalTerms > 12; // Adjusted to match items per page
     },
     totalPages() {
-      return Math.ceil(this.totalTerms / 12);
+      return Math.max(1, Math.ceil(this.totalTerms / 12)); // Ensure at least 1 page
     },
     subjects() {
-      // Extract unique subjects from terms
-      return ['all', ...Array.from(new Set(this.terms.map(t => t.subject)))];
+      const validSubjects = this.terms
+        .filter(t => t && typeof t.subject === 'string' && t.subject.trim() !== '')
+        .map(t => t.subject);
+      return ['all', ...Array.from(new Set(validSubjects))];
     }
   },
   watch: {
@@ -415,21 +411,16 @@ export default {
       handler: debounce(function (val) {
         this.showSuggestions = !!val && val.length >= 2 && this.filteredSuggestions.length > 0;
         this.highlightedIndex = -1;
+        this.currentPage = 1; // Reset to first page on search
       }, 250),
       immediate: false
     },
     selectedSubject() {
-      this.currentPage = 1;
+      this.currentPage = 1; // Reset to first page on subject change
     },
     sortBy() {
-      this.currentPage = 1;
-    },
-    currentPage(newVal) {
-      this.currentPageNumber = newVal;
-    },
-    totalTerms(newVal) {
-      this.totalPages = Math.ceil(newVal / 12);
-    },
+      this.currentPage = 1; // Reset to first page on sort change
+    }
   },
   mounted() {
     this.initialize();
@@ -437,9 +428,21 @@ export default {
     this.loadRecentTerms();
     this.isSpeechSupported = 'SpeechRecognition' in window;
     this.isSpeechSynthesisSupported = 'SpeechSynthesisUtterance' in window;
-    this.quickFilters = this.subjects.map(s => ({ key: s, label: s.charAt(0).toUpperCase() + s.slice(1) }));
+    if (this.subjects.length > 1) {
+      this.quickFilters = this.subjects.map(s => ({
+        key: s,
+        label: typeof s === 'string' ? s.charAt(0).toUpperCase() + s.slice(1) : s
+      }));
+    } else {
+      console.warn('No valid subjects found for quickFilters');
+      this.quickFilters = [];
+    }
   },
   methods: {
+    loadSuggestions() {
+      this.suggestions = this.terms.slice(0, 5);
+      this.updateSuggestions();
+    },
     shareViaWhatsApp(term) {
       const text = encodeURIComponent(
         `Word: "${term.term}\n\n` +
@@ -455,12 +458,12 @@ export default {
       const currentSize = this.termFontSizes[termId] || 1;
       const newSize = currentSize + change * 0.1;
       this.termFontSizes[termId] = Math.max(this.minFontSize, Math.min(this.maxFontSize, newSize));
-      this.$forceUpdate(); // Ensure re-render
+      this.$forceUpdate();
     },
     initialize() {
       this.baseFontSize = parseFloat(localStorage.getItem('fontSize') || '1');
-      // this.loadFontSizes();
-      // this.loadQuickFilters();
+      this.loadFavorites();
+      this.loadRecentTerms();
       this.loadSuggestions();
     },
     showToast(message, type = 'success') {
@@ -495,7 +498,7 @@ export default {
     },
     performSearch() {
       this.currentPage = 1;
-      this.loadSuggestions(); // Clear suggestions when search changes
+      this.loadSuggestions();
     },
     debounce(func, delay) {
       let timeoutId;
@@ -512,18 +515,21 @@ export default {
       this.showAdvancedSearch = false;
       this.showSuggestions = false;
       this.highlightedIndex = -1;
+      this.currentPage = 1;
       this.performSearch();
     },
     toggleAdvancedSearch() {
       this.showAdvancedSearch = !this.showAdvancedSearch;
       this.showSuggestions = false;
       this.highlightedIndex = -1;
+      this.currentPage = 1;
     },
     applyQuickFilter(filterKey) {
       this.selectedSubject = filterKey;
       this.showAdvancedSearch = false;
       this.showSuggestions = false;
       this.highlightedIndex = -1;
+      this.currentPage = 1;
       this.performSearch();
     },
     getMatchType(term) {
@@ -537,11 +543,12 @@ export default {
       this.highlightedIndex = (this.highlightedIndex + direction + this.suggestions.length) % this.suggestions.length;
     },
     selectSuggestion(index) {
-      if (this.suggestions.length === 0) return;
-      const suggestion = this.suggestions[index];
+      if (this.filteredSuggestions.length === 0) return;
+      const suggestion = this.filteredSuggestions[index];
       this.searchQuery = suggestion.term;
       this.showSuggestions = false;
       this.highlightedIndex = -1;
+      this.currentPage = 1;
       this.performSearch();
     },
     delayHideSuggestions() {
@@ -551,7 +558,7 @@ export default {
       }, 100);
     },
     handleCardClick(termId) {
-      const term = this.terms.find(t => t.id === termId);
+      const term = this.terms.find(t => t && t.id === termId);
       if (term) {
         this.handleTermClick(term);
       }
@@ -562,6 +569,7 @@ export default {
       this.showAdvancedSearch = false;
       this.showSuggestions = false;
       this.highlightedIndex = -1;
+      this.currentPage = 1;
       this.performSearch();
     },
     toggleFavorite(termId) {
@@ -584,7 +592,7 @@ export default {
     loadRecentTerms() {
       const recentTerms = JSON.parse(localStorage.getItem('recentTerms') || '[]');
       this.terms.forEach(term => {
-        if (recentTerms.includes(term.id)) {
+        if (term && recentTerms.includes(term.id)) {
           term.lastViewed = new Date().toISOString();
         }
       });
@@ -592,7 +600,7 @@ export default {
     speakTerm(term) {
       if (!this.isSpeechSynthesisSupported) return;
       const utterance = new SpeechSynthesisUtterance(term.meaning);
-      utterance.lang = 'ar-SA'; // Arabic language
+      utterance.lang = 'ar-SA';
       utterance.pitch = 1;
       utterance.rate = 0.9;
       utterance.volume = 1;
@@ -606,7 +614,6 @@ export default {
         this.showToast('Failed to copy term to clipboard.', 'danger');
       });
     },
-
     exportToCSV() {
       const csvContent = this.filteredTerms.map(term => [
         term.term,
@@ -616,7 +623,7 @@ export default {
         term.reference,
         term.phrase,
         term.id
-      ]).join('\n');
+      ].map(field => `"${field || ''}"`).join(',')).join('\n');
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -661,13 +668,14 @@ export default {
     startVoiceSearch() {
       if (!this.isSpeechSupported) return;
       const recognition = new SpeechRecognition();
-      recognition.lang = 'ar-SA'; // Arabic language
+      recognition.lang = 'ar-SA';
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
 
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
         this.searchQuery = transcript;
+        this.currentPage = 1;
         this.performSearch();
         this.isListening = false;
         this.voiceSearchActive = false;
@@ -699,24 +707,7 @@ export default {
     },
     updateSuggestions() {
       this.showSuggestions = this.searchQuery.length >= 2 && this.filteredSuggestions.length > 0;
-    },
-    selectSuggestion(index) {
-      if (this.filteredSuggestions.length === 0) return;
-      const suggestion = this.filteredSuggestions[index];
-      this.searchQuery = suggestion.term;
-      this.showSuggestions = false;
-      this.highlightedIndex = -1;
-    },
-    navigateSuggestions(direction) {
-      if (!this.showSuggestions || this.filteredSuggestions.length === 0) return;
-      this.highlightedIndex = (this.highlightedIndex + direction + this.filteredSuggestions.length) % this.filteredSuggestions.length;
-    },
-    delayHideSuggestions() {
-      setTimeout(() => {
-        this.showSuggestions = false;
-        this.highlightedIndex = -1;
-      }, 100);
-    },
+    }
   },
   beforeDestroy() {
     this.debouncedSearch.cancel();
@@ -744,32 +735,21 @@ export default {
   cursor: pointer;
 }
 
-/* Minimal custom styles - using Bootstrap 5 for everything else */
 .skip-link:focus {
   top: 20px !important;
   opacity: 1 !important;
 }
 
-/* Pulse animation for microphone */
 @keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.1);
-  }
-
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 .pulse {
   animation: pulse 1.5s infinite;
 }
 
-/* Suggestions dropdown active item custom color */
 .list-group-item.active,
 .list-group-item:active {
   background-color: rgb(0, 191, 166) !important;
@@ -777,7 +757,6 @@ export default {
   border-color: rgb(0, 191, 166) !important;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .nav-pills .nav-link {
     padding: 0.5rem 0.75rem;

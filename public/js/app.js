@@ -141299,10 +141299,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _islamic_terms_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./islamic_terms.json */ "./resources/js/components/islamic_terms.json");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -141336,8 +141332,6 @@ function debounce(fn, delay) {
       suggestions: [],
       favorites: [],
       currentPage: 1,
-      currentPageNumber: 1,
-      totalPages: 1,
       termFontSizes: {},
       baseFontSize: 1,
       minFontSize: 0.8,
@@ -141356,13 +141350,14 @@ function debounce(fn, delay) {
       var terms = this.terms;
       if (this.searchQuery) {
         terms = terms.filter(function (term) {
+          if (!term) return false; // Guard against null/undefined terms
           var q = _this2.searchQuery.toLowerCase();
-          return term.term.toLowerCase().includes(q) || term.meaning.toLowerCase().includes(q) || term.phrase.toLowerCase().includes(q) || term.reference.toLowerCase().includes(q);
+          return term.term && term.term.toLowerCase().includes(q) || term.meaning && term.meaning.toLowerCase().includes(q) || term.phrase && term.phrase.toLowerCase().includes(q) || term.reference && term.reference.toLowerCase().includes(q);
         });
       }
       if (this.selectedSubject && this.selectedSubject !== 'all') {
         terms = terms.filter(function (term) {
-          return term.subject === _this2.selectedSubject;
+          return term && term.subject === _this2.selectedSubject;
         });
       }
       if (this.sortBy === 'term') {
@@ -141371,7 +141366,7 @@ function debounce(fn, delay) {
         });
       } else if (this.sortBy === 'term-desc') {
         terms.sort(function (a, b) {
-          return b.term.localeCompare(a.term);
+          return b.term.localeCompare(b.term);
         });
       } else if (this.sortBy === 'subject') {
         terms.sort(function (a, b) {
@@ -141379,7 +141374,7 @@ function debounce(fn, delay) {
         });
       } else if (this.sortBy === 'recent') {
         terms.sort(function (a, b) {
-          return new Date(b.lastViewed) - new Date(a.lastViewed);
+          return new Date(b.lastViewed || 0) - new Date(a.lastViewed || 0);
         });
       } else if (this.sortBy === 'favorites') {
         terms.sort(function (a, b) {
@@ -141398,8 +141393,9 @@ function debounce(fn, delay) {
       // Deduplicate by term (case-insensitive)
       var seen = new Set();
       return this.terms.filter(function (term) {
-        var match = term.term.toLowerCase().includes(q) || term.meaning.toLowerCase().includes(q) || term.reference.toLowerCase().includes(q);
-        var key = term.term.toLowerCase();
+        if (!term) return false;
+        var match = term.term && term.term.toLowerCase().includes(q) || term.meaning && term.meaning.toLowerCase().includes(q) || term.reference && term.reference.toLowerCase().includes(q);
+        var key = term.term ? term.term.toLowerCase() : '';
         if (match && !seen.has(key)) {
           seen.add(key);
           return true;
@@ -141410,32 +141406,33 @@ function debounce(fn, delay) {
     displayedTerms: function displayedTerms() {
       // Deduplicate by term (case-insensitive)
       var seen = new Set();
-      return this.filteredTerms.filter(function (term) {
+      var terms = this.filteredTerms.filter(function (term) {
+        if (!term || !term.term) return false;
         var key = term.term.toLowerCase();
         if (!seen.has(key)) {
           seen.add(key);
           return true;
         }
         return false;
-      }).slice((this.currentPageNumber - 1) * 12, this.currentPageNumber * 12);
+      });
+      return terms.slice((this.currentPage - 1) * 12, this.currentPage * 12);
     },
     totalTerms: function totalTerms() {
       return this.filteredTerms.length;
     },
     showPagination: function showPagination() {
-      return this.totalTerms > 15;
-    },
-    currentPageNumber: function currentPageNumber() {
-      return this.currentPage;
+      return this.totalTerms > 12; // Adjusted to match items per page
     },
     totalPages: function totalPages() {
-      return Math.ceil(this.totalTerms / 12);
+      return Math.max(1, Math.ceil(this.totalTerms / 12)); // Ensure at least 1 page
     },
     subjects: function subjects() {
-      // Extract unique subjects from terms
-      return ['all'].concat(_toConsumableArray(Array.from(new Set(this.terms.map(function (t) {
+      var validSubjects = this.terms.filter(function (t) {
+        return t && typeof t.subject === 'string' && t.subject.trim() !== '';
+      }).map(function (t) {
         return t.subject;
-      })))));
+      });
+      return ['all'].concat(_toConsumableArray(Array.from(new Set(validSubjects))));
     }
   },
   watch: {
@@ -141443,20 +141440,15 @@ function debounce(fn, delay) {
       handler: debounce(function (val) {
         this.showSuggestions = !!val && val.length >= 2 && this.filteredSuggestions.length > 0;
         this.highlightedIndex = -1;
+        this.currentPage = 1; // Reset to first page on search
       }, 250),
       immediate: false
     },
     selectedSubject: function selectedSubject() {
-      this.currentPage = 1;
+      this.currentPage = 1; // Reset to first page on subject change
     },
     sortBy: function sortBy() {
-      this.currentPage = 1;
-    },
-    currentPage: function currentPage(newVal) {
-      this.currentPageNumber = newVal;
-    },
-    totalTerms: function totalTerms(newVal) {
-      this.totalPages = Math.ceil(newVal / 12);
+      this.currentPage = 1; // Reset to first page on sort change
     }
   },
   mounted: function mounted() {
@@ -141465,14 +141457,23 @@ function debounce(fn, delay) {
     this.loadRecentTerms();
     this.isSpeechSupported = 'SpeechRecognition' in window;
     this.isSpeechSynthesisSupported = 'SpeechSynthesisUtterance' in window;
-    this.quickFilters = this.subjects.map(function (s) {
-      return {
-        key: s,
-        label: s.charAt(0).toUpperCase() + s.slice(1)
-      };
-    });
+    if (this.subjects.length > 1) {
+      this.quickFilters = this.subjects.map(function (s) {
+        return {
+          key: s,
+          label: typeof s === 'string' ? s.charAt(0).toUpperCase() + s.slice(1) : s
+        };
+      });
+    } else {
+      console.warn('No valid subjects found for quickFilters');
+      this.quickFilters = [];
+    }
   },
-  methods: _defineProperty(_defineProperty(_defineProperty({
+  methods: {
+    loadSuggestions: function loadSuggestions() {
+      this.suggestions = this.terms.slice(0, 5);
+      this.updateSuggestions();
+    },
     shareViaWhatsApp: function shareViaWhatsApp(term) {
       var text = encodeURIComponent("Word: \"".concat(term.term, "\n\n") + "Phrase: \"".concat(term.phrase, "\"\n") + "Meaning: ".concat(term.meaning, "\n") + "Example: ".concat(term.example, "\n") + "Reference: ".concat(term.reference));
       var whatsappUrl = "https://wa.me/?text=".concat(text);
@@ -141482,12 +141483,12 @@ function debounce(fn, delay) {
       var currentSize = this.termFontSizes[termId] || 1;
       var newSize = currentSize + change * 0.1;
       this.termFontSizes[termId] = Math.max(this.minFontSize, Math.min(this.maxFontSize, newSize));
-      this.$forceUpdate(); // Ensure re-render
+      this.$forceUpdate();
     },
     initialize: function initialize() {
       this.baseFontSize = parseFloat(localStorage.getItem('fontSize') || '1');
-      // this.loadFontSizes();
-      // this.loadQuickFilters();
+      this.loadFavorites();
+      this.loadRecentTerms();
       this.loadSuggestions();
     },
     showToast: function showToast(message) {
@@ -141518,7 +141519,7 @@ function debounce(fn, delay) {
     },
     performSearch: function performSearch() {
       this.currentPage = 1;
-      this.loadSuggestions(); // Clear suggestions when search changes
+      this.loadSuggestions();
     },
     debounce: function debounce(func, delay) {
       var timeoutId;
@@ -141539,18 +141540,21 @@ function debounce(fn, delay) {
       this.showAdvancedSearch = false;
       this.showSuggestions = false;
       this.highlightedIndex = -1;
+      this.currentPage = 1;
       this.performSearch();
     },
     toggleAdvancedSearch: function toggleAdvancedSearch() {
       this.showAdvancedSearch = !this.showAdvancedSearch;
       this.showSuggestions = false;
       this.highlightedIndex = -1;
+      this.currentPage = 1;
     },
     applyQuickFilter: function applyQuickFilter(filterKey) {
       this.selectedSubject = filterKey;
       this.showAdvancedSearch = false;
       this.showSuggestions = false;
       this.highlightedIndex = -1;
+      this.currentPage = 1;
       this.performSearch();
     },
     getMatchType: function getMatchType(term) {
@@ -141564,11 +141568,12 @@ function debounce(fn, delay) {
       this.highlightedIndex = (this.highlightedIndex + direction + this.suggestions.length) % this.suggestions.length;
     },
     selectSuggestion: function selectSuggestion(index) {
-      if (this.suggestions.length === 0) return;
-      var suggestion = this.suggestions[index];
+      if (this.filteredSuggestions.length === 0) return;
+      var suggestion = this.filteredSuggestions[index];
       this.searchQuery = suggestion.term;
       this.showSuggestions = false;
       this.highlightedIndex = -1;
+      this.currentPage = 1;
       this.performSearch();
     },
     delayHideSuggestions: function delayHideSuggestions() {
@@ -141580,7 +141585,7 @@ function debounce(fn, delay) {
     },
     handleCardClick: function handleCardClick(termId) {
       var term = this.terms.find(function (t) {
-        return t.id === termId;
+        return t && t.id === termId;
       });
       if (term) {
         this.handleTermClick(term);
@@ -141592,6 +141597,7 @@ function debounce(fn, delay) {
       this.showAdvancedSearch = false;
       this.showSuggestions = false;
       this.highlightedIndex = -1;
+      this.currentPage = 1;
       this.performSearch();
     },
     toggleFavorite: function toggleFavorite(termId) {
@@ -141614,7 +141620,7 @@ function debounce(fn, delay) {
     loadRecentTerms: function loadRecentTerms() {
       var recentTerms = JSON.parse(localStorage.getItem('recentTerms') || '[]');
       this.terms.forEach(function (term) {
-        if (recentTerms.includes(term.id)) {
+        if (term && recentTerms.includes(term.id)) {
           term.lastViewed = new Date().toISOString();
         }
       });
@@ -141622,7 +141628,7 @@ function debounce(fn, delay) {
     speakTerm: function speakTerm(term) {
       if (!this.isSpeechSynthesisSupported) return;
       var utterance = new SpeechSynthesisUtterance(term.meaning);
-      utterance.lang = 'ar-SA'; // Arabic language
+      utterance.lang = 'ar-SA';
       utterance.pitch = 1;
       utterance.rate = 0.9;
       utterance.volume = 1;
@@ -141639,7 +141645,9 @@ function debounce(fn, delay) {
     },
     exportToCSV: function exportToCSV() {
       var csvContent = this.filteredTerms.map(function (term) {
-        return [term.term, term.subject, term.meaning, term.example, term.reference, term.phrase, term.id];
+        return [term.term, term.subject, term.meaning, term.example, term.reference, term.phrase, term.id].map(function (field) {
+          return "\"".concat(field || '', "\"");
+        }).join(',');
       }).join('\n');
       var blob = new Blob([csvContent], {
         type: 'text/csv;charset=utf-8'
@@ -141693,12 +141701,13 @@ function debounce(fn, delay) {
       var _this6 = this;
       if (!this.isSpeechSupported) return;
       var recognition = new SpeechRecognition();
-      recognition.lang = 'ar-SA'; // Arabic language
+      recognition.lang = 'ar-SA';
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
       recognition.onresult = function (event) {
         var transcript = event.results[0][0].transcript;
         _this6.searchQuery = transcript;
+        _this6.currentPage = 1;
         _this6.performSearch();
         _this6.isListening = false;
         _this6.voiceSearchActive = false;
@@ -141728,22 +141737,7 @@ function debounce(fn, delay) {
     updateSuggestions: function updateSuggestions() {
       this.showSuggestions = this.searchQuery.length >= 2 && this.filteredSuggestions.length > 0;
     }
-  }, "selectSuggestion", function selectSuggestion(index) {
-    if (this.filteredSuggestions.length === 0) return;
-    var suggestion = this.filteredSuggestions[index];
-    this.searchQuery = suggestion.term;
-    this.showSuggestions = false;
-    this.highlightedIndex = -1;
-  }), "navigateSuggestions", function navigateSuggestions(direction) {
-    if (!this.showSuggestions || this.filteredSuggestions.length === 0) return;
-    this.highlightedIndex = (this.highlightedIndex + direction + this.filteredSuggestions.length) % this.filteredSuggestions.length;
-  }), "delayHideSuggestions", function delayHideSuggestions() {
-    var _this7 = this;
-    setTimeout(function () {
-      _this7.showSuggestions = false;
-      _this7.highlightedIndex = -1;
-    }, 100);
-  }),
+  },
   beforeDestroy: function beforeDestroy() {
     this.debouncedSearch.cancel();
     this.stopVoiceSearch();
@@ -153893,11 +153887,14 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       error: '',
       success: '',
       isAuthenticated: true,
+      // Forced to true for testing
       isSubscribed: false,
+      // Will be set by fetch
       subscription: null,
       showSuccessImage: false,
       isCancelled: false,
       debugInfo: true,
+      // Enable debug info for troubleshooting
       faqs: [{
         question: 'Can I cancel my subscription anytime?',
         answer: 'Yes, you can cancel at any time. Access ends immediately once you cancel.',
@@ -153979,6 +153976,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   mounted: function mounted() {
     this.checkSubscriptionStatus();
     this.checkUrlParams();
+    this.checkAuthentication();
     if (window.flashError) {
       this.error = window.flashError;
       delete window.flashError;
@@ -154023,6 +154021,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 2:
               _context.p = 2;
               _t = _context.v;
+              _this.isAuthenticated = false;
               console.error('Authentication error:', _t);
             case 3:
               return _context.a(2);
@@ -154051,11 +154050,11 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context2.n = 2;
                 break;
               }
-              console.log('Unauthorized access - Resetting subscription');
+              _this2.isAuthenticated = false;
               _this2.isSubscribed = false;
               _this2.subscription = null;
               _this2.isCancelled = false;
-              _this2.loading = false;
+              console.log('Unauthorized access - Resetting subscription');
               return _context2.a(2, false);
             case 2:
               if (response.ok) {
@@ -154083,13 +154082,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _this2.subscription = null;
                 _this2.isCancelled = false;
               }
-              _this2.loading = false;
+              _this2.loading = false; // Ensure loading stops
               return _context2.a(2, data.is_subscribed);
             case 5:
               _context2.p = 5;
               _t2 = _context2.v;
               console.error('Error loading subscription:', _t2);
-              _this2.error = 'Failed to load subscription details. Please try again.';
               _this2.isSubscribed = false;
               _this2.subscription = null;
               _this2.isCancelled = false;
@@ -154128,8 +154126,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context4.n = 2;
                 break;
               }
-              // No error or success message on return from Stripe
-              _this4.isAuthenticated = true;
               _context4.n = 1;
               return _this4.waitForSubscription();
             case 1:
@@ -154141,6 +154137,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context4.n = 4;
                 break;
               }
+              _this4.error = 'Your subscription has been canceled. Subscribe again to continue.';
               _context4.n = 3;
               return _this4.fetchSubscriptionStatus();
             case 3:
@@ -154208,8 +154205,16 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.error = '';
       this.success = '';
     },
-    handleCancelSubscription: function handleCancelSubscription() {
+    getPlanBenefits: function getPlanBenefits() {
       var _this6 = this;
+      var plan = this.plans.find(function (p) {
+        var _this6$subscription;
+        return p.value === ((_this6$subscription = _this6.subscription) === null || _this6$subscription === void 0 ? void 0 : _this6$subscription.stripe_price);
+      });
+      return plan ? plan.features : ['Basic access only'];
+    },
+    handleCancelSubscription: function handleCancelSubscription() {
+      var _this7 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
         var modal;
         return _regenerator().w(function (_context7) {
@@ -154223,13 +154228,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                   while (1) switch (_context6.p = _context6.n) {
                     case 0:
                       modal.hide();
-                      _this6.cancelling = true;
+                      _this7.cancelling = true;
                       _context6.p = 1;
                       _context6.n = 2;
                       return fetch('/cancel', {
                         method: 'POST',
                         headers: {
-                          'X-CSRF-TOKEN': _this6.csrfToken,
+                          'X-CSRF-TOKEN': _this7.csrfToken,
                           'Accept': 'application/json',
                           'Content-Type': 'application/json'
                         }
@@ -154245,14 +154250,11 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                         _context6.n = 5;
                         break;
                       }
-                      _this6.isCancelled = true;
+                      _this7.isCancelled = true;
                       _context6.n = 4;
-                      return _this6.fetchSubscriptionStatus();
+                      return _this7.fetchSubscriptionStatus();
                     case 4:
-                      _this6.success = 'Subscription canceled. Access has ended immediately.';
-                      setTimeout(function () {
-                        return _this6.success = '';
-                      }, 5000);
+                      _this7.success = 'Subscription canceled. Access has ended immediately.';
                       _context6.n = 8;
                       break;
                     case 5:
@@ -154260,14 +154262,11 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                         _context6.n = 7;
                         break;
                       }
-                      _this6.isCancelled = true;
+                      _this7.isCancelled = true;
                       _context6.n = 6;
-                      return _this6.fetchSubscriptionStatus();
+                      return _this7.fetchSubscriptionStatus();
                     case 6:
-                      _this6.success = 'Your subscription is already canceled. Access has already ended.';
-                      setTimeout(function () {
-                        return _this6.success = '';
-                      }, 5000);
+                      _this7.success = 'Your subscription is already canceled. Access has already ended.';
                       _context6.n = 8;
                       break;
                     case 7:
@@ -154278,11 +154277,11 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     case 9:
                       _context6.p = 9;
                       _t3 = _context6.v;
-                      _this6.error = _t3.message || 'An error occurred while canceling. Please try again.';
+                      _this7.error = _t3.message || 'An error occurred while canceling. Please try again.';
                       console.error('handleCancelSubscription - Error:', _t3);
                     case 10:
                       _context6.p = 10;
-                      _this6.cancelling = false;
+                      _this7.cancelling = false;
                       return _context6.f(10);
                     case 11:
                       return _context6.a(2);
@@ -154306,15 +154305,17 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       alertDiv.setAttribute('role', 'alert');
       alertDiv.innerHTML = "\n        ".concat(message, "\n        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>\n      ");
       alertContainer.appendChild(alertDiv);
+
+      // Auto-dismiss after 8 seconds
       setTimeout(function () {
         var alertInstance = bootstrap.Alert.getOrCreateInstance(alertDiv);
         alertInstance.close();
       }, 8000);
     },
     waitForCancellationUpdate: function waitForCancellationUpdate() {
-      var _this7 = this;
+      var _this8 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
-        var attempts, maxAttempts, _this7$subscription, endsAtDate, currentDate;
+        var attempts, maxAttempts, _this8$subscription, endsAtDate, currentDate;
         return _regenerator().w(function (_context8) {
           while (1) switch (_context8.n) {
             case 0:
@@ -154326,9 +154327,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 break;
               }
               _context8.n = 2;
-              return _this7.fetchSubscriptionStatus();
+              return _this8.fetchSubscriptionStatus();
             case 2:
-              endsAtDate = (_this7$subscription = _this7.subscription) !== null && _this7$subscription !== void 0 && _this7$subscription.ends_at ? new Date(_this7.subscription.ends_at) : null;
+              endsAtDate = (_this8$subscription = _this8.subscription) !== null && _this8$subscription !== void 0 && _this8$subscription.ends_at ? new Date(_this8.subscription.ends_at) : null;
               currentDate = new Date();
               if (!(!endsAtDate || endsAtDate <= currentDate)) {
                 _context8.n = 3;
@@ -154354,15 +154355,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     handleSubmit: function handleSubmit() {
-      var _this8 = this;
+      var _this9 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee9() {
         var _document$querySelect2, csrfToken, response, data, _t4;
         return _regenerator().w(function (_context9) {
           while (1) switch (_context9.p = _context9.n) {
             case 0:
-              _this8.submitting = true;
-              _this8.error = '';
-              _this8.success = '';
+              _this9.submitting = true;
+              _this9.error = '';
+              _this9.success = '';
               _context9.p = 1;
               csrfToken = (_document$querySelect2 = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.getAttribute('content');
               if (csrfToken) {
@@ -154381,7 +154382,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 },
                 credentials: 'same-origin',
                 body: JSON.stringify({
-                  price_lookup_key: _this8.selectedPlan
+                  price_lookup_key: _this9.selectedPlan
                 })
               });
             case 3:
@@ -154393,13 +154394,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               console.log('handleSubmit - Subscription response:', response.status, JSON.stringify(data, null, 2));
               if (response.ok && data.redirect) {
                 window.location.href = data.redirect;
-                _this8.waitForSubscription();
+                _this9.waitForSubscription();
               } else {
                 if (data.errors) {
                   console.error('handleSubmit - Validation errors:', data.errors);
-                  _this8.error = Object.values(data.errors).flat().join(' ');
+                  _this9.error = Object.values(data.errors).flat().join(' ');
                 } else {
-                  _this8.error = data.message || 'An error occurred. Please try again.';
+                  _this9.error = data.message || 'An error occurred. Please try again.';
                 }
               }
               _context9.n = 6;
@@ -154408,10 +154409,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context9.p = 5;
               _t4 = _context9.v;
               console.error('handleSubmit - Subscription error:', _t4);
-              _this8.error = _t4.message || 'A network error occurred. Please try again.';
+              _this9.error = _t4.message || 'A network error occurred. Please try again.';
             case 6:
               _context9.p = 6;
-              _this8.submitting = false;
+              _this9.submitting = false;
               return _context9.f(6);
             case 7:
               return _context9.a(2);
@@ -154422,9 +154423,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   },
   watch: {
     error: function error(newVal) {
-      var _this9 = this;
+      var _this0 = this;
       if (newVal) setTimeout(function () {
-        return _this9.error = '';
+        return _this0.error = '';
       }, 5000);
     },
     subscription: {
@@ -168796,24 +168797,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_35)])])], 46 /* CLASS, STYLE, PROPS, NEED_HYDRATION */, _hoisted_20)]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.showPagination ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
-      disabled: $options.currentPageNumber === 1
+      disabled: $data.currentPage === 1
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "page-link rounded-pill mx-1 px-4 py-2",
     onClick: _cache[17] || (_cache[17] = function ($event) {
-      return $options.goToPage($options.currentPageNumber - 1);
+      return $options.goToPage($data.currentPage - 1);
     }),
     "aria-label": "Previous"
   }, _toConsumableArray(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "aria-hidden": "true"
-  }, "«", -1 /* CACHED */)])))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_39, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentPageNumber) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+  }, "«", -1 /* CACHED */)])))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_39, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
-      disabled: $options.currentPageNumber === $options.totalPages
+      disabled: $data.currentPage === $options.totalPages
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "page-link rounded-pill mx-1 px-4 py-2",
     onClick: _cache[18] || (_cache[18] = function ($event) {
-      return $options.goToPage($options.currentPageNumber + 1);
+      return $options.goToPage($data.currentPage + 1);
     }),
     "aria-label": "Next"
   }, _toConsumableArray(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -181639,7 +181640,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       color: $options.canCancel ? '#35a38b' : '#9ca3af'
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.subscriptionStatus), 5 /* TEXT, STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Benefits", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.getPlanBenefits(), function (benefit) {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.subscriptionStatus), 5 /* TEXT, STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Benefits", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPlanBenefits(), function (benefit) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "benefit-item",
       key: benefit
@@ -193034,7 +193035,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.input-group[data-v-6de819c4] {\n  border-radius: 0.5rem;\n  overflow: hidden;\n}\n.input-group-text[data-v-6de819c4] {\n  transition: background-color 0.2s;\n}\n.input-group-text[data-v-6de819c4]:hover {\n  background-color: #f8f9fa;\n}\n.input-group .bi-search[data-v-6de819c4],\n.input-group .bi-x-lg[data-v-6de819c4] {\n  cursor: pointer;\n}\n\n/* Minimal custom styles - using Bootstrap 5 for everything else */\n.skip-link[data-v-6de819c4]:focus {\n  top: 20px !important;\n  opacity: 1 !important;\n}\n\n/* Pulse animation for microphone */\n@keyframes pulse-6de819c4 {\n0% {\n    transform: scale(1);\n}\n50% {\n    transform: scale(1.1);\n}\n100% {\n    transform: scale(1);\n}\n}\n.pulse[data-v-6de819c4] {\n  animation: pulse-6de819c4 1.5s infinite;\n}\n\n/* Suggestions dropdown active item custom color */\n.list-group-item.active[data-v-6de819c4],\n.list-group-item[data-v-6de819c4]:active {\n  background-color: rgb(0, 191, 166) !important;\n  color: #fff !important;\n  border-color: rgb(0, 191, 166) !important;\n}\n\n/* Responsive adjustments */\n@media (max-width: 768px) {\n.nav-pills .nav-link[data-v-6de819c4] {\n    padding: 0.5rem 0.75rem;\n    font-size: 0.9rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.input-group[data-v-6de819c4] {\n  border-radius: 0.5rem;\n  overflow: hidden;\n}\n.input-group-text[data-v-6de819c4] {\n  transition: background-color 0.2s;\n}\n.input-group-text[data-v-6de819c4]:hover {\n  background-color: #f8f9fa;\n}\n.input-group .bi-search[data-v-6de819c4],\n.input-group .bi-x-lg[data-v-6de819c4] {\n  cursor: pointer;\n}\n.skip-link[data-v-6de819c4]:focus {\n  top: 20px !important;\n  opacity: 1 !important;\n}\n@keyframes pulse-6de819c4 {\n0% { transform: scale(1);\n}\n50% { transform: scale(1.1);\n}\n100% { transform: scale(1);\n}\n}\n.pulse[data-v-6de819c4] {\n  animation: pulse-6de819c4 1.5s infinite;\n}\n.list-group-item.active[data-v-6de819c4],\n.list-group-item[data-v-6de819c4]:active {\n  background-color: rgb(0, 191, 166) !important;\n  color: #fff !important;\n  border-color: rgb(0, 191, 166) !important;\n}\n@media (max-width: 768px) {\n.nav-pills .nav-link[data-v-6de819c4] {\n    padding: 0.5rem 0.75rem;\n    font-size: 0.9rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -193853,7 +193854,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n/* [Keep the existing styles unchanged] */\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background-color: #f8fafc;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n.container[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 20px;\n}\n.btn-cancel[data-v-0ca26305] {\n  color: white;\n  padding: 10px 20px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: opacity 0.3s;\n  background-color: #dc2626;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(.disabled):not(.cancelled) {\n  background-color: #b91c1c;\n}\n.btn-cancel.disabled[data-v-0ca26305] {\n  background-color: #d1d5db73;\n  color: #000;\n  border: 2px solid #000;\n  cursor: not-allowed;\n  opacity: 0.6;\n  pointer-events: none;\n}\n.btn-cancel.cancelled[data-v-0ca26305] {\n  background-color: #9ca3af;\n  color: white;\n  border: none;\n  cursor: default;\n}\n.btn-cancel.cancelled[data-v-0ca26305]:hover {\n  background-color: #9ca3af;\n}\n/* Success Image Container */\n.success-image-container[data-v-0ca26305] {\n  text-align: center;\n  padding: 40px 0;\n  max-width: 600px;\n  margin: 0 auto;\n}\n.success-image[data-v-0ca26305] {\n  max-width: 100%;\n  height: auto;\n  border-radius: 8px;\n  margin-bottom: 20px;\n}\n.success-message[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1.125rem;\n  margin-bottom: 20px;\n}\n/* Header */\n.subscription-header[data-v-0ca26305] {\n  background: white;\n  padding: 60px 0 40px;\n  text-align: center;\n  border-bottom: 1px solid #e2e8f0;\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 16px;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #64748b;\n  max-width: 600px;\n  margin: 0 auto;\n  line-height: 1.6;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 40px 0;\n}\n/* Notifications */\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 20px;\n  border-radius: 8px;\n  margin-bottom: 24px;\n  gap: 12px;\n}\n.notification.success[data-v-0ca26305] {\n  background: #f0fdf4;\n  border: 1px solid #bbf7d0;\n  color: #166534;\n}\n.notification.error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #fecaca;\n  color: #991b1b;\n}\n.notification i[data-v-0ca26305] {\n  flex-shrink: 0;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  margin-left: auto;\n  padding: 4px;\n  font-size: 1.25rem;\n}\n/* Loading State */\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 80px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 48px;\n  height: 48px;\n  border: 4px solid #e2e8f0;\n  border-top: 4px solid #35a38b;\n  border-radius: 50%;\n  animation: spin-0ca26305 1s linear infinite;\n  margin: 0 auto 20px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1rem;\n}\n@keyframes spin-0ca26305 {\n0% { transform: rotate(0deg);\n}\n100% { transform: rotate(360deg);\n}\n}\n/* Subscription Card */\n.active-subscription[data-v-0ca26305] {\n  max-width: 600px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 12px;\n  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  overflow: hidden;\n}\n.card-badge[data-v-0ca26305] {\n  background: #35a38b;\n  color: white;\n  padding: 12px 20px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n  padding: 40px 32px 24px;\n  text-align: center;\n}\n.status-icon[data-v-0ca26305] {\n  width: 80px;\n  height: 80px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 20px;\n  color: #35a38b;\n  font-size: 2rem;\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.75rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #64748b;\n  margin-bottom: 24px;\n}\n.status-info[data-v-0ca26305] {\n  background: #f8fafc;\n  border-radius: 8px;\n  padding: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #64748b;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #35a38b;\n}\n.card-body[data-v-0ca26305] {\n  padding: 0 32px 32px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 20px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 32px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e2e8f0;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #35a38b;\n  flex-shrink: 0;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #475569;\n}\n/* Buttons */\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 16px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: #35a38b;\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: #2d8c77;\n}\n/* Plans View */\n.plans-view[data-v-0ca26305] {\n  max-width: 1000px;\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1.125rem;\n}\n/* Plans Grid */\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e2e8f0;\n  border-radius: 12px;\n  padding: 32px 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #35a38b;\n  transform: translateY(-4px);\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #35a38b;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #35a38b;\n  transform: scale(1.05);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: #35a38b;\n  color: white;\n  padding: 6px 16px;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 64px;\n  height: 64px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #35a38b;\n  font-size: 1.5rem;\n}\n.plan-header h2[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.period[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n  margin: 0;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 24px;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e2e8f0;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #35a38b;\n  flex-shrink: 0;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #475569;\n  font-size: 0.875rem;\n}\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: #35a38b;\n  color: white;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: #2d8c77;\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: #2d8c77;\n}\n/* Payment Section */\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #64748b;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n/* FAQ Section */\n.faq-section[data-v-0ca26305] {\n  background: white;\n  padding: 80px 0;\n  border-top: 1px solid #e2e8f0;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e2e8f0;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 24px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #64748b;\n  transition: transform 0.2s;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 24px;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #64748b;\n  line-height: 1.6;\n  margin: 0;\n}\n/* Responsive Design */\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] { font-size: 2rem;\n}\n.plans-grid[data-v-0ca26305] { grid-template-columns: 1fr; gap: 20px;\n}\n.plan-card.featured[data-v-0ca26305] { transform: scale(1);\n}\n.card-header[data-v-0ca26305], .card-body[data-v-0ca26305] { padding: 24px 20px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Base Styles */\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background-color: #f8fafc;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n.container[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 20px;\n}\n.btn-cancel[data-v-0ca26305] {\n  color: white;\n  padding: 10px 20px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: opacity 0.3s;\n  background-color: #dc2626;\n  /* Red background for cancel button */\n}\n.btn-cancel[data-v-0ca26305]:hover:not(.disabled):not(.cancelled) {\n  background-color: #b91c1c;\n  /* Darker red on hover */\n}\n.btn-cancel.disabled[data-v-0ca26305] {\n  background-color: #d1d5db73;\n  color: #000;\n  border: 2px solid #000;\n  cursor: not-allowed;\n  opacity: 0.6;\n  pointer-events: none;\n}\n.btn-cancel.cancelled[data-v-0ca26305] {\n  background-color: #9ca3af;\n  /* Grey for cancelled state */\n  color: white;\n  border: none;\n  cursor: default;\n}\n.btn-cancel.cancelled[data-v-0ca26305]:hover {\n  background-color: #9ca3af;\n  /* No hover effect when cancelled */\n}\n/* Success Image Container */\n.success-image-container[data-v-0ca26305] {\n  text-align: center;\n  padding: 40px 0;\n  max-width: 600px;\n  margin: 0 auto;\n}\n.success-image[data-v-0ca26305] {\n  max-width: 100%;\n  height: auto;\n  border-radius: 8px;\n  margin-bottom: 20px;\n}\n.success-message[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1.125rem;\n  margin-bottom: 20px;\n}\n/* Header */\n.subscription-header[data-v-0ca26305] {\n  background: white;\n  padding: 60px 0 40px;\n  text-align: center;\n  border-bottom: 1px solid #e2e8f0;\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 16px;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #64748b;\n  max-width: 600px;\n  margin: 0 auto;\n  line-height: 1.6;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 40px 0;\n}\n/* Notifications */\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 20px;\n  border-radius: 8px;\n  margin-bottom: 24px;\n  gap: 12px;\n}\n.notification.success[data-v-0ca26305] {\n  background: #f0fdf4;\n  border: 1px solid #bbf7d0;\n  color: #166534;\n}\n.notification.error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #fecaca;\n  color: #991b1b;\n}\n.notification i[data-v-0ca26305] {\n  flex-shrink: 0;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  margin-left: auto;\n  padding: 4px;\n  font-size: 1.25rem;\n}\n/* Loading State */\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 80px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 48px;\n  height: 48px;\n  border: 4px solid #e2e8f0;\n  border-top: 4px solid #35a38b;\n  border-radius: 50%;\n  animation: spin-0ca26305 1s linear infinite;\n  margin: 0 auto 20px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1rem;\n}\n@keyframes spin-0ca26305 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n/* Subscription Card */\n.active-subscription[data-v-0ca26305] {\n  max-width: 600px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 12px;\n  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  overflow: hidden;\n}\n.card-badge[data-v-0ca26305] {\n  background: #35a38b;\n  color: white;\n  padding: 12px 20px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n  padding: 40px 32px 24px;\n  text-align: center;\n}\n.status-icon[data-v-0ca26305] {\n  width: 80px;\n  height: 80px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 20px;\n  color: #35a38b;\n  font-size: 2rem;\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.75rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #64748b;\n  margin-bottom: 24px;\n}\n.status-info[data-v-0ca26305] {\n  background: #f8fafc;\n  border-radius: 8px;\n  padding: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #64748b;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #35a38b;\n}\n.card-body[data-v-0ca26305] {\n  padding: 0 32px 32px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 20px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 32px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e2e8f0;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #35a38b;\n  flex-shrink: 0;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #475569;\n}\n/* Buttons */\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 16px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: #35a38b;\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: #2d8c77;\n}\n/* Plans View */\n.plans-view[data-v-0ca26305] {\n  max-width: 1000px;\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1.125rem;\n}\n/* Plans Grid */\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e2e8f0;\n  border-radius: 12px;\n  padding: 32px 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #35a38b;\n  transform: translateY(-4px);\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #35a38b;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #35a38b;\n  transform: scale(1.05);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: #35a38b;\n  color: white;\n  padding: 6px 16px;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 64px;\n  height: 64px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #35a38b;\n  font-size: 1.5rem;\n}\n.plan-header h2[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.period[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n  margin: 0;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 24px;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e2e8f0;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #35a38b;\n  flex-shrink: 0;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #475569;\n  font-size: 0.875rem;\n}\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: #35a38b;\n  color: white;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: #2d8c77;\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: #2d8c77;\n}\n/* Payment Section */\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #64748b;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n/* FAQ Section */\n.faq-section[data-v-0ca26305] {\n  background: white;\n  padding: 80px 0;\n  border-top: 1px solid #e2e8f0;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e2e8f0;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 24px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #64748b;\n  transition: transform 0.2s;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 24px;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #64748b;\n  line-height: 1.6;\n  margin: 0;\n}\n/* Responsive Design */\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n    font-size: 2rem;\n}\n.plans-grid[data-v-0ca26305] {\n    grid-template-columns: 1fr;\n    gap: 20px;\n}\n.plan-card.featured[data-v-0ca26305] {\n    transform: scale(1);\n}\n.card-header[data-v-0ca26305],\n  .card-body[data-v-0ca26305] {\n    padding: 24px 20px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
