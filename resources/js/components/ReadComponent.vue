@@ -30,7 +30,8 @@
                 <div class="pills-wrapper">
                     <button v-if="showLeftArrow" @click="scrollLeft" class="scroll-arrow scroll-arrow-left"
                         aria-label="Scroll categories left">
-                        <i class="fas fa-chevron-left"></i>
+                        <i class="fas fa-chevron-left" v-if="hasFontAwesome" aria-hidden="true"></i>
+                        <span v-else class="fallback-arrow">←</span>
                     </button>
 
                     <div ref="pillsContainer" class="pills-scroll-container" @scroll="updateArrowVisibility">
@@ -45,7 +46,8 @@
 
                     <button v-if="showRightArrow" @click="scrollRight" class="scroll-arrow scroll-arrow-right"
                         aria-label="Scroll categories right">
-                        <i class="fas fa-chevron-right"></i>
+                        <i class="fas fa-chevron-right" v-if="hasFontAwesome" aria-hidden="true"></i>
+                        <span v-else class="fallback-arrow">→</span>
                     </button>
                 </div>
             </div>
@@ -239,7 +241,8 @@ export default {
             ],
             selectedCategory: { id: 0, name: 'All Categories', icon: 'fas fa-list', tag: 'all' },
             showLeftArrow: false,
-            showRightArrow: true
+            showRightArrow: true,
+            hasFontAwesome: true // Flag to check Font Awesome availability
         };
     },
     computed: {
@@ -298,9 +301,10 @@ export default {
         this.categories.unshift({ id: 0, name: 'All Categories', icon: 'fas fa-list', tag: 'all' });
         this.selectedCategory = this.categories[0];
 
-        // Initialize arrow visibility
+        // Initialize arrow visibility and check Font Awesome
         this.$nextTick(() => {
             this.updateArrowVisibility();
+            this.checkFontAwesome();
         });
     },
     methods: {
@@ -458,6 +462,14 @@ export default {
             if (page >= 1 && page <= this.totalPages) {
                 this.currentPage = page;
             }
+        },
+        checkFontAwesome() {
+            // Check if Font Awesome is loaded by testing an icon
+            const testElement = document.createElement('i');
+            testElement.className = 'fas fa-check';
+            document.body.appendChild(testElement);
+            this.hasFontAwesome = window.getComputedStyle(testElement).fontFamily.includes('FontAwesome');
+            document.body.removeChild(testElement);
         }
     },
     directives: {
@@ -1405,6 +1417,7 @@ export default {
     .scroll-arrow {
         padding: 0.3rem;
     }
+
     .filter-card {
         padding: 1rem;
     }
@@ -1635,8 +1648,9 @@ export default {
         gap: 0.8rem;
     }
 
-    /* .category-pills-container {
-        padding: 2rem 0;
-    } */
+    .fallback-arrow {
+        font-size: 1rem;
+        font-weight: bold;
+    }
 }
 </style>
