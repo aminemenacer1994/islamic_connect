@@ -15,6 +15,7 @@
 <script defer>
 import SubscriptionForm from './components/SubscriptionForm.vue';
 import { onMounted, ref } from 'vue';
+import '@fortawesome/fontawesome-free/css/all.css'
 export default {
   components: { SubscriptionForm },
   setup() {
