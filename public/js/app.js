@@ -174184,37 +174184,79 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/qenew.png",
     "class": "d-block w-100",
-    alt: "Quran companion"
+    alt: "Quran companion",
+    style: {
+      "aspect-ratio": "16 / 9",
+      "object-fit": "cover"
+    },
+    decoding: "async",
+    loading: "eager",
+    fetchpriority: "high"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/surat2.png",
     "class": "d-block w-100",
-    alt: "Quran explorer"
+    alt: "Quran explorer",
+    style: {
+      "aspect-ratio": "16 / 9",
+      "object-fit": "cover"
+    },
+    decoding: "async",
+    loading: "lazy",
+    fetchpriority: "low"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/podcast2.png",
     "class": "d-block w-100",
-    alt: "Audio podcasts"
+    alt: "Audio podcasts",
+    style: {
+      "aspect-ratio": "16 / 9",
+      "object-fit": "cover"
+    },
+    decoding: "async",
+    loading: "lazy",
+    fetchpriority: "low"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/seerah2.png",
     "class": "d-block w-100",
-    alt: "Seerah timeline"
+    alt: "Seerah timeline",
+    style: {
+      "aspect-ratio": "16 / 9",
+      "object-fit": "cover"
+    },
+    decoding: "async",
+    loading: "lazy",
+    fetchpriority: "low"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/radio2.png",
     "class": "d-block w-100",
-    alt: "Islamic Radio"
+    alt: "Islamic Radio",
+    style: {
+      "aspect-ratio": "16 / 9",
+      "object-fit": "cover"
+    },
+    decoding: "async",
+    loading: "lazy",
+    fetchpriority: "low"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/locator2.png",
     "class": "d-block w-100",
-    alt: "Mosque Locator"
+    alt: "Mosque Locator",
+    style: {
+      "aspect-ratio": "16 / 9",
+      "object-fit": "cover"
+    },
+    decoding: "async",
+    loading: "lazy",
+    fetchpriority: "low"
   })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Simple Indicators "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-indicators mt-2 mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {

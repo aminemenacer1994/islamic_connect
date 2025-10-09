@@ -170,22 +170,58 @@
               <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src="/images/qenew.png" class="d-block w-100" alt="Quran companion">
+                    <img src="/images/qenew.png"
+                         class="d-block w-100"
+                         alt="Quran companion"
+                         style="aspect-ratio: 16 / 9; object-fit: cover;"
+                         decoding="async"
+                         loading="eager"
+                         fetchpriority="high">
                   </div>
                   <div class="carousel-item">
-                    <img src="/images/surat2.png" class="d-block w-100" alt="Quran explorer">
+                    <img src="/images/surat2.png"
+                         class="d-block w-100"
+                         alt="Quran explorer"
+                         style="aspect-ratio: 16 / 9; object-fit: cover;"
+                         decoding="async"
+                         loading="lazy"
+                         fetchpriority="low">
                   </div>
                   <div class="carousel-item">
-                    <img src="/images/podcast2.png" class="d-block w-100" alt="Audio podcasts">
+                    <img src="/images/podcast2.png"
+                         class="d-block w-100"
+                         alt="Audio podcasts"
+                         style="aspect-ratio: 16 / 9; object-fit: cover;"
+                         decoding="async"
+                         loading="lazy"
+                         fetchpriority="low">
                   </div>
                   <div class="carousel-item">
-                    <img src="/images/seerah2.png" class="d-block w-100" alt="Seerah timeline">
+                    <img src="/images/seerah2.png"
+                         class="d-block w-100"
+                         alt="Seerah timeline"
+                         style="aspect-ratio: 16 / 9; object-fit: cover;"
+                         decoding="async"
+                         loading="lazy"
+                         fetchpriority="low">
                   </div>
                   <div class="carousel-item">
-                    <img src="/images/radio2.png" class="d-block w-100" alt="Islamic Radio">
+                    <img src="/images/radio2.png"
+                         class="d-block w-100"
+                         alt="Islamic Radio"
+                         style="aspect-ratio: 16 / 9; object-fit: cover;"
+                         decoding="async"
+                         loading="lazy"
+                         fetchpriority="low">
                   </div>
                   <div class="carousel-item">
-                    <img src="/images/locator2.png" class="d-block w-100" alt="Mosque Locator">
+                    <img src="/images/locator2.png"
+                         class="d-block w-100"
+                         alt="Mosque Locator"
+                         style="aspect-ratio: 16 / 9; object-fit: cover;"
+                         decoding="async"
+                         loading="lazy"
+                         fetchpriority="low">
                   </div>
                 </div>
 
