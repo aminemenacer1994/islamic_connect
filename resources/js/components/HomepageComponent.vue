@@ -265,7 +265,7 @@
         <div class="container">
           <div class="row justify-content-center text-center mb-5">
             <div class="col-lg-8 col-xl-7">
-              <h1 id="services-heading" class="display-4 mb-3 fw-bold">What We Offer</h1>
+              <h2 id="services-heading" class="display-4 mb-3 fw-bold">What We Offer</h2>
               <p class="lead text-muted">Comprehensive Islamic resources designed for modern learners</p>
             </div>
           </div>
@@ -280,7 +280,7 @@
                     <img src="images/galaxy.png" width="80" height="80" alt="Magnifying glass exploring Islamic content"
                       loading="lazy" />
                   </div>
-                  <h2 class="h3 fw-bold mb-3">Explore with Ease</h2>
+                  <h3 class="h3 fw-bold mb-3">Explore with Ease</h3>
                   <p class="mb-4" style="font-size: 16px; line-height: 1.6; color: #4a5568;">
                     Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics.
                     Find meaningful content instantly for your spiritual journey.
@@ -306,7 +306,7 @@
                     <img src="images/watching.png" width="80" height="80" alt="Headphones for audio content"
                       loading="lazy" />
                   </div>
-                  <h2 class="h3 fw-bold mb-3">Listen, Watch, Reflect</h2>
+                  <h3 class="h3 fw-bold mb-3">Listen, Watch, Reflect</h3>
                   <p class="mb-4" style="font-size: 16px; line-height: 1.6; color: #4a5568;">
                     Enjoy Quran recitations, insightful podcasts, and Islamic art galleries.
                     Engage spiritually through multimedia content anywhere, anytime.
@@ -332,7 +332,7 @@
                     <img src="images/school.png" width="80" height="80" alt="Graduation cap for learning"
                       loading="lazy" />
                   </div>
-                  <h2 class="h3 fw-bold mb-3">Learn Your Way</h2>
+                  <h3 class="h3 fw-bold mb-3">Learn Your Way</h3>
                   <p class="mb-4" style="font-size: 16px; line-height: 1.6; color: #4a5568;">
                     Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible learning
                     for everyone, regardless of ability.
@@ -492,28 +492,28 @@
                 <div class="col-md-6 mb-4">
                   <div class="value-card">
                     <div class="value-icon">📚</div>
-                    <h4>Educational Content</h4>
+                    <h3>Educational Content</h3>
                     <p>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p>
                   </div>
                 </div>
                 <div class="col-md-6 mb-4">
                   <div class="value-card">
                     <div class="value-icon">♿</div>
-                    <h4>Accessibility Features</h4>
+                    <h3>Accessibility Features</h3>
                     <p>Implementing screen reader support and voice interfaces for inclusive access</p>
                   </div>
                 </div>
                 <div class="col-md-6 mb-4">
                   <div class="value-card">
                     <div class="value-icon">⚙️</div>
-                    <h4>Platform Infrastructure</h4>
+                    <h3>Platform Infrastructure</h3>
                     <p>Maintaining robust servers and scalable architecture for global user base</p>
                   </div>
                 </div>
                 <div class="col-md-6 mb-4">
                   <div class="value-card">
                     <div class="value-icon">🌍</div>
-                    <h4>Global Outreach</h4>
+                    <h3>Global Outreach</h3>
                     <p>Expanding to underserved Muslim communities worldwide</p>
                   </div>
                 </div>
@@ -548,7 +548,7 @@
               <!-- Summary -->
               <div v-if="isValidAmount" class="summary-section mb-4">
                 <div class="summary-header">
-                  <h6>Ready to Contribute</h6>
+                  <h4>Ready to Contribute</h4>
                 </div>
                 <!-- <div class="summary-item">
                   <span>Amount:</span>
@@ -586,7 +586,7 @@
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">
           </div>
-          <h1 id="ai-tools-title" class="h2 mb-3 fw-bold">AI-Powered Tools for Enhanced Islamic Learning</h1>
+          <h2 id="ai-tools-title" class="h2 mb-3 fw-bold">AI-Powered Tools for Enhanced Islamic Learning</h2>
 
         </div>
 
@@ -930,7 +930,7 @@
       <div class="container-fluid">
         <div class="row justify-content-center text-center">
           <div class="col-lg-8 col-xxl-7">
-            <h1 id="contact-heading" class="display-5 fw-bold mb-3">Get In Touch</h1>
+            <h2 id="contact-heading" class="display-5 fw-bold mb-3">Get In Touch</h2>
             <p class="lead fw-semibold text-muted">
               Have questions or need assistance? We're here to help! Reach out to Islamic Connect
               for support, feedback, or inquiries about our content and services.
@@ -1028,7 +1028,7 @@
           <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-3 px-md-4">
             <div class="d-flex flex-column flex-sm-row align-items-center align-items-lg-start gap-2">
               <div>
-                <h1 class="mb-0 fs-6 fw-bold text-dark">© 2025 Islamic Connect</h1>
+                <p class="mb-0 fs-6 fw-bold text-dark">© 2025 Islamic Connect</p>
               </div>
             </div>
           </div>
