@@ -69,7 +69,7 @@
         </li>
       </ul>
       <!-- Clear All Liked Duas Button -->
-      <div v-if="viewMode === 'liked'" class="text-center mt-3">
+      <div v-if="viewMode === 'liked' && likedDuasCount > 0" class="text-center mt-3">
         <button class="btn btn-outline-danger" :class="{ disabled: likedDuasCount === 0 }" @click="clearAllLikedDuas"
           aria-label="Clear all liked duas">
           <i class="bi bi-trash-fill me-1"></i>
