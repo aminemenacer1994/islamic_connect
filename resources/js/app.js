@@ -1,6 +1,5 @@
 require("./bootstrap");
 import { createApp } from "vue";
-import 'bootstrap';
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -89,7 +88,6 @@ import Donation from "./components/intro/Donation.vue";
 import TinymceEditor from './components/tinymce/TinymceEditor.vue';
 
 import SurahList from "./components/search/SurahList.vue";
-import SearchForm from "./components/search/SearchForm.vue";
 import DarkModeToggle from "./components/DarkModeToggle.vue";
 import AthkarComponenet from "./components/AthkarComponenet.vue";
 import FinanceComponent from "./components/FinanceComponent.vue";
@@ -173,13 +171,9 @@ app.component("Panel", Panel);
 app.component("Dialog", Dialog);
 app.component("Image", Image);
 app.component("Editor", Editor);
-app.use(StripePlugin, {
-  key: process.env.MIX_STRIPE_PUBLISHABLE_KEY,
-});
 
 app.component('subscription-component', SubscriptionComponent);
 app.component('dark-mode-toggle', DarkModeToggle);
-app.component("users-component", UsersComponent);
 app.component("users-component", UsersComponent);
 app.component("mailing-list-component", MailingListComponent);
 app.component("feedback-component", FeedbackComponent);

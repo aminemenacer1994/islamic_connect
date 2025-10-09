@@ -338565,23 +338565,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_80__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
 /* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_81__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
 /* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_82__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
-/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_83__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
-/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_84__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
-/* harmony import */ var _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_85__ = __webpack_require__(/*! ./components/AthkarComponenet.vue */ "./resources/js/components/AthkarComponenet.vue");
-/* harmony import */ var _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_86__ = __webpack_require__(/*! ./components/FinanceComponent.vue */ "./resources/js/components/FinanceComponent.vue");
-/* harmony import */ var _components_ZakatComponent_vue__WEBPACK_IMPORTED_MODULE_87__ = __webpack_require__(/*! ./components/ZakatComponent.vue */ "./resources/js/components/ZakatComponent.vue");
-/* harmony import */ var _components_ConvertComponent_vue__WEBPACK_IMPORTED_MODULE_88__ = __webpack_require__(/*! ./components/ConvertComponent.vue */ "./resources/js/components/ConvertComponent.vue");
-/* harmony import */ var _components_HolyComponent_vue__WEBPACK_IMPORTED_MODULE_89__ = __webpack_require__(/*! ./components/HolyComponent.vue */ "./resources/js/components/HolyComponent.vue");
-/* harmony import */ var _components_HistoryComponent_vue__WEBPACK_IMPORTED_MODULE_90__ = __webpack_require__(/*! ./components/HistoryComponent.vue */ "./resources/js/components/HistoryComponent.vue");
-/* harmony import */ var _components_PaymentMethodsComponent_vue__WEBPACK_IMPORTED_MODULE_91__ = __webpack_require__(/*! ./components/PaymentMethodsComponent.vue */ "./resources/js/components/PaymentMethodsComponent.vue");
-/* harmony import */ var _components_ReadComponent_vue__WEBPACK_IMPORTED_MODULE_92__ = __webpack_require__(/*! ./components/ReadComponent.vue */ "./resources/js/components/ReadComponent.vue");
-/* harmony import */ var _components_SubscriptionForm_vue__WEBPACK_IMPORTED_MODULE_93__ = __webpack_require__(/*! ./components/SubscriptionForm.vue */ "./resources/js/components/SubscriptionForm.vue");
-/* harmony import */ var _components_SubscriptionComponent_vue__WEBPACK_IMPORTED_MODULE_94__ = __webpack_require__(/*! ./components/SubscriptionComponent.vue */ "./resources/js/components/SubscriptionComponent.vue");
-/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_95__ = __webpack_require__(/*! vue-stripe-elements-plus */ "./node_modules/vue-stripe-elements-plus/dist/index.js");
-/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_95___default = /*#__PURE__*/__webpack_require__.n(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_95__);
+/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_83__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
+/* harmony import */ var _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_84__ = __webpack_require__(/*! ./components/AthkarComponenet.vue */ "./resources/js/components/AthkarComponenet.vue");
+/* harmony import */ var _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_85__ = __webpack_require__(/*! ./components/FinanceComponent.vue */ "./resources/js/components/FinanceComponent.vue");
+/* harmony import */ var _components_ZakatComponent_vue__WEBPACK_IMPORTED_MODULE_86__ = __webpack_require__(/*! ./components/ZakatComponent.vue */ "./resources/js/components/ZakatComponent.vue");
+/* harmony import */ var _components_ConvertComponent_vue__WEBPACK_IMPORTED_MODULE_87__ = __webpack_require__(/*! ./components/ConvertComponent.vue */ "./resources/js/components/ConvertComponent.vue");
+/* harmony import */ var _components_HolyComponent_vue__WEBPACK_IMPORTED_MODULE_88__ = __webpack_require__(/*! ./components/HolyComponent.vue */ "./resources/js/components/HolyComponent.vue");
+/* harmony import */ var _components_HistoryComponent_vue__WEBPACK_IMPORTED_MODULE_89__ = __webpack_require__(/*! ./components/HistoryComponent.vue */ "./resources/js/components/HistoryComponent.vue");
+/* harmony import */ var _components_PaymentMethodsComponent_vue__WEBPACK_IMPORTED_MODULE_90__ = __webpack_require__(/*! ./components/PaymentMethodsComponent.vue */ "./resources/js/components/PaymentMethodsComponent.vue");
+/* harmony import */ var _components_ReadComponent_vue__WEBPACK_IMPORTED_MODULE_91__ = __webpack_require__(/*! ./components/ReadComponent.vue */ "./resources/js/components/ReadComponent.vue");
+/* harmony import */ var _components_SubscriptionForm_vue__WEBPACK_IMPORTED_MODULE_92__ = __webpack_require__(/*! ./components/SubscriptionForm.vue */ "./resources/js/components/SubscriptionForm.vue");
+/* harmony import */ var _components_SubscriptionComponent_vue__WEBPACK_IMPORTED_MODULE_93__ = __webpack_require__(/*! ./components/SubscriptionComponent.vue */ "./resources/js/components/SubscriptionComponent.vue");
+/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94__ = __webpack_require__(/*! vue-stripe-elements-plus */ "./node_modules/vue-stripe-elements-plus/dist/index.js");
+/* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94___default = /*#__PURE__*/__webpack_require__.n(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94__);
 /* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-
 
 
 window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
@@ -338679,10 +338677,9 @@ window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
 
 
 
-
 var app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
   components: {
-    SubscriptionForm: _components_SubscriptionForm_vue__WEBPACK_IMPORTED_MODULE_93__["default"]
+    SubscriptionForm: _components_SubscriptionForm_vue__WEBPACK_IMPORTED_MODULE_92__["default"]
   },
   setup: function setup() {
     var isAuthenticated = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(!!document.querySelector('meta[name="user"]'));
@@ -338726,7 +338723,7 @@ window.Form = vform__WEBPACK_IMPORTED_MODULE_4__.Form;
 window.Swal = (sweetalert2__WEBPACK_IMPORTED_MODULE_5___default());
 window.$ = window.jQuery = (jquery__WEBPACK_IMPORTED_MODULE_3___default());
 app.use(primevue_config__WEBPACK_IMPORTED_MODULE_7__["default"]);
-app.use(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_95__.StripePlugin, {
+app.use(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_94__.StripePlugin, {
   key: process.env.MIX_STRIPE_PUBLISHABLE_KEY
 });
 app.component("Column", primevue_column__WEBPACK_IMPORTED_MODULE_11__["default"]);
@@ -338744,12 +338741,8 @@ app.component("Panel", primevue_panel__WEBPACK_IMPORTED_MODULE_21__["default"]);
 app.component("Dialog", primevue_dialog__WEBPACK_IMPORTED_MODULE_22__["default"]);
 app.component("Image", primevue_image__WEBPACK_IMPORTED_MODULE_23__["default"]);
 app.component("Editor", primevue_editor__WEBPACK_IMPORTED_MODULE_24__["default"]);
-app.use(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_95__.StripePlugin, {
-  key: process.env.MIX_STRIPE_PUBLISHABLE_KEY
-});
-app.component('subscription-component', _components_SubscriptionComponent_vue__WEBPACK_IMPORTED_MODULE_94__["default"]);
-app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_84__["default"]);
-app.component("users-component", _components_admin_panels_UsersComponent_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
+app.component('subscription-component', _components_SubscriptionComponent_vue__WEBPACK_IMPORTED_MODULE_93__["default"]);
+app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_83__["default"]);
 app.component("users-component", _components_admin_panels_UsersComponent_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
 app.component("mailing-list-component", _components_admin_panels_MailingListComponent_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
 app.component("feedback-component", _components_admin_panels_FeedbackComponent_vue__WEBPACK_IMPORTED_MODULE_27__["default"]);
@@ -338789,7 +338782,7 @@ app.component('guide-component', _components_GuideComponent_vue__WEBPACK_IMPORTE
 app.component('streaming-component', _components_StreamingComponent_vue__WEBPACK_IMPORTED_MODULE_57__["default"]);
 app.component('toolkit-component', _components_ToolkitComponent_vue__WEBPACK_IMPORTED_MODULE_58__["default"]);
 app.component('video-component', _components_VideoComponent_vue__WEBPACK_IMPORTED_MODULE_59__["default"]);
-app.component('zakat-component', _components_ZakatComponent_vue__WEBPACK_IMPORTED_MODULE_87__["default"]);
+app.component('zakat-component', _components_ZakatComponent_vue__WEBPACK_IMPORTED_MODULE_86__["default"]);
 app.component('qibla-component', _components_QiblaComponent_vue__WEBPACK_IMPORTED_MODULE_60__["default"]);
 app.component('mosque-component', _components_MosqueComponent_vue__WEBPACK_IMPORTED_MODULE_61__["default"]);
 app.component('calendar-component', _components_CalendarComponent_vue__WEBPACK_IMPORTED_MODULE_62__["default"]);
@@ -338797,8 +338790,8 @@ app.component('date-component', _components_DateComponent_vue__WEBPACK_IMPORTED_
 app.component('hadith-component', _components_HadithComponent_vue__WEBPACK_IMPORTED_MODULE_64__["default"]);
 app.component('shop-component', _components_ShopComponent_vue__WEBPACK_IMPORTED_MODULE_65__["default"]);
 app.component('tasbeeh-component', _components_TasbeehComponent_vue__WEBPACK_IMPORTED_MODULE_66__["default"]);
-app.component('athkar-component', _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_85__["default"]);
-app.component('finance-component', _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_86__["default"]);
+app.component('athkar-component', _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_84__["default"]);
+app.component('finance-component', _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_85__["default"]);
 app.component('umrah-component', _components_UmrahComponent_vue__WEBPACK_IMPORTED_MODULE_67__["default"]);
 app.component('name-component', _components_NameComponent_vue__WEBPACK_IMPORTED_MODULE_68__["default"]);
 app.component('prayer-component', _components_PrayerComponent_vue__WEBPACK_IMPORTED_MODULE_69__["default"]);
@@ -338811,11 +338804,11 @@ app.component('food-component', _components_FoodComponent_vue__WEBPACK_IMPORTED_
 app.component('school-component', _components_SchoolComponent_vue__WEBPACK_IMPORTED_MODULE_76__["default"]);
 app.component('welfare-component', _components_WelfareComponent_vue__WEBPACK_IMPORTED_MODULE_77__["default"]);
 app.component('books-component', _components_BooksComponent_vue__WEBPACK_IMPORTED_MODULE_78__["default"]);
-app.component('convert-component', _components_ConvertComponent_vue__WEBPACK_IMPORTED_MODULE_88__["default"]);
-app.component('holy-component', _components_HolyComponent_vue__WEBPACK_IMPORTED_MODULE_89__["default"]);
-app.component('history-component', _components_HistoryComponent_vue__WEBPACK_IMPORTED_MODULE_90__["default"]);
-app.component('payment-methods-component', _components_PaymentMethodsComponent_vue__WEBPACK_IMPORTED_MODULE_91__["default"]);
-app.component('read-component', _components_ReadComponent_vue__WEBPACK_IMPORTED_MODULE_92__["default"]);
+app.component('convert-component', _components_ConvertComponent_vue__WEBPACK_IMPORTED_MODULE_87__["default"]);
+app.component('holy-component', _components_HolyComponent_vue__WEBPACK_IMPORTED_MODULE_88__["default"]);
+app.component('history-component', _components_HistoryComponent_vue__WEBPACK_IMPORTED_MODULE_89__["default"]);
+app.component('payment-methods-component', _components_PaymentMethodsComponent_vue__WEBPACK_IMPORTED_MODULE_90__["default"]);
+app.component('read-component', _components_ReadComponent_vue__WEBPACK_IMPORTED_MODULE_91__["default"]);
 app.mount("#app");
 
 /***/ }),
