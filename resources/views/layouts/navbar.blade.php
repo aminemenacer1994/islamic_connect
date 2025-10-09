@@ -68,10 +68,13 @@
                     </div>
                 </li>
                 @endguest
-                <li class="nav-item mt-2 ">
-                    <button><a style="text-decoration: none;color:white"
-                            href="https://www.gofundme.com/f/empowerment-through-quran-support-islamic-connects-mission">Support
-                            Us</a></button>
+                <li class="nav-item mt-2">
+                    <a class="btn btn-primary"
+                       href="https://www.gofundme.com/f/empowerment-through-quran-support-islamic-connects-mission"
+                       target="_blank" rel="noopener"
+                       aria-label="Support us on GoFundMe">
+                        Support Us
+                    </a>
                 </li>
             </ul>
         </div>
