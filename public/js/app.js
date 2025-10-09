@@ -174120,7 +174120,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "font-size": "1.1rem",
       "opacity": "0.9"
     }
-  }, "→")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onclick: "window.location.href='/support'",
     style: {
       "background": "rgba(255, 255, 255, 0.9)",

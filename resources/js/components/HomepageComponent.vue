@@ -125,7 +125,7 @@
                   transform: translateY(-50%);
                   font-size: 1.1rem;
                   opacity: 0.9;
-                ">→</span>
+                "></span>
                       </button>
 
                       <button onclick="window.location.href='/support'" style="
