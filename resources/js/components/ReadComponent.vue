@@ -102,23 +102,37 @@
         <div class="container py-5">
             <transition-group name="blog-list" tag="div" class="row" :class="{ 'list-layout': layoutMode === 'list' }">
                 <div v-for="(blog, index) in paginatedBlogs" :key="blog.id"
-                    :class="layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4'" :ref="`blog-${blog.id}`">
+                    :class="layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4'"
+                    :ref="el => observeBlog(el, blog.id)"
+                    @mouseenter="onCardMouseEnter(blog)">
                     <div class="card h-100 animate-card" :style="{ animationDelay: `${index * 0.05}s` }">
                         <div class="card-image-container"
                             :class="{ 'container': layoutMode === 'grid', 'container-fluid': layoutMode === 'list' }">
-                            <img :src="blog.image" class="card-img-top mb-4" style="border-radius: 10px;"
-                                :alt="blog.title">
+                            <template v-if="isVisible(blog.id)">
+                                <img :src="blog.image" :srcset="generateSrcSet(blog.image)" :sizes="cardSizes"
+                                    class="card-img-top mb-4" style="border-radius: 10px;"
+                                    :alt="blog.title" loading="lazy" decoding="async"
+                                    :fetchpriority="index < 2 && currentPage === 1 ? 'high' : 'auto'">
+                            </template>
+                            <template v-else>
+                                <div class="skeleton skeleton-image mb-4"></div>
+                            </template>
+
                             <h5 class="card-title" @click="openModal(blog)" aria-label="Read full blog post"
                                 v-html="highlight(blog.title)"></h5>
+
                             <div class="card-text" :class="{ 'list-content': layoutMode === 'list' }"
-                                v-html="highlight(blog.content)"></div>
+                                v-html="highlight(getExcerpt(blog.content, 280))"></div>
+
                             <p class="text-muted">Published on: {{ formatDate(blog.date) }}</p>
+
                             <div class="card-tags">
                                 <strong class="me-2">Tags:</strong>
                                 <span v-if="blog.tags && blog.tags.length" v-for="tag in blog.tags" :key="tag"
                                     class="badge me-2 mb-2" v-html="highlight(tag)"></span>
                                 <span v-else class="text-muted">No tags available</span>
                             </div>
+
                             <p class="read-more mt-4" @click="openModal(blog)" aria-label="Read full blog post">
                                 Read More <i class="ms-1 fas fa-arrow-right"></i>
                             </p>
@@ -163,7 +177,9 @@
                             <p class="text-muted mb-3">Published on: {{ formatDate(selectedBlog.date) }}</p>
                         </div>
                         <div class="modal-image-container mb-4">
-                            <img :src="selectedBlog.image" class="img-fluid rounded" :alt="selectedBlog.title">
+                            <img :src="selectedBlog.image" :srcset="generateSrcSet(selectedBlog.image)" :sizes="modalSizes"
+                                class="img-fluid rounded" :alt="selectedBlog.title"
+                                decoding="async" fetchpriority="high">
                         </div>
                         <div class="modal-content-text" v-html="highlight(selectedBlog.content)"></div>
                         <div class="modal-tags mt-3">
@@ -228,6 +244,9 @@ export default {
             summaryLoading: false,
             summaryError: '',
             showSummary: true,
+            // perf helpers
+            visibleIds: new Set(),
+            io: null,
             // Category pills data
             categories: [
                 { id: 1, name: 'Prayers', icon: 'fas fa-pray', tag: 'prayer' },
@@ -242,13 +261,22 @@ export default {
             selectedCategory: { id: 0, name: 'All Categories', icon: 'fas fa-list', tag: 'all' },
             showLeftArrow: false,
             showRightArrow: true,
-            hasFontAwesome: true // Flag to check Font Awesome availability
+            hasFontAwesome: true, // Flag to check Font Awesome availability
+            preRenderedContent: {},
         };
     },
     computed: {
         uniqueTags() {
             const tags = new Set(this.blogs.flatMap(blog => blog.tags || []));
             return ['all', ...Array.from(tags)];
+        },
+        cardSizes() {
+            return this.layoutMode === 'list'
+                ? '100vw'
+                : '(min-width: 1200px) 540px, (min-width: 992px) 480px, (min-width: 768px) 50vw, 100vw';
+        },
+        modalSizes() {
+            return '(min-width: 1200px) 1140px, 90vw';
         },
         filteredBlogs() {
             let result = [...this.blogs];
@@ -306,6 +334,26 @@ export default {
             this.updateArrowVisibility();
             this.checkFontAwesome();
         });
+        // Setup IntersectionObserver for lazy rendering
+        if ('IntersectionObserver' in window) {
+            this.io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target?.dataset?.blogId;
+                    if (!id) return;
+                    if (entry.isIntersecting) {
+                        this.visibleIds.add(Number(id));
+                        const blog = this.blogs.find(b => b.id === Number(id));
+                        if (blog) this.prewarmModal(blog);
+                        this.io.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '200px 0px', threshold: 0.01 });
+        }
+    },
+    unmounted() {
+        if (this.io) {
+            try { this.io.disconnect(); } catch (e) { /* noop */ }
+        }
     },
     methods: {
         toggleFilters() {
@@ -313,6 +361,53 @@ export default {
         },
         selectCategory(category) {
             this.selectedCategory = category;
+        },
+        observeBlog(el, id) {
+            if (!el) return;
+            el.dataset.blogId = id;
+            if (this.io) {
+                this.io.observe(el);
+            } else {
+                // Fallback: mark visible immediately if IO not supported
+                this.visibleIds.add(id);
+            }
+        },
+        isVisible(id) {
+            return this.visibleIds.has(id);
+        },
+        onCardMouseEnter(blog) {
+            this.prefetchImage(blog?.image);
+            this.prewarmModal(blog);
+        },
+        prefetchImage(src) {
+            if (!src) return;
+            const img = new Image();
+            img.decoding = 'async';
+            if ('decode' in img) {
+                img.src = src;
+                img.decode?.().catch(() => {});
+            } else {
+                img.src = src;
+            }
+        },
+        prewarmModal(blog) {
+            if (!blog) return;
+            const set = this.generateSrcSet(blog.image);
+            if (set) {
+                set.split(',').forEach(part => {
+                    const url = part.trim().split(' ')[0];
+                    this.prefetchImage(url);
+                });
+            }
+        },
+        paramJoin(url, param) {
+            if (!url) return url;
+            return url.includes('?') ? `${url}&${param}` : `${url}?${param}`;
+        },
+        generateSrcSet(src) {
+            if (!src) return '';
+            const widths = [480, 768, 1080, 1440];
+            return widths.map(w => `${this.paramJoin(src, `w=${w}`)} ${w}w`).join(', ');
         },
         scrollLeft() {
             const container = this.$refs.pillsContainer;
@@ -350,6 +445,13 @@ export default {
         getWordCount(content) {
             const text = content.replace(/<[^>]+>/g, '').trim();
             return text ? text.split(/\s+/).filter(word => word.length > 0).length : 0;
+        },
+        getExcerpt(content, maxLen = 220) {
+            const text = this.stripHtml(content || '').replace(/\s+/g, ' ').trim();
+            if (text.length <= maxLen) return text;
+            const slice = text.slice(0, maxLen);
+            const cut = Math.max(slice.lastIndexOf('. '), slice.lastIndexOf(' '));
+            return (cut > 60 ? slice.slice(0, cut) : slice).trim() + '…';
         },
         sortBlogs(blogs) {
             return [...blogs].sort((a, b) => {
@@ -1052,6 +1154,41 @@ export default {
     object-fit: cover;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Prevent CLS and show smooth loading */
+.card-img-top {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 16 / 9;
+    background-color: #eef6f6;
+}
+
+/* Skeleton placeholders */
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: #eef6f6;
+    border-radius: 10px;
+}
+
+.skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+    animation: shimmer 1.2s infinite;
+}
+
+.skeleton-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+@keyframes shimmer {
+    100% { transform: translateX(100%); }
 }
 
 .modal-content-text>>>h1,
