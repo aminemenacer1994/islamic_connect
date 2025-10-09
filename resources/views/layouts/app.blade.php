@@ -116,12 +116,6 @@ body{
     outline-offset:2px;
 }
 
-/* Improve placeholder contrast */
-input::placeholder, textarea::placeholder {
-    color:#6b7280;
-    opacity:1;
-}
-
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce){
     *{
@@ -184,20 +178,6 @@ input::placeholder, textarea::placeholder {
 }
 .a11y-panel .content{ padding:12px; }
 .a11y-panel[hidden]{ display:none; }
-
-/* Improve default text contrast for small text */
-.text-muted, small {
-    color: #5a667a !important; /* darker than #718096 for AA */
-}
-
-/* Ensure navbar links have sufficient contrast on light backgrounds */
-.navbar-light .navbar-nav .nav-link {
-    color: #1b1f24;
-}
-.navbar-light .navbar-nav .nav-link:focus,
-.navbar-light .navbar-nav .nav-link:hover {
-    color: #147d6b;
-}
 </style>
 <body>
     <a class="skip-to-content" href="#main-content">Skip to main content</a>
@@ -226,15 +206,7 @@ input::placeholder, textarea::placeholder {
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3" href="/welcome" data-path="/home"><b style="color:black">Home</b></a></h6>
                     </li>
-                    <!-- <li class="nav-item dropdown pt-3 pl-3">
-                        <a class="nav-link dropdown-toggle" href="/holy" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
-                            <b style="color:black">Holy Quran</b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/quran">Companion</a></li>
-                            <li><a class="dropdown-item" href="/surat">Explorer</a></li>
-                        </ul>
-                    </li> -->
+                    
 
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/holy" data-path="/holy"><b style="color:black">Quran Portal</b></a></h6>
@@ -267,12 +239,12 @@ input::placeholder, textarea::placeholder {
                     @guest
                     @if (Route::has('login'))
                     <li class="nav-item display-6 pl-3 mt-3">
-                        <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login"><span class="fw-bold" style="color:black">{{ __('Login') }}</span></a>
+                        <h6><a class="nav-link pt-2 " href="{{ route('login') }}" data-path="/login"><b style="color:black">{{ __('Login') }}</b></a></h6>
                     </li>
                     @endif
                     <!-- @if (Route::has('register'))
                     <li class="nav-item display-6 pl-3 mt-3">
-                        <a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><span class="fw-bold" style="color:black">{{ __('Register') }}</span></a>
+                        <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
                     </li>
                     @endif -->
                     @else
@@ -381,28 +353,6 @@ input::placeholder, textarea::placeholder {
         });
     </script>
     
-    <!-- Accessibility floating controls
-    <button id="a11yOpen" class="btn btn-light a11y-toggle" type="button" aria-haspopup="dialog" aria-controls="a11yPanel" aria-expanded="false">
-        <i class="bi bi-universal-access"></i> Accessibility
-    </button>
-    <section id="a11yPanel" class="a11y-panel" role="dialog" aria-modal="true" aria-labelledby="a11yTitle" hidden>
-        <header>
-            <h3 id="a11yTitle" class="m-0">Accessibility</h3>
-            <button id="a11yClose" class="btn btn-sm btn-outline-secondary" type="button" aria-label="Close accessibility settings">
-                <i class="bi bi-x"></i>
-            </button>
-        </header>
-        <div class="content">
-            <div class="form-check form-switch mb-2">
-                <input class="form-check-input" type="checkbox" id="a11yHighContrast">
-                <label class="form-check-label" for="a11yHighContrast">High contrast mode</label>
-            </div>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="a11yReducedMotion">
-                <label class="form-check-label" for="a11yReducedMotion">Reduce motion</label>
-            </div>
-        </div>
-    </section> -->
 
     @if (app()->environment('local'))
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.7.2/axe.min.js" integrity="sha512-y+Q+1e8p91bQm9b5wz9mKZ9WgSJND0bKx9D6o1XyJQPUWq2wYtGPB+8v8N+Zm0g5oY4KZq2rJb6z5m9q5y0kYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
