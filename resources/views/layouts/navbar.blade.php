@@ -12,24 +12,19 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav justify-content-end pr-4 flex-grow-1">
                 <li class="nav-item mt-3">
-                    <h6><a style="font-family:inter; color: black;" class="nav-link ml-4 pl-3"
-                            href="/quran">Home</a></h6>
+                    <a style="font-family:inter; color: black;" class="nav-link ml-4 pl-3" href="/quran">Home</a>
                 </li>
                 <li class="nav-item mt-3">
-                    <h6><a style="font-family:inter; color: black;" class="nav-link ml-4 pl-3"
-                            href="/contact">Contact</a></h6>
+                    <a style="font-family:inter; color: black;" class="nav-link ml-4 pl-3" href="/contact">Contact</a>
                 </li>
                 <li class="nav-item mt-3">
-                    <h6><a style="font-family:inter; color: black;" class="nav-link ml-4 pl-3"
-                            href="/about">About Us</a></h6>
+                    <a style="font-family:inter; color: black;" class="nav-link ml-4 pl-3" href="/about">About Us</a>
                 </li>
                 <li class="nav-item mt-3">
-                    <h6><a style="font-family:inter; color: black;" class="nav-link ml-4 pl-3"
-                            href="/updates">Updates</a></h6>
+                    <a style="font-family:inter; color: black;" class="nav-link ml-4 pl-3" href="/updates">Updates</a>
                 </li>
                 <li class="nav-item mt-3">
-                    <h6><a style="font-family:inter; color: black;" class="nav-link ml-4 pl-3 pr-5"
-                            href="/join_us">Mailing List</a></h6>
+                    <a style="font-family:inter; color: black;" class="nav-link ml-4 pl-3 pr-5" href="/join_us">Mailing List</a>
                 </li>
                 <button @click="getSummary" :disabled="loading" style="background:linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB); ">
                     <span>Try Premium</span>
@@ -39,12 +34,12 @@
                 @guest
                 @if (Route::has('login'))
                 <li class="nav-item ">
-                    <h6><a class="nav-link " href="{{ route('login') }}">{{ __('Login') }}</a></h6>
+                    <a class="nav-link " href="{{ route('login') }}">{{ __('Login') }}</a>
                 </li>
                 @endif
                 @if (Route::has('register'))
                 <li class="nav-item ">
-                    <h6><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></h6>
+                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                 </li>
                 @endif
                 @else

@@ -54,3 +54,18 @@ RewriteRule ^ index.php [L]
     AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/xml application/json
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
+
+# Serve AVIF/WebP if available and supported (fallback to original otherwise)
+<IfModule mod_rewrite.c>
+    # AVIF preferred
+    RewriteCond %{HTTP_ACCEPT} image/avif
+    RewriteCond %{REQUEST_FILENAME} \.(jpe?g|png)$
+    RewriteCond %{REQUEST_FILENAME}.avif -f
+    RewriteRule ^(.+)\.(jpe?g|png)$ $1.avif [L]
+
+    # WebP next
+    RewriteCond %{HTTP_ACCEPT} image/webp
+    RewriteCond %{REQUEST_FILENAME} \.(jpe?g|png)$
+    RewriteCond %{REQUEST_FILENAME}.webp -f
+    RewriteRule ^(.+)\.(jpe?g|png)$ $1.webp [L]
+</IfModule>

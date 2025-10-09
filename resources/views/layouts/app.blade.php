@@ -197,7 +197,10 @@ body{
     <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm py-1">
         <div class="container-fluid">
         <a class="navbar-brand" href="/welcome" data-path="/welcome" aria-label="Home">
-            <img 
+            <picture>
+                <source type="image/avif" srcset="/images/logo_main.avif">
+                <source type="image/webp" srcset="/images/logo_main.webp">
+                <img 
                 src="/images/logo_main.png" 
                 width="300"
                 height="200"
@@ -205,7 +208,8 @@ body{
                 loading="lazy"
                 decoding="async"
                 class="img-fluid"
-            >
+                >
+            </picture>
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -215,7 +219,7 @@ body{
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav justify-content-end pr-4 flex-grow-1">                
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3" href="/welcome" data-path="/home"><b style="color:black">Home</b></a></h6>
+                        <a class="nav-link pt-2 ml-3" href="/welcome" data-path="/home"><b style="color:black">Home</b></a>
                     </li>
                     <!-- <li class="nav-item dropdown pt-3 pl-3">
                         <a class="nav-link dropdown-toggle" href="/holy" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
@@ -228,42 +232,42 @@ body{
                     </li> -->
 
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/holy" data-path="/holy"><b style="color:black">Quran Portal</b></a></h6>
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/holy" data-path="/holy"><b style="color:black">Quran Portal</b></a>
                     </li>
                     
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/media" data-path="/media"><b style="color:black">Media Center</b></a></h6>
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/media" data-path="/media"><b style="color:black">Media Center</b></a>
                     </li>
 
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/knowledge" data-path="/knowledge"><b style="color:black">Islamic Knowledge</b></a></h6>
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/knowledge" data-path="/knowledge"><b style="color:black">Islamic Knowledge</b></a>
                     </li>
                     
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/toolkit" data-path="/toolkit"><b style="color:black">Utility Toolkit</b></a></h6>
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/toolkit" data-path="/toolkit"><b style="color:black">Utility Toolkit</b></a>
                     </li>
 
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/services" data-path="/services"><b style="color:black">Services</b></a></h6>
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/services" data-path="/services"><b style="color:black">Services</b></a>
                     </li>
 
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/subscribe" data-path="/subscribe"><b style="color:black">Packages</b></a></h6>
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/subscribe" data-path="/subscribe"><b style="color:black">Packages</b></a>
                     </li>
 
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/pricing"><b style="color:black">Donations</b></a></h6>
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/pricing"><b style="color:black">Donations</b></a>
                     </li>
                                     
                     @guest
                     @if (Route::has('login'))
                     <li class="nav-item display-6 pl-3 mt-3">
-                        <h6><a class="nav-link pt-2 " href="{{ route('login') }}" data-path="/login"><b style="color:black">{{ __('Login') }}</b></a></h6>
+                        <a class="nav-link pt-2 " href="{{ route('login') }}" data-path="/login"><b style="color:black">{{ __('Login') }}</b></a>
                     </li>
                     @endif
                     <!-- @if (Route::has('register'))
                     <li class="nav-item display-6 pl-3 mt-3">
-                        <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
+                        <a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a>
                     </li>
                     @endif -->
                     @else
@@ -511,3 +515,4 @@ body{
     transition: color 0.3s ease, border-bottom 0.3s ease;
 }
 </style>
+    @yield('critical')

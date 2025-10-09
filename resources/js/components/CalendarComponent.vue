@@ -89,7 +89,7 @@
               {{ selectedDay.hijri.day }} {{ islamicMonths[selectedDay.hijri.month.number - 1] }} {{
                 selectedDay.hijri.year }} AH
             </h3>
-            <button type="button" class="btn-close" @click="selectedDay = null"></button>
+            <button type="button" class="btn-close" aria-label="Close day details" @click="selectedDay = null"></button>
           </div>
           <div class="modal-body">
             <p class="text-muted mb-3">

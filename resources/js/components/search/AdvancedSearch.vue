@@ -43,7 +43,7 @@
     <div class="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="offcanvasResults">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title">Search Results</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close search results"></button>
       </div>
       <div ref="targetTafseerElement" class="offcanvas-body text-left">
         <!-- Display Results -->

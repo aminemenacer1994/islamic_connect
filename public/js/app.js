@@ -169022,6 +169022,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Day Details Modal "), $data.selectedDay ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.hijri.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.islamicMonths[$data.selectedDay.hijri.month.number - 1]) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.hijri.year) + " AH ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close",
+    "aria-label": "Close day details",
     onClick: _cache[6] || (_cache[6] = function ($event) {
       return $data.selectedDay = null;
     })
@@ -172628,6 +172629,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [$setup.showAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.alertMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close",
+        "aria-label": "Close alert",
         onClick: _cache[23] || (_cache[23] = function () {
           return $options.closeAlert && $options.closeAlert.apply($options, arguments);
         })
@@ -172641,6 +172643,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [$setup.showErrorAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.errorMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close",
+        "aria-label": "Close error alert",
         onClick: _cache[24] || (_cache[24] = function () {
           return $options.closeErrorAlert && $options.closeErrorAlert.apply($options, arguments);
         })
@@ -174181,7 +174184,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "carousel-inner"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item active"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    type: "image/avif",
+    srcset: "/images/qenew.avif"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    type: "image/webp",
+    srcset: "/images/qenew.webp"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/qenew.png",
     "class": "d-block w-100",
     alt: "Quran companion",
@@ -174189,12 +174198,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aspect-ratio": "16 / 9",
       "object-fit": "cover"
     },
+    width: "1280",
+    height: "720",
     decoding: "async",
     loading: "eager",
     fetchpriority: "high"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    type: "image/avif",
+    srcset: "/images/surat2.avif"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    type: "image/webp",
+    srcset: "/images/surat2.webp"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/surat2.png",
     "class": "d-block w-100",
     alt: "Quran explorer",
@@ -174202,12 +174219,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aspect-ratio": "16 / 9",
       "object-fit": "cover"
     },
+    width: "1280",
+    height: "720",
     decoding: "async",
     loading: "lazy",
     fetchpriority: "low"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    type: "image/avif",
+    srcset: "/images/podcast2.avif"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    type: "image/webp",
+    srcset: "/images/podcast2.webp"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/podcast2.png",
     "class": "d-block w-100",
     alt: "Audio podcasts",
@@ -174215,12 +174240,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aspect-ratio": "16 / 9",
       "object-fit": "cover"
     },
+    width: "1280",
+    height: "720",
     decoding: "async",
     loading: "lazy",
     fetchpriority: "low"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    type: "image/avif",
+    srcset: "/images/seerah2.avif"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    type: "image/webp",
+    srcset: "/images/seerah2.webp"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/seerah2.png",
     "class": "d-block w-100",
     alt: "Seerah timeline",
@@ -174228,12 +174261,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aspect-ratio": "16 / 9",
       "object-fit": "cover"
     },
+    width: "1280",
+    height: "720",
     decoding: "async",
     loading: "lazy",
     fetchpriority: "low"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    type: "image/avif",
+    srcset: "/images/radio2.avif"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    type: "image/webp",
+    srcset: "/images/radio2.webp"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/radio2.png",
     "class": "d-block w-100",
     alt: "Islamic Radio",
@@ -174241,12 +174282,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aspect-ratio": "16 / 9",
       "object-fit": "cover"
     },
+    width: "1280",
+    height: "720",
     decoding: "async",
     loading: "lazy",
     fetchpriority: "low"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    type: "image/avif",
+    srcset: "/images/locator2.avif"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
+    type: "image/webp",
+    srcset: "/images/locator2.webp"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/locator2.png",
     "class": "d-block w-100",
     alt: "Mosque Locator",
@@ -174254,10 +174303,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aspect-ratio": "16 / 9",
       "object-fit": "cover"
     },
+    width: "1280",
+    height: "720",
     decoding: "async",
     loading: "lazy",
     fetchpriority: "low"
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Simple Indicators "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Simple Indicators "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-indicators mt-2 mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -174460,7 +174511,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "text-muted"
   }, "Your support enables us to continue our mission")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Trust Indicators "), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"trust-indicators mb-4\" data-v-2ba25654><div class=\"trust-item\" data-v-2ba25654><i class=\"fas fa-lock\" data-v-2ba25654></i><span data-v-2ba25654>Secure Payment</span></div><div class=\"trust-item\" data-v-2ba25654><i class=\"fas fa-shield-alt\" data-v-2ba25654></i><span data-v-2ba25654>SSL Encrypted</span></div><div class=\"trust-item\" data-v-2ba25654><i class=\"fas fa-certificate\" data-v-2ba25654></i><span data-v-2ba25654>Stripe Verified</span></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Summary "), $options.isValidAmount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "summary-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Ready to Contribute")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"summary-item\">\n                  <span>Amount:</span>\n                  <strong>£{{ finalAmount }}</strong>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your Impact:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.impactMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Ready to Contribute")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"summary-item\">\n                  <span>Amount:</span>\n                  <strong>£{{ finalAmount }}</strong>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your Impact:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.impactMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-primary w-100",
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.processDonation && $options.processDonation.apply($options, arguments);
@@ -190361,7 +190412,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Search Results"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close",
-    "data-bs-dismiss": "offcanvas"
+    "data-bs-dismiss": "offcanvas",
+    "aria-label": "Close search results"
   })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Display Results "), $data.filteredResults.length && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Total Number of Surat: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalSurahs), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Total Number of Ayat: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalAyahs), 1 /* TEXT */)]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredResults, function (result) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: result.id,

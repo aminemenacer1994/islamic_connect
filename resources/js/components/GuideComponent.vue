@@ -290,13 +290,13 @@
     <transition name="fade-slide">
       <div v-if="showAlert" class="alert alert-success alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
         {{ alertMessage }}
-        <button type="button" class="btn-close" @click="closeAlert"></button>
+        <button type="button" class="btn-close" aria-label="Close alert" @click="closeAlert"></button>
       </div>
     </transition>
     <transition name="fade-slide">
       <div v-if="showErrorAlert" class="alert alert-danger alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
         {{ errorMessage }}
-        <button type="button" class="btn-close" @click="closeErrorAlert"></button>
+        <button type="button" class="btn-close" aria-label="Close error alert" @click="closeErrorAlert"></button>
       </div>
     </transition>
 
