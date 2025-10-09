@@ -50,7 +50,7 @@
                   <i class="fas fa-star me-2"></i>Trusted by 1000's of Muslims Worldwide
                 </div>
 
-                <h1 class="display-4 mt-1 fw-bold text-left" style="
+                <h1 class="display-4 mt-1 fw-bold text-left hero-title" style="
           background: linear-gradient(135deg, #1a5f7a, #2c3e50);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -88,22 +88,22 @@
             ">
                   <div class="col-4 text-center">
                     <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">60+</div>
-                    <div style="color: #718096; font-size: 0.85rem; font-weight: 600;">Countries</div>
+                    <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Countries</div>
                   </div>
                   <div class="col-4 text-center">
-                    <div style="color: #00bfa6; font-weight: 800; font-size: 1.8rem; line-height: 1;">100%</div>
-                    <div style="color: #718096; font-size: 0.85rem; font-weight: 600;">Accessible</div>
+                    <div style="color: #0b806f; font-weight: 800; font-size: 1.8rem; line-height: 1;">100%</div>
+                    <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Accessible</div>
                   </div>
                   <div class="col-4 text-center">
                     <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">500+</div>
-                    <div style="color: #718096; font-size: 0.85rem; font-weight: 600;">Cities/Towns</div>
+                    <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Cities/Towns</div>
                   </div>
                 </div>
 
                 <div class="row mb-3">
                   <div class="col-12">
                     <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
-                      <button onclick="window.location.href='/quran'" style="
+                      <button onclick="window.location.href='/quran'" aria-label="Open Quran Companion" style="
                 background: linear-gradient(135deg, #0b806f, #1a5f7a);
                 color: white;
                 border: none;
@@ -128,7 +128,7 @@
                 "></span>
                       </button>
 
-                      <button onclick="window.location.href='/support'" style="
+                      <button onclick="window.location.href='/support'" aria-label="Support our mission" style="
                 background: rgba(255, 255, 255, 0.9);
                 color: #1a5f7a;
                 border: 2px solid #1a5f7a;
@@ -149,15 +149,15 @@
                     <div class="mt-3 d-flex align-items-center" style="gap: 1.5rem;">
                       <div class="d-flex align-items-center">
                         <i class="fas fa-shield-alt text-success me-2"></i>
-                        <small style="color: #718096; font-weight: 600;">Secure Platform</small>
+                        <small style="color: #4a5568; font-weight: 600;">Secure Platform</small>
                       </div>
                       <div class="d-flex align-items-center">
                         <i class="fas fa-clock text-warning me-2"></i>
-                        <small style="color: #718096; font-weight: 600;">Instant Access</small>
+                        <small style="color: #4a5568; font-weight: 600;">Instant Access</small>
                       </div>
                       <div class="d-flex align-items-center">
                         <i class="fas fa-user-check text-info me-2"></i>
-                        <small style="color: #718096; font-weight: 600;">No Registration</small>
+                        <small style="color: #4a5568; font-weight: 600;">No Registration</small>
                       </div>
                     </div>
                   </div>
@@ -258,12 +258,12 @@
                 <!-- Simple Indicators -->
                 <div class="carousel-indicators mt-2 mb-2">
                   <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0"
-                    class="active"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="3"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="5"></button>
+                    class="active" aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="5" aria-label="Slide 6"></button>
                 </div>
               </div>
             </div>
@@ -822,7 +822,7 @@
                       <i class="fab fa-whatsapp text-white" style="font-size: 1.5rem;"></i>
                     </div>
                     <div class="text-start">
-                      <h5 class="fw-bold mb-1" style="color: #1a5f7a;">WhatsApp Channel</h5>
+                      <h3 class="fw-bold mb-1" style="color: #1a5f7a;">WhatsApp Channel</h3>
                       <small class="text-muted">Daily verses & instant reminders</small>
                     </div>
                   </div>
@@ -886,7 +886,7 @@
                       <i class="fab fa-telegram text-white" style="font-size: 1.5rem;"></i>
                     </div>
                     <div class="text-start">
-                      <h5 class="fw-bold mb-1" style="color: #1a5f7a;">Telegram Community</h5>
+                      <h3 class="fw-bold mb-1" style="color: #1a5f7a;">Telegram Community</h3>
                       <small class="text-muted">In-depth content & discussions</small>
                     </div>
                   </div>
@@ -1119,6 +1119,14 @@
   </div>
 </template>
 <style scoped>
+/* Ensure hero title has solid color on small screens for contrast */
+@media (max-width: 576px) {
+  .hero-title {
+    -webkit-text-fill-color: initial !important;
+    background: none !important;
+    color: #1a5f7a !important;
+  }
+}
 .card:hover {
   transform: translateY(-8px) !important;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;

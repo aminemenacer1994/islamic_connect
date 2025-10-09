@@ -2,7 +2,7 @@
   <div id="app">
     <ThemeToggle />
     <!-- Play/Pause Button -->
-    <button @click="toggleAudio" class="play-button">
+    <button @click="toggleAudio" class="play-button" aria-label="Toggle audio playback">
       {{ isPlaying ? "Pause" : "Play" }} Audio
     </button>
   </div>

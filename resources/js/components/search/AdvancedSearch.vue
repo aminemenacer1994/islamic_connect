@@ -18,7 +18,8 @@
         </ul>
 
         <!-- Voice input button -->
-        <button type="button" class="btn button-36 bi bi-mic-fill"
+        <button type="button" class="btn button-36 bi bi-mic-fill" aria-label="Voice search"
+          title="Voice search"
           @click="isListening ? stopVoiceRecognition() : startVoiceRecognition()"
           style="height: 50px; display: flex; align-items: center; justify-content: center; padding: 0 20px;">
           <!-- <span style="color:white"><b>Voice Search</b></span> -->

@@ -45,7 +45,7 @@
             <span 
               v-if="prayer === nextPrayer" 
               class="badge mt-2 small"
-              style="background: #00bfa6 !important; color: white !important;"
+              style="background: #0b806f !important; color: #ffffff !important;"
               aria-label="Next prayer"
             >
               Next

@@ -8,21 +8,10 @@
     <meta name="stripe-key" content="{{ config('services.stripe.key') }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Resource Hints -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-    <link rel="preconnect" href="https://js.stripe.com" crossorigin>
-
-    <!-- CSS Assets (load non-blocking) -->
-    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    </noscript>
+    <!-- CSS Assets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Analytics -->
@@ -38,7 +27,7 @@
         })();
     </script> -->
     <meta name="stripe-key" content="{{ config('services.stripe.key') }}">
-    <script async src="https://js.stripe.com/v3/"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWLL07EBX9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -127,6 +116,12 @@ body{
     outline-offset:2px;
 }
 
+/* Improve placeholder contrast */
+input::placeholder, textarea::placeholder {
+    color:#6b7280;
+    opacity:1;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce){
     *{
@@ -189,6 +184,20 @@ body{
 }
 .a11y-panel .content{ padding:12px; }
 .a11y-panel[hidden]{ display:none; }
+
+/* Improve default text contrast for small text */
+.text-muted, small {
+    color: #5a667a !important; /* darker than #718096 for AA */
+}
+
+/* Ensure navbar links have sufficient contrast on light backgrounds */
+.navbar-light .navbar-nav .nav-link {
+    color: #1b1f24;
+}
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #147d6b;
+}
 </style>
 <body>
     <a class="skip-to-content" href="#main-content">Skip to main content</a>
@@ -197,19 +206,15 @@ body{
     <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm py-1">
         <div class="container-fluid">
         <a class="navbar-brand" href="/welcome" data-path="/welcome" aria-label="Home">
-            <picture>
-                <source type="image/avif" srcset="/images/logo_main.avif">
-                <source type="image/webp" srcset="/images/logo_main.webp">
-                <img 
+            <img 
                 src="/images/logo_main.png" 
                 width="300"
                 height="200"
                 alt="Islamic Connect Logo"
                 loading="lazy"
-                decoding="async"
+                height="auto" 
                 class="img-fluid"
-                >
-            </picture>
+            >
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -219,7 +224,7 @@ body{
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav justify-content-end pr-4 flex-grow-1">                
                     <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3" href="/welcome" data-path="/home"><b style="color:black">Home</b></a>
+                        <h6><a class="nav-link pt-2 ml-3" href="/welcome" data-path="/home"><b style="color:black">Home</b></a></h6>
                     </li>
                     <!-- <li class="nav-item dropdown pt-3 pl-3">
                         <a class="nav-link dropdown-toggle" href="/holy" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
@@ -232,42 +237,42 @@ body{
                     </li> -->
 
                     <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/holy" data-path="/holy"><b style="color:black">Quran Portal</b></a>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/holy" data-path="/holy"><b style="color:black">Quran Portal</b></a></h6>
                     </li>
                     
                     <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/media" data-path="/media"><b style="color:black">Media Center</b></a>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/media" data-path="/media"><b style="color:black">Media Center</b></a></h6>
                     </li>
 
                     <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/knowledge" data-path="/knowledge"><b style="color:black">Islamic Knowledge</b></a>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/knowledge" data-path="/knowledge"><b style="color:black">Islamic Knowledge</b></a></h6>
                     </li>
                     
                     <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/toolkit" data-path="/toolkit"><b style="color:black">Utility Toolkit</b></a>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/toolkit" data-path="/toolkit"><b style="color:black">Utility Toolkit</b></a></h6>
                     </li>
 
                     <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/services" data-path="/services"><b style="color:black">Services</b></a>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/services" data-path="/services"><b style="color:black">Services</b></a></h6>
                     </li>
 
                     <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/subscribe" data-path="/subscribe"><b style="color:black">Packages</b></a>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/subscribe" data-path="/subscribe"><b style="color:black">Packages</b></a></h6>
                     </li>
 
                     <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/pricing"><b style="color:black">Donations</b></a>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/pricing"><b style="color:black">Donations</b></a></h6>
                     </li>
                                     
                     @guest
                     @if (Route::has('login'))
                     <li class="nav-item display-6 pl-3 mt-3">
-                        <a class="nav-link pt-2 " href="{{ route('login') }}" data-path="/login"><b style="color:black">{{ __('Login') }}</b></a>
+                        <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login"><span class="fw-bold" style="color:black">{{ __('Login') }}</span></a>
                     </li>
                     @endif
                     <!-- @if (Route::has('register'))
                     <li class="nav-item display-6 pl-3 mt-3">
-                        <a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a>
+                        <a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><span class="fw-bold" style="color:black">{{ __('Register') }}</span></a>
                     </li>
                     @endif -->
                     @else
@@ -311,17 +316,7 @@ body{
     </div>
 
     <!-- Scripts -->
-    <!-- Defer compiled app bundle -->
-    <script src="{{ mix('js/app.js') }}" defer></script>
-    <script>
-        // Lazy-load images missing the attribute and decode async
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('img:not([loading])').forEach(img => {
-                img.setAttribute('loading', 'lazy');
-                img.setAttribute('decoding', 'async');
-            });
-        });
-    </script>
+    <script src="{{ mix('js/app.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const navLinks = document.querySelectorAll('.nav-link');
@@ -515,4 +510,3 @@ body{
     transition: color 0.3s ease, border-bottom 0.3s ease;
 }
 </style>
-    @yield('critical')

@@ -13,6 +13,15 @@ mix.options({
     hmrOptions: {
         host: 'localhost',
         port: 8080,
+    },
+    // Prefer modern syntax when possible; avoids heavy legacy transforms
+    terser: {
+        terserOptions: {
+            compress: {
+                passes: 2,
+                pure_funcs: ['console.debug']
+            }
+        }
     }
 });
 
@@ -20,3 +29,18 @@ mix.options({
 if (mix.inProduction()) {
     mix.version();
 }
+
+// Target modern evergreen browsers to avoid unnecessary polyfills/transforms
+mix.babelConfig({
+    presets: [
+      [
+        '@babel/preset-env',
+        {
+          targets: { esmodules: true },
+          bugfixes: true,
+          modules: false,
+          useBuiltIns: false
+        }
+      ]
+    ]
+});
