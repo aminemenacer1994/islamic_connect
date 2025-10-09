@@ -10,7 +10,7 @@
         "production": "npx mix --production",
         "build": "webpack --config webpack.config.js"
     },
-    "devDependencies": {
+  "devDependencies": {
         "@vue/compiler-sfc": "^3.5.18",
         "autoprefixer": "^10.4.20",
         "axios": "^1.8.4",
@@ -28,12 +28,19 @@
         "sass-loader": "^12.6.0",
         "style-loader": "^3.3.0",
         "vue": "^3.5.18",
-        "vue-loader": "^17.3.1",
+    "vue-loader": "^17.3.1",
+    "@babel/preset-env": "^7.28.3",
         "vue-sound": "^0.1.10",
         "webpack": "^5.101.3",
         "webpack-cli": "^5.1.4"
-    },
-    "dependencies": {
+  },
+  "browserslist": [
+    "defaults and last 2 versions",
+    "not IE 11",
+    "not op_mini all",
+    "maintained node versions"
+  ],
+  "dependencies": {
         "@extractus/feed-extractor": "^7.1.4",
         "@fortawesome/fontawesome-free": "^7.1.0",
         "@fortawesome/fontawesome-svg-core": "^7.1.0",

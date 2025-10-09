@@ -276,7 +276,7 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
+/* Bootstrap Icons are provided globally via /css/app.css; avoid CDN import */
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
