@@ -100,17 +100,17 @@
             </button>
           </div>
 
-          <div class="plans-header">
+          <!-- <div class="plans-header">
             <h2>Choose Your Plan</h2>
             <p>Select the plan that works best for you</p>
-          </div>
+          </div> -->
 
           <form method="POST" action="/subscribe" @submit.prevent="handleSubmit">
             <div class="plans-grid">
               <div v-for="plan in plans" :key="plan.value" class="plan-card" :class="{
                 'featured': plan.featured,
                 'selected': plan.value === selectedPlan
-              }" @click="selectedPlan = plan.value">
+              }" @click="plan.value !== '' ? selectedPlan = plan.value : null">
                 <div v-if="plan.featured" class="plan-badge">
                   {{ plan.badge }}
                 </div>
@@ -135,10 +135,17 @@
                 </div>
 
                 <div class="plan-selector">
-                  <input type="radio" :id="plan.value" :value="plan.value" v-model="selectedPlan" class="radio-input">
-                  <label :for="plan.value" class="radio-label">
-                    {{ plan.value === selectedPlan ? 'Selected' : 'Select Plan' }}
-                  </label>
+                  <template v-if="plan.value === ''">
+                    <a href="/" class="radio-label btn-get-started">
+                      Get Started
+                    </a>
+                  </template>
+                  <template v-else>
+                    <input type="radio" :id="plan.value" :value="plan.value" v-model="selectedPlan" class="radio-input">
+                    <label :for="plan.value" class="radio-label">
+                      {{ plan.value === selectedPlan ? 'Selected' : 'Select Plan' }}
+                    </label>
+                  </template>
                 </div>
               </div>
             </div>
@@ -213,7 +220,7 @@ export default {
   data() {
     return {
       csrfToken: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
-      selectedPlan: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+      selectedPlan: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
       loading: true,
       submitting: false,
       cancelling: false,
@@ -228,12 +235,12 @@ export default {
       faqs: [
         { question: 'Can I cancel my subscription anytime?', answer: 'Yes, you can cancel at any time. Access ends immediately once you cancel.', open: false },
         { question: 'What payment methods do you accept?', answer: 'We accept major credit and debit cards through Stripe.', open: false },
-        { question: 'Is there a free trial available?', answer: 'There’s no free trial, but a free tier is available. Upgrade anytime.', open: false }
+        { question: 'Is there a free trial available?', answer: 'Theres no free trial, but a free tier is available. Upgrade anytime.', open: false }
       ],
       plans: [
-        { value: 'price_1SDrmPGsDD2PdzHqTgawcJZd', name: 'Monthly', price: '£1.99', period: 'per month', icon: 'fas fa-calendar-alt', badge: 'Flexible', featured: false, features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', '24/7 support'] },
-        { value: 'price_1SDrmPGsDD2PdzHqDOScwoI2', name: 'Yearly', price: '£18', period: 'per year', savings: 'Save £5.88 annually', icon: 'fas fa-star', badge: 'Most Popular', featured: true, features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', 'Priority support'] },
-        { value: 'price_1SDrmPGsDD2PdzHqvk1SOoT3', name: 'Lifetime', price: '£25', period: 'one-time', savings: 'Never pay again', icon: 'fas fa-infinity', badge: 'Best Value', featured: false, features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', 'VIP support'] }
+        { value: '', name: 'Basic', price: '£0', period: '', icon: 'fas fa-calendar-alt', badge: 'Flexible', featured: false, features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', '24/7 support'] },
+        { value: 'price_1SDrmPGsDD2PdzHqTgawcJZd', name: 'Monthly', price: '£1.99', period: ' per month', icon: 'fas fa-star', badge: 'Most Popular', featured: true, features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', '24/7 support'] },
+        { value: 'price_1SDrmPGsDD2PdzHqDOScwoI2', name: 'Yearly', price: '£18', period: ' per year',  icon: 'fas fa-infinity', badge: 'Flexible', featured: false, features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', 'Priority support'] },
       ],
       planDetails: {
         'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
@@ -572,8 +579,7 @@ export default {
 
 /* Header */
 .subscription-header {
-  background: white;
-  padding: 60px 0 40px;
+  padding: 40px 0 30px;
   text-align: center;
   border-bottom: 1px solid #e2e8f0;
 }
@@ -811,7 +817,6 @@ export default {
 
 /* Plans View */
 .plans-view {
-  max-width: 1000px;
   margin: 0 auto;
 }
 
