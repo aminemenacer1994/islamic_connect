@@ -36,7 +36,7 @@
               <div class="text-left" style="padding-right: 2rem;">
                 <!-- Badge -->
                 <div style="
-          background: linear-gradient(135deg, #00bfa6, #1a5f7a);
+          background: linear-gradient(135deg, #0b806f, #1a5f7a);
           color: white;
           padding: 0.5rem 1.5rem;
           border-radius: 50px;
@@ -104,7 +104,7 @@
                   <div class="col-12">
                     <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
                       <button onclick="window.location.href='/quran'" style="
-                background: linear-gradient(135deg, #00bfa6, #1a5f7a);
+                background: linear-gradient(135deg, #0b806f, #1a5f7a);
                 color: white;
                 border: none;
                 padding: 1rem 2.5rem;
@@ -287,9 +287,9 @@
                   </p>
                   <div class="d-grid">
                     <a href="/surat" class="btn btn-lg"
-                      style="background: #00bfa6; border: none; padding: 12px; font-weight: 600; color: white; text-decoration: none; border-radius: 8px; transition: background 0.3s ease;"
+                      style="background: #0b806f; border: none; padding: 12px; font-weight: 600; color: white; text-decoration: none; border-radius: 8px; transition: background 0.3s ease;"
                       aria-label="Learn more about exploring Islamic content"
-                      onmouseover="this.style.background='#1a5f7a'" onmouseout="this.style.background='#00bfa6'">
+                      onmouseover="this.style.background='#1a5f7a'" onmouseout="this.style.background='#0b806f'">
                       Explore Features
                     </a>
                   </div>
@@ -313,9 +313,9 @@
                   </p>
                   <div class="d-grid">
                     <a href="/content" class="btn btn-lg"
-                      style="background: #00bfa6; border: none; padding: 12px; font-weight: 600; color: white; text-decoration: none; border-radius: 8px; transition: background 0.3s ease;"
+                      style="background: #0b806f; border: none; padding: 12px; font-weight: 600; color: white; text-decoration: none; border-radius: 8px; transition: background 0.3s ease;"
                       aria-label="Discover audio and visual Islamic content"
-                      onmouseover="this.style.background='#1a5f7a'" onmouseout="this.style.background='#00bfa6'">
+                      onmouseover="this.style.background='#1a5f7a'" onmouseout="this.style.background='#0b806f'">
                       Discover Media
                     </a>
                   </div>
@@ -339,9 +339,9 @@
                   </p>
                   <div class="d-grid">
                     <a href="/quran" class="btn btn-lg"
-                      style="background: #00bfa6; border: none; padding: 12px; font-weight: 600; color: white; text-decoration: none; border-radius: 8px; transition: background 0.3s ease;"
+                      style="background: #0b806f; border: none; padding: 12px; font-weight: 600; color: white; text-decoration: none; border-radius: 8px; transition: background 0.3s ease;"
                       aria-label="Learn about accessible Islamic learning tools"
-                      onmouseover="this.style.background='#1a5f7a'" onmouseout="this.style.background='#00bfa6'">
+                      onmouseover="this.style.background='#1a5f7a'" onmouseout="this.style.background='#0b806f'">
                       Start Learning
                     </a>
                   </div>
@@ -366,8 +366,8 @@
             intelligent connection to the Divine.
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start">
-            <a href="/quran" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
-              style="background: #00bfa6; border: none; min-width: 160px;"
+                    <a href="/quran" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
+              style="background: #0b806f; border: none; min-width: 160px;"
               aria-label="Learn more about Quran Companion features">
               Explore Quran
             </a>
@@ -396,7 +396,7 @@
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start">
             <a href="/content" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
-              style="background: #00bfa6; border: none; min-width: 160px;"
+              style="background: #0b806f; border: none; min-width: 160px;"
               aria-label="Discover Islamic audio content and podcasts">
               Browse Content
             </a>
@@ -416,7 +416,7 @@
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start">
             <a href="/surat" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
-              style="background: #00bfa6; border: none; min-width: 160px;"
+              style="background: #0b806f; border: none; min-width: 160px;"
               aria-label="Start exploring Quran verses and translations">
               Start Exploring
             </a>
@@ -708,7 +708,7 @@
     <!-- Quick Join Section -->
     <!-- Enhanced Quick Join Section -->
     <section class="py-5 quick-join-section" style="
-  background: linear-gradient(135deg, #00bfa6 0%, #1a5f7a 100%);
+  background: linear-gradient(135deg, #0b806f 0%, #1a5f7a 100%);
   position: relative;
   overflow: hidden;
 ">
@@ -749,16 +749,13 @@
           <div class="col-lg-7 text-center text-lg-start">
             <h2 class="text-white fw-bold mb-3" style="
           font-size: 2.5rem;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-          background: linear-gradient(45deg, #ffffff, #e8fefe);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+          color: #ffffff;
         ">Ready to Transform Your Daily Spiritual Journey?</h2>
             <p class="text-white mb-4" style="
           font-size: 1.2rem;
-          opacity: 0.9;
-          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+          opacity: 0.98;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
         ">Join now and receive your first spiritual reminder within minutes. Start your day with divine inspiration!
             </p>
 
@@ -1004,7 +1001,7 @@
                 <div class="col-12">
                   <div class="d-grid">
                     <button type="submit" class="btn btn-primary btn-lg fw-bold py-3"
-                      style="background: #00bfa6; border: none; box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);"
+                      style="background: #0b806f; border: none; box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);"
                       aria-label="Send your message">
                       <span class="d-flex align-items-center justify-content-center">
                         <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>
@@ -1153,7 +1150,7 @@
 
 /* Better button states */
 .btn-primary:hover {
-  background: #009c85 !important;
+  background: #0a6d60 !important;
   transform: translateY(-1px);
   transition: all 0.3s ease;
 }
