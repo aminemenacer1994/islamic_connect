@@ -2,7 +2,6 @@
     <div id="app">
         <div class="py-4 text-center ">
             <Title />
-            <!-- <ChatBot /> -->
             <h1 class="text-center container mb-4 lead" style="line-height: 1.6em;">
                 The Quran Companion page utilizes AI tools and accessibility features to enrich your learning
                 experience. It offers text-to-speech, speech-to-text, and synchronized highlighting and more.
@@ -25,7 +24,6 @@
                             @fetchAyat="getAyat" />
                     </div>
                     <div class="col-12 col-md-6">
-                        <HelpGuideModal />
                     </div>
                 </div> -->
 
@@ -280,23 +278,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- mobile navigation  -->
-                                        <div class="dropdown mobile-only pb-2">
-                                            <div :style="iconStyle" class="icon-container">
-
-                                                <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
-                                                    @click="goToFirstAyah()" title="Last verse"></i>
-                                                <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
-                                                    @click="goToPreviousAyah()" title="Previous verse"></i>
-                                                <!-- <i @click="submitForm" class="bi bi-bookmark mb-2 h4"
-                                                    aria-expanded="false" data-bs-placement="top"
-                                                    title="Bookmark verse"></i> -->
-                                                <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
-                                                    @click="goToNextAyah()" title="Next verse"></i>
-                                                <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
-                                                    @click="goToLastAyah()" title="End verse"></i>
-                                            </div>
-                                        </div>
+                                        
                                         <!-- dropdown mobile content -->
                                         <div>
                                             <div class="pt-2" ref="targetTranslationElement">
@@ -439,23 +421,7 @@
                                                 </div>
                                             </div>
 
-                                            <!-- mobile navigation  -->
-                                            <div class="dropdown mobile-only">
-                                                <div :style="iconStyle" class="icon-container pb-2">
-
-                                                    <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
-                                                        @click="goToFirstAyah()" title="Last verse"></i>
-                                                    <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
-                                                        @click="goToPreviousAyah()" title="Previous verse"></i>
-                                                    <!-- <i @click="submitFormTafseer" class="bi bi-bookmark mb-2 h4"
-                                                        aria-expanded="false" data-bs-placement="top"
-                                                        title="Bookmark verse"></i> -->
-                                                    <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
-                                                        @click="goToNextAyah()" title="Next verse"></i>
-                                                    <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
-                                                        @click="goToLastAyah()" title="End verse"></i>
-                                                </div>
-                                            </div>
+                                            
                                         </div>
 
                                         <!-- Main content  -->
@@ -606,23 +572,7 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- mobile navigation -->
-                                                <div class="dropdown mobile-only">
-                                                    <div :style="iconStyle" class="icon-container">
-
-                                                        <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
-                                                            @click="goToFirstAyah()" title="Last verse"></i>
-                                                        <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
-                                                            @click="goToPreviousAyah()" title="Previous verse"></i>
-                                                        <!-- <i @click="submitFormTransliteration"
-                                                            class="bi bi-bookmark mb-2 h4" aria-expanded="false"
-                                                            data-bs-placement="top" title="Bookmark verse"></i> -->
-                                                        <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
-                                                            @click="goToNextAyah()" title="Next verse"></i>
-                                                        <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
-                                                            @click="goToLastAyah()" title="End verse"></i>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
 
                                             <div ref="targetTransliterationElement">
@@ -686,9 +636,7 @@
     </div>
 </template>
 
-<script defer>
-import html2canvas from "html2canvas";
-import ChatBot from './translation/ChatBot.vue';
+<script>
 
 import DarkModeToggle from './DarkModeToggle.vue';
 import CustomSurahSelection from "./surah_selection/CustomSurahSelection.vue";
@@ -720,14 +668,11 @@ import BookmarkTranslation from "./translation/features/bookmarking/BookmarkTran
 import FilteredSurahList from "./search/FilteredSurahList.vue";
 import TafseerSection from "./TafseerSection.vue";
 import TranslationSection from "./TranslationSection.vue";
-import TransliterationSection from "./TransliterationSection";
+import TransliterationSection from "./TransliterationSection.vue";
 import TranslationActions from "./TranslationActions.vue";
 import TafseerActions from "./TafseerActions.vue";
 import TransliterationActions from "./TransliterationActions.vue";
 import SpeechRecognition from "./translation/features/speech_recognition/SpeechRecognition.vue";
-// import PdfDownload from './pdf/PdfDownload.vue'
-// import PdfDownloadTafsser from './pdf/PdfDownloadTafsser.vue'
-// import PdfDownloadTransliteration from './pdf/PdfDownloadTransliteration.vue'
 import AdvancedSearch from "./search/AdvancedSearch.vue";
 import KeyboardNavigation from "./accesibility/KeyboardNavigation.vue";
 import FolderSelectionModal from "./folder_manager/FolderSelectionModal.vue";
@@ -736,7 +681,6 @@ import AyahSelector from "./search/AyahSelector.vue";
 import SearchContent from "./content/searchContent.vue";
 import AyahOfTheDay from './translation/AyahOfTheDay.vue';
 import PrayerTimes from "./translation/PrayerTimes.vue";
-import HelpGuideModal from "./translation/HelpGuideModal.vue";
 
 
 
@@ -744,8 +688,6 @@ export default {
     name: "QuranComponent",
     props: {},
     components: {
-        HelpGuideModal,
-        ChatBot,
         DarkModeToggle,
         PrayerTimes,
         AyahOfTheDay,
@@ -809,6 +751,20 @@ export default {
 
     data() {
         return {
+            // General UI/state
+            isLoading: false,
+            iconStyle: {},
+            successMessage: "",
+            // Theme options used in applyStyle()
+            bgColor: "",
+            textColor: "",
+            iconColor: "",
+            fontFamily: "",
+            // Content state used elsewhere
+            currentAyah: null,
+            surahDetails: null,
+            searchQuery: "",
+            selectedCategory: null,
             surahs: [], // List of all Surahs
             reciters: [], // List of all Reciters
             translations: [], // List of all Translations
@@ -1050,7 +1006,9 @@ export default {
             this.currentAyah = newAyah;
         },
         highlightText(charIndex, currentWord) {
-            this.$refs.translationSection.highlightText(charIndex, currentWord);
+            if (this.$refs.translationSection && typeof this.$refs.translationSection.highlightText === 'function') {
+                this.$refs.translationSection.highlightText(charIndex, currentWord);
+            }
         },
         clearHighlight() {
             this.$nextTick(() => {
@@ -1087,9 +1045,12 @@ export default {
         },
         toggleAudioPlayback() {
             const audioPlayer = this.$refs.audioPlayer;
-            if (audioPlayer) {
+            if (!audioPlayer) return;
+            try {
                 audioPlayer.currentTime = 0;
                 audioPlayer.play();
+            } catch (e) {
+                console.warn('Audio playback failed', e);
             }
         },
         showSettingsOffcanvas() {
@@ -1325,13 +1286,11 @@ export default {
         },
         handleScrollToAyah(verseNumber) {
             this.$nextTick(() => {
-                const ayahElement = this.$refs.ayahContainer.querySelector(
-                    `#ayah-${verseNumber}`
-                );
+                const listEl = this.$refs.ayahList;
+                if (!listEl) return;
+                const ayahElement = listEl.querySelector(`#ayah-${verseNumber}`);
                 if (ayahElement) {
-                    ayahElement.scrollIntoView({
-                        behavior: "smooth",
-                    });
+                    ayahElement.scrollIntoView({ behavior: "smooth" });
                 } else {
                     console.error("Ayah not found:", verseNumber);
                 }
@@ -1372,40 +1331,9 @@ export default {
         toggleFullScreen() {
             this.isFullScreen = !this.isFullScreen;
         },
-        handleTouchStart(event) {
-            const touch = event.changedTouches
-                ? event.changedTouches[0]
-                : event;
-            this.touchStartX = touch.screenX;
-            this.touchStartTime = Date.now();
-        },
-        handleTouchMove(event) {
-            const touch = event.changedTouches
-                ? event.changedTouches[0]
-                : event;
-            this.touchEndX = touch.screenX;
-        },
-        handleTouchEnd() {
-            const touchEndTime = Date.now();
-            const timeDiff = touchEndTime - this.touchStartTime;
-            const deltaX = this.touchEndX - this.touchStartX;
-            const minSwipeDistance = 50; // Minimum distance in pixels to detect swipe
-            const maxSwipeDuration = 500; // Maximum duration in ms for a swipe
-
-            // Swipe gesture detection
-            if (
-                Math.abs(deltaX) > minSwipeDistance &&
-                timeDiff < maxSwipeDuration
-            ) {
-                if (deltaX > 0) {
-                    this.onSwipeRight();
-                } else {
-                    this.onSwipeLeft();
-                }
-            }
-        },
-        cancelHold() {
-            this.touchStartTime = 0; // Reset hold detection
+        
+        dismissError() {
+            this.showError = false;
         },
         goToFirstAyah() {
             this.selectAyah(0);
@@ -1499,6 +1427,9 @@ export default {
                 this.ayat = [];
                 this.dropdownHidden = true; // Hide Ayah dropdown if no Surah is selected
             }
+        },
+        updateFileName() {
+            // No-op placeholder to satisfy watcher; implement if needed
         },
         async handleAyahChange() {
             const selectedAyahIndex = parseInt(this.selectedAyahId);
