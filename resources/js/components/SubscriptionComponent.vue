@@ -1,3 +1,4 @@
+```vue
 <template>
   <div id="app" class="subscription-container">
     <!-- Header Section -->
@@ -5,8 +6,7 @@
       <div class="container">
         <div class="header-content">
           <h1>Manage Your Islamic Connect Subscription</h1>
-          <p>Join our community with a premium subscription to unlock exclusive features, enhance your spiritual
-            journey, and support our mission to connect Muslims worldwide through innovative tools and resources.</p>
+          <p>Join a growing global community of Muslims who are deepening their connection to the Qur’an and Islam through knowledge, reflection, and technology. Your subscription helps us build innovative tools for spiritual growth and keep our resources accessible for everyone.</p>
         </div>
       </div>
     </header>
@@ -43,8 +43,7 @@
         <!-- Success Image -->
         <div v-if="showSuccessImage" class="success-image-container">
           <img src="/images/mark1.png" width="100" alt="Subscription Success" class="success-image">
-          <p class="success-message">Congratulations! Your premium subscription is now active. Enjoy exclusive features
-            like ad-free browsing, offline content access, and priority support to enhance your experience.</p>
+          <p class="success-message">Congratulations! Your premium subscription is now active. Enjoy exclusive features like ad-free browsing, offline content access, and priority support to enhance your experience.</p>
           <button @click="showSuccessImage = false" class="btn btn-primary">Start Exploring</button>
         </div>
 
@@ -76,10 +75,13 @@
                   <span>{{ benefit }}</span>
                 </div>
               </div>
-              <button @click="handleCancelSubscription" class="btn btn-cancel"
+              <button 
+                @click="handleCancelSubscription" 
+                class="btn btn-cancel"
                 :disabled="cancelling || !canCancel || isCancelled"
                 :class="{ 'disabled': !canCancel || isCancelled, 'cancelled': isCancelled }"
-                :title="isCancelled ? 'Your subscription is already cancelled' : 'Cancel your subscription (access ends immediately)'">
+                :title="isCancelled ? 'Your subscription is already cancelled' : 'Cancel your subscription (access ends immediately)'"
+              >
                 <i class="fas fa-times-circle"></i>
                 {{ cancelling ? 'Cancelling...' : isCancelled ? 'Subscription Cancelled' : 'Cancel Subscription' }}
               </button>
@@ -91,8 +93,7 @@
         <div v-if="showPlans && !showSuccessImage" class="plans-view">
           <div v-if="subscription?.ends_at" class="notification notification-info">
             <i class="fas fa-info-circle"></i>
-            <span>Your subscription will end on {{ formatDate(subscription.ends_at) }}. Subscribe to a new plan to
-              continue enjoying premium features and uninterrupted access.</span>
+            <span>Your subscription will end on {{ formatDate(subscription.ends_at) }}. Subscribe to a new plan to continue enjoying premium features and uninterrupted access.</span>
             <button @click="subscription = null" class="close-btn">
               <i class="fas fa-times"></i>
             </button>
@@ -184,8 +185,7 @@
     </section>
 
     <!-- Confirmation Modal -->
-    <div class="modal fade" id="cancelConfirmationModal" tabindex="-1" aria-labelledby="cancelConfirmationLabel"
-      aria-hidden="true">
+    <div class="modal fade" id="cancelConfirmationModal" tabindex="-1" aria-labelledby="cancelConfirmationLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -193,9 +193,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            Are you sure you want to cancel your subscription? Your premium access will end immediately, and you will
-            lose
-            access to exclusive features.
+            Are you sure you want to cancel your subscription? Your premium access will end immediately, and you will lose access to exclusive features.
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="cancelDismiss">No, Keep My Subscription</button>
@@ -269,10 +267,11 @@ export default {
             'Quran with audio recitation',
             'Quran history',
             'Names of Allah',
+            'Image gallery',
             'Islamic dictionary',
             'Islamic blogs',
             'Dua collection',
-            'Hijri calendar',
+            'Hijri calendar'
           ]
         },
         {
@@ -283,23 +282,20 @@ export default {
           icon: 'fas fa-star',
           badge: 'Most Popular',
           featured: true,
-          description: 'Same full access as Basic, with additional premium benefits.',
+          description: 'Unlock powerful tools that help you learn, reflect, and stay inspired every day.',
           features: [
             'Quran with AI tools',
-            'Multi-language support',
             'Audio podcasts',
             'Reciters station',
             'Islamic directory video channels',
             'Short form video gallery',
-            'Image gallery',
             'Seerah timeline',
             'Islamic guides',
-            'Islamic finance',
-            'Zakat calculator',
+            'Interactive zakat calculator',
             'Qibla finder',
             'Mosque finder',
             'Schools and centres finder',
-            'Halal butchers finder',
+            'Halal butchers finder'
           ]
         },
         {
@@ -311,37 +307,42 @@ export default {
           badge: 'Best Deal',
           savings: 'Save £5.89 or 25%',
           featured: false,
-          description: 'Same full access as Basic with premium benefits at a discounted rate.',
+          description: 'Best value for those dedicated to lifelong learning, enjoy all Monthly benefits at a discounted rate.',
           features: [
             'Quran with AI tools',
-            'Multi-language support',
             'Audio podcasts',
             'Reciters station',
             'Islamic directory video channels',
             'Short form video gallery',
-            'Image gallery',
             'Seerah timeline',
             'Islamic guides',
-            'Zakat calculator',
+            'Interactive zakat calculator',
             'Qibla finder',
             'Mosque finder',
             'Schools and centres finder',
-            'Halal butchers finder',
+            'Halal butchers finder'
           ]
         }
       ],
+      planDetails: {
+        'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
+        'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly',
+        'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime'
+      }
     };
   },
 
   computed: {
     planDisplayName() {
-      return this.subscription?.stripe_price ? this.planDetails[this.subscription.stripe_price] || 'Premium' : 'Free';
+      return this.subscription?.stripe_price && this.planDetails[this.subscription.stripe_price] 
+        ? this.planDetails[this.subscription.stripe_price] 
+        : 'Free';
     },
 
     canCancel() {
       const currentDate = new Date();
       const endsAtDate = this.subscription?.ends_at ? new Date(this.subscription.ends_at) : null;
-      return endsAtDate ? endsAtDate > currentDate : true && !this.isCancelled;
+      return endsAtDate ? endsAtDate > currentDate && !this.isCancelled : !this.isCancelled;
     },
 
     showPlans() {
@@ -376,12 +377,12 @@ export default {
 
   methods: {
     formatDate(dateString) {
-      return dateString
-        ? new Date(dateString).toLocaleDateString('en-GB', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric'
-        })
+      return dateString 
+        ? new Date(dateString).toLocaleDateString('en-GB', { 
+            day: 'numeric', 
+            month: 'long', 
+            year: 'numeric' 
+          }) 
         : 'Never';
     },
 
@@ -392,9 +393,9 @@ export default {
     async checkAuthentication() {
       try {
         const response = await axios.get('/user', {
-          headers: {
-            'X-CSRF-TOKEN': this.csrfToken,
-            'Accept': 'application/json'
+          headers: { 
+            'X-CSRF-TOKEN': this.csrfToken, 
+            'Accept': 'application/json' 
           }
         });
         this.isAuthenticated = !!response.data;
@@ -407,9 +408,9 @@ export default {
     async fetchSubscriptionStatus() {
       try {
         const response = await fetch('/subscription-status', {
-          headers: {
-            'X-CSRF-TOKEN': this.csrfToken,
-            'Accept': 'application/json'
+          headers: { 
+            'X-CSRF-TOKEN': this.csrfToken, 
+            'Accept': 'application/json' 
           }
         });
         if (response.status === 401) {
@@ -505,10 +506,10 @@ export default {
         try {
           const response = await fetch('/cancel', {
             method: 'POST',
-            headers: {
-              'X-CSRF-TOKEN': this.csrfToken,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
+            headers: { 
+              'X-CSRF-TOKEN': this.csrfToken, 
+              'Accept': 'application/json', 
+              'Content-Type': 'application/json' 
             }
           });
           const data = await response.json();
@@ -578,10 +579,10 @@ export default {
 
         const response = await fetch('/subscribe', {
           method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+          headers: { 
+            'X-CSRF-TOKEN': csrfToken, 
+            'Accept': 'application/json', 
+            'Content-Type': 'application/json' 
           },
           credentials: 'same-origin',
           body: JSON.stringify({ price_lookup_key: this.selectedPlan })
@@ -715,7 +716,6 @@ export default {
   width: 320px;
 }
 
-
 .loading-state {
   text-align: center;
   padding: 64px 0;
@@ -746,7 +746,6 @@ export default {
     transform: rotate(360deg);
   }
 }
-
 
 .active-subscription {
   max-width: 640px;
@@ -979,11 +978,13 @@ export default {
 
 .plans-grid {
   display: grid;
+  align-items: start;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
   margin-bottom: 48px;
 }
 
+/* 🔑 KEY FIX: Make cards stop at the button */
 .plan-card {
   background: white;
   border: 2px solid #e5e7eb;
@@ -992,6 +993,11 @@ export default {
   position: relative;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: auto;
+ 
 }
 
 .plan-card:hover {
@@ -1085,6 +1091,7 @@ export default {
 
 .plan-features {
   margin-bottom: 24px;
+  flex-grow: 1;
 }
 
 .feature-item {
@@ -1109,8 +1116,15 @@ export default {
   font-size: 0.875rem;
 }
 
+/* 🔑 KEY FIX: Push selector to bottom and prevent extra space */
 .plan-selector {
   margin-top: auto;
+  padding-bottom: 0;
+}
+
+.plan-selector .radio-label,
+.plan-selector .btn-get-started {
+  margin-bottom: 0;
 }
 
 .radio-input {
@@ -1139,7 +1153,6 @@ export default {
   background: linear-gradient(45deg, #256355, #2bb880);
 }
 
-
 .payment-section {
   text-align: center;
   max-width: 400px;
@@ -1155,7 +1168,6 @@ export default {
   font-size: 0.875rem;
   margin-top: 16px;
 }
-
 
 .faq-section {
   background: #ffffff;
@@ -1270,6 +1282,7 @@ export default {
 
   .plans-grid {
     grid-template-columns: 1fr;
+    align-items: start;
     gap: 16px;
   }
 
