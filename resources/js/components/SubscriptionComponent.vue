@@ -293,9 +293,7 @@ export default {
             'Islamic guides',
             'Interactive zakat calculator',
             'Qibla finder',
-            'Mosque finder',
-            'Schools and centres finder',
-            'Halal butchers finder'
+            'Islamic services',
           ]
         },
         {
@@ -318,9 +316,7 @@ export default {
             'Islamic guides',
             'Interactive zakat calculator',
             'Qibla finder',
-            'Mosque finder',
-            'Schools and centres finder',
-            'Halal butchers finder'
+            'Islamic services',
           ]
         }
       ],

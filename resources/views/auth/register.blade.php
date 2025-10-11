@@ -413,8 +413,8 @@
             if (!passwordInput.value) {
                 showError(passwordInput, 'Please enter a password');
                 isValid = false;
-            } else if (passwordInput.value.length < 8) {
-                showError(passwordInput, 'Password must be at least 8 characters');
+            } else if (passwordInput.value.length < 6) {
+                showError(passwordInput, 'Password must be at least 6 characters');
                 isValid = false;
             } else {
                 removeError(passwordInput);
@@ -486,8 +486,8 @@
         passwordInput.addEventListener('blur', function() {
             if (!this.value) {
                 showError(this, 'Please enter a password');
-            } else if (this.value.length < 8) {
-                showError(this, 'Password must be at least 8 characters');
+            } else if (this.value.length < 6) {
+                showError(this, 'Password must be at least 6 characters');
             } else {
                 removeError(this);
             }

@@ -154003,7 +154003,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         badge: 'Most Popular',
         featured: true,
         description: 'Unlock powerful tools that help you learn, reflect, and stay inspired every day.',
-        features: ['Quran with AI tools', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Mosque finder', 'Schools and centres finder', 'Halal butchers finder']
+        features: ['Quran with AI tools', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
       }, {
         value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
         name: 'Yearly',
@@ -154014,7 +154014,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         savings: 'Save £5.89 or 25%',
         featured: false,
         description: 'Best value for those dedicated to lifelong learning, enjoy all Monthly benefits at a discounted rate.',
-        features: ['Quran with AI tools', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Mosque finder', 'Schools and centres finder', 'Halal butchers finder']
+        features: ['Quran with AI tools', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
       }],
       planDetails: {
         'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
