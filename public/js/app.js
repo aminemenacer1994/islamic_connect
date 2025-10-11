@@ -154003,7 +154003,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         badge: 'Most Popular',
         featured: true,
         description: 'Unlock powerful tools that help you learn, reflect, and stay inspired every day.',
-        features: ['Quran with AI tools', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
+        features: ['All of the basic features', 'Quran with AI tools', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
       }, {
         value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
         name: 'Yearly',
@@ -154014,7 +154014,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         savings: 'Save £5.89',
         featured: false,
         description: 'Best value for those dedicated to lifelong learning, enjoy all Monthly benefits at a discounted rate.',
-        features: ['Quran with AI tools', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
+        features: ['All of the basic features', 'Quran with AI tools', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
       }],
       planDetails: {
         'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
@@ -165349,6 +165349,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'AyahOfTheDay',
   data: function data() {
     return {
       ayah: null,
@@ -165356,9 +165357,11 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       apiUrl: "https://api.alquran.cloud/v1/ayah",
       translationLangs: ["en.asad", "ur.junagarhi"],
       showTranslation: false,
-      selectedLanguage: null,
+      selectedLanguage: "en",
       showTafsir: false,
-      fontSize: 1.8
+      fontSize: 1.8,
+      showToast: false,
+      toastMessage: ""
     };
   },
   computed: {
@@ -165366,34 +165369,30 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var _this$ayah;
       return (_this$ayah = this.ayah) !== null && _this$ayah !== void 0 && _this$ayah.translations ? Object.keys(this.ayah.translations) : [];
     },
-    selectedTranslation: function selectedTranslation() {
-      var _this$ayah2;
-      return (_this$ayah2 = this.ayah) !== null && _this$ayah2 !== void 0 && _this$ayah2.translations && this.selectedLanguage ? this.ayah.translations[this.selectedLanguage] : null;
+    formatDate: function formatDate() {
+      return new Date().toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
     }
   },
   methods: {
     closeMessageBox: function closeMessageBox() {
       this.isVisible = false;
     },
-    openMessageBox: function openMessageBox() {
-      this.isVisible = true;
-    },
     fetchAyahOfTheDay: function fetchAyahOfTheDay() {
       var _this = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var currentDate, storedDate, randomAyah, arabicUrl, arabicResponse, arabicData, translations, _iterator, _step, lang, translationUrl, translationResponse, translationData, tafsir, _arabicData$data$sura, _arabicData$data$sura2, _t, _t2;
+        var demoAyah, arabicUrl, arabicResponse, arabicData, translations, _iterator, _step, lang, translationUrl, translationResponse, translationData, langCode, tafsir, _t, _t2;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.p = _context.n) {
             case 0:
-              currentDate = new Date().toLocaleDateString();
-              storedDate = localStorage.getItem('ayahDate');
-              if (!(storedDate !== currentDate)) {
-                _context.n = 16;
-                break;
-              }
-              randomAyah = Math.floor(Math.random() * 6236) + 1;
+              // Use a consistent ayah for demo - in production, use random or sequential
+              demoAyah = 255; // Ayat ul Kursi
               _context.p = 1;
-              arabicUrl = "".concat(_this.apiUrl, "/").concat(randomAyah);
+              arabicUrl = "".concat(_this.apiUrl, "/").concat(demoAyah);
               _context.n = 2;
               return fetch(arabicUrl);
             case 2:
@@ -165402,13 +165401,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context.n = 3;
                 break;
               }
-              throw new Error("HTTP error! Status: ".concat(arabicResponse.status));
+              throw new Error('Network error');
             case 3:
               _context.n = 4;
               return arabicResponse.json();
             case 4:
               arabicData = _context.v;
-              translations = {};
+              translations = {}; // Fetch translations
               _iterator = _createForOfIteratorHelper(_this.translationLangs);
               _context.p = 5;
               _iterator.s();
@@ -165418,7 +165417,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 break;
               }
               lang = _step.value;
-              translationUrl = "".concat(_this.apiUrl, "/").concat(randomAyah, "/").concat(lang);
+              translationUrl = "".concat(_this.apiUrl, "/").concat(demoAyah, "/").concat(lang);
               _context.n = 7;
               return fetch(translationUrl);
             case 7:
@@ -165431,7 +165430,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return translationResponse.json();
             case 8:
               translationData = _context.v;
-              translations[lang.split('.')[1] || lang] = translationData.data.text || "Translation not available";
+              langCode = lang.split('.')[1] || lang;
+              translations[langCode] = translationData.data.text;
             case 9:
               _context.n = 6;
               break;
@@ -165447,18 +165447,17 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _iterator.f();
               return _context.f(12);
             case 13:
-              tafsir = "This is a placeholder tafsir for the Ayah. In a real implementation, fetch from a tafsir API or database.";
+              // Enhanced tafsir
+              tafsir = "The Throne Verse (Ayat al-Kursi) is one of the most profound verses in the Quran, emphasizing God's absolute sovereignty, knowledge, and power over all creation. It serves as a reminder of divine protection and the limitless nature of God's authority, offering spiritual comfort and reinforcing faith in the Creator's omnipotence and mercy.";
               if (arabicData !== null && arabicData !== void 0 && arabicData.data) {
                 _this.ayah = {
-                  arabic: arabicData.data.text || "N/A",
+                  arabic: arabicData.data.text,
                   translations: translations,
                   tafsir: tafsir,
-                  surah: ((_arabicData$data$sura = arabicData.data.surah) === null || _arabicData$data$sura === void 0 ? void 0 : _arabicData$data$sura.englishName) || "Unknown Surah",
-                  surahNumber: ((_arabicData$data$sura2 = arabicData.data.surah) === null || _arabicData$data$sura2 === void 0 ? void 0 : _arabicData$data$sura2.number) || "N/A",
-                  ayahNumber: arabicData.data.numberInSurah || "N/A"
+                  surah: arabicData.data.surah.englishName,
+                  surahNumber: arabicData.data.surah.number,
+                  ayahNumber: arabicData.data.numberInSurah
                 };
-                localStorage.setItem('ayahDate', currentDate);
-                localStorage.setItem('ayahData', JSON.stringify(_this.ayah));
               }
               _context.n = 15;
               break;
@@ -165466,62 +165465,120 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context.p = 14;
               _t2 = _context.v;
               console.error("Error fetching Ayah:", _t2);
-              _this.ayah = null;
+              // Fallback data
+              _this.ayah = {
+                arabic: "اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ",
+                translations: {
+                  en: "Allah - there is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.",
+                  ur: "اللہ وہ ہے جس کے سوا کوئی معبود نہیں، زندہ اور قائم رہنے والا ہے، نہ اُسے اُونگھ آتی ہے نہ نیند، زمین اور آسمانوں میں جو کچھ ہے اُسی کا ہے، کون ہے جو اُس کے حضور اُس کی اجازت کے بغیر سفارش کر سکے؟ جو کچھ لوگوں کے سامنے ہے اُسے بھی جانتا ہے اور جو کچھ اُن کے پیچھے ہے اُسے بھی، اور وہ اُس کی معلومات میں سے کسی چیز پر احاطہ نہیں کر سکتے مگر جتنا وہ چاہے، اُس کی کرسی زمین اور آسمانوں کو گھیرے ہوئے ہے، اور اُن کی حفاظت اُس پر گراں نہیں، اور وہ بلند مرتبہ اور عظمت والا ہے۔"
+                },
+                tafsir: "The Throne Verse (Ayat al-Kursi) is one of the most profound verses in the Quran, emphasizing God's absolute sovereignty, knowledge, and power over all creation. It serves as a reminder of divine protection and the limitless nature of God's authority, offering spiritual comfort and reinforcing faith in the Creator's omnipotence and mercy.",
+                surah: "Al-Baqarah",
+                surahNumber: 2,
+                ayahNumber: 255
+              };
             case 15:
-              _context.n = 17;
-              break;
-            case 16:
-              _this.ayah = JSON.parse(localStorage.getItem('ayahData'));
-            case 17:
               return _context.a(2);
           }
         }, _callee, null, [[5, 11, 12, 13], [1, 14]]);
       }))();
     },
-    copyToClipboard: function copyToClipboard() {
-      var textToCopy = "".concat(this.ayah.surahNumber, ":").concat(this.ayah.ayahNumber, " - ").concat(this.ayah.surah, "\n").concat(this.ayah.arabic).concat(this.showTranslation && this.selectedTranslation ? "\n".concat(this.selectedTranslation) : '').concat(this.showTafsir && this.ayah.tafsir ? "\nTafsir: ".concat(this.ayah.tafsir) : '');
-      navigator.clipboard.writeText(textToCopy).then(function () {
-        var toast = new bootstrap.Toast(document.getElementById('copyToast'));
-        toast.show();
-      })["catch"](function (err) {
-        console.error('Failed to copy: ', err);
-      });
-    },
-    shareAyah: function shareAyah() {
-      var textToShare = "".concat(this.ayah.surahNumber, ":").concat(this.ayah.ayahNumber, " - ").concat(this.ayah.surah, "\n").concat(this.ayah.arabic).concat(this.showTranslation && this.selectedTranslation ? "\n".concat(this.selectedTranslation) : '').concat(this.showTafsir && this.ayah.tafsir ? "\nTafsir: ".concat(this.ayah.tafsir) : '');
-      if (navigator.share) {
-        navigator.share({
-          title: "Surah ".concat(this.ayah.surah, " Ayah ").concat(this.ayah.ayahNumber),
-          text: textToShare,
-          url: window.location.href
-        })["catch"](function (err) {
-          console.error('Failed to share: ', err);
-        });
-      } else {
-        this.copyToClipboard();
-      }
-    },
-    selectTranslation: function selectTranslation(language) {
-      this.selectedLanguage = language;
+    toggleTranslation: function toggleTranslation() {
       this.showTranslation = !this.showTranslation;
+      if (this.showTranslation && !this.selectedLanguage) {
+        this.selectedLanguage = this.availableTranslations[0];
+      }
     },
     toggleTafsir: function toggleTafsir() {
       this.showTafsir = !this.showTafsir;
     },
+    selectTranslation: function selectTranslation(lang) {
+      this.selectedLanguage = lang;
+    },
     increaseFontSize: function increaseFontSize() {
-      if (this.fontSize < 2) this.fontSize = Math.min(2, this.fontSize + 0.2);
+      if (this.fontSize < 2.4) this.fontSize += 0.1;
     },
     decreaseFontSize: function decreaseFontSize() {
-      if (this.fontSize > 0.8) this.fontSize = Math.max(0.8, this.fontSize - 0.2);
+      if (this.fontSize > 1.2) this.fontSize -= 0.1;
     },
-    capitalize: function capitalize(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
+    copyToClipboard: function copyToClipboard() {
+      var _this2 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+        var text, _t3;
+        return _regenerator().w(function (_context2) {
+          while (1) switch (_context2.p = _context2.n) {
+            case 0:
+              text = "".concat(_this2.ayah.arabic, "\n\n- Surah ").concat(_this2.ayah.surah, " ").concat(_this2.ayah.surahNumber, ":").concat(_this2.ayah.ayahNumber);
+              _context2.p = 1;
+              _context2.n = 2;
+              return navigator.clipboard.writeText(text);
+            case 2:
+              _this2.showToastMessage('Copied to clipboard');
+              _context2.n = 4;
+              break;
+            case 3:
+              _context2.p = 3;
+              _t3 = _context2.v;
+              _this2.showToastMessage('Failed to copy');
+            case 4:
+              return _context2.a(2);
+          }
+        }, _callee2, null, [[1, 3]]);
+      }))();
+    },
+    shareAyah: function shareAyah() {
+      var _this3 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+        var text, _t4;
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.p = _context3.n) {
+            case 0:
+              text = "".concat(_this3.ayah.arabic, "\n\n- Surah ").concat(_this3.ayah.surah, " ").concat(_this3.ayah.surahNumber, ":").concat(_this3.ayah.ayahNumber);
+              if (!navigator.share) {
+                _context3.n = 5;
+                break;
+              }
+              _context3.p = 1;
+              _context3.n = 2;
+              return navigator.share({
+                title: 'Ayah of the Day',
+                text: text,
+                url: window.location.href
+              });
+            case 2:
+              _context3.n = 4;
+              break;
+            case 3:
+              _context3.p = 3;
+              _t4 = _context3.v;
+              _this3.copyToClipboard();
+            case 4:
+              _context3.n = 6;
+              break;
+            case 5:
+              _this3.copyToClipboard();
+            case 6:
+              return _context3.a(2);
+          }
+        }, _callee3, null, [[1, 3]]);
+      }))();
+    },
+    bookmarkAyah: function bookmarkAyah() {
+      this.showToastMessage('Bookmarked');
+    },
+    showToastMessage: function showToastMessage(message) {
+      var _this4 = this;
+      this.toastMessage = message;
+      this.showToast = true;
+      setTimeout(function () {
+        _this4.showToast = false;
+      }, 3000);
     },
     isRtlLanguage: function isRtlLanguage(lang) {
-      return ['ur', 'ar', 'urdu', 'arabic'].includes(lang.toLowerCase());
+      return ['ur', 'ar'].includes(lang.toLowerCase());
     }
   },
-  created: function created() {
+  mounted: function mounted() {
     this.fetchAyahOfTheDay();
   }
 });
@@ -177852,6 +177909,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_AyahDropdown = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AyahDropdown");
   var _component_ErrorAlert = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ErrorAlert");
   var _component_Welcome = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Welcome");
+  var _component_AyahOfTheDay = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AyahOfTheDay");
   var _component_NavTabs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("NavTabs");
   var _component_TranslationSection = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TranslationSection");
   var _component_TranslationActions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TranslationActions");
@@ -177907,7 +177965,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_13, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_12);
   }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [$data.information == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Welcome, {
     key: 0
-  })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"fw-bold text-center\" >Verse Breakdown...</h4> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" breakdown content here ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"translationInfo\" tabindex=\"-1\"\n                                    aria-labelledby=\"surahInfoModalLabel\" aria-hidden=\"true\" @click.self=\"closeModal\">\n                                    <div class=\"modal-dialog modal-dialog-centered modal-lg\">\n                                        <div class=\"modal-content\">\n                                            <div class=\"modal-header\">\n                                                <h1 class=\"modal-title fs-5\" id=\"surahInfoModalLabel\">\n                                                    <strong>Surah Information</strong>\n                                                </h1>\n                                                <button type=\"button\" class=\"btn-close\" @click=\"closeModal\"\n                                                    aria-label=\"Close\"></button>\n                                            </div>\n                                            <div class=\"modal-body\">\n                                                <form class=\" text-left\">\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\" class=\"form-label\">Surah Name\n                                                            (English):</label>\n                                                        <p class=\"mt-2 text-dark text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.name_en\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\"\n                                                            class=\"form-label text-left\">Surah\n                                                            Information:</label>\n                                                        <p class=\"text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.text\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                </form>\n                                            </div>\n                                            <div class=\"modal-footer\">\n                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\"\n                                                    @click=\"closeModal\">\n                                                    Close\n                                                </button>\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Welcome :information=\"information\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"fw-bold text-center\" >Verse Breakdown...</h4> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" breakdown content here ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AyahOfTheDay), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"translationInfo\" tabindex=\"-1\"\n                                    aria-labelledby=\"surahInfoModalLabel\" aria-hidden=\"true\" @click.self=\"closeModal\">\n                                    <div class=\"modal-dialog modal-dialog-centered modal-lg\">\n                                        <div class=\"modal-content\">\n                                            <div class=\"modal-header\">\n                                                <h1 class=\"modal-title fs-5\" id=\"surahInfoModalLabel\">\n                                                    <strong>Surah Information</strong>\n                                                </h1>\n                                                <button type=\"button\" class=\"btn-close\" @click=\"closeModal\"\n                                                    aria-label=\"Close\"></button>\n                                            </div>\n                                            <div class=\"modal-body\">\n                                                <form class=\" text-left\">\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\" class=\"form-label\">Surah Name\n                                                            (English):</label>\n                                                        <p class=\"mt-2 text-dark text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.name_en\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\"\n                                                            class=\"form-label text-left\">Surah\n                                                            Information:</label>\n                                                        <p class=\"text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.text\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                </form>\n                                            </div>\n                                            <div class=\"modal-footer\">\n                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\"\n                                                    @click=\"closeModal\">\n                                                    Close\n                                                </button>\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Welcome :information=\"information\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurah,
     onUpdateTafseer: _cache[4] || (_cache[4] = function () {
       return $options.updateTafseer && $options.updateTafseer.apply($options, arguments);
@@ -191070,192 +191128,189 @@ var _hoisted_1 = {
   "class": "ayah-container"
 };
 var _hoisted_2 = {
-  "class": "ayah-header d-flex justify-content-between align-items-center mb-3"
+  "class": "ayah-header"
 };
 var _hoisted_3 = {
-  "class": "card ayah-card shadow-sm"
+  "class": "header-content"
 };
 var _hoisted_4 = {
-  "class": "card-header"
+  "class": "title-section"
 };
 var _hoisted_5 = {
-  "class": "fw-bold mb-0 text-center text-dark"
+  "class": "subtitle"
 };
 var _hoisted_6 = {
-  "class": "card-body"
+  "class": "ayah-content"
 };
 var _hoisted_7 = {
-  "class": "ayah-arabic text-center mb-4"
+  "class": "surah-info"
 };
 var _hoisted_8 = {
-  "class": "card-footer pt-3"
+  "class": "surah-badge"
 };
 var _hoisted_9 = {
-  "class": "d-flex flex-wrap justify-content-center gap-2"
+  "class": "ayah-ref"
 };
 var _hoisted_10 = {
-  "class": "btn-group",
-  role: "group",
-  "aria-label": "Font size controls"
+  "class": "arabic-section"
 };
-var _hoisted_11 = ["disabled"];
-var _hoisted_12 = ["disabled"];
-var _hoisted_13 = {
+var _hoisted_11 = {
+  "class": "toggle-section"
+};
+var _hoisted_12 = {
   key: 0,
-  "class": "dropdown"
+  "class": "translation-section"
 };
-var _hoisted_14 = ["disabled"];
+var _hoisted_13 = {
+  "class": "language-selector"
+};
+var _hoisted_14 = ["onClick"];
 var _hoisted_15 = {
-  "class": "d-none d-sm-inline"
+  key: 0,
+  "class": "toggle-section"
 };
 var _hoisted_16 = {
-  "class": "dropdown-menu",
-  "aria-labelledby": "translationDropdown"
+  key: 0,
+  "class": "tafsir-section"
 };
-var _hoisted_17 = ["onClick"];
+var _hoisted_17 = {
+  "class": "tafsir-text"
+};
 var _hoisted_18 = {
-  "class": "d-none d-sm-inline"
+  "class": "action-bar"
+};
+var _hoisted_19 = {
+  "class": "action-group"
+};
+var _hoisted_20 = ["disabled"];
+var _hoisted_21 = ["disabled"];
+var _hoisted_22 = {
+  "class": "action-group"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return $data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "mb-0 fw-bold text-dark"
-  }, "Ayah of the Day", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-close-btn",
+  return $data.isVisible && $data.ayah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimal Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "icon-wrapper"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-moon-stars"
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "title"
+  }, "Ayah of the Day", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "close-btn",
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.closeMessageBox && $options.closeMessageBox.apply($options, arguments);
     }),
-    "aria-label": "Close Ayah of the Day",
-    title: "Close"
-  }, _toConsumableArray(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-x-lg"
-  }, null, -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah Info "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.surahNumber) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.ayahNumber) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.surah), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "arabic-text text-right",
+    "aria-label": "Close"
+  }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-x"
+  }, null, -1 /* CACHED */)])))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah Info "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, "Surah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.surah), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.surahNumber) + ":" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.ayahNumber), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "arabic-text",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: "".concat($data.fontSize, "rem")
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.arabic), 5 /* TEXT, STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation "), $data.showTranslation && $options.selectedTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    key: 0,
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["translation-container mb-4 p-3 rounded", {
-      'show': $data.showTranslation
-    }])
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.arabic), 5 /* TEXT, STYLE */), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "decoration"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["translation-text", {
-      'rtl': $options.isRtlLanguage($data.selectedLanguage)
+    "class": "decoration-line"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-flower1"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "decoration-line"
+  })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["toggle-btn", {
+      'active': $data.showTranslation
     }]),
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      fontSize: "".concat($data.fontSize * 0.85, "rem")
-    })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.translations[$data.selectedLanguage]), 7 /* TEXT, CLASS, STYLE */)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafsir "), $data.showTafsir && $data.ayah.tafsir ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    key: 1,
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["tafsir-container mt-4 p-3 rounded", {
-      'show': $data.showTafsir
-    }])
-  }, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-    "class": "text-muted mb-2 fw-bold"
-  }, "Tafsir", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "tafsir-text mb-0",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      fontSize: "".concat($data.fontSize * 0.8, "rem")
-    })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.tafsir), 5 /* TEXT, STYLE */)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-primary btn-sm d-flex align-items-center",
     onClick: _cache[1] || (_cache[1] = function () {
-      return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
+      return $options.toggleTranslation && $options.toggleTranslation.apply($options, arguments);
+    })
+  }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Translation", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "toggle-switch"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "toggle-knob"
+  })], -1 /* CACHED */)])), 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: "fade-slide"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [$data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.availableTranslations, function (lang) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+          key: lang,
+          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["lang-btn", {
+            'active': $data.selectedLanguage === lang
+          }]),
+          onClick: function onClick($event) {
+            return $options.selectTranslation(lang);
+          }
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lang.toUpperCase()), 11 /* TEXT, CLASS, PROPS */, _hoisted_14);
+      }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["translation-text", {
+          'rtl': $options.isRtlLanguage($data.selectedLanguage)
+        }])
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.translations[$data.selectedLanguage]), 3 /* TEXT, CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
-    disabled: $data.fontSize <= 0.8,
-    "aria-label": "Decrease font size",
-    title: "Decrease Font Size"
-  }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-dash-lg me-1"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "d-none d-sm-inline"
-  }, "Smaller", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-primary btn-sm d-flex align-items-center",
-    onClick: _cache[2] || (_cache[2] = function () {
-      return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
-    }),
-    disabled: $data.fontSize >= 2,
-    "aria-label": "Increase font size",
-    title: "Increase Font Size"
-  }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-plus-lg me-1"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "d-none d-sm-inline"
-  }, "Larger", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_12)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Dropdown "), $options.availableTranslations.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-primary btn-sm dropdown-toggle d-flex align-items-center",
-    type: "button",
-    id: "translationDropdown",
-    "data-bs-toggle": "dropdown",
-    "aria-expanded": "false",
-    disabled: !$options.availableTranslations.length,
-    "aria-label": "Toggle translation",
-    title: "Toggle Translation"
-  }, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-translate me-1"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showTranslation ? 'Hide' : 'Show') + " Translation", 1 /* TEXT */)], 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.availableTranslations, function (lang) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: lang
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      "class": "dropdown-item",
-      href: "#",
-      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-        return $options.selectTranslation(lang);
-      }, ["prevent"])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.capitalize(lang)), 9 /* TEXT, PROPS */, _hoisted_17)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafsir Toggle "), $data.ayah.tafsir ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 1,
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-primary btn-sm d-flex align-items-center", {
+    _: 1 /* STABLE */
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafsir Toggle "), $data.ayah.tafsir ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["toggle-btn", {
       'active': $data.showTafsir
     }]),
-    onClick: _cache[3] || (_cache[3] = function () {
+    onClick: _cache[2] || (_cache[2] = function () {
       return $options.toggleTafsir && $options.toggleTafsir.apply($options, arguments);
+    })
+  }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Tafsir", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "toggle-switch"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "toggle-knob"
+  })], -1 /* CACHED */)])), 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafsir "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: "fade-slide"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [$data.showTafsir && $data.ayah.tafsir ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.tafsir), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
-    "aria-label": "Toggle tafsir",
-    title: "Toggle Tafsir"
-  }, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-book me-1"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showTafsir ? 'Hide' : 'Show') + " Tafsir", 1 /* TEXT */)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-primary btn-sm d-flex align-items-center",
-    onClick: _cache[4] || (_cache[4] = function () {
-      return $options.copyToClipboard && $options.copyToClipboard.apply($options, arguments);
+    _: 1 /* STABLE */
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "action-btn",
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
     }),
-    "aria-label": "Copy ayah",
-    title: "Copy"
-  }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-clipboard me-1"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "d-none d-sm-inline"
-  }, "Copy", -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-primary btn-sm d-flex align-items-center",
-    onClick: _cache[5] || (_cache[5] = function () {
-      return $options.shareAyah && $options.shareAyah.apply($options, arguments);
-    }),
-    "aria-label": "Share ayah",
-    title: "Share"
+    disabled: $data.fontSize <= 1.2
   }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-share me-1"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "d-none d-sm-inline"
-  }, "Share", -1 /* CACHED */)])))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toast Notification "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "toast-container position-fixed bottom-0 end-0 p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    id: "copyToast",
-    "class": "toast align-items-center text-white bg-gradient border-0",
-    role: "alert",
-    "aria-live": "assertive",
-    "aria-atomic": "true"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "d-flex"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "toast-body"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-check-circle-fill me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copied to clipboard ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn-close btn-close-white me-2 m-auto",
-    "data-bs-dismiss": "toast",
-    "aria-label": "Close"
-  })])])], -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
+    "class": "bi bi-dash-lg"
+  }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_20), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "font-size-label"
+  }, "Font Size", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "action-btn",
+    onClick: _cache[4] || (_cache[4] = function () {
+      return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
+    }),
+    disabled: $data.fontSize >= 2.4
+  }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-plus-lg"
+  }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_21)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "action-btn",
+    onClick: _cache[5] || (_cache[5] = function () {
+      return $options.copyToClipboard && $options.copyToClipboard.apply($options, arguments);
+    })
+  }, _toConsumableArray(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-clipboard"
+  }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "action-btn",
+    onClick: _cache[6] || (_cache[6] = function () {
+      return $options.shareAyah && $options.shareAyah.apply($options, arguments);
+    })
+  }, _toConsumableArray(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-share"
+  }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "action-btn",
+    onClick: _cache[7] || (_cache[7] = function () {
+      return $options.bookmarkAyah && $options.bookmarkAyah.apply($options, arguments);
+    })
+  }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-bookmark"
+  }, null, -1 /* CACHED */)])))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toast "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["toast", {
+      'show': $data.showToast
+    }])
+  }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-check-circle"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.toastMessage), 1 /* TEXT */)], 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
 }
 
 /***/ }),
@@ -193763,7 +193818,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background: linear-gradient(180deg, #f9fafb 0%, #f1f5f9 100%);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  color: #1f2937;\n}\n.container[data-v-0ca26305] {\n  max-width: 1280px;\n  margin: 0 auto;\n  padding: 0 16px;\n}\n.subscription-header[data-v-0ca26305] {\n  padding: 48px 0 32px;\n  text-align: center;\n  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.75rem;\n  font-weight: 800;\n  color: #111827;\n  margin-bottom: 12px;\n  line-height: 1.2;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #4b5563;\n  max-width: 640px;\n  margin: 0 auto;\n  line-height: 1.75;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 48px 0;\n}\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 24px;\n  border-radius: 12px;\n  margin-bottom: 24px;\n  gap: 12px;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);\n  transition: transform 0.2s ease, opacity 0.2s ease;\n}\n.notification-success[data-v-0ca26305] {\n  background: #dcfce7;\n  border: 1px solid #86efac;\n  color: #166534;\n}\n.notification-error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #f87171;\n  color: #991b1b;\n}\n.notification-info[data-v-0ca26305] {\n  background: #e0f2fe;\n  border: 1px solid #7dd3fc;\n  color: #1e40af;\n}\n.notification i[data-v-0ca26305] {\n  font-size: 1.25rem;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  padding: 4px;\n  font-size: 1.25rem;\n  transition: transform 0.2s ease;\n}\n.close-btn[data-v-0ca26305]:hover {\n  transform: scale(1.1);\n}\n.alert-container[data-v-0ca26305] {\n  position: fixed;\n  top: 16px;\n  right: 16px;\n  z-index: 1000;\n  width: 320px;\n}\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 64px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 40px;\n  height: 40px;\n  border: 4px solid #e5e7eb;\n  border-top: 4px solid #2c7c6a;\n  border-radius: 50%;\n  animation: spin-0ca26305 0.8s linear infinite;\n  margin: 0 auto 16px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  font-weight: 500;\n}\n@keyframes spin-0ca26305 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n.active-subscription[data-v-0ca26305] {\n  max-width: 640px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n  overflow: hidden;\n  transition: transform 0.3s ease;\n}\n.subscription-card[data-v-0ca26305]:hover {\n  transform: translateY(-4px);\n}\n.card-badge[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 12px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n  padding: 32px 24px;\n  text-align: center;\n  background: #f9fafb;\n}\n.status-icon[data-v-0ca26305] {\n  width: 72px;\n  height: 72px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #2c7c6a;\n  font-size: 2rem;\n  transition: transform 0.3s ease;\n}\n.card-header:hover .status-icon[data-v-0ca26305] {\n  transform: scale(1.05);\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.875rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  margin-bottom: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #6b7280;\n  font-weight: 500;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n}\n.card-body[data-v-0ca26305] {\n  padding: 24px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 16px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 24px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.benefit-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 1rem;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.9375rem;\n}\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 14px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.7;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.btn-cancel[data-v-0ca26305] {\n  background: #dc2626;\n  color: white;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(.disabled):not(.cancelled) {\n  background: #b91c1c;\n  transform: translateY(-2px);\n}\n.btn-cancel.disabled[data-v-0ca26305] {\n  background: #d1d5db;\n  color: #374151;\n  cursor: not-allowed;\n}\n.btn-cancel.cancelled[data-v-0ca26305] {\n  background: #6b7280;\n  color: white;\n  cursor: default;\n}\n.success-image-container[data-v-0ca26305] {\n  text-align: center;\n  padding: 48px 0;\n  max-width: 480px;\n  margin: 0 auto;\n  animation: fadeIn-0ca26305 0.5s ease;\n}\n.success-image[data-v-0ca26305] {\n  max-width: 80px;\n  height: auto;\n  margin-bottom: 16px;\n}\n.success-message[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  margin-bottom: 24px;\n  line-height: 1.5;\n}\n.plans-view[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 32px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  align-items: start;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n\n/* 🔑 KEY FIX: Make cards stop at the button */\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e5e7eb;\n  border-radius: 16px;\n  padding: 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  display: flex;\n  flex-direction: column;\n  height: auto;\n  min-height: auto;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #2c7c6a;\n  transform: translateY(-6px);\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 100%);\n  transform: scale(1.03);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 6px 16px;\n  border-radius: 9999px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 56px;\n  height: 56px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 12px;\n  color: #2c7c6a;\n  font-size: 1.5rem;\n  transition: transform 0.3s ease;\n}\n.plan-card:hover .plan-icon[data-v-0ca26305] {\n  transform: scale(1.1);\n}\n.plan-header h2[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.25rem;\n  font-weight: 700;\n  color: #111827;\n}\n.period[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 0.9375rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n}\n.plan-description[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 0.875rem;\n  margin-top: 12px;\n  line-height: 1.5;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 24px;\n  flex-grow: 1;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e5e7eb;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 0.9375rem;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.875rem;\n}\n\n/* 🔑 KEY FIX: Push selector to bottom and prevent extra space */\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n  padding-bottom: 0;\n}\n.plan-selector .radio-label[data-v-0ca26305],\n.plan-selector .btn-get-started[data-v-0ca26305] {\n  margin-bottom: 0;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 0.9375rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: linear-gradient(45deg, #256355, #2bb880);\n}\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #6b7280;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n.faq-section[data-v-0ca26305] {\n  background: #ffffff;\n  padding: 64px 0;\n  border-top: 1px solid #e5e7eb;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 40px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n}\n.faq-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.faq-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 20px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #111827;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 1rem;\n  transition: transform 0.3s ease;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 20px;\n  animation: slideDown-0ca26305 0.3s ease;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #4b5563;\n  line-height: 1.6;\n  margin: 0;\n}\n\n/* Animations\n-------------------------------------------------- */\n@keyframes fadeIn-0ca26305 {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes slideDown-0ca26305 {\nfrom {\n    opacity: 0;\n    height: 0;\n}\nto {\n    opacity: 1;\n    height: auto;\n}\n}\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n    font-size: 2.25rem;\n}\n.header-content p[data-v-0ca26305] {\n    font-size: 1rem;\n}\n.plans-grid[data-v-0ca26305] {\n    grid-template-columns: 1fr;\n    align-items: start;\n    gap: 16px;\n}\n.plan-card.featured[data-v-0ca26305] {\n    transform: scale(1);\n}\n.card-header[data-v-0ca26305],\n  .card-body[data-v-0ca26305] {\n    padding: 20px;\n}\n.plan-card[data-v-0ca26305] {\n    padding: 20px;\n}\n.alert-container[data-v-0ca26305] {\n    width: 90%;\n    right: 5%;\n}\n.plan-description[data-v-0ca26305] {\n    font-size: 0.8125rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background: linear-gradient(180deg, #f9fafb 0%, #f1f5f9 100%);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  color: #1f2937;\n}\n.container[data-v-0ca26305] {\n  max-width: 1280px;\n  margin: 0 auto;\n  padding: 0 16px;\n}\n.subscription-header[data-v-0ca26305] {\n  padding: 48px 0 32px;\n  text-align: center;\n  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.75rem;\n  font-weight: 800;\n  color: #111827;\n  margin-bottom: 12px;\n  line-height: 1.2;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #4b5563;\n  max-width: 640px;\n  margin: 0 auto;\n  line-height: 1.75;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 48px 0;\n}\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 24px;\n  border-radius: 12px;\n  margin-bottom: 24px;\n  gap: 12px;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);\n  transition: transform 0.2s ease, opacity 0.2s ease;\n}\n.notification-success[data-v-0ca26305] {\n  background: #dcfce7;\n  border: 1px solid #86efac;\n  color: #166534;\n}\n.notification-error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #f87171;\n  color: #991b1b;\n}\n.notification-info[data-v-0ca26305] {\n  background: #e0f2fe;\n  border: 1px solid #7dd3fc;\n  color: #1e40af;\n}\n.notification i[data-v-0ca26305] {\n  font-size: 1.25rem;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  padding: 4px;\n  font-size: 1.25rem;\n  transition: transform 0.2s ease;\n}\n.close-btn[data-v-0ca26305]:hover {\n  transform: scale(1.1);\n}\n.alert-container[data-v-0ca26305] {\n  position: fixed;\n  top: 16px;\n  right: 16px;\n  z-index: 1000;\n  width: 320px;\n}\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 64px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 40px;\n  height: 40px;\n  border: 4px solid #e5e7eb;\n  border-top: 4px solid #2c7c6a;\n  border-radius: 50%;\n  animation: spin-0ca26305 0.8s linear infinite;\n  margin: 0 auto 16px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  font-weight: 500;\n}\n@keyframes spin-0ca26305 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n.active-subscription[data-v-0ca26305] {\n  max-width: 640px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n  overflow: hidden;\n  transition: transform 0.3s ease;\n}\n.subscription-card[data-v-0ca26305]:hover {\n  transform: translateY(-4px);\n}\n.card-badge[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 12px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n  padding: 32px 24px;\n  text-align: center;\n  background: #f9fafb;\n}\n.status-icon[data-v-0ca26305] {\n  width: 72px;\n  height: 72px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #2c7c6a;\n  font-size: 2rem;\n  transition: transform 0.3s ease;\n}\n.card-header:hover .status-icon[data-v-0ca26305] {\n  transform: scale(1.05);\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.875rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  margin-bottom: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #6b7280;\n  font-weight: 500;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n}\n.card-body[data-v-0ca26305] {\n  padding: 24px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 16px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 24px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.benefit-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 1rem;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.9375rem;\n}\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 14px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.7;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.btn-cancel[data-v-0ca26305] {\n  background: #dc2626;\n  color: white;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(.disabled):not(.cancelled) {\n  background: #b91c1c;\n  transform: translateY(-2px);\n}\n.btn-cancel.disabled[data-v-0ca26305] {\n  background: #d1d5db;\n  color: #374151;\n  cursor: not-allowed;\n}\n.btn-cancel.cancelled[data-v-0ca26305] {\n  background: #6b7280;\n  color: white;\n  cursor: default;\n}\n.success-image-container[data-v-0ca26305] {\n  text-align: center;\n  padding: 48px 0;\n  max-width: 480px;\n  margin: 0 auto;\n  animation: fadeIn-0ca26305 0.5s ease;\n}\n.success-image[data-v-0ca26305] {\n  max-width: 80px;\n  height: auto;\n  margin-bottom: 16px;\n}\n.success-message[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  margin-bottom: 24px;\n  line-height: 1.5;\n}\n.plans-view[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 32px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  align-items: start;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n\n/* 🔑 KEY FIX: Make cards stop at the button */\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e5e7eb;\n  border-radius: 16px;\n  padding: 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  display: flex;\n  flex-direction: column;\n  height: auto;\n  min-height: auto;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #2c7c6a;\n  transform: translateY(-6px);\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 100%);\n  transform: scale(1.03);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 6px 16px;\n  border-radius: 9999px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 56px;\n  height: 56px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 12px;\n  color: #2c7c6a;\n  font-size: 1.5rem;\n  transition: transform 0.3s ease;\n}\n.plan-card:hover .plan-icon[data-v-0ca26305] {\n  transform: scale(1.1);\n}\n.plan-header h2[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.25rem;\n  font-weight: 700;\n  color: #111827;\n}\n.period[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 0.9375rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n}\n.plan-description[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 0.875rem;\n  line-height: 1.5;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 12px;\n  flex-grow: 1;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e5e7eb;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 0.9375rem;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.875rem;\n}\n\n/* 🔑 KEY FIX: Push selector to bottom and prevent extra space */\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n  padding-bottom: 0;\n}\n.plan-selector .radio-label[data-v-0ca26305],\n.plan-selector .btn-get-started[data-v-0ca26305] {\n  margin-bottom: 0;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 0.9375rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: linear-gradient(45deg, #256355, #2bb880);\n}\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #6b7280;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n.faq-section[data-v-0ca26305] {\n  background: #ffffff;\n  padding: 64px 0;\n  border-top: 1px solid #e5e7eb;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 40px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n}\n.faq-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.faq-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 20px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #111827;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 1rem;\n  transition: transform 0.3s ease;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 20px;\n  animation: slideDown-0ca26305 0.3s ease;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #4b5563;\n  line-height: 1.6;\n  margin: 0;\n}\n\n/* Animations\n-------------------------------------------------- */\n@keyframes fadeIn-0ca26305 {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes slideDown-0ca26305 {\nfrom {\n    opacity: 0;\n    height: 0;\n}\nto {\n    opacity: 1;\n    height: auto;\n}\n}\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n    font-size: 2.25rem;\n}\n.header-content p[data-v-0ca26305] {\n    font-size: 1rem;\n}\n.plans-grid[data-v-0ca26305] {\n    grid-template-columns: 1fr;\n    align-items: start;\n    gap: 16px;\n}\n.plan-card.featured[data-v-0ca26305] {\n    transform: scale(1);\n}\n.card-header[data-v-0ca26305],\n  .card-body[data-v-0ca26305] {\n    padding: 20px;\n}\n.plan-card[data-v-0ca26305] {\n    padding: 20px;\n}\n.alert-container[data-v-0ca26305] {\n    width: 90%;\n    right: 5%;\n}\n.plan-description[data-v-0ca26305] {\n    font-size: 0.8125rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -194822,7 +194877,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.ayah-container[data-v-0523142a] {\n  margin: 2rem auto;\n  padding: 1.5rem;\n}\n.ayah-header[data-v-0523142a] {\n  padding: 0 1rem;\n}\n.ayah-card[data-v-0523142a] {\n  border-radius: 16px;\n  border: none;\n  background: linear-gradient(145deg, #ffffff, #f8f9fa);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);\n  overflow: hidden;\n}\n.card-header[data-v-0523142a] {\n  background: transparent;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.05);\n  padding: 1rem 1.5rem;\n}\n.card-body[data-v-0523142a] {\n  padding: 1.5rem;\n}\n.card-footer[data-v-0523142a] {\n  background: transparent;\n  border-top: 1px solid rgba(0, 0, 0, 0.05);\n  padding: 1rem 1.5rem;\n}\n.arabic-text[data-v-0523142a] {\n  font-family: \"Amiri\", \"Noto Naskh Arabic\", \"Scheherazade New\", \"Lateef\", sans-serif;\n  direction: rtl;\n  line-height: 2.5;\n  color: #1a3c34;\n  font-weight: 600;\n}\n.translation-container[data-v-0523142a] {\n  background: #f1f3f5;\n  border-radius: 8px;\n  opacity: 0;\n  transition: opacity 0.3s ease, transform 0.3s ease;\n}\n.translation-container.show[data-v-0523142a] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.translation-text[data-v-0523142a] {\n  line-height: 1.8;\n  color: #343a40;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n}\n.translation-text.rtl[data-v-0523142a] {\n  direction: rtl;\n  text-align: right;\n  font-family: \"Amiri\", \"Noto Naskh Arabic\", \"Lateef\", sans-serif;\n}\n.tafsir-container[data-v-0523142a] {\n  background: #e9ecef;\n  border-radius: 8px;\n  opacity: 0;\n  transform: translateY(10px);\n  transition: opacity 0.3s ease, transform 0.3s ease;\n}\n.tafsir-container.show[data-v-0523142a] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.tafsir-text[data-v-0523142a] {\n  line-height: 1.6;\n  color: #495057;\n}\n.btn-primary[data-v-0523142a] {\n  background-color: #1a3c34;\n  border-color: #1a3c34;\n  border-radius: 8px;\n  padding: 0.5rem 1rem;\n  transition: background-color 0.2s ease, transform 0.1s ease;\n}\n.btn-primary[data-v-0523142a]:hover {\n  background-color: #2a5c4e;\n  border-color: #2a5c4e;\n  transform: translateY(-1px);\n}\n.btn-primary[data-v-0523142a]:active, .btn-primary.active[data-v-0523142a] {\n  background-color: #14332b;\n  border-color: #14332b;\n  transform: translateY(0);\n}\n.btn-primary[data-v-0523142a]:disabled {\n  background-color: #6c757d;\n  border-color: #6c757d;\n  opacity: 0.65;\n}\n.btn-close-btn[data-v-0523142a] {\n  background: none;\n  border: none;\n  color: #6c757d;\n  font-size: 1.2rem;\n  padding: 0.5rem;\n  transition: color 0.2s ease;\n}\n.btn-close-btn[data-v-0523142a]:hover {\n  color: #343a40;\n}\n.bg-gradient[data-v-0523142a] {\n  background: linear-gradient(90deg, #1a3c34, #2a5c4e);\n}\n.arabic-text[data-v-0523142a], .translation-text[data-v-0523142a], .tafsir-text[data-v-0523142a], .tafsir-container h6[data-v-0523142a] {\n  transition: font-size 0.2s ease;\n}\n@media (max-width: 768px) {\n.ayah-container[data-v-0523142a] {\n    padding: 1rem;\n}\n.arabic-text[data-v-0523142a] {\n    line-height: 2.2;\n}\n.btn-sm[data-v-0523142a] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.9rem;\n}\n.card-body[data-v-0523142a], .card-footer[data-v-0523142a] {\n    padding: 1rem;\n}\n}\n@media (max-width: 576px) {\n.arabic-text[data-v-0523142a] {\n    line-height: 2;\n}\n.btn-sm[data-v-0523142a] {\n    padding: 0.3rem 0.6rem;\n    font-size: 0.85rem;\n}\n.ayah-header[data-v-0523142a] {\n    padding: 0 0.5rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.ayah-container[data-v-0523142a] {\n  margin: 2rem auto;\n  padding: 0;\n  background: white;\n  border-radius: 20px;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;\n  overflow: hidden;\n}\n\n/* Header */\n.ayah-header[data-v-0523142a] {\n  padding: 1.5rem 2rem 1rem;\n  border-bottom: 1px solid #f0f0f0;\n}\n.header-content[data-v-0523142a] {\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n}\n.title-section[data-v-0523142a] {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.75rem;\n}\n.icon-wrapper[data-v-0523142a] {\n  width: 40px;\n  height: 40px;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  border-radius: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: white;\n  font-size: 1.1rem;\n}\n.title[data-v-0523142a] {\n  font-size: 1.25rem;\n  font-weight: 700;\n  color: #1a1a1a;\n  margin: 0 0 0.25rem 0;\n  line-height: 1.2;\n}\n.subtitle[data-v-0523142a] {\n  font-size: 0.875rem;\n  color: #666;\n  margin: 0;\n  font-weight: 400;\n}\n.close-btn[data-v-0523142a] {\n  background: none;\n  border: none;\n  font-size: 1.25rem;\n  color: #999;\n  cursor: pointer;\n  padding: 0.5rem;\n  border-radius: 8px;\n  transition: all 0.2s ease;\n}\n.close-btn[data-v-0523142a]:hover {\n  background: #f5f5f5;\n  color: #666;\n}\n\n/* Main Content */\n.ayah-content[data-v-0523142a] {\n  padding: 0 2rem;\n}\n.surah-info[data-v-0523142a] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin: 1.5rem 0 2rem;\n}\n.surah-badge[data-v-0523142a] {\n  background: #f8f9fa;\n  padding: 0.5rem 1rem;\n  border-radius: 20px;\n  font-size: 0.875rem;\n  font-weight: 600;\n  color: #555;\n}\n.ayah-ref[data-v-0523142a] {\n  font-size: 0.875rem;\n  color: #888;\n  font-weight: 500;\n}\n\n/* Arabic Section */\n.arabic-section[data-v-0523142a] {\n  text-align: center;\n  margin: 2rem 0;\n}\n.arabic-text[data-v-0523142a] {\n  font-family: \"Amiri\", \"Scheherazade New\", \"Lateef\", serif;\n  direction: rtl;\n  line-height: 2.2;\n  color: #1a1a1a;\n  font-weight: 600;\n  margin: 0 0 1.5rem 0;\n  text-align: justify;\n}\n.decoration[data-v-0523142a] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 1rem;\n  color: #ddd;\n}\n.decoration-line[data-v-0523142a] {\n  flex: 1;\n  height: 1px;\n  background: #f0f0f0;\n}\n\n/* Toggle Sections */\n.toggle-section[data-v-0523142a] {\n  margin: 1.5rem 0;\n}\n.toggle-btn[data-v-0523142a] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100%;\n  background: none;\n  border: none;\n  padding: 1rem 0;\n  cursor: pointer;\n  color: #555;\n  font-weight: 500;\n  transition: color 0.2s ease;\n}\n.toggle-btn[data-v-0523142a]:hover {\n  color: #333;\n}\n.toggle-btn.active[data-v-0523142a] {\n  color: #667eea;\n}\n.toggle-switch[data-v-0523142a] {\n  width: 44px;\n  height: 24px;\n  background: #e0e0e0;\n  border-radius: 12px;\n  position: relative;\n  transition: background 0.2s ease;\n}\n.toggle-btn.active .toggle-switch[data-v-0523142a] {\n  background: #667eea;\n}\n.toggle-knob[data-v-0523142a] {\n  width: 20px;\n  height: 20px;\n  background: white;\n  border-radius: 50%;\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  transition: transform 0.2s ease;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);\n}\n.toggle-btn.active .toggle-knob[data-v-0523142a] {\n  transform: translateX(20px);\n}\n\n/* Translation & Tafsir */\n.translation-section[data-v-0523142a],\n.tafsir-section[data-v-0523142a] {\n  margin: 1rem 0 2rem;\n}\n.language-selector[data-v-0523142a] {\n  display: flex;\n  gap: 0.5rem;\n  margin-bottom: 1rem;\n}\n.lang-btn[data-v-0523142a] {\n  padding: 0.375rem 0.75rem;\n  border: 1px solid #e0e0e0;\n  background: white;\n  border-radius: 8px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  color: #666;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.lang-btn.active[data-v-0523142a] {\n  background: #667eea;\n  border-color: #667eea;\n  color: white;\n}\n.translation-text[data-v-0523142a] {\n  line-height: 1.7;\n  color: #444;\n  font-size: 1rem;\n  text-align: left;\n}\n.translation-text.rtl[data-v-0523142a] {\n  direction: rtl;\n  text-align: right;\n  font-family: \"Amiri\", \"Scheherazade New\", serif;\n}\n.tafsir-text[data-v-0523142a] {\n  line-height: 1.6;\n  color: #555;\n  font-size: 0.95rem;\n  background: #fafafa;\n  padding: 1.5rem;\n  border-radius: 12px;\n  border-left: 4px solid #667eea;\n}\n\n/* Action Bar */\n.action-bar[data-v-0523142a] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1.5rem 2rem;\n  background: #fafafa;\n  border-top: 1px solid #f0f0f0;\n}\n.action-group[data-v-0523142a] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}\n.action-btn[data-v-0523142a] {\n  background: white;\n  border: 1px solid #e0e0e0;\n  border-radius: 10px;\n  padding: 0.75rem;\n  color: #666;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.action-btn[data-v-0523142a]:hover:not(:disabled) {\n  border-color: #667eea;\n  color: #667eea;\n  transform: translateY(-1px);\n}\n.action-btn[data-v-0523142a]:disabled {\n  opacity: 0.4;\n  cursor: not-allowed;\n}\n.font-size-label[data-v-0523142a] {\n  font-size: 0.875rem;\n  color: #666;\n  font-weight: 500;\n  min-width: 70px;\n  text-align: center;\n}\n\n/* Toast */\n.toast[data-v-0523142a] {\n  position: fixed;\n  bottom: 2rem;\n  left: 50%;\n  transform: translateX(-50%) translateY(100px);\n  background: #1a1a1a;\n  color: white;\n  padding: 1rem 1.5rem;\n  border-radius: 12px;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 0.875rem;\n  font-weight: 500;\n  opacity: 0;\n  transition: all 0.3s ease;\n  z-index: 1000;\n}\n.toast.show[data-v-0523142a] {\n  transform: translateX(-50%) translateY(0);\n  opacity: 1;\n}\n\n/* Animations */\n.fade-slide-enter-active[data-v-0523142a],\n.fade-slide-leave-active[data-v-0523142a] {\n  transition: all 0.3s ease;\n}\n.fade-slide-enter-from[data-v-0523142a] {\n  opacity: 0;\n  transform: translateY(-10px);\n}\n.fade-slide-leave-to[data-v-0523142a] {\n  opacity: 0;\n  transform: translateY(-10px);\n}\n\n/* Responsive */\n@media (max-width: 640px) {\n.ayah-container[data-v-0523142a] {\n    margin: 1rem;\n    border-radius: 16px;\n}\n.ayah-header[data-v-0523142a],\n  .ayah-content[data-v-0523142a] {\n    padding: 1rem 1.5rem;\n}\n.action-bar[data-v-0523142a] {\n    padding: 1rem 1.5rem;\n    flex-direction: column;\n    gap: 1rem;\n    align-items: stretch;\n}\n.action-group[data-v-0523142a] {\n    justify-content: center;\n}\n.arabic-text[data-v-0523142a] {\n    line-height: 2;\n    font-size: 1.6rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

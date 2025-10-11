@@ -105,6 +105,7 @@
                         <!-- breakdown content here -->
                          
                     </div>
+                    <AyahOfTheDay />
                     <div class="card content" >
                         <div  v-if="information != null">
                             <div class="container-fluid ">

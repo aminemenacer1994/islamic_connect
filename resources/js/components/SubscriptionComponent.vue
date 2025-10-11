@@ -286,6 +286,7 @@ export default {
           featured: true,
           description: 'Unlock powerful tools that help you learn, reflect, and stay inspired every day.',
           features: [
+            'All of the basic features',
             'Quran with AI tools',
             'Audio podcasts',
             'Reciters station',
@@ -309,6 +310,7 @@ export default {
           featured: false,
           description: 'Best value for those dedicated to lifelong learning, enjoy all Monthly benefits at a discounted rate.',
           features: [
+            'All of the basic features',
             'Quran with AI tools',
             'Audio podcasts',
             'Reciters station',
@@ -1086,12 +1088,11 @@ export default {
 .plan-description {
   color: #4b5563;
   font-size: 0.875rem;
-  margin-top: 12px;
   line-height: 1.5;
 }
 
 .plan-features {
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   flex-grow: 1;
 }
 

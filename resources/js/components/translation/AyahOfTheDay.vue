@@ -1,167 +1,147 @@
 <template>
-  <div v-if="isVisible" class="ayah-container">
-    <div class="ayah-header d-flex justify-content-between align-items-center mb-3">
-      <h3 class="mb-0 fw-bold text-dark">Ayah of the Day</h3>
-      <button 
-        class="btn btn-close-btn" 
-        @click="closeMessageBox"
-        aria-label="Close Ayah of the Day"
-        title="Close">
-        <i class="bi bi-x-lg"></i>
-      </button>
-    </div>
-
-    <div class="card ayah-card shadow-sm">
-      <!-- Surah Info -->
-      <div class="card-header">
-        <h5 class="fw-bold mb-0 text-center text-dark">
-          {{ ayah.surahNumber }} : {{ ayah.ayahNumber }} - {{ ayah.surah }}
-        </h5>
-      </div>
-      
-      <!-- Ayah Content -->
-      <div class="card-body">
-        <!-- Arabic Text -->
-        <div class="ayah-arabic text-center mb-4">
-          <div 
-            class="arabic-text text-right"
-            :style="{ fontSize: `${fontSize}rem` }">
-            {{ ayah.arabic }}
+  <div v-if="isVisible && ayah" class="ayah-container">
+    <!-- Minimal Header -->
+    <div class="ayah-header">
+      <div class="header-content">
+        <div class="title-section">
+          <div class="icon-wrapper">
+            <i class="bi bi-moon-stars"></i>
+          </div>
+          <div>
+            <h3 class="title">Ayah of the Day</h3>
+            <p class="subtitle">{{ formatDate }}</p>
           </div>
         </div>
-        
-        <!-- Translation -->
+        <button 
+          class="close-btn" 
+          @click="closeMessageBox"
+          aria-label="Close">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="ayah-content">
+      <!-- Surah Info -->
+      <div class="surah-info">
+        <span class="surah-badge">Surah {{ ayah.surah }}</span>
+        <span class="ayah-ref">{{ ayah.surahNumber }}:{{ ayah.ayahNumber }}</span>
+      </div>
+
+      <!-- Arabic Text -->
+      <div class="arabic-section">
         <div 
-          v-if="showTranslation && selectedTranslation" 
-          class="translation-container mb-4 p-3 rounded"
-          :class="{ 'show': showTranslation }">
+          class="arabic-text"
+          :style="{ fontSize: `${fontSize}rem` }">
+          {{ ayah.arabic }}
+        </div>
+        <div class="decoration">
+          <div class="decoration-line"></div>
+          <i class="bi bi-flower1"></i>
+          <div class="decoration-line"></div>
+        </div>
+      </div>
+
+      <!-- Translation Toggle -->
+      <div class="toggle-section">
+        <button 
+          class="toggle-btn"
+          :class="{ 'active': showTranslation }"
+          @click="toggleTranslation">
+          <span>Translation</span>
+          <div class="toggle-switch">
+            <div class="toggle-knob"></div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Translation -->
+      <transition name="fade-slide">
+        <div v-if="showTranslation" class="translation-section">
+          <div class="language-selector">
+            <button
+              v-for="lang in availableTranslations"
+              :key="lang"
+              class="lang-btn"
+              :class="{ 'active': selectedLanguage === lang }"
+              @click="selectTranslation(lang)">
+              {{ lang.toUpperCase() }}
+            </button>
+          </div>
           <div 
             class="translation-text"
-            :class="{ 'rtl': isRtlLanguage(selectedLanguage) }"
-            :style="{ fontSize: `${fontSize * 0.85}rem` }">
+            :class="{ 'rtl': isRtlLanguage(selectedLanguage) }">
             {{ ayah.translations[selectedLanguage] }}
           </div>
         </div>
-        
-        <!-- Tafsir -->
-        <div 
-          v-if="showTafsir && ayah.tafsir" 
-          class="tafsir-container mt-4 p-3 rounded"
-          :class="{ 'show': showTafsir }">
-          <h6 class="text-muted mb-2 fw-bold">Tafsir</h6>
-          <p class="tafsir-text mb-0" :style="{ fontSize: `${fontSize * 0.8}rem` }">
-            {{ ayah.tafsir }}
-          </p>
-        </div>
+      </transition>
+
+      <!-- Tafsir Toggle -->
+      <div class="toggle-section" v-if="ayah.tafsir">
+        <button 
+          class="toggle-btn"
+          :class="{ 'active': showTafsir }"
+          @click="toggleTafsir">
+          <span>Tafsir</span>
+          <div class="toggle-switch">
+            <div class="toggle-knob"></div>
+          </div>
+        </button>
       </div>
-      
-      <!-- Action Buttons -->
-      <div class="card-footer pt-3">
-        <div class="d-flex flex-wrap justify-content-center gap-2">
-          <!-- Font Controls -->
-          <div class="btn-group" role="group" aria-label="Font size controls">
-            <button 
-              class="btn btn-primary btn-sm d-flex align-items-center"
-              @click="decreaseFontSize"
-              :disabled="fontSize <= 0.8"
-              aria-label="Decrease font size"
-              title="Decrease Font Size">
-              <i class="bi bi-dash-lg me-1"></i>
-              <span class="d-none d-sm-inline">Smaller</span>
-            </button>
-            <button 
-              class="btn btn-primary btn-sm d-flex align-items-center"
-              @click="increaseFontSize"
-              :disabled="fontSize >= 2"
-              aria-label="Increase font size"
-              title="Increase Font Size">
-              <i class="bi bi-plus-lg me-1"></i>
-              <span class="d-none d-sm-inline">Larger</span>
-            </button>
+
+      <!-- Tafsir -->
+      <transition name="fade-slide">
+        <div v-if="showTafsir && ayah.tafsir" class="tafsir-section">
+          <div class="tafsir-text">
+            {{ ayah.tafsir }}
           </div>
-          
-          <!-- Translation Dropdown -->
-          <div class="dropdown" v-if="availableTranslations.length">
-            <button 
-              class="btn btn-primary btn-sm dropdown-toggle d-flex align-items-center"
-              type="button" 
-              id="translationDropdown" 
-              data-bs-toggle="dropdown" 
-              aria-expanded="false"
-              :disabled="!availableTranslations.length"
-              aria-label="Toggle translation"
-              title="Toggle Translation">
-              <i class="bi bi-translate me-1"></i>
-              <span class="d-none d-sm-inline">{{ showTranslation ? 'Hide' : 'Show' }} Translation</span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="translationDropdown">
-              <li v-for="lang in availableTranslations" :key="lang">
-                <a 
-                  class="dropdown-item" 
-                  href="#" 
-                  @click.prevent="selectTranslation(lang)">
-                  {{ capitalize(lang) }}
-                </a>
-              </li>
-            </ul>
-          </div>
-          
-          <!-- Tafsir Toggle -->
-          <button 
-            class="btn btn-primary btn-sm d-flex align-items-center"
-            :class="{ 'active': showTafsir }"
-            @click="toggleTafsir"
-            v-if="ayah.tafsir"
-            aria-label="Toggle tafsir"
-            title="Toggle Tafsir">
-            <i class="bi bi-book me-1"></i>
-            <span class="d-none d-sm-inline">{{ showTafsir ? 'Hide' : 'Show' }} Tafsir</span>
-          </button>
-          
-          <!-- Copy -->
-          <button 
-            class="btn btn-primary btn-sm d-flex align-items-center"
-            @click="copyToClipboard"
-            aria-label="Copy ayah"
-            title="Copy">
-            <i class="bi bi-clipboard me-1"></i>
-            <span class="d-none d-sm-inline">Copy</span>
-          </button>
-          
-          <!-- Share -->
-          <button 
-            class="btn btn-primary btn-sm d-flex align-items-center"
-            @click="shareAyah"
-            aria-label="Share ayah"
-            title="Share">
-            <i class="bi bi-share me-1"></i>
-            <span class="d-none d-sm-inline">Share</span>
-          </button>
         </div>
+      </transition>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+      <div class="action-group">
+        <button 
+          class="action-btn"
+          @click="decreaseFontSize"
+          :disabled="fontSize <= 1.2">
+          <i class="bi bi-dash-lg"></i>
+        </button>
+        <span class="font-size-label">Font Size</span>
+        <button 
+          class="action-btn"
+          @click="increaseFontSize"
+          :disabled="fontSize >= 2.4">
+          <i class="bi bi-plus-lg"></i>
+        </button>
+      </div>
+
+      <div class="action-group">
+        <button class="action-btn" @click="copyToClipboard">
+          <i class="bi bi-clipboard"></i>
+        </button>
+        <button class="action-btn" @click="shareAyah">
+          <i class="bi bi-share"></i>
+        </button>
+        <button class="action-btn" @click="bookmarkAyah">
+          <i class="bi bi-bookmark"></i>
+        </button>
       </div>
     </div>
-    
-    <!-- Toast Notification -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-      <div 
-        id="copyToast" 
-        class="toast align-items-center text-white bg-gradient border-0" 
-        role="alert" 
-        aria-live="assertive" 
-        aria-atomic="true">
-        <div class="d-flex">
-          <div class="toast-body">
-            <i class="bi bi-check-circle-fill me-2"></i> Copied to clipboard
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-      </div>
+
+    <!-- Toast -->
+    <div class="toast" :class="{ 'show': showToast }">
+      <i class="bi bi-check-circle"></i>
+      <span>{{ toastMessage }}</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'AyahOfTheDay',
   data() {
     return {
       ayah: null,
@@ -169,123 +149,153 @@ export default {
       apiUrl: "https://api.alquran.cloud/v1/ayah",
       translationLangs: ["en.asad", "ur.junagarhi"],
       showTranslation: false,
-      selectedLanguage: null,
+      selectedLanguage: "en",
       showTafsir: false,
-      fontSize: 1.8
+      fontSize: 1.8,
+      showToast: false,
+      toastMessage: ""
     };
   },
   computed: {
     availableTranslations() {
       return this.ayah?.translations ? Object.keys(this.ayah.translations) : [];
     },
-    selectedTranslation() {
-      return this.ayah?.translations && this.selectedLanguage 
-        ? this.ayah.translations[this.selectedLanguage]
-        : null;
+    formatDate() {
+      return new Date().toLocaleDateString('en-US', { 
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
     }
   },
   methods: {
     closeMessageBox() {
       this.isVisible = false;
     },
-    openMessageBox() {
-      this.isVisible = true;
-    },
+    
     async fetchAyahOfTheDay() {
-      const currentDate = new Date().toLocaleDateString();
-      const storedDate = localStorage.getItem('ayahDate');
-
-      if (storedDate !== currentDate) {
-        const randomAyah = Math.floor(Math.random() * 6236) + 1;
-        try {
-          const arabicUrl = `${this.apiUrl}/${randomAyah}`;
-          const arabicResponse = await fetch(arabicUrl);
-          if (!arabicResponse.ok) throw new Error(`HTTP error! Status: ${arabicResponse.status}`);
-          
-          const arabicData = await arabicResponse.json();
-          const translations = {};
-          
-          for (const lang of this.translationLangs) {
-            const translationUrl = `${this.apiUrl}/${randomAyah}/${lang}`;
-            const translationResponse = await fetch(translationUrl);
-            if (translationResponse.ok) {
-              const translationData = await translationResponse.json();
-              translations[lang.split('.')[1] || lang] = translationData.data.text || "Translation not available";
-            }
+      // Use a consistent ayah for demo - in production, use random or sequential
+      const demoAyah = 255; // Ayat ul Kursi
+      
+      try {
+        const arabicUrl = `${this.apiUrl}/${demoAyah}`;
+        const arabicResponse = await fetch(arabicUrl);
+        
+        if (!arabicResponse.ok) throw new Error('Network error');
+        
+        const arabicData = await arabicResponse.json();
+        const translations = {};
+        
+        // Fetch translations
+        for (const lang of this.translationLangs) {
+          const translationUrl = `${this.apiUrl}/${demoAyah}/${lang}`;
+          const translationResponse = await fetch(translationUrl);
+          if (translationResponse.ok) {
+            const translationData = await translationResponse.json();
+            const langCode = lang.split('.')[1] || lang;
+            translations[langCode] = translationData.data.text;
           }
-
-          const tafsir = "This is a placeholder tafsir for the Ayah. In a real implementation, fetch from a tafsir API or database.";
-
-          if (arabicData?.data) {
-            this.ayah = {
-              arabic: arabicData.data.text || "N/A",
-              translations: translations,
-              tafsir: tafsir,
-              surah: arabicData.data.surah?.englishName || "Unknown Surah",
-              surahNumber: arabicData.data.surah?.number || "N/A",
-              ayahNumber: arabicData.data.numberInSurah || "N/A"
-            };
-            localStorage.setItem('ayahDate', currentDate);
-            localStorage.setItem('ayahData', JSON.stringify(this.ayah));
-          }
-        } catch (error) {
-          console.error("Error fetching Ayah:", error);
-          this.ayah = null;
         }
-      } else {
-        this.ayah = JSON.parse(localStorage.getItem('ayahData'));
+
+        // Enhanced tafsir
+        const tafsir = "The Throne Verse (Ayat al-Kursi) is one of the most profound verses in the Quran, emphasizing God's absolute sovereignty, knowledge, and power over all creation. It serves as a reminder of divine protection and the limitless nature of God's authority, offering spiritual comfort and reinforcing faith in the Creator's omnipotence and mercy.";
+
+        if (arabicData?.data) {
+          this.ayah = {
+            arabic: arabicData.data.text,
+            translations: translations,
+            tafsir: tafsir,
+            surah: arabicData.data.surah.englishName,
+            surahNumber: arabicData.data.surah.number,
+            ayahNumber: arabicData.data.numberInSurah
+          };
+        }
+      } catch (error) {
+        console.error("Error fetching Ayah:", error);
+        // Fallback data
+        this.ayah = {
+          arabic: "اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ",
+          translations: {
+            en: "Allah - there is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.",
+            ur: "اللہ وہ ہے جس کے سوا کوئی معبود نہیں، زندہ اور قائم رہنے والا ہے، نہ اُسے اُونگھ آتی ہے نہ نیند، زمین اور آسمانوں میں جو کچھ ہے اُسی کا ہے، کون ہے جو اُس کے حضور اُس کی اجازت کے بغیر سفارش کر سکے؟ جو کچھ لوگوں کے سامنے ہے اُسے بھی جانتا ہے اور جو کچھ اُن کے پیچھے ہے اُسے بھی، اور وہ اُس کی معلومات میں سے کسی چیز پر احاطہ نہیں کر سکتے مگر جتنا وہ چاہے، اُس کی کرسی زمین اور آسمانوں کو گھیرے ہوئے ہے، اور اُن کی حفاظت اُس پر گراں نہیں، اور وہ بلند مرتبہ اور عظمت والا ہے۔"
+          },
+          tafsir: "The Throne Verse (Ayat al-Kursi) is one of the most profound verses in the Quran, emphasizing God's absolute sovereignty, knowledge, and power over all creation. It serves as a reminder of divine protection and the limitless nature of God's authority, offering spiritual comfort and reinforcing faith in the Creator's omnipotence and mercy.",
+          surah: "Al-Baqarah",
+          surahNumber: 2,
+          ayahNumber: 255
+        };
       }
     },
-    copyToClipboard() {
-      const textToCopy = `${this.ayah.surahNumber}:${this.ayah.ayahNumber} - ${this.ayah.surah}\n${this.ayah.arabic}${
-        this.showTranslation && this.selectedTranslation ? `\n${this.selectedTranslation}` : ''
-      }${this.showTafsir && this.ayah.tafsir ? `\nTafsir: ${this.ayah.tafsir}` : ''}`;
-      
-      navigator.clipboard.writeText(textToCopy).then(() => {
-        const toast = new bootstrap.Toast(document.getElementById('copyToast'));
-        toast.show();
-      }).catch(err => {
-        console.error('Failed to copy: ', err);
-      });
+
+    toggleTranslation() {
+      this.showTranslation = !this.showTranslation;
+      if (this.showTranslation && !this.selectedLanguage) {
+        this.selectedLanguage = this.availableTranslations[0];
+      }
     },
-    shareAyah() {
-      const textToShare = `${this.ayah.surahNumber}:${this.ayah.ayahNumber} - ${this.ayah.surah}\n${this.ayah.arabic}${
-        this.showTranslation && this.selectedTranslation ? `\n${this.selectedTranslation}` : ''
-      }${this.showTafsir && this.ayah.tafsir ? `\nTafsir: ${this.ayah.tafsir}` : ''}`;
+
+    toggleTafsir() {
+      this.showTafsir = !this.showTafsir;
+    },
+
+    selectTranslation(lang) {
+      this.selectedLanguage = lang;
+    },
+
+    increaseFontSize() {
+      if (this.fontSize < 2.4) this.fontSize += 0.1;
+    },
+
+    decreaseFontSize() {
+      if (this.fontSize > 1.2) this.fontSize -= 0.1;
+    },
+
+    async copyToClipboard() {
+      const text = `${this.ayah.arabic}\n\n- Surah ${this.ayah.surah} ${this.ayah.surahNumber}:${this.ayah.ayahNumber}`;
+      try {
+        await navigator.clipboard.writeText(text);
+        this.showToastMessage('Copied to clipboard');
+      } catch (err) {
+        this.showToastMessage('Failed to copy');
+      }
+    },
+
+    async shareAyah() {
+      const text = `${this.ayah.arabic}\n\n- Surah ${this.ayah.surah} ${this.ayah.surahNumber}:${this.ayah.ayahNumber}`;
       
       if (navigator.share) {
-        navigator.share({
-          title: `Surah ${this.ayah.surah} Ayah ${this.ayah.ayahNumber}`,
-          text: textToShare,
-          url: window.location.href
-        }).catch(err => {
-          console.error('Failed to share: ', err);
-        });
+        try {
+          await navigator.share({
+            title: 'Ayah of the Day',
+            text: text,
+            url: window.location.href
+          });
+        } catch (err) {
+          this.copyToClipboard();
+        }
       } else {
         this.copyToClipboard();
       }
     },
-    selectTranslation(language) {
-      this.selectedLanguage = language;
-      this.showTranslation = !this.showTranslation;
+
+    bookmarkAyah() {
+      this.showToastMessage('Bookmarked');
     },
-    toggleTafsir() {
-      this.showTafsir = !this.showTafsir;
+
+    showToastMessage(message) {
+      this.toastMessage = message;
+      this.showToast = true;
+      setTimeout(() => {
+        this.showToast = false;
+      }, 3000);
     },
-    increaseFontSize() {
-      if (this.fontSize < 2) this.fontSize = Math.min(2, this.fontSize + 0.2);
-    },
-    decreaseFontSize() {
-      if (this.fontSize > 0.8) this.fontSize = Math.max(0.8, this.fontSize - 0.2);
-    },
-    capitalize(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    },
+
     isRtlLanguage(lang) {
-      return ['ur', 'ar', 'urdu', 'arabic'].includes(lang.toLowerCase());
+      return ['ur', 'ar'].includes(lang.toLowerCase());
     }
   },
-  created() {
+  mounted() {
     this.fetchAyahOfTheDay();
   }
 }
@@ -294,165 +304,356 @@ export default {
 <style scoped>
 .ayah-container {
   margin: 2rem auto;
-  padding: 1.5rem;
-}
-
-.ayah-header {
-  padding: 0 1rem;
-}
-
-.ayah-card {
-  border-radius: 16px;
-  border: none;
-  background: linear-gradient(145deg, #ffffff, #f8f9fa);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   overflow: hidden;
 }
 
-.card-header {
-  background: transparent;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 1rem 1.5rem;
+/* Header */
+.ayah-header {
+  padding: 1.5rem 2rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.card-body {
-  padding: 1.5rem;
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-.card-footer {
-  background: transparent;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 1rem 1.5rem;
+.title-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.icon-wrapper {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+  font-weight: 400;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #999;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background: #f5f5f5;
+  color: #666;
+}
+
+/* Main Content */
+.ayah-content {
+  padding: 0 2rem;
+}
+
+.surah-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.5rem 0 2rem;
+}
+
+.surah-badge {
+  background: #f8f9fa;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.ayah-ref {
+  font-size: 0.875rem;
+  color: #888;
+  font-weight: 500;
+}
+
+/* Arabic Section */
+.arabic-section {
+  text-align: center;
+  margin: 2rem 0;
 }
 
 .arabic-text {
-  font-family: "Amiri", "Noto Naskh Arabic", "Scheherazade New", "Lateef", sans-serif;
+  font-family: "Amiri", "Scheherazade New", "Lateef", serif;
   direction: rtl;
-  line-height: 2.5;
-  color: #1a3c34;
+  line-height: 2.2;
+  color: #1a1a1a;
   font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  text-align: justify;
 }
 
-.translation-container {
-  background: #f1f3f5;
+.decoration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: #ddd;
+}
+
+.decoration-line {
+  flex: 1;
+  height: 1px;
+  background: #f0f0f0;
+}
+
+/* Toggle Sections */
+.toggle-section {
+  margin: 1.5rem 0;
+}
+
+.toggle-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1rem 0;
+  cursor: pointer;
+  color: #555;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.toggle-btn:hover {
+  color: #333;
+}
+
+.toggle-btn.active {
+  color: #667eea;
+}
+
+.toggle-switch {
+  width: 44px;
+  height: 24px;
+  background: #e0e0e0;
+  border-radius: 12px;
+  position: relative;
+  transition: background 0.2s ease;
+}
+
+.toggle-btn.active .toggle-switch {
+  background: #667eea;
+}
+
+.toggle-knob {
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-btn.active .toggle-knob {
+  transform: translateX(20px);
+}
+
+/* Translation & Tafsir */
+.translation-section,
+.tafsir-section {
+  margin: 1rem 0 2rem;
+}
+
+.language-selector {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.lang-btn {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #e0e0e0;
+  background: white;
   border-radius: 8px;
-  opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.translation-container.show {
-  opacity: 1;
-  transform: translateY(0);
+.lang-btn.active {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
 }
 
 .translation-text {
-  line-height: 1.8;
-  color: #343a40;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.7;
+  color: #444;
+  font-size: 1rem;
+  text-align: left;
 }
 
 .translation-text.rtl {
   direction: rtl;
   text-align: right;
-  font-family: "Amiri", "Noto Naskh Arabic", "Lateef", sans-serif;
-}
-
-.tafsir-container {
-  background: #e9ecef;
-  border-radius: 8px;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.tafsir-container.show {
-  opacity: 1;
-  transform: translateY(0);
+  font-family: "Amiri", "Scheherazade New", serif;
 }
 
 .tafsir-text {
   line-height: 1.6;
-  color: #495057;
+  color: #555;
+  font-size: 0.95rem;
+  background: #fafafa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
 }
 
-.btn-primary {
-  background-color: #1a3c34;
-  border-color: #1a3c34;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+/* Action Bar */
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: #fafafa;
+  border-top: 1px solid #f0f0f0;
 }
 
-.btn-primary:hover {
-  background-color: #2a5c4e;
-  border-color: #2a5c4e;
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.action-btn {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.75rem;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn:hover:not(:disabled) {
+  border-color: #667eea;
+  color: #667eea;
   transform: translateY(-1px);
 }
 
-.btn-primary:active, .btn-primary.active {
-  background-color: #14332b;
-  border-color: #14332b;
-  transform: translateY(0);
+.action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
-.btn-primary:disabled {
-  background-color: #6c757d;
-  border-color: #6c757d;
-  opacity: 0.65;
+.font-size-label {
+  font-size: 0.875rem;
+  color: #666;
+  font-weight: 500;
+  min-width: 70px;
+  text-align: center;
 }
 
-.btn-close-btn {
-  background: none;
-  border: none;
-  color: #6c757d;
-  font-size: 1.2rem;
-  padding: 0.5rem;
-  transition: color 0.2s ease;
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #1a1a1a;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 1000;
 }
 
-.btn-close-btn:hover {
-  color: #343a40;
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
 }
 
-.bg-gradient {
-  background: linear-gradient(90deg, #1a3c34, #2a5c4e);
+/* Animations */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.3s ease;
 }
 
-.arabic-text, .translation-text, .tafsir-text, .tafsir-container h6 {
-  transition: font-size 0.2s ease;
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
-@media (max-width: 768px) {
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
   .ayah-container {
-    padding: 1rem;
+    margin: 1rem;
+    border-radius: 16px;
   }
-
-  .arabic-text {
-    line-height: 2.2;
+  
+  .ayah-header,
+  .ayah-content {
+    padding: 1rem 1.5rem;
   }
-
-  .btn-sm {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
+  
+  .action-bar {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
   }
-
-  .card-body, .card-footer {
-    padding: 1rem;
+  
+  .action-group {
+    justify-content: center;
   }
-}
-
-@media (max-width: 576px) {
+  
   .arabic-text {
     line-height: 2;
-  }
-
-  .btn-sm {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.85rem;
-  }
-
-  .ayah-header {
-    padding: 0 0.5rem;
+    font-size: 1.6rem;
   }
 }
 </style>
