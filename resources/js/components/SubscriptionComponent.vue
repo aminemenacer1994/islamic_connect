@@ -253,60 +253,82 @@ export default {
         }
       ],
       plans: [
-        {
-          value: '',
-          name: 'Basic',
-          price: '£0',
-          period: '',
-          icon: 'fas fa-calendar-alt',
-          badge: 'Free Forever',
-          featured: false,
-          description: 'Access core features for free, perfect for getting started with Islamic Connect.',
-          features: [
-            'Ad-free experience',
-            'Basic prayer time notifications',
-            'Access to community forums',
-            'Standard support'
-          ]
-        },
-        {
-          value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
-          name: 'Monthly',
-          price: '£1.99',
-          period: ' per month',
-          icon: 'fas fa-star',
-          badge: 'Most Popular',
-          featured: true,
-          description: 'Flexible monthly billing with full access to premium features for a seamless experience.',
-          features: [
-            'Ad-free experience',
-            'Offline content access',
-            'Advanced prayer settings',
-            '24/7 priority support'
-          ]
-        },
-        {
-          value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
-          name: 'Yearly',
-          price: '£18',
-          period: ' per year',
-          icon: 'fas fa-infinity',
-          badge: 'Best Value',
-          featured: false,
-          description: 'Save more with annual billing and enjoy all premium features for a full year.',
-          features: [
-            'Ad-free experience',
-            'Offline content access',
-            'Advanced prayer settings',
-            'Exclusive priority support'
-          ]
-        }
-      ],
-      planDetails: {
-        'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
-        'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly',
-        'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime'
-      }
+  {
+    value: '',
+    name: 'Basic',
+    price: '£0',
+    period: '',
+    icon: 'fas fa-moon',
+    badge: 'Free Forever',
+    featured: false,
+    description: 'Full access to all core Islamic resources — no payment required.',
+    features: [
+      'Quran with translation & Audio recitation',
+      'Quran history',
+      'Islamic finance',
+      'Names of Allah',
+      'Islamic dictionary',
+      'Islamic blogs',
+      'Dua collection',
+      'Qibla finder',
+      'Hajj and Umrah guides',
+      'Hijri calendar',
+      'Date converter',
+    ]
+  },
+  {
+    value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
+    name: 'Monthly',
+    price: '£1.99',
+    period: ' per month',
+    icon: 'fas fa-star',
+    badge: 'Most Popular',
+    featured: true,
+    description: 'Same full access as Basic, with additional premium benefits.',
+    features: [
+      'Quran with AI tools',
+      'Multi-language support',
+      'Audio podcasts',
+      'Reciters station',
+      'Islamic directory video channels',
+      'Short form video gallery',
+      'Image gallery',
+      'Seerah timeline',
+      'Islamic guides',
+      'Zakat calculator',
+      'Mosque finder',
+      'Schools and centres finder',
+      'Halal butchers finder',
+      'Priority support',
+    ]
+  },
+  {
+    value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+    name: 'Yearly',
+    price: '£17.99',
+    period: ' per year',
+    icon: 'fas fa-infinity',
+    badge: 'Best Value',
+    featured: false,
+    description: 'Same full access as Basic with premium benefits at a discounted rate.',
+    features: [
+      'Quran with AI tools',
+      'Multi-language support',
+      'Audio podcasts',
+      'Reciters station',
+      'Islamic directory video channels',
+      'Short form video gallery',
+      'Image gallery',
+      'Seerah timeline',
+      'Islamic guides',
+      'Zakat calculator',
+      'Mosque finder',
+      'Schools and centres finder',
+      'Halal butchers finder',
+      'Priority support',
+    ]
+  }
+],
     };
   },
 
