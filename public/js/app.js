@@ -154011,7 +154011,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         period: 'per year',
         icon: 'fas fa-infinity',
         badge: 'Best Deal',
-        savings: 'Save £5.89 or 25%',
+        savings: 'Save £5.89',
         featured: false,
         description: 'Best value for those dedicated to lifelong learning, enjoy all Monthly benefits at a discounted rate.',
         features: ['Quran with AI tools', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
@@ -154221,6 +154221,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               setTimeout(function () {
                 return _this4.success = '';
               }, 5000);
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
               window.history.replaceState({}, document.title, window.location.pathname);
               _context4.n = 5;
               break;
@@ -154335,6 +154339,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                       setTimeout(function () {
                         return _this7.success = '';
                       }, 5000);
+                      window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                      });
                       _context6.n = 8;
                       break;
                     case 5:
@@ -154350,6 +154358,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                       setTimeout(function () {
                         return _this7.success = '';
                       }, 5000);
+                      window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                      });
                       _context6.n = 8;
                       break;
                     case 7:
@@ -181559,7 +181571,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "success-image"
   }, null, -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "success-message"
-  }, "Congratulations! Your premium subscription is now active. Enjoy exclusive features like ad-free browsing, offline content access, and priority support to enhance your experience.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Thank you for your support! Your subscription helps sustain Islamic Connect as a free, accessible resource for Muslims worldwide. May Allahﷻ accept your contribution and bless your efforts. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $data.showSuccessImage = false;
     }),

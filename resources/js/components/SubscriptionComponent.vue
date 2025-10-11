@@ -43,7 +43,9 @@
         <!-- Success Image -->
         <div v-if="showSuccessImage" class="success-image-container">
           <img src="/images/mark1.png" width="100" alt="Subscription Success" class="success-image">
-          <p class="success-message">Congratulations! Your premium subscription is now active. Enjoy exclusive features like ad-free browsing, offline content access, and priority support to enhance your experience.</p>
+          <p class="success-message">
+            Thank you for your support! Your subscription helps sustain Islamic Connect as a free, accessible resource for Muslims worldwide. May Allahﷻ accept your contribution and bless your efforts.
+          </p>
           <button @click="showSuccessImage = false" class="btn btn-primary">Start Exploring</button>
         </div>
 
@@ -303,7 +305,7 @@ export default {
           period: 'per year',
           icon: 'fas fa-infinity',
           badge: 'Best Deal',
-          savings: 'Save £5.89 or 25%',
+          savings: 'Save £5.89',
           featured: false,
           description: 'Best value for those dedicated to lifelong learning, enjoy all Monthly benefits at a discounted rate.',
           features: [
@@ -459,6 +461,7 @@ export default {
         await this.fetchSubscriptionStatus();
         this.success = 'Your subscription has been cancelled. You can resubscribe anytime to regain premium access.';
         setTimeout(() => this.success = '', 5000);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         window.history.replaceState({}, document.title, window.location.pathname);
       } else {
         await this.fetchSubscriptionStatus();
@@ -514,11 +517,13 @@ export default {
             await this.fetchSubscriptionStatus();
             this.success = 'Your subscription has been successfully cancelled. Access to premium features has ended.';
             setTimeout(() => this.success = '', 5000);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           } else if (data.message && data.message.includes('canceled subscription')) {
             this.isCancelled = true;
             await this.fetchSubscriptionStatus();
             this.success = 'Your subscription is already cancelled. No further action is needed.';
             setTimeout(() => this.success = '', 5000);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           } else {
             throw new Error(data.message || 'Failed to cancel your subscription.');
           }
