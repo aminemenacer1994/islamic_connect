@@ -5,7 +5,8 @@
       <div class="container">
         <div class="header-content">
           <h1>Manage Your Islamic Connect Subscription</h1>
-          <p>Join our community with a premium subscription to unlock exclusive features, enhance your spiritual journey, and support our mission to connect Muslims worldwide through innovative tools and resources.</p>
+          <p>Join our community with a premium subscription to unlock exclusive features, enhance your spiritual
+            journey, and support our mission to connect Muslims worldwide through innovative tools and resources.</p>
         </div>
       </div>
     </header>
@@ -42,7 +43,8 @@
         <!-- Success Image -->
         <div v-if="showSuccessImage" class="success-image-container">
           <img src="/images/mark1.png" width="100" alt="Subscription Success" class="success-image">
-          <p class="success-message">Congratulations! Your premium subscription is now active. Enjoy exclusive features like ad-free browsing, offline content access, and priority support to enhance your experience.</p>
+          <p class="success-message">Congratulations! Your premium subscription is now active. Enjoy exclusive features
+            like ad-free browsing, offline content access, and priority support to enhance your experience.</p>
           <button @click="showSuccessImage = false" class="btn btn-primary">Start Exploring</button>
         </div>
 
@@ -74,13 +76,10 @@
                   <span>{{ benefit }}</span>
                 </div>
               </div>
-              <button 
-                @click="handleCancelSubscription" 
-                class="btn btn-cancel"
+              <button @click="handleCancelSubscription" class="btn btn-cancel"
                 :disabled="cancelling || !canCancel || isCancelled"
                 :class="{ 'disabled': !canCancel || isCancelled, 'cancelled': isCancelled }"
-                :title="isCancelled ? 'Your subscription is already cancelled' : 'Cancel your subscription (access ends immediately)'"
-              >
+                :title="isCancelled ? 'Your subscription is already cancelled' : 'Cancel your subscription (access ends immediately)'">
                 <i class="fas fa-times-circle"></i>
                 {{ cancelling ? 'Cancelling...' : isCancelled ? 'Subscription Cancelled' : 'Cancel Subscription' }}
               </button>
@@ -92,7 +91,8 @@
         <div v-if="showPlans && !showSuccessImage" class="plans-view">
           <div v-if="subscription?.ends_at" class="notification notification-info">
             <i class="fas fa-info-circle"></i>
-            <span>Your subscription will end on {{ formatDate(subscription.ends_at) }}. Subscribe to a new plan to continue enjoying premium features and uninterrupted access.</span>
+            <span>Your subscription will end on {{ formatDate(subscription.ends_at) }}. Subscribe to a new plan to
+              continue enjoying premium features and uninterrupted access.</span>
             <button @click="subscription = null" class="close-btn">
               <i class="fas fa-times"></i>
             </button>
@@ -184,7 +184,8 @@
     </section>
 
     <!-- Confirmation Modal -->
-    <div class="modal fade" id="cancelConfirmationModal" tabindex="-1" aria-labelledby="cancelConfirmationLabel" aria-hidden="true">
+    <div class="modal fade" id="cancelConfirmationModal" tabindex="-1" aria-labelledby="cancelConfirmationLabel"
+      aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -192,7 +193,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            Are you sure you want to cancel your subscription? Your premium access will end immediately, and you will lose access to exclusive features.
+            Are you sure you want to cancel your subscription? Your premium access will end immediately, and you will
+            lose
+            access to exclusive features.
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="cancelDismiss">No, Keep My Subscription</button>
@@ -253,82 +256,80 @@ export default {
         }
       ],
       plans: [
-  {
-    value: '',
-    name: 'Basic',
-    price: '£0',
-    period: '',
-    icon: 'fas fa-moon',
-    badge: 'Free Forever',
-    featured: false,
-    description: 'Full access to all core Islamic resources — no payment required.',
-    features: [
-      'Quran with translation & Audio recitation',
-      'Quran history',
-      'Islamic finance',
-      'Names of Allah',
-      'Islamic dictionary',
-      'Islamic blogs',
-      'Dua collection',
-      'Qibla finder',
-      'Hajj and Umrah guides',
-      'Hijri calendar',
-      'Date converter',
-    ]
-  },
-  {
-    value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
-    name: 'Monthly',
-    price: '£1.99',
-    period: ' per month',
-    icon: 'fas fa-star',
-    badge: 'Most Popular',
-    featured: true,
-    description: 'Same full access as Basic, with additional premium benefits.',
-    features: [
-      'Quran with AI tools',
-      'Multi-language support',
-      'Audio podcasts',
-      'Reciters station',
-      'Islamic directory video channels',
-      'Short form video gallery',
-      'Image gallery',
-      'Seerah timeline',
-      'Islamic guides',
-      'Zakat calculator',
-      'Mosque finder',
-      'Schools and centres finder',
-      'Halal butchers finder',
-      'Priority support',
-    ]
-  },
-  {
-    value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
-    name: 'Yearly',
-    price: '£17.99',
-    period: ' per year',
-    icon: 'fas fa-infinity',
-    badge: 'Best Value',
-    featured: false,
-    description: 'Same full access as Basic with premium benefits at a discounted rate.',
-    features: [
-      'Quran with AI tools',
-      'Multi-language support',
-      'Audio podcasts',
-      'Reciters station',
-      'Islamic directory video channels',
-      'Short form video gallery',
-      'Image gallery',
-      'Seerah timeline',
-      'Islamic guides',
-      'Zakat calculator',
-      'Mosque finder',
-      'Schools and centres finder',
-      'Halal butchers finder',
-      'Priority support',
-    ]
-  }
-],
+        {
+          value: '',
+          name: 'Basic',
+          price: '£0',
+          period: '',
+          icon: 'fas fa-moon',
+          badge: 'Free Forever',
+          featured: false,
+          description: 'Full access to all core Islamic resources — no payment required.',
+          features: [
+            'Quran with audio recitation',
+            'Quran history',
+            'Names of Allah',
+            'Islamic dictionary',
+            'Islamic blogs',
+            'Dua collection',
+            'Hijri calendar',
+          ]
+        },
+        {
+          value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
+          name: 'Monthly',
+          price: '£1.99',
+          period: ' per month',
+          icon: 'fas fa-star',
+          badge: 'Most Popular',
+          featured: true,
+          description: 'Same full access as Basic, with additional premium benefits.',
+          features: [
+            'Quran with AI tools',
+            'Multi-language support',
+            'Audio podcasts',
+            'Reciters station',
+            'Islamic directory video channels',
+            'Short form video gallery',
+            'Image gallery',
+            'Seerah timeline',
+            'Islamic guides',
+            'Islamic finance',
+            'Zakat calculator',
+            'Qibla finder',
+            'Mosque finder',
+            'Schools and centres finder',
+            'Halal butchers finder',
+          ]
+        },
+        {
+          value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+          name: 'Yearly',
+          price: '£17.99',
+          period: 'per year',
+          icon: 'fas fa-infinity',
+          badge: 'Best Deal',
+          savings: 'Save £5.89 or 25%',
+          featured: false,
+          description: 'Same full access as Basic with premium benefits at a discounted rate.',
+          features: [
+            'Quran with AI tools',
+            'Multi-language support',
+            'Audio podcasts',
+            'Reciters station',
+            'Islamic directory video channels',
+            'Short form video gallery',
+            'Image gallery',
+            'Seerah timeline',
+            'Islamic guides',
+            'Zakat calculator',
+            'Qibla finder',
+            'Mosque finder',
+            'Schools and centres finder',
+            'Halal butchers finder',
+          ]
+        }
+      ],
     };
   },
 
@@ -375,12 +376,12 @@ export default {
 
   methods: {
     formatDate(dateString) {
-      return dateString 
-        ? new Date(dateString).toLocaleDateString('en-GB', { 
-            day: 'numeric', 
-            month: 'long', 
-            year: 'numeric' 
-          }) 
+      return dateString
+        ? new Date(dateString).toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        })
         : 'Never';
     },
 
@@ -391,9 +392,9 @@ export default {
     async checkAuthentication() {
       try {
         const response = await axios.get('/user', {
-          headers: { 
-            'X-CSRF-TOKEN': this.csrfToken, 
-            'Accept': 'application/json' 
+          headers: {
+            'X-CSRF-TOKEN': this.csrfToken,
+            'Accept': 'application/json'
           }
         });
         this.isAuthenticated = !!response.data;
@@ -406,9 +407,9 @@ export default {
     async fetchSubscriptionStatus() {
       try {
         const response = await fetch('/subscription-status', {
-          headers: { 
-            'X-CSRF-TOKEN': this.csrfToken, 
-            'Accept': 'application/json' 
+          headers: {
+            'X-CSRF-TOKEN': this.csrfToken,
+            'Accept': 'application/json'
           }
         });
         if (response.status === 401) {
@@ -504,10 +505,10 @@ export default {
         try {
           const response = await fetch('/cancel', {
             method: 'POST',
-            headers: { 
-              'X-CSRF-TOKEN': this.csrfToken, 
-              'Accept': 'application/json', 
-              'Content-Type': 'application/json' 
+            headers: {
+              'X-CSRF-TOKEN': this.csrfToken,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
             }
           });
           const data = await response.json();
@@ -577,10 +578,10 @@ export default {
 
         const response = await fetch('/subscribe', {
           method: 'POST',
-          headers: { 
-            'X-CSRF-TOKEN': csrfToken, 
-            'Accept': 'application/json', 
-            'Content-Type': 'application/json' 
+          headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
           },
           credentials: 'same-origin',
           body: JSON.stringify({ price_lookup_key: this.selectedPlan })
@@ -620,7 +621,6 @@ export default {
 </script>
 
 <style scoped>
-
 .subscription-container {
   min-height: 100vh;
   background: linear-gradient(180deg, #f9fafb 0%, #f1f5f9 100%);
@@ -738,8 +738,13 @@ export default {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 
@@ -1231,39 +1236,61 @@ export default {
 /* Animations
 -------------------------------------------------- */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideDown {
-  from { opacity: 0; height: 0; }
-  to { opacity: 1; height: auto; }
+  from {
+    opacity: 0;
+    height: 0;
+  }
+
+  to {
+    opacity: 1;
+    height: auto;
+  }
 }
 
 @media (max-width: 768px) {
   .header-content h1 {
     font-size: 2.25rem;
   }
+
   .header-content p {
     font-size: 1rem;
   }
+
   .plans-grid {
     grid-template-columns: 1fr;
     gap: 16px;
   }
+
   .plan-card.featured {
     transform: scale(1);
   }
-  .card-header, .card-body {
+
+  .card-header,
+  .card-body {
     padding: 20px;
   }
+
   .plan-card {
     padding: 20px;
   }
+
   .alert-container {
     width: 90%;
     right: 5%;
   }
+
   .plan-description {
     font-size: 0.8125rem;
   }
