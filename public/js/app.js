@@ -153965,15 +153965,23 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       debugInfo: true,
       faqs: [{
         question: 'Can I cancel my subscription anytime?',
-        answer: 'Yes, you can cancel at any time. Access ends immediately once you cancel.',
+        answer: 'Yes, you can cancel your subscription at any time through this page. Once cancelled, your access to premium features will end immediately, and you will revert to the free tier. No further charges will be applied.',
         open: false
       }, {
         question: 'What payment methods do you accept?',
-        answer: 'We accept major credit and debit cards through Stripe.',
+        answer: 'We accept all major credit and debit cards, including Visa, MasterCard, and American Express, processed securely through Stripe. Additional payment methods may be available depending on your region.',
         open: false
       }, {
         question: 'Is there a free trial available?',
-        answer: 'Theres no free trial, but a free tier is available. Upgrade anytime.',
+        answer: 'While we don’t offer a free trial, our Basic plan is free forever and includes core features. You can upgrade to a premium plan at any time to access advanced features and support our mission.',
+        open: false
+      }, {
+        question: 'What happens if I cancel my subscription?',
+        answer: 'Upon cancellation, your access to premium features will end immediately. You’ll retain access to the Basic plan’s features. If you choose to resubscribe later, you can select a new plan without any penalties.',
+        open: false
+      }, {
+        question: 'Can I switch between plans?',
+        answer: 'Yes, you can upgrade or downgrade your plan at any time. If you upgrade, the change takes effect immediately. If you downgrade, the new plan will apply at the start of your next billing cycle.',
         open: false
       }],
       plans: [{
@@ -153982,9 +153990,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         price: '£0',
         period: '',
         icon: 'fas fa-calendar-alt',
-        badge: 'Flexible',
+        badge: 'Free Forever',
         featured: false,
-        features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', '24/7 support']
+        description: 'Access core features for free, perfect for getting started with Islamic Connect.',
+        features: ['Ad-free experience', 'Basic prayer time notifications', 'Access to community forums', 'Standard support']
       }, {
         value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
         name: 'Monthly',
@@ -153993,16 +154002,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         icon: 'fas fa-star',
         badge: 'Most Popular',
         featured: true,
-        features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', '24/7 support']
+        description: 'Flexible monthly billing with full access to premium features for a seamless experience.',
+        features: ['Ad-free experience', 'Offline content access', 'Advanced prayer settings', '24/7 priority support']
       }, {
         value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
         name: 'Yearly',
         price: '£18',
         period: ' per year',
         icon: 'fas fa-infinity',
-        badge: 'Flexible',
+        badge: 'Best Value',
         featured: false,
-        features: ['Ad-free experience', 'Offline content', 'Advanced prayer settings', 'Priority support']
+        description: 'Save more with annual billing and enjoy all premium features for a full year.',
+        features: ['Ad-free experience', 'Offline content access', 'Advanced prayer settings', 'Exclusive priority support']
       }],
       planDetails: {
         'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
@@ -154020,9 +154031,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var _this$subscription2;
       var currentDate = new Date();
       var endsAtDate = (_this$subscription2 = this.subscription) !== null && _this$subscription2 !== void 0 && _this$subscription2.ends_at ? new Date(this.subscription.ends_at) : null;
-      var canCancelValue = endsAtDate ? endsAtDate > currentDate : true;
-      console.log('canCancel check - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString(), 'currentDate:', currentDate.toISOString(), 'canCancel:', canCancelValue, 'isCancelled:', this.isCancelled);
-      return canCancelValue && !this.isCancelled;
+      return endsAtDate ? endsAtDate > currentDate :  true && !this.isCancelled;
     },
     showPlans: function showPlans() {
       return !this.isSubscribed;
@@ -154079,7 +154088,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               });
             case 1:
               response = _context.v;
-              console.log('User authentication response (raw):', response.status, JSON.stringify(response.data, null, 2));
               _this.isAuthenticated = !!response.data;
               _context.n = 3;
               break;
@@ -154087,6 +154095,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context.p = 2;
               _t = _context.v;
               console.error('Authentication error:', _t);
+              // Avoid setting error on initial load
             case 3:
               return _context.a(2);
           }
@@ -154114,7 +154123,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context2.n = 2;
                 break;
               }
-              console.log('Unauthorized access - Resetting subscription');
               _this2.isSubscribed = false;
               _this2.subscription = null;
               _this2.isCancelled = false;
@@ -154131,7 +154139,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 4:
               data = _context2.v;
-              console.log('Fetched subscription status (parsed):', JSON.stringify(data, null, 2));
               if (data.is_subscribed !== undefined && data.plan !== undefined) {
                 _this2.isSubscribed = data.is_subscribed;
                 _this2.subscription = data.is_subscribed ? {
@@ -154139,9 +154146,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                   ends_at: data.ends_at
                 } : null;
                 _this2.isCancelled = data.is_subscribed && data.ends_at && new Date(data.ends_at) > new Date();
-                console.log('Updated state after fetch - isSubscribed:', _this2.isSubscribed, 'subscription:', _this2.subscription, 'isCancelled:', _this2.isCancelled);
               } else {
-                console.error('Invalid subscription data structure:', JSON.stringify(data, null, 2));
                 _this2.isSubscribed = false;
                 _this2.subscription = null;
                 _this2.isCancelled = false;
@@ -154152,7 +154157,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context2.p = 5;
               _t2 = _context2.v;
               console.error('Error loading subscription:', _t2);
-              _this2.error = 'Failed to load subscription details. Please try again.';
               _this2.isSubscribed = false;
               _this2.subscription = null;
               _this2.isCancelled = false;
@@ -154169,7 +154173,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           while (1) switch (_context3.n) {
             case 0:
               _this3.loading = true;
-              _this3.error = '';
               _context3.n = 1;
               return _this3.fetchSubscriptionStatus();
             case 1:
@@ -154186,7 +154189,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           while (1) switch (_context4.n) {
             case 0:
               urlParams = new URLSearchParams(window.location.search);
-              console.log('checkUrlParams - URL params:', Array.from(urlParams.entries()));
               if (!urlParams.has('success')) {
                 _context4.n = 2;
                 break;
@@ -154198,7 +154200,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               subscribed = _context4.v;
               if (subscribed) {
                 _this4.showSuccessImage = true;
-                _this4.success = 'Premium access activated! Enjoy your benefits.';
+                _this4.success = 'Your premium subscription is now active! Explore your exclusive features now.';
                 setTimeout(function () {
                   return _this4.success = '';
                 }, 5000);
@@ -154214,6 +154216,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context4.n = 3;
               return _this4.fetchSubscriptionStatus();
             case 3:
+              _this4.success = 'Your subscription has been cancelled. You can resubscribe anytime to regain premium access.';
+              setTimeout(function () {
+                return _this4.success = '';
+              }, 5000);
               window.history.replaceState({}, document.title, window.location.pathname);
               _context4.n = 5;
               break;
@@ -154245,13 +154251,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return _this5.fetchSubscriptionStatus();
             case 2:
               subscribed = _context5.v;
-              console.log("waitForSubscription - Attempt ".concat(attempts, ": isSubscribed = ").concat(subscribed, ", subscription ="), _this5.subscription);
               if (!subscribed) {
                 _context5.n = 3;
                 break;
               }
               _this5.showSuccessImage = true;
-              _this5.success = 'Premium access activated! Enjoy your benefits.';
+              _this5.success = 'Premium subscription activated successfully! Start exploring your benefits.';
               setTimeout(function () {
                 return _this5.success = '';
               }, 5000);
@@ -154265,7 +154270,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context5.n = 1;
               break;
             case 5:
-              _this5.error = 'Activation is taking longer than expected. Please refresh or contact support.';
+              _this5.error = 'Subscription activation is taking longer than expected. Please refresh the page or contact our support team.';
               _this5.success = '';
             case 6:
               return _context5.a(2);
@@ -154283,7 +154288,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         var _this6$subscription;
         return p.value === ((_this6$subscription = _this6.subscription) === null || _this6$subscription === void 0 ? void 0 : _this6$subscription.stripe_price);
       });
-      return plan ? plan.features : ['Basic access only'];
+      return plan ? plan.features : ['Basic access to core features'];
     },
     handleCancelSubscription: function handleCancelSubscription() {
       var _this7 = this;
@@ -154317,7 +154322,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                       return response.json();
                     case 3:
                       data = _context6.v;
-                      console.log('handleCancelSubscription - Cancellation response:', JSON.stringify(data, null, 2));
                       if (!(response.ok && data.success)) {
                         _context6.n = 5;
                         break;
@@ -154326,7 +154330,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                       _context6.n = 4;
                       return _this7.fetchSubscriptionStatus();
                     case 4:
-                      _this7.success = 'Subscription canceled. Access has ended immediately.';
+                      _this7.success = 'Your subscription has been successfully cancelled. Access to premium features has ended.';
                       setTimeout(function () {
                         return _this7.success = '';
                       }, 5000);
@@ -154341,7 +154345,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                       _context6.n = 6;
                       return _this7.fetchSubscriptionStatus();
                     case 6:
-                      _this7.success = 'Your subscription is already canceled. Access has already ended.';
+                      _this7.success = 'Your subscription is already cancelled. No further action is needed.';
                       setTimeout(function () {
                         return _this7.success = '';
                       }, 5000);
@@ -154355,8 +154359,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     case 9:
                       _context6.p = 9;
                       _t3 = _context6.v;
-                      _this7.error = _t3.message || 'An error occurred while canceling. Please try again.';
-                      console.error('handleCancelSubscription - Error:', _t3);
+                      _this7.error = _t3.message || 'An error occurred while cancelling your subscription. Please try again or contact support.';
                     case 10:
                       _context6.p = 10;
                       _this7.cancelling = false;
@@ -154411,7 +154414,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context8.n = 3;
                 break;
               }
-              console.log('waitForCancellationUpdate - Cancellation state confirmed - ends_at:', endsAtDate === null || endsAtDate === void 0 ? void 0 : endsAtDate.toISOString());
               return _context8.a(2);
             case 3:
               attempts++;
@@ -154423,8 +154425,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context8.n = 1;
               break;
             case 5:
-              console.warn('waitForCancellationUpdate - Failed to confirm cancellation state after max attempts');
-            case 6:
               return _context8.a(2);
           }
         }, _callee8);
@@ -154446,7 +154446,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context9.n = 2;
                 break;
               }
-              throw new Error('Please refresh the page to continue.');
+              throw new Error('Session expired. Please refresh the page to continue.');
             case 2:
               _context9.n = 3;
               return fetch('/subscribe', {
@@ -154467,15 +154467,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 4:
               data = _context9.v;
-              console.log('handleSubmit - Subscription response:', response.status, JSON.stringify(data, null, 2));
               if (response.ok && data.redirect) {
                 window.location.href = data.redirect;
               } else {
                 if (data.errors) {
-                  console.error('handleSubmit - Validation errors:', data.errors);
                   _this9.error = Object.values(data.errors).flat().join(' ');
                 } else {
-                  _this9.error = data.message || 'An error occurred. Please try again.';
+                  _this9.error = data.message || 'An error occurred during payment processing. Please try again.';
                 }
               }
               _context9.n = 6;
@@ -154483,8 +154481,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 5:
               _context9.p = 5;
               _t4 = _context9.v;
-              console.error('handleSubmit - Subscription error:', _t4);
-              _this9.error = _t4.message || 'A network error occurred. Please try again.';
+              _this9.error = _t4.message || 'A network error occurred. Please check your connection and try again.';
             case 6:
               _context9.p = 6;
               _this9.submitting = false;
@@ -174259,131 +174256,41 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "carousel-inner"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item active"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    type: "image/avif",
-    srcset: "/images/qenew.avif"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    type: "image/webp",
-    srcset: "/images/qenew.webp"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/qenew.png",
     "class": "d-block w-100",
-    alt: "Quran companion",
-    style: {
-      "aspect-ratio": "16 / 9",
-      "object-fit": "cover"
-    },
-    width: "1280",
-    height: "720",
-    decoding: "async",
-    loading: "eager",
-    fetchpriority: "high"
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    alt: "Quran companion"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    type: "image/avif",
-    srcset: "/images/surat2.avif"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    type: "image/webp",
-    srcset: "/images/surat2.webp"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/surat2.png",
     "class": "d-block w-100",
-    alt: "Quran explorer",
-    style: {
-      "aspect-ratio": "16 / 9",
-      "object-fit": "cover"
-    },
-    width: "1280",
-    height: "720",
-    decoding: "async",
-    loading: "lazy",
-    fetchpriority: "low"
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    alt: "Quran explorer"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    type: "image/avif",
-    srcset: "/images/podcast2.avif"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    type: "image/webp",
-    srcset: "/images/podcast2.webp"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/podcast2.png",
     "class": "d-block w-100",
-    alt: "Audio podcasts",
-    style: {
-      "aspect-ratio": "16 / 9",
-      "object-fit": "cover"
-    },
-    width: "1280",
-    height: "720",
-    decoding: "async",
-    loading: "lazy",
-    fetchpriority: "low"
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    alt: "Audio podcasts"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    type: "image/avif",
-    srcset: "/images/seerah2.avif"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    type: "image/webp",
-    srcset: "/images/seerah2.webp"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/seerah2.png",
     "class": "d-block w-100",
-    alt: "Seerah timeline",
-    style: {
-      "aspect-ratio": "16 / 9",
-      "object-fit": "cover"
-    },
-    width: "1280",
-    height: "720",
-    decoding: "async",
-    loading: "lazy",
-    fetchpriority: "low"
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    alt: "Seerah timeline"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    type: "image/avif",
-    srcset: "/images/radio2.avif"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    type: "image/webp",
-    srcset: "/images/radio2.webp"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/radio2.png",
     "class": "d-block w-100",
-    alt: "Islamic Radio",
-    style: {
-      "aspect-ratio": "16 / 9",
-      "object-fit": "cover"
-    },
-    width: "1280",
-    height: "720",
-    decoding: "async",
-    loading: "lazy",
-    fetchpriority: "low"
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    alt: "Islamic Radio"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("picture", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    type: "image/avif",
-    srcset: "/images/locator2.avif"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
-    type: "image/webp",
-    srcset: "/images/locator2.webp"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/locator2.png",
     "class": "d-block w-100",
-    alt: "Mosque Locator",
-    style: {
-      "aspect-ratio": "16 / 9",
-      "object-fit": "cover"
-    },
-    width: "1280",
-    height: "720",
-    decoding: "async",
-    loading: "lazy",
-    fetchpriority: "low"
-  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Simple Indicators "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    alt: "Mosque Locator"
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Simple Indicators "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-indicators mt-2 mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -181508,11 +181415,11 @@ var _hoisted_3 = {
 };
 var _hoisted_4 = {
   key: 0,
-  "class": "notification success"
+  "class": "notification notification-success"
 };
 var _hoisted_5 = {
   key: 1,
-  "class": "notification error"
+  "class": "notification notification-error"
 };
 var _hoisted_6 = {
   key: 2,
@@ -181541,20 +181448,14 @@ var _hoisted_12 = {
 var _hoisted_13 = {
   "class": "benefits-list"
 };
-var _hoisted_14 = ["disabled"];
+var _hoisted_14 = ["disabled", "title"];
 var _hoisted_15 = {
   key: 5,
   "class": "plans-view"
 };
 var _hoisted_16 = {
   key: 0,
-  "class": "notification",
-  style: {
-    "background": "#f0f9ff",
-    "border": "1px solid #bae6fd",
-    "color": "#0369a1",
-    "margin-bottom": "32px"
-  }
+  "class": "notification notification-info"
 };
 var _hoisted_17 = {
   "class": "plans-grid"
@@ -181584,47 +181485,50 @@ var _hoisted_25 = {
   "class": "savings"
 };
 var _hoisted_26 = {
-  "class": "plan-features"
+  "class": "plan-description"
 };
 var _hoisted_27 = {
-  "class": "plan-selector"
+  "class": "plan-features"
 };
 var _hoisted_28 = {
+  "class": "plan-selector"
+};
+var _hoisted_29 = {
   key: 0,
   href: "/",
   "class": "radio-label btn-get-started"
 };
-var _hoisted_29 = ["id", "value"];
-var _hoisted_30 = ["for"];
-var _hoisted_31 = {
+var _hoisted_30 = ["id", "value"];
+var _hoisted_31 = ["for", "title"];
+var _hoisted_32 = {
   "class": "payment-section"
 };
-var _hoisted_32 = ["value"];
 var _hoisted_33 = ["value"];
-var _hoisted_34 = ["disabled"];
-var _hoisted_35 = {
+var _hoisted_34 = ["value"];
+var _hoisted_35 = ["disabled"];
+var _hoisted_36 = {
   "class": "faq-section"
 };
-var _hoisted_36 = {
+var _hoisted_37 = {
   "class": "container"
 };
-var _hoisted_37 = {
+var _hoisted_38 = {
   "class": "faq-list"
 };
-var _hoisted_38 = ["onClick"];
-var _hoisted_39 = {
+var _hoisted_39 = ["onClick"];
+var _hoisted_40 = {
   key: 0,
   "class": "faq-answer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$subscription;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     "class": "subscription-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "container"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "header-content"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Subscription Management"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Manage your Islamic Connect subscription. Unlock premium features and support our mission.")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notifications "), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Manage Your Islamic Connect Subscription"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Join our community with a premium subscription to unlock exclusive features, enhance your spiritual journey, and support our mission to connect Muslims worldwide through innovative tools and resources.")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notifications "), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-check-circle"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.success), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[0] || (_cache[0] = function () {
@@ -181642,44 +181546,41 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "close-btn"
   }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times"
-  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Container for Bootstrap Alerts "), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Container "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "alertContainer",
-    "class": "position-fixed top-0 end-0 p-3",
-    style: {
-      "z-index": "11"
-    }
+    "class": "alert-container"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading subscription details...", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Successful Subscription Image "), $data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Fetching your subscription details, please wait...", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Image "), $data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/mark1.png",
     width: "100",
     alt: "Subscription Success",
-    "class": "success-image text-center"
+    "class": "success-image"
   }, null, -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "success-message"
-  }, "Thank you for subscribing! Enjoy your premium features.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Congratulations! Your premium subscription is now active. Enjoy exclusive features like ad-free browsing, offline content access, and priority support to enhance your experience.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $data.showSuccessImage = false;
     }),
     "class": "btn btn-primary"
-  }, "Continue")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription View "), $data.isSubscribed && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Start Exploring")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription "), $data.isSubscribed && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card-badge"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-crown"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Active Subscription ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Active Premium Subscription ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "status-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-check-circle"
   })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.planDisplayName), 1 /* TEXT */), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "subtitle"
-  }, "You're currently subscribed", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "You're enjoying all premium features with your active subscription.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "label"
-  }, "Status", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Subscription Status", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "value",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      color: $options.canCancel ? '#35a38b' : '#9ca3af'
+      color: $options.canCancel ? '#2c7c6a' : '#6b7280'
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.subscriptionStatus), 5 /* TEXT, STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Premium Benefits", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPlanBenefits(), function (benefit) {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.subscriptionStatus), 5 /* TEXT, STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Your Premium Benefits", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPlanBenefits(), function (benefit) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "benefit-item",
       key: benefit
@@ -181694,22 +181595,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       'disabled': !$options.canCancel || $options.isCancelled,
       'cancelled': $options.isCancelled
     }]),
-    disabled: $data.cancelling || !$options.canCancel || $options.isCancelled
+    disabled: $data.cancelling || !$options.canCancel || $options.isCancelled,
+    title: $options.isCancelled ? 'Your subscription is already cancelled' : 'Cancel your subscription (access ends immediately)'
   }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times-circle"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : $options.isCancelled ? 'Subscription Cancelled' : 'Cancel Subscription'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_14)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), $options.showPlans && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : $options.isCancelled ? 'Subscription Cancelled' : 'Cancel Subscription'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_14)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans "), $options.showPlans && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-info-circle"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your subscription ends on " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.subscription.ends_at)) + ". Subscribe again to continue enjoying premium features after this date.", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your subscription will end on " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.subscription.ends_at)) + ". Subscribe to a new plan to continue enjoying premium features and uninterrupted access.", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[4] || (_cache[4] = function ($event) {
       return $data.subscription = null;
     }),
-    "class": "close-btn",
-    style: {
-      "color": "#0369a1"
-    }
+    "class": "close-btn"
   }, _toConsumableArray(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-times"
-  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"plans-header\">\n            <h2>Choose Your Plan</h2>\n            <p>Select the plan that works best for you</p>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  }, null, -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "plans-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Choose Your Subscription Plan"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Select the plan that best suits your needs to unlock premium features and support our mission.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     method: "POST",
     action: "/subscribe",
     onSubmit: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
@@ -181727,14 +181628,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, [plan.featured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.badge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(plan.icon)
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */)]), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */)]), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, function (feature) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: feature,
         "class": "feature-item"
       }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "fas fa-check"
       }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [plan.value === '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", _hoisted_28, " Get Started ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [plan.value === '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", _hoisted_29, " Get Started ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: 1
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "radio",
@@ -181744,31 +181645,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $data.selectedPlan = $event;
       }),
       "class": "radio-input"
-    }, null, 8 /* PROPS */, _hoisted_29), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, null, 8 /* PROPS */, _hoisted_30), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": plan.value,
-      "class": "radio-label"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.value === $data.selectedPlan ? 'Selected' : 'Select Plan'), 9 /* TEXT, PROPS */, _hoisted_30)], 64 /* STABLE_FRAGMENT */))])], 10 /* CLASS, PROPS */, _hoisted_18);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "class": "radio-label",
+      title: 'Select the ' + plan.name + ' plan'
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.value === $data.selectedPlan ? 'Selected' : 'Select Plan'), 9 /* TEXT, PROPS */, _hoisted_31)], 64 /* STABLE_FRAGMENT */))])], 10 /* CLASS, PROPS */, _hoisted_18);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
     name: "_token",
     value: $data.csrfToken
-  }, null, 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 8 /* PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
     name: "price_lookup_key",
     value: $data.selectedPlan
-  }, null, 8 /* PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     "class": "btn btn-primary",
     disabled: $data.submitting
   }, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-credit-card"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing...' : 'Continue to Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_34), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing Payment...' : 'Proceed to Secure Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_35), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "security-note"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-lock"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment powered by Stripe ")], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment processing powered by Stripe ")], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "faq-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Frequently Asked Questions")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, function (faq, index) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Frequently Asked Questions"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Find answers to common questions about our subscription plans and features.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, function (faq, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
       "class": "faq-item"
@@ -181781,8 +181683,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas fa-chevron-down", {
         'open': faq.open
       }])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_38), faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Confirmation Modal "), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal fade\" id=\"cancelConfirmationModal\" tabindex=\"-1\" aria-labelledby=\"cancelConfirmationLabel\" aria-hidden=\"true\" data-v-0ca26305><div class=\"modal-dialog\" data-v-0ca26305><div class=\"modal-content\" data-v-0ca26305><div class=\"modal-header\" data-v-0ca26305><h5 class=\"modal-title\" id=\"cancelConfirmationLabel\" data-v-0ca26305>Confirm Cancellation</h5><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\" data-v-0ca26305></button></div><div class=\"modal-body\" data-v-0ca26305> Are you sure you want to cancel your subscription? Access will end immediately. </div><div class=\"modal-footer\" data-v-0ca26305><button type=\"button\" class=\"btn btn-secondary\" id=\"cancelDismiss\" data-v-0ca26305>No, Keep Subscription</button><button type=\"button\" class=\"btn btn-primary\" id=\"confirmCancel\" data-v-0ca26305>Yes, Cancel Subscription</button></div></div></div></div>", 1))]);
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_39), faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Confirmation Modal "), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal fade\" id=\"cancelConfirmationModal\" tabindex=\"-1\" aria-labelledby=\"cancelConfirmationLabel\" aria-hidden=\"true\" data-v-0ca26305><div class=\"modal-dialog\" data-v-0ca26305><div class=\"modal-content\" data-v-0ca26305><div class=\"modal-header\" data-v-0ca26305><h5 class=\"modal-title\" id=\"cancelConfirmationLabel\" data-v-0ca26305>Confirm Subscription Cancellation</h5><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\" data-v-0ca26305></button></div><div class=\"modal-body\" data-v-0ca26305> Are you sure you want to cancel your subscription? Your premium access will end immediately, and you will lose access to exclusive features. </div><div class=\"modal-footer\" data-v-0ca26305><button type=\"button\" class=\"btn btn-secondary\" id=\"cancelDismiss\" data-v-0ca26305>No, Keep My Subscription</button><button type=\"button\" class=\"btn btn-primary\" id=\"confirmCancel\" data-v-0ca26305>Yes, Cancel Subscription</button></div></div></div></div>", 1))]);
 }
 
 /***/ }),
@@ -193848,7 +193750,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n/* [Keep the existing styles unchanged] */\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background-color: #f8fafc;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n.container[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 20px;\n}\n.btn-cancel[data-v-0ca26305] {\n  color: white;\n  padding: 10px 20px;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: opacity 0.3s;\n  background-color: #dc2626;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(.disabled):not(.cancelled) {\n  background-color: #b91c1c;\n}\n.btn-cancel.disabled[data-v-0ca26305] {\n  background-color: #d1d5db73;\n  color: #000;\n  border: 2px solid #000;\n  cursor: not-allowed;\n  opacity: 0.6;\n  pointer-events: none;\n}\n.btn-cancel.cancelled[data-v-0ca26305] {\n  background-color: #9ca3af;\n  color: white;\n  border: none;\n  cursor: default;\n}\n.btn-cancel.cancelled[data-v-0ca26305]:hover {\n  background-color: #9ca3af;\n}\n/* Success Image Container */\n.success-image-container[data-v-0ca26305] {\n  text-align: center;\n  padding: 40px 0;\n  max-width: 600px;\n  margin: 0 auto;\n}\n.success-image[data-v-0ca26305] {\n  max-width: 100%;\n  height: auto;\n  border-radius: 8px;\n  margin-bottom: 20px;\n}\n.success-message[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1.125rem;\n  margin-bottom: 20px;\n}\n/* Header */\n.subscription-header[data-v-0ca26305] {\n  padding: 40px 0 30px;\n  text-align: center;\n  border-bottom: 1px solid #e2e8f0;\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 16px;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #64748b;\n  max-width: 600px;\n  margin: 0 auto;\n  line-height: 1.6;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 40px 0;\n}\n/* Notifications */\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 20px;\n  border-radius: 8px;\n  margin-bottom: 24px;\n  gap: 12px;\n}\n.notification.success[data-v-0ca26305] {\n  background: #f0fdf4;\n  border: 1px solid #bbf7d0;\n  color: #166534;\n}\n.notification.error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #fecaca;\n  color: #991b1b;\n}\n.notification i[data-v-0ca26305] {\n  flex-shrink: 0;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  margin-left: auto;\n  padding: 4px;\n  font-size: 1.25rem;\n}\n/* Loading State */\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 80px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 48px;\n  height: 48px;\n  border: 4px solid #e2e8f0;\n  border-top: 4px solid #35a38b;\n  border-radius: 50%;\n  animation: spin-0ca26305 1s linear infinite;\n  margin: 0 auto 20px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1rem;\n}\n@keyframes spin-0ca26305 {\n0% { transform: rotate(0deg);\n}\n100% { transform: rotate(360deg);\n}\n}\n/* Subscription Card */\n.active-subscription[data-v-0ca26305] {\n  max-width: 600px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 12px;\n  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n  overflow: hidden;\n}\n.card-badge[data-v-0ca26305] {\n  background: #35a38b;\n  color: white;\n  padding: 12px 20px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n  padding: 40px 32px 24px;\n  text-align: center;\n}\n.status-icon[data-v-0ca26305] {\n  width: 80px;\n  height: 80px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 20px;\n  color: #35a38b;\n  font-size: 2rem;\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.75rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #64748b;\n  margin-bottom: 24px;\n}\n.status-info[data-v-0ca26305] {\n  background: #f8fafc;\n  border-radius: 8px;\n  padding: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #64748b;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #35a38b;\n}\n.card-body[data-v-0ca26305] {\n  padding: 0 32px 32px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 20px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 32px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e2e8f0;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #35a38b;\n  flex-shrink: 0;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #475569;\n}\n/* Buttons */\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 16px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: #35a38b;\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: #2d8c77;\n}\n/* Plans View */\n.plans-view[data-v-0ca26305] {\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1.125rem;\n}\n/* Plans Grid */\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e2e8f0;\n  border-radius: 12px;\n  padding: 32px 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #35a38b;\n  transform: translateY(-4px);\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #35a38b;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #35a38b;\n  transform: scale(1.05);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: #35a38b;\n  color: white;\n  padding: 6px 16px;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 64px;\n  height: 64px;\n  background: #e0f7f5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #35a38b;\n  font-size: 1.5rem;\n}\n.plan-header h2[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.period[data-v-0ca26305] {\n  color: #64748b;\n  font-size: 1rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n  margin: 0;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 24px;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e2e8f0;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #35a38b;\n  flex-shrink: 0;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #475569;\n  font-size: 0.875rem;\n}\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: #35a38b;\n  color: white;\n  border-radius: 6px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: #2d8c77;\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: #2d8c77;\n}\n/* Payment Section */\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #64748b;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n/* FAQ Section */\n.faq-section[data-v-0ca26305] {\n  background: white;\n  padding: 80px 0;\n  border-top: 1px solid #e2e8f0;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 48px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #1e293b;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e2e8f0;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 24px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #1e293b;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #64748b;\n  transition: transform 0.2s;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 24px;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #64748b;\n  line-height: 1.6;\n  margin: 0;\n}\n/* Responsive Design */\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] { font-size: 2rem;\n}\n.plans-grid[data-v-0ca26305] { grid-template-columns: 1fr; gap: 20px;\n}\n.plan-card.featured[data-v-0ca26305] { transform: scale(1);\n}\n.card-header[data-v-0ca26305], .card-body[data-v-0ca26305] { padding: 24px 20px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background: linear-gradient(180deg, #f9fafb 0%, #f1f5f9 100%);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  color: #1f2937;\n}\n.container[data-v-0ca26305] {\n  max-width: 1280px;\n  margin: 0 auto;\n  padding: 0 16px;\n}\n.subscription-header[data-v-0ca26305] {\n  padding: 48px 0 32px;\n  text-align: center;\n  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.75rem;\n  font-weight: 800;\n  color: #111827;\n  margin-bottom: 12px;\n  line-height: 1.2;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #4b5563;\n  max-width: 640px;\n  margin: 0 auto;\n  line-height: 1.75;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 48px 0;\n}\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 24px;\n  border-radius: 12px;\n  margin-bottom: 24px;\n  gap: 12px;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);\n  transition: transform 0.2s ease, opacity 0.2s ease;\n}\n.notification-success[data-v-0ca26305] {\n  background: #dcfce7;\n  border: 1px solid #86efac;\n  color: #166534;\n}\n.notification-error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #f87171;\n  color: #991b1b;\n}\n.notification-info[data-v-0ca26305] {\n  background: #e0f2fe;\n  border: 1px solid #7dd3fc;\n  color: #1e40af;\n}\n.notification i[data-v-0ca26305] {\n  font-size: 1.25rem;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  padding: 4px;\n  font-size: 1.25rem;\n  transition: transform 0.2s ease;\n}\n.close-btn[data-v-0ca26305]:hover {\n  transform: scale(1.1);\n}\n.alert-container[data-v-0ca26305] {\n  position: fixed;\n  top: 16px;\n  right: 16px;\n  z-index: 1000;\n  width: 320px;\n}\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 64px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 40px;\n  height: 40px;\n  border: 4px solid #e5e7eb;\n  border-top: 4px solid #2c7c6a;\n  border-radius: 50%;\n  animation: spin-0ca26305 0.8s linear infinite;\n  margin: 0 auto 16px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  font-weight: 500;\n}\n@keyframes spin-0ca26305 {\n0% { transform: rotate(0deg);\n}\n100% { transform: rotate(360deg);\n}\n}\n.active-subscription[data-v-0ca26305] {\n  max-width: 640px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n  overflow: hidden;\n  transition: transform 0.3s ease;\n}\n.subscription-card[data-v-0ca26305]:hover {\n  transform: translateY(-4px);\n}\n.card-badge[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 12px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n  padding: 32px 24px;\n  text-align: center;\n  background: #f9fafb;\n}\n.status-icon[data-v-0ca26305] {\n  width: 72px;\n  height: 72px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #2c7c6a;\n  font-size: 2rem;\n  transition: transform 0.3s ease;\n}\n.card-header:hover .status-icon[data-v-0ca26305] {\n  transform: scale(1.05);\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.875rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  margin-bottom: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #6b7280;\n  font-weight: 500;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n}\n.card-body[data-v-0ca26305] {\n  padding: 24px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 16px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 24px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.benefit-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 1rem;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.9375rem;\n}\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 14px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.7;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.btn-cancel[data-v-0ca26305] {\n  background: #dc2626;\n  color: white;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(.disabled):not(.cancelled) {\n  background: #b91c1c;\n  transform: translateY(-2px);\n}\n.btn-cancel.disabled[data-v-0ca26305] {\n  background: #d1d5db;\n  color: #374151;\n  cursor: not-allowed;\n}\n.btn-cancel.cancelled[data-v-0ca26305] {\n  background: #6b7280;\n  color: white;\n  cursor: default;\n}\n.success-image-container[data-v-0ca26305] {\n  text-align: center;\n  padding: 48px 0;\n  max-width: 480px;\n  margin: 0 auto;\n  animation: fadeIn-0ca26305 0.5s ease;\n}\n.success-image[data-v-0ca26305] {\n  max-width: 80px;\n  height: auto;\n  margin-bottom: 16px;\n}\n.success-message[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  margin-bottom: 24px;\n  line-height: 1.5;\n}\n.plans-view[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 32px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e5e7eb;\n  border-radius: 16px;\n  padding: 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.3s ease;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #2c7c6a;\n  transform: translateY(-6px);\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 100%);\n  transform: scale(1.03);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 6px 16px;\n  border-radius: 9999px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 56px;\n  height: 56px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 12px;\n  color: #2c7c6a;\n  font-size: 1.5rem;\n  transition: transform 0.3s ease;\n}\n.plan-card:hover .plan-icon[data-v-0ca26305] {\n  transform: scale(1.1);\n}\n.plan-header h2[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.25rem;\n  font-weight: 700;\n  color: #111827;\n}\n.period[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 0.9375rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n}\n.plan-description[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 0.875rem;\n  margin-top: 12px;\n  line-height: 1.5;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 24px;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e5e7eb;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 0.9375rem;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.875rem;\n}\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 0.9375rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: linear-gradient(45deg, #256355, #2bb880);\n}\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #6b7280;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n.faq-section[data-v-0ca26305] {\n  background: #ffffff;\n  padding: 64px 0;\n  border-top: 1px solid #e5e7eb;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 40px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n}\n.faq-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.faq-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 20px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #111827;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 1rem;\n  transition: transform 0.3s ease;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 20px;\n  animation: slideDown-0ca26305 0.3s ease;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #4b5563;\n  line-height: 1.6;\n  margin: 0;\n}\n\n/* Animations\n-------------------------------------------------- */\n@keyframes fadeIn-0ca26305 {\nfrom { opacity: 0; transform: translateY(10px);\n}\nto { opacity: 1; transform: translateY(0);\n}\n}\n@keyframes slideDown-0ca26305 {\nfrom { opacity: 0; height: 0;\n}\nto { opacity: 1; height: auto;\n}\n}\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n    font-size: 2.25rem;\n}\n.header-content p[data-v-0ca26305] {\n    font-size: 1rem;\n}\n.plans-grid[data-v-0ca26305] {\n    grid-template-columns: 1fr;\n    gap: 16px;\n}\n.plan-card.featured[data-v-0ca26305] {\n    transform: scale(1);\n}\n.card-header[data-v-0ca26305], .card-body[data-v-0ca26305] {\n    padding: 20px;\n}\n.plan-card[data-v-0ca26305] {\n    padding: 20px;\n}\n.alert-container[data-v-0ca26305] {\n    width: 90%;\n    right: 5%;\n}\n.plan-description[data-v-0ca26305] {\n    font-size: 0.8125rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
