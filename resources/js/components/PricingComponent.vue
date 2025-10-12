@@ -260,9 +260,9 @@ export default {
           ]
         },
         {
-          value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+          value: 'price_1SHNXJGsDD2PdzHqyD7VcnHr',
           name: 'Yearly',
-          price: '£18',
+          price: '£17.99',
           period: 'per year',
           savings: 'Save £5.88 per year',
           icon: 'fas fa-star',
@@ -294,7 +294,7 @@ export default {
       ],
       planDetails: {
         'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
-        'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly',
+        'price_1SHNXJGsDD2PdzHqyD7VcnHr': 'Premium Yearly',
         'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime',
       }
     };

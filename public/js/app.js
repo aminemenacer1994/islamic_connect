@@ -149220,9 +149220,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         featured: false,
         features: ['All premium features', 'Cancel anytime', 'Monthly billing', '24/7 support']
       }, {
-        value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+        value: 'price_1SHNXJGsDD2PdzHqyD7VcnHr',
         name: 'Yearly',
-        price: '£18',
+        price: '£17.99',
         period: 'per year',
         savings: 'Save £5.88 per year',
         icon: 'fas fa-star',
@@ -149242,7 +149242,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }],
       planDetails: {
         'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
-        'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly',
+        'price_1SHNXJGsDD2PdzHqyD7VcnHr': 'Premium Yearly',
         'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime'
       }
     };
@@ -154003,9 +154003,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         badge: 'Most Popular',
         featured: true,
         description: 'Unlock powerful tools that help you learn, reflect, and stay inspired every day.',
-        features: ['All of the basic features', 'Quran with AI tools', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
+        features: ['All of the basic features', 'Quran with Smart Search & Accessibility', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
       }, {
-        value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+        value: 'price_1SHNXJGsDD2PdzHqyD7VcnHr',
         name: 'Yearly',
         price: '£17.99',
         period: 'per year',
@@ -154014,11 +154014,11 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         savings: 'Save £5.89',
         featured: false,
         description: 'Best value for those dedicated to lifelong learning, enjoy all Monthly benefits at a discounted rate.',
-        features: ['All of the basic features', 'Quran with AI tools', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
+        features: ['All of the basic features', 'Quran with Smart Search & Accessibility', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
       }],
       planDetails: {
         'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
-        'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly',
+        'price_1SHNXJGsDD2PdzHqyD7VcnHr': 'Premium Yearly',
         'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime'
       }
     };
@@ -154446,7 +154446,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     handleSubmit: function handleSubmit() {
       var _this9 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee9() {
-        var _document$querySelect2, csrfToken, response, data, _t4;
+        var _document$querySelect2, csrfToken, response, contentType, isJson, data, _t4, _t5;
         return _regenerator().w(function (_context9) {
           while (1) switch (_context9.p = _context9.n) {
             case 0:
@@ -154476,33 +154476,72 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               });
             case 3:
               response = _context9.v;
-              _context9.n = 4;
-              return response.json();
-            case 4:
-              data = _context9.v;
-              if (response.ok && data.redirect) {
-                window.location.href = data.redirect;
-              } else {
-                if (data.errors) {
-                  _this9.error = Object.values(data.errors).flat().join(' ');
-                } else {
-                  _this9.error = data.message || 'An error occurred during payment processing. Please try again.';
-                }
+              if (!(response.redirected || response.status === 401)) {
+                _context9.n = 4;
+                break;
               }
-              _context9.n = 6;
-              break;
+              _this9.error = 'Please log in to proceed to checkout.';
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+              return _context9.a(2);
+            case 4:
+              // Safely parse JSON only when appropriate
+              contentType = response.headers.get('content-type') || '';
+              isJson = contentType.includes('application/json');
+              if (!isJson) {
+                _context9.n = 6;
+                break;
+              }
+              _context9.n = 5;
+              return response.json();
             case 5:
-              _context9.p = 5;
               _t4 = _context9.v;
-              _this9.error = _t4.message || 'A network error occurred. Please check your connection and try again.';
+              _context9.n = 7;
+              break;
             case 6:
-              _context9.p = 6;
-              _this9.submitting = false;
-              return _context9.f(6);
+              _t4 = null;
             case 7:
+              data = _t4;
+              if (!(response.ok && data !== null && data !== void 0 && data.redirect)) {
+                _context9.n = 8;
+                break;
+              }
+              window.location.href = data.redirect;
+              return _context9.a(2);
+            case 8:
+              if (data !== null && data !== void 0 && data.errors) {
+                _this9.error = Object.values(data.errors).flat().join(' ');
+              } else if (data !== null && data !== void 0 && data.message) {
+                _this9.error = data.message;
+              } else {
+                _this9.error = 'An error occurred during payment processing. Please try again.';
+              }
+
+              // Ensure the user sees the error at the top
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+              _context9.n = 10;
+              break;
+            case 9:
+              _context9.p = 9;
+              _t5 = _context9.v;
+              _this9.error = _t5.message || 'A network error occurred. Please check your connection and try again.';
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+            case 10:
+              _context9.p = 10;
+              _this9.submitting = false;
+              return _context9.f(10);
+            case 11:
               return _context9.a(2);
           }
-        }, _callee9, null, [[1, 5, 6, 7]]);
+        }, _callee9, null, [[1, 9, 10, 11]]);
       }))();
     }
   },
@@ -154557,7 +154596,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     var subscription = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
     var planDetails = {
       'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly (£1.99)',
-      'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly (£18)',
+      'price_1SHNXJGsDD2PdzHqyD7VcnHr': 'Premium Yearly (£17.99)',
       'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime (£25)'
     };
     var planDisplayName = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
@@ -177720,36 +177759,35 @@ var _hoisted_15 = {
   "class": "col-md-8 pt-2 card-hide text-left pr-4"
 };
 var _hoisted_16 = {
-  key: 1,
-  "class": "mb-2"
-};
-var _hoisted_17 = {
   "class": "card content"
 };
-var _hoisted_18 = {
+var _hoisted_17 = {
   key: 0
 };
-var _hoisted_19 = {
+var _hoisted_18 = {
   "class": "container-fluid"
 };
-var _hoisted_20 = {
+var _hoisted_19 = {
   "class": "row"
 };
-var _hoisted_21 = {
+var _hoisted_20 = {
   "class": "card-body content"
 };
-var _hoisted_22 = {
+var _hoisted_21 = {
   "class": "tab-content text-center"
 };
-var _hoisted_23 = {
+var _hoisted_22 = {
   key: 0,
   "class": "tab-pane active content",
   id: "home",
   role: "tabpanel"
 };
-var _hoisted_24 = ["selectedSurahId"];
-var _hoisted_25 = {
+var _hoisted_23 = ["selectedSurahId"];
+var _hoisted_24 = {
   "class": "text-center icon-text"
+};
+var _hoisted_25 = {
+  "class": "text-center"
 };
 var _hoisted_26 = {
   "class": "text-center"
@@ -177758,17 +177796,20 @@ var _hoisted_27 = {
   "class": "text-center"
 };
 var _hoisted_28 = {
-  "class": "text-center"
-};
-var _hoisted_29 = {
   key: 0,
   "class": "hide-on-mobile"
 };
-var _hoisted_30 = {
+var _hoisted_29 = {
   "class": "text-center"
 };
-var _hoisted_31 = {
+var _hoisted_30 = {
   "class": "row pt-2 text-center"
+};
+var _hoisted_31 = {
+  "class": "col desktop-icon",
+  style: {
+    "cursor": "pointer"
+  }
 };
 var _hoisted_32 = {
   "class": "col desktop-icon",
@@ -177777,30 +177818,27 @@ var _hoisted_32 = {
   }
 };
 var _hoisted_33 = {
-  "class": "col desktop-icon",
-  style: {
-    "cursor": "pointer"
-  }
-};
-var _hoisted_34 = {
   "class": "pt-2",
   ref: "targetTranslationElement"
 };
-var _hoisted_35 = {
+var _hoisted_34 = {
   key: 0,
   "class": "collapse-content mobile-only"
 };
-var _hoisted_36 = {
+var _hoisted_35 = {
   key: 0,
   "class": "card text-bg-light card-body"
 };
-var _hoisted_37 = {
+var _hoisted_36 = {
   key: 1,
   "class": "tab-pane content",
   id: "profile",
   role: "tabpanel"
 };
-var _hoisted_38 = ["selectedSurahId"];
+var _hoisted_37 = ["selectedSurahId"];
+var _hoisted_38 = {
+  "class": "text-center"
+};
 var _hoisted_39 = {
   "class": "text-center"
 };
@@ -177811,17 +177849,20 @@ var _hoisted_41 = {
   "class": "text-center"
 };
 var _hoisted_42 = {
-  "class": "text-center"
-};
-var _hoisted_43 = {
   key: 0,
   "class": "icon-container-fluid hide-on-mobile"
 };
-var _hoisted_44 = {
+var _hoisted_43 = {
   "class": "text-center"
 };
-var _hoisted_45 = {
+var _hoisted_44 = {
   "class": "row pt-2"
+};
+var _hoisted_45 = {
+  "class": "col desktop-icon",
+  style: {
+    "cursor": "pointer"
+  }
 };
 var _hoisted_46 = {
   "class": "col desktop-icon",
@@ -177830,33 +177871,30 @@ var _hoisted_46 = {
   }
 };
 var _hoisted_47 = {
-  "class": "col desktop-icon",
-  style: {
-    "cursor": "pointer"
-  }
-};
-var _hoisted_48 = {
   "class": "pt-2",
   ref: "targetTafseerElement"
 };
-var _hoisted_49 = {
+var _hoisted_48 = {
   key: 0,
   "class": "collapse-content mobile-only"
 };
-var _hoisted_50 = {
+var _hoisted_49 = {
   key: 0,
   "class": "card text-bg-light card-body"
 };
-var _hoisted_51 = {
+var _hoisted_50 = {
   key: 2,
   "class": "tab-pane content",
   id: "messages",
   role: "tabpanel"
 };
-var _hoisted_52 = {
+var _hoisted_51 = {
   "class": "pb-3"
 };
-var _hoisted_53 = ["selectedSurahId"];
+var _hoisted_52 = ["selectedSurahId"];
+var _hoisted_53 = {
+  "class": "text-center"
+};
 var _hoisted_54 = {
   "class": "text-center"
 };
@@ -177867,17 +177905,20 @@ var _hoisted_56 = {
   "class": "text-center"
 };
 var _hoisted_57 = {
-  "class": "text-center"
-};
-var _hoisted_58 = {
   key: 0,
   "class": "hide-on-mobile"
 };
-var _hoisted_59 = {
+var _hoisted_58 = {
   "class": "text-center"
 };
-var _hoisted_60 = {
+var _hoisted_59 = {
   "class": "row pt-2"
+};
+var _hoisted_60 = {
+  "class": "col desktop-icon",
+  style: {
+    "cursor": "pointer"
+  }
 };
 var _hoisted_61 = {
   "class": "col desktop-icon",
@@ -177886,19 +177927,13 @@ var _hoisted_61 = {
   }
 };
 var _hoisted_62 = {
-  "class": "col desktop-icon",
-  style: {
-    "cursor": "pointer"
-  }
-};
-var _hoisted_63 = {
   ref: "targetTransliterationElement"
 };
-var _hoisted_64 = {
+var _hoisted_63 = {
   key: 0,
   "class": "collapse-content mobile-only"
 };
-var _hoisted_65 = {
+var _hoisted_64 = {
   key: 0,
   "class": "card text-bg-light card-body"
 };
@@ -177909,7 +177944,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_AyahDropdown = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AyahDropdown");
   var _component_ErrorAlert = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ErrorAlert");
   var _component_Welcome = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Welcome");
-  var _component_AyahOfTheDay = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AyahOfTheDay");
   var _component_NavTabs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("NavTabs");
   var _component_TranslationSection = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TranslationSection");
   var _component_TranslationActions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TranslationActions");
@@ -177965,7 +177999,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_13, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_12);
   }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [$data.information == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Welcome, {
     key: 0
-  })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"fw-bold text-center\" >Verse Breakdown...</h4> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" breakdown content here ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AyahOfTheDay), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"translationInfo\" tabindex=\"-1\"\n                                    aria-labelledby=\"surahInfoModalLabel\" aria-hidden=\"true\" @click.self=\"closeModal\">\n                                    <div class=\"modal-dialog modal-dialog-centered modal-lg\">\n                                        <div class=\"modal-content\">\n                                            <div class=\"modal-header\">\n                                                <h1 class=\"modal-title fs-5\" id=\"surahInfoModalLabel\">\n                                                    <strong>Surah Information</strong>\n                                                </h1>\n                                                <button type=\"button\" class=\"btn-close\" @click=\"closeModal\"\n                                                    aria-label=\"Close\"></button>\n                                            </div>\n                                            <div class=\"modal-body\">\n                                                <form class=\" text-left\">\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\" class=\"form-label\">Surah Name\n                                                            (English):</label>\n                                                        <p class=\"mt-2 text-dark text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.name_en\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\"\n                                                            class=\"form-label text-left\">Surah\n                                                            Information:</label>\n                                                        <p class=\"text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.text\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                </form>\n                                            </div>\n                                            <div class=\"modal-footer\">\n                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\"\n                                                    @click=\"closeModal\">\n                                                    Close\n                                                </button>\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Welcome :information=\"information\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AyahOfTheDay /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"translationInfo\" tabindex=\"-1\"\n                                    aria-labelledby=\"surahInfoModalLabel\" aria-hidden=\"true\" @click.self=\"closeModal\">\n                                    <div class=\"modal-dialog modal-dialog-centered modal-lg\">\n                                        <div class=\"modal-content\">\n                                            <div class=\"modal-header\">\n                                                <h1 class=\"modal-title fs-5\" id=\"surahInfoModalLabel\">\n                                                    <strong>Surah Information</strong>\n                                                </h1>\n                                                <button type=\"button\" class=\"btn-close\" @click=\"closeModal\"\n                                                    aria-label=\"Close\"></button>\n                                            </div>\n                                            <div class=\"modal-body\">\n                                                <form class=\" text-left\">\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\" class=\"form-label\">Surah Name\n                                                            (English):</label>\n                                                        <p class=\"mt-2 text-dark text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.name_en\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\"\n                                                            class=\"form-label text-left\">Surah\n                                                            Information:</label>\n                                                        <p class=\"text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.text\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                </form>\n                                            </div>\n                                            <div class=\"modal-footer\">\n                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\"\n                                                    @click=\"closeModal\">\n                                                    Close\n                                                </button>\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Welcome :information=\"information\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurah,
     onUpdateTafseer: _cache[4] || (_cache[4] = function () {
       return $options.updateTafseer && $options.updateTafseer.apply($options, arguments);
@@ -177975,7 +178009,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     style: {},
     "class": "icon-container hide-on-mobile mb-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-start-fill h2 pt- custom-prev-ayah",
     style: {
       "cursor": "pointer"
@@ -177986,7 +178020,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "First verse"
   }), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
@@ -177997,7 +178031,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Previous verse"
   }), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
@@ -178008,7 +178042,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Next verse"
   }), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
@@ -178019,10 +178053,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Last verse"
   }), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.iconStyle)
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col pb-2\">\n                                                <i :class=\"isOpen\n                                                    ? 'bi bi-x-circle-fill'\n                                                    : 'bi bi-plus-circle-fill'\n                                                    \" class=\"text-left hide-on-mobile h4\" @click=\"toggleContent\"></i>\n                                            </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col pb-2\">\n                                                <i :class=\"isOpen\n                                                    ? 'bi bi-x-circle-fill'\n                                                    : 'bi bi-plus-circle-fill'\n                                                    \" class=\"text-left hide-on-mobile h4\" @click=\"toggleContent\"></i>\n                                            </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-file-earmark-text text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top",
@@ -178032,7 +178066,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2"
-  }, "Write a Note", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Write a Note", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[7] || (_cache[7] = function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
     }),
@@ -178059,7 +178093,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "border": "2px solid #333"
     }
-  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationSection, {
+  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationSection, {
     currentAyah: $data.currentAyah,
     isVisible: !$data.isVisible,
     information: $data.information,
@@ -178079,14 +178113,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onCloseAlertText: $options.closeAlertText,
     onToggleAudio: $options.toggleAudioPlayback,
     onUpdateSuccessMessage: _ctx.updateSuccessMessage
-  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationActions, {
+  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: _ctx.translation,
     onOpenModal: $options.openModal,
     onSubmitForm: $options.submitForm,
     onToggleAudio: $options.toggleAudioPlayback,
     isPlaying: _ctx.isPlaying
-  }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafseer Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafseer Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurah,
     onUpdateTafseer: _cache[12] || (_cache[12] = function () {
       return $options.updateTafseer && $options.updateTafseer.apply($options, arguments);
@@ -178095,7 +178129,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.updateInformation && $options.updateInformation.apply($options, arguments);
     }),
     "class": "icon-container hide-on-mobile mb-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-start-fill h2 pt- custom-prev-ayah",
     style: {
       "cursor": "pointer"
@@ -178106,7 +178140,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "First verse"
   }), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
@@ -178117,7 +178151,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Previous verse"
   }), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
@@ -178128,7 +178162,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Next verse"
   }), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
@@ -178139,10 +178173,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Last verse"
   }), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_38), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_37), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.iconStyle)
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col pb-2\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle-fill'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-left hide-on-mobile h4\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col pb-2\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle-fill'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-left hide-on-mobile h4\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-file-earmark-text text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top",
@@ -178154,7 +178188,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Write a Note")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Write a Note")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[15] || (_cache[15] = function () {
       return $options.submitFormTafseer && $options.submitFormTafseer.apply($options, arguments);
     }),
@@ -178186,7 +178220,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "border": "2px solid #333"
     }
-  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main content  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerSection, {
+  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main content  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerSection, {
     currentAyah: $data.currentAyah,
     isVisible: !$data.isVisible,
     information: $data.information,
@@ -178206,7 +178240,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onCloseAlertText: $options.closeAlertText,
     onToggleAudio: $options.toggleAudioPlayback,
     onUpdateSuccessMessage: _ctx.updateSuccessMessage
-  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                            <div class=\"row\">\n                                                <div class=\"col\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-center mobile-only h3 pt-3\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div>\n                                            </div>\n                                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerActions, {
+  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                            <div class=\"row\">\n                                                <div class=\"col\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-center mobile-only h3 pt-3\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div>\n                                            </div>\n                                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: _ctx.translation,
     onOpenModal: $options.openModal,
@@ -178215,7 +178249,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     isPlaying: _ctx.isPlaying
   }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahInfoModal, {
     information: $data.information
-  }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Transliteration Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Transliteration Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurah,
     onUpdateTafseer: _cache[20] || (_cache[20] = function () {
       return $options.updateTafseer && $options.updateTafseer.apply($options, arguments);
@@ -178224,7 +178258,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.updateInformation && $options.updateInformation.apply($options, arguments);
     }),
     "class": "icon-container hide-on-mobile mb-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-start-fill icon-container h2 pt- custom-prev-ayah",
     style: {
       "cursor": "pointer"
@@ -178235,7 +178269,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "First verse"
   }), _cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
@@ -178246,7 +178280,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Previous verse"
   }), _cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-right-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
@@ -178257,7 +178291,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Next verse"
   }), _cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-end-fill pt-2 h2 icon-container custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
@@ -178268,9 +178302,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Last verse"
   }), _cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_53), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_52), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.iconStyle)
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"col pb-2\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle-fill'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-left hide-on-mobile h4\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"col pb-2\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle-fill'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-left hide-on-mobile h4\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-file-earmark-text text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top",
@@ -178282,7 +178316,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Write a Note ")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Write a Note ")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[23] || (_cache[23] = function () {
       return $options.submitFormTransliteration && $options.submitFormTransliteration.apply($options, arguments);
     }),
@@ -178313,7 +178347,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "border": "2px solid\n                                                                #333"
     }
-  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationSection, {
+  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationSection, {
     currentAyah: $data.currentAyah,
     isVisible: !$data.isVisible,
     information: $data.information,
@@ -178332,7 +178366,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onToggleExpand: $options.toggleExpand,
     onCloseAlertText: $options.closeAlertText,
     onToggleAudio: $options.toggleAudioPlayback
-  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio"])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationActions, {
+  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio"])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_63, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: _ctx.translation,
     onOpenModal: $options.openModal,
@@ -181847,8 +181881,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, _toConsumableArray(_cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "price_1SDrmPGsDD2PdzHqTgawcJZd"
   }, "Premium Monthly (£1.99)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "price_1SDrmPGsDD2PdzHqDOScwoI2"
-  }, "Premium Yearly (£18)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "price_1SHNXJGsDD2PdzHqyD7VcnHr"
+  }, "Premium Yearly (£17.99)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "price_1SDrmPGsDD2PdzHqvk1SOoT3"
   }, "Premium Lifetime (£25)", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
@@ -193818,7 +193852,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background: linear-gradient(180deg, #f9fafb 0%, #f1f5f9 100%);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  color: #1f2937;\n}\n.container[data-v-0ca26305] {\n  max-width: 1280px;\n  margin: 0 auto;\n  padding: 0 16px;\n}\n.subscription-header[data-v-0ca26305] {\n  padding: 48px 0 32px;\n  text-align: center;\n  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.75rem;\n  font-weight: 800;\n  color: #111827;\n  margin-bottom: 12px;\n  line-height: 1.2;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #4b5563;\n  max-width: 640px;\n  margin: 0 auto;\n  line-height: 1.75;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 48px 0;\n}\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 24px;\n  border-radius: 12px;\n  margin-bottom: 24px;\n  gap: 12px;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);\n  transition: transform 0.2s ease, opacity 0.2s ease;\n}\n.notification-success[data-v-0ca26305] {\n  background: #dcfce7;\n  border: 1px solid #86efac;\n  color: #166534;\n}\n.notification-error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #f87171;\n  color: #991b1b;\n}\n.notification-info[data-v-0ca26305] {\n  background: #e0f2fe;\n  border: 1px solid #7dd3fc;\n  color: #1e40af;\n}\n.notification i[data-v-0ca26305] {\n  font-size: 1.25rem;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  padding: 4px;\n  font-size: 1.25rem;\n  transition: transform 0.2s ease;\n}\n.close-btn[data-v-0ca26305]:hover {\n  transform: scale(1.1);\n}\n.alert-container[data-v-0ca26305] {\n  position: fixed;\n  top: 16px;\n  right: 16px;\n  z-index: 1000;\n  width: 320px;\n}\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 64px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 40px;\n  height: 40px;\n  border: 4px solid #e5e7eb;\n  border-top: 4px solid #2c7c6a;\n  border-radius: 50%;\n  animation: spin-0ca26305 0.8s linear infinite;\n  margin: 0 auto 16px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  font-weight: 500;\n}\n@keyframes spin-0ca26305 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n.active-subscription[data-v-0ca26305] {\n  max-width: 640px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n  overflow: hidden;\n  transition: transform 0.3s ease;\n}\n.subscription-card[data-v-0ca26305]:hover {\n  transform: translateY(-4px);\n}\n.card-badge[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 12px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n  padding: 32px 24px;\n  text-align: center;\n  background: #f9fafb;\n}\n.status-icon[data-v-0ca26305] {\n  width: 72px;\n  height: 72px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #2c7c6a;\n  font-size: 2rem;\n  transition: transform 0.3s ease;\n}\n.card-header:hover .status-icon[data-v-0ca26305] {\n  transform: scale(1.05);\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.875rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  margin-bottom: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #6b7280;\n  font-weight: 500;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n}\n.card-body[data-v-0ca26305] {\n  padding: 24px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 16px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 24px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.benefit-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 1rem;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.9375rem;\n}\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 14px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.7;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.btn-cancel[data-v-0ca26305] {\n  background: #dc2626;\n  color: white;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(.disabled):not(.cancelled) {\n  background: #b91c1c;\n  transform: translateY(-2px);\n}\n.btn-cancel.disabled[data-v-0ca26305] {\n  background: #d1d5db;\n  color: #374151;\n  cursor: not-allowed;\n}\n.btn-cancel.cancelled[data-v-0ca26305] {\n  background: #6b7280;\n  color: white;\n  cursor: default;\n}\n.success-image-container[data-v-0ca26305] {\n  text-align: center;\n  padding: 48px 0;\n  max-width: 480px;\n  margin: 0 auto;\n  animation: fadeIn-0ca26305 0.5s ease;\n}\n.success-image[data-v-0ca26305] {\n  max-width: 80px;\n  height: auto;\n  margin-bottom: 16px;\n}\n.success-message[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  margin-bottom: 24px;\n  line-height: 1.5;\n}\n.plans-view[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 32px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  align-items: start;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n\n/* 🔑 KEY FIX: Make cards stop at the button */\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e5e7eb;\n  border-radius: 16px;\n  padding: 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  display: flex;\n  flex-direction: column;\n  height: auto;\n  min-height: auto;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #2c7c6a;\n  transform: translateY(-6px);\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 100%);\n  transform: scale(1.03);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 6px 16px;\n  border-radius: 9999px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 56px;\n  height: 56px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 12px;\n  color: #2c7c6a;\n  font-size: 1.5rem;\n  transition: transform 0.3s ease;\n}\n.plan-card:hover .plan-icon[data-v-0ca26305] {\n  transform: scale(1.1);\n}\n.plan-header h2[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.25rem;\n  font-weight: 700;\n  color: #111827;\n}\n.period[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 0.9375rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n}\n.plan-description[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 0.875rem;\n  line-height: 1.5;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 12px;\n  flex-grow: 1;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e5e7eb;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 0.9375rem;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.875rem;\n}\n\n/* 🔑 KEY FIX: Push selector to bottom and prevent extra space */\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n  padding-bottom: 0;\n}\n.plan-selector .radio-label[data-v-0ca26305],\n.plan-selector .btn-get-started[data-v-0ca26305] {\n  margin-bottom: 0;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 0.9375rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: linear-gradient(45deg, #256355, #2bb880);\n}\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #6b7280;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n.faq-section[data-v-0ca26305] {\n  background: #ffffff;\n  padding: 64px 0;\n  border-top: 1px solid #e5e7eb;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 40px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n}\n.faq-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.faq-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 20px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #111827;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 1rem;\n  transition: transform 0.3s ease;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 20px;\n  animation: slideDown-0ca26305 0.3s ease;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #4b5563;\n  line-height: 1.6;\n  margin: 0;\n}\n\n/* Animations\n-------------------------------------------------- */\n@keyframes fadeIn-0ca26305 {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes slideDown-0ca26305 {\nfrom {\n    opacity: 0;\n    height: 0;\n}\nto {\n    opacity: 1;\n    height: auto;\n}\n}\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n    font-size: 2.25rem;\n}\n.header-content p[data-v-0ca26305] {\n    font-size: 1rem;\n}\n.plans-grid[data-v-0ca26305] {\n    grid-template-columns: 1fr;\n    align-items: start;\n    gap: 16px;\n}\n.plan-card.featured[data-v-0ca26305] {\n    transform: scale(1);\n}\n.card-header[data-v-0ca26305],\n  .card-body[data-v-0ca26305] {\n    padding: 20px;\n}\n.plan-card[data-v-0ca26305] {\n    padding: 20px;\n}\n.alert-container[data-v-0ca26305] {\n    width: 90%;\n    right: 5%;\n}\n.plan-description[data-v-0ca26305] {\n    font-size: 0.8125rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background: linear-gradient(180deg, #f9fafb 0%, #f1f5f9 100%);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  color: #1f2937;\n}\n.container[data-v-0ca26305] {\n  margin: 0 auto;\n  padding: 0 16px;\n}\n.subscription-header[data-v-0ca26305] {\n  padding: 48px 0 32px;\n  text-align: center;\n  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.75rem;\n  font-weight: 800;\n  color: #111827;\n  margin-bottom: 12px;\n  line-height: 1.2;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #4b5563;\n  max-width: 1140px;\n  margin: 0 auto;\n  line-height: 1.75;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 48px 0;\n}\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 24px;\n  border-radius: 12px;\n  margin-bottom: 24px;\n  gap: 12px;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);\n  transition: transform 0.2s ease, opacity 0.2s ease;\n}\n.notification-success[data-v-0ca26305] {\n  background: #dcfce7;\n  border: 1px solid #86efac;\n  color: #166534;\n}\n.notification-error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #f87171;\n  color: #991b1b;\n}\n.notification-info[data-v-0ca26305] {\n  background: #e0f2fe;\n  border: 1px solid #7dd3fc;\n  color: #1e40af;\n}\n.notification i[data-v-0ca26305] {\n  font-size: 1.25rem;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  padding: 4px;\n  font-size: 1.25rem;\n  transition: transform 0.2s ease;\n}\n.close-btn[data-v-0ca26305]:hover {\n  transform: scale(1.1);\n}\n.alert-container[data-v-0ca26305] {\n  position: fixed;\n  top: 16px;\n  right: 16px;\n  z-index: 1000;\n  width: 320px;\n}\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 64px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 40px;\n  height: 40px;\n  border: 4px solid #e5e7eb;\n  border-top: 4px solid #2c7c6a;\n  border-radius: 50%;\n  animation: spin-0ca26305 0.8s linear infinite;\n  margin: 0 auto 16px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  font-weight: 500;\n}\n@keyframes spin-0ca26305 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n.active-subscription[data-v-0ca26305] {\n  max-width: 640px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n  overflow: hidden;\n  transition: transform 0.3s ease;\n}\n.subscription-card[data-v-0ca26305]:hover {\n  transform: translateY(-4px);\n}\n.card-badge[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 12px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n  padding: 32px 24px;\n  text-align: center;\n  background: #f9fafb;\n}\n.status-icon[data-v-0ca26305] {\n  width: 72px;\n  height: 72px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #2c7c6a;\n  font-size: 2rem;\n  transition: transform 0.3s ease;\n}\n.card-header:hover .status-icon[data-v-0ca26305] {\n  transform: scale(1.05);\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.875rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  margin-bottom: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #6b7280;\n  font-weight: 500;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n}\n.card-body[data-v-0ca26305] {\n  padding: 24px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 16px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 24px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.benefit-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 1rem;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.9375rem;\n}\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 14px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.7;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.btn-cancel[data-v-0ca26305] {\n  background: #dc2626;\n  color: white;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(.disabled):not(.cancelled) {\n  background: #b91c1c;\n  transform: translateY(-2px);\n}\n.btn-cancel.disabled[data-v-0ca26305] {\n  background: #d1d5db;\n  color: #374151;\n  cursor: not-allowed;\n}\n.btn-cancel.cancelled[data-v-0ca26305] {\n  background: #6b7280;\n  color: white;\n  cursor: default;\n}\n.success-image-container[data-v-0ca26305] {\n  text-align: center;\n  padding: 48px 0;\n  max-width: 480px;\n  margin: 0 auto;\n  animation: fadeIn-0ca26305 0.5s ease;\n}\n.success-image[data-v-0ca26305] {\n  max-width: 80px;\n  height: auto;\n  margin-bottom: 16px;\n}\n.success-message[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  margin-bottom: 24px;\n  line-height: 1.5;\n}\n.plans-view[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 32px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  align-items: start;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n\n/* 🔑 KEY FIX: Make cards stop at the button */\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e5e7eb;\n  border-radius: 16px;\n  padding: 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  display: flex;\n  flex-direction: column;\n  height: auto;\n  min-height: auto;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #2c7c6a;\n  transform: translateY(-6px);\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 100%);\n  transform: scale(1.03);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 6px 16px;\n  border-radius: 9999px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 56px;\n  height: 56px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 12px;\n  color: #2c7c6a;\n  font-size: 1.5rem;\n  transition: transform 0.3s ease;\n}\n.plan-card:hover .plan-icon[data-v-0ca26305] {\n  transform: scale(1.1);\n}\n.plan-header h2[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.25rem;\n  font-weight: 700;\n  color: #111827;\n}\n.period[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 0.9375rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n}\n.plan-description[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 0.875rem;\n  line-height: 1.5;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 12px;\n  flex-grow: 1;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e5e7eb;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 0.9375rem;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.875rem;\n}\n\n/* 🔑 KEY FIX: Push selector to bottom and prevent extra space */\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n  padding-bottom: 0;\n}\n.plan-selector .radio-label[data-v-0ca26305],\n.plan-selector .btn-get-started[data-v-0ca26305] {\n  margin-bottom: 0;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 0.9375rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: linear-gradient(45deg, #256355, #2bb880);\n}\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #6b7280;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n.faq-section[data-v-0ca26305] {\n  background: #ffffff;\n  padding: 64px 0;\n  border-top: 1px solid #e5e7eb;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 40px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n}\n.faq-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.faq-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 20px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #111827;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 1rem;\n  transition: transform 0.3s ease;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 20px;\n  animation: slideDown-0ca26305 0.3s ease;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #4b5563;\n  line-height: 1.6;\n  margin: 0;\n}\n\n/* Animations\n-------------------------------------------------- */\n@keyframes fadeIn-0ca26305 {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes slideDown-0ca26305 {\nfrom {\n    opacity: 0;\n    height: 0;\n}\nto {\n    opacity: 1;\n    height: auto;\n}\n}\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n    font-size: 2.25rem;\n}\n.header-content p[data-v-0ca26305] {\n    font-size: 1rem;\n}\n.plans-grid[data-v-0ca26305] {\n    grid-template-columns: 1fr;\n    align-items: start;\n    gap: 16px;\n}\n.plan-card.featured[data-v-0ca26305] {\n    transform: scale(1);\n}\n.card-header[data-v-0ca26305],\n  .card-body[data-v-0ca26305] {\n    padding: 20px;\n}\n.plan-card[data-v-0ca26305] {\n    padding: 20px;\n}\n.alert-container[data-v-0ca26305] {\n    width: 90%;\n    right: 5%;\n}\n.plan-description[data-v-0ca26305] {\n    font-size: 0.8125rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

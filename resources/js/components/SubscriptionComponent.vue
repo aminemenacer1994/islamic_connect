@@ -287,7 +287,7 @@ export default {
           description: 'Unlock powerful tools that help you learn, reflect, and stay inspired every day.',
           features: [
             'All of the basic features',
-            'Quran with AI tools',
+            'Quran with Smart Search & Accessibility',
             'Audio podcasts',
             'Reciters station',
             'Islamic directory video channels',
@@ -300,7 +300,7 @@ export default {
           ]
         },
         {
-          value: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
+          value: 'price_1SHNXJGsDD2PdzHqyD7VcnHr',
           name: 'Yearly',
           price: '£17.99',
           period: 'per year',
@@ -311,7 +311,7 @@ export default {
           description: 'Best value for those dedicated to lifelong learning, enjoy all Monthly benefits at a discounted rate.',
           features: [
             'All of the basic features',
-            'Quran with AI tools',
+            'Quran with Smart Search & Accessibility',
             'Audio podcasts',
             'Reciters station',
             'Islamic directory video channels',
@@ -326,7 +326,7 @@ export default {
       ],
       planDetails: {
         'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
-        'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly',
+        'price_1SHNXJGsDD2PdzHqyD7VcnHr': 'Premium Yearly',
         'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime'
       }
     };
@@ -576,33 +576,58 @@ export default {
       this.submitting = true;
       this.error = '';
       this.success = '';
+
       try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (!csrfToken) throw new Error('Session expired. Please refresh the page to continue.');
+        const csrfToken = document
+          .querySelector('meta[name="csrf-token"]')
+          ?.getAttribute('content');
+
+        if (!csrfToken) {
+          throw new Error('Session expired. Please refresh the page to continue.');
+        }
 
         const response = await fetch('/subscribe', {
           method: 'POST',
-          headers: { 
-            'X-CSRF-TOKEN': csrfToken, 
-            'Accept': 'application/json', 
-            'Content-Type': 'application/json' 
+          headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
           },
           credentials: 'same-origin',
           body: JSON.stringify({ price_lookup_key: this.selectedPlan })
         });
 
-        const data = await response.json();
-        if (response.ok && data.redirect) {
-          window.location.href = data.redirect;
-        } else {
-          if (data.errors) {
-            this.error = Object.values(data.errors).flat().join(' ');
-          } else {
-            this.error = data.message || 'An error occurred during payment processing. Please try again.';
-          }
+        // Handle unauthorized or login redirects explicitly
+        if (response.redirected || response.status === 401) {
+          this.error = 'Please log in to proceed to checkout.';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
         }
+
+        // Safely parse JSON only when appropriate
+        const contentType = response.headers.get('content-type') || '';
+        const isJson = contentType.includes('application/json');
+        const data = isJson ? await response.json() : null;
+
+        if (response.ok && data?.redirect) {
+          window.location.href = data.redirect;
+          return;
+        }
+
+        if (data?.errors) {
+          this.error = Object.values(data.errors).flat().join(' ');
+        } else if (data?.message) {
+          this.error = data.message;
+        } else {
+          this.error = 'An error occurred during payment processing. Please try again.';
+        }
+
+        // Ensure the user sees the error at the top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (error) {
-        this.error = error.message || 'A network error occurred. Please check your connection and try again.';
+        this.error =
+          error.message || 'A network error occurred. Please check your connection and try again.';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } finally {
         this.submitting = false;
       }
@@ -633,7 +658,6 @@ export default {
 }
 
 .container {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 0 16px;
 }
@@ -655,7 +679,7 @@ export default {
 .header-content p {
   font-size: 1.125rem;
   color: #4b5563;
-  max-width: 640px;
+  max-width: 1140px;
   margin: 0 auto;
   line-height: 1.75;
 }

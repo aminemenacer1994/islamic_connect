@@ -39,7 +39,7 @@
                 <input type="hidden" name="_token" :value="csrfToken">
                 <select name="price_lookup_key" required v-model="selectedPlan" class="form-control">
                     <option value="price_1SDrmPGsDD2PdzHqTgawcJZd">Premium Monthly (£1.99)</option>
-                    <option value="price_1SDrmPGsDD2PdzHqDOScwoI2">Premium Yearly (£18)</option>
+                    <option value="price_1SHNXJGsDD2PdzHqyD7VcnHr">Premium Yearly (£17.99)</option>
                     <option value="price_1SDrmPGsDD2PdzHqvk1SOoT3">Premium Lifetime (£25)</option>
                 </select>
                 <button type="submit" class="btn btn-primary" :disabled="submitting">
@@ -65,7 +65,7 @@ const subscription = ref(null);
 
 const planDetails = {
     'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly (£1.99)',
-    'price_1SDrmPGsDD2PdzHqDOScwoI2': 'Premium Yearly (£18)',
+    'price_1SHNXJGsDD2PdzHqyD7VcnHr': 'Premium Yearly (£17.99)',
     'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime (£25)',
 };
 

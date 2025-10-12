@@ -100,12 +100,8 @@
                 <div class="col-md-8 pt-2 card-hide text-left pr-4">
                     <Welcome v-if="information == null" />
                     
-                    <div class="mb-2" v-else>
-                        <!-- <h4 class="fw-bold text-center" >Verse Breakdown...</h4> -->
-                        <!-- breakdown content here -->
-                         
-                    </div>
-                    <AyahOfTheDay />
+                    
+                    <!-- <AyahOfTheDay /> -->
                     <div class="card content" >
                         <div  v-if="information != null">
                             <div class="container-fluid ">

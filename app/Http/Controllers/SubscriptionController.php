@@ -212,7 +212,7 @@ class SubscriptionController extends Controller
     public function createSubscription(Request $request)
     {
         $request->validate([
-            'price_lookup_key' => 'required|string|in:price_1SDrmPGsDD2PdzHqTgawcJZd,price_1SDrmPGsDD2PdzHqDOScwoI2,price_1SDrmPGsDD2PdzHqvk1SOoT3',
+            'price_lookup_key' => 'required|string|in:price_1SDrmPGsDD2PdzHqTgawcJZd,price_1SHNXJGsDD2PdzHqyD7VcnHr,price_1SDrmPGsDD2PdzHqvk1SOoT3',
         ]);
 
         $user = Auth::user();
