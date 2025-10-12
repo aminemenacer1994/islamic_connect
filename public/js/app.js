@@ -142157,6 +142157,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _translation_ChatBot_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./translation/ChatBot.vue */ "./resources/js/components/translation/ChatBot.vue");
 var _methods;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
@@ -142286,102 +142290,39 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       rssUrl: "https://feeds.buzzsprout.com/1658500.rss",
       desc: "The Light of Reflection offers daily Quranic reflections and short reminders to inspire spiritual growth.  \n          It provides practical insights for Muslims seeking to connect with the Quran.",
       image: "./images/rl.jpeg"
-    }]), "playingIndex", null), "selectedPodcast", ""), "isDownloading", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "showToast", false), "toastType", ''), "podcasts", []), "filteredPodcasts", []), "loading", true), "rssUrl", 'https://themadmamluks.libsyn.com/rss'), "searchQuery", ''), "searchInput", ''), "searchDebounceTimer", null), "currentPage", 1), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "podcastsPerPage", 8), "bookmarks", JSON.parse(localStorage.getItem('bookmarks')) || []), "favourites", JSON.parse(localStorage.getItem('favourites')) || []), "recentPlays", JSON.parse(localStorage.getItem('recentPlays') || '[]')), "sortOption", 'mostViewed'), "dateFilter", 'weekly'), "durationFilter", ''), "isAudioPlaying", []), "currentlyPlaying", null), "currentlyPlayingIndex", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "audioElements", []), "showAudioPlayer", false), "showVolumeBar", false), "volume", 1.0), "playbackSpeed", 1.0), "audioPlayerJustOpened", false), "isSeeking", false), "languageFilter", ''), "isPlayerMinimized", false);
+    }]), "playingIndex", null), "selectedPodcast", ""), "isDownloading", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "showToast", false), "toastType", ''), "podcasts", []), "filteredPodcasts", []), "loading", true), "rssUrl", 'https://themadmamluks.libsyn.com/rss'), "searchQuery", ''), "searchInput", ''), "searchDebounceTimer", null), "itemsPerLoad", 8), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "visibleCount", 0), "isLoadingMore", false), "bookmarks", JSON.parse(localStorage.getItem('bookmarks')) || []), "favourites", JSON.parse(localStorage.getItem('favourites')) || []), "recentPlays", JSON.parse(localStorage.getItem('recentPlays') || '[]')), "sortOption", 'mostViewed'), "dateFilter", 'weekly'), "durationFilter", ''), "isAudioPlaying", []), "currentlyPlaying", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "currentlyPlayingIndex", 0), "audioElements", []), "showAudioPlayer", false), "showVolumeBar", false), "volume", 1.0), "playbackSpeed", 1.0), "audioPlayerJustOpened", false), "isSeeking", false), "languageFilter", ''), "isPlayerMinimized", false);
   },
   computed: {
-    totalPages: function totalPages() {
-      return Math.ceil(this.filteredAndSearchedPodcasts.length / this.podcastsPerPage);
+    // Visible slice for infinite scrolling
+    visiblePodcasts: function visiblePodcasts() {
+      return this.filteredAndSearchedPodcasts.slice(0, Math.max(0, this.visibleCount));
     },
-    pages: function pages() {
-      return Array.from({
-        length: Math.min(this.totalPages, 8)
-      }, function (_, i) {
-        return i + 1;
-      });
-    },
-    paginatedPodcasts: function paginatedPodcasts() {
-      var start = (this.currentPage - 1) * this.podcastsPerPage;
-      return this.filteredAndSearchedPodcasts.slice(start, start + this.podcastsPerPage);
-    },
+    // Keep this lightweight: filteredPodcasts already has filters + sorting applied.
+    // Only apply quick text search here to avoid heavy recomputation.
     filteredAndSearchedPodcasts: function filteredAndSearchedPodcasts() {
-      var _this = this;
-      var podcasts = this.filteredPodcasts;
-      // Filter by search
-      if (this.searchQuery) {
-        var q = this.searchQuery.toLowerCase();
-        podcasts = podcasts.filter(function (p) {
-          return p.title && p.title.toLowerCase().includes(q) || p.description && p.description.toLowerCase().includes(q);
-        });
-      }
-      // Filter by duration
-      if (this.durationFilter) {
-        switch (this.durationFilter) {
-          case '0-10':
-            podcasts = podcasts.filter(function (p) {
-              return p.duration <= 10;
-            });
-            break;
-          case '10-30':
-            podcasts = podcasts.filter(function (p) {
-              return p.duration > 10 && p.duration <= 30;
-            });
-            break;
-          case '30-60':
-            podcasts = podcasts.filter(function (p) {
-              return p.duration > 30 && p.duration <= 60;
-            });
-            break;
-          case 'more-than-60':
-            podcasts = podcasts.filter(function (p) {
-              return p.duration > 60;
-            });
-            break;
-        }
-      }
-      // Filter by language
-      if (this.languageFilter) {
-        podcasts = podcasts.filter(function (p) {
-          return p.language === _this.languageFilter;
-        });
-      }
-      // Sort
-      switch (this.sortOption) {
-        case 'mostViewed':
-          podcasts = podcasts.slice().sort(function (a, b) {
-            return b.views - a.views;
-          });
-          break;
-        case 'leastViewed':
-          podcasts = podcasts.slice().sort(function (a, b) {
-            return a.views - b.views;
-          });
-          break;
-        case 'newest':
-          podcasts = podcasts.slice().sort(function (a, b) {
-            return new Date(b.pubDate) - new Date(a.pubDate);
-          });
-          break;
-        case 'oldest':
-          podcasts = podcasts.slice().sort(function (a, b) {
-            return new Date(a.pubDate) - new Date(b.pubDate);
-          });
-          break;
-      }
-      return podcasts;
+      var podcasts = this.filteredPodcasts || [];
+      if (!this.searchQuery) return podcasts;
+      var q = this.searchQuery.toLowerCase();
+      return podcasts.filter(function (p) {
+        return p.title && p.title.toLowerCase().includes(q) || p.description && p.description.toLowerCase().includes(q);
+      });
     },
     sortedPodcasts: function sortedPodcasts() {
       return this.applySorting(_toConsumableArray(this.filteredPodcasts));
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this = this;
     // Initialize Bootstrap tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.forEach(function (tooltipTriggerEl) {
       new bootstrap.Tooltip(tooltipTriggerEl);
     });
     this.$nextTick(function () {
-      _this2.initializeAudioElements();
+      // Initialize infinite scroll starting window
+      _this.visibleCount = _this.itemsPerLoad;
+      _this.initializeAudioElements();
+      _this.setupInfiniteScroll();
     });
 
     // Add keyboard event listener for closing audio player
@@ -142418,19 +142359,23 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   },
   beforeUnmount: function beforeUnmount() {
-    // Remove keyboard event listener
+    // Remove keyboard event listener and disconnect observer
     document.removeEventListener('keydown', this.handleKeydown);
+    try {
+      this._infiniteObserver && this._infiniteObserver.disconnect && this._infiniteObserver.disconnect();
+    } catch (e) {}
   },
   methods: (_methods = {
     toggleVisibility: function toggleVisibility() {
       this.isVisible = !this.isVisible;
     },
     onSearchInput: function onSearchInput() {
-      var _this3 = this;
+      var _this2 = this;
       if (this.searchDebounceTimer) clearTimeout(this.searchDebounceTimer);
       this.searchDebounceTimer = setTimeout(function () {
-        _this3.searchQuery = (_this3.searchInput || '').trim();
-        _this3.currentPage = 1;
+        _this2.searchQuery = (_this2.searchInput || '').trim();
+        // Reset visible window on new search
+        _this2.visibleCount = _this2.itemsPerLoad;
       }, 250);
     },
     toggleVolume: function toggleVolume() {
@@ -142597,11 +142542,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     console.log("Updating podcasts...");
     this.fetchPodcasts();
   }), "applyDateFilter", function applyDateFilter(filtered) {
-    var _this4 = this;
+    var _this3 = this;
     var now = new Date();
     return filtered.filter(function (podcast) {
       var pubDate = new Date(podcast.pubDate);
-      switch (_this4.selectedDateFilter) {
+      switch (_this3.selectedDateFilter) {
         case "yearly":
           return pubDate.getFullYear() === now.getFullYear();
         case "monthly":
@@ -142624,23 +142569,23 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     // Fetch audio podcasts based on selected filters
     this.fetchPodcasts();
   }), "fetchPodcasts", function fetchPodcasts() {
-    var _this5 = this;
+    var _this4 = this;
     return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
       var response, data, parser, xmlDoc, items, _t;
       return _regenerator().w(function (_context) {
         while (1) switch (_context.p = _context.n) {
           case 0:
-            if (_this5.selectedPodcast) {
+            if (_this4.selectedPodcast) {
               _context.n = 1;
               break;
             }
             return _context.a(2);
           case 1:
-            _this5.loading = true;
-            _this5.rssUrl = _this5.selectedPodcast.rssUrl;
+            _this4.loading = true;
+            _this4.rssUrl = _this4.selectedPodcast.rssUrl;
             _context.p = 2;
             _context.n = 3;
-            return fetch(_this5.rssUrl);
+            return fetch(_this4.rssUrl);
           case 3:
             response = _context.v;
             _context.n = 4;
@@ -142650,10 +142595,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
             parser = new DOMParser();
             xmlDoc = parser.parseFromString(data, 'text/xml');
             items = xmlDoc.getElementsByTagName('item'); // Store the number of episodes
-            _this5.selectedPodcast.episodeCount = items.length;
+            _this4.selectedPodcast.episodeCount = items.length;
 
             // Process and sort podcasts
-            _this5.podcasts = Array.from(items).map(function (item) {
+            _this4.podcasts = Array.from(items).map(function (item) {
               var _item$getElementsByTa, _item$getElementsByTa2, _item$getElementsByTa3, _item$getElementsByTa4, _item$getElementsByTa5;
               var pubDate = ((_item$getElementsByTa = item.getElementsByTagName('pubDate')[0]) === null || _item$getElementsByTa === void 0 ? void 0 : _item$getElementsByTa.textContent) || 'Unknown';
               console.log('Raw pubDate:', pubDate); // Log raw value
@@ -142664,7 +142609,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
                 audioUrl: ((_item$getElementsByTa4 = item.getElementsByTagName('enclosure')[0]) === null || _item$getElementsByTa4 === void 0 ? void 0 : _item$getElementsByTa4.getAttribute('url')) || null,
                 views: Math.floor(Math.random() * 1000),
                 duration: Math.floor(Math.random() * 60) + 5,
-                language: _this5.detectLanguage(((_item$getElementsByTa5 = item.getElementsByTagName('title')[0]) === null || _item$getElementsByTa5 === void 0 ? void 0 : _item$getElementsByTa5.textContent) || '')
+                language: _this4.detectLanguage(((_item$getElementsByTa5 = item.getElementsByTagName('title')[0]) === null || _item$getElementsByTa5 === void 0 ? void 0 : _item$getElementsByTa5.textContent) || '')
               };
             }).filter(function (podcast) {
               return podcast.audioUrl;
@@ -142676,15 +142621,15 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               return dateB - dateA;
             });
 
-            // Assign sorted podcasts to paginatedPodcasts
-            _this5.paginatedPodcasts = _toConsumableArray(_this5.podcasts);
-            console.log('Sorted podcasts:', _this5.paginatedPodcasts.map(function (p) {
+            // Initialize visible list for infinite scroll
+            _this4.visibleCount = Math.min(_this4.itemsPerLoad, _this4.podcasts.length);
+            console.log('Sorted podcasts:', _this4.podcasts.map(function (p) {
               return {
                 title: p.title,
                 pubDate: p.pubDate
               };
             }));
-            _this5.applyFilters(); // Apply filters after fetching
+            _this4.applyFilters(); // Apply filters after fetching
             _context.n = 6;
             break;
           case 5:
@@ -142693,7 +142638,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
             console.error("Error fetching podcasts:", _t);
           case 6:
             _context.p = 6;
-            _this5.loading = false;
+            _this4.loading = false;
             return _context.f(6);
           case 7:
             return _context.a(2);
@@ -142701,7 +142646,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }, _callee, null, [[2, 5, 6, 7]]);
     }))();
   }), "playAudio", function playAudio(index) {
-    var _this6 = this;
+    var _this5 = this;
     // Only one audio at a time
     if (this.currentlyPlaying !== null && this.currentlyPlaying !== this.audioElements[index]) {
       if (this.currentlyPlaying.pause) {
@@ -142717,7 +142662,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.playingIndex = index;
     this.currentlyPlaying.play()["catch"](function (err) {
       console.error('Play error:', err);
-      _this6.handlePodcastEnd(index);
+      _this5.handlePodcastEnd(index);
     });
     this.isAudioPlaying = this.isAudioPlaying.map(function (_, i) {
       return i === index;
@@ -142735,7 +142680,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.showAudioPlayer = true;
     // Save to recent plays
     try {
-      var ep = this.paginatedPodcasts[index];
+      var ep = this.visiblePodcasts[index];
       var entry = {
         title: ep === null || ep === void 0 ? void 0 : ep.title,
         audioUrl: ep === null || ep === void 0 ? void 0 : ep.audioUrl,
@@ -142756,10 +142701,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     });
     this.audioPlayerJustOpened = true;
     setTimeout(function () {
-      _this6.audioPlayerJustOpened = false;
+      _this5.audioPlayerJustOpened = false;
     }, 300);
   }), "isCurrentlyPlaying", function isCurrentlyPlaying(item) {
-    var cur = this.paginatedPodcasts[this.currentlyPlayingIndex];
+    var cur = this.visiblePodcasts[this.currentlyPlayingIndex];
     if (!cur || !item) return false;
     return cur.title === item.title && cur.audioUrl === item.audioUrl && this.isAudioPlaying[this.currentlyPlayingIndex];
   }), "handlePodcastEnd", function handlePodcastEnd(index) {
@@ -142802,13 +142747,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     var date = new Date(dateString);
     return date.toLocaleDateString('en-GB', options); // Using 'en-GB' for British date format
   }), "applyFilters", function applyFilters() {
-    var _this7 = this;
+    var _this6 = this;
     var filtered = _toConsumableArray(this.podcasts);
 
     // Apply language filter
     if (this.selectedLanguageFilter) {
       filtered = filtered.filter(function (podcast) {
-        return podcast.language === _this7.selectedLanguageFilter;
+        return podcast.language === _this6.selectedLanguageFilter;
       });
     }
 
@@ -142827,6 +142772,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       filtered = this.applySorting(filtered);
     }
     this.filteredPodcasts = filtered; // Update filtered podcasts
+    // Reset infinite scroll window after filters change
+    this.visibleCount = Math.min(this.itemsPerLoad, this.filteredPodcasts.length || 0);
+    this.$nextTick(function () {
+      return _this6.setupInfiniteScroll();
+    });
   }), "detectLanguage", function detectLanguage(text) {
     if (/[؀-ۿ]/.test(text)) {
       return 'Arabic';
@@ -142836,13 +142786,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       return 'Unknown';
     }
   }), "applyDateFilter", function applyDateFilter(filtered) {
-    var _this8 = this;
+    var _this7 = this;
     var now = new Date();
     return filtered.filter(function (podcast) {
       var pubDate = new Date(podcast.pubDate);
-      if (_this8.selectedDateFilter === "weekly") {
+      if (_this7.selectedDateFilter === "weekly") {
         return (now - pubDate) / (1000 * 60 * 60 * 24) <= 7;
-      } else if (_this8.selectedDateFilter === "monthly") {
+      } else if (_this7.selectedDateFilter === "monthly") {
         return (now - pubDate) / (1000 * 60 * 60 * 24) <= 30;
       }
       return true;
@@ -142877,13 +142827,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         return podcasts;
     }
   }), "fetchEpisodeCounts", function fetchEpisodeCounts() {
-    var _this9 = this;
+    var _this8 = this;
     return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
       var _iterator, _step, podcast, response, data, parser, xmlDoc, episodeCount, _t2, _t3;
       return _regenerator().w(function (_context2) {
         while (1) switch (_context2.p = _context2.n) {
           case 0:
-            _iterator = _createForOfIteratorHelper(_this9.islamicPodcasts);
+            _iterator = _createForOfIteratorHelper(_this8.islamicPodcasts);
             _context2.p = 1;
             _iterator.s();
           case 2:
@@ -142934,14 +142884,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     // TODO: Implement RSS parsing logic
     console.log("Processing RSS Feed...");
   }), "selectPodcast", function selectPodcast(podcast) {
-    var _this0 = this;
+    var _this9 = this;
     this.selectedPodcast = podcast;
     try {
       localStorage.setItem(this.lastSelectedPodcastKey, JSON.stringify(podcast));
     } catch (e) {}
     this.fetchPodcasts();
     this.$nextTick(function () {
-      var section = _this0.$refs.podcastDetailSection;
+      var section = _this9.$refs.podcastDetailSection;
       if (section) {
         section.scrollIntoView({
           behavior: 'smooth'
@@ -142949,10 +142899,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }
     });
   }), "onSearch", function onSearch() {
-    this.currentPage = 1;
+    var _this0 = this;
+    this.visibleCount = this.itemsPerLoad;
     var query = this.searchQuery.toLowerCase();
     this.filteredPodcasts = this.podcasts.filter(function (podcast) {
       return podcast.title.toLowerCase().includes(query);
+    });
+    this.$nextTick(function () {
+      return _this0.setupInfiniteScroll();
     });
   }), "highlightText", function highlightText(title) {
     if (!this.searchQuery) return title;
@@ -142977,48 +142931,56 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     return this.favourites.some(function (fav) {
       return fav.title === podcast.title;
     });
-  }), "changePage", function changePage(page) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.updatePaginatedPodcasts();
+  }), "ensureVisible", function ensureVisible(fullIndex) {
+    var need = fullIndex + 1;
+    if (need > this.visibleCount) {
+      this.visibleCount = Math.min(this.filteredAndSearchedPodcasts.length, need);
     }
-  }), "getVisiblePages", function getVisiblePages() {
-    var pages = [];
-    var start = Math.max(2, this.currentPage - 1);
-    var end = Math.min(this.totalPages - 1, this.currentPage + 1);
-    for (var i = start; i <= end; i++) {
-      if (i > 1 && i < this.totalPages) {
-        pages.push(i);
-      }
-    }
-    return pages;
-  }), "updatePaginatedPodcasts", function updatePaginatedPodcasts() {
-    var start = (this.currentPage - 1) * 9; // Assuming 9 items per page
-    var end = start + 9;
-    this.paginatedPodcasts = this.podcasts.slice(start, end);
-  }), "initializeAudioElements", function initializeAudioElements() {
+  }), "setupInfiniteScroll", function setupInfiniteScroll() {
     var _this1 = this;
-    this.audioElements = this.paginatedPodcasts.map(function (podcast, index) {
-      var audio = new Audio(podcast.audioUrl || '');
-      audio.playbackRate = _this1.playbackSpeed;
-      audio.volume = _this1.volume;
-      audio.addEventListener('timeupdate', function () {
-        _this1.updateProgress(index);
-        try {
-          var key = "content_progress_".concat(podcast.title);
-          localStorage.setItem(key, String(audio.currentTime || 0));
-        } catch (e) {}
-      });
-      audio.addEventListener('loadedmetadata', function () {
-        _this1.progress[index] = 0;
-      });
-      audio.addEventListener('ended', function () {
-        return _this1.handlePodcastEnd(index);
-      });
-      return audio;
+    var el = this.$refs.infiniteScrollTrigger;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    if (this._infiniteObserver) {
+      try {
+        this._infiniteObserver.disconnect();
+      } catch (e) {}
+    }
+    this._infiniteObserver = new IntersectionObserver(function (entries) {
+      var _entries = _slicedToArray(entries, 1),
+        entry = _entries[0];
+      if (entry && entry.isIntersecting) {
+        // Defer to animation frame to keep scroll smooth
+        requestAnimationFrame(function () {
+          return _this1.loadMore();
+        });
+      }
+    }, {
+      root: null,
+      rootMargin: '600px',
+      threshold: 0
     });
-  }), "buildContinueListening", function buildContinueListening() {
+    this._infiniteObserver.observe(el);
+  }), "loadMore", function loadMore() {
     var _this10 = this;
+    if (this.isLoadingMore) return;
+    if (this.visibleCount >= this.filteredAndSearchedPodcasts.length) return;
+    this.isLoadingMore = true;
+    var next = Math.min(this.filteredAndSearchedPodcasts.length, this.visibleCount + this.itemsPerLoad);
+    this.visibleCount = next;
+    // Append audio elements only for newly visible items
+    this.$nextTick(function () {
+      _this10.initializeAudioElements(true);
+      _this10.isLoadingMore = false;
+    });
+  }), "initializeAudioElements", function initializeAudioElements() {
+    var incremental = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    if (!incremental) {
+      this.audioElements = [];
+    }
+    var needed = this.visiblePodcasts.length;
+    while (this.audioElements.length < needed) this.audioElements.push(null);
+  }), "buildContinueListening", function buildContinueListening() {
+    var _this11 = this;
     try {
       var entries = [];
       var prefix = 'content_progress_';
@@ -143028,9 +142990,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
           var title = key.substring(prefix.length);
           var savedTime = Number(localStorage.getItem(key));
           if (isNaN(savedTime) || savedTime < 5) return 0; // continue
-          var match = _this10.podcasts.find(function (p) {
+          var match = _this11.podcasts.find(function (p) {
             return p.title === title;
-          }) || _this10.filteredPodcasts.find(function (p) {
+          }) || _this11.filteredPodcasts.find(function (p) {
             return p.title === title;
           });
           entries.push({
@@ -143050,34 +143012,56 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       this.continueListening = [];
     }
   }), "resumeFromSaved", function resumeFromSaved(item) {
-    var _this11 = this;
+    var _this12 = this;
     // Find index in current paginated list; if not present, attempt to locate in full list and adjust pagination
     var fullIndex = this.filteredAndSearchedPodcasts.findIndex(function (p) {
       return p.title === item.title;
     });
     if (fullIndex >= 0) {
-      var page = Math.floor(fullIndex / this.podcastsPerPage) + 1;
-      if (page !== this.currentPage) this.currentPage = page;
+      this.ensureVisible(fullIndex);
       this.$nextTick(function () {
-        var localIndex = _this11.paginatedPodcasts.findIndex(function (p) {
+        var localIndex = _this12.visiblePodcasts.findIndex(function (p) {
           return p.title === item.title;
         });
         if (localIndex >= 0) {
-          _this11.playAudio(localIndex);
-          if (_this11.currentlyPlaying) _this11.currentlyPlaying.currentTime = item.savedTime;
-          _this11.showAudioPlayer = true;
+          _this12.playAudio(localIndex);
+          if (_this12.currentlyPlaying) _this12.currentlyPlaying.currentTime = item.savedTime;
+          _this12.showAudioPlayer = true;
         }
       });
     }
   }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "playAudio", function playAudio(index) {
-    var _this12 = this;
-    if (this.currentlyPlaying !== null && this.currentlyPlaying !== this.audioElements[index]) {
-      if (this.currentlyPlaying.pause) {
+    var _this13 = this;
+    var podcast = this.visiblePodcasts[index];
+    // Stop and reset previous
+    if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
+      try {
         this.currentlyPlaying.pause();
-        this.currentlyPlaying.currentTime = 0;
-      }
+      } catch (e) {}
     }
-    this.isAudioPlaying = this.isAudioPlaying.map(function (state, i) {
+    // Lazily create Audio instance if missing
+    if (!this.audioElements[index]) {
+      var audio = new Audio((podcast === null || podcast === void 0 ? void 0 : podcast.audioUrl) || '');
+      audio.playbackRate = this.playbackSpeed;
+      audio.volume = this.volume;
+      audio.addEventListener('timeupdate', function () {
+        _this13.updateProgress(index, audio);
+        try {
+          var key = "content_progress_".concat(podcast === null || podcast === void 0 ? void 0 : podcast.title);
+          localStorage.setItem(key, String(audio.currentTime || 0));
+        } catch (e) {}
+      }, {
+        passive: true
+      });
+      audio.addEventListener('loadedmetadata', function () {
+        _this13.progress[index] = 0;
+      });
+      audio.addEventListener('ended', function () {
+        return _this13.handlePodcastEnd(index);
+      });
+      this.audioElements[index] = audio;
+    }
+    this.isAudioPlaying = this.isAudioPlaying.map(function (_, i) {
       return i === index;
     });
     this.currentlyPlaying = this.audioElements[index];
@@ -143085,8 +143069,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.playingIndex = index;
     // Restore last position for this episode
     try {
-      var podcast = this.paginatedPodcasts[index];
-      var key = "content_progress_".concat(podcast.title);
+      var _podcast = this.visiblePodcasts[index];
+      var key = "content_progress_".concat(_podcast.title);
       var saved = Number(localStorage.getItem(key));
       if (!isNaN(saved) && saved > 0 && this.currentlyPlaying && Math.abs((this.currentlyPlaying.currentTime || 0) - saved) > 1) {
         this.currentlyPlaying.currentTime = saved;
@@ -143094,7 +143078,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     } catch (e) {}
     this.currentlyPlaying.play()["catch"](function (err) {
       console.error('Play error:', err);
-      _this12.handlePodcastEnd(index);
+      _this13.handlePodcastEnd(index);
     });
     this.isAudioPlaying[index] = true;
     this.showAudioPlayer = true;
@@ -143107,15 +143091,18 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     });
     this.audioPlayerJustOpened = true;
     setTimeout(function () {
-      _this12.audioPlayerJustOpened = false;
+      _this13.audioPlayerJustOpened = false;
     }, 300);
   }), "pauseAudio", function pauseAudio(index) {
-    if (this.audioElements[index]) {
-      this.audioElements[index].pause();
+    var a = this.audioElements[index];
+    if (a) {
+      try {
+        a.pause();
+      } catch (e) {}
       this.isAudioPlaying[index] = false;
     }
   }), "toggleAudioPlayer", function toggleAudioPlayer(index) {
-    if (!this.audioElements[index]) return;
+    if (!this.visiblePodcasts[index]) return;
     if (!this.isAudioPlaying[index]) {
       this.playAudio(index);
       this.playingIndex = index;
@@ -143124,23 +143111,27 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       this.playingIndex = null;
     }
   }), "stopAudio", function stopAudio(index) {
-    if (this.audioElements[index]) {
-      this.audioElements[index].pause();
-      this.audioElements[index].currentTime = 0;
+    var a = this.audioElements[index];
+    if (a) {
+      try {
+        a.pause();
+      } catch (e) {}
+      try {
+        a.currentTime = 0;
+      } catch (e) {}
       this.isAudioPlaying[index] = false;
       this.progress[index] = 0;
     }
   }), "rewindAudio", function rewindAudio(index) {
-    if (this.audioElements[index]) {
-      this.audioElements[index].currentTime = Math.max(0, this.audioElements[index].currentTime - 15);
-    }
+    var a = this.audioElements[index];
+    if (a) a.currentTime = Math.max(0, a.currentTime - 15);
   }), "fastForwardAudio", function fastForwardAudio(index) {
-    if (this.audioElements[index]) {
-      this.audioElements[index].currentTime = Math.min(this.audioElements[index].duration, this.audioElements[index].currentTime + 20);
-    }
+    var a = this.audioElements[index];
+    if (a) a.currentTime = Math.min(a.duration || 0, (a.currentTime || 0) + 20);
   }), "updateProgress", function updateProgress(index) {
-    if (this.audioElements[index] && this.audioElements[index].duration) {
-      var progress = this.audioElements[index].currentTime / this.audioElements[index].duration * 100;
+    var a = this.audioElements[index];
+    if (a && a.duration) {
+      var progress = a.currentTime / a.duration * 100;
       this.progress[index] = Math.min(100, progress);
     }
   }), "formatTime", function formatTime(seconds) {
@@ -143155,40 +143146,40 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       this.playNextPodcast();
     }
   }), "playNextPodcast", function playNextPodcast() {
-    if (this.paginatedPodcasts.length > 0) {
-      var nextIndex = (this.currentlyPlayingIndex + 1) % this.paginatedPodcasts.length;
+    if (this.visiblePodcasts.length > 0) {
+      var nextIndex = (this.currentlyPlayingIndex + 1) % this.visiblePodcasts.length;
       this.playAudio(nextIndex);
     }
   }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "toggleVolume", function toggleVolume() {
     this.showVolumeBar = !this.showVolumeBar;
   }), "updateVolume", function updateVolume() {
-    var _this13 = this;
+    var _this14 = this;
     if (this.currentlyPlaying) {
       this.currentlyPlaying.volume = this.volume;
     }
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(function (audio) {
-        if (audio) audio.volume = _this13.volume;
+        if (audio) audio.volume = _this14.volume;
       });
     }
     // Update the --val CSS variable for the volume slider
     this.$nextTick(function () {
       var slider = document.querySelector('.volume-slider');
       if (slider) {
-        slider.style.setProperty('--val', _this13.volume);
+        slider.style.setProperty('--val', _this14.volume);
       }
     });
     try {
       localStorage.setItem('content_volume', String(this.volume));
     } catch (e) {}
   }), "updatePlaybackSpeed", function updatePlaybackSpeed() {
-    var _this14 = this;
+    var _this15 = this;
     try {
       localStorage.setItem('content_speed', String(this.playbackSpeed));
     } catch (e) {}
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(function (audio) {
-        if (audio) audio.playbackRate = _this14.playbackSpeed;
+        if (audio) audio.playbackRate = _this15.playbackSpeed;
       });
     }
     if (this.currentlyPlaying) this.currentlyPlaying.playbackRate = this.playbackSpeed;
@@ -143215,38 +143206,36 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       localStorage.setItem('favourites', JSON.stringify(this.favourites));
     } catch (e) {}
   }), "playFromFavourites", function playFromFavourites(fav) {
-    var _this15 = this;
+    var _this16 = this;
     var fullIndex = this.filteredAndSearchedPodcasts.findIndex(function (p) {
       return p.title === fav.title && p.audioUrl === fav.audioUrl;
     });
     if (fullIndex >= 0) {
-      var page = Math.floor(fullIndex / this.podcastsPerPage) + 1;
-      if (page !== this.currentPage) this.currentPage = page;
+      this.ensureVisible(fullIndex);
       this.$nextTick(function () {
-        var localIndex = _this15.paginatedPodcasts.findIndex(function (p) {
+        var localIndex = _this16.visiblePodcasts.findIndex(function (p) {
           return p.title === fav.title && p.audioUrl === fav.audioUrl;
-        });
-        if (localIndex >= 0) {
-          _this15.playAudio(localIndex);
-          _this15.showAudioPlayer = true;
-        }
-      });
-    }
-  }), "playFromHistory", function playFromHistory(item) {
-    var _this16 = this;
-    var fullIndex = this.filteredAndSearchedPodcasts.findIndex(function (p) {
-      return p.title === item.title && p.audioUrl === item.audioUrl;
-    });
-    if (fullIndex >= 0) {
-      var page = Math.floor(fullIndex / this.podcastsPerPage) + 1;
-      if (page !== this.currentPage) this.currentPage = page;
-      this.$nextTick(function () {
-        var localIndex = _this16.paginatedPodcasts.findIndex(function (p) {
-          return p.title === item.title && p.audioUrl === item.audioUrl;
         });
         if (localIndex >= 0) {
           _this16.playAudio(localIndex);
           _this16.showAudioPlayer = true;
+        }
+      });
+    }
+  }), "playFromHistory", function playFromHistory(item) {
+    var _this17 = this;
+    var fullIndex = this.filteredAndSearchedPodcasts.findIndex(function (p) {
+      return p.title === item.title && p.audioUrl === item.audioUrl;
+    });
+    if (fullIndex >= 0) {
+      this.ensureVisible(fullIndex);
+      this.$nextTick(function () {
+        var localIndex = _this17.visiblePodcasts.findIndex(function (p) {
+          return p.title === item.title && p.audioUrl === item.audioUrl;
+        });
+        if (localIndex >= 0) {
+          _this17.playAudio(localIndex);
+          _this17.showAudioPlayer = true;
         }
       });
     }
@@ -143307,10 +143296,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     window.removeEventListener('mouseup', this.stopSeek);
   }))
 }, "mounted", function mounted() {
-  var _this17 = this;
+  var _this18 = this;
   this.fetchPodcasts().then(function () {
-    _this17.applyFilters(); // Apply filters once podcasts are loaded
-    _this17.fetchEpisodeCounts();
+    _this18.applyFilters();
+    _this18.fetchEpisodeCounts();
+    _this18.$nextTick(function () {
+      _this18.visibleCount = Math.min(_this18.itemsPerLoad, _this18.filteredAndSearchedPodcasts.length || 0);
+      _this18.setupInfiniteScroll();
+    });
   });
 }), "watch", {
   volume: function volume(newVal) {
@@ -143330,13 +143323,25 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   sortOption: 'applyFilters',
   durationFilter: 'applyFilters',
   dateFilter: 'applyFilters',
-  paginatedPodcasts: function paginatedPodcasts(newPodcasts) {
-    var _this18 = this;
-    this.isAudioPlaying = new Array(newPodcasts.length).fill(false);
-    this.progress = new Array(newPodcasts.length).fill(0);
-    this.$nextTick(function () {
-      _this18.initializeAudioElements();
-    });
+  visiblePodcasts: function visiblePodcasts(newPodcasts, oldPodcasts) {
+    var _this19 = this;
+    // If list shrank (filters changed), reset audio arrays; else append only
+    if (!oldPodcasts || newPodcasts.length < oldPodcasts.length) {
+      this.isAudioPlaying = new Array(newPodcasts.length).fill(false);
+      this.progress = new Array(newPodcasts.length).fill(0);
+      this.$nextTick(function () {
+        return _this19.initializeAudioElements(false);
+      });
+    } else if (newPodcasts.length > ((oldPodcasts === null || oldPodcasts === void 0 ? void 0 : oldPodcasts.length) || 0)) {
+      var _this$isAudioPlaying;
+      // Append new audio elements for the newly revealed items
+      var added = newPodcasts.length - ((oldPodcasts === null || oldPodcasts === void 0 ? void 0 : oldPodcasts.length) || 0);
+      (_this$isAudioPlaying = this.isAudioPlaying).push.apply(_this$isAudioPlaying, _toConsumableArray(new Array(added).fill(false)));
+      this.progress = _objectSpread({}, this.progress);
+      this.$nextTick(function () {
+        return _this19.initializeAudioElements(true);
+      });
+    }
   }
 }));
 
@@ -169752,71 +169757,54 @@ var _hoisted_82 = {
 var _hoisted_83 = ["onClick", "aria-label"];
 var _hoisted_84 = ["aria-pressed", "title", "onClick"];
 var _hoisted_85 = {
-  key: 2,
-  "class": "pagination-container",
-  "aria-label": "Episode pagination"
+  ref: "infiniteScrollTrigger",
+  style: {
+    "height": "1px"
+  }
 };
 var _hoisted_86 = {
-  "class": "pagination-wrapper"
+  key: 2,
+  "class": "loading-container",
+  style: {
+    "margin-top": "8px"
+  }
 };
-var _hoisted_87 = ["disabled"];
-var _hoisted_88 = {
-  "class": "page-numbers"
-};
-var _hoisted_89 = ["onClick", "aria-label", "aria-current"];
-var _hoisted_90 = {
-  key: 0,
-  "class": "page-ellipsis"
-};
-var _hoisted_91 = ["onClick", "aria-label", "aria-current"];
-var _hoisted_92 = {
-  key: 1,
-  "class": "page-ellipsis"
-};
-var _hoisted_93 = ["aria-label"];
-var _hoisted_94 = ["disabled"];
-var _hoisted_95 = {
-  "class": "mobile-page-info"
-};
-var _hoisted_96 = {
-  "class": "page-info-text"
-};
-var _hoisted_97 = {
+var _hoisted_87 = {
   key: 5,
   "class": "empty-state"
 };
-var _hoisted_98 = {
+var _hoisted_88 = {
   "class": "empty-state-content text-center mb-2"
 };
-var _hoisted_99 = {
+var _hoisted_89 = {
   key: 6,
   "class": "audio-player-container"
 };
-var _hoisted_100 = {
+var _hoisted_90 = {
   "class": "controls"
 };
-var _hoisted_101 = {
+var _hoisted_91 = {
   "class": "control-group"
 };
-var _hoisted_102 = {
+var _hoisted_92 = {
   key: 0,
   "class": "bi bi-pause-fill"
 };
-var _hoisted_103 = {
+var _hoisted_93 = {
   key: 1,
   "class": "bi bi-play-fill"
 };
-var _hoisted_104 = {
+var _hoisted_94 = {
   "class": "info-section"
 };
-var _hoisted_105 = {
+var _hoisted_95 = {
   "class": "time"
 };
-var _hoisted_106 = {
+var _hoisted_96 = {
   key: 0,
   "class": "episode-title"
 };
-var _hoisted_107 = {
+var _hoisted_97 = {
   "class": "audio-actions",
   style: {
     "display": "flex",
@@ -169824,14 +169812,14 @@ var _hoisted_107 = {
     "gap": "18px"
   }
 };
-var _hoisted_108 = {
+var _hoisted_98 = {
   style: {
     "display": "flex",
     "align-items": "center",
     "gap": "10px"
   }
 };
-var _hoisted_109 = {
+var _hoisted_99 = {
   style: {
     "display": "flex",
     "align-items": "center",
@@ -169840,11 +169828,11 @@ var _hoisted_109 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$audioElements$, _$data$audioElements$2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-4 fw-bold text-center"
   }, "Islamic Podcasts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
-  }, " Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions, thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen your understanding of Islam. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Selection Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions, thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen your understanding of Islam. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Selection Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "section-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "section-title"
@@ -169862,23 +169850,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       alt: podcast.name,
       "class": "podcast-selection-image",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_6), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_6), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "podcast-overlay"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-play-circle-fill"
     }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "play-text"
     }, "Click to Select")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.name), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_4);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Selected Podcast Details "), $data.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Selected Podcast Details "), $data.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "section-title"
-  }, "Now Playing", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, "Episodes from " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Now Playing", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, "Episodes from " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-collection-play"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.episodeCount > 0 ? $data.selectedPodcast.episodeCount : 'Data not available') + " Episodes Available ", 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: $data.selectedPodcast.image,
     alt: $data.selectedPodcast.name,
     "class": "selected-podcast-image",
     loading: "lazy"
-  }, null, 8 /* PROPS */, _hoisted_17)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.desc), 1 /* TEXT */)])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Continue Listening Section "), $data.selectedPodcast && $data.continueListening.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, _hoisted_17)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.desc), 1 /* TEXT */)])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Continue Listening Section "), $data.selectedPodcast && $data.continueListening.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "section-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "section-title"
@@ -169894,7 +169882,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       alt: $data.selectedPodcast.name,
       "class": "episode-avatar",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_24)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 8 /* PROPS */, _hoisted_24)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-clock",
       style: {
         "font-size": "1.1rem"
@@ -169905,14 +169893,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.resumeFromSaved(item);
       },
       "aria-label": "Resume"
-    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-play-fill",
       style: {
         "font-size": "1.5rem",
         "cursor": "pointer"
       }
     }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_30)])])])])]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Favorites Section "), $data.favourites && $data.favourites.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Favorites Section "), $data.favourites && $data.favourites.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "section-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "section-title"
@@ -169945,12 +169933,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       alt: $data.selectedPodcast.name,
       "class": "episode-avatar",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_35)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(fav.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_39, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 8 /* PROPS */, _hoisted_35)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(fav.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_39, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-calendar3",
       style: {
         "font-size": "1.1rem"
       }
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(fav.pubDate)), 1 /* TEXT */)]), fav.likedAt ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_40, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(fav.pubDate)), 1 /* TEXT */)]), fav.likedAt ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_40, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-heart-fill",
       style: {
         "font-size": "1.1rem"
@@ -169961,7 +169949,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.playFromFavourites(fav);
       },
       title: "Play"
-    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-play-fill",
       style: {
         "font-size": "1.5rem",
@@ -169973,13 +169961,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.toggleFavourite(fav);
       },
       title: "Remove from favorites"
-    }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-heart-fill text-danger",
       style: {
         "font-size": "1.3rem"
       }
     }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_43)])])])], 2 /* CLASS */)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Recently Played Section "), $data.recentPlays && $data.recentPlays.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Recently Played Section "), $data.recentPlays && $data.recentPlays.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "section-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "section-title"
@@ -170002,7 +169990,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       alt: $data.selectedPodcast.name,
       "class": "episode-avatar",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_48)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rp.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 8 /* PROPS */, _hoisted_48)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rp.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-clock",
       style: {
         "font-size": "1.1rem"
@@ -170013,20 +170001,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.playFromHistory(rp);
       },
       title: "Play"
-    }, _toConsumableArray(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-play-fill",
       style: {
         "font-size": "1.5rem",
         "cursor": "pointer"
       }
     }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_54)])])])], 2 /* CLASS */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Episodes Section "), !$data.loading && $options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_55, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Episodes Section "), !$data.loading && $options.visiblePodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_55, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "section-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "section-title"
   }, "Available Episodes"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "section-subtitle"
-  }, "Click the play button to start listening")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Click the play button to start listening")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-white border-end-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-search"
@@ -170040,7 +170028,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "text",
     "class": "form-control border-start-0",
     placeholder: "Search episodes..."
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchInput]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchInput]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-white border-end-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-hourglass-split"
@@ -170049,7 +170037,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.durationFilter = $event;
     }),
     "class": "form-select border-start-0"
-  }, _toConsumableArray(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"\" disabled selected hidden data-v-e4489e22>Select Duration</option><option value=\"0-10\" data-v-e4489e22>0-10 min</option><option value=\"10-30\" data-v-e4489e22>10-30 min</option><option value=\"30-60\" data-v-e4489e22>30-60 min</option><option value=\"more-than-60\" data-v-e4489e22>60+ min</option>", 5)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.durationFilter]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _toConsumableArray(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"\" disabled selected hidden data-v-e4489e22>Select Duration</option><option value=\"0-10\" data-v-e4489e22>0-10 min</option><option value=\"10-30\" data-v-e4489e22>10-30 min</option><option value=\"30-60\" data-v-e4489e22>30-60 min</option><option value=\"more-than-60\" data-v-e4489e22>60+ min</option>", 5)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.durationFilter]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-white border-end-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-translate"
@@ -170058,7 +170046,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.languageFilter = $event;
     }),
     "class": "form-select border-start-0"
-  }, _toConsumableArray(_cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, _toConsumableArray(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "All Languages", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "English"
@@ -170066,7 +170054,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: "Arabic"
   }, "Arabic", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "Unknown"
-  }, "Unknown", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.languageFilter]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Unknown", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.languageFilter]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-white border-end-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-funnel"
@@ -170075,7 +170063,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.sortOption = $event;
     }),
     "class": "form-select border-start-0"
-  }, _toConsumableArray(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, _toConsumableArray(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "mostViewed"
   }, "Most Viewed", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "leastViewed"
@@ -170083,7 +170071,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: "newest"
   }, "Newest", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "oldest"
-  }, "Oldest", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortOption]])])])])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_66, _toConsumableArray(_cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Oldest", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortOption]])])])])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_66, _toConsumableArray(_cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "loading-spinner"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-success",
@@ -170094,7 +170082,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "loading-text"
   }, "Loading episodes, please wait...", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "loading-subtext"
-  }, "This may take a few moments", -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_67, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedPodcasts, function (podcast, index) {
+  }, "This may take a few moments", -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_67, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.visiblePodcasts, function (podcast, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: podcast.title,
       "class": "podcast-card-wrapper"
@@ -170105,12 +170093,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "padding": "1.2rem"
       }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-eye-fill",
       style: {
         "font-size": "1.2rem"
       }
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_71, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.views) + " views", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_71, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.views) + " views", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-calendar3",
       style: {
         "font-size": "1.2rem"
@@ -170120,6 +170108,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       src: $data.selectedPodcast.image,
       alt: $data.selectedPodcast.name,
       "class": "episode-avatar podcast-image-clickable",
+      decoding: "async",
+      fetchpriority: "low",
       onClick: _cache[6] || (_cache[6] = function () {
         return $options.scrollToFirstEpisode && $options.scrollToFirstEpisode.apply($options, arguments);
       }),
@@ -170130,7 +170120,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8 /* PROPS */, _hoisted_77)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "podcast-title",
       innerHTML: $options.highlightText(podcast.title)
-    }, null, 8 /* PROPS */, _hoisted_79), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"duration-badge\" :title=\"'Duration'\">\n                      <i class=\"bi bi-clock\" style=\"font-size:1.1rem;\"></i>\n                      {{ podcast.duration ? podcast.duration + ' min' : 'N/A' }}\n                    </span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_81, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 8 /* PROPS */, _hoisted_79), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"duration-badge\" :title=\"'Duration'\">\n                      <i class=\"bi bi-clock\" style=\"font-size:1.1rem;\"></i>\n                      {{ podcast.duration ? podcast.duration + ' min' : 'N/A' }}\n                    </span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_81, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-translate",
       style: {
         "font-size": "1.1rem"
@@ -170162,131 +170152,64 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "font-size": "1.3rem"
       }
     }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_84)])])])], 2 /* CLASS */)]);
-  }), 128 /* KEYED_FRAGMENT */))])), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_85, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "pagination-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "pagination-title"
-  }, "Browse More Episodes"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "pagination-subtitle"
-  }, "Use the buttons below to see more episodes")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[7] || (_cache[7] = function ($event) {
-      return $options.changePage($data.currentPage - 1);
-    }),
-    disabled: $data.currentPage === 1,
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["pagination-btn pagination-btn-prev", {
-      'disabled': $data.currentPage === 1
-    }]),
-    "aria-label": "Go to previous page"
-  }, _toConsumableArray(_cache[50] || (_cache[50] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-chevron-left"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "btn-text"
-  }, "Previous Page", -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_87), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [$options.totalPages <= 7 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 0
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: page,
-      onClick: function onClick($event) {
-        return $options.changePage(page);
-      },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-number", {
-        'active': $data.currentPage === page
-      }]),
-      "aria-label": "Go to page ".concat(page),
-      "aria-current": $data.currentPage === page ? 'page' : null
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 11 /* TEXT, CLASS, PROPS */, _hoisted_89);
-  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 1
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[8] || (_cache[8] = function ($event) {
-      return $options.changePage(1);
-    }),
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-number", {
-      'active': $data.currentPage === 1
-    }]),
-    "aria-label": "Go to page 1"
-  }, " 1 ", 2 /* CLASS */), $data.currentPage > 4 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_90, "...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getVisiblePages(), function (page) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: page,
-      onClick: function onClick($event) {
-        return $options.changePage(page);
-      },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-number", {
-        'active': $data.currentPage === page
-      }]),
-      "aria-label": "Go to page ".concat(page),
-      "aria-current": $data.currentPage === page ? 'page' : null
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 11 /* TEXT, CLASS, PROPS */, _hoisted_91);
-  }), 128 /* KEYED_FRAGMENT */)), $data.currentPage < $options.totalPages - 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_92, "...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[9] || (_cache[9] = function ($event) {
-      return $options.changePage($options.totalPages);
-    }),
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-number", {
-      'active': $data.currentPage === $options.totalPages
-    }]),
-    "aria-label": "Go to page ".concat($options.totalPages)
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 11 /* TEXT, CLASS, PROPS */, _hoisted_93)], 64 /* STABLE_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[10] || (_cache[10] = function ($event) {
-      return $options.changePage($data.currentPage + 1);
-    }),
-    disabled: $data.currentPage === $options.totalPages,
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["pagination-btn pagination-btn-next", {
-      'disabled': $data.currentPage === $options.totalPages
-    }]),
-    "aria-label": "Go to next page"
-  }, _toConsumableArray(_cache[51] || (_cache[51] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "btn-text"
-  }, "Next Page", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-chevron-right"
-  }, null, -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_94)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_96, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : !$data.loading && !$options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), 128 /* KEYED_FRAGMENT */))])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Infinite scroll sentinel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, null, 512 /* NEED_PATCH */), $data.isLoadingMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_86, _toConsumableArray(_cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-success",
+    role: "status",
+    style: {
+      "width": "1.5rem",
+      "height": "1.5rem"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading...")], -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : !$data.loading && !$options.visiblePodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-headphones empty-state-icon"
-  }, null, -1 /* CACHED */)), _cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, null, -1 /* CACHED */)), _cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "empty-state-title"
-  }, "No Episodes Found", -1 /* CACHED */)), _cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "No Episodes Found", -1 /* CACHED */)), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "empty-state-description"
   }, "Try selecting a different podcast or check back later for new episodes.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "empty-state-button btn btn-success text-white mb-2",
-    onClick: _cache[11] || (_cache[11] = function ($event) {
+    onClick: _cache[7] || (_cache[7] = function ($event) {
       return $data.selectedPodcast = null;
     })
-  }, _toConsumableArray(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[48] || (_cache[48] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Choose Another Podcast", -1 /* CACHED */)])))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Player "), $data.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_99, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Choose Another Podcast", -1 /* CACHED */)])))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Player "), $data.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["custom-audio-player", {
       minimized: $data.isPlayerMinimized
     }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_101, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[12] || (_cache[12] = function ($event) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[8] || (_cache[8] = function ($event) {
       return $options.rewindAudio($data.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Rewind"
-  }, _toConsumableArray(_cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[52] || (_cache[52] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-backward-fill"
   }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[13] || (_cache[13] = function ($event) {
+    onClick: _cache[9] || (_cache[9] = function ($event) {
       return $options.toggleAudioPlayer($data.currentlyPlayingIndex);
     }),
     "class": "control-btn play-pause",
     title: "Play/Pause"
-  }, [$data.isAudioPlaying[$data.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_102)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_103))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[14] || (_cache[14] = function ($event) {
+  }, [$data.isAudioPlaying[$data.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_92)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_93))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[10] || (_cache[10] = function ($event) {
       return $options.fastForwardAudio($data.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Fast Forward"
-  }, _toConsumableArray(_cache[59] || (_cache[59] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[53] || (_cache[53] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-forward-fill"
   }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[15] || (_cache[15] = function ($event) {
+    onClick: _cache[11] || (_cache[11] = function ($event) {
       return $options.stopAudio($data.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Stop"
-  }, _toConsumableArray(_cache[60] || (_cache[60] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop-fill"
-  }, null, -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_105, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$ = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$ === void 0 ? void 0 : _$data$audioElements$.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$2 = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$2 === void 0 ? void 0 : _$data$audioElements$2.duration) || 0)), 1 /* TEXT */), $options.paginatedPodcasts[$data.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_106, "• " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.paginatedPodcasts[$data.currentlyPlayingIndex].title), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_107, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[16] || (_cache[16] = function () {
+  }, null, -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_95, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$ = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$ === void 0 ? void 0 : _$data$audioElements$.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$2 = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$2 === void 0 ? void 0 : _$data$audioElements$2.duration) || 0)), 1 /* TEXT */), $options.visiblePodcasts[$data.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_96, "• " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.visiblePodcasts[$data.currentlyPlayingIndex].title), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[12] || (_cache[12] = function () {
       return $options.toggleVolume && $options.toggleVolume.apply($options, arguments);
     }),
     "class": "control-btn",
@@ -170299,10 +170222,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     min: "0",
     max: "1",
     step: "0.01",
-    "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
+    "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
       return $data.volume = $event;
     }),
-    onInput: _cache[18] || (_cache[18] = function () {
+    onInput: _cache[14] || (_cache[14] = function () {
       return $options.updateVolume && $options.updateVolume.apply($options, arguments);
     }),
     "class": "volume-slider",
@@ -170312,22 +170235,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Volume"
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volume, void 0, {
     number: true
-  }]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "speedSelect",
     "class": "visually-hidden"
   }, "Speed", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "speedSelect",
-    "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
+    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
       return $data.playbackSpeed = $event;
     }),
-    onChange: _cache[20] || (_cache[20] = function () {
+    onChange: _cache[16] || (_cache[16] = function () {
       return $options.updatePlaybackSpeed && $options.updatePlaybackSpeed.apply($options, arguments);
     }),
     "class": "form-select form-select-sm",
     style: {
       "width": "90px"
     }
-  }, _toConsumableArray(_cache[61] || (_cache[61] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, _toConsumableArray(_cache[55] || (_cache[55] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: 0.75
   }, "0.75x", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: 1
@@ -170340,19 +170263,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "2x", -1 /* CACHED */)])), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.playbackSpeed, void 0, {
     number: true
   }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[21] || (_cache[21] = function () {
+    onClick: _cache[17] || (_cache[17] = function () {
       return $options.closeAudioPlayer && $options.closeAudioPlayer.apply($options, arguments);
     }),
     "class": "control-btn close-btn",
     title: "Close"
-  }, _toConsumableArray(_cache[63] || (_cache[63] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[57] || (_cache[57] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-lg"
   }, null, -1 /* CACHED */)])))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress-bar",
-    onMousedown: _cache[22] || (_cache[22] = function () {
+    onMousedown: _cache[18] || (_cache[18] = function () {
       return $options.startSeek && $options.startSeek.apply($options, arguments);
     }),
-    onClick: _cache[23] || (_cache[23] = function () {
+    onClick: _cache[19] || (_cache[19] = function () {
       return $options.seekAudio && $options.seekAudio.apply($options, arguments);
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -175494,7 +175417,6 @@ var _hoisted_6 = {
   key: 1,
   "class": "restricted-access text-center p-2",
   style: {
-    "background": "#f8f9fa",
     "border-radius": "5px",
     "animation": "borderPulse 2s infinite ease-in-out"
   }
@@ -175515,7 +175437,6 @@ var _hoisted_10 = {
   key: 1,
   "class": "restricted-access text-center p-2",
   style: {
-    "background": "#f8f9fa",
     "border-radius": "5px",
     "animation": "borderPulse 2s infinite ease-in-out"
   }
@@ -175536,7 +175457,6 @@ var _hoisted_14 = {
   key: 1,
   "class": "restricted-access text-center p-2",
   style: {
-    "background": "#f8f9fa",
     "border-radius": "5px",
     "animation": "borderPulse 2s infinite ease-in-out"
   }
@@ -175557,7 +175477,6 @@ var _hoisted_18 = {
   key: 1,
   "class": "restricted-access text-center p-2",
   style: {
-    "background": "#f8f9fa",
     "border-radius": "5px",
     "animation": "borderPulse 2s infinite ease-in-out"
   }
@@ -175578,7 +175497,6 @@ var _hoisted_22 = {
   key: 1,
   "class": "restricted-access text-center p-2",
   style: {
-    "background": "#f8f9fa",
     "border-radius": "5px",
     "animation": "borderPulse 2s infinite ease-in-out"
   }
@@ -193105,7 +193023,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.toggle-button[data-v-e4489e22] {\n  background-color: #f0f0f0;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  font-size: 1rem;\n}\n.toggle-button[data-v-e4489e22]:hover {\n  background-color: #e0e0e0;\n}\n.audio-actions[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 18px;\n}\n.volume-slider[data-v-e4489e22] {\n  accent-color: #0db691;\n  vertical-align: middle;\n}\n.podcast-card-wrapper[data-v-e4489e22] {\n  padding: 10px;\n}\n\n/* Main Layout Styles */\n.header-section[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 3rem;\n  padding: 2rem 1rem;\n  border-radius: 20px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n}\n.main-title[data-v-e4489e22] {\n  font-size: 2.8rem;\n  font-weight: 800;\n  color: #2c3e50;\n  margin-bottom: 1.5rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n  letter-spacing: -0.02em;\n}\n.main-description[data-v-e4489e22] {\n  text-align: center;\n  font-size: 1.2rem;\n  line-height: 1.8;\n  color: #495057;\n  max-width: 900px;\n  margin: 0 auto;\n  font-weight: 400;\n}\n\n/* Section Headers */\n.selection-section[data-v-e4489e22],\n.episodes-section[data-v-e4489e22] {\n  margin-bottom: 3rem;\n}\n.section-header[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 2.5rem;\n  padding: 0 1rem;\n}\n.section-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.75rem;\n  letter-spacing: -0.01em;\n}\n.section-subtitle[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 500;\n  color: #6c757d;\n  margin: 0;\n  line-height: 1.5;\n}\n\n/* Podcast Selection Grid */\n.podcast-selection-grid[data-v-e4489e22] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 2rem;\n  margin-bottom: 3rem;\n}\n\n/* Mobile-specific 2-column grid for screens smaller than 768px */\n@media (max-width: 767.98px) {\n.podcast-selection-grid[data-v-e4489e22] {\n    grid-template-columns: repeat(2, 1fr);\n}\n}\n.podcast-selection-item[data-v-e4489e22] {\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  border-radius: 20px;\n  overflow: hidden;\n  background: #ffffff;\n  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);\n  border: 2px solid transparent;\n  position: relative;\n}\n.podcast-selection-item[data-v-e4489e22]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 25px 50px rgba(13, 182, 145, 0.2);\n  border-color: #0db6a1;\n}\n.podcast-selection-item[data-v-e4489e22]:active {\n  transform: translateY(-4px);\n}\n.podcast-image-wrapper[data-v-e4489e22] {\n  position: relative;\n  overflow: hidden;\n  aspect-ratio: 1;\n}\n.podcast-selection-image[data-v-e4489e22] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  transition: transform 0.3s ease;\n}\n.podcast-overlay[data-v-e4489e22] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(13, 182, 145, 0.9);\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  opacity: 0;\n  transition: opacity 0.3s ease;\n  gap: 0.5rem;\n}\n.podcast-overlay i[data-v-e4489e22] {\n  font-size: 3.5rem;\n  color: white;\n}\n.play-text[data-v-e4489e22] {\n  color: white;\n  font-weight: 600;\n  font-size: 1rem;\n  text-align: center;\n}\n.podcast-selection-item:hover .podcast-overlay[data-v-e4489e22] {\n  opacity: 1;\n}\n.podcast-selection-item:hover .podcast-selection-image[data-v-e4489e22] {\n  transform: scale(1.1);\n}\n.podcast-selection-name[data-v-e4489e22] {\n  padding: 1.5rem;\n  margin: 0;\n  font-size: 1.3rem;\n  font-weight: 300;\n  color: #2c3e50;\n  text-align: center;\n  line-height: 1.4;\n  background: #ffffff;\n}\n\n/* Selected Podcast Section */\n.selected-podcast-section[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 24px;\n  padding: 2.5rem;\n  margin-bottom: 3rem;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);\n  border: 2px solid rgba(13, 182, 145, 0.1);\n}\n.selected-podcast-header[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 2.5rem;\n  margin-bottom: 2rem;\n}\n.selected-podcast-info[data-v-e4489e22] {\n  flex: 1;\n}\n.selected-podcast-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 1rem;\n  line-height: 1.3;\n}\n.selected-podcast-meta[data-v-e4489e22] {\n  display: flex;\n  gap: 1rem;\n  flex-wrap: wrap;\n}\n.episode-count[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.75rem 1.5rem;\n  background: rgba(13, 182, 145, 0.15);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  border: 2px solid rgba(13, 182, 145, 0.2);\n}\n.episode-count i[data-v-e4489e22] {\n  font-size: 1.2rem;\n}\n.selected-podcast-image-container[data-v-e4489e22] {\n  flex-shrink: 0;\n}\n.selected-podcast-image[data-v-e4489e22] {\n  width: 140px;\n  height: 140px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-radius: 20px;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);\n  border: 3px solid #ffffff;\n}\n.selected-podcast-description[data-v-e4489e22] {\n  color: #495057;\n  line-height: 1.8;\n  font-size: 1.1rem;\n  font-weight: 400;\n}\n.selected-podcast-description p[data-v-e4489e22] {\n  margin: 0;\n}\n\n/* Enhanced Card Styles */\n.highlighted[data-v-e4489e22] {\n  box-shadow: 0 0 0 4px rgba(13, 182, 145, 0.3), 0 15px 40px rgba(13, 182, 145, 0.25);\n  transform: translateY(-3px);\n  background: linear-gradient(135deg, #ffffff 0%, #f0fffd 100%);\n}\n.podcast-card[data-v-e4489e22] {\n  background: #ffffff;\n  border-radius: 35px;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  border: 5px solid rgba(0, 0, 0, 0.05);\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  overflow: hidden;\n  height: 100%;\n  position: relative;\n  padding: 2rem 1.5rem;\n}\n.podcast-card[data-v-e4489e22]:hover {\n  transform: none;\n  box-shadow: none;\n}\n.podcast-card.highlighted[data-v-e4489e22] {\n  border-color: #0db6a1;\n  background: linear-gradient(135deg, #f2fffc 0%, #e6fcf7 100%);\n  border-width: 2.5px;\n  outline: 2px solid #0db6a1;\n  box-shadow: 0 8px 32px 0 rgba(13, 182, 145, 0.10), 0 1.5px 8px 0 rgba(0, 0, 0, 0.06);\n  z-index: 2;\n}\n.podcast-card.highlighted[data-v-e4489e22]::after {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  border-radius: 20px;\n  pointer-events: none;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  animation: playing-glow-e4489e22 1.5s infinite alternate;\n}\n@keyframes playing-glow-e4489e22 {\n0% {\n    box-shadow: 0 0 8px 2px rgba(13, 182, 145, 0.10);\n}\n100% {\n    box-shadow: 0 0 24px 8px rgba(13, 182, 145, 0.22);\n}\n}\n\n/* Card Header */\n.podcast-meta[data-v-e4489e22] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 16px;\n}\n.views-badge[data-v-e4489e22],\n.date-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 16px;\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 25px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #495057;\n  backdrop-filter: blur(10px);\n  border: 2px solid rgba(0, 0, 0, 0.05);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.views-badge i[data-v-e4489e22],\n.date-badge i[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #0db6a1;\n}\n\n/* Card Body */\n.card-body[data-v-e4489e22] {\n  padding: 24px;\n  display: flex;\n  flex-direction: column;\n}\n.podcast-title[data-v-e4489e22] {\n  font-size: 1.35rem;\n  font-weight: 800;\n  line-height: 1.4;\n  color: #2c3e50;\n  margin: 0;\n  display: -webkit-box;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 3.6rem;\n}\n.meta-text[data-v-e4489e22] {\n  font-size: 0.98rem;\n  font-weight: 500;\n  color: #6c757d;\n}\n\n/* Audio Controls */\n.audio-controls[data-v-e4489e22] {\n  display: none !important;\n}\n.control-button[data-v-e4489e22] {\n  background: none;\n  border: none;\n  padding: 16px;\n  border-radius: 50%;\n  cursor: pointer;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n  min-width: 60px;\n  min-height: 60px;\n  gap: 12px;\n}\n.control-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.1);\n  transform: scale(1.05);\n}\n.control-button i[data-v-e4489e22] {\n  font-size: 1.8rem;\n  color: #495057;\n  transition: color 0.2s ease;\n}\n.control-label[data-v-e4489e22] {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #6c757d;\n  text-align: center;\n  line-height: 1.2;\n}\n.rewind-btn[data-v-e4489e22],\n.forward-btn[data-v-e4489e22] {\n  background: rgba(108, 117, 125, 0.1);\n  border: 2px solid rgba(108, 117, 125, 0.1);\n}\n.rewind-btn[data-v-e4489e22]:hover,\n.forward-btn[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.2);\n}\n\n/* Action Buttons */\n.action-buttons[data-v-e4489e22] {\n  display: flex;\n  justify-content: center;\n  gap: 16px;\n}\n.action-button[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 12px 20px;\n  background: rgba(13, 182, 145, 0.1);\n  border: 2px solid rgba(13, 182, 145, 0.2);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  text-decoration: none;\n  min-height: 48px;\n}\n.action-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.3);\n  transform: translateY(-2px);\n  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);\n}\n.action-button i[data-v-e4489e22] {\n  font-size: 1.1rem;\n}\n.share-btn[data-v-e4489e22] {\n  background: rgba(25, 135, 84, 0.1);\n  border-color: rgba(25, 135, 84, 0.2);\n  color: #198754;\n}\n.share-btn[data-v-e4489e22]:hover {\n  background: rgba(25, 135, 84, 0.15);\n  border-color: rgba(25, 135, 84, 0.3);\n  box-shadow: 0 6px 16px rgba(25, 135, 84, 0.25);\n}\n\n/* Enhanced Responsive Design for Cards */\n@media (min-width: 769px) and (max-width: 1024px) {\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.7rem 1.1rem;\n    font-size: 0.9rem;\n    min-width: 95px;\n}\n.page-number[data-v-e4489e22] {\n    width: 42px;\n    height: 42px;\n    font-size: 0.9rem;\n    min-width: 42px;\n    min-height: 42px;\n}\n}\n\n/* Focus states for accessibility */\n.pagination-btn[data-v-e4489e22]:focus,\n.page-number[data-v-e4489e22]:focus {\n  outline: 2px solid #0db6a1;\n  outline-offset: 2px;\n}\n\n/* High contrast mode support */\n@media (prefers-contrast: high) {\n.pagination-btn[data-v-e4489e22] {\n    border: 2px solid #0db6a1;\n}\n.page-number[data-v-e4489e22] {\n    border-width: 2px;\n}\n}\n\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.pagination-btn[data-v-e4489e22],\n  .page-number[data-v-e4489e22] {\n    transition: none;\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled),\n  .page-number[data-v-e4489e22]:hover:not(.active) {\n    transform: none;\n}\n}\n\n/* Audio Player Styles */\n.audio-player-container[data-v-e4489e22] {\n  border-radius: 12px 12px 0 0;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background: #2c2c2c;\n  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);\n  z-index: 1000;\n  padding: 8px 12px;\n}\n.custom-audio-player[data-v-e4489e22] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 8px;\n  color: #ccc;\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n.controls[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  gap: 12px;\n  flex-wrap: wrap;\n}\n.control-group[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.info-section[data-v-e4489e22] {\n  align-items: center;\n  gap: 12px;\n  flex-grow: 1;\n  justify-content: center;\n}\n.control-btn[data-v-e4489e22] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.2rem;\n  cursor: pointer;\n  padding: 6px;\n  border-radius: 4px;\n  transition: background 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n}\n.control-btn[data-v-e4489e22]:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.play-pause[data-v-e4489e22] {\n  font-size: 1.5rem;\n  padding: 6px;\n  width: 40px;\n  height: 40px;\n}\n.time[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: #ccc;\n  min-width: 70px;\n  text-align: center;\n  white-space: nowrap;\n}\n.title[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: #ccc;\n  min-width: 100px;\n  text-align: center;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.close-btn[data-v-e4489e22] {\n  font-size: 1.2rem;\n  padding: 6px;\n  width: 36px;\n  height: 36px;\n}\n.progress-bar[data-v-e4489e22] {\n  width: 100%;\n  height: 4px;\n  background: #555;\n  cursor: pointer;\n  position: relative;\n  margin: 4px 0;\n}\n.progress[data-v-e4489e22] {\n  height: 100%;\n  background: #00ffcc;\n  position: absolute;\n}\n\n/* Responsive Adjustments */\n@media (max-width: 1024px) {\n.custom-audio-player[data-v-e4489e22] {\n    padding: 6px;\n}\n.controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-group[data-v-e4489e22] {\n    gap: 8px;\n}\n.info-section[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.3rem;\n    width: 36px;\n    height: 36px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.85rem;\n    min-width: 60px;\n}\n.episode-title[data-v-e4489e22] {\n    font-size: 0.85rem;\n    min-width: 80px;\n}\n.close-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 3px;\n}\n}\n@media (max-width: 768px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 6px 8px;\n}\n.controls[data-v-e4489e22] {\n    gap: 6px;\n    justify-content: flex-start;\n}\n.info-section[data-v-e4489e22] {\n    flex-grow: 0;\n    order: 1;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1rem;\n    width: 30px;\n    height: 30px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.2rem;\n    width: 34px;\n    height: 34px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.8rem;\n    min-width: 50px;\n}\n.episode-title[data-v-e4489e22] {\n    display: none; /* Hide title on mobile */\n}\n.close-btn[data-v-e4489e22] {\n    order: 2;\n    font-size: 1rem;\n    width: 30px;\n    height: 30px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 3px;\n}\n}\n@media (max-width: 576px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 4px 6px;\n}\n.info-section[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    order: 1;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 0.9rem;\n    width: 28px;\n    height: 28px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.7rem;\n    min-width: 40px;\n}\n.episode-title[data-v-e4489e22] {\n    display: none; /* Ensure title remains hidden on smaller screens */\n}\n.close-btn[data-v-e4489e22] {\n    order: 2;\n    font-size: 0.9rem;\n    width: 28px;\n    height: 28px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 2px;\n}\n}\n\n/* Mobile-Friendly Pagination Styles */\n.pagination-container[data-v-e4489e22] {\n  margin-top: 2rem;\n  padding: 1rem 0;\n}\n.pagination-wrapper[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n  margin-bottom: 1rem;\n}\n.pagination-btn[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding: 0.75rem 1.25rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border: none;\n  border-radius: 25px;\n  color: white;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-height: 44px;\n  min-width: 100px;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 20px rgba(13, 182, 145, 0.4);\n  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);\n}\n.pagination-btn[data-v-e4489e22]:active:not(.disabled) {\n  transform: translateY(0);\n  box-shadow: 0 2px 8px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn.disabled[data-v-e4489e22] {\n  background: #e9ecef;\n  color: #6c757d;\n  cursor: not-allowed;\n  box-shadow: none;\n  opacity: 0.6;\n}\n.pagination-btn i[data-v-e4489e22] {\n  font-size: 1rem;\n}\n.btn-text[data-v-e4489e22] {\n  font-weight: 600;\n}\n.page-numbers[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.25rem;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n.page-number[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  border: 2px solid #e9ecef;\n  background: white;\n  color: #6c757d;\n  border-radius: 50%;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-width: 44px;\n  min-height: 44px;\n}\n.page-number[data-v-e4489e22]:hover:not(.active) {\n  border-color: #0db6a1;\n  color: #0db6a1;\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.2);\n}\n.page-number.active[data-v-e4489e22] {\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border-color: #0db6a1;\n  color: white;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.page-number[data-v-e4489e22]:active:not(.active) {\n  transform: translateY(0);\n}\n.page-ellipsis[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  color: #6c757d;\n  font-weight: 600;\n  font-size: 1rem;\n  min-width: 44px;\n  min-height: 44px;\n}\n.mobile-page-info[data-v-e4489e22] {\n  text-align: center;\n  margin-top: 1rem;\n}\n.page-info-text[data-v-e4489e22] {\n  color: #6c757d;\n  font-weight: 500;\n  font-size: 0.9rem;\n  padding: 0.5rem 1rem;\n  background: rgba(13, 182, 145, 0.1);\n  border-radius: 20px;\n  display: inline-block;\n}\n\n/* Responsive Design for Pagination */\n@media (max-width: 768px) {\n.pagination-wrapper[data-v-e4489e22] {\n    gap: 0.25rem;\n    margin-bottom: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.6rem 1rem;\n    font-size: 0.85rem;\n    min-width: 90px;\n    min-height: 40px;\n}\n.pagination-btn i[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n.page-numbers[data-v-e4489e22] {\n    gap: 0.2rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.85rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.9rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.85rem;\n    padding: 0.4rem 0.8rem;\n}\n}\n@media (max-width: 576px) {\n.pagination-wrapper[data-v-e4489e22] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    width: 100%;\n    max-width: 200px;\n    justify-content: center;\n    padding: 0.75rem 1rem;\n    min-height: 44px;\n}\n.page-numbers[data-v-e4489e22] {\n    order: -1;\n    margin-bottom: 0.5rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.8rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.85rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.mobile-page-info[data-v-e4489e22] {\n    margin-top: 0.75rem;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.8rem;\n    padding: 0.3rem 0.6rem;\n}\n}\n@media (min-width: 769px) and (max-width: 1024px) {\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.7rem 1.1rem;\n    font-size: 0.9rem;\n    min-width: 95px;\n}\n.page-number[data-v-e4489e22] {\n    width: 42px;\n    height: 42px;\n    font-size: 0.9rem;\n    min-width: 42px;\n    min-height: 42px;\n}\n}\n\n/* Focus states for accessibility */\n.pagination-btn[data-v-e4489e22]:focus,\n.page-number[data-v-e4489e22]:focus {\n  outline: 2px solid #0db6a1;\n  outline-offset: 2px;\n}\n\n/* High contrast mode support */\n@media (prefers-contrast: high) {\n.pagination-btn[data-v-e4489e22] {\n    border: 2px solid #0db6a1;\n}\n.page-number[data-v-e4489e22] {\n    border-width: 2px;\n}\n}\n\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.pagination-btn[data-v-e4489e22],\n  .page-number[data-v-e4489e22] {\n    transition: none;\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled),\n  .page-number[data-v-e4489e22]:hover:not(.active) {\n    transform: none;\n}\n}\n\n/* Audio Player Styles */\n.audio-player-container[data-v-e4489e22] {\n  border-radius: 12px 12px 0 0;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background: #2c2c2c;\n  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);\n  z-index: 1000;\n  padding: 8px 12px;\n}\n.custom-audio-player[data-v-e4489e22] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 8px;\n  color: #ccc;\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n.controls[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  gap: 12px;\n  flex-wrap: wrap;\n}\n.control-group[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.info-section[data-v-e4489e22] {\n  align-items: center;\n  gap: 12px;\n  flex-grow: 1;\n  justify-content: center;\n}\n.control-btn[data-v-e4489e22] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.2rem;\n  cursor: pointer;\n  padding: 6px;\n  border-radius: 4px;\n  transition: background 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n}\n.control-btn[data-v-e4489e22]:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.play-pause[data-v-e4489e22] {\n  font-size: 1.5rem;\n  padding: 6px;\n  width: 40px;\n  height: 40px;\n}\n.time[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: #ccc;\n  min-width: 70px;\n  text-align: center;\n  white-space: nowrap;\n}\n.title[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: #ccc;\n  min-width: 100px;\n  text-align: center;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.close-btn[data-v-e4489e22] {\n  font-size: 1.2rem;\n  padding: 6px;\n  width: 36px;\n  height: 36px;\n}\n.progress-bar[data-v-e4489e22] {\n  width: 100%;\n  height: 4px;\n  background: #555;\n  cursor: pointer;\n  position: relative;\n  margin: 4px 0;\n}\n.progress[data-v-e4489e22] {\n  height: 100%;\n  background: #00ffcc;\n  position: absolute;\n}\n\n/* Responsive Adjustments */\n@media (max-width: 1024px) {\n.custom-audio-player[data-v-e4489e22] {\n    padding: 6px;\n}\n.controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-group[data-v-e4489e22] {\n    gap: 8px;\n}\n.info-section[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.3rem;\n    width: 36px;\n    height: 36px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.85rem;\n    min-width: 60px;\n}\n.title[data-v-e4489e22] {\n    font-size: 0.85rem;\n    min-width: 80px;\n}\n.close-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 3px;\n}\n}\n@media (max-width: 768px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 6px 8px;\n}\n.controls[data-v-e4489e22] {\n    gap: 6px;\n    justify-content: flex-start;\n}\n.info-section[data-v-e4489e22] {\n    flex-grow: 0;\n    order: 1;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1rem;\n    width: 30px;\n    height: 30px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.2rem;\n    width: 34px;\n    height: 34px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.8rem;\n    min-width: 50px;\n}\n.title[data-v-e4489e22] {\n    font-size: 0.8rem;\n    min-width: 70px;\n}\n.close-btn[data-v-e4489e22] {\n    order: 2;\n    font-size: 1rem;\n    width: 30px;\n    height: 30px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 3px;\n}\n}\n@media (max-width: 576px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 4px 6px;\n}\n.info-section[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    order: 1;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 0.9rem;\n    width: 28px;\n    height: 28px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.7rem;\n    min-width: 40px;\n}\n.title[data-v-e4489e22] {\n    font-size: 0.7rem;\n    min-width: 60px;\n}\n.close-btn[data-v-e4489e22] {\n    order: 2;\n    font-size: 0.9rem;\n    width: 28px;\n    height: 28px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 2px;\n}\n}\n\n/* Utility Classes */\n.mt-1[data-v-e4489e22] {\n  margin-top: 0.25rem;\n}\n.mt-2[data-v-e4489e22] {\n  margin-top: 0.5rem;\n}\n.mt-3[data-v-e4489e22] {\n  margin-top: 1rem;\n}\n.mb-1[data-v-e4489e22] {\n  margin-bottom: 0.25rem;\n}\n.mb-2[data-v-e4489e22] {\n  margin-bottom: 0.5rem;\n}\n.mb-3[data-v-e4489e22] {\n  margin-bottom: 1rem;\n}\n.text-center[data-v-e4489e22] {\n  text-align: center;\n}\n.w-100[data-v-e4489e22] {\n  width: 100%;\n}\n\n/* Remove old styles */\n.icon-container[data-v-e4489e22],\n.icon-tooltip[data-v-e4489e22],\n.icon-text[data-v-e4489e22] {\n  display: none;\n}\n.card[data-v-e4489e22] {\n  height: 100%;\n}\n.card-title[data-v-e4489e22] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-text[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #333;\n}\n.mobile-padding[data-v-e4489e22] {\n  padding: 10px;\n}\n@media (min-width: 768px) {\n.mobile-padding[data-v-e4489e22] {\n    padding: 20px;\n}\n.podcast-card-wrapper[data-v-e4489e22] {\n    width: 100%;\n}\n}\n@media (max-width: 767.98px) {\n.mobile-padding[data-v-e4489e22] {\n    margin-bottom: 1rem;\n}\n.podcast-card-wrapper[data-v-e4489e22] {\n    width: 100%;\n}\n}\n.spinner-container[data-v-e4489e22] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: rgba(255, 255, 255, 0.95);\n  backdrop-filter: blur(10px);\n  padding: 24px;\n  border-radius: 16px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.loading-container[data-v-e4489e22] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 3rem 1rem;\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  margin: 2rem 0;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.loading-text[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: #2c3e50;\n  margin-top: 1rem;\n  text-align: center;\n}\n.empty-state[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.empty-state-content[data-v-e4489e22] {\n  text-align: center;\n  max-width: 400px;\n}\n.empty-state-icon[data-v-e4489e22] {\n  font-size: 4rem;\n  color: #0db6a1;\n  margin-bottom: 1.5rem;\n  opacity: 0.7;\n}\n.empty-state-title[data-v-e4489e22] {\n  font-size: 1.8rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.5rem;\n}\n.empty-state-description[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #6c757d;\n  line-height: 1.6;\n}\n.episode-avatar[data-v-e4489e22] {\n  width: 100px;\n  height: 100px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  margin-right: 1rem;\n  box-shadow: none;\n  border: 2px solid #e9ecef;\n}\n.podcast-card-top[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n.podcast-card-info[data-v-e4489e22] {\n  flex: 1;\n}\n.podcast-extra-info[data-v-e4489e22] {\n  display: flex;\n  gap: 1.2rem;\n  margin-top: 0.2rem;\n  font-size: 0.98rem;\n  color: #6c757d;\n}\n.duration-badge[data-v-e4489e22],\n.lang-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  background: #f8f9fa;\n  border-radius: 12px;\n  padding: 2px 10px;\n  font-size: 0.95rem;\n  font-weight: 500;\n}\n.new-badge[data-v-e4489e22] {\n  background: #0db6a1;\n  color: #fff;\n  font-size: 0.8rem;\n  font-weight: 700;\n  border-radius: 10px;\n  padding: 2px 8px;\n  letter-spacing: 0.5px;\n}\n.podcast-desc[data-v-e4489e22] {\n  color: #495057;\n  font-size: 1.02rem;\n  margin: 0.5rem 0 0.7rem 0;\n  line-height: 1.5;\n  min-height: 2.2em;\n}\n@media (max-width: 768px) {\n.podcast-extra-info[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n.podcast-title[data-v-e4489e22] {\n    font-size: 1.2rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.podcast-card-top[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.podcast-title[data-v-e4489e22] {\n    font-size: 1rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.8rem;\n}\n}\n.search-group .form-control[data-v-e4489e22],\n.filter-group .form-select[data-v-e4489e22] {\n  font-size: 1rem;\n  padding: 10px;\n  border-radius: 12px;\n}\n@media (max-width: 768px) {\n.search-group .form-control[data-v-e4489e22],\n  .filter-group .form-select[data-v-e4489e22] {\n    font-size: 0.9rem;\n    padding: 8px;\n}\n}\n.podcast-image[data-v-e4489e22] {\n  width: 100%;\n  height: auto;\n  -o-object-fit: cover;\n     object-fit: cover;\n  max-width: 100%;\n}\n.action-button[data-v-e4489e22] {\n  padding: 10px 20px;\n  font-size: 1rem;\n  min-height: 44px;\n  min-width: 100px;\n}\n.action-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.3);\n  transform: translateY(-2px);\n  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);\n}\n.audio-controls-inline[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n}\n.podcast-grid[data-v-e4489e22] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 2rem;\n  margin-bottom: 3rem;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 18px;\n  box-shadow: 0 2px 12px rgba(13, 182, 145, 0.07);\n  padding: 1.2rem 1.5rem 1rem 1.5rem;\n  margin-bottom: 2.2rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n  gap: 1.2rem;\n}\n.input-group-text[data-v-e4489e22] {\n  background: #fff;\n  border-radius: 12px 0 0 12px;\n  border: 1px solid #e9ecef;\n  border-right: none;\n  color: #0db6a1;\n  font-size: 1.2rem;\n}\n.search-group .form-control[data-v-e4489e22],\n.filter-group .form-select[data-v-e4489e22] {\n  border-radius: 0 12px 12px 0;\n  border: 1px solid #e9ecef;\n  border-left: none;\n  background: #fff;\n  font-size: 1rem;\n}\n.filter-group .form-select[data-v-e4489e22] {\n  min-width: 120px;\n}\n@media (max-width: 900px) {\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 1rem 0.7rem 0.7rem 0.7rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n    gap: 0.7rem;\n}\n}\n@media (max-width: 768px) {\n.episodes-filters-bar[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 0.7rem;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 0.7rem 0.3rem 0.3rem 0.3rem;\n}\n.row.g-3>[class^='col-'][data-v-e4489e22] {\n    margin-bottom: 0.7rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.toggle-button[data-v-e4489e22] {\n  background-color: #f0f0f0;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  font-size: 1rem;\n}\n.toggle-button[data-v-e4489e22]:hover {\n  background-color: #e0e0e0;\n}\n.audio-actions[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 18px;\n}\n.volume-slider[data-v-e4489e22] {\n  accent-color: #0db691;\n  vertical-align: middle;\n}\n.podcast-card-wrapper[data-v-e4489e22] {\n  padding: 10px;\n}\n\n/* Main Layout Styles */\n.header-section[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 3rem;\n  padding: 2rem 1rem;\n  border-radius: 20px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n}\n.main-title[data-v-e4489e22] {\n  font-size: 2.8rem;\n  font-weight: 800;\n  color: #2c3e50;\n  margin-bottom: 1.5rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n  letter-spacing: -0.02em;\n}\n.main-description[data-v-e4489e22] {\n  text-align: center;\n  font-size: 1.2rem;\n  line-height: 1.8;\n  color: #495057;\n  max-width: 900px;\n  margin: 0 auto;\n  font-weight: 400;\n}\n\n/* Section Headers */\n.selection-section[data-v-e4489e22],\n.episodes-section[data-v-e4489e22] {\n  margin-bottom: 3rem;\n}\n.section-header[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 2.5rem;\n  padding: 0 1rem;\n}\n.section-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.75rem;\n  letter-spacing: -0.01em;\n}\n.section-subtitle[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 500;\n  color: #6c757d;\n  margin: 0;\n  line-height: 1.5;\n}\n\n/* Podcast Selection Grid */\n.podcast-selection-grid[data-v-e4489e22] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 2rem;\n  margin-bottom: 3rem;\n}\n\n/* Mobile-specific 2-column grid for screens smaller than 768px */\n@media (max-width: 767.98px) {\n.podcast-selection-grid[data-v-e4489e22] {\n    grid-template-columns: repeat(2, 1fr);\n}\n}\n.podcast-selection-item[data-v-e4489e22] {\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  border-radius: 20px;\n  overflow: hidden;\n  background: #ffffff;\n  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);\n  border: 2px solid transparent;\n  position: relative;\n}\n.podcast-selection-item[data-v-e4489e22]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 25px 50px rgba(13, 182, 145, 0.2);\n  border-color: #0db6a1;\n}\n.podcast-selection-item[data-v-e4489e22]:active {\n  transform: translateY(-4px);\n}\n.podcast-image-wrapper[data-v-e4489e22] {\n  position: relative;\n  overflow: hidden;\n  aspect-ratio: 1;\n}\n.podcast-selection-image[data-v-e4489e22] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  transition: transform 0.3s ease;\n}\n.podcast-overlay[data-v-e4489e22] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(13, 182, 145, 0.9);\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  opacity: 0;\n  transition: opacity 0.3s ease;\n  gap: 0.5rem;\n}\n.podcast-overlay i[data-v-e4489e22] {\n  font-size: 3.5rem;\n  color: white;\n}\n.play-text[data-v-e4489e22] {\n  color: white;\n  font-weight: 600;\n  font-size: 1rem;\n  text-align: center;\n}\n.podcast-selection-item:hover .podcast-overlay[data-v-e4489e22] {\n  opacity: 1;\n}\n.podcast-selection-item:hover .podcast-selection-image[data-v-e4489e22] {\n  transform: scale(1.1);\n}\n.podcast-selection-name[data-v-e4489e22] {\n  padding: 1.5rem;\n  margin: 0;\n  font-size: 1.3rem;\n  font-weight: 300;\n  color: #2c3e50;\n  text-align: center;\n  line-height: 1.4;\n  background: #ffffff;\n}\n\n/* Selected Podcast Section */\n.selected-podcast-section[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 24px;\n  padding: 2.5rem;\n  margin-bottom: 3rem;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);\n  border: 2px solid rgba(13, 182, 145, 0.1);\n}\n.selected-podcast-header[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 2.5rem;\n  margin-bottom: 2rem;\n}\n.selected-podcast-info[data-v-e4489e22] {\n  flex: 1;\n}\n.selected-podcast-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 1rem;\n  line-height: 1.3;\n}\n.selected-podcast-meta[data-v-e4489e22] {\n  display: flex;\n  gap: 1rem;\n  flex-wrap: wrap;\n}\n.episode-count[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.75rem 1.5rem;\n  background: rgba(13, 182, 145, 0.15);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  border: 2px solid rgba(13, 182, 145, 0.2);\n}\n.episode-count i[data-v-e4489e22] {\n  font-size: 1.2rem;\n}\n.selected-podcast-image-container[data-v-e4489e22] {\n  flex-shrink: 0;\n}\n.selected-podcast-image[data-v-e4489e22] {\n  width: 140px;\n  height: 140px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-radius: 20px;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);\n  border: 3px solid #ffffff;\n}\n.selected-podcast-description[data-v-e4489e22] {\n  color: #495057;\n  line-height: 1.8;\n  font-size: 1.1rem;\n  font-weight: 400;\n}\n.selected-podcast-description p[data-v-e4489e22] {\n  margin: 0;\n}\n\n/* Enhanced Card Styles */\n.highlighted[data-v-e4489e22] {\n  box-shadow: 0 0 0 4px rgba(13, 182, 145, 0.3), 0 15px 40px rgba(13, 182, 145, 0.25);\n  transform: translateY(-3px);\n  background: linear-gradient(135deg, #ffffff 0%, #f0fffd 100%);\n}\n.podcast-card[data-v-e4489e22] {\n  background: #ffffff;\n  border-radius: 35px;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  border: 5px solid rgba(0, 0, 0, 0.05);\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  overflow: hidden;\n  height: 100%;\n  position: relative;\n  padding: 2rem 1.5rem;\n  /* Performance hints for large lists */\n  content-visibility: auto;\n  contain-intrinsic-size: 320px 1px;\n  will-change: transform;\n}\n.podcast-card[data-v-e4489e22]:hover {\n  transform: none;\n  box-shadow: none;\n}\n.podcast-card.highlighted[data-v-e4489e22] {\n  border-color: #0db6a1;\n  background: linear-gradient(135deg, #f2fffc 0%, #e6fcf7 100%);\n  border-width: 2.5px;\n  outline: 2px solid #0db6a1;\n  box-shadow: 0 8px 32px 0 rgba(13, 182, 145, 0.10), 0 1.5px 8px 0 rgba(0, 0, 0, 0.06);\n  z-index: 2;\n}\n.podcast-card.highlighted[data-v-e4489e22]::after {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  border-radius: 20px;\n  pointer-events: none;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  animation: playing-glow-e4489e22 1.5s infinite alternate;\n}\n@keyframes playing-glow-e4489e22 {\n0% {\n    box-shadow: 0 0 8px 2px rgba(13, 182, 145, 0.10);\n}\n100% {\n    box-shadow: 0 0 24px 8px rgba(13, 182, 145, 0.22);\n}\n}\n\n/* Card Header */\n.podcast-meta[data-v-e4489e22] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 16px;\n}\n.views-badge[data-v-e4489e22],\n.date-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 16px;\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 25px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #495057;\n  backdrop-filter: blur(10px);\n  border: 2px solid rgba(0, 0, 0, 0.05);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.views-badge i[data-v-e4489e22],\n.date-badge i[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #0db6a1;\n}\n\n/* Card Body */\n.card-body[data-v-e4489e22] {\n  padding: 24px;\n  display: flex;\n  flex-direction: column;\n}\n.podcast-title[data-v-e4489e22] {\n  font-size: 1.35rem;\n  font-weight: 800;\n  line-height: 1.4;\n  color: #2c3e50;\n  margin: 0;\n  display: -webkit-box;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 3.6rem;\n}\n.meta-text[data-v-e4489e22] {\n  font-size: 0.98rem;\n  font-weight: 500;\n  color: #6c757d;\n}\n\n/* Audio Controls */\n.audio-controls[data-v-e4489e22] {\n  display: none !important;\n}\n.control-button[data-v-e4489e22] {\n  background: none;\n  border: none;\n  padding: 16px;\n  border-radius: 50%;\n  cursor: pointer;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n  min-width: 60px;\n  min-height: 60px;\n  gap: 12px;\n}\n.control-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.1);\n  transform: scale(1.05);\n}\n.control-button i[data-v-e4489e22] {\n  font-size: 1.8rem;\n  color: #495057;\n  transition: color 0.2s ease;\n}\n.control-label[data-v-e4489e22] {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #6c757d;\n  text-align: center;\n  line-height: 1.2;\n}\n.rewind-btn[data-v-e4489e22],\n.forward-btn[data-v-e4489e22] {\n  background: rgba(108, 117, 125, 0.1);\n  border: 2px solid rgba(108, 117, 125, 0.1);\n}\n.rewind-btn[data-v-e4489e22]:hover,\n.forward-btn[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.2);\n}\n\n/* Action Buttons */\n.action-buttons[data-v-e4489e22] {\n  display: flex;\n  justify-content: center;\n  gap: 16px;\n}\n.action-button[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 12px 20px;\n  background: rgba(13, 182, 145, 0.1);\n  border: 2px solid rgba(13, 182, 145, 0.2);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  text-decoration: none;\n  min-height: 48px;\n}\n.action-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.3);\n  transform: translateY(-2px);\n  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);\n}\n.action-button i[data-v-e4489e22] {\n  font-size: 1.1rem;\n}\n.share-btn[data-v-e4489e22] {\n  background: rgba(25, 135, 84, 0.1);\n  border-color: rgba(25, 135, 84, 0.2);\n  color: #198754;\n}\n.share-btn[data-v-e4489e22]:hover {\n  background: rgba(25, 135, 84, 0.15);\n  border-color: rgba(25, 135, 84, 0.3);\n  box-shadow: 0 6px 16px rgba(25, 135, 84, 0.25);\n}\n\n/* Enhanced Responsive Design for Cards */\n@media (min-width: 769px) and (max-width: 1024px) {\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.7rem 1.1rem;\n    font-size: 0.9rem;\n    min-width: 95px;\n}\n.page-number[data-v-e4489e22] {\n    width: 42px;\n    height: 42px;\n    font-size: 0.9rem;\n    min-width: 42px;\n    min-height: 42px;\n}\n}\n\n/* Focus states for accessibility */\n.pagination-btn[data-v-e4489e22]:focus,\n.page-number[data-v-e4489e22]:focus {\n  outline: 2px solid #0db6a1;\n  outline-offset: 2px;\n}\n\n/* High contrast mode support */\n@media (prefers-contrast: high) {\n.pagination-btn[data-v-e4489e22] {\n    border: 2px solid #0db6a1;\n}\n.page-number[data-v-e4489e22] {\n    border-width: 2px;\n}\n}\n\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.pagination-btn[data-v-e4489e22],\n  .page-number[data-v-e4489e22] {\n    transition: none;\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled),\n  .page-number[data-v-e4489e22]:hover:not(.active) {\n    transform: none;\n}\n}\n\n/* Audio Player Styles */\n.audio-player-container[data-v-e4489e22] {\n  border-radius: 12px 12px 0 0;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background: #2c2c2c;\n  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);\n  z-index: 1000;\n  padding: 8px 12px;\n}\n.custom-audio-player[data-v-e4489e22] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 8px;\n  color: #ccc;\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n.controls[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  gap: 12px;\n  flex-wrap: wrap;\n}\n.control-group[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.info-section[data-v-e4489e22] {\n  align-items: center;\n  gap: 12px;\n  flex-grow: 1;\n  justify-content: center;\n}\n.control-btn[data-v-e4489e22] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.2rem;\n  cursor: pointer;\n  padding: 6px;\n  border-radius: 4px;\n  transition: background 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n}\n.control-btn[data-v-e4489e22]:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.play-pause[data-v-e4489e22] {\n  font-size: 1.5rem;\n  padding: 6px;\n  width: 40px;\n  height: 40px;\n}\n.time[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: #ccc;\n  min-width: 70px;\n  text-align: center;\n  white-space: nowrap;\n}\n.title[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: #ccc;\n  min-width: 100px;\n  text-align: center;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.close-btn[data-v-e4489e22] {\n  font-size: 1.2rem;\n  padding: 6px;\n  width: 36px;\n  height: 36px;\n}\n.progress-bar[data-v-e4489e22] {\n  width: 100%;\n  height: 4px;\n  background: #555;\n  cursor: pointer;\n  position: relative;\n  margin: 4px 0;\n}\n.progress[data-v-e4489e22] {\n  height: 100%;\n  background: #00ffcc;\n  position: absolute;\n}\n\n/* Responsive Adjustments */\n@media (max-width: 1024px) {\n.custom-audio-player[data-v-e4489e22] {\n    padding: 6px;\n}\n.controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-group[data-v-e4489e22] {\n    gap: 8px;\n}\n.info-section[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.3rem;\n    width: 36px;\n    height: 36px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.85rem;\n    min-width: 60px;\n}\n.episode-title[data-v-e4489e22] {\n    font-size: 0.85rem;\n    min-width: 80px;\n}\n.close-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 3px;\n}\n}\n@media (max-width: 768px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 6px 8px;\n}\n.controls[data-v-e4489e22] {\n    gap: 6px;\n    justify-content: flex-start;\n}\n.info-section[data-v-e4489e22] {\n    flex-grow: 0;\n    order: 1;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1rem;\n    width: 30px;\n    height: 30px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.2rem;\n    width: 34px;\n    height: 34px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.8rem;\n    min-width: 50px;\n}\n.episode-title[data-v-e4489e22] {\n    display: none; /* Hide title on mobile */\n}\n.close-btn[data-v-e4489e22] {\n    order: 2;\n    font-size: 1rem;\n    width: 30px;\n    height: 30px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 3px;\n}\n}\n@media (max-width: 576px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 4px 6px;\n}\n.info-section[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    order: 1;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 0.9rem;\n    width: 28px;\n    height: 28px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.7rem;\n    min-width: 40px;\n}\n.episode-title[data-v-e4489e22] {\n    display: none; /* Ensure title remains hidden on smaller screens */\n}\n.close-btn[data-v-e4489e22] {\n    order: 2;\n    font-size: 0.9rem;\n    width: 28px;\n    height: 28px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 2px;\n}\n}\n\n/* Mobile-Friendly Pagination Styles */\n.pagination-container[data-v-e4489e22] {\n  margin-top: 2rem;\n  padding: 1rem 0;\n}\n.pagination-wrapper[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n  margin-bottom: 1rem;\n}\n.pagination-btn[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding: 0.75rem 1.25rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border: none;\n  border-radius: 25px;\n  color: white;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-height: 44px;\n  min-width: 100px;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 20px rgba(13, 182, 145, 0.4);\n  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);\n}\n.pagination-btn[data-v-e4489e22]:active:not(.disabled) {\n  transform: translateY(0);\n  box-shadow: 0 2px 8px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn.disabled[data-v-e4489e22] {\n  background: #e9ecef;\n  color: #6c757d;\n  cursor: not-allowed;\n  box-shadow: none;\n  opacity: 0.6;\n}\n.pagination-btn i[data-v-e4489e22] {\n  font-size: 1rem;\n}\n.btn-text[data-v-e4489e22] {\n  font-weight: 600;\n}\n.page-numbers[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.25rem;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n.page-number[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  border: 2px solid #e9ecef;\n  background: white;\n  color: #6c757d;\n  border-radius: 50%;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-width: 44px;\n  min-height: 44px;\n}\n.page-number[data-v-e4489e22]:hover:not(.active) {\n  border-color: #0db6a1;\n  color: #0db6a1;\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.2);\n}\n.page-number.active[data-v-e4489e22] {\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border-color: #0db6a1;\n  color: white;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.page-number[data-v-e4489e22]:active:not(.active) {\n  transform: translateY(0);\n}\n.page-ellipsis[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  color: #6c757d;\n  font-weight: 600;\n  font-size: 1rem;\n  min-width: 44px;\n  min-height: 44px;\n}\n.mobile-page-info[data-v-e4489e22] {\n  text-align: center;\n  margin-top: 1rem;\n}\n.page-info-text[data-v-e4489e22] {\n  color: #6c757d;\n  font-weight: 500;\n  font-size: 0.9rem;\n  padding: 0.5rem 1rem;\n  background: rgba(13, 182, 145, 0.1);\n  border-radius: 20px;\n  display: inline-block;\n}\n\n/* Responsive Design for Pagination */\n@media (max-width: 768px) {\n.pagination-wrapper[data-v-e4489e22] {\n    gap: 0.25rem;\n    margin-bottom: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.6rem 1rem;\n    font-size: 0.85rem;\n    min-width: 90px;\n    min-height: 40px;\n}\n.pagination-btn i[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n.page-numbers[data-v-e4489e22] {\n    gap: 0.2rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.85rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.9rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.85rem;\n    padding: 0.4rem 0.8rem;\n}\n}\n@media (max-width: 576px) {\n.pagination-wrapper[data-v-e4489e22] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    width: 100%;\n    max-width: 200px;\n    justify-content: center;\n    padding: 0.75rem 1rem;\n    min-height: 44px;\n}\n.page-numbers[data-v-e4489e22] {\n    order: -1;\n    margin-bottom: 0.5rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.8rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.85rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.mobile-page-info[data-v-e4489e22] {\n    margin-top: 0.75rem;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.8rem;\n    padding: 0.3rem 0.6rem;\n}\n}\n@media (min-width: 769px) and (max-width: 1024px) {\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.7rem 1.1rem;\n    font-size: 0.9rem;\n    min-width: 95px;\n}\n.page-number[data-v-e4489e22] {\n    width: 42px;\n    height: 42px;\n    font-size: 0.9rem;\n    min-width: 42px;\n    min-height: 42px;\n}\n}\n\n/* Focus states for accessibility */\n.pagination-btn[data-v-e4489e22]:focus,\n.page-number[data-v-e4489e22]:focus {\n  outline: 2px solid #0db6a1;\n  outline-offset: 2px;\n}\n\n/* High contrast mode support */\n@media (prefers-contrast: high) {\n.pagination-btn[data-v-e4489e22] {\n    border: 2px solid #0db6a1;\n}\n.page-number[data-v-e4489e22] {\n    border-width: 2px;\n}\n}\n\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.pagination-btn[data-v-e4489e22],\n  .page-number[data-v-e4489e22] {\n    transition: none;\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled),\n  .page-number[data-v-e4489e22]:hover:not(.active) {\n    transform: none;\n}\n}\n\n/* Audio Player Styles */\n.audio-player-container[data-v-e4489e22] {\n  border-radius: 12px 12px 0 0;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background: #2c2c2c;\n  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);\n  z-index: 1000;\n  padding: 8px 12px;\n}\n.custom-audio-player[data-v-e4489e22] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 8px;\n  color: #ccc;\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n}\n.controls[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  gap: 12px;\n  flex-wrap: wrap;\n}\n.control-group[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.info-section[data-v-e4489e22] {\n  align-items: center;\n  gap: 12px;\n  flex-grow: 1;\n  justify-content: center;\n}\n.control-btn[data-v-e4489e22] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.2rem;\n  cursor: pointer;\n  padding: 6px;\n  border-radius: 4px;\n  transition: background 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 36px;\n  height: 36px;\n}\n.control-btn[data-v-e4489e22]:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.play-pause[data-v-e4489e22] {\n  font-size: 1.5rem;\n  padding: 6px;\n  width: 40px;\n  height: 40px;\n}\n.time[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: #ccc;\n  min-width: 70px;\n  text-align: center;\n  white-space: nowrap;\n}\n.title[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: #ccc;\n  min-width: 100px;\n  text-align: center;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.close-btn[data-v-e4489e22] {\n  font-size: 1.2rem;\n  padding: 6px;\n  width: 36px;\n  height: 36px;\n}\n.progress-bar[data-v-e4489e22] {\n  width: 100%;\n  height: 4px;\n  background: #555;\n  cursor: pointer;\n  position: relative;\n  margin: 4px 0;\n}\n.progress[data-v-e4489e22] {\n  height: 100%;\n  background: #00ffcc;\n  position: absolute;\n}\n\n/* Responsive Adjustments */\n@media (max-width: 1024px) {\n.custom-audio-player[data-v-e4489e22] {\n    padding: 6px;\n}\n.controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-group[data-v-e4489e22] {\n    gap: 8px;\n}\n.info-section[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.3rem;\n    width: 36px;\n    height: 36px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.85rem;\n    min-width: 60px;\n}\n.title[data-v-e4489e22] {\n    font-size: 0.85rem;\n    min-width: 80px;\n}\n.close-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 3px;\n}\n}\n@media (max-width: 768px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 6px 8px;\n}\n.controls[data-v-e4489e22] {\n    gap: 6px;\n    justify-content: flex-start;\n}\n.info-section[data-v-e4489e22] {\n    flex-grow: 0;\n    order: 1;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1rem;\n    width: 30px;\n    height: 30px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.2rem;\n    width: 34px;\n    height: 34px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.8rem;\n    min-width: 50px;\n}\n.title[data-v-e4489e22] {\n    font-size: 0.8rem;\n    min-width: 70px;\n}\n.close-btn[data-v-e4489e22] {\n    order: 2;\n    font-size: 1rem;\n    width: 30px;\n    height: 30px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 3px;\n}\n}\n@media (max-width: 576px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 4px 6px;\n}\n.info-section[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    order: 1;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 0.9rem;\n    width: 28px;\n    height: 28px;\n}\n.play-pause[data-v-e4489e22] {\n    font-size: 1.1rem;\n    width: 32px;\n    height: 32px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.7rem;\n    min-width: 40px;\n}\n.title[data-v-e4489e22] {\n    font-size: 0.7rem;\n    min-width: 60px;\n}\n.close-btn[data-v-e4489e22] {\n    order: 2;\n    font-size: 0.9rem;\n    width: 28px;\n    height: 28px;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 2px;\n}\n}\n\n/* Utility Classes */\n.mt-1[data-v-e4489e22] {\n  margin-top: 0.25rem;\n}\n.mt-2[data-v-e4489e22] {\n  margin-top: 0.5rem;\n}\n.mt-3[data-v-e4489e22] {\n  margin-top: 1rem;\n}\n.mb-1[data-v-e4489e22] {\n  margin-bottom: 0.25rem;\n}\n.mb-2[data-v-e4489e22] {\n  margin-bottom: 0.5rem;\n}\n.mb-3[data-v-e4489e22] {\n  margin-bottom: 1rem;\n}\n.text-center[data-v-e4489e22] {\n  text-align: center;\n}\n.w-100[data-v-e4489e22] {\n  width: 100%;\n}\n\n/* Remove old styles */\n.icon-container[data-v-e4489e22],\n.icon-tooltip[data-v-e4489e22],\n.icon-text[data-v-e4489e22] {\n  display: none;\n}\n.card[data-v-e4489e22] {\n  height: 100%;\n}\n.card-title[data-v-e4489e22] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-text[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #333;\n}\n.mobile-padding[data-v-e4489e22] {\n  padding: 10px;\n}\n@media (min-width: 768px) {\n.mobile-padding[data-v-e4489e22] {\n    padding: 20px;\n}\n.podcast-card-wrapper[data-v-e4489e22] {\n    width: 100%;\n}\n}\n@media (max-width: 767.98px) {\n.mobile-padding[data-v-e4489e22] {\n    margin-bottom: 1rem;\n}\n.podcast-card-wrapper[data-v-e4489e22] {\n    width: 100%;\n}\n}\n.spinner-container[data-v-e4489e22] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: rgba(255, 255, 255, 0.95);\n  backdrop-filter: blur(10px);\n  padding: 24px;\n  border-radius: 16px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.loading-container[data-v-e4489e22] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 3rem 1rem;\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  margin: 2rem 0;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.loading-text[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: #2c3e50;\n  margin-top: 1rem;\n  text-align: center;\n}\n.empty-state[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.empty-state-content[data-v-e4489e22] {\n  text-align: center;\n  max-width: 400px;\n}\n.empty-state-icon[data-v-e4489e22] {\n  font-size: 4rem;\n  color: #0db6a1;\n  margin-bottom: 1.5rem;\n  opacity: 0.7;\n}\n.empty-state-title[data-v-e4489e22] {\n  font-size: 1.8rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.5rem;\n}\n.empty-state-description[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #6c757d;\n  line-height: 1.6;\n}\n.episode-avatar[data-v-e4489e22] {\n  width: 100px;\n  height: 100px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  margin-right: 1rem;\n  box-shadow: none;\n  border: 2px solid #e9ecef;\n}\n.podcast-card-top[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n.podcast-card-info[data-v-e4489e22] {\n  flex: 1;\n}\n.podcast-extra-info[data-v-e4489e22] {\n  display: flex;\n  gap: 1.2rem;\n  margin-top: 0.2rem;\n  font-size: 0.98rem;\n  color: #6c757d;\n}\n.duration-badge[data-v-e4489e22],\n.lang-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  background: #f8f9fa;\n  border-radius: 12px;\n  padding: 2px 10px;\n  font-size: 0.95rem;\n  font-weight: 500;\n}\n.new-badge[data-v-e4489e22] {\n  background: #0db6a1;\n  color: #fff;\n  font-size: 0.8rem;\n  font-weight: 700;\n  border-radius: 10px;\n  padding: 2px 8px;\n  letter-spacing: 0.5px;\n}\n.podcast-desc[data-v-e4489e22] {\n  color: #495057;\n  font-size: 1.02rem;\n  margin: 0.5rem 0 0.7rem 0;\n  line-height: 1.5;\n  min-height: 2.2em;\n}\n@media (max-width: 768px) {\n.podcast-extra-info[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n.podcast-title[data-v-e4489e22] {\n    font-size: 1.2rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.podcast-card-top[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.podcast-title[data-v-e4489e22] {\n    font-size: 1rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.8rem;\n}\n}\n.search-group .form-control[data-v-e4489e22],\n.filter-group .form-select[data-v-e4489e22] {\n  font-size: 1rem;\n  padding: 10px;\n  border-radius: 12px;\n}\n@media (max-width: 768px) {\n.search-group .form-control[data-v-e4489e22],\n  .filter-group .form-select[data-v-e4489e22] {\n    font-size: 0.9rem;\n    padding: 8px;\n}\n}\n.podcast-image[data-v-e4489e22] {\n  width: 100%;\n  height: auto;\n  -o-object-fit: cover;\n     object-fit: cover;\n  max-width: 100%;\n}\n.action-button[data-v-e4489e22] {\n  padding: 10px 20px;\n  font-size: 1rem;\n  min-height: 44px;\n  min-width: 100px;\n}\n.action-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.3);\n  transform: translateY(-2px);\n  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);\n}\n.audio-controls-inline[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n}\n.podcast-grid[data-v-e4489e22] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 2rem;\n  margin-bottom: 3rem;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 18px;\n  box-shadow: 0 2px 12px rgba(13, 182, 145, 0.07);\n  padding: 1.2rem 1.5rem 1rem 1.5rem;\n  margin-bottom: 2.2rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n  gap: 1.2rem;\n}\n.input-group-text[data-v-e4489e22] {\n  background: #fff;\n  border-radius: 12px 0 0 12px;\n  border: 1px solid #e9ecef;\n  border-right: none;\n  color: #0db6a1;\n  font-size: 1.2rem;\n}\n.search-group .form-control[data-v-e4489e22],\n.filter-group .form-select[data-v-e4489e22] {\n  border-radius: 0 12px 12px 0;\n  border: 1px solid #e9ecef;\n  border-left: none;\n  background: #fff;\n  font-size: 1rem;\n}\n.filter-group .form-select[data-v-e4489e22] {\n  min-width: 120px;\n}\n@media (max-width: 900px) {\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 1rem 0.7rem 0.7rem 0.7rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n    gap: 0.7rem;\n}\n}\n@media (max-width: 768px) {\n.episodes-filters-bar[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 0.7rem;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 0.7rem 0.3rem 0.3rem 0.3rem;\n}\n.row.g-3>[class^='col-'][data-v-e4489e22] {\n    margin-bottom: 0.7rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -193513,7 +193431,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-63cb17b8] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n    background: #00bfa6;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-63cb17b8]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n    transition: box-shadow 0.3s ease-in-out;\n}\n.custom-card[data-v-63cb17b8] {\n    height: 100%;\n    transition: all 0.3s ease;\n}\n.custom-card img[data-v-63cb17b8] {\n    height: 180px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    transition: transform 0.3s ease;\n}\n.custom-card:hover img[data-v-63cb17b8] {\n    transform: scale(1.05);\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: #00bfa6;\n        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-63cb17b8] {\n    animation: borderPulse-63cb17b8 2s infinite ease-in-out;\n}\n.restricted-access[data-v-63cb17b8] {\n    transition: all 0.3s ease;\n}\n.restricted-access[data-v-63cb17b8]:hover {\n    background: #e9ecef;\n    transform: translateY(-2px);\n}\n.restricted-access a[data-v-63cb17b8]:hover {\n    color: #009e87;\n    text-decoration: underline;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-63cb17b8] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n    background: #00bfa6;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-63cb17b8]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n    transition: box-shadow 0.3s ease-in-out;\n}\n.custom-card[data-v-63cb17b8] {\n    height: 100%;\n    transition: all 0.3s ease;\n}\n.custom-card img[data-v-63cb17b8] {\n    height: 180px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    transition: transform 0.3s ease;\n}\n.custom-card:hover img[data-v-63cb17b8] {\n    transform: scale(1.05);\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: #00bfa6;\n        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-63cb17b8] {\n    animation: borderPulse-63cb17b8 2s infinite ease-in-out;\n}\n.restricted-access[data-v-63cb17b8] {\n    background: #28b66324;\n    transition: all 0.3s ease;\n}\n.restricted-access[data-v-63cb17b8]:hover {\n    background: #28b66324;\n    transform: translateY(-2px);\n}\n.restricted-access a[data-v-63cb17b8]:hover {\n    color: #009e87;\n    text-decoration: underline;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

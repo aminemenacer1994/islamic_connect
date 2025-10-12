@@ -15,7 +15,7 @@
                         <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/content')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
                             <span class="text-center w-100"><b>Stream Podcasts</b></span>
                         </button>
-                        <div v-else class="restricted-access text-center p-2" style="background: #f8f9fa; border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+                        <div v-else class="restricted-access text-center p-2" style="border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
                             <a href="/subscribe" class="text-decoration-none" style="color: #00bfa6; font-weight: bold;">Subscribe Now</a>
                         </div>
@@ -34,7 +34,7 @@
                         <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/streaming')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
                             <span class="text-center w-100"><b>View Channels</b></span>
                         </button>
-                        <div v-else class="restricted-access text-center p-2" style="background: #f8f9fa; border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+                        <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
                             <a href="/subscribe" class="text-decoration-none" style="color: #00bfa6; font-weight: bold;">Subscribe Now</a>
                         </div>
@@ -53,7 +53,7 @@
                         <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/radio')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
                             <span class="text-center w-100"><b>Explore Reciters</b></span>
                         </button>
-                        <div v-else class="restricted-access text-center p-2" style="background: #f8f9fa; border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+                        <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
                             <a href="/subscribe" class="text-decoration-none" style="color: #00bfa6; font-weight: bold;">Subscribe Now</a>
                         </div>
@@ -71,7 +71,7 @@
                         <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/gallery')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
                             <span class="text-center w-100"><b>View Gallery</b></span>
                         </button>
-                        <div v-else class="restricted-access text-center p-2" style="background: #f8f9fa; border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+                        <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
                             <a href="/subscribe" class="text-decoration-none" style="color: #00bfa6; font-weight: bold;">Subscribe Now</a>
                         </div>
@@ -89,7 +89,7 @@
                         <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/video')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
                             <span class="text-center w-100"><b>Watch Videos</b></span>
                         </button>
-                        <div v-else class="restricted-access text-center p-2" style="background: #f8f9fa; border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+                        <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
                             <a href="/subscribe" class="text-decoration-none" style="color: #00bfa6; font-weight: bold;">Subscribe Now</a>
                         </div>
@@ -197,11 +197,12 @@ export default {
 }
 
 .restricted-access {
+    background: #28b66324;
     transition: all 0.3s ease;
 }
 
 .restricted-access:hover {
-    background: #e9ecef;
+    background: #28b66324;
     transform: translateY(-2px);
 }
 

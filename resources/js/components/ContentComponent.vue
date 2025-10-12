@@ -173,7 +173,7 @@
     </div>
 
     <!-- Podcast Episodes Section -->
-    <div v-if="!loading && paginatedPodcasts.length" class="episodes-section">
+    <div v-if="!loading && visiblePodcasts.length" class="episodes-section">
       <div class="section-header">
         <h2 class="section-title">Available Episodes</h2>
         <p class="section-subtitle">Click the play button to start listening</p>
@@ -233,7 +233,7 @@
         <p class="loading-subtext">This may take a few moments</p>
       </div>
       <div v-else class="podcast-cards-grid border-md" style="padding: 5px;">
-        <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="podcast-card-wrapper">
+        <div v-for="(podcast, index) in visiblePodcasts" :key="podcast.title" class="podcast-card-wrapper">
           <div :class="['podcast-card', { 'highlighted': playingIndex === index }]" style="padding: 1.2rem;">
             <div class="card-header">
               <div class="podcast-meta">
@@ -252,6 +252,7 @@
               <div class="podcast-card-top">
                 <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image"
                   :alt="selectedPodcast.name" class="episode-avatar podcast-image-clickable"
+                  decoding="async" fetchpriority="low"
                   @click="scrollToFirstEpisode" style="cursor:pointer;" loading="lazy" />
                 <div class="podcast-card-info">
                   <h4 class="podcast-title" v-html="highlightText(podcast.title)"></h4>
@@ -282,57 +283,15 @@
           </div>
         </div>
       </div>
-      <nav v-if="totalPages > 1" class="pagination-container" aria-label="Episode pagination">
-        <div class="pagination-header">
-          <h3 class="pagination-title">Browse More Episodes</h3>
-          <p class="pagination-subtitle">Use the buttons below to see more episodes</p>
+      <!-- Infinite scroll sentinel -->
+      <div ref="infiniteScrollTrigger" style="height: 1px;"></div>
+      <div v-if="isLoadingMore" class="loading-container" style="margin-top:8px;">
+        <div class="spinner-border text-success" role="status" style="width: 1.5rem; height: 1.5rem;">
+          <span class="visually-hidden">Loading...</span>
         </div>
-        <div class="pagination-wrapper">
-          <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1"
-            class="pagination-btn pagination-btn-prev" :class="{ 'disabled': currentPage === 1 }"
-            aria-label="Go to previous page">
-            <i class="bi bi-chevron-left"></i>
-            <span class="btn-text">Previous Page</span>
-          </button>
-          <div class="page-numbers">
-            <template v-if="totalPages <= 7">
-              <button v-for="page in totalPages" :key="page" @click="changePage(page)" class="page-number"
-                :class="{ 'active': currentPage === page }" :aria-label="`Go to page ${page}`"
-                :aria-current="currentPage === page ? 'page' : null">
-                {{ page }}
-              </button>
-            </template>
-            <template v-else>
-              <button @click="changePage(1)" class="page-number" :class="{ 'active': currentPage === 1 }"
-                aria-label="Go to page 1">
-                1
-              </button>
-              <span v-if="currentPage > 4" class="page-ellipsis">...</span>
-              <button v-for="page in getVisiblePages()" :key="page" @click="changePage(page)" class="page-number"
-                :class="{ 'active': currentPage === page }" :aria-label="`Go to page ${page}`"
-                :aria-current="currentPage === page ? 'page' : null">
-                {{ page }}
-              </button>
-              <span v-if="currentPage < totalPages - 3" class="page-ellipsis">...</span>
-              <button @click="changePage(totalPages)" class="page-number"
-                :class="{ 'active': currentPage === totalPages }" :aria-label="`Go to page ${totalPages}`">
-                {{ totalPages }}
-              </button>
-            </template>
-          </div>
-          <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages"
-            class="pagination-btn pagination-btn-next" :class="{ 'disabled': currentPage === totalPages }"
-            aria-label="Go to next page">
-            <span class="btn-text">Next Page</span>
-            <i class="bi bi-chevron-right"></i>
-          </button>
-        </div>
-        <div class="mobile-page-info">
-          <span class="page-info-text">Page {{ currentPage }} of {{ totalPages }}</span>
-        </div>
-      </nav>
+      </div>
     </div>
-    <div v-else-if="!loading && !paginatedPodcasts.length" class="empty-state">
+    <div v-else-if="!loading && !visiblePodcasts.length" class="empty-state">
       <div class="empty-state-content text-center mb-2">
         <i class="bi bi-headphones empty-state-icon"></i>
         <h3 class="empty-state-title">No Episodes Found</h3>
@@ -366,7 +325,7 @@
           </div>
           <div class="info-section">
             <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
-            <span class="episode-title" v-if="paginatedPodcasts[currentlyPlayingIndex]">• {{ paginatedPodcasts[currentlyPlayingIndex].title }}</span>
+            <span class="episode-title" v-if="visiblePodcasts[currentlyPlayingIndex]">• {{ visiblePodcasts[currentlyPlayingIndex].title }}</span>
           </div>
           <div class="audio-actions" style="display: flex; align-items: center; gap: 18px;">
             <div style="display: flex; align-items: center; gap: 10px;">
@@ -552,8 +511,10 @@ export default {
       searchQuery: '',
       searchInput: '',
       searchDebounceTimer: null,
-      currentPage: 1,
-      podcastsPerPage: 8,
+      // Infinite scroll state
+      itemsPerLoad: 8,
+      visibleCount: 0,
+      isLoadingMore: false,
       bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
       favourites: JSON.parse(localStorage.getItem('favourites')) || [],
       recentPlays: JSON.parse(localStorage.getItem('recentPlays') || '[]'),
@@ -576,63 +537,20 @@ export default {
   },
 
   computed: {
-    totalPages() {
-      return Math.ceil(this.filteredAndSearchedPodcasts.length / this.podcastsPerPage);
+    // Visible slice for infinite scrolling
+    visiblePodcasts() {
+      return this.filteredAndSearchedPodcasts.slice(0, Math.max(0, this.visibleCount));
     },
-    pages() {
-      return Array.from({ length: Math.min(this.totalPages, 8) }, (_, i) => i + 1);
-    },
-    paginatedPodcasts() {
-      const start = (this.currentPage - 1) * this.podcastsPerPage;
-      return this.filteredAndSearchedPodcasts.slice(start, start + this.podcastsPerPage);
-    },
+    // Keep this lightweight: filteredPodcasts already has filters + sorting applied.
+    // Only apply quick text search here to avoid heavy recomputation.
     filteredAndSearchedPodcasts() {
-      let podcasts = this.filteredPodcasts;
-      // Filter by search
-      if (this.searchQuery) {
-        const q = this.searchQuery.toLowerCase();
-        podcasts = podcasts.filter(p =>
-          (p.title && p.title.toLowerCase().includes(q)) ||
-          (p.description && p.description.toLowerCase().includes(q))
-        );
-      }
-      // Filter by duration
-      if (this.durationFilter) {
-        switch (this.durationFilter) {
-          case '0-10':
-            podcasts = podcasts.filter(p => p.duration <= 10);
-            break;
-          case '10-30':
-            podcasts = podcasts.filter(p => p.duration > 10 && p.duration <= 30);
-            break;
-          case '30-60':
-            podcasts = podcasts.filter(p => p.duration > 30 && p.duration <= 60);
-            break;
-          case 'more-than-60':
-            podcasts = podcasts.filter(p => p.duration > 60);
-            break;
-        }
-      }
-      // Filter by language
-      if (this.languageFilter) {
-        podcasts = podcasts.filter(p => p.language === this.languageFilter);
-      }
-      // Sort
-      switch (this.sortOption) {
-        case 'mostViewed':
-          podcasts = podcasts.slice().sort((a, b) => b.views - a.views);
-          break;
-        case 'leastViewed':
-          podcasts = podcasts.slice().sort((a, b) => a.views - b.views);
-          break;
-        case 'newest':
-          podcasts = podcasts.slice().sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-          break;
-        case 'oldest':
-          podcasts = podcasts.slice().sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
-          break;
-      }
-      return podcasts;
+      const podcasts = this.filteredPodcasts || [];
+      if (!this.searchQuery) return podcasts;
+      const q = this.searchQuery.toLowerCase();
+      return podcasts.filter(p =>
+        (p.title && p.title.toLowerCase().includes(q)) ||
+        (p.description && p.description.toLowerCase().includes(q))
+      );
     },
     sortedPodcasts() {
       return this.applySorting([...this.filteredPodcasts]);
@@ -646,7 +564,10 @@ export default {
       new bootstrap.Tooltip(tooltipTriggerEl);
     });
     this.$nextTick(() => {
+      // Initialize infinite scroll starting window
+      this.visibleCount = this.itemsPerLoad;
       this.initializeAudioElements();
+      this.setupInfiniteScroll();
     });
 
     // Add keyboard event listener for closing audio player
@@ -682,8 +603,9 @@ export default {
   },
 
   beforeUnmount() {
-    // Remove keyboard event listener
+    // Remove keyboard event listener and disconnect observer
     document.removeEventListener('keydown', this.handleKeydown);
+    try { this._infiniteObserver && this._infiniteObserver.disconnect && this._infiniteObserver.disconnect(); } catch (e) {}
   },
 
   methods: {
@@ -694,7 +616,8 @@ export default {
       if (this.searchDebounceTimer) clearTimeout(this.searchDebounceTimer);
       this.searchDebounceTimer = setTimeout(() => {
         this.searchQuery = (this.searchInput || '').trim();
-        this.currentPage = 1;
+        // Reset visible window on new search
+        this.visibleCount = this.itemsPerLoad;
       }, 250);
     },
     toggleVolume() {
@@ -935,9 +858,9 @@ export default {
             return dateB - dateA;
           });
 
-        // Assign sorted podcasts to paginatedPodcasts
-        this.paginatedPodcasts = [...this.podcasts];
-        console.log('Sorted podcasts:', this.paginatedPodcasts.map(p => ({ title: p.title, pubDate: p.pubDate })));
+        // Initialize visible list for infinite scroll
+        this.visibleCount = Math.min(this.itemsPerLoad, this.podcasts.length);
+        console.log('Sorted podcasts:', this.podcasts.map(p => ({ title: p.title, pubDate: p.pubDate })));
 
         this.applyFilters(); // Apply filters after fetching
       } catch (error) {
@@ -974,7 +897,7 @@ export default {
       this.showAudioPlayer = true;
       // Save to recent plays
       try {
-        const ep = this.paginatedPodcasts[index];
+        const ep = this.visiblePodcasts[index];
         const entry = { title: ep?.title, audioUrl: ep?.audioUrl, playedAt: Date.now(), pubDate: ep?.pubDate };
         this.recentPlays = [entry, ...this.recentPlays.filter(r => !(r.title === entry.title && r.audioUrl === entry.audioUrl))].slice(0, 50);
         localStorage.setItem('recentPlays', JSON.stringify(this.recentPlays));
@@ -989,7 +912,7 @@ export default {
       }, 300);
     },
     isCurrentlyPlaying(item) {
-      const cur = this.paginatedPodcasts[this.currentlyPlayingIndex];
+      const cur = this.visiblePodcasts[this.currentlyPlayingIndex];
       if (!cur || !item) return false;
       return cur.title === item.title && cur.audioUrl === item.audioUrl && this.isAudioPlaying[this.currentlyPlayingIndex];
     },
@@ -1064,6 +987,9 @@ export default {
       }
 
       this.filteredPodcasts = filtered; // Update filtered podcasts
+      // Reset infinite scroll window after filters change
+      this.visibleCount = Math.min(this.itemsPerLoad, this.filteredPodcasts.length || 0);
+      this.$nextTick(() => this.setupInfiniteScroll());
     },
 
     detectLanguage(text) {
@@ -1142,9 +1068,10 @@ export default {
     },
 
     onSearch() {
-      this.currentPage = 1;
+      this.visibleCount = this.itemsPerLoad;
       const query = this.searchQuery.toLowerCase();
       this.filteredPodcasts = this.podcasts.filter(podcast => podcast.title.toLowerCase().includes(query));
+      this.$nextTick(() => this.setupInfiniteScroll());
     },
 
     highlightText(title) {
@@ -1177,49 +1104,53 @@ export default {
       return this.favourites.some(fav => fav.title === podcast.title);
     },
 
-    changePage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
-        this.updatePaginatedPodcasts();
+    // Ensure an index in the full filtered list is visible
+    ensureVisible(fullIndex) {
+      const need = fullIndex + 1;
+      if (need > this.visibleCount) {
+        this.visibleCount = Math.min(this.filteredAndSearchedPodcasts.length, need);
       }
     },
 
-    getVisiblePages() {
-      const pages = [];
-      const start = Math.max(2, this.currentPage - 1);
-      const end = Math.min(this.totalPages - 1, this.currentPage + 1);
-
-      for (let i = start; i <= end; i++) {
-        if (i > 1 && i < this.totalPages) {
-          pages.push(i);
+    setupInfiniteScroll() {
+      const el = this.$refs.infiniteScrollTrigger;
+      if (!el || typeof IntersectionObserver === 'undefined') return;
+      if (this._infiniteObserver) {
+        try { this._infiniteObserver.disconnect(); } catch (e) {}
+      }
+      this._infiniteObserver = new IntersectionObserver((entries) => {
+        const [entry] = entries;
+        if (entry && entry.isIntersecting) {
+          // Defer to animation frame to keep scroll smooth
+          requestAnimationFrame(() => this.loadMore());
         }
-      }
-
-      return pages;
+      }, { root: null, rootMargin: '600px', threshold: 0 });
+      this._infiniteObserver.observe(el);
     },
 
-    updatePaginatedPodcasts() {
-      const start = (this.currentPage - 1) * 9; // Assuming 9 items per page
-      const end = start + 9;
-      this.paginatedPodcasts = this.podcasts.slice(start, end);
-    },
-
-    initializeAudioElements() {
-      this.audioElements = this.paginatedPodcasts.map((podcast, index) => {
-        const audio = new Audio(podcast.audioUrl || '');
-        audio.playbackRate = this.playbackSpeed;
-        audio.volume = this.volume;
-        audio.addEventListener('timeupdate', () => {
-          this.updateProgress(index);
-          try {
-            const key = `content_progress_${podcast.title}`;
-            localStorage.setItem(key, String(audio.currentTime || 0));
-          } catch (e) {}
-        });
-        audio.addEventListener('loadedmetadata', () => { this.progress[index] = 0; });
-        audio.addEventListener('ended', () => this.handlePodcastEnd(index));
-        return audio;
+    loadMore() {
+      if (this.isLoadingMore) return;
+      if (this.visibleCount >= this.filteredAndSearchedPodcasts.length) return;
+      this.isLoadingMore = true;
+      const next = Math.min(
+        this.filteredAndSearchedPodcasts.length,
+        this.visibleCount + this.itemsPerLoad
+      );
+      this.visibleCount = next;
+      // Append audio elements only for newly visible items
+      this.$nextTick(() => {
+        this.initializeAudioElements(true);
+        this.isLoadingMore = false;
       });
+    },
+
+    // Prepare arrays; do not create Audio objects until play is requested
+    initializeAudioElements(incremental = false) {
+      if (!incremental) {
+        this.audioElements = [];
+      }
+      const needed = this.visiblePodcasts.length;
+      while (this.audioElements.length < needed) this.audioElements.push(null);
     },
 
     buildContinueListening() {
@@ -1244,10 +1175,9 @@ export default {
       // Find index in current paginated list; if not present, attempt to locate in full list and adjust pagination
       const fullIndex = this.filteredAndSearchedPodcasts.findIndex(p => p.title === item.title);
       if (fullIndex >= 0) {
-        const page = Math.floor(fullIndex / this.podcastsPerPage) + 1;
-        if (page !== this.currentPage) this.currentPage = page;
+        this.ensureVisible(fullIndex);
         this.$nextTick(() => {
-          const localIndex = this.paginatedPodcasts.findIndex(p => p.title === item.title);
+          const localIndex = this.visiblePodcasts.findIndex(p => p.title === item.title);
           if (localIndex >= 0) {
             this.playAudio(localIndex);
             if (this.currentlyPlaying) this.currentlyPlaying.currentTime = item.savedTime;
@@ -1257,19 +1187,34 @@ export default {
       }
     },
     playAudio(index) {
-      if (this.currentlyPlaying !== null && this.currentlyPlaying !== this.audioElements[index]) {
-        if (this.currentlyPlaying.pause) {
-          this.currentlyPlaying.pause();
-          this.currentlyPlaying.currentTime = 0;
-        }
+      const podcast = this.visiblePodcasts[index];
+      // Stop and reset previous
+      if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
+        try { this.currentlyPlaying.pause(); } catch (e) {}
       }
-      this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
+      // Lazily create Audio instance if missing
+      if (!this.audioElements[index]) {
+        const audio = new Audio(podcast?.audioUrl || '');
+        audio.playbackRate = this.playbackSpeed;
+        audio.volume = this.volume;
+        audio.addEventListener('timeupdate', () => {
+          this.updateProgress(index, audio);
+          try {
+            const key = `content_progress_${podcast?.title}`;
+            localStorage.setItem(key, String(audio.currentTime || 0));
+          } catch (e) {}
+        }, { passive: true });
+        audio.addEventListener('loadedmetadata', () => { this.progress[index] = 0; });
+        audio.addEventListener('ended', () => this.handlePodcastEnd(index));
+        this.audioElements[index] = audio;
+      }
+      this.isAudioPlaying = this.isAudioPlaying.map((_, i) => i === index);
       this.currentlyPlaying = this.audioElements[index];
       this.currentlyPlayingIndex = index;
       this.playingIndex = index;
       // Restore last position for this episode
       try {
-        const podcast = this.paginatedPodcasts[index];
+        const podcast = this.visiblePodcasts[index];
         const key = `content_progress_${podcast.title}`;
         const saved = Number(localStorage.getItem(key));
         if (!isNaN(saved) && saved > 0 && this.currentlyPlaying && Math.abs((this.currentlyPlaying.currentTime || 0) - saved) > 1) {
@@ -1292,13 +1237,14 @@ export default {
       }, 300);
     },
     pauseAudio(index) {
-      if (this.audioElements[index]) {
-        this.audioElements[index].pause();
+      const a = this.audioElements[index];
+      if (a) {
+        try { a.pause(); } catch (e) {}
         this.isAudioPlaying[index] = false;
       }
     },
     toggleAudioPlayer(index) {
-      if (!this.audioElements[index]) return;
+      if (!this.visiblePodcasts[index]) return;
       if (!this.isAudioPlaying[index]) {
         this.playAudio(index);
         this.playingIndex = index;
@@ -1308,26 +1254,26 @@ export default {
       }
     },
     stopAudio(index) {
-      if (this.audioElements[index]) {
-        this.audioElements[index].pause();
-        this.audioElements[index].currentTime = 0;
+      const a = this.audioElements[index];
+      if (a) {
+        try { a.pause(); } catch (e) {}
+        try { a.currentTime = 0; } catch (e) {}
         this.isAudioPlaying[index] = false;
         this.progress[index] = 0;
       }
     },
     rewindAudio(index) {
-      if (this.audioElements[index]) {
-        this.audioElements[index].currentTime = Math.max(0, this.audioElements[index].currentTime - 15);
-      }
+      const a = this.audioElements[index];
+      if (a) a.currentTime = Math.max(0, a.currentTime - 15);
     },
     fastForwardAudio(index) {
-      if (this.audioElements[index]) {
-        this.audioElements[index].currentTime = Math.min(this.audioElements[index].duration, this.audioElements[index].currentTime + 20);
-      }
+      const a = this.audioElements[index];
+      if (a) a.currentTime = Math.min(a.duration || 0, (a.currentTime || 0) + 20);
     },
     updateProgress(index) {
-      if (this.audioElements[index] && this.audioElements[index].duration) {
-        const progress = (this.audioElements[index].currentTime / this.audioElements[index].duration) * 100;
+      const a = this.audioElements[index];
+      if (a && a.duration) {
+        const progress = (a.currentTime / a.duration) * 100;
         this.progress[index] = Math.min(100, progress);
       }
     },
@@ -1349,8 +1295,8 @@ export default {
       }
     },
     playNextPodcast() {
-      if (this.paginatedPodcasts.length > 0) {
-        const nextIndex = (this.currentlyPlayingIndex + 1) % this.paginatedPodcasts.length;
+      if (this.visiblePodcasts.length > 0) {
+        const nextIndex = (this.currentlyPlayingIndex + 1) % this.visiblePodcasts.length;
         this.playAudio(nextIndex);
       }
     },
@@ -1397,10 +1343,9 @@ export default {
     playFromFavourites(fav) {
       const fullIndex = this.filteredAndSearchedPodcasts.findIndex(p => p.title === fav.title && p.audioUrl === fav.audioUrl);
       if (fullIndex >= 0) {
-        const page = Math.floor(fullIndex / this.podcastsPerPage) + 1;
-        if (page !== this.currentPage) this.currentPage = page;
+        this.ensureVisible(fullIndex);
         this.$nextTick(() => {
-          const localIndex = this.paginatedPodcasts.findIndex(p => p.title === fav.title && p.audioUrl === fav.audioUrl);
+          const localIndex = this.visiblePodcasts.findIndex(p => p.title === fav.title && p.audioUrl === fav.audioUrl);
           if (localIndex >= 0) {
             this.playAudio(localIndex);
             this.showAudioPlayer = true;
@@ -1411,10 +1356,9 @@ export default {
     playFromHistory(item) {
       const fullIndex = this.filteredAndSearchedPodcasts.findIndex(p => p.title === item.title && p.audioUrl === item.audioUrl);
       if (fullIndex >= 0) {
-        const page = Math.floor(fullIndex / this.podcastsPerPage) + 1;
-        if (page !== this.currentPage) this.currentPage = page;
+        this.ensureVisible(fullIndex);
         this.$nextTick(() => {
-          const localIndex = this.paginatedPodcasts.findIndex(p => p.title === item.title && p.audioUrl === item.audioUrl);
+          const localIndex = this.visiblePodcasts.findIndex(p => p.title === item.title && p.audioUrl === item.audioUrl);
           if (localIndex >= 0) {
             this.playAudio(localIndex);
             this.showAudioPlayer = true;
@@ -1488,8 +1432,12 @@ export default {
 
   mounted() {
     this.fetchPodcasts().then(() => {
-      this.applyFilters(); // Apply filters once podcasts are loaded
+      this.applyFilters();
       this.fetchEpisodeCounts();
+      this.$nextTick(() => {
+        this.visibleCount = Math.min(this.itemsPerLoad, this.filteredAndSearchedPodcasts.length || 0);
+        this.setupInfiniteScroll();
+      });
     });
   },
 
@@ -1511,12 +1459,19 @@ export default {
     sortOption: 'applyFilters',
     durationFilter: 'applyFilters',
     dateFilter: 'applyFilters',
-    paginatedPodcasts(newPodcasts) {
-      this.isAudioPlaying = new Array(newPodcasts.length).fill(false);
-      this.progress = new Array(newPodcasts.length).fill(0);
-      this.$nextTick(() => {
-        this.initializeAudioElements();
-      });
+    visiblePodcasts(newPodcasts, oldPodcasts) {
+      // If list shrank (filters changed), reset audio arrays; else append only
+      if (!oldPodcasts || newPodcasts.length < oldPodcasts.length) {
+        this.isAudioPlaying = new Array(newPodcasts.length).fill(false);
+        this.progress = new Array(newPodcasts.length).fill(0);
+        this.$nextTick(() => this.initializeAudioElements(false));
+      } else if (newPodcasts.length > (oldPodcasts?.length || 0)) {
+        // Append new audio elements for the newly revealed items
+        const added = newPodcasts.length - (oldPodcasts?.length || 0);
+        this.isAudioPlaying.push(...new Array(added).fill(false));
+        this.progress = { ...this.progress };
+        this.$nextTick(() => this.initializeAudioElements(true));
+      }
     },
   },
 };
@@ -1797,6 +1752,10 @@ export default {
   height: 100%;
   position: relative;
   padding: 2rem 1.5rem;
+  /* Performance hints for large lists */
+  content-visibility: auto;
+  contain-intrinsic-size: 320px 1px;
+  will-change: transform;
 }
 
 .podcast-card:hover {
