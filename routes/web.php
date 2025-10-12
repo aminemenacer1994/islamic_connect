@@ -280,6 +280,6 @@ Route::middleware(['auth', 'web', 'subscribed'])->group(function () {
     Route::get('/mosque', [MosqueController::class, 'index'])->name('mosque');
     Route::get('/school', [SchoolController::class, 'index'])->name('school');
     Route::get('/shop', [ShopController::class, 'index'])->name('shop');
-
+    Route::get('/quran', [QuranController::class, 'index']);
 
 });

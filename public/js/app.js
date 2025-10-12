@@ -146792,9 +146792,70 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {};
+    return {
+      isAuthenticated: false,
+      isSubscribed: false,
+      loading: true
+    };
+  },
+  methods: {
+    goTo: function goTo(path) {
+      window.location.href = path;
+    },
+    checkSubscription: function checkSubscription() {
+      var _this = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        var response, subscription, _t;
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.p = _context.n) {
+            case 0:
+              _this.loading = true;
+              _context.p = 1;
+              _context.n = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/user');
+            case 2:
+              response = _context.v;
+              _this.isAuthenticated = !!response.data;
+              if (!_this.isAuthenticated) {
+                _context.n = 4;
+                break;
+              }
+              _context.n = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/subscription-status');
+            case 3:
+              subscription = _context.v;
+              console.log('Subscription data:', subscription.data); // Debug
+
+              // Fix: Just check is_subscribed
+              _this.isSubscribed = subscription.data.is_subscribed;
+            case 4:
+              _context.n = 6;
+              break;
+            case 5:
+              _context.p = 5;
+              _t = _context.v;
+              console.error('Subscription check failed:', _t);
+              _this.isAuthenticated = false;
+              _this.isSubscribed = false;
+            case 6:
+              _this.loading = false;
+            case 7:
+              return _context.a(2);
+          }
+        }, _callee, null, [[1, 5]]);
+      }))();
+    }
+  },
+  mounted: function mounted() {
+    this.checkSubscription();
   }
 });
 
@@ -173800,52 +173861,76 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 var _hoisted_1 = {
   "class": "container py-4"
 };
+var _hoisted_2 = {
+  "class": "row g-4"
+};
+var _hoisted_3 = {
+  "class": "col-md-6 col-lg-4"
+};
+var _hoisted_4 = {
+  "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+  style: {
+    "border": "1px solid grey"
+  }
+};
+var _hoisted_5 = {
+  "class": "p-3"
+};
+var _hoisted_6 = {
+  key: 1,
+  "class": "restricted-access text-center p-2",
+  style: {
+    "border-radius": "5px",
+    "animation": "borderPulse 2s infinite ease-in-out"
+  }
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, _toConsumableArray(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "text-center fw-bold display-5 mb-4"
-  }, "Quran Portal", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Quran Portal", -1 /* CACHED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center mb-4 lead"
-  }, " Islamic Connect provides seamless access to the Qur’an, enabling Muslims to read, listen, and reflect on its divine message. Our platform is dedicated to helping individuals connect with the words of Allah. ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "row g-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, " Islamic Connect provides seamless access to the Qur’an, enabling Muslims to read, listen, and reflect on its divine message. Our platform is dedicated to helping individuals connect with the words of Allah. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/qc.png",
     alt: "Mosque Locator",
     "class": "w-100 pt-4",
     style: {
       "object-fit": "contain"
     }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Quran Explorer"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Quran Explorer", -1 /* CACHED */)), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Explore the beauty and guidance of the Quran at your fingertips — perfect for seekers, travelers, and newcomers alike. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Explore the beauty and guidance of the Quran at your fingertips — perfect for seekers, travelers, and newcomers alike. ", -1 /* CACHED */)), $data.isAuthenticated && $data.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
     "class": "form-control",
-    onclick: "window.location.href='/quran'",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $options.goTo('/quran');
+    }),
+    type: "button",
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }
+  }, _toConsumableArray(_cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Quran")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Quran")], -1 /* CACHED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, _toConsumableArray(_cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mb-1 text-muted small"
+  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "/subscribe",
+    "class": "text-decoration-none",
+    style: {
+      "color": "#00bfa6",
+      "font-weight": "bold"
+    }
+  }, "Subscribe Now", -1 /* CACHED */)])))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button class=\"form-control\" onclick=\"window.location.href='/quran'\"\n                            style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                            type=\"submit\">\n                            <span class=\"text-center w-100\"><b>Explore Quran</b></span>\n                        </button> ")])])]), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card rounded-4 overflow-hidden",
@@ -173885,7 +173970,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Recitations")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Recitations")])])])])], -1 /* CACHED */)), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card rounded-4 overflow-hidden",
@@ -173925,7 +174010,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Discover History")])])])])])], -1 /* CACHED */)])));
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Discover History")])])])])], -1 /* CACHED */))])]);
 }
 
 /***/ }),
@@ -193287,7 +193372,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-78b3b4a4] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-78b3b4a4] {\n    background: #00bfa6;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n    /* Good to be explicit */\n}\n.custom-card[data-v-78b3b4a4]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.custom-card[data-v-78b3b4a4] {\n    height: 100%;\n}\n.custom-card img[data-v-78b3b4a4] {\n    height: 180px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n@keyframes borderPulse-78b3b4a4 {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: #00bfa6;\n        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-78b3b4a4] {\n    animation: borderPulse-78b3b4a4 2s infinite ease-in-out;\n    -webkit-animation: borderPulse-78b3b4a4 2s infinite ease-in-out;\n    /* For Safari/Chrome */\n    -moz-animation: borderPulse-78b3b4a4 2s infinite ease-in-out;\n    /* For Firefox */\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-78b3b4a4] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-78b3b4a4] {\n    background: #00bfa6;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-78b3b4a4]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n    transition: box-shadow 0.3s ease-in-out;\n}\n.custom-card[data-v-78b3b4a4] {\n    height: 100%;\n    transition: all 0.3s ease;\n}\n.custom-card img[data-v-78b3b4a4] {\n    height: 180px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    transition: transform 0.3s ease;\n}\n.custom-card:hover img[data-v-78b3b4a4] {\n    transform: scale(1.05);\n}\n@keyframes borderPulse-78b3b4a4 {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: #00bfa6;\n        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-78b3b4a4] {\n    animation: borderPulse-78b3b4a4 2s infinite ease-in-out;\n}\n.restricted-access[data-v-78b3b4a4] {\n    background: #28b66324;\n    transition: all 0.3s ease;\n}\n.restricted-access[data-v-78b3b4a4]:hover {\n    background: #28b66324;\n    transform: translateY(-2px);\n}\n.restricted-access a[data-v-78b3b4a4]:hover {\n    color: #009e87;\n    text-decoration: underline;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
