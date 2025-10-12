@@ -188,7 +188,6 @@ Route::get('/knowledge', [KnowledgeController::class, 'index'])->name('knowledge
 Route::get('/services', [ServicesController::class, 'index'])->name('services');
 Route::get('/store', [StoreController::class, 'index'])->name('store');
 Route::get('/food', [FoodController::class, 'index'])->name('food');
-Route::get('/school', [SchoolController::class, 'index'])->name('school');
 Route::get('/welfare', [WelfareController::class, 'index'])->name('welfare');
 Route::get('/books', [BooksController::class, 'index'])->name('books');
 Route::get('/convert', [ConvertController::class, 'index'])->name('convert');
@@ -211,10 +210,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     // Dashboard & Profile
     Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
     Route::get('/profile', fn() => view('profile'))->name('profile');
-    Route::get('api/fetch-dashboard', [DashboardController::class, 'getDashboard'])->name('fetch_dashboard');
-    
-    // Media Center (viewable but content locked)
-    
+    Route::get('api/fetch-dashboard', [DashboardController::class, 'getDashboard'])->name('fetch_dashboard');    
     
     // Bookmarks & Folders
     Route::get('/bookmarks', [BookmarkController::class, 'index']);
@@ -266,75 +262,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/donations', [DonationController::class, 'index']);
     Route::get('/fetch-donations', [DonationController::class, 'getDonations']);
     
-    // DEBUG ROUTES - REMOVE IN PRODUCTION
-    Route::get('/debug-subscription', function () {
-        $user = Auth::user();
-        return response()->json([
-            'current_user_id' => $user->id,
-            'current_user_email' => $user->email,
-            'stripe_id' => $user->stripe_id,
-            'has_premium_sub' => $user->subscribed('premium'),
-            'all_subs' => $user->subscriptions->map(fn($s) => [
-                'id' => $s->id,
-                'stripe_id' => $s->stripe_id,
-                'stripe_price' => $s->stripe_price,
-                'ends_at' => $s->ends_at
-            ])
-        ]);
-    });
-    
-    Route::get('/fix-stripe-customer', function () {
-        $user = Auth::user();
-        try {
-            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-            $customers = \Stripe\Customer::all(['email' => $user->email, 'limit' => 1]);
-            if (count($customers->data) > 0) {
-                $customer = $customers->data[0];
-                $user->stripe_id = $customer->id;
-                $user->save();
-                return response()->json(['success' => true, 'message' => 'Stripe customer ID linked!', 'stripe_id' => $customer->id]);
-            }
-            return response()->json(['error' => 'No Stripe customer found']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    });
-    
-    Route::get('/sync-stripe-subscription', function () {
-        $user = Auth::user();
-        if (!$user->stripe_id) {
-            return response()->json(['error' => 'No Stripe customer ID. Visit /fix-stripe-customer first.']);
-        }
-        try {
-            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-            $stripeSubscriptions = \Stripe\Subscription::all(['customer' => $user->stripe_id, 'status' => 'active', 'limit' => 1]);
-            if (count($stripeSubscriptions->data) === 0) {
-                return response()->json(['error' => 'No active subscriptions in Stripe']);
-            }
-            $stripeSubscription = $stripeSubscriptions->data[0];
-            $existingSubscription = $user->subscriptions()->where('stripe_id', $stripeSubscription->id)->first();
-            if ($existingSubscription) {
-                return response()->json(['message' => 'Subscription already synced', 'subscription' => $existingSubscription]);
-            }
-            $priceId = $stripeSubscription->items->data[0]->price->id;
-            $subscription = $user->subscriptions()->create([
-                'name' => 'premium',
-                'stripe_id' => $stripeSubscription->id,
-                'stripe_status' => $stripeSubscription->status,
-                'stripe_price' => $priceId,
-                'quantity' => 1,
-            ]);
-            $subscription->items()->create([
-                'stripe_id' => $stripeSubscription->items->data[0]->id,
-                'stripe_product' => $stripeSubscription->items->data[0]->price->product,
-                'stripe_price' => $priceId,
-                'quantity' => 1,
-            ]);
-            return response()->json(['success' => true, 'message' => 'Subscription synced!', 'subscription' => $subscription]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    });
 });
 
 // ========================================
@@ -346,4 +273,13 @@ Route::middleware(['auth', 'web', 'subscribed'])->group(function () {
     Route::get('/radio', [RadioController::class, 'index'])->name('radio');
     Route::get('/gallery', [AiController::class, 'index'])->name('gallery');
     Route::get('/video', [VideoController::class, 'index'])->name('video');
+
+    Route::get('/guide', [GuideController::class, 'index'])->name('guide');
+    Route::get('/zakat', [ZakatController::class, 'index'])->name('zakat');
+    Route::get('/qibla', [QiblaController::class, 'index'])->name('qibla');
+    Route::get('/mosque', [MosqueController::class, 'index'])->name('mosque');
+    Route::get('/school', [SchoolController::class, 'index'])->name('school');
+    Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+
+
 });
