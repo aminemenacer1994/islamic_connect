@@ -195,6 +195,7 @@ Route::get('/holy', [HolyController::class, 'index'])->name('holy');
 Route::get('/history', [HistoryController::class, 'index'])->name('history');
 Route::get('/read', [ReadController::class, 'index'])->name('read');
 Route::get('/media', [MediaController::class, 'index'])->name('media');
+Route::get('/gallery', action: [AiController::class, 'index'])->name('gallery');
 
 // ========================================
 // AUTHENTICATED ROUTES (No Subscription Required)
@@ -271,7 +272,6 @@ Route::middleware(['auth', 'web', 'subscribed'])->group(function () {
     Route::get('/content', [ContentController::class, 'index'])->name('content');
     Route::get('/streaming', [StreamingController::class, 'index'])->name('streaming');
     Route::get('/radio', [RadioController::class, 'index'])->name('radio');
-    Route::get('/gallery', [AiController::class, 'index'])->name('gallery');
     Route::get('/video', [VideoController::class, 'index'])->name('video');
 
     Route::get('/guide', [GuideController::class, 'index'])->name('guide');

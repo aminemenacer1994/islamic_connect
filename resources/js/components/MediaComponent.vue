@@ -68,13 +68,11 @@
                         <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
                             Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and tradition.
                         </p>
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/gallery')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                        <button class="form-control" onclick="window.location.href='/gallery'"
+                            style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                            type="submit">
                             <span class="text-center w-100"><b>View Gallery</b></span>
                         </button>
-                        <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
-                            <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none" style="color: #00bfa6; font-weight: bold;">Subscribe Now</a>
-                        </div>
                     </div>
                 </div>
             </div>
