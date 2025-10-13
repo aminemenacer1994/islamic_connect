@@ -141068,8 +141068,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       selectedImage: null,
       allImages: [],
       images: [],
-      currentPage: 1,
-      itemsPerPage: 9,
+      // Infinite scroll state
+      apiPage: 1,
+      perPage: 30,
+      hasMore: true,
+      isLoadingMore: false,
+      observer: null,
       activeFilter: 'Islamic',
       isModalOpen: false,
       loading: true,
@@ -141077,18 +141081,17 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       filters: ['Islamic', 'Mosque', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab', 'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture']
     };
   },
-  computed: {
-    paginatedImages: function paginatedImages() {
-      var start = (this.currentPage - 1) * this.itemsPerPage;
-      var end = start + this.itemsPerPage;
-      return this.allImages.slice(start, end);
-    },
-    totalPages: function totalPages() {
-      return Math.ceil(this.allImages.length / this.itemsPerPage);
-    }
-  },
+  computed: {},
   mounted: function mounted() {
     this.fetchGallery();
+  },
+  beforeUnmount: function beforeUnmount() {
+    if (this.observer) {
+      try {
+        this.observer.disconnect();
+      } catch (e) {}
+      this.observer = null;
+    }
   },
   methods: {
     downloadImage: function downloadImage(url, filename) {
@@ -141144,15 +141147,19 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     fetchGallery: function fetchGallery() {
       var _this2 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-        var query, response, data, _t2;
+        var query, url, response, data, _t2;
         return _regenerator().w(function (_context2) {
           while (1) switch (_context2.p = _context2.n) {
             case 0:
               _this2.loading = true;
+              _this2.allImages = [];
+              _this2.apiPage = 1;
+              _this2.hasMore = true;
               _context2.p = 1;
               query = "Islamic ".concat(_this2.searchTerm).trim();
+              url = "https://api.pexels.com/v1/search?query=".concat(encodeURIComponent(query), "&per_page=").concat(_this2.perPage, "&page=").concat(_this2.apiPage);
               _context2.n = 2;
-              return fetch("https://api.pexels.com/v1/search?query=".concat(encodeURIComponent(query), "&per_page=30"), {
+              return fetch(url, {
                 headers: {
                   Authorization: _this2.apiKey
                 }
@@ -141163,8 +141170,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 3:
               data = _context2.v;
-              _this2.allImages = data.photos;
-              _this2.currentPage = 1;
+              _this2.allImages = data.photos || [];
+              _this2.hasMore = Boolean(data.next_page);
+              // Ensure observer is set up after first paint
+              _this2.$nextTick(function () {
+                if (!_this2.observer) _this2.setupObserver();
+              });
               _context2.n = 5;
               break;
             case 4:
@@ -141181,6 +141192,74 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         }, _callee2, null, [[1, 4, 5, 6]]);
       }))();
     },
+    setupObserver: function setupObserver() {
+      var _this3 = this;
+      var target = this.$refs.loadMoreTrigger;
+      if (!target) return;
+      this.observer = new IntersectionObserver(function (entries) {
+        var entry = entries[0];
+        if (entry && entry.isIntersecting) {
+          _this3.loadMore();
+        }
+      }, {
+        root: null,
+        rootMargin: '0px 0px 400px 0px',
+        threshold: 0
+      });
+      this.observer.observe(target);
+    },
+    loadMore: function loadMore() {
+      var _this4 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+        var query, nextPage, url, response, data, photos, _t3;
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.p = _context3.n) {
+            case 0:
+              if (!(_this4.loading || _this4.isLoadingMore || !_this4.hasMore)) {
+                _context3.n = 1;
+                break;
+              }
+              return _context3.a(2);
+            case 1:
+              _this4.isLoadingMore = true;
+              _context3.p = 2;
+              query = "Islamic ".concat(_this4.searchTerm).trim();
+              nextPage = _this4.apiPage + 1;
+              url = "https://api.pexels.com/v1/search?query=".concat(encodeURIComponent(query), "&per_page=").concat(_this4.perPage, "&page=").concat(nextPage);
+              _context3.n = 3;
+              return fetch(url, {
+                headers: {
+                  Authorization: _this4.apiKey
+                }
+              });
+            case 3:
+              response = _context3.v;
+              _context3.n = 4;
+              return response.json();
+            case 4:
+              data = _context3.v;
+              photos = data.photos || [];
+              if (photos.length) {
+                _this4.allImages = _this4.allImages.concat(photos);
+                _this4.apiPage = nextPage;
+              }
+              _this4.hasMore = Boolean(data.next_page);
+              _context3.n = 6;
+              break;
+            case 5:
+              _context3.p = 5;
+              _t3 = _context3.v;
+              console.error('Error loading more images:', _t3);
+            case 6:
+              _context3.p = 6;
+              _this4.isLoadingMore = false;
+              return _context3.f(6);
+            case 7:
+              return _context3.a(2);
+          }
+        }, _callee3, null, [[2, 5, 6, 7]]);
+      }))();
+    },
     applyFilter: function applyFilter(keyword) {
       this.activeFilter = keyword;
       this.searchTerm = keyword;
@@ -141193,15 +141272,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     closeModal: function closeModal() {
       this.isModalOpen = false;
     },
-    goToPage: function goToPage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      }
-    },
+    // Pagination removed in favor of infinite scroll
     hoverCard: function hoverCard(index) {
       var card = document.querySelectorAll('.card')[index];
       if (card) {
@@ -168858,11 +168929,22 @@ var _hoisted_14 = {
 var _hoisted_15 = ["href"];
 var _hoisted_16 = ["onClick", "title"];
 var _hoisted_17 = {
-  "class": "mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap"
+  "class": "mt-4 d-flex justify-content-center"
 };
-var _hoisted_18 = ["disabled"];
-var _hoisted_19 = ["onClick"];
-var _hoisted_20 = ["disabled"];
+var _hoisted_18 = {
+  key: 0,
+  "class": "text-center my-3"
+};
+var _hoisted_19 = {
+  key: 1,
+  "class": "text-muted"
+};
+var _hoisted_20 = {
+  ref: "loadMoreTrigger",
+  style: {
+    "height": "1px"
+  }
+};
 var _hoisted_21 = {
   "class": "modal fade",
   id: "imageModal",
@@ -168890,14 +168972,14 @@ var _hoisted_26 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$selectedImage, _$data$selectedImage2, _$data$selectedImage3;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title "), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title "), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "mb-2 text-center fw-bold display-5 display-md-4"
-  }, "Islamic Gallery", -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Gallery", -1 /* CACHED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center text-muted mb-4",
     style: {
       "font-size": "18px"
     }
-  }, " Explore beautiful Islamic visuals including majestic mosques, intricate calligraphy, Quranic themes, serene landscapes, timeless architecture, vibrant traditions, cultural festivals, spiritual gatherings, historical sites, daily life, artistic expressions, and more. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, " Explore beautiful Islamic visuals including majestic mosques, intricate calligraphy, Quranic themes, serene landscapes, timeless architecture, vibrant traditions, cultural festivals, spiritual gatherings, historical sites, daily life, artistic expressions, and more. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold text-left pt-2 pb-2 container"
   }, "Search Images in Gallery:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -168932,14 +169014,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getFilterIcon(filter))
     }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_7);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image Grid "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, _toConsumableArray(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image Grid "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, _toConsumableArray(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-success mb-3",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
   }, "Loading...")], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "fw-semibold fs-4 text-muted"
-  }, "Images loading, please wait...", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedImages, function (image, index) {
+  }, "Images loading, please wait...", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.allImages, function (image, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: image.id || index,
       "class": "col-12 col-sm-4 col-md-4 col-lg-4 d-flex"
@@ -168971,7 +169053,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
         return $data.selectedImage = image;
       }, ["stop"])
-    }, null, 8 /* PROPS */, _hoisted_12)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(image.alt || 'Islamic Image'), 1 /* TEXT */), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_12)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(image.alt || 'Islamic Image'), 1 /* TEXT */), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "flex-grow-1"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "https://wa.me/?text=".concat(encodeURIComponent(image.src.original)),
@@ -168980,7 +169062,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "18px"
       }
-    }, _toConsumableArray(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-share-fill"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
@@ -168991,33 +169073,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "18px"
       }
-    }, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-download"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)('Download'), -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_16)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_10)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
-    disabled: $data.currentPage === 1,
-    onClick: _cache[3] || (_cache[3] = function ($event) {
-      return $options.goToPage($data.currentPage - 1);
-    })
-  }, " Previous ", 12 /* STYLE, PROPS */, _hoisted_18), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: page,
-      onClick: function onClick($event) {
-        return $options.goToPage(page);
-      },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", page === $data.currentPage ? '' : 'btn-outline-success']),
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(page === $data.currentPage ? 'background-color: #17a085; color: white;' : '')
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 15 /* TEXT, CLASS, STYLE, PROPS */, _hoisted_19);
-  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === $options.totalPages ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
-    disabled: $data.currentPage === $options.totalPages,
-    onClick: _cache[4] || (_cache[4] = function ($event) {
-      return $options.goToPage($data.currentPage + 1);
-    })
-  }, " Next ", 12 /* STYLE, PROPS */, _hoisted_20)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Infinite Scroll Sentinel / Status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [$data.isLoadingMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-success",
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading...")], -1 /* CACHED */)])))) : !$data.hasMore && $data.allImages.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, "No more results")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, null, 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-title",
@@ -169040,7 +169104,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "object-fit": "contain",
       "padding": "5px"
     }
-  }, null, 8 /* PROPS */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_$data$selectedImage3 = $data.selectedImage) === null || _$data$selectedImage3 === void 0 ? void 0 : _$data$selectedImage3.alt) || 'Islamic Image'), 1 /* TEXT */)]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_$data$selectedImage3 = $data.selectedImage) === null || _$data$selectedImage3 === void 0 ? void 0 : _$data$selectedImage3.alt) || 'Islamic Image'), 1 /* TEXT */)]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-footer"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",

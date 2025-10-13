@@ -45,7 +45,7 @@
     </div>
 
     <div class="row g-3" v-if="!loading">
-      <div v-for="(image, index) in paginatedImages" :key="image.id || index"
+      <div v-for="(image, index) in allImages" :key="image.id || index"
         class="col-12 col-sm-4 col-md-4 col-lg-4 d-flex">
         <div class="card d-flex flex-column shadow-sm p-2 w-100 h-100 animate__animated animate__fadeIn"
           style="border-radius: 10px; transition: all 0.5s; overflow: hidden;" @mouseover="hoverCard(index)"
@@ -77,24 +77,16 @@
       </div>
     </div>
 
-    <!-- Pagination -->
-    <div class="mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap">
-      <button class="btn"
-        :style="currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'"
-        :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">
-        Previous
-      </button>
-      <button v-for="page in totalPages" :key="page" @click="goToPage(page)" class="btn"
-        :style="page === currentPage ? 'background-color: #17a085; color: white;' : ''"
-        :class="page === currentPage ? '' : 'btn-outline-success'">
-        {{ page }}
-      </button>
-      <button class="btn"
-        :style="currentPage === totalPages ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'"
-        :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">
-        Next
-      </button>
+    <!-- Infinite Scroll Sentinel / Status -->
+    <div class="mt-4 d-flex justify-content-center">
+      <div v-if="isLoadingMore" class="text-center my-3">
+        <div class="spinner-border text-success" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <div v-else-if="!hasMore && allImages.length" class="text-muted">No more results</div>
     </div>
+    <div ref="loadMoreTrigger" style="height: 1px;"></div>
 
     <!-- Modal -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
@@ -129,8 +121,12 @@ export default {
       selectedImage: null,
       allImages: [],
       images: [],
-      currentPage: 1,
-      itemsPerPage: 9,
+      // Infinite scroll state
+      apiPage: 1,
+      perPage: 30,
+      hasMore: true,
+      isLoadingMore: false,
+      observer: null,
       activeFilter: 'Islamic',
       isModalOpen: false,
       loading: true,
@@ -141,18 +137,15 @@ export default {
       ],
     };
   },
-  computed: {
-    paginatedImages() {
-      const start = (this.currentPage - 1) * this.itemsPerPage;
-      const end = start + this.itemsPerPage;
-      return this.allImages.slice(start, end);
-    },
-    totalPages() {
-      return Math.ceil(this.allImages.length / this.itemsPerPage);
-    }
-  },
+  computed: {},
   mounted() {
     this.fetchGallery();
+  },
+  beforeUnmount() {
+    if (this.observer) {
+      try { this.observer.disconnect(); } catch (e) {}
+      this.observer = null;
+    }
   },
   methods: {
     async downloadImage(url, filename) {
@@ -177,23 +170,64 @@ export default {
     },
     async fetchGallery() {
       this.loading = true;
+      this.allImages = [];
+      this.apiPage = 1;
+      this.hasMore = true;
       try {
         const query = `Islamic ${this.searchTerm}`.trim();
-        const response = await fetch(
-          `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=30`,
-          {
-            headers: {
-              Authorization: this.apiKey,
-            },
-          }
-        );
+        const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=${this.perPage}&page=${this.apiPage}`;
+        const response = await fetch(url, {
+          headers: { Authorization: this.apiKey },
+        });
         const data = await response.json();
-        this.allImages = data.photos;
-        this.currentPage = 1;
+        this.allImages = data.photos || [];
+        this.hasMore = Boolean(data.next_page);
+        // Ensure observer is set up after first paint
+        this.$nextTick(() => {
+          if (!this.observer) this.setupObserver();
+        });
       } catch (error) {
         console.error('Error fetching images:', error);
       } finally {
         this.loading = false;
+      }
+    },
+    setupObserver() {
+      const target = this.$refs.loadMoreTrigger;
+      if (!target) return;
+      this.observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        if (entry && entry.isIntersecting) {
+          this.loadMore();
+        }
+      }, {
+        root: null,
+        rootMargin: '0px 0px 400px 0px',
+        threshold: 0,
+      });
+      this.observer.observe(target);
+    },
+    async loadMore() {
+      if (this.loading || this.isLoadingMore || !this.hasMore) return;
+      this.isLoadingMore = true;
+      try {
+        const query = `Islamic ${this.searchTerm}`.trim();
+        const nextPage = this.apiPage + 1;
+        const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=${this.perPage}&page=${nextPage}`;
+        const response = await fetch(url, {
+          headers: { Authorization: this.apiKey },
+        });
+        const data = await response.json();
+        const photos = data.photos || [];
+        if (photos.length) {
+          this.allImages = this.allImages.concat(photos);
+          this.apiPage = nextPage;
+        }
+        this.hasMore = Boolean(data.next_page);
+      } catch (error) {
+        console.error('Error loading more images:', error);
+      } finally {
+        this.isLoadingMore = false;
       }
     },
     applyFilter(keyword) {
@@ -208,12 +242,7 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
-    goToPage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    },
+    // Pagination removed in favor of infinite scroll
     hoverCard(index) {
       const card = document.querySelectorAll('.card')[index];
       if (card) {
