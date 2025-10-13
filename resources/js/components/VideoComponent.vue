@@ -38,13 +38,13 @@
     </div>
 
     <!-- Video Grid -->
-    <div class="row g-3" v-if="!loading && videos.length">
+    <div class="row g-3" v-if="videos.length">
       <div v-for="video in videos" :key="video.id" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
         <div class="card d-flex flex-column shadow-md p-1 w-100 h-100 card-video" style="border: 2px solid lightgray;">
           <div class="ratio ratio-16x9 video-container"
             style="height: 500px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
             @mouseenter="playOnHover($event)" @mouseleave="pauseOnLeave($event)">
-            <video :src="video.url" :poster="video.thumbnail" class="w-100 rounded-top video-hover" controls loop preload="none"
+            <video :src="video.loaded ? video.url : ''" :poster="video.thumbnail" class="w-100 rounded-top video-hover" controls loop preload="none"
               muted playsinline @loadedmetadata="updateMetadata($event, video)">
               Your browser does not support the video tag.
             </video>
@@ -60,31 +60,9 @@
           </div>
         </div>
       </div>
+      <!-- Sentinel for infinite scroll -->
+      <div ref="infiniteScrollSentinel" class="w-100" style="height: 1px;"></div>
     </div>
-
-    <!-- Pagination -->
-    <div v-if="videos.length" class="mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap">
-      <button class="btn"
-        :style="currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'"
-        :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">
-        Previous
-      </button>
-
-      <button v-for="page in visiblePages" :key="page" @click="goToPage(page)" class="btn"
-        :style="page === currentPage ? 'background-color: #17a085; color: white;' : ''"
-        :class="page === currentPage ? '' : 'btn-outline-success'">
-        {{ page }}
-      </button>
-
-      <button class="btn"
-        :style="currentPage === totalPages ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'"
-        :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">
-        Next
-      </button>
-    </div>
-
-
-
 
     <!-- Loading indicator -->
     <div v-if="loading" class="text-center py-3">
@@ -94,7 +72,7 @@
     </div>
 
     <!-- No videos fallback -->
-    <div v-else-if="!loading && videos.length === 0" class="text-center py-5 text-muted">
+    <div v-if="!loading && videos.length === 0" class="text-center py-5 text-muted">
       <p class="fs-5">No videos found. Try another keyword.</p>
     </div>
   </div>
@@ -108,80 +86,84 @@ export default {
       videos: [],
       query: 'mosque',
       loading: false,
+      hasMore: true,
+      page: 1,
       filters: [
         'Islamic', 'islamic animation', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab',
         'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture',
       ],
       activeFilter: null,
-      currentPage: 1,
       perPage: 9,
       totalResults: 0,
+      bottomObserver: null,
+      videoObserver: null,
+      // Smooth loading controls
+      maxConcurrentLoads: 3,
+      activeLoads: 0,
+      loadQueue: [],
     };
   },
-  computed: {
-    totalPages() {
-      return Math.ceil(this.totalResults / this.perPage);
-    },
-    visiblePages() {
-      const maxVisible = 5;
-      let start = Math.max(this.currentPage - Math.floor(maxVisible / 2), 1);
-      let end = start + maxVisible - 1;
-
-      if (end > this.totalPages) {
-        end = this.totalPages;
-        start = Math.max(end - maxVisible + 1, 1);
-      }
-
-      const pages = [];
-      for (let i = start; i <= end; i++) {
-        pages.push(i);
-      }
-
-      return pages;
-    }
-  },
+  computed: {},
   methods: {
-    goToPage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
-        this.searchVideos();
-      }
-    },
-
-    async searchVideos() {
+    async fetchVideos(append = false) {
+      if (this.loading || !this.hasMore) return;
       this.loading = true;
 
       const apiKey = 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f';
-      const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(this.query)}&per_page=${this.perPage}&page=${this.currentPage}`;
+      const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(this.query)}&per_page=${this.perPage}&page=${this.page}`;
 
       try {
-        const response = await fetch(url, {
-          headers: { Authorization: apiKey }
-        });
+        const response = await fetch(url, { headers: { Authorization: apiKey } });
         const data = await response.json();
 
-        this.totalResults = data.total_results || 0;
+        const total = data.total_results || 0;
+        this.totalResults = total;
 
-        this.videos = data.videos.map(video => {
-          const file = video.video_files.find(f => f.quality === 'hd') || video.video_files[0];
+        const newItems = (data.videos || []).map(video => {
+          // Prefer a smaller file (around 540p/360p) for smoother scrolling
+          const pick = this.pickBestFile(video.video_files);
           return {
             id: video.id,
-            url: file?.link,
+            url: pick?.link,
             thumbnail: video.image,
             description: video.user?.name || 'No description',
-            metadata: {
-              width: null,
-              height: null,
-              duration: null,
-              aspectRatio: null,
-            }
+            loaded: false,
+            metadata: { width: null, height: null, duration: null, aspectRatio: null }
           };
+        });
+
+        if (append) {
+          this.videos = this.videos.concat(newItems);
+        } else {
+          this.videos = newItems;
+        }
+
+        // Prefer API pagination hints over total_results for reliability
+        const hasNext = !!data.next_page;
+        this.hasMore = hasNext || newItems.length === this.perPage;
+
+        this.$nextTick(() => {
+          this.observeVisibleVideos();
+          this.setupBottomObserver();
         });
       } catch (err) {
         console.error('Error fetching videos:', err);
       } finally {
         this.loading = false;
       }
+    },
+
+    resetAndSearch() {
+      this.page = 1;
+      this.hasMore = true;
+      this.videos = [];
+      this.fetchVideos(false);
+    },
+
+    loadMore() {
+      if (this.loading || !this.hasMore) return;
+      this.page += 1;
+      this.fetchVideos(true);
     },
 
     playOnHover(event) {
@@ -209,12 +191,98 @@ export default {
     applyFilter(filter) {
       this.activeFilter = filter;
       this.query = filter;
-      this.searchVideos();
+      this.resetAndSearch();
     },
+
+    // IntersectionObserver for bottom sentinel
+    setupBottomObserver() {
+      if (this.bottomObserver) {
+        this.bottomObserver.disconnect();
+      }
+      const options = { root: null, rootMargin: '400px', threshold: 0 };
+      this.bottomObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            this.loadMore();
+          }
+        });
+      }, options);
+      if (this.$refs.infiniteScrollSentinel) {
+        this.bottomObserver.observe(this.$refs.infiniteScrollSentinel);
+      }
+    },
+
+    // Lazy-load videos: set src only when visible
+    observeVisibleVideos() {
+      if (this.videoObserver) this.videoObserver.disconnect();
+      const options = { root: null, rootMargin: '150px', threshold: 0.01 };
+      this.videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const el = entry.target;
+          const idx = this.findVideoIndexByEl(el);
+          if (!entry.isIntersecting) return;
+          if (idx !== -1 && !this.videos[idx].loaded) {
+            this.enqueueLoad(idx, el);
+          }
+          this.videoObserver.unobserve(el);
+        });
+      }, options);
+
+      const nodes = this.$el.querySelectorAll('video.video-hover');
+      nodes.forEach(node => this.videoObserver.observe(node));
+    },
+
+    findVideoIndexByEl(el) {
+      // Find the index by traversing to the card and reading key via order
+      const cards = Array.from(this.$el.querySelectorAll('.card-video'));
+      const card = el.closest('.card-video');
+      const idx = cards.indexOf(card);
+      return idx;
+    },
+
+    enqueueLoad(idx, el) {
+      this.loadQueue.push({ idx, el });
+      this.processQueue();
+    },
+
+    processQueue() {
+      while (this.activeLoads < this.maxConcurrentLoads && this.loadQueue.length) {
+        const { idx, el } = this.loadQueue.shift();
+        if (!this.videos[idx] || this.videos[idx].loaded) continue;
+        this.videos[idx].loaded = true;
+        this.activeLoads++;
+        const onDone = () => {
+          el.removeEventListener('loadeddata', onDone);
+          el.removeEventListener('error', onDone);
+          this.activeLoads = Math.max(0, this.activeLoads - 1);
+          // Drain more once a load completes
+          this.processQueue();
+        };
+        el.addEventListener('loadeddata', onDone, { once: true });
+        el.addEventListener('error', onDone, { once: true });
+      }
+    },
+
+    pickBestFile(files = []) {
+      // Choose an MP4 around 360-540p if available, else fallback to first
+      const mp4s = files.filter(f => (f.link || '').includes('.mp4'));
+      const byWidth = (a, b) => (a.width || 0) - (b.width || 0);
+      const sorted = (mp4s.length ? mp4s : files).slice().sort(byWidth);
+      // Find closest to 540 width, fallback to mid or first
+      const target = 540;
+      let best = sorted[0];
+      let minDiff = Infinity;
+      sorted.forEach(f => {
+        const diff = Math.abs((f.width || target) - target);
+        if (diff < minDiff) { minDiff = diff; best = f; }
+      });
+      return best || files[0] || null;
+    }
   },
 
   mounted() {
-    this.searchVideos(); // Load initial set
+    this.fetchVideos(false); // Load initial set
+    this.setupBottomObserver();
   }
 };
 </script>

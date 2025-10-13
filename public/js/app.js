@@ -160661,73 +160661,65 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       videos: [],
       query: 'mosque',
       loading: false,
+      hasMore: true,
+      page: 1,
       filters: ['Islamic', 'islamic animation', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab', 'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture'],
       activeFilter: null,
-      currentPage: 1,
       perPage: 9,
-      totalResults: 0
+      totalResults: 0,
+      bottomObserver: null,
+      videoObserver: null,
+      // Smooth loading controls
+      maxConcurrentLoads: 3,
+      activeLoads: 0,
+      loadQueue: []
     };
   },
-  computed: {
-    totalPages: function totalPages() {
-      return Math.ceil(this.totalResults / this.perPage);
-    },
-    visiblePages: function visiblePages() {
-      var maxVisible = 5;
-      var start = Math.max(this.currentPage - Math.floor(maxVisible / 2), 1);
-      var end = start + maxVisible - 1;
-      if (end > this.totalPages) {
-        end = this.totalPages;
-        start = Math.max(end - maxVisible + 1, 1);
-      }
-      var pages = [];
-      for (var i = start; i <= end; i++) {
-        pages.push(i);
-      }
-      return pages;
-    }
-  },
+  computed: {},
   methods: {
-    goToPage: function goToPage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
-        this.searchVideos();
-      }
-    },
-    searchVideos: function searchVideos() {
-      var _this = this;
+    fetchVideos: function fetchVideos() {
+      var _arguments = arguments,
+        _this = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var apiKey, url, response, data, _t;
+        var append, apiKey, url, response, data, total, newItems, hasNext, _t;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.p = _context.n) {
             case 0:
+              append = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : false;
+              if (!(_this.loading || !_this.hasMore)) {
+                _context.n = 1;
+                break;
+              }
+              return _context.a(2);
+            case 1:
               _this.loading = true;
               apiKey = 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f';
-              url = "https://api.pexels.com/videos/search?query=".concat(encodeURIComponent(_this.query), "&per_page=").concat(_this.perPage, "&page=").concat(_this.currentPage);
-              _context.p = 1;
-              _context.n = 2;
+              url = "https://api.pexels.com/videos/search?query=".concat(encodeURIComponent(_this.query), "&per_page=").concat(_this.perPage, "&page=").concat(_this.page);
+              _context.p = 2;
+              _context.n = 3;
               return fetch(url, {
                 headers: {
                   Authorization: apiKey
                 }
               });
-            case 2:
-              response = _context.v;
-              _context.n = 3;
-              return response.json();
             case 3:
+              response = _context.v;
+              _context.n = 4;
+              return response.json();
+            case 4:
               data = _context.v;
-              _this.totalResults = data.total_results || 0;
-              _this.videos = data.videos.map(function (video) {
+              total = data.total_results || 0;
+              _this.totalResults = total;
+              newItems = (data.videos || []).map(function (video) {
                 var _video$user;
-                var file = video.video_files.find(function (f) {
-                  return f.quality === 'hd';
-                }) || video.video_files[0];
+                // Prefer a smaller file (around 540p/360p) for smoother scrolling
+                var pick = _this.pickBestFile(video.video_files);
                 return {
                   id: video.id,
-                  url: file === null || file === void 0 ? void 0 : file.link,
+                  url: pick === null || pick === void 0 ? void 0 : pick.link,
                   thumbnail: video.image,
                   description: ((_video$user = video.user) === null || _video$user === void 0 ? void 0 : _video$user.name) || 'No description',
+                  loaded: false,
                   metadata: {
                     width: null,
                     height: null,
@@ -160736,21 +160728,45 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                   }
                 };
               });
-              _context.n = 5;
+              if (append) {
+                _this.videos = _this.videos.concat(newItems);
+              } else {
+                _this.videos = newItems;
+              }
+
+              // Prefer API pagination hints over total_results for reliability
+              hasNext = !!data.next_page;
+              _this.hasMore = hasNext || newItems.length === _this.perPage;
+              _this.$nextTick(function () {
+                _this.observeVisibleVideos();
+                _this.setupBottomObserver();
+              });
+              _context.n = 6;
               break;
-            case 4:
-              _context.p = 4;
-              _t = _context.v;
-              console.error('Error fetching videos:', _t);
             case 5:
               _context.p = 5;
-              _this.loading = false;
-              return _context.f(5);
+              _t = _context.v;
+              console.error('Error fetching videos:', _t);
             case 6:
+              _context.p = 6;
+              _this.loading = false;
+              return _context.f(6);
+            case 7:
               return _context.a(2);
           }
-        }, _callee, null, [[1, 4, 5, 6]]);
+        }, _callee, null, [[2, 5, 6, 7]]);
       }))();
+    },
+    resetAndSearch: function resetAndSearch() {
+      this.page = 1;
+      this.hasMore = true;
+      this.videos = [];
+      this.fetchVideos(false);
+    },
+    loadMore: function loadMore() {
+      if (this.loading || !this.hasMore) return;
+      this.page += 1;
+      this.fetchVideos(true);
     },
     playOnHover: function playOnHover(event) {
       var video = event.currentTarget.querySelector('video');
@@ -160776,11 +160792,123 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     applyFilter: function applyFilter(filter) {
       this.activeFilter = filter;
       this.query = filter;
-      this.searchVideos();
+      this.resetAndSearch();
+    },
+    // IntersectionObserver for bottom sentinel
+    setupBottomObserver: function setupBottomObserver() {
+      var _this2 = this;
+      if (this.bottomObserver) {
+        this.bottomObserver.disconnect();
+      }
+      var options = {
+        root: null,
+        rootMargin: '400px',
+        threshold: 0
+      };
+      this.bottomObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            _this2.loadMore();
+          }
+        });
+      }, options);
+      if (this.$refs.infiniteScrollSentinel) {
+        this.bottomObserver.observe(this.$refs.infiniteScrollSentinel);
+      }
+    },
+    // Lazy-load videos: set src only when visible
+    observeVisibleVideos: function observeVisibleVideos() {
+      var _this3 = this;
+      if (this.videoObserver) this.videoObserver.disconnect();
+      var options = {
+        root: null,
+        rootMargin: '150px',
+        threshold: 0.01
+      };
+      this.videoObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          var el = entry.target;
+          var idx = _this3.findVideoIndexByEl(el);
+          if (!entry.isIntersecting) return;
+          if (idx !== -1 && !_this3.videos[idx].loaded) {
+            _this3.enqueueLoad(idx, el);
+          }
+          _this3.videoObserver.unobserve(el);
+        });
+      }, options);
+      var nodes = this.$el.querySelectorAll('video.video-hover');
+      nodes.forEach(function (node) {
+        return _this3.videoObserver.observe(node);
+      });
+    },
+    findVideoIndexByEl: function findVideoIndexByEl(el) {
+      // Find the index by traversing to the card and reading key via order
+      var cards = Array.from(this.$el.querySelectorAll('.card-video'));
+      var card = el.closest('.card-video');
+      var idx = cards.indexOf(card);
+      return idx;
+    },
+    enqueueLoad: function enqueueLoad(idx, el) {
+      this.loadQueue.push({
+        idx: idx,
+        el: el
+      });
+      this.processQueue();
+    },
+    processQueue: function processQueue() {
+      var _this4 = this;
+      var _loop = function _loop() {
+        var _this4$loadQueue$shif = _this4.loadQueue.shift(),
+          idx = _this4$loadQueue$shif.idx,
+          el = _this4$loadQueue$shif.el;
+        if (!_this4.videos[idx] || _this4.videos[idx].loaded) return 1; // continue
+        _this4.videos[idx].loaded = true;
+        _this4.activeLoads++;
+        var _onDone = function onDone() {
+          el.removeEventListener('loadeddata', _onDone);
+          el.removeEventListener('error', _onDone);
+          _this4.activeLoads = Math.max(0, _this4.activeLoads - 1);
+          // Drain more once a load completes
+          _this4.processQueue();
+        };
+        el.addEventListener('loadeddata', _onDone, {
+          once: true
+        });
+        el.addEventListener('error', _onDone, {
+          once: true
+        });
+      };
+      while (this.activeLoads < this.maxConcurrentLoads && this.loadQueue.length) {
+        if (_loop()) continue;
+      }
+    },
+    pickBestFile: function pickBestFile() {
+      var files = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      // Choose an MP4 around 360-540p if available, else fallback to first
+      var mp4s = files.filter(function (f) {
+        return (f.link || '').includes('.mp4');
+      });
+      var byWidth = function byWidth(a, b) {
+        return (a.width || 0) - (b.width || 0);
+      };
+      var sorted = (mp4s.length ? mp4s : files).slice().sort(byWidth);
+      // Find closest to 540 width, fallback to mid or first
+      var target = 540;
+      var best = sorted[0];
+      var minDiff = Infinity;
+      sorted.forEach(function (f) {
+        var diff = Math.abs((f.width || target) - target);
+        if (diff < minDiff) {
+          minDiff = diff;
+          best = f;
+        }
+      });
+      return best || files[0] || null;
     }
   },
   mounted: function mounted() {
-    this.searchVideos(); // Load initial set
+    this.fetchVideos(false); // Load initial set
+    this.setupBottomObserver();
   }
 });
 
@@ -186166,39 +186294,43 @@ var _hoisted_12 = {
 var _hoisted_13 = ["href"];
 var _hoisted_14 = ["href", "download"];
 var _hoisted_15 = {
-  key: 1,
-  "class": "mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap"
+  ref: "infiniteScrollSentinel",
+  "class": "w-100",
+  style: {
+    "height": "1px"
+  }
 };
-var _hoisted_16 = ["disabled"];
-var _hoisted_17 = ["onClick"];
-var _hoisted_18 = ["disabled"];
-var _hoisted_19 = {
-  key: 2,
+var _hoisted_16 = {
+  key: 1,
   "class": "text-center py-3"
 };
+var _hoisted_17 = {
+  key: 2,
+  "class": "text-center py-5 text-muted"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "mb-2 text-center fw-bold display-5 display-md-4"
-  }, "Islamic Animated Videos", -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Animated Videos", -1 /* CACHED */)), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center text-muted mb-4",
     style: {
       "font-size": "18px"
     }
-  }, " Discover a captivating collection of Islamic animated videos, bringing to life the beauty and spirituality of Islamic culture. From the grandeur of mosques and intricate calligraphy to the serenity of nature and historical landmarks. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, " Discover a captivating collection of Islamic animated videos, bringing to life the beauty and spirituality of Islamic culture. From the grandeur of mosques and intricate calligraphy to the serenity of nature and historical landmarks. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold text-left pt-2 pb-2 container"
   }, "Search Animated Videos:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.query = $event;
     }),
     onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
-      return $options.searchVideos && $options.searchVideos.apply($options, arguments);
+      return _ctx.searchVideos && _ctx.searchVideos.apply(_ctx, arguments);
     }, ["enter"])),
     type: "text",
     "class": "form-control",
     placeholder: "Search for Islamic videos..."
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.query]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function () {
-      return $options.searchVideos && $options.searchVideos.apply($options, arguments);
+      return _ctx.searchVideos && _ctx.searchVideos.apply(_ctx, arguments);
     }),
     "class": "btn",
     type: "button",
@@ -186217,7 +186349,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.applyFilter(filter);
       }
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter), 11 /* TEXT, CLASS, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), !$data.loading && $data.videos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.videos, function (video) {
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), $data.videos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.videos, function (video) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.id,
       "class": "col-12 col-sm-6 col-md-4 col-lg-4 mb-4"
@@ -186236,7 +186368,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.pauseOnLeave($event);
       })
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
-      src: video.url,
+      src: video.loaded ? video.url : '',
       poster: video.thumbnail,
       "class": "w-100 rounded-top video-hover",
       controls: "",
@@ -186254,7 +186386,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "18px"
       }
-    }, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-share-fill"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: video.url,
@@ -186264,44 +186396,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "font-size": "18px"
       },
       target: "_blank"
-    }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-download"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Download ", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_14)])])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $data.videos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
-    disabled: $data.currentPage === 1,
-    onClick: _cache[5] || (_cache[5] = function ($event) {
-      return $options.goToPage($data.currentPage - 1);
-    })
-  }, " Previous ", 12 /* STYLE, PROPS */, _hoisted_16), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.visiblePages, function (page) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: page,
-      onClick: function onClick($event) {
-        return $options.goToPage(page);
-      },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", page === $data.currentPage ? '' : 'btn-outline-success']),
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(page === $data.currentPage ? 'background-color: #17a085; color: white;' : '')
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 15 /* TEXT, CLASS, STYLE, PROPS */, _hoisted_17);
-  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === $options.totalPages ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
-    disabled: $data.currentPage === $options.totalPages,
-    onClick: _cache[6] || (_cache[6] = function ($event) {
-      return $options.goToPage($data.currentPage + 1);
-    })
-  }, " Next ", 12 /* STYLE, PROPS */, _hoisted_18)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading indicator "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sentinel for infinite scroll "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, null, 512 /* NEED_PATCH */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading indicator "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-primary",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
-  }, "Loading...")], -1 /* CACHED */)])))) : !$data.loading && $data.videos.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 3
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No videos fallback "), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-center py-5 text-muted"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Loading...")], -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No videos fallback "), !$data.loading && $data.videos.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "fs-5"
-  }, "No videos found. Try another keyword.")], -1 /* CACHED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, "No videos found. Try another keyword.", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
