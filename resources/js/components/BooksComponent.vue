@@ -250,26 +250,16 @@
             </div>
           </div>
 
-          <!-- Pagination -->
-          <nav v-if="showPagination" class="mt-5" aria-label="Page navigation">
-            <ul class="pagination justify-content-center flex-wrap gap-2">
-              <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                <button class="page-link rounded-pill mx-1 px-4 py-2" @click="goToPage(currentPage - 1)"
-                  aria-label="Previous">
-                  <span aria-hidden="true">«</span>
-                </button>
-              </li>
-              <li class="page-item disabled">
-                <span class="page-link rounded-pill mx-1 px-4 py-2">Page {{ currentPage }} of {{ totalPages }}</span>
-              </li>
-              <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                <button class="page-link rounded-pill mx-1 px-4 py-2" @click="goToPage(currentPage + 1)"
-                  aria-label="Next">
-                  <span aria-hidden="true">»</span>
-                </button>
-              </li>
-            </ul>
-          </nav>
+          <!-- Infinite Scroll Sentinel and Indicators -->
+          <div class="d-flex justify-content-center my-3" v-if="isLoading">
+            <div class="spinner-border text-success" role="status" aria-live="polite" aria-label="Loading more">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div class="text-center text-muted my-3" v-if="!isLoading && !hasMore && totalTerms > 0" aria-live="polite">
+            No more results
+          </div>
+          <div ref="infiniteScrollSentinel" aria-hidden="true" style="height: 1px;"></div>
 
           <!-- Back to Top Button -->
           <!-- <button v-if="displayedTerms.length > 0" class="btn btn-lg rounded-circle position-fixed shadow-lg"
@@ -307,6 +297,10 @@ export default {
       suggestions: [],
       favorites: [],
       currentPage: 1,
+      itemsPerLoad: 12,
+      loadedCount: 0,
+      isLoading: false,
+      observer: null,
       termFontSizes: {},
       baseFontSize: 1,
       minFontSize: 0.8,
@@ -388,16 +382,14 @@ export default {
         }
         return false;
       });
-      return terms.slice((this.currentPage - 1) * 12, this.currentPage * 12);
+      // Infinite scroll: return up to loadedCount terms
+      return terms.slice(0, this.loadedCount || this.itemsPerLoad);
     },
     totalTerms() {
       return this.filteredTerms.length;
     },
-    showPagination() {
-      return this.totalTerms > 12; // Adjusted to match items per page
-    },
-    totalPages() {
-      return Math.max(1, Math.ceil(this.totalTerms / 12)); // Ensure at least 1 page
+    hasMore() {
+      return this.loadedCount < this.totalTerms;
     },
     subjects() {
       const validSubjects = this.terms
@@ -411,15 +403,18 @@ export default {
       handler: debounce(function (val) {
         this.showSuggestions = !!val && val.length >= 2 && this.filteredSuggestions.length > 0;
         this.highlightedIndex = -1;
-        this.currentPage = 1; // Reset to first page on search
+        this.currentPage = 1;
+        this.resetInfiniteScroll();
       }, 250),
       immediate: false
     },
     selectedSubject() {
-      this.currentPage = 1; // Reset to first page on subject change
+      this.currentPage = 1;
+      this.resetInfiniteScroll();
     },
     sortBy() {
-      this.currentPage = 1; // Reset to first page on sort change
+      this.currentPage = 1;
+      this.resetInfiniteScroll();
     }
   },
   mounted() {
@@ -437,6 +432,11 @@ export default {
       console.warn('No valid subjects found for quickFilters');
       this.quickFilters = [];
     }
+    // Initialize infinite scroll
+    this.loadedCount = this.itemsPerLoad;
+    this.$nextTick(() => {
+      this.setupInfiniteScroll();
+    });
   },
   methods: {
     loadSuggestions() {
@@ -498,6 +498,7 @@ export default {
     },
     performSearch() {
       this.currentPage = 1;
+      this.resetInfiniteScroll();
       this.loadSuggestions();
     },
     debounce(func, delay) {
@@ -516,6 +517,7 @@ export default {
       this.showSuggestions = false;
       this.highlightedIndex = -1;
       this.currentPage = 1;
+      this.resetInfiniteScroll();
       this.performSearch();
     },
     toggleAdvancedSearch() {
@@ -531,6 +533,40 @@ export default {
       this.highlightedIndex = -1;
       this.currentPage = 1;
       this.performSearch();
+    },
+    setupInfiniteScroll() {
+      const sentinel = this.$refs.infiniteScrollSentinel;
+      if (!sentinel || typeof IntersectionObserver === 'undefined') return;
+      if (this.observer) {
+        this.observer.disconnect();
+      }
+      this.observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        if (entry && entry.isIntersecting && this.hasMore && !this.isLoading) {
+          this.isLoading = true;
+          // Simulate async fetch; in real case, fetch next page here
+          setTimeout(() => {
+            const remaining = this.totalTerms - this.loadedCount;
+            const toAdd = Math.min(this.itemsPerLoad, remaining);
+            this.loadedCount += toAdd;
+            this.isLoading = false;
+          }, 150);
+        }
+      }, { root: null, rootMargin: '0px 0px 200px 0px', threshold: 0 });
+      this.observer.observe(sentinel);
+    },
+    teardownInfiniteScroll() {
+      if (this.observer) {
+        this.observer.disconnect();
+        this.observer = null;
+      }
+    },
+    resetInfiniteScroll() {
+      this.loadedCount = Math.min(this.itemsPerLoad, this.totalTerms || this.itemsPerLoad);
+      this.isLoading = false;
+      this.$nextTick(() => {
+        this.setupInfiniteScroll();
+      });
     },
     getMatchType(term) {
       if (term.matchType === 'exact') return 'Exact match';
@@ -710,7 +746,10 @@ export default {
     }
   },
   beforeDestroy() {
-    this.debouncedSearch.cancel();
+    if (this.debouncedSearch && typeof this.debouncedSearch.cancel === 'function') {
+      this.debouncedSearch.cancel();
+    }
+    this.teardownInfiniteScroll();
     this.stopVoiceSearch();
   },
 };

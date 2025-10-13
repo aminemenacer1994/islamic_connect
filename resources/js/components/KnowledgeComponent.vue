@@ -75,7 +75,7 @@
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover a comprehensive collection
               of clear and reliable Islamic guides designed to support every stage of your spiritual journey.</p>
-            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/guides')" type="button"
+            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/guide')" type="button"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
               <span class="text-center w-100"><b>Read Guides</b></span>
             </button>

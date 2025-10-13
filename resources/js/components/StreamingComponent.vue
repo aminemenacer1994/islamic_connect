@@ -181,7 +181,7 @@
     <!-- All Channels Section -->
     <h1 class="fw-bold mb-4 d-flex align-items-center">All Channels:</h1>
     <section class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-2" aria-label="Channel grid">
-      <article class="col" v-for="(channel, index) in paginatedChannels" :key="index">
+      <article class="col" v-for="(channel, index) in visibleChannels" :key="index">
         <div class="channel-card shadow-lg"
           style="border:3px solid #00bfa6; border-radius: 15px; padding: 5px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
 
@@ -274,40 +274,13 @@
       </article>
     </section>
 
-    <!-- Pagination (unchanged) -->
-    <nav aria-label="Channels pagination" class="d-flex justify-content-center mb-4">
-      <ul class="pagination pagination-lg">
-        <li class="page-item" :class="{ disabled: currentPage === 1 }">
-          <button class="page-link" @click="currentPage--" :disabled="currentPage === 1" aria-label="Previous page">
-            Previous
-          </button>
-        </li>
-        <li v-if="showFirstPage" class="page-item" :class="{ active: currentPage === 1 }">
-          <button class="page-link" @click="currentPage = 1"
-            :aria-current="currentPage === 1 ? 'page' : null">1</button>
-        </li>
-        <li v-if="showLeftEllipsis" class="page-item disabled">
-          <span class="page-link">...</span>
-        </li>
-        <li class="page-item" v-for="page in displayedPages" :key="page" :class="{ active: currentPage === page }">
-          <button class="page-link" @click="currentPage = page" :aria-current="currentPage === page ? 'page' : null">{{
-            page }}</button>
-        </li>
-        <li v-if="showRightEllipsis" class="page-item disabled">
-          <span class="page-link">...</span>
-        </li>
-        <li v-if="showLastPage" class="page-item" :class="{ active: currentPage === totalPages }">
-          <button class="page-link" @click="currentPage = totalPages"
-            :aria-current="currentPage === totalPages ? 'page' : null">{{ totalPages }}</button>
-        </li>
-        <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-          <button class="page-link" @click="currentPage++" :disabled="currentPage === totalPages"
-            aria-label="Next page">
-            Next
-          </button>
-        </li>
-      </ul>
-    </nav>
+    <!-- Infinite Scroll Sentinel -->
+    <div ref="infiniteScrollSentinel" class="w-100" style="height: 1px;"></div>
+    <div v-if="isFetchingMore" class="text-center py-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -339,8 +312,11 @@ export default {
       initialY: 0,
       currentX: 0,
       currentY: 0,
-      currentPage: 1,
-      itemsPerPage: 9,
+      // Infinite scroll state
+      visibleCount: 12,
+      increaseBy: 8,
+      isFetchingMore: false,
+      bottomObserver: null,
       debounceTimer: null,
       favorites: [],
       showFavorites: true,
@@ -389,13 +365,11 @@ export default {
 
       return filtered;
     },
-    paginatedChannels() {
-      const start = (this.currentPage - 1) * this.itemsPerPage;
-      const end = start + this.itemsPerPage;
-      return this.filteredChannels.slice(start, end);
+    visibleChannels() {
+      return this.filteredChannels.slice(0, this.visibleCount);
     },
-    totalPages() {
-      return Math.ceil(this.filteredChannels.length / this.itemsPerPage);
+    hasMore() {
+      return this.visibleCount < this.filteredChannels.length;
     },
     categories() {
       return [...new Set(this.channels.map(channel => channel.category))].sort();
@@ -406,29 +380,7 @@ export default {
     tags() {
       return [...new Set(this.channels.flatMap(channel => channel.tags))].sort();
     },
-    displayedPages() {
-      const maxPagesToShow = 5; // Show current page ±2
-      const pages = [];
-      const startPage = Math.max(2, this.currentPage - 2);
-      const endPage = Math.min(this.totalPages - 1, this.currentPage + 2);
-
-      for (let page = startPage; page <= endPage; page++) {
-        pages.push(page);
-      }
-      return pages;
-    },
-    showFirstPage() {
-      return this.currentPage > 3 && this.totalPages > 5;
-    },
-    showLastPage() {
-      return this.currentPage < this.totalPages - 2 && this.totalPages > 5;
-    },
-    showLeftEllipsis() {
-      return this.currentPage > 3 && this.totalPages > 5;
-    },
-    showRightEllipsis() {
-      return this.currentPage < this.totalPages - 2 && this.totalPages > 5;
-    }
+    // Removed page list computeds in favor of infinite scroll
   },
   watch: {
     alertMessage(newVal) {
@@ -438,11 +390,10 @@ export default {
         }, 3000);
       }
     },
-    currentPage() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    },
     filteredChannels() {
-      this.currentPage = 1;
+      // Reset infinite scroll window on filter/search change
+      this.visibleCount = 12;
+      this.$nextTick(() => this.setupBottomObserver());
     }
   },
   mounted() {
@@ -471,6 +422,7 @@ export default {
     });
 
     document.addEventListener('keydown', this.handleKeyboard);
+    this.setupBottomObserver();
   },
   beforeUnmount() {
     if (this.hlsInstance) {
@@ -478,8 +430,27 @@ export default {
       this.hlsInstance = null;
     }
     document.removeEventListener('keydown', this.handleKeyboard);
+    try { this.bottomObserver && this.bottomObserver.disconnect && this.bottomObserver.disconnect(); } catch (e) {}
   },
   methods: {
+    setupBottomObserver() {
+      if (this.bottomObserver) this.bottomObserver.disconnect();
+      const options = { root: null, rootMargin: '400px', threshold: 0 };
+      this.bottomObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          if (!this.hasMore || this.isFetchingMore) return;
+          this.isFetchingMore = true;
+          requestAnimationFrame(() => {
+            this.visibleCount = Math.min(this.visibleCount + this.increaseBy, this.filteredChannels.length);
+            this.isFetchingMore = false;
+          });
+        });
+      }, options);
+      if (this.$refs.infiniteScrollSentinel) {
+        this.bottomObserver.observe(this.$refs.infiniteScrollSentinel);
+      }
+    },
     // New WhatsApp Share Methods
     getWhatsAppShareUrl(channel) {
       const channelName = encodeURIComponent(channel.name);
