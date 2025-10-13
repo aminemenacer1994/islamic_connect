@@ -1,6 +1,10 @@
 <template>
   <div class="modal fade" id="translationNote" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true"
     ref="modal">
+    <!-- Milestone Alert for Notes -->
+    <div v-if="milestoneMessage" class="alert alert-success" role="alert" style="position: fixed; top: 10px; right: 10px; z-index: 1100;">
+      {{ milestoneMessage }}
+    </div>
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -104,6 +108,7 @@ import 'tinymce/icons/default/icons';
 import 'tinymce/plugins/lists';
 import { Modal } from 'bootstrap';
 import { checkSubscriptionStatus, redirectToSubscription } from '../../../../../../utils/subscriptionUtils.js';
+import { trackAndDetect } from '../../../../utils/milestones';
 
 
 export default {
@@ -117,6 +122,7 @@ export default {
       isListening: false,
       recognition: null,
       isPaused: false,
+      milestoneMessage: '',
       form: {
         ayah_notes: "",
         surah_name: ""
@@ -208,6 +214,16 @@ export default {
                 timer: 1500,
                 showConfirmButton: false
               }).then(() => {
+                // Milestone tracking: notes created
+                const hit = trackAndDetect('notes_saved', [1,5,10,25,100], 'persistent');
+                if (hit && hit.threshold) {
+                  if (hit.threshold === 1) {
+                    this.milestoneMessage = "First note saved — reflections deepen understanding.";
+                  } else {
+                    this.milestoneMessage = `Beautiful progress — ${hit.threshold} notes captured. Keep reflecting.`;
+                  }
+                  this.hideMilestoneAfterDelay();
+                }
                 this.resetNoteForm();
                 this.closeModal();
               });
@@ -220,6 +236,11 @@ export default {
             });
         }
       });
+    },
+    hideMilestoneAfterDelay() {
+      setTimeout(() => {
+        this.milestoneMessage = '';
+      }, 3500);
     },
     resetNoteForm() {
       this.form.ayah_notes = '';

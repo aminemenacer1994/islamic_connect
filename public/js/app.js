@@ -150313,6 +150313,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     ScreenReader: _accesibility_ScreenReader_vue__WEBPACK_IMPORTED_MODULE_38__["default"]
   },
   mounted: function mounted() {
+    var _this = this;
     var savedState = localStorage.getItem("toggleState");
     if (savedState !== null) {
       this.isVisible = JSON.parse(savedState);
@@ -150320,6 +150321,56 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.fetchAyat();
     this.getSurat(); // Call getSurat to populate the surah list
     this.prepareAyahText();
+
+    // Restore reader font size
+    try {
+      var savedFont = localStorage.getItem('quran:fontSize');
+      if (savedFont) this.fontSize = parseFloat(savedFont);
+    } catch (_unused) {}
+
+    // Engagement listeners and heartbeat
+    this._onVisibility = function () {
+      return _this._engaged = _this.isEngaged();
+    };
+    document.addEventListener('visibilitychange', this._onVisibility);
+    window.addEventListener('focus', this._onVisibility);
+    window.addEventListener('blur', this._onVisibility);
+    this.startHeartbeat();
+
+    // Keyboard navigation
+    this._onKey = function (e) {
+      if (!_this.information) return;
+      var tag = e.target && e.target.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        _this.goToNextAyah && _this.goToNextAyah();
+      }
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        _this.goToPreviousAyah && _this.goToPreviousAyah();
+      }
+      if (e.key === 'Home') {
+        e.preventDefault();
+        _this.goToFirstAyah && _this.goToFirstAyah();
+      }
+      if (e.key === 'End') {
+        e.preventDefault();
+        _this.goToLastAyah && _this.goToLastAyah();
+      }
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        _this.toggleAudioPlayback && _this.toggleAudioPlayback();
+      }
+    };
+    window.addEventListener('keydown', this._onKey);
+  },
+  beforeUnmount: function beforeUnmount() {
+    document.removeEventListener('visibilitychange', this._onVisibility);
+    window.removeEventListener('focus', this._onVisibility);
+    window.removeEventListener('blur', this._onVisibility);
+    this.stopHeartbeat();
+    window.removeEventListener('keydown', this._onKey);
   },
   data: function data() {
     var _ref;
@@ -150328,6 +150379,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       isLoading: false,
       iconStyle: {},
       successMessage: "",
+      // Reader font size (rem)
+      fontSize: 1.0,
+      // engagement heartbeat
+      hb: null,
+      _engaged: false,
+      // local progress key
+      lastStateKey: 'quran:last',
       // Theme options used in applyStyle()
       bgColor: "",
       textColor: "",
@@ -150391,9 +150449,164 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       // Check if ayah_text and translation have nested structure
       var translation = _typeof(this.information.translation) === "object" ? this.information.translation.text : this.information.translation;
       return "Translation: ".concat(translation);
+    },
+    hasSavedProgress: function hasSavedProgress() {
+      try {
+        var raw = localStorage.getItem('quran:last');
+        return !!raw;
+      } catch (_unused2) {
+        return false;
+      }
     }
   },
   methods: (_methods = {
+    // Utility: debounce to smooth rapid inputs
+    debounce: function debounce(fn) {
+      var _this2 = this;
+      var ms = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 250;
+      var t;
+      return function () {
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+        clearTimeout(t);
+        t = setTimeout(function () {
+          return fn.apply(_this2, args);
+        }, ms);
+      };
+    },
+    // AdvancedSearch input handler (prevents missing method errors)
+    handleInputChange: function handleInputChange(term) {
+      this.searchQuery = typeof term === 'string' ? term : '';
+    },
+    // Reader font size control
+    setFont: function setFont(delta) {
+      var next = Math.min(1.8, Math.max(0.8, this.fontSize + delta));
+      this.fontSize = next;
+      try {
+        localStorage.setItem('quran:fontSize', String(next));
+      } catch (_unused3) {}
+    },
+    // ---- Resume / Progress helpers ----
+    saveProgress: function saveProgress(surahId, ayahId) {
+      var t = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+      try {
+        var payload = {
+          surahId: surahId,
+          ayahId: ayahId,
+          t: t,
+          at: Date.now()
+        };
+        localStorage.setItem(this.lastStateKey, JSON.stringify(payload));
+      } catch (e) {
+        console.warn('Could not save progress', e);
+      }
+    },
+    loadProgress: function loadProgress() {
+      try {
+        var raw = localStorage.getItem(this.lastStateKey);
+        return raw ? JSON.parse(raw) : null;
+      } catch (_unused4) {
+        return null;
+      }
+    },
+    resumeFromSave: function resumeFromSave() {
+      var _this3 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        var p, _t;
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.p = _context.n) {
+            case 0:
+              p = _this3.loadProgress();
+              if (p) {
+                _context.n = 1;
+                break;
+              }
+              return _context.a(2);
+            case 1:
+              _context.p = 1;
+              if (!(p.surahId && p.surahId !== _this3.selectedSurahId)) {
+                _context.n = 2;
+                break;
+              }
+              _this3.selectedSurahId = p.surahId;
+              _context.n = 2;
+              return _this3.getAyat();
+            case 2:
+              _context.n = 3;
+              return _this3.selectAyahById(p.ayahId);
+            case 3:
+              _context.n = 5;
+              break;
+            case 4:
+              _context.p = 4;
+              _t = _context.v;
+              console.warn('Resume failed', _t);
+            case 5:
+              return _context.a(2);
+          }
+        }, _callee, null, [[1, 4]]);
+      }))();
+    },
+    selectAyahById: function selectAyahById(ayahId) {
+      var _this4 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+        var idx;
+        return _regenerator().w(function (_context2) {
+          while (1) switch (_context2.n) {
+            case 0:
+              if (!(!Array.isArray(_this4.ayat) || !_this4.ayat.length)) {
+                _context2.n = 1;
+                break;
+              }
+              return _context2.a(2);
+            case 1:
+              idx = _this4.ayat.findIndex(function (a) {
+                return a && a.id === ayahId;
+              });
+              if (!(idx >= 0)) {
+                _context2.n = 2;
+                break;
+              }
+              _this4.selectedAyahId = idx;
+              _context2.n = 2;
+              return _this4.handleAyahChange();
+            case 2:
+              return _context2.a(2);
+          }
+        }, _callee2);
+      }))();
+    },
+    // ---- Engagement heartbeat ----
+    isEngaged: function isEngaged() {
+      return document.visibilityState === 'visible' && (document.hasFocus() || !!this.isPlaying);
+    },
+    startHeartbeat: function startHeartbeat() {
+      var _this5 = this;
+      if (this.hb) return;
+      this.hb = setInterval(function () {
+        if (!_this5.isEngaged()) return;
+        _this5.sendHeartbeat({
+          route: 'quran',
+          mode: _this5.isPlaying ? 'audio' : 'reading',
+          surahId: _this5.selectedSurahId,
+          ayahId: _this5.information && (_this5.information.id || _this5.information.ayah_id) || null,
+          ts: Date.now()
+        });
+      }, 15000);
+    },
+    stopHeartbeat: function stopHeartbeat() {
+      if (this.hb) {
+        clearInterval(this.hb);
+        this.hb = null;
+      }
+    },
+    sendHeartbeat: function sendHeartbeat(payload) {
+      // Placeholder: replace with POST /analytics/heartbeat if backend exists
+      try {
+        console.debug('heartbeat', payload);
+      } catch (_unused5) {}
+    },
     handleDarkModeChange: function handleDarkModeChange(isDarkMode) {
       this.isDarkMode = isDarkMode;
     },
@@ -150411,63 +150624,63 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     },
     // Fetch all Surahs
     fetchSurahs: function fetchSurahs() {
-      var _this = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var response, data, _t;
-        return _regenerator().w(function (_context) {
-          while (1) switch (_context.p = _context.n) {
+      var _this6 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+        var response, data, _t2;
+        return _regenerator().w(function (_context3) {
+          while (1) switch (_context3.p = _context3.n) {
             case 0:
-              _context.p = 0;
-              _context.n = 1;
+              _context3.p = 0;
+              _context3.n = 1;
               return fetch("https://api.alquran.cloud/v1/surah");
             case 1:
-              response = _context.v;
+              response = _context3.v;
               if (response.ok) {
-                _context.n = 2;
+                _context3.n = 2;
                 break;
               }
               throw new Error("Failed to fetch Surahs");
             case 2:
-              _context.n = 3;
+              _context3.n = 3;
               return response.json();
             case 3:
-              data = _context.v;
-              _this.surahs = data.data;
-              _context.n = 5;
+              data = _context3.v;
+              _this6.surahs = data.data;
+              _context3.n = 5;
               break;
             case 4:
-              _context.p = 4;
-              _t = _context.v;
-              console.error("Error fetching Surahs:", _t);
+              _context3.p = 4;
+              _t2 = _context3.v;
+              console.error("Error fetching Surahs:", _t2);
             case 5:
-              return _context.a(2);
+              return _context3.a(2);
           }
-        }, _callee, null, [[0, 4]]);
+        }, _callee3, null, [[0, 4]]);
       }))();
     },
     fetchReciters: function fetchReciters() {
-      var _this2 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-        var response, data, _t2;
-        return _regenerator().w(function (_context2) {
-          while (1) switch (_context2.p = _context2.n) {
+      var _this7 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+        var response, data, _t3;
+        return _regenerator().w(function (_context4) {
+          while (1) switch (_context4.p = _context4.n) {
             case 0:
-              _context2.p = 0;
-              _context2.n = 1;
+              _context4.p = 0;
+              _context4.n = 1;
               return fetch("https://api.alquran.cloud/v1/edition/format/audio");
             case 1:
-              response = _context2.v;
+              response = _context4.v;
               if (response.ok) {
-                _context2.n = 2;
+                _context4.n = 2;
                 break;
               }
               throw new Error("Failed to fetch Reciters");
             case 2:
-              _context2.n = 3;
+              _context4.n = 3;
               return response.json();
             case 3:
-              data = _context2.v;
-              _this2.reciters = data.data.filter(function (reciter) {
+              data = _context4.v;
+              _this7.reciters = data.data.filter(function (reciter) {
                 return reciter.identifier && reciter.englishName;
               }).map(function (reciter) {
                 return {
@@ -150475,86 +150688,86 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
                   englishName: reciter.englishName || "Unknown Reciter"
                 };
               });
-              _context2.n = 5;
+              _context4.n = 5;
               break;
             case 4:
-              _context2.p = 4;
-              _t2 = _context2.v;
-              console.error("Error fetching Reciters:", _t2);
+              _context4.p = 4;
+              _t3 = _context4.v;
+              console.error("Error fetching Reciters:", _t3);
             case 5:
-              return _context2.a(2);
+              return _context4.a(2);
           }
-        }, _callee2, null, [[0, 4]]);
+        }, _callee4, null, [[0, 4]]);
       }))();
     },
     // Fetch all Translations
     fetchTranslations: function fetchTranslations() {
-      var _this3 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-        var response, data, _t3;
-        return _regenerator().w(function (_context3) {
-          while (1) switch (_context3.p = _context3.n) {
+      var _this8 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+        var response, data, _t4;
+        return _regenerator().w(function (_context5) {
+          while (1) switch (_context5.p = _context5.n) {
             case 0:
-              _context3.p = 0;
-              _context3.n = 1;
+              _context5.p = 0;
+              _context5.n = 1;
               return fetch("https://api.alquran.cloud/v1/edition/type/translation");
             case 1:
-              response = _context3.v;
+              response = _context5.v;
               if (response.ok) {
-                _context3.n = 2;
+                _context5.n = 2;
                 break;
               }
               throw new Error("Failed to fetch Translations");
             case 2:
-              _context3.n = 3;
+              _context5.n = 3;
               return response.json();
             case 3:
-              data = _context3.v;
-              _this3.translations = data.data;
-              _context3.n = 5;
+              data = _context5.v;
+              _this8.translations = data.data;
+              _context5.n = 5;
               break;
             case 4:
-              _context3.p = 4;
-              _t3 = _context3.v;
-              console.error("Error fetching Translations:", _t3);
+              _context5.p = 4;
+              _t4 = _context5.v;
+              console.error("Error fetching Translations:", _t4);
             case 5:
-              return _context3.a(2);
+              return _context5.a(2);
           }
-        }, _callee3, null, [[0, 4]]);
+        }, _callee5, null, [[0, 4]]);
       }))();
     },
     fetchSurahDetails: function fetchSurahDetails() {
-      var _this4 = this;
-      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
-        var response, data, arabicText, translation, _t4;
-        return _regenerator().w(function (_context4) {
-          while (1) switch (_context4.p = _context4.n) {
+      var _this9 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+        var response, data, arabicText, translation, _t5;
+        return _regenerator().w(function (_context6) {
+          while (1) switch (_context6.p = _context6.n) {
             case 0:
-              if (_this4.selectedSurah) {
-                _context4.n = 1;
+              if (_this9.selectedSurah) {
+                _context6.n = 1;
                 break;
               }
-              return _context4.a(2);
+              return _context6.a(2);
             case 1:
-              _context4.p = 1;
-              _context4.n = 2;
-              return fetch("https://api.alquran.cloud/v1/surah/".concat(_this4.selectedSurah, "/editions/").concat(_this4.selectedReciter, ",").concat(_this4.selectedTranslation));
+              _context6.p = 1;
+              _context6.n = 2;
+              return fetch("https://api.alquran.cloud/v1/surah/".concat(_this9.selectedSurah, "/editions/").concat(_this9.selectedReciter, ",").concat(_this9.selectedTranslation));
             case 2:
-              response = _context4.v;
+              response = _context6.v;
               if (response.ok) {
-                _context4.n = 3;
+                _context6.n = 3;
                 break;
               }
               throw new Error("Failed to fetch Surah details");
             case 3:
-              _context4.n = 4;
+              _context6.n = 4;
               return response.json();
             case 4:
-              data = _context4.v;
+              data = _context6.v;
               arabicText = data.data[0];
               translation = data.data[1];
-              _this4.surahDetails = {
-                surahNumber: _this4.selectedSurah,
+              _this9.surahDetails = {
+                surahNumber: _this9.selectedSurah,
                 englishName: arabicText.englishName,
                 name: arabicText.name,
                 ayahs: arabicText.ayahs.map(function (ayah, index) {
@@ -150567,16 +150780,16 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
                   };
                 })
               };
-              _context4.n = 6;
+              _context6.n = 6;
               break;
             case 5:
-              _context4.p = 5;
-              _t4 = _context4.v;
-              console.error("Error fetching Surah details:", _t4);
+              _context6.p = 5;
+              _t5 = _context6.v;
+              console.error("Error fetching Surah details:", _t5);
             case 6:
-              return _context4.a(2);
+              return _context6.a(2);
           }
-        }, _callee4, null, [[1, 5]]);
+        }, _callee6, null, [[1, 5]]);
       }))();
     },
     setSelectedSurah: function setSelectedSurah(value) {
@@ -150596,29 +150809,29 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }
     },
     clearHighlight: function clearHighlight() {
-      var _this5 = this;
+      var _this0 = this;
       this.$nextTick(function () {
-        if (_this5.currentAyah && _this5.currentAyah.translation) {
-          _this5.renderedText = "<span>".concat(_this5.currentAyah.translation, "</span>");
+        if (_this0.currentAyah && _this0.currentAyah.translation) {
+          _this0.renderedText = "<span>".concat(_this0.currentAyah.translation, "</span>");
         }
       });
     },
     fetchAyat: function () {
-      var _fetchAyat = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-        var response, _t5;
-        return _regenerator().w(function (_context5) {
-          while (1) switch (_context5.p = _context5.n) {
+      var _fetchAyat = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
+        var response, _t6;
+        return _regenerator().w(function (_context7) {
+          while (1) switch (_context7.p = _context7.n) {
             case 0:
-              _context5.p = 0;
+              _context7.p = 0;
               this.isLoading = true;
-              _context5.n = 1;
+              _context7.n = 1;
               return axios.get("/get_ayat", {
                 params: {
                   surah_id: this.selectedSurahId
                 }
               });
             case 1:
-              response = _context5.v;
+              response = _context7.v;
               this.ayat = response.data;
 
               // Automatically select and display the first Ayah if available
@@ -150626,20 +150839,20 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
                 this.selectedAyahId = this.ayat[0].id; // Select the first Ayah by default
                 this.handleAyahChange(); // Trigger Ayah change to load its content
               }
-              _context5.n = 3;
+              _context7.n = 3;
               break;
             case 2:
-              _context5.p = 2;
-              _t5 = _context5.v;
-              console.error("Error fetching ayat:", _t5);
+              _context7.p = 2;
+              _t6 = _context7.v;
+              console.error("Error fetching ayat:", _t6);
             case 3:
-              _context5.p = 3;
+              _context7.p = 3;
               this.isLoading = false;
-              return _context5.f(3);
+              return _context7.f(3);
             case 4:
-              return _context5.a(2);
+              return _context7.a(2);
           }
-        }, _callee5, this, [[0, 2, 3, 4]]);
+        }, _callee7, this, [[0, 2, 3, 4]]);
       }));
       function fetchAyat() {
         return _fetchAyat.apply(this, arguments);
@@ -150648,6 +150861,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }(),
     updateInformation: function updateInformation(info) {
       this.information = info;
+      // persist progress if possible
+      try {
+        var surahId = info && info.ayah && info.ayah.surah && info.ayah.surah.id ? info.ayah.surah.id : this.selectedSurahId;
+        var ayahId = info && (info.id || info.ayah_id) ? info.id || info.ayah_id : null;
+        if (surahId && ayahId) this.saveProgress(surahId, ayahId);
+      } catch (_unused6) {}
     },
     updateTafseer: function updateTafseer(tafseerData) {
       this.tafseer = tafseerData;
@@ -150678,7 +150897,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       alert("Selected item: ".concat(selectedItem));
     },
     submitForm: function submitForm() {
-      var _this6 = this;
+      var _this1 = this;
       var formData = {
         surah_name: this.information.ayah.surah.name_en,
         ayah_num: this.information.ayah_id,
@@ -150688,20 +150907,20 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       };
       axios.post("/bookmarks", formData).then(function (response) {
         // Successfully bookmarked
-        _this6.showAlert = true;
-        _this6.alertMessage = "Ayah bookmarked successfully!";
-        _this6.alertType = "success"; // Success alert for logged-in users
-        localStorage.setItem("bookmarkSubmitted_".concat(_this6.information.ayah_id), true);
-        _this6.hideAlertAfterDelay();
+        _this1.showAlert = true;
+        _this1.alertMessage = "Ayah bookmarked successfully!";
+        _this1.alertType = "success"; // Success alert for logged-in users
+        localStorage.setItem("bookmarkSubmitted_".concat(_this1.information.ayah_id), true);
+        _this1.hideAlertAfterDelay();
       })["catch"](function (error) {
         // Error during bookmark submission
         console.error("Error submitting bookmark:", error);
-        _this6.showErrorAlert = true; // Danger alert for request failure
-        _this6.hideAlertAfterDelayError();
+        _this1.showErrorAlert = true; // Danger alert for request failure
+        _this1.hideAlertAfterDelayError();
       });
     },
     submitFormTafseer: function submitFormTafseer() {
-      var _this7 = this;
+      var _this10 = this;
       var formData1 = {
         surah_name: this.information.ayah.surah.name_en,
         ayah_num: this.information.ayah_id,
@@ -150710,19 +150929,19 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         user_id: this.userId
       };
       axios.post("/bookmarks", formData1).then(function (response) {
-        _this7.showAlert = true;
-        _this7.alertMessage = "Tafseer bookmarked successfully!";
-        _this7.alertType = "success";
-        localStorage.setItem("bookmarkSubmitted_".concat(_this7.information.ayah_id), true);
-        _this7.hideAlertAfterDelay();
+        _this10.showAlert = true;
+        _this10.alertMessage = "Tafseer bookmarked successfully!";
+        _this10.alertType = "success";
+        localStorage.setItem("bookmarkSubmitted_".concat(_this10.information.ayah_id), true);
+        _this10.hideAlertAfterDelay();
       })["catch"](function (error) {
         console.error("Error submitting bookmark:", error);
-        _this7.showErrorAlert = true;
-        _this7.hideAlertAfterDelayError();
+        _this10.showErrorAlert = true;
+        _this10.hideAlertAfterDelayError();
       });
     },
     submitFormTransliteration: function submitFormTransliteration() {
-      var _this8 = this;
+      var _this11 = this;
       var formData2 = {
         surah_name: this.information.ayah.surah.name_en,
         ayah_num: this.information.ayah_id,
@@ -150731,58 +150950,58 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         user_id: this.userId
       };
       axios.post("/bookmarks", formData2).then(function (response) {
-        _this8.showAlert = true;
-        _this8.alertMessage = "Transliteration bookmarked successfully!";
-        _this8.alertType = "success";
-        localStorage.setItem("bookmarkSubmitted_".concat(_this8.information.ayah_id), true);
-        _this8.hideAlertAfterDelay();
+        _this11.showAlert = true;
+        _this11.alertMessage = "Transliteration bookmarked successfully!";
+        _this11.alertType = "success";
+        localStorage.setItem("bookmarkSubmitted_".concat(_this11.information.ayah_id), true);
+        _this11.hideAlertAfterDelay();
       })["catch"](function (error) {
         console.error("Error submitting bookmark:", error);
-        _this8.showErrorAlert = true;
-        _this8.hideAlertAfterDelayError();
+        _this11.showErrorAlert = true;
+        _this11.hideAlertAfterDelayError();
       });
     },
     hideAlertAfterDelay: function hideAlertAfterDelay() {
-      var _this9 = this;
+      var _this12 = this;
       setTimeout(function () {
-        _this9.showAlert = false;
+        _this12.showAlert = false;
       }, 3000); // Hide the alert after 3 seconds
     },
     hideAlertAfterDelayError: function hideAlertAfterDelayError() {
-      var _this0 = this;
+      var _this13 = this;
       setTimeout(function () {
-        _this0.showErrorAlert = false;
+        _this13.showErrorAlert = false;
       }, 3000); // Hide the alert after 3 seconds
     },
     toggleAdvancedSearch: function toggleAdvancedSearch() {
       this.isAdvancedSearchVisible = !this.isAdvancedSearchVisible; // Toggle the visibility
     }
   }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "fetchSurahs", function fetchSurahs() {
-    var _this1 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
-      var response, _t6;
-      return _regenerator().w(function (_context6) {
-        while (1) switch (_context6.p = _context6.n) {
+    var _this14 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
+      var response, _t7;
+      return _regenerator().w(function (_context8) {
+        while (1) switch (_context8.p = _context8.n) {
           case 0:
-            _context6.p = 0;
-            _context6.n = 1;
+            _context8.p = 0;
+            _context8.n = 1;
             return fetch("/get_surat");
           case 1:
-            response = _context6.v;
-            _context6.n = 2;
+            response = _context8.v;
+            _context8.n = 2;
             return response.json();
           case 2:
-            _this1.surat = _context6.v;
-            _context6.n = 4;
+            _this14.surat = _context8.v;
+            _context8.n = 4;
             break;
           case 3:
-            _context6.p = 3;
-            _t6 = _context6.v;
-            console.error("Error fetching surahs:", _t6);
+            _context8.p = 3;
+            _t7 = _context8.v;
+            console.error("Error fetching surahs:", _t7);
           case 4:
-            return _context6.a(2);
+            return _context8.a(2);
         }
-      }, _callee6, null, [[0, 3]]);
+      }, _callee8, null, [[0, 3]]);
     }))();
   }), "toggleContent1", function toggleContent1() {
     this.isVisible1 = !this.isVisible1; // Toggle the visibility
@@ -150856,9 +151075,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.selectedSurah = surah.id;
     this.filteredSurah = []; // Hide the search results list
   }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "handleScrollToAyah", function handleScrollToAyah(verseNumber) {
-    var _this10 = this;
+    var _this15 = this;
     this.$nextTick(function () {
-      var listEl = _this10.$refs.ayahList;
+      var listEl = _this15.$refs.ayahList;
       if (!listEl) return;
       var ayahElement = listEl.querySelector("#ayah-".concat(verseNumber));
       if (ayahElement) {
@@ -150872,9 +151091,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   }), "toggleExpand", function toggleExpand() {
     this.expanded = !this.expanded;
   }), "getSelectedSurahAyat", function getSelectedSurahAyat() {
-    var _this11 = this;
+    var _this16 = this;
     var surahData = this.surat.find(function (surah) {
-      return surah.id === parseInt(_this11.surah);
+      return surah.id === parseInt(_this16.surah);
     });
     return surahData ? surahData.ayat : [];
     // removed by dead control flow
@@ -150934,7 +151153,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     };
     axios.post("/submit_category", formData);
   }), "scrollToAyah", function scrollToAyah() {
-    var _this12 = this;
+    var _this17 = this;
     var verseNum = parseInt(this.verseNumber);
     if (!isNaN(verseNum) && verseNum >= 1 && verseNum <= this.ayat.length) {
       var ayahElement = this.$refs.ayahList.querySelectorAll("li")[verseNum - 1];
@@ -150947,116 +151166,122 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     } else {
       this.showError = true;
       setTimeout(function () {
-        _this12.showError = false;
+        _this17.showError = false;
       }, 5000);
     }
   }), "getSurat", function getSurat() {
-    var _this13 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
-      var response, _t7;
-      return _regenerator().w(function (_context7) {
-        while (1) switch (_context7.p = _context7.n) {
+    var _this18 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee9() {
+      var response, _t8;
+      return _regenerator().w(function (_context9) {
+        while (1) switch (_context9.p = _context9.n) {
           case 0:
-            _context7.p = 0;
-            _context7.n = 1;
+            _context9.p = 0;
+            _context9.n = 1;
             return axios.get("/get_surat");
           case 1:
-            response = _context7.v;
+            response = _context9.v;
             // Ensure this URL is correct
-            _this13.surat = response.data;
-            _context7.n = 3;
+            _this18.surat = response.data;
+            _context9.n = 3;
             break;
           case 2:
-            _context7.p = 2;
-            _t7 = _context7.v;
-            console.error("Error fetching surahs:", _t7);
+            _context9.p = 2;
+            _t8 = _context9.v;
+            console.error("Error fetching surahs:", _t8);
           case 3:
-            return _context7.a(2);
+            return _context9.a(2);
         }
-      }, _callee7, null, [[0, 2]]);
+      }, _callee9, null, [[0, 2]]);
     }))();
   }), "getAyat", function getAyat() {
-    var _this14 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
-      var response, _t8;
-      return _regenerator().w(function (_context8) {
-        while (1) switch (_context8.p = _context8.n) {
+    var _this19 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee0() {
+      var response, _t9;
+      return _regenerator().w(function (_context0) {
+        while (1) switch (_context0.p = _context0.n) {
           case 0:
-            if (!(_this14.selectedSurahId > 0)) {
-              _context8.n = 5;
+            if (!(_this19.selectedSurahId > 0)) {
+              _context0.n = 5;
               break;
             }
-            _context8.p = 1;
-            _context8.n = 2;
+            _context0.p = 1;
+            _context0.n = 2;
             return axios.get("/get_ayat", {
               params: {
-                surah_id: _this14.selectedSurahId
+                surah_id: _this19.selectedSurahId
               }
             });
           case 2:
-            response = _context8.v;
-            _this14.ayat = response.data;
-            _this14.dropdownHidden = false; // Show Ayah dropdown after fetching
-            _context8.n = 4;
+            response = _context0.v;
+            _this19.ayat = response.data;
+            _this19.dropdownHidden = false; // Show Ayah dropdown after fetching
+            _context0.n = 4;
             break;
           case 3:
-            _context8.p = 3;
-            _t8 = _context8.v;
-            console.error("Error fetching ayat:", _t8);
-            _this14.ayat = []; // Clear ayat on error
-            _this14.dropdownHidden = true; // Hide Ayah dropdown
+            _context0.p = 3;
+            _t9 = _context0.v;
+            console.error("Error fetching ayat:", _t9);
+            _this19.ayat = []; // Clear ayat on error
+            _this19.dropdownHidden = true; // Hide Ayah dropdown
           case 4:
-            _context8.n = 6;
+            _context0.n = 6;
             break;
           case 5:
-            _this14.ayat = [];
-            _this14.dropdownHidden = true; // Hide Ayah dropdown if no Surah is selected
+            _this19.ayat = [];
+            _this19.dropdownHidden = true; // Hide Ayah dropdown if no Surah is selected
           case 6:
-            return _context8.a(2);
+            return _context0.a(2);
         }
-      }, _callee8, null, [[1, 3]]);
+      }, _callee0, null, [[1, 3]]);
     }))();
   }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "updateFileName", function updateFileName() {
     // No-op placeholder to satisfy watcher; implement if needed
   }), "handleAyahChange", function handleAyahChange() {
-    var _this15 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee9() {
-      var selectedAyahIndex, selectedAyah, ayahId, tafseerResponse, infoResponse, _t9;
-      return _regenerator().w(function (_context9) {
-        while (1) switch (_context9.p = _context9.n) {
+    var _this20 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee1() {
+      var selectedAyahIndex, selectedAyah, ayahId, tafseerResponse, infoResponse, surahId, savedAyahId, _t0;
+      return _regenerator().w(function (_context1) {
+        while (1) switch (_context1.p = _context1.n) {
           case 0:
-            selectedAyahIndex = parseInt(_this15.selectedAyahId);
-            selectedAyah = _this15.ayat[selectedAyahIndex];
+            selectedAyahIndex = parseInt(_this20.selectedAyahId);
+            selectedAyah = _this20.ayat[selectedAyahIndex];
             if (!selectedAyah) {
-              _context9.n = 5;
+              _context1.n = 5;
               break;
             }
             ayahId = selectedAyah.id; // Assuming ayah has 'id' field, adjust if necessary
-            _context9.p = 1;
-            _context9.n = 2;
+            _context1.p = 1;
+            _context1.n = 2;
             return axios.get("/tafseer/".concat(ayahId, "/fetch"));
           case 2:
-            tafseerResponse = _context9.v;
-            _this15.tafseer = tafseerResponse.data;
-            _context9.n = 3;
+            tafseerResponse = _context1.v;
+            _this20.tafseer = tafseerResponse.data;
+            _context1.n = 3;
             return axios.get("/get_informations", {
               params: {
                 id: ayahId
               }
             });
           case 3:
-            infoResponse = _context9.v;
-            _this15.information = infoResponse.data;
-            _context9.n = 5;
+            infoResponse = _context1.v;
+            _this20.information = infoResponse.data;
+            // Save progress after successful info fetch
+            try {
+              surahId = _this20.selectedSurahId;
+              savedAyahId = _this20.information && (_this20.information.id || _this20.information.ayah_id) || ayahId;
+              if (surahId && savedAyahId) _this20.saveProgress(surahId, savedAyahId);
+            } catch (_unused7) {}
+            _context1.n = 5;
             break;
           case 4:
-            _context9.p = 4;
-            _t9 = _context9.v;
-            console.error("Error fetching information or tafseer:", _t9);
+            _context1.p = 4;
+            _t0 = _context1.v;
+            console.error("Error fetching information or tafseer:", _t0);
           case 5:
-            return _context9.a(2);
+            return _context1.a(2);
         }
-      }, _callee9, null, [[1, 4]]);
+      }, _callee1, null, [[1, 4]]);
     }))();
   }), "showCard", function showCard() {
     this.isCardVisible = true; // Show the card when button is clicked
@@ -151072,35 +151297,35 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.scrollToSelectedAyah();
     this.getTafseers(this.ayat[index].id, index);
   }), "scrollToSelectedAyah", function scrollToSelectedAyah() {
-    var _this16 = this;
+    var _this21 = this;
     this.$nextTick(function () {
-      var selectedAyah = _this16.$refs.ayahList.querySelector(".selected");
+      var selectedAyah = _this21.$refs.ayahList.querySelector(".selected");
       if (selectedAyah) {
         selectedAyah.scrollIntoView({
           behavior: "smooth"
         });
       } else {
         // Display error alert if no ayah is selected
-        _this16.showError = true;
+        _this21.showError = true;
         // Automatically dismiss the alert after 5 seconds
         setTimeout(function () {
-          _this16.dismissError();
+          _this21.dismissError();
         }, 1000);
       }
     });
   }), "determineNextAyah", function determineNextAyah() {
-    var _this17 = this;
+    var _this22 = this;
     var currentIndex = this.ayat.findIndex(function (ayah) {
-      return ayah.id === _this17.selectedAyah.id;
+      return ayah.id === _this22.selectedAyah.id;
     });
     if (currentIndex !== -1 && currentIndex < this.ayat.length - 1) {
       return this.ayat[currentIndex + 1];
     }
     return null;
   }), "determinePreviousAyah", function determinePreviousAyah() {
-    var _this18 = this;
+    var _this23 = this;
     var currentIndex = this.ayat.findIndex(function (ayah) {
-      return ayah.id === _this18.selectedAyah.id;
+      return ayah.id === _this23.selectedAyah.id;
     });
     if (currentIndex > 0) {
       return this.ayat[currentIndex - 1];
@@ -151110,14 +151335,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.ayat = this.fetchAyatForSurah(this.surah); // Replace with actual logic
     this.selectedAyah = this.ayat.length > 0 ? "0" : "0"; // Select the first ayah
   }), "selectSurah", function selectSurah(surahId) {
-    var _this19 = this;
+    var _this24 = this;
     this.surah = surahId;
     this.searchTerm = "";
     this.filteredSurah = [];
     this.showClearButton = false;
     this.getAyat();
     this.$nextTick(function () {
-      _this19.autoHighlightFirstAyah();
+      _this24.autoHighlightFirstAyah();
     });
   }), _defineProperty(_defineProperty(_methods, "autoHighlightFirstAyah", function autoHighlightFirstAyah() {
     if (this.ayat.length > 0) {
@@ -155107,11 +155332,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-var _methods;
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
@@ -155126,6 +155346,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
   name: 'SuratComponent',
   data: function data() {
     return {
+      isComponentAlive: true,
       isInitialLoad: true,
       selectedSurah: "1",
       selectedReciter: "ar.alafasy",
@@ -155140,6 +155361,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       translations: [],
       surahDetails: null,
       searchQuery: "",
+      debouncedQuery: "",
+      debounceTimer: null,
       arabicFontSize: 32,
       translationFontSize: 23,
       highlightedWordIndex: -1,
@@ -155156,22 +155379,53 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       // New data property for playback mode
       visualizerBars: Array(20).fill(10),
       playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2],
-      currentSpeedIndex: 2
+      currentSpeedIndex: 2,
+      repeatCurrent: JSON.parse(localStorage.getItem('repeatCurrent') || 'false'),
+      favoriteReciters: ['ar.alafasy', 'ar.abdulbasitmurattal'],
+      favoriteTranslations: ['en.ahmedali', 'en.sahih']
     };
   },
   computed: {
     filteredAyahs: function filteredAyahs() {
       if (!this.surahDetails) return [];
-      if (!this.searchQuery) return this.surahDetails.ayahs;
-      var query = this.searchQuery.toLowerCase();
+      if (!this.debouncedQuery) return this.surahDetails.ayahs;
+      var query = this.debouncedQuery.toLowerCase();
       return this.surahDetails.ayahs.filter(function (ayah) {
         return ayah.text.toLowerCase().includes(query) || ayah.translation && ayah.translation.toLowerCase().includes(query);
+      });
+    },
+    recitersSorted: function recitersSorted() {
+      if (!Array.isArray(this.reciters)) return [];
+      var fav = new Set(this.favoriteReciters);
+      return _toConsumableArray(this.reciters).sort(function (a, b) {
+        var ap = fav.has(a.identifier) ? 0 : 1;
+        var bp = fav.has(b.identifier) ? 0 : 1;
+        if (ap !== bp) return ap - bp;
+        return (a.englishName || '').localeCompare(b.englishName || '');
+      });
+    },
+    translationsSorted: function translationsSorted() {
+      if (!Array.isArray(this.translations)) return [];
+      var fav = new Set(this.favoriteTranslations);
+      return _toConsumableArray(this.translations).sort(function (a, b) {
+        var ap = fav.has(a.identifier) ? 0 : 1;
+        var bp = fav.has(b.identifier) ? 0 : 1;
+        if (ap !== bp) return ap - bp;
+        if ((a.flag || '') !== (b.flag || '')) return (a.flag || '').localeCompare(b.flag || '');
+        return (a.englishName || '').localeCompare(b.englishName || '');
       });
     }
   },
   watch: {
-    selectedReciter: function selectedReciter(newVal) {
+    searchQuery: function searchQuery(val) {
       var _this = this;
+      clearTimeout(this.debounceTimer);
+      this.debounceTimer = setTimeout(function () {
+        _this.debouncedQuery = val;
+      }, 300);
+    },
+    selectedReciter: function selectedReciter(newVal) {
+      var _this2 = this;
       if (newVal && !this.isLoading) {
         this.isLoading = true;
         this.savePreference("selectedReciter", newVal);
@@ -155184,37 +155438,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           behavior: 'instant'
         });
         this.fetchSurahDetails().then(function () {
-          _this.resetAllAudioPlayers();
-          _this.isLoading = false;
-          _this.$nextTick(function () {
-            setTimeout(function () {
-              // Ensure we're still at the top after content loads
-              window.scrollTo({
-                top: 0,
-                behavior: 'instant'
-              });
-              _this.ensureCardPositionsCached(function () {});
-            }, 200);
-          });
-        })["catch"](function () {
-          _this.isLoading = false;
-        });
-      }
-    },
-    selectedTranslation: function selectedTranslation(newVal) {
-      var _this2 = this;
-      if (newVal && !this.isLoading) {
-        this.isLoading = true;
-        this.savePreference("selectedTranslation", newVal);
-        this.currentlyPlayingIndex = 0;
-        this.isHighlighted = false;
-
-        // Ensure we start at the top
-        window.scrollTo({
-          top: 0,
-          behavior: 'instant'
-        });
-        this.fetchSurahDetails().then(function () {
+          _this2.resetAllAudioPlayers();
           _this2.isLoading = false;
           _this2.$nextTick(function () {
             setTimeout(function () {
@@ -155231,11 +155455,11 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         });
       }
     },
-    selectedSurah: function selectedSurah(newVal) {
+    selectedTranslation: function selectedTranslation(newVal) {
       var _this3 = this;
       if (newVal && !this.isLoading) {
         this.isLoading = true;
-        this.savePreference("selectedSurah", newVal);
+        this.savePreference("selectedTranslation", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
 
@@ -155245,7 +155469,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           behavior: 'instant'
         });
         this.fetchSurahDetails().then(function () {
-          _this3.resetAllAudioPlayers();
           _this3.isLoading = false;
           _this3.$nextTick(function () {
             setTimeout(function () {
@@ -155262,47 +155485,73 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         });
       }
     },
-    filteredAyahs: function filteredAyahs(newAyahs) {
+    selectedSurah: function selectedSurah(newVal) {
       var _this4 = this;
+      if (newVal && !this.isLoading) {
+        this.isLoading = true;
+        this.savePreference("selectedSurah", newVal);
+        this.currentlyPlayingIndex = 0;
+        this.isHighlighted = false;
+
+        // Ensure we start at the top
+        window.scrollTo({
+          top: 0,
+          behavior: 'instant'
+        });
+        this.fetchSurahDetails().then(function () {
+          _this4.resetAllAudioPlayers();
+          _this4.isLoading = false;
+          _this4.$nextTick(function () {
+            setTimeout(function () {
+              // Ensure we're still at the top after content loads
+              window.scrollTo({
+                top: 0,
+                behavior: 'instant'
+              });
+              _this4.ensureCardPositionsCached(function () {});
+            }, 200);
+          });
+        })["catch"](function () {
+          _this4.isLoading = false;
+        });
+      }
+    },
+    filteredAyahs: function filteredAyahs(newAyahs) {
+      var _this5 = this;
       this.isAudioPlaying = new Array(newAyahs.length).fill(false);
       this.isAudioLoading = new Array(newAyahs.length).fill(false);
       this.progress = new Array(newAyahs.length).fill(0);
       this.audioElements = new Array(newAyahs.length).fill(null);
       this.$nextTick(function () {
         setTimeout(function () {
-          if (_this4.$refs.audioCard) {
-            _this4.initializeAudioElements();
-            _this4.ensureCardPositionsCached(function () {});
+          if (_this5.$refs.audioCard) {
+            _this5.initializeAudioElements();
+            _this5.ensureCardPositionsCached(function () {});
           } else {
             console.warn('Audio cards not yet rendered, retrying...');
             setTimeout(function () {
-              _this4.initializeAudioElements();
-              _this4.ensureCardPositionsCached(function () {});
+              _this5.initializeAudioElements();
+              _this5.ensureCardPositionsCached(function () {});
             }, 1000);
           }
         }, 200);
       });
     }
   },
-  methods: (_methods = {
-    rewindAudio: function rewindAudio(index) {
-      var audio = this.$refs.audioElements[index]; // Adjust based on your setup
-      if (audio) {
-        audio.currentTime = Math.max(0, audio.currentTime - 10); // Rewind by 10 seconds, prevent negative time
-      }
-    },
+  methods: {
+    // Removed duplicate rewindAudio defined later with scroll sync
     ensureCardPositionsCached: function ensureCardPositionsCached(callback) {
-      var _this5 = this;
+      var _this6 = this;
       var attempts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       var maxAttempts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
       // Since we're now calculating positions in real-time, this method is simplified
       this.$nextTick(function () {
-        var audioCards = Array.isArray(_this5.$refs.audioCard) ? _this5.$refs.audioCard : [];
+        var audioCards = Array.isArray(_this6.$refs.audioCard) ? _this6.$refs.audioCard : [];
         if (!audioCards.length || !audioCards[0]) {
           if (attempts < maxAttempts) {
             console.warn("Audio cards not available, retrying (".concat(attempts + 1, "/").concat(maxAttempts, ")..."));
             setTimeout(function () {
-              return _this5.ensureCardPositionsCached(callback, attempts + 1, maxAttempts);
+              return _this6.ensureCardPositionsCached(callback, attempts + 1, maxAttempts);
             }, 500);
           } else {
             console.error('Failed to find audio cards after max attempts');
@@ -155372,7 +155621,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }
     },
     scrollToElement: function scrollToElement(element, index) {
-      var _this6 = this;
+      var _this7 = this;
       // Use scrollIntoView for more reliable scrolling
       try {
         element.scrollIntoView({
@@ -155384,8 +155633,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 
         // Wait a bit for the scroll to complete before allowing more scrolls
         setTimeout(function () {
-          _this6.scrollAttempts = 0;
-          _this6.lastScrollPosition = null;
+          _this7.scrollAttempts = 0;
+          _this7.lastScrollPosition = null;
         }, 1000);
       } catch (error) {
         console.error("Error scrolling to ayah ".concat(index + 1, ":"), error);
@@ -155394,13 +155643,13 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }
     },
     smoothScrollToAyah: function smoothScrollToAyah(index) {
-      var _this7 = this;
+      var _this8 = this;
       if (index < 0 || index >= this.filteredAyahs.length || this.isManualScrolling) {
         console.warn("Cannot scroll: invalid index (".concat(index, ") or manual scrolling active (").concat(this.isManualScrolling, ")"));
         return;
       }
       this.$nextTick(function () {
-        var audioCards = Array.isArray(_this7.$refs.audioCard) ? _this7.$refs.audioCard : [];
+        var audioCards = Array.isArray(_this8.$refs.audioCard) ? _this8.$refs.audioCard : [];
         if (!audioCards[index]) {
           console.warn("Audio card for index ".concat(index, " not found"));
           return;
@@ -155410,7 +155659,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         var element = audioCards[index];
 
         // Check if element is valid (has proper dimensions and position)
-        if (!_this7.isElementValid(element)) {
+        if (!_this8.isElementValid(element)) {
           console.warn("Element for ayah ".concat(index + 1, " is not valid or has invalid dimensions"));
           return;
         }
@@ -155428,10 +155677,10 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         console.log("Ayah ".concat(index + 1, " - Element top: ").concat(elementTop, ", Window scrollY: ").concat(window.scrollY, ", Rect top: ").concat(rect.top, ", Document height: ").concat(documentHeight, ", Element height: ").concat(rect.height));
 
         // Calculate target scroll position
-        var stickyDropdown = _this7.$refs.stickyDropdown;
+        var stickyDropdown = _this8.$refs.stickyDropdown;
         var audioPlayer = document.querySelector('.audio-player-container');
-        var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : _this7.isVisible ? 80 : 60;
-        var audioPlayerHeight = _this7.showAudioPlayer ? (audioPlayer === null || audioPlayer === void 0 ? void 0 : audioPlayer.getBoundingClientRect().height) || 0 : 0;
+        var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : _this8.isVisible ? 80 : 60;
+        var audioPlayerHeight = _this8.showAudioPlayer ? (audioPlayer === null || audioPlayer === void 0 ? void 0 : audioPlayer.getBoundingClientRect().height) || 0 : 0;
         var buffer = 50; // Fixed buffer for consistent positioning
 
         // Calculate the target scroll position to position the ayah at the top of the viewport
@@ -155454,16 +155703,16 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       });
     },
     highlightedText: function highlightedText(ayah) {
-      var _this8 = this;
+      var _this9 = this;
       if (!ayah.text) return "";
       var words = ayah.text.split(" ");
       return words.map(function (word, index) {
-        var isHighlighted = index === _this8.highlightedWordIndex ? "highlighted-word" : "";
+        var isHighlighted = index === _this9.highlightedWordIndex ? "highlighted-word" : "";
         return "<span class=\"".concat(isHighlighted, "\">").concat(word, "</span>");
       }).join(" ");
     },
     initializeAudioElements: function initializeAudioElements() {
-      var _this9 = this;
+      var _this0 = this;
       console.log('Initializing audio elements for', this.filteredAyahs.length, 'ayahs');
       if (!this.$refs.audioCard || !this.$refs.audioCard.length) {
         console.warn('No audio cards available for initialization');
@@ -155482,50 +155731,50 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         }
         try {
           var audio = new Audio(ayah.audio);
-          audio.preload = index < 5 ? 'auto' : 'metadata';
+          audio.preload = 'metadata';
           audio.load();
-          audio.playbackRate = _this9.playbackSpeed;
-          audio.volume = _this9.volume;
+          audio.playbackRate = _this0.playbackSpeed;
+          audio.volume = _this0.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this9.updateProgress(index);
+            return _this0.updateProgress(index);
           });
           audio.addEventListener("loadedmetadata", function () {
             console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(audio.duration));
-            _this9.progress[index] = 0;
-            _this9.isAudioLoading[index] = false;
+            _this0.progress[index] = 0;
+            _this0.isAudioLoading[index] = false;
           });
           audio.addEventListener("canplay", function () {
             console.log("Audio can play for ayah ".concat(index + 1));
-            _this9.isAudioLoading[index] = false;
-            if (index === _this9.currentlyPlayingIndex && _this9.isAudioPlaying[index]) {
-              _this9.playAudio(index);
+            _this0.isAudioLoading[index] = false;
+            if (index === _this0.currentlyPlayingIndex && _this0.isAudioPlaying[index]) {
+              _this0.playAudio(index);
             }
           });
           audio.addEventListener("ended", function () {
-            return _this9.handleAyahEnd(index);
+            return _this0.handleAyahEnd(index);
           });
           audio.addEventListener("error", function (e) {
-            var _this9$$toast;
+            var _this0$$toast;
             console.error("Audio error for ayah ".concat(index + 1, ":"), e);
-            _this9.isAudioLoading[index] = false;
-            (_this9$$toast = _this9.$toast) === null || _this9$$toast === void 0 || _this9$$toast.error("Failed to load audio for ayah ".concat(index + 1));
+            _this0.isAudioLoading[index] = false;
+            (_this0$$toast = _this0.$toast) === null || _this0$$toast === void 0 || _this0$$toast.error("Failed to load audio for ayah ".concat(index + 1));
           });
           return audio;
         } catch (e) {
-          var _this9$$toast2;
+          var _this0$$toast2;
           console.error("Failed to create audio for ayah ".concat(index + 1, ":"), e);
-          (_this9$$toast2 = _this9.$toast) === null || _this9$$toast2 === void 0 || _this9$$toast2.error("Failed to create audio for ayah ".concat(index + 1));
+          (_this0$$toast2 = _this0.$toast) === null || _this0$$toast2 === void 0 || _this0$$toast2.error("Failed to create audio for ayah ".concat(index + 1));
           return null;
         }
       });
       console.log('Audio elements initialized:', this.audioElements.length, 'elements');
     },
     preloadNextAyahs: function preloadNextAyahs(startIndex) {
-      var _this0 = this;
+      var _this1 = this;
       var maxPreload = 5;
       this.filteredAyahs.slice(startIndex, startIndex + maxPreload).forEach(function (ayah, index) {
         var realIndex = startIndex + index;
-        if (realIndex >= _this0.audioElements.length || _this0.audioElements[realIndex]) return;
+        if (realIndex >= _this1.audioElements.length || _this1.audioElements[realIndex]) return;
         if (!ayah.audio) {
           console.warn("No audio URL for ayah ".concat(realIndex + 1));
           return;
@@ -155534,40 +155783,40 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           var audio = new Audio(ayah.audio);
           audio.preload = 'metadata';
           audio.load();
-          audio.playbackRate = _this0.playbackSpeed;
-          audio.volume = _this0.volume;
+          audio.playbackRate = _this1.playbackSpeed;
+          audio.volume = _this1.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this0.updateProgress(realIndex);
+            return _this1.updateProgress(realIndex);
           });
           audio.addEventListener("loadedmetadata", function () {
             console.log("Metadata loaded for ayah ".concat(realIndex + 1, ", duration: ").concat(audio.duration));
-            _this0.progress[realIndex] = 0;
-            _this0.isAudioLoading[realIndex] = false;
+            _this1.progress[realIndex] = 0;
+            _this1.isAudioLoading[realIndex] = false;
           });
           audio.addEventListener("canplay", function () {
             console.log("Audio can play for ayah ".concat(realIndex + 1));
-            _this0.isAudioLoading[realIndex] = false;
+            _this1.isAudioLoading[realIndex] = false;
           });
           audio.addEventListener("ended", function () {
-            return _this0.handleAyahEnd(realIndex);
+            return _this1.handleAyahEnd(realIndex);
           });
           audio.addEventListener("error", function (e) {
-            var _this0$$toast;
+            var _this1$$toast;
             console.error("Audio error for ayah ".concat(realIndex + 1, ":"), e);
-            _this0.isAudioLoading[realIndex] = false;
-            (_this0$$toast = _this0.$toast) === null || _this0$$toast === void 0 || _this0$$toast.error("Failed to load audio for ayah ".concat(realIndex + 1));
+            _this1.isAudioLoading[realIndex] = false;
+            (_this1$$toast = _this1.$toast) === null || _this1$$toast === void 0 || _this1$$toast.error("Failed to load audio for ayah ".concat(realIndex + 1));
           });
-          _this0.audioElements[realIndex] = audio;
+          _this1.audioElements[realIndex] = audio;
         } catch (e) {
-          var _this0$$toast2;
+          var _this1$$toast2;
           console.error("Failed to create audio for ayah ".concat(realIndex + 1, ":"), e);
-          (_this0$$toast2 = _this0.$toast) === null || _this0$$toast2 === void 0 || _this0$$toast2.error("Failed to create audio for ayah ".concat(realIndex + 1));
+          (_this1$$toast2 = _this1.$toast) === null || _this1$$toast2 === void 0 || _this1$$toast2.error("Failed to create audio for ayah ".concat(realIndex + 1));
         }
       });
       console.log("Preloaded audio elements for ayahs ".concat(startIndex + 1, " to ").concat(Math.min(startIndex + maxPreload, this.filteredAyahs.length)));
     },
     playAudio: function playAudio(index) {
-      var _this1 = this;
+      var _this10 = this;
       console.log('Attempting to play audio for index:', index);
       if (index < 0 || index >= this.filteredAyahs.length || !this.audioElements[index]) {
         var _this$$toast;
@@ -155595,18 +155844,18 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 
       // Setup metadata and word timing
       this.currentlyPlaying.onloadedmetadata = function () {
-        console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(_this1.currentlyPlaying.duration));
-        var duration = _this1.currentlyPlaying.duration;
+        console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(_this10.currentlyPlaying.duration));
+        var duration = _this10.currentlyPlaying.duration;
         var wordCount = ayah.text.split(' ').length;
         if (wordCount > 0 && duration > 0) {
           var step = duration / wordCount;
-          _this1.wordTimings = Array.from({
+          _this10.wordTimings = Array.from({
             length: wordCount
           }, function (_, i) {
             return i * step;
           });
         } else {
-          _this1.wordTimings = [];
+          _this10.wordTimings = [];
         }
       };
       if (this.currentlyPlaying.readyState >= 1) {
@@ -155614,46 +155863,46 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }
       this.highlightedWordIndex = -1;
       this.currentlyPlaying.ontimeupdate = function () {
-        _this1.syncHighlight();
-        _this1.updateProgress(index);
+        _this10.syncHighlight();
+        _this10.updateProgress(index);
       };
       var _attemptPlay = function attemptPlay() {
         var attempts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
         var maxAttempts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
         if (attempts >= maxAttempts) {
-          var _this1$$toast;
+          var _this10$$toast;
           console.error("Failed to play audio for ayah ".concat(index + 1, " after ").concat(maxAttempts, " attempts"));
-          _this1.isAudioPlaying[index] = false;
-          _this1.isAudioLoading[index] = false;
-          _this1.isHighlighted = false;
-          (_this1$$toast = _this1.$toast) === null || _this1$$toast === void 0 || _this1$$toast.error("Failed to play audio for ayah ".concat(index + 1));
+          _this10.isAudioPlaying[index] = false;
+          _this10.isAudioLoading[index] = false;
+          _this10.isHighlighted = false;
+          (_this10$$toast = _this10.$toast) === null || _this10$$toast === void 0 || _this10$$toast.error("Failed to play audio for ayah ".concat(index + 1));
           return;
         }
-        _this1.currentlyPlaying.play().then(function () {
+        _this10.currentlyPlaying.play().then(function () {
           console.log("Playing audio for ayah ".concat(index + 1));
-          _this1.isAudioPlaying[index] = true;
-          _this1.isAudioLoading[index] = false;
-          _this1.isHighlighted = true;
-          _this1.showAudioPlayer = true;
-          _this1.preloadNextAyahs(index + 1);
+          _this10.isAudioPlaying[index] = true;
+          _this10.isAudioLoading[index] = false;
+          _this10.isHighlighted = true;
+          _this10.showAudioPlayer = true;
+          _this10.preloadWindow(index, 3);
 
           // Start visualizer animation
-          _this1.animateVisualizer();
+          _this10.animateVisualizer();
         })["catch"](function (err) {
           console.error("Play error for ayah ".concat(index + 1, ":"), err);
-          if (_this1.currentlyPlaying.readyState < 2) {
+          if (_this10.currentlyPlaying.readyState < 2) {
             console.log("Audio not ready, retrying in 50ms for ayah ".concat(index + 1, " (attempt ").concat(attempts + 1, ")"));
             setTimeout(function () {
               return _attemptPlay(attempts + 1, maxAttempts);
             }, 50);
           } else {
-            var _this1$$toast2;
+            var _this10$$toast2;
             console.error("Unrecoverable play error for ayah ".concat(index + 1, ":"), err);
-            _this1.isAudioPlaying[index] = false;
-            _this1.isAudioLoading[index] = false;
-            _this1.isHighlighted = false;
-            (_this1$$toast2 = _this1.$toast) === null || _this1$$toast2 === void 0 || _this1$$toast2.error("Failed to play audio for ayah ".concat(index + 1));
-            _this1.handleAyahEnd(index);
+            _this10.isAudioPlaying[index] = false;
+            _this10.isAudioLoading[index] = false;
+            _this10.isHighlighted = false;
+            (_this10$$toast2 = _this10.$toast) === null || _this10$$toast2 === void 0 || _this10$$toast2.error("Failed to play audio for ayah ".concat(index + 1));
+            _this10.handleAyahEnd(index);
           }
         });
       };
@@ -155666,6 +155915,41 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           once: true
         });
         this.currentlyPlaying.load();
+      }
+    },
+    preloadWindow: function preloadWindow(centerIndex) {
+      var _this11 = this;
+      var radius = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3;
+      var start = Math.max(0, centerIndex - radius);
+      var end = Math.min(this.filteredAyahs.length - 1, centerIndex + radius);
+      var _loop = function _loop(i) {
+        if (!_this11.audioElements[i]) {
+          var ayah = _this11.filteredAyahs[i];
+          if (!(ayah !== null && ayah !== void 0 && ayah.audio)) return 1; // continue
+          try {
+            var audio = new Audio(ayah.audio);
+            audio.preload = 'metadata';
+            audio.load();
+            audio.playbackRate = _this11.playbackSpeed;
+            audio.volume = _this11.volume;
+            audio.addEventListener("timeupdate", function () {
+              return _this11.updateProgress(i);
+            });
+            audio.addEventListener("loadedmetadata", function () {
+              _this11.progress[i] = 0;
+              _this11.isAudioLoading[i] = false;
+            });
+            audio.addEventListener("ended", function () {
+              return _this11.handleAyahEnd(i);
+            });
+            _this11.audioElements[i] = audio;
+          } catch (e) {
+            console.error("Failed to create audio for ayah ".concat(i + 1, ":"), e);
+          }
+        }
+      };
+      for (var i = start; i <= end; i++) {
+        if (_loop(i)) continue;
       }
     },
     pauseAudio: function pauseAudio(index) {
@@ -155700,396 +155984,474 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         this.progress[index] = 0;
         this.isHighlighted = false;
       }
-    }
-  }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "rewindAudio", function rewindAudio(index) {
-    if (this.audioElements[index]) {
-      console.log("Rewinding audio for ayah ".concat(index + 1));
-      this.audioElements[index].currentTime = Math.max(0, this.audioElements[index].currentTime - 15);
-      if (this.isAudioPlaying[index]) {
-        this.smoothScrollToAyah(index);
+    },
+    rewindAudio: function rewindAudio(index) {
+      if (this.audioElements[index]) {
+        console.log("Rewinding audio for ayah ".concat(index + 1));
+        this.audioElements[index].currentTime = Math.max(0, this.audioElements[index].currentTime - 15);
+        if (this.isAudioPlaying[index]) {
+          this.smoothScrollToAyah(index);
+        }
       }
-    }
-  }), "fastForwardAudio", function fastForwardAudio(index) {
-    if (this.audioElements[index]) {
-      console.log("Fast forwarding audio for ayah ".concat(index + 1));
-      this.audioElements[index].currentTime = Math.min(this.audioElements[index].duration, this.audioElements[index].currentTime + 20);
-      if (this.isAudioPlaying[index]) {
-        this.smoothScrollToAyah(index);
+    },
+    fastForwardAudio: function fastForwardAudio(index) {
+      if (this.audioElements[index]) {
+        console.log("Fast forwarding audio for ayah ".concat(index + 1));
+        this.audioElements[index].currentTime = Math.min(this.audioElements[index].duration, this.audioElements[index].currentTime + 20);
+        if (this.isAudioPlaying[index]) {
+          this.smoothScrollToAyah(index);
+        }
       }
-    }
-  }), "updateProgress", function updateProgress(index) {
-    if (this.audioElements[index] && this.audioElements[index].duration) {
-      var progress = this.audioElements[index].currentTime / this.audioElements[index].duration * 100;
-      this.progress[index] = Math.min(100, progress);
-    }
-  }), "formatTime", function formatTime(seconds) {
-    var minutes = Math.floor(seconds / 60);
-    var secs = Math.floor(seconds % 60);
-    return (minutes < 10 ? '0' : '') + minutes + ':' + (secs < 10 ? '0' : '') + secs;
-  }), "highlightText", function highlightText(text) {
-    if (!this.searchQuery.trim() && !this.selectedTag) return text;
-    var highlightedText = text;
-    var escapeRegExp = function escapeRegExp(string) {
-      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    };
-    var searchTerms = this.searchQuery.trim() ? this.searchQuery.trim().split(/\s+/) : [];
-    searchTerms.forEach(function (term) {
-      var regex = new RegExp("(".concat(escapeRegExp(term), ")"), 'gi');
-      highlightedText = highlightedText.replace(regex, '<span class="highlight-search">$1</span>');
-    });
-    var tagTerms = this.selectedTag ? [this.selectedTag].concat(_toConsumableArray(this.tagSynonyms[this.selectedTag] || [])) : [];
-    tagTerms.forEach(function (term) {
-      var regex = new RegExp("(".concat(escapeRegExp(term), ")"), 'gi');
-      highlightedText = highlightedText.replace(regex, '<span class="highlight-tag">$1</span>');
-    });
-    return highlightedText;
-  }), "toggleVisibility", function toggleVisibility() {
-    var _this10 = this;
-    this.isVisible = !this.isVisible;
-    this.$nextTick(function () {
-      _this10.ensureCardPositionsCached(function () {
-        if (_this10.isAudioPlaying[_this10.currentlyPlayingIndex]) {
-          _this10.smoothScrollToAyah(_this10.currentlyPlayingIndex);
-        }
-      });
-    });
-  }), "increaseFontSize", function increaseFontSize() {
-    var _this11 = this;
-    if (this.arabicFontSize < 40) this.arabicFontSize += 2;
-    if (this.translationFontSize < 30) this.translationFontSize += 2;
-    this.$nextTick(function () {
-      _this11.cardPositions = [];
-      _this11.ensureCardPositionsCached(function () {
-        if (_this11.isAudioPlaying[_this11.currentlyPlayingIndex]) {
-          _this11.smoothScrollToAyah(_this11.currentlyPlayingIndex);
-        }
-      });
-    });
-  }), "decreaseFontSize", function decreaseFontSize() {
-    var _this12 = this;
-    if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
-    if (this.translationFontSize > 12) this.translationFontSize -= 2;
-    this.$nextTick(function () {
-      _this12.cardPositions = [];
-      _this12.ensureCardPositionsCached(function () {
-        if (_this12.isAudioPlaying[_this12.currentlyPlayingIndex]) {
-          _this12.smoothScrollToAyah(_this12.currentlyPlayingIndex);
-        }
-      });
-    });
-  }), "shareOnWhatsApp", function shareOnWhatsApp(ayah) {
-    var message = 'Surah ' + this.surahDetails.surahNumber + ' - ' + this.surahDetails.englishName + ' (Ayah ' + ayah.number + ')\n\n' + 'Arabic: ' + ayah.text + '\n\n' + 'Translation: ' + ayah.translation + '\n\n' + 'Listen here: ' + ayah.audio;
-    var encodedMessage = encodeURIComponent(message);
-    var whatsappLink = 'https://api.whatsapp.com/send?text=' + encodedMessage;
-    window.open(whatsappLink, "_blank");
-  }), "getFlagFromLanguage", function getFlagFromLanguage(lang) {
-    var languageFlags = {
-      'en': '🇬🇧',
-      'ar': '🇸🇦',
-      'fr': '🇫🇷',
-      'es': '🇪🇸',
-      'ur': '🇵🇰',
-      'tr': '🇹🇷',
-      'id': '🇮🇩',
-      'bn': '🇧🇩',
-      'fa': '🇮🇷',
-      'ru': '🇷🇺',
-      'de': '🇩🇪',
-      'it': '🇮🇹',
-      'sw': '🇹🇿',
-      'zh': '🇨🇳',
-      'hi': '🇮🇳'
-    };
-    return languageFlags[lang.toLowerCase()] || '🌐';
-  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "fetchSurahs", function fetchSurahs() {
-    var _this13 = this;
-    this.isLoading = true;
-    fetch("https://api.alquran.cloud/v1/surah").then(function (response) {
-      if (!response.ok) throw new Error("Failed to fetch Surahs: ".concat(response.status));
-      return response.json();
-    }).then(function (data) {
-      if (!_this13._isDestroyed) {
-        _this13.surahs = data.data || [];
+    },
+    updateProgress: function updateProgress(index) {
+      if (this.audioElements[index] && this.audioElements[index].duration) {
+        var progress = this.audioElements[index].currentTime / this.audioElements[index].duration * 100;
+        this.progress[index] = Math.min(100, progress);
       }
-      _this13.isLoading = false;
-    })["catch"](function (error) {
-      console.error("Error fetching Surahs:", error);
-      _this13.isLoading = false;
-    });
-  }), "fetchReciters", function fetchReciters() {
-    var _this14 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-      var response, data, _t;
-      return _regenerator().w(function (_context) {
-        while (1) switch (_context.p = _context.n) {
-          case 0:
-            _this14.isLoading = true;
-            _context.p = 1;
-            _context.n = 2;
-            return fetch("https://api.alquran.cloud/v1/edition/format/audio");
-          case 2:
-            response = _context.v;
-            if (response.ok) {
-              _context.n = 3;
-              break;
-            }
-            throw new Error("Failed to fetch Reciters: ".concat(response.status));
-          case 3:
-            _context.n = 4;
-            return response.json();
-          case 4:
-            data = _context.v;
-            if (!_this14._isDestroyed) {
-              _this14.reciters = data.data.filter(function (reciter) {
-                return reciter.identifier && reciter.englishName;
-              }).map(function (reciter) {
-                return {
-                  identifier: reciter.identifier,
-                  englishName: reciter.englishName || "Unknown Reciter"
-                };
-              }).filter(function (reciter) {
-                return !['elmir kuliev 2 by 1muslimapp', 'elmir kuliev by 1muslimapp', 'elmir kuliev elevatemuslim', 'elmir kuliev 1muslim', 'elmir kuliev 2muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(reciter.englishName.toLowerCase());
-              });
-            }
-            _this14.isLoading = false;
-            _context.n = 6;
-            break;
-          case 5:
-            _context.p = 5;
-            _t = _context.v;
-            console.error("Error fetching Reciters:", _t);
-            _this14.isLoading = false;
-          case 6:
-            return _context.a(2);
-        }
-      }, _callee, null, [[1, 5]]);
-    }))();
-  }), "fetchTranslations", function fetchTranslations() {
-    var _this15 = this;
-    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-      var response, data, translations, _this15$$toast, _t2;
-      return _regenerator().w(function (_context2) {
-        while (1) switch (_context2.p = _context2.n) {
-          case 0:
-            _this15.isLoading = true;
-            _context2.p = 1;
-            _context2.n = 2;
-            return fetch("https://api.alquran.cloud/v1/edition/type/translation");
-          case 2:
-            response = _context2.v;
-            if (response.ok) {
-              _context2.n = 3;
-              break;
-            }
-            throw new Error("Failed to fetch Translations: ".concat(response.status));
-          case 3:
-            _context2.n = 4;
-            return response.json();
-          case 4:
-            data = _context2.v;
-            if (!_this15._isDestroyed) {
-              _context2.n = 5;
-              break;
-            }
-            return _context2.a(2);
-          case 5:
-            if (data.data) {
-              _context2.n = 6;
-              break;
-            }
-            console.error("No translation data received from API");
-            _this15.translations = [];
-            _this15.isLoading = false;
-            return _context2.a(2);
-          case 6:
-            translations = data.data.map(function (translation) {
-              return {
-                identifier: translation.identifier,
-                englishName: translation.englishName || "Unknown Translation",
-                language: translation.language || "Unknown",
-                flag: _this15.getFlagFromLanguage(translation.language || "Unknown")
-              };
-            }).filter(function (translation) {
-              return translation.flag !== '🌐';
-            });
-            translations.sort(function (a, b) {
-              if (a.flag < b.flag) return -1;
-              if (a.flag > b.flag) return 1;
-              if (a.englishName < b.englishName) return -1;
-              if (a.englishName > b.englishName) return 1;
-              return 0;
-            });
-            _this15.translations = translations;
-            console.log('Translations fetched:', translations);
-            _this15.isLoading = false;
-            _context2.n = 8;
-            break;
-          case 7:
-            _context2.p = 7;
-            _t2 = _context2.v;
-            console.error("Error fetching Translations:", _t2);
-            _this15.translations = [];
-            (_this15$$toast = _this15.$toast) === null || _this15$$toast === void 0 || _this15$$toast.error("Failed to load translations");
-            _this15.isLoading = false;
-          case 8:
-            return _context2.a(2);
-        }
-      }, _callee2, null, [[1, 7]]);
-    }))();
-  }), "fetchSurahDetails", function fetchSurahDetails() {
-    var _this16 = this;
-    if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return Promise.resolve();
-    this.isLoading = true;
-    return fetch("https://api.alquran.cloud/v1/surah/".concat(this.selectedSurah, "/editions/").concat(this.selectedReciter, ",").concat(this.selectedTranslation)).then(function (response) {
-      if (!response.ok) throw new Error("Failed to fetch Surah details: ".concat(response.status));
-      return response.json();
-    }).then(function (data) {
-      if (_this16._isDestroyed) return;
-      var arabicText = data.data[0];
-      var translation = data.data[1];
-      _this16.surahDetails = {
-        surahNumber: _this16.selectedSurah,
-        englishName: arabicText.englishName,
-        name: arabicText.name,
-        ayahs: arabicText.ayahs.map(function (ayah, index) {
-          return {
-            number: ayah.number,
-            text: ayah.text,
-            translation: translation.ayahs[index] && translation.ayahs[index].text ? translation.ayahs[index].text : "Translation not available",
-            audio: ayah.audio || ""
-          };
-        })
+    },
+    formatTime: function formatTime(seconds) {
+      var minutes = Math.floor(seconds / 60);
+      var secs = Math.floor(seconds % 60);
+      return (minutes < 10 ? '0' : '') + minutes + ':' + (secs < 10 ? '0' : '') + secs;
+    },
+    highlightText: function highlightText(text) {
+      if (!this.debouncedQuery.trim() && !this.selectedTag) return text;
+      var highlightedText = text;
+      var escapeRegExp = function escapeRegExp(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       };
-      console.log('Surah details fetched:', _this16.surahDetails);
-      _this16.isLoading = false;
-    })["catch"](function (error) {
-      console.error("Error fetching Surah details:", error);
-      _this16.isLoading = false;
-    });
-  }), "resetAllAudioPlayers", function resetAllAudioPlayers() {
-    var _this17 = this;
-    this.$nextTick(function () {
-      if (_this17.currentlyPlaying) {
-        _this17.currentlyPlaying.pause();
-        _this17.currentlyPlaying = null;
-        _this17.currentlyPlayingIndex = 0;
-      }
-      if (_this17.audioElements && _this17.audioElements.forEach) {
-        _this17.audioElements.forEach(function (audio) {
-          if (audio && audio.remove) audio.remove();
+      var searchTerms = this.debouncedQuery.trim() ? this.debouncedQuery.trim().split(/\s+/) : [];
+      searchTerms.forEach(function (term) {
+        var regex = new RegExp("(".concat(escapeRegExp(term), ")"), 'gi');
+        highlightedText = highlightedText.replace(regex, '<span class="highlight-search">$1</span>');
+      });
+      var tagTerms = this.selectedTag ? [this.selectedTag].concat(_toConsumableArray(this.tagSynonyms[this.selectedTag] || [])) : [];
+      tagTerms.forEach(function (term) {
+        var regex = new RegExp("(".concat(escapeRegExp(term), ")"), 'gi');
+        highlightedText = highlightedText.replace(regex, '<span class="highlight-tag">$1</span>');
+      });
+      return highlightedText;
+    },
+    toggleVisibility: function toggleVisibility() {
+      var _this12 = this;
+      this.isVisible = !this.isVisible;
+      this.$nextTick(function () {
+        _this12.ensureCardPositionsCached(function () {
+          if (_this12.isAudioPlaying[_this12.currentlyPlayingIndex]) {
+            _this12.smoothScrollToAyah(_this12.currentlyPlayingIndex);
+          }
         });
+      });
+    },
+    increaseFontSize: function increaseFontSize() {
+      var _this13 = this;
+      if (this.arabicFontSize < 40) this.arabicFontSize += 2;
+      if (this.translationFontSize < 30) this.translationFontSize += 2;
+      this.$nextTick(function () {
+        _this13.cardPositions = [];
+        _this13.ensureCardPositionsCached(function () {
+          if (_this13.isAudioPlaying[_this13.currentlyPlayingIndex]) {
+            _this13.smoothScrollToAyah(_this13.currentlyPlayingIndex);
+          }
+        });
+      });
+    },
+    decreaseFontSize: function decreaseFontSize() {
+      var _this14 = this;
+      if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
+      if (this.translationFontSize > 12) this.translationFontSize -= 2;
+      this.$nextTick(function () {
+        _this14.cardPositions = [];
+        _this14.ensureCardPositionsCached(function () {
+          if (_this14.isAudioPlaying[_this14.currentlyPlayingIndex]) {
+            _this14.smoothScrollToAyah(_this14.currentlyPlayingIndex);
+          }
+        });
+      });
+    },
+    shareOnWhatsApp: function shareOnWhatsApp(ayah) {
+      var message = 'Surah ' + this.surahDetails.surahNumber + ' - ' + this.surahDetails.englishName + ' (Ayah ' + ayah.number + ')\n\n' + 'Arabic: ' + ayah.text + '\n\n' + 'Translation: ' + ayah.translation + '\n\n' + 'Listen here: ' + ayah.audio;
+      var encodedMessage = encodeURIComponent(message);
+      var whatsappLink = 'https://api.whatsapp.com/send?text=' + encodedMessage;
+      window.open(whatsappLink, "_blank");
+    },
+    getFlagFromLanguage: function getFlagFromLanguage(lang) {
+      var languageFlags = {
+        'en': '🇬🇧',
+        'ar': '🇸🇦',
+        'fr': '🇫🇷',
+        'es': '🇪🇸',
+        'ur': '🇵🇰',
+        'tr': '🇹🇷',
+        'id': '🇮🇩',
+        'bn': '🇧🇩',
+        'fa': '🇮🇷',
+        'ru': '🇷🇺',
+        'de': '🇩🇪',
+        'it': '🇮🇹',
+        'sw': '🇹🇿',
+        'zh': '🇨🇳',
+        'hi': '🇮🇳'
+      };
+      return languageFlags[lang.toLowerCase()] || '🌐';
+    },
+    fetchSurahs: function fetchSurahs() {
+      var _this15 = this;
+      this.isLoading = true;
+      fetch("https://api.alquran.cloud/v1/surah").then(function (response) {
+        if (!response.ok) throw new Error("Failed to fetch Surahs: ".concat(response.status));
+        return response.json();
+      }).then(function (data) {
+        if (!_this15._isDestroyed) {
+          _this15.surahs = data.data || [];
+        }
+        _this15.isLoading = false;
+      })["catch"](function (error) {
+        console.error("Error fetching Surahs:", error);
+        _this15.isLoading = false;
+      });
+    },
+    fetchReciters: function fetchReciters() {
+      var _this16 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        var response, data, _t;
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.p = _context.n) {
+            case 0:
+              _this16.isLoading = true;
+              _context.p = 1;
+              _context.n = 2;
+              return fetch("https://api.alquran.cloud/v1/edition/format/audio");
+            case 2:
+              response = _context.v;
+              if (response.ok) {
+                _context.n = 3;
+                break;
+              }
+              throw new Error("Failed to fetch Reciters: ".concat(response.status));
+            case 3:
+              _context.n = 4;
+              return response.json();
+            case 4:
+              data = _context.v;
+              if (!_this16._isDestroyed) {
+                _this16.reciters = data.data.filter(function (reciter) {
+                  return reciter.identifier && reciter.englishName;
+                }).map(function (reciter) {
+                  return {
+                    identifier: reciter.identifier,
+                    englishName: reciter.englishName || "Unknown Reciter"
+                  };
+                }).filter(function (reciter) {
+                  return !['elmir kuliev 2 by 1muslimapp', 'elmir kuliev by 1muslimapp', 'elmir kuliev elevatemuslim', 'elmir kuliev 1muslim', 'elmir kuliev 2muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(reciter.englishName.toLowerCase());
+                });
+              }
+              _this16.isLoading = false;
+              _context.n = 6;
+              break;
+            case 5:
+              _context.p = 5;
+              _t = _context.v;
+              console.error("Error fetching Reciters:", _t);
+              _this16.isLoading = false;
+            case 6:
+              return _context.a(2);
+          }
+        }, _callee, null, [[1, 5]]);
+      }))();
+    },
+    fetchTranslations: function fetchTranslations() {
+      var _this17 = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+        var response, data, translations, _this17$$toast, _t2;
+        return _regenerator().w(function (_context2) {
+          while (1) switch (_context2.p = _context2.n) {
+            case 0:
+              _this17.isLoading = true;
+              _context2.p = 1;
+              _context2.n = 2;
+              return fetch("https://api.alquran.cloud/v1/edition/type/translation");
+            case 2:
+              response = _context2.v;
+              if (response.ok) {
+                _context2.n = 3;
+                break;
+              }
+              throw new Error("Failed to fetch Translations: ".concat(response.status));
+            case 3:
+              _context2.n = 4;
+              return response.json();
+            case 4:
+              data = _context2.v;
+              if (!_this17._isDestroyed) {
+                _context2.n = 5;
+                break;
+              }
+              return _context2.a(2);
+            case 5:
+              if (data.data) {
+                _context2.n = 6;
+                break;
+              }
+              console.error("No translation data received from API");
+              _this17.translations = [];
+              _this17.isLoading = false;
+              return _context2.a(2);
+            case 6:
+              translations = data.data.map(function (translation) {
+                return {
+                  identifier: translation.identifier,
+                  englishName: translation.englishName || "Unknown Translation",
+                  language: translation.language || "Unknown",
+                  flag: _this17.getFlagFromLanguage(translation.language || "Unknown")
+                };
+              }).filter(function (translation) {
+                return translation.flag !== '🌐';
+              });
+              translations.sort(function (a, b) {
+                if (a.flag < b.flag) return -1;
+                if (a.flag > b.flag) return 1;
+                if (a.englishName < b.englishName) return -1;
+                if (a.englishName > b.englishName) return 1;
+                return 0;
+              });
+              _this17.translations = translations;
+              console.log('Translations fetched:', translations);
+              _this17.isLoading = false;
+              _context2.n = 8;
+              break;
+            case 7:
+              _context2.p = 7;
+              _t2 = _context2.v;
+              console.error("Error fetching Translations:", _t2);
+              _this17.translations = [];
+              (_this17$$toast = _this17.$toast) === null || _this17$$toast === void 0 || _this17$$toast.error("Failed to load translations");
+              _this17.isLoading = false;
+            case 8:
+              return _context2.a(2);
+          }
+        }, _callee2, null, [[1, 7]]);
+      }))();
+    },
+    fetchSurahDetails: function fetchSurahDetails() {
+      var _this18 = this;
+      if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return Promise.resolve();
+      this.isLoading = true;
+      return fetch("https://api.alquran.cloud/v1/surah/".concat(this.selectedSurah, "/editions/").concat(this.selectedReciter, ",").concat(this.selectedTranslation)).then(function (response) {
+        if (!response.ok) throw new Error("Failed to fetch Surah details: ".concat(response.status));
+        return response.json();
+      }).then(function (data) {
+        if (_this18._isDestroyed) return;
+        var arabicText = data.data[0];
+        var translation = data.data[1];
+        _this18.surahDetails = {
+          surahNumber: _this18.selectedSurah,
+          englishName: arabicText.englishName,
+          name: arabicText.name,
+          ayahs: arabicText.ayahs.map(function (ayah, index) {
+            return {
+              number: ayah.number,
+              text: ayah.text,
+              translation: translation.ayahs[index] && translation.ayahs[index].text ? translation.ayahs[index].text : "Translation not available",
+              audio: ayah.audio || ""
+            };
+          })
+        };
+        console.log('Surah details fetched:', _this18.surahDetails);
+        _this18.isLoading = false;
+      })["catch"](function (error) {
+        console.error("Error fetching Surah details:", error);
+        _this18.isLoading = false;
+      });
+    },
+    resetAllAudioPlayers: function resetAllAudioPlayers() {
+      var _this19 = this;
+      this.$nextTick(function () {
+        if (_this19.currentlyPlaying) {
+          _this19.currentlyPlaying.pause();
+          _this19.currentlyPlaying = null;
+          _this19.currentlyPlayingIndex = 0;
+        }
+        if (_this19.audioElements && _this19.audioElements.forEach) {
+          _this19.audioElements.forEach(function (audio) {
+            if (audio && audio.remove) audio.remove();
+          });
+        }
+        _this19.initializeAudioElements();
+        _this19.isAudioPlaying = new Array(_this19.filteredAyahs.length).fill(false);
+        _this19.isAudioLoading = new Array(_this19.filteredAyahs.length).fill(false);
+        _this19.progress = new Array(_this19.filteredAyahs.length).fill(0);
+      });
+    },
+    savePreference: function savePreference(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    },
+    handleAyahEnd: function handleAyahEnd(index) {
+      if (this.isAudioPlaying[index]) {
+        this.stopAudio(index);
+        if (this.repeatCurrent) {
+          this.toggleAudioPlayer(index);
+        } else if (this.continuousPlayback) {
+          this.playNextAyah(index);
+        } else {
+          console.log("Continuous playback disabled, stopping after ayah ".concat(index + 1));
+        }
       }
-      _this17.initializeAudioElements();
-      _this17.isAudioPlaying = new Array(_this17.filteredAyahs.length).fill(false);
-      _this17.isAudioLoading = new Array(_this17.filteredAyahs.length).fill(false);
-      _this17.progress = new Array(_this17.filteredAyahs.length).fill(0);
-    });
-  }), "savePreference", function savePreference(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }), "handleAyahEnd", function handleAyahEnd(index) {
-    if (this.isAudioPlaying[index]) {
-      this.stopAudio(index);
-      if (this.continuousPlayback) {
-        this.playNextAyah();
+    },
+    // playNextAyah: function () {
+    //   if (this.filteredAyahs.length > 0) {
+    //     const nextIndex = (this.currentlyPlayingIndex + 1) % this.filteredAyahs.length;
+    //     if (nextIndex < this.filteredAyahs.length && this.audioElements[nextIndex]) {
+    //       console.log(`Playing next ayah: ${nextIndex + 1}`);
+    //       // Stop current auto-scroll before starting new one
+    //       this.stopAutoScroll();
+    //       // Small delay to ensure smooth transition
+    //       setTimeout(() => {
+    //         this.playAudio(nextIndex);
+    //       }, 100);
+    //     } else {
+    //       console.warn(`Cannot play next ayah: index ${nextIndex} invalid or no audio element`);
+    //     }
+    //   }
+    // },
+    playNextAyah: function playNextAyah(currentIndex) {
+      if (currentIndex + 1 < this.filteredAyahs.length) {
+        this.stopAudio(currentIndex);
+        this.toggleAudioPlayer(currentIndex + 1); // Play next ayah
       } else {
-        console.log("Continuous playback disabled, stopping after ayah ".concat(index + 1));
+        this.stopAudio(currentIndex);
+        this.showAudioPlayer = false;
+        this.currentlyPlayingIndex = -1;
       }
-    }
-  }), "playNextAyah", function playNextAyah(currentIndex) {
-    if (currentIndex + 1 < this.filteredAyahs.length) {
-      this.stopAudio(currentIndex);
-      this.toggleAudioPlayer(currentIndex + 1); // Play next ayah
-    } else {
-      this.stopAudio(currentIndex);
-      this.showAudioPlayer = false;
-      this.currentlyPlayingIndex = -1;
-    }
-  }), "toggleVolume", function toggleVolume() {
-    this.showVolumeBar = !this.showVolumeBar;
-  }), "updateVolume", function updateVolume() {
-    var _this18 = this;
-    if (this.currentlyPlaying) {
-      this.currentlyPlaying.volume = this.volume;
-    }
-    if (this.audioElements && this.audioElements.forEach) {
-      this.audioElements.forEach(function (audio) {
-        if (audio) audio.volume = _this18.volume;
-      });
-    }
-  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "closeAudioPlayer", function closeAudioPlayer() {
-    var _this19 = this;
-    if (this.currentlyPlayingIndex !== null) {
-      this.stopAudio(this.currentlyPlayingIndex);
-    }
-    this.showAudioPlayer = false;
-    this.currentlyPlayingIndex = 0;
-    this.currentlyPlaying = null;
-    this.isHighlighted = false;
-    this.stopAutoScroll();
-
-    // Reset to top when closing audio player
-    this.$nextTick(function () {
-      setTimeout(function () {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
+    },
+    playPrevAyah: function playPrevAyah(currentIndex) {
+      var prev = Math.max(0, currentIndex - 1);
+      if (this.filteredAyahs.length > 0 && this.audioElements[prev]) {
+        if (currentIndex !== prev) this.stopAudio(currentIndex);
+        this.toggleAudioPlayer(prev);
+      }
+    },
+    toggleVolume: function toggleVolume() {
+      this.showVolumeBar = !this.showVolumeBar;
+    },
+    updateVolume: function updateVolume() {
+      var _this20 = this;
+      if (this.currentlyPlaying) {
+        this.currentlyPlaying.volume = this.volume;
+      }
+      if (this.audioElements && this.audioElements.forEach) {
+        this.audioElements.forEach(function (audio) {
+          if (audio) audio.volume = _this20.volume;
         });
-        _this19.ensureCardPositionsCached(function () {});
-      }, 200);
-    });
-  }), "syncHighlight", function syncHighlight() {
-    var audio = this.currentlyPlaying;
-    if (!audio || !this.wordTimings.length) return;
-    var currentTime = audio.currentTime;
-    var index = this.wordTimings.findIndex(function (t, i, arr) {
-      return currentTime >= t && (i === arr.length - 1 || currentTime < arr[i + 1]);
-    });
-    this.highlightedWordIndex = index;
-  }), "seekToPosition", function seekToPosition(event) {
-    var audio = this.audioElements[this.currentlyPlayingIndex];
-    if (!audio || !audio.duration) return;
-    var progressBar = this.$refs.progressBar;
-    if (!progressBar) return;
-    var rect = progressBar.getBoundingClientRect();
-    var clickX = event.clientX - rect.left;
-    var percentage = clickX / rect.width;
-    var newTime = percentage * audio.duration;
-    audio.currentTime = Math.max(0, Math.min(newTime, audio.duration));
+      }
+    },
+    closeAudioPlayer: function closeAudioPlayer() {
+      var _this21 = this;
+      if (this.currentlyPlayingIndex !== null) {
+        this.stopAudio(this.currentlyPlayingIndex);
+      }
+      this.showAudioPlayer = false;
+      this.currentlyPlayingIndex = 0;
+      this.currentlyPlaying = null;
+      this.isHighlighted = false;
+      this.stopAutoScroll();
 
-    // Update progress immediately
-    this.updateProgress(this.currentlyPlayingIndex);
-    console.log("Seeking to ".concat(newTime.toFixed(2), "s (").concat((percentage * 100).toFixed(1), "%)"));
-  }), "cyclePlaybackSpeed", function cyclePlaybackSpeed() {
-    var _this20 = this;
-    this.currentSpeedIndex = (this.currentSpeedIndex + 1) % this.playbackSpeeds.length;
-    this.playbackSpeed = this.playbackSpeeds[this.currentSpeedIndex];
-
-    // Update all audio elements
-    if (this.audioElements && this.audioElements.forEach) {
-      this.audioElements.forEach(function (audio) {
-        if (audio) audio.playbackRate = _this20.playbackSpeed;
+      // Reset to top when closing audio player
+      this.$nextTick(function () {
+        setTimeout(function () {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+          _this21.ensureCardPositionsCached(function () {});
+        }, 200);
       });
-    }
-    this.savePreference('playbackSpeed', this.playbackSpeed);
-    console.log("Playback speed set to ".concat(this.playbackSpeed, "x"));
-  }), "animateVisualizer", function animateVisualizer() {
-    var _this21 = this;
-    if (!this.isAudioPlaying[this.currentlyPlayingIndex]) return;
+    },
+    syncHighlight: function syncHighlight() {
+      var audio = this.currentlyPlaying;
+      if (!audio || !this.wordTimings.length) return;
+      var currentTime = audio.currentTime;
+      var index = this.wordTimings.findIndex(function (t, i, arr) {
+        return currentTime >= t && (i === arr.length - 1 || currentTime < arr[i + 1]);
+      });
+      this.highlightedWordIndex = index;
+    },
+    seekToPosition: function seekToPosition(event) {
+      var audio = this.audioElements[this.currentlyPlayingIndex];
+      if (!audio || !audio.duration) return;
+      var progressBar = this.$refs.progressBar;
+      if (!progressBar) return;
+      var rect = progressBar.getBoundingClientRect();
+      var clickX = event.clientX - rect.left;
+      var percentage = clickX / rect.width;
+      var newTime = percentage * audio.duration;
+      audio.currentTime = Math.max(0, Math.min(newTime, audio.duration));
 
-    // Create animated bars based on audio volume (simulated)
-    var audio = this.audioElements[this.currentlyPlayingIndex];
-    var volume = audio ? Math.min(audio.volume * 2, 1) : 0.3;
-    this.visualizerBars = this.visualizerBars.map(function () {
-      return Math.random() * 80 * volume + 10;
-    });
-    requestAnimationFrame(function () {
-      return _this21.animateVisualizer();
-    });
-  })),
+      // Update progress immediately
+      this.updateProgress(this.currentlyPlayingIndex);
+      console.log("Seeking to ".concat(newTime.toFixed(2), "s (").concat((percentage * 100).toFixed(1), "%)"));
+    },
+    cyclePlaybackSpeed: function cyclePlaybackSpeed() {
+      var _this22 = this;
+      this.currentSpeedIndex = (this.currentSpeedIndex + 1) % this.playbackSpeeds.length;
+      this.playbackSpeed = this.playbackSpeeds[this.currentSpeedIndex];
+
+      // Update all audio elements
+      if (this.audioElements && this.audioElements.forEach) {
+        this.audioElements.forEach(function (audio) {
+          if (audio) audio.playbackRate = _this22.playbackSpeed;
+        });
+      }
+      this.savePreference('playbackSpeed', this.playbackSpeed);
+      console.log("Playback speed set to ".concat(this.playbackSpeed, "x"));
+    },
+    animateVisualizer: function animateVisualizer() {
+      var _this23 = this;
+      if (!this.isAudioPlaying[this.currentlyPlayingIndex]) return;
+
+      // Create animated bars based on audio volume (simulated)
+      var audio = this.audioElements[this.currentlyPlayingIndex];
+      var volume = audio ? Math.min(audio.volume * 2, 1) : 0.3;
+      this.visualizerBars = this.visualizerBars.map(function () {
+        return Math.random() * 80 * volume + 10;
+      });
+      requestAnimationFrame(function () {
+        return _this23.animateVisualizer();
+      });
+    },
+    toggleRepeat: function toggleRepeat() {
+      this.repeatCurrent = !this.repeatCurrent;
+      localStorage.setItem('repeatCurrent', JSON.stringify(this.repeatCurrent));
+    }
+  },
   mounted: function mounted() {
-    var _JSON$parse,
-      _JSON$parse2,
-      _this22 = this;
+    var _this24 = this,
+      _JSON$parse,
+      _JSON$parse2;
+    // Keyboard shortcuts for better UX
+    this._keydownHandler = function (e) {
+      if (!_this24.showAudioPlayer) return;
+      if (['INPUT', 'TEXTAREA'].includes((e.target || {}).tagName)) return;
+      switch (e.key) {
+        case ' ':
+          e.preventDefault();
+          _this24.toggleAudioPlayer(_this24.currentlyPlayingIndex);
+          break;
+        case 'ArrowRight':
+          _this24.fastForwardAudio(_this24.currentlyPlayingIndex);
+          break;
+        case 'ArrowLeft':
+          _this24.rewindAudio(_this24.currentlyPlayingIndex);
+          break;
+        case 'ArrowDown':
+          _this24.playNextAyah(_this24.currentlyPlayingIndex);
+          break;
+        case 'ArrowUp':
+          _this24.playPrevAyah(_this24.currentlyPlayingIndex);
+          break;
+      }
+    };
+    window.addEventListener('keydown', this._keydownHandler);
     this.selectedSurah = "1";
     this.selectedReciter = "ar.alafasy";
     this.selectedTranslation = "en.ahmedali";
@@ -156104,20 +156466,22 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       behavior: 'instant'
     });
     Promise.all([this.fetchReciters(), this.fetchSurahs(), this.fetchTranslations(), this.fetchSurahDetails()]).then(function () {
-      _this22.isInitialLoad = false;
-      _this22.$nextTick(function () {
+      _this24.isInitialLoad = false;
+      _this24.$nextTick(function () {
         setTimeout(function () {
           // Ensure we're still at the top after content loads
           window.scrollTo({
             top: 0,
             behavior: 'instant'
           });
-          _this22.ensureCardPositionsCached(function () {});
+          _this24.ensureCardPositionsCached(function () {});
         }, 1000);
       });
     });
   },
   beforeUnmount: function beforeUnmount() {
+    this.isComponentAlive = false;
+    window.removeEventListener('keydown', this._keydownHandler);
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(function (audio) {
         if (audio && audio.pause) audio.pause();
@@ -166623,10 +166987,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _utils_milestones__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../utils/milestones */ "./resources/js/utils/milestones.js");
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'BookmarkTranslation',
@@ -166656,7 +167022,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       folders: [],
       // Ensure you fetch and populate this array from your backend or state
       bookmarks: [],
-      selectedFolderId: null
+      selectedFolderId: null,
+      milestoneMessage: ''
     };
   },
   created: function created() {
@@ -166675,7 +167042,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     submitForm2: function submitForm2() {
       var _this = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var _this$information, surah, ayah_text, ayah_id, translation, formData, response, _t;
+        var _this$information, surah, ayah_text, ayah_id, translation, formData, response, hit, _t;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.p = _context.n) {
             case 0:
@@ -166714,6 +167081,16 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               localStorage.setItem("bookmarkSubmitted_".concat(ayah_id), true);
               _this.showAlert = true;
               _this.showErrorAlert = false;
+              // Milestone tracking: bookmarks saved
+              hit = (0,_utils_milestones__WEBPACK_IMPORTED_MODULE_1__.trackAndDetect)('bookmarks_saved', [1, 5, 10, 25, 50], 'persistent');
+              if (hit && hit.threshold) {
+                if (hit.threshold === 1) {
+                  _this.milestoneMessage = "Masha'Allah! First bookmark saved — your journey begins.";
+                } else {
+                  _this.milestoneMessage = "Masha'Allah! ".concat(hit.threshold, " bookmarks added \u2014 keep going.");
+                }
+                _this.hideMilestoneAfterDelay();
+              }
               _this.hideAlertAfterDelay();
               _context.n = 6;
               break;
@@ -166736,6 +167113,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         _this2.showAlert = false;
         _this2.showErrorAlert = false;
       }, 3000); // Hide alerts after 3 seconds
+    },
+    hideMilestoneAfterDelay: function hideMilestoneAfterDelay() {
+      var _this3 = this;
+      setTimeout(function () {
+        _this3.milestoneMessage = '';
+      }, 3500);
     }
   }
 });
@@ -166947,6 +167330,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tinymce_plugins_lists__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(tinymce_plugins_lists__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 /* harmony import */ var _utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../../../utils/subscriptionUtils.js */ "./utils/subscriptionUtils.js");
+/* harmony import */ var _utils_milestones__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../utils/milestones */ "./resources/js/utils/milestones.js");
+
 
 
 
@@ -166968,6 +167353,7 @@ __webpack_require__.r(__webpack_exports__);
       isListening: false,
       recognition: null,
       isPaused: false,
+      milestoneMessage: '',
       form: {
         ayah_notes: "",
         surah_name: ""
@@ -167059,6 +167445,16 @@ __webpack_require__.r(__webpack_exports__);
               timer: 1500,
               showConfirmButton: false
             }).then(function () {
+              // Milestone tracking: notes created
+              var hit = (0,_utils_milestones__WEBPACK_IMPORTED_MODULE_10__.trackAndDetect)('notes_saved', [1, 5, 10, 25, 100], 'persistent');
+              if (hit && hit.threshold) {
+                if (hit.threshold === 1) {
+                  _this3.milestoneMessage = "First note saved — reflections deepen understanding.";
+                } else {
+                  _this3.milestoneMessage = "Beautiful progress \u2014 ".concat(hit.threshold, " notes captured. Keep reflecting.");
+                }
+                _this3.hideMilestoneAfterDelay();
+              }
               _this3.resetNoteForm();
               _this3.closeModal();
             });
@@ -167071,6 +167467,12 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    hideMilestoneAfterDelay: function hideMilestoneAfterDelay() {
+      var _this4 = this;
+      setTimeout(function () {
+        _this4.milestoneMessage = '';
+      }, 3500);
+    },
     resetNoteForm: function resetNoteForm() {
       this.form.ayah_notes = '';
       this.form.surah_name = '';
@@ -167082,10 +167484,10 @@ __webpack_require__.r(__webpack_exports__);
       modalInstance.show();
     },
     initModalReset: function initModalReset() {
-      var _this4 = this;
+      var _this5 = this;
       var modalElement = this.$refs.modal;
       modalElement.addEventListener('hidden.bs.modal', function () {
-        _this4.resetNoteForm();
+        _this5.resetNoteForm();
       });
     },
     closeModal: function closeModal() {
@@ -177924,57 +178326,63 @@ var _hoisted_10 = {
   }
 };
 var _hoisted_11 = {
+  key: 0,
+  "class": "p-3"
+};
+var _hoisted_12 = {
+  key: 1,
   "class": "col-md-12 list-group root",
   id: "toggle",
   ref: "ayahList",
+  role: "listbox",
   style: {
     "list-style-type": "none"
   }
 };
-var _hoisted_12 = ["onClick"];
-var _hoisted_13 = {
+var _hoisted_13 = ["aria-selected", "onClick"];
+var _hoisted_14 = {
   "class": "text-right",
   style: {
     "display": "flex",
     "font-weight": "bold"
   }
 };
-var _hoisted_14 = {
-  "class": "text-right"
-};
 var _hoisted_15 = {
-  "class": "col-md-8 pt-2 card-hide text-left pr-4"
+  "class": "text-right",
+  dir: "rtl",
+  lang: "ar"
 };
 var _hoisted_16 = {
-  "class": "card content"
+  "class": "col-md-8 pt-2 card-hide text-left pr-4"
 };
 var _hoisted_17 = {
-  key: 0
+  key: 0,
+  "class": "mt-2"
 };
 var _hoisted_18 = {
-  "class": "container-fluid"
+  key: 0
 };
 var _hoisted_19 = {
-  "class": "row"
+  "class": "container-fluid"
 };
 var _hoisted_20 = {
-  "class": "card-body content"
+  "class": "row"
 };
 var _hoisted_21 = {
-  "class": "tab-content text-center"
+  "class": "card-body content"
 };
 var _hoisted_22 = {
+  "class": "tab-content text-center"
+};
+var _hoisted_23 = {
   key: 0,
   "class": "tab-pane active content",
   id: "home",
   role: "tabpanel"
 };
-var _hoisted_23 = ["selectedSurahId"];
-var _hoisted_24 = {
-  "class": "text-center icon-text"
-};
+var _hoisted_24 = ["selectedSurahId"];
 var _hoisted_25 = {
-  "class": "text-center"
+  "class": "text-center icon-text"
 };
 var _hoisted_26 = {
   "class": "text-center"
@@ -177983,20 +178391,17 @@ var _hoisted_27 = {
   "class": "text-center"
 };
 var _hoisted_28 = {
+  "class": "text-center"
+};
+var _hoisted_29 = {
   key: 0,
   "class": "hide-on-mobile"
 };
-var _hoisted_29 = {
+var _hoisted_30 = {
   "class": "text-center"
 };
-var _hoisted_30 = {
-  "class": "row pt-2 text-center"
-};
 var _hoisted_31 = {
-  "class": "col desktop-icon",
-  style: {
-    "cursor": "pointer"
-  }
+  "class": "row pt-2 text-center"
 };
 var _hoisted_32 = {
   "class": "col desktop-icon",
@@ -178005,27 +178410,30 @@ var _hoisted_32 = {
   }
 };
 var _hoisted_33 = {
+  "class": "col desktop-icon",
+  style: {
+    "cursor": "pointer"
+  }
+};
+var _hoisted_34 = {
   "class": "pt-2",
   ref: "targetTranslationElement"
 };
-var _hoisted_34 = {
+var _hoisted_35 = {
   key: 0,
   "class": "collapse-content mobile-only"
 };
-var _hoisted_35 = {
+var _hoisted_36 = {
   key: 0,
   "class": "card text-bg-light card-body"
 };
-var _hoisted_36 = {
+var _hoisted_37 = {
   key: 1,
   "class": "tab-pane content",
   id: "profile",
   role: "tabpanel"
 };
-var _hoisted_37 = ["selectedSurahId"];
-var _hoisted_38 = {
-  "class": "text-center"
-};
+var _hoisted_38 = ["selectedSurahId"];
 var _hoisted_39 = {
   "class": "text-center"
 };
@@ -178036,20 +178444,17 @@ var _hoisted_41 = {
   "class": "text-center"
 };
 var _hoisted_42 = {
+  "class": "text-center"
+};
+var _hoisted_43 = {
   key: 0,
   "class": "icon-container-fluid hide-on-mobile"
 };
-var _hoisted_43 = {
+var _hoisted_44 = {
   "class": "text-center"
 };
-var _hoisted_44 = {
-  "class": "row pt-2"
-};
 var _hoisted_45 = {
-  "class": "col desktop-icon",
-  style: {
-    "cursor": "pointer"
-  }
+  "class": "row pt-2"
 };
 var _hoisted_46 = {
   "class": "col desktop-icon",
@@ -178058,30 +178463,33 @@ var _hoisted_46 = {
   }
 };
 var _hoisted_47 = {
+  "class": "col desktop-icon",
+  style: {
+    "cursor": "pointer"
+  }
+};
+var _hoisted_48 = {
   "class": "pt-2",
   ref: "targetTafseerElement"
 };
-var _hoisted_48 = {
+var _hoisted_49 = {
   key: 0,
   "class": "collapse-content mobile-only"
 };
-var _hoisted_49 = {
+var _hoisted_50 = {
   key: 0,
   "class": "card text-bg-light card-body"
 };
-var _hoisted_50 = {
+var _hoisted_51 = {
   key: 2,
   "class": "tab-pane content",
   id: "messages",
   role: "tabpanel"
 };
-var _hoisted_51 = {
+var _hoisted_52 = {
   "class": "pb-3"
 };
-var _hoisted_52 = ["selectedSurahId"];
-var _hoisted_53 = {
-  "class": "text-center"
-};
+var _hoisted_53 = ["selectedSurahId"];
 var _hoisted_54 = {
   "class": "text-center"
 };
@@ -178092,20 +178500,17 @@ var _hoisted_56 = {
   "class": "text-center"
 };
 var _hoisted_57 = {
+  "class": "text-center"
+};
+var _hoisted_58 = {
   key: 0,
   "class": "hide-on-mobile"
 };
-var _hoisted_58 = {
+var _hoisted_59 = {
   "class": "text-center"
 };
-var _hoisted_59 = {
-  "class": "row pt-2"
-};
 var _hoisted_60 = {
-  "class": "col desktop-icon",
-  style: {
-    "cursor": "pointer"
-  }
+  "class": "row pt-2"
 };
 var _hoisted_61 = {
   "class": "col desktop-icon",
@@ -178114,13 +178519,19 @@ var _hoisted_61 = {
   }
 };
 var _hoisted_62 = {
-  ref: "targetTransliterationElement"
+  "class": "col desktop-icon",
+  style: {
+    "cursor": "pointer"
+  }
 };
 var _hoisted_63 = {
+  ref: "targetTransliterationElement"
+};
+var _hoisted_64 = {
   key: 0,
   "class": "collapse-content mobile-only"
 };
-var _hoisted_64 = {
+var _hoisted_65 = {
   key: 0,
   "class": "card text-bg-light card-body"
 };
@@ -178143,15 +178554,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_TranslationNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TranslationNote");
   var _component_TafseerNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TafseerNote");
   var _component_TransliterationNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TransliterationNote");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), _cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), _cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "text-center container mb-4 lead",
     style: {
       "line-height": "1.6em"
     }
   }, " The Quran Companion page utilizes AI tools and accessibility features to enrich your learning experience. It offers text-to-speech, speech-to-text, and synchronized highlighting and more. ", -1 /* CACHED */)), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"fw-bold text-center pt-2 mb-2 container\" v-if=\"information != null\">Search for a word in the\n                    Quran...</h4> "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AdvancedSearch, {
     key: 0,
-    onInputChange: _ctx.handleInputChange
-  }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                    <div class=\"col-12 col-md-6\">\n                        <SurahDropdown v-if=\"!selectedSurahId\" class=\"pt-1\" :selectedSurah=\"selectedSurahId\"\n                            :filteredSurah=\"filteredSurah\" :surat=\"surat\" @update:selectedSurah=\"updateSelectedSurah\"\n                            @fetchAyat=\"getAyat\" />\n                    </div>\n                    <div class=\"col-12 col-md-6\">\n                    </div>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    onInputChange: $options.handleInputChange
+  }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                    <div class=\"col-12 col-md-6\">\n                        <SurahDropdown v-if=\"!selectedSurahId\" class=\"pt-1\" :selectedSurah=\"selectedSurahId\"\n                            :filteredSurah=\"filteredSurah\" :surat=\"surat\" @update:selectedSurah=\"updateSelectedSurah\"\n                            @fetchAyat=\"getAyat\" />\n                    </div>\n                    <div class=\"col-12 col-md-6\">\n                    </div>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "fw-bold text-left -2"
   }, "Select a Surah:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
     "class": "col-md-12",
@@ -178170,99 +178581,128 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8 /* PROPS */, ["selectedSurahId", "dropdownHidden", "onUpdateInformation", "onUpdateTafseer"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List of Ayat for Surah (desktop) "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_ctx.ayah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error alert "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ErrorAlert, {
     showError: $data.showError,
     onDismissError: $options.dismissError
-  }, null, 8 /* PROPS */, ["showError", "onDismissError"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ayat, function (ayah, index) {
+  }, null, 8 /* PROPS */, ["showError", "onDismissError"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading skeleton while ayat fetch "), $data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(10, function (n) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      key: n,
+      "class": "skeleton-line"
+    });
+  }), 64 /* STABLE_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ayat, function (ayah, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: index,
+      key: ayah.id || index,
+      role: "option",
+      "aria-selected": $data.selectedIndexAyah === index,
       onClick: function onClick($event) {
         return $options.selectAyah(index);
       },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['ayah-item', {
         selected: $data.selectedIndexAyah === index || $data.verseNumber && parseInt($data.verseNumber) === ayah.ayah_id
-      }),
+      }]),
       style: {
-        "padding": "8px",
-        "border-radius": "15px"
+        "padding": "10px 12px",
+        "border-radius": "12px",
+        "margin": "6px 0",
+        "cursor": "pointer"
       }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_13, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_12);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [$data.information == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Welcome, {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_13);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [$data.information == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
-  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AyahOfTheDay /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"translationInfo\" tabindex=\"-1\"\n                                    aria-labelledby=\"surahInfoModalLabel\" aria-hidden=\"true\" @click.self=\"closeModal\">\n                                    <div class=\"modal-dialog modal-dialog-centered modal-lg\">\n                                        <div class=\"modal-content\">\n                                            <div class=\"modal-header\">\n                                                <h1 class=\"modal-title fs-5\" id=\"surahInfoModalLabel\">\n                                                    <strong>Surah Information</strong>\n                                                </h1>\n                                                <button type=\"button\" class=\"btn-close\" @click=\"closeModal\"\n                                                    aria-label=\"Close\"></button>\n                                            </div>\n                                            <div class=\"modal-body\">\n                                                <form class=\" text-left\">\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\" class=\"form-label\">Surah Name\n                                                            (English):</label>\n                                                        <p class=\"mt-2 text-dark text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.name_en\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\"\n                                                            class=\"form-label text-left\">Surah\n                                                            Information:</label>\n                                                        <p class=\"text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.text\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                </form>\n                                            </div>\n                                            <div class=\"modal-footer\">\n                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\"\n                                                    @click=\"closeModal\">\n                                                    Close\n                                                </button>\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Welcome :information=\"information\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Welcome), $options.hasSavedProgress ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-success",
+    style: {
+      "background": "#00bfa6",
+      "border-radius": "6px"
+    },
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $options.resumeFromSave && $options.resumeFromSave.apply($options, arguments);
+    })
+  }, " Continue reading ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AyahOfTheDay /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card content",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      fontSize: $data.fontSize + 'rem'
+    })
+  }, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"translationInfo\" tabindex=\"-1\"\n                                    aria-labelledby=\"surahInfoModalLabel\" aria-hidden=\"true\" @click.self=\"closeModal\">\n                                    <div class=\"modal-dialog modal-dialog-centered modal-lg\">\n                                        <div class=\"modal-content\">\n                                            <div class=\"modal-header\">\n                                                <h1 class=\"modal-title fs-5\" id=\"surahInfoModalLabel\">\n                                                    <strong>Surah Information</strong>\n                                                </h1>\n                                                <button type=\"button\" class=\"btn-close\" @click=\"closeModal\"\n                                                    aria-label=\"Close\"></button>\n                                            </div>\n                                            <div class=\"modal-body\">\n                                                <form class=\" text-left\">\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\" class=\"form-label\">Surah Name\n                                                            (English):</label>\n                                                        <p class=\"mt-2 text-dark text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.name_en\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\"\n                                                            class=\"form-label text-left\">Surah\n                                                            Information:</label>\n                                                        <p class=\"text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.text\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                </form>\n                                            </div>\n                                            <div class=\"modal-footer\">\n                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\"\n                                                    @click=\"closeModal\">\n                                                    Close\n                                                </button>\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Welcome :information=\"information\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurah,
-    onUpdateTafseer: _cache[4] || (_cache[4] = function () {
+    onUpdateTafseer: _cache[5] || (_cache[5] = function () {
       return $options.updateTafseer && $options.updateTafseer.apply($options, arguments);
     }),
-    onUpdateInformation: _cache[5] || (_cache[5] = function () {
+    onUpdateInformation: _cache[6] || (_cache[6] = function () {
       return $options.updateInformation && $options.updateInformation.apply($options, arguments);
     }),
-    style: {},
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{}, {
+      "position": "sticky",
+      "top": "0",
+      "z-index": "5",
+      "background": "#fff",
+      "padding-top": "6px"
+    }]),
     "class": "icon-container hide-on-mobile mb-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-start-fill h2 pt- custom-prev-ayah",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[0] || (_cache[0] = function () {
+    onClick: _cache[1] || (_cache[1] = function () {
       return $options.goToFirstAyah && $options.goToFirstAyah.apply($options, arguments);
     }),
     title: "First verse"
-  }), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[1] || (_cache[1] = function () {
+    onClick: _cache[2] || (_cache[2] = function () {
       return $options.goToPreviousAyah && $options.goToPreviousAyah.apply($options, arguments);
     }),
     title: "Previous verse"
-  }), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[2] || (_cache[2] = function () {
+    onClick: _cache[3] || (_cache[3] = function () {
       return $options.goToNextAyah && $options.goToNextAyah.apply($options, arguments);
     }),
     title: "Next verse"
-  }), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[3] || (_cache[3] = function () {
+    onClick: _cache[4] || (_cache[4] = function () {
       return $options.goToLastAyah && $options.goToLastAyah.apply($options, arguments);
     }),
     title: "Last verse"
-  }), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.iconStyle)
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col pb-2\">\n                                                <i :class=\"isOpen\n                                                    ? 'bi bi-x-circle-fill'\n                                                    : 'bi bi-plus-circle-fill'\n                                                    \" class=\"text-left hide-on-mobile h4\" @click=\"toggleContent\"></i>\n                                            </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col pb-2\">\n                                                <i :class=\"isOpen\n                                                    ? 'bi bi-x-circle-fill'\n                                                    : 'bi bi-plus-circle-fill'\n                                                    \" class=\"text-left hide-on-mobile h4\" @click=\"toggleContent\"></i>\n                                            </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-file-earmark-text text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top",
     title: "Write a note",
-    onClick: _cache[6] || (_cache[6] = function ($event) {
+    onClick: _cache[7] || (_cache[7] = function ($event) {
       return $options.openModal('translationNote');
     })
-  }), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2"
-  }, "Write a Note", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[7] || (_cache[7] = function () {
+  }, "Write a Note", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[8] || (_cache[8] = function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
     }),
     "class": "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
     title: "Bookmark verse"
-  }), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2"
-  }, "Bookmark", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                data-bs-toggle=\"modal\" data-bs-target=\"#translationInfo\"\n                                                                aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                title=\"Surah info\"></i>\n                                                            <div class=\"icon-text pt-2\">Surah Info</div>\n                                                        </div> "), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Bookmark", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                data-bs-toggle=\"modal\" data-bs-target=\"#translationInfo\"\n                                                                aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                title=\"Surah info\"></i>\n                                                            <div class=\"icon-text pt-2\">Surah Info</div>\n                                                        </div> "), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon",
     style: {
       "cursor": "pointer"
@@ -178276,11 +178716,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-placement": "top"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2"
-  }, "Feedback")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-arrows-fullscreen h4\"\n                                                                @click=\"toggleFullScreen\" title=\"Full screen\"></i>\n                                                            <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                        </div> ")])]), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Feedback")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-arrows-fullscreen h4\"\n                                                                @click=\"toggleFullScreen\" title=\"Full screen\"></i>\n                                                            <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                        </div> ")])]), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
       "border": "2px solid #333"
     }
-  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationSection, {
+  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationSection, {
     currentAyah: $data.currentAyah,
     isVisible: !$data.isVisible,
     information: $data.information,
@@ -178300,94 +178740,101 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onCloseAlertText: $options.closeAlertText,
     onToggleAudio: $options.toggleAudioPlayback,
     onUpdateSuccessMessage: _ctx.updateSuccessMessage
-  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationActions, {
+  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: _ctx.translation,
     onOpenModal: $options.openModal,
     onSubmitForm: $options.submitForm,
     onToggleAudio: $options.toggleAudioPlayback,
     isPlaying: _ctx.isPlaying
-  }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafseer Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafseer Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurah,
-    onUpdateTafseer: _cache[12] || (_cache[12] = function () {
+    onUpdateTafseer: _cache[13] || (_cache[13] = function () {
       return $options.updateTafseer && $options.updateTafseer.apply($options, arguments);
     }),
-    onUpdateInformation: _cache[13] || (_cache[13] = function () {
+    onUpdateInformation: _cache[14] || (_cache[14] = function () {
       return $options.updateInformation && $options.updateInformation.apply($options, arguments);
     }),
-    "class": "icon-container hide-on-mobile mb-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "icon-container hide-on-mobile mb-3",
+    style: {
+      "position": "sticky",
+      "top": "0",
+      "z-index": "5",
+      "background": "#fff",
+      "padding-top": "6px"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-start-fill h2 pt- custom-prev-ayah",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[8] || (_cache[8] = function () {
+    onClick: _cache[9] || (_cache[9] = function () {
       return $options.goToFirstAyah && $options.goToFirstAyah.apply($options, arguments);
     }),
     title: "First verse"
-  }), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[9] || (_cache[9] = function () {
+    onClick: _cache[10] || (_cache[10] = function () {
       return $options.goToPreviousAyah && $options.goToPreviousAyah.apply($options, arguments);
     }),
     title: "Previous verse"
-  }), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[10] || (_cache[10] = function () {
+    onClick: _cache[11] || (_cache[11] = function () {
       return $options.goToNextAyah && $options.goToNextAyah.apply($options, arguments);
     }),
     title: "Next verse"
-  }), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[11] || (_cache[11] = function () {
+    onClick: _cache[12] || (_cache[12] = function () {
       return $options.goToLastAyah && $options.goToLastAyah.apply($options, arguments);
     }),
     title: "Last verse"
-  }), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_37), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_38), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.iconStyle)
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col pb-2\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle-fill'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-left hide-on-mobile h4\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col pb-2\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle-fill'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-left hide-on-mobile h4\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-file-earmark-text text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top",
     title: "Write a note",
-    onClick: _cache[14] || (_cache[14] = function ($event) {
+    onClick: _cache[15] || (_cache[15] = function ($event) {
       return $options.openModal('tafseerNote');
     })
-  }), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Write a Note")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[15] || (_cache[15] = function () {
+  }, "Write a Note")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[16] || (_cache[16] = function () {
       return $options.submitFormTafseer && $options.submitFormTafseer.apply($options, arguments);
     }),
     "class": "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top",
     title: "Bookmark verse"
-  }), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Bookmark")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                    data-bs-toggle=\"modal\"\n                                                                    data-bs-target=\"#translationInfo\"\n                                                                    aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                    title=\"Surah info\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Surah Info</div>\n                                                                </div>\n                                                            </div> "), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Bookmark")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                    data-bs-toggle=\"modal\"\n                                                                    data-bs-target=\"#translationInfo\"\n                                                                    aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                    title=\"Surah info\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Surah Info</div>\n                                                                </div>\n                                                            </div> "), _cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon",
     style: {
       "cursor": "pointer"
@@ -178403,11 +178850,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                \" title=\"Full screen\" aria-expanded=\"false\"\n                                                                    data-bs-placement=\"top\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                                </div>\n                                                            </div> ")])]), _cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                \" title=\"Full screen\" aria-expanded=\"false\"\n                                                                    data-bs-placement=\"top\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                                </div>\n                                                            </div> ")])]), _cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
       "border": "2px solid #333"
     }
-  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main content  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerSection, {
+  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main content  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerSection, {
     currentAyah: $data.currentAyah,
     isVisible: !$data.isVisible,
     information: $data.information,
@@ -178427,7 +178874,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onCloseAlertText: $options.closeAlertText,
     onToggleAudio: $options.toggleAudioPlayback,
     onUpdateSuccessMessage: _ctx.updateSuccessMessage
-  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                            <div class=\"row\">\n                                                <div class=\"col\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-center mobile-only h3 pt-3\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div>\n                                            </div>\n                                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerActions, {
+  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                            <div class=\"row\">\n                                                <div class=\"col\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-center mobile-only h3 pt-3\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div>\n                                            </div>\n                                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: _ctx.translation,
     onOpenModal: $options.openModal,
@@ -178436,85 +178883,92 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     isPlaying: _ctx.isPlaying
   }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahInfoModal, {
     information: $data.information
-  }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Transliteration Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Transliteration Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurah,
-    onUpdateTafseer: _cache[20] || (_cache[20] = function () {
+    onUpdateTafseer: _cache[21] || (_cache[21] = function () {
       return $options.updateTafseer && $options.updateTafseer.apply($options, arguments);
     }),
-    onUpdateInformation: _cache[21] || (_cache[21] = function () {
+    onUpdateInformation: _cache[22] || (_cache[22] = function () {
       return $options.updateInformation && $options.updateInformation.apply($options, arguments);
     }),
-    "class": "icon-container hide-on-mobile mb-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "icon-container hide-on-mobile mb-3",
+    style: {
+      "position": "sticky",
+      "top": "0",
+      "z-index": "5",
+      "background": "#fff",
+      "padding-top": "6px"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-start-fill icon-container h2 pt- custom-prev-ayah",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[16] || (_cache[16] = function () {
+    onClick: _cache[17] || (_cache[17] = function () {
       return $options.goToFirstAyah && $options.goToFirstAyah.apply($options, arguments);
     }),
     title: "First verse"
-  }), _cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[17] || (_cache[17] = function () {
+    onClick: _cache[18] || (_cache[18] = function () {
       return $options.goToPreviousAyah && $options.goToPreviousAyah.apply($options, arguments);
     }),
     title: "Previous verse"
-  }), _cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-right-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[18] || (_cache[18] = function () {
+    onClick: _cache[19] || (_cache[19] = function () {
       return $options.goToNextAyah && $options.goToNextAyah.apply($options, arguments);
     }),
     title: "Next verse"
-  }), _cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-end-fill pt-2 h2 icon-container custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[19] || (_cache[19] = function () {
+    onClick: _cache[20] || (_cache[20] = function () {
       return $options.goToLastAyah && $options.goToLastAyah.apply($options, arguments);
     }),
     title: "Last verse"
-  }), _cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
-  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_52), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_53), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.iconStyle)
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"col pb-2\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle-fill'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-left hide-on-mobile h4\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"col pb-2\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle-fill'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-left hide-on-mobile h4\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-file-earmark-text text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top",
     title: "Write a note",
-    onClick: _cache[22] || (_cache[22] = function ($event) {
+    onClick: _cache[23] || (_cache[23] = function ($event) {
       return $options.openModal('transliterationNote');
     })
-  }), _cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Write a Note ")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[23] || (_cache[23] = function () {
+  }, "Write a Note ")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[24] || (_cache[24] = function () {
       return $options.submitFormTransliteration && $options.submitFormTransliteration.apply($options, arguments);
     }),
     "class": "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
     title: "Bookmark verse"
-  }), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Bookmark")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                        data-bs-toggle=\"modal\"\n                                                                        data-bs-target=\"#translationInfo\"\n                                                                        aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                        title=\"Surah info\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Surah Info\n                                                                        </div>\n                                                                    </div>\n                                                                </div> "), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Bookmark")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                        data-bs-toggle=\"modal\"\n                                                                        data-bs-target=\"#translationInfo\"\n                                                                        aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                        title=\"Surah info\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Surah Info\n                                                                        </div>\n                                                                    </div>\n                                                                </div> "), _cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon",
     style: {
       "cursor": "pointer"
@@ -178530,11 +178984,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                    \" title=\"Full screen\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Full Screen\n                                                                        </div>\n                                                                    </div>\n                                                                </div> ")])]), _cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                    \" title=\"Full screen\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Full Screen\n                                                                        </div>\n                                                                    </div>\n                                                                </div> ")])]), _cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
       "border": "2px solid\n                                                                #333"
     }
-  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationSection, {
+  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationSection, {
     currentAyah: $data.currentAyah,
     isVisible: !$data.isVisible,
     information: $data.information,
@@ -178553,7 +179007,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onToggleExpand: $options.toggleExpand,
     onCloseAlertText: $options.closeAlertText,
     onToggleAudio: $options.toggleAudioPlayback
-  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio"])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_63, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationActions, {
+  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio"])], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: _ctx.translation,
     onOpenModal: $options.openModal,
@@ -178571,7 +179025,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationNote, {
     ref: "transliterationNote",
     information: _ctx.modalInformation
-  }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])]);
+  }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)])])])]);
 }
 
 /***/ }),
@@ -182249,11 +182703,13 @@ var _hoisted_1 = {
 };
 var _hoisted_2 = {
   key: 0,
-  "class": "bi bi-x-lg"
+  "class": "bi bi-x-lg",
+  "aria-hidden": "true"
 };
 var _hoisted_3 = {
   key: 1,
-  "class": "bi bi-plus-lg h5"
+  "class": "bi bi-plus-lg",
+  "aria-hidden": "true"
 };
 var _hoisted_4 = {
   "class": "row g-3",
@@ -182320,34 +182776,33 @@ var _hoisted_21 = {
 var _hoisted_22 = {
   "class": "d-flex flex-column align-items-center"
 };
-var _hoisted_23 = ["onClick"];
+var _hoisted_23 = ["onClick", "aria-label", "title"];
 var _hoisted_24 = {
   key: 0,
   "class": "bi bi-hourglass-split",
-  style: {
-    "cursor": "pointer",
-    "font-size": "1.5rem"
-  },
-  "data-bs-toggle": "tooltip",
-  "data-bs-placement": "right",
-  title: "Loading"
+  "aria-hidden": "true"
 };
-var _hoisted_25 = ["title"];
-var _hoisted_26 = ["onClick"];
-var _hoisted_27 = {
+var _hoisted_25 = ["onClick"];
+var _hoisted_26 = {
   style: {
     "padding": "8px"
   },
   "class": "d-block d-md-none"
 };
+var _hoisted_27 = ["innerHTML"];
 var _hoisted_28 = ["innerHTML"];
-var _hoisted_29 = ["innerHTML"];
-var _hoisted_30 = {
+var _hoisted_29 = {
   "class": "row mb-3",
   style: {
     "display": "flex",
     "justify-content": "center",
     "margin": "0 -5px"
+  }
+};
+var _hoisted_30 = {
+  "class": "col-2 text-center",
+  style: {
+    "padding": "3px"
   }
 };
 var _hoisted_31 = {
@@ -182362,24 +182817,22 @@ var _hoisted_32 = {
     "padding": "3px"
   }
 };
-var _hoisted_33 = {
-  "class": "col-2 text-center",
-  style: {
-    "padding": "3px"
-  }
-};
-var _hoisted_34 = ["onClick"];
-var _hoisted_35 = {
+var _hoisted_33 = ["onClick", "aria-label", "title"];
+var _hoisted_34 = {
   key: 0,
   "class": "bi bi-hourglass-split",
   style: {
     "font-size": "1.7rem"
   },
-  "data-bs-toggle": "tooltip",
-  "data-bs-placement": "top",
-  title: "Loading"
+  "aria-hidden": "true"
 };
-var _hoisted_36 = ["title"];
+var _hoisted_35 = {
+  "class": "col-2 text-center",
+  style: {
+    "padding": "3px"
+  }
+};
+var _hoisted_36 = ["onClick"];
 var _hoisted_37 = {
   "class": "col-2 text-center",
   style: {
@@ -182395,52 +182848,52 @@ var _hoisted_39 = {
 };
 var _hoisted_40 = ["onClick"];
 var _hoisted_41 = {
-  "class": "col-2 text-center",
-  style: {
-    "padding": "3px"
-  }
-};
-var _hoisted_42 = ["onClick"];
-var _hoisted_43 = {
   key: 1,
+  "class": "empty-state text-center text-muted py-4"
+};
+var _hoisted_42 = {
+  key: 2,
   "class": "audio-player-container"
 };
-var _hoisted_44 = {
+var _hoisted_43 = {
   "class": "custom-audio-player"
 };
-var _hoisted_45 = {
+var _hoisted_44 = {
   "class": "controls"
 };
-var _hoisted_46 = {
+var _hoisted_45 = {
   key: 0,
   "class": "bi bi-hourglass-split"
 };
-var _hoisted_47 = {
+var _hoisted_46 = {
   key: 1,
   "class": "bi bi-pause-fill"
 };
-var _hoisted_48 = {
+var _hoisted_47 = {
   key: 2,
   "class": "bi bi-play-fill"
 };
-var _hoisted_49 = ["title"];
-var _hoisted_50 = {
+var _hoisted_48 = ["title"];
+var _hoisted_49 = {
   "class": "speed-indicator"
 };
+var _hoisted_50 = ["title", "aria-pressed"];
 var _hoisted_51 = {
   key: 0,
   "class": "volume-bar-container"
 };
 var _hoisted_52 = {
-  "class": "time"
+  "class": "time",
+  "aria-live": "polite"
 };
-var _hoisted_53 = {
+var _hoisted_53 = ["aria-valuenow"];
+var _hoisted_54 = {
   "class": "audio-visualizer",
   ref: "visualizer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _ctx$audioElements$_c, _ctx$audioElements$_c2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-10 col-xl-10"
@@ -182461,8 +182914,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "text-white",
     style: {
       "cursor": "pointer"
-    }
-  }, [_ctx.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_2)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    },
+    "aria-label": "Toggle filters visibility"
+  }, [_ctx.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_2)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "surah-select",
     "class": "form-label text-white"
   }, "Select Surah:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -182474,7 +182928,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[2] || (_cache[2] = function () {
       return $options.fetchSurahDetails && $options.fetchSurahDetails.apply($options, arguments);
     })
-  }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a Surah", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.surahs, function (surah) {
@@ -182482,7 +182936,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: surah.number,
       value: surah.number
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number) + ". " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name) + ") ", 9 /* TEXT, PROPS */, _hoisted_6);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "reciter-select",
     "class": "form-label text-white"
   }, "Select Reciter:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -182491,15 +182945,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return _ctx.selectedReciter = $event;
     })
-  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
-  }, "Select a reciter", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.reciters, function (reciter) {
+  }, "Select a reciter", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.recitersSorted, function (reciter) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: reciter.identifier,
       value: reciter.identifier
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "translation-select",
     "class": "form-label text-white"
   }, "Select Translation:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -182508,15 +182962,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return _ctx.selectedTranslation = $event;
     })
-  }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
-  }, "Select Translation", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.translations, function (translation) {
+  }, "Select Translation", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.translationsSorted, function (translation) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: translation.identifier,
       value: translation.identifier
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.flag), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.language) + ") ", 1 /* TEXT */)], 8 /* PROPS */, _hoisted_10);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTranslation]])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isVisible]])], 4 /* STYLE */), _ctx.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, "Loading Surah...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredAyahs, function (ayah, index) {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTranslation]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-12 col-md-6 mt-2\">\n          <label for=\"search-input\" class=\"form-label text-white\">Search</label>\n          <input id=\"search-input\" class=\"form-control shadow-sm\" type=\"text\" v-model=\"searchQuery\" placeholder=\"Search Arabic or translation...\" aria-label=\"Search in current surah\" />\n        </div> ")], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isVisible]])], 4 /* STYLE */), _ctx.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, "Loading Surah...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredAyahs, function (ayah, index) {
     var _ctx$surahDetails;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       style: {
@@ -182530,7 +182984,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         'highlighted': _ctx.isHighlighted && _ctx.currentlyPlayingIndex === index,
         'currently-playing': _ctx.isAudioPlaying[index]
       }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "/images/art.png",
       width: "35px",
       alt: "Art Icon"
@@ -182540,7 +182994,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_19), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_19), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
@@ -182548,70 +183002,54 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.translationFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_20)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "mb-3",
+    }, null, 12 /* STYLE, PROPS */, _hoisted_20)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "icon-btn mb-3",
       onClick: function onClick($event) {
         return $options.toggleAudioPlayer(index);
-      }
+      },
+      "aria-label": _ctx.isAudioPlaying[index] ? 'Pause ayah ' + (index + 1) : 'Play ayah ' + (index + 1),
+      title: _ctx.isAudioPlaying[index] ? 'Pause' : 'Play'
     }, [_ctx.isAudioLoading[index] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_24)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
       key: 1,
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill']),
-      style: {
-        "cursor": "pointer",
-        "font-size": "1.5rem"
-      },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "right",
-      title: _ctx.isAudioPlaying[index] ? 'Pause' : 'Play'
-    }, null, 10 /* CLASS, PROPS */, _hoisted_25))], 8 /* PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "mb-3",
+      "aria-hidden": "true"
+    }, null, 2 /* CLASS */))], 8 /* PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "icon-btn mb-3",
       onClick: _cache[5] || (_cache[5] = function () {
         return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
-      })
-    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      style: {
-        "cursor": "pointer",
-        "font-size": "1.5rem"
-      },
-      "class": "bi bi-dash-circle-fill",
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "right",
+      }),
+      "aria-label": "Decrease font size",
       title: "Decrease Font Size"
-    }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "mb-3",
+    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-dash-circle-fill",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "icon-btn mb-3",
       onClick: _cache[6] || (_cache[6] = function () {
         return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
-      })
-    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      style: {
-        "cursor": "pointer",
-        "font-size": "1.5rem"
-      },
-      "class": "bi bi-plus-circle-fill",
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "right",
+      }),
+      "aria-label": "Increase font size",
       title: "Increase Font Size"
-    }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "mb-3",
+    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-plus-circle-fill",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "icon-btn mb-3",
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(ayah);
-      }
-    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-share-fill",
-      style: {
-        "cursor": "pointer",
-        "font-size": "1.3rem"
       },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "right",
+      "aria-label": "Share on WhatsApp",
       title: "Share on WhatsApp"
-    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_26)])])]), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-share-fill",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_25)])])]), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "arabic-text p-2 rtl-text fw-bold text-end mb-3",
       innerHTML: $options.highlightedText(ayah),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_28), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_27), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
@@ -182619,134 +183057,127 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.translationFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_29)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_28)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "icon-btn",
       onClick: _cache[7] || (_cache[7] = function () {
         return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
       }),
-      style: {
-        "cursor": "pointer"
-      }
-    }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "aria-label": "Decrease font size",
+      title: "Decrease Font Size"
+    }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-dash-circle-fill",
       style: {
         "font-size": "1.7rem"
       },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "top",
-      title: "Decrease Font Size"
-    }, null, -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "icon-btn",
       onClick: _cache[8] || (_cache[8] = function () {
         return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
       }),
-      style: {
-        "cursor": "pointer"
-      }
-    }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "aria-label": "Increase font size",
+      title: "Increase Font Size"
+    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-plus-circle-fill",
       style: {
         "font-size": "1.7rem"
       },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "top",
-      title: "Increase Font Size"
-    }, null, -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "icon-btn",
       onClick: function onClick($event) {
         return $options.toggleAudioPlayer(index);
       },
-      style: {
-        "cursor": "pointer"
-      }
-    }, [_ctx.isAudioLoading[index] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_35)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
+      "aria-label": _ctx.isAudioPlaying[index] ? 'Pause ayah ' + (index + 1) : 'Play ayah ' + (index + 1),
+      title: _ctx.isAudioPlaying[index] ? 'Pause' : 'Play'
+    }, [_ctx.isAudioLoading[index] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_34)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
       key: 1,
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill']),
       style: {
         "font-size": "1.7rem"
       },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "top",
-      title: _ctx.isAudioPlaying[index] ? 'Pause' : 'Play'
-    }, null, 10 /* CLASS, PROPS */, _hoisted_36))], 8 /* PROPS */, _hoisted_34)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "aria-hidden": "true"
+    }, null, 2 /* CLASS */))], 8 /* PROPS */, _hoisted_33)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "icon-btn",
       onClick: function onClick($event) {
         return $options.rewindAudio(index);
       },
-      style: {
-        "cursor": "pointer"
-      }
-    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "aria-label": "Rewind 15 seconds",
+      title: "Rewind"
+    }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-backward-circle-fill",
       style: {
         "font-size": "1.7rem"
       },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "top",
-      title: "Rewind"
-    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_38)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_36)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "icon-btn",
       onClick: function onClick($event) {
         return $options.fastForwardAudio(index);
       },
-      style: {
-        "cursor": "pointer"
-      }
-    }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "aria-label": "Fast forward 20 seconds",
+      title: "Fast Forward"
+    }, _toConsumableArray(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-forward-circle-fill",
       style: {
         "font-size": "1.7rem"
       },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "top",
-      title: "Fast Forward"
-    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_40)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_38)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "icon-btn",
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(ayah);
       },
-      style: {
-        "cursor": "pointer"
-      }
-    }, _toConsumableArray(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "aria-label": "Share on WhatsApp",
+      title: "Share on WhatsApp"
+    }, _toConsumableArray(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-whatsapp",
       style: {
         "font-size": "1.5rem"
       },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "top",
-      title: "Share on WhatsApp"
-    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_42)])])])])], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), _ctx.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_40)])])])])], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Empty state "), !_ctx.isLoading && _ctx.surahDetails && $options.filteredAyahs.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, " No verses match your current search or filters. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), _ctx.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[9] || (_cache[9] = function ($event) {
       return $options.rewindAudio(_ctx.currentlyPlayingIndex);
     }),
     "class": "control-btn",
-    title: "Rewind"
-  }, _toConsumableArray(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    title: "Rewind",
+    "aria-label": "Rewind 15 seconds"
+  }, _toConsumableArray(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-backward-fill"
   }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[10] || (_cache[10] = function ($event) {
       return $options.toggleAudioPlayer(_ctx.currentlyPlayingIndex);
     }),
     "class": "control-btn play-pause",
-    title: "Play/Pause"
-  }, [_ctx.isAudioLoading[_ctx.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_46)) : _ctx.isAudioPlaying[_ctx.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_47)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_48))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    title: "Play/Pause",
+    "aria-label": "Play or Pause"
+  }, [_ctx.isAudioLoading[_ctx.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_45)) : _ctx.isAudioPlaying[_ctx.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_46)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_47))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[11] || (_cache[11] = function ($event) {
       return $options.fastForwardAudio(_ctx.currentlyPlayingIndex);
     }),
     "class": "control-btn",
-    title: "Fast Forward"
-  }, _toConsumableArray(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    title: "Fast Forward",
+    "aria-label": "Fast forward 20 seconds"
+  }, _toConsumableArray(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-forward-fill"
   }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[12] || (_cache[12] = function ($event) {
       return $options.stopAudio(_ctx.currentlyPlayingIndex);
     }),
     "class": "control-btn",
-    title: "Stop"
-  }, _toConsumableArray(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    title: "Stop",
+    "aria-label": "Stop"
+  }, _toConsumableArray(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop-fill"
   }, null, -1 /* CACHED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[13] || (_cache[13] = function () {
       return $options.toggleVolume && $options.toggleVolume.apply($options, arguments);
     }),
     "class": "control-btn",
-    title: "Volume"
+    title: "Volume",
+    "aria-label": "Toggle volume slider"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", "bi-volume-".concat(_ctx.volume > 0.5 ? 'up' : _ctx.volume > 0 ? 'down' : 'mute', "-fill")])
   }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -182760,32 +183191,50 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       color: _ctx.playbackSpeed !== 1 ? '#ff6b6b' : '#ccc'
     })
-  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.playbackSpeed) + "x", 1 /* TEXT */)], 8 /* PROPS */, _hoisted_49), _ctx.showVolumeBar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.playbackSpeed) + "x", 1 /* TEXT */)], 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[15] || (_cache[15] = function () {
+      return $options.toggleRepeat && $options.toggleRepeat.apply($options, arguments);
+    }),
+    "class": "control-btn",
+    title: _ctx.repeatCurrent ? 'Repeat current ayah: on' : 'Repeat current ayah: off',
+    "aria-pressed": _ctx.repeatCurrent,
+    "aria-label": "Toggle repeat current ayah"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-arrow-repeat",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      color: _ctx.repeatCurrent ? '#00bfa6' : '#ccc'
+    })
+  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_50), _ctx.showVolumeBar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "range",
-    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+    "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
       return _ctx.volume = $event;
     }),
     min: "0",
     max: "1",
     step: "0.1",
-    onInput: _cache[16] || (_cache[16] = function () {
+    onInput: _cache[17] || (_cache[17] = function () {
       return $options.updateVolume && $options.updateVolume.apply($options, arguments);
     }),
     "class": "volume-slider"
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.volume]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_ctx$audioElements$_c = _ctx.audioElements[_ctx.currentlyPlayingIndex]) === null || _ctx$audioElements$_c === void 0 ? void 0 : _ctx$audioElements$_c.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_ctx$audioElements$_c2 = _ctx.audioElements[_ctx.currentlyPlayingIndex]) === null || _ctx$audioElements$_c2 === void 0 ? void 0 : _ctx$audioElements$_c2.duration) || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[17] || (_cache[17] = function () {
+    onClick: _cache[18] || (_cache[18] = function () {
       return $options.closeAudioPlayer && $options.closeAudioPlayer.apply($options, arguments);
     }),
     "class": "control-btn",
     title: "Close",
+    "aria-label": "Close player",
     style: {
       "margin-left": "auto"
     }
-  }, _toConsumableArray(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-lg"
   }, null, -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress-bar",
-    onClick: _cache[18] || (_cache[18] = function () {
+    role: "progressbar",
+    "aria-valuemin": 0,
+    "aria-valuemax": 100,
+    "aria-valuenow": _ctx.progress[_ctx.currentlyPlayingIndex] || 0,
+    onClick: _cache[19] || (_cache[19] = function () {
       return $options.seekToPosition && $options.seekToPosition.apply($options, arguments);
     }),
     ref: "progressBar"
@@ -182794,7 +183243,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: _ctx.progress[_ctx.currentlyPlayingIndex] + '%'
     })
-  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visualizerBars, function (bar, index) {
+  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visualizerBars, function (bar, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
       "class": "visualizer-bar",
@@ -182803,7 +183252,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         animationDelay: index * 0.1 + 's'
       })
     }, null, 4 /* STYLE */);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)], 512 /* NEED_PATCH */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)], 8 /* PROPS */, _hoisted_53)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -192086,6 +192535,11 @@ var _hoisted_9 = {
   "class": "alert alert-danger",
   role: "alert"
 };
+var _hoisted_10 = {
+  key: 2,
+  "class": "alert alert-success",
+  role: "alert"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Button to Trigger Folder Selection Modal "), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     style: {
@@ -192135,7 +192589,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "rgba(0, 191, 166)",
       "cursor": "pointer"
     }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success and Error Alerts "), $data.showAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, " Bookmark saved successfully! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showErrorAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, " An error occurred while saving the bookmark. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success and Error Alerts "), $data.showAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, " Bookmark saved successfully! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showErrorAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, " An error occurred while saving the bookmark. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Milestone Alert "), $data.milestoneMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.milestoneMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -192358,66 +192812,77 @@ var _hoisted_1 = {
   ref: "modal"
 };
 var _hoisted_2 = {
-  "class": "modal-dialog modal-dialog-centered modal-lg"
+  key: 0,
+  "class": "alert alert-success",
+  role: "alert",
+  style: {
+    "position": "fixed",
+    "top": "10px",
+    "right": "10px",
+    "z-index": "1100"
+  }
 };
 var _hoisted_3 = {
-  "class": "modal-content"
+  "class": "modal-dialog modal-dialog-centered modal-lg"
 };
 var _hoisted_4 = {
-  "class": "modal-body"
+  "class": "modal-content"
 };
 var _hoisted_5 = {
-  "class": "container text-center"
+  "class": "modal-body"
 };
 var _hoisted_6 = {
-  "class": "row"
+  "class": "container text-center"
 };
 var _hoisted_7 = {
-  "class": "col"
+  "class": "row"
 };
 var _hoisted_8 = {
-  key: 0,
   "class": "col"
 };
 var _hoisted_9 = {
-  key: 1,
+  key: 0,
   "class": "col"
 };
 var _hoisted_10 = {
-  key: 0
+  key: 1,
+  "class": "col"
 };
 var _hoisted_11 = {
-  key: 1
+  key: 0
 };
 var _hoisted_12 = {
-  "class": "container text-center mt-3"
+  key: 1
 };
 var _hoisted_13 = {
-  "class": "row"
+  "class": "container text-center mt-3"
 };
 var _hoisted_14 = {
+  "class": "row"
+};
+var _hoisted_15 = {
   "class": "col"
 };
-var _hoisted_15 = ["disabled"];
-var _hoisted_16 = {
+var _hoisted_16 = ["disabled"];
+var _hoisted_17 = {
   "class": "col"
 };
-var _hoisted_17 = ["disabled"];
-var _hoisted_18 = {
+var _hoisted_18 = ["disabled"];
+var _hoisted_19 = {
   "class": "mt-3"
 };
-var _hoisted_19 = {
+var _hoisted_20 = {
   key: 0,
   "class": "text-success"
 };
-var _hoisted_20 = ["readonly"];
-var _hoisted_21 = {
+var _hoisted_21 = ["readonly"];
+var _hoisted_22 = {
   key: 2,
   "class": "pt-3"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Editor = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Editor");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Milestone Alert for Notes "), $data.milestoneMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.milestoneMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "modal-title",
@@ -192427,11 +192892,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.createNote && $options.createNote.apply($options, arguments);
     }, ["prevent"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -192443,7 +192908,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "basicMode"
-  }, "Basic", -1 /* CACHED */))]), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Basic", -1 /* CACHED */))]), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -192455,7 +192920,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "audioMode"
-  }, "Audio Note Recording", -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Audio Note Recording", -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -192467,14 +192932,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "editorMode"
-  }, "Editor Keyboard", -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Basic Mode "), $data.inputMode === 'basic' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  }, "Editor Keyboard", -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Basic Mode "), $data.inputMode === 'basic' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.form.ayah_notes = $event;
     }),
     "class": "form-control pb-2 mt-3",
     rows: "5",
     placeholder: "Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), $data.inputMode === 'audio' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), $data.inputMode === 'audio' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-success me-2",
     onClick: _cache[4] || (_cache[4] = function () {
@@ -192483,7 +192948,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: $data.isListening
   }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-play-circle"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Start Recording ", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_15)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Start Recording ", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_16)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-danger",
     onClick: _cache[5] || (_cache[5] = function () {
@@ -192492,7 +192957,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: !$data.isListening && !$data.isPaused
   }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop-circle"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop Recording ", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_17)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_19, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Listening...", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop Recording ", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_18)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [$data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_20, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Listening...", -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.form.ayah_notes = $event;
     }),
@@ -192500,7 +192965,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     rows: "5",
     placeholder: "Your speech will appear here...",
     readonly: $data.isListening
-  }, null, 8 /* PROPS */, _hoisted_20), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rich Text Editor Mode "), $data.inputMode === 'editor' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Editor, {
+  }, null, 8 /* PROPS */, _hoisted_21), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rich Text Editor Mode "), $data.inputMode === 'editor' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Editor, {
     modelValue: $data.form.ayah_notes,
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.form.ayah_notes = $event;
@@ -193947,6 +194412,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-6d77f7a9]:root {\n  --primar
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QuranComponent.vue?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QuranComponent.vue?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.ayah-item[data-v-2b3c2c26]:hover { background: #eef8f6;\n}\n.ayah-item.selected[data-v-2b3c2c26] { background: #c8f1ea; border: 1px solid #00bfa633;\n}\n.skeleton-line[data-v-2b3c2c26] { height: 18px; margin: 10px 0; border-radius: 8px; background: linear-gradient(90deg,#eee,#f7f7f7,#eee); background-size: 200% 100%; animation: shimmer-2b3c2c26 1.2s infinite;\n}\n@keyframes shimmer-2b3c2c26 {\n0% { background-position: 0% 0;\n}\n100% { background-position: 200% 0;\n}\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/RadioComponent.vue?vue&type=style&index=0&id=87252526&scoped=true&lang=css":
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/RadioComponent.vue?vue&type=style&index=0&id=87252526&scoped=true&lang=css ***!
@@ -194229,7 +194718,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nhtml[data-v-828f3036] {\n  scroll-behavior: smooth;\n}\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n  animation: pulse-828f3036 0.5s ease-in-out;\n}\n.currently-playing[data-v-828f3036] {\n  background-color: #00bfa640;\n  border: 2px solid #00bfa640;\n  border-radius: 8px;\n  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);\n  transform: scale(1.02);\n  transition: all 0.3s ease;\n}\n@keyframes pulse-828f3036 {\n0% {\n    border: 2px solid #00bfa6;\n}\n100% {\n    border: 2px solid transparent;\n}\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  transition: top 0.3s ease, height 0.3s ease;\n}\n@media (max-width: 768px) {\n.container[data-v-828f3036] {\n    padding-bottom: calc(100px + env(safe-area-inset-bottom));\n}\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.container[data-v-828f3036] {\n  padding-bottom: calc(120px + env(safe-area-inset-bottom));\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 5px 10px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n@media (max-width: 768px) {\n.controls .control-btn[title=\"Close\"][data-v-828f3036] {\n    margin-left: 0;\n    /* Remove the margin-left: auto to align with other buttons */\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.5rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 8px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 4px;\n  overflow: hidden;\n  cursor: pointer;\n  position: relative;\n  transition: background-color 0.2s ease;\n}\n.progress-bar[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n.ayah-card-container[data-v-828f3036] {\n  scroll-margin-top: 100px;\n}\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.7rem !important;\n    /* line-height: 5.8vh; */\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    /* line-height: 1.6; */\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(52, 58, 64, 0.95);\n}\n}\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n.loading-placeholder[data-v-828f3036] {\n  text-align: center;\n  padding: 20px;\n  font-size: 1.2rem;\n  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.highlighted-word[data-v-828f3036] {\n  background: #00bfa6;\n  color: #fff;\n  border-radius: 4px;\n  padding: 0 2px;\n  transition: background 0.2s;\n}\n\n/* Audio Visualizer Styles */\n.audio-visualizer[data-v-828f3036] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 100%;\n  display: flex;\n  align-items: flex-end;\n  justify-content: space-around;\n  padding: 0 2px;\n  opacity: 0.7;\n  pointer-events: none;\n}\n.visualizer-bar[data-v-828f3036] {\n  width: 2px;\n  background: linear-gradient(to top, #00bfa6, #87ceeb);\n  border-radius: 1px;\n  animation: pulse-visualizer-828f3036 0.6s ease-in-out infinite alternate;\n}\n@keyframes pulse-visualizer-828f3036 {\n0% { opacity: 0.4;\n}\n100% { opacity: 1;\n}\n}\n\n/* Speed Indicator */\n.speed-indicator[data-v-828f3036] {\n  font-size: 0.7rem;\n  font-weight: bold;\n  margin-left: 2px;\n  color: #ff6b6b;\n}\n\n/* Enhanced Control Buttons */\n.control-btn[data-v-828f3036] {\n  transition: all 0.3s ease;\n  border-radius: 8px;\n}\n.control-btn[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.1);\n  transform: translateY(-2px);\n}\n.control-btn[data-v-828f3036]:active {\n  transform: translateY(0);\n}\n\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.speed-indicator[data-v-828f3036] {\n    font-size: 0.6rem;\n}\n.visualizer-bar[data-v-828f3036] {\n    width: 1px;\n}\n.audio-visualizer[data-v-828f3036] {\n    padding: 0 1px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nhtml[data-v-828f3036] {\n  scroll-behavior: smooth;\n}\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n  animation: pulse-828f3036 0.5s ease-in-out;\n}\n.currently-playing[data-v-828f3036] {\n  background-color: #00bfa640;\n  border: 2px solid #00bfa640;\n  border-radius: 8px;\n  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);\n  transform: scale(1.02);\n  transition: all 0.3s ease;\n}\n@keyframes pulse-828f3036 {\n0% {\n    border: 2px solid #00bfa6;\n}\n100% {\n    border: 2px solid transparent;\n}\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  transition: top 0.3s ease, height 0.3s ease;\n}\n@media (max-width: 768px) {\n.container[data-v-828f3036] {\n    padding-bottom: calc(100px + env(safe-area-inset-bottom));\n}\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.container[data-v-828f3036] {\n  padding-bottom: calc(120px + env(safe-area-inset-bottom));\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 5px 10px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n@media (max-width: 768px) {\n.controls .control-btn[title=\"Close\"][data-v-828f3036] {\n    margin-left: 0;\n    /* Remove the margin-left: auto to align with other buttons */\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.75rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.icon-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: inherit;\n  padding: 0;\n  cursor: pointer;\n}\n\n/* Increase icon sizes for per-ayah actions (desktop) */\n.ayah-card-container .icon-btn i[data-v-828f3036] {\n  font-size: 1.6rem;\n}\n\n/* Make sticky toggle icon a bit larger */\n.sticky-dropdown > span i[data-v-828f3036] {\n  font-size: 1.4rem;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 8px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 4px;\n  overflow: hidden;\n  cursor: pointer;\n  position: relative;\n  transition: background-color 0.2s ease;\n}\n.progress-bar[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n.ayah-card-container[data-v-828f3036] {\n  scroll-margin-top: 100px;\n}\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.7rem !important;\n    /* line-height: 5.8vh; */\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    /* line-height: 1.6; */\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(52, 58, 64, 0.95);\n}\n}\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n.loading-placeholder[data-v-828f3036] {\n  text-align: center;\n  padding: 20px;\n  font-size: 1.2rem;\n  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n.empty-state[data-v-828f3036] {\n  border: 1px dashed rgba(0,0,0,0.15);\n  border-radius: 8px;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n\n/* Mobile icon sizing overrides */\n@media (max-width: 768px) {\n.control-btn[data-v-828f3036] {\n    font-size: 2rem;\n}\n.ayah-card-container .icon-btn i[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n}\n.highlighted-word[data-v-828f3036] {\n  background: #00bfa6;\n  color: #fff;\n  border-radius: 4px;\n  padding: 0 2px;\n  transition: background 0.2s;\n}\n\n/* Audio Visualizer Styles */\n.audio-visualizer[data-v-828f3036] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 100%;\n  display: flex;\n  align-items: flex-end;\n  justify-content: space-around;\n  padding: 0 2px;\n  opacity: 0.7;\n  pointer-events: none;\n}\n.visualizer-bar[data-v-828f3036] {\n  width: 2px;\n  background: linear-gradient(to top, #00bfa6, #87ceeb);\n  border-radius: 1px;\n  animation: pulse-visualizer-828f3036 0.6s ease-in-out infinite alternate;\n}\n@keyframes pulse-visualizer-828f3036 {\n0% { opacity: 0.4;\n}\n100% { opacity: 1;\n}\n}\n\n/* Speed Indicator */\n.speed-indicator[data-v-828f3036] {\n  font-size: 0.7rem;\n  font-weight: bold;\n  margin-left: 2px;\n  color: #ff6b6b;\n}\n\n/* Enhanced Control Buttons */\n.control-btn[data-v-828f3036] {\n  transition: all 0.3s ease;\n  border-radius: 8px;\n}\n.control-btn[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.1);\n  transform: translateY(-2px);\n}\n.control-btn[data-v-828f3036]:active {\n  transform: translateY(0);\n}\n\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.speed-indicator[data-v-828f3036] {\n    font-size: 0.6rem;\n}\n.visualizer-bar[data-v-828f3036] {\n    width: 1px;\n}\n.audio-visualizer[data-v-828f3036] {\n    padding: 0 1px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -195463,9 +195952,9 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right[data-v-0bbed9a0] {\n  te
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/components/css/styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external":
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/components/css/styles.css?vue&type=style&index=1&id=2b3c2c26&scoped=true&lang=css&external":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/components/css/styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external ***!
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/components/css/styles.css?vue&type=style&index=1&id=2b3c2c26&scoped=true&lang=css&external ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
@@ -196534,6 +197023,36 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QiblaComponent_vue_vue_type_style_index_0_id_6d77f7a9_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QuranComponent.vue?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QuranComponent.vue?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QuranComponent_vue_vue_type_style_index_0_id_2b3c2c26_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QuranComponent.vue?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QuranComponent.vue?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QuranComponent_vue_vue_type_style_index_0_id_2b3c2c26_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QuranComponent_vue_vue_type_style_index_0_id_2b3c2c26_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -198427,9 +198946,9 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/components/css/styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external":
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/components/css/styles.css?vue&type=style&index=1&id=2b3c2c26&scoped=true&lang=css&external":
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/components/css/styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external ***!
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/components/css/styles.css?vue&type=style&index=1&id=2b3c2c26&scoped=true&lang=css&external ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -198440,7 +198959,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_styles_css_vue_type_style_index_0_id_2b3c2c26_scoped_true_lang_css_external__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/components/css/styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_styles_css_vue_type_style_index_1_id_2b3c2c26_scoped_true_lang_css_external__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./styles.css?vue&type=style&index=1&id=2b3c2c26&scoped=true&lang=css&external */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/components/css/styles.css?vue&type=style&index=1&id=2b3c2c26&scoped=true&lang=css&external");
 
             
 
@@ -198449,11 +198968,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_styles_css_vue_type_style_index_0_id_2b3c2c26_scoped_true_lang_css_external__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_styles_css_vue_type_style_index_1_id_2b3c2c26_scoped_true_lang_css_external__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_styles_css_vue_type_style_index_0_id_2b3c2c26_scoped_true_lang_css_external__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_styles_css_vue_type_style_index_1_id_2b3c2c26_scoped_true_lang_css_external__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -338852,11 +339371,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_SubscriptionComponent_vue__WEBPACK_IMPORTED_MODULE_92__ = __webpack_require__(/*! ./components/SubscriptionComponent.vue */ "./resources/js/components/SubscriptionComponent.vue");
 /* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_93__ = __webpack_require__(/*! vue-stripe-elements-plus */ "./node_modules/vue-stripe-elements-plus/dist/index.js");
 /* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_93___default = /*#__PURE__*/__webpack_require__.n(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_93__);
+/* harmony import */ var _utils_milestones__WEBPACK_IMPORTED_MODULE_94__ = __webpack_require__(/*! ./utils/milestones */ "./resources/js/utils/milestones.js");
 /* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
+
 
 
 
@@ -338977,12 +339498,56 @@ var app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
     if (savedMode !== null) {
       this.darkModeState.isDarkMode = savedMode === 'true';
     }
+    // Start session time milestone tracker
+    this.startSessionMilestones();
   },
   methods: {
     setDarkMode: function setDarkMode(isDarkMode) {
       this.darkModeState.isDarkMode = isDarkMode;
       // Save the preference to localStorage
       localStorage.setItem('darkMode', isDarkMode);
+    },
+    startSessionMilestones: function startSessionMilestones() {
+      // Only run once per page load
+      if (window.__sessionMilestonesStarted) return;
+      window.__sessionMilestonesStarted = true;
+      var thresholds = [5, 10, 20]; // minutes
+      var scope = 'session';
+      var key = 'active_minutes';
+      var minutes = 0;
+      var showAlert = function showAlert(message) {
+        var el = document.getElementById('session-milestone-alert');
+        if (!el) {
+          el = document.createElement('div');
+          el.id = 'session-milestone-alert';
+          el.className = 'alert alert-success';
+          el.style.position = 'fixed';
+          el.style.top = '10px';
+          el.style.right = '10px';
+          el.style.zIndex = '1200';
+          document.body.appendChild(el);
+        }
+        el.textContent = message;
+        el.style.display = 'block';
+        setTimeout(function () {
+          if (el) el.style.display = 'none';
+        }, 3500);
+      };
+      var tick = function tick() {
+        minutes += 1;
+        // Store minutes in session scope
+        var current = parseInt(sessionStorage.getItem('session_count_' + key) || '0', 10) || 0;
+        sessionStorage.setItem('session_count_' + key, String(current + 1));
+
+        // Detect newly reached thresholds (session-scoped)
+        var hit = (0,_utils_milestones__WEBPACK_IMPORTED_MODULE_94__.trackAndDetect)(key, thresholds, scope);
+        if (hit && hit.threshold) {
+          if (hit.threshold === 5) showAlert('You have stayed engaged for 5 minutes. Great focus!');else if (hit.threshold === 10) showAlert('You’ve stayed engaged for 10 minutes. May it benefit you.');else if (hit.threshold === 20) showAlert('20 minutes of focused time — excellent dedication.');
+        }
+      };
+
+      // First tick happens after one minute, then every minute
+      setInterval(tick, 60 * 1000);
     }
   },
   provide: function provide() {
@@ -341668,8 +342233,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _QuranComponent_vue_vue_type_template_id_2b3c2c26_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuranComponent.vue?vue&type=template&id=2b3c2c26&scoped=true */ "./resources/js/components/QuranComponent.vue?vue&type=template&id=2b3c2c26&scoped=true");
 /* harmony import */ var _QuranComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuranComponent.vue?vue&type=script&lang=js */ "./resources/js/components/QuranComponent.vue?vue&type=script&lang=js");
-/* harmony import */ var _css_styles_css_vue_type_style_index_0_id_2b3c2c26_scoped_true_lang_css_external__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./css/styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external */ "./resources/js/components/css/styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _QuranComponent_vue_vue_type_style_index_0_id_2b3c2c26_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuranComponent.vue?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css */ "./resources/js/components/QuranComponent.vue?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css");
+/* harmony import */ var _css_styles_css_vue_type_style_index_1_id_2b3c2c26_scoped_true_lang_css_external__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./css/styles.css?vue&type=style&index=1&id=2b3c2c26&scoped=true&lang=css&external */ "./resources/js/components/css/styles.css?vue&type=style&index=1&id=2b3c2c26&scoped=true&lang=css&external");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -341677,7 +342243,8 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_QuranComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_QuranComponent_vue_vue_type_template_id_2b3c2c26_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-2b3c2c26"],['__file',"resources/js/components/QuranComponent.vue"]])
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_4__["default"])(_QuranComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_QuranComponent_vue_vue_type_template_id_2b3c2c26_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-2b3c2c26"],['__file',"resources/js/components/QuranComponent.vue"]])
 /* hot reload */
 if (false) // removed by dead control flow
 {}
@@ -341700,6 +342267,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QuranComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QuranComponent.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QuranComponent.vue?vue&type=script&lang=js");
  
+
+/***/ }),
+
+/***/ "./resources/js/components/QuranComponent.vue?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/components/QuranComponent.vue?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css ***!
+  \************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QuranComponent_vue_vue_type_style_index_0_id_2b3c2c26_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QuranComponent.vue?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QuranComponent.vue?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css");
+
 
 /***/ }),
 
@@ -344784,15 +345364,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/css/styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external":
+/***/ "./resources/js/components/css/styles.css?vue&type=style&index=1&id=2b3c2c26&scoped=true&lang=css&external":
 /*!*****************************************************************************************************************!*\
-  !*** ./resources/js/components/css/styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external ***!
+  !*** ./resources/js/components/css/styles.css?vue&type=style&index=1&id=2b3c2c26&scoped=true&lang=css&external ***!
   \*****************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_styles_css_vue_type_style_index_0_id_2b3c2c26_scoped_true_lang_css_external__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/components/css/styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_styles_css_vue_type_style_index_1_id_2b3c2c26_scoped_true_lang_css_external__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./styles.css?vue&type=style&index=1&id=2b3c2c26&scoped=true&lang=css&external */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./resources/js/components/css/styles.css?vue&type=style&index=1&id=2b3c2c26&scoped=true&lang=css&external");
 
 
 /***/ }),
@@ -347685,6 +348265,104 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 module.exports = /*#__PURE__*/JSON.parse('{"sections":[{"title":"Islamic Perspective on Wealth and Charity","content":"Islam views wealth as a trust from Allah and emphasizes moderation in its use. Zakat (obligatory charity) and Sadaqah (voluntary charity) are means to purify wealth and assist the needy. The Quran encourages generosity and condemns hoarding and exploitation. These acts of charity purify one\'s wealth and serve as a way to build a just and compassionate society. Islamic teachings promote economic justice by addressing inequality and ensuring the redistribution of wealth.\\n\\nIn Islamic finance, earning through interest (Riba) is prohibited, and instead, risk-sharing financial models are encouraged. Investments must be ethical and in line with Islamic values, ensuring that wealth circulates fairly in society. This approach fosters a more equitable system where all members of society have the opportunity to thrive."},{"title":"Islamic Education and Knowledge","content":"Seeking knowledge is a duty upon every Muslim, as emphasized by the Quran and Hadith. Islamic education encompasses both religious and worldly sciences, aiming to build a balanced character and a society rooted in faith and ethics. The pursuit of knowledge is not limited to religious matters but extends to fields like medicine, astronomy, and law, all of which contribute to societal well-being.\\n\\nHistorically, institutions like Al-Azhar and the Bayt al-Hikma (House of Wisdom) played pivotal roles in advancing knowledge across various disciplines. These institutions were the centers of learning where scholars from all over the world contributed to the intellectual and scientific progress of the time, promoting a harmonious blend of faith and reason."},{"title":"Prophets in Islam: Roles and Missions","content":"Prophets in Islam were chosen to guide humanity and deliver Allah\'s message. Muslims believe in all the prophets from Adam to Muhammad (PBUH), who is considered the final prophet. Their core message was Tawhid — the belief in and worship of Allah alone. The stories of the prophets in the Quran are not merely historical accounts but lessons for the believers, meant to guide them in their moral and spiritual journey.\\n\\nThe Quran recounts their struggles, lessons, and miracles, which serve as a means to inspire faith, morality, and perseverance among believers. Each prophet faced unique challenges, yet all were chosen to lead their communities toward righteousness, emphasizing compassion, justice, and the worship of Allah."},{"title":"Halal and Haram in Islam","content":"Halal (permissible) and Haram (forbidden) form the foundation of Islamic dietary and ethical guidelines. Foods like pork and alcohol are Haram, while Halal foods, such as meat, must be slaughtered according to Islamic rites. These dietary laws are part of a larger ethical framework that guides all aspects of a Muslim\'s life.\\n\\nThe principles of Halal and Haram extend beyond food to business practices, prohibiting interest (Riba), deceit, and dishonesty in trade. These rules aim to maintain spiritual purity and societal well-being, ensuring that Muslims live in harmony with the values of justice, fairness, and accountability."},{"title":"Islamic Family Law: Rights and Responsibilities","content":"Islamic family law emphasizes justice, compassion, and mutual rights. Marriage in Islam is seen as a sacred contract (Nikah) requiring mutual consent and the establishment of a fair and respectful relationship. Both spouses have rights and responsibilities, and their roles within the marriage are designed to ensure harmony and cooperation.\\n\\nThe Quran provides clear guidance on issues such as inheritance, ensuring that wealth is distributed equitably among family members. While divorce is discouraged, it is permitted under certain circumstances with guidelines to ensure fairness and dignity for both parties. The legal framework surrounding family life in Islam is designed to promote strong, loving relationships based on mutual respect and responsibility."},{"title":"Angels in Islam: Beliefs and Functions","content":"In Islam, angels are created from light and serve Allah\'s commands without free will. They perform a variety of tasks, including delivering revelations to the prophets, maintaining the natural order, and recording the deeds of human beings. Among the most well-known angels are Jibril (Gabriel), who delivered the revelations to the prophets, and Mikail (Michael), who is responsible for providing sustenance to the creatures of the world.\\n\\nThe belief in angels reinforces the concept of accountability in Islam. Angels are assigned to record the actions of every individual, and these records will be used on the Day of Judgment. Their roles remind Muslims to remain mindful of their actions and to strive toward righteousness in their daily lives."},{"title":"Islamic Calendar and Festivals","content":"The Islamic (Hijri) calendar is lunar, beginning from the migration (Hijra) of Prophet Muhammad (PBUH) to Medina. This calendar marks the passage of time in a way that connects the Muslim community to the key events in Islamic history. Significant months in the Islamic calendar include Ramadan, the month of fasting, and Dhul-Hijjah, during which the annual pilgrimage (Hajj) takes place.\\n\\nThe Islamic festivals of Eid al-Fitr, which celebrates the end of Ramadan, and Eid al-Adha, which commemorates the willingness of Prophet Ibrahim (AS) to sacrifice his son, are key moments of joy, reflection, and community for Muslims. These festivals not only strengthen spiritual bonds but also foster unity among Muslims around the world."},{"title":"Islamic Philosophy and Theology","content":"Islamic philosophy blends reason and revelation, with scholars such as Al-Farabi, Ibn Sina, and Al-Ghazali exploring complex issues related to metaphysics, ethics, and epistemology. Their work represents an intellectual tradition that seeks to reconcile rational inquiry with faith, emphasizing the importance of knowledge in understanding both the natural and spiritual worlds.\\n\\nKalam (Islamic theology) addresses profound theological questions such as divine attributes, the nature of free will, and the concept of predestination. Different theological schools, including the Ash\'ari and Maturidi schools, offer varying perspectives on these matters, contributing to the rich diversity of thought within Islamic intellectual history."},{"title":"Social Justice in Islam","content":"Social justice is a cornerstone of Islamic teachings, promoting fairness, dignity, and respect for all individuals. The Quran calls for the protection of orphans, the poor, and marginalized groups, urging society to support those in need. This emphasis on social justice is reflected in various aspects of Islamic law and ethics, including the prohibition of economic exploitation, such as interest-based transactions (Riba) and deceitful business practices.\\n\\nThe goal of these teachings is to ensure a just and equitable society where everyone has the opportunity to thrive. Islam teaches that wealth is a trust from Allah and should be used for the welfare of others, creating a society based on mutual support and shared responsibility."},{"title":"Islam and Environmental Stewardship","content":"Islam encourages environmental stewardship through the concepts of Khalifah (stewardship) and Amanah (trust). These concepts emphasize the role of humans as caretakers of the Earth, entrusted by Allah with the responsibility to protect and preserve the natural world. The Quran advocates for sustainable resource use and condemns wastefulness (Israf), urging believers to live in harmony with nature.\\n\\nIslamic teachings also promote specific environmental actions, such as planting trees, conserving water, and treating animals with kindness and respect. These acts are viewed as forms of worship, and Muslims are reminded of their accountability in preserving the planet for future generations. The concept of Mizan (balance) underscores the need for fairness and justice in humanity\'s relationship with nature, ensuring its preservation for the benefit of all."},{"title":"The Concept of Justice in Islam","content":"Justice is a fundamental principle in Islam, which stresses the importance of fairness, equality, and impartiality. The Quran frequently calls for the establishment of justice in all aspects of life, whether in personal relationships, community affairs, or dealings with others. In Islam, justice is not limited to human relations but extends to the environment, animals, and all creation, underlining the sanctity of the world as a whole.\\n\\nIslamic law, or Sharia, places great emphasis on justice by ensuring that each person receives their due rights and responsibilities. This includes not only the protection of individual rights but also the fair distribution of resources and the obligation to assist those who are oppressed. The Prophet Muhammad (PBUH) is reported to have said, \'The best of people are those who are most beneficial to others,\' demonstrating the core Islamic values of justice and equity."},{"title":"The Role of Women in Islam","content":"Islam holds women in high regard, recognizing their essential roles as mothers, daughters, wives, and active members of society. The Quran and Hadith provide clear guidance on the rights and responsibilities of women, ensuring their dignity and protecting their autonomy. Women in Islam have the right to own property, seek education, and participate in public life, including work and political activities.\\n\\nHistorically, Islam empowered women long before many modern societies did. The first wife of Prophet Muhammad (PBUH), Khadijah, was a successful businesswoman, and women were active participants in religious, social, and political life in early Islamic history. While the roles of women have evolved over time, the teachings of Islam continue to emphasize respect, equality, and the importance of education and personal development for women."},{"title":"The Five Pillars of Islam: A Guide to Religious Practices","content":"The Five Pillars of Islam form the foundation of a Muslim\'s faith and practice. They represent the core duties and practices that every Muslim must observe in their lifetime. These pillars are Shahada (faith), Salah (prayer), Zakat (charity), Sawm (fasting), and Hajj (pilgrimage).\\n\\nShahada is the declaration of faith, proclaiming that there is no god but Allah and that Muhammad (PBUH) is His messenger. Salah involves performing prayers five times a day, and Zakat requires Muslims to give a portion of their wealth to those in need. Sawm refers to fasting during the month of Ramadan, abstaining from food, drink, and other physical needs from dawn to sunset. Finally, Hajj is a pilgrimage to Mecca that every Muslim must undertake once in their lifetime, if financially and physically able. These pillars serve as a spiritual framework for Muslims to maintain their connection to Allah and the Muslim community."},{"title":"The Concept of Mercy in Islam","content":"Mercy is one of the most central concepts in Islam, reflecting Allah\'s nature and His approach toward creation. The Quran emphasizes that Allah is \'The Most Merciful\' (Ar-Rahman), and this attribute is repeated throughout the Quran and in the daily prayers of Muslims. Mercy is seen as a divine quality that Muslims are encouraged to emulate in their dealings with others.\\n\\nThe Prophet Muhammad (PBUH) was described as a mercy to the world, and his example serves as a guide for Muslims in showing compassion, forgiveness, and kindness to others. Islam teaches that mercy extends to all creatures, including animals and the environment. The practice of showing mercy is not limited to moments of ease but is especially important during times of difficulty, conflict, and hardship."},{"title":"The Islamic Concept of Afterlife and Resurrection","content":"In Islam, the belief in the afterlife is central to a Muslim\'s faith. Muslims believe that life on earth is temporary, and the ultimate goal is to attain a place in Paradise (Jannah) by pleasing Allah through righteous deeds. The Quran describes the Day of Judgment as a time when every soul will be resurrected and held accountable for their actions during their lifetime.\\n\\nOn the Day of Judgment, each individual\'s deeds will be weighed, and they will be judged by Allah. Those who have followed the guidance of Islam will be rewarded with eternal life in Paradise, while those who have rejected faith will face punishment in Hell (Jahannam). This belief in the afterlife serves as a moral compass for Muslims, reminding them of the consequences of their actions and the importance of living a righteous life in accordance with Allah\'s will."},{"title":"Islamic Teachings on Tolerance and Coexistence","content":"Islam is a religion that promotes tolerance, understanding, and peaceful coexistence with others. The Quran teaches that Allah created diversity in humanity, including differences in race, ethnicity, and beliefs, and this diversity should be respected. Muslims are encouraged to live peacefully with others, regardless of their faith or background, and to engage in dialogue with respect and kindness.\\n\\nThe Prophet Muhammad (PBUH) is an exemplary model of tolerance, as he engaged with people of various faiths and cultures, fostering peaceful relations and mutual respect. Islam prohibits violence and oppression against others, emphasizing that all people are equal in the sight of Allah, with righteousness being the true measure of one\'s worth."},{"title":"Islamic Views on Health and Well-Being","content":"Islam places great emphasis on the physical and mental well-being of its followers. The Quran and Hadith highlight the importance of maintaining good health, both as a form of gratitude to Allah and as a means to fulfill one\'s religious duties. The Prophet Muhammad (PBUH) is reported to have said, \'Your body has a right over you,\' reminding Muslims of the importance of caring for their physical health.\\n\\nIslam encourages a balanced diet, regular exercise, and maintaining cleanliness, which are seen as acts of worship. The practice of regular prayer (Salah) also promotes physical activity and mental focus. Additionally, Islam advocates for mental health awareness, emphasizing the importance of emotional well-being and seeking help when needed. The concept of balance (Mizan) is essential in Islam, encouraging believers to maintain a healthy balance between their spiritual, physical, and emotional needs."},{"title":"Islam and the Concept of Community (Ummah)","content":"The concept of Ummah in Islam refers to the global Muslim community, united by faith, shared values, and collective responsibility. Islam teaches that Muslims are not only individuals but part of a larger community that should support and care for each other. The Quran describes the Ummah as a \'just community\' that should promote good and forbid evil, working together to achieve social justice and mutual well-being.\\n\\nThe concept of Ummah also emphasizes the importance of cooperation and unity among Muslims, regardless of their cultural or geographical differences. The Prophet Muhammad (PBUH) encouraged his followers to view each other as brothers and sisters in faith, providing help and support to one another in times of need. This sense of community is reflected in practices such as Zakat, where Muslims are encouraged to give to those less fortunate, and in the daily prayers, where Muslims gather as a community in congregation."},{"title":"The Importance of Dua (Supplication) in Islam","content":"Dua, or supplication, is a vital aspect of a Muslim\'s relationship with Allah. It is a way for Muslims to communicate directly with their Creator, expressing their hopes, fears, gratitude, and requests. The Quran and Hadith emphasize that Allah is always near and ready to answer the prayers of His believers, as long as they approach Him with sincerity and devotion.\\n\\nDua can be made in any language, and it is not limited to formal prayers or ritual supplications. Muslims are encouraged to make dua for themselves, their loved ones, and the entire Muslim Ummah. The Prophet Muhammad (PBUH) taught that dua is a powerful tool for seeking Allah\'s guidance, mercy, and help in times of difficulty. It is a reminder for Muslims that they are dependent on Allah and that He is the ultimate source of all blessings and support."},{"title":"The Concept of Tawhid (Monotheism) in Islam","content":"Tawhid, or the oneness of Allah, is the fundamental concept in Islam. It asserts that Allah is the only true God, with no partners, associates, or children. The concept of Tawhid shapes the Islamic worldview, making it a key principle in Islamic theology and practice. Tawhid emphasizes that all acts of worship, prayers, and devotion must be directed solely to Allah, and any form of polytheism (Shirk) is considered a grave sin in Islam.\\n\\nThe Quran frequently affirms the oneness of Allah, stating that He is the Creator of everything in existence. Belief in Tawhid unites Muslims worldwide, regardless of cultural or ethnic differences, in their shared devotion to the one true God."},{"title":"Islamic Views on Marriage and Family","content":"In Islam, marriage is seen as a sacred contract between a man and a woman, where both partners commit to supporting each other in love, respect, and faith. Marriage is not just a personal choice but a social and spiritual responsibility. The Quran and Hadith offer clear guidelines on how to maintain a healthy, balanced, and respectful relationship between husband and wife.\\n\\nThe family unit is considered the cornerstone of Islamic society, and the responsibility of raising children is viewed as a moral duty. Islam promotes mutual respect, kindness, and understanding in the family, with an emphasis on the rights and duties of each family member. The Prophet Muhammad (PBUH) encouraged treating spouses with compassion and emphasized the importance of maintaining strong family ties."},{"title":"The Importance of Knowledge in Islam","content":"In Islam, seeking knowledge is considered one of the highest forms of worship. The Quran calls upon Muslims to seek knowledge from the cradle to the grave, and the Prophet Muhammad (PBUH) said, \'Seeking knowledge is an obligation upon every Muslim.\' Knowledge is not limited to religious knowledge but includes all fields of study, including science, medicine, history, and literature, as long as they are pursued with a pure intention to benefit humanity.\\n\\nIslam encourages critical thinking, the pursuit of education, and the application of knowledge to improve society. Scholars throughout Islamic history have contributed significantly to various fields, and this tradition continues today. Knowledge is seen as a means to gain a deeper understanding of the world, to draw closer to Allah, and to contribute positively to society."},{"title":"Islamic Ethics and Morality","content":"Islamic ethics and morality are rooted in the teachings of the Quran and the Sunnah (the practices of the Prophet Muhammad, PBUH). These ethical principles govern all aspects of a Muslim\'s life, from personal conduct to social relationships. Muslims are encouraged to uphold values such as honesty, integrity, compassion, and humility.\\n\\nThe concept of \'adab,\' which refers to good manners and etiquette, is an integral part of Islamic ethics. The Quran and Hadith emphasize the importance of treating others with respect, avoiding harmful actions, and striving for justice. The ethical teachings of Islam promote a balance between personal well-being and the well-being of others, encouraging Muslims to act with kindness and fairness in all their dealings."},{"title":"The Role of Islamic Charity (Sadaqah and Zakat)","content":"Charity is a key principle in Islam, where giving to others is seen as an act of worship and a means to purify one\'s wealth. Sadaqah (voluntary charity) and Zakat (obligatory charity) are two forms of giving in Islam. Zakat is one of the Five Pillars of Islam, requiring Muslims to give a portion of their wealth to those in need, typically 2.5% of their savings annually.\\n\\nSadaqah, on the other hand, can be given at any time and in any amount, whether financial, material, or through acts of kindness and service. The Quran emphasizes the importance of charity in purifying the soul and helping to alleviate the suffering of the poor and oppressed. Islamic charity is not limited to financial contributions but extends to actions that benefit others, such as volunteering or offering guidance."},{"title":"The Concept of Righteousness in Islam","content":"Righteousness, or \'Taqwa,\' is a central concept in Islam, referring to living a life in accordance with the teachings of Allah and His Messenger. A righteous person is one who strives to follow the path of piety, sincerity, and integrity, always seeking to please Allah through their actions and intentions.\\n\\nThe Quran describes the righteous as those who believe in Allah, perform good deeds, and avoid sinful behavior. Righteousness is not limited to outward actions but encompasses one\'s internal state, including intentions, thoughts, and feelings. The Prophet Muhammad (PBUH) said, \'The best among you are those who have the best manners and character,\' highlighting the significance of internal righteousness alongside external acts of worship."},{"title":"The Importance of Fasting in Islam","content":"Fasting, or \'Sawm,\' is one of the Five Pillars of Islam and holds great spiritual significance. During the month of Ramadan, Muslims around the world fast from dawn to sunset, refraining from food, drink, and other physical needs as a form of worship and self-discipline. The primary goal of fasting is to attain \'Taqwa\' (God-consciousness) by purifying the soul and gaining empathy for the less fortunate.\\n\\nFasting in Islam is not just about abstaining from food and drink but also from negative thoughts, harmful speech, and sinful actions. The Quran describes fasting as a means of spiritual growth, fostering self-restraint, and increasing awareness of Allah. Beyond Ramadan, Muslims are also encouraged to fast on other days, such as Mondays and Thursdays, as a means of maintaining spiritual discipline throughout the year."},{"title":"The Concept of Forgiveness in Islam","content":"Forgiveness is a key theme in Islam, and it is seen as a divine quality that Muslims should strive to emulate. Allah is described as \'The Most Forgiving\' (Al-Ghafur) in the Quran, and Muslims are encouraged to seek His forgiveness through sincere repentance for their sins.\\n\\nThe Prophet Muhammad (PBUH) emphasized the importance of forgiving others, saying, \'Whoever does not forgive others, Allah will not forgive them.\' Islam teaches that forgiveness is not a sign of weakness but a strength that promotes peace and reconciliation. Muslims are encouraged to forgive those who wrong them, as this leads to spiritual growth and closeness to Allah. The concept of forgiveness extends to both personal and societal levels, fostering harmony and preventing cycles of anger and revenge."},{"title":"Islamic Views on Peace and Conflict Resolution","content":"Islam places great emphasis on peace, both at the individual and societal levels. The Quran repeatedly calls for peace, reconciliation, and the peaceful resolution of conflicts. Muslims are encouraged to seek peaceful solutions to disputes and to avoid aggression or harm to others.\\n\\nThe Prophet Muhammad (PBUH) was a model of peace, and his actions in times of conflict serve as a guide for Muslims today. He promoted peaceful negotiations and treaties and worked to foster peaceful relations between different tribes and communities. Islam teaches that war is only permissible as a last resort and should always be conducted in accordance with ethical principles, including the protection of non-combatants and the prohibition of unnecessary harm."},{"title":"The Significance of Hajj (The Pilgrimage) in Islam","content":"Hajj, the annual pilgrimage to Mecca, is one of the Five Pillars of Islam and is an obligation for Muslims who are physically and financially able to perform it. Hajj represents the ultimate act of submission to Allah and serves as a symbol of unity among Muslims worldwide, as millions gather in Mecca each year to perform the rites together.\\n\\nThe rituals of Hajj, such as Tawaf (circling the Kaaba), standing at Arafat, and throwing pebbles at the symbolic pillars, represent a Muslim\'s devotion to Allah and their commitment to the principles of humility, equality, and worship. Hajj is also a time for reflection, repentance, and seeking Allah\'s forgiveness. It is a transformative experience that strengthens faith and fosters a deep sense of spiritual renewal."},{"title":"The Concept of Prophethood in Islam","content":"In Islam, Prophethood is the divine institution through which Allah sends messengers to guide humanity. The final Prophet, Muhammad (PBUH), is considered the Seal of the Prophets, and his teachings, recorded in the Quran and Hadith, form the foundation of Islamic belief and practice. Muslims believe that Allah sent many prophets before Muhammad (PBUH), including Adam, Noah, Abraham, Moses, and Jesus (PBUH), each bringing a message suited to the time and place of their people.\\n\\nThe role of a prophet is to deliver the message of Allah and to be an example of righteous living. Prophets are considered infallible in delivering the divine message, though they remain human in other aspects of their lives. The concept of prophethood emphasizes the continuity of divine guidance and the importance of following the teachings of the final Prophet to attain success in this life and the Hereafter."},{"title":"Islamic Views on Financial Transactions and Ethics","content":"Islam has detailed guidelines for financial transactions, emphasizing fairness, honesty, and transparency. One of the key principles in Islamic finance is the prohibition of \'riba\' (usury), which is seen as exploitative and unjust. Instead, Islam promotes trade, profit-sharing, and ethical business practices that benefit both parties involved.\\n\\nThe concept of \'Halal\' (permissible) and \'Haram\' (forbidden) also applies to financial dealings, with Muslims encouraged to avoid investments or businesses that involve unethical practices, such as gambling or alcohol. Zakat, the obligatory charity, serves as a means of redistributing wealth to the less fortunate, ensuring that economic prosperity is shared within the community. Islamic finance focuses on fairness, accountability, and social responsibility."},{"title":"The Role of the Quran in Islam","content":"The Quran is the holy book of Islam, considered by Muslims to be the literal word of Allah, revealed to Prophet Muhammad (PBUH) over a period of 23 years. The Quran serves as a comprehensive guide for all aspects of life, offering guidance on worship, ethics, law, and social relations.\\n\\nMuslims believe that the Quran is the final revelation from Allah, confirming and superseding previous scriptures. The Quran emphasizes monotheism, justice, compassion, and righteousness. It is regarded as a timeless and universal message, applicable to all people, regardless of time or place. Muslims recite verses from the Quran during prayers, and its teachings are central to Islamic life and spirituality."},{"title":"The Importance of Gratitude (Shukr) in Islam","content":"Gratitude, or \'Shukr,\' is a central theme in Islam and is considered an essential quality for Muslims. The Quran and Hadith emphasize the importance of thanking Allah for His countless blessings and being grateful for everything in life, both big and small. The Prophet Muhammad (PBUH) taught that gratitude leads to contentment and spiritual fulfillment, as it helps Muslims recognize Allah\'s mercy and generosity.\\n\\nShukr is not only about verbal expressions of thanks but also about using the blessings that Allah has given in a way that pleases Him. Islam encourages Muslims to be grateful by showing kindness to others, being patient in times of hardship, and giving charity to help those in need."},{"title":"The Importance of Tawheed (Monotheism) in Islam","content":"Tawheed, the belief in the oneness of Allah, is the core principle of Islamic theology. It asserts that Allah is the only Creator, Sustainer, and Ruler of the universe. Tawheed is not only a theological concept but also a way of life that permeates every aspect of a Muslim\'s existence. The Quran repeatedly emphasizes the oneness of Allah, stating, \'Say, He is Allah, [Who is] One.\' (Quran 112:1).\\n\\nTawheed ensures that Muslims dedicate their worship solely to Allah, avoiding any form of polytheism or idolatry. This belief fosters humility, unity, and a strong connection with the Creator. It also calls Muslims to reflect on Allah’s attributes, such as His mercy, knowledge, and power, and to live their lives in accordance with His will."},{"title":"The Role of Prophets and Messengers in Islam","content":"In Islam, Prophets (Anbiya) and Messengers (Rasool) are individuals chosen by Allah to guide humanity. They are the bearers of divine revelation, leading their people toward monotheism, righteousness, and justice. The Quran mentions that \'We have sent you [O Muhammad] only as a mercy to the worlds.\' (Quran 21:107).\\n\\nProphet Muhammad (PBUH) is considered the final Messenger, but Muslims believe in all the Prophets who came before him, such as Adam, Noah, Abraham, Moses, and Jesus (peace be upon them). These Prophets taught the same fundamental message: the oneness of Allah and the importance of leading a life based on moral and ethical conduct. Muslims believe that the guidance of the Prophets is a mercy for humanity, and following their example is essential for achieving peace and success in both this world and the Hereafter."},{"title":"The Islamic Concept of Justice (Adl)","content":"Justice (Adl) is a fundamental value in Islam, which is deeply embedded in its teachings. The Quran commands believers to uphold justice, stating, \'Indeed, Allah commands you to uphold justice.\' (Quran 16:90). Justice in Islam encompasses all aspects of life, from interpersonal relations to social, political, and legal systems.\\n\\nMuslims are taught to be just in their actions, dealings, and judgments, regardless of a person\'s race, ethnicity, or status. The Prophet Muhammad (PBUH) emphasized that justice should be the basis of leadership, legal matters, and community relations. Islamic justice seeks to ensure fairness, prevent oppression, and protect the rights of every individual. It also encourages reconciliation and forgiveness, offering a balanced approach to both accountability and mercy."},{"title":"The Concept of Gratitude (Shukr) in Islam","content":"Gratitude (Shukr) is an essential virtue in Islam, emphasizing the acknowledgment of Allah’s blessings and being thankful for His provisions. The Quran states, \'If you are grateful, I will certainly give you more.\' (Quran 14:7). Gratitude in Islam is not just about expressing thanks with words, but also about demonstrating thankfulness through actions, such as fulfilling religious obligations and helping others.\\n\\nShukr involves recognizing that all blessings, whether material or spiritual, come from Allah. It encourages Muslims to maintain a positive attitude, express thankfulness regularly, and share their blessings with others. Gratitude strengthens a Muslim’s relationship with Allah and leads to contentment and peace of mind."},{"title":"The Islamic Concept of the Afterlife (Akhirah)","content":"The concept of the Afterlife (Akhirah) is central to Islamic belief. Muslims believe in life after death and the eventual Day of Judgment, when every soul will be held accountable for their deeds. The Quran states, \'Every soul shall taste death, and you will be fully recompensed on the Day of Resurrection.\' (Quran 3:185).\\n\\nThe Afterlife is a continuation of the soul’s journey, where those who lived righteous lives will be rewarded with eternal paradise (Jannah), and those who disobeyed Allah will face punishment in Hell (Jahannam). The belief in Akhirah encourages Muslims to live a life of piety, justice, and righteousness, with the understanding that their actions in this world will determine their eternal fate."},{"title":"The Significance of the Night of Ascension (Isra and Miraj)","content":"The Night of Ascension (Isra and Miraj) is one of the most significant events in Islamic history. It is the night when Prophet Muhammad (PBUH) was taken from the Kaaba in Mecca to the Al-Aqsa Mosque in Jerusalem, and then ascended to the heavens to stand in the presence of Allah. During this miraculous journey, the Prophet received instructions regarding the number of daily prayers (Salah) that Muslims are to perform.\\n\\nIsra and Miraj symbolize the deep connection between the Prophet and Allah, and it highlights the importance of prayer in the life of a Muslim. The event serves as a reminder of the spiritual elevation that comes with devotion, faith, and submission to Allah."},{"title":"The Importance of the Quran in Daily Life","content":"The Quran is not just a sacred text to be read during special occasions but is meant to be a guide for every aspect of a Muslim\'s daily life. The Quran provides guidance on personal conduct, family relations, social justice, and spirituality. It teaches Muslims to act with kindness, honesty, humility, and justice, reflecting the divine will in their actions.\\n\\nThe Quran encourages reflection, understanding, and action upon its verses. It is recited during prayers and serves as a source of comfort, solace, and guidance. Muslims are encouraged to incorporate its teachings into their daily routines, making the Quran a living guide that shapes their thoughts, behaviors, and interactions with others."},{"title":"The Importance of Good Character in Islam","content":"Good character is a key aspect of a Muslim\'s faith and is highly valued in Islam. The Prophet Muhammad (PBUH) said, \'The best of you are those who have the best manners and character.\' Islam teaches Muslims to act with kindness, patience, humility, and sincerity, and to treat others with respect and fairness.\\n\\nGood character extends beyond the immediate family and community, encompassing dealings with neighbors, colleagues, and even strangers. The Quran and Hadith emphasize that a person’s actions should reflect the teachings of Islam, demonstrating compassion and integrity. A Muslim is encouraged to uphold high standards of character in all aspects of life, as it not only improves personal relationships but also contributes to the overall well-being of society."},{"title":"The Importance of Seeking Knowledge in Islam","content":"Seeking knowledge is a highly regarded activity in Islam, and it is considered a form of worship. The Quran states, \'Say, \'Are those who know equal to those who do not know?\' (Quran 39:9), underscoring the importance of knowledge in Islam.\\n\\nKnowledge is not confined to religious studies but includes all beneficial knowledge that serves to better the individual and society. Islam encourages its followers to acquire both religious and worldly knowledge. The Prophet Muhammad (PBUH) said, \'Seeking knowledge is an obligation upon every Muslim.\' Through knowledge, Muslims can understand their faith, contribute positively to society, and act in ways that align with divine wisdom."},{"title":"The Importance of Dhikr (Remembrance of Allah)","content":"Dhikr, or the remembrance of Allah, is an essential practice in Islam that helps strengthen the bond between the believer and Allah. The Quran reminds Muslims, \'Indeed, in the remembrance of Allah do hearts find rest.\' (Quran 13:28).\\n\\nDhikr can be performed through various forms, such as reciting specific phrases like \'SubhanAllah\' (Glory be to Allah), \'Alhamdulillah\' (All praise is due to Allah), and \'Allahu Akbar\' (Allah is the Greatest). These acts of remembrance are not only an expression of gratitude but also serve as a means of purifying the heart and seeking Allah’s mercy and blessings. Regular Dhikr helps Muslims stay mindful of Allah throughout their daily lives and encourages patience, gratitude, and humility."},{"title":"Islamic Views on Patience and Perseverance","content":"Patience (Sabr) and perseverance are highly valued virtues in Islam, emphasized in the Quran and Hadith as essential qualities for a Muslim. The Quran states, \'Indeed, the patient will be given their reward without account.\' (Quran 39:10). Patience involves enduring difficulties with faith and trust in Allah, while perseverance entails steadfastness in pursuing righteousness.\\n\\nThe Prophet Muhammad (PBUH) taught that patience is a means of attaining Allah’s pleasure and overcoming trials. These qualities are particularly important during times of hardship, loss, or temptation, as they help Muslims maintain their faith and moral integrity. Patience and perseverance are seen as acts of worship that strengthen a Muslim’s relationship with Allah."},{"title":"The Role of Intention (Niyyah) in Islam","content":"In Islam, the intention (Niyyah) behind an action is of utmost importance, as it determines the spiritual value of the deed. The Prophet Muhammad (PBUH) said, \'Actions are judged by intentions, and every person will be rewarded according to what they intended.\' This principle underscores that sincerity and devotion to Allah are essential for any act of worship or good deed.\\n\\nA pure intention transforms even mundane tasks into acts of worship if they are performed for the sake of Allah. Muslims are encouraged to constantly renew their intentions to ensure their actions align with their faith and seek Allah’s pleasure, fostering mindfulness and spiritual awareness in all aspects of life."},{"title":"Islamic Teachings on Humility","content":"Humility is a core value in Islam, reflecting a Muslim’s submission to Allah and recognition of their own limitations. The Quran warns against arrogance, stating, \'And do not walk upon the earth exultantly. Indeed, you will never tear the earth apart, nor will you reach the mountains in height.\' (Quran 17:37). Humility involves modesty, kindness, and respect in dealings with others.\\n\\nThe Prophet Muhammad (PBUH) exemplified humility by living a simple life and treating everyone with fairness and compassion. Muslims are encouraged to avoid pride and self-superiority, recognizing that all blessings come from Allah. Humility strengthens community bonds and fosters a spirit of equality and mutual respect."},{"title":"The Concept of Ihsan (Excellence) in Islam","content":"Ihsan, often translated as excellence or perfection, is the concept of performing every act with the awareness that Allah is watching. The Prophet Muhammad (PBUH) described Ihsan as worshipping Allah as though you see Him, for though you cannot see Him, He sees you. This principle encourages Muslims to strive for excellence in their worship, character, and actions.\\n\\nIhsan involves sincerity, mindfulness, and dedication in all aspects of life, from prayer to interpersonal relationships. It calls Muslims to go beyond the minimum requirements of faith and to seek spiritual and moral excellence, reflecting the beauty of Islam in their behavior and intentions."},{"title":"Islamic Teachings on Compassion","content":"Compassion is a fundamental aspect of Islamic teachings, rooted in the mercy of Allah and exemplified by the Prophet Muhammad (PBUH), who was described as a mercy to the worlds. The Quran states, \'We have not sent you [O Muhammad] except as a mercy to the worlds.\' (Quran 21:107). Compassion in Islam extends to all beings, including family, neighbors, strangers, and even animals.\\n\\nMuslims are encouraged to show kindness and empathy in their interactions, especially toward the vulnerable, such as orphans and the poor. Compassion is expressed through acts of charity, forgiveness, and support, fostering a society built on care and mutual respect."},{"title":"The Importance of Trust (Amanah) in Islam","content":"Trust (Amanah) is a key principle in Islam, emphasizing the responsibility to fulfill obligations and be trustworthy in all dealings. The Quran states, \'Indeed, Allah commands you to render trusts to whom they are due.\' (Quran 4:58). Trust applies to relationships, contracts, and responsibilities, whether personal, professional, or religious.\\n\\nThe Prophet Muhammad (PBUH) was known as Al-Amin (the Trustworthy) even before his prophethood, highlighting the importance of integrity. Muslims are encouraged to uphold trust in all aspects of life, ensuring honesty and reliability in their actions, as this strengthens community bonds and reflects faith in Allah."},{"title":"Islamic Teachings on Moderation","content":"Moderation is a central principle in Islam, promoting balance in all aspects of life, including worship, consumption, and behavior. The Quran states, \'And thus We have made you a just community that you will be witnesses over the people.\' (Quran 2:143). Moderation prevents extremism and excess, encouraging Muslims to live balanced, disciplined lives.\\n\\nThe Prophet Muhammad (PBUH) advocated moderation in eating, spending, and even worship, emphasizing that balance leads to spiritual and physical well-being. Muslims are taught to avoid wastefulness and extravagance, striving for a lifestyle that aligns with the principles of justice and sustainability."},{"title":"The Role of Repentance (Tawbah) in Islam","content":"Repentance (Tawbah) is a vital aspect of Islamic spirituality, allowing Muslims to seek forgiveness from Allah for their sins. The Quran states, \'And whoever repents and does righteousness—indeed, it is those who are the successful.\' (Quran 24:31). Tawbah involves sincere regret, ceasing the sinful act, and resolving to avoid it in the future.\\n\\nThe Prophet Muhammad (PBUH) taught that Allah accepts the repentance of those who turn to Him sincerely, emphasizing His infinite mercy. Repentance is a means of spiritual purification and renewal, helping Muslims maintain a close relationship with Allah and strive for righteousness."},{"title":"Islamic Teachings on Community Service","content":"Community service is highly valued in Islam, as it reflects the principles of compassion, charity, and social responsibility. The Quran encourages Muslims to help others, stating, \'And do good; indeed, Allah loves the doers of good.\' (Quran 2:195). Acts of service, such as volunteering, helping the needy, or improving the community, are considered forms of worship.\\n\\nThe Prophet Muhammad (PBUH) emphasized the importance of serving others, saying, \'The best of people are those who are most beneficial to others.\' Community service strengthens the bonds of the Ummah and promotes social justice, ensuring the well-being of all members of society."},{"title":"The Importance of Unity in Islam","content":"Unity is a core value in Islam, emphasizing the strength and solidarity of the Muslim Ummah. The Quran states, \'And hold firmly to the rope of Allah all together and do not become divided.\' (Quran 3:103). Unity fosters cooperation, mutual support, and collective responsibility among Muslims, regardless of cultural or geographical differences.\\n\\nThe Prophet Muhammad (PBUH) taught that Muslims are like one body, where if one part suffers, the whole body feels the pain. Unity is reflected in practices such as congregational prayers, charity, and collective worship during Hajj, reinforcing the importance of community and shared faith."},{"title":"The Significance of the Night of Power (Laylat al-Qadr)","content":"The Night of Power (Laylat al-Qadr) is one of the holiest nights in Islam, occurring during the last ten nights of Ramadan. The Quran describes it as \'better than a thousand months\' (Quran 97:3), emphasizing its immense spiritual significance. It is believed to be the night when the Quran was first revealed to Prophet Muhammad (PBUH).\\n\\nMuslims seek this night through increased worship, prayer, and recitation of the Quran, as acts performed on this night are multiplied in reward. Laylat al-Qadr is a time for reflection, seeking forgiveness, and drawing closer to Allah, symbolizing the profound connection between the divine and humanity."},{"title":"Islamic Teachings on Respect for Parents","content":"Respect for parents is a fundamental teaching in Islam, emphasized in the Quran and Hadith. The Quran states, \'And your Lord has decreed that you not worship except Him, and to parents, good treatment.\' (Quran 17:23). Muslims are obligated to show kindness, obedience, and gratitude toward their parents, recognizing their sacrifices and role in upbringing.\\n\\nThe Prophet Muhammad (PBUH) taught that paradise lies at the feet of mothers, highlighting the elevated status of parents in Islam. Respect for parents extends beyond obedience to include caring for them in old age and praying for their well-being, fostering strong family bonds and moral responsibility."},{"title":"The Concept of Barakah (Blessing) in Islam","content":"Barakah, or divine blessing, is a central concept in Islam, referring to the spiritual increase and goodness that Allah bestows upon individuals and their actions. The Quran and Hadith encourage Muslims to seek Barakah through acts of worship, charity, and ethical behavior. The Prophet Muhammad (PBUH) emphasized that Barakah can be found in lawful earnings, gratitude, and sincerity.\\n\\nBarakah manifests in various forms, such as increased sustenance, contentment, and success in endeavors. Muslims are encouraged to seek Barakah by starting tasks with the name of Allah, maintaining integrity, and sharing blessings with others, thereby enhancing their spiritual and material lives."},{"title":"Islamic Teachings on Honesty","content":"Honesty is a cornerstone of Islamic ethics, emphasized as a vital characteristic of a Muslim. The Quran states, \'O you who have believed, fear Allah and be with those who are true.\' (Quran 9:119). Honesty encompasses truthfulness in speech, actions, and intentions, and is essential in personal, social, and business interactions.\\n\\nThe Prophet Muhammad (PBUH), known as As-Sadiq (the Truthful), exemplified honesty in all aspects of life. Muslims are encouraged to uphold truthfulness, even when it is difficult, as it fosters trust, strengthens relationships, and aligns with the principles of righteousness and accountability in Islam."},{"title":"The Role of Mosques in Islam","content":"Mosques are central to Islamic life, serving as places of worship, community gathering, and education. The Quran describes mosques as houses of Allah, where His name is glorified (Quran 24:36). They are spaces for performing Salah, seeking knowledge, and fostering unity among Muslims through congregational activities.\\n\\nThe Prophet Muhammad (PBUH) emphasized the importance of mosques, stating that those who frequent them for worship are blessed. Beyond religious functions, mosques historically served as centers for social services, charity distribution, and community decision-making, reinforcing their role as the heart of the Muslim community."},{"title":"Islamic Teachings on Forgiveness of Others","content":"Forgiveness of others is a highly valued virtue in Islam, reflecting Allah’s attribute of mercy. The Quran encourages Muslims to forgive, stating, \'Let them forgive and overlook; do you not wish that Allah should forgive you?\' (Quran 24:22). Forgiving others fosters peace, heals relationships, and promotes spiritual growth.\\n\\nThe Prophet Muhammad (PBUH) demonstrated forgiveness even toward those who wronged him, setting an example for Muslims. Islam teaches that forgiving others, especially in the face of injustice, is a sign of strength and a means to attain Allah’s mercy and reward."},{"title":"The Importance of Time Management in Islam","content":"Time management is highly emphasized in Islam, as time is considered a precious trust from Allah. The Quran states, \'By time, indeed, mankind is in loss, except for those who have believed and done righteous deeds.\' (Quran 103:1-3). Muslims are encouraged to use their time wisely, balancing worship, work, and personal responsibilities.\\n\\nThe Prophet Muhammad (PBUH) taught that time should be spent in productive and meaningful activities, such as seeking knowledge, helping others, and performing acts of worship. Effective time management reflects gratitude for Allah’s blessings and ensures a purposeful and fulfilling life."},{"title":"Islamic Teachings on Kindness to Animals","content":"Islam emphasizes kindness to animals, viewing them as creations of Allah deserving of care and compassion. The Prophet Muhammad (PBUH) taught that showing kindness to animals is a means of earning Allah’s reward, while cruelty is condemned. The Quran mentions animals as signs of Allah’s creation, encouraging their humane treatment.\\n\\nExamples from the Prophet’s life include his teachings on providing food and water to animals and avoiding overburdening them. Muslims are encouraged to treat animals with respect, ensuring their well-being as part of their responsibility as stewards of the Earth."},{"title":"The Concept of Taqwa (God-Consciousness) in Islam","content":"Taqwa, or God-consciousness, is a central concept in Islam, referring to a state of mindfulness and reverence for Allah in all actions. The Quran states, \'O you who have believed, fear Allah as He should be feared and do not die except as Muslims.\' (Quran 3:102). Taqwa involves living with awareness of Allah’s presence, striving for righteousness, and avoiding sin.\\n\\nThe Prophet Muhammad (PBUH) described Taqwa as the foundation of good character and faith. It guides Muslims to make ethical choices, maintain integrity, and seek Allah’s pleasure, fostering a life of purpose and spiritual fulfillment."},{"title":"Islamic Teachings on Generosity","content":"Generosity is a highly valued trait in Islam, reflecting the spirit of compassion and selflessness. The Quran encourages Muslims to give generously, stating, \'The example of those who spend their wealth in the way of Allah is like a seed which grows seven spikes; in each spike is a hundred grains.\' (Quran 2:261). Generosity includes financial charity, sharing knowledge, and offering time to help others.\\n\\nThe Prophet Muhammad (PBUH) was known for his unparalleled generosity, often giving away his possessions to those in need. Muslims are encouraged to practice generosity as a means of purifying their wealth, strengthening community ties, and earning Allah’s reward."},{"title":"The Importance of Jihad (Striving) in Islam","content":"Jihad, often misunderstood, refers to striving or struggling in the way of Allah. The Quran states, \'And strive for Allah with the striving due to Him.\' (Quran 22:78). Jihad encompasses both the internal struggle against one’s desires (greater jihad) and, when necessary, the external struggle to defend the faith or community (lesser jihad).\\n\\nThe Prophet Muhammad (PBUH) emphasized that the greatest jihad is the struggle against one’s own soul to uphold righteousness. Jihad is guided by strict ethical principles, prioritizing peace, justice, and protection of innocent lives, and is never about aggression or oppression."},{"title":"Islamic Teachings on Respect for Neighbors","content":"Respect for neighbors is a significant teaching in Islam, emphasizing the importance of good relations with those living nearby. The Quran states, \'Worship Allah and associate nothing with Him, and to parents do good, and to relatives, orphans, the needy, the near neighbor, and the neighbor farther away.\' (Quran 4:36). Neighbors have rights in Islam, including kindness and support.\\n\\nThe Prophet Muhammad (PBUH) said, \'He is not a believer whose neighbor is not safe from his harm.\' Muslims are encouraged to treat neighbors with respect, share resources, and maintain harmonious relationships, fostering a strong and caring community."},{"title":"The Concept of Adab (Etiquette) in Islam","content":"Adab, or proper etiquette, is a fundamental aspect of Islamic teachings, encompassing good manners, respect, and proper conduct in all interactions. The Quran encourages Muslims to speak kindly and act with humility, stating, \'And speak to people good [words].\' (Quran 2:83). Adab applies to speech, behavior, and even personal hygiene.\\n\\nThe Prophet Muhammad (PBUH) was known for his exemplary manners, treating everyone with kindness and respect. Muslims are encouraged to practice Adab in their daily lives, as it reflects their faith and enhances their interactions with others, promoting harmony and mutual respect."},{"title":"Islamic Teachings on Seeking Forgiveness","content":"Seeking forgiveness (Istighfar) is a vital practice in Islam, allowing Muslims to repent and seek Allah’s mercy for their shortcomings. The Quran states, \'And seek forgiveness of Allah. Indeed, Allah is Forgiving and Merciful.\' (Quran 73:20). Istighfar involves acknowledging one’s sins and sincerely asking for Allah’s forgiveness.\\n\\nThe Prophet Muhammad (PBUH) frequently sought forgiveness, teaching that it brings spiritual purification and divine blessings. Muslims are encouraged to make Istighfar a regular part of their lives, as it fosters humility, strengthens faith, and opens the door to Allah’s mercy."},{"title":"The Role of Charity in Building Community","content":"Charity in Islam, through Zakat and Sadaqah, plays a crucial role in building strong, cohesive communities. The Quran emphasizes, \'Take from their wealth a charity by which you purify them.\' (Quran 9:103). Charity ensures the redistribution of resources, supporting the less fortunate and fostering social equity.\\n\\nThe Prophet Muhammad (PBUH) taught that even small acts of charity, such as a smile or kind word, strengthen community bonds. By giving generously, Muslims contribute to a culture of care and mutual support, ensuring the well-being of the Ummah and promoting social harmony."},{"title":"Islamic Teachings on Patience in Adversity","content":"Patience in adversity is a core teaching in Islam, encouraging Muslims to remain steadfast during trials. The Quran states, \'And We will surely test you with something of fear and hunger and a loss of wealth and lives and fruits, but give good tidings to the patient.\' (Quran 2:155). Patience in adversity reflects trust in Allah’s plan.\\n\\nThe Prophet Muhammad (PBUH) faced numerous hardships yet remained patient, setting an example for Muslims. This patience involves gratitude during ease and resilience during hardship, helping Muslims grow spiritually and maintain faith in challenging times."},{"title":"The Importance of Sincerity (Ikhlas) in Islam","content":"Sincerity (Ikhlas) is a fundamental principle in Islam, emphasizing that all actions should be performed solely for Allah’s pleasure. The Quran states, \'And they were not commanded except to worship Allah, [being] sincere to Him in religion.\' (Quran 98:5). Sincerity ensures that deeds are free from hypocrisy or seeking worldly gain.\\n\\nThe Prophet Muhammad (PBUH) taught that sincerity is essential for the acceptance of worship. Muslims are encouraged to purify their intentions, ensuring that their actions, whether prayer, charity, or daily tasks, are performed with devotion to Allah, fostering spiritual integrity."},{"title":"Islamic Teachings on Respect for Elders","content":"Respect for elders is a key value in Islam, reflecting gratitude for their wisdom and contributions. The Quran emphasizes kindness toward parents and, by extension, elders, stating, \'And lower to them the wing of humility out of mercy.\' (Quran 17:24). Elders are seen as sources of guidance and blessing in the community.\\n\\nThe Prophet Muhammad (PBUH) taught that respecting elders is a means of earning Allah’s favor. Muslims are encouraged to honor elders through kind treatment, listening to their advice, and ensuring their care, fostering a culture of respect and intergenerational harmony."},{"title":"The Concept of Sabr (Patience) in Worship","content":"Sabr (patience) in worship is a vital aspect of Islamic practice, requiring steadfastness in fulfilling religious obligations. The Quran states, \'Seek help through patience and prayer.\' (Quran 2:45). Patience in worship involves consistency in performing Salah, fasting, and other acts, even when faced with challenges.\\n\\nThe Prophet Muhammad (PBUH) emphasized that patience in worship strengthens faith and brings divine rewards. Muslims are encouraged to maintain their religious duties with dedication, trusting that their efforts, though sometimes difficult, draw them closer to Allah."},{"title":"Islamic Teachings on Environmental Responsibility","content":"Environmental responsibility in Islam is rooted in the concept of stewardship (Khalifah), where humans are entrusted with caring for the Earth. The Quran states, \'It is He who has made you successors upon the earth.\' (Quran 35:39). Muslims are encouraged to protect the environment by avoiding waste and preserving natural resources.\\n\\nThe Prophet Muhammad (PBUH) promoted actions like planting trees and conserving water, teaching that such acts are charitable. Environmental responsibility is seen as a form of worship, reflecting gratitude for Allah’s creation and ensuring sustainability for future generations."}]}');
+
+/***/ }),
+
+/***/ "./resources/js/utils/milestones.js":
+/*!******************************************!*\
+  !*** ./resources/js/utils/milestones.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getAchieved: () => (/* binding */ getAchieved),
+/* harmony export */   getCount: () => (/* binding */ getCount),
+/* harmony export */   hasReached: () => (/* binding */ hasReached),
+/* harmony export */   increment: () => (/* binding */ increment),
+/* harmony export */   setAchieved: () => (/* binding */ setAchieved),
+/* harmony export */   setCount: () => (/* binding */ setCount),
+/* harmony export */   trackAndDetect: () => (/* binding */ trackAndDetect)
+/* harmony export */ });
+// Lightweight client-side milestone tracker
+// Stores counts and achieved thresholds in localStorage or sessionStorage
+
+function getStorage(scope) {
+  return scope === 'session' ? window.sessionStorage : window.localStorage;
+}
+function readJSON(storage, key, fallback) {
+  try {
+    var raw = storage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (_) {
+    return fallback;
+  }
+}
+function getCount(eventKey) {
+  var scope = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'persistent';
+  var storage = getStorage(scope);
+  var key = "".concat(scope, "_count_").concat(eventKey);
+  var raw = storage.getItem(key);
+  return raw ? parseInt(raw, 10) || 0 : 0;
+}
+function setCount(eventKey, value) {
+  var scope = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'persistent';
+  var storage = getStorage(scope);
+  var key = "".concat(scope, "_count_").concat(eventKey);
+  storage.setItem(key, String(value));
+  return value;
+}
+function increment(eventKey) {
+  var by = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  var scope = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'persistent';
+  var current = getCount(eventKey, scope);
+  return setCount(eventKey, current + by, scope);
+}
+function getAchieved(eventKey) {
+  var scope = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'persistent';
+  var storage = getStorage(scope);
+  var key = "".concat(scope, "_achieved_").concat(eventKey);
+  return readJSON(storage, key, []);
+}
+function setAchieved(eventKey, achieved) {
+  var scope = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'persistent';
+  var storage = getStorage(scope);
+  var key = "".concat(scope, "_achieved_").concat(eventKey);
+  storage.setItem(key, JSON.stringify(achieved));
+}
+
+// Increments count and returns the highest newly reached threshold, or null
+function trackAndDetect(eventKey) {
+  var thresholds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  var scope = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'persistent';
+  var count = increment(eventKey, 1, scope);
+  var achieved = new Set(getAchieved(eventKey, scope));
+  // Determine newly hit thresholds (<= count and not yet achieved)
+  var newly = thresholds.filter(function (t) {
+    return typeof t === 'number';
+  }).filter(function (t) {
+    return t <= count && !achieved.has(t);
+  }).sort(function (a, b) {
+    return a - b;
+  });
+  if (newly.length === 0) return null;
+  // Mark all newly reached as achieved; return the highest one for messaging
+  var highest = newly[newly.length - 1];
+  newly.forEach(function (t) {
+    return achieved.add(t);
+  });
+  setAchieved(eventKey, Array.from(achieved), scope);
+  return {
+    threshold: highest,
+    count: count
+  };
+}
+function hasReached(eventKey, threshold) {
+  var scope = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'persistent';
+  var achieved = new Set(getAchieved(eventKey, scope));
+  return achieved.has(threshold);
+}
 
 /***/ }),
 

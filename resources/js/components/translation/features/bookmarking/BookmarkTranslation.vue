@@ -70,11 +70,16 @@
     <div v-if="showErrorAlert" class="alert alert-danger" role="alert">
       An error occurred while saving the bookmark.
     </div>
+    <!-- Milestone Alert -->
+    <div v-if="milestoneMessage" class="alert alert-success" role="alert">
+      {{ milestoneMessage }}
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import { trackAndDetect } from '../../../../utils/milestones';
 
 export default {
   name: 'BookmarkTranslation',
@@ -106,6 +111,7 @@ export default {
       folders: [],  // Ensure you fetch and populate this array from your backend or state
       bookmarks: [],
       selectedFolderId: null,
+      milestoneMessage: '',
     };
   },
   created() {
@@ -153,6 +159,16 @@ export default {
         localStorage.setItem(`bookmarkSubmitted_${ayah_id}`, true);
         this.showAlert = true;
         this.showErrorAlert = false;
+        // Milestone tracking: bookmarks saved
+        const hit = trackAndDetect('bookmarks_saved', [1,5,10,25,50], 'persistent');
+        if (hit && hit.threshold) {
+          if (hit.threshold === 1) {
+            this.milestoneMessage = "Masha'Allah! First bookmark saved — your journey begins.";
+          } else {
+            this.milestoneMessage = `Masha'Allah! ${hit.threshold} bookmarks added — keep going.`;
+          }
+          this.hideMilestoneAfterDelay();
+        }
         this.hideAlertAfterDelay();
       } catch (error) {
         console.error(error);
@@ -166,6 +182,11 @@ export default {
         this.showAlert = false;
         this.showErrorAlert = false;
       }, 3000);  // Hide alerts after 3 seconds
+    },
+    hideMilestoneAfterDelay() {
+      setTimeout(() => {
+        this.milestoneMessage = '';
+      }, 3500);
     }
   }
 };

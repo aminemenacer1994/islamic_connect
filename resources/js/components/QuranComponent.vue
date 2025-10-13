@@ -70,24 +70,22 @@
                                     max-height: 600px;
                                     background: white;">
 
+                                    <!-- Loading skeleton while ayat fetch -->
+                                    <div v-if="isLoading" class="p-3">
+                                        <div v-for="n in 10" :key="n" class="skeleton-line"></div>
+                                    </div>
 
-                                    <ul class="col-md-12 list-group root" id="toggle" ref="ayahList"
-                                        style="list-style-type: none">
+                                    <ul class="col-md-12 list-group root" id="toggle" ref="ayahList" role="listbox"
+                                        style="list-style-type: none" v-else>
 
-                                        <li v-for="(ayah, index) in ayat" :key="index" @click="selectAyah(index)"
-                                            :class="{
-                                                selected:
-                                                    selectedIndexAyah === index ||
-                                                    (verseNumber &&
-                                                        parseInt(verseNumber) ===
-                                                        ayah.ayah_id),
-                                            }" style="
-                                            padding: 8px;
-                                            border-radius: 15px;">
+                                        <li v-for="(ayah, index) in ayat" :key="ayah.id || index" role="option"
+                                            :aria-selected="selectedIndexAyah === index" @click="selectAyah(index)"
+                                            :class="['ayah-item', { selected: selectedIndexAyah === index || (verseNumber && parseInt(verseNumber) === ayah.ayah_id) }]"
+                                            style="padding: 10px 12px; border-radius: 12px; margin: 6px 0; cursor: pointer;">
                                             <h5 class="text-right" style="display: flex; font-weight: bold;">
                                                 Verse: {{ ayah.ayah_id }}
                                             </h5>
-                                            <h5 class="text-right">
+                                            <h5 class="text-right" dir="rtl" lang="ar">
                                                 {{ ayah.ayah_text }}
                                             </h5>
                                         </li>
@@ -98,11 +96,18 @@
                     </div>
                 </div>
                 <div class="col-md-8 pt-2 card-hide text-left pr-4">
-                    <Welcome v-if="information == null" />
+                    <template v-if="information == null">
+                        <Welcome />
+                        <div v-if="hasSavedProgress" class="mt-2">
+                            <button class="btn btn-success" style="background:#00bfa6;border-radius:6px;" @click="resumeFromSave">
+                                Continue reading
+                            </button>
+                        </div>
+                    </template>
                     
                     
                     <!-- <AyahOfTheDay /> -->
-                    <div class="card content" >
+                    <div class="card content" :style="{ fontSize: fontSize + 'rem' }">
                         <div  v-if="information != null">
                             <div class="container-fluid ">
                                 <div class="row">
@@ -199,7 +204,7 @@
                                             @update-information="updateInformation" :style="{
 
 
-                                            }" class="icon-container hide-on-mobile mb-3">
+                                            }" class="icon-container hide-on-mobile mb-3" style="position: sticky; top: 0; z-index: 5; background: #fff; padding-top: 6px;">
                                             <div class="text-center icon-text">
                                                 <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah"
                                                     style="cursor: pointer" @click="goToFirstAyah"
@@ -324,7 +329,7 @@
                                         <div>
                                             <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
                                                 @update-information="updateInformation"
-                                                class="icon-container hide-on-mobile mb-3">
+                                                class="icon-container hide-on-mobile mb-3" style="position: sticky; top: 0; z-index: 5; background: #fff; padding-top: 6px;">
                                                 <div class="text-center">
                                                     <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah"
                                                         style="cursor: pointer" @click="goToFirstAyah"
@@ -469,7 +474,7 @@
                                             <div class="pb-3">
                                                 <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
                                                     @update-information="updateInformation"
-                                                    class="icon-container hide-on-mobile mb-3">
+                                                    class="icon-container hide-on-mobile mb-3" style="position: sticky; top: 0; z-index: 5; background: #fff; padding-top: 6px;">
                                                     <div class="text-center">
                                                         <i class="bi bi-skip-start-fill icon-container h2 pt- custom-prev-ayah"
                                                             style="cursor: pointer" @click="goToFirstAyah"
@@ -744,6 +749,40 @@ export default {
         this.getSurat(); // Call getSurat to populate the surah list
         this.prepareAyahText();
 
+        // Restore reader font size
+        try {
+            const savedFont = localStorage.getItem('quran:fontSize');
+            if (savedFont) this.fontSize = parseFloat(savedFont);
+        } catch {}
+
+        // Engagement listeners and heartbeat
+        this._onVisibility = () => this._engaged = this.isEngaged();
+        document.addEventListener('visibilitychange', this._onVisibility);
+        window.addEventListener('focus', this._onVisibility);
+        window.addEventListener('blur', this._onVisibility);
+        this.startHeartbeat();
+
+        // Keyboard navigation
+        this._onKey = (e) => {
+            if (!this.information) return;
+            const tag = e.target && e.target.tagName;
+            if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+            if (e.key === 'ArrowRight') { e.preventDefault(); this.goToNextAyah && this.goToNextAyah(); }
+            if (e.key === 'ArrowLeft')  { e.preventDefault(); this.goToPreviousAyah && this.goToPreviousAyah(); }
+            if (e.key === 'Home')       { e.preventDefault(); this.goToFirstAyah && this.goToFirstAyah(); }
+            if (e.key === 'End')        { e.preventDefault(); this.goToLastAyah && this.goToLastAyah(); }
+            if (e.key === 'Enter')      { e.preventDefault(); this.toggleAudioPlayback && this.toggleAudioPlayback(); }
+        };
+        window.addEventListener('keydown', this._onKey);
+
+    },
+
+    beforeUnmount() {
+        document.removeEventListener('visibilitychange', this._onVisibility);
+        window.removeEventListener('focus', this._onVisibility);
+        window.removeEventListener('blur', this._onVisibility);
+        this.stopHeartbeat();
+        window.removeEventListener('keydown', this._onKey);
     },
 
     data() {
@@ -752,6 +791,13 @@ export default {
             isLoading: false,
             iconStyle: {},
             successMessage: "",
+            // Reader font size (rem)
+            fontSize: 1.0,
+            // engagement heartbeat
+            hb: null,
+            _engaged: false,
+            // local progress key
+            lastStateKey: 'quran:last',
             // Theme options used in applyStyle()
             bgColor: "",
             textColor: "",
@@ -901,9 +947,98 @@ export default {
                     : this.information.translation;
             return `Translation: ${translation}`;
         },
+        hasSavedProgress() {
+            try {
+                const raw = localStorage.getItem('quran:last');
+                return !!raw;
+            } catch {
+                return false;
+            }
+        },
         
     },
     methods: {
+        // Utility: debounce to smooth rapid inputs
+        debounce(fn, ms = 250) {
+            let t;
+            return (...args) => {
+                clearTimeout(t);
+                t = setTimeout(() => fn.apply(this, args), ms);
+            };
+        },
+        // AdvancedSearch input handler (prevents missing method errors)
+        handleInputChange(term) {
+            this.searchQuery = typeof term === 'string' ? term : '';
+        },
+        // Reader font size control
+        setFont(delta) {
+            const next = Math.min(1.8, Math.max(0.8, this.fontSize + delta));
+            this.fontSize = next;
+            try { localStorage.setItem('quran:fontSize', String(next)); } catch {}
+        },
+        // ---- Resume / Progress helpers ----
+        saveProgress(surahId, ayahId, t = 0) {
+            try {
+                const payload = { surahId, ayahId, t, at: Date.now() };
+                localStorage.setItem(this.lastStateKey, JSON.stringify(payload));
+            } catch (e) {
+                console.warn('Could not save progress', e);
+            }
+        },
+        loadProgress() {
+            try {
+                const raw = localStorage.getItem(this.lastStateKey);
+                return raw ? JSON.parse(raw) : null;
+            } catch {
+                return null;
+            }
+        },
+        async resumeFromSave() {
+            const p = this.loadProgress();
+            if (!p) return;
+            try {
+                if (p.surahId && p.surahId !== this.selectedSurahId) {
+                    this.selectedSurahId = p.surahId;
+                    await this.getAyat();
+                }
+                await this.selectAyahById(p.ayahId);
+            } catch (e) {
+                console.warn('Resume failed', e);
+            }
+        },
+        async selectAyahById(ayahId) {
+            if (!Array.isArray(this.ayat) || !this.ayat.length) return;
+            const idx = this.ayat.findIndex(a => a && a.id === ayahId);
+            if (idx >= 0) {
+                this.selectedAyahId = idx;
+                await this.handleAyahChange();
+            }
+        },
+
+        // ---- Engagement heartbeat ----
+        isEngaged() {
+            return document.visibilityState === 'visible' && (document.hasFocus() || !!this.isPlaying);
+        },
+        startHeartbeat() {
+            if (this.hb) return;
+            this.hb = setInterval(() => {
+                if (!this.isEngaged()) return;
+                this.sendHeartbeat({
+                    route: 'quran',
+                    mode: this.isPlaying ? 'audio' : 'reading',
+                    surahId: this.selectedSurahId,
+                    ayahId: this.information && (this.information.id || this.information.ayah_id) || null,
+                    ts: Date.now(),
+                });
+            }, 15000);
+        },
+        stopHeartbeat() {
+            if (this.hb) { clearInterval(this.hb); this.hb = null; }
+        },
+        sendHeartbeat(payload) {
+            // Placeholder: replace with POST /analytics/heartbeat if backend exists
+            try { console.debug('heartbeat', payload); } catch {}
+        },
         
         handleDarkModeChange(isDarkMode) {
             this.isDarkMode = isDarkMode;
@@ -1036,6 +1171,12 @@ export default {
         },
         updateInformation(info) {
             this.information = info;
+            // persist progress if possible
+            try {
+                const surahId = (info && info.ayah && info.ayah.surah && info.ayah.surah.id) ? info.ayah.surah.id : this.selectedSurahId;
+                const ayahId = (info && (info.id || info.ayah_id)) ? (info.id || info.ayah_id) : null;
+                if (surahId && ayahId) this.saveProgress(surahId, ayahId);
+            } catch {}
         },
         updateTafseer(tafseerData) {
             this.tafseer = tafseerData;
@@ -1445,6 +1586,12 @@ export default {
                         },
                     });
                     this.information = infoResponse.data;
+                    // Save progress after successful info fetch
+                    try {
+                        const surahId = this.selectedSurahId;
+                        const savedAyahId = this.information && (this.information.id || this.information.ayah_id) || ayahId;
+                        if (surahId && savedAyahId) this.saveProgress(surahId, savedAyahId);
+                    } catch {}
                 } catch (error) {
                     console.error(
                         "Error fetching information or tafseer:",
@@ -1598,6 +1745,13 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.ayah-item:hover { background: #eef8f6; }
+.ayah-item.selected { background: #c8f1ea; border: 1px solid #00bfa633; }
+.skeleton-line { height: 18px; margin: 10px 0; border-radius: 8px; background: linear-gradient(90deg,#eee,#f7f7f7,#eee); background-size: 200% 100%; animation: shimmer 1.2s infinite; }
+@keyframes shimmer { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
+</style>
 
 <style scoped src="./css/styles.css">
 </style>

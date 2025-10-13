@@ -13,9 +13,9 @@
     <!-- Sticky Dropdowns Container -->
     <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown">
       <!-- Existing template for surah, reciter, and translation selection -->
-      <span @click="toggleVisibility" class="text-white" style="cursor: pointer;">
-        <i v-if="isVisible" class="bi bi-x-lg"></i>
-        <i v-else class="bi bi-plus-lg h5"></i>
+      <span @click="toggleVisibility" class="text-white" style="cursor: pointer;" aria-label="Toggle filters visibility">
+        <i v-if="isVisible" class="bi bi-x-lg" aria-hidden="true"></i>
+        <i v-else class="bi bi-plus-lg" aria-hidden="true"></i>
       </span>
       <div class="row g-3" style="padding: 6px;" v-show="isVisible">
         <div class="col-12 col-md-4 mt-3">
@@ -31,7 +31,7 @@
           <label for="reciter-select" class="form-label text-white">Select Reciter:</label>
           <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter">
             <option value="" disabled>Select a reciter</option>
-            <option v-for="reciter in reciters" :key="reciter.identifier" :value="reciter.identifier">
+            <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
               {{ reciter.englishName }}
             </option>
           </select>
@@ -40,12 +40,16 @@
           <label for="translation-select" class="form-label text-white">Select Translation:</label>
           <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation">
             <option value="" disabled>Select Translation</option>
-            <option v-for="translation in translations" :key="translation.identifier" :value="translation.identifier">
+            <option v-for="translation in translationsSorted" :key="translation.identifier" :value="translation.identifier">
               <span style="font-size: 1.2em; margin-right: 6px;">{{ translation.flag }}</span>{{ translation.englishName
               }} ({{ translation.language }})
             </option>
           </select>
         </div>
+        <!-- <div class="col-12 col-md-6 mt-2">
+          <label for="search-input" class="form-label text-white">Search</label>
+          <input id="search-input" class="form-control shadow-sm" type="text" v-model="searchQuery" placeholder="Search Arabic or translation..." aria-label="Search in current surah" />
+        </div> -->
       </div>
     </div>
 
@@ -87,26 +91,21 @@
             </div>
             <div class="col-md-1 text-center">
               <div class="d-flex flex-column align-items-center">
-                <div class="mb-3" @click="toggleAudioPlayer(index)">
-                  <i v-if="isAudioLoading[index]" class="bi bi-hourglass-split"
-                    style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="Loading"></i>
-                  <i v-else class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
-                    style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip" data-bs-placement="right"
-                    :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
-                </div>
-                <div class="mb-3" @click="decreaseFontSize">
-                  <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle-fill" data-bs-toggle="tooltip"
-                    data-bs-placement="right" title="Decrease Font Size"></i>
-                </div>
-                <div class="mb-3" @click="increaseFontSize">
-                  <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle-fill" data-bs-toggle="tooltip"
-                    data-bs-placement="right" title="Increase Font Size"></i>
-                </div>
-                <div class="mb-3" @click="shareOnWhatsApp(ayah)">
-                  <i class="bi bi-share-fill" style="cursor: pointer; font-size: 1.3rem;" data-bs-toggle="tooltip"
-                    data-bs-placement="right" title="Share on WhatsApp"></i>
-                </div>
+                <button class="icon-btn mb-3" @click="toggleAudioPlayer(index)"
+                        :aria-label="isAudioPlaying[index] ? 'Pause ayah ' + (index + 1) : 'Play ayah ' + (index + 1)"
+                        :title="isAudioPlaying[index] ? 'Pause' : 'Play'">
+                  <i v-if="isAudioLoading[index]" class="bi bi-hourglass-split" aria-hidden="true"></i>
+                  <i v-else class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" aria-hidden="true"></i>
+                </button>
+                <button class="icon-btn mb-3" @click="decreaseFontSize" aria-label="Decrease font size" title="Decrease Font Size">
+                  <i class="bi bi-dash-circle-fill" aria-hidden="true"></i>
+                </button>
+                <button class="icon-btn mb-3" @click="increaseFontSize" aria-label="Increase font size" title="Increase Font Size">
+                  <i class="bi bi-plus-circle-fill" aria-hidden="true"></i>
+                </button>
+                <button class="icon-btn mb-3" @click="shareOnWhatsApp(ayah)" aria-label="Share on WhatsApp" title="Share on WhatsApp">
+                  <i class="bi bi-share-fill" aria-hidden="true"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -125,43 +124,37 @@
             <div class="row mb-3" style="display: flex; justify-content: center; margin: 0 -5px;">
 
               <div class="col-2 text-center" style="padding: 3px;">
-                <div @click="decreaseFontSize" style="cursor: pointer;">
-                  <i class="bi bi-dash-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Decrease Font Size"></i>
-                </div>
+                <button class="icon-btn" @click="decreaseFontSize" aria-label="Decrease font size" title="Decrease Font Size">
+                  <i class="bi bi-dash-circle-fill" style="font-size: 1.7rem;" aria-hidden="true"></i>
+                </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <div @click="increaseFontSize" style="cursor: pointer;">
-                  <i class="bi bi-plus-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Increase Font Size"></i>
-                </div>
+                <button class="icon-btn" @click="increaseFontSize" aria-label="Increase font size" title="Increase Font Size">
+                  <i class="bi bi-plus-circle-fill" style="font-size: 1.7rem;" aria-hidden="true"></i>
+                </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <div @click="toggleAudioPlayer(index)" style="cursor: pointer;">
-                  <i v-if="isAudioLoading[index]" class="bi bi-hourglass-split" style="font-size: 1.7rem;"
-                    data-bs-toggle="tooltip" data-bs-placement="top" title="Loading"></i>
-                  <i v-else class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
-                    style="font-size: 1.7rem;" data-bs-toggle="tooltip" data-bs-placement="top"
-                    :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
-                </div>
+                <button class="icon-btn" @click="toggleAudioPlayer(index)"
+                        :aria-label="isAudioPlaying[index] ? 'Pause ayah ' + (index + 1) : 'Play ayah ' + (index + 1)"
+                        :title="isAudioPlaying[index] ? 'Pause' : 'Play'">
+                  <i v-if="isAudioLoading[index]" class="bi bi-hourglass-split" style="font-size: 1.7rem;" aria-hidden="true"></i>
+                  <i v-else class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="font-size: 1.7rem;" aria-hidden="true"></i>
+                </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <div @click="rewindAudio(index)" style="cursor: pointer;">
-                  <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Rewind"></i>
-                </div>
+                <button class="icon-btn" @click="rewindAudio(index)" aria-label="Rewind 15 seconds" title="Rewind">
+                  <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.7rem;" aria-hidden="true"></i>
+                </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <div @click="fastForwardAudio(index)" style="cursor: pointer;">
-                  <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Fast Forward"></i>
-                </div>
+                <button class="icon-btn" @click="fastForwardAudio(index)" aria-label="Fast forward 20 seconds" title="Fast Forward">
+                  <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.7rem;" aria-hidden="true"></i>
+                </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <div @click="shareOnWhatsApp(ayah)" style="cursor: pointer;">
-                  <i class="bi bi-whatsapp" style="font-size: 1.5rem;" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Share on WhatsApp"></i>
-                </div>
+                <button class="icon-btn" @click="shareOnWhatsApp(ayah)" aria-label="Share on WhatsApp" title="Share on WhatsApp">
+                  <i class="bi bi-whatsapp" style="font-size: 1.5rem;" aria-hidden="true"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -169,43 +162,51 @@
       </div>
     </div>
 
+    <!-- Empty state -->
+    <div v-if="!isLoading && surahDetails && filteredAyahs.length === 0" class="empty-state text-center text-muted py-4">
+      No verses match your current search or filters.
+    </div>
 
+    
     <!-- Global Custom Audio Player -->
     <div v-if="showAudioPlayer" class="audio-player-container">
       <div class="custom-audio-player">
         <div class="controls">
-          <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind">
+          <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind" aria-label="Rewind 15 seconds">
             <i class="bi bi-skip-backward-fill"></i>
           </button>
-          <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause">
+          <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause" aria-label="Play or Pause">
             <i v-if="isAudioLoading[currentlyPlayingIndex]" class="bi bi-hourglass-split"></i>
             <i v-else-if="isAudioPlaying[currentlyPlayingIndex]" class="bi bi-pause-fill"></i>
             <i v-else class="bi bi-play-fill"></i>
           </button>
-          <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward">
+          <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward" aria-label="Fast forward 20 seconds">
             <i class="bi bi-skip-forward-fill"></i>
           </button>
-          <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop">
+          <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop" aria-label="Stop">
             <i class="bi bi-stop-fill"></i>
           </button>
-          <button @click="toggleVolume" class="control-btn" title="Volume">
+          <button @click="toggleVolume" class="control-btn" title="Volume" aria-label="Toggle volume slider">
             <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
           </button>
           <button @click="cyclePlaybackSpeed" class="control-btn" :title="'Speed: ' + playbackSpeed + 'x'">
             <i class="bi bi-speedometer2" :style="{ color: playbackSpeed !== 1 ? '#ff6b6b' : '#ccc' }"></i>
             <span class="speed-indicator">{{ playbackSpeed }}x</span>
           </button>
+          <button @click="toggleRepeat" class="control-btn" :title="repeatCurrent ? 'Repeat current ayah: on' : 'Repeat current ayah: off'" :aria-pressed="repeatCurrent" aria-label="Toggle repeat current ayah">
+            <i class="bi bi-arrow-repeat" :style="{ color: repeatCurrent ? '#00bfa6' : '#ccc' }"></i>
+          </button>
           <div v-if="showVolumeBar" class="volume-bar-container">
             <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
               class="volume-slider" />
           </div>
-          <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{
+          <span class="time" aria-live="polite">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{
             formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
-          <button @click="closeAudioPlayer" class="control-btn" title="Close" style="margin-left: auto;">
+          <button @click="closeAudioPlayer" class="control-btn" title="Close" aria-label="Close player" style="margin-left: auto;">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
-        <div class="progress-bar" @click="seekToPosition" ref="progressBar">
+        <div class="progress-bar" role="progressbar" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0" @click="seekToPosition" ref="progressBar">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
           <div class="audio-visualizer" ref="visualizer">
             <div v-for="(bar, index) in visualizerBars" :key="index" 
@@ -224,6 +225,7 @@ export default {
   name: 'SuratComponent',
   data: function () {
     return {
+      isComponentAlive: true,
       isInitialLoad: true,
       selectedSurah: "1",
       selectedReciter: "ar.alafasy",
@@ -238,6 +240,8 @@ export default {
       translations: [],
       surahDetails: null,
       searchQuery: "",
+      debouncedQuery: "",
+      debounceTimer: null,
       arabicFontSize: 32,
       translationFontSize: 23,
       highlightedWordIndex: -1,
@@ -254,20 +258,50 @@ export default {
       visualizerBars: Array(20).fill(10),
       playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2],
       currentSpeedIndex: 2,
+      repeatCurrent: JSON.parse(localStorage.getItem('repeatCurrent') || 'false'),
+      favoriteReciters: ['ar.alafasy','ar.abdulbasitmurattal'],
+      favoriteTranslations: ['en.ahmedali','en.sahih'],
     };
   },
   computed: {
     filteredAyahs: function () {
       if (!this.surahDetails) return [];
-      if (!this.searchQuery) return this.surahDetails.ayahs;
-      const query = this.searchQuery.toLowerCase();
+      if (!this.debouncedQuery) return this.surahDetails.ayahs;
+      const query = this.debouncedQuery.toLowerCase();
       return this.surahDetails.ayahs.filter(
         ayah => ayah.text.toLowerCase().includes(query) ||
           (ayah.translation && ayah.translation.toLowerCase().includes(query))
       );
+    },
+    recitersSorted() {
+      if (!Array.isArray(this.reciters)) return [];
+      const fav = new Set(this.favoriteReciters);
+      return [...this.reciters].sort((a,b)=>{
+        const ap = fav.has(a.identifier) ? 0 : 1;
+        const bp = fav.has(b.identifier) ? 0 : 1;
+        if (ap !== bp) return ap - bp;
+        return (a.englishName || '').localeCompare(b.englishName || '');
+      });
+    },
+    translationsSorted() {
+      if (!Array.isArray(this.translations)) return [];
+      const fav = new Set(this.favoriteTranslations);
+      return [...this.translations].sort((a,b)=>{
+        const ap = fav.has(a.identifier) ? 0 : 1;
+        const bp = fav.has(b.identifier) ? 0 : 1;
+        if (ap !== bp) return ap - bp;
+        if ((a.flag || '') !== (b.flag || '')) return (a.flag || '').localeCompare(b.flag || '');
+        return (a.englishName || '').localeCompare(b.englishName || '');
+      });
     }
   },
   watch: {
+    searchQuery: function (val) {
+      clearTimeout(this.debounceTimer);
+      this.debounceTimer = setTimeout(() => {
+        this.debouncedQuery = val;
+      }, 300);
+    },
     selectedReciter: function (newVal) {
       if (newVal && !this.isLoading) {
         this.isLoading = true;
@@ -364,12 +398,7 @@ export default {
     }
   },
   methods: {
-    rewindAudio(index) {
-      const audio = this.$refs.audioElements[index]; // Adjust based on your setup
-      if (audio) {
-        audio.currentTime = Math.max(0, audio.currentTime - 10); // Rewind by 10 seconds, prevent negative time
-      }
-    },
+    // Removed duplicate rewindAudio defined later with scroll sync
     ensureCardPositionsCached: function (callback, attempts = 0, maxAttempts = 10) {
       // Since we're now calculating positions in real-time, this method is simplified
       this.$nextTick(() => {
@@ -569,7 +598,7 @@ export default {
         }
         try {
           const audio = new Audio(ayah.audio);
-          audio.preload = index < 5 ? 'auto' : 'metadata';
+          audio.preload = 'metadata';
           audio.load();
           audio.playbackRate = this.playbackSpeed;
           audio.volume = this.volume;
@@ -704,7 +733,7 @@ export default {
           this.isAudioLoading[index] = false;
           this.isHighlighted = true;
           this.showAudioPlayer = true;
-          this.preloadNextAyahs(index + 1);
+          this.preloadWindow(index, 3);
           
           // Start visualizer animation
           this.animateVisualizer();
@@ -729,6 +758,32 @@ export default {
       } else {
         this.currentlyPlaying.addEventListener("canplay", () => attemptPlay(), { once: true });
         this.currentlyPlaying.load();
+      }
+    },
+    preloadWindow(centerIndex, radius = 3) {
+      const start = Math.max(0, centerIndex - radius);
+      const end = Math.min(this.filteredAyahs.length - 1, centerIndex + radius);
+      for (let i = start; i <= end; i++) {
+        if (!this.audioElements[i]) {
+          const ayah = this.filteredAyahs[i];
+          if (!ayah?.audio) continue;
+          try {
+            const audio = new Audio(ayah.audio);
+            audio.preload = 'metadata';
+            audio.load();
+            audio.playbackRate = this.playbackSpeed;
+            audio.volume = this.volume;
+            audio.addEventListener("timeupdate", () => this.updateProgress(i));
+            audio.addEventListener("loadedmetadata", () => {
+              this.progress[i] = 0;
+              this.isAudioLoading[i] = false;
+            });
+            audio.addEventListener("ended", () => this.handleAyahEnd(i));
+            this.audioElements[i] = audio;
+          } catch (e) {
+            console.error(`Failed to create audio for ayah ${i + 1}:`, e);
+          }
+        }
       }
     },
     pauseAudio: function (index) {
@@ -793,7 +848,7 @@ export default {
       return (minutes < 10 ? '0' : '') + minutes + ':' + (secs < 10 ? '0' : '') + secs;
     },
     highlightText(text) {
-      if (!this.searchQuery.trim() && !this.selectedTag) return text;
+      if (!this.debouncedQuery.trim() && !this.selectedTag) return text;
 
       let highlightedText = text;
 
@@ -801,7 +856,7 @@ export default {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       };
 
-      const searchTerms = this.searchQuery.trim() ? this.searchQuery.trim().split(/\s+/) : [];
+      const searchTerms = this.debouncedQuery.trim() ? this.debouncedQuery.trim().split(/\s+/) : [];
       searchTerms.forEach(term => {
         const regex = new RegExp(`(${escapeRegExp(term)})`, 'gi');
         highlightedText = highlightedText.replace(regex, '<span class="highlight-search">$1</span>');
@@ -1008,8 +1063,10 @@ export default {
     handleAyahEnd: function (index) {
       if (this.isAudioPlaying[index]) {
         this.stopAudio(index);
-        if (this.continuousPlayback) {
-          this.playNextAyah();
+        if (this.repeatCurrent) {
+          this.toggleAudioPlayer(index);
+        } else if (this.continuousPlayback) {
+          this.playNextAyah(index);
         } else {
           console.log(`Continuous playback disabled, stopping after ayah ${index + 1}`);
         }
@@ -1041,6 +1098,13 @@ export default {
         this.stopAudio(currentIndex);
         this.showAudioPlayer = false;
         this.currentlyPlayingIndex = -1;
+      }
+    },
+    playPrevAyah(currentIndex) {
+      const prev = Math.max(0, currentIndex - 1);
+      if (this.filteredAyahs.length > 0 && this.audioElements[prev]) {
+        if (currentIndex !== prev) this.stopAudio(currentIndex);
+        this.toggleAudioPlayer(prev);
       }
     },
     toggleVolume: function () {
@@ -1128,9 +1192,38 @@ export default {
       );
       
       requestAnimationFrame(() => this.animateVisualizer());
+    },
+    toggleRepeat() {
+      this.repeatCurrent = !this.repeatCurrent;
+      localStorage.setItem('repeatCurrent', JSON.stringify(this.repeatCurrent));
     }
   },
   mounted: function () {
+    // Keyboard shortcuts for better UX
+    this._keydownHandler = (e) => {
+      if (!this.showAudioPlayer) return;
+      if (['INPUT','TEXTAREA'].includes((e.target || {}).tagName)) return;
+      switch (e.key) {
+        case ' ':
+          e.preventDefault();
+          this.toggleAudioPlayer(this.currentlyPlayingIndex);
+          break;
+        case 'ArrowRight':
+          this.fastForwardAudio(this.currentlyPlayingIndex);
+          break;
+        case 'ArrowLeft':
+          this.rewindAudio(this.currentlyPlayingIndex);
+          break;
+        case 'ArrowDown':
+          this.playNextAyah(this.currentlyPlayingIndex);
+          break;
+        case 'ArrowUp':
+          this.playPrevAyah(this.currentlyPlayingIndex);
+          break;
+      }
+    };
+    window.addEventListener('keydown', this._keydownHandler);
+
     this.selectedSurah = "1";
     this.selectedReciter = "ar.alafasy";
     this.selectedTranslation = "en.ahmedali";
@@ -1160,6 +1253,8 @@ export default {
 
   },
   beforeUnmount: function () {
+    this.isComponentAlive = false;
+    window.removeEventListener('keydown', this._keydownHandler);
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(audio => {
         if (audio && audio.pause) audio.pause();
@@ -1300,7 +1395,7 @@ html {
   background: none;
   border: none;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   cursor: pointer;
   padding: 8px;
   transition: color 0.2s;
@@ -1311,6 +1406,24 @@ html {
 
 .control-btn:hover {
   color: #00bfa6;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Increase icon sizes for per-ayah actions (desktop) */
+.ayah-card-container .icon-btn i {
+  font-size: 1.6rem;
+}
+
+/* Make sticky toggle icon a bit larger */
+.sticky-dropdown > span i {
+  font-size: 1.4rem;
 }
 
 .progress-bar {
@@ -1422,6 +1535,11 @@ html {
   animation: loading 1.5s infinite;
 }
 
+.empty-state {
+  border: 1px dashed rgba(0,0,0,0.15);
+  border-radius: 8px;
+}
+
 @keyframes loading {
   0% {
     background-position: 200% 0;
@@ -1435,6 +1553,16 @@ html {
 @media (max-width: 991px) {
   .hide-on-mobile-tablet {
     display: none;
+  }
+}
+
+/* Mobile icon sizing overrides */
+@media (max-width: 768px) {
+  .control-btn {
+    font-size: 2rem;
+  }
+  .ayah-card-container .icon-btn i {
+    font-size: 1.8rem;
   }
 }
 
