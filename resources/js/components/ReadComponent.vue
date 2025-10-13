@@ -100,19 +100,20 @@
 
         <!-- Blog Layout -->
         <div class="container py-5">
-            <transition-group name="blog-list" tag="div" class="row" :class="{ 'list-layout': layoutMode === 'list' }">
-                <div v-for="(blog, index) in paginatedBlogs" :key="blog.id"
+            <div class="row" :class="{ 'list-layout': layoutMode === 'list' }">
+                <div :style="{ height: topSpacer + 'px' }" aria-hidden="true"></div>
+                <div v-for="(blog, index) in visibleBlogs" :key="blog.id"
                     :class="layoutMode === 'grid' ? 'col-lg-6 col-md-6 mb-5' : 'col-12 mb-4'"
                     :ref="el => observeBlog(el, blog.id)"
                     @mouseenter="onCardMouseEnter(blog)">
-                    <div class="card h-100 animate-card" :style="{ animationDelay: `${index * 0.05}s` }">
+                    <div class="card h-100 animate-card">
                         <div class="card-image-container"
                             :class="{ 'container': layoutMode === 'grid', 'container-fluid': layoutMode === 'list' }">
                             <template v-if="isVisible(blog.id)">
                                 <img :src="blog.image" :srcset="generateSrcSet(blog.image)" :sizes="cardSizes"
                                     class="card-img-top mb-4" style="border-radius: 10px;"
-                                    :alt="blog.title" loading="lazy" decoding="async"
-                                    :fetchpriority="index < 2 && currentPage === 1 ? 'high' : 'auto'">
+                                    :alt="blog.title" :loading="index < 4 ? 'eager' : 'lazy'" decoding="async"
+                                    :fetchpriority="index < 4 ? 'high' : 'auto'">
                             </template>
                             <template v-else>
                                 <div class="skeleton skeleton-image mb-4"></div>
@@ -122,7 +123,7 @@
                                 v-html="highlight(blog.title)"></h5>
 
                             <div class="card-text" :class="{ 'list-content': layoutMode === 'list' }"
-                                v-html="highlight(getExcerpt(blog.content, 280))"></div>
+                                v-html="highlight(blog.excerpt)"></div>
 
                             <p class="text-muted">Published on: {{ formatDate(blog.date) }}</p>
 
@@ -139,27 +140,13 @@
                         </div>
                     </div>
                 </div>
-            </transition-group>
+            </div>
 
-            <!-- Pagination -->
-            <nav aria-label="Blog pagination" v-if="totalPages > 1">
-                <ul class="pagination justify-content-center mt-5">
-                    <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                        <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">
-                            <i class="fas fa-chevron-left me-1"></i> Previous
-                        </a>
-                    </li>
-                    <li v-for="page in totalPages" :key="page" class="page-item"
-                        :class="{ active: currentPage === page }">
-                        <a class="page-link" href="#" @click.prevent="changePage(page)">{{ page }}</a>
-                    </li>
-                    <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                        <a class="page-link" href="#" @click.prevent="changePage(currentPage + 1)">
-                            Next <i class="ms-1 fas fa-chevron-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <!-- Infinite Scroll Sentinel + Loader -->
+            <div ref="infiniteSentinel" class="infinite-sentinel" aria-hidden="true"></div>
+            <div v-if="loadingMore" class="infinite-loading text-center mt-4">
+                <i class="fas fa-spinner fa-spin me-2"></i> Loading more…
+            </div>
         </div>
 
         <!-- Modal for Full Blog Content -->
@@ -229,12 +216,20 @@ export default {
                 ...blog,
                 tags: blog.tags || [],
                 hashtags: blog.hashtags || [],
-                wordCount: this.getWordCount(blog.content)
+                wordCount: this.getWordCount(blog.content),
+                excerpt: this.getExcerpt(blog.content, 280)
             })),
             filtersVisible: true,
             uniqueTags: [],
-            currentPage: 1,
-            itemsPerPage: 8,
+            // Infinite scroll state
+            visibleCount: 6,
+            batchSize: 6,
+            // Virtualization windowing
+            renderStart: 0,
+            maxRender: 40,
+            topSpacer: 0,
+            loadingMore: false,
+            sentinelIO: null,
             selectedBlog: null,
             layoutMode: 'grid',
             searchTerm: '',
@@ -309,25 +304,28 @@ export default {
             result = this.sortBlogs(result);
             return result;
         },
-        paginatedBlogs() {
-            const start = (this.currentPage - 1) * this.itemsPerPage;
-            const end = start + this.itemsPerPage;
-            return this.filteredBlogs.slice(start, end);
+        renderEnd() {
+            return Math.min(this.visibleCount, this.renderStart + this.maxRender);
         },
-        totalPages() {
-            return Math.ceil(this.filteredBlogs.length / this.itemsPerPage);
+        visibleBlogs() {
+            return this.filteredBlogs.slice(this.renderStart, this.renderEnd);
         }
     },
     watch: {
-        searchTerm() { this.currentPage = 1; },
-        selectedTag() { this.currentPage = 1; },
-        sortBy() { this.currentPage = 1; },
-        selectedCategory() { this.currentPage = 1; }
+        searchTerm() { this.resetInfinite(); },
+        selectedTag() { this.resetInfinite(); },
+        sortBy() { this.resetInfinite(); },
+        selectedCategory() { this.resetInfinite(); },
+        layoutMode() { this.resetInfinite(); }
     },
     mounted() {
         // Add all categories option at the beginning
         this.categories.unshift({ id: 0, name: 'All Categories', icon: 'fas fa-list', tag: 'all' });
         this.selectedCategory = this.categories[0];
+
+        // Prevent browser scroll restoration and ensure top on load
+        try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 
         // Initialize arrow visibility and check Font Awesome
         this.$nextTick(() => {
@@ -342,20 +340,72 @@ export default {
                     if (!id) return;
                     if (entry.isIntersecting) {
                         this.visibleIds.add(Number(id));
-                        const blog = this.blogs.find(b => b.id === Number(id));
-                        if (blog) this.prewarmModal(blog);
+                        // Avoid prefetching multiple srcset images on intersection to reduce network contention
                         this.io.unobserve(entry.target);
                     }
                 });
-            }, { rootMargin: '200px 0px', threshold: 0.01 });
+            }, { rootMargin: '600px 0px', threshold: 0.01 });
         }
+        // Setup IntersectionObserver for infinite scroll sentinel
+        this.$nextTick(() => {
+            const sentinel = this.$refs.infiniteSentinel;
+            if (sentinel && 'IntersectionObserver' in window) {
+                let ticking = false;
+                this.sentinelIO = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !ticking) {
+                            ticking = true;
+                            requestAnimationFrame(() => {
+                                this.loadMore();
+                                ticking = false;
+                            });
+                        }
+                    });
+                }, { rootMargin: '1000px 0px', threshold: 0.01 });
+                this.sentinelIO.observe(sentinel);
+            } else {
+                // Fallback: simple infinite-scroll trigger will be handled in shared scroll listener below
+            }
+        });
+
+        // Shared scroll listener (virtualization + fallback infinite trigger)
+        let ticking = false;
+        this._onScroll = () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                const avg = this.getAvgItemHeight();
+                const approxIndex = Math.max(0, Math.floor(window.scrollY / avg) - 10);
+                const maxStart = Math.max(0, this.visibleCount - this.maxRender);
+                const nextStart = Math.min(approxIndex, maxStart);
+                if (nextStart !== this.renderStart) {
+                    this.renderStart = nextStart;
+                    this.topSpacer = this.renderStart * avg;
+                }
+                // Fallback load-more when near bottom
+                const scrollBottom = window.innerHeight + window.scrollY;
+                const docHeight = document.body.offsetHeight;
+                if (docHeight - scrollBottom < 800) this.loadMore();
+                ticking = false;
+            });
+        };
+        window.addEventListener('scroll', this._onScroll, { passive: true });
     },
     unmounted() {
         if (this.io) {
             try { this.io.disconnect(); } catch (e) { /* noop */ }
         }
+        if (this.sentinelIO) {
+            try { this.sentinelIO.disconnect(); } catch (e) { /* noop */ }
+        }
+        if (this._onScroll) {
+            window.removeEventListener('scroll', this._onScroll);
+        }
     },
     methods: {
+        getAvgItemHeight() {
+            return this.layoutMode === 'list' ? 600 : 520;
+        },
         toggleFilters() {
             this.filtersVisible = !this.filtersVisible;
         },
@@ -376,29 +426,7 @@ export default {
             return this.visibleIds.has(id);
         },
         onCardMouseEnter(blog) {
-            this.prefetchImage(blog?.image);
-            this.prewarmModal(blog);
-        },
-        prefetchImage(src) {
-            if (!src) return;
-            const img = new Image();
-            img.decoding = 'async';
-            if ('decode' in img) {
-                img.src = src;
-                img.decode?.().catch(() => {});
-            } else {
-                img.src = src;
-            }
-        },
-        prewarmModal(blog) {
-            if (!blog) return;
-            const set = this.generateSrcSet(blog.image);
-            if (set) {
-                set.split(',').forEach(part => {
-                    const url = part.trim().split(' ')[0];
-                    this.prefetchImage(url);
-                });
-            }
+            // Prefetch disabled to reduce network contention on large lists
         },
         paramJoin(url, param) {
             if (!url) return url;
@@ -560,10 +588,21 @@ export default {
                 '_blank'
             );
         },
-        changePage(page) {
-            if (page >= 1 && page <= this.totalPages) {
-                this.currentPage = page;
-            }
+        loadMore() {
+            if (this.loadingMore) return;
+            const total = this.filteredBlogs.length;
+            if (this.visibleCount >= total) return;
+            this.loadingMore = true;
+            setTimeout(() => {
+                this.visibleCount = Math.min(this.visibleCount + this.batchSize, total);
+                this.loadingMore = false;
+            }, 150);
+        },
+        resetInfinite() {
+            this.visibleCount = this.batchSize;
+            this.renderStart = 0;
+            this.topSpacer = 0;
+            window.scrollTo({ top: 0, behavior: 'auto' });
         },
         checkFontAwesome() {
             // Check if Font Awesome is loaded by testing an icon
@@ -680,8 +719,6 @@ export default {
 .category-pill:hover {
     background: var(--primary-color);
     color: var(--white-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 196, 180, 0.2);
 }
 
 .category-pill.active {
@@ -718,8 +755,6 @@ export default {
 .scroll-arrow:hover {
     background: var(--primary-color);
     color: var(--white-color);
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
 }
 
 .scroll-arrow:active {
@@ -787,7 +822,6 @@ export default {
 .btn-layout:hover {
     background: var(--primary-light);
     color: var(--white-color);
-    transform: translateY(-2px);
 }
 
 .btn-layout:focus {
@@ -830,10 +864,7 @@ export default {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.filter-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 18px rgba(0, 191, 166, 0.2);
-}
+.filter-card:hover {}
 
 /* Search and Filters */
 .input-group {
@@ -892,10 +923,12 @@ export default {
     background: linear-gradient(180deg, var(--white-color) 0%, #f8fafc 100%);
     border-radius: 20px;
     box-shadow: 0 8px 24px rgba(0, 191, 166, 0.15);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transition: box-shadow 0.2s ease;
     position: relative;
     overflow: hidden;
     border: 1px solid rgba(0, 191, 166, 0.1);
+    content-visibility: auto;
+    contain-intrinsic-size: 800px 600px;
 }
 
 .card::before {
@@ -909,8 +942,7 @@ export default {
 }
 
 .card:hover {
-    transform: translateY(-12px) scale(1.03);
-    box-shadow: 0 16px 32px rgba(0, 191, 166, 0.25);
+    box-shadow: 0 8px 16px rgba(0, 191, 166, 0.18);
 }
 
 .card-image-container {
@@ -923,12 +955,7 @@ export default {
 .card-img-top {
     height: 260px;
     object-fit: cover;
-    transition: transform 0.5s ease;
     border-radius: 10px;
-}
-
-.card:hover .card-img-top {
-    transform: scale(1.1);
 }
 
 .card-title {
@@ -999,13 +1026,12 @@ export default {
     font-weight: 500;
     padding: 6px 12px;
     border-radius: 20px;
-    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .badge:hover {
     background: var(--primary-light);
     color: var(--primary-dark);
-    transform: scale(1.05);
 }
 
 .hashtag {
@@ -1024,13 +1050,12 @@ export default {
     font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
-    transition: color 0.3s ease, transform 0.3s ease;
+    transition: color 0.2s ease;
     padding: 0;
 }
 
 .read-more:hover {
     color: var(--primary-dark);
-    transform: translateX(6px);
 }
 
 .read-more:focus {
@@ -1038,13 +1063,8 @@ export default {
     outline-offset: 2px;
 }
 
-.read-more .fa-arrow-right {
-    transition: transform 0.3s ease;
-}
-
-.read-more:hover .fa-arrow-right {
-    transform: translateX(5px);
-}
+.read-more .fa-arrow-right {}
+.read-more:hover .fa-arrow-right {}
 
 /* List Layout Specific Styles */
 .list-layout .card {
@@ -1064,42 +1084,16 @@ export default {
     font-size: 1.25rem;
 }
 
-/* Pagination Styles */
-.pagination {
-    gap: 12px;
+/* Pagination styles removed */
+
+/* Infinite scroll */
+.infinite-sentinel {
+    width: 100%;
+    height: 1px;
 }
 
-.page-link {
-    color: var(--primary-color);
-    font-size: 1.2rem;
-    font-weight: 600;
-    border-radius: 10px;
-    padding: 12px 20px;
-    transition: all 0.3s ease;
-    border: 1px solid var(--primary-color);
-}
-
-.page-item.active .page-link {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-    color: white;
-}
-
-.page-link:hover {
-    background: var(--primary-light);
+.infinite-loading {
     color: var(--primary-dark);
-    transform: translateY(-2px);
-}
-
-.page-link:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
-}
-
-.page-item.disabled .page-link {
-    color: var(--gray-medium);
-    cursor: not-allowed;
-    border-color: var(--gray-medium);
 }
 
 /* Modal Styles */
@@ -1256,8 +1250,6 @@ export default {
 
 .btn-primary:hover {
     background: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 191, 166, 0.3);
 }
 
 .btn-primary:focus {
@@ -1278,8 +1270,6 @@ export default {
 
 .btn-secondary:hover {
     background: var(--gray-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary:focus {
@@ -1299,8 +1289,6 @@ export default {
 
 .btn-info:hover {
     background: var(--primary-color);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 191, 166, 0.3);
 }
 
 .btn-info:focus {
@@ -1497,15 +1485,11 @@ export default {
     .category-pill:hover {
         background: var(--primary-color);
         color: var(--white-color);
-        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.25);
-        transform: translateY(-2px);
     }
 
     .category-pill.active {
         background: var(--primary-color);
         color: white;
-        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.3);
-        transform: translateY(-1px);
     }
 
     .category-pill i {
@@ -1532,7 +1516,6 @@ export default {
     .scroll-arrow:hover {
         background: var(--primary-color);
         color: var(--white-color);
-        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
     }
 
     .scroll-arrow i {
@@ -1723,8 +1706,6 @@ export default {
     .scroll-arrow:hover {
         background: var(--primary-color);
         color: var(--white-color);
-        box-shadow: 0 6px 16px rgba(0, 196, 180, 0.5);
-        transform: scale(1.1);
     }
 
     .scroll-arrow i {
@@ -1749,13 +1730,11 @@ export default {
     .category-pill:hover {
         background: var(--primary-color);
         color: var(--white-color);
-        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
     }
 
     .category-pill.active {
         background: var(--primary-color);
         color: var(--white-color);
-        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
     }
 
     .category-pill i {
@@ -1774,7 +1753,6 @@ export default {
     .scroll-arrow:hover {
         background: var(--primary-color);
         color: var(--white-color);
-        box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
     }
 
     .scroll-arrow i {
