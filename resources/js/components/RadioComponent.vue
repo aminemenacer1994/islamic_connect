@@ -137,7 +137,7 @@
         <div v-else>
           <!-- Grid View -->
           <div v-if="viewMode === 'grid'" class="row">
-            <div v-for="station in paginatedStations" :key="station.id" class="col-md-4 mb-4">
+            <div v-for="station in visibleStations" :key="station.id" class="col-md-4 mb-4">
               <div class="station-list-item h-100" style="border:2px solid lightgrey; border-radius:8px;"
                 :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id">
                 <div class="card-body">
@@ -186,7 +186,8 @@
                     </div>
                   </div>
                   <div class="audio-player d-none">
-                    <audio :ref="(el) => audioRefs[station.id] = el" :src="station.url"
+                    <audio v-if="audioMountForId === station.id"
+                      :ref="(el) => audioRefs[station.id] = el" :src="station.url"
                       @play="handlePlay(station.id, $event)" @pause="handlePause(station.id)"
                       @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
                       @error="handleAudioError(station.id, $event)"
@@ -204,7 +205,7 @@
           </div>
           <!-- List View -->
           <div v-else class="list-container view-list">
-            <div v-for="station in paginatedStations" :key="station.id" class="station-list-item"
+            <div v-for="station in visibleStations" :key="station.id" class="station-list-item"
               style="border:2px solid lightgrey; border-radius:8px;"
               :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id">
               <div class="card-body">
@@ -253,7 +254,8 @@
                   </div>
                 </div>
                 <div class="audio-player d-none">
-                  <audio :ref="(el) => audioRefs[station.id] = el" :src="station.url"
+                  <audio v-if="audioMountForId === station.id"
+                    :ref="(el) => audioRefs[station.id] = el" :src="station.url"
                     @play="handlePlay(station.id, $event)" @pause="handlePause(station.id)"
                     @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
                     @error="handleAudioError(station.id, $event)"
@@ -268,21 +270,15 @@
               </div>
             </div>
           </div>
+          <!-- Infinite Scroll Sentinel -->
+          <div v-if="!allLoaded" ref="infiniteScrollSentinel" class="infinite-sentinel d-flex justify-content-center my-3" aria-hidden="true">
+            <div v-if="isLoadingMore" class="spinner-border text-theme-teal" role="status" style="width: 2rem; height: 2rem;">
+              <span class="visually-hidden">Loading more...</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- Pagination -->
-      <nav v-if="totalPages > 1" class="d-flex justify-content-center align-items-center pagination-nav flex-nowrap">
-        <button @click="previousPage" :disabled="currentPage === 1"
-          class="btn btn-outline-teal rounded-pill px-3 px-sm-4 me-1 me-sm-3 fs-6" aria-label="Previous page">
-          <b>Previous</b>
-        </button>
-        <span class="fw-semibold fs-6 mx-1 mx-sm-3 text-nowrap">Page {{ currentPage }} of {{ totalPages }}</span>
-        <button @click="nextPage" :disabled="currentPage === totalPages"
-          class="btn btn-outline-teal rounded-pill px-3 px-sm-4 ms-1 ms-sm-3 fs-6" aria-label="Next page">
-          <b>Next</b>
-        </button>
-      </nav>
     </div>
 
     <!-- Global Audio Player -->
@@ -335,7 +331,7 @@
   </div>
 </template>
 <script setup>
-import { ref, computed, onMounted, reactive, nextTick, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted, reactive, nextTick, onBeforeUnmount, watch } from 'vue';
 
 const defaultPopularReciters = [
   {
@@ -466,8 +462,13 @@ const filteredSuggestions = ref([]);
 const highlightIndex = ref(-1);
 const searchQuery = ref('');
 const selectedCategory = ref('All Categories');
-const currentPage = ref(1);
-const itemsPerPage = ref(10);
+// Infinite scroll state
+const itemsPerPage = ref(8);
+const itemsToShow = ref(itemsPerPage.value);
+const isLoadingMore = ref(false);
+const infiniteScrollSentinel = ref(null);
+const audioMountForId = ref(null); // only mount audio element for active station
+let observer = null;
 const stations = ref([]);
 const filteredStations = ref([]);
 const currentAudio = ref(null);
@@ -496,7 +497,7 @@ const sortedStations = computed(() => {
     case 'name_asc':
       return stationsToSort.sort((a, b) => a.name.localeCompare(b.name));
     case 'name_desc':
-      return stationsToSort.sort((a, b) => b.name.localeCompare(b.name));
+      return stationsToSort.sort((a, b) => b.name.localeCompare(a.name));
     case 'listeners_desc':
       return stationsToSort.sort((a, b) => (b.listeners || 0) - (a.listeners || 0));
     default:
@@ -504,18 +505,48 @@ const sortedStations = computed(() => {
   }
 });
 
-const totalPages = computed(() => Math.ceil(sortedStations.value.length / itemsPerPage.value));
-
-const paginatedStations = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage.value;
-  return sortedStations.value.slice(start, start + itemsPerPage.value);
-});
+const visibleStations = computed(() => sortedStations.value.slice(0, itemsToShow.value));
+const allLoaded = computed(() => itemsToShow.value >= sortedStations.value.length);
 
 const availableCategories = computed(() => [...new Set(stations.value.map(station => station.category || 'Recitation'))]);
 
 const currentlyPlayingStation = computed(() => {
   if (!currentPlayingStationId.value) return null;
   return stations.value.find(s => s.id === currentPlayingStationId.value);
+});
+
+// Infinite scroll helpers
+const loadMore = () => {
+  if (isLoadingMore.value) return;
+  if (itemsToShow.value >= sortedStations.value.length) {
+    if (observer) observer.disconnect();
+    return;
+  }
+  isLoadingMore.value = true;
+  setTimeout(() => {
+    itemsToShow.value = Math.min(itemsToShow.value + itemsPerPage.value, sortedStations.value.length);
+    isLoadingMore.value = false;
+    if (itemsToShow.value >= sortedStations.value.length && observer) observer.disconnect();
+  }, 120);
+};
+
+const setupObserver = async () => {
+  await nextTick();
+  if (!infiniteScrollSentinel.value) return;
+  if (observer) observer.disconnect();
+  observer = new IntersectionObserver((entries) => {
+    const entry = entries[0];
+    if (entry && entry.isIntersecting) {
+      loadMore();
+    }
+  }, { root: null, rootMargin: '0px 0px 400px 0px', threshold: 0 });
+  observer.observe(infiniteScrollSentinel.value);
+};
+
+watch(sortedStations, () => {
+  itemsToShow.value = itemsPerPage.value;
+  setupObserver();
+  // if current playing is no longer in the list view, keep audio mounted but ensure ref remains
 });
 
 // Methods
@@ -531,10 +562,15 @@ const closePlayer = () => {
     playingStates.value[currentPlayingStationId.value] = false;
     currentAudio.value = null;
     currentPlayingStationId.value = null;
+    audioMountForId.value = null;
   }
 };
 
-const initializeAudio = (id) => {
+const initializeAudio = async (id) => {
+  if (audioMountForId.value !== id) {
+    audioMountForId.value = id;
+    await nextTick();
+  }
   const audio = getAudioForStation(id);
   if (audio && !audio.src) {
     const station = defaultPopularReciters.find(s => s.id === id) || stations.value.find(s => s.id === id);
@@ -593,7 +629,7 @@ const addToRecentlyPlayed = (id) => {
 };
 
 const togglePlay = async (id) => {
-  initializeAudio(id);
+  await initializeAudio(id);
   const audio = getAudioForStation(id);
   if (!audio) {
     console.error(`No audio element found for station ${id}`);
@@ -604,7 +640,8 @@ const togglePlay = async (id) => {
   if (isPlaying(id)) {
     audio.pause();
     playingStates.value[id] = false;
-    // Don't close the player, just pause the audio
+    // Unmount audio to free resources
+    if (audioMountForId.value === id) audioMountForId.value = null;
     return;
   }
 
@@ -614,6 +651,11 @@ const togglePlay = async (id) => {
     if (oldAudio) {
       oldAudio.pause();
       playingStates.value[currentPlayingStationId.value] = false;
+    }
+    // switch mount to new station
+    if (audioMountForId.value !== id) {
+      audioMountForId.value = id;
+      await nextTick();
     }
   }
 
@@ -742,7 +784,16 @@ const handleKeydown = (event) => {
   }
 };
 
+// Debounced search to reduce re-computations while typing
+let searchDebounce = null;
 const handleSearch = () => {
+  if (searchDebounce) clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(() => {
+    runSearch();
+  }, 180);
+};
+
+const runSearch = () => {
   highlightIndex.value = -1;
   if (searchQuery.value.length >= 2) {
     filteredSuggestions.value = stations.value.filter(station =>
@@ -754,7 +805,8 @@ const handleSearch = () => {
     showSuggestions.value = false;
   }
 
-  currentPage.value = 1;
+  // Reset visible window for new results
+  itemsToShow.value = itemsPerPage.value;
   const query = searchQuery.value.toLowerCase().trim();
   filteredStations.value = stations.value.filter(station => {
     const matchesName = station.name.toLowerCase().includes(query);
@@ -806,6 +858,7 @@ const handlePause = (id) => {
   if (currentPlayingStationId.value === id) {
     currentPlayingStationId.value = null;
     currentAudio.value = null;
+    if (audioMountForId.value === id) audioMountForId.value = null;
   }
 };
 
@@ -930,16 +983,11 @@ const retryPlayback = (id) => {
   togglePlay(id);
 };
 
-const nextPage = () => {
-  if (currentPage.value < totalPages.value) currentPage.value++;
-};
-
-const previousPage = () => {
-  if (currentPage.value > 1) currentPage.value--;
-};
+// Removed pagination handlers (replaced by infinite scroll)
 
 const updateListenerCounts = () => {
-  stations.value.forEach(station => {
+  // Update only visible items to reduce DOM churn
+  visibleStations.value.forEach(station => {
     const change = Math.floor(Math.random() * 10) - 5; // Fluctuate by -5 to +4
     station.listeners = Math.max(0, (station.listeners || 0) + change);
   });
@@ -996,6 +1044,9 @@ const nextStation = () => {
 
 onMounted(() => {
   fetchStations();
+  // Initialize infinite scroll observer after initial fetch completes
+  // A slight delay ensures the sentinel is in the DOM
+  setTimeout(() => setupObserver(), 0);
   listenerInterval = setInterval(updateListenerCounts, 5000); // Update every 5 seconds
 });
 
@@ -1312,6 +1363,10 @@ mark {
 .pagination-nav {
   background: transparent;
   gap: 0.5rem;
+}
+
+.infinite-sentinel {
+  min-height: 2rem;
 }
 
 .player-station-name {

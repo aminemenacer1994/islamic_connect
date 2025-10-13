@@ -261,6 +261,9 @@ export default {
       repeatCurrent: JSON.parse(localStorage.getItem('repeatCurrent') || 'false'),
       favoriteReciters: ['ar.alafasy','ar.abdulbasitmurattal'],
       favoriteTranslations: ['en.ahmedali','en.sahih'],
+      lastAutoScrollAt: 0,
+      isManualScrolling: false,
+      manualScrollTimer: null,
     };
   },
   computed: {
@@ -516,57 +519,26 @@ export default {
 
       this.$nextTick(() => {
         const audioCards = Array.isArray(this.$refs.audioCard) ? this.$refs.audioCard : [];
-        if (!audioCards[index]) {
-          console.warn(`Audio card for index ${index} not found`);
-          return;
-        }
-
-        // Get the actual element position
         const element = audioCards[index];
+        if (!element || !this.isElementValid(element)) return;
 
-        // Check if element is valid (has proper dimensions and position)
-        if (!this.isElementValid(element)) {
-          console.warn(`Element for ayah ${index + 1} is not valid or has invalid dimensions`);
-          return;
-        }
-
+        // If mostly visible already, avoid scrolling
         const rect = element.getBoundingClientRect();
+        const topThreshold = 80; // sticky + padding
+        const bottomThreshold = 120; // leave space above bottom UI
+        const withinView = rect.top >= topThreshold && rect.bottom <= (window.innerHeight - bottomThreshold);
+        if (withinView) return;
 
-        // Calculate element position relative to document
-        const elementTop = rect.top + window.scrollY;
-
-        // Validate the calculated position
-        const documentHeight = document.documentElement.scrollHeight;
-        if (elementTop < 0 || elementTop > documentHeight) {
-          console.warn(`Invalid element position for ayah ${index + 1}: elementTop=${elementTop}, documentHeight=${documentHeight}`);
-          return;
+        try {
+          // Scroll only as much as needed, avoid snapping to bottom
+          element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        } catch (e) {
+          // Fallback if scrollIntoView fails
+          const newRect = element.getBoundingClientRect();
+          const desiredTop = Math.max(0, (newRect.top + window.scrollY) - 100);
+          const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
+          window.scrollTo({ top: Math.min(desiredTop, maxScrollY), behavior: 'smooth' });
         }
-
-        console.log(`Ayah ${index + 1} - Element top: ${elementTop}, Window scrollY: ${window.scrollY}, Rect top: ${rect.top}, Document height: ${documentHeight}, Element height: ${rect.height}`);
-
-        // Calculate target scroll position
-        const stickyDropdown = this.$refs.stickyDropdown;
-        const audioPlayer = document.querySelector('.audio-player-container');
-        const stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : (this.isVisible ? 80 : 60);
-        const audioPlayerHeight = this.showAudioPlayer ? (audioPlayer?.getBoundingClientRect().height || 0) : 0;
-        const buffer = 50; // Fixed buffer for consistent positioning
-
-        // Calculate the target scroll position to position the ayah at the top of the viewport
-        const targetY = elementTop - stickyHeight - audioPlayerHeight - buffer;
-
-        // Ensure we don't scroll beyond document bounds
-        const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
-        const finalTargetY = Math.max(0, Math.min(targetY, maxScrollY));
-
-        // Additional validation for the final target
-        if (finalTargetY < 0 || finalTargetY > maxScrollY) {
-          console.warn(`Invalid final target for ayah ${index + 1}: finalTargetY=${finalTargetY}, maxScrollY=${maxScrollY}`);
-          return;
-        }
-
-        console.log(`Scrolling to ayah ${index + 1}: targetY=${finalTargetY}, elementTop=${elementTop}, stickyHeight=${stickyHeight}, audioPlayerHeight=${audioPlayerHeight}, buffer=${buffer}`);
-
-        window.scrollTo({ top: finalTargetY, behavior: 'smooth' });
       });
     },
     highlightedText: function (ayah) {
@@ -715,6 +687,7 @@ export default {
       this.currentlyPlaying.ontimeupdate = () => {
         this.syncHighlight();
         this.updateProgress(index);
+        // Removed continuous auto-scroll here to prevent jumpiness.
       };
 
       const attemptPlay = (attempts = 0, maxAttempts = 10) => {
@@ -737,6 +710,13 @@ export default {
           
           // Start visualizer animation
           this.animateVisualizer();
+
+          // Ensure the current ayah is scrolled into view when playback starts
+          const now2 = Date.now();
+          if (now2 > this.autoScrollLockedUntil) {
+            this.lastAutoScrollAt = now2;
+            this.smoothScrollToAyah(index);
+          }
         }).catch(err => {
           console.error(`Play error for ayah ${index + 1}:`, err);
           if (this.currentlyPlaying.readyState < 2) {
@@ -1095,6 +1075,8 @@ export default {
         this.stopAudio(currentIndex);
         this.toggleAudioPlayer(currentIndex + 1); // Play next ayah
       } else {
+        // End of surah: do not auto-stop if continuousPlaybackLoop is desired.
+        // Default: stop at the end of the surah.
         this.stopAudio(currentIndex);
         this.showAudioPlayer = false;
         this.currentlyPlayingIndex = -1;
@@ -1223,6 +1205,32 @@ export default {
       }
     };
     window.addEventListener('keydown', this._keydownHandler);
+    // Detect user manual scrolling and pause auto-scroll briefly
+    this._onUserScroll = () => {
+      this.isManualScrolling = true;
+      if (this.manualScrollTimer) clearTimeout(this.manualScrollTimer);
+      this.manualScrollTimer = setTimeout(() => {
+        this.isManualScrolling = false;
+      }, 3000);
+      const y = window.scrollY || window.pageYOffset;
+      // Lock auto-scroll for a while whenever user scrolls
+      this.autoScrollLockedUntil = Date.now() + 3000;
+      this.lastScrollY = y;
+      this.lastUserScrollAt = Date.now();
+    };
+    window.addEventListener('scroll', this._onUserScroll, { passive: true });
+
+    // Also detect wheel and touch to lock auto-scroll immediately
+    this._onWheel = () => {
+      this.autoScrollLockedUntil = Date.now() + 3000;
+      this.lastUserScrollAt = Date.now();
+    };
+    this._onTouchMove = () => {
+      this.autoScrollLockedUntil = Date.now() + 3000;
+      this.lastUserScrollAt = Date.now();
+    };
+    window.addEventListener('wheel', this._onWheel, { passive: true });
+    window.addEventListener('touchmove', this._onTouchMove, { passive: true });
 
     this.selectedSurah = "1";
     this.selectedReciter = "ar.alafasy";
@@ -1255,6 +1263,9 @@ export default {
   beforeUnmount: function () {
     this.isComponentAlive = false;
     window.removeEventListener('keydown', this._keydownHandler);
+    window.removeEventListener('scroll', this._onUserScroll);
+    window.removeEventListener('wheel', this._onWheel);
+    window.removeEventListener('touchmove', this._onTouchMove);
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(audio => {
         if (audio && audio.pause) audio.pause();
@@ -1276,9 +1287,6 @@ export default {
 </style>
 
 <style scoped>
-html {
-  scroll-behavior: smooth;
-}
 
 .highlighted {
   background-color: #b5e6db;

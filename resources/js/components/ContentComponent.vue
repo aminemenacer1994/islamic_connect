@@ -178,6 +178,9 @@
         <h2 class="section-title">Available Episodes</h2>
         <p class="section-subtitle">Click the play button to start listening</p>
       </div>
+      <div v-if="fetchError" class="alert alert-danger" role="alert">
+        {{ fetchError }}
+      </div>
       <div class="episodes-filters-bar-wrapper">
         <div class="row g-3">
           <div class="col-12 col-md-3">
@@ -274,9 +277,9 @@
                     :aria-label="isAudioPlaying[index] ? 'Pause' : 'Play'">
                     <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'" style="font-size:1.5rem; cursor:pointer;"></i>
                   </button>
-                  <button class="control-button" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'" :title="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" @click.stop="toggleFavourite(podcast)">
-                    <i class="bi" :class="isFavourite(podcast) ? 'bi-heart-fill text-danger' : 'bi-heart'" style="font-size:1.3rem;"></i>
-                  </button>
+                <button class="control-button" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'" :title="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" :aria-label="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" @click.stop="toggleFavourite(podcast)">
+                  <i class="bi" :class="isFavourite(podcast) ? 'bi-heart-fill text-danger' : 'bi-heart'" style="font-size:1.3rem;"></i>
+                </button>
                 </div>
               </div>
             </div>
@@ -308,33 +311,33 @@
       <div class="custom-audio-player" :class="{ minimized: isPlayerMinimized }">
         <div class="controls">
           <div class="control-group">
-            <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind">
+            <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind 15 seconds" aria-label="Rewind 15 seconds">
               <i class="bi bi-skip-backward-fill"></i>
             </button>
-            <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause">
-              <i v-if="isAudioPlaying[currentlyPlayingIndex]" class="bi bi-pause-fill"></i>
-              <i v-else class="bi bi-play-fill"></i>
+            <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" :aria-pressed="!!isAudioPlaying[currentlyPlayingIndex]" :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'" :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'">
+              <i v-if="isAudioPlaying[currentlyPlayingIndex]" class="bi bi-pause-fill" aria-hidden="true"></i>
+              <i v-else class="bi bi-play-fill" aria-hidden="true"></i>
             </button>
-            <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward">
+            <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Forward 20 seconds" aria-label="Forward 20 seconds">
               <i class="bi bi-skip-forward-fill"></i>
             </button>
-            <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop">
+            <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop" aria-label="Stop">
               <i class="bi bi-stop-fill"></i>
             </button>
 
           </div>
-          <div class="info-section">
+          <div class="info-section" aria-live="polite">
             <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
             <span class="episode-title" v-if="visiblePodcasts[currentlyPlayingIndex]">• {{ visiblePodcasts[currentlyPlayingIndex].title }}</span>
           </div>
           <div class="audio-actions" style="display: flex; align-items: center; gap: 18px;">
             <div style="display: flex; align-items: center; gap: 10px;">
-              <button @click="toggleVolume" class="control-btn" title="Volume">
+              <button @click="toggleVolume" class="control-btn" title="Volume" :aria-expanded="showVolumeBar ? 'true' : 'false'" aria-controls="player-volume">
                 <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
               </button>
-              <input v-if="showVolumeBar" type="range" min="0" max="1" step="0.01" v-model.number="volume"
+              <input v-if="showVolumeBar" id="player-volume" type="range" min="0" max="1" step="0.01" v-model.number="volume"
                 @input="updateVolume" class="volume-slider" style="width: 80px;" aria-label="Volume" />
-            </div>
+              </div>
             <div style="display:flex; align-items:center; gap:6px;">
               <label for="speedSelect" class="visually-hidden">Speed</label>
               <select id="speedSelect" v-model.number="playbackSpeed" @change="updatePlaybackSpeed" class="form-select form-select-sm" style="width: 90px;">
@@ -380,7 +383,7 @@ export default {
       loading: false,
       currentlyPlaying: null,
       podcastMeta: new Map(),
-      ddurationFilter: "",
+      // fixed: remove stray ddurationFilter, use unified durationFilter
       selectedYear: "",
       selectedMonth: "",
       selectedWeek: "",
@@ -392,12 +395,14 @@ export default {
       selectedDateFilter: 'Select a Date filter',
       currentDate: new Date(),
       sortBy: 'most-viewed',
-      selectedDateFilter: 'select date filter',
+      // fixed: remove duplicate selectedDateFilter declaration
       selectedPodcast: "",
       lastSelectedPodcastKey: 'content_last_selected_podcast',
       continueListening: [],
       volume: 1,
       showVolumeBar: false,
+      // error state for fetch failures
+      fetchError: null,
       islamicPodcasts: [
         {
           name: "The Mad Mamluks",
@@ -741,28 +746,9 @@ export default {
       this.updatePodcasts();
     },
 
-    // Fetch and update podcasts when filters change
+    // Fetch and update podcasts when filters change (unified)
     updatePodcasts() {
-      console.log("Updating podcasts...");
-      console.log("Year:", this.selectedYear);
-      console.log("Month:", this.selectedMonth);
-      console.log("Week:", this.selectedWeek);
-      console.log("Day:", this.selectedDay);
-
-      // Fetch the updated podcast list based on selected filters
       this.fetchPodcasts();
-    },
-
-    fetchPodcasts() {
-      let filter = {
-        year: this.selectedYear,
-        month: this.selectedMonth,
-        week: this.selectedWeek,
-        day: this.selectedDay
-      };
-
-      console.log("Fetching podcasts with filter:", filter);
-      // TODO: Replace with actual API call
     },
 
     sortPodcasts() {
@@ -783,10 +769,7 @@ export default {
       }
     },
 
-    updatePodcasts() {
-      console.log("Updating podcasts...");
-      this.fetchPodcasts();
-    },
+    // duplicate removed
 
     applyDateFilter(filtered) {
       const now = new Date();
@@ -807,25 +790,18 @@ export default {
       });
     },
 
-    updatePodcasts() {
-      console.log("Updating podcasts...");
-      console.log("Selected Year:", this.selectedYear);
-      console.log("Selected Month:", this.selectedMonth);
-      console.log("Selected Week:", this.selectedWeek);
-      console.log("Selected Day:", this.selectedDay);
-
-      // Fetch audio podcasts based on selected filters
-      this.fetchPodcasts();
-    },
+    // duplicate removed
 
     // Fetch podcasts from RSS feed
     async fetchPodcasts() {
       if (!this.selectedPodcast) return;
       this.loading = true;
       this.rssUrl = this.selectedPodcast.rssUrl;
+      this.fetchError = null;
 
       try {
         const response = await fetch(this.rssUrl);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.text();
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(data, 'text/xml');
@@ -865,97 +841,18 @@ export default {
         this.applyFilters(); // Apply filters after fetching
       } catch (error) {
         console.error("Error fetching podcasts:", error);
+        this.fetchError = 'Failed to fetch episodes. Please try again later.';
       } finally {
         this.loading = false;
       }
     },
 
-    playAudio(index) {
-      // Only one audio at a time
-      if (this.currentlyPlaying !== null && this.currentlyPlaying !== this.audioElements[index]) {
-        if (this.currentlyPlaying.pause) {
-          this.currentlyPlaying.pause();
-          this.currentlyPlaying.currentTime = 0;
-        }
-      }
-      this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
-      this.currentlyPlaying = this.audioElements[index];
-      this.currentlyPlayingIndex = index;
-      this.playingIndex = index;
-      this.currentlyPlaying.play().catch((err) => {
-        console.error('Play error:', err);
-        this.handlePodcastEnd(index);
-      });
-      this.isAudioPlaying = this.isAudioPlaying.map((_, i) => i === index);
-      this.playingIndex = index;
-      // Ensure the corresponding card is scrolled into view on mobile
-      this.$nextTick(() => {
-        const cards = document.querySelectorAll('.podcast-card-wrapper');
-        const card = cards[index];
-        if (card && window.innerWidth < 768) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      });
-      this.showAudioPlayer = true;
-      // Save to recent plays
-      try {
-        const ep = this.visiblePodcasts[index];
-        const entry = { title: ep?.title, audioUrl: ep?.audioUrl, playedAt: Date.now(), pubDate: ep?.pubDate };
-        this.recentPlays = [entry, ...this.recentPlays.filter(r => !(r.title === entry.title && r.audioUrl === entry.audioUrl))].slice(0, 50);
-        localStorage.setItem('recentPlays', JSON.stringify(this.recentPlays));
-      } catch (e) {}
-      this.$nextTick(() => {
-        const player = document.querySelector('.audio-player-container');
-        if (player) player.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      });
-      this.audioPlayerJustOpened = true;
-      setTimeout(() => {
-        this.audioPlayerJustOpened = false;
-      }, 300);
-    },
     isCurrentlyPlaying(item) {
       const cur = this.visiblePodcasts[this.currentlyPlayingIndex];
       if (!cur || !item) return false;
       return cur.title === item.title && cur.audioUrl === item.audioUrl && this.isAudioPlaying[this.currentlyPlayingIndex];
     },
-    handlePodcastEnd(index) {
-      if (this.isAudioPlaying[index]) {
-        this.stopAudio(index);
-        this.playingIndex = null;
-        this.playNextPodcast();
-      }
-    },
-
-    // Handle when pagination occurs
-    handlePageChange() {
-      // Pause the audio before changing the page
-      if (this.currentlyPlaying !== null) {
-        const audioElement = this.$refs.audioPlayer[this.currentlyPlaying];
-        if (audioElement) {
-          audioElement.pause(); // Pause the audio
-        }
-      }
-
-      // Reset the playing index on page change
-      this.playingIndex = null;
-    },
-
-    handlePagination() {
-      // Pause the audio before changing page
-      this.handlePageChange();
-      // Your pagination logic here (e.g., fetch new data or change page)
-    },
-
-    // Update progress during playback
-    updateProgress(index, audioPlayer) {
-      if (audioPlayer && audioPlayer.duration) {
-        const played = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-        const remaining = 100 - played;
-
-        // Update the progress for the current audio
-        this.progress = { ...this.progress, [index]: played };
-        this.playedPercentage = { ...this.playedPercentage, [index]: played.toFixed(1) };
-        this.remainingPercentage = { ...this.remainingPercentage, [index]: remaining.toFixed(1) };
-      }
-    },
+    // removed duplicate early player/pagination helpers; keep unified versions below
 
     formatDate(dateString) {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -1089,20 +986,10 @@ export default {
       localStorage.setItem('bookmarks', JSON.stringify(this.bookmarks));
     },
 
-    toggleFavourite(podcast) {
-      const index = this.favourites.findIndex(item => item.title === podcast.title);
-      if (index > -1) this.favourites.splice(index, 1);
-      else this.favourites.push(podcast);
-      localStorage.setItem('favourites', JSON.stringify(this.favourites));
-    },
-
     isBookmarked(podcast) {
       return this.bookmarks.some(bookmark => bookmark.title === podcast.title);
     },
-
-    isFavourite(podcast) {
-      return this.favourites.some(fav => fav.title === podcast.title);
-    },
+    // favouriting handled by unified methods below (audioUrl-based)
 
     // Ensure an index in the full filtered list is visible
     ensureVisible(fullIndex) {
