@@ -46,7 +46,7 @@
         </div>
       </div> -->
 
-      
+
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
@@ -75,12 +75,16 @@
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover a comprehensive collection
               of clear and reliable Islamic guides designed to support every stage of your spiritual journey.</p>
-
-            <button class="form-control" onclick="window.location.href='/guide'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
-              type="submit">
+            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/guides')" type="button"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
               <span class="text-center w-100"><b>Read Guides</b></span>
             </button>
+            <div v-else class="restricted-access text-center p-2"
+              style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+              <p class="mb-1 text-muted small">You must be subscribed to access</p>
+              <a href="/subscribe" class="text-decoration-none" style="color: #00bfa6; font-weight: bold;">Subscribe
+                Now</a>
+            </div>
           </div>
         </div>
       </div>
@@ -153,17 +157,47 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
-
   data() {
     return {
+      isAuthenticated: false,
+      isSubscribed: false,
+      loading: true,
+    };
+  },
+  methods: {
+    goTo(path) {
+      window.location.href = path;
+    },
+    async checkSubscription() {
+      this.loading = true;
+      try {
+        const response = await axios.get('/user');
+        this.isAuthenticated = !!response.data;
 
+        if (this.isAuthenticated) {
+          const subscription = await axios.get('/subscription-status');
+          console.log('Subscription data:', subscription.data); // Debug
+
+          // Fix: Just check is_subscribed
+          this.isSubscribed = subscription.data.is_subscribed;
+        }
+      } catch (error) {
+        console.error('Subscription check failed:', error);
+        this.isAuthenticated = false;
+        this.isSubscribed = false;
+      }
+      this.loading = false;
     }
   },
-
-}
+  mounted() {
+    this.checkSubscription();
+  },
+};
 </script>
+
 <style scoped>
 .card.custom-card .card-text {
   max-height: 4.5em;
@@ -177,21 +211,26 @@ export default {
   height: 38px;
   padding: 0.375rem 0.75rem;
   border: none;
-  /* Good to be explicit */
 }
-
 
 .custom-card:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
 }
 
 .custom-card {
   height: 100%;
+  transition: all 0.3s ease;
 }
 
 .custom-card img {
   height: 180px;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.custom-card:hover img {
+  transform: scale(1.05);
 }
 
 @keyframes borderPulse {
@@ -213,9 +252,20 @@ export default {
 
 .card.custom-card {
   animation: borderPulse 2s infinite ease-in-out;
-  -webkit-animation: borderPulse 2s infinite ease-in-out;
-  /* For Safari/Chrome */
-  -moz-animation: borderPulse 2s infinite ease-in-out;
-  /* For Firefox */
+}
+
+.restricted-access {
+  background: #28b66324;
+  transition: all 0.3s ease;
+}
+
+.restricted-access:hover {
+  background: #28b66324;
+  transform: translateY(-2px);
+}
+
+.restricted-access a:hover {
+  color: #009e87;
+  text-decoration: underline;
 }
 </style>
