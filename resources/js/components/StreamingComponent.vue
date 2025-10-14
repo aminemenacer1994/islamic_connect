@@ -1,5 +1,7 @@
 <template>
-  <div class="container py-5">
+  <main class="container py-5" role="main">
+    <!-- Screen reader live region for polite updates -->
+    <div aria-live="polite" role="status" class="visually-hidden" ref="liveRegion">{{ liveMessage }}</div>
     <!-- Alert Section (unchanged) -->
     <section class="mb-3">
       <div v-if="alertMessage" class="alert alert-success position-fixed" role="alert"
@@ -18,10 +20,11 @@
 
     <!-- Filter/Search Section (unchanged) -->
     <section class="mb-5 p-3 bg-light rounded-3 shadow-sm" style="background: #f8f9fa; border: 1px solid #e0e0e0;"
-      aria-label="Channel filters">
+      aria-label="Channel filters" role="region">
       <div class="row g-3 text-center text-md-start">
         <div class="col-12 col-md-3">
-          <select v-model="selectedCategory" class="form-select"
+          <label for="filterCategory" class="visually-hidden">Filter by category</label>
+          <select id="filterCategory" v-model="selectedCategory" class="form-select"
             style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
             @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
             @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
@@ -30,7 +33,8 @@
           </select>
         </div>
         <div class="col-12 col-md-3">
-          <select v-model="selectedLanguage" class="form-select"
+          <label for="filterLanguage" class="visually-hidden">Filter by language</label>
+          <select id="filterLanguage" v-model="selectedLanguage" class="form-select"
             style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
             @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
             @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
@@ -39,7 +43,8 @@
           </select>
         </div>
         <div class="col-12 col-md-3">
-          <select v-model="selectedTag" class="form-select"
+          <label for="filterTag" class="visually-hidden">Filter by tag</label>
+          <select id="filterTag" v-model="selectedTag" class="form-select"
             style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
             @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
             @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
@@ -48,7 +53,8 @@
           </select>
         </div>
         <div class="col-12 col-md-3">
-          <select v-model="sortBy" class="form-select"
+          <label for="sortBy" class="visually-hidden">Sort channels</label>
+          <select id="sortBy" v-model="sortBy" class="form-select"
             style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
             @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
             @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
@@ -64,7 +70,8 @@
               style="border-radius: 12px 0 0 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
               <i class="fas fa-search"></i>
             </span>
-            <input v-model="searchQuery" type="text" class="form-control"
+            <label for="channelSearch" class="visually-hidden">Search channels</label>
+            <input ref="searchInput" id="channelSearch" v-model="searchQuery" type="text" class="form-control"
               style="border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
               placeholder="Search channels..." @input="filterChannels"
               @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
@@ -74,7 +81,7 @@
         <div class="col-12 col-md-3">
           <button class="btn btn-outline-secondary w-100"
             style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-            @click="clearFilters" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
+            aria-label="Clear all filters" @click="clearFilters" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
             @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
             Clear All Filters
           </button>
@@ -82,17 +89,24 @@
       </div>
     </section>
 
-    <section v-if="favorites.length > 0" class="mb-5" aria-label="Favorite channels">
-      <h2 class="fw-bold mb-3 d-flex align-items-center" style="cursor: pointer;" @click="toggleFavoritesSection">
-        Favorite Channels ({{ favorites.length }})
-        <i :class="showFavorites ? 'fas fa-chevron-up ms-2' : 'fas fa-chevron-down ms-2'"></i>
+    <section v-if="favorites.length > 0" class="mb-5" aria-label="Favorite channels" role="region"
+      :aria-expanded="showFavorites" :aria-labelledby="'favorites-heading'">
+      <h2 class="fw-bold mb-3 d-flex align-items-center">
+        <button id="favorites-heading" class="btn btn-link p-0 fw-bold text-decoration-none" type="button"
+          @click="toggleFavoritesSection" :aria-expanded="showFavorites" aria-controls="favorites-panel"
+          aria-label="Toggle favorite channels section">
+          Favorite Channels ({{ favorites.length }})
+          <i :class="showFavorites ? 'fas fa-chevron-up ms-2' : 'fas fa-chevron-down ms-2'"></i>
+        </button>
       </h2>
-      <div v-if="showFavorites" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-        <article class="col" v-for="(channel, index) in favorites" :key="channel.name">
+      <div v-if="showFavorites" id="favorites-panel"
+        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" role="list">
+        <article class="col" v-for="(channel, index) in favorites" :key="channel.name" role="listitem"
+          :aria-labelledby="`fav-title-${index}`">
           <div class="channel-card shadow-lg"
           style="border:3px solid #00bfa6; border-radius: 15px; padding: 5px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
             <div class="channel-img-wrapper" style="position: relative; overflow: hidden; width: 20%; height: 50px;">
-              <button @click="toggleFavorite(channel)"
+              <button @click="toggleFavorite(channel)" :aria-pressed="isFavorite(channel)"
                 :aria-label="isFavorite(channel) ? 'Remove from favorites' : 'Add to favorites'"
                 style="position: absolute; top: 8px; left: 8px; z-index: 10; background: none; border: none; cursor: pointer; transition: color 0.3s;">
                 <i :class="isFavorite(channel) ? 'fas fa-star' : 'far fa-star'"
@@ -100,7 +114,7 @@
               </button>
             </div>
             <div class="channel-body" style="padding: 12px;">
-              <h5 class="fw-bold mb-2">{{ channel.name }}</h5>
+              <h5 class="fw-bold mb-2" :id="`fav-title-${index}`">{{ channel.name }}</h5>
               <div class="description-wrapper small mb-2" :class="{ 'expanded': expandedDescriptions[channel.name] }">
                 <p v-if="truncateDescription(channel.description, 60).needsTruncation && !expandedDescriptions[channel.name]"
                   class="description-text">{{ truncateDescription(channel.description, 60).text }}
@@ -179,14 +193,18 @@
     </section>
 
     <!-- All Channels Section -->
-    <h1 class="fw-bold mb-4 d-flex align-items-center">All Channels:</h1>
-    <section class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-2" aria-label="Channel grid">
-      <article class="col" v-for="(channel, index) in visibleChannels" :key="index">
+    <h1 class="fw-bold mb-4 d-flex align-items-center" id="all-channels-heading">All Channels:</h1>
+    <p class="visually-hidden" id="kbd-help">Use arrow keys to move between channels. Press Enter to activate, F to toggle favorite, and slash to focus search.</p>
+    <section class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-2" aria-label="Channel grid" role="list"
+      aria-labelledby="all-channels-heading">
+      <article class="col" v-for="(channel, index) in visibleChannels" :key="index" role="listitem"
+        ref="channelItems" tabindex="0" :aria-labelledby="`chan-title-${index}`"
+        @focus="onCardFocus(index)" @keydown="onCardKeydown(index, $event)">
         <div class="channel-card shadow-lg"
           style="border:3px solid #00bfa6; border-radius: 15px; padding: 5px; overflow: hidden; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
 
           <div class="channel-img-wrapper" style="position: relative; overflow: hidden; width: 50px; height: 50px;">
-            <button @click="toggleFavorite(channel)"
+            <button @click="toggleFavorite(channel)" :aria-pressed="isFavorite(channel)"
               :aria-label="isFavorite(channel) ? 'Remove from favorites' : 'Add to favorites'"
               style="position: absolute; top: 10px; left: 10px; z-index: 10; background: none; border: none; cursor: pointer; color: #6c757d; transition: color 0.3s;">
               <i :class="isFavorite(channel) ? 'fas fa-star' : 'far fa-star'"
@@ -195,7 +213,7 @@
           </div>
 
           <div class="channel-body" style="padding: 15px;">
-            <h5 class="fw-bold mb-2">{{ channel.name }}</h5>
+            <h5 class="fw-bold mb-2" :id="`chan-title-${index}`">{{ channel.name }}</h5>
             <div class="description-wrapper small mb-2" :class="{ 'expanded': expandedDescriptions[channel.name] }">
               <p v-if="truncateDescription(channel.description, 80).needsTruncation && !expandedDescriptions[channel.name]"
                 class="description-text">{{ truncateDescription(channel.description, 80).text }}
@@ -225,7 +243,7 @@
               <span v-for="tag in channel.tags" :key="tag" class="badge bg-info text-dark me-1">{{ tag }}</span>
             </div>
             <div style="display: grid; grid-template-columns: repeat(5, minmax(60px, 1fr)); gap: 5px;"
-              class="text-center mt-3">
+              class="text-center mt-3" role="group" aria-label="Channel actions">
               <a v-if="channel.youtubeChannel" :href="channel.youtubeChannel || '#'" target="_blank"
                 rel="noopener noreferrer"
                 style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
@@ -262,12 +280,12 @@
               </a>
               <a :href="getWhatsAppShareUrl(channel)" target="_blank" rel="noopener noreferrer"
                 style="display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 6px; transition: background-color 0.3s, transform 0.2s; min-width: 60px; text-decoration: none; color: #6c757d;"
-                title="Videos" aria-label="View Videos"
+                title="Share" aria-label="Share channel via WhatsApp"
                 @click.prevent="shareToWhatsApp(channel)">
                 <i style="font-size: 1.2rem; margin-bottom: 4px; color: #6c757d;" class="fas fa-share"></i>
                 <small style="font-size: 0.8rem;">Share</small>
               </a>
-              
+
             </div>
           </div>
         </div>
@@ -275,13 +293,13 @@
     </section>
 
     <!-- Infinite Scroll Sentinel -->
-    <div ref="infiniteScrollSentinel" class="w-100" style="height: 1px;"></div>
+    <div ref="infiniteScrollSentinel" class="w-100" style="height: 1px;" aria-hidden="true"></div>
     <div v-if="isFetchingMore" class="text-center py-3">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -312,6 +330,9 @@ export default {
       initialY: 0,
       currentX: 0,
       currentY: 0,
+      // Keyboard navigation state
+      focusedIndex: 0,
+      gridCols: 1,
       // Infinite scroll state
       visibleCount: 12,
       increaseBy: 8,
@@ -422,6 +443,9 @@ export default {
     });
 
     document.addEventListener('keydown', this.handleKeyboard);
+    // Responsive columns for keyboard navigation
+    this.updateGridCols();
+    window.addEventListener('resize', this.updateGridCols);
     this.setupBottomObserver();
   },
   beforeUnmount() {
@@ -430,9 +454,76 @@ export default {
       this.hlsInstance = null;
     }
     document.removeEventListener('keydown', this.handleKeyboard);
+    window.removeEventListener('resize', this.updateGridCols);
     try { this.bottomObserver && this.bottomObserver.disconnect && this.bottomObserver.disconnect(); } catch (e) {}
   },
   methods: {
+    focusSearch() {
+      if (this.$refs.searchInput) {
+        this.$refs.searchInput.focus();
+      }
+    },
+    updateGridCols() {
+      try {
+        // Bootstrap breakpoints: sm>=576px has 2 columns in this grid config
+        this.gridCols = window.matchMedia('(min-width: 576px)').matches ? 2 : 1;
+      } catch (e) {
+        this.gridCols = 2;
+      }
+    },
+    onCardFocus(index) {
+      this.focusedIndex = index;
+    },
+    focusCard(index) {
+      const items = this.$refs.channelItems || [];
+      const el = items[index];
+      if (el && typeof el.focus === 'function') {
+        el.focus();
+      }
+      this.focusedIndex = index;
+    },
+    onCardKeydown(index, event) {
+      const key = event.key;
+      const cols = this.gridCols;
+      const max = this.visibleChannels.length - 1;
+      let target = null;
+      if (key === 'ArrowRight') {
+        target = Math.min(index + 1, max);
+      } else if (key === 'ArrowLeft') {
+        target = Math.max(index - 1, 0);
+      } else if (key === 'ArrowDown') {
+        target = Math.min(index + cols, max);
+      } else if (key === 'ArrowUp') {
+        target = Math.max(index - cols, 0);
+      } else if (key === 'f' || key === 'F') {
+        // Toggle favorite on focused card
+        const channel = this.visibleChannels[index];
+        if (channel) this.toggleFavorite(channel);
+        event.preventDefault();
+        return;
+      } else if (key === '/' ) {
+        // Quick focus search
+        event.preventDefault();
+        this.focusSearch();
+        return;
+      } else if (key === 'Enter' || key === ' ') {
+        // Activate primary action in card (first interactive element)
+        const items = this.$refs.channelItems || [];
+        const el = items[index];
+        if (el) {
+          const interactive = el.querySelector('button, a');
+          if (interactive && typeof interactive.click === 'function') {
+            interactive.click();
+          }
+        }
+        event.preventDefault();
+        return;
+      }
+      if (target !== null && target !== index) {
+        event.preventDefault();
+        this.focusCard(target);
+      }
+    },
     setupBottomObserver() {
       if (this.bottomObserver) this.bottomObserver.disconnect();
       const options = { root: null, rootMargin: '400px', threshold: 0 };
@@ -472,8 +563,10 @@ export default {
       if (!wasFavorite) {
         this.favorites.push(channel);
         this.alertMessage = `${channel.name} has been added to favorites.`;
+        this.liveMessage = `${channel.name} added to favorites`;
       } else {
         this.alertMessage = `${channel.name} has been removed from favorites.`;
+        this.liveMessage = `${channel.name} removed from favorites`;
       }
       try {
         localStorage.setItem('favoriteChannels', JSON.stringify(this.favorites));
@@ -491,6 +584,7 @@ export default {
       this.selectedTag = 'all';
       this.sortBy = 'name-asc';
       this.filterChannels();
+      this.liveMessage = 'All filters cleared';
     },
     playChannel(channel) {
       this.selectedChannel = channel;
@@ -642,8 +736,15 @@ export default {
       return { text: text.substring(0, maxLength) + '...', needsTruncation: true };
     },
     handleKeyboard(event) {
+      // Global keyboard handler
       if (event.key === 'Escape' && this.showYouTubeModal) {
         this.closeYouTubeModal();
+        return;
+      }
+      // Global shortcut to focus search from anywhere
+      if (event.key === '/' && !event.target.closest('input, textarea')) {
+        event.preventDefault();
+        this.focusSearch();
       }
     },
     debugLink(url, linkType) {

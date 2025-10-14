@@ -8,7 +8,7 @@
       </p>
 
       <!-- Search Bar and Category Dropdown -->
-      <section class="mb-5">
+      <section class="mb-5" role="search" aria-label="Search and filter stations">
         <div class="fixed-footer p-4 mb-5 border-md" style="border-radius: 8px;">
           <h2 class="visually-hidden">Search and Filter</h2>
           <div class="row g-4 align-items-end">
@@ -124,8 +124,8 @@
             </button>
           </div>
         </div>
-        <div v-if="isLoading" class="text-center my-4">
-          <div class="spinner-border text-primary" role="status">
+        <div v-if="isLoading" class="text-center my-4" aria-live="polite">
+          <div class="spinner-border text-primary" role="status" aria-label="Loading">
             <span class="visually-hidden">Loading stations...</span>
           </div>
         </div>
@@ -136,10 +136,12 @@
         </div>
         <div v-else>
           <!-- Grid View -->
-          <div v-if="viewMode === 'grid'" class="row">
+          <div v-if="viewMode === 'grid'" class="row" role="list" aria-label="Stations">
             <div v-for="station in visibleStations" :key="station.id" class="col-md-4 mb-4">
               <div class="station-list-item h-100" style="border:2px solid lightgrey; border-radius:8px;"
-                :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id">
+                :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id"
+                role="listitem" :tabindex="focusedStationId === station.id ? 0 : -1" :aria-labelledby="'station-title-' + station.id"
+                :data-station-id="station.id" @keydown="onStationKeydown(station.id, $event)" @focus="focusedStationId = station.id">
                 <div class="card-body">
                   <div class="d-flex align-items-center gap-3">
                     <div class="flex-grow-1">
@@ -155,7 +157,7 @@
                           <p class="text-muted mb-1 fs-sm">Status: {{ station.online === false ? 'Offline' : 'Online' }}</p>
                         </div>
                         <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
-                          :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
+                          :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'" :aria-pressed="isLiked(station.id)">
                           <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
                             class="like-icon fs-5"></i>
                         </button>
@@ -174,7 +176,7 @@
                           </span>
                         </div>
                         <button v-if="station.online !== false" @click="togglePlay(station.id)" class="control-btn play-pause p-0"
-                          :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'"
+                          :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'" :aria-pressed="isPlaying(station.id)"
                           :disabled="!station.url"
                           :title="station.online === false ? 'Station is offline' : ''">
                           <i class="bi fs-1" :class="{
@@ -204,10 +206,12 @@
             </div>
           </div>
           <!-- List View -->
-          <div v-else class="list-container view-list">
+          <div v-else class="list-container view-list" role="list" aria-label="Stations">
             <div v-for="station in visibleStations" :key="station.id" class="station-list-item"
               style="border:2px solid lightgrey; border-radius:8px;"
-              :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id">
+              :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id"
+              role="listitem" :tabindex="focusedStationId === station.id ? 0 : -1" :aria-labelledby="'station-title-' + station.id"
+              :data-station-id="station.id" @keydown="onStationKeydown(station.id, $event)" @focus="focusedStationId = station.id">
               <div class="card-body">
                 <div class="d-flex align-items-center gap-3">
                   <div class="flex-grow-1">
@@ -223,7 +227,7 @@
                         <p class="text-muted mb-1 fs-sm">Status: {{ station.online === false ? 'Offline' : 'Online' }}</p>
                       </div>
                       <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
-                        :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
+                        :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'" :aria-pressed="isLiked(station.id)">
                         <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
                           class="like-icon fs-5"></i>
                       </button>
@@ -242,7 +246,7 @@
                         </span>
                       </div>
                       <button v-if="station.online !== false" @click="togglePlay(station.id)" class="control-btn play-pause p-0"
-                        :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'"
+                        :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'" :aria-pressed="isPlaying(station.id)"
                         :disabled="!station.url"
                         :title="station.online === false ? 'Station is offline' : ''">
                         <i class="bi fs-1" :class="{
@@ -283,7 +287,7 @@
 
     <!-- Global Audio Player -->
     <transition name="global-audio-player">
-      <div v-if="currentlyPlayingStation" class="global-audio-player shadow-lg">
+      <div v-if="currentlyPlayingStation" class="global-audio-player shadow-lg" role="region" aria-label="Global audio player" aria-live="polite">
         <div class="d-flex align-items-center" style="flex: 1 1 0px; justify-content: flex-start;">
           <div>
             <h6 class="mb-0 fw-bold text-white" style="font-size: 1.1rem; font-weight: 600; letter-spacing: 0.4px;">{{
@@ -297,7 +301,8 @@
             <i class="bi bi-rewind-fill text-white"></i>
           </button>
           <button @click="togglePlay(currentPlayingStationId)" class="control-btn play-pause fs-2 mx-2"
-            :aria-label="isPlaying(currentPlayingStationId) ? 'Pause playback' : 'Play playback'">
+            :aria-label="isPlaying(currentPlayingStationId) ? 'Pause playback' : 'Play playback'"
+            :aria-pressed="isPlaying(currentPlayingStationId)">
             <i class="bi text-white" :class="isPlaying(currentPlayingStationId) ? 'bi-pause-fill' : 'bi-play-fill'"></i>
           </button>
           <button @click="nextStation" class="control-btn mx-2" title="Next Station">
@@ -315,7 +320,8 @@
         </div>
         <div class="d-flex align-items-center" style="flex: 1 1 0px; justify-content: flex-end;">
           <button @click="toggleMute(currentPlayingStationId)" class="control-btn"
-            :aria-label="volumes[currentPlayingStationId] === 0 ? 'Unmute audio' : 'Mute audio'">
+            :aria-label="volumes[currentPlayingStationId] === 0 ? 'Unmute audio' : 'Mute audio'"
+            :aria-pressed="volumes[currentPlayingStationId] === 0">
             <i class="bi fs-4 text-white"
               :class="`bi-volume-${volumes[currentPlayingStationId] > 50 ? 'up' : volumes[currentPlayingStationId] > 0 ? 'down' : 'mute'}-fill`"></i>
           </button>
@@ -328,6 +334,8 @@
         </div>
       </div>
     </transition>
+    <!-- Live region for announcing play/pause changes -->
+    <div class="visually-hidden" role="status" aria-live="polite">{{ liveAnnouncement }}</div>
   </div>
 </template>
 <script setup>
@@ -489,6 +497,93 @@ const viewMode = ref('grid'); // 'grid' or 'list'
 const sortBy = ref('default'); // 'default', 'name_asc', 'name_desc', 'listeners_desc'
 let listenerInterval = null;
 const audioPlayerJustOpened = ref(false);
+const focusedStationId = ref(null);
+const liveAnnouncement = ref('');
+
+// Keyboard navigation helpers
+const onStationKeydown = (id, event) => {
+  const key = event.key;
+  // Activate
+  if (key === 'Enter' || key === ' ') {
+    event.preventDefault();
+    togglePlay(id);
+    return;
+  }
+  // Like/Unlike
+  if (key.toLowerCase() === 'l') {
+    event.preventDefault();
+    const station = stations.value.find(s => s.id === id) || visibleStations.value.find(s => s.id === id);
+    if (station) toggleLike(station);
+    return;
+  }
+  // Mute/Unmute current if same station
+  if (key.toLowerCase() === 'm' && currentPlayingStationId.value) {
+    event.preventDefault();
+    toggleMute(currentPlayingStationId.value);
+    return;
+  }
+  // Focus movement
+  if (['ArrowDown', 'ArrowRight'].includes(key)) {
+    event.preventDefault();
+    focusStationByOffset(id, +1);
+  } else if (['ArrowUp', 'ArrowLeft'].includes(key)) {
+    event.preventDefault();
+    focusStationByOffset(id, -1);
+  } else if (key === 'Home') {
+    event.preventDefault();
+    focusStationByIndex(0);
+  } else if (key === 'End') {
+    event.preventDefault();
+    const nodes = getStationNodes();
+    if (nodes.length) nodes[nodes.length - 1].focus();
+  }
+};
+
+const getStationNodes = () => {
+  return Array.from(document.querySelectorAll('[data-station-id]'));
+};
+
+const focusStationByOffset = (currentId, delta) => {
+  const nodes = getStationNodes();
+  const idx = nodes.findIndex(n => String(n.getAttribute('data-station-id')) === String(currentId));
+  if (idx === -1) return;
+  let next = idx + delta;
+  if (next < 0) next = 0;
+  if (next >= nodes.length) next = nodes.length - 1;
+  const nextNode = nodes[next];
+  nextNode?.focus();
+  const attrId = nextNode?.getAttribute('data-station-id');
+  if (attrId) focusedStationId.value = Number(attrId);
+};
+
+const focusStationByIndex = (index) => {
+  const nodes = getStationNodes();
+  if (!nodes.length) return;
+  const i = Math.max(0, Math.min(index, nodes.length - 1));
+  const node = nodes[i];
+  node.focus();
+  const attrId = node.getAttribute('data-station-id');
+  if (attrId) focusedStationId.value = Number(attrId);
+};
+
+// Keep roving tabindex aligned with data
+watch(visibleStations, (list) => {
+  const ids = list.map(s => s.id);
+  if (!ids.length) return;
+  if (!focusedStationId.value || !ids.includes(focusedStationId.value)) {
+    focusedStationId.value = ids[0];
+    nextTick(() => focusStationByIndex(0));
+  }
+});
+
+onMounted(() => {
+  // Initialize focus after stations load
+  nextTick(() => {
+    if (visibleStations.value.length && !focusedStationId.value) {
+      focusedStationId.value = visibleStations.value[0].id;
+    }
+  });
+});
 
 // Computed
 const sortedStations = computed(() => {
@@ -851,6 +946,8 @@ const handlePlay = async (id, event) => {
     currentAudio.value = null;
     currentPlayingStationId.value = null;
   }
+  const played = stations.value.find(s => s.id === id) || defaultPopularReciters.find(s => s.id === id);
+  if (played) liveAnnouncement.value = `Playing ${played.name}`;
 };
 
 const handlePause = (id) => {
@@ -860,6 +957,8 @@ const handlePause = (id) => {
     currentAudio.value = null;
     if (audioMountForId.value === id) audioMountForId.value = null;
   }
+  const st = stations.value.find(s => s.id === id) || defaultPopularReciters.find(s => s.id === id);
+  if (st) liveAnnouncement.value = `Paused ${st.name}`;
 };
 
 const handleAudioError = (stationId, event) => {
@@ -1132,6 +1231,13 @@ body {
 
 .radio-card.active-card {
   border: 2px solid #00bfa6;
+}
+
+/* Focus visibility for keyboard navigation */
+.station-list-item[tabindex="0"]:focus {
+  outline: 3px solid #0db691;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(13, 182, 145, 0.15);
 }
 
 .card-title {

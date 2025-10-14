@@ -10,69 +10,119 @@
     <!-- Search -->
     <div class="row container justify-content-center mb-3">
       <div class="col-12 col-md-12">
-        <h3 class="fw-bold text-left pt-2 pb-2 container">Search Animated Videos:</h3>
-        <div class="input-group">
-          <input v-model="query" @keyup.enter="searchVideos" type="text" class="form-control"
+        <h3 id="video-gallery-search-label" class="fw-bold text-left pt-2 pb-2 container">Search Animated Videos:</h3>
+        <form class="input-group" role="search" aria-labelledby="video-gallery-search-label" @submit.prevent="resetAndSearch">
+          <input
+            id="video-gallery-search-input"
+            v-model="query"
+            type="text"
+            class="form-control"
+            :aria-label="'Search Islamic videos'"
             placeholder="Search for Islamic videos..." />
-          <button @click="searchVideos" class="btn" type="button" style="background-color: #0db691; color: white;">
-            Search
-          </button>
-        </div>
+          <button class="btn" type="submit" style="background-color: #0db691; color: white;">Search</button>
+        </form>
       </div>
     </div>
 
     <!-- Filters -->
     <div class="mb-4 text-center">
       <div class="filter-scroll-wrapper position-relative">
-        <div class="filter-scroll d-flex justify-content-start gap-2 px-2 py-2"
-          style="overflow-x: auto; cursor: pointer; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none;">
-          <span class="badge flex-shrink-0 px-3 py-2" v-for="filter in filters" :key="filter"
-            @click="applyFilter(filter)" :class="{
-              'bg-dark text-white': activeFilter === filter,
-              'bg-light text-dark': activeFilter !== filter
-            }">
+        <div
+          class="filter-scroll d-flex justify-content-start gap-2 px-2 py-2"
+          style="overflow-x: auto; cursor: pointer; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none;"
+          role="radiogroup"
+          aria-label="Filter videos"
+        >
+          <button
+            v-for="(filter, idx) in filters"
+            :key="filter"
+            class="badge flex-shrink-0 px-3 py-2"
+            :class="{ 'bg-dark text-white': activeFilter === filter, 'bg-light text-dark': activeFilter !== filter }"
+            role="radio"
+            :aria-checked="String(activeFilter === filter)"
+            :tabindex="activeFilter === filter ? 0 : -1"
+            type="button"
+            @click="applyFilter(filter)"
+            @keydown.left.prevent="focusPrevFilter(idx)"
+            @keydown.right.prevent="focusNextFilter(idx)"
+            @keydown.enter.prevent="applyFilter(filter)"
+            @keydown.space.prevent="applyFilter(filter)"
+          >
             {{ filter }}
-          </span>
+          </button>
         </div>
       </div>
     </div>
 
     <!-- Video Grid -->
-    <div class="row g-3" v-if="videos.length">
-      <div v-for="video in videos" :key="video.id" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
-        <div class="card d-flex flex-column shadow-md p-1 w-100 h-100 card-video" style="border: 2px solid lightgray;">
-          <div class="ratio ratio-16x9 video-container"
+    <div v-if="videos.length">
+      <div :style="{ height: topSpacerHeight + 'px' }"></div>
+      <div class="row g-3">
+      <div v-for="(video, i) in visibleVideos" :key="video.id || (startIndex + i)" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
+        <article class="card d-flex flex-column shadow-md p-1 w-100 h-100 card-video" style="border: 2px solid lightgray;">
+          <div
+            class="ratio ratio-16x9 video-container"
             style="height: 500px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
-            @mouseenter="playOnHover($event)" @mouseleave="pauseOnLeave($event)">
-            <video :src="video.loaded ? video.url : ''" :poster="video.thumbnail" class="w-100 rounded-top video-hover" controls loop preload="none"
-              muted playsinline @loadedmetadata="updateMetadata($event, video)">
+            @click="togglePlayPause($event)"
+            tabindex="0"
+            :aria-label="'Video: ' + (video.description || 'Islamic animation') + '. Press Enter to play/pause'"
+            @keydown.enter.prevent="togglePlayPause($event)"
+            @keydown.space.prevent="togglePlayPause($event)"
+          >
+            <video
+              :src="video.loaded ? video.url : ''"
+              :poster="video.thumbnail"
+              class="w-100 rounded-top video-hover"
+              controls
+              controlslist="nodownload noplaybackrate"
+              loop
+              preload="none"
+              muted
+              playsinline
+              @loadedmetadata="updateMetadata($event, video)"
+            >
               Your browser does not support the video tag.
             </video>
           </div>
           <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2">
-            <a :href="`https://wa.me/?text=${encodeURIComponent(video.url)}`" target="_blank"
-              class="btn btn-sm w-100 custom-btn" style="font-size: 18px;"><i class="bi bi-share-fill"></i> Share</a>
-            <a :href="video.url" :download="`video-${video.id}.mp4`" class="btn btn-sm w-100 custom-btn"
-              style="font-size: 18px;" target="_blank">
-              <i class="bi bi-download"></i> Download
+            class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2"
+          >
+            <a
+              :href="`https://wa.me/?text=${encodeURIComponent(video.url)}`"
+              target="_blank"
+              class="btn btn-sm w-100 custom-btn"
+              style="font-size: 18px;"
+              :aria-label="'Share video via WhatsApp'"
+            >
+              <i class="bi bi-share-fill" aria-hidden="true"></i> Share
+            </a>
+            <a
+              :href="video.url"
+              :download="`video-${video.id}.mp4`"
+              class="btn btn-sm w-100 custom-btn"
+              style="font-size: 18px;"
+              target="_blank"
+              :aria-label="'Download video file'"
+            >
+              <i class="bi bi-download" aria-hidden="true"></i> Download
             </a>
           </div>
-        </div>
+        </article>
       </div>
+      </div>
+      <div :style="{ height: bottomSpacerHeight + 'px' }"></div>
       <!-- Sentinel for infinite scroll -->
       <div ref="infiniteScrollSentinel" class="w-100" style="height: 1px;"></div>
     </div>
 
     <!-- Loading indicator -->
-    <div v-if="loading" class="text-center py-3">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
+    <div v-if="loading" class="text-center py-3" role="status" aria-live="polite">
+      <div class="spinner-border text-primary" aria-hidden="true"></div>
+      <span class="ms-2">Loading videos…</span>
     </div>
 
     <!-- No videos fallback -->
-    <div v-if="!loading && videos.length === 0" class="text-center py-5 text-muted">
+    <div v-if="!loading && videos.length === 0" class="text-center py-5 text-muted" role="status" aria-live="polite">
       <p class="fs-5">No videos found. Try another keyword.</p>
     </div>
   </div>
@@ -88,23 +138,103 @@ export default {
       loading: false,
       hasMore: true,
       page: 1,
+      lastLoadTs: 0,
       filters: [
         'Islamic', 'islamic animation', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab',
         'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture',
       ],
       activeFilter: null,
-      perPage: 9,
+      perPage: 6,
       totalResults: 0,
       bottomObserver: null,
       videoObserver: null,
       // Smooth loading controls
-      maxConcurrentLoads: 3,
+      maxConcurrentLoads: 1,
       activeLoads: 0,
       loadQueue: [],
+      // virtualization
+      startIndex: 0,
+      endIndex: 0,
+      itemsPerRow: 1,
+      rowHeight: 560,
+      rafId: null,
     };
   },
-  computed: {},
+  computed: {
+    visibleVideos() {
+      return this.videos.slice(this.startIndex, this.endIndex);
+    },
+    topSpacerHeight() {
+      const perRow = this.itemsPerRow || 1;
+      const startRow = Math.floor(this.startIndex / perRow);
+      return startRow * this.rowHeight;
+    },
+    bottomSpacerHeight() {
+      const perRow = this.itemsPerRow || 1;
+      const totalRows = Math.ceil((this.videos.length || 0) / perRow);
+      const endRow = Math.ceil((this.endIndex || 0) / perRow);
+      const remaining = Math.max(0, totalRows - endRow);
+      return remaining * this.rowHeight;
+    }
+  },
   methods: {
+    // Virtualization helpers
+    computeItemsPerRow() {
+      const w = window.innerWidth || 1024;
+      this.itemsPerRow = w < 576 ? 1 : 3;
+    },
+    measureRowHeight() {
+      try {
+        const el = this.$el.querySelector('.card-video');
+        if (el) {
+          const h = el.offsetHeight;
+          if (h && Math.abs(h - this.rowHeight) > 20) this.rowHeight = h + 20;
+        }
+      } catch (_) {}
+    },
+    computeVirtualWindow() {
+      this.computeItemsPerRow();
+      const total = this.videos.length;
+      if (!total) { this.startIndex = 0; this.endIndex = 0; return; }
+      const perRow = this.itemsPerRow;
+      const rowH = this.rowHeight;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+      const viewportH = window.innerHeight || 800;
+      const totalRows = Math.ceil(total / perRow);
+      const bufferRows = 1;
+      const startRow = Math.max(0, Math.floor(scrollTop / rowH) - bufferRows);
+      const endRow = Math.min(totalRows - 1, Math.ceil((scrollTop + viewportH) / rowH) + bufferRows);
+      this.startIndex = startRow * perRow;
+      this.endIndex = Math.min(total, (endRow + 1) * perRow);
+    },
+    onScroll() {
+      if (this.rafId) return;
+      this.rafId = requestAnimationFrame(() => {
+        this.computeVirtualWindow();
+        this.rafId = null;
+      });
+    },
+    onResize() {
+      this.computeVirtualWindow();
+    },
+    togglePlayPause(event) {
+      const video = event.currentTarget.querySelector('video');
+      if (!video) return;
+      const idx = this.findVideoIndexByEl(video);
+      if (idx !== -1 && !this.videos[idx].loaded) {
+        this.videos[idx].loaded = true;
+        if (!video.src) video.src = this.videos[idx].url;
+      }
+      // Pause other videos to reduce CPU
+      const others = this.$el.querySelectorAll('video');
+      others.forEach(v => { if (v !== video && !v.paused) v.pause(); });
+      if (video.paused) {
+        video.muted = true;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    },
     async fetchVideos(append = false) {
       if (this.loading || !this.hasMore) return;
       this.loading = true;
@@ -143,8 +273,9 @@ export default {
         this.hasMore = hasNext || newItems.length === this.perPage;
 
         this.$nextTick(() => {
-          this.observeVisibleVideos();
           this.setupBottomObserver();
+          this.measureRowHeight();
+          this.computeVirtualWindow();
         });
       } catch (err) {
         console.error('Error fetching videos:', err);
@@ -162,23 +293,14 @@ export default {
 
     loadMore() {
       if (this.loading || !this.hasMore) return;
+      const now = Date.now();
+      if (now - this.lastLoadTs < 800) return; // throttle
+      this.lastLoadTs = now;
       this.page += 1;
       this.fetchVideos(true);
     },
 
-    playOnHover(event) {
-      const video = event.currentTarget.querySelector('video');
-      if (video) video.play().catch(err => console.warn("Autoplay failed:", err));
-    },
-
-    pauseOnLeave(event) {
-      const video = event.currentTarget.querySelector('video');
-      if (video) {
-        video.pause();
-        video.currentTime = 0;
-        video.muted = true;
-      }
-    },
+    // Removed hover autoplay to reduce decode spikes
 
     updateMetadata(event, video) {
       const el = event.target;
@@ -194,12 +316,31 @@ export default {
       this.resetAndSearch();
     },
 
+    focusPrevFilter(idx) {
+      const prev = idx > 0 ? idx - 1 : this.filters.length - 1;
+      this.activeFilter = this.filters[prev];
+      this.$nextTick(() => {
+        const buttons = this.$el.querySelectorAll('[role="radiogroup"] [role="radio"]');
+        if (buttons[prev]) buttons[prev].focus();
+      });
+      this.resetAndSearch();
+    },
+    focusNextFilter(idx) {
+      const next = idx < this.filters.length - 1 ? idx + 1 : 0;
+      this.activeFilter = this.filters[next];
+      this.$nextTick(() => {
+        const buttons = this.$el.querySelectorAll('[role="radiogroup"] [role="radio"]');
+        if (buttons[next]) buttons[next].focus();
+      });
+      this.resetAndSearch();
+    },
+
     // IntersectionObserver for bottom sentinel
     setupBottomObserver() {
       if (this.bottomObserver) {
         this.bottomObserver.disconnect();
       }
-      const options = { root: null, rootMargin: '400px', threshold: 0 };
+      const options = { root: null, rootMargin: '600px', threshold: 0 };
       this.bottomObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -212,55 +353,12 @@ export default {
       }
     },
 
-    // Lazy-load videos: set src only when visible
-    observeVisibleVideos() {
-      if (this.videoObserver) this.videoObserver.disconnect();
-      const options = { root: null, rootMargin: '150px', threshold: 0.01 };
-      this.videoObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          const el = entry.target;
-          const idx = this.findVideoIndexByEl(el);
-          if (!entry.isIntersecting) return;
-          if (idx !== -1 && !this.videos[idx].loaded) {
-            this.enqueueLoad(idx, el);
-          }
-          this.videoObserver.unobserve(el);
-        });
-      }, options);
-
-      const nodes = this.$el.querySelectorAll('video.video-hover');
-      nodes.forEach(node => this.videoObserver.observe(node));
-    },
-
     findVideoIndexByEl(el) {
       // Find the index by traversing to the card and reading key via order
       const cards = Array.from(this.$el.querySelectorAll('.card-video'));
       const card = el.closest('.card-video');
       const idx = cards.indexOf(card);
       return idx;
-    },
-
-    enqueueLoad(idx, el) {
-      this.loadQueue.push({ idx, el });
-      this.processQueue();
-    },
-
-    processQueue() {
-      while (this.activeLoads < this.maxConcurrentLoads && this.loadQueue.length) {
-        const { idx, el } = this.loadQueue.shift();
-        if (!this.videos[idx] || this.videos[idx].loaded) continue;
-        this.videos[idx].loaded = true;
-        this.activeLoads++;
-        const onDone = () => {
-          el.removeEventListener('loadeddata', onDone);
-          el.removeEventListener('error', onDone);
-          this.activeLoads = Math.max(0, this.activeLoads - 1);
-          // Drain more once a load completes
-          this.processQueue();
-        };
-        el.addEventListener('loadeddata', onDone, { once: true });
-        el.addEventListener('error', onDone, { once: true });
-      }
     },
 
     pickBestFile(files = []) {
@@ -283,6 +381,12 @@ export default {
   mounted() {
     this.fetchVideos(false); // Load initial set
     this.setupBottomObserver();
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onResize, { passive: true });
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
   }
 };
 </script>
@@ -449,5 +553,12 @@ video {
 
 .card {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  content-visibility: auto;
+  contain: content;
+}
+
+/* Avoid costly hover effects on large videos */
+.video-container:hover {
+  /* no-op to prevent extra paints */
 }
 </style>

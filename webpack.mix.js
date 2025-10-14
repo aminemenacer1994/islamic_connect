@@ -25,6 +25,14 @@ mix.options({
     }
 });
 
+// Ensure Webpack targets a browser environment and selects a valid chunk format
+mix.webpackConfig({
+    target: 'web',
+    output: {
+        chunkFormat: 'array-push'
+    }
+});
+
 // Enable versioning in production to add cache-busting query strings
 if (mix.inProduction()) {
     mix.version();

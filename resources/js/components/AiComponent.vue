@@ -11,96 +11,142 @@
     <!-- Search -->
     <div class="row container justify-content-center mb-3">
       <div class="col-12 col-md-12">
-        <h3 class="fw-bold text-left pt-2 pb-2 container">Search Images in Gallery:</h3>
-        <div class="input-group">
-          <input v-model="searchTerm" @keyup.enter="fetchGallery" type="text" class="form-control"
+        <h3 id="ai-gallery-search-label" class="fw-bold text-left pt-2 pb-2 container">Search Images in Gallery:</h3>
+        <form class="input-group" @submit.prevent="fetchGallery" role="search" aria-labelledby="ai-gallery-search-label">
+          <input
+            id="ai-gallery-search-input"
+            v-model="searchTerm"
+            type="text"
+            class="form-control"
+            :aria-label="'Search Islamic images'"
             placeholder="Search for Islamic images..." />
-          <button @click="fetchGallery" class="btn" type="button" style="background-color: #0db691; color: white;">
+          <button class="btn" type="submit" style="background-color: #0db691; color: white;">
             Search
           </button>
-        </div>
+        </form>
       </div>
     </div>
 
     <!-- Filters -->
     <div class="mb-4 text-center">
-      <div class="d-flex text-center overflow-x-auto gap-2 px-1 py-2 filter-scroll"
+      <div
+        class="d-flex text-center overflow-x-auto gap-2 px-1 py-2 filter-scroll"
+        role="radiogroup"
+        aria-label="Filter images"
         style="cursor: pointer; white-space: nowrap;">
-        <span class="badge flex-shrink-0 text-center px-3 py-2 d-flex align-items-center gap-2"
-          v-for="filter in filters" :key="filter" @click="applyFilter(filter)" :class="{
-            'active text-white': activeFilter === filter,
-            'bg-light text-dark': activeFilter !== filter
-          }">
+        <button
+          v-for="(filter, idx) in filters"
+          :key="filter"
+          class="badge flex-shrink-0 text-center px-3 py-2 d-flex align-items-center gap-2"
+          :class="{ 'active text-white': activeFilter === filter, 'bg-light text-dark': activeFilter !== filter }"
+          role="radio"
+          :aria-checked="String(activeFilter === filter)"
+          :tabindex="activeFilter === filter ? 0 : -1"
+          type="button"
+          @click="applyFilter(filter)"
+          @keydown.left.prevent="focusPrevFilter(idx)"
+          @keydown.right.prevent="focusNextFilter(idx)"
+          @keydown.enter.prevent="applyFilter(filter)"
+          @keydown.space.prevent="applyFilter(filter)"
+        >
           <i :class="getFilterIcon(filter)"></i> {{ filter }}
-        </span>
+        </button>
       </div>
     </div>
 
     <!-- Image Grid -->
-    <div v-if="loading" class="text-center my-5">
-      <div class="spinner-border text-success mb-3" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
+    <div v-if="loading" class="text-center my-5" role="status" aria-live="polite">
+      <div class="spinner-border text-success mb-3" aria-hidden="true"></div>
       <p class="fw-semibold fs-4 text-muted">Images loading, please wait...</p>
     </div>
 
-    <div class="row g-3" v-if="!loading">
-      <div v-for="(image, index) in allImages" :key="image.id || index"
+    <div v-if="!loading">
+      <div :style="{ height: topSpacerHeight + 'px' }"></div>
+      <div class="row g-3">
+      <div v-for="(image, index) in visibleImages" :key="image.id || (startIndex + index)"
         class="col-12 col-sm-4 col-md-4 col-lg-4 d-flex">
-        <div class="card d-flex flex-column shadow-sm p-2 w-100 h-100 animate__animated animate__fadeIn"
-          style="border-radius: 10px; transition: all 0.5s; overflow: hidden;" @mouseover="hoverCard(index)"
-          @mouseleave="leaveCard(index)">
-          <div class="image-wrapper" style="overflow: hidden; border-radius: 8px;">
-            <img :src="image.src.large" :alt="image.alt" class="img-fluid image-zoom" loading="lazy"
-              style="height: 480px; object-fit: cover; transition: transform 0.5s ease;" data-bs-toggle="modal"
-              data-bs-target="#imageModal" @click.stop="selectedImage = image" />
-          </div>
-          <p class="mt-2 text-center" style="padding: 0 10px; font-size: 20px; color: #444;">
-            {{ image.alt || 'Islamic Image' }}
-          </p>
-          <div class="flex-grow-1"></div>
+        <figure
+          class="card d-flex flex-column shadow-sm p-2 w-100 h-100"
+          style="border-radius: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden;"
+        >
           <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2">
-            <a :href="`https://wa.me/?text=${encodeURIComponent(image.src.original)}`" target="_blank"
-              class="btn btn-sm w-100 custom-btn d-flex align-items-center justify-content-center gap-2"
-              style="font-size: 18px;">
-              <i class="bi bi-share-fill"></i> Share
-            </a>
-            <a @click.prevent="downloadImage(image.src.original, `image-${image.id}.jpg`)"
-              :title="image.alt || 'Islamic Image'"
-              class="btn btn-sm w-100 custom-btn d-flex align-items-center justify-content-center gap-2"
-              style="font-size: 18px;">
-              <i class="bi bi-download"></i> {{ 'Download' }}
-            </a>
+            class="image-wrapper"
+            style="overflow: hidden; border-radius: 8px;"
+          >
+            <img
+              :src="image.src.medium"
+              :srcset="`${image.src.small} 400w, ${image.src.medium} 800w, ${image.src.large} 1200w`"
+              sizes="(max-width: 576px) 100vw, (max-width: 992px) 33vw, 33vw"
+              :alt="image.alt || 'Islamic image'"
+              class="img-fluid image-zoom"
+              loading="lazy"
+              decoding="async"
+              fetchpriority="low"
+              style="height: 480px; object-fit: cover; transition: transform 0.3s ease; will-change: transform;"
+              data-bs-toggle="modal"
+              data-bs-target="#imageModal"
+              tabindex="0"
+              :aria-label="(image.alt || 'Islamic image') + '. Press Enter to enlarge'"
+              @click.stop="selectedImage = image"
+              @keydown.enter.stop.prevent="selectedImage = image"
+              @keydown.space.stop.prevent="selectedImage = image"
+            />
           </div>
-        </div>
+          <figcaption class="mt-2 text-center" style="padding: 0 10px; font-size: 20px; color: #444;">
+            {{ image.alt || 'Islamic Image' }}
+          </figcaption>
+          <div class="flex-grow-1" aria-hidden="true"></div>
+          <div
+            class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2"
+          >
+            <a
+              :href="`https://wa.me/?text=${encodeURIComponent(image.src.original)}`"
+              target="_blank"
+              class="btn btn-sm w-100 custom-btn d-flex align-items-center justify-content-center gap-2"
+              style="font-size: 18px;"
+              :aria-label="'Share image: ' + (image.alt || 'Islamic image') + ' via WhatsApp'"
+            >
+              <i class="bi bi-share-fill" aria-hidden="true"></i> Share
+            </a>
+            <button
+              type="button"
+              @click.prevent="downloadImage(image.src.original, `image-${image.id}.jpg`)"
+              class="btn btn-sm w-100 custom-btn d-flex align-items-center justify-content-center gap-2"
+              style="font-size: 18px;"
+              :aria-label="'Download image: ' + (image.alt || 'Islamic image')"
+            >
+              <i class="bi bi-download" aria-hidden="true"></i> {{ 'Download' }}
+            </button>
+          </div>
+        </figure>
       </div>
+      </div>
+      <div :style="{ height: bottomSpacerHeight + 'px' }"></div>
     </div>
 
     <!-- Infinite Scroll Sentinel / Status -->
-    <div class="mt-4 d-flex justify-content-center">
-      <div v-if="isLoadingMore" class="text-center my-3">
-        <div class="spinner-border text-success" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
+    <div class="mt-4 d-flex justify-content-center" aria-live="polite">
+      <div v-if="isLoadingMore" class="text-center my-3" role="status">
+        <div class="spinner-border text-success" aria-hidden="true"></div>
+        <span class="ms-2">Loading more images…</span>
       </div>
-      <div v-else-if="!hasMore && allImages.length" class="text-muted">No more results</div>
+      <div v-else-if="!hasMore && allImages.length" class="text-muted" role="status">No more results</div>
     </div>
     <div ref="loadMoreTrigger" style="height: 1px;"></div>
 
     <!-- Modal -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="dialog" aria-modal="true">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title" style="font-size: 24px; font-weight: bold;">Islamic Image</div>
+            <div id="imageModalLabel" class="modal-title" style="font-size: 24px; font-weight: bold;">Islamic Image</div>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <img :src="selectedImage?.src?.original" :alt="selectedImage?.alt" class="img-fluid mx-auto d-block"
+            <img :src="selectedImage && selectedImage.src ? selectedImage.src.original : ''" :alt="selectedImage && selectedImage.alt ? selectedImage.alt : 'Islamic Image'" class="img-fluid mx-auto d-block"
               style="max-width: 100%; max-height: 80vh; object-fit: contain; padding: 5px;" />
             <p class="mt-2 text-center" style="padding: 0 5px; font-size: 20px; color: #444;">
-              {{ selectedImage?.alt || 'Islamic Image' }}
+              {{ (selectedImage && selectedImage.alt) ? selectedImage.alt : 'Islamic Image' }}
             </p>
           </div>
           <div class="modal-footer">
@@ -123,31 +169,76 @@ export default {
       images: [],
       // Infinite scroll state
       apiPage: 1,
-      perPage: 30,
+      perPage: 18,
       hasMore: true,
       isLoadingMore: false,
+      lastLoadMoreTs: 0,
       observer: null,
       activeFilter: 'Islamic',
       isModalOpen: false,
       loading: true,
       apiKey: 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f',
+      // virtualization state
+      startIndex: 0,
+      endIndex: 0,
+      itemsPerRow: 1,
+      rowHeight: 620,
+      rafId: null,
       filters: [
         'Islamic', 'Mosque', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab',
         'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture',
       ],
     };
   },
-  computed: {},
+  computed: {
+    visibleImages() {
+      return this.allImages.slice(this.startIndex, this.endIndex);
+    },
+    topSpacerHeight() {
+      const perRow = this.itemsPerRow || 1;
+      const startRow = Math.floor(this.startIndex / perRow);
+      return startRow * this.rowHeight;
+    },
+    bottomSpacerHeight() {
+      const perRow = this.itemsPerRow || 1;
+      const totalRows = Math.ceil((this.allImages.length || 0) / perRow);
+      const endRow = Math.ceil((this.endIndex || 0) / perRow);
+      const remaining = Math.max(0, totalRows - endRow);
+      return remaining * this.rowHeight;
+    }
+  },
   mounted() {
     this.fetchGallery();
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onResize, { passive: true });
   },
   beforeUnmount() {
     if (this.observer) {
       try { this.observer.disconnect(); } catch (e) {}
       this.observer = null;
     }
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
   },
   methods: {
+    focusPrevFilter(idx) {
+      const prev = idx > 0 ? idx - 1 : this.filters.length - 1;
+      this.activeFilter = this.filters[prev];
+      this.$nextTick(() => {
+        const buttons = this.$el.querySelectorAll('[role="radiogroup"] [role="radio"]');
+        if (buttons[prev]) buttons[prev].focus();
+      });
+      this.applyFilter(this.activeFilter);
+    },
+    focusNextFilter(idx) {
+      const next = idx < this.filters.length - 1 ? idx + 1 : 0;
+      this.activeFilter = this.filters[next];
+      this.$nextTick(() => {
+        const buttons = this.$el.querySelectorAll('[role="radiogroup"] [role="radio"]');
+        if (buttons[next]) buttons[next].focus();
+      });
+      this.applyFilter(this.activeFilter);
+    },
     async downloadImage(url, filename) {
       this.downloading = true;
       try {
@@ -185,6 +276,8 @@ export default {
         // Ensure observer is set up after first paint
         this.$nextTick(() => {
           if (!this.observer) this.setupObserver();
+          this.measureRowHeight();
+          this.computeVirtualWindow();
         });
       } catch (error) {
         console.error('Error fetching images:', error);
@@ -202,13 +295,16 @@ export default {
         }
       }, {
         root: null,
-        rootMargin: '0px 0px 400px 0px',
+        rootMargin: '0px 0px 600px 0px',
         threshold: 0,
       });
       this.observer.observe(target);
     },
     async loadMore() {
       if (this.loading || this.isLoadingMore || !this.hasMore) return;
+      const now = Date.now();
+      if (now - this.lastLoadMoreTs < 800) return; // throttle
+      this.lastLoadMoreTs = now;
       this.isLoadingMore = true;
       try {
         const query = `Islamic ${this.searchTerm}`.trim();
@@ -224,11 +320,51 @@ export default {
           this.apiPage = nextPage;
         }
         this.hasMore = Boolean(data.next_page);
+        this.$nextTick(() => { this.measureRowHeight(); this.computeVirtualWindow(); });
       } catch (error) {
         console.error('Error loading more images:', error);
       } finally {
         this.isLoadingMore = false;
       }
+    },
+    // Virtualization helpers
+    computeItemsPerRow() {
+      const w = window.innerWidth || 1024;
+      this.itemsPerRow = w < 576 ? 1 : 3;
+    },
+    computeVirtualWindow() {
+      this.computeItemsPerRow();
+      const total = this.allImages.length;
+      if (!total) { this.startIndex = 0; this.endIndex = 0; return; }
+      const perRow = this.itemsPerRow;
+      const rowH = this.rowHeight;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+      const viewportH = window.innerHeight || 800;
+      const totalRows = Math.ceil(total / perRow);
+      const bufferRows = 2;
+      const startRow = Math.max(0, Math.floor(scrollTop / rowH) - bufferRows);
+      const endRow = Math.min(totalRows - 1, Math.ceil((scrollTop + viewportH) / rowH) + bufferRows);
+      this.startIndex = startRow * perRow;
+      this.endIndex = Math.min(total, (endRow + 1) * perRow);
+    },
+    measureRowHeight() {
+      try {
+        const el = this.$el.querySelector('.card');
+        if (el) {
+          const h = el.offsetHeight;
+          if (h && Math.abs(h - this.rowHeight) > 20) this.rowHeight = h + 20; // add small buffer
+        }
+      } catch (_) {}
+    },
+    onScroll() {
+      if (this.rafId) return;
+      this.rafId = requestAnimationFrame(() => {
+        this.computeVirtualWindow();
+        this.rafId = null;
+      });
+    },
+    onResize() {
+      this.computeVirtualWindow();
     },
     applyFilter(keyword) {
       this.activeFilter = keyword;
@@ -284,6 +420,12 @@ export default {
   height: auto;
 }
 
+.card {
+  content-visibility: auto;
+  contain-intrinsic-size: 480px 320px;
+  contain: content;
+}
+
 .custom-btn {
   background-color: #0db691;
   color: white;
@@ -319,9 +461,7 @@ export default {
   height: 200px;
 }
 
-.image-zoom:hover {
-  transform: scale(1.1);
-}
+.image-zoom:hover { /* disable heavy hover zoom to reduce paints */ }
 
 .scrollmenu {
   white-space: nowrap;
