@@ -22,7 +22,7 @@
                         <a class="nav-link" href="/" data-path="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/subscription" data-path="/subscription">Subscription</a>
+                        <a class="nav-link" href="/subscribe" data-path="/subscribe">Subscription</a>
                     </li>
                     @auth
                         <li class="nav-item">

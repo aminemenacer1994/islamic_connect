@@ -233,7 +233,7 @@ body{
                     </li>
 
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/pricing"><b style="color:black">Donations</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support"><b style="color:black">Donations</b></a></h6>
                     </li>
                                     
                     @guest

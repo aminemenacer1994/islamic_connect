@@ -130,7 +130,7 @@
                 "></span>
                       </button>
 
-                      <button onclick="window.location.href='/support'" aria-label="Support our mission" style="
+                      <button onclick="window.location.href='/subscribe'" aria-label="Support and access premium" style="
                 background: rgba(255, 255, 255, 0.9);
                 color: #1a5f7a;
                 border: 2px solid #1a5f7a;
@@ -143,7 +143,7 @@
                 backdrop-filter: blur(10px);
               " onmouseover="this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';"
                         onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';">
-                        <i class="fas fa-heart me-2"></i>Support Our Mission
+                        <i class="fas fa-heart me-2"></i>Support & Access Premium
                       </button>
                     </div>
 
@@ -880,12 +880,12 @@
 
             <!-- Trust Badge -->
             <div class="mt-3" style="
-          background: rgba(255, 255, 255, 0.2);
-          padding: 0.75rem 1.5rem;
-          border-radius: 50px;
-          backdrop-filter: blur(10px);
-          display: inline-block;
-        ">
+              background: rgba(255, 255, 255, 0.2);
+              padding: 0.75rem 1.5rem;
+              border-radius: 50px;
+              backdrop-filter: blur(10px);
+              display: inline-block;
+            ">
               <div class="d-flex align-items-center" style="gap: 0.5rem;">
                 <i class="fas fa-shield-alt text-white" style="font-size: 1.1rem;"></i>
                 <small class="text-white fw-bold">100% Free • Easy Subscribe</small>
@@ -908,6 +908,86 @@
       </div>
     </section>
 
+    <!-- Premium CTA Section -->
+    <section class="py-5" aria-labelledby="premium-heading" role="region" style="background:#f8f9fa;">
+      <div class="container">
+        <div class="row justify-content-center text-center mb-4">
+          <div class="col-lg-8">
+            <h2 id="premium-heading" class="fw-bold" style="font-size:2.25rem; color:#1a5f7a;">Support The Work, Access More</h2>
+            <p class="lead text-muted" style="line-height:1.7">
+              Your small monthly support sustains this khidmah and keeps Islamic knowledge accessible for everyone.
+            </p>
+          </div>
+        </div>
+
+        <!-- Faith-centered quote -->
+        <div class="row justify-content-center mb-4">
+          <div class="col-lg-9">
+            <div class="p-4" style="background:#ffffff; border:1px solid #e9ecef; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.06);">
+              <p class="mb-2" style="color:#2c3e50;">
+                <em>“Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise.”</em>
+              </p>
+              <small class="text-muted">Hadith — Sahih Muslim</small>
+              <hr class="my-3" />
+              <p class="mb-0" style="color:#4a5568;">
+                <em>“My Lord, increase me in knowledge.”</em>
+                <small class="text-muted">(Quran 20:114)</small>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <div class="card h-100 border-0" style="box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                  <div class="card-body p-4 text-start">
+                    <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">What your support enables</h3>
+                    <ul class="mb-0" style="list-style:none; padding-left:0; color:#4a5568; line-height:1.7;">
+                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Keep Quran tools fast, accessible, and ad‑free</li>
+                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Offer trustworthy resources curated with amanah</li>
+                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Deliver new features shaped by your feedback</li>
+                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Make the platform available to those who can’t pay</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="h-100 d-flex flex-column justify-content-between" style="background:white; border-radius:12px; border:1px solid #e9ecef; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                  <div class="p-4 text-start">
+                    <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">Simple and transparent</h3>
+                    <p class="mb-3" style="color:#4a5568;">Secure Stripe payments. Cancel anytime. No tracking, no ads.</p>
+                    <button @click="processDonation" aria-label="Support and access premium" style="
+                        background: rgba(255, 255, 255, 0.9);
+                        color: #1a5f7a;
+                        border: 2px solid #1a5f7a;
+                        padding: 1rem 2rem;
+                        border-radius: 12px;
+                        font-weight: 700;
+                        font-size: 1.1rem;
+                        box-shadow: 0 5px 20px rgba(26, 95, 122, 0.2);
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        backdrop-filter: blur(10px);
+                      " onmouseover="this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';">
+                        <i class="fas fa-heart me-2"></i>Provide a small Donation
+                      </button>
+                  </div>
+                  <div class="px-4 pb-4">
+                    <div class="d-flex align-items-center" style="gap:.5rem; color:#6c757d;">
+                      <i class="fas fa-lock"></i>
+                      <small>SSL encrypted • PCI compliant</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- contact -->
     <section class="py-5 contact-section" aria-labelledby="contact-heading"
@@ -1455,6 +1535,7 @@
 import axios from "axios";
 import PrayerTimes from "./translation/PrayerTimes.vue";
 import AyahOfTheDay from './translation/AyahOfTheDay.vue';
+import { redirectToSubscription } from '../../../utils/subscriptionUtils.js';
 
 export default {
   components: {
@@ -1519,6 +1600,12 @@ export default {
     },
     nextSlide() {
       if (this.$refs.nextBtn) this.$refs.nextBtn.click();
+    },
+    upgradeMonthly() {
+      redirectToSubscription('monthly');
+    },
+    upgradeYearly() {
+      redirectToSubscription('yearly');
     },
     processDonation() {
       if (!this.isValidAmount) {

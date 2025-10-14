@@ -177,8 +177,8 @@
                     throw new Error('No authentication token');
                 }
                 
-                log('Calling /subscription/status API (frontend method)...');
-                const response = await fetch('/subscription/status?debug=1&_t=' + Date.now(), {
+                log('Calling /subscription-status API (frontend method)...');
+                const response = await fetch('/subscription-status?debug=1&_t=' + Date.now(), {
                     headers: {
                         'Accept': 'application/json',
                         'Authorization': 'Bearer ' + token,
@@ -300,7 +300,7 @@
             }
             
             try {
-                const response = await fetch('/subscription/status', {
+                const response = await fetch('/subscription-status', {
                     headers: {
                         'Accept': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
