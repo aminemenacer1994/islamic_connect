@@ -7,8 +7,8 @@
       them better understand the significance of each event.
     </p>
 
-    <nav class="timeline-wrapper" aria-label="Seerah timeline">
-      <ol class="timeline" role="list" @keydown="onTimelineKeydown" ref="timelineNav">
+    <nav class="timeline-wrapper " aria-label="Seerah timeline">
+      <ol class="timeline mb-3" role="list" @keydown="onTimelineKeydown" ref="timelineNav">
         <li v-for="(event, index) in events" :key="index" class="timeline-point" ref="eventRefs">
           <button
             class="badge fs-6 timeline-badge"
@@ -74,8 +74,7 @@
         </div>
 
         <!-- AI Summary Section (Inline) -->
-        <transition name="fade-slide" style="border:linear-gradient(to right, #2b5876 0%, #4e4376  51%, #2b5876  100%)"
-        >
+        <transition name="fade-slide">
           <div v-if="summaryText" class="ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded" ref="summarySection"
             style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 1px solid rgb(168 85 247);">
             <div class="d-flex align-items-center justify-content-between mb-2">
@@ -109,7 +108,6 @@
         <!-- Styled Text desc -->
         <h5 class="fw-medium rounded" :style="{
           lineHeight: '1.7em',
-          fontSize: fontSize + 'px',
           backgroundColor: fontSettings.backgroundColor,
           color: fontSettings.color,
           fontStyle: fontSettings.fontStyle,
@@ -1207,6 +1205,9 @@ mark {
 }
 
 .timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-wrap: nowrap;
   gap: 12px;
@@ -1218,13 +1219,15 @@ mark {
 }
 
 .timeline-badge {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 1px solid #ced4da;
   border-radius: 1rem;
   padding: 0.8rem 1.3rem;
   background-color: #f8f9fa;
   color: #212529;
   transition: all 0.3s ease;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-  border: 1px solid #ced4da;
   font-weight: 300;
   white-space: nowrap;
   user-select: none;
