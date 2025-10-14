@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4" role="main">
+  <div class="container py-4">
     <!-- Header Section -->
     <div>
       <h1 class="display-4 fw-bold text-center">Islamic Podcasts</h1>
@@ -11,38 +11,30 @@
     </div>
 
     <!-- Podcast Selection Section -->
-    <section class="selection-section" aria-labelledby="choose-podcast-heading">
+    <div class="selection-section">
       <div class="section-header">
-        <h2 id="choose-podcast-heading" class="section-title">Choose Your Podcast</h2>
-        <p class="section-subtitle">Click or press Enter/Space to select</p>
+        <h2 class="section-title">Choose Your Podcast</h2>
+        <p class="section-subtitle">Click on any podcast below to start listening</p>
       </div>
-      <ul class="podcast-selection-grid" role="list">
-        <li v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="podcast-selection-item" role="listitem">
-          <button
-            type="button"
-            class="podcast-selection-button"
-            @click="selectPodcast(podcast)"
-            @keydown.enter.prevent="selectPodcast(podcast)"
-            @keydown.space.prevent="selectPodcast(podcast)"
-            :aria-label="`Select podcast: ${podcast.name}`"
-          >
-            <div class="podcast-image-wrapper">
-              <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image" loading="lazy">
-              <div class="podcast-overlay" aria-hidden="true">
-                <i class="bi bi-play-circle-fill" aria-hidden="true"></i>
-                <span class="play-text">Select</span>
-              </div>
+      <div class="podcast-selection-grid">
+        <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="podcast-selection-item"
+          @click="selectPodcast(podcast)">
+          <div class="podcast-image-wrapper">
+            <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image" loading="lazy">
+            <div class="podcast-overlay">
+              <i class="bi bi-play-circle-fill"></i>
+              <span class="play-text">Click to Select</span>
             </div>
-            <h5 class="podcast-selection-name fw-bold">{{ podcast.name }}</h5>
-          </button>
-        </li>
-      </ul>
-    </section>
+          </div>
+          <h5 class="podcast-selection-name fw-bold">{{ podcast.name }}</h5>
+        </div>
+      </div>
+    </div>
 
     <!-- Selected Podcast Details -->
-    <section class="selected-podcast-section" v-if="selectedPodcast" ref="podcastDetailSection" aria-labelledby="now-playing-heading">
+    <div class="selected-podcast-section" v-if="selectedPodcast" ref="podcastDetailSection">
       <div class="section-header">
-        <h2 id="now-playing-heading" class="section-title">Now Playing</h2>
+        <h2 class="section-title">Now Playing</h2>
         <p class="section-subtitle">Episodes from {{ selectedPodcast.name }}</p>
       </div>
       <div class="selected-podcast-header">
@@ -63,22 +55,22 @@
       <div class="selected-podcast-description">
         <p>{{ selectedPodcast.desc }}</p>
       </div>
-    </section>
+    </div>
 
     <!-- Continue Listening Section -->
-    <section v-if="selectedPodcast && continueListening.length" class="continue-listening-section" aria-labelledby="continue-listening-heading">
+    <div v-if="selectedPodcast && continueListening.length" class="continue-listening-section">
       <div class="section-header">
-        <h2 id="continue-listening-heading" class="section-title">Continue Listening</h2>
+        <h2 class="section-title">Continue Listening</h2>
         <p class="section-subtitle">Pick up where you left off</p>
       </div>
-      <ul class="podcast-cards-grid border-md" style="padding: 5px;" role="list">
-        <li v-for="(item, idx) in continueListening" :key="item.title" class="podcast-card-wrapper" role="listitem">
-          <article class="podcast-card" style="padding: 1.2rem;" :aria-labelledby="`continue-title-${idx}`">
+      <div class="podcast-cards-grid border-md" style="padding: 5px;">
+        <div v-for="(item, idx) in continueListening" :key="item.title" class="podcast-card-wrapper">
+          <div class="podcast-card" style="padding: 1.2rem;">
             <div class="card-body">
               <div class="podcast-card-top">
                 <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
                 <div class="podcast-card-info">
-                  <h4 class="podcast-title" :id="`continue-title-${idx}`">{{ item.title }}</h4>
+                  <h4 class="podcast-title">{{ item.title }}</h4>
                   <div class="podcast-extra-info">
                     <span class="duration-badge">
                       <i class="bi bi-clock" style="font-size:1.1rem;"></i>
@@ -87,41 +79,39 @@
                   </div>
                 </div>
                 <div class="audio-controls-inline">
-                  <button class="control-button play-btn" @click="resumeFromSaved(item)" @keydown.enter.prevent="resumeFromSaved(item)" @keydown.space.prevent="resumeFromSaved(item)" aria-label="Resume">
+                  <button class="control-button play-btn" @click="resumeFromSaved(item)" aria-label="Resume">
                     <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
                   </button>
                 </div>
               </div>
             </div>
-          </article>
-        </li>
-      </ul>
-    </section>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Favorites Section -->
-    <section v-if="favourites && favourites.length" class="favorites-section" aria-labelledby="favorites-heading">
+    <div v-if="favourites && favourites.length" class="favorites-section">
       <div class="section-header">
-        <h2 id="favorites-heading" class="section-title">Your Favorites</h2>
+        <h2 class="section-title">Your Favorites</h2>
         <p class="section-subtitle">Quick access to episodes you loved</p>
       </div>
       <div>
     <button 
       class="toggle-button" 
       @click="toggleVisibility" 
-      :aria-expanded="isVisible ? 'true' : 'false'"
-      aria-controls="favorites-list"
       style="margin-bottom: 10px; padding: 8px 16px; cursor: pointer;"
     >
       {{ isVisible ? 'Hide Favourites' : 'Show Favourites' }}
     </button>
-    <ul v-if="isVisible" id="favorites-list" class="podcast-cards-grid border-md" style="padding: 5px;" role="list">
-      <li v-for="(fav, fIdx) in favourites" :key="fav.title + fav.audioUrl" class="podcast-card-wrapper" role="listitem">
-        <article :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(fav) }]" style="padding: 1.2rem;" :aria-labelledby="`fav-title-${fIdx}`">
+    <div v-if="isVisible" class="podcast-cards-grid border-md" style="padding: 5px;">
+      <div v-for="fav in favourites" :key="fav.title + fav.audioUrl" class="podcast-card-wrapper">
+        <div :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(fav) }]" style="padding: 1.2rem;">
           <div class="card-body">
             <div class="podcast-card-top">
               <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
               <div class="podcast-card-info">
-                <h4 class="podcast-title" :id="`fav-title-${fIdx}`">{{ fav.title }}</h4>
+                <h4 class="podcast-title">{{ fav.title }}</h4>
                 <div class="podcast-extra-info">
                   <span class="lang-badge" :title="'Published'">
                     <i class="bi bi-calendar3" style="font-size:1.1rem;"></i>
@@ -134,35 +124,35 @@
                 </div>
               </div>
               <div class="audio-controls-inline">
-                <button class="control-button play-btn" @click="playFromFavourites(fav)" @keydown.enter.prevent="playFromFavourites(fav)" @keydown.space.prevent="playFromFavourites(fav)" title="Play" aria-label="Play from favourites">
+                <button class="control-button play-btn" @click="playFromFavourites(fav)" title="Play">
                   <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
                 </button>
-                <button class="control-button" @click="toggleFavourite(fav)" @keydown.enter.prevent="toggleFavourite(fav)" @keydown.space.prevent="toggleFavourite(fav)" title="Remove from favorites" aria-label="Remove from favourites">
+                <button class="control-button" @click="toggleFavourite(fav)" title="Remove from favorites">
                   <i class="bi bi-heart-fill text-danger" style="font-size:1.3rem;"></i>
                 </button>
               </div>
             </div>
           </div>
-        </article>
-      </li>
-    </ul>
+        </div>
+      </div>
+    </div>
   </div>
-    </section>
+    </div>
 
     <!-- Recently Played Section -->
-    <section v-if="recentPlays && recentPlays.length" class="recently-played-section" aria-labelledby="recently-played-heading">
+    <div v-if="recentPlays && recentPlays.length" class="recently-played-section">
       <div class="section-header">
-        <h2 id="recently-played-heading" class="section-title">Recently Played</h2>
+        <h2 class="section-title">Recently Played</h2>
         <p class="section-subtitle">Your recent listening history</p>
       </div>
-      <ul class="podcast-cards-grid border-md" style="padding: 5px;" role="list">
-        <li v-for="(rp, rIdx) in recentPlays" :key="rp.title + rp.audioUrl + rp.playedAt" class="podcast-card-wrapper" role="listitem">
-          <article :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(rp) }]" style="padding: 1.2rem;" :aria-labelledby="`recent-title-${rIdx}`">
+      <div class="podcast-cards-grid border-md" style="padding: 5px;">
+        <div v-for="rp in recentPlays" :key="rp.title + rp.audioUrl + rp.playedAt" class="podcast-card-wrapper">
+          <div :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(rp) }]" style="padding: 1.2rem;">
             <div class="card-body">
               <div class="podcast-card-top">
                 <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
                 <div class="podcast-card-info">
-                  <h4 class="podcast-title" :id="`recent-title-${rIdx}`">{{ rp.title }}</h4>
+                  <h4 class="podcast-title">{{ rp.title }}</h4>
                   <div class="podcast-extra-info">
                     <span class="lang-badge" :title="'Played at'">
                       <i class="bi bi-clock" style="font-size:1.1rem;"></i>
@@ -171,21 +161,21 @@
                   </div>
                 </div>
                 <div class="audio-controls-inline">
-                  <button class="control-button play-btn" @click="playFromHistory(rp)" @keydown.enter.prevent="playFromHistory(rp)" @keydown.space.prevent="playFromHistory(rp)" title="Play" aria-label="Play from history">
+                  <button class="control-button play-btn" @click="playFromHistory(rp)" title="Play">
                     <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
                   </button>
                 </div>
               </div>
             </div>
-          </article>
-        </li>
-      </ul>
-    </section>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Podcast Episodes Section -->
-    <section v-if="!loading && visiblePodcasts.length" class="episodes-section" aria-labelledby="available-episodes-heading">
+    <div v-if="!loading && visiblePodcasts.length" class="episodes-section">
       <div class="section-header">
-        <h2 id="available-episodes-heading" class="section-title">Available Episodes</h2>
+        <h2 class="section-title">Available Episodes</h2>
         <p class="section-subtitle">Click the play button to start listening</p>
       </div>
       <div v-if="fetchError" class="alert alert-danger" role="alert">
@@ -195,17 +185,15 @@
         <div class="row g-3">
           <div class="col-12 col-md-3">
             <div class="input-group search-group">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search" aria-hidden="true"></i></span>
-              <label for="searchEpisodes" class="visually-hidden">Search episodes</label>
-              <input id="searchEpisodes" v-model="searchInput" @input="onSearchInput" type="text" class="form-control border-start-0"
-                placeholder="Search episodes" />
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+              <input v-model="searchInput" @input="onSearchInput" type="text" class="form-control border-start-0"
+                placeholder="Search episodes..." />
             </div>
           </div>
           <div class="col-12 col-md-3">
             <div class="input-group filter-group">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-hourglass-split" aria-hidden="true"></i></span>
-              <label for="filterDuration" class="visually-hidden">Filter by duration</label>
-              <select id="filterDuration" v-model="durationFilter" class="form-select border-start-0">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-hourglass-split"></i></span>
+              <select v-model="durationFilter" class="form-select border-start-0">
                 <option value="" disabled selected hidden>Select Duration</option>
                 <option value="0-10">0-10 min</option>
                 <option value="10-30">10-30 min</option>
@@ -216,9 +204,8 @@
           </div>
           <div class="col-12 col-md-3">
             <div class="input-group filter-group">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-translate" aria-hidden="true"></i></span>
-              <label for="filterLanguage" class="visually-hidden">Filter by language</label>
-              <select id="filterLanguage" v-model="languageFilter" class="form-select border-start-0">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-translate"></i></span>
+              <select v-model="languageFilter" class="form-select border-start-0">
                 <option value="">All Languages</option>
                 <option value="English">English</option>
                 <option value="Arabic">Arabic</option>
@@ -228,9 +215,8 @@
           </div>
           <div class="col-12 col-md-3">
             <div class="input-group filter-group">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-funnel" aria-hidden="true"></i></span>
-              <label for="sortOption" class="visually-hidden">Sort episodes</label>
-              <select id="sortOption" v-model="sortOption" class="form-select border-start-0">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-funnel"></i></span>
+              <select v-model="sortOption" class="form-select border-start-0">
                 <option value="mostViewed">Most Viewed</option>
                 <option value="leastViewed">Least Viewed</option>
                 <option value="newest">Newest</option>
@@ -240,7 +226,7 @@
           </div>
         </div>
       </div>
-      <div v-if="loading" class="loading-container" aria-live="polite">
+      <div v-if="loading" class="loading-container">
         <div class="loading-spinner">
           <div class="spinner-border text-success" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -287,13 +273,11 @@
                 </div>
                 <div class="audio-controls-inline">
                   <button class="control-button play-btn" @click="toggleAudioPlayer(index)"
-                    @keydown.enter.prevent="toggleAudioPlayer(index)"
-                    @keydown.space.prevent="toggleAudioPlayer(index)"
                     :class="{ 'playing': isAudioPlaying[index] }"
                     :aria-label="isAudioPlaying[index] ? 'Pause' : 'Play'">
                     <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'" style="font-size:1.5rem; cursor:pointer;"></i>
                   </button>
-                <button class="control-button" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'" :title="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" :aria-label="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" @click.stop="toggleFavourite(podcast)" @keydown.enter.stop.prevent="toggleFavourite(podcast)" @keydown.space.stop.prevent="toggleFavourite(podcast)">
+                <button class="control-button" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'" :title="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" :aria-label="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" @click.stop="toggleFavourite(podcast)">
                   <i class="bi" :class="isFavourite(podcast) ? 'bi-heart-fill text-danger' : 'bi-heart'" style="font-size:1.3rem;"></i>
                 </button>
                 </div>
@@ -303,13 +287,13 @@
         </div>
       </div>
       <!-- Infinite scroll sentinel -->
-      <div ref="infiniteScrollTrigger" style="height: 1px;" aria-hidden="true"></div>
-      <div v-if="isLoadingMore" class="loading-container" style="margin-top:8px;" aria-live="polite">
+      <div ref="infiniteScrollTrigger" style="height: 1px;"></div>
+      <div v-if="isLoadingMore" class="loading-container" style="margin-top:8px;">
         <div class="spinner-border text-success" role="status" style="width: 1.5rem; height: 1.5rem;">
           <span class="visually-hidden">Loading...</span>
         </div>
       </div>
-    </section>
+    </div>
     <div v-else-if="!loading && !visiblePodcasts.length" class="empty-state">
       <div class="empty-state-content text-center mb-2">
         <i class="bi bi-headphones empty-state-icon"></i>
@@ -371,18 +355,7 @@
           </div>
 
         </div>
-        <div
-          class="progress-bar"
-          role="progressbar"
-          :aria-valuemin="0"
-          :aria-valuemax="Math.round(audioElements[currentlyPlayingIndex]?.duration || 0)"
-          :aria-valuenow="Math.round(audioElements[currentlyPlayingIndex]?.currentTime || 0)"
-          :aria-valuetext="`${formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0)} of ${formatTime(audioElements[currentlyPlayingIndex]?.duration || 0)}`"
-          tabindex="0"
-          @keydown="onProgressKeydown"
-          @mousedown="startSeek"
-          @click="seekAudio"
-        >
+        <div class="progress-bar" @mousedown="startSeek" @click="seekAudio">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
         </div>
       </div>
@@ -641,40 +614,6 @@ export default {
   },
 
   methods: {
-    onProgressKeydown(e) {
-      const audio = this.audioElements?.[this.currentlyPlayingIndex];
-      if (!audio) return;
-      const stepSmall = 5; // seconds
-      const stepLarge = 30; // seconds for PageUp/PageDown
-      let handled = true;
-      switch (e.key) {
-        case 'ArrowLeft':
-          audio.currentTime = Math.max(0, (audio.currentTime || 0) - stepSmall);
-          break;
-        case 'ArrowRight':
-          audio.currentTime = Math.min(audio.duration || 0, (audio.currentTime || 0) + stepSmall);
-          break;
-        case 'Home':
-          audio.currentTime = 0;
-          break;
-        case 'End':
-          audio.currentTime = audio.duration || 0;
-          break;
-        case 'PageUp':
-          audio.currentTime = Math.min(audio.duration || 0, (audio.currentTime || 0) + stepLarge);
-          break;
-        case 'PageDown':
-          audio.currentTime = Math.max(0, (audio.currentTime || 0) - stepLarge);
-          break;
-        default:
-          handled = false;
-      }
-      if (handled) {
-        e.preventDefault();
-        // Force progress UI update if needed
-        this.$forceUpdate && this.$forceUpdate();
-      }
-    },
     toggleVisibility() {
       this.isVisible = !this.isVisible;
     },
