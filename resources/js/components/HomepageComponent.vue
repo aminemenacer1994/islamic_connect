@@ -33,7 +33,7 @@
 
           <div class="row mb-2 align-items-center" style="position: relative; z-index: 2;">
             <div class="col-md-6">
-              <div class="text-left" style="padding-right: 2rem;">
+              <div class="text-left" >
                 <!-- Badge -->
                 <div style="
           background: linear-gradient(135deg, #0b806f, #1a5f7a);
@@ -167,7 +167,7 @@
 
             <div class="col-md-6">
 
-              <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+              <div id="carouselExampleInterval" class="carousel slide d-none d-md-block" data-bs-ride="carousel" data-bs-interval="4000">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                     <img src="/images/qenew.png" class="d-block w-100" alt="Quran companion">
@@ -676,7 +676,7 @@
           <div class="col-lg-8">
             <h2 id="premium-heading" class="fw-bold" style="font-size:2.25rem; color:#1a5f7a;">Support The Work, Access More</h2>
             <p class="lead text-muted" style="line-height:1.7">
-              Your small monthly support sustains this khidmah and keeps Islamic knowledge accessible for everyone.
+              Your support sustains this khidmah and keeps Islamic knowledge accessible for everyone.
             </p>
           </div>
         </div>
@@ -684,9 +684,9 @@
         <!-- Faith-centered quote -->
         <div class="row justify-content-center mb-4">
           <div class="col-lg-9">
-            <div class="p-4 quote-card">
+            <div class="p-2 quote-card">
               <p class="mb-1 faith-quote">
-                <span class="quote-mark" aria-hidden="true">“</span>
+                <span class="quote-mark font-bold" aria-hidden="true">“</span>
                 Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise.
                 <span class="quote-mark" aria-hidden="true">”</span>
               </p>
