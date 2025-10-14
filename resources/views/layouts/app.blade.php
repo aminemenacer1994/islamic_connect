@@ -183,7 +183,7 @@ body{
     <a class="skip-to-content" href="#main-content">Skip to main content</a>
     <div id="app">
         <!-- Navbar -->
-    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm py-1">
+    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-lg py-1">
         <div class="container-fluid">
         <a class="navbar-brand" href="/welcome" data-path="/welcome" aria-label="Home">
             <img 

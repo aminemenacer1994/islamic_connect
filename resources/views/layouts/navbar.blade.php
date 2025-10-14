@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<nav class="navbar navbar-expand-md" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;">
     <div class="container-fluid">
         <a class="navbar-brand" href="/welcome">
             <img src="/images/logo_main.png" width="275" height="54" class="d-inline-block align-top" alt="islamic connect logo" loading="lazy">
