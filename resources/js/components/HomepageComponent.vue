@@ -1,9 +1,7 @@
 <template>
-  <!-- Skip link for keyboard users -->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-  <main id="main-content" role="main">
+  <div>
     <!-- header -->
-    <header class="jumbotron" role="banner" style=" box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+    <div class="jumbotron" style=" box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
 
       <!-- Content -->
       <div class="container-fluid" style="position: relative; z-index: 2">
@@ -130,7 +128,7 @@
                 "></span>
                       </button>
 
-                      <button onclick="window.location.href='/subscribe'" aria-label="Support and access premium" style="
+                      <button onclick="window.location.href='/subscribe'" aria-label="Support our mission" style="
                 background: rgba(255, 255, 255, 0.9);
                 color: #1a5f7a;
                 border: 2px solid #1a5f7a;
@@ -143,7 +141,7 @@
                 backdrop-filter: blur(10px);
               " onmouseover="this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';"
                         onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';">
-                        <i class="fas fa-heart me-2"></i>Support & Access Premium
+                        <i class="fas fa-heart me-2"></i>Support Our Mission
                       </button>
                     </div>
 
@@ -169,19 +167,7 @@
 
             <div class="col-md-6">
 
-              <div
-                id="carouselExampleInterval"
-                class="carousel slide"
-                data-bs-ride="carousel"
-                data-bs-interval="4000"
-                role="region"
-                aria-roledescription="carousel"
-                aria-label="Featured product carousel"
-                tabindex="0"
-                ref="heroCarousel"
-                @keydown.left.prevent="prevSlide"
-                @keydown.right.prevent="nextSlide"
-              >
+              <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                     <img src="/images/qenew.png" class="d-block w-100" alt="Quran companion">
@@ -205,29 +191,22 @@
 
                 <!-- Simple Indicators -->
                 <div class="carousel-indicators mt-2 mb-2">
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" aria-controls="carouselExampleInterval"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1" aria-label="Slide 2" aria-controls="carouselExampleInterval"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2" aria-label="Slide 3" aria-controls="carouselExampleInterval"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="3" aria-label="Slide 4" aria-controls="carouselExampleInterval"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4" aria-label="Slide 5" aria-controls="carouselExampleInterval"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="5" aria-label="Slide 6" aria-controls="carouselExampleInterval"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0"
+                    class="active" aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="5" aria-label="Slide 6"></button>
                 </div>
-
-                <!-- Accessible Controls -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev" aria-label="Previous slide" ref="prevBtn">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next" aria-label="Next slide" ref="nextBtn">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
       </hr>
-    </header>
-    <section aria-labelledby="prayer-times-heading" role="region">
+    </div>
+    <section aria-labelledby="prayer-times-heading">
       <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-12">
@@ -245,7 +224,7 @@
       </div>
     </section>
 
-    <section aria-labelledby="services-heading" role="region">
+    <section aria-labelledby="services-heading">
       <div class="py-5" style="background: #f8f9fa;">
         <div class="container">
           <div class="row justify-content-center text-center mb-5">
@@ -258,7 +237,7 @@
           <div class="row g-4">
             <!-- Card 1: Explore with Ease -->
             <div class="col-md-6 col-lg-4">
-              <article class="card h-100 border-0" tabindex="0"
+              <article class="card h-100 border-0"
                 style="box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
                 <div class="card-body text-center p-4">
                   <div class="my-3">
@@ -284,7 +263,7 @@
 
             <!-- Card 2: Listen, Watch, Reflect -->
             <div class="col-md-6 col-lg-4">
-              <article class="card h-100 border-0" tabindex="0"
+              <article class="card h-100 border-0"
                 style="box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
                 <div class="card-body text-center p-4">
                   <div class="my-3">
@@ -310,7 +289,7 @@
 
             <!-- Card 3: Learn Your Way -->
             <div class="col-md-6 col-lg-4">
-              <article class="card h-100 border-0" tabindex="0"
+              <article class="card h-100 border-0"
                 style="box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
                 <div class="card-body text-center p-4">
                   <div class="my-3">
@@ -337,7 +316,7 @@
         </div>
       </div>
     </section>
-    <section class="container pt-3" aria-label="Islamic Connect Features" role="region">
+    <section class="container pt-3" aria-label="Islamic Connect Features">
 
       <!-- First Row - Quran Companion -->
       <div class="row py-4 py-lg-5 align-items-center">
@@ -690,6 +669,91 @@
       </div>
     </section>
 
+    <!-- Premium CTA Section -->
+    <section class="py-5" aria-labelledby="premium-heading" role="region" style="background:#f8f9fa;">
+      <div class="container">
+        <div class="row justify-content-center text-center mb-4">
+          <div class="col-lg-8">
+            <h2 id="premium-heading" class="fw-bold" style="font-size:2.25rem; color:#1a5f7a;">Support The Work, Access More</h2>
+            <p class="lead text-muted" style="line-height:1.7">
+              Your small monthly support sustains this khidmah and keeps Islamic knowledge accessible for everyone.
+            </p>
+          </div>
+        </div>
+
+        <!-- Faith-centered quote -->
+        <div class="row justify-content-center mb-4">
+          <div class="col-lg-9">
+            <div class="p-4 quote-card">
+              <p class="mb-1 faith-quote">
+                <span class="quote-mark" aria-hidden="true">“</span>
+                Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise.
+                <span class="quote-mark" aria-hidden="true">”</span>
+              </p>
+              <div class="quote-ref">Hadith — Sahih Muslim</div>
+              <hr class="my-3" />
+              <p class="mb-0 faith-dua">
+                <span class="quote-mark" aria-hidden="true">“</span>
+                My Lord, increase me in knowledge.
+                <span class="quote-mark" aria-hidden="true">”</span>
+                <span class="dua-ref">(Quran 20:114)</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <div class="card h-100 border-0" style="box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                  <div class="card-body p-4 text-start">
+                    <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">What your support enables</h3>
+                    <ul class="mb-0" style="list-style:none; padding-left:0; color:#4a5568; line-height:1.7;">
+                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Keep Quran tools fast, accessible, and ad‑free</li>
+                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Offer trustworthy resources curated with amanah</li>
+                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Deliver new features shaped by your feedback</li>
+                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Make the platform available to those who can’t pay</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="h-100 d-flex flex-column justify-content-between" style="background:white; border-radius:12px; border:1px solid #e9ecef; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                  <div class="p-4 text-start">
+                    <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">Simple and transparent</h3>
+                    <p class="mb-3" style="color:#4a5568;">Secure Stripe payments. Cancel anytime. No tracking, no ads.</p>
+                    <button @click="processDonation" aria-label="Support and access premium" style="
+                        background: rgba(255, 255, 255, 0.9);
+                        color: #1a5f7a;
+                        border: 2px solid #1a5f7a;
+                        padding: 1rem 2rem;
+                        border-radius: 12px;
+                        font-weight: 700;
+                        font-size: 1.1rem;
+                        box-shadow: 0 5px 20px rgba(26, 95, 122, 0.2);
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        backdrop-filter: blur(10px);
+                      " onmouseover="this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';">
+                        <i class="fas fa-heart me-2"></i>Provide a small Donation
+                      </button>
+                  </div>
+                  <div class="px-4 pb-4">
+                    <div class="d-flex align-items-center" style="gap:.5rem; color:#6c757d;">
+                      <i class="fas fa-lock"></i>
+                      <small>SSL encrypted • PCI compliant</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Quick Join Section -->
     <!-- Enhanced Quick Join Section -->
     <section class="py-5 quick-join-section" style="
@@ -880,12 +944,12 @@
 
             <!-- Trust Badge -->
             <div class="mt-3" style="
-              background: rgba(255, 255, 255, 0.2);
-              padding: 0.75rem 1.5rem;
-              border-radius: 50px;
-              backdrop-filter: blur(10px);
-              display: inline-block;
-            ">
+          background: rgba(255, 255, 255, 0.2);
+          padding: 0.75rem 1.5rem;
+          border-radius: 50px;
+          backdrop-filter: blur(10px);
+          display: inline-block;
+        ">
               <div class="d-flex align-items-center" style="gap: 0.5rem;">
                 <i class="fas fa-shield-alt text-white" style="font-size: 1.1rem;"></i>
                 <small class="text-white fw-bold">100% Free • Easy Subscribe</small>
@@ -908,86 +972,6 @@
       </div>
     </section>
 
-    <!-- Premium CTA Section -->
-    <section class="py-5" aria-labelledby="premium-heading" role="region" style="background:#f8f9fa;">
-      <div class="container">
-        <div class="row justify-content-center text-center mb-4">
-          <div class="col-lg-8">
-            <h2 id="premium-heading" class="fw-bold" style="font-size:2.25rem; color:#1a5f7a;">Support The Work, Access More</h2>
-            <p class="lead text-muted" style="line-height:1.7">
-              Your small monthly support sustains this khidmah and keeps Islamic knowledge accessible for everyone.
-            </p>
-          </div>
-        </div>
-
-        <!-- Faith-centered quote -->
-        <div class="row justify-content-center mb-4">
-          <div class="col-lg-9">
-            <div class="p-4" style="background:#ffffff; border:1px solid #e9ecef; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.06);">
-              <p class="mb-2" style="color:#2c3e50;">
-                <em>“Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise.”</em>
-              </p>
-              <small class="text-muted">Hadith — Sahih Muslim</small>
-              <hr class="my-3" />
-              <p class="mb-0" style="color:#4a5568;">
-                <em>“My Lord, increase me in knowledge.”</em>
-                <small class="text-muted">(Quran 20:114)</small>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="row justify-content-center">
-          <div class="col-lg-10">
-            <div class="row g-4">
-              <div class="col-md-6">
-                <div class="card h-100 border-0" style="box-shadow:0 10px 30px rgba(0,0,0,0.08);">
-                  <div class="card-body p-4 text-start">
-                    <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">What your support enables</h3>
-                    <ul class="mb-0" style="list-style:none; padding-left:0; color:#4a5568; line-height:1.7;">
-                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Keep Quran tools fast, accessible, and ad‑free</li>
-                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Offer trustworthy resources curated with amanah</li>
-                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Deliver new features shaped by your feedback</li>
-                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Make the platform available to those who can’t pay</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="h-100 d-flex flex-column justify-content-between" style="background:white; border-radius:12px; border:1px solid #e9ecef; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
-                  <div class="p-4 text-start">
-                    <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">Simple and transparent</h3>
-                    <p class="mb-3" style="color:#4a5568;">Secure Stripe payments. Cancel anytime. No tracking, no ads.</p>
-                    <button @click="processDonation" aria-label="Support and access premium" style="
-                        background: rgba(255, 255, 255, 0.9);
-                        color: #1a5f7a;
-                        border: 2px solid #1a5f7a;
-                        padding: 1rem 2rem;
-                        border-radius: 12px;
-                        font-weight: 700;
-                        font-size: 1.1rem;
-                        box-shadow: 0 5px 20px rgba(26, 95, 122, 0.2);
-                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                        backdrop-filter: blur(10px);
-                      " onmouseover="this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';"
-                        onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';">
-                        <i class="fas fa-heart me-2"></i>Provide a small Donation
-                      </button>
-                  </div>
-                  <div class="px-4 pb-4">
-                    <div class="d-flex align-items-center" style="gap:.5rem; color:#6c757d;">
-                      <i class="fas fa-lock"></i>
-                      <small>SSL encrypted • PCI compliant</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- contact -->
     <section class="py-5 contact-section" aria-labelledby="contact-heading"
@@ -1151,7 +1135,7 @@
         </div> -->
       </div>
     </footer>
-  </main>
+  </div>
 </template>
 <style scoped>
 /* Ensure hero title has solid color on small screens for contrast */
@@ -1535,7 +1519,6 @@
 import axios from "axios";
 import PrayerTimes from "./translation/PrayerTimes.vue";
 import AyahOfTheDay from './translation/AyahOfTheDay.vue';
-import { redirectToSubscription } from '../../../utils/subscriptionUtils.js';
 
 export default {
   components: {
@@ -1595,18 +1578,6 @@ export default {
     }
   },
   methods: {
-    prevSlide() {
-      if (this.$refs.prevBtn) this.$refs.prevBtn.click();
-    },
-    nextSlide() {
-      if (this.$refs.nextBtn) this.$refs.nextBtn.click();
-    },
-    upgradeMonthly() {
-      redirectToSubscription('monthly');
-    },
-    upgradeYearly() {
-      redirectToSubscription('yearly');
-    },
     processDonation() {
       if (!this.isValidAmount) {
         alert('Please select a contribution amount.');
@@ -1686,24 +1657,6 @@ export default {
 };
 </script>
 <style scoped>
-/* Skip link */
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 10px;
-  background: #0b806f;
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 6px;
-  z-index: 1000;
-  transition: top 0.2s ease-in-out;
-}
-
-.skip-link:focus {
-  top: 10px;
-  outline: 3px solid #1a5f7a;
-}
-
 /* Combined Section */
 .combined-section {
   padding: 80px 0;
