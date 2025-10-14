@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" role="main" aria-label="Quran Companion">
         <div class="py-4 text-center ">
             <Title />
             <!-- <ChatBot /> -->
@@ -31,8 +31,8 @@
 
 
                 <div class="col-md-4 pt-2">
-                    <h5 class="fw-bold text-left -2 ">Select a Surah:</h5>
-                    <SurahDropdown class="col-md-12" :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
+                    <h5 id="surah-select-label" class="fw-bold text-left -2 ">Select a Surah:</h5>
+                    <SurahDropdown aria-labelledby="surah-select-label" class="col-md-12" :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
                         :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
 
                     <!-- <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" /> -->
@@ -40,7 +40,7 @@
 
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
-                    <h5 class="fw-bold text-left mb-2" v-if="information != null">Select a Verse:</h5>
+                    <h5 id="ayah-select-label" class="fw-bold text-left mb-2" v-if="information != null">Select a Verse:</h5>
                     <!-- <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
                         @submit.prevent="scrollToAyah">
                         <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
@@ -50,7 +50,7 @@
                             Search
                         </button>
                     </form> -->
-                    <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
+                    <AyahDropdown aria-labelledby="ayah-select-label" :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"
                         class="ayah-dropdown-hidden-on-desktop d-block d-md-none" />
@@ -74,9 +74,16 @@
 
 
                                     <ul class="col-md-12 list-group root" id="toggle" ref="ayahList"
+                                        role="listbox" :aria-activedescendant="selectedIndexAyah >= 0 ? `ayah-option-${selectedIndexAyah}` : null" aria-label="Ayah list" aria-controls="ayah-content"
                                         style="list-style-type: none">
 
                                         <li v-for="(ayah, index) in ayat" :key="index" @click="selectAyah(index)"
+                                            role="option"
+                                            :id="`ayah-option-${index}`"
+                                            :aria-selected="selectedIndexAyah === index"
+                                            :tabindex="selectedIndexAyah === index ? 0 : -1"
+                                            @keydown.enter.prevent="selectAyah(index)"
+                                            @keydown.space.prevent="selectAyah(index)"
                                             :class="{
                                                 selected:
                                                     selectedIndexAyah === index ||
@@ -200,31 +207,41 @@
                                     <!-- Translation Section -->
                                     <div class="tab-pane active content " id="home" role="tabpanel"
                                         v-if="information != null">
-                                        <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
+                                        <!-- Screen reader live region for announcing selection changes -->
+                                        <div class="visually-hidden" aria-live="polite" aria-atomic="true">{{ screenReaderMessage }}</div>
+                                        <div id="ayah-content" :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
                                             @update-information="updateInformation" :style="{
 
 
                                             }" class="icon-container hide-on-mobile mb-3">
-                                            <div class="text-center icon-text">
+                                            <div class="text-center icon-text" role="group" aria-label="Verse navigation controls" :aria-hidden="isMobile">
                                                 <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah"
+                                                    role="button" aria-label="Go to first verse" :tabindex="isMobile ? -1 : 0"
+                                                    @keydown.enter.prevent="goToFirstAyah" @keydown.space.prevent="goToFirstAyah"
                                                     style="cursor: pointer" @click="goToFirstAyah"
                                                     title="First verse"></i>
                                                 <div class="large">First verse</div>
                                             </div>
-                                            <div class="text-center">
+                                            <div class="text-center" role="group" aria-label="Previous verse" :aria-hidden="isMobile">
                                                 <i class="bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
+                                                    role="button" aria-label="Go to previous verse" :tabindex="isMobile ? -1 : 0"
+                                                    @keydown.enter.prevent="goToPreviousAyah" @keydown.space.prevent="goToPreviousAyah"
                                                     style="cursor: pointer" @click="goToPreviousAyah"
                                                     title="Previous verse"></i>
                                                 <div class="large">Previous verse</div>
                                             </div>
-                                            <div class="text-center">
+                                            <div class="text-center" role="group" aria-label="Next verse" :aria-hidden="isMobile">
                                                 <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
+                                                    role="button" aria-label="Go to next verse" :tabindex="isMobile ? -1 : 0"
+                                                    @keydown.enter.prevent="goToNextAyah" @keydown.space.prevent="goToNextAyah"
                                                     style="cursor: pointer" @click="goToNextAyah"
                                                     title="Next verse"></i>
                                                 <div class="large">Next verse</div>
                                             </div>
-                                            <div class="text-center">
+                                            <div class="text-center" role="group" aria-label="Last verse" :aria-hidden="isMobile">
                                                 <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon"
+                                                    role="button" aria-label="Go to last verse" :tabindex="isMobile ? -1 : 0"
+                                                    @keydown.enter.prevent="goToLastAyah" @keydown.space.prevent="goToLastAyah"
                                                     style="cursor: pointer" @click="goToLastAyah"
                                                     title="Last verse"></i>
                                                 <div class="large">Last verse</div>
@@ -281,20 +298,28 @@
                                         </div>
 
                                         <!-- mobile navigation  -->
-                                        <div class="dropdown mobile-only pb-2">
-                                            <div :style="iconStyle" class="icon-container">
+                                        <div class="dropdown mobile-only pb-2" :aria-hidden="!isMobile">
+                                            <div :style="iconStyle" class="icon-container" role="group" aria-label="Verse navigation controls (mobile)">
 
                                                 <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
-                                                    @click="goToFirstAyah()" title="Last verse"></i>
+                                                    role="button" aria-label="Go to first verse" :tabindex="isMobile ? 0 : -1"
+                                                    @keydown.enter.prevent="goToFirstAyah" @keydown.space.prevent="goToFirstAyah"
+                                                    @click="goToFirstAyah()" title="First verse"></i>
                                                 <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
+                                                    role="button" aria-label="Go to previous verse" :tabindex="isMobile ? 0 : -1"
+                                                    @keydown.enter.prevent="goToPreviousAyah" @keydown.space.prevent="goToPreviousAyah"
                                                     @click="goToPreviousAyah()" title="Previous verse"></i>
                                                 <!-- <i @click="submitForm" class="bi bi-bookmark mb-2 h4"
                                                     aria-expanded="false" data-bs-placement="top"
                                                     title="Bookmark verse"></i> -->
                                                 <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
+                                                    role="button" aria-label="Go to next verse" :tabindex="isMobile ? 0 : -1"
+                                                    @keydown.enter.prevent="goToNextAyah" @keydown.space.prevent="goToNextAyah"
                                                     @click="goToNextAyah()" title="Next verse"></i>
                                                 <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
-                                                    @click="goToLastAyah()" title="End verse"></i>
+                                                    role="button" aria-label="Go to last verse" :tabindex="isMobile ? 0 : -1"
+                                                    @keydown.enter.prevent="goToLastAyah" @keydown.space.prevent="goToLastAyah"
+                                                    @click="goToLastAyah()" title="Last verse"></i>
                                             </div>
                                         </div>
                                         <!-- dropdown mobile content -->
@@ -345,27 +370,35 @@
                                         <div>
                                             <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
                                                 @update-information="updateInformation"
-                                                class="icon-container hide-on-mobile mb-3">
-                                                <div class="text-center">
+                                                class="icon-container hide-on-mobile mb-3" :aria-hidden="isMobile">
+                                                <div class="text-center" role="group" aria-label="Verse navigation controls (desktop)">
                                                     <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah"
+                                                        role="button" aria-label="Go to first verse" :tabindex="isMobile ? -1 : 0"
+                                                        @keydown.enter.prevent="goToFirstAyah" @keydown.space.prevent="goToFirstAyah"
                                                         style="cursor: pointer" @click="goToFirstAyah"
                                                         title="First verse"></i>
                                                     <div class="large">First verse</div>
                                                 </div>
-                                                <div class="text-center">
+                                                <div class="text-center" role="group" aria-label="Previous verse">
                                                     <i class="bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
+                                                        role="button" aria-label="Go to previous verse" :tabindex="isMobile ? -1 : 0"
+                                                        @keydown.enter.prevent="goToPreviousAyah" @keydown.space.prevent="goToPreviousAyah"
                                                         style="cursor: pointer" @click="goToPreviousAyah"
                                                         title="Previous verse"></i>
                                                     <div class="large">Previous verse</div>
                                                 </div>
-                                                <div class="text-center">
+                                                <div class="text-center" role="group" aria-label="Next verse">
                                                     <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
+                                                        role="button" aria-label="Go to next verse" :tabindex="isMobile ? -1 : 0"
+                                                        @keydown.enter.prevent="goToNextAyah" @keydown.space.prevent="goToNextAyah"
                                                         style="cursor: pointer" @click="goToNextAyah"
                                                         title="Next verse"></i>
                                                     <div class="large">Next verse</div>
                                                 </div>
-                                                <div class="text-center">
+                                                <div class="text-center" role="group" aria-label="Last verse">
                                                     <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon"
+                                                        role="button" aria-label="Go to last verse" :tabindex="isMobile ? -1 : 0"
+                                                        @keydown.enter.prevent="goToLastAyah" @keydown.space.prevent="goToLastAyah"
                                                         style="cursor: pointer" @click="goToLastAyah"
                                                         title="Last verse"></i>
                                                     <div class="large">Last verse</div>
@@ -805,6 +838,23 @@ export default {
         this.getSurat(); // Call getSurat to populate the surah list
         this.prepareAyahText();
 
+        // Keyboard navigation for ayah list within this component only
+        window.addEventListener("keydown", this.onKeydown);
+
+        // Responsive a11y: track mobile viewport to toggle focusability of duplicate controls
+        this.updateIsMobile();
+        window.addEventListener('resize', this.updateIsMobile);
+
+    },
+    // Ensure listeners are cleaned up when the component is destroyed
+    beforeUnmount() {
+        window.removeEventListener("keydown", this.onKeydown);
+        window.removeEventListener('resize', this.updateIsMobile);
+    },
+    // Vue 2 fallback (in case this project uses Vue 2)
+    beforeDestroy() {
+        window.removeEventListener("keydown", this.onKeydown);
+        window.removeEventListener('resize', this.updateIsMobile);
     },
 
     data() {
@@ -924,7 +974,11 @@ export default {
                 name_en: "",
                 name_ar: "",
             }),
-            loading: false
+            loading: false,
+            // Accessibility: live region message
+            screenReaderMessage: "",
+            // Track viewport for responsive ARIA handling
+            isMobile: false
         };
     },
     computed: {
@@ -954,6 +1008,39 @@ export default {
         
         handleDarkModeChange(isDarkMode) {
             this.isDarkMode = isDarkMode;
+        },
+        // Handle keyboard navigation for ayat
+        onKeydown(e) {
+            // Ignore when typing in form fields or contenteditable areas
+            const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : "";
+            const isEditable = e.target && (e.target.isContentEditable || ["input", "textarea", "select"].includes(tag));
+            if (isEditable) return;
+
+            // No ayat loaded or no selection context
+            if (!Array.isArray(this.ayat) || this.ayat.length === 0) return;
+
+            switch (e.key) {
+                case "ArrowRight":
+                case "ArrowDown":
+                    e.preventDefault();
+                    this.goToNextAyah();
+                    break;
+                case "ArrowLeft":
+                case "ArrowUp":
+                    e.preventDefault();
+                    this.goToPreviousAyah();
+                    break;
+                case "Home":
+                    e.preventDefault();
+                    this.goToFirstAyah();
+                    break;
+                case "End":
+                    e.preventDefault();
+                    this.goToLastAyah();
+                    break;
+                default:
+                    break;
+            }
         },
         prepareAyahText() {
             if (!this.ayah || !this.ayah.text) {
@@ -1058,6 +1145,14 @@ export default {
                     this.renderedText = `<span>${this.currentAyah.translation}</span>`;
                 }
             });
+        },
+        updateIsMobile() {
+            try {
+                this.isMobile = window.matchMedia('(max-width: 767px)').matches;
+            } catch (e) {
+                // Fallback using window width
+                this.isMobile = window.innerWidth <= 767;
+            }
         },
         fetchAyat: async function () {
 
@@ -1542,6 +1637,14 @@ export default {
             this.updateCardSection(this.ayat[index]);
             this.scrollToSelectedAyah();
             this.getTafseers(this.ayat[index].id, index);
+            // Update screen reader announcement
+            try {
+                const verseNum = (this.ayat[index] && (this.ayat[index].ayah_id || this.ayat[index].id)) || index + 1;
+                const surahName = (this.information && this.information.ayah && this.information.ayah.surah && (this.information.ayah.surah.name_en || this.information.ayah.surah.name_ar)) || "";
+                this.screenReaderMessage = `Selected verse ${verseNum}${surahName ? ` from ${surahName}` : ''}.`;
+            } catch (e) {
+                this.screenReaderMessage = `Selected verse ${index + 1}.`;
+            }
         },
         scrollToSelectedAyah() {
             this.$nextTick(() => {
