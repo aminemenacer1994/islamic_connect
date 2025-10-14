@@ -195,15 +195,17 @@
         <div class="row g-3">
           <div class="col-12 col-md-3">
             <div class="input-group search-group">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
-              <input v-model="searchInput" @input="onSearchInput" type="text" class="form-control border-start-0"
-                placeholder="Search episodes..." />
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search" aria-hidden="true"></i></span>
+              <label for="searchEpisodes" class="visually-hidden">Search episodes</label>
+              <input id="searchEpisodes" v-model="searchInput" @input="onSearchInput" type="text" class="form-control border-start-0"
+                placeholder="Search episodes" />
             </div>
           </div>
           <div class="col-12 col-md-3">
             <div class="input-group filter-group">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-hourglass-split"></i></span>
-              <select v-model="durationFilter" class="form-select border-start-0">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-hourglass-split" aria-hidden="true"></i></span>
+              <label for="filterDuration" class="visually-hidden">Filter by duration</label>
+              <select id="filterDuration" v-model="durationFilter" class="form-select border-start-0">
                 <option value="" disabled selected hidden>Select Duration</option>
                 <option value="0-10">0-10 min</option>
                 <option value="10-30">10-30 min</option>
@@ -214,8 +216,9 @@
           </div>
           <div class="col-12 col-md-3">
             <div class="input-group filter-group">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-translate"></i></span>
-              <select v-model="languageFilter" class="form-select border-start-0">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-translate" aria-hidden="true"></i></span>
+              <label for="filterLanguage" class="visually-hidden">Filter by language</label>
+              <select id="filterLanguage" v-model="languageFilter" class="form-select border-start-0">
                 <option value="">All Languages</option>
                 <option value="English">English</option>
                 <option value="Arabic">Arabic</option>
@@ -225,8 +228,9 @@
           </div>
           <div class="col-12 col-md-3">
             <div class="input-group filter-group">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-funnel"></i></span>
-              <select v-model="sortOption" class="form-select border-start-0">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-funnel" aria-hidden="true"></i></span>
+              <label for="sortOption" class="visually-hidden">Sort episodes</label>
+              <select id="sortOption" v-model="sortOption" class="form-select border-start-0">
                 <option value="mostViewed">Most Viewed</option>
                 <option value="leastViewed">Least Viewed</option>
                 <option value="newest">Newest</option>
@@ -367,7 +371,18 @@
           </div>
 
         </div>
-        <div class="progress-bar" @mousedown="startSeek" @click="seekAudio">
+        <div
+          class="progress-bar"
+          role="progressbar"
+          :aria-valuemin="0"
+          :aria-valuemax="Math.round(audioElements[currentlyPlayingIndex]?.duration || 0)"
+          :aria-valuenow="Math.round(audioElements[currentlyPlayingIndex]?.currentTime || 0)"
+          :aria-valuetext="`${formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0)} of ${formatTime(audioElements[currentlyPlayingIndex]?.duration || 0)}`"
+          tabindex="0"
+          @keydown="onProgressKeydown"
+          @mousedown="startSeek"
+          @click="seekAudio"
+        >
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
         </div>
       </div>
@@ -626,6 +641,40 @@ export default {
   },
 
   methods: {
+    onProgressKeydown(e) {
+      const audio = this.audioElements?.[this.currentlyPlayingIndex];
+      if (!audio) return;
+      const stepSmall = 5; // seconds
+      const stepLarge = 30; // seconds for PageUp/PageDown
+      let handled = true;
+      switch (e.key) {
+        case 'ArrowLeft':
+          audio.currentTime = Math.max(0, (audio.currentTime || 0) - stepSmall);
+          break;
+        case 'ArrowRight':
+          audio.currentTime = Math.min(audio.duration || 0, (audio.currentTime || 0) + stepSmall);
+          break;
+        case 'Home':
+          audio.currentTime = 0;
+          break;
+        case 'End':
+          audio.currentTime = audio.duration || 0;
+          break;
+        case 'PageUp':
+          audio.currentTime = Math.min(audio.duration || 0, (audio.currentTime || 0) + stepLarge);
+          break;
+        case 'PageDown':
+          audio.currentTime = Math.max(0, (audio.currentTime || 0) - stepLarge);
+          break;
+        default:
+          handled = false;
+      }
+      if (handled) {
+        e.preventDefault();
+        // Force progress UI update if needed
+        this.$forceUpdate && this.$forceUpdate();
+      }
+    },
     toggleVisibility() {
       this.isVisible = !this.isVisible;
     },
