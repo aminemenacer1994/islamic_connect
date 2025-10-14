@@ -1,7 +1,7 @@
 <template>
-  <div class="container my-5">
+  <main class="container my-5" role="main" aria-labelledby="date-title">
     <div class="row justify-content-center">
-      <h1 class="display-5 fw-bold text-center">Date Converter</h1>
+      <h1 id="date-title" class="display-5 fw-bold text-center">Date Converter</h1>
       <p class="text-center container mb-2 lead">
         Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for
         finding Islamic dates for events, holidays, or just learning more about the calendars!
@@ -121,16 +121,18 @@
                   </div>
                   <div class="d-flex justify-content-center">
                     <table class="table w-auto bg-white mb-0 calendar-table"
+                      role="table"
                       style="border-radius: 0.75rem; overflow: hidden; border: 1px solid #e0e0e0;">
+                      <caption class="text-muted">Islamic calendar month grid showing days of week and Hijri dates</caption>
                       <thead>
-                        <tr>
+                        <tr role="row">
                           <th v-for="day in ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']" :key="day"
-                            class="text-center small" style="background: #f8f9fa;">{{ day }}</th>
+                            class="text-center small" scope="col" style="background: #f8f9fa;">{{ day }}</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="week in hijriMonthGrid" :key="week[0]">
-                          <td v-for="cell in week" :key="cell.day + '-' + cell.isCurrent"
+                        <tr v-for="week in hijriMonthGrid" :key="week[0]" role="row">
+                          <td v-for="cell in week" :key="cell.day + '-' + cell.isCurrent" role="cell"
                             :class="['text-center', cell.isCurrent ? 'bg-success text-white fw-bold' : '', 'small', cell.day ? 'calendar-day-cell' : '']"
                             style="vertical-align: middle; min-width: 36px; min-height: 36px;">
                             <span v-if="cell.day">{{ cell.day }}</span>
@@ -146,7 +148,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>

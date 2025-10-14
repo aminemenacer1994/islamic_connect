@@ -9,7 +9,7 @@
 
     <nav class="timeline-wrapper " aria-label="Seerah timeline">
       <ol class="timeline mb-3" role="list" @keydown="onTimelineKeydown" ref="timelineNav">
-        <li v-for="(event, index) in events" :key="index" class="timeline-point" ref="eventRefs">
+        <li v-for="(event, index) in events" :key="index" class="timeline-point" role="listitem" ref="eventRefs">
           <button
             class="badge fs-6 timeline-badge"
             type="button"
@@ -231,14 +231,14 @@
           </button>
           <div v-if="showVolumeBar" class="volume-bar-container">
             <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume" class="volume-slider"
-              aria-label="Volume control" />
+              aria-label="Volume control" aria-live="polite" />
           </div>
-          <span class="time" aria-live="polite">{{ formatTime(currentTime) }} / {{ formatTime(totalTime) }}</span>
+          <span class="time" role="status" aria-live="polite">{{ formatTime(currentTime) }} / {{ formatTime(totalTime) }}</span>
           <button class="control-icon btn btn-link p-0 close-icon" @click="closeAudioPlayer" title="Close" aria-label="Close audio player">
             <i class="bi bi-x"></i>
           </button>
         </div>
-        <div class="progress-bar" role="progressbar" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="Math.round(progress[currentlyPlayingIndex] || 0)" tabindex="0" @keydown.left.prevent="keyboardSeek(-5)" @keydown.right.prevent="keyboardSeek(5)" @keydown.pageDown.prevent="keyboardSeek(-10)" @keydown.pageUp.prevent="keyboardSeek(10)" @click="seekAudio($event, currentlyPlayingIndex)" aria-label="Seek audio">
+        <div class="progress-bar" role="progressbar" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="Math.round(progress[currentlyPlayingIndex] || 0)" :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`" tabindex="0" @keydown.left.prevent="keyboardSeek(-5)" @keydown.right.prevent="keyboardSeek(5)" @keydown.pageDown.prevent="keyboardSeek(-10)" @keydown.pageUp.prevent="keyboardSeek(10)" @click="seekAudio($event, currentlyPlayingIndex)" aria-label="Seek audio">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
         </div>
       </div>
@@ -374,6 +374,8 @@ export default {
         this.focusCurrentTimelineButton();
       } else if (key === 'Enter' || key === ' ') {
         // already activated by click via selectEvent on button
+        e.preventDefault();
+        this.selectEvent(this.currentIndex);
       }
     },
     focusCurrentTimelineButton() {

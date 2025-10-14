@@ -1,13 +1,13 @@
 <template>
-  <div class="container-fluid py-4">
+  <main class="container-fluid py-4" role="main" aria-labelledby="dua-title">
     <!-- Hero Section -->
-    <div class="hero-section mb-5">
-      <h1 class="fw-bold text-center mb-3">Dua Collection</h1>
+    <header class="hero-section mb-5">
+      <h1 id="dua-title" class="fw-bold text-center mb-3">Dua Collection</h1>
       <p class="text-center container lead text-muted mb-4">
         Explore a curated selection of authentic Islamic supplications, organized into categories like forgiveness,
         protection, and gratitude.
       </p>
-    </div>
+    </header>
 
     <!-- Error Message -->
     <transition name="fade">
@@ -30,7 +30,7 @@
 
     <!-- Search Input -->
     <div class="container mb-4">
-      <div class="row justify-content-center">
+      <div class="row justify-content-center" role="search">
         <div class="col-12 col-md-10 col-lg-10"> 
           <div class="search-container mb-3">
             <div class="input-group search-input-group">
@@ -39,7 +39,7 @@
                 <i class="bi bi-search"></i>
               </span>
               <input v-model="searchQuery" type="text" class="form-control search-input"
-                placeholder="Search duas by title, Arabic words, translation, or reference" aria-label="Search Duas"
+                placeholder="Search duas by title, Arabic words, translation, or reference" aria-label="Search duas"
                 @input="resetPagination" style="height: 50px; font-size: 1.2rem; padding: 0.75rem;" />
               <button v-if="searchQuery || selectedTag || selectedReference" class="btn btn-outline-secondary"
                 @click="clearSearch" aria-label="Clear search" style="font-size: 1.5rem; padding: 0.75rem;">
@@ -121,7 +121,7 @@
 
     <!-- Duas Display -->
     <div class="container">
-      <div v-if="filteredDuas.length === 0" class="alert alert-info text-center no-duas-message">
+      <div v-if="filteredDuas.length === 0" class="alert alert-info text-center no-duas-message" role="status" aria-live="polite">
         <i class="bi" :class="viewMode === 'liked' ? 'bi-heart' : 'bi-search'"></i>
         {{ viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found' }}
         <button v-if="viewMode === 'liked'" class="btn btn-link p-0 ms-1" @click="viewMode = 'all'; resetPagination()">
@@ -129,9 +129,9 @@
         </button>
       </div>
 
-      <div v-for="category in filteredDuas" :key="category.id" class="mb-5">
+      <div v-for="category in filteredDuas" :key="category.id" class="mb-5" role="region" :aria-labelledby="`category-title-${category.id}`">
         <div class="d-flex align-items-center justify-content-between category-header mb-3">
-          <h3 class="fw-semibold text-start mb-3 category-title">
+          <h3 class="fw-semibold text-start mb-3 category-title" :id="`category-title-${category.id}`">
             <img src="images/art.png" width="30px" class="me-2" alt="Category icon" />
             {{ category.name }}
           </h3>
@@ -143,11 +143,11 @@
           </div>
         </div>
 
-        <div v-if="!category.collapsed" class="row g-3">
+        <div v-if="!category.collapsed" class="row g-3" role="list">
           <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-12 col-md-6">
             <div class="card dua-card h-100 border-0 shadow-sm position-relative"
               :class="{ 'border-start border-danger border-3': viewMode === 'liked' }"
-              :style="{ '--font-size-base': fontSize + 'px' }">
+              :style="{ '--font-size-base': fontSize + 'px' }" role="listitem" :aria-labelledby="`dua-title-${dua.id}`">
 
               <!-- Liked Badge -->
               <div v-if="viewMode === 'liked'"
@@ -159,7 +159,7 @@
               <!-- Card Body -->
               <div class="card-body d-flex flex-column p-3 p-md-4 text-black">
                 <!-- Title -->
-                <h4 class="card-title fw-semibold mb-3 position-relative pb-2"
+                <h4 class="card-title fw-semibold mb-3 position-relative pb-2" :id="`dua-title-${dua.id}`"
                   :style="{ fontSize: 'calc(var(--font-size-base) * 1)' }"><img src="images/art.png" width="20px"
                     class="me-2 " alt="Category icon" /> {{ highlightText(dua.title) }}
                 </h4>
@@ -250,7 +250,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>

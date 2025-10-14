@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <main role="main" aria-labelledby="umrah-title">
     <!-- Skip to main content link for screen readers and keyboard users -->
     <a href="#main-content" class="visually-hidden-focusable skip-link">Skip to main content</a>
     <div class="container-fluid py-4" id="main-content" tabindex="-1">
       <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold mb-4">
+        <h1 id="umrah-title" class="display-4 fw-bold mb-4">
           Hajj & Umrah Guides
         </h1>
         <p class="mx-auto description text-muted" style="max-width: 900px; font-size: 1.2rem;">
@@ -14,11 +14,11 @@
         </p>
         <!-- Tabs with ARIA roles and keyboard navigation -->
         <ul class="nav nav-tabs justify-content-center mb-4 clean-tabs" role="tablist"
-          aria-label="Hajj and Umrah Guides Tabs">
+          aria-label="Hajj and Umrah Guides Tabs" @keydown="onTablistKeydown" ref="tablist">
           <li class="nav-item" role="presentation">
             <button class="nav-link clean-tab-btn" :class="{ active: currentTab === 'hajj' }" @click="switchTab('hajj')"
               id="hajj-tab" type="button" role="tab" aria-controls="hajj-panel"
-              :aria-selected="currentTab === 'hajj' ? 'true' : 'false'" tabindex="0"
+              :aria-selected="currentTab === 'hajj' ? 'true' : 'false'" :tabindex="currentTab === 'hajj' ? 0 : -1" ref="tabHajj"
               @keydown.enter.space="switchTab('hajj')" :aria-label="'Show Hajj Guide'">
               <i class="bi bi-moon-stars me-2" aria-hidden="true"></i>Hajj Guides
             </button>
@@ -26,7 +26,7 @@
           <li class="nav-item" role="presentation">
             <button class="nav-link clean-tab-btn" :class="{ active: currentTab === 'umrah' }"
               @click="switchTab('umrah')" id="umrah-tab" type="button" role="tab" aria-controls="umrah-panel"
-              :aria-selected="currentTab === 'umrah' ? 'true' : 'false'" tabindex="0"
+              :aria-selected="currentTab === 'umrah' ? 'true' : 'false'" :tabindex="currentTab === 'umrah' ? 0 : -1" ref="tabUmrah"
               @keydown.enter.space="switchTab('umrah')" :aria-label="'Show Umrah Guide'">
               <i class="bi bi-person-walking me-2" aria-hidden="true"></i>Umrah Guides
             </button>
@@ -43,7 +43,7 @@
             </button>
           </div>
           
-          <div class="mb-4" style="height: 350px;">
+          <div class="mb-4" style="height: 350px;" role="region" aria-label="Map showing key ritual locations">
             <div id="ritual-map"
               style="width: 100%; height: 100%; border: 2px solid lightgray; border-radius: 2%; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; overflow: hidden;">
             </div>
@@ -164,7 +164,7 @@
         </transition>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -750,6 +750,34 @@ export default {
     }
   },
   methods: {
+    onTablistKeydown(e) {
+      const order = ['hajj','umrah'];
+      const idx = order.indexOf(this.currentTab);
+      if (e.key === 'ArrowRight') {
+        const next = order[(idx + 1) % order.length];
+        this.switchTab(next);
+        this.$nextTick(() => this.focusTab(next));
+        e.preventDefault();
+      } else if (e.key === 'ArrowLeft') {
+        const prev = order[(idx - 1 + order.length) % order.length];
+        this.switchTab(prev);
+        this.$nextTick(() => this.focusTab(prev));
+        e.preventDefault();
+      } else if (e.key === 'Home') {
+        this.switchTab(order[0]);
+        this.$nextTick(() => this.focusTab(order[0]));
+        e.preventDefault();
+      } else if (e.key === 'End') {
+        this.switchTab(order[order.length - 1]);
+        this.$nextTick(() => this.focusTab(order[order.length - 1]));
+        e.preventDefault();
+      }
+    },
+    focusTab(tab) {
+      const refName = tab === 'hajj' ? 'tabHajj' : 'tabUmrah';
+      const el = this.$refs[refName];
+      if (el && typeof el.focus === 'function') el.focus();
+    },
     openMap() {
       this.isMapVisible = true;
     },

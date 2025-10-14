@@ -1,15 +1,15 @@
 <template>
-  <div class="container py-5" ref="qiblaFinder">
+  <main class="container py-5" ref="qiblaFinder" role="main" aria-labelledby="qibla-title">
     <!-- Header -->
     <header class="text-center mb-5">
-      <h1 class="display-3 fw-bold mb-2">Qibla Compass</h1>
+      <h1 id="qibla-title" class="display-3 fw-bold mb-2">Qibla Compass</h1>
       <p class="lead text-muted">Your essential companion for locating the precise direction of the Kaaba in Mecca for Islamic prayers, ensuring accurate alignment from anywhere in the world. This tool also provides reliable prayer times tailored to your location</p>
     </header>
 
     <!-- Search & Location -->
-    <div class="card shadow-sm mb-4">
+    <section class="card shadow-sm mb-4" role="region" aria-labelledby="find-location-title">
       <div class="container-fluid card-body p-4">
-        <h5 class="h4 card-title text-primary fw-bold mb-3">Find Your Location</h5>
+        <h5 id="find-location-title" class="h4 card-title text-primary fw-bold mb-3">Find Your Location</h5>
         <div class="input-group mb-2">
           <input
             type="text"
@@ -18,12 +18,14 @@
             v-model="searchLocation"
             @keyup.enter="searchQibla"
             ref="searchInput"
+            aria-label="Enter a city or address"
           />
           <button
             class="btn btn-primary"
             @click="searchQibla"
             :disabled="loading"
             title="Search"
+            aria-label="Search location"
           >
             <i class="bi bi-search"></i>
           </button>
@@ -32,14 +34,15 @@
             @click="getLocation"
             :disabled="loading"
             title="Use My Location"
+            aria-label="Use my location"
           >
             <i class="bi bi-geo-alt"></i>
             <span class="d-none d-sm-inline">Use My Location</span>
           </button>
         </div>
-        <p v-if="error" class="text-danger mt-3 mb-0">{{ error }}</p>
+        <p v-if="error" class="text-danger mt-3 mb-0" role="alert">{{ error }}</p>
       </div>
-    </div>
+    </section>
 
     <!-- Welcome / Initial Content -->
     <div v-if="!hasData" class="card card-custom mb-4">
@@ -84,12 +87,12 @@
       </div>
     </div>
 
-    <div v-if="hasData" class="row g-4">
+    <div v-if="hasData" class="row g-4" role="region" aria-label="Results section">
       <div class="col-lg-6">
         <!-- Qibla & Compass -->
-        <div class="card shadow-sm h-100">
+        <section class="card shadow-sm h-100" role="region" aria-labelledby="qibla-direction-title">
           <div class="card-header">
-            <h5 class="h4 card-title text-primary fw-bold mb-0" style="padding: 10px;">
+            <h5 id="qibla-direction-title" class="h4 card-title text-primary fw-bold mb-0" style="padding: 10px;">
               Qibla Direction
             </h5>
           </div>
@@ -166,9 +169,11 @@
             </div>
             <ul
               class="list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50"
+              role="list"
             >
               <li
                 class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+                role="listitem"
               >
                 <span class="text-muted">Direction</span>
                 <span class="fw-bold d-flex align-items-center gap-2">
@@ -178,18 +183,21 @@
               </li>
               <li
                 class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+                role="listitem"
               >
                 <span class="text-muted">Bearing from North</span>
                 <span class="fw-bold">{{ qiblaBearing }}° clockwise</span>
               </li>
               <li
                 class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+                role="listitem"
               >
                 <span class="text-muted">Relative Dir</span>
                 <span class="fw-bold">{{ relativeDirection }}</span>
               </li>
               <li
                 class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+                role="listitem"
               >
                 <span class="text-muted">Distance</span>
                 <span class="fw-bold"
@@ -199,6 +207,7 @@
               </li>
               <li
                 class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+                role="listitem"
               >
                 <span class="text-muted">Your Coordinates</span>
                 <span class="fw-bold"
@@ -207,15 +216,17 @@
               </li>
               <li
                 class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+                role="listitem"
               >
                 <span class="text-muted">Kaaba Coordinates</span>
                 <span class="fw-bold">21.4225°, 39.8262°</span>
               </li>
               <li
                 class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+                role="listitem"
               >
                 <span class="text-muted">Last Updated</span>
-                <span class="fw-bold">{{ lastUpdated }}</span>
+                <span class="fw-bold" role="status" aria-live="polite">{{ lastUpdated }}</span>
               </li>
             </ul>
             <div
@@ -256,12 +267,12 @@
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
       <div class="col-lg-6 d-flex">
-        <div class="card card-custom h-100 w-100">
+        <section class="card card-custom h-100 w-100" role="region" aria-labelledby="prayer-times-title">
           <div class="card-header">
-            <h5 class="h4 card-title text-primary fw-bold mb-0" style="padding: 10px;">
+            <h5 id="prayer-times-title" class="h4 card-title text-primary fw-bold mb-0" style="padding: 10px;">
               Prayer Times
             </h5>
           </div>
@@ -290,11 +301,13 @@
             <ul
               v-if="prayerTimes"
               class="list-group list-group-flush flex-grow-1"
+              role="list"
             >
               <li
                 class="list-group-item d-flex justify-content-between align-items-center"
                 v-for="(time, name) in prayerTimes"
                 :key="name"
+                role="listitem"
               >
                 <span class="text-muted fw-bold">{{ name }}</span>
                 <strong class="text-muted">{{ time }}</strong>
@@ -303,17 +316,17 @@
             <div
               v-else
               class="flex-grow-1 d-flex align-items-center justify-content-center"
-            >
+              >
               <p class="text-muted">Prayer times will appear here.</p>
             </div>
             <p
               v-if="timezone"
-              class="text-muted small mt-3 mb-0 text-center"
+              class="text-muted small mt-3 mb-0 text-center" role="status" aria-live="polite"
             >
               Timezone: {{ timezone }}
             </p>
           </div>
-        </div>
+        </section>
       </div>
     </div>
 
@@ -380,7 +393,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>

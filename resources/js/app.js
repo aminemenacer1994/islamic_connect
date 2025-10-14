@@ -203,9 +203,16 @@ window.$ = window.jQuery = $;
 
 
 app.use(PrimeVue);
-app.use(StripePlugin, {
-  key: process.env.MIX_STRIPE_PUBLISHABLE_KEY,
-});
+// Protect against plugins that don't expose install with Vue 3 build
+try {
+  if (StripePlugin && (typeof StripePlugin === 'function' || typeof StripePlugin.install === 'function')) {
+    app.use(StripePlugin, { key: process.env.MIX_STRIPE_PUBLISHABLE_KEY });
+  } else {
+    console.debug('[Stripe] Plugin not compatible with current Vue build; skipping');
+  }
+} catch (e) {
+  console.debug('[Stripe] Skipped plugin registration:', e?.message || e);
+}
 app.component("Column", Column);
 app.component("DataTable", DataTable);
 app.component("Button", Button);
@@ -263,10 +270,12 @@ app.component('guide-component', GuideComponent);
 app.component('streaming-component', StreamingComponent);
 app.component('toolkit-component', ToolkitComponent);
 app.component('video-component', VideoComponent);
-app.component('zakat-component', ZakatComponent);
+// Some bundlers wrap SFCs under .default; use fallback resolver
+const sfc = (m) => (m && m.default) ? m.default : m;
+app.component('zakat-component', sfc(ZakatComponent));
 app.component('qibla-component', QiblaComponent);
 app.component('mosque-component', MosqueComponent);
-app.component('calendar-component', CalendarComponent);
+app.component('calendar-component', sfc(CalendarComponent));
 app.component('date-component', DateComponent);
 app.component('hadith-component', HadithComponent);
 app.component('shop-component', ShopComponent);
@@ -292,3 +301,6 @@ app.component('payment-methods-component', PaymentMethodsComponent);
 app.component('read-component', ReadComponent);
 
 app.mount("#app");
+if (typeof window !== 'undefined') {
+  console.debug('[Vue] mounted on #app');
+}

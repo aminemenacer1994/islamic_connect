@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <!-- Skip link for keyboard users -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <main id="main-content" role="main">
     <!-- header -->
-    <div class="jumbotron" style=" box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+    <header class="jumbotron" role="banner" style=" box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
 
       <!-- Content -->
       <div class="container-fluid" style="position: relative; z-index: 2">
@@ -167,7 +169,19 @@
 
             <div class="col-md-6">
 
-              <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+              <div
+                id="carouselExampleInterval"
+                class="carousel slide"
+                data-bs-ride="carousel"
+                data-bs-interval="4000"
+                role="region"
+                aria-roledescription="carousel"
+                aria-label="Featured product carousel"
+                tabindex="0"
+                ref="heroCarousel"
+                @keydown.left.prevent="prevSlide"
+                @keydown.right.prevent="nextSlide"
+              >
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                     <img src="/images/qenew.png" class="d-block w-100" alt="Quran companion">
@@ -191,22 +205,29 @@
 
                 <!-- Simple Indicators -->
                 <div class="carousel-indicators mt-2 mb-2">
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0"
-                    class="active" aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4" aria-label="Slide 5"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" aria-controls="carouselExampleInterval"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1" aria-label="Slide 2" aria-controls="carouselExampleInterval"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2" aria-label="Slide 3" aria-controls="carouselExampleInterval"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="3" aria-label="Slide 4" aria-controls="carouselExampleInterval"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4" aria-label="Slide 5" aria-controls="carouselExampleInterval"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="5" aria-label="Slide 6" aria-controls="carouselExampleInterval"></button>
                 </div>
+
+                <!-- Accessible Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev" aria-label="Previous slide" ref="prevBtn">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next" aria-label="Next slide" ref="nextBtn">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
       </hr>
-    </div>
-    <section aria-labelledby="prayer-times-heading">
+    </header>
+    <section aria-labelledby="prayer-times-heading" role="region">
       <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-12">
@@ -224,7 +245,7 @@
       </div>
     </section>
 
-    <section aria-labelledby="services-heading">
+    <section aria-labelledby="services-heading" role="region">
       <div class="py-5" style="background: #f8f9fa;">
         <div class="container">
           <div class="row justify-content-center text-center mb-5">
@@ -237,7 +258,7 @@
           <div class="row g-4">
             <!-- Card 1: Explore with Ease -->
             <div class="col-md-6 col-lg-4">
-              <article class="card h-100 border-0"
+              <article class="card h-100 border-0" tabindex="0"
                 style="box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
                 <div class="card-body text-center p-4">
                   <div class="my-3">
@@ -263,7 +284,7 @@
 
             <!-- Card 2: Listen, Watch, Reflect -->
             <div class="col-md-6 col-lg-4">
-              <article class="card h-100 border-0"
+              <article class="card h-100 border-0" tabindex="0"
                 style="box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
                 <div class="card-body text-center p-4">
                   <div class="my-3">
@@ -289,7 +310,7 @@
 
             <!-- Card 3: Learn Your Way -->
             <div class="col-md-6 col-lg-4">
-              <article class="card h-100 border-0"
+              <article class="card h-100 border-0" tabindex="0"
                 style="box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
                 <div class="card-body text-center p-4">
                   <div class="my-3">
@@ -316,7 +337,7 @@
         </div>
       </div>
     </section>
-    <section class="container pt-3" aria-label="Islamic Connect Features">
+    <section class="container pt-3" aria-label="Islamic Connect Features" role="region">
 
       <!-- First Row - Quran Companion -->
       <div class="row py-4 py-lg-5 align-items-center">
@@ -1050,7 +1071,7 @@
         </div> -->
       </div>
     </footer>
-  </div>
+  </main>
 </template>
 <style scoped>
 /* Ensure hero title has solid color on small screens for contrast */
@@ -1493,6 +1514,12 @@ export default {
     }
   },
   methods: {
+    prevSlide() {
+      if (this.$refs.prevBtn) this.$refs.prevBtn.click();
+    },
+    nextSlide() {
+      if (this.$refs.nextBtn) this.$refs.nextBtn.click();
+    },
     processDonation() {
       if (!this.isValidAmount) {
         alert('Please select a contribution amount.');
@@ -1572,6 +1599,24 @@ export default {
 };
 </script>
 <style scoped>
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 10px;
+  background: #0b806f;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 1000;
+  transition: top 0.2s ease-in-out;
+}
+
+.skip-link:focus {
+  top: 10px;
+  outline: 3px solid #1a5f7a;
+}
+
 /* Combined Section */
 .combined-section {
   padding: 80px 0;

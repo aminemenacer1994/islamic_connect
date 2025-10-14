@@ -1,8 +1,8 @@
 <template>
-  <div class="islamic-calendar-container container-fluid py-5">
+  <main class="islamic-calendar-container container-fluid py-5" role="main" aria-labelledby="calendar-title">
     <!-- Header Section -->
     <div class="calendar-header">
-      <h3 class="text-center fw-bold display-5 mb-4">Islamic Hijri Calendar</h3>
+      <h3 id="calendar-title" class="text-center fw-bold display-5 mb-4">Islamic Hijri Calendar</h3>
       <p class="text-center container mb-3 lead ">
         The Islamic Hijri Calendar is a lunar calendar used by Muslims to determine religious events like Ramadan, Eid,
         and Hajj.
@@ -51,22 +51,22 @@
 
     <!-- Weekdays Header -->
     <div class="calendar-grid">
-      <div class="calendar-weekdays row g-0 text-center fw-semibold border-bottom">
+      <div class="calendar-weekdays row g-0 text-center fw-semibold border-bottom" role="row" aria-label="Weekday headers">
         <div v-for="day in weekdays" :key="day" class="col py-2 bg-light">
           {{ day }}
         </div>
       </div>
 
       <!-- Calendar Days -->
-      <div class="calendar-days">
-        <div v-for="(week, weekIndex) in calendarWeeks" :key="weekIndex" class="row g-0 calendar-week">
+      <div class="calendar-days" role="grid" :aria-labelledby="'calendar-title'" @keydown="onGridKeydown" ref="grid">
+        <div v-for="(week, weekIndex) in calendarWeeks" :key="weekIndex" class="row g-0 calendar-week" role="row">
           <div v-for="(day, dayIndex) in week" :key="dayIndex"
             class="col calendar-day border text-center py-3 position-relative" :class="{
               'bg-info-subtle': isCurrentDay(day),
               'text-muted': !day || !day.isCurrentMonth,
               'bg-light': dayIndex === 5 || dayIndex === 6,
               'islamic-event': day && day.events && day.events.length > 0
-            }" @click="showDayDetails(day)">
+            }" role="gridcell" :tabindex="computeTabIndex(weekIndex, dayIndex, day)" :aria-selected="isCurrentDay(day) ? 'true' : 'false'" :aria-label="dayAriaLabel(day)" @click="showDayDetails(day)" ref="cells">
             <div v-if="day" class="day-content">
               <div class="fs-5 fw-bold">{{ day.hijri.day }}</div>
               <div class="text-muted small">{{ day.gregorian.day }} {{ day.gregorian.month.en.substring(0, 3) }}</div>
@@ -81,11 +81,11 @@
     </div>
 
     <!-- Day Details Modal -->
-    <div v-if="selectedDay" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+    <div v-if="selectedDay" class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="day-details-title" style="background: rgba(0,0,0,0.5);">
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h3 class="modal-title fw-bold">
+            <h3 id="day-details-title" class="modal-title fw-bold">
               {{ selectedDay.hijri.day }} {{ islamicMonths[selectedDay.hijri.month.number - 1] }} {{
                 selectedDay.hijri.year }} AH
             </h3>
@@ -123,7 +123,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </main>
 
 
 </template>
@@ -155,7 +155,8 @@ export default {
         '10-1': ['Eid al-Fitr'],
         '12-10': ['Eid al-Adha'],
         '12-18': ['Day of Arafah']
-      }
+      },
+      focusIndex: 0,
     };
   },
   computed: {
@@ -200,6 +201,92 @@ export default {
     }
   },
   methods: {
+    cellCount() {
+      return this.calendarWeeks.reduce((acc, w) => acc + w.length, 0);
+    },
+    flatIndexOf(weekIndex, dayIndex) {
+      let idx = 0;
+      for (let i = 0; i < weekIndex; i++) idx += this.calendarWeeks[i].length;
+      return idx + dayIndex;
+    },
+    computeTabIndex(weekIndex, dayIndex, day) {
+      if (!day) return -1;
+      const idx = this.flatIndexOf(weekIndex, dayIndex);
+      return this.focusIndex === idx ? 0 : -1;
+    },
+    setFocusIndex(newIndex) {
+      const total = this.cellCount();
+      this.focusIndex = Math.max(0, Math.min(total - 1, newIndex));
+      this.$nextTick(() => {
+        const cells = this.$refs.cells;
+        if (cells && cells[this.focusIndex] && typeof cells[this.focusIndex].focus === 'function') {
+          cells[this.focusIndex].focus();
+        }
+      });
+    },
+    moveBy(delta) {
+      this.setFocusIndex(this.focusIndex + delta);
+    },
+    onGridKeydown(e) {
+      const key = e.key;
+      if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','PageUp','PageDown','Enter',' '].includes(key)) {
+        e.preventDefault();
+      }
+      switch (key) {
+        case 'ArrowLeft':
+          this.moveBy(-1); break;
+        case 'ArrowRight':
+          this.moveBy(1); break;
+        case 'ArrowUp':
+          this.moveBy(-7); break;
+        case 'ArrowDown':
+          this.moveBy(7); break;
+        case 'Home': {
+          // Move to start of current row
+          let sum = 0, rowStart = 0, rowEnd = 0;
+          for (let i = 0; i < this.calendarWeeks.length; i++) {
+            const len = this.calendarWeeks[i].length;
+            rowEnd = sum + len - 1;
+            if (this.focusIndex >= sum && this.focusIndex <= rowEnd) { rowStart = sum; break; }
+            sum += len;
+          }
+          this.setFocusIndex(rowStart);
+          break;
+        }
+        case 'End': {
+          // Move to end of current row
+          let sum = 0, rowEnd = 0;
+          for (let i = 0; i < this.calendarWeeks.length; i++) {
+            const len = this.calendarWeeks[i].length;
+            rowEnd = sum + len - 1;
+            if (this.focusIndex >= sum && this.focusIndex <= rowEnd) break;
+            sum += len;
+          }
+          this.setFocusIndex(rowEnd);
+          break;
+        }
+        case 'PageUp':
+          this.previousMonth();
+          this.$nextTick(() => this.setFocusIndex(0));
+          break;
+        case 'PageDown':
+          this.nextMonth();
+          this.$nextTick(() => this.setFocusIndex(0));
+          break;
+        case 'Enter':
+        case ' ': {
+          const cells = this.$refs.cells || [];
+          const el = cells[this.focusIndex];
+          if (el) el.click();
+          break;
+        }
+      }
+    },
+    dayAriaLabel(day) {
+      if (!day) return 'Empty';
+      const hijriName = this.islamicMonths[(day.hijri.month.number - 1)] || '';
+      return `${day.hijri.day} ${hijriName} ${day.hijri.year} AH, ${day.gregorian.day} ${day.gregorian.month.en} ${day.gregorian.year}`;
+    },
     async fetchCalendarData() {
       this.loading = true;
       try {
@@ -213,6 +300,7 @@ export default {
         this.calculateLocalCalendar();
       } finally {
         this.loading = false;
+        this.$nextTick(() => this.setFocusIndex(0));
       }
     },
     calculateLocalCalendar() {

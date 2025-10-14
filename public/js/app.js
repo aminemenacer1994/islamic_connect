@@ -142002,7 +142002,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         '10-1': ['Eid al-Fitr'],
         '12-10': ['Eid al-Adha'],
         '12-18': ['Day of Arafah']
-      }
+      },
+      focusIndex: 0
     };
   },
   computed: {
@@ -142044,34 +142045,144 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   },
   methods: {
-    fetchCalendarData: function fetchCalendarData() {
+    cellCount: function cellCount() {
+      return this.calendarWeeks.reduce(function (acc, w) {
+        return acc + w.length;
+      }, 0);
+    },
+    flatIndexOf: function flatIndexOf(weekIndex, dayIndex) {
+      var idx = 0;
+      for (var i = 0; i < weekIndex; i++) idx += this.calendarWeeks[i].length;
+      return idx + dayIndex;
+    },
+    computeTabIndex: function computeTabIndex(weekIndex, dayIndex, day) {
+      if (!day) return -1;
+      var idx = this.flatIndexOf(weekIndex, dayIndex);
+      return this.focusIndex === idx ? 0 : -1;
+    },
+    setFocusIndex: function setFocusIndex(newIndex) {
       var _this2 = this;
+      var total = this.cellCount();
+      this.focusIndex = Math.max(0, Math.min(total - 1, newIndex));
+      this.$nextTick(function () {
+        var cells = _this2.$refs.cells;
+        if (cells && cells[_this2.focusIndex] && typeof cells[_this2.focusIndex].focus === 'function') {
+          cells[_this2.focusIndex].focus();
+        }
+      });
+    },
+    moveBy: function moveBy(delta) {
+      this.setFocusIndex(this.focusIndex + delta);
+    },
+    onGridKeydown: function onGridKeydown(e) {
+      var _this3 = this;
+      var key = e.key;
+      if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End', 'PageUp', 'PageDown', 'Enter', ' '].includes(key)) {
+        e.preventDefault();
+      }
+      switch (key) {
+        case 'ArrowLeft':
+          this.moveBy(-1);
+          break;
+        case 'ArrowRight':
+          this.moveBy(1);
+          break;
+        case 'ArrowUp':
+          this.moveBy(-7);
+          break;
+        case 'ArrowDown':
+          this.moveBy(7);
+          break;
+        case 'Home':
+          {
+            // Move to start of current row
+            var sum = 0,
+              rowStart = 0,
+              rowEnd = 0;
+            for (var i = 0; i < this.calendarWeeks.length; i++) {
+              var len = this.calendarWeeks[i].length;
+              rowEnd = sum + len - 1;
+              if (this.focusIndex >= sum && this.focusIndex <= rowEnd) {
+                rowStart = sum;
+                break;
+              }
+              sum += len;
+            }
+            this.setFocusIndex(rowStart);
+            break;
+          }
+        case 'End':
+          {
+            // Move to end of current row
+            var _sum = 0,
+              _rowEnd = 0;
+            for (var _i = 0; _i < this.calendarWeeks.length; _i++) {
+              var _len = this.calendarWeeks[_i].length;
+              _rowEnd = _sum + _len - 1;
+              if (this.focusIndex >= _sum && this.focusIndex <= _rowEnd) break;
+              _sum += _len;
+            }
+            this.setFocusIndex(_rowEnd);
+            break;
+          }
+        case 'PageUp':
+          this.previousMonth();
+          this.$nextTick(function () {
+            return _this3.setFocusIndex(0);
+          });
+          break;
+        case 'PageDown':
+          this.nextMonth();
+          this.$nextTick(function () {
+            return _this3.setFocusIndex(0);
+          });
+          break;
+        case 'Enter':
+        case ' ':
+          {
+            var cells = this.$refs.cells || [];
+            var el = cells[this.focusIndex];
+            if (el) el.click();
+            break;
+          }
+      }
+    },
+    dayAriaLabel: function dayAriaLabel(day) {
+      if (!day) return 'Empty';
+      var hijriName = this.islamicMonths[day.hijri.month.number - 1] || '';
+      return "".concat(day.hijri.day, " ").concat(hijriName, " ").concat(day.hijri.year, " AH, ").concat(day.gregorian.day, " ").concat(day.gregorian.month.en, " ").concat(day.gregorian.year);
+    },
+    fetchCalendarData: function fetchCalendarData() {
+      var _this4 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
         var response, data, _t;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.p = _context.n) {
             case 0:
-              _this2.loading = true;
+              _this4.loading = true;
               _context.p = 1;
               _context.n = 2;
-              return fetch("https://api.aladhan.com/v1/gToHCalendar/".concat(_this2.currentMonth + 1, "/").concat(_this2.currentYear, "?adjustment=0"));
+              return fetch("https://api.aladhan.com/v1/gToHCalendar/".concat(_this4.currentMonth + 1, "/").concat(_this4.currentYear, "?adjustment=0"));
             case 2:
               response = _context.v;
               _context.n = 3;
               return response.json();
             case 3:
               data = _context.v;
-              _this2.calendarData = data.data;
+              _this4.calendarData = data.data;
               _context.n = 5;
               break;
             case 4:
               _context.p = 4;
               _t = _context.v;
               console.error("Error fetching calendar data:", _t);
-              _this2.calculateLocalCalendar();
+              _this4.calculateLocalCalendar();
             case 5:
               _context.p = 5;
-              _this2.loading = false;
+              _this4.loading = false;
+              _this4.$nextTick(function () {
+                return _this4.setFocusIndex(0);
+              });
               return _context.f(5);
             case 6:
               return _context.a(2);
@@ -142141,7 +142252,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       this.fetchCalendarData();
     },
     showDayDetails: function showDayDetails(day) {
-      var _this3 = this;
+      var _this5 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
         var response, data, _t2;
         return _regenerator().w(function (_context2) {
@@ -142153,7 +142264,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               }
               return _context2.a(2);
             case 1:
-              _this3.selectedDay = day;
+              _this5.selectedDay = day;
               _context2.p = 2;
               _context2.n = 3;
               return fetch("https://api.aladhan.com/v1/timings/".concat(day.gregorian.date, "?latitude=51.508515&longitude=-0.1254872&method=2"));
@@ -142163,14 +142274,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               return response.json();
             case 4:
               data = _context2.v;
-              _this3.prayerTimes = data.data.timings;
+              _this5.prayerTimes = data.data.timings;
               _context2.n = 6;
               break;
             case 5:
               _context2.p = 5;
               _t2 = _context2.v;
               console.error("Error fetching prayer times:", _t2);
-              _this3.prayerTimes = null;
+              _this5.prayerTimes = null;
             case 6:
               return _context2.a(2);
           }
@@ -142178,15 +142289,15 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }))();
     },
     created: function created() {
-      var _this4 = this;
+      var _this6 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
         return _regenerator().w(function (_context3) {
           while (1) switch (_context3.n) {
             case 0:
               _context3.n = 1;
-              return _this4.fetchYearRange();
+              return _this6.fetchYearRange();
             case 1:
-              console.log(_this4.yearRange); // Ensure data is fetched and available
+              console.log(_this6.yearRange); // Ensure data is fetched and available
             case 2:
               return _context3.a(2);
           }
@@ -142194,13 +142305,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }))();
     },
     fetchYearRange: function fetchYearRange() {
-      var _this5 = this;
+      var _this7 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
         return _regenerator().w(function (_context4) {
           while (1) switch (_context4.n) {
             case 0:
               // Fetch data from API or generate year range
-              _this5.yearRange = [];
+              _this7.yearRange = [];
             case 1:
               return _context4.a(2);
           }
@@ -147107,6 +147218,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   },
   methods: {
+    prevSlide: function prevSlide() {
+      if (this.$refs.prevBtn) this.$refs.prevBtn.click();
+    },
+    nextSlide: function nextSlide() {
+      if (this.$refs.nextBtn) this.$refs.nextBtn.click();
+    },
     processDonation: function processDonation() {
       if (!this.isValidAmount) {
         alert('Please select a contribution amount.');
@@ -147467,6 +147584,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.focusCurrentTimelineButton();
       } else if (key === 'Enter' || key === ' ') {
         // already activated by click via selectEvent on button
+        e.preventDefault();
+        this.selectEvent(this.currentIndex);
       }
     },
     focusCurrentTimelineButton: function focusCurrentTimelineButton() {
@@ -160959,6 +161078,43 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
     }
   },
   methods: {
+    onTablistKeydown: function onTablistKeydown(e) {
+      var _this = this;
+      var order = ['hajj', 'umrah'];
+      var idx = order.indexOf(this.currentTab);
+      if (e.key === 'ArrowRight') {
+        var next = order[(idx + 1) % order.length];
+        this.switchTab(next);
+        this.$nextTick(function () {
+          return _this.focusTab(next);
+        });
+        e.preventDefault();
+      } else if (e.key === 'ArrowLeft') {
+        var prev = order[(idx - 1 + order.length) % order.length];
+        this.switchTab(prev);
+        this.$nextTick(function () {
+          return _this.focusTab(prev);
+        });
+        e.preventDefault();
+      } else if (e.key === 'Home') {
+        this.switchTab(order[0]);
+        this.$nextTick(function () {
+          return _this.focusTab(order[0]);
+        });
+        e.preventDefault();
+      } else if (e.key === 'End') {
+        this.switchTab(order[order.length - 1]);
+        this.$nextTick(function () {
+          return _this.focusTab(order[order.length - 1]);
+        });
+        e.preventDefault();
+      }
+    },
+    focusTab: function focusTab(tab) {
+      var refName = tab === 'hajj' ? 'tabHajj' : 'tabUmrah';
+      var el = this.$refs[refName];
+      if (el && typeof el.focus === 'function') el.focus();
+    },
     openMap: function openMap() {
       this.isMapVisible = true;
     },
@@ -160966,31 +161122,31 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
       this.isMapVisible = false;
     },
     switchTab: function switchTab(tab) {
-      var _this = this;
+      var _this2 = this;
       if (this.currentTab === tab) return;
       this.currentTab = tab;
       this.stopSpeech();
       this.settingsOpen = false;
       this.$nextTick(function () {
-        _this.calculateReadTimeAndWordCount();
-        _this.updateMapRoute();
+        _this2.calculateReadTimeAndWordCount();
+        _this2.updateMapRoute();
       });
     },
     toggleSpeech: function toggleSpeech() {
-      var _this2 = this;
+      var _this3 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var _this2$currentContent, title, summary, steps, text;
+        var _this3$currentContent, title, summary, steps, text;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.n) {
             case 0:
-              if (_this2.isSpeechAvailable) {
+              if (_this3.isSpeechAvailable) {
                 _context.n = 1;
                 break;
               }
               alert("Text-to-speech is not supported in this browser.");
               return _context.a(2);
             case 1:
-              _this2$currentContent = _this2.currentContent, title = _this2$currentContent.title, summary = _this2$currentContent.summary, steps = _this2$currentContent.steps;
+              _this3$currentContent = _this3.currentContent, title = _this3$currentContent.title, summary = _this3$currentContent.summary, steps = _this3$currentContent.steps;
               text = "".concat(title || '', " ").concat(summary || '', " ").concat((steps || []).map(function (s) {
                 return s.title + ' ' + s.description;
               }).join(' ')).trim();
@@ -161001,47 +161157,47 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
               alert("No content available to read.");
               return _context.a(2);
             case 2:
-              if (_this2.isSpeaking && !_this2.isPaused) {
+              if (_this3.isSpeaking && !_this3.isPaused) {
                 try {
                   window.speechSynthesis.pause();
-                  _this2.isPaused = true;
+                  _this3.isPaused = true;
                 } catch (error) {
                   console.error('Speech pause error:', error);
-                  _this2.stopSpeech();
+                  _this3.stopSpeech();
                 }
-              } else if (_this2.isSpeaking && _this2.isPaused) {
+              } else if (_this3.isSpeaking && _this3.isPaused) {
                 try {
                   window.speechSynthesis.resume();
-                  _this2.isPaused = false;
+                  _this3.isPaused = false;
                 } catch (error) {
                   console.error('Speech resume error:', error);
-                  _this2.stopSpeech();
+                  _this3.stopSpeech();
                 }
               } else {
-                _this2.stopSpeech();
+                _this3.stopSpeech();
                 try {
-                  _this2.utterance = new SpeechSynthesisUtterance(text);
-                  _this2.utterance.lang = 'en-US';
-                  _this2.utterance.rate = 1.0;
-                  _this2.utterance.pitch = 1.0;
-                  _this2.utterance.volume = 1.0;
-                  _this2.utterance.onend = function () {
-                    _this2.isSpeaking = false;
-                    _this2.isPaused = false;
-                    _this2.utterance = null;
+                  _this3.utterance = new SpeechSynthesisUtterance(text);
+                  _this3.utterance.lang = 'en-US';
+                  _this3.utterance.rate = 1.0;
+                  _this3.utterance.pitch = 1.0;
+                  _this3.utterance.volume = 1.0;
+                  _this3.utterance.onend = function () {
+                    _this3.isSpeaking = false;
+                    _this3.isPaused = false;
+                    _this3.utterance = null;
                   };
-                  _this2.utterance.onerror = function (event) {
+                  _this3.utterance.onerror = function (event) {
                     console.error('Speech synthesis error:', event);
-                    _this2.stopSpeech();
+                    _this3.stopSpeech();
                     alert('An error occurred during speech synthesis.');
                   };
-                  window.speechSynthesis.speak(_this2.utterance);
-                  _this2.isSpeaking = true;
-                  _this2.isPaused = false;
+                  window.speechSynthesis.speak(_this3.utterance);
+                  _this3.isSpeaking = true;
+                  _this3.isPaused = false;
                 } catch (error) {
                   console.error('Speech synthesis failed:', error);
                   alert('Failed to start speech synthesis.');
-                  _this2.stopSpeech();
+                  _this3.stopSpeech();
                 }
               }
             case 3:
@@ -161068,23 +161224,23 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
       }
     },
     copyText: function copyText() {
-      var _this3 = this;
+      var _this4 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
         var textToCopy, _t;
         return _regenerator().w(function (_context2) {
           while (1) switch (_context2.p = _context2.n) {
             case 0:
-              _this3.isCopying = true;
-              textToCopy = [_this3.currentContent.title, _this3.currentContent.summary].concat(_toConsumableArray((_this3.currentContent.steps || []).map(function (s) {
+              _this4.isCopying = true;
+              textToCopy = [_this4.currentContent.title, _this4.currentContent.summary].concat(_toConsumableArray((_this4.currentContent.steps || []).map(function (s) {
                 return s.title + '\n' + s.description;
               }))).filter(Boolean).join("\n\n");
               _context2.p = 1;
               _context2.n = 2;
               return navigator.clipboard.writeText(textToCopy);
             case 2:
-              _this3.copySuccess = true;
+              _this4.copySuccess = true;
               setTimeout(function () {
-                _this3.copySuccess = false;
+                _this4.copySuccess = false;
               }, 3000);
               _context2.n = 4;
               break;
@@ -161095,7 +161251,7 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
               alert('Failed to copy text to clipboard.');
             case 4:
               _context2.p = 4;
-              _this3.isCopying = false;
+              _this4.isCopying = false;
               return _context2.f(4);
             case 5:
               return _context2.a(2);
@@ -161164,12 +161320,12 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
       this.updateMapRoute();
     },
     updateMapRoute: function updateMapRoute() {
-      var _this4 = this;
+      var _this5 = this;
       if (!this.map) return;
       // Remove previous markers and polylines
       if (this.markers) {
         this.markers.forEach(function (m) {
-          return _this4.map.removeLayer(m);
+          return _this5.map.removeLayer(m);
         });
       }
       if (this.routeLine) {
@@ -161182,7 +161338,7 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
       this.markers = locations.map(function (loc) {
         return leaflet__WEBPACK_IMPORTED_MODULE_0___default().marker(loc.coords, {
           title: loc.name
-        }).addTo(_this4.map).bindPopup("<b>".concat(loc.name, "</b>"));
+        }).addTo(_this5.map).bindPopup("<b>".concat(loc.name, "</b>"));
       });
       // Draw route with shadow/glow and animation
       this.routeLine = leaflet__WEBPACK_IMPORTED_MODULE_0___default().polyline(locations.map(function (l) {
@@ -161203,7 +161359,7 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
       });
       var _animate = function animate() {
         if (i <= coords.length) {
-          _this4.animatedRoute.setLatLngs(coords.slice(0, i));
+          _this5.animatedRoute.setLatLngs(coords.slice(0, i));
           i++;
           setTimeout(_animate, 180);
         }
@@ -170438,7 +170594,9 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "islamic-calendar-container container-fluid py-5"
+  "class": "islamic-calendar-container container-fluid py-5",
+  role: "main",
+  "aria-labelledby": "calendar-title"
 };
 var _hoisted_2 = {
   "class": "calendar-header"
@@ -170470,91 +170628,95 @@ var _hoisted_10 = {
   "class": "calendar-grid"
 };
 var _hoisted_11 = {
-  "class": "calendar-weekdays row g-0 text-center fw-semibold border-bottom"
+  "class": "calendar-weekdays row g-0 text-center fw-semibold border-bottom",
+  role: "row",
+  "aria-label": "Weekday headers"
 };
-var _hoisted_12 = {
-  "class": "calendar-days"
-};
-var _hoisted_13 = ["onClick"];
-var _hoisted_14 = {
+var _hoisted_12 = ["tabindex", "aria-selected", "aria-label", "onClick"];
+var _hoisted_13 = {
   key: 0,
   "class": "day-content"
 };
-var _hoisted_15 = {
+var _hoisted_14 = {
   "class": "fs-5 fw-bold"
 };
-var _hoisted_16 = {
+var _hoisted_15 = {
   "class": "text-muted small"
 };
-var _hoisted_17 = {
+var _hoisted_16 = {
   key: 0,
   "class": "badge bg-success mt-1"
 };
-var _hoisted_18 = {
+var _hoisted_17 = {
   key: 1,
   "class": "event-indicator position-absolute top-0 end-0 p-1"
 };
-var _hoisted_19 = {
+var _hoisted_18 = {
   key: 0,
   "class": "modal fade show d-block",
   tabindex: "-1",
+  role: "dialog",
+  "aria-modal": "true",
+  "aria-labelledby": "day-details-title",
   style: {
     "background": "rgba(0,0,0,0.5)"
   }
 };
-var _hoisted_20 = {
+var _hoisted_19 = {
   "class": "modal-dialog modal-dialog-centered modal-xl"
 };
-var _hoisted_21 = {
+var _hoisted_20 = {
   "class": "modal-content"
 };
-var _hoisted_22 = {
+var _hoisted_21 = {
   "class": "modal-header"
 };
-var _hoisted_23 = {
+var _hoisted_22 = {
+  id: "day-details-title",
   "class": "modal-title fw-bold"
 };
-var _hoisted_24 = {
+var _hoisted_23 = {
   "class": "modal-body"
 };
-var _hoisted_25 = {
+var _hoisted_24 = {
   "class": "text-muted mb-3"
 };
-var _hoisted_26 = {
+var _hoisted_25 = {
   key: 0,
   "class": "mb-3"
 };
-var _hoisted_27 = {
+var _hoisted_26 = {
   "class": "list-group"
 };
-var _hoisted_28 = {
+var _hoisted_27 = {
   key: 1,
   "class": "prayer-times"
 };
-var _hoisted_29 = {
+var _hoisted_28 = {
   "class": "row"
 };
-var _hoisted_30 = {
+var _hoisted_29 = {
   "class": "prayer-time d-flex justify-content-between"
 };
-var _hoisted_31 = {
+var _hoisted_30 = {
   "class": "fw-semibold"
 };
-var _hoisted_32 = {
+var _hoisted_31 = {
   "class": "modal-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$selectedDay$ev;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    id: "calendar-title",
     "class": "text-center fw-bold display-5 mb-4"
-  }, "Islamic Hijri Calendar", -1 /* CACHED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Hijri Calendar", -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-3 lead"
   }, " The Islamic Hijri Calendar is a lunar calendar used by Muslims to determine religious events like Ramadan, Eid, and Hajj. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Left: Previous Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.previousMonth && $options.previousMonth.apply($options, arguments);
     }),
     "class": "btn btn-outline-success w-100"
-  }, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-chevron-left"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous ", -1 /* CACHED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Center: Month & Year Selectors "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
@@ -170593,9 +170755,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.nextMonth && $options.nextMonth.apply($options, arguments);
     }),
     "class": "btn btn-outline-success w-100"
-  }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-chevron-right"
-  }, null, -1 /* CACHED */)])))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Indicator "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)])))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Indicator "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-success",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -170605,10 +170767,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: day,
       "class": "col py-2 bg-light"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Calendar Days "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.calendarWeeks, function (week, weekIndex) {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Calendar Days "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "calendar-days",
+    role: "grid",
+    "aria-labelledby": 'calendar-title',
+    onKeydown: _cache[6] || (_cache[6] = function () {
+      return $options.onGridKeydown && $options.onGridKeydown.apply($options, arguments);
+    }),
+    ref: "grid"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.calendarWeeks, function (week, weekIndex) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: weekIndex,
-      "class": "row g-0 calendar-week"
+      "class": "row g-0 calendar-week",
+      role: "row"
     }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(week, function (day, dayIndex) {
       var _day$events;
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -170619,34 +170790,40 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           'bg-light': dayIndex === 5 || dayIndex === 6,
           'islamic-event': day && day.events && day.events.length > 0
         }]),
+        role: "gridcell",
+        tabindex: $options.computeTabIndex(weekIndex, dayIndex, day),
+        "aria-selected": $options.isCurrentDay(day) ? 'true' : 'false',
+        "aria-label": $options.dayAriaLabel(day),
         onClick: function onClick($event) {
           return $options.showDayDetails(day);
-        }
-      }, [day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.hijri.day), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.gregorian.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.gregorian.month.en.substring(0, 3)), 1 /* TEXT */), $options.isCurrentDay(day) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, "Today")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_day$events = day.events) !== null && _day$events !== void 0 && _day$events.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        },
+        ref_for: true,
+        ref: "cells"
+      }, [day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.hijri.day), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.gregorian.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.gregorian.month.en.substring(0, 3)), 1 /* TEXT */), $options.isCurrentDay(day) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, "Today")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_day$events = day.events) !== null && _day$events !== void 0 && _day$events.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-star-fill text-warning"
-      }, null, -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_13);
+      }, null, -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_12);
     }), 128 /* KEYED_FRAGMENT */))]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Day Details Modal "), $data.selectedDay ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.hijri.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.islamicMonths[$data.selectedDay.hijri.month.number - 1]) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.hijri.year) + " AH ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Day Details Modal "), $data.selectedDay ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.hijri.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.islamicMonths[$data.selectedDay.hijri.month.number - 1]) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.hijri.year) + " AH ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close",
     "aria-label": "Close day details",
-    onClick: _cache[6] || (_cache[6] = function ($event) {
+    onClick: _cache[7] || (_cache[7] = function ($event) {
       return $data.selectedDay = null;
     })
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.gregorian.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.gregorian.month.en) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.gregorian.year), 1 /* TEXT */), (_$data$selectedDay$ev = $data.selectedDay.events) !== null && _$data$selectedDay$ev !== void 0 && _$data$selectedDay$ev.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Islamic Events:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_27, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedDay.events, function (event, index) {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.gregorian.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.gregorian.month.en) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.gregorian.year), 1 /* TEXT */), (_$data$selectedDay$ev = $data.selectedDay.events) !== null && _$data$selectedDay$ev !== void 0 && _$data$selectedDay$ev.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Islamic Events:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedDay.events, function (event, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: index,
       "class": "list-group-item"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerTimes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Prayer Times:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerTimes, function (time, name) {
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerTimes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Prayer Times:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerTimes, function (time, name) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col-6",
       key: name
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name) + ":", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(time), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name) + ":", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(time), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-secondary",
-    onClick: _cache[7] || (_cache[7] = function ($event) {
+    onClick: _cache[8] || (_cache[8] = function ($event) {
       return $data.selectedDay = null;
     })
   }, "Close")])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
@@ -172483,7 +172660,9 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container my-5"
+  "class": "container my-5",
+  role: "main",
+  "aria-labelledby": "date-title"
 };
 var _hoisted_2 = {
   "class": "row justify-content-center"
@@ -172611,6 +172790,7 @@ var _hoisted_37 = {
 };
 var _hoisted_38 = {
   "class": "table w-auto bg-white mb-0 calendar-table",
+  role: "table",
   style: {
     "border-radius": "0.75rem",
     "overflow": "hidden",
@@ -172618,16 +172798,20 @@ var _hoisted_38 = {
   }
 };
 var _hoisted_39 = {
+  role: "row"
+};
+var _hoisted_40 = {
   key: 0
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    id: "date-title",
     "class": "display-5 fw-bold text-center"
-  }, "Date Converter", -1 /* CACHED */)), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Date Converter", -1 /* CACHED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-2 lead"
-  }, " Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for finding Islamic dates for events, holidays, or just learning more about the calendars! ", -1 /* CACHED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for finding Islamic dates for events, holidays, or just learning more about the calendars! ", -1 /* CACHED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "alert alert-info text-center mb-3 container-fluid"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Did you know?"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" The Islamic calendar is about 10-12 days shorter than the Gregorian calendar each year, so Islamic months move through the seasons! ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Did you know?"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" The Islamic calendar is about 10-12 days shorter than the Gregorian calendar each year, so Islamic months move through the seasons! ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
       "padding": "0.9rem",
       "color": "white",
@@ -172714,7 +172898,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[6] || (_cache[6] = function () {
       return $options.resetForm && $options.resetForm.apply($options, arguments);
     })
-  }, "Reset")])], 32 /* NEED_HYDRATION */), $data.convertedDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Reset")])], 32 /* NEED_HYDRATION */), $data.convertedDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "fs-2 align-middle",
@@ -172727,7 +172911,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "text-muted mb-1"
   }, "Source", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.sourceCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedSourceDate), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-muted mb-1"
-  }, "Target", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.targetCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedTargetDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.targetDayName), 1 /* TEXT */)])])]), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Target", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.targetCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedTargetDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.targetDayName), 1 /* TEXT */)])])]), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     "class": "my-4",
     style: {
       "border-color": "#e0e0e0"
@@ -172737,27 +172921,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "color": "#00a792"
     }
-  }, "🗓️", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, "Islamic Calendar for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriMonthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriYear), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], function (day) {
+  }, "🗓️", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, "Islamic Calendar for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriMonthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriYear), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_38, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("caption", {
+    "class": "text-muted"
+  }, "Islamic calendar month grid showing days of week and Hijri dates", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], function (day) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
       key: day,
       "class": "text-center small",
+      scope: "col",
       style: {
         "background": "#f8f9fa"
       }
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day), 1 /* TEXT */);
   }), 64 /* STABLE_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.hijriMonthGrid, function (week) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
-      key: week[0]
+      key: week[0],
+      role: "row"
     }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(week, function (cell) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", {
         key: cell.day + '-' + cell.isCurrent,
+        role: "cell",
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['text-center', cell.isCurrent ? 'bg-success text-white fw-bold' : '', 'small', cell.day ? 'calendar-day-cell' : '']),
         style: {
           "vertical-align": "middle",
           "min-width": "36px",
           "min-height": "36px"
         }
-      }, [cell.day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(cell.day), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
+      }, [cell.day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(cell.day), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
     }), 128 /* KEYED_FRAGMENT */))]);
   }), 128 /* KEYED_FRAGMENT */))])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])])]);
 }
@@ -172784,7 +172973,9 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container-fluid py-4"
+  "class": "container-fluid py-4",
+  role: "main",
+  "aria-labelledby": "dua-title"
 };
 var _hoisted_2 = {
   key: 0,
@@ -172795,7 +172986,8 @@ var _hoisted_3 = {
   "class": "container mb-4"
 };
 var _hoisted_4 = {
-  "class": "row justify-content-center"
+  "class": "row justify-content-center",
+  role: "search"
 };
 var _hoisted_5 = {
   "class": "col-12 col-md-10 col-lg-10"
@@ -172857,23 +173049,26 @@ var _hoisted_23 = {
 };
 var _hoisted_24 = {
   key: 0,
-  "class": "alert alert-info text-center no-duas-message"
+  "class": "alert alert-info text-center no-duas-message",
+  role: "status",
+  "aria-live": "polite"
 };
-var _hoisted_25 = {
+var _hoisted_25 = ["aria-labelledby"];
+var _hoisted_26 = {
   "class": "d-flex align-items-center justify-content-between category-header mb-3"
 };
-var _hoisted_26 = {
-  "class": "fw-semibold text-start mb-3 category-title"
-};
-var _hoisted_27 = {
+var _hoisted_27 = ["id"];
+var _hoisted_28 = {
   "class": "d-flex align-items-center gap-3"
 };
-var _hoisted_28 = ["onClick", "title", "aria-label"];
-var _hoisted_29 = {
-  key: 0,
-  "class": "row g-3"
-};
+var _hoisted_29 = ["onClick", "title", "aria-label"];
 var _hoisted_30 = {
+  key: 0,
+  "class": "row g-3",
+  role: "list"
+};
+var _hoisted_31 = ["aria-labelledby"];
+var _hoisted_32 = {
   key: 0,
   "class": "position-absolute top-0 end-0 bg-white rounded-circle d-flex align-items-center justify-content-center m-2",
   style: {
@@ -172883,58 +173078,54 @@ var _hoisted_30 = {
     "z-index": "1"
   }
 };
-var _hoisted_31 = {
+var _hoisted_33 = {
   "class": "card-body d-flex flex-column p-3 p-md-4 text-black"
 };
-var _hoisted_32 = {
-  "class": "card-title fw-semibold mb-3 position-relative pb-2",
-  style: {
-    fontSize: 'calc(var(--font-size-base) * 1)'
-  }
-};
-var _hoisted_33 = {
+var _hoisted_34 = ["id"];
+var _hoisted_35 = {
   "class": "rounded-3 p-3 mb-3 text-center shadow-md bg-light"
 };
-var _hoisted_34 = ["innerHTML"];
-var _hoisted_35 = ["innerHTML"];
 var _hoisted_36 = ["innerHTML"];
-var _hoisted_37 = {
+var _hoisted_37 = ["innerHTML"];
+var _hoisted_38 = ["innerHTML"];
+var _hoisted_39 = {
   "class": "card-footer bg-light p-2 p-md-3"
 };
-var _hoisted_38 = {
+var _hoisted_40 = {
   "class": "d-flex justify-content-between align-items-center w-100"
 };
-var _hoisted_39 = {
+var _hoisted_41 = {
   "class": "d-flex align-items-center bg-white rounded-pill px-2 shadow-sm"
 };
-var _hoisted_40 = ["disabled"];
-var _hoisted_41 = ["disabled"];
-var _hoisted_42 = {
+var _hoisted_42 = ["disabled"];
+var _hoisted_43 = ["disabled"];
+var _hoisted_44 = {
   "class": "d-flex gap-2"
 };
-var _hoisted_43 = ["onClick", "aria-label"];
-var _hoisted_44 = {
+var _hoisted_45 = ["onClick", "aria-label"];
+var _hoisted_46 = {
   "class": "action-tooltip"
 };
-var _hoisted_45 = ["onClick"];
-var _hoisted_46 = ["onClick"];
-var _hoisted_47 = {
+var _hoisted_47 = ["onClick"];
+var _hoisted_48 = ["onClick"];
+var _hoisted_49 = {
   key: 1,
   "class": "d-flex justify-content-center mt-4"
 };
-var _hoisted_48 = {
+var _hoisted_50 = {
   "aria-label": "Dua pagination"
 };
-var _hoisted_49 = {
+var _hoisted_51 = {
   "class": "pagination"
 };
-var _hoisted_50 = ["onClick"];
-var _hoisted_51 = ["onClick"];
 var _hoisted_52 = ["onClick"];
+var _hoisted_53 = ["onClick"];
+var _hoisted_54 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     "class": "hero-section mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    id: "dua-title",
     "class": "fw-bold text-center mb-3"
   }, "Dua Collection"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container lead text-muted mb-4"
@@ -172960,7 +173151,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "text",
     "class": "form-control search-input",
     placeholder: "Search duas by title, Arabic words, translation, or reference",
-    "aria-label": "Search Duas",
+    "aria-label": "Search duas",
     onInput: _cache[1] || (_cache[1] = function () {
       return $options.resetPagination && $options.resetPagination.apply($options, arguments);
     }),
@@ -173077,13 +173268,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, " Explore All Duas ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredDuas, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: category.id,
-      "class": "mb-5"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_26, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      "class": "mb-5",
+      role: "region",
+      "aria-labelledby": "category-title-".concat(category.id)
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+      "class": "fw-semibold text-start mb-3 category-title",
+      id: "category-title-".concat(category.id)
+    }, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "images/art.png",
       width: "30px",
       "class": "me-2",
       alt: "Category icon"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(category.collapsed ? 'bi bi-chevron-down action-icon' : 'bi bi-chevron-up action-icon'),
       onClick: function onClick($event) {
         return $options.toggleCategoryCollapse(category.id);
@@ -173093,7 +173289,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: category.collapsed ? 'Expand Category' : 'Collapse Category',
       "aria-label": category.collapsed ? 'Expand Category' : 'Collapse Category',
       role: "button"
-    }, null, 10 /* CLASS, PROPS */, _hoisted_28)])]), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPaginatedDuas(category.duas), function (dua) {
+    }, null, 10 /* CLASS, PROPS */, _hoisted_29)])]), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPaginatedDuas(category.duas), function (dua) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: dua.id,
         "class": "col-12 col-md-6"
@@ -173103,15 +173299,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }]),
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           '--font-size-base': $data.fontSize + 'px'
-        })
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Badge "), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        }),
+        role: "listitem",
+        "aria-labelledby": "dua-title-".concat(dua.id)
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Badge "), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-heart-fill text-danger"
-      }, null, -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Body "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_32, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      }, null, -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Body "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+        "class": "card-title fw-semibold mb-3 position-relative pb-2",
+        id: "dua-title-".concat(dua.id),
+        style: {
+          fontSize: 'calc(var(--font-size-base) * 1)'
+        }
+      }, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
         src: "images/art.png",
         width: "20px",
         "class": "me-2",
         alt: "Category icon"
-      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.highlightText(dua.title)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.highlightText(dua.title)), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         "class": "mb-0 font-arabic",
         lang: "ar",
         dir: "rtl",
@@ -173121,7 +173325,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         },
         innerHTML: $options.highlightText(dua.arabic),
         "aria-label": "Dua in Arabic"
-      }, null, 8 /* PROPS */, _hoisted_34)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_36)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         "class": "mb-3 translation-text text-muted",
         style: {
           fontSize: 'calc(var(--font-size-base))',
@@ -173129,14 +173333,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         },
         innerHTML: $options.highlightText(dua.translation),
         "aria-label": "Dua translation"
-      }, null, 8 /* PROPS */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_37), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         "class": "text-muted mb-0 reference-text",
         style: {
           fontSize: 'calc(var(--font-size-base) * 0.9)'
         },
         innerHTML: $options.highlightText('- ' + dua.reference),
         "aria-label": "Dua reference"
-      }, null, 8 /* PROPS */, _hoisted_36)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Footer with Actions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 8 /* PROPS */, _hoisted_38)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Footer with Actions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-link p-1 text-secondary",
         onClick: _cache[12] || (_cache[12] = function ($event) {
           return $options.changeFontSize('decrease');
@@ -173145,7 +173349,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "aria-label": "Decrease Font Size"
       }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-dash-circle-fill fs-5"
-      }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_40), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_42), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         "class": "mx-1 bg-light",
         style: {
           "width": "1px",
@@ -173160,7 +173364,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "aria-label": "Increase Font Size"
       }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-plus-circle-fill fs-5"
-      }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_41)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_43)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn",
         style: {
           "width": "36px",
@@ -173172,7 +173376,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "aria-label": $data.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.likedDuas.includes(dua.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart')
-      }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.likedDuas.includes(dua.id) ? 'Unlike' : 'Like'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.likedDuas.includes(dua.id) ? 'Unlike' : 'Like'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_45), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn",
         style: {
           "width": "36px",
@@ -173186,7 +173390,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "bi bi-share-fill"
       }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         "class": "action-tooltip"
-      }, "Share", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_45), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, "Share", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_47), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn",
         style: {
           "width": "36px",
@@ -173200,8 +173404,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "bi bi-clipboard-fill"
       }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         "class": "action-tooltip"
-      }, "Copy", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_46)])])])], 6 /* CLASS, STYLE */)]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), !category.collapsed && category.duas.length > $data.duasPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+      }, "Copy", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_48)])])])], 14 /* CLASS, STYLE, PROPS */, _hoisted_31)]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), !category.collapsed && category.duas.length > $data.duasPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         disabled: $data.currentPage[category.id] === 1
       }])
@@ -173213,7 +173417,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Previous page"
     }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "aria-hidden": "true"
-    }, "« Previous", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_50)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages(category.duas), function (page) {
+    }, "« Previous", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_52)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages(category.duas), function (page) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: page,
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
@@ -173224,7 +173428,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: function onClick($event) {
           return $data.currentPage[category.id] = page;
         }
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_51)], 2 /* CLASS */);
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_53)], 2 /* CLASS */);
     }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         disabled: $data.currentPage[category.id] === $options.totalPages(category.duas)
@@ -173237,7 +173441,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Next page"
     }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "aria-hidden": "true"
-    }, "Next »", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_52)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    }, "Next »", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_54)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_25);
   }), 128 /* KEYED_FRAGMENT */))])]);
 }
 
@@ -175559,41 +175763,93 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "aria-labelledby": "prayer-times-heading"
+  id: "main-content",
+  role: "main"
 };
 var _hoisted_2 = {
-  "class": "container-fluid"
+  "class": "jumbotron",
+  role: "banner",
+  style: {
+    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+  }
 };
 var _hoisted_3 = {
-  "class": "row justify-content-center"
+  "class": "container-fluid",
+  style: {
+    "position": "relative",
+    "z-index": "2"
+  }
 };
 var _hoisted_4 = {
-  "class": "col-12"
+  "class": "container-fluid text-center",
+  style: {
+    "position": "relative",
+    "overflow": "hidden"
+  }
 };
 var _hoisted_5 = {
-  "class": "py-5 combined-section"
+  "class": "row mb-2 align-items-center",
+  style: {
+    "position": "relative",
+    "z-index": "2"
+  }
 };
 var _hoisted_6 = {
-  "class": "container-fluid"
+  "class": "col-md-6"
 };
 var _hoisted_7 = {
-  "class": "row align-items-stretch"
+  "class": "carousel-control-prev",
+  type: "button",
+  "data-bs-target": "#carouselExampleInterval",
+  "data-bs-slide": "prev",
+  "aria-label": "Previous slide",
+  ref: "prevBtn"
 };
 var _hoisted_8 = {
-  "class": "col-lg-5 mb-4"
+  "class": "carousel-control-next",
+  type: "button",
+  "data-bs-target": "#carouselExampleInterval",
+  "data-bs-slide": "next",
+  "aria-label": "Next slide",
+  ref: "nextBtn"
 };
 var _hoisted_9 = {
-  "class": "donation-form"
+  "aria-labelledby": "prayer-times-heading",
+  role: "region"
 };
 var _hoisted_10 = {
+  "class": "container-fluid"
+};
+var _hoisted_11 = {
+  "class": "row justify-content-center"
+};
+var _hoisted_12 = {
+  "class": "col-12"
+};
+var _hoisted_13 = {
+  "class": "py-5 combined-section"
+};
+var _hoisted_14 = {
+  "class": "container-fluid"
+};
+var _hoisted_15 = {
+  "class": "row align-items-stretch"
+};
+var _hoisted_16 = {
+  "class": "col-lg-5 mb-4"
+};
+var _hoisted_17 = {
+  "class": "donation-form"
+};
+var _hoisted_18 = {
   key: 0,
   "class": "summary-section mb-4"
 };
-var _hoisted_11 = {
+var _hoisted_19 = {
   "class": "summary-item"
 };
-var _hoisted_12 = ["disabled"];
-var _hoisted_13 = {
+var _hoisted_20 = ["disabled"];
+var _hoisted_21 = {
   "class": "py-5 contact-section",
   "aria-labelledby": "contact-heading",
   style: {
@@ -175601,41 +175857,17 @@ var _hoisted_13 = {
     "box-shadow": "0 7px 29px rgba(100, 100, 111, 0.2)"
   }
 };
-var _hoisted_14 = {
+var _hoisted_22 = {
   "class": "container-fluid"
 };
-var _hoisted_15 = {
+var _hoisted_23 = {
   "class": "row justify-content-center"
 };
-var _hoisted_16 = {
+var _hoisted_24 = {
   "class": "col-md-10 col-lg-6 mt-4"
 };
-var _hoisted_17 = {
-  "class": "row g-3"
-};
-var _hoisted_18 = {
-  "class": "col-md-6"
-};
-var _hoisted_19 = {
-  "class": "mb-3"
-};
-var _hoisted_20 = {
-  "class": "col-md-6"
-};
-var _hoisted_21 = {
-  "class": "mb-3"
-};
-var _hoisted_22 = {
-  "class": "col-md-6"
-};
-var _hoisted_23 = {
-  "class": "mb-3"
-};
-var _hoisted_24 = {
-  "class": "col-md-6"
-};
 var _hoisted_25 = {
-  "class": "mb-3"
+  "class": "row g-3"
 };
 var _hoisted_26 = {
   "class": "col-md-6"
@@ -175644,31 +175876,41 @@ var _hoisted_27 = {
   "class": "mb-3"
 };
 var _hoisted_28 = {
-  "class": "col-12"
+  "class": "col-md-6"
 };
 var _hoisted_29 = {
   "class": "mb-3"
 };
+var _hoisted_30 = {
+  "class": "col-md-6"
+};
+var _hoisted_31 = {
+  "class": "mb-3"
+};
+var _hoisted_32 = {
+  "class": "col-md-6"
+};
+var _hoisted_33 = {
+  "class": "mb-3"
+};
+var _hoisted_34 = {
+  "class": "col-md-6"
+};
+var _hoisted_35 = {
+  "class": "mb-3"
+};
+var _hoisted_36 = {
+  "class": "col-12"
+};
+var _hoisted_37 = {
+  "class": "mb-3"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_PrayerTimes = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("PrayerTimes");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "jumbotron",
-    style: {
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "container-fluid",
-    style: {
-      "position": "relative",
-      "z-index": "2"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Enhanced Hero Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "container-fluid text-center",
-    style: {
-      "position": "relative",
-      "overflow": "hidden"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Elements "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Skip link for keyboard users "), _cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "#main-content",
+    "class": "skip-link"
+  }, "Skip to main content", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Enhanced Hero Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Elements "), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
       "position": "absolute",
       "top": "-20%",
@@ -175680,7 +175922,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "animation": "float-hero 8s ease-in-out infinite",
       "z-index": "1"
     }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
       "position": "absolute",
       "bottom": "-30%",
@@ -175692,13 +175934,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "animation": "float-hero 6s ease-in-out infinite 2s",
       "z-index": "1"
     }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "row mb-2 align-items-center",
-    style: {
-      "position": "relative",
-      "z-index": "2"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-left",
@@ -175886,86 +176122,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "#4a5568",
       "font-weight": "600"
     }
-  }, "No Registration")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "No Registration")])])])])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "carouselExampleInterval",
     "class": "carousel slide",
     "data-bs-ride": "carousel",
-    "data-bs-interval": "4000"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-inner"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-item active"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/qenew.png",
-    "class": "d-block w-100",
-    alt: "Quran companion"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/surat2.png",
-    "class": "d-block w-100",
-    alt: "Quran explorer"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/podcast2.png",
-    "class": "d-block w-100",
-    alt: "Audio podcasts"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/seerah2.png",
-    "class": "d-block w-100",
-    alt: "Seerah timeline"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/radio2.png",
-    "class": "d-block w-100",
-    alt: "Islamic Radio"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/locator2.png",
-    "class": "d-block w-100",
-    alt: "Mosque Locator"
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Simple Indicators "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "carousel-indicators mt-2 mb-2"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "data-bs-target": "#carouselExampleInterval",
-    "data-bs-slide-to": "0",
-    "class": "active",
-    "aria-current": "true",
-    "aria-label": "Slide 1"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "data-bs-target": "#carouselExampleInterval",
-    "data-bs-slide-to": "1",
-    "aria-label": "Slide 2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "data-bs-target": "#carouselExampleInterval",
-    "data-bs-slide-to": "2",
-    "aria-label": "Slide 3"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "data-bs-target": "#carouselExampleInterval",
-    "data-bs-slide-to": "3",
-    "aria-label": "Slide 4"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "data-bs-target": "#carouselExampleInterval",
-    "data-bs-slide-to": "4",
-    "aria-label": "Slide 5"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "data-bs-target": "#carouselExampleInterval",
-    "data-bs-slide-to": "5",
-    "aria-label": "Slide 6"
-  })])])])])])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" SEO Optimized Heading "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "data-bs-interval": "4000",
+    role: "region",
+    "aria-roledescription": "carousel",
+    "aria-label": "Featured product carousel",
+    tabindex: "0",
+    ref: "heroCarousel",
+    onKeydown: [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.prevSlide && $options.prevSlide.apply($options, arguments);
+    }, ["prevent"]), ["left"])), _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.nextSlide && $options.nextSlide.apply($options, arguments);
+    }, ["prevent"]), ["right"]))]
+  }, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"carousel-inner\" data-v-2ba25654><div class=\"carousel-item active\" data-v-2ba25654><img src=\"/images/qenew.png\" class=\"d-block w-100\" alt=\"Quran companion\" data-v-2ba25654></div><div class=\"carousel-item\" data-v-2ba25654><img src=\"/images/surat2.png\" class=\"d-block w-100\" alt=\"Quran explorer\" data-v-2ba25654></div><div class=\"carousel-item\" data-v-2ba25654><img src=\"/images/podcast2.png\" class=\"d-block w-100\" alt=\"Audio podcasts\" data-v-2ba25654></div><div class=\"carousel-item\" data-v-2ba25654><img src=\"/images/seerah2.png\" class=\"d-block w-100\" alt=\"Seerah timeline\" data-v-2ba25654></div><div class=\"carousel-item\" data-v-2ba25654><img src=\"/images/radio2.png\" class=\"d-block w-100\" alt=\"Islamic Radio\" data-v-2ba25654></div><div class=\"carousel-item\" data-v-2ba25654><img src=\"/images/locator2.png\" class=\"d-block w-100\" alt=\"Mosque Locator\" data-v-2ba25654></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Simple Indicators "), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"carousel-indicators mt-2 mb-2\" data-v-2ba25654><button type=\"button\" data-bs-target=\"#carouselExampleInterval\" data-bs-slide-to=\"0\" class=\"active\" aria-current=\"true\" aria-label=\"Slide 1\" aria-controls=\"carouselExampleInterval\" data-v-2ba25654></button><button type=\"button\" data-bs-target=\"#carouselExampleInterval\" data-bs-slide-to=\"1\" aria-label=\"Slide 2\" aria-controls=\"carouselExampleInterval\" data-v-2ba25654></button><button type=\"button\" data-bs-target=\"#carouselExampleInterval\" data-bs-slide-to=\"2\" aria-label=\"Slide 3\" aria-controls=\"carouselExampleInterval\" data-v-2ba25654></button><button type=\"button\" data-bs-target=\"#carouselExampleInterval\" data-bs-slide-to=\"3\" aria-label=\"Slide 4\" aria-controls=\"carouselExampleInterval\" data-v-2ba25654></button><button type=\"button\" data-bs-target=\"#carouselExampleInterval\" data-bs-slide-to=\"4\" aria-label=\"Slide 5\" aria-controls=\"carouselExampleInterval\" data-v-2ba25654></button><button type=\"button\" data-bs-target=\"#carouselExampleInterval\" data-bs-slide-to=\"5\" aria-label=\"Slide 6\" aria-controls=\"carouselExampleInterval\" data-v-2ba25654></button></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Accessible Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_7, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "carousel-control-prev-icon",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)])), 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_8, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "carousel-control-next-icon",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)])), 512 /* NEED_PATCH */)], 544 /* NEED_HYDRATION, NEED_PATCH */)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" SEO Optimized Heading "), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     id: "prayer-times-heading",
     "class": "text-center mb-4",
     style: {
@@ -175978,8 +176156,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "reduce-motion": true,
     "aria-live": "polite",
     "aria-atomic": "true"
-  })])])])]), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
-    "aria-labelledby": "services-heading"
+  })])])])]), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
+    "aria-labelledby": "services-heading",
+    role: "region"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "py-5",
     style: {
@@ -176002,6 +176181,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", {
     "class": "card h-100 border-0",
+    tabindex: "0",
     style: {
       "box-shadow": "0 5px 20px rgba(0, 0, 0, 0.1)",
       "transition": "transform 0.3s ease, box-shadow 0.3s ease"
@@ -176047,6 +176227,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", {
     "class": "card h-100 border-0",
+    tabindex: "0",
     style: {
       "box-shadow": "0 5px 20px rgba(0, 0, 0, 0.1)",
       "transition": "transform 0.3s ease, box-shadow 0.3s ease"
@@ -176092,6 +176273,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", {
     "class": "card h-100 border-0",
+    tabindex: "0",
     style: {
       "box-shadow": "0 5px 20px rgba(0, 0, 0, 0.1)",
       "transition": "transform 0.3s ease, box-shadow 0.3s ease"
@@ -176133,31 +176315,128 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Learn about accessible Islamic learning tools",
     onmouseover: "this.style.background='#1a5f7a'",
     onmouseout: "this.style.background='#0b806f'"
-  }, " Start Learning ")])])])])])])])], -1 /* CACHED */)), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"container pt-3\" aria-label=\"Islamic Connect Features\" data-v-2ba25654><!-- First Row - Quran Companion --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Quran Companion: AI-Powered &amp; Accessible </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Experience the Quran with advanced AI tools for reading, listening, and understanding. Featuring text-to-speech, screen reader support, and voice search for an accessible, intelligent connection to the Divine. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start\" data-v-2ba25654><a href=\"/quran\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" aria-label=\"Learn more about Quran Companion features\" data-v-2ba25654> Explore Quran </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/companion2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran Companion interface showing AI-powered features and accessibility tools\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div><!-- Second Row - Audio Content --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/podcast2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Islamic podcasts and audio content streaming interface\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div><div class=\"col-lg-6\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Spiritual Content On-The-Go </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place. Stay spiritually connected through sound and reflection wherever you are. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start\" data-v-2ba25654><a href=\"/content\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" aria-label=\"Discover Islamic audio content and podcasts\" data-v-2ba25654> Browse Content </a></div></div></div><!-- Third Row - Quran Explorer --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Deep Quran Exploration </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Search, explore, and engage with every verse effortlessly. Discover tafsir, translations, and recitations with tools designed for simplicity and spiritual growth. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start\" data-v-2ba25654><a href=\"/surat\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" aria-label=\"Start exploring Quran verses and translations\" data-v-2ba25654> Start Exploring </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/surat2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran exploration interface with search and translation features\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Section "), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"stats-section\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center\" data-v-2ba25654><div class=\"col-lg-10 text-center\" data-v-2ba25654><h2 class=\"section-title\" data-v-2ba25654>Our Impact in Numbers</h2><p class=\"section-lead\" data-v-2ba25654>Measurable results showing how we&#39;re making Islamic knowledge accessible to all</p><div class=\"row container-fluid stats-grid\" data-v-2ba25654><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>60+</h3><p data-v-2ba25654>Countries</p><small data-v-2ba25654>Global reach</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>500+</h3><p data-v-2ba25654>Cities/Towns</p><small data-v-2ba25654>Worldwide presence</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>100%</h3><p data-v-2ba25654>Accessibility &amp; SEO</p><small data-v-2ba25654>Score</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>1,090%</h3><p data-v-2ba25654>Growth</p><small data-v-2ba25654>Returning users</small></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Value Proposition Column "), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-lg-1 mb-4\" data-v-2ba25654></div><div class=\"col-lg-5 mb-4\" data-v-2ba25654><div class=\"value-proposition-wrapper\" data-v-2ba25654><div class=\"form-header text-center mb-4\" data-v-2ba25654><h2 class=\"mb-3\" data-v-2ba25654>Strategic Impact Areas</h2></div><div class=\"row\" data-v-2ba25654><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>📚</div><h3 data-v-2ba25654>Educational Content</h3><p data-v-2ba25654>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>♿</div><h3 data-v-2ba25654>Accessibility Features</h3><p data-v-2ba25654>Implementing screen reader support and voice interfaces for inclusive access</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>⚙️</div><h3 data-v-2ba25654>Platform Infrastructure</h3><p data-v-2ba25654>Maintaining robust servers and scalable architecture for global user base</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>🌍</div><h3 data-v-2ba25654>Global Outreach</h3><p data-v-2ba25654>Expanding to underserved Muslim communities worldwide</p></div></div></div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Donation Section Column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Start Learning ")])])])])])])])], -1 /* CACHED */)), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
+    "class": "container pt-3",
+    "aria-label": "Islamic Connect Features",
+    role: "region"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" First Row - Quran Companion "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row py-4 py-lg-5 align-items-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-lg-6 order-2 order-lg-1"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "h1 fw-bold text-center text-lg-start mb-4"
+  }, " Quran Companion: AI-Powered & Accessible "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead text-muted text-center text-lg-start mb-4",
+    style: {
+      "line-height": "1.7"
+    }
+  }, " Experience the Quran with advanced AI tools for reading, listening, and understanding. Featuring text-to-speech, screen reader support, and voice search for an accessible, intelligent connection to the Divine. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "/quran",
+    "class": "btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none",
+    style: {
+      "background": "#0b806f",
+      "border": "none",
+      "min-width": "160px"
+    },
+    "aria-label": "Learn more about Quran Companion features"
+  }, " Explore Quran ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/companion2.png",
+    "class": "img-fluid rounded-3 shadow-sm",
+    alt: "Quran Companion interface showing AI-powered features and accessibility tools",
+    loading: "lazy",
+    width: "600",
+    height: "400"
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Second Row - Audio Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row py-4 py-lg-5 align-items-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-lg-6 mb-4 mb-lg-0"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/podcast2.png",
+    "class": "img-fluid rounded-3 shadow-sm",
+    alt: "Islamic podcasts and audio content streaming interface",
+    loading: "lazy",
+    width: "600",
+    height: "400"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-lg-6"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "h1 fw-bold text-center text-lg-start mb-4"
+  }, " Spiritual Content On-The-Go "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead text-muted text-center text-lg-start mb-4",
+    style: {
+      "line-height": "1.7"
+    }
+  }, " Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place. Stay spiritually connected through sound and reflection wherever you are. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "/content",
+    "class": "btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none",
+    style: {
+      "background": "#0b806f",
+      "border": "none",
+      "min-width": "160px"
+    },
+    "aria-label": "Discover Islamic audio content and podcasts"
+  }, " Browse Content ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Third Row - Quran Explorer "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row py-4 py-lg-5 align-items-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-lg-6 order-2 order-lg-1"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "h1 fw-bold text-center text-lg-start mb-4"
+  }, " Deep Quran Exploration "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead text-muted text-center text-lg-start mb-4",
+    style: {
+      "line-height": "1.7"
+    }
+  }, " Search, explore, and engage with every verse effortlessly. Discover tafsir, translations, and recitations with tools designed for simplicity and spiritual growth. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "/surat",
+    "class": "btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none",
+    style: {
+      "background": "#0b806f",
+      "border": "none",
+      "min-width": "160px"
+    },
+    "aria-label": "Start exploring Quran verses and translations"
+  }, " Start Exploring ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/surat2.png",
+    "class": "img-fluid rounded-3 shadow-sm",
+    alt: "Quran exploration interface with search and translation features",
+    loading: "lazy",
+    width: "600",
+    height: "400"
+  })])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Section "), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"stats-section\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center\" data-v-2ba25654><div class=\"col-lg-10 text-center\" data-v-2ba25654><h2 class=\"section-title\" data-v-2ba25654>Our Impact in Numbers</h2><p class=\"section-lead\" data-v-2ba25654>Measurable results showing how we&#39;re making Islamic knowledge accessible to all</p><div class=\"row container-fluid stats-grid\" data-v-2ba25654><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>60+</h3><p data-v-2ba25654>Countries</p><small data-v-2ba25654>Global reach</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>500+</h3><p data-v-2ba25654>Cities/Towns</p><small data-v-2ba25654>Worldwide presence</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>100%</h3><p data-v-2ba25654>Accessibility &amp; SEO</p><small data-v-2ba25654>Score</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>1,090%</h3><p data-v-2ba25654>Growth</p><small data-v-2ba25654>Returning users</small></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Value Proposition Column "), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-lg-1 mb-4\" data-v-2ba25654></div><div class=\"col-lg-5 mb-4\" data-v-2ba25654><div class=\"value-proposition-wrapper\" data-v-2ba25654><div class=\"form-header text-center mb-4\" data-v-2ba25654><h2 class=\"mb-3\" data-v-2ba25654>Strategic Impact Areas</h2></div><div class=\"row\" data-v-2ba25654><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>📚</div><h3 data-v-2ba25654>Educational Content</h3><p data-v-2ba25654>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>♿</div><h3 data-v-2ba25654>Accessibility Features</h3><p data-v-2ba25654>Implementing screen reader support and voice interfaces for inclusive access</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>⚙️</div><h3 data-v-2ba25654>Platform Infrastructure</h3><p data-v-2ba25654>Maintaining robust servers and scalable architecture for global user base</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>🌍</div><h3 data-v-2ba25654>Global Outreach</h3><p data-v-2ba25654>Expanding to underserved Muslim communities worldwide</p></div></div></div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Donation Section Column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "form-header text-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "mb-3"
   }, "Make a Difference"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-muted"
-  }, "Your support enables us to continue our mission")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Trust Indicators "), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"trust-indicators mb-4\" data-v-2ba25654><div class=\"trust-item\" data-v-2ba25654><i class=\"fas fa-lock\" data-v-2ba25654></i><span data-v-2ba25654>Secure Payment</span></div><div class=\"trust-item\" data-v-2ba25654><i class=\"fas fa-shield-alt\" data-v-2ba25654></i><span data-v-2ba25654>SSL Encrypted</span></div><div class=\"trust-item\" data-v-2ba25654><i class=\"fas fa-certificate\" data-v-2ba25654></i><span data-v-2ba25654>Stripe Verified</span></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Summary "), $options.isValidAmount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Your support enables us to continue our mission")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Trust Indicators "), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"trust-indicators mb-4\" data-v-2ba25654><div class=\"trust-item\" data-v-2ba25654><i class=\"fas fa-lock\" data-v-2ba25654></i><span data-v-2ba25654>Secure Payment</span></div><div class=\"trust-item\" data-v-2ba25654><i class=\"fas fa-shield-alt\" data-v-2ba25654></i><span data-v-2ba25654>SSL Encrypted</span></div><div class=\"trust-item\" data-v-2ba25654><i class=\"fas fa-certificate\" data-v-2ba25654></i><span data-v-2ba25654>Stripe Verified</span></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Summary "), $options.isValidAmount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "summary-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Ready to Contribute")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"summary-item\">\n                  <span>Amount:</span>\n                  <strong>£{{ finalAmount }}</strong>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your Impact:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.impactMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Ready to Contribute")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"summary-item\">\n                  <span>Amount:</span>\n                  <strong>£{{ finalAmount }}</strong>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your Impact:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.impactMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-primary w-100",
-    onClick: _cache[0] || (_cache[0] = function () {
+    onClick: _cache[2] || (_cache[2] = function () {
       return $options.processDonation && $options.processDonation.apply($options, arguments);
     }),
     disabled: !$options.isValidAmount
-  }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-lock me-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Proceed to Secure Payment ", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_12), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Proceed to Secure Payment ", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_20), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "security-guarantee text-center mt-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "small text-muted"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-shield-alt me-1"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Your contribution is securely processed by Stripe. We never store your payment details. ")])], -1 /* CACHED */))])]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Your contribution is securely processed by Stripe. We never store your payment details. ")])], -1 /* CACHED */))])]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-1 mb-4"
-  }, null, -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Tools & Features Section - Optimized "), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" aria-labelledby=\"ai-tools-title\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654></div><h2 id=\"ai-tools-title\" class=\"h2 mb-3 fw-bold\" data-v-2ba25654>AI-Powered Tools for Enhanced Islamic Learning</h2></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><div class=\"col-12\" data-v-2ba25654><p class=\"lead text-center mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone. Our tools are designed to empower individuals through inclusive, personalized learning experiences that adapt to diverse abilities and learning preferences. </p></div><!-- Feature 1: Speech-to-Text --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"60\" height=\"60\" alt=\"Microphone icon representing speech-to-text feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Speech-to-Text for Islamic Notes</h3><p class=\"mb-0\" data-v-2ba25654> Capture your spoken reflections and thoughts on Islamic teachings effortlessly. Perfect for documenting insights and ensuring accessibility for those who prefer audio input. </p></div></div></div><!-- Feature 2: Voice Search --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"60\" height=\"60\" alt=\"Voice recognition icon for voice search feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Voice-Activated Quran Search</h3><p class=\"mb-0\" data-v-2ba25654> Use voice commands to search Quranic verses and teachings. A hands-free, accessible way to explore Islamic content quickly and intuitively. </p></div></div></div><!-- Feature 3: Note Editor --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"60\" height=\"60\" alt=\"E-learning icon for note editor feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Advanced Islamic Note Editor</h3><p class=\"mb-0\" data-v-2ba25654> A customizable note-taking tool designed specifically for Islamic studies. Organize your reflections, bookmarks, and study notes with ease. </p></div></div></div><!-- Feature 4: Text Summarization --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/content.png\" width=\"60\" height=\"60\" alt=\"Content icon for text summarization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>AI Text Summarization</h3><p class=\"mb-0\" data-v-2ba25654> Quickly understand complex Islamic texts with AI-powered summaries. Extract key insights from lengthy content to enhance your learning efficiency. </p></div></div></div><!-- Feature 5: Audio Sync --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"60\" height=\"60\" alt=\"Highlighter icon for audio synchronization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Word-by-Word Quran Highlighting</h3><p class=\"mb-0\" data-v-2ba25654> Follow Quranic recitations with synchronized text highlighting. Each word lights up as it&#39;s recited, improving pronunciation and comprehension. </p></div></div></div><!-- Feature 6: Text-to-Speech --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"60\" height=\"60\" alt=\"Chat icon for text-to-speech feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Text-to-Speech for Translations</h3><p class=\"mb-0\" data-v-2ba25654> Listen to Quran translations and Tafsir explanations. High-quality audio delivery makes Islamic knowledge accessible while multitasking or for visual impairments. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quick Join Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Enhanced Quick Join Section "), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
+  }, null, -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Tools & Features Section - Optimized "), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" aria-labelledby=\"ai-tools-title\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654></div><h2 id=\"ai-tools-title\" class=\"h2 mb-3 fw-bold\" data-v-2ba25654>AI-Powered Tools for Enhanced Islamic Learning</h2></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><div class=\"col-12\" data-v-2ba25654><p class=\"lead text-center mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone. Our tools are designed to empower individuals through inclusive, personalized learning experiences that adapt to diverse abilities and learning preferences. </p></div><!-- Feature 1: Speech-to-Text --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"60\" height=\"60\" alt=\"Microphone icon representing speech-to-text feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Speech-to-Text for Islamic Notes</h3><p class=\"mb-0\" data-v-2ba25654> Capture your spoken reflections and thoughts on Islamic teachings effortlessly. Perfect for documenting insights and ensuring accessibility for those who prefer audio input. </p></div></div></div><!-- Feature 2: Voice Search --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"60\" height=\"60\" alt=\"Voice recognition icon for voice search feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Voice-Activated Quran Search</h3><p class=\"mb-0\" data-v-2ba25654> Use voice commands to search Quranic verses and teachings. A hands-free, accessible way to explore Islamic content quickly and intuitively. </p></div></div></div><!-- Feature 3: Note Editor --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"60\" height=\"60\" alt=\"E-learning icon for note editor feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Advanced Islamic Note Editor</h3><p class=\"mb-0\" data-v-2ba25654> A customizable note-taking tool designed specifically for Islamic studies. Organize your reflections, bookmarks, and study notes with ease. </p></div></div></div><!-- Feature 4: Text Summarization --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/content.png\" width=\"60\" height=\"60\" alt=\"Content icon for text summarization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>AI Text Summarization</h3><p class=\"mb-0\" data-v-2ba25654> Quickly understand complex Islamic texts with AI-powered summaries. Extract key insights from lengthy content to enhance your learning efficiency. </p></div></div></div><!-- Feature 5: Audio Sync --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"60\" height=\"60\" alt=\"Highlighter icon for audio synchronization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Word-by-Word Quran Highlighting</h3><p class=\"mb-0\" data-v-2ba25654> Follow Quranic recitations with synchronized text highlighting. Each word lights up as it&#39;s recited, improving pronunciation and comprehension. </p></div></div></div><!-- Feature 6: Text-to-Speech --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"60\" height=\"60\" alt=\"Chat icon for text-to-speech feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Text-to-Speech for Translations</h3><p class=\"mb-0\" data-v-2ba25654> Listen to Quran translations and Tafsir explanations. High-quality audio delivery makes Islamic knowledge accessible while multitasking or for visual impairments. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quick Join Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Enhanced Quick Join Section "), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
     "class": "py-5 quick-join-section",
     style: {
       "background": "linear-gradient(135deg, #0b806f 0%, #1a5f7a 100%)",
@@ -176403,7 +176682,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "fas fa-quran"
-  })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-8 col-xxl-7"
@@ -176412,22 +176691,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "display-5 fw-bold mb-3"
   }, "Get In Touch"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead fw-semibold text-muted"
-  }, " Have questions or need assistance? We're here to help! Reach out to Islamic Connect for support, feedback, or inquiries about our content and services. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onReset: _cache[7] || (_cache[7] = function () {
+  }, " Have questions or need assistance? We're here to help! Reach out to Islamic Connect for support, feedback, or inquiries about our content and services. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onReset: _cache[9] || (_cache[9] = function () {
       return _ctx.reset && _ctx.reset.apply(_ctx, arguments);
     }),
-    onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+    onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $options.sendMessage();
     }, ["prevent"])),
     role: "form",
     "aria-label": "Contact form"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" First Name "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" First Name "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "firstname",
     "class": "form-label visually-hidden"
   }, "First Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "firstname",
     "class": "form-control form-control-lg bg-light",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.form.firstname = $event;
     }),
     name: "firstname",
@@ -176435,13 +176714,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "text",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.firstname]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Last Name "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.firstname]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Last Name "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "lastname",
     "class": "form-label visually-hidden"
   }, "Last Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "lastname",
     "class": "form-control form-control-lg bg-light",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.form.lastname = $event;
     }),
     name: "lastname",
@@ -176449,13 +176728,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "text",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.lastname]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Email "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.lastname]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Email "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "email",
     "class": "form-label visually-hidden"
   }, "Email Address", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "email",
     "class": "form-control form-control-lg bg-light",
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.form.email = $event;
     }),
     name: "email",
@@ -176463,13 +176742,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "email",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subject "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subject "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "subject",
     "class": "form-label visually-hidden"
   }, "Subject", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "subject",
     "class": "form-control form-control-lg bg-light",
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.form.subject = $event;
     }),
     name: "subject",
@@ -176477,13 +176756,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "text",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.subject]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Phone Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.subject]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Phone Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "mobile",
     "class": "form-label visually-hidden"
   }, "Phone Number", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "mobile",
     "class": "form-control form-control-lg bg-light",
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.form.mobile = $event;
     }),
     name: "mobile",
@@ -176491,13 +176770,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "tel",
     pattern: "[0-9]{10,15}",
     title: "Please enter a valid phone number"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.mobile]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Message "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.mobile]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Message "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "message",
     "class": "form-label visually-hidden"
   }, "Your Message", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     id: "message",
     "class": "form-control form-control-lg bg-light",
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.form.message = $event;
     }),
     name: "message",
@@ -176505,7 +176784,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     rows: "5",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.message]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-12\" data-v-2ba25654><div class=\"d-grid\" data-v-2ba25654><button type=\"submit\" class=\"btn btn-primary btn-lg fw-bold py-3\" style=\"background:#0b806f;border:none;box-shadow:0 7px 29px rgba(100, 100, 111, 0.2);\" aria-label=\"Send your message\" data-v-2ba25654><span class=\"d-flex align-items-center justify-content-center\" data-v-2ba25654><i class=\"fas fa-paper-plane me-2\" aria-hidden=\"true\" data-v-2ba25654></i> Send Message </span></button></div></div>", 1))])], 32 /* NEED_HYDRATION */)])])])]), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.message]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-12\" data-v-2ba25654><div class=\"d-grid\" data-v-2ba25654><button type=\"submit\" class=\"btn btn-primary btn-lg fw-bold py-3\" style=\"background:#0b806f;border:none;box-shadow:0 7px 29px rgba(100, 100, 111, 0.2);\" aria-label=\"Send your message\" data-v-2ba25654><span class=\"d-flex align-items-center justify-content-center\" data-v-2ba25654><i class=\"fas fa-paper-plane me-2\" aria-hidden=\"true\" data-v-2ba25654></i> Send Message </span></button></div></div>", 1))])], 32 /* NEED_HYDRATION */)])])])]), _cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", {
     "class": "py-4",
     style: {
       "box-shadow": "0 7px 29px rgba(100, 100, 111, 0.2)",
@@ -176597,7 +176876,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "#000000"
     },
     "aria-hidden": "true"
-  })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Additional Info "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row mt-2\">\n          <div class=\"col-12 text-center\">\n            <small class=\"text-muted\">\n              Serving the global Muslim community since 2024\n            </small>\n          </div>\n        </div> ")])], -1 /* CACHED */))]);
+  })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Additional Info "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row mt-2\">\n          <div class=\"col-12 text-center\">\n            <small class=\"text-muted\">\n              Serving the global Muslim community since 2024\n            </small>\n          </div>\n        </div> ")])], -1 /* CACHED */))])], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -177459,9 +177738,10 @@ var _hoisted_36 = {
 };
 var _hoisted_37 = {
   "class": "time",
+  role: "status",
   "aria-live": "polite"
 };
-var _hoisted_38 = ["aria-valuenow"];
+var _hoisted_38 = ["aria-valuenow", "aria-valuetext"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "fw-bold display-5 text-center mb-2"
@@ -177478,6 +177758,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: index,
       "class": "timeline-point",
+      role: "listitem",
       ref_for: true,
       ref: "eventRefs"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -177779,7 +178060,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.updateVolume && $options.updateVolume.apply($options, arguments);
     }),
     "class": "volume-slider",
-    "aria-label": "Volume control"
+    "aria-label": "Volume control",
+    "aria-live": "polite"
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volume]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime($data.currentTime)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime($data.totalTime)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "control-icon btn btn-link p-0 close-icon",
     onClick: _cache[23] || (_cache[23] = function () {
@@ -177795,6 +178077,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-valuemin": 0,
     "aria-valuemax": 100,
     "aria-valuenow": Math.round($data.progress[$data.currentlyPlayingIndex] || 0),
+    "aria-valuetext": "Progress ".concat(Math.round($data.progress[$data.currentlyPlayingIndex] || 0), " percent"),
     tabindex: "0",
     onKeydown: [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $options.keyboardSeek(-5);
@@ -178978,10 +179261,14 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 
 var _hoisted_1 = {
   "class": "container py-5",
-  ref: "qiblaFinder"
+  ref: "qiblaFinder",
+  role: "main",
+  "aria-labelledby": "qibla-title"
 };
 var _hoisted_2 = {
-  "class": "card shadow-sm mb-4"
+  "class": "card shadow-sm mb-4",
+  role: "region",
+  "aria-labelledby": "find-location-title"
 };
 var _hoisted_3 = {
   "class": "container-fluid card-body p-4"
@@ -178993,7 +179280,8 @@ var _hoisted_5 = ["disabled"];
 var _hoisted_6 = ["disabled"];
 var _hoisted_7 = {
   key: 0,
-  "class": "text-danger mt-3 mb-0"
+  "class": "text-danger mt-3 mb-0",
+  role: "alert"
 };
 var _hoisted_8 = {
   key: 0,
@@ -179001,13 +179289,17 @@ var _hoisted_8 = {
 };
 var _hoisted_9 = {
   key: 1,
-  "class": "row g-4"
+  "class": "row g-4",
+  role: "region",
+  "aria-label": "Results section"
 };
 var _hoisted_10 = {
   "class": "col-lg-6"
 };
 var _hoisted_11 = {
-  "class": "card shadow-sm h-100"
+  "class": "card shadow-sm h-100",
+  role: "region",
+  "aria-labelledby": "qibla-direction-title"
 };
 var _hoisted_12 = {
   "class": "container-fluid card-body text-center d-flex flex-column justify-content-center p-4"
@@ -179019,43 +179311,52 @@ var _hoisted_14 = {
   "class": "qibla-compass-wrapper position-relative mx-auto"
 };
 var _hoisted_15 = {
-  "class": "list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50"
+  "class": "list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50",
+  role: "list"
 };
 var _hoisted_16 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3",
+  role: "listitem"
 };
 var _hoisted_17 = {
   "class": "fw-bold d-flex align-items-center gap-2"
 };
 var _hoisted_18 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3",
+  role: "listitem"
 };
 var _hoisted_19 = {
   "class": "fw-bold"
 };
 var _hoisted_20 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3",
+  role: "listitem"
 };
 var _hoisted_21 = {
   "class": "fw-bold"
 };
 var _hoisted_22 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3",
+  role: "listitem"
 };
 var _hoisted_23 = {
   "class": "fw-bold"
 };
 var _hoisted_24 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3",
+  role: "listitem"
 };
 var _hoisted_25 = {
   "class": "fw-bold"
 };
 var _hoisted_26 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3",
+  role: "listitem"
 };
 var _hoisted_27 = {
-  "class": "fw-bold"
+  "class": "fw-bold",
+  role: "status",
+  "aria-live": "polite"
 };
 var _hoisted_28 = {
   "class": "container-fluid card-body"
@@ -179075,7 +179376,9 @@ var _hoisted_34 = {
   "class": "col-lg-6 d-flex"
 };
 var _hoisted_35 = {
-  "class": "card card-custom h-100 w-100"
+  "class": "card card-custom h-100 w-100",
+  role: "region",
+  "aria-labelledby": "prayer-times-title"
 };
 var _hoisted_36 = {
   "class": "card-body d-flex flex-column p-lg-4"
@@ -179093,7 +179396,8 @@ var _hoisted_39 = {
 var _hoisted_40 = ["value"];
 var _hoisted_41 = {
   key: 0,
-  "class": "list-group list-group-flush flex-grow-1"
+  "class": "list-group list-group-flush flex-grow-1",
+  role: "list"
 };
 var _hoisted_42 = {
   "class": "text-muted fw-bold"
@@ -179107,7 +179411,9 @@ var _hoisted_44 = {
 };
 var _hoisted_45 = {
   key: 2,
-  "class": "text-muted small mt-3 mb-0 text-center"
+  "class": "text-muted small mt-3 mb-0 text-center",
+  role: "status",
+  "aria-live": "polite"
 };
 var _hoisted_46 = {
   key: 2,
@@ -179115,13 +179421,15 @@ var _hoisted_46 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$qiblaDirection, _$data$distanceToKaab, _$data$distanceToKaab2, _$data$userLatitude, _$data$userLongitude;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     "class": "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    id: "qibla-title",
     "class": "display-3 fw-bold mb-2"
   }, "Qibla Compass"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead text-muted"
-  }, "Your essential companion for locating the precise direction of the Kaaba in Mecca for Islamic prayers, ensuring accurate alignment from anywhere in the world. This tool also provides reliable prayer times tailored to your location")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search & Location "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, "Your essential companion for locating the precise direction of the Kaaba in Mecca for Islamic prayers, ensuring accurate alignment from anywhere in the world. This tool also provides reliable prayer times tailored to your location")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search & Location "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    id: "find-location-title",
     "class": "h4 card-title text-primary fw-bold mb-3"
   }, "Find Your Location", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
@@ -179133,14 +179441,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
       return $options.searchQibla && $options.searchQibla.apply($options, arguments);
     }, ["enter"])),
-    ref: "searchInput"
+    ref: "searchInput",
+    "aria-label": "Enter a city or address"
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchLocation]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-primary",
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.searchQibla && $options.searchQibla.apply($options, arguments);
     }),
     disabled: $data.loading,
-    title: "Search"
+    title: "Search",
+    "aria-label": "Search location"
   }, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-search"
   }, null, -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -179149,14 +179459,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.getLocation && $options.getLocation.apply($options, arguments);
     }),
     disabled: $data.loading,
-    title: "Use My Location"
+    title: "Use My Location",
+    "aria-label": "Use my location"
   }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-geo-alt"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "d-none d-sm-inline"
-  }, "Use My Location", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_6)]), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Welcome / Initial Content "), !$options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-body p-lg-4\" data-v-6d77f7a9><div class=\"row g-4\" data-v-6d77f7a9><div class=\"col-lg-6\" data-v-6d77f7a9><p class=\"lead mb-4\" data-v-6d77f7a9> This tool helps you find the Qibla direction and local prayer times accurately. </p><h5 class=\"text-primary fw-bold mb-3\" data-v-6d77f7a9>How to Use:</h5><ol class=\"ps-3 mb-0\" data-v-6d77f7a9><li class=\"mb-2\" data-v-6d77f7a9>Enter a city or address in the search bar above.</li><li class=\"mb-2\" data-v-6d77f7a9> Or, click <i class=\"bi bi-geo-alt\" data-v-6d77f7a9></i><strong data-v-6d77f7a9>Use My Location</strong> for automatic detection. </li><li class=\"mb-2\" data-v-6d77f7a9> Calibrate your device by moving it in a figure-eight motion for the most accurate compass reading. </li></ol></div><div class=\"col-lg-6\" data-v-6d77f7a9><h5 class=\"h4 card-title text-primary fw-bold mb-3\" data-v-6d77f7a9> The Significance of the Qibla </h5><br data-v-6d77f7a9><br data-v-6d77f7a9><p class=\"text-muted mb-3\" data-v-6d77f7a9> The Qibla is the fixed direction towards the Kaaba in the Grand Mosque in Mecca, Saudi Arabia. It is the direction that Muslims face when performing Salah (prayer). </p><p class=\"text-muted mb-0\" data-v-6d77f7a9> Facing the Qibla is a crucial condition for the validity of prayer, and it symbolizes the unity of all Muslims worldwide, as they all turn towards the same sacred point to worship Allah. </p></div></div></div>", 1)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla & Compass "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Use My Location", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_6)]), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Welcome / Initial Content "), !$options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-body p-lg-4\" data-v-6d77f7a9><div class=\"row g-4\" data-v-6d77f7a9><div class=\"col-lg-6\" data-v-6d77f7a9><p class=\"lead mb-4\" data-v-6d77f7a9> This tool helps you find the Qibla direction and local prayer times accurately. </p><h5 class=\"text-primary fw-bold mb-3\" data-v-6d77f7a9>How to Use:</h5><ol class=\"ps-3 mb-0\" data-v-6d77f7a9><li class=\"mb-2\" data-v-6d77f7a9>Enter a city or address in the search bar above.</li><li class=\"mb-2\" data-v-6d77f7a9> Or, click <i class=\"bi bi-geo-alt\" data-v-6d77f7a9></i><strong data-v-6d77f7a9>Use My Location</strong> for automatic detection. </li><li class=\"mb-2\" data-v-6d77f7a9> Calibrate your device by moving it in a figure-eight motion for the most accurate compass reading. </li></ol></div><div class=\"col-lg-6\" data-v-6d77f7a9><h5 class=\"h4 card-title text-primary fw-bold mb-3\" data-v-6d77f7a9> The Significance of the Qibla </h5><br data-v-6d77f7a9><br data-v-6d77f7a9><p class=\"text-muted mb-3\" data-v-6d77f7a9> The Qibla is the fixed direction towards the Kaaba in the Grand Mosque in Mecca, Saudi Arabia. It is the direction that Muslims face when performing Salah (prayer). </p><p class=\"text-muted mb-0\" data-v-6d77f7a9> Facing the Qibla is a crucial condition for the validity of prayer, and it symbolizes the unity of all Muslims worldwide, as they all turn towards the same sacred point to worship Allah. </p></div></div></div>", 1)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla & Compass "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_11, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    id: "qibla-direction-title",
     "class": "h4 card-title text-primary fw-bold mb-0",
     style: {
       "padding": "10px"
@@ -179208,7 +179520,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Distance", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab = $data.distanceToKaaba) === null || _$data$distanceToKaab === void 0 ? void 0 : _$data$distanceToKaab.toFixed(0)) + " km / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab2 = $data.distanceToKaabaMiles) === null || _$data$distanceToKaab2 === void 0 ? void 0 : _$data$distanceToKaab2.toFixed(0)) + " mi", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_24, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
   }, "Your Coordinates", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLatitude = $data.userLatitude) === null || _$data$userLatitude === void 0 ? void 0 : _$data$userLatitude.toFixed(4)) + "°, " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLongitude = $data.userLongitude) === null || _$data$userLongitude === void 0 ? void 0 : _$data$userLongitude.toFixed(4)) + "°", 1 /* TEXT */)]), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
-    "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+    "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3",
+    role: "listitem"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
   }, "Kaaba Coordinates"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -179242,9 +179555,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Share Location"
   }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-share-fill fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_33)])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_33)])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_35, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    id: "prayer-times-title",
     "class": "h4 card-title text-primary fw-bold mb-0",
     style: {
       "padding": "10px"
@@ -179270,7 +179584,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.calculationMethod]])]), $data.prayerTimes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_41, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerTimes, function (time, name) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       "class": "list-group-item d-flex justify-content-between align-items-center",
-      key: name
+      key: name,
+      role: "listitem"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(time), 1 /* TEXT */)]);
   }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-muted"
@@ -187039,28 +187354,27 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
+  role: "main",
+  "aria-labelledby": "umrah-title"
+};
+var _hoisted_2 = {
   "class": "container-fluid py-4",
   id: "main-content",
   tabindex: "-1"
 };
-var _hoisted_2 = {
-  "class": "text-center mb-5"
-};
 var _hoisted_3 = {
-  "class": "nav nav-tabs justify-content-center mb-4 clean-tabs",
-  role: "tablist",
-  "aria-label": "Hajj and Umrah Guides Tabs"
+  "class": "text-center mb-5"
 };
 var _hoisted_4 = {
   "class": "nav-item",
   role: "presentation"
 };
-var _hoisted_5 = ["aria-selected"];
+var _hoisted_5 = ["aria-selected", "tabindex"];
 var _hoisted_6 = {
   "class": "nav-item",
   role: "presentation"
 };
-var _hoisted_7 = ["aria-selected"];
+var _hoisted_7 = ["aria-selected", "tabindex"];
 var _hoisted_8 = {
   "class": "row g-3 g-md-4 align-items-stretch justify-content-center"
 };
@@ -187162,12 +187476,13 @@ var _hoisted_40 = {
   }
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Skip to main content link for screen readers and keyboard users "), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Skip to main content link for screen readers and keyboard users "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "#main-content",
     "class": "visually-hidden-focusable skip-link"
-  }, "Skip to main content", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  }, "Skip to main content", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    id: "umrah-title",
     "class": "display-4 fw-bold mb-4"
-  }, " Hajj & Umrah Guides ", -1 /* CACHED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, " Hajj & Umrah Guides ", -1 /* CACHED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "mx-auto description text-muted",
     style: {
       "max-width": "900px",
@@ -187176,7 +187491,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-info-circle me-2",
     "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("These guides provide essential knowledge on the rituals, historical background, spiritual significance, logistical steps, and etiquette involved in performing both pilgrimages. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tabs with ARIA roles and keyboard navigation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("These guides provide essential knowledge on the rituals, historical background, spiritual significance, logistical steps, and etiquette involved in performing both pilgrimages. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tabs with ARIA roles and keyboard navigation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
+    "class": "nav nav-tabs justify-content-center mb-4 clean-tabs",
+    role: "tablist",
+    "aria-label": "Hajj and Umrah Guides Tabs",
+    onKeydown: _cache[4] || (_cache[4] = function () {
+      return $options.onTablistKeydown && $options.onTablistKeydown.apply($options, arguments);
+    }),
+    ref: "tablist"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link clean-tab-btn", {
       active: $data.currentTab === 'hajj'
     }]),
@@ -187188,12 +187511,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "tab",
     "aria-controls": "hajj-panel",
     "aria-selected": $data.currentTab === 'hajj' ? 'true' : 'false',
-    tabindex: "0",
+    tabindex: $data.currentTab === 'hajj' ? 0 : -1,
+    ref: "tabHajj",
     onKeydown: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
       return $options.switchTab('hajj');
     }, ["enter", "space"])),
     "aria-label": 'Show Hajj Guide'
-  }, _toConsumableArray(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-moon-stars me-2",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Hajj Guides ", -1 /* CACHED */)])), 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -187208,28 +187532,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "tab",
     "aria-controls": "umrah-panel",
     "aria-selected": $data.currentTab === 'umrah' ? 'true' : 'false',
-    tabindex: "0",
+    tabindex: $data.currentTab === 'umrah' ? 0 : -1,
+    ref: "tabUmrah",
     onKeydown: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
       return $options.switchTab('umrah');
     }, ["enter", "space"])),
     "aria-label": 'Show Umrah Guide'
-  }, _toConsumableArray(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-person-walking me-2",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Umrah Guides ", -1 /* CACHED */)])), 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Print Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[4] || (_cache[4] = function () {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Umrah Guides ", -1 /* CACHED */)])), 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_7)])], 544 /* NEED_HYDRATION, NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Print Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[5] || (_cache[5] = function () {
       return $options.printGuide && $options.printGuide.apply($options, arguments);
     }),
     "class": "btn btn-outline-secondary btn-sm print-btn",
     "aria-label": "Print this guide as PDF"
-  }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-printer me-2",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Print / Save as PDF ", -1 /* CACHED */)])))]), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Print / Save as PDF ", -1 /* CACHED */)])))]), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "mb-4",
     style: {
       "height": "350px"
-    }
+    },
+    role: "region",
+    "aria-label": "Map showing key ritual locations"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "ritual-map",
     style: {
@@ -187245,7 +187572,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-labelledby": $data.currentTab + '-tab',
     id: $data.currentTab + '-panel',
     role: "tabpanel"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"info-row d-flex flex-wrap justify-content-center gap-2 mb-4\" aria-label=\"Guide info badges\">\n              <span class=\"badge info-badge\"><i class=\"bi bi-book me-1\" aria-hidden=\"true\"></i><strong>Read: </strong> {{ readTime }} min</span>\n              <span class=\"badge info-badge\"><i class=\"bi bi-headphones me-1\" aria-hidden=\"true\"></i><strong>Listen:</strong> {{ listeningTime }} min</span>\n              <span class=\"badge info-badge\"><i class=\"bi bi-file-earmark-word me-1\" aria-hidden=\"true\"></i><strong>Words: </strong> {{ wordCount }}</span>\n            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_13, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"info-row d-flex flex-wrap justify-content-center gap-2 mb-4\" aria-label=\"Guide info badges\">\n              <span class=\"badge info-badge\"><i class=\"bi bi-book me-1\" aria-hidden=\"true\"></i><strong>Read: </strong> {{ readTime }} min</span>\n              <span class=\"badge info-badge\"><i class=\"bi bi-headphones me-1\" aria-hidden=\"true\"></i><strong>Listen:</strong> {{ listeningTime }} min</span>\n              <span class=\"badge info-badge\"><i class=\"bi bi-file-earmark-word me-1\" aria-hidden=\"true\"></i><strong>Words: </strong> {{ wordCount }}</span>\n            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_13, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "section-title mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-list-ol me-2",
@@ -187270,7 +187597,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       role: "button",
       tabindex: "0",
       "aria-label": 'Expand step: ' + step.title
-    }, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-check2-circle me-2 text-custom",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_16)], 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -187285,21 +187612,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-2",
       innerHTML: step.description
-    }, null, 8 /* PROPS */, _hoisted_19), step.dua ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, null, 8 /* PROPS */, _hoisted_19), step.dua ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-journal-richtext me-2",
       "aria-hidden": "true"
     }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Dua")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: step.dua
-    }, null, 8 /* PROPS */, _hoisted_21)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.warning ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, null, 8 /* PROPS */, _hoisted_21)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.warning ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-exclamation-triangle me-2",
       "aria-hidden": "true"
     }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Warning")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: step.warning
-    }, null, 8 /* PROPS */, _hoisted_23)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.dos ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, null, 8 /* PROPS */, _hoisted_23)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.dos ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-hand-thumbs-up me-2",
@@ -187308,7 +187635,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: dIdx
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(doItem), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.donts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.donts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-hand-thumbs-down me-2",
@@ -187318,7 +187645,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: dIdx
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dontItem), 1 /* TEXT */);
     }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_17)]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), $options.currentContent.faq && $options.currentContent.faq.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_28, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), $options.currentContent.faq && $options.currentContent.faq.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_28, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "section-title mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-question-circle me-2",
@@ -187343,7 +187670,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-expanded": "false",
       "aria-controls": "faq-collapse-".concat($data.currentTab, "-").concat(idx),
       "aria-label": 'Expand FAQ: ' + item.question
-    }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-question-lg me-2 text-custom",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.question), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_31)], 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -187356,7 +187683,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: item.answer
     }, null, 8 /* PROPS */, _hoisted_34)])], 8 /* PROPS */, _hoisted_32)]);
-  }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_29)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common Mistakes Section "), $options.currentContent.commonMistakes && $options.currentContent.commonMistakes.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_35, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_29)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common Mistakes Section "), $options.currentContent.commonMistakes && $options.currentContent.commonMistakes.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_35, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "section-title mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-exclamation-diamond me-2",
@@ -187365,11 +187692,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: mIdx,
       "class": "mb-2 d-flex align-items-start"
-    }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-x-circle-fill text-danger me-2",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mistake), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.currentContent.references && $options.currentContent.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_37, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.currentContent.references && $options.currentContent.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_37, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "section-title mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-link-45deg me-2",
@@ -187389,13 +187716,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "fade-slow-top"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-check-circle-fill me-2",
         "aria-hidden": "true"
-      }, null, -1 /* CACHED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* CACHED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* CACHED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close",
-        onClick: _cache[5] || (_cache[5] = function ($event) {
+        onClick: _cache[6] || (_cache[6] = function ($event) {
           return $data.copySuccess = false;
         }),
         "aria-label": "Close"
@@ -195549,7 +195876,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Combined Section */\n.combined-section[data-v-2ba25654] {\n  padding: 80px 0;\n  background: #f8f9fa;\n}\n/* Performance optimizations */\n.img-fluid[data-v-2ba25654] {\n  max-width: 100%;\n  height: auto;\n}\n.rounded-3[data-v-2ba25654] {\n  border-radius: 0.75rem !important;\n}\n.shadow-sm[data-v-2ba25654] {\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;\n}\n/* Improved button styling */\n.btn-primary[data-v-2ba25654] {\n  transition: all 0.2s ease-in-out;\n}\n.btn-primary[data-v-2ba25654]:hover {\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);\n}\n/* Value Cards */\n.value-card[data-v-2ba25654] {\n  background: #fafbfc;\n  padding: 2rem 1.5rem;\n  border-radius: 12px;\n  border: 1px solid #e9ecef;\n  height: 100%;\n  transition: all 0.3s ease;\n  position: relative;\n  overflow: hidden;\n}\n.value-card[data-v-2ba25654]::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 4px;\n  height: 100%;\n  background: #1a5f7a;\n  transform: scaleY(0);\n  transition: transform 0.3s ease;\n}\n.value-card[data-v-2ba25654]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);\n}\n.value-card[data-v-2ba25654]:hover::before {\n  transform: scaleY(1);\n}\n.value-icon[data-v-2ba25654] {\n  font-size: 1.75rem;\n  margin-bottom: 1rem;\n  opacity: 0.8;\n}\n.value-card h4[data-v-2ba25654] {\n  font-size: 1.2rem;\n  font-weight: 600;\n  color: #1a5f7a;\n  margin-bottom: 1rem;\n}\n.value-card p[data-v-2ba25654] {\n  color: #6c757d;\n  line-height: 1.6;\n  margin: 0;\n  font-size: 0.95rem;\n}\n/* Donation Section */\n.donation-form[data-v-2ba25654] {\n  background: #fff;\n  padding: 3rem;\n  border-radius: 16px;\n  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);\n  border: 1px solid #e9ecef;\n  position: relative;\n  height: 100%;\n}\n.donation-form[data-v-2ba25654]::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 4px;\n  background: linear-gradient(90deg, #1a5f7a, #2c3e50);\n  border-radius: 16px 16px 0 0;\n}\n.form-header h3[data-v-2ba25654] {\n  font-size: 1.75rem;\n  padding-top: 5px;\n  font-weight: 800;\n  color: #2c3e50;\n}\n.form-header h2[data-v-2ba25654] {\n  font-size: 1.75rem;\n  font-weight: 800;\n  color: #2c3e50;\n}\n.form-header p[data-v-2ba25654] {\n  font-size: 1.1rem;\n  color: #6c757d;\n}\n/* Trust Indicators */\n.trust-indicators[data-v-2ba25654] {\n  display: flex;\n  justify-content: space-around;\n  padding: 1rem;\n  background: #f8f9fa;\n  border-radius: 8px;\n  border: 1px solid #e9ecef;\n}\n.trust-item[data-v-2ba25654] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 0.85rem;\n  color: #495057;\n  font-weight: 500;\n}\n.trust-item i[data-v-2ba25654] {\n  color: #1a5f7a;\n}\n/* Enhanced Summary */\n.summary-section[data-v-2ba25654] {\n  background: #f8f9fa;\n  padding: 1.5rem;\n  border-radius: 12px;\n  border-left: 4px solid #1a5f7a;\n}\n.summary-header[data-v-2ba25654] {\n  margin-bottom: 1rem;\n  padding-bottom: 0.5rem;\n  border-bottom: 1px solid #dee2e6;\n}\n.summary-header h6[data-v-2ba25654] {\n  margin: 0;\n  color: #2c3e50;\n  font-weight: 600;\n}\n.summary-item[data-v-2ba25654] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 0.75rem 0;\n}\n.summary-item[data-v-2ba25654]:not(:last-child) {\n  border-bottom: 1px solid #dee2e6;\n}\n/* Enhanced Primary Button */\n.btn-primary[data-v-2ba25654] {\n  background: #1a5f7a;\n  border: none;\n  color: white;\n  padding: 1.25rem 2rem;\n  font-weight: 600;\n  border-radius: 12px;\n  transition: all 0.3s ease;\n  font-size: 1.1rem;\n  position: relative;\n  overflow: hidden;\n}\n.btn-primary[data-v-2ba25654]:hover:not(:disabled) {\n  background: #144a5f;\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(26, 95, 122, 0.4);\n}\n.btn-primary[data-v-2ba25654]:disabled {\n  background: #6c757d;\n  cursor: not-allowed;\n  transform: none;\n  box-shadow: none;\n}\n.security-guarantee[data-v-2ba25654] {\n  padding: 1rem;\n  background: #f8f9fa;\n  border-radius: 8px;\n  border: 1px solid #e9ecef;\n}\n.card[data-v-2ba25654]:hover {\n  transform: translateY(-5px);\n}\n.stats-section[data-v-2ba25654] {\n  padding: 5rem 0;\n  background: linear-gradient(135deg, #1a5f7a 0%, #2c3e50 100%);\n  color: white;\n}\n.section-title[data-v-2ba25654] {\n  font-size: 2.7rem;\n  font-weight: 700;\n  margin-bottom: 1rem;\n  color: white;\n}\n.section-lead[data-v-2ba25654] {\n  font-size: 1.2rem;\n  margin-bottom: 3rem;\n  opacity: 0.9;\n  color: rgba(255, 255, 255, 0.9);\n}\n.stats-grid[data-v-2ba25654] {\n  margin-top: 2rem;\n}\n.stat-card[data-v-2ba25654] {\n  text-align: center;\n  padding: 1.5rem;\n}\n.stat-card h3[data-v-2ba25654] {\n  font-size: 2.75rem;\n  font-weight: 700;\n  margin-bottom: 0.5rem;\n  color: white;\n}\n.stat-card p[data-v-2ba25654] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  margin-bottom: 0.25rem;\n  color: rgba(255, 255, 255, 0.9);\n}\n.stat-card small[data-v-2ba25654] {\n  font-size: 0.9rem;\n  color: rgba(255, 255, 255, 0.7);\n}\n.value-section[data-v-2ba25654] {\n  padding: 5rem 0;\n  background: #f8f9fa;\n}\n.value-section h2[data-v-2ba25654] {\n  font-size: 2.25rem;\n  font-weight: 700;\n  color: #2c3e50;\n}\n.value-card[data-v-2ba25654] {\n  background: white;\n  padding: 2.5rem;\n  border-radius: 12px;\n  border: 1px solid #e9ecef;\n  height: 100%;\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.value-card[data-v-2ba25654]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);\n}\n.value-card h4[data-v-2ba25654] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #1a5f7a;\n  margin-bottom: 1rem;\n}\n.value-card p[data-v-2ba25654] {\n  color: #6c757d;\n  line-height: 1.6;\n  margin: 0;\n}\n/* Responsive Design */\n@media (max-width: 768px) {\n.stats-section[data-v-2ba25654],\n  .value-section[data-v-2ba25654] {\n    padding: 3rem 0;\n}\n.section-title[data-v-2ba25654] {\n    font-size: 2rem;\n}\n.stat-card h3[data-v-2ba25654] {\n    font-size: 2.25rem;\n}\n.value-card[data-v-2ba25654] {\n    padding: 2rem;\n}\n}\n.partner-icon[data-v-2ba25654] {\n  width: 150px;\n  height: 150px;\n  -o-object-fit: contain;\n     object-fit: contain;\n  transition: filter 0.3s ease, transform 0.3s ease;\n}\n.partner-icon[data-v-2ba25654]:hover {\n  transform: scale(1.1);\n}\nh4[data-v-2ba25654] {\n  font-size: 1.8rem;\n  font-weight: 800;\n}\n@media (max-width: 991.98px) {\n.h1[data-v-2ba25654] {\n    font-size: 2rem !important;\n}\n.lead[data-v-2ba25654] {\n    font-size: 1.1rem;\n}\n.py-4[data-v-2ba25654] {\n    padding-top: 2rem !important;\n    padding-bottom: 2rem !important;\n}\n}\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.btn-primary[data-v-2ba25654] {\n    transition: none;\n}\n.btn-primary[data-v-2ba25654]:hover {\n    transform: none;\n}\n}\n/* High contrast mode support */\n@media (prefers-contrast: high) {\n.text-muted[data-v-2ba25654] {\n    color: #000 !important;\n}\n.shadow-sm[data-v-2ba25654] {\n    box-shadow: 0 0 0 2px #000 !important;\n}\n}\n@media (max-width: 768px) {\n.partner-icon[data-v-2ba25654] {\n    width: 130px;\n    height: 130px;\n}\nh4[data-v-2ba25654] {\n    font-size: 1.45rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Skip link */\n.skip-link[data-v-2ba25654] {\n  position: absolute;\n  top: -40px;\n  left: 10px;\n  background: #0b806f;\n  color: #fff;\n  padding: 8px 12px;\n  border-radius: 6px;\n  z-index: 1000;\n  transition: top 0.2s ease-in-out;\n}\n.skip-link[data-v-2ba25654]:focus {\n  top: 10px;\n  outline: 3px solid #1a5f7a;\n}\n/* Combined Section */\n.combined-section[data-v-2ba25654] {\n  padding: 80px 0;\n  background: #f8f9fa;\n}\n/* Performance optimizations */\n.img-fluid[data-v-2ba25654] {\n  max-width: 100%;\n  height: auto;\n}\n.rounded-3[data-v-2ba25654] {\n  border-radius: 0.75rem !important;\n}\n.shadow-sm[data-v-2ba25654] {\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;\n}\n/* Improved button styling */\n.btn-primary[data-v-2ba25654] {\n  transition: all 0.2s ease-in-out;\n}\n.btn-primary[data-v-2ba25654]:hover {\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(0, 191, 166, 0.3);\n}\n/* Value Cards */\n.value-card[data-v-2ba25654] {\n  background: #fafbfc;\n  padding: 2rem 1.5rem;\n  border-radius: 12px;\n  border: 1px solid #e9ecef;\n  height: 100%;\n  transition: all 0.3s ease;\n  position: relative;\n  overflow: hidden;\n}\n.value-card[data-v-2ba25654]::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 4px;\n  height: 100%;\n  background: #1a5f7a;\n  transform: scaleY(0);\n  transition: transform 0.3s ease;\n}\n.value-card[data-v-2ba25654]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);\n}\n.value-card[data-v-2ba25654]:hover::before {\n  transform: scaleY(1);\n}\n.value-icon[data-v-2ba25654] {\n  font-size: 1.75rem;\n  margin-bottom: 1rem;\n  opacity: 0.8;\n}\n.value-card h4[data-v-2ba25654] {\n  font-size: 1.2rem;\n  font-weight: 600;\n  color: #1a5f7a;\n  margin-bottom: 1rem;\n}\n.value-card p[data-v-2ba25654] {\n  color: #6c757d;\n  line-height: 1.6;\n  margin: 0;\n  font-size: 0.95rem;\n}\n/* Donation Section */\n.donation-form[data-v-2ba25654] {\n  background: #fff;\n  padding: 3rem;\n  border-radius: 16px;\n  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);\n  border: 1px solid #e9ecef;\n  position: relative;\n  height: 100%;\n}\n.donation-form[data-v-2ba25654]::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 4px;\n  background: linear-gradient(90deg, #1a5f7a, #2c3e50);\n  border-radius: 16px 16px 0 0;\n}\n.form-header h3[data-v-2ba25654] {\n  font-size: 1.75rem;\n  padding-top: 5px;\n  font-weight: 800;\n  color: #2c3e50;\n}\n.form-header h2[data-v-2ba25654] {\n  font-size: 1.75rem;\n  font-weight: 800;\n  color: #2c3e50;\n}\n.form-header p[data-v-2ba25654] {\n  font-size: 1.1rem;\n  color: #6c757d;\n}\n/* Trust Indicators */\n.trust-indicators[data-v-2ba25654] {\n  display: flex;\n  justify-content: space-around;\n  padding: 1rem;\n  background: #f8f9fa;\n  border-radius: 8px;\n  border: 1px solid #e9ecef;\n}\n.trust-item[data-v-2ba25654] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 0.85rem;\n  color: #495057;\n  font-weight: 500;\n}\n.trust-item i[data-v-2ba25654] {\n  color: #1a5f7a;\n}\n/* Enhanced Summary */\n.summary-section[data-v-2ba25654] {\n  background: #f8f9fa;\n  padding: 1.5rem;\n  border-radius: 12px;\n  border-left: 4px solid #1a5f7a;\n}\n.summary-header[data-v-2ba25654] {\n  margin-bottom: 1rem;\n  padding-bottom: 0.5rem;\n  border-bottom: 1px solid #dee2e6;\n}\n.summary-header h6[data-v-2ba25654] {\n  margin: 0;\n  color: #2c3e50;\n  font-weight: 600;\n}\n.summary-item[data-v-2ba25654] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 0.75rem 0;\n}\n.summary-item[data-v-2ba25654]:not(:last-child) {\n  border-bottom: 1px solid #dee2e6;\n}\n/* Enhanced Primary Button */\n.btn-primary[data-v-2ba25654] {\n  background: #1a5f7a;\n  border: none;\n  color: white;\n  padding: 1.25rem 2rem;\n  font-weight: 600;\n  border-radius: 12px;\n  transition: all 0.3s ease;\n  font-size: 1.1rem;\n  position: relative;\n  overflow: hidden;\n}\n.btn-primary[data-v-2ba25654]:hover:not(:disabled) {\n  background: #144a5f;\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(26, 95, 122, 0.4);\n}\n.btn-primary[data-v-2ba25654]:disabled {\n  background: #6c757d;\n  cursor: not-allowed;\n  transform: none;\n  box-shadow: none;\n}\n.security-guarantee[data-v-2ba25654] {\n  padding: 1rem;\n  background: #f8f9fa;\n  border-radius: 8px;\n  border: 1px solid #e9ecef;\n}\n.card[data-v-2ba25654]:hover {\n  transform: translateY(-5px);\n}\n.stats-section[data-v-2ba25654] {\n  padding: 5rem 0;\n  background: linear-gradient(135deg, #1a5f7a 0%, #2c3e50 100%);\n  color: white;\n}\n.section-title[data-v-2ba25654] {\n  font-size: 2.7rem;\n  font-weight: 700;\n  margin-bottom: 1rem;\n  color: white;\n}\n.section-lead[data-v-2ba25654] {\n  font-size: 1.2rem;\n  margin-bottom: 3rem;\n  opacity: 0.9;\n  color: rgba(255, 255, 255, 0.9);\n}\n.stats-grid[data-v-2ba25654] {\n  margin-top: 2rem;\n}\n.stat-card[data-v-2ba25654] {\n  text-align: center;\n  padding: 1.5rem;\n}\n.stat-card h3[data-v-2ba25654] {\n  font-size: 2.75rem;\n  font-weight: 700;\n  margin-bottom: 0.5rem;\n  color: white;\n}\n.stat-card p[data-v-2ba25654] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  margin-bottom: 0.25rem;\n  color: rgba(255, 255, 255, 0.9);\n}\n.stat-card small[data-v-2ba25654] {\n  font-size: 0.9rem;\n  color: rgba(255, 255, 255, 0.7);\n}\n.value-section[data-v-2ba25654] {\n  padding: 5rem 0;\n  background: #f8f9fa;\n}\n.value-section h2[data-v-2ba25654] {\n  font-size: 2.25rem;\n  font-weight: 700;\n  color: #2c3e50;\n}\n.value-card[data-v-2ba25654] {\n  background: white;\n  padding: 2.5rem;\n  border-radius: 12px;\n  border: 1px solid #e9ecef;\n  height: 100%;\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.value-card[data-v-2ba25654]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);\n}\n.value-card h4[data-v-2ba25654] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #1a5f7a;\n  margin-bottom: 1rem;\n}\n.value-card p[data-v-2ba25654] {\n  color: #6c757d;\n  line-height: 1.6;\n  margin: 0;\n}\n/* Responsive Design */\n@media (max-width: 768px) {\n.stats-section[data-v-2ba25654],\n  .value-section[data-v-2ba25654] {\n    padding: 3rem 0;\n}\n.section-title[data-v-2ba25654] {\n    font-size: 2rem;\n}\n.stat-card h3[data-v-2ba25654] {\n    font-size: 2.25rem;\n}\n.value-card[data-v-2ba25654] {\n    padding: 2rem;\n}\n}\n.partner-icon[data-v-2ba25654] {\n  width: 150px;\n  height: 150px;\n  -o-object-fit: contain;\n     object-fit: contain;\n  transition: filter 0.3s ease, transform 0.3s ease;\n}\n.partner-icon[data-v-2ba25654]:hover {\n  transform: scale(1.1);\n}\nh4[data-v-2ba25654] {\n  font-size: 1.8rem;\n  font-weight: 800;\n}\n@media (max-width: 991.98px) {\n.h1[data-v-2ba25654] {\n    font-size: 2rem !important;\n}\n.lead[data-v-2ba25654] {\n    font-size: 1.1rem;\n}\n.py-4[data-v-2ba25654] {\n    padding-top: 2rem !important;\n    padding-bottom: 2rem !important;\n}\n}\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.btn-primary[data-v-2ba25654] {\n    transition: none;\n}\n.btn-primary[data-v-2ba25654]:hover {\n    transform: none;\n}\n}\n/* High contrast mode support */\n@media (prefers-contrast: high) {\n.text-muted[data-v-2ba25654] {\n    color: #000 !important;\n}\n.shadow-sm[data-v-2ba25654] {\n    box-shadow: 0 0 0 2px #000 !important;\n}\n}\n@media (max-width: 768px) {\n.partner-icon[data-v-2ba25654] {\n    width: 130px;\n    height: 130px;\n}\nh4[data-v-2ba25654] {\n    font-size: 1.45rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -340893,9 +341220,18 @@ window.Form = vform__WEBPACK_IMPORTED_MODULE_3__.Form;
 window.Swal = (sweetalert2__WEBPACK_IMPORTED_MODULE_4___default());
 window.$ = window.jQuery = (jquery__WEBPACK_IMPORTED_MODULE_2___default());
 app.use(primevue_config__WEBPACK_IMPORTED_MODULE_6__["default"]);
-app.use(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_93__.StripePlugin, {
-  key: process.env.MIX_STRIPE_PUBLISHABLE_KEY
-});
+// Protect against plugins that don't expose install with Vue 3 build
+try {
+  if (vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_93__.StripePlugin && (typeof vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_93__.StripePlugin === 'function' || typeof vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_93__.StripePlugin.install === 'function')) {
+    app.use(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_93__.StripePlugin, {
+      key: process.env.MIX_STRIPE_PUBLISHABLE_KEY
+    });
+  } else {
+    console.debug('[Stripe] Plugin not compatible with current Vue build; skipping');
+  }
+} catch (e) {
+  console.debug('[Stripe] Skipped plugin registration:', (e === null || e === void 0 ? void 0 : e.message) || e);
+}
 app.component("Column", primevue_column__WEBPACK_IMPORTED_MODULE_10__["default"]);
 app.component("DataTable", primevue_datatable__WEBPACK_IMPORTED_MODULE_9__["default"]);
 app.component("Button", primevue_button__WEBPACK_IMPORTED_MODULE_11__["default"]);
@@ -340952,10 +341288,14 @@ app.component('guide-component', _components_GuideComponent_vue__WEBPACK_IMPORTE
 app.component('streaming-component', _components_StreamingComponent_vue__WEBPACK_IMPORTED_MODULE_56__["default"]);
 app.component('toolkit-component', _components_ToolkitComponent_vue__WEBPACK_IMPORTED_MODULE_57__["default"]);
 app.component('video-component', _components_VideoComponent_vue__WEBPACK_IMPORTED_MODULE_58__["default"]);
-app.component('zakat-component', _components_ZakatComponent_vue__WEBPACK_IMPORTED_MODULE_85__["default"]);
+// Some bundlers wrap SFCs under .default; use fallback resolver
+var sfc = function sfc(m) {
+  return m && m["default"] ? m["default"] : m;
+};
+app.component('zakat-component', sfc(_components_ZakatComponent_vue__WEBPACK_IMPORTED_MODULE_85__["default"]));
 app.component('qibla-component', _components_QiblaComponent_vue__WEBPACK_IMPORTED_MODULE_59__["default"]);
 app.component('mosque-component', _components_MosqueComponent_vue__WEBPACK_IMPORTED_MODULE_60__["default"]);
-app.component('calendar-component', _components_CalendarComponent_vue__WEBPACK_IMPORTED_MODULE_61__["default"]);
+app.component('calendar-component', sfc(_components_CalendarComponent_vue__WEBPACK_IMPORTED_MODULE_61__["default"]));
 app.component('date-component', _components_DateComponent_vue__WEBPACK_IMPORTED_MODULE_62__["default"]);
 app.component('hadith-component', _components_HadithComponent_vue__WEBPACK_IMPORTED_MODULE_63__["default"]);
 app.component('shop-component', _components_ShopComponent_vue__WEBPACK_IMPORTED_MODULE_64__["default"]);
@@ -340980,6 +341320,9 @@ app.component('history-component', _components_HistoryComponent_vue__WEBPACK_IMP
 app.component('payment-methods-component', _components_PaymentMethodsComponent_vue__WEBPACK_IMPORTED_MODULE_89__["default"]);
 app.component('read-component', _components_ReadComponent_vue__WEBPACK_IMPORTED_MODULE_90__["default"]);
 app.mount("#app");
+if (typeof window !== 'undefined') {
+  console.debug('[Vue] mounted on #app');
+}
 
 /***/ }),
 
