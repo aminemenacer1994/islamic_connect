@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid my-5">
+  <div class="container-fluid my-5" role="main" aria-labelledby="shop-finder-heading">
     <div class="row justify-content-center">
       <div class="col-lg-10">
-        <h1 class="display-5 fw-bold text-center">Halal Butcher Finder</h1>
+        <h1 id="shop-finder-heading" class="display-5 fw-bold text-center">Halal Butcher Finder</h1>
         <p class="text-center container mb-4 lead">
           Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher
           shops.
@@ -12,11 +12,11 @@
           <div class="card-body container-fluid" style="padding: 5px;">
             <div class="row mb-4 justify-content-center">
               <!-- Search form -->
-              <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchLocation"
+              <form class="d-flex align-items-center mb-3" role="search" aria-label="Search for halal butchers by city" @submit.prevent="searchLocation"
                 style="gap: 0.5rem;">
-                <h4 class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</h4>
-                <input id="searchInput" type="search" class="form-control" placeholder="Enter city..."
-                  aria-label="Search" v-model="searchQuery" autocomplete="off"
+                <label for="shop-search-input" class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</label>
+                <input id="shop-search-input" type="search" class="form-control" placeholder="Enter city..."
+                  aria-label="Search city" v-model="searchQuery" autocomplete="off"
                   style="max-width: 300px;" ref="searchInput" />
                 <button class="btn align-items-center justify-content-center"
                   style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
@@ -28,8 +28,8 @@
             </div>
 
             <!-- Loading State -->
-            <div v-if="loading" class="text-center py-5">
-              <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <div v-if="loading" class="text-center py-5" aria-live="polite" aria-busy="true">
+              <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status" aria-label="Loading results">
                 <span class="visually-hidden">Loading...</span>
               </div>
               <p class="mt-3">Searching for halal butchers in {{ searchQuery }}...</p>
@@ -51,9 +51,14 @@
               </div>
 
               <!-- Results Grid -->
-              <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <div class="col" v-for="shop in filteredShops" :key="shop.id">
-                  <div class="card h-100">
+              <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+                   role="list"
+                   aria-label="Search results">
+                <div class="col" v-for="(shop, index) in filteredShops" :key="shop.id">
+                  <div class="card h-100" role="article"
+                       :aria-label="`${shop.name}, ${shop.address || 'address not specified'}`"
+                       tabindex="0"
+                       @keydown="handleCardKeydown(index, $event)">
                     <div style="padding: 15px 15px 0 15px;">
                       <h1 class="card-title fw-bold text-dark mb-3" style="font-size: 25px;">
                         {{ shop.name }}
@@ -95,7 +100,8 @@
                         <!-- Get Directions Button -->
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openMaps(shop.lat, shop.lon, shop.name)"
-                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                          :aria-label="`Get directions to ${shop.name}`">
                           <i class="bi bi-geo-alt me-2"></i>
                           <b>Get Direction</b>
                         </button>
@@ -108,7 +114,9 @@
                             color: 'white',
                             height: '38px',
                             cursor: shop.phone ? 'pointer' : 'not-allowed'
-                          }">
+                          }"
+                          :aria-disabled="!shop.phone"
+                          :aria-label="shop.phone ? `Call ${shop.name}` : `Phone number not available for ${shop.name}`">
                           <i class="bi bi-telephone me-2"></i>
                           <b>Call Shop</b>
                         </button>
@@ -122,7 +130,7 @@
 
           <div v-if="!loading && shops.length > 0" class="d-flex justify-content-between align-items-center"
             style="padding: 10px;">
-            <small class="text-muted">
+            <small class="text-muted" aria-live="polite">
               Showing {{ filteredShops.length }} of {{ shops.length }} places
             </small>
           </div>
@@ -141,6 +149,7 @@ export default {
       activeType: 'all',
       loading: false,
       shops: [],
+      focusedIndex: -1,
       searchHistory: [],
       currentLocation: null,
       searchRadius: 5000,
@@ -182,6 +191,31 @@ export default {
     },
   },
   methods: {
+    handleCardKeydown(index, event) {
+      const key = event.key;
+      const last = this.filteredShops.length - 1;
+      if (key === 'ArrowDown' || key === 'ArrowRight') {
+        event.preventDefault();
+        const next = Math.min(last, index + 1);
+        this.focusedIndex = next;
+        this.$nextTick(() => {
+          const cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card.h-100');
+          cards[next]?.focus();
+        });
+      } else if (key === 'ArrowUp' || key === 'ArrowLeft') {
+        event.preventDefault();
+        const prev = Math.max(0, index - 1);
+        this.focusedIndex = prev;
+        this.$nextTick(() => {
+          const cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card.h-100');
+          cards[prev]?.focus();
+        });
+      } else if (key === 'Enter' || key === ' ') {
+        event.preventDefault();
+        const actionable = event.currentTarget.querySelector('button:not([disabled]), a[href]:not(.disabled)');
+        actionable?.click();
+      }
+    },
     refreshOpenStatus() {
       this.shops = this.shops.map(shop => {
         if (shop.opening_hours && typeof opening_hours === 'function') {

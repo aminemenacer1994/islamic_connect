@@ -147902,7 +147902,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       // Default 5km radius
       mosques: [],
       loading: false,
-      lastSearchLocation: null
+      lastSearchLocation: null,
+      focusedIndex: -1
     };
   },
   computed: {
@@ -147914,6 +147915,33 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
   },
   methods: {
+    handleCardKeydown: function handleCardKeydown(index, event) {
+      var key = event.key;
+      var last = this.mosques.length - 1;
+      if (key === 'ArrowDown' || key === 'ArrowRight') {
+        event.preventDefault();
+        var next = Math.min(last, index + 1);
+        this.focusedIndex = next;
+        this.$nextTick(function () {
+          var _cards$next;
+          var cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card');
+          (_cards$next = cards[next]) === null || _cards$next === void 0 || _cards$next.focus();
+        });
+      } else if (key === 'ArrowUp' || key === 'ArrowLeft') {
+        event.preventDefault();
+        var prev = Math.max(0, index - 1);
+        this.focusedIndex = prev;
+        this.$nextTick(function () {
+          var _cards$prev;
+          var cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card');
+          (_cards$prev = cards[prev]) === null || _cards$prev === void 0 || _cards$prev.focus();
+        });
+      } else if (key === 'Enter' || key === ' ') {
+        event.preventDefault();
+        var actionable = event.currentTarget.querySelector('button, a[href]:not(.disabled)');
+        actionable === null || actionable === void 0 || actionable.click();
+      }
+    },
     handleTyping: function handleTyping() {
       this.error = ""; // Clear error on typing
     },
@@ -153017,6 +153045,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       searchQuery: '',
       loading: false,
       schools: [],
+      focusedIndex: -1,
       searchHistory: [],
       currentLocation: null,
       bbox: null,
@@ -153024,6 +153053,33 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     };
   },
   methods: {
+    handleCardKeydown: function handleCardKeydown(index, event) {
+      var key = event.key;
+      var last = this.schools.length - 1;
+      if (key === 'ArrowDown' || key === 'ArrowRight') {
+        event.preventDefault();
+        var next = Math.min(last, index + 1);
+        this.focusedIndex = next;
+        this.$nextTick(function () {
+          var _cards$next;
+          var cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card.h-100');
+          (_cards$next = cards[next]) === null || _cards$next === void 0 || _cards$next.focus();
+        });
+      } else if (key === 'ArrowUp' || key === 'ArrowLeft') {
+        event.preventDefault();
+        var prev = Math.max(0, index - 1);
+        this.focusedIndex = prev;
+        this.$nextTick(function () {
+          var _cards$prev;
+          var cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card.h-100');
+          (_cards$prev = cards[prev]) === null || _cards$prev === void 0 || _cards$prev.focus();
+        });
+      } else if (key === 'Enter' || key === ' ') {
+        event.preventDefault();
+        var actionable = event.currentTarget.querySelector('button, a[href]:not(.disabled)');
+        actionable === null || actionable === void 0 || actionable.click();
+      }
+    },
     searchLocation: function searchLocation() {
       var _this = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
@@ -153341,6 +153397,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       activeType: 'all',
       loading: false,
       shops: [],
+      focusedIndex: -1,
       searchHistory: [],
       currentLocation: null,
       searchRadius: 5000,
@@ -153397,6 +153454,33 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   },
   methods: {
+    handleCardKeydown: function handleCardKeydown(index, event) {
+      var key = event.key;
+      var last = this.filteredShops.length - 1;
+      if (key === 'ArrowDown' || key === 'ArrowRight') {
+        event.preventDefault();
+        var next = Math.min(last, index + 1);
+        this.focusedIndex = next;
+        this.$nextTick(function () {
+          var _cards$next;
+          var cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card.h-100');
+          (_cards$next = cards[next]) === null || _cards$next === void 0 || _cards$next.focus();
+        });
+      } else if (key === 'ArrowUp' || key === 'ArrowLeft') {
+        event.preventDefault();
+        var prev = Math.max(0, index - 1);
+        this.focusedIndex = prev;
+        this.$nextTick(function () {
+          var _cards$prev;
+          var cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card.h-100');
+          (_cards$prev = cards[prev]) === null || _cards$prev === void 0 || _cards$prev.focus();
+        });
+      } else if (key === 'Enter' || key === ' ') {
+        event.preventDefault();
+        var actionable = event.currentTarget.querySelector('button:not([disabled]), a[href]:not(.disabled)');
+        actionable === null || actionable === void 0 || actionable.click();
+      }
+    },
     refreshOpenStatus: function refreshOpenStatus() {
       this.shops = this.shops.map(function (shop) {
         if (shop.opening_hours && typeof opening_hours === 'function') {
@@ -177516,7 +177600,9 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container-fluid py-4"
+  "class": "container-fluid py-4",
+  role: "main",
+  "aria-labelledby": "mosque-finder-heading"
 };
 var _hoisted_2 = {
   "class": "row justify-content-center"
@@ -177550,7 +177636,9 @@ var _hoisted_9 = {
 };
 var _hoisted_10 = {
   key: 0,
-  "class": "text-center py-5"
+  "class": "text-center py-5",
+  "aria-live": "polite",
+  "aria-busy": "true"
 };
 var _hoisted_11 = {
   "class": "mt-3"
@@ -177563,11 +177651,11 @@ var _hoisted_13 = {
   "class": "text-center py-5"
 };
 var _hoisted_14 = {
-  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4",
+  role: "list",
+  "aria-label": "Search results"
 };
-var _hoisted_15 = {
-  "class": "card"
-};
+var _hoisted_15 = ["aria-label", "onKeydown"];
 var _hoisted_16 = {
   style: {
     "padding": "15px 15px 0 15px"
@@ -177631,8 +177719,8 @@ var _hoisted_30 = {
 var _hoisted_31 = {
   "class": "d-flex justify-content-between align-items-center gap-2"
 };
-var _hoisted_32 = ["onClick"];
-var _hoisted_33 = ["onClick"];
+var _hoisted_32 = ["onClick", "aria-label"];
+var _hoisted_33 = ["onClick", "aria-label"];
 var _hoisted_34 = {
   key: 0,
   "class": "d-flex justify-content-between align-items-center",
@@ -177641,33 +177729,37 @@ var _hoisted_34 = {
   }
 };
 var _hoisted_35 = {
-  "class": "text-muted"
+  "class": "text-muted",
+  "aria-live": "polite"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    id: "mosque-finder-heading",
     "class": "display-4 fw-bold text-center"
   }, "Mosque Locater", -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
   }, " Easily find nearby mosques based on your current location, complete with detailed directions to help you connect with your local community. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Inline Search Bar with Label, Input, and Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     "class": "d-flex align-items-center mb-3",
     role: "search",
+    "aria-label": "Search for mosques by city",
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.searchMosques && $options.searchMosques.apply($options, arguments);
     }, ["prevent"])),
     style: {
       "gap": "0.5rem"
     }
-  }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "mosque-search-input",
     "class": "card-title pr-2 fw-bold",
     style: {
       "font-size": "20px"
     }
   }, "Search location:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    id: "searchInput",
+    id: "mosque-search-input",
     type: "search",
     "class": "form-control",
     placeholder: "Enter city or country...",
-    "aria-label": "Search",
+    "aria-label": "Search city or country",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
@@ -177694,7 +177786,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "width": "3rem",
       "height": "3rem"
     },
-    role: "status"
+    role: "status",
+    "aria-label": "Loading results"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
   }, "Loading...")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, "Searching for mosques in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [!$data.searchQuery || !_ctx.searchSubmitted && $data.mosques.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _toConsumableArray(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -177715,12 +177808,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "text-muted"
   }, "Try adjusting your search or increasing the radius.")], -1 /* CACHED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 2
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.mosques, function (mosque) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.mosques, function (mosque, index) {
     var _mosque$tags;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col",
       key: mosque.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "card",
+      role: "article",
+      "aria-label": "".concat(mosque.name, ", ").concat(mosque.address),
+      tabindex: "0",
+      onKeydown: function onKeydown($event) {
+        return $options.handleCardKeydown(index, $event);
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-geo-alt-fill me-2 flex-shrink-0"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.address), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_23, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-geo me-2"
@@ -177752,7 +177853,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
         "color": "white",
         "height": "38px"
-      }
+      },
+      "aria-label": "Get directions to ".concat(mosque.name)
     }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-geo-alt me-2"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -177765,10 +177867,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
         "color": "white",
         "height": "38px"
-      }
+      },
+      "aria-label": "Share ".concat(mosque.name, " details via WhatsApp")
     }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-whatsapp me-2"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share Details", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_33)])])])]);
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share Details", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_33)])])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_15)]);
   }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.mosques.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_35, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.mosques.length) + " mosques ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
@@ -181129,7 +181232,9 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container-fluid my-5"
+  "class": "container-fluid my-5",
+  role: "main",
+  "aria-labelledby": "school-finder-heading"
 };
 var _hoisted_2 = {
   "class": "row justify-content-center"
@@ -181163,7 +181268,9 @@ var _hoisted_9 = {
 };
 var _hoisted_10 = {
   key: 0,
-  "class": "text-center py-5"
+  "class": "text-center py-5",
+  "aria-live": "polite",
+  "aria-busy": "true"
 };
 var _hoisted_11 = {
   "class": "mt-3"
@@ -181182,15 +181289,11 @@ var _hoisted_15 = {
   "class": "text-center text-muted"
 };
 var _hoisted_16 = {
-  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4",
+  role: "list",
+  "aria-label": "Search results"
 };
-var _hoisted_17 = {
-  "class": "card h-100",
-  style: {
-    "display": "flex",
-    "flex-direction": "column"
-  }
-};
+var _hoisted_17 = ["aria-label", "onKeydown"];
 var _hoisted_18 = {
   style: {
     "padding": "15px 15px 0 15px"
@@ -181252,7 +181355,7 @@ var _hoisted_31 = {
   }
 };
 var _hoisted_32 = ["onClick"];
-var _hoisted_33 = ["href"];
+var _hoisted_33 = ["href", "aria-disabled"];
 var _hoisted_34 = {
   key: 0,
   "class": "d-flex justify-content-between align-items-center",
@@ -181261,33 +181364,37 @@ var _hoisted_34 = {
   }
 };
 var _hoisted_35 = {
-  "class": "text-muted"
+  "class": "text-muted",
+  "aria-live": "polite"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    id: "school-finder-heading",
     "class": "display-5 fw-bold text-center"
   }, "Islamic Education Finder", -1 /* CACHED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
   }, " Discover trusted Islamic schools, madrassas, and education centers near you with ease! ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     "class": "d-flex align-items-center mb-3",
     role: "search",
+    "aria-label": "Search for schools by city",
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.searchLocation && $options.searchLocation.apply($options, arguments);
     }, ["prevent"])),
     style: {
       "gap": "0.5rem"
     }
-  }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "school-search-input",
     "class": "card-title pr-2 fw-bold",
     style: {
       "font-size": "20px"
     }
   }, "Search location:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    id: "searchInput",
+    id: "school-search-input",
     type: "search",
     "class": "form-control",
     placeholder: "Enter a city",
-    "aria-label": "Search",
+    "aria-label": "Search city",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
@@ -181314,7 +181421,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "width": "3rem",
       "height": "3rem"
     },
-    role: "status"
+    role: "status",
+    "aria-label": "Loading results"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
   }, "Loading...")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, "Searching for Islamic schools & centers in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery || $data.schools.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _toConsumableArray(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -181337,12 +181445,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     target: "_blank"
   }, "Madrassah.co.uk", -1 /* CACHED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(".", -1 /* CACHED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* CACHED */))])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 2
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.schools, function (school) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.schools, function (school, index) {
     var _school$tags;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col",
       key: school.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Badges "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "card h-100",
+      style: {
+        "display": "flex",
+        "flex-direction": "column"
+      },
+      role: "article",
+      "aria-label": "".concat(school.name, ", ").concat(school.address || 'address not specified'),
+      tabindex: "0",
+      onKeydown: function onKeydown($event) {
+        return $options.handleCardKeydown(index, $event);
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Badges "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-geo-alt-fill me-2 flex-shrink-0"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.address || 'Address not specified'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dynamic Star Rating "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(5, function (n) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -181359,12 +181479,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
         "color": "white",
         "height": "38px"
-      }
+      },
+      "aria-label": "Get directions to {{ school.name }}"
     }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-geo-alt me-2"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Directions", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: school.website,
       target: "_blank",
+      rel: "noopener noreferrer",
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn d-flex align-items-center justify-content-center flex-grow-1", {
         disabled: !school.website
       }]),
@@ -181372,10 +181494,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "background": "#1881b9",
         "color": "white",
         "height": "38px"
-      }
+      },
+      "aria-disabled": !school.website,
+      "aria-label": "Visit website for {{ school.name }}"
     }, _toConsumableArray(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-globe me-2"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Visit Website", -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_33)])])]);
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Visit Website", -1 /* CACHED */)])), 10 /* CLASS, PROPS */, _hoisted_33)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_17)]);
   }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.schools.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_35, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.schools.length) + " Islamic educational schools & centers ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
@@ -181663,7 +181787,9 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container-fluid my-5"
+  "class": "container-fluid my-5",
+  role: "main",
+  "aria-labelledby": "shop-finder-heading"
 };
 var _hoisted_2 = {
   "class": "row justify-content-center"
@@ -181697,7 +181823,9 @@ var _hoisted_9 = {
 };
 var _hoisted_10 = {
   key: 0,
-  "class": "text-center py-5"
+  "class": "text-center py-5",
+  "aria-live": "polite",
+  "aria-busy": "true"
 };
 var _hoisted_11 = {
   "class": "mt-3"
@@ -181710,11 +181838,11 @@ var _hoisted_13 = {
   "class": "text-center py-5"
 };
 var _hoisted_14 = {
-  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4",
+  role: "list",
+  "aria-label": "Search results"
 };
-var _hoisted_15 = {
-  "class": "card h-100"
-};
+var _hoisted_15 = ["aria-label", "onKeydown"];
 var _hoisted_16 = {
   style: {
     "padding": "15px 15px 0 15px"
@@ -181776,8 +181904,8 @@ var _hoisted_30 = {
 var _hoisted_31 = {
   "class": "d-flex justify-content-between align-items-center gap-2"
 };
-var _hoisted_32 = ["onClick"];
-var _hoisted_33 = ["onClick", "disabled"];
+var _hoisted_32 = ["onClick", "aria-label"];
+var _hoisted_33 = ["onClick", "disabled", "aria-disabled", "aria-label"];
 var _hoisted_34 = {
   key: 0,
   "class": "d-flex justify-content-between align-items-center",
@@ -181786,33 +181914,37 @@ var _hoisted_34 = {
   }
 };
 var _hoisted_35 = {
-  "class": "text-muted"
+  "class": "text-muted",
+  "aria-live": "polite"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    id: "shop-finder-heading",
     "class": "display-5 fw-bold text-center"
   }, "Halal Butcher Finder", -1 /* CACHED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
   }, " Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher shops. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     "class": "d-flex align-items-center mb-3",
     role: "search",
+    "aria-label": "Search for halal butchers by city",
     onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.searchLocation && $options.searchLocation.apply($options, arguments);
     }, ["prevent"])),
     style: {
       "gap": "0.5rem"
     }
-  }, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "shop-search-input",
     "class": "card-title pr-2 fw-bold",
     style: {
       "font-size": "20px"
     }
   }, "Search location:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    id: "searchInput",
+    id: "shop-search-input",
     type: "search",
     "class": "form-control",
     placeholder: "Enter city...",
-    "aria-label": "Search",
+    "aria-label": "Search city",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
@@ -181837,7 +181969,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "width": "3rem",
       "height": "3rem"
     },
-    role: "status"
+    role: "status",
+    "aria-label": "Loading results"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
   }, "Loading...")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, "Searching for halal butchers in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery || $data.shops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _toConsumableArray(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -181856,11 +181989,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "h4 text-muted"
   }, "No halal butchers found")], -1 /* CACHED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 2
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredShops, function (shop) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredShops, function (shop, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col",
       key: shop.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "card h-100",
+      role: "article",
+      "aria-label": "".concat(shop.name, ", ").concat(shop.address || 'address not specified'),
+      tabindex: "0",
+      onKeydown: function onKeydown($event) {
+        return $options.handleCardKeydown(index, $event);
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-geo-alt-fill me-2 flex-shrink-0"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.address || 'Address not specified'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(5, function (n) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -181877,7 +182018,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
         "color": "white",
         "height": "38px"
-      }
+      },
+      "aria-label": "Get directions to ".concat(shop.name)
     }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-geo-alt me-2"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction", -1 /* CACHED */)])), 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Call Shop Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -181892,10 +182034,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         color: 'white',
         height: '38px',
         cursor: shop.phone ? 'pointer' : 'not-allowed'
-      })
+      }),
+      "aria-disabled": !shop.phone,
+      "aria-label": shop.phone ? "Call ".concat(shop.name) : "Phone number not available for ".concat(shop.name)
     }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-telephone me-2"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Call Shop", -1 /* CACHED */)])), 12 /* STYLE, PROPS */, _hoisted_33)])])])]);
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Call Shop", -1 /* CACHED */)])), 12 /* STYLE, PROPS */, _hoisted_33)])])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_15)]);
   }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.shops.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_35, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.filteredShops.length) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.shops.length) + " places ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 

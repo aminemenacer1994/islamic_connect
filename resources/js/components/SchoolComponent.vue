@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid my-5">
+  <div class="container-fluid my-5" role="main" aria-labelledby="school-finder-heading">
     <div class="row justify-content-center">
       <div class="col-lg-10">
-        <h1 class="display-5 fw-bold text-center">Islamic Education Finder</h1>
+        <h1 id="school-finder-heading" class="display-5 fw-bold text-center">Islamic Education Finder</h1>
         <p class="text-center container mb-4 lead">
           Discover trusted Islamic schools, madrassas, and education centers near you with ease!
         </p>
@@ -11,11 +11,11 @@
           <div class="card-body container-fluid" style="padding: 5px;">
             <div class="row mb-4 justify-content-center">
               <div>
-                <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchLocation"
+                <form class="d-flex align-items-center mb-3" role="search" aria-label="Search for schools by city" @submit.prevent="searchLocation"
                   style="gap: 0.5rem;">
-                  <h4 class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</h4>
-                  <input id="searchInput" type="search" class="form-control" placeholder="Enter a city"
-                    aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
+                  <label for="school-search-input" class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</label>
+                  <input id="school-search-input" type="search" class="form-control" placeholder="Enter a city"
+                    aria-label="Search city" v-model="searchQuery" @input="handleTyping" autocomplete="off"
                     style="max-width: 300px;" />
                   <button class="btn align-items-center justify-content-center"
                     style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
@@ -28,8 +28,8 @@
             </div>
 
             <!-- Loading State -->
-            <div v-if="loading" class="text-center py-5">
-              <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <div v-if="loading" class="text-center py-5" aria-live="polite" aria-busy="true">
+              <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status" aria-label="Loading results">
                 <span class="visually-hidden">Loading...</span>
               </div>
               <p class="mt-3">Searching for Islamic schools & centers in {{ searchQuery }}...</p>
@@ -58,9 +58,15 @@
               </div>
 
               <!-- Results Grid -->
-              <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <div class="col" v-for="school in schools" :key="school.id">
-                  <div class="card h-100" style="display: flex; flex-direction: column;">
+              <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+                   role="list"
+                   aria-label="Search results">
+                <div class="col" v-for="(school, index) in schools" :key="school.id">
+                  <div class="card h-100" style="display: flex; flex-direction: column;"
+                       role="article"
+                       :aria-label="`${school.name}, ${school.address || 'address not specified'}`"
+                       tabindex="0"
+                       @keydown="handleCardKeydown(index, $event)">
                     <!-- Badges -->
                     <div style="padding: 15px 15px 0 15px;">
                       <h1 class="card-title text-left fw-bold text-dark mb-3" style="font-size: 25px;">
@@ -104,13 +110,15 @@
                     <div class="d-flex justify-content-between align-items-center gap-2" style="padding: 10px;">
                       <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                         @click="openGoogleMaps(school.lat, school.lon, school.name)"
-                        style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                        style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                        aria-label="Get directions to {{ school.name }}">
                         <i class="bi bi-geo-alt me-2"></i>
                         <b>Get Directions</b>
                       </button>
-                      <a :href="school.website" target="_blank"
+                      <a :href="school.website" target="_blank" rel="noopener noreferrer"
                         class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                        style="background: #1881b9; color: white; height: 38px" :class="{ disabled: !school.website }">
+                        style="background: #1881b9; color: white; height: 38px" :class="{ disabled: !school.website }"
+                        :aria-disabled="!school.website" aria-label="Visit website for {{ school.name }}">
                         <i class="bi bi-globe me-2"></i>
                         <b>Visit Website</b>
                       </a>
@@ -123,7 +131,7 @@
 
           <div v-if="!loading && schools.length > 0" class="d-flex justify-content-between align-items-center"
             style="padding: 10px;">
-            <small class="text-muted">
+            <small class="text-muted" aria-live="polite">
               Showing {{ schools.length }} Islamic educational schools & centers
             </small>
           </div>
@@ -141,6 +149,7 @@ export default {
       searchQuery: '',
       loading: false,
       schools: [],
+      focusedIndex: -1,
       searchHistory: [],
       currentLocation: null,
       bbox: null,
@@ -148,6 +157,31 @@ export default {
     };
   },
   methods: {
+    handleCardKeydown(index, event) {
+      const key = event.key;
+      const last = this.schools.length - 1;
+      if (key === 'ArrowDown' || key === 'ArrowRight') {
+        event.preventDefault();
+        const next = Math.min(last, index + 1);
+        this.focusedIndex = next;
+        this.$nextTick(() => {
+          const cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card.h-100');
+          cards[next]?.focus();
+        });
+      } else if (key === 'ArrowUp' || key === 'ArrowLeft') {
+        event.preventDefault();
+        const prev = Math.max(0, index - 1);
+        this.focusedIndex = prev;
+        this.$nextTick(() => {
+          const cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card.h-100');
+          cards[prev]?.focus();
+        });
+      } else if (key === 'Enter' || key === ' ') {
+        event.preventDefault();
+        const actionable = event.currentTarget.querySelector('button, a[href]:not(.disabled)');
+        actionable?.click();
+      }
+    },
     async searchLocation() {
       const query = this.searchQuery.trim();
       if (!query) {

@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid py-4">
+  <div class="container-fluid py-4" role="main" aria-labelledby="mosque-finder-heading">
     <div class="row justify-content-center">
       <div class="col-lg-10">
-        <h1 class="display-4 fw-bold text-center">Mosque Locater</h1>
+        <h1 id="mosque-finder-heading" class="display-4 fw-bold text-center">Mosque Locater</h1>
         <p class="text-center container mb-4 lead">
           Easily find nearby mosques based on your current location, complete with detailed directions to help you
           connect with your local community.
@@ -14,11 +14,11 @@
             <div class="row mb-4 justify-content-center">
               <div>
                 <!-- Inline Search Bar with Label, Input, and Button -->
-                <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchMosques"
+                <form class="d-flex align-items-center mb-3" role="search" aria-label="Search for mosques by city" @submit.prevent="searchMosques"
                   style="gap: 0.5rem;">
-                  <h4 class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</h4>
-                  <input id="searchInput" type="search" class="form-control" placeholder="Enter city or country..."
-                    aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
+                  <label for="mosque-search-input" class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</label>
+                  <input id="mosque-search-input" type="search" class="form-control" placeholder="Enter city or country..."
+                    aria-label="Search city or country" v-model="searchQuery" @input="handleTyping" autocomplete="off"
                     style="max-width: 300px;" />
                   <button class="btn  align-items-center justify-content-center "
                     style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
@@ -32,9 +32,8 @@
 
             <!-- Loading State -->
 
-
-            <div v-if="loading" class="text-center py-5">
-              <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <div v-if="loading" class="text-center py-5" aria-live="polite" aria-busy="true">
+              <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status" aria-label="Loading results">
                 <span class="visually-hidden">Loading...</span>
               </div>
               <p class="mt-3">Searching for mosques in {{ searchQuery }}...</p>
@@ -57,9 +56,14 @@
               </div>
 
               <!-- Results Grid -->
-              <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <div class="col" v-for="mosque in mosques" :key="mosque.id">
-                  <div class="card">
+              <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+                   role="list"
+                   aria-label="Search results">
+                <div class="col" v-for="(mosque, index) in mosques" :key="mosque.id">
+                  <div class="card" role="article"
+                       :aria-label="`${mosque.name}, ${mosque.address}`"
+                       tabindex="0"
+                       @keydown="handleCardKeydown(index, $event)">
                     <div style="padding: 15px 15px 0 15px;" class="text-center">
                       <h1 class="card-title fw-bold text-dark text-center mb-3" style="font-size: 25px;">{{ mosque.name }}</h1>
                     </div>
@@ -109,7 +113,8 @@
                         <!-- Get Directions Button -->
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openGoogleMaps(mosque.lat, mosque.lon)"
-                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                          :aria-label="`Get directions to ${mosque.name}`">
                           <i class="bi bi-geo-alt me-2"></i>
                           <b>Get Direction</b>
                         </button>
@@ -117,7 +122,8 @@
                         <!-- WhatsApp Share Button -->
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="shareViaWhatsApp(mosque)"
-                          style="background: #1881b9; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                          style="background: #1881b9; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                          :aria-label="`Share ${mosque.name} details via WhatsApp`">
                           <i class="bi bi-whatsapp me-2"></i>
                           <b>Share Details</b>
                         </button>
@@ -131,7 +137,7 @@
 
           <div v-if="!loading && mosques.length > 0" class="d-flex justify-content-between align-items-center"
             style="padding: 10px;">
-            <small class="text-muted">
+            <small class="text-muted" aria-live="polite">
               Showing {{ mosques.length }} mosques
             </small>
           </div>
@@ -150,7 +156,8 @@ export default {
       radius: "5000", // Default 5km radius
       mosques: [],
       loading: false,
-      lastSearchLocation: null
+      lastSearchLocation: null,
+      focusedIndex: -1
     };
   },
   computed: {
@@ -162,6 +169,31 @@ export default {
     }
   },
   methods: {
+    handleCardKeydown(index, event) {
+      const key = event.key;
+      const last = this.mosques.length - 1;
+      if (key === 'ArrowDown' || key === 'ArrowRight') {
+        event.preventDefault();
+        const next = Math.min(last, index + 1);
+        this.focusedIndex = next;
+        this.$nextTick(() => {
+          const cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card');
+          cards[next]?.focus();
+        });
+      } else if (key === 'ArrowUp' || key === 'ArrowLeft') {
+        event.preventDefault();
+        const prev = Math.max(0, index - 1);
+        this.focusedIndex = prev;
+        this.$nextTick(() => {
+          const cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card');
+          cards[prev]?.focus();
+        });
+      } else if (key === 'Enter' || key === ' ') {
+        event.preventDefault();
+        const actionable = event.currentTarget.querySelector('button, a[href]:not(.disabled)');
+        actionable?.click();
+      }
+    },
     handleTyping() {
       this.error = ""; // Clear error on typing
     },
