@@ -99,43 +99,15 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
-    data() {
-        return {
-            isAuthenticated: false,
-            isSubscribed: false,
-            loading: true,
-        };
+    props: {
+        isAuthenticated: { type: Boolean, required: true },
+        isSubscribed: { type: Boolean, required: true },
     },
     methods: {
         goTo(path) {
             window.location.href = path;
         },
-        async checkSubscription() {
-            this.loading = true;
-            try {
-                const response = await axios.get('/user');
-                this.isAuthenticated = !!response.data;
-                
-                if (this.isAuthenticated) {
-                    const subscription = await axios.get('/subscription-status');
-                    console.log('Subscription data:', subscription.data); // Debug
-                    
-                    // Fix: Just check is_subscribed
-                    this.isSubscribed = subscription.data.is_subscribed;
-                }
-            } catch (error) {
-                console.error('Subscription check failed:', error);
-                this.isAuthenticated = false;
-                this.isSubscribed = false;
-            }
-            this.loading = false;
-        }
-    },
-    mounted() {
-        this.checkSubscription();
     },
 };
 </script>

@@ -1,7 +1,10 @@
 @extends('layouts.app')
 @section('content')
 <div id="app">
-    <knowledge-component></knowledge-component>
+    <knowledge-component
+        :is-authenticated="@json(auth()->check())"
+        :is-subscribed="@json(optional(auth()->user())->subscribed('premium'))"
+    ></knowledge-component>
 <div>
     {{-- @include('layouts.footer') --}}
 @endsection
