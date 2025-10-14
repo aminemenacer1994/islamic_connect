@@ -35,9 +35,11 @@
                     </button>
 
                     <div ref="pillsContainer" class="pills-scroll-container" @scroll="updateArrowVisibility">
-                        <div class="pills-list">
-                            <button v-for="category in categories" :key="category.id" @click="selectCategory(category)"
-                                :class="['category-pill', { 'active': selectedCategory.id === category.id }]">
+                        <div class="pills-list" role="tablist" aria-label="Categories" @keydown.left.prevent="focusAdjacentTab(-1)" @keydown.right.prevent="focusAdjacentTab(1)">
+                            <button v-for="(category, idx) in categories" :key="category.id" @click="selectCategory(category)"
+                                :class="['category-pill', { 'active': selectedCategory.id === category.id }]" role="tab"
+                                :aria-selected="selectedCategory.id === category.id ? 'true' : 'false'"
+                                :tabindex="selectedCategory.id === category.id ? 0 : -1" :ref="el => categoryTabRefs[idx] = el">
                                 <i :class="category.icon" class="me-2"></i>
                                 {{ category.name }}
                             </button>
@@ -258,6 +260,7 @@ export default {
             showRightArrow: true,
             hasFontAwesome: true, // Flag to check Font Awesome availability
             preRenderedContent: {},
+            categoryTabRefs: [],
         };
     },
     computed: {
@@ -403,6 +406,19 @@ export default {
         }
     },
     methods: {
+        focusAdjacentTab(delta) {
+            if (!this.categories || this.categories.length === 0) return;
+            const currentIndex = this.categories.findIndex(c => c.id === this.selectedCategory.id);
+            const nextIndex = (currentIndex + delta + this.categories.length) % this.categories.length;
+            const next = this.categories[nextIndex];
+            if (next) {
+                this.selectCategory(next);
+                this.$nextTick(() => {
+                    const btn = this.categoryTabRefs[nextIndex];
+                    if (btn && typeof btn.focus === 'function') btn.focus();
+                });
+            }
+        },
         getAvgItemHeight() {
             return this.layoutMode === 'list' ? 600 : 520;
         },

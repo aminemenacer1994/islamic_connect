@@ -7,24 +7,31 @@
       them better understand the significance of each event.
     </p>
 
-    <div class="timeline-wrapper">
-      <div class="timeline">
-        <div v-for="(event, index) in events" :key="index" class="timeline-point" ref="eventRefs">
-          <span class="badge fs-6 timeline-badge" :class="{ active: index === currentIndex }"
-            @click="selectEvent(index)">
+    <nav class="timeline-wrapper" aria-label="Seerah timeline">
+      <ol class="timeline" role="list" @keydown="onTimelineKeydown" ref="timelineNav">
+        <li v-for="(event, index) in events" :key="index" class="timeline-point" ref="eventRefs">
+          <button
+            class="badge fs-6 timeline-badge"
+            type="button"
+            :class="{ active: index === currentIndex }"
+            :aria-current="index === currentIndex ? 'step' : null"
+            :aria-label="`Year ${event.year}. ${index === currentIndex ? 'Current event' : 'Activate to view details'}`"
+            :tabindex="index === currentIndex ? 0 : -1"
+            @click="selectEvent(index)"
+          >
             {{ event.year }}
-          </span>
-        </div>
-      </div>
-    </div>
+          </button>
+        </li>
+      </ol>
+    </nav>
 
     <transition name="fade" mode="out-in">
-      <div v-if="events.length" :key="currentIndex" class="event-box event-details animate__animated">
-        <div v-if="copySuccess" class="alert alert-success" role="alert">
+      <div v-if="events.length" :key="currentIndex" class="event-box event-details animate__animated" role="region" :aria-labelledby="`event-title-${currentIndex}`">
+        <div v-if="copySuccess" class="alert alert-success" role="status" aria-live="polite">
           Text copied to clipboard!
         </div>
 
-        <div class="fw-bold display-6 text-center mb-3">{{ events[currentIndex].title }}</div>
+        <div class="fw-bold display-6 text-center mb-3" :id="`event-title-${currentIndex}`">{{ events[currentIndex].title }}</div>
 
         <!-- Combined Controls and Info Row -->
         <div class="d-flex justify-content-center align-items-center gap-2 gap-sm-4 mb-3 mb-md-4 flex-wrap">
@@ -48,16 +55,21 @@
         <!-- AI Summary and Play Button Row -->
         <div class="d-flex justify-content-center align-items-center gap-3 gap-md-4 mb-3 mb-md-4">
           <!-- AI Summary Button -->
-          <button class="btn btn-sm btn-outline-dark" @click="summarizeEvent" :disabled="summaryLoading">
+          <button class="btn btn-sm btn-outline-dark" @click="summarizeEvent" :disabled="summaryLoading" :aria-busy="summaryLoading ? 'true' : 'false'">
             <i class="bi" :class="summaryLoading ? 'bi-hourglass-split' : 'bi-robot'"></i>
             <span class="ms-1 ms-sm-2">{{ summaryLoading ? 'Generating...' : 'AI Summary' }}</span>
           </button>
 
           <!-- Play Button -->
           <div class="text-center">
-            <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
-              style="cursor: pointer; font-size: 1.75rem;" data-bs-toggle="tooltip" data-bs-placement="top"
-              :title="isAudioPlaying[currentIndex] ? 'Pause' : 'Play'" @click="toggleAudioPlayer(currentIndex)"></i>
+            <button
+              class="btn p-0"
+              :aria-label="isAudioPlaying[currentIndex] ? 'Pause audio' : 'Play audio'"
+              @click="toggleAudioPlayer(currentIndex)"
+              :title="isAudioPlaying[currentIndex] ? 'Pause' : 'Play'"
+            >
+              <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="font-size: 1.75rem;"></i>
+            </button>
           </div>
         </div>
 
@@ -72,13 +84,13 @@
                 AI Summary
               </h6>
               <button class="btn btn-sm btn-outline-secondary" @click="toggleSummary"
-                :title="showSummary ? 'Hide Summary' : 'Show Summary'">
+                :title="showSummary ? 'Hide Summary' : 'Show Summary'" :aria-expanded="showSummary ? 'true' : 'false'" aria-controls="ai-summary-panel">
                 <i class="bi" :class="showSummary ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
               </button>
             </div>
 
             <transition name="fade-slide">
-              <div v-if="showSummary">
+              <div v-if="showSummary" id="ai-summary-panel" role="region" aria-live="polite">
                 <div class="summary-text small" v-html="summaryText"></div>
                 <div class="summary-footer mt-2 pt-2 border-top">
                   <small class="text-muted">
@@ -193,40 +205,42 @@
         </div> -->
 
         <div class="controls text-center mt-3 mt-md-4">
-          <button @click="prev" :disabled="currentIndex === 0" class="btn btn-primary me-2 btn-sm">Previous</button>
+          <button @click="prev" :disabled="currentIndex === 0" class="btn btn-primary me-2 btn-sm" aria-label="Previous event">Previous</button>
           <button @click="next" :disabled="currentIndex === events.length - 1"
-            class="btn btn-primary btn-sm">Next</button>
+            class="btn btn-primary btn-sm" aria-label="Next event">Next</button>
         </div>
       </div>
     </transition>
 
     <!-- Global Custom Audio Player -->
-    <div v-if="showAudioPlayer" class="audio-player-container">
+    <div v-if="showAudioPlayer" class="audio-player-container" role="region" aria-label="Audio player">
       <div class="custom-audio-player">
         <div class="controls">
-          <i class="bi bi-skip-backward-fill control-icon" @click="rewindAudio(currentlyPlayingIndex)"
-            title="Rewind 10s" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Rewind 10 seconds"></i>
-          <i class="bi control-icon" :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"
-            @click="toggleAudioPlayer(currentlyPlayingIndex)"
-            :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'" data-bs-toggle="tooltip"
-            data-bs-placement="top" :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"></i>
-          <i class="bi bi-skip-forward-fill control-icon" @click="fastForwardAudio(currentlyPlayingIndex)"
-            title="Fast Forward 10s" data-bs-toggle="tooltip" data-bs-placement="top"
-            aria-label="Fast forward 10 seconds"></i>
-          <i class="bi bi-stop-fill control-icon" @click="stopAudio(currentlyPlayingIndex)" title="Stop"
-            data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Stop"></i>
-          <i class="bi control-icon" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"
-            @click="toggleVolume" title="Volume" data-bs-toggle="tooltip" data-bs-placement="top"
-            aria-label="Adjust volume"></i>
+          <button class="control-icon btn btn-link p-0" @click="rewindAudio(currentlyPlayingIndex)" title="Rewind 10s" aria-label="Rewind 10 seconds">
+            <i class="bi bi-skip-backward-fill"></i>
+          </button>
+          <button class="control-icon btn btn-link p-0" @click="toggleAudioPlayer(currentlyPlayingIndex)" :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'" :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'">
+            <i class="bi" :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
+          </button>
+          <button class="control-icon btn btn-link p-0" @click="fastForwardAudio(currentlyPlayingIndex)" title="Fast Forward 10s" aria-label="Fast forward 10 seconds">
+            <i class="bi bi-skip-forward-fill"></i>
+          </button>
+          <button class="control-icon btn btn-link p-0" @click="stopAudio(currentlyPlayingIndex)" title="Stop" aria-label="Stop">
+            <i class="bi bi-stop-fill"></i>
+          </button>
+          <button class="control-icon btn btn-link p-0" @click="toggleVolume" title="Volume" aria-label="Adjust volume">
+            <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
+          </button>
           <div v-if="showVolumeBar" class="volume-bar-container">
             <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume" class="volume-slider"
               aria-label="Volume control" />
           </div>
-          <span class="time">{{ formatTime(currentTime) }} / {{ formatTime(totalTime) }}</span>
-          <i class="bi bi-x control-icon close-icon" @click="closeAudioPlayer" title="Close" data-bs-toggle="tooltip"
-            data-bs-placement="top" aria-label="Close audio player"></i>
+          <span class="time" aria-live="polite">{{ formatTime(currentTime) }} / {{ formatTime(totalTime) }}</span>
+          <button class="control-icon btn btn-link p-0 close-icon" @click="closeAudioPlayer" title="Close" aria-label="Close audio player">
+            <i class="bi bi-x"></i>
+          </button>
         </div>
-        <div class="progress-bar" @click="seekAudio($event, currentlyPlayingIndex)" aria-label="Seek audio">
+        <div class="progress-bar" role="progressbar" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="Math.round(progress[currentlyPlayingIndex] || 0)" tabindex="0" @keydown.left.prevent="keyboardSeek(-5)" @keydown.right.prevent="keyboardSeek(5)" @keydown.pageDown.prevent="keyboardSeek(-10)" @keydown.pageUp.prevent="keyboardSeek(10)" @click="seekAudio($event, currentlyPlayingIndex)" aria-label="Seek audio">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
         </div>
       </div>
@@ -337,6 +351,71 @@ export default {
     }
   },
   methods: {
+    onTimelineKeydown(e) {
+      if (!this.events.length) return;
+      const key = e.key;
+      if (key === 'ArrowRight' || key === 'Right') {
+        e.preventDefault();
+        if (this.currentIndex < this.events.length - 1) {
+          this.selectEvent(this.currentIndex + 1);
+          this.focusCurrentTimelineButton();
+        }
+      } else if (key === 'ArrowLeft' || key === 'Left') {
+        e.preventDefault();
+        if (this.currentIndex > 0) {
+          this.selectEvent(this.currentIndex - 1);
+          this.focusCurrentTimelineButton();
+        }
+      } else if (key === 'Home') {
+        e.preventDefault();
+        this.selectEvent(0);
+        this.focusCurrentTimelineButton();
+      } else if (key === 'End') {
+        e.preventDefault();
+        this.selectEvent(this.events.length - 1);
+        this.focusCurrentTimelineButton();
+      } else if (key === 'Enter' || key === ' ') {
+        // already activated by click via selectEvent on button
+      }
+    },
+    focusCurrentTimelineButton() {
+      this.$nextTick(() => {
+        const refs = this.$refs.eventRefs;
+        const el = refs && refs[this.currentIndex] ? refs[this.currentIndex].querySelector('button') : null;
+        if (el) el.focus();
+      });
+    },
+    keyboardSeek(deltaPercent) {
+      const idx = this.currentlyPlayingIndex;
+      if (idx == null || !this.utterance || !this.isAudioPlaying[idx]) return;
+      const current = this.progress[idx] || 0;
+      const next = Math.min(100, Math.max(0, current + deltaPercent));
+      // Simulate by canceling and restarting at target percent
+      const wordCount = this.countWords(this.currentTtsText);
+      const newWordIndex = Math.round((next / 100) * wordCount);
+      const words = this.currentTtsText.split(/\s+/).filter(Boolean);
+      const newText = words.slice(newWordIndex).join(' ');
+      this.synth.cancel();
+      this.utterance = new SpeechSynthesisUtterance(newText);
+      this.utterance.voice = this.selectedVoice;
+      this.utterance.volume = this.volume;
+      this.utterance.onend = () => {
+        this.isAudioPlaying[idx] = false;
+        this.ttsState = 'stopped';
+        this.progress[idx] = 0;
+        this.currentTime = 0;
+        this.pausedWordIndex = 0;
+        this.showAudioPlayer = false;
+      };
+      this.utterance.onboundary = (event) => this.updateProgress(event, idx, newWordIndex);
+      this.synth.speak(this.utterance);
+      this.isAudioPlaying[idx] = true;
+      this.ttsState = 'playing';
+      this.progress[idx] = next;
+      const wordsPerSecond = 150 / 60;
+      this.currentTime = (newWordIndex / wordsPerSecond);
+      this.pausedWordIndex = newWordIndex;
+    },
     initializeAudioStates() {
       this.events.forEach((_, index) => {
         this.isAudioPlaying[index] = false;

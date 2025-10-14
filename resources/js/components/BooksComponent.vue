@@ -20,9 +20,9 @@
             <div>
               <!-- Search Stats -->
               <div class="mb-4" v-if="searchQuery || selectedSubject">
-                <div class="d-flex flex-wrap align-items-center gap-3 px-1">
+                <div class="d-flex flex-wrap align-items-center gap-3 px-1" aria-live="polite">
                   <span class="badge fs-6 px-3 py-2" style="background-color: #e0fff8; color: #00bfa6;">
-                    <i class="bi bi-search me-2"></i>{{ filteredTerms?.length || 0 }} results
+                    <i class="bi bi-search me-2" aria-hidden="true"></i>{{ filteredTerms?.length || 0 }} results
                   </span>
                   <span v-if="selectedSubject" class="badge fs-6 px-3 py-2"
                     style="background-color: #e0fff8; color: #00bfa6;">
@@ -42,7 +42,8 @@
                     <div class="input-group shadow-sm" style="--primary-color: #00bfa6; --spacing: 0.5rem;">
                       <input id="searchQuery" type="text" v-model="searchQuery"
                         class="form-control border-0 ps-4 pe-0 py-3" placeholder="Search terms, meanings, references..."
-                        aria-label="Search Islamic Dictionary" @input="updateSuggestions" @focus="updateSuggestions"
+                        aria-label="Search Islamic Dictionary" :aria-controls="'results-region'"
+                        @input="updateSuggestions" @focus="updateSuggestions"
                         @blur="delayHideSuggestions" @keydown.down.prevent="navigateSuggestions(1)"
                         @keydown.up.prevent="navigateSuggestions(-1)"
                         @keydown.enter.prevent="selectSuggestion(highlightedIndex)"
@@ -61,13 +62,13 @@
                       </span>
                     </div>
                     <!-- Suggestions Dropdown -->
-                    <!-- <div v-if="showSuggestions && filteredSuggestions.length && searchQuery.length >= 2"
+                    <div v-if="showSuggestions && filteredSuggestions.length && searchQuery.length >= 2"
                       class="position-absolute w-100 shadow-lg rounded-bottom border mt-1 bg-white" role="listbox"
                       :aria-activedescendant="highlightedIndex >= 0 ? 'suggestion-' + highlightedIndex : null"
                       style="z-index: 1050; max-height: 40vh; overflow-y: auto; border-top: none;">
                       <div class="p-2 border-bottom bg-light">
                         <small class="text-muted">
-                          <i class="bi bi-lightbulb me-1"></i>Search tips: Use quotes for exact phrases, + for required
+                          <i class="bi bi-lightbulb me-1" aria-hidden="true"></i>Search tips: Use quotes for exact phrases, + for required
                           words
                         </small>
                       </div>
@@ -76,7 +77,7 @@
                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 px-3 py-2"
                           :class="{ 'active': index === highlightedIndex }" @mousedown.prevent="selectSuggestion(index)"
                           @mouseover="highlightedIndex = index" :id="'suggestion-' + index" role="option"
-                          :aria-selected="index === highlightedIndex">
+                          :aria-selected="index === highlightedIndex ? 'true' : 'false'">
                           <div class="d-flex flex-column">
                             <span class="fw-bold">{{ suggestion.term }}</span>
                             <small class="text-muted">{{ suggestion.meaning.substring(0, 60) }}...</small>
@@ -90,11 +91,11 @@
                       </div>
                       <div class="p-2 border-top bg-light">
                         <small class="text-muted">
-                          <i class="bi bi-arrow-up me-1"></i><i class="bi bi-arrow-down me-1"></i>Navigate • Enter to
+                          <i class="bi bi-arrow-up me-1" aria-hidden="true"></i><i class="bi bi-arrow-down me-1" aria-hidden="true"></i>Navigate • Enter to
                           select • Esc to clear
                         </small>
                       </div>
-                    </div> -->
+                    </div>
                   </div>
                 </div>
               </div>
@@ -186,19 +187,19 @@
           </div>
 
           <!-- Terms grid -->
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4" role="region" id="results-region" aria-label="Dictionary results" :aria-busy="isLoading ? 'true' : 'false'">
             <div v-for="term in displayedTerms" :key="term.id" class="col mb-4">
               <div class="card h-100 shadow-sm border-3 border shadow-md"
                 style="border:2px solid #d1e0e7; border-radius: 10px;"
                 :class="{ 'border-primary border-3': favorites.includes(term.id) }"
                 :style="{ fontSize: `${termFontSizes[term.id]}rem` }" @click.self="handleCardClick(term.id)"
-                tabindex="0" role="group" :aria-label="`Islamic term card: ${term.term}`"
+                tabindex="0" role="article" :aria-labelledby="'term-title-' + term.id"
                 @keydown.enter="handleCardClick(term.id)" @keydown.space.prevent="handleCardClick(term.id)">
                 <div class="card-body d-flex flex-column p-4 gap-2">
                   <span class="badge rounded-pill mb-3 px-3 py-2" style="background-color: #e0fff8; color: #00bfa6;">
                     {{ term.subject }}
                   </span>
-                  <h5 class="card-title fw-bold mb-3 fs-4" style="color: #00bfa6;">{{ term.term }}</h5>
+                  <h5 class="card-title fw-bold mb-3 fs-4" :id="'term-title-' + term.id" style="color: #00bfa6;">{{ term.term }}</h5>
                   <p class="card-text mb-3" style="color: #00bfa6;">
                     <em>"{{ term.phrase }}"</em>
                   </p>

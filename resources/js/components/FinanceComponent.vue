@@ -9,7 +9,7 @@
 
     <div class="row g-4">
       <!-- Sidebar Categories -->
-      <div class="col-lg-3">
+      <div class="col-lg-3" role="navigation" aria-label="Finance categories">
         <div class="card shadow rounded-4">
           <div class="card-header text-white rounded-top-4"
             style="background: linear-gradient(135deg, #0db691, #0aa07e);">
@@ -32,7 +32,7 @@
                   class="btn btn-light border rounded-pill text-start d-flex justify-content-between align-items-center"
                   :class="{ 'btn-gradient text-white': activeCategory === category.id }"
                   :style="activeCategory === category.id ? 'border: none;' : 'border-color: #0db691; color: #0db691;'">
-                  <span><i :class="getCategoryIcon(category.id)" class="me-2"></i>{{ category.name }}</span>
+                  <span><i :class="getCategoryIcon(category.id)" class="me-2" aria-hidden="true"></i>{{ category.name }}</span>
                   <span class="badge bg-white text-dark">{{ getCategoryTipCount(category.id) }}</span>
                 </button>
               </div>
@@ -57,9 +57,9 @@
             </div>
             <div v-else class="row g-4">
               <div class="col-md-6" v-for="tip in filteredTips" :key="tip.id">
-                <div class="card h-100 shadow-sm border-0 rounded-4">
+                <div class="card h-100 shadow-sm border-0 rounded-4" role="article" :aria-labelledby="'tip-title-' + tip.id">
                   <div class="card-header text-white" :style="`background-color: ${getCategoryColor(tip.category)}`">
-                    <h6 class="mb-0">{{ tip.title }}</h6>
+                    <h6 class="mb-0" :id="'tip-title-' + tip.id">{{ tip.title }}</h6>
                   </div>
                   <div class="card-body">
                     <p class="small text-muted">{{ tip.description }}</p>

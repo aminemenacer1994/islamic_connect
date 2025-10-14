@@ -1,5 +1,5 @@
 <template>
-  <div class="container my-4">
+  <div class="container my-4" role="main">
     <!-- Header -->
     <header class="text-center mb-4">
       
@@ -24,16 +24,20 @@
               id="category-select"
               data-bs-toggle="dropdown" 
               aria-expanded="false"
+              @keydown.down.prevent="focusFirstMenuItem"
             >
               {{ selectedCategory !== '' ? guide.sections[selectedCategory].title : 'Choose a topic...' }}
             </button>
             <transition name="fade-slide">
-              <ul class="dropdown-menu w-100" aria-labelledby="category-select" v-if="filteredSections.length">
-                <li v-for="(section, index) in filteredSections" :key="index">
+              <ul class="dropdown-menu w-100" aria-labelledby="category-select" v-if="filteredSections.length" role="menu" ref="categoryMenu" @keydown.down.prevent="moveMenuFocus(1)" @keydown.up.prevent="moveMenuFocus(-1)">
+                <li v-for="(section, index) in filteredSections" :key="index" role="none">
                   <a 
                     class="dropdown-item d-flex align-items-center justify-content-between" 
                     href="#"
+                    role="menuitem"
+                    :aria-current="guide.sections.indexOf(section) === selectedCategory ? 'true' : null"
                     @click.prevent="selectedCategory = guide.sections.indexOf(section); showSuccessMessage('Guide selected successfully!')"
+                    :tabindex="-1"
                   >
                     <span class="guide-title">{{ section.title }}</span>
                     <span class="badge ms-2" :class="getBadgeClasses(section.title)">
@@ -899,6 +903,24 @@ export default {
     }
   },
   methods: {
+    focusFirstMenuItem() {
+      this.$nextTick(() => {
+        const menu = this.$refs.categoryMenu;
+        if (!menu) return;
+        const items = menu.querySelectorAll('[role="menuitem"]');
+        if (items && items[0]) items[0].focus();
+      });
+    },
+    moveMenuFocus(delta) {
+      const menu = this.$refs.categoryMenu;
+      if (!menu) return;
+      const items = Array.from(menu.querySelectorAll('[role="menuitem"]'));
+      if (!items.length) return;
+      const activeIndex = items.findIndex(el => el === document.activeElement);
+      const nextIndex = activeIndex === -1 ? 0 : (activeIndex + delta + items.length) % items.length;
+      const next = items[nextIndex];
+      if (next) next.focus();
+    },
     filterByCategory(category) {
       this.selectedCategoryFilter = category;
       this.selectedCategory = ''; // Reset selected category when filtering

@@ -36,9 +36,9 @@
         <!-- Search bar (right column) -->
         <div class="col-12 col-lg-6 mb-3">
           <div class="input-group input-group-lg" style="border-radius: 8px;">
-            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
-            <input type="text" class="form-control border-start-0" placeholder="Search names..." v-model="searchQuery"
-              @input="filterNames" />
+            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search" aria-hidden="true"></i></span>
+            <input type="text" class="form-control border-start-0" placeholder="Search names..." aria-label="Search names"
+              v-model="searchQuery" @input="filterNames" />
           </div>
         </div>
       </div>
@@ -63,14 +63,15 @@
         <div class="collapse show" id="likedNamesCollapse">
           <div class="row g-4">
             <div v-for="name in favoriteNamesData" :key="'fav-' + name.number" class="col-12 col-md-4">
-              <div class="card h-100" style="border-radius: 8px;">
+              <div class="card h-100" style="border-radius: 8px;" role="article" :aria-labelledby="'fav-title-' + name.number">
                 <div class="card-body d-flex flex-column">
                   <div class="d-flex justify-content-between align-items-start">
                     <span class="badge bg-secondary fs-6">{{ name.number }}</span>
-                    <i class="bi bi-heart-fill text-danger fs-4 cursor-pointer"
-                      @click="toggleFavorite(name.number)"></i>
+                    <button class="btn p-0" type="button" :aria-pressed="isFavorited(name.number) ? 'true' : 'false'" :aria-label="isFavorited(name.number) ? 'Remove from liked' : 'Add to liked'" @click="toggleFavorite(name.number)">
+                      <i class="bi bi-heart-fill text-danger fs-4"></i>
+                    </button>
                   </div>
-                  <p class="mt-3 mb-2" style="font-size: 1.6rem;color:black"><b>{{ name.name }}</b></p>
+                  <p class="mt-3 mb-2" :id="'fav-title-' + name.number" style="font-size: 1.6rem;color:black"><b>{{ name.name }}</b></p>
                   <div class="display-5 text-end" dir="rtl">
                     <strong class="medium text-muted" style="font-size: 2.4rem;">{{ name.arabic }}</strong>
                   </div>
@@ -85,14 +86,14 @@
                   <!-- Button container pushed to the bottom -->
                   <div class="d-flex justify-content-between align-items-center gap-2" style="padding: 10px;">
                     <!-- Copy to Clipboard Button -->
-                    <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2"
+                    <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2" aria-label="Copy name to clipboard"
                       @click="copyToClipboard(name)" style="background: #00bfa6; color: white; height: 38px">
                       <span class="text-center w-100">
                         <b>Copy to Clipboard</b>
                       </span>
                     </button>
                     <!-- WhatsApp Share Button -->
-                    <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                    <a class="btn d-flex align-items-center justify-content-center flex-grow-1" aria-label="Share name on WhatsApp"
                       :href="generateWhatsAppLink(name)" target="_blank" rel="noopener"
                       style="background: #00bfa6; color: white; height: 38px">
                       <b>Share on WhatsApp</b>
@@ -110,16 +111,16 @@
       <!-- Names Grid -->
       <div class="row g-4 mt-2">
         <div v-for="name in filteredNames" :key="name.number" class="col-12 col-md-4">
-          <div class="card h-100">
+          <div class="card h-100" role="article" :aria-labelledby="'name-title-' + name.number">
             <div class="card-body h-100">
               <div class="d-flex justify-content-between align-items-start">
                 <span class="badge bg-secondary fs-6">{{ name.number }}</span>
-                <i :class="['bi', isFavorited(name.number) ? 'bi-heart-fill' : 'bi-heart', 'fs-4', 'cursor-pointer']"
-                  :style="{ color: isFavorited(name.number) ? 'red' : 'black' }"
-                  @click="toggleFavorite(name.number)"></i>
+                <button class="btn p-0" type="button" :aria-pressed="isFavorited(name.number) ? 'true' : 'false'" :aria-label="isFavorited(name.number) ? 'Remove from favorites' : 'Add to favorites'" @click="toggleFavorite(name.number)">
+                  <i :class="['bi', isFavorited(name.number) ? 'bi-heart-fill' : 'bi-heart', 'fs-4']" :style="{ color: isFavorited(name.number) ? 'red' : 'black' }"></i>
+                </button>
               </div>
 
-              <p class="mt-3 mb-2" style="font-size: 1.6rem;color:black"><b>{{ name.name }}</b></p>
+              <p class="mt-3 mb-2" :id="'name-title-' + name.number" style="font-size: 1.6rem;color:black"><b>{{ name.name }}</b></p>
 
               <div v-if="showArabic" class="display-5 text-end" dir="rtl">
                 <strong class="medium text-muted" style="font-size: 2.4rem;">{{ name.arabic }}</strong>
@@ -137,7 +138,7 @@
             </div>
             <div class="d-flex justify-content-between align-items-center gap-2 mb-2" style="padding: 10px;">
               <!-- Copy to Clipboard Button -->
-              <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2"
+              <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2" aria-label="Copy name to clipboard"
                 @click="copyToClipboard(name)" style="background: #1881b9; color: white; height: 38px">
                 <span class="text-center w-100">
                   <i class="bi bi-clipboard me-2"></i>
@@ -146,7 +147,7 @@
               </button>
 
               <!-- WhatsApp Share Button -->
-              <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
+              <a class="btn d-flex align-items-center justify-content-center flex-grow-1" aria-label="Share name on WhatsApp"
                 :href="generateWhatsAppLink(name)" target="_blank" rel="noopener"
                 style="background: #00bfa6; color: white; height: 38px">
                 <i class="bi bi-whatsapp me-2"></i>
