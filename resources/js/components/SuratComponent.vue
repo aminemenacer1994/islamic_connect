@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4">
+  <div class="container py-4" role="main" aria-label="Quran Explorer">
     <div class="row justify-content-center text-center mb-3">
       <div class="col-lg-10 col-xl-10">
         <h1 class="display-5 fw-bold">Quran Explorer</h1>
@@ -13,7 +13,7 @@
     <!-- Sticky Dropdowns Container -->
     <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown">
       <!-- Existing template for surah, reciter, and translation selection -->
-      <span @click="toggleVisibility" class="text-white" style="cursor: pointer;" aria-label="Toggle filters visibility">
+      <span @click="toggleVisibility" class="text-white" style="cursor: pointer;" aria-label="Toggle filters visibility" role="button" tabindex="0" @keydown.enter.prevent="toggleVisibility" @keydown.space.prevent="toggleVisibility">
         <i v-if="isVisible" class="bi bi-x-lg" aria-hidden="true"></i>
         <i v-else class="bi bi-plus-lg" aria-hidden="true"></i>
       </span>
@@ -55,10 +55,13 @@
 
     <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
-    <div class="row rtl-text">
+    <div class="row rtl-text" role="listbox" :aria-activedescendant="selectedCardIndex >= 0 ? `ayah-card-${selectedCardIndex}` : null" aria-label="Ayah cards list">
 
       <div style="padding: 12px;  border-radius: 8px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs"
-        :key="ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" :class="{
+        :key="ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="option"
+        :id="`ayah-card-${index}`" :aria-selected="selectedCardIndex === index" :tabindex="selectedCardIndex === index ? 0 : -1"
+        @click="selectCard(index)" @keydown.enter.prevent="toggleAudioPlayer(index)" @keydown.space.prevent="toggleAudioPlayer(index)"
+        :class="{
           'highlighted': isHighlighted && currentlyPlayingIndex === index,
           'currently-playing': isAudioPlaying[index]
         }">
@@ -79,7 +82,7 @@
           </div>
 
           <!-- Desktop Layout: Icons on Left -->
-          <div class="row d-none d-md-flex">
+          <div class="row d-none d-md-flex" role="group" aria-label="Ayah controls (desktop)" :aria-hidden="isMobile">
             <div class="col-md-11">
               <div style="padding: 4px;">
                 <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
@@ -113,7 +116,7 @@
 
           <!-- Mobile/Tablet Layout: Text then Icons -->
 
-          <div style="padding: 8px;" class="d-block d-md-none">
+          <div style="padding: 8px;" class="d-block d-md-none" role="group" aria-label="Ayah controls (mobile)" :aria-hidden="!isMobile">
             <div>
               <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
                 :style="{ fontSize: arabicFontSize + 'px' }"></p>
@@ -162,6 +165,8 @@
       </div>
     </div>
 
+    <!-- Screen reader live region -->
+    <div class="visually-hidden" aria-live="polite" aria-atomic="true">{{ screenReaderMessage }}</div>
     <!-- Empty state -->
     <div v-if="!isLoading && surahDetails && filteredAyahs.length === 0" class="empty-state text-center text-muted py-4">
       No verses match your current search or filters.
@@ -225,6 +230,11 @@ export default {
   name: 'SuratComponent',
   data: function () {
     return {
+      // responsive a11y
+      isMobile: false,
+      // a11y
+      selectedCardIndex: 0,
+      screenReaderMessage: '',
       isComponentAlive: true,
       isInitialLoad: true,
       selectedSurah: "1",
@@ -400,7 +410,77 @@ export default {
       });
     }
   },
+  mounted() {
+    window.addEventListener('keydown', this.onKeydown);
+    this.updateIsMobile();
+    window.addEventListener('resize', this.updateIsMobile);
+  },
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.onKeydown);
+    window.removeEventListener('resize', this.updateIsMobile);
+  },
+  beforeDestroy() {
+    window.removeEventListener('keydown', this.onKeydown);
+    window.removeEventListener('resize', this.updateIsMobile);
+  },
   methods: {
+    onKeydown(e) {
+      const tag = (e.target && e.target.tagName || '').toLowerCase();
+      if (e.target?.isContentEditable || ['input','textarea','select'].includes(tag)) return;
+      if (!Array.isArray(this.filteredAyahs) || this.filteredAyahs.length === 0) return;
+      switch (e.key) {
+        case 'ArrowDown':
+        case 'ArrowRight':
+          e.preventDefault();
+          this.goToNextCard();
+          break;
+        case 'ArrowUp':
+        case 'ArrowLeft':
+          e.preventDefault();
+          this.goToPreviousCard();
+          break;
+        case 'Home':
+          e.preventDefault();
+          this.goToFirstCard();
+          break;
+        case 'End':
+          e.preventDefault();
+          this.goToLastCard();
+          break;
+      }
+    },
+    selectCard(index) {
+      this.selectedCardIndex = index;
+      // ensure card is visible
+      this.$nextTick(() => {
+        const cards = this.$refs.audioCard;
+        const el = Array.isArray(cards) ? cards[index] : cards;
+        el && el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+      const verseNum = index + 1;
+      this.screenReaderMessage = `Selected verse ${verseNum}.`;
+    },
+    goToNextCard() {
+      const next = (this.selectedCardIndex + 1) % this.filteredAyahs.length;
+      this.selectCard(next);
+    },
+    goToPreviousCard() {
+      const prev = (this.selectedCardIndex - 1 + this.filteredAyahs.length) % this.filteredAyahs.length;
+      this.selectCard(prev);
+    },
+    goToFirstCard() {
+      this.selectCard(0);
+    },
+    goToLastCard() {
+      this.selectCard(this.filteredAyahs.length - 1);
+    },
+    updateIsMobile() {
+      try {
+        this.isMobile = window.matchMedia('(max-width: 767px)').matches;
+      } catch (e) {
+        this.isMobile = window.innerWidth <= 767;
+      }
+    },
     // Removed duplicate rewindAudio defined later with scroll sync
     ensureCardPositionsCached: function (callback, attempts = 0, maxAttempts = 10) {
       // Since we're now calculating positions in real-time, this method is simplified

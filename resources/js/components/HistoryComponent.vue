@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-5"
+  <div class="container py-5" role="main" aria-label="Quran History"
     style="font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 1200px;">
     <!-- Header -->
     <header class="text-center mb-5">
@@ -27,16 +27,19 @@
       </button>
     </div>
 
+    <!-- Live region for announcements -->
+    <div class="visually-hidden" aria-live="polite" aria-atomic="true">{{ screenReaderMessage }}</div>
+
     <!-- Card Sections -->
-    <div v-if="accordionItems.length" class="mb-5">
-      <div v-for="(item, idx) in accordionItems" :key="item.title || idx" class="card mb-3 rounded-3 shadow-sm"
+    <div v-if="accordionItems.length" class="mb-5" role="list" aria-label="History sections list">
+      <div v-for="(item, idx) in accordionItems" :key="item.title || idx" class="card mb-3 rounded-3 shadow-sm" role="listitem"
         style="background-color: #ffffff; border: 1px solid #e2e8f0;">
         <!-- Card Header -->
         <div class="card-header px-4 py-3 fw-semibold d-flex align-items-center transition" role="button"
-          :aria-expanded="isOpen[idx]" :aria-controls="'section-content-' + idx"
+          :id="'section-header-' + idx" :aria-expanded="isOpen[idx]" :aria-controls="'section-content-' + idx"
           :aria-label="`${item.title || 'Untitled Section'} (${wordCounts[idx] || 0} words ${isOpen[idx] ? 'expanded' : 'collapsed'})`"
           @click="toggleSection(idx)" @keydown.enter="toggleSection(idx)" @keydown.space.prevent="toggleSection(idx)"
-          @keydown.up.prevent="focusPreviousSection(idx)" @keydown.down.prevent="focusNextSection(idx)"
+          @keydown.up.prevent="focusPreviousSection(idx)" @keydown.down.prevent="focusNextSection(idx)" @keydown="onHeaderKeydown(idx, $event)"
           ref="accordionHeaders" tabindex="0">
           <span class="badge rounded-pill me-3 fw-bold"
             style="background-color: #00bfa6; color: #ffffff; border: 1px solid #00bfa6; font-size: 0.9rem; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center;">
@@ -49,7 +52,7 @@
           <i :class="isOpen[idx] ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" style="font-size: 1rem;"></i>
         </div>
         <!-- Card Content -->
-        <div v-show="isOpen[idx]" :id="'section-content-' + idx" class="card-body px-4 py-4 rounded-bottom-3"
+        <div v-show="isOpen[idx]" :id="'section-content-' + idx" class="card-body px-4 py-4 rounded-bottom-3" :aria-labelledby="'section-header-' + idx"
           :style="{ 'font-size': fontSizes[idx] + 'rem', 'background-color': '#ffffff', 'line-height': 1.7, 'color': '#4a5568' }">
           <!-- AI Summary, Font Size, Print, Export to PDF, and Share via WhatsApp Buttons -->
           <div class="mb-3">
@@ -290,6 +293,7 @@ export default {
       showScrollToTop: false, // Tracks FAB visibility
       wordCounts: [], // Tracks word count for each section
       readTimes: [], // Tracks read time for each section
+      screenReaderMessage: '',
       faq: [
         {
           question: 'When was the Quran first revealed?',
@@ -393,6 +397,18 @@ export default {
     window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
+    onHeaderKeydown(idx, e) {
+      if (!e || !e.key) return;
+      if (e.key === 'Home') {
+        e.preventDefault();
+        const first = this.$refs.accordionHeaders?.[0];
+        first && first.focus();
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        const last = this.$refs.accordionHeaders?.[this.accordionItems.length - 1];
+        last && last.focus();
+      }
+    },
     openAllSections() {
       this.isOpen = this.accordionItems.map(() => true);
     },
@@ -401,6 +417,9 @@ export default {
     },
     toggleSection(idx) {
       this.isOpen[idx] = !this.isOpen[idx];
+      const item = this.accordionItems[idx];
+      const title = (item && item.title) || `Section ${idx + 1}`;
+      this.screenReaderMessage = `${title} ${this.isOpen[idx] ? 'expanded' : 'collapsed'}.`;
       if (this.isOpen[idx]) {
         this.$nextTick(() => {
           const firstButton = this.$el.querySelector(`#section-content-${idx} .btn:first-child`);
