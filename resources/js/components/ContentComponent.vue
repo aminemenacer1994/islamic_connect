@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4">
+  <div class="container py-4" role="main">
     <!-- Header Section -->
     <div>
       <h1 class="display-4 fw-bold text-center">Islamic Podcasts</h1>
@@ -11,30 +11,38 @@
     </div>
 
     <!-- Podcast Selection Section -->
-    <div class="selection-section">
+    <section class="selection-section" aria-labelledby="choose-podcast-heading">
       <div class="section-header">
-        <h2 class="section-title">Choose Your Podcast</h2>
-        <p class="section-subtitle">Click on any podcast below to start listening</p>
+        <h2 id="choose-podcast-heading" class="section-title">Choose Your Podcast</h2>
+        <p class="section-subtitle">Click or press Enter/Space to select</p>
       </div>
-      <div class="podcast-selection-grid">
-        <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="podcast-selection-item"
-          @click="selectPodcast(podcast)">
-          <div class="podcast-image-wrapper">
-            <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image" loading="lazy">
-            <div class="podcast-overlay">
-              <i class="bi bi-play-circle-fill"></i>
-              <span class="play-text">Click to Select</span>
+      <ul class="podcast-selection-grid" role="list">
+        <li v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="podcast-selection-item" role="listitem">
+          <button
+            type="button"
+            class="podcast-selection-button"
+            @click="selectPodcast(podcast)"
+            @keydown.enter.prevent="selectPodcast(podcast)"
+            @keydown.space.prevent="selectPodcast(podcast)"
+            :aria-label="`Select podcast: ${podcast.name}`"
+          >
+            <div class="podcast-image-wrapper">
+              <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image" loading="lazy">
+              <div class="podcast-overlay" aria-hidden="true">
+                <i class="bi bi-play-circle-fill" aria-hidden="true"></i>
+                <span class="play-text">Select</span>
+              </div>
             </div>
-          </div>
-          <h5 class="podcast-selection-name fw-bold">{{ podcast.name }}</h5>
-        </div>
-      </div>
-    </div>
+            <h5 class="podcast-selection-name fw-bold">{{ podcast.name }}</h5>
+          </button>
+        </li>
+      </ul>
+    </section>
 
     <!-- Selected Podcast Details -->
-    <div class="selected-podcast-section" v-if="selectedPodcast" ref="podcastDetailSection">
+    <section class="selected-podcast-section" v-if="selectedPodcast" ref="podcastDetailSection" aria-labelledby="now-playing-heading">
       <div class="section-header">
-        <h2 class="section-title">Now Playing</h2>
+        <h2 id="now-playing-heading" class="section-title">Now Playing</h2>
         <p class="section-subtitle">Episodes from {{ selectedPodcast.name }}</p>
       </div>
       <div class="selected-podcast-header">
@@ -55,22 +63,22 @@
       <div class="selected-podcast-description">
         <p>{{ selectedPodcast.desc }}</p>
       </div>
-    </div>
+    </section>
 
     <!-- Continue Listening Section -->
-    <div v-if="selectedPodcast && continueListening.length" class="continue-listening-section">
+    <section v-if="selectedPodcast && continueListening.length" class="continue-listening-section" aria-labelledby="continue-listening-heading">
       <div class="section-header">
-        <h2 class="section-title">Continue Listening</h2>
+        <h2 id="continue-listening-heading" class="section-title">Continue Listening</h2>
         <p class="section-subtitle">Pick up where you left off</p>
       </div>
-      <div class="podcast-cards-grid border-md" style="padding: 5px;">
-        <div v-for="(item, idx) in continueListening" :key="item.title" class="podcast-card-wrapper">
-          <div class="podcast-card" style="padding: 1.2rem;">
+      <ul class="podcast-cards-grid border-md" style="padding: 5px;" role="list">
+        <li v-for="(item, idx) in continueListening" :key="item.title" class="podcast-card-wrapper" role="listitem">
+          <article class="podcast-card" style="padding: 1.2rem;" :aria-labelledby="`continue-title-${idx}`">
             <div class="card-body">
               <div class="podcast-card-top">
                 <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
                 <div class="podcast-card-info">
-                  <h4 class="podcast-title">{{ item.title }}</h4>
+                  <h4 class="podcast-title" :id="`continue-title-${idx}`">{{ item.title }}</h4>
                   <div class="podcast-extra-info">
                     <span class="duration-badge">
                       <i class="bi bi-clock" style="font-size:1.1rem;"></i>
@@ -79,39 +87,41 @@
                   </div>
                 </div>
                 <div class="audio-controls-inline">
-                  <button class="control-button play-btn" @click="resumeFromSaved(item)" aria-label="Resume">
+                  <button class="control-button play-btn" @click="resumeFromSaved(item)" @keydown.enter.prevent="resumeFromSaved(item)" @keydown.space.prevent="resumeFromSaved(item)" aria-label="Resume">
                     <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
                   </button>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </article>
+        </li>
+      </ul>
+    </section>
 
     <!-- Favorites Section -->
-    <div v-if="favourites && favourites.length" class="favorites-section">
+    <section v-if="favourites && favourites.length" class="favorites-section" aria-labelledby="favorites-heading">
       <div class="section-header">
-        <h2 class="section-title">Your Favorites</h2>
+        <h2 id="favorites-heading" class="section-title">Your Favorites</h2>
         <p class="section-subtitle">Quick access to episodes you loved</p>
       </div>
       <div>
     <button 
       class="toggle-button" 
       @click="toggleVisibility" 
+      :aria-expanded="isVisible ? 'true' : 'false'"
+      aria-controls="favorites-list"
       style="margin-bottom: 10px; padding: 8px 16px; cursor: pointer;"
     >
       {{ isVisible ? 'Hide Favourites' : 'Show Favourites' }}
     </button>
-    <div v-if="isVisible" class="podcast-cards-grid border-md" style="padding: 5px;">
-      <div v-for="fav in favourites" :key="fav.title + fav.audioUrl" class="podcast-card-wrapper">
-        <div :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(fav) }]" style="padding: 1.2rem;">
+    <ul v-if="isVisible" id="favorites-list" class="podcast-cards-grid border-md" style="padding: 5px;" role="list">
+      <li v-for="(fav, fIdx) in favourites" :key="fav.title + fav.audioUrl" class="podcast-card-wrapper" role="listitem">
+        <article :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(fav) }]" style="padding: 1.2rem;" :aria-labelledby="`fav-title-${fIdx}`">
           <div class="card-body">
             <div class="podcast-card-top">
               <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
               <div class="podcast-card-info">
-                <h4 class="podcast-title">{{ fav.title }}</h4>
+                <h4 class="podcast-title" :id="`fav-title-${fIdx}`">{{ fav.title }}</h4>
                 <div class="podcast-extra-info">
                   <span class="lang-badge" :title="'Published'">
                     <i class="bi bi-calendar3" style="font-size:1.1rem;"></i>
@@ -124,35 +134,35 @@
                 </div>
               </div>
               <div class="audio-controls-inline">
-                <button class="control-button play-btn" @click="playFromFavourites(fav)" title="Play">
+                <button class="control-button play-btn" @click="playFromFavourites(fav)" @keydown.enter.prevent="playFromFavourites(fav)" @keydown.space.prevent="playFromFavourites(fav)" title="Play" aria-label="Play from favourites">
                   <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
                 </button>
-                <button class="control-button" @click="toggleFavourite(fav)" title="Remove from favorites">
+                <button class="control-button" @click="toggleFavourite(fav)" @keydown.enter.prevent="toggleFavourite(fav)" @keydown.space.prevent="toggleFavourite(fav)" title="Remove from favorites" aria-label="Remove from favourites">
                   <i class="bi bi-heart-fill text-danger" style="font-size:1.3rem;"></i>
                 </button>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </article>
+      </li>
+    </ul>
   </div>
-    </div>
+    </section>
 
     <!-- Recently Played Section -->
-    <div v-if="recentPlays && recentPlays.length" class="recently-played-section">
+    <section v-if="recentPlays && recentPlays.length" class="recently-played-section" aria-labelledby="recently-played-heading">
       <div class="section-header">
-        <h2 class="section-title">Recently Played</h2>
+        <h2 id="recently-played-heading" class="section-title">Recently Played</h2>
         <p class="section-subtitle">Your recent listening history</p>
       </div>
-      <div class="podcast-cards-grid border-md" style="padding: 5px;">
-        <div v-for="rp in recentPlays" :key="rp.title + rp.audioUrl + rp.playedAt" class="podcast-card-wrapper">
-          <div :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(rp) }]" style="padding: 1.2rem;">
+      <ul class="podcast-cards-grid border-md" style="padding: 5px;" role="list">
+        <li v-for="(rp, rIdx) in recentPlays" :key="rp.title + rp.audioUrl + rp.playedAt" class="podcast-card-wrapper" role="listitem">
+          <article :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(rp) }]" style="padding: 1.2rem;" :aria-labelledby="`recent-title-${rIdx}`">
             <div class="card-body">
               <div class="podcast-card-top">
                 <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
                 <div class="podcast-card-info">
-                  <h4 class="podcast-title">{{ rp.title }}</h4>
+                  <h4 class="podcast-title" :id="`recent-title-${rIdx}`">{{ rp.title }}</h4>
                   <div class="podcast-extra-info">
                     <span class="lang-badge" :title="'Played at'">
                       <i class="bi bi-clock" style="font-size:1.1rem;"></i>
@@ -161,21 +171,21 @@
                   </div>
                 </div>
                 <div class="audio-controls-inline">
-                  <button class="control-button play-btn" @click="playFromHistory(rp)" title="Play">
+                  <button class="control-button play-btn" @click="playFromHistory(rp)" @keydown.enter.prevent="playFromHistory(rp)" @keydown.space.prevent="playFromHistory(rp)" title="Play" aria-label="Play from history">
                     <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
                   </button>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </article>
+        </li>
+      </ul>
+    </section>
 
     <!-- Podcast Episodes Section -->
-    <div v-if="!loading && visiblePodcasts.length" class="episodes-section">
+    <section v-if="!loading && visiblePodcasts.length" class="episodes-section" aria-labelledby="available-episodes-heading">
       <div class="section-header">
-        <h2 class="section-title">Available Episodes</h2>
+        <h2 id="available-episodes-heading" class="section-title">Available Episodes</h2>
         <p class="section-subtitle">Click the play button to start listening</p>
       </div>
       <div v-if="fetchError" class="alert alert-danger" role="alert">
@@ -226,7 +236,7 @@
           </div>
         </div>
       </div>
-      <div v-if="loading" class="loading-container">
+      <div v-if="loading" class="loading-container" aria-live="polite">
         <div class="loading-spinner">
           <div class="spinner-border text-success" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -273,11 +283,13 @@
                 </div>
                 <div class="audio-controls-inline">
                   <button class="control-button play-btn" @click="toggleAudioPlayer(index)"
+                    @keydown.enter.prevent="toggleAudioPlayer(index)"
+                    @keydown.space.prevent="toggleAudioPlayer(index)"
                     :class="{ 'playing': isAudioPlaying[index] }"
                     :aria-label="isAudioPlaying[index] ? 'Pause' : 'Play'">
                     <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'" style="font-size:1.5rem; cursor:pointer;"></i>
                   </button>
-                <button class="control-button" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'" :title="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" :aria-label="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" @click.stop="toggleFavourite(podcast)">
+                <button class="control-button" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'" :title="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" :aria-label="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" @click.stop="toggleFavourite(podcast)" @keydown.enter.stop.prevent="toggleFavourite(podcast)" @keydown.space.stop.prevent="toggleFavourite(podcast)">
                   <i class="bi" :class="isFavourite(podcast) ? 'bi-heart-fill text-danger' : 'bi-heart'" style="font-size:1.3rem;"></i>
                 </button>
                 </div>
@@ -287,13 +299,13 @@
         </div>
       </div>
       <!-- Infinite scroll sentinel -->
-      <div ref="infiniteScrollTrigger" style="height: 1px;"></div>
-      <div v-if="isLoadingMore" class="loading-container" style="margin-top:8px;">
+      <div ref="infiniteScrollTrigger" style="height: 1px;" aria-hidden="true"></div>
+      <div v-if="isLoadingMore" class="loading-container" style="margin-top:8px;" aria-live="polite">
         <div class="spinner-border text-success" role="status" style="width: 1.5rem; height: 1.5rem;">
           <span class="visually-hidden">Loading...</span>
         </div>
       </div>
-    </div>
+    </section>
     <div v-else-if="!loading && !visiblePodcasts.length" class="empty-state">
       <div class="empty-state-content text-center mb-2">
         <i class="bi bi-headphones empty-state-icon"></i>
