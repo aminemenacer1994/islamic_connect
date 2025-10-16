@@ -9,6 +9,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- CSS Assets -->
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -35,14 +36,31 @@
         gtag('js', new Date());
         gtag('config', 'G-QWLL07EBX9');
     </script>
-</head>
-<style>
+    @yield('critical')
+
+    <style>
 
 
 
+.nav-link{
+  color:#212529; /* Bootstrap body color: high contrast on light bg */
+}
 .nav-link:hover{
-  color: rgb(53, 163, 139);
+  color:#0b5d4b; /* darker teal for 4.5:1 contrast */
   transition: color 0.3s ease;
+}
+
+/* Ensure navbar links maintain sufficient contrast on .navbar-light */
+.navbar-light .navbar-nav .nav-link{
+  color:#212529 !important;
+}
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover{
+  color:#0b5d4b !important;
+}
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .show > .nav-link{
+  color:#0b5d4b !important;
 }
 
 .button-36:hover {
@@ -63,10 +81,7 @@
   }
 }
 
-.nav-link {
-    color: black;
-    text-decoration: none;
-}
+.nav-link { text-decoration: none; }
 
 body{
     padding-top: 70px;
@@ -112,7 +127,7 @@ body{
 
 /* Focus visibility */
 :focus-visible{
-    outline:3px solid #35a38b;
+    outline:3px solid #0b5d4b; /* higher contrast focus outline */
     outline-offset:2px;
 }
 
@@ -178,205 +193,7 @@ body{
 }
 .a11y-panel .content{ padding:12px; }
 .a11y-panel[hidden]{ display:none; }
-</style>
-<body>
-    <a class="skip-to-content" href="#main-content">Skip to main content</a>
-    <div id="app">
-        <!-- Navbar -->
-    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-lg py-1">
-        <div class="container-fluid">
-        <a class="navbar-brand" href="/welcome" data-path="/welcome" aria-label="Home">
-            <img 
-                src="/images/logo_main.png" 
-                width="300"
-                height="200"
-                alt="Islamic Connect Logo"
-                loading="lazy"
-                height="auto" 
-                class="img-fluid"
-            >
-        </a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>   
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav justify-content-end pr-4 flex-grow-1">                
-                    <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3" href="/welcome" data-path="/home"><b style="color:black">Home</b></a></h6>
-                    </li>
-                    
-
-                    <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/holy" data-path="/holy"><b style="color:black">Quran Portal</b></a></h6>
-                    </li>
-                    
-                    <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/media" data-path="/media"><b style="color:black">Media Center</b></a></h6>
-                    </li>
-
-                    <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/knowledge" data-path="/knowledge"><b style="color:black">Islamic Knowledge</b></a></h6>
-                    </li>
-                    
-                    <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/toolkit" data-path="/toolkit"><b style="color:black">Utility Toolkit</b></a></h6>
-                    </li>
-
-                    <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/services" data-path="/services"><b style="color:black">Services</b></a></h6>
-                    </li>
-
-                    <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/subscribe" data-path="/subscribe"><b style="color:black">Packages</b></a></h6>
-                    </li>
-
-                    <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support"><b style="color:black">Donations</b></a></h6>
-                    </li>
-                                    
-                    @guest
-                    @if (Route::has('login'))
-                    <li class="nav-item display-6 pl-3 mt-3">
-                        <h6><a class="nav-link pt-2 " href="{{ route('login') }}" data-path="/login"><b style="color:black">{{ __('Login') }}</b></a></h6>
-                    </li>
-                    @endif
-                    <!-- @if (Route::has('register'))
-                    <li class="nav-item display-6 pl-3 mt-3">
-                        <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
-                    </li>
-                    @endif -->
-                    @else
-                    <li class="nav-item dropdown pl-3">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle " href="#" role="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            <i class="bi bi-person-circle pr-2" style="font-size: 1.8rem"></i>
-                            {{ Auth::user()->name }}
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/bookmarks">Bookmarks</a>
-                            <a class="dropdown-item" href="/notes">Notes & Reflections</a>
-                            <a class="dropdown-item" href="/profile">Profile</a>
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                    @endguest
-                    <!-- <li class="pl-4 pb-2 pt-3"> 
-                        <button class="button-36" role="button">
-                            <span>
-                                <strong>
-                                    <a href="/pricing" style="color: white; text-decoration: none; cursor:pointer">Try Premium</a>
-                                </strong>
-                            </span>
-                        </button>
-                    </li> -->
-                </ul>
-            </div>
-        </div>
-    </nav>
-        <!-- Main Content -->
-        <main id="main-content" role="main" tabindex="-1">
-            @yield('content')
-        </main>
-    </div>
-
-    <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const navLinks = document.querySelectorAll('.nav-link');
-        
-            // Highlight the active link based on the current page or localStorage
-            const currentPath = localStorage.getItem('activeNav') || window.location.pathname;
-        
-            navLinks.forEach(link => {
-                if (link.dataset.path === currentPath) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-        
-                // Add click event listener to update localStorage
-                link.addEventListener('click', () => {
-                    localStorage.setItem('activeNav', link.dataset.path);
-                });
-            });
-
-            // Initialize Accessibility preferences
-            const root = document.documentElement;
-            const highContrast = localStorage.getItem('a11y_high_contrast') === 'true';
-            const reducedMotion = localStorage.getItem('a11y_reduced_motion') === 'true';
-            root.classList.toggle('high-contrast', highContrast);
-            root.classList.toggle('reduced-motion', reducedMotion);
-
-            // Wire up panel toggles if present
-            const hcToggle = document.getElementById('a11yHighContrast');
-            const rmToggle = document.getElementById('a11yReducedMotion');
-            if (hcToggle){
-                hcToggle.checked = highContrast;
-                hcToggle.addEventListener('change', () => {
-                    root.classList.toggle('high-contrast', hcToggle.checked);
-                    localStorage.setItem('a11y_high_contrast', hcToggle.checked);
-                });
-            }
-            if (rmToggle){
-                rmToggle.checked = reducedMotion;
-                rmToggle.addEventListener('change', () => {
-                    root.classList.toggle('reduced-motion', rmToggle.checked);
-                    localStorage.setItem('a11y_reduced_motion', rmToggle.checked);
-                });
-            }
-
-            // Toggle panel visibility
-            const panel = document.getElementById('a11yPanel');
-            const openBtn = document.getElementById('a11yOpen');
-            const closeBtn = document.getElementById('a11yClose');
-            if (openBtn && panel){
-                openBtn.addEventListener('click', () => {
-                    panel.hidden = false;
-                    panel.querySelector('h3')?.focus();
-                });
-            }
-            if (closeBtn && panel){
-                closeBtn.addEventListener('click', () => {
-                    panel.hidden = true;
-                    openBtn.focus();
-                });
-            }
-        });
-    </script>
-    
-
-    @if (app()->environment('local'))
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.7.2/axe.min.js" integrity="sha512-y+Q+1e8p91bQm9b5wz9mKZ9WgSJND0bKx9D6o1XyJQPUWq2wYtGPB+8v8N+Zm0g5oY4KZq2rJb6z5m9q5y0kYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        window.addEventListener('load', function(){
-            if (window.axe){
-                axe.run().then(results => {
-                    if (results && results.violations && results.violations.length){
-                        // Log concise output for devs
-                        console.group('[axe] Accessibility issues');
-                        results.violations.forEach(v => console.warn(v.id, v.impact, v.description, v.nodes));
-                        console.groupEnd();
-                    }
-                }).catch(e => console.warn('axe scan failed', e));
-            }
-        });
-    </script>
-    @endif
-        
-</body>
-</html>
-
-<!-- Custom Styles -->
-<style >
+/* Custom Styles */
 .custom-nav {
     display: flex;
     direction: rtl; /* Right-to-left scrolling direction */
@@ -454,9 +271,244 @@ body{
   }
 }
 .nav-link.active {
-    font-weight: bold;
-    color: rgb(53, 163, 139); /* Highlight color */
-    border-bottom: 2px solid rgb(53, 163, 139); /* Optional underline */
+    font-weight: 600;
+    color: #0b5d4b; /* High-contrast highlight */
+    border-bottom: 2px solid #0b5d4b; /* Optional underline */
     transition: color 0.3s ease, border-bottom 0.3s ease;
 }
-</style>
+    </style>
+</head>
+<body>
+    <a class="skip-to-content" href="#main-content">Skip to main content</a>
+    <div>
+        <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-lg py-1" role="navigation" aria-label="Primary">
+        <div class="container-fluid">
+        <a class="navbar-brand" href="/welcome" data-path="/welcome" aria-label="Home">
+            <img 
+                src="/images/logo_main.png" 
+                width="300"
+                height="200"
+                alt="Islamic Connect Logo"
+                loading="lazy"
+                height="auto" 
+                class="img-fluid"
+            >
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>   
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav justify-content-end pr-4 flex-grow-1" aria-label="Primary menu">                
+                    <li class="nav-item mt-3">
+                        <a class="nav-link pt-2 ml-3" href="/welcome" data-path="/home" data-nav-item="primary">Home</a>
+                    </li>
+                    
+
+                    <li class="nav-item mt-3">
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/holy" data-path="/holy" data-nav-item="primary">Quran Portal</a>
+                    </li>
+                    
+                    <li class="nav-item mt-3">
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/media" data-path="/media" data-nav-item="primary">Media Center</a>
+                    </li>
+
+                    <li class="nav-item mt-3">
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/knowledge" data-path="/knowledge" data-nav-item="primary">Islamic Knowledge</a>
+                    </li>
+                    
+                    <li class="nav-item mt-3">
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/toolkit" data-path="/toolkit" data-nav-item="primary">Utility Toolkit</a>
+                    </li>
+
+                    <li class="nav-item mt-3">
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/services" data-path="/services" data-nav-item="primary">Services</a>
+                    </li>
+
+                    <li class="nav-item mt-3">
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/subscribe" data-path="/subscribe" data-nav-item="primary">Packages</a>
+                    </li>
+
+                    <li class="nav-item mt-3">
+                        <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary">Donations</a>
+                    </li>
+                                    
+                    @guest
+                    @if (Route::has('login'))
+                    <li class="nav-item display-6 pl-3 mt-3">
+                        <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login" data-nav-item="primary">{{ __('Login') }}</a>
+                    </li>
+                    @endif
+                    <!-- @if (Route::has('register'))
+                    <li class="nav-item display-6 pl-3 mt-3">
+                        <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
+                    </li>
+                    @endif -->
+                    @else
+                    <li class="nav-item dropdown pl-3">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="User menu" data-nav-item="primary" v-pre>
+                            <i class="bi bi-person-circle pr-2" style="font-size: 1.8rem"></i>
+                            {{ Auth::user()->name }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" role="menuitem" href="/bookmarks">Bookmarks</a>
+                            <a class="dropdown-item" role="menuitem" href="/notes">Notes & Reflections</a>
+                            <a class="dropdown-item" role="menuitem" href="/profile">Profile</a>
+                            <a class="dropdown-item" role="menuitem" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                    @endguest
+                    <!-- <li class="pl-4 pb-2 pt-3"> 
+                        <button class="button-36" role="button">
+                            <span>
+                                <strong>
+                                    <a href="/pricing" style="color: white; text-decoration: none; cursor:pointer">Try Premium</a>
+                                </strong>
+                            </span>
+                        </button>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+        <!-- Main Content -->
+        <main id="main-content" role="main" tabindex="-1">
+            <div id="app">
+                @yield('content')
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ mix('js/manifest.js') }}"></script>
+    <script src="{{ mix('js/vendor.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+        
+            // Highlight the active link based on the current page or localStorage
+            const currentPath = localStorage.getItem('activeNav') || window.location.pathname;
+        
+            navLinks.forEach(link => {
+                if (link.dataset.path === currentPath) {
+                    link.classList.add('active');
+                    link.setAttribute('aria-current', 'page');
+                } else {
+                    link.classList.remove('active');
+                    link.removeAttribute('aria-current');
+                }
+        
+                // Add click event listener to update localStorage
+                link.addEventListener('click', () => {
+                    localStorage.setItem('activeNav', link.dataset.path);
+                });
+            });
+
+            // Keyboard navigation across top-level menu items (Left/Right)
+            const menuItems = Array.from(document.querySelectorAll('[data-nav-item="primary"]'));
+            const menubar = document.querySelector('ul[aria-label="Primary menu"]');
+            if (menubar && menuItems.length){
+                menubar.addEventListener('keydown', (e) => {
+                    const currentIndex = menuItems.indexOf(document.activeElement);
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+                        e.preventDefault();
+                        let nextIndex = currentIndex;
+                        if (e.key === 'ArrowRight') nextIndex = (currentIndex + 1 + menuItems.length) % menuItems.length;
+                        if (e.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + menuItems.length) % menuItems.length;
+                        menuItems[nextIndex].focus();
+                    }
+                });
+            }
+
+            // Sync dropdown aria-expanded and support Enter/Space
+            const dropdownToggle = document.getElementById('navbarDropdown');
+            if (dropdownToggle){
+                dropdownToggle.addEventListener('shown.bs.dropdown', () => dropdownToggle.setAttribute('aria-expanded', 'true'));
+                dropdownToggle.addEventListener('hidden.bs.dropdown', () => dropdownToggle.setAttribute('aria-expanded', 'false'));
+                dropdownToggle.addEventListener('keydown', (e) => {
+                    if (e.key === ' ' || e.key === 'Enter'){
+                        e.preventDefault();
+                        dropdownToggle.click();
+                    }
+                    if (e.key === 'Escape'){
+                        dropdownToggle.setAttribute('aria-expanded', 'false');
+                        dropdownToggle.focus();
+                    }
+                });
+            }
+
+            // Initialize Accessibility preferences
+            const root = document.documentElement;
+            const highContrast = localStorage.getItem('a11y_high_contrast') === 'true';
+            const reducedMotion = localStorage.getItem('a11y_reduced_motion') === 'true';
+            root.classList.toggle('high-contrast', highContrast);
+            root.classList.toggle('reduced-motion', reducedMotion);
+
+            // Wire up panel toggles if present
+            const hcToggle = document.getElementById('a11yHighContrast');
+            const rmToggle = document.getElementById('a11yReducedMotion');
+            if (hcToggle){
+                hcToggle.checked = highContrast;
+                hcToggle.addEventListener('change', () => {
+                    root.classList.toggle('high-contrast', hcToggle.checked);
+                    localStorage.setItem('a11y_high_contrast', hcToggle.checked);
+                });
+            }
+            if (rmToggle){
+                rmToggle.checked = reducedMotion;
+                rmToggle.addEventListener('change', () => {
+                    root.classList.toggle('reduced-motion', rmToggle.checked);
+                    localStorage.setItem('a11y_reduced_motion', rmToggle.checked);
+                });
+            }
+
+            // Toggle panel visibility
+            const panel = document.getElementById('a11yPanel');
+            const openBtn = document.getElementById('a11yOpen');
+            const closeBtn = document.getElementById('a11yClose');
+            if (openBtn && panel){
+                openBtn.addEventListener('click', () => {
+                    panel.hidden = false;
+                    panel.querySelector('h3')?.focus();
+                });
+            }
+            if (closeBtn && panel){
+                closeBtn.addEventListener('click', () => {
+                    panel.hidden = true;
+                    openBtn.focus();
+                });
+            }
+        });
+    </script>
+    
+
+    @if (app()->environment('local'))
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.7.2/axe.min.js" integrity="sha512-y+Q+1e8p91bQm9b5wz9mKZ9WgSJND0bKx9D6o1XyJQPUWq2wYtGPB+8v8N+Zm0g5oY4KZq2rJb6z5m9q5y0kYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        window.addEventListener('load', function(){
+            if (window.axe){
+                axe.run().then(results => {
+                    if (results && results.violations && results.violations.length){
+                        // Log concise output for devs
+                        console.group('[axe] Accessibility issues');
+                        results.violations.forEach(v => console.warn(v.id, v.impact, v.description, v.nodes));
+                        console.groupEnd();
+                    }
+                }).catch(e => console.warn('axe scan failed', e));
+            }
+        });
+    </script>
+    @endif
+        
+</body>
+</html>

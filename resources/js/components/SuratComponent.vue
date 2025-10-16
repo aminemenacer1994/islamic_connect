@@ -46,10 +46,6 @@
             </option>
           </select>
         </div>
-        <!-- <div class="col-12 col-md-6 mt-2">
-          <label for="search-input" class="form-label text-white">Search</label>
-          <input id="search-input" class="form-control shadow-sm" type="text" v-model="searchQuery" placeholder="Search Arabic or translation..." aria-label="Search in current surah" />
-        </div> -->
       </div>
     </div>
 
@@ -373,18 +369,7 @@ export default {
       this.isAudioLoading = new Array(newAyahs.length).fill(false);
       this.progress = new Array(newAyahs.length).fill(0);
       this.audioElements = new Array(newAyahs.length).fill(null);
-      this.$nextTick(() => {
-        setTimeout(() => {
-          if (this.$refs.audioCard) {
-            this.initializeAudioElements();
-          } else {
-            console.warn('Audio cards not yet rendered, retrying...');
-            setTimeout(() => {
-              this.initializeAudioElements();
-            }, 1000);
-          }
-        }, 200);
-      });
+      // Do not pre-create audio elements; create on-demand for faster starts
     }
   },
   mounted() {
@@ -531,100 +516,10 @@ export default {
         })
         .join(" ");
     },
-    initializeAudioElements: function () {
-      console.log('Initializing audio elements for', this.filteredAyahs.length, 'ayahs');
-      if (!this.$refs.audioCard || !this.$refs.audioCard.length) {
-        console.warn('No audio cards available for initialization');
-        return;
-      }
-      if (this.audioElements.length) {
-        this.audioElements.forEach(audio => {
-          if (audio && audio.pause) audio.pause();
-          if (audio && audio.remove) audio.remove();
-        });
-      }
-      this.audioElements = this.filteredAyahs.map((ayah, index) => {
-        if (!ayah.audio) {
-          console.warn(`No audio URL for ayah ${index + 1}`);
-          return null;
-        }
-        try {
-          const audio = new Audio(ayah.audio);
-          audio.preload = 'metadata';
-          audio.load();
-          audio.playbackRate = this.playbackSpeed;
-          audio.volume = this.volume;
-          audio.addEventListener("timeupdate", () => this.updateProgress(index));
-          audio.addEventListener("loadedmetadata", () => {
-            console.log(`Metadata loaded for ayah ${index + 1}, duration: ${audio.duration}`);
-            this.progress[index] = 0;
-            this.isAudioLoading[index] = false;
-          });
-          // Keep lightweight; don't auto-play on canplay to avoid double-starts
-          audio.addEventListener("canplay", () => {
-            this.isAudioLoading[index] = false;
-          });
-          audio.addEventListener("ended", () => this.handleAyahEnd(index));
-          audio.addEventListener("error", e => {
-            console.error(`Audio error for ayah ${index + 1}:`, e);
-            this.isAudioLoading[index] = false;
-            this.$toast?.error(`Failed to load audio for ayah ${index + 1}`);
-          });
-          return audio;
-        } catch (e) {
-          console.error(`Failed to create audio for ayah ${index + 1}:`, e);
-          this.$toast?.error(`Failed to create audio for ayah ${index + 1}`);
-          return null;
-        }
-      });
-      console.log('Audio elements initialized:', this.audioElements.length, 'elements');
-    },
-    preloadNextAyahs: function (startIndex) {
-      const maxPreload = 5;
-      this.filteredAyahs.slice(startIndex, startIndex + maxPreload).forEach((ayah, index) => {
-        const realIndex = startIndex + index;
-        if (realIndex >= this.audioElements.length || this.audioElements[realIndex]) return;
-        if (!ayah.audio) {
-          console.warn(`No audio URL for ayah ${realIndex + 1}`);
-          return;
-        }
-        try {
-          const audio = new Audio(ayah.audio);
-          audio.preload = 'metadata';
-          audio.load();
-          audio.playbackRate = this.playbackSpeed;
-          audio.volume = this.volume;
-          audio.addEventListener("timeupdate", () => this.updateProgress(realIndex));
-          audio.addEventListener("loadedmetadata", () => {
-            console.log(`Metadata loaded for ayah ${realIndex + 1}, duration: ${audio.duration}`);
-            this.progress[realIndex] = 0;
-            this.isAudioLoading[realIndex] = false;
-          });
-          audio.addEventListener("canplay", () => {
-            console.log(`Audio can play for ayah ${realIndex + 1}`);
-            this.isAudioLoading[realIndex] = false;
-          });
-          audio.addEventListener("ended", () => this.handleAyahEnd(realIndex));
-          audio.addEventListener("error", e => {
-            console.error(`Audio error for ayah ${realIndex + 1}:`, e);
-            this.isAudioLoading[realIndex] = false;
-            this.$toast?.error(`Failed to load audio for ayah ${realIndex + 1}`);
-          });
-          this.audioElements[realIndex] = audio;
-        } catch (e) {
-          console.error(`Failed to create audio for ayah ${realIndex + 1}:`, e);
-          this.$toast?.error(`Failed to create audio for ayah ${realIndex + 1}`);
-        }
-      });
-      console.log(`Preloaded audio elements for ayahs ${startIndex + 1} to ${Math.min(startIndex + maxPreload, this.filteredAyahs.length)}`);
-    },
+    // removed bulk initialization and preloading for performance
     playAudio: function (index) {
       console.log('Attempting to play audio for index:', index);
-      if (index < 0 || index >= this.filteredAyahs.length || !this.audioElements[index]) {
-        console.error(`Cannot play audio: Invalid audio element or index ${index}`);
-        this.$toast?.error(`Cannot play audio for ayah ${index + 1}`);
-        return;
-      }
+      if (index < 0 || index >= this.filteredAyahs.length) return;
 
       this.isAudioLoading[index] = true;
 
@@ -643,16 +538,37 @@ export default {
         });
       }
 
+      // Build or update audio element on-demand
+      const ayah = this.filteredAyahs[index];
+      let audio = this.audioElements[index];
+      if (!audio) {
+        audio = new Audio();
+        audio.preload = 'auto';
+        audio.addEventListener("timeupdate", () => this.updateProgress(index));
+        audio.addEventListener("ended", () => this.handleAyahEnd(index));
+        audio.addEventListener("error", (e) => {
+          console.error(`Audio error for ayah ${index + 1}:`, e);
+          this.isAudioLoading[index] = false;
+          this.isAudioPlaying[index] = false;
+          this.$toast?.error(`Failed to load audio for ayah ${index + 1}`);
+        });
+        this.audioElements[index] = audio;
+      }
+      if (audio.src !== ayah.audio) {
+        try { audio.pause(); } catch (_) {}
+        audio.src = ayah.audio || '';
+      }
+      audio.playbackRate = this.playbackSpeed;
+      audio.volume = this.volume;
+
       // Update playing states
-      this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
-      this.currentlyPlaying = this.audioElements[index];
+      this.isAudioPlaying = this.isAudioPlaying.map((_, i) => i === index);
+      this.currentlyPlaying = audio;
       this.currentlyPlayingIndex = index;
       this.isHighlighted = true;
 
-      const ayah = this.filteredAyahs[index];
-
       // Setup metadata and word timing
-      this.currentlyPlaying.onloadedmetadata = () => {
+      audio.onloadedmetadata = () => {
         console.log(`Metadata loaded for ayah ${index + 1}, duration: ${this.currentlyPlaying.duration}`);
         const duration = this.currentlyPlaying.duration;
         const wordCount = ayah.text.split(' ').length;
@@ -664,82 +580,45 @@ export default {
         }
       };
 
-      if (this.currentlyPlaying.readyState >= 1) {
-        this.currentlyPlaying.onloadedmetadata();
-      }
-
       this.highlightedWordIndex = -1;
-      this.currentlyPlaying.ontimeupdate = () => {
+      audio.ontimeupdate = () => {
         this.syncHighlight();
         this.updateProgress(index);
         // Removed continuous auto-scroll here to prevent jumpiness.
       };
 
-      const attemptPlay = (attempts = 0, maxAttempts = 10) => {
-        if (attempts >= maxAttempts) {
-          console.error(`Failed to play audio for ayah ${index + 1} after ${maxAttempts} attempts`);
-          this.isAudioPlaying[index] = false;
-          this.isAudioLoading[index] = false;
-          this.isHighlighted = false;
-          this.$toast?.error(`Failed to play audio for ayah ${index + 1}`);
-          return;
-        }
-
-        this.currentlyPlaying.play().then(() => {
-          console.log(`Playing audio for ayah ${index + 1}`);
+      // Try to play immediately; if blocked or not ready, wait canplaythrough
+      const startPlayback = () => {
+        audio.play().then(() => {
           this.isAudioPlaying[index] = true;
           this.isAudioLoading[index] = false;
           this.isHighlighted = true;
           this.showAudioPlayer = true;
-          this.preloadWindow(index, 3);
-          
-          // Start visualizer animation
           this.animateVisualizer();
-
-          // removed auto-scroll when playback starts
-        }).catch(err => {
-          console.error(`Play error for ayah ${index + 1}:`, err);
-          if (this.currentlyPlaying.readyState < 2) {
-            console.log(`Audio not ready, retrying in 50ms for ayah ${index + 1} (attempt ${attempts + 1})`);
-            setTimeout(() => attemptPlay(attempts + 1, maxAttempts), 50);
-          } else {
-            console.error(`Unrecoverable play error for ayah ${index + 1}:`, err);
-            this.isAudioPlaying[index] = false;
-            this.isAudioLoading[index] = false;
-            this.isHighlighted = false;
-            this.$toast?.error(`Failed to play audio for ayah ${index + 1}`);
-            this.handleAyahEnd(index);
-          }
+        }).catch((err) => {
+          console.warn(`Immediate play failed for ayah ${index + 1}:`, err?.name || err);
         });
       };
-
-      // Try to play immediately; let the browser buffer as needed
-      attemptPlay();
-    },
-    preloadWindow(centerIndex, radius = 3) {
-      const start = Math.max(0, centerIndex - radius);
-      const end = Math.min(this.filteredAyahs.length - 1, centerIndex + radius);
-      for (let i = start; i <= end; i++) {
-        if (!this.audioElements[i]) {
-          const ayah = this.filteredAyahs[i];
-          if (!ayah?.audio) continue;
-          try {
-            const audio = new Audio(ayah.audio);
-            audio.preload = 'metadata';
-            audio.load();
-            audio.playbackRate = this.playbackSpeed;
-            audio.volume = this.volume;
-            audio.addEventListener("timeupdate", () => this.updateProgress(i));
-            audio.addEventListener("loadedmetadata", () => {
-              this.progress[i] = 0;
-              this.isAudioLoading[i] = false;
-            });
-            audio.addEventListener("ended", () => this.handleAyahEnd(i));
-            this.audioElements[i] = audio;
-          } catch (e) {
-            console.error(`Failed to create audio for ayah ${i + 1}:`, e);
+      this.isAudioLoading[index] = true;
+      // If metadata already available, start now
+      if (audio.readyState >= 2) {
+        startPlayback();
+      } else {
+        const onReady = () => {
+          audio.removeEventListener('canplaythrough', onReady);
+          startPlayback();
+        };
+        audio.addEventListener('canplaythrough', onReady, { once: true });
+        // Kick off network fetch
+        try { audio.load(); } catch (_) {}
+        // Safety timeout to avoid endless loading
+        clearTimeout(this._playTimeout);
+        this._playTimeout = setTimeout(() => {
+          if (!this.isAudioPlaying[index]) {
+            this.isAudioLoading[index] = false;
+            this.$toast?.error(`Audio is taking too long. Please try again.`);
           }
-        }
+        }, 4000);
       }
     },
     pauseAudio: function (index) {
@@ -752,11 +631,6 @@ export default {
     },
     toggleAudioPlayer: function (index) {
       console.log('Toggling audio player for index:', index);
-      if (!this.audioElements[index]) {
-        console.error(`No audio element for index ${index}`);
-        this.$toast?.error(`No audio available for ayah ${index + 1}`);
-        return;
-      }
       if (!this.isAudioPlaying[index]) {
         this.playAudio(index);
       } else {
@@ -975,12 +849,13 @@ export default {
           this.currentlyPlaying = null;
           this.currentlyPlayingIndex = 0;
         }
+        // Clear references; recreate on-demand for speed
         if (this.audioElements && this.audioElements.forEach) {
           this.audioElements.forEach(audio => {
-            if (audio && audio.remove) audio.remove();
+            try { if (audio && audio.pause) audio.pause(); } catch (_) {}
           });
         }
-        this.initializeAudioElements();
+        this.audioElements = new Array(this.filteredAyahs.length).fill(null);
         this.isAudioPlaying = new Array(this.filteredAyahs.length).fill(false);
         this.isAudioLoading = new Array(this.filteredAyahs.length).fill(false);
         this.progress = new Array(this.filteredAyahs.length).fill(0);
