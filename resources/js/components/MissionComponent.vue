@@ -26,7 +26,7 @@
     </nav>
 
     <transition name="fade" mode="out-in">
-      <div v-if="events.length" :key="currentIndex" class="event-box event-details animate__animated" role="region" :aria-labelledby="`event-title-${currentIndex}`">
+      <div v-if="events.length" :key="currentIndex" class="event-box event-details" role="region" :aria-labelledby="`event-title-${currentIndex}`">
         <div v-if="copySuccess" class="alert alert-success" role="status" aria-live="polite">
           Text copied to clipboard!
         </div>
@@ -75,7 +75,7 @@
 
         <!-- AI Summary Section (Inline) -->
         <transition name="fade-slide">
-          <div v-if="summaryText" class="ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded" ref="summarySection"
+          <div v-if="summaryText && isVisible" class="ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded" ref="summarySection"
             style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 1px solid rgb(168 85 247);">
             <div class="d-flex align-items-center justify-content-between mb-2">
               <h6 class="mb-0 text-dark small">
@@ -290,6 +290,14 @@ export default {
       summaryLoading: false,
       summaryError: '',
       showSummary: true,
+      // Performance caches
+      highlightedDescription: '',
+      wordCount: 0,
+      readTime: 0,
+      listenTime: 0,
+      _filterTimer: null,
+      _rafScheduled: false,
+      _pendingProgress: null,
     };
   },
   computed: {
@@ -299,32 +307,7 @@ export default {
         width: window.innerWidth < 576 ? '100%' : '400px',
       };
     },
-    wordCount() {
-      const div = document.createElement('div');
-      div.innerHTML = this.highlightedDescription || '';
-      const text = div.textContent || div.innerText || '';
-      return text.trim().split(/\s+/).length;
-    },
-    highlightedDescription() {
-      const currentDescription = this.events[this.currentIndex]?.description || '';
-      if (!this.searchTerm) return currentDescription;
-      const escapedTerm = this.searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const regex = new RegExp(`(${escapedTerm})`, 'gi');
-      return currentDescription.replace(
-        regex,
-        '<mark style="background-color: #0db691; color: white; border-radius: 4px; padding: 0 4px;">$1</mark>'
-      );
-    },
-    readTime() {
-      const wordCount = this.countWords(this.highlightedDescription);
-      const wordsPerMinute = 200;
-      return Math.ceil(wordCount / wordsPerMinute);
-    },
-    listenTime() {
-      const wordCount = this.countWords(this.highlightedDescription);
-      const wordsPerMinute = 150;
-      return Math.ceil(wordCount / wordsPerMinute);
-    },
+    // heavy computeds removed; we now update cached values in updateCurrentMetrics
   },
   mounted() {
     const saved = localStorage.getItem('userFontSettings');
@@ -335,10 +318,40 @@ export default {
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     this.synth.onvoiceschanged = this.loadVoices;
     this.loadVoices();
-    this.events = events;
-    this.originalEvents = events;
+    // Preprocess events once for performance
+    const preprocess = (e) => {
+      const div = document.createElement('div');
+      div.innerHTML = e.description || '';
+      const plain = (div.textContent || div.innerText || '').trim();
+      const wc = plain ? plain.split(/\s+/).length : 0;
+      return { ...e, _plainText: plain, _wordCount: wc, _readTime: Math.ceil(wc / 200), _listenTime: Math.ceil(wc / 150) };
+    };
+    this.events = (events || []).map(preprocess);
+    this.originalEvents = this.events.slice();
     this.initializeAudioStates();
     this.initializeTooltips();
+    this.updateCurrentMetrics();
+    // Observe visibility (e.g., when inside hidden tabs/pills)
+    this.$nextTick(() => {
+      try {
+        this._io = new IntersectionObserver((entries) => {
+          if (!entries || !entries.length) return;
+          const vis = !!entries[0].isIntersecting;
+          this.isVisible = vis;
+          if (!vis && (this.synth?.speaking || this.synth?.paused)) {
+            this.stopAudio(this.currentlyPlayingIndex);
+          }
+          if (vis) {
+            // Defer heavy updates to next frame to avoid tab-switch jank
+            requestAnimationFrame(() => this.updateCurrentMetrics());
+            this.initializeTooltips();
+          }
+        }, { root: null, threshold: 0 });
+        if (this.$el) this._io.observe(this.$el);
+      } catch (e) {
+        // ignore if not supported
+      }
+    });
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.updateOffcanvasWidth);
@@ -347,8 +360,27 @@ export default {
     if (this.utterance) {
       this.synth.cancel();
     }
+    if (this._io) {
+      try { this._io.disconnect(); } catch (_) {}
+      this._io = null;
+    }
   },
   methods: {
+    updateCurrentMetrics() {
+      const ev = this.events[this.currentIndex] || {};
+      const baseHtml = ev.description || '';
+      if (this.searchTerm) {
+        const escaped = this.searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const rx = new RegExp(`(${escaped})`, 'gi');
+        this.highlightedDescription = baseHtml.replace(rx, '<mark style="background-color: #0db691; color: white; border-radius: 4px; padding: 0 4px;">$1</mark>');
+      } else {
+        this.highlightedDescription = baseHtml;
+      }
+      this.wordCount = ev._wordCount || 0;
+      this.readTime = ev._readTime || 0;
+      this.listenTime = ev._listenTime || 0;
+      this.updateTotalTime();
+    },
     onTimelineKeydown(e) {
       if (!this.events.length) return;
       const key = e.key;
@@ -423,9 +455,14 @@ export default {
       });
     },
     initializeTooltips() {
+      if (!this.isVisible) return;
       this.$nextTick(() => {
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
+        const root = this.$el || document;
+        const tooltipTriggerList = root.querySelectorAll('[data-bs-toggle="tooltip"]');
+        tooltipTriggerList.forEach(el => {
+          const existing = bootstrap.Tooltip.getInstance(el);
+          if (!existing) new bootstrap.Tooltip(el);
+        });
       });
     },
     loadVoices() {
@@ -461,8 +498,9 @@ export default {
       if (this.utterance && this.synth.speaking) {
         this.synth.cancel();
       }
-      const description = this.stripHtml(this.events[index]?.description || '');
-      const title = this.events[index]?.title || '';
+      const ev = this.events[index] || {};
+      const description = ev._plainText || this.stripHtml(ev.description || '');
+      const title = ev.title || '';
       const ttsText = `${title}. Read time ${this.readTime} minutes. Listen time ${this.listenTime} minutes. Word count ${this.wordCount}. ${description}`;
       this.currentTtsText = ttsText;
       const words = ttsText.split(/\s+/).filter(Boolean);
@@ -594,13 +632,24 @@ export default {
       this.pausedWordIndex = newWordIndex;
     },
     updateProgress(event, index, startWordIndex = 0) {
-      if (event.name === 'word' && this.utterance) {
-        const text = this.currentTtsText;
-        const words = text.split(/\s+/).filter(Boolean);
-        const currentWordIndex = startWordIndex + Math.round((event.charIndex / this.utterance.text.length) * (words.length - startWordIndex));
-        this.progress[index] = (currentWordIndex / words.length) * 100;
-        this.currentTime = (currentWordIndex / words.length) * this.totalTime;
-      }
+      if (event.name !== 'word' || !this.utterance) return;
+      if (document.hidden || !this.isVisible) return;
+      const text = this.currentTtsText || '';
+      const words = text.split(/\s+/).filter(Boolean);
+      const currentWordIndex = startWordIndex + Math.round((event.charIndex / this.utterance.text.length) * (words.length - startWordIndex));
+      const pct = (currentWordIndex / words.length) * 100;
+      const time = (currentWordIndex / words.length) * this.totalTime;
+      this._pendingProgress = { index, pct, time };
+      if (this._rafScheduled) return;
+      this._rafScheduled = true;
+      requestAnimationFrame(() => {
+        const p = this._pendingProgress;
+        if (p && p.index != null) {
+          this.progress[p.index] = p.pct;
+          this.currentTime = p.time;
+        }
+        this._rafScheduled = false;
+      });
     },
     toggleVolume() {
       this.showVolumeBar = !this.showVolumeBar;
@@ -611,9 +660,8 @@ export default {
       }
     },
     updateTotalTime() {
-      const wordCount = this.countWords(this.highlightedDescription);
       const wordsPerSecond = 150 / 60;
-      this.totalTime = Math.ceil(wordCount / wordsPerSecond);
+      this.totalTime = Math.ceil((this.wordCount || 0) / wordsPerSecond);
     },
     formatTime(seconds) {
       const minutes = Math.floor(seconds / 60);
@@ -631,28 +679,37 @@ export default {
       }
       this.currentIndex = index;
       this.scrollToEvent(index);
-      this.updateTotalTime();
+      this.updateCurrentMetrics();
     },
     scrollToEvent(index) {
       const refs = this.$refs.eventRefs;
       if (refs && refs[index]) {
-        refs[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const el = refs[index];
+        const rect = el.getBoundingClientRect();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        if (rect.top < 0 || rect.bottom > vh) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        }
       }
     },
     prev() {
       if (this.currentIndex > 0) {
         this.stopAudio(this.currentlyPlayingIndex);
         this.currentIndex--;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        this.updateTotalTime();
+        if (window.innerWidth >= 768) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        this.updateCurrentMetrics();
       }
     },
     next() {
       if (this.currentIndex < this.events.length - 1) {
         this.stopAudio(this.currentlyPlayingIndex);
         this.currentIndex++;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        this.updateTotalTime();
+        if (window.innerWidth >= 768) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        this.updateCurrentMetrics();
       }
     },
     saveSettings() {
@@ -699,21 +756,24 @@ export default {
       }, 2000);
     },
     filterEvents() {
-      const query = this.searchQuery.trim().toLowerCase();
-      if (!query) {
-        this.events = this.originalEvents;
+      if (this._filterTimer) clearTimeout(this._filterTimer);
+      this._filterTimer = setTimeout(() => {
+        const query = this.searchQuery.trim().toLowerCase();
+        if (!query) {
+          this.events = this.originalEvents.slice();
+          this.currentIndex = 0;
+          this.updateCurrentMetrics();
+          return;
+        }
+        const filtered = this.originalEvents.filter(e =>
+          (e.title || '').toLowerCase().includes(query) ||
+          (e._plainText || '').toLowerCase().includes(query) ||
+          (e.year || '').toLowerCase().includes(query)
+        );
+        this.events = filtered;
         this.currentIndex = 0;
-        this.updateTotalTime();
-        return;
-      }
-      const filtered = this.originalEvents.filter(e =>
-        e.title.toLowerCase().includes(query) ||
-        e.description.toLowerCase().includes(query) ||
-        e.year.toLowerCase().includes(query)
-      );
-      this.events = filtered;
-      this.currentIndex = 0;
-      this.updateTotalTime();
+        this.updateCurrentMetrics();
+      }, 200);
     },
     copyToClipboard() {
       const rawHtml = this.events[this.currentIndex]?.description || '';
@@ -816,7 +876,7 @@ export default {
 </script>
 
 <style scoped>
-@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+/* Removed animate.css to reduce animation overhead */
 
 .audio-player-container {
   position: fixed;
@@ -828,6 +888,21 @@ export default {
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
   border-radius: 12px 12px 0 0;
   transition: transform 0.3s ease-in-out;
+}
+
+/* Reduce motion for users and improve tab switch performance */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Defer heavy layout/paint when off-screen or hidden */
+.event-details {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px 600px;
 }
 
 .custom-audio-player {
@@ -1171,9 +1246,7 @@ export default {
   transition: background-color 0.3s ease, transform 0.2s;
 }
 
-.fab:hover {
-  transform: scale(1.1);
-}
+.fab:hover { }
 
 .action-button {
   transition: all 0.3s ease;
@@ -1228,8 +1301,8 @@ mark {
   padding: 0.8rem 1.3rem;
   background-color: #f8f9fa;
   color: #212529;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   font-weight: 300;
   white-space: nowrap;
   user-select: none;
@@ -1239,15 +1312,13 @@ mark {
   background-color: #20c997;
   color: white;
   cursor: pointer;
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .timeline-badge.active {
   background-color: rgb(13, 182, 145);
   color: white;
   border: 2px solid lightgrey;
-  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
 
 .controls button {
@@ -1259,7 +1330,7 @@ mark {
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
-  transition: background 0.3s ease;
+  transition: background-color 0.12s ease, color 0.12s ease;
 }
 
 .controls button:disabled {
@@ -1285,12 +1356,11 @@ mark {
 
 .fab:hover {
   background-color: #17a085;
-  transform: scale(1.1);
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s;
+  transition: opacity 0.12s;
 }
 
 .fade-enter,

@@ -147414,10 +147414,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _prophet_events_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./prophet_events.json */ "./resources/js/components/prophet_events.json");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'SeerahTimeline',
@@ -147460,7 +147466,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       summaryText: '',
       summaryLoading: false,
       summaryError: '',
-      showSummary: true
+      showSummary: true,
+      // Performance caches
+      highlightedDescription: '',
+      wordCount: 0,
+      readTime: 0,
+      listenTime: 0,
+      _filterTimer: null,
+      _rafScheduled: false,
+      _pendingProgress: null
     };
   },
   computed: {
@@ -147469,33 +147483,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         backgroundColor: '#10584f',
         width: window.innerWidth < 576 ? '100%' : '400px'
       };
-    },
-    wordCount: function wordCount() {
-      var div = document.createElement('div');
-      div.innerHTML = this.highlightedDescription || '';
-      var text = div.textContent || div.innerText || '';
-      return text.trim().split(/\s+/).length;
-    },
-    highlightedDescription: function highlightedDescription() {
-      var _this$events$this$cur;
-      var currentDescription = ((_this$events$this$cur = this.events[this.currentIndex]) === null || _this$events$this$cur === void 0 ? void 0 : _this$events$this$cur.description) || '';
-      if (!this.searchTerm) return currentDescription;
-      var escapedTerm = this.searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      var regex = new RegExp("(".concat(escapedTerm, ")"), 'gi');
-      return currentDescription.replace(regex, '<mark style="background-color: #0db691; color: white; border-radius: 4px; padding: 0 4px;">$1</mark>');
-    },
-    readTime: function readTime() {
-      var wordCount = this.countWords(this.highlightedDescription);
-      var wordsPerMinute = 200;
-      return Math.ceil(wordCount / wordsPerMinute);
-    },
-    listenTime: function listenTime() {
-      var wordCount = this.countWords(this.highlightedDescription);
-      var wordsPerMinute = 150;
-      return Math.ceil(wordCount / wordsPerMinute);
-    }
+    } // heavy computeds removed; we now update cached values in updateCurrentMetrics
   },
   mounted: function mounted() {
+    var _this = this;
     var saved = localStorage.getItem('userFontSettings');
     if (saved) {
       this.fontSettings = JSON.parse(saved);
@@ -147504,10 +147495,51 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     this.synth.onvoiceschanged = this.loadVoices;
     this.loadVoices();
-    this.events = _prophet_events_json__WEBPACK_IMPORTED_MODULE_0__.events;
-    this.originalEvents = _prophet_events_json__WEBPACK_IMPORTED_MODULE_0__.events;
+    // Preprocess events once for performance
+    var preprocess = function preprocess(e) {
+      var div = document.createElement('div');
+      div.innerHTML = e.description || '';
+      var plain = (div.textContent || div.innerText || '').trim();
+      var wc = plain ? plain.split(/\s+/).length : 0;
+      return _objectSpread(_objectSpread({}, e), {}, {
+        _plainText: plain,
+        _wordCount: wc,
+        _readTime: Math.ceil(wc / 200),
+        _listenTime: Math.ceil(wc / 150)
+      });
+    };
+    this.events = (_prophet_events_json__WEBPACK_IMPORTED_MODULE_0__.events || []).map(preprocess);
+    this.originalEvents = this.events.slice();
     this.initializeAudioStates();
     this.initializeTooltips();
+    this.updateCurrentMetrics();
+    // Observe visibility (e.g., when inside hidden tabs/pills)
+    this.$nextTick(function () {
+      try {
+        _this._io = new IntersectionObserver(function (entries) {
+          var _this$synth, _this$synth2;
+          if (!entries || !entries.length) return;
+          var vis = !!entries[0].isIntersecting;
+          _this.isVisible = vis;
+          if (!vis && ((_this$synth = _this.synth) !== null && _this$synth !== void 0 && _this$synth.speaking || (_this$synth2 = _this.synth) !== null && _this$synth2 !== void 0 && _this$synth2.paused)) {
+            _this.stopAudio(_this.currentlyPlayingIndex);
+          }
+          if (vis) {
+            // Defer heavy updates to next frame to avoid tab-switch jank
+            requestAnimationFrame(function () {
+              return _this.updateCurrentMetrics();
+            });
+            _this.initializeTooltips();
+          }
+        }, {
+          root: null,
+          threshold: 0
+        });
+        if (_this.$el) _this._io.observe(_this.$el);
+      } catch (e) {
+        // ignore if not supported
+      }
+    });
   },
   beforeUnmount: function beforeUnmount() {
     window.removeEventListener('resize', this.updateOffcanvasWidth);
@@ -147516,8 +147548,29 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     if (this.utterance) {
       this.synth.cancel();
     }
+    if (this._io) {
+      try {
+        this._io.disconnect();
+      } catch (_) {}
+      this._io = null;
+    }
   },
   methods: {
+    updateCurrentMetrics: function updateCurrentMetrics() {
+      var ev = this.events[this.currentIndex] || {};
+      var baseHtml = ev.description || '';
+      if (this.searchTerm) {
+        var escaped = this.searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        var rx = new RegExp("(".concat(escaped, ")"), 'gi');
+        this.highlightedDescription = baseHtml.replace(rx, '<mark style="background-color: #0db691; color: white; border-radius: 4px; padding: 0 4px;">$1</mark>');
+      } else {
+        this.highlightedDescription = baseHtml;
+      }
+      this.wordCount = ev._wordCount || 0;
+      this.readTime = ev._readTime || 0;
+      this.listenTime = ev._listenTime || 0;
+      this.updateTotalTime();
+    },
     onTimelineKeydown: function onTimelineKeydown(e) {
       if (!this.events.length) return;
       var key = e.key;
@@ -147548,15 +147601,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     },
     focusCurrentTimelineButton: function focusCurrentTimelineButton() {
-      var _this = this;
+      var _this2 = this;
       this.$nextTick(function () {
-        var refs = _this.$refs.eventRefs;
-        var el = refs && refs[_this.currentIndex] ? refs[_this.currentIndex].querySelector('button') : null;
+        var refs = _this2.$refs.eventRefs;
+        var el = refs && refs[_this2.currentIndex] ? refs[_this2.currentIndex].querySelector('button') : null;
         if (el) el.focus();
       });
     },
     keyboardSeek: function keyboardSeek(deltaPercent) {
-      var _this2 = this;
+      var _this3 = this;
       var idx = this.currentlyPlayingIndex;
       if (idx == null || !this.utterance || !this.isAudioPlaying[idx]) return;
       var current = this.progress[idx] || 0;
@@ -147571,15 +147624,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.utterance.voice = this.selectedVoice;
       this.utterance.volume = this.volume;
       this.utterance.onend = function () {
-        _this2.isAudioPlaying[idx] = false;
-        _this2.ttsState = 'stopped';
-        _this2.progress[idx] = 0;
-        _this2.currentTime = 0;
-        _this2.pausedWordIndex = 0;
-        _this2.showAudioPlayer = false;
+        _this3.isAudioPlaying[idx] = false;
+        _this3.ttsState = 'stopped';
+        _this3.progress[idx] = 0;
+        _this3.currentTime = 0;
+        _this3.pausedWordIndex = 0;
+        _this3.showAudioPlayer = false;
       };
       this.utterance.onboundary = function (event) {
-        return _this2.updateProgress(event, idx, newWordIndex);
+        return _this3.updateProgress(event, idx, newWordIndex);
       };
       this.synth.speak(this.utterance);
       this.isAudioPlaying[idx] = true;
@@ -147590,17 +147643,21 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.pausedWordIndex = newWordIndex;
     },
     initializeAudioStates: function initializeAudioStates() {
-      var _this3 = this;
+      var _this4 = this;
       this.events.forEach(function (_, index) {
-        _this3.isAudioPlaying[index] = false;
-        _this3.progress[index] = 0;
+        _this4.isAudioPlaying[index] = false;
+        _this4.progress[index] = 0;
       });
     },
     initializeTooltips: function initializeTooltips() {
+      var _this5 = this;
+      if (!this.isVisible) return;
       this.$nextTick(function () {
-        var tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        var root = _this5.$el || document;
+        var tooltipTriggerList = root.querySelectorAll('[data-bs-toggle="tooltip"]');
         tooltipTriggerList.forEach(function (el) {
-          return new bootstrap.Tooltip(el);
+          var existing = bootstrap.Tooltip.getInstance(el);
+          if (!existing) new bootstrap.Tooltip(el);
         });
       });
     },
@@ -147635,15 +147692,14 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     },
     playAudio: function playAudio(index) {
-      var _this$events$index,
-        _this$events$index2,
-        _this4 = this;
+      var _this6 = this;
       var startWordIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       if (this.utterance && this.synth.speaking) {
         this.synth.cancel();
       }
-      var description = this.stripHtml(((_this$events$index = this.events[index]) === null || _this$events$index === void 0 ? void 0 : _this$events$index.description) || '');
-      var title = ((_this$events$index2 = this.events[index]) === null || _this$events$index2 === void 0 ? void 0 : _this$events$index2.title) || '';
+      var ev = this.events[index] || {};
+      var description = ev._plainText || this.stripHtml(ev.description || '');
+      var title = ev.title || '';
       var ttsText = "".concat(title, ". Read time ").concat(this.readTime, " minutes. Listen time ").concat(this.listenTime, " minutes. Word count ").concat(this.wordCount, ". ").concat(description);
       this.currentTtsText = ttsText;
       var words = ttsText.split(/\s+/).filter(Boolean);
@@ -147652,15 +147708,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.utterance.voice = this.selectedVoice;
       this.utterance.volume = this.volume;
       this.utterance.onend = function () {
-        _this4.isAudioPlaying[index] = false;
-        _this4.ttsState = 'stopped';
-        _this4.progress[index] = 0;
-        _this4.currentTime = 0;
-        _this4.pausedWordIndex = 0;
-        _this4.showAudioPlayer = false;
+        _this6.isAudioPlaying[index] = false;
+        _this6.ttsState = 'stopped';
+        _this6.progress[index] = 0;
+        _this6.currentTime = 0;
+        _this6.pausedWordIndex = 0;
+        _this6.showAudioPlayer = false;
       };
       this.utterance.onboundary = function (event) {
-        return _this4.updateProgress(event, index, startWordIndex);
+        return _this6.updateProgress(event, index, startWordIndex);
       };
       this.synth.speak(this.utterance);
       this.isAudioPlaying[index] = true;
@@ -147684,7 +147740,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     },
     rewindAudio: function rewindAudio(index) {
-      var _this5 = this;
+      var _this7 = this;
       if (!this.utterance || !this.isAudioPlaying[index]) return;
       this.synth.cancel();
       var wordCount = this.countWords(this.currentTtsText);
@@ -147692,75 +147748,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var currentProgress = this.progress[index] / 100;
       var currentSecond = currentProgress * (wordCount / wordsPerSecond);
       var newSecond = Math.max(0, currentSecond - 10);
-      var newWordIndex = Math.round(newSecond * wordsPerSecond);
-      var words = this.currentTtsText.split(/\s+/).filter(Boolean);
-      var newText = words.slice(newWordIndex).join(' ');
-      this.utterance = new SpeechSynthesisUtterance(newText);
-      this.utterance.voice = this.selectedVoice;
-      this.utterance.volume = this.volume;
-      this.utterance.onend = function () {
-        _this5.isAudioPlaying[index] = false;
-        _this5.ttsState = 'stopped';
-        _this5.progress[index] = 0;
-        _this5.currentTime = 0;
-        _this5.pausedWordIndex = 0;
-        _this5.showAudioPlayer = false;
-      };
-      this.utterance.onboundary = function (event) {
-        return _this5.updateProgress(event, index, newWordIndex);
-      };
-      this.synth.speak(this.utterance);
-      this.isAudioPlaying[index] = true;
-      this.ttsState = 'playing';
-      this.progress[index] = newWordIndex / wordCount * 100;
-      this.currentTime = newSecond;
-      this.pausedWordIndex = newWordIndex;
-    },
-    fastForwardAudio: function fastForwardAudio(index) {
-      var _this6 = this;
-      if (!this.utterance || !this.isAudioPlaying[index]) return;
-      this.synth.cancel();
-      var wordCount = this.countWords(this.currentTtsText);
-      var wordsPerSecond = 150 / 60;
-      var currentProgress = this.progress[index] / 100;
-      var currentSecond = currentProgress * (wordCount / wordsPerSecond);
-      var newSecond = Math.min(this.totalTime, currentSecond + 10);
-      var newWordIndex = Math.round(newSecond * wordsPerSecond);
-      var words = this.currentTtsText.split(/\s+/).filter(Boolean);
-      var newText = words.slice(newWordIndex).join(' ');
-      this.utterance = new SpeechSynthesisUtterance(newText);
-      this.utterance.voice = this.selectedVoice;
-      this.utterance.volume = this.volume;
-      this.utterance.onend = function () {
-        _this6.isAudioPlaying[index] = false;
-        _this6.ttsState = 'stopped';
-        _this6.progress[index] = 0;
-        _this6.currentTime = 0;
-        _this6.pausedWordIndex = 0;
-        _this6.showAudioPlayer = false;
-      };
-      this.utterance.onboundary = function (event) {
-        return _this6.updateProgress(event, index, newWordIndex);
-      };
-      this.synth.speak(this.utterance);
-      this.isAudioPlaying[index] = true;
-      this.ttsState = 'playing';
-      this.progress[index] = newWordIndex / wordCount * 100;
-      this.currentTime = newSecond;
-      this.pausedWordIndex = newWordIndex;
-    },
-    seekAudio: function seekAudio(event, index) {
-      var _this7 = this;
-      if (!this.utterance || !this.isAudioPlaying[index]) return;
-      this.synth.cancel();
-      var progressBar = event.currentTarget;
-      var rect = progressBar.getBoundingClientRect();
-      var clickX = event.clientX - rect.left;
-      var barWidth = rect.width;
-      var clickRatio = clickX / barWidth;
-      var wordCount = this.countWords(this.currentTtsText);
-      var wordsPerSecond = 150 / 60;
-      var newSecond = clickRatio * this.totalTime;
       var newWordIndex = Math.round(newSecond * wordsPerSecond);
       var words = this.currentTtsText.split(/\s+/).filter(Boolean);
       var newText = words.slice(newWordIndex).join(' ');
@@ -147785,15 +147772,100 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.currentTime = newSecond;
       this.pausedWordIndex = newWordIndex;
     },
+    fastForwardAudio: function fastForwardAudio(index) {
+      var _this8 = this;
+      if (!this.utterance || !this.isAudioPlaying[index]) return;
+      this.synth.cancel();
+      var wordCount = this.countWords(this.currentTtsText);
+      var wordsPerSecond = 150 / 60;
+      var currentProgress = this.progress[index] / 100;
+      var currentSecond = currentProgress * (wordCount / wordsPerSecond);
+      var newSecond = Math.min(this.totalTime, currentSecond + 10);
+      var newWordIndex = Math.round(newSecond * wordsPerSecond);
+      var words = this.currentTtsText.split(/\s+/).filter(Boolean);
+      var newText = words.slice(newWordIndex).join(' ');
+      this.utterance = new SpeechSynthesisUtterance(newText);
+      this.utterance.voice = this.selectedVoice;
+      this.utterance.volume = this.volume;
+      this.utterance.onend = function () {
+        _this8.isAudioPlaying[index] = false;
+        _this8.ttsState = 'stopped';
+        _this8.progress[index] = 0;
+        _this8.currentTime = 0;
+        _this8.pausedWordIndex = 0;
+        _this8.showAudioPlayer = false;
+      };
+      this.utterance.onboundary = function (event) {
+        return _this8.updateProgress(event, index, newWordIndex);
+      };
+      this.synth.speak(this.utterance);
+      this.isAudioPlaying[index] = true;
+      this.ttsState = 'playing';
+      this.progress[index] = newWordIndex / wordCount * 100;
+      this.currentTime = newSecond;
+      this.pausedWordIndex = newWordIndex;
+    },
+    seekAudio: function seekAudio(event, index) {
+      var _this9 = this;
+      if (!this.utterance || !this.isAudioPlaying[index]) return;
+      this.synth.cancel();
+      var progressBar = event.currentTarget;
+      var rect = progressBar.getBoundingClientRect();
+      var clickX = event.clientX - rect.left;
+      var barWidth = rect.width;
+      var clickRatio = clickX / barWidth;
+      var wordCount = this.countWords(this.currentTtsText);
+      var wordsPerSecond = 150 / 60;
+      var newSecond = clickRatio * this.totalTime;
+      var newWordIndex = Math.round(newSecond * wordsPerSecond);
+      var words = this.currentTtsText.split(/\s+/).filter(Boolean);
+      var newText = words.slice(newWordIndex).join(' ');
+      this.utterance = new SpeechSynthesisUtterance(newText);
+      this.utterance.voice = this.selectedVoice;
+      this.utterance.volume = this.volume;
+      this.utterance.onend = function () {
+        _this9.isAudioPlaying[index] = false;
+        _this9.ttsState = 'stopped';
+        _this9.progress[index] = 0;
+        _this9.currentTime = 0;
+        _this9.pausedWordIndex = 0;
+        _this9.showAudioPlayer = false;
+      };
+      this.utterance.onboundary = function (event) {
+        return _this9.updateProgress(event, index, newWordIndex);
+      };
+      this.synth.speak(this.utterance);
+      this.isAudioPlaying[index] = true;
+      this.ttsState = 'playing';
+      this.progress[index] = newWordIndex / wordCount * 100;
+      this.currentTime = newSecond;
+      this.pausedWordIndex = newWordIndex;
+    },
     updateProgress: function updateProgress(event, index) {
+      var _this0 = this;
       var startWordIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-      if (event.name === 'word' && this.utterance) {
-        var text = this.currentTtsText;
-        var words = text.split(/\s+/).filter(Boolean);
-        var currentWordIndex = startWordIndex + Math.round(event.charIndex / this.utterance.text.length * (words.length - startWordIndex));
-        this.progress[index] = currentWordIndex / words.length * 100;
-        this.currentTime = currentWordIndex / words.length * this.totalTime;
-      }
+      if (event.name !== 'word' || !this.utterance) return;
+      if (document.hidden || !this.isVisible) return;
+      var text = this.currentTtsText || '';
+      var words = text.split(/\s+/).filter(Boolean);
+      var currentWordIndex = startWordIndex + Math.round(event.charIndex / this.utterance.text.length * (words.length - startWordIndex));
+      var pct = currentWordIndex / words.length * 100;
+      var time = currentWordIndex / words.length * this.totalTime;
+      this._pendingProgress = {
+        index: index,
+        pct: pct,
+        time: time
+      };
+      if (this._rafScheduled) return;
+      this._rafScheduled = true;
+      requestAnimationFrame(function () {
+        var p = _this0._pendingProgress;
+        if (p && p.index != null) {
+          _this0.progress[p.index] = p.pct;
+          _this0.currentTime = p.time;
+        }
+        _this0._rafScheduled = false;
+      });
     },
     toggleVolume: function toggleVolume() {
       this.showVolumeBar = !this.showVolumeBar;
@@ -147804,9 +147876,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     },
     updateTotalTime: function updateTotalTime() {
-      var wordCount = this.countWords(this.highlightedDescription);
       var wordsPerSecond = 150 / 60;
-      this.totalTime = Math.ceil(wordCount / wordsPerSecond);
+      this.totalTime = Math.ceil((this.wordCount || 0) / wordsPerSecond);
     },
     formatTime: function formatTime(seconds) {
       var minutes = Math.floor(seconds / 60);
@@ -147824,45 +147895,55 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
       this.currentIndex = index;
       this.scrollToEvent(index);
-      this.updateTotalTime();
+      this.updateCurrentMetrics();
     },
     scrollToEvent: function scrollToEvent(index) {
       var refs = this.$refs.eventRefs;
       if (refs && refs[index]) {
-        refs[index].scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
+        var el = refs[index];
+        var rect = el.getBoundingClientRect();
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        if (rect.top < 0 || rect.bottom > vh) {
+          el.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
       }
     },
     prev: function prev() {
       if (this.currentIndex > 0) {
         this.stopAudio(this.currentlyPlayingIndex);
         this.currentIndex--;
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-        this.updateTotalTime();
+        if (window.innerWidth >= 768) {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+        this.updateCurrentMetrics();
       }
     },
     next: function next() {
       if (this.currentIndex < this.events.length - 1) {
         this.stopAudio(this.currentlyPlayingIndex);
         this.currentIndex++;
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-        this.updateTotalTime();
+        if (window.innerWidth >= 768) {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+        this.updateCurrentMetrics();
       }
     },
     saveSettings: function saveSettings() {
-      var _this8 = this;
+      var _this1 = this;
       localStorage.setItem('userFontSettings', JSON.stringify(this.fontSettings));
       this.showSuccess = true;
       setTimeout(function () {
-        _this8.showSuccess = false;
+        _this1.showSuccess = false;
         var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('settingsOffcanvas'));
         if (offcanvas) {
           offcanvas.hide();
@@ -147893,37 +147974,41 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       if (this.tempFontSize > 1) this.tempFontSize -= 1;
     },
     submitFontSize: function submitFontSize() {
-      var _this9 = this;
+      var _this10 = this;
       this.fontSize = this.tempFontSize;
       this.showSuccess = true;
       setTimeout(function () {
-        _this9.showSuccess = false;
+        _this10.showSuccess = false;
       }, 2000);
     },
     filterEvents: function filterEvents() {
-      var query = this.searchQuery.trim().toLowerCase();
-      if (!query) {
-        this.events = this.originalEvents;
-        this.currentIndex = 0;
-        this.updateTotalTime();
-        return;
-      }
-      var filtered = this.originalEvents.filter(function (e) {
-        return e.title.toLowerCase().includes(query) || e.description.toLowerCase().includes(query) || e.year.toLowerCase().includes(query);
-      });
-      this.events = filtered;
-      this.currentIndex = 0;
-      this.updateTotalTime();
+      var _this11 = this;
+      if (this._filterTimer) clearTimeout(this._filterTimer);
+      this._filterTimer = setTimeout(function () {
+        var query = _this11.searchQuery.trim().toLowerCase();
+        if (!query) {
+          _this11.events = _this11.originalEvents.slice();
+          _this11.currentIndex = 0;
+          _this11.updateCurrentMetrics();
+          return;
+        }
+        var filtered = _this11.originalEvents.filter(function (e) {
+          return (e.title || '').toLowerCase().includes(query) || (e._plainText || '').toLowerCase().includes(query) || (e.year || '').toLowerCase().includes(query);
+        });
+        _this11.events = filtered;
+        _this11.currentIndex = 0;
+        _this11.updateCurrentMetrics();
+      }, 200);
     },
     copyToClipboard: function copyToClipboard() {
-      var _this$events$this$cur2,
-        _this0 = this;
-      var rawHtml = ((_this$events$this$cur2 = this.events[this.currentIndex]) === null || _this$events$this$cur2 === void 0 ? void 0 : _this$events$this$cur2.description) || '';
+      var _this$events$this$cur,
+        _this12 = this;
+      var rawHtml = ((_this$events$this$cur = this.events[this.currentIndex]) === null || _this$events$this$cur === void 0 ? void 0 : _this$events$this$cur.description) || '';
       var plainText = this.stripHtml(rawHtml);
       navigator.clipboard.writeText(plainText).then(function () {
-        _this0.copySuccess = true;
+        _this12.copySuccess = true;
         setTimeout(function () {
-          _this0.copySuccess = false;
+          _this12.copySuccess = false;
         }, 2000);
       });
     },
@@ -147933,28 +148018,28 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       window.open(url, '_blank');
     },
     summarizeEvent: function summarizeEvent() {
-      var _this1 = this;
+      var _this13 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var _this1$events$_this1$, _unique$, description, sentences, keywords, scored, seen, unique, summarySentences, highlight, summary, _t;
+        var _this13$events$_this, _unique$, description, sentences, keywords, scored, seen, unique, summarySentences, highlight, summary, _t;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.p = _context.n) {
             case 0:
-              _this1.summaryLoading = true;
-              _this1.summaryText = '';
-              _this1.summaryError = '';
+              _this13.summaryLoading = true;
+              _this13.summaryText = '';
+              _this13.summaryError = '';
               _context.p = 1;
               _context.n = 2;
               return new Promise(function (resolve) {
                 return setTimeout(resolve, 700);
               });
             case 2:
-              description = _this1.stripHtml(((_this1$events$_this1$ = _this1.events[_this1.currentIndex]) === null || _this1$events$_this1$ === void 0 ? void 0 : _this1$events$_this1$.description) || '');
+              description = _this13.stripHtml(((_this13$events$_this = _this13.events[_this13.currentIndex]) === null || _this13$events$_this === void 0 ? void 0 : _this13$events$_this.description) || '');
               if (description) {
                 _context.n = 3;
                 break;
               }
-              _this1.summaryText = '<em>No summary available for this event.</em>';
-              _this1.summaryLoading = false;
+              _this13.summaryText = '<em>No summary available for this event.</em>';
+              _this13.summaryLoading = false;
               return _context.a(2);
             case 3:
               // Split into sentences
@@ -147999,11 +148084,11 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               if (summarySentences.length === 0) {
                 summary = '<em>No summary available for this event.</em>';
               }
-              _this1.summaryText = summary;
+              _this13.summaryText = summary;
               // Auto-scroll to summary section
-              _this1.$nextTick(function () {
-                if (_this1.$refs.summarySection) {
-                  _this1.$refs.summarySection.scrollIntoView({
+              _this13.$nextTick(function () {
+                if (_this13.$refs.summarySection) {
+                  _this13.$refs.summarySection.scrollIntoView({
                     behavior: 'smooth',
                     block: 'center'
                   });
@@ -148014,10 +148099,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 4:
               _context.p = 4;
               _t = _context.v;
-              _this1.summaryError = _t.message || 'Error generating summary.';
+              _this13.summaryError = _t.message || 'Error generating summary.';
             case 5:
               _context.p = 5;
-              _this1.summaryLoading = false;
+              _this13.summaryLoading = false;
               return _context.f(5);
             case 6:
               return _context.a(2);
@@ -177488,7 +177573,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [$data.events.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: $data.currentIndex,
-        "class": "event-box event-details animate__animated",
+        "class": "event-box event-details",
         role: "region",
         "aria-labelledby": "event-title-".concat($data.currentIndex)
       }, [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, " Text copied to clipboard! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -177496,11 +177581,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         id: "event-title-".concat($data.currentIndex)
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.events[$data.currentIndex].title), 9 /* TEXT, PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Combined Controls and Info Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Time Estimates "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-book me-1"
-      }, null, -1 /* CACHED */)), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.readTime) + "m ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, -1 /* CACHED */)), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readTime) + "m ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-headphones me-1"
-      }, null, -1 /* CACHED */)), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.listenTime) + "m ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, -1 /* CACHED */)), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.listenTime) + "m ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-file-earmark-word me-1"
-      }, null, -1 /* CACHED */)), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Words:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.wordCount), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary and Play Button Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Words:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary and Play Button Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-sm btn-outline-dark",
         onClick: _cache[1] || (_cache[1] = function () {
           return $options.summarizeEvent && $options.summarizeEvent.apply($options, arguments);
@@ -177525,7 +177610,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         name: "fade-slide"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [$data.summaryText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+          return [$data.summaryText && _ctx.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
             "class": "mb-0 text-dark small"
           }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
             "class": "bi bi-robot me-1 me-sm-2"
@@ -177571,7 +177656,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           padding: '0.75rem',
           fontSize: Math.max(14, $data.fontSize) + 'px'
         }),
-        innerHTML: $options.highlightedDescription
+        innerHTML: $data.highlightedDescription
       }, null, 12 /* STYLE, PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Offcanvas Settings Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "offcanvas offcanvas-end custom-offcanvas",
         tabindex: "-1",
@@ -195703,9 +195788,8 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.audio-player-container[data-v-39610a88] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.98);\n  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);\n  border-radius: 12px 12px 0 0;\n  transition: transform 0.3s ease-in-out;\n}\n.custom-audio-player[data-v-39610a88] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 12px 16px;\n  width: 100%;\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.controls[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  width: 100%;\n  justify-content: center;\n}\n.control-icon[data-v-39610a88] {\n  color: #ffffff;\n  font-size: 1.5rem;\n  cursor: pointer;\n  transition: color 0.2s, transform 0.2s ease-in-out;\n  padding: 8px;\n}\n.control-icon[data-v-39610a88]:hover,\n.control-icon[data-v-39610a88]:active,\n.control-icon[data-v-39610a88]:focus {\n  color: #0db691;\n  transform: scale(1.1);\n  outline: none;\n}\n.close-icon[data-v-39610a88] {\n  margin-left: auto;\n  margin-right: 8px;\n}\n.volume-bar-container[data-v-39610a88] {\n  display: inline-flex;\n  align-items: center;\n  margin-left: 12px;\n  width: 100px;\n}\n.volume-slider[data-v-39610a88] {\n  width: 100%;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 6px;\n  background: #666;\n  outline: none;\n  opacity: 0.8;\n  transition: opacity 0.2s;\n  border-radius: 12px;\n}\n.volume-slider[data-v-39610a88]:hover {\n  opacity: 1;\n}\n.volume-slider[data-v-39610a88]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  background: #0db691;\n  cursor: pointer;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n}\n.volume-slider[data-v-39610a88]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  background: #0db691;\n  cursor: pointer;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n}\n.time[data-v-39610a88] {\n  color: #e0e0e0;\n  font-size: 0.9rem;\n  margin-left: 12px;\n  font-weight: 500;\n}\n.progress-bar[data-v-39610a88] {\n  width: 100%;\n  height: 8px;\n  background: #555;\n  border-radius: 12px;\n  margin-top: 12px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.progress[data-v-39610a88] {\n  height: 100%;\n  background: #0db691;\n  transition: width 0.3s ease;\n}\n.event-box[data-v-39610a88] {\n  background: #ffffff;\n  border-radius: 12px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  padding: 20px;\n  margin: 0 auto;\n}\n.time-estimates[data-v-39610a88] {\n  font-size: 0.9rem;\n  color: #333;\n}\n.time-estimates span[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n}\n\n/* Extra Small Screens (<400px) */\n@media (max-width: 399px) {\n.controls[data-v-39610a88] {\n    flex-direction: column;\n    gap: 8px;\n    align-items: center;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.5rem;\n    padding: 6px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: 0;\n    margin-right: 4px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 0;\n    margin-top: 8px;\n    width: 80px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 0;\n    margin-top: 8px;\n    font-size: 0.8rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 8px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 8px;\n}\n.progress-bar[data-v-39610a88] {\n    height: 6px;\n    margin-top: 8px;\n}\n.event-box[data-v-39610a88] {\n    padding: 12px;\n}\n.time-estimates[data-v-39610a88] {\n    flex-direction: column;\n    gap: 8px;\n    font-size: 0.85rem;\n}\n}\n\n/* Small Screens (400px–575px) */\n@media (min-width: 400px) and (max-width: 575px) {\n.controls[data-v-39610a88] {\n    gap: 12px;\n    flex-wrap: wrap;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 6px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 6px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 8px;\n    width: 80px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 8px;\n    font-size: 0.8rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 10px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 10px;\n}\n.progress-bar[data-v-39610a88] {\n    height: 6px;\n    margin-top: 10px;\n}\n.event-box[data-v-39610a88] {\n    padding: 16px;\n}\n.time-estimates[data-v-39610a88] {\n    font-size: 0.85rem;\n}\n}\n\n/* Medium Screens (576px–767px) */\n@media (min-width: 576px) and (max-width: 767px) {\n.controls[data-v-39610a88] {\n    gap: 14px;\n    flex-wrap: wrap;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 8px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 6px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 10px;\n    width: 90px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 10px;\n    font-size: 0.85rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 10px 14px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 10px 14px;\n}\n.progress-bar[data-v-39610a88] {\n    margin-top: 10px;\n}\n.event-box[data-v-39610a88] {\n    padding: 18px;\n}\n}\n\n/* Large Screens (≥768px) */\n@media (min-width: 768px) {\n.controls[data-v-39610a88] {\n    flex-direction: row;\n    flex-wrap: nowrap;\n    gap: 16px;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 8px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 8px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 12px;\n    width: 100px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 12px;\n    font-size: 0.9rem;\n}\n.progress-bar[data-v-39610a88] {\n    margin-top: 12px;\n}\n}\n@media (max-width: 767px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 100% !important;\n}\n}\n@media (min-width: 768px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 400px !important;\n}\n}\n.custom-offcanvas[data-v-39610a88] {\n  background-color: #10584f;\n  color: white;\n  min-width: 300px;\n}\n.fab[data-v-39610a88] {\n  transition: background-color 0.3s ease, transform 0.2s;\n}\n.fab[data-v-39610a88]:hover {\n  transform: scale(1.1);\n}\n.action-button[data-v-39610a88] {\n  transition: all 0.3s ease;\n  cursor: pointer;\n  color: #333;\n}\n.action-button[data-v-39610a88]:hover {\n  color: #0db691;\n}\nmark[data-v-39610a88] {\n  background-color: #0db691;\n  color: white;\n  padding: 0 4px;\n  border-radius: 4px;\n}\n.timeline[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n}\n.timeline-wrapper[data-v-39610a88] {\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  scrollbar-width: none;\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n}\n.timeline[data-v-39610a88] {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: nowrap;\n  gap: 12px;\n  min-width: -moz-max-content;\n  min-width: max-content;\n}\n.timeline-point[data-v-39610a88] {\n  flex-shrink: 0;\n}\n.timeline-badge[data-v-39610a88] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  border: 1px solid #ced4da;\n  border-radius: 1rem;\n  padding: 0.8rem 1.3rem;\n  background-color: #f8f9fa;\n  color: #212529;\n  transition: all 0.3s ease;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);\n  font-weight: 300;\n  white-space: nowrap;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.timeline-badge[data-v-39610a88]:hover {\n  background-color: #20c997;\n  color: white;\n  cursor: pointer;\n  transform: scale(1.05);\n  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);\n}\n.timeline-badge.active[data-v-39610a88] {\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border: 2px solid lightgrey;\n  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.2);\n}\n.controls button[data-v-39610a88] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background 0.3s ease;\n}\n.controls button[data-v-39610a88]:disabled {\n  cursor: not-allowed;\n}\n.controls button[data-v-39610a88]:hover:not(:disabled) {\n  background-color: #0db691;\n}\n.fab[data-v-39610a88] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  background-color: #20c997;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n  transition: background-color 0.3s ease, transform 0.2s ease;\n  cursor: pointer;\n}\n.fab[data-v-39610a88]:hover {\n  background-color: #17a085;\n  transform: scale(1.1);\n}\n.fade-enter-active[data-v-39610a88],\n.fade-leave-active[data-v-39610a88] {\n  transition: opacity 0.3s;\n}\n.fade-enter[data-v-39610a88],\n.fade-leave-to[data-v-39610a88] {\n  opacity: 0;\n}\n.summary-card[data-v-39610a88] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border: 1px solid #dee2e6;\n  border-radius: 12px;\n  padding: 1.5rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.ai-summary-inline[data-v-39610a88] {\n  margin-top: 1.5rem;\n  padding: 1rem;\n  border-radius: 0.75rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n  border: 2px solid rgb(103, 153, 103);\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n  font-size: 0.95rem;\n  line-height: 1.6;\n  color: #333;\n  margin-bottom: 0.75rem;\n}\n.ai-summary-inline .summary-footer[data-v-39610a88] {\n  padding-top: 0.5rem;\n  border-top: 1px solid #e9ecef;\n  font-size: 0.8rem;\n  color: #6c757d;\n}\n\n/* Mobile Responsive Styles */\n@media (max-width: 768px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.6rem 1rem;\n    font-size: 0.9rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.5rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.75rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 15px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.75rem;\n    margin-top: 1rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.9rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.5rem 1rem;\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.5rem 0.8rem;\n    font-size: 0.85rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.25rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.5rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 12px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.5rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.85rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.85rem;\n}\n.time-estimates span[data-v-39610a88] {\n    font-size: 0.8rem;\n}\n}\n@media (max-width: 480px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.4rem 0.6rem;\n    font-size: 0.8rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.1rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.3rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 10px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.4rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.8rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.35rem 0.7rem;\n    font-size: 0.8rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Removed animate.css to reduce animation overhead */\n.audio-player-container[data-v-39610a88] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.98);\n  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);\n  border-radius: 12px 12px 0 0;\n  transition: transform 0.3s ease-in-out;\n}\n\n/* Reduce motion for users and improve tab switch performance */\n@media (prefers-reduced-motion: reduce) {\n[data-v-39610a88] {\n    animation: none !important;\n    transition: none !important;\n    scroll-behavior: auto !important;\n}\n}\n\n/* Defer heavy layout/paint when off-screen or hidden */\n.event-details[data-v-39610a88] {\n  content-visibility: auto;\n  contain-intrinsic-size: 800px 600px;\n}\n.custom-audio-player[data-v-39610a88] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 12px 16px;\n  width: 100%;\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.controls[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  width: 100%;\n  justify-content: center;\n}\n.control-icon[data-v-39610a88] {\n  color: #ffffff;\n  font-size: 1.5rem;\n  cursor: pointer;\n  transition: color 0.2s, transform 0.2s ease-in-out;\n  padding: 8px;\n}\n.control-icon[data-v-39610a88]:hover,\n.control-icon[data-v-39610a88]:active,\n.control-icon[data-v-39610a88]:focus {\n  color: #0db691;\n  transform: scale(1.1);\n  outline: none;\n}\n.close-icon[data-v-39610a88] {\n  margin-left: auto;\n  margin-right: 8px;\n}\n.volume-bar-container[data-v-39610a88] {\n  display: inline-flex;\n  align-items: center;\n  margin-left: 12px;\n  width: 100px;\n}\n.volume-slider[data-v-39610a88] {\n  width: 100%;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 6px;\n  background: #666;\n  outline: none;\n  opacity: 0.8;\n  transition: opacity 0.2s;\n  border-radius: 12px;\n}\n.volume-slider[data-v-39610a88]:hover {\n  opacity: 1;\n}\n.volume-slider[data-v-39610a88]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  background: #0db691;\n  cursor: pointer;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n}\n.volume-slider[data-v-39610a88]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  background: #0db691;\n  cursor: pointer;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n}\n.time[data-v-39610a88] {\n  color: #e0e0e0;\n  font-size: 0.9rem;\n  margin-left: 12px;\n  font-weight: 500;\n}\n.progress-bar[data-v-39610a88] {\n  width: 100%;\n  height: 8px;\n  background: #555;\n  border-radius: 12px;\n  margin-top: 12px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.progress[data-v-39610a88] {\n  height: 100%;\n  background: #0db691;\n  transition: width 0.3s ease;\n}\n.event-box[data-v-39610a88] {\n  background: #ffffff;\n  border-radius: 12px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  padding: 20px;\n  margin: 0 auto;\n}\n.time-estimates[data-v-39610a88] {\n  font-size: 0.9rem;\n  color: #333;\n}\n.time-estimates span[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n}\n\n/* Extra Small Screens (<400px) */\n@media (max-width: 399px) {\n.controls[data-v-39610a88] {\n    flex-direction: column;\n    gap: 8px;\n    align-items: center;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.5rem;\n    padding: 6px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: 0;\n    margin-right: 4px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 0;\n    margin-top: 8px;\n    width: 80px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 0;\n    margin-top: 8px;\n    font-size: 0.8rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 8px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 8px;\n}\n.progress-bar[data-v-39610a88] {\n    height: 6px;\n    margin-top: 8px;\n}\n.event-box[data-v-39610a88] {\n    padding: 12px;\n}\n.time-estimates[data-v-39610a88] {\n    flex-direction: column;\n    gap: 8px;\n    font-size: 0.85rem;\n}\n}\n\n/* Small Screens (400px–575px) */\n@media (min-width: 400px) and (max-width: 575px) {\n.controls[data-v-39610a88] {\n    gap: 12px;\n    flex-wrap: wrap;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 6px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 6px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 8px;\n    width: 80px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 8px;\n    font-size: 0.8rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 10px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 10px;\n}\n.progress-bar[data-v-39610a88] {\n    height: 6px;\n    margin-top: 10px;\n}\n.event-box[data-v-39610a88] {\n    padding: 16px;\n}\n.time-estimates[data-v-39610a88] {\n    font-size: 0.85rem;\n}\n}\n\n/* Medium Screens (576px–767px) */\n@media (min-width: 576px) and (max-width: 767px) {\n.controls[data-v-39610a88] {\n    gap: 14px;\n    flex-wrap: wrap;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 8px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 6px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 10px;\n    width: 90px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 10px;\n    font-size: 0.85rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 10px 14px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 10px 14px;\n}\n.progress-bar[data-v-39610a88] {\n    margin-top: 10px;\n}\n.event-box[data-v-39610a88] {\n    padding: 18px;\n}\n}\n\n/* Large Screens (≥768px) */\n@media (min-width: 768px) {\n.controls[data-v-39610a88] {\n    flex-direction: row;\n    flex-wrap: nowrap;\n    gap: 16px;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 8px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 8px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 12px;\n    width: 100px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 12px;\n    font-size: 0.9rem;\n}\n.progress-bar[data-v-39610a88] {\n    margin-top: 12px;\n}\n}\n@media (max-width: 767px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 100% !important;\n}\n}\n@media (min-width: 768px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 400px !important;\n}\n}\n.custom-offcanvas[data-v-39610a88] {\n  background-color: #10584f;\n  color: white;\n  min-width: 300px;\n}\n.fab[data-v-39610a88] {\n  transition: background-color 0.3s ease, transform 0.2s;\n}\n.fab[data-v-39610a88]:hover {\n}\n.action-button[data-v-39610a88] {\n  transition: all 0.3s ease;\n  cursor: pointer;\n  color: #333;\n}\n.action-button[data-v-39610a88]:hover {\n  color: #0db691;\n}\nmark[data-v-39610a88] {\n  background-color: #0db691;\n  color: white;\n  padding: 0 4px;\n  border-radius: 4px;\n}\n.timeline[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n}\n.timeline-wrapper[data-v-39610a88] {\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  scrollbar-width: none;\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n}\n.timeline[data-v-39610a88] {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: nowrap;\n  gap: 12px;\n  min-width: -moz-max-content;\n  min-width: max-content;\n}\n.timeline-point[data-v-39610a88] {\n  flex-shrink: 0;\n}\n.timeline-badge[data-v-39610a88] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  border: 1px solid #ced4da;\n  border-radius: 1rem;\n  padding: 0.8rem 1.3rem;\n  background-color: #f8f9fa;\n  color: #212529;\n  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  font-weight: 300;\n  white-space: nowrap;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.timeline-badge[data-v-39610a88]:hover {\n  background-color: #20c997;\n  color: white;\n  cursor: pointer;\n}\n.timeline-badge.active[data-v-39610a88] {\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border: 2px solid lightgrey;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);\n}\n.controls button[data-v-39610a88] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background-color 0.12s ease, color 0.12s ease;\n}\n.controls button[data-v-39610a88]:disabled {\n  cursor: not-allowed;\n}\n.controls button[data-v-39610a88]:hover:not(:disabled) {\n  background-color: #0db691;\n}\n.fab[data-v-39610a88] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  background-color: #20c997;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n  transition: background-color 0.3s ease, transform 0.2s ease;\n  cursor: pointer;\n}\n.fab[data-v-39610a88]:hover {\n  background-color: #17a085;\n}\n.fade-enter-active[data-v-39610a88],\n.fade-leave-active[data-v-39610a88] {\n  transition: opacity 0.12s;\n}\n.fade-enter[data-v-39610a88],\n.fade-leave-to[data-v-39610a88] {\n  opacity: 0;\n}\n.summary-card[data-v-39610a88] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border: 1px solid #dee2e6;\n  border-radius: 12px;\n  padding: 1.5rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.ai-summary-inline[data-v-39610a88] {\n  margin-top: 1.5rem;\n  padding: 1rem;\n  border-radius: 0.75rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n  border: 2px solid rgb(103, 153, 103);\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n  font-size: 0.95rem;\n  line-height: 1.6;\n  color: #333;\n  margin-bottom: 0.75rem;\n}\n.ai-summary-inline .summary-footer[data-v-39610a88] {\n  padding-top: 0.5rem;\n  border-top: 1px solid #e9ecef;\n  font-size: 0.8rem;\n  color: #6c757d;\n}\n\n/* Mobile Responsive Styles */\n@media (max-width: 768px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.6rem 1rem;\n    font-size: 0.9rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.5rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.75rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 15px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.75rem;\n    margin-top: 1rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.9rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.5rem 1rem;\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.5rem 0.8rem;\n    font-size: 0.85rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.25rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.5rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 12px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.5rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.85rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.85rem;\n}\n.time-estimates span[data-v-39610a88] {\n    font-size: 0.8rem;\n}\n}\n@media (max-width: 480px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.4rem 0.6rem;\n    font-size: 0.8rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.1rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.3rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 10px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.4rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.8rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.35rem 0.7rem;\n    font-size: 0.8rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
