@@ -33,7 +33,7 @@
 
           <div class="row mb-2 align-items-center" style="position: relative; z-index: 2;">
             <div class="col-md-6">
-              <div class="text-left" >
+              <div class="text-left">
                 <!-- Badge -->
                 <div style="
           background: linear-gradient(135deg, #0b806f, #1a5f7a);
@@ -167,7 +167,8 @@
 
             <div class="col-md-6">
 
-              <div id="carouselExampleInterval" class="carousel slide d-none d-md-block" data-bs-ride="carousel" data-bs-interval="4000">
+              <div id="carouselExampleInterval" class="carousel slide d-none d-md-block" data-bs-ride="carousel"
+                data-bs-interval="4000">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                     <img src="/images/qenew.png" class="d-block w-100" alt="Quran companion">
@@ -191,13 +192,18 @@
 
                 <!-- Simple Indicators -->
                 <div class="carousel-indicators mt-2 mb-2">
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0"
-                    class="active" aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4" aria-label="Slide 5"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="3"
+                    aria-label="Slide 4"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4"
+                    aria-label="Slide 5"></button>
+                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="5"
+                    aria-label="Slide 6"></button>
                 </div>
               </div>
             </div>
@@ -249,7 +255,7 @@
                     Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics.
                     Find meaningful content instantly for your spiritual journey.
                   </p>
-                  
+
                 </div>
               </article>
             </div>
@@ -268,7 +274,7 @@
                     Enjoy Quran recitations, insightful podcasts, and Islamic art galleries.
                     Engage spiritually through multimedia content anywhere, anytime.
                   </p>
-                  
+
                 </div>
               </article>
             </div>
@@ -284,10 +290,11 @@
                   </div>
                   <h3 class="h3 fw-bold">Learn Your Way</h3>
                   <p class="mb-4" style="font-size: 16px; line-height: 1.6; color: #4a5568;">
-                    Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible learning
+                    Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible
+                    learning
                     for everyone, regardless of ability.
                   </p>
-                  
+
                 </div>
               </article>
             </div>
@@ -309,7 +316,7 @@
             intelligent connection to the Divine.
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start">
-                    <a href="/holy" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
+            <a href="/holy" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
               style="background: #0b806f; border: none; min-width: 160px;"
               aria-label="Learn more about Quran Companion features">
               Explore Quran
@@ -649,34 +656,48 @@
     </section>
 
     <!-- Premium CTA Section -->
-    <section class="py-5" aria-labelledby="premium-heading" role="region" style="background:#f8f9fa;">
+    <section class="py-5 bg-white" aria-labelledby="premium-heading" role="region" >
       <div class="container">
         <div class="row justify-content-center text-center mb-4">
           <div class="col-lg-8">
-            <h2 id="premium-heading" class="fw-bold" style="font-size:2.25rem; color:#1a5f7a;">Support The Work, Access More</h2>
+            <h2 id="premium-heading" class="fw-bold" style="font-size:2.25rem; color:#1a5f7a;">Support The Work, Access
+              More</h2>
             <p class="lead text-muted" style="line-height:1.7">
               Your support sustains this khidmah and keeps Islamic knowledge accessible for everyone.
             </p>
           </div>
         </div>
 
+
         <!-- Faith-centered quote -->
-        <div class="row justify-content-center mb-4">
+        <div class="row justify-content-center mb-4 quote-wrapper bg-white">
           <div class="col-lg-9">
-            <div class="p-2 quote-card">
-              <p class="mb-1 faith-quote">
-                <span class="quote-mark font-bold" aria-hidden="true">“</span>
-                Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise.
-                <span class="quote-mark" aria-hidden="true">”</span>
-              </p>
-              <div class="quote-ref">Hadith — Sahih Muslim</div>
-              <hr class="my-3" />
-              <p class="mb-0 faith-dua">
-                <span class="quote-mark" aria-hidden="true">“</span>
-                My Lord, increase me in knowledge.
-                <span class="quote-mark" aria-hidden="true">”</span>
-                <span class="dua-ref">(Quran 20:114)</span>
-              </p>
+            <div class="quote-card">
+
+              <!-- Subtle glowing accent -->
+              <div class="quote-glow"></div>
+
+              <div class="quote-content">
+                <!-- First Quote -->
+                <p class="faith-quote">
+                  <span class="quote-mark" aria-hidden="true">“</span>
+                  Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise.
+                  <span class="quote-mark" aria-hidden="true">”</span>
+                </p>
+
+                <div class="quote-ref">Hadith — Sahih Muslim</div>
+
+                <!-- Decorative divider -->
+                <div class="quote-divider"></div>
+
+                <!-- Second Quote -->
+                <!-- <p class="faith-dua">
+                  <span class="quote-mark" aria-hidden="true">“</span>
+                  My Lord, increase me in knowledge.
+                  <span class="quote-mark" aria-hidden="true">”</span>
+                  <span class="dua-ref">(Quran 20:114)</span>
+                </p> -->
+              </div>
             </div>
           </div>
         </div>
@@ -689,20 +710,26 @@
                   <div class="card-body p-4 text-start">
                     <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">What your support enables</h3>
                     <ul class="mb-0" style="list-style:none; padding-left:0; color:#4a5568; line-height:1.7;">
-                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Keep Quran tools fast, accessible, and ad‑free</li>
-                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Offer trustworthy resources curated with amanah</li>
-                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Deliver new features shaped by your feedback</li>
-                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Make the platform available to those who can’t pay</li>
+                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Keep Quran tools fast, accessible,
+                        and ad‑free</li>
+                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Offer trustworthy resources curated
+                        with amanah</li>
+                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Deliver new features shaped by your
+                        feedback</li>
+                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Make the platform available to
+                        those who can’t pay</li>
                     </ul>
                   </div>
                 </div>
               </div>
 
               <div class="col-md-6">
-                <div class="h-100 d-flex flex-column justify-content-between" style="background:white; border-radius:12px; border:1px solid #e9ecef; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                <div class="h-100 d-flex flex-column justify-content-between"
+                  style="background:white; border-radius:12px; border:1px solid #e9ecef; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
                   <div class="p-4 text-start">
                     <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">Simple and transparent</h3>
-                    <p class="mb-3" style="color:#4a5568;">Secure Stripe payments. Cancel anytime. No tracking, no ads.</p>
+                    <p class="mb-3" style="color:#4a5568;">Secure Stripe payments. Cancel anytime. No tracking, no ads.
+                    </p>
                     <button @click="processDonation" aria-label="Support and access premium" style="
                         background: rgba(255, 255, 255, 0.9);
                         color: #1a5f7a;
@@ -714,10 +741,11 @@
                         box-shadow: 0 5px 20px rgba(26, 95, 122, 0.2);
                         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                         backdrop-filter: blur(10px);
-                      " onmouseover="this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';"
-                        onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';">
-                        <i class="fas fa-heart me-2"></i>Provide a small Donation
-                      </button>
+                      "
+                      onmouseover="this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';"
+                      onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';">
+                      <i class="fas fa-heart me-2"></i>Provide a small Donation
+                    </button>
                   </div>
                   <div class="px-4 pb-4">
                     <div class="d-flex align-items-center" style="gap:.5rem; color:#6c757d;">
@@ -1063,7 +1091,7 @@
 
           <!-- Quick Links -->
           <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-3 px-md-4">
-            
+
             <nav aria-label="Footer navigation">
               <!-- <small class="text-muted">
                 Serving the global Muslim community since 2024
@@ -1117,6 +1145,106 @@
   </div>
 </template>
 <style scoped>
+.quote-wrapper {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  .quote-card {
+    background: linear-gradient(145deg, #ffffff, #f3f9f8);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    padding: 32px 24px;
+    color: #1a1a1a;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+    transition: all 0.3s ease;
+  }
+
+  .quote-glow {
+    position: absolute;
+    top: -70px;
+    right: -70px;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(0,150,136,0.15), transparent 70%);
+    z-index: 0;
+  }
+
+  .quote-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .faith-quote {
+    font-size: clamp(1.1rem, 4vw, 1.4rem);
+    line-height: 1.75;
+    margin-bottom: 0.8rem;
+    color: #00332e;
+    font-weight: 600;
+    padding: 0 8px;
+  }
+
+  .faith-dua {
+    font-size: clamp(1rem, 3.5vw, 1.25rem);
+    line-height: 1.7;
+    margin: 0;
+    color: #00332e;
+    font-weight: 600;
+    padding: 0 8px;
+    opacity: 0;
+    animation: fadeInGlow 3s ease-in-out forwards;
+  }
+
+  .quote-mark {
+    font-size: 2.2rem;
+    color: #009688;
+    vertical-align: middle;
+    font-weight: 700;
+  }
+
+  .faith-dua .quote-mark {
+    font-size: 1.8rem;
+  }
+
+  .quote-ref {
+    text-align: right;
+    font-style: italic;
+    color: #607d8b;
+    font-size: 0.92rem;
+    font-family: 'Nunito Sans', 'Segoe UI', sans-serif;
+    margin-bottom: 1.2rem;
+  }
+
+  .dua-ref {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.9rem;
+    color: #607d8b;
+    font-family: 'Nunito Sans', 'Segoe UI', sans-serif;
+  }
+
+  .quote-divider {
+    width: 70px;
+    height: 3px;
+    background: linear-gradient(90deg, #009688, #4db6ac);
+    margin: 0.8rem auto 1.4rem auto;
+    border-radius: 2px;
+  }
+
+
+  @media (max-width: 576px) {
+    .faith-quote, .faith-dua {
+      padding: 0 4px;
+    }
+    .quote-card {
+      padding: 24px 16px;
+    }
+  }
 /* Ensure hero title has solid color on small screens for contrast */
 @media (max-width: 576px) {
   .hero-title {
@@ -1125,6 +1253,7 @@
     color: #1a5f7a !important;
   }
 }
+
 .card:hover {
   transform: translateY(-8px) !important;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
