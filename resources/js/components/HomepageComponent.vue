@@ -656,7 +656,7 @@
     </section>
 
     <!-- Premium CTA Section -->
-    <section class="py-5 bg-white" aria-labelledby="premium-heading" role="region" >
+    <section class="py-5 bg-white" aria-labelledby="premium-heading" role="region">
       <div class="container">
         <div class="row justify-content-center text-center mb-4">
           <div class="col-lg-8">
@@ -852,7 +852,8 @@
                       <small class="text-muted">Daily verses & instant reminders</small>
                     </div>
                   </div>
-                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100" target="_blank" style="
+                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100" target="_blank"
+                    style="
                 background: linear-gradient(135deg, #25D366, #128C7E);
                 color: white;
                 font-weight: 700;
@@ -876,7 +877,7 @@
                   opacity: 0.9;
                 ">→</span>
                   </a>
-                  
+
                 </div>
               </div>
 
@@ -1071,176 +1072,152 @@
     </section>
 
 
+    <!-- Remove the container if you want to extend the Footer to full width. -->
+    <footer style="background: linear-gradient(135deg, rgb(11, 128, 111), rgb(26, 95, 122));">
 
-    <footer class="py-4" style="box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2); background: #f8f9fa;">
-      <div class="container-fluid">
-        <div class="row align-items-center text-center text-lg-start">
-
-          <!-- Copyright & Brand -->
-          <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-3 px-md-4">
-            <div class="d-flex flex-column flex-sm-row align-items-center align-items-lg-start gap-2">
-              <div>
-                <p class="mb-0 fs-6 fw-bold text-dark">© 2025 Islamic Connect</p>
-              </div>
+      <!-- Section: Copyright -->
+      <section class="p-3 pt-0">
+        <div class="row d-flex align-items-center">
+          <!-- Grid column -->
+          <div class="col-md-7 col-lg-8 mt-3 text-center text-md-start">
+            <!-- Copyright -->
+            <div class="p-3" style="font-weight: bold;">
+              <a class="text-white" style="font-weight: bold;" href="https://islamiconnect.com/">© 2025 Copyright: www.islamiconnect.com</a>
             </div>
+            <!-- Copyright -->
           </div>
+          <!-- Grid column -->
 
-          <!-- Quick Links -->
-          <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-3 px-md-4">
+          <!-- Grid column -->
+          <div class="col-md-5 col-lg-4 ml-lg-0 mt-3 text-center text-md-end">
+            <!-- Facebook -->
+            <a class="btn btn-outline-light btn-floating m-1 text-white" href="https://www.facebook.com/profile.php?id=61560313385599" role="button"><i
+                class="fab fa-facebook-f"></i></a>
 
-            <nav aria-label="Footer navigation">
-              <!-- <small class="text-muted">
-                Serving the global Muslim community since 2024
-              </small> -->
-            </nav>
+            <!-- Twitter -->
+            <a class="btn btn-outline-light btn-floating m-1 text-white" href="https://x.com/islamiconnect24" role="button"><i
+                class="fab fa-twitter"></i></a>
+
+            <!-- linkedin -->
+            <a class="btn btn-outline-light btn-floating m-1 text-white" href="https://www.linkedin.com/company/islamic-connect/" role="button"><i class="fa-brands fa-linkedin"></i></a>
+
+            <!-- Instagram -->
+            <a class="btn btn-outline-light btn-floating m-1 text-white" href="https://www.instagram.com/islamicconnect24/" role="button"><i
+                class="fab fa-instagram"></i></a>
           </div>
-
-          <!-- Social Media -->
-          <div class="col-12 col-lg-4 px-3 px-md-4">
-            <div class="d-flex justify-content-center justify-content-lg-end gap-3 gap-md-4">
-              <a href="https://www.instagram.com/islamicconnect24/" class="text-decoration-none social-icon"
-                aria-label="Follow us on Instagram" target="_blank" rel="noopener noreferrer"
-                style="transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'"
-                onmouseout="this.style.transform='translateY(0)'">
-                <i class="bi bi-instagram h4" style="color: #E4405F;" aria-hidden="true"></i>
-              </a>
-              <a href="https://www.tiktok.com/@islamic_connect24" class="text-decoration-none social-icon"
-                aria-label="Follow us on TikTok" target="_blank" rel="noopener noreferrer"
-                style="transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'"
-                onmouseout="this.style.transform='translateY(0)'">
-                <i class="bi bi-tiktok h4" style="color: #000000;" aria-hidden="true"></i>
-              </a>
-              <a href="https://www.linkedin.com/company/islamic-connect/" class="text-decoration-none social-icon"
-                aria-label="Follow us on LinkedIn" target="_blank" rel="noopener noreferrer"
-                style="transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'"
-                onmouseout="this.style.transform='translateY(0)'">
-                <i class="bi bi-linkedin h4" style="color: #0A66C2;" aria-hidden="true"></i>
-              </a>
-              <a href="https://x.com/islamiconnect24" class="text-decoration-none social-icon"
-                aria-label="Follow us on X (Twitter)" target="_blank" rel="noopener noreferrer"
-                style="transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'"
-                onmouseout="this.style.transform='translateY(0)'">
-                <i class="bi bi-twitter-x h4" style="color: #000000;" aria-hidden="true"></i>
-              </a>
-            </div>
-
-
-          </div>
+          <!-- Grid column -->
         </div>
+      </section>
 
-        <!-- Additional Info -->
-        <!-- <div class="row mt-2">
-          <div class="col-12 text-center">
-            <small class="text-muted">
-              Serving the global Muslim community since 2024
-            </small>
-          </div>
-        </div> -->
-      </div>
     </footer>
+    <!-- End of .container -->
   </div>
 </template>
 <style scoped>
 .quote-wrapper {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.quote-card {
+  background: linear-gradient(145deg, #ffffff, #f3f9f8);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 32px 24px;
+  color: #1a1a1a;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+  transition: all 0.3s ease;
+}
+
+.quote-glow {
+  position: absolute;
+  top: -70px;
+  right: -70px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(0, 150, 136, 0.15), transparent 70%);
+  z-index: 0;
+}
+
+.quote-content {
+  position: relative;
+  z-index: 1;
+}
+
+.faith-quote {
+  font-size: clamp(1.1rem, 4vw, 1.4rem);
+  line-height: 1.75;
+  margin-bottom: 0.8rem;
+  color: #00332e;
+  font-weight: 600;
+  padding: 0 8px;
+}
+
+.faith-dua {
+  font-size: clamp(1rem, 3.5vw, 1.25rem);
+  line-height: 1.7;
+  margin: 0;
+  color: #00332e;
+  font-weight: 600;
+  padding: 0 8px;
+  opacity: 0;
+  animation: fadeInGlow 3s ease-in-out forwards;
+}
+
+.quote-mark {
+  font-size: 2.2rem;
+  color: #009688;
+  vertical-align: middle;
+  font-weight: 700;
+}
+
+.faith-dua .quote-mark {
+  font-size: 1.8rem;
+}
+
+.quote-ref {
+  text-align: right;
+  font-style: italic;
+  color: #607d8b;
+  font-size: 0.92rem;
+  font-family: 'Nunito Sans', 'Segoe UI', sans-serif;
+  margin-bottom: 1.2rem;
+}
+
+.dua-ref {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #607d8b;
+  font-family: 'Nunito Sans', 'Segoe UI', sans-serif;
+}
+
+.quote-divider {
+  width: 70px;
+  height: 3px;
+  background: linear-gradient(90deg, #009688, #4db6ac);
+  margin: 0.8rem auto 1.4rem auto;
+  border-radius: 2px;
+}
+
+
+@media (max-width: 576px) {
+
+  .faith-quote,
+  .faith-dua {
+    padding: 0 4px;
   }
 
   .quote-card {
-    background: linear-gradient(145deg, #ffffff, #f3f9f8);
-    border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    padding: 32px 24px;
-    color: #1a1a1a;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    max-width: 100%;
-    transition: all 0.3s ease;
+    padding: 24px 16px;
   }
+}
 
-  .quote-glow {
-    position: absolute;
-    top: -70px;
-    right: -70px;
-    width: 150px;
-    height: 150px;
-    background: radial-gradient(circle, rgba(0,150,136,0.15), transparent 70%);
-    z-index: 0;
-  }
-
-  .quote-content {
-    position: relative;
-    z-index: 1;
-  }
-
-  .faith-quote {
-    font-size: clamp(1.1rem, 4vw, 1.4rem);
-    line-height: 1.75;
-    margin-bottom: 0.8rem;
-    color: #00332e;
-    font-weight: 600;
-    padding: 0 8px;
-  }
-
-  .faith-dua {
-    font-size: clamp(1rem, 3.5vw, 1.25rem);
-    line-height: 1.7;
-    margin: 0;
-    color: #00332e;
-    font-weight: 600;
-    padding: 0 8px;
-    opacity: 0;
-    animation: fadeInGlow 3s ease-in-out forwards;
-  }
-
-  .quote-mark {
-    font-size: 2.2rem;
-    color: #009688;
-    vertical-align: middle;
-    font-weight: 700;
-  }
-
-  .faith-dua .quote-mark {
-    font-size: 1.8rem;
-  }
-
-  .quote-ref {
-    text-align: right;
-    font-style: italic;
-    color: #607d8b;
-    font-size: 0.92rem;
-    font-family: 'Nunito Sans', 'Segoe UI', sans-serif;
-    margin-bottom: 1.2rem;
-  }
-
-  .dua-ref {
-    display: block;
-    margin-top: 6px;
-    font-size: 0.9rem;
-    color: #607d8b;
-    font-family: 'Nunito Sans', 'Segoe UI', sans-serif;
-  }
-
-  .quote-divider {
-    width: 70px;
-    height: 3px;
-    background: linear-gradient(90deg, #009688, #4db6ac);
-    margin: 0.8rem auto 1.4rem auto;
-    border-radius: 2px;
-  }
-
-
-  @media (max-width: 576px) {
-    .faith-quote, .faith-dua {
-      padding: 0 4px;
-    }
-    .quote-card {
-      padding: 24px 16px;
-    }
-  }
 /* Ensure hero title has solid color on small screens for contrast */
 @media (max-width: 576px) {
   .hero-title {
