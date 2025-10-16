@@ -852,7 +852,7 @@
                       <small class="text-muted">Daily verses & instant reminders</small>
                     </div>
                   </div>
-                  <a href="https://lnkd.in/ebUNhthw" class="btn w-100" target="_blank" style="
+                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100" target="_blank" style="
                 background: linear-gradient(135deg, #25D366, #128C7E);
                 color: white;
                 font-weight: 700;
@@ -876,11 +876,7 @@
                   opacity: 0.9;
                 ">→</span>
                   </a>
-                  <!-- <div class="mt-2">
-                    <small class="text-muted" style="font-weight: 500;">
-                      <i class="fas fa-users me-1"></i>2,800+ active members
-                    </small>
-                  </div> -->
+                  
                 </div>
               </div>
 
@@ -916,7 +912,7 @@
                       <small class="text-muted">In-depth content & discussions</small>
                     </div>
                   </div>
-                  <a href="https://lnkd.in/e8sT525W" class="btn w-100" target="_blank" style="
+                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0" class="btn w-100" target="_blank" style="
                 background: linear-gradient(135deg, #0088cc, #006699);
                 color: white;
                 font-weight: 700;

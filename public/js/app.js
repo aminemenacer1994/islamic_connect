@@ -31280,7 +31280,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "WhatsApp Channel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted"
   }, "Daily verses & instant reminders")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "https://lnkd.in/ebUNhthw",
+    href: "https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m",
     class: "btn w-100",
     target: "_blank",
     style: {
@@ -31309,7 +31309,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "font-size": "0.9rem",
       "opacity": "0.9"
     }
-  }, "→")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"mt-2\">\n                    <small class=\"text-muted\" style=\"font-weight: 500;\">\n                      <i class=\"fas fa-users me-1\"></i>2,800+ active members\n                    </small>\n                  </div> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "→")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-12"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
@@ -31353,7 +31353,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Telegram Community"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted"
   }, "In-depth content & discussions")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "https://lnkd.in/e8sT525W",
+    href: "https://t.me/+r81Q3SEAa-M5ZWI0",
     class: "btn w-100",
     target: "_blank",
     style: {
