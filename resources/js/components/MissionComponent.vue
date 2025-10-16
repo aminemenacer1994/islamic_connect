@@ -8,7 +8,7 @@
     </p>
 
     <nav class="timeline-wrapper " aria-label="Seerah timeline">
-      <ol class="timeline mb-3" role="list" @keydown="onTimelineKeydown" ref="timelineNav">
+      <ol class="timeline mb-3" role="list" @keydown="onTimelineKeydown" ref="timelineNav" tabindex="0">
         <li v-for="(event, index) in events" :key="index" class="timeline-point" role="listitem" ref="eventRefs">
           <button
             class="badge fs-6 timeline-badge"
@@ -1265,18 +1265,26 @@ mark {
   border-radius: 4px;
 }
 
-.timeline::-webkit-scrollbar {
-  display: none;
-}
-
 .timeline-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  /* Make scrollbar visible and usable */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #0db691 #e9ecef; /* Firefox */
+  scroll-snap-type: x proximity;
 }
 
+/* WebKit scrollbar styling */
 .timeline-wrapper::-webkit-scrollbar {
-  display: none;
+  height: 8px;
+}
+.timeline-wrapper::-webkit-scrollbar-track {
+  background: #e9ecef;
+  border-radius: 8px;
+}
+.timeline-wrapper::-webkit-scrollbar-thumb {
+  background-color: #0db691;
+  border-radius: 8px;
 }
 
 .timeline {
@@ -1291,6 +1299,7 @@ mark {
 
 .timeline-point {
   flex-shrink: 0;
+  scroll-snap-align: start;
 }
 
 .timeline-badge {

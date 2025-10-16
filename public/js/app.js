@@ -156034,24 +156034,11 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         this.savePreference("selectedReciter", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-
-        // Ensure we start at the top
-        window.scrollTo({
-          top: 0,
-          behavior: 'instant'
-        });
         this.fetchSurahDetails().then(function () {
           _this2.resetAllAudioPlayers();
           _this2.isLoading = false;
           _this2.$nextTick(function () {
-            setTimeout(function () {
-              // Ensure we're still at the top after content loads
-              window.scrollTo({
-                top: 0,
-                behavior: 'instant'
-              });
-              _this2.ensureCardPositionsCached(function () {});
-            }, 200);
+            // removed programmatic scrolling and scrollbar helpers
           });
         })["catch"](function () {
           _this2.isLoading = false;
@@ -156065,23 +156052,10 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         this.savePreference("selectedTranslation", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-
-        // Ensure we start at the top
-        window.scrollTo({
-          top: 0,
-          behavior: 'instant'
-        });
         this.fetchSurahDetails().then(function () {
           _this3.isLoading = false;
           _this3.$nextTick(function () {
-            setTimeout(function () {
-              // Ensure we're still at the top after content loads
-              window.scrollTo({
-                top: 0,
-                behavior: 'instant'
-              });
-              _this3.ensureCardPositionsCached(function () {});
-            }, 200);
+            // removed programmatic scrolling and scrollbar helpers
           });
         })["catch"](function () {
           _this3.isLoading = false;
@@ -156095,24 +156069,11 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         this.savePreference("selectedSurah", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-
-        // Ensure we start at the top
-        window.scrollTo({
-          top: 0,
-          behavior: 'instant'
-        });
         this.fetchSurahDetails().then(function () {
           _this4.resetAllAudioPlayers();
           _this4.isLoading = false;
           _this4.$nextTick(function () {
-            setTimeout(function () {
-              // Ensure we're still at the top after content loads
-              window.scrollTo({
-                top: 0,
-                behavior: 'instant'
-              });
-              _this4.ensureCardPositionsCached(function () {});
-            }, 200);
+            // removed programmatic scrolling and scrollbar helpers
           });
         })["catch"](function () {
           _this4.isLoading = false;
@@ -156129,12 +156090,10 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         setTimeout(function () {
           if (_this5.$refs.audioCard) {
             _this5.initializeAudioElements();
-            _this5.ensureCardPositionsCached(function () {});
           } else {
             console.warn('Audio cards not yet rendered, retrying...');
             setTimeout(function () {
               _this5.initializeAudioElements();
-              _this5.ensureCardPositionsCached(function () {});
             }, 1000);
           }
         }, 200);
@@ -156182,17 +156141,9 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }
     },
     selectCard: function selectCard(index) {
-      var _this6 = this;
       this.selectedCardIndex = index;
       // ensure card is visible
-      this.$nextTick(function () {
-        var cards = _this6.$refs.audioCard;
-        var el = Array.isArray(cards) ? cards[index] : cards;
-        el && el.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        });
-      });
+      // removed programmatic scrolling
       var verseNum = index + 1;
       this.screenReaderMessage = "Selected verse ".concat(verseNum, ".");
     },
@@ -156217,38 +156168,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         this.isMobile = window.innerWidth <= 767;
       }
     },
-    // Removed duplicate rewindAudio defined later with scroll sync
-    ensureCardPositionsCached: function ensureCardPositionsCached(callback) {
-      var _this7 = this;
-      var attempts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      var maxAttempts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
-      // Since we're now calculating positions in real-time, this method is simplified
-      this.$nextTick(function () {
-        var audioCards = Array.isArray(_this7.$refs.audioCard) ? _this7.$refs.audioCard : [];
-        if (!audioCards.length || !audioCards[0]) {
-          if (attempts < maxAttempts) {
-            console.warn("Audio cards not available, retrying (".concat(attempts + 1, "/").concat(maxAttempts, ")..."));
-            setTimeout(function () {
-              return _this7.ensureCardPositionsCached(callback, attempts + 1, maxAttempts);
-            }, 500);
-          } else {
-            console.error('Failed to find audio cards after max attempts');
-            callback();
-          }
-          return;
-        }
-        console.log('Audio cards are ready for positioning');
-        callback();
-      });
-    },
-    fallbackCardPositions: function fallbackCardPositions(length) {
-      // This method is no longer needed since we calculate positions in real-time
-      return Array.from({
-        length: length
-      }, function () {
-        return 0;
-      });
-    },
+    // removed ensureCardPositionsCached and fallbackCardPositions (scrollbar-related)
+
     isElementVisible: function isElementVisible(element) {
       if (!element) return false;
       var rect = element.getBoundingClientRect();
@@ -156298,75 +156219,18 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         return null;
       }
     },
-    scrollToElement: function scrollToElement(element, index) {
-      var _this8 = this;
-      // Use scrollIntoView for more reliable scrolling
-      try {
-        element.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest'
-        });
-        console.log("Scrolled to ayah ".concat(index + 1, " using scrollIntoView"));
-
-        // Wait a bit for the scroll to complete before allowing more scrolls
-        setTimeout(function () {
-          _this8.scrollAttempts = 0;
-          _this8.lastScrollPosition = null;
-        }, 1000);
-      } catch (error) {
-        console.error("Error scrolling to ayah ".concat(index + 1, ":"), error);
-        // Fallback: try manual scroll
-        this.smoothScrollToAyah(index);
-      }
-    },
-    smoothScrollToAyah: function smoothScrollToAyah(index) {
-      var _this9 = this;
-      if (index < 0 || index >= this.filteredAyahs.length || this.isManualScrolling) {
-        console.warn("Cannot scroll: invalid index (".concat(index, ") or manual scrolling active (").concat(this.isManualScrolling, ")"));
-        return;
-      }
-      this.$nextTick(function () {
-        var audioCards = Array.isArray(_this9.$refs.audioCard) ? _this9.$refs.audioCard : [];
-        var element = audioCards[index];
-        if (!element || !_this9.isElementValid(element)) return;
-
-        // If mostly visible already, avoid scrolling
-        var rect = element.getBoundingClientRect();
-        var topThreshold = 80; // sticky + padding
-        var bottomThreshold = 120; // leave space above bottom UI
-        var withinView = rect.top >= topThreshold && rect.bottom <= window.innerHeight - bottomThreshold;
-        if (withinView) return;
-        try {
-          // Scroll only as much as needed, avoid snapping to bottom
-          element.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest',
-            inline: 'nearest'
-          });
-        } catch (e) {
-          // Fallback if scrollIntoView fails
-          var newRect = element.getBoundingClientRect();
-          var desiredTop = Math.max(0, newRect.top + window.scrollY - 100);
-          var maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
-          window.scrollTo({
-            top: Math.min(desiredTop, maxScrollY),
-            behavior: 'smooth'
-          });
-        }
-      });
-    },
+    // removed scrollToElement and smoothScrollToAyah
     highlightedText: function highlightedText(ayah) {
-      var _this0 = this;
+      var _this6 = this;
       if (!ayah.text) return "";
       var words = ayah.text.split(" ");
       return words.map(function (word, index) {
-        var isHighlighted = index === _this0.highlightedWordIndex ? "highlighted-word" : "";
+        var isHighlighted = index === _this6.highlightedWordIndex ? "highlighted-word" : "";
         return "<span class=\"".concat(isHighlighted, "\">").concat(word, "</span>");
       }).join(" ");
     },
     initializeAudioElements: function initializeAudioElements() {
-      var _this1 = this;
+      var _this7 = this;
       console.log('Initializing audio elements for', this.filteredAyahs.length, 'ayahs');
       if (!this.$refs.audioCard || !this.$refs.audioCard.length) {
         console.warn('No audio cards available for initialization');
@@ -156387,48 +156251,45 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           var audio = new Audio(ayah.audio);
           audio.preload = 'metadata';
           audio.load();
-          audio.playbackRate = _this1.playbackSpeed;
-          audio.volume = _this1.volume;
+          audio.playbackRate = _this7.playbackSpeed;
+          audio.volume = _this7.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this1.updateProgress(index);
+            return _this7.updateProgress(index);
           });
           audio.addEventListener("loadedmetadata", function () {
             console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(audio.duration));
-            _this1.progress[index] = 0;
-            _this1.isAudioLoading[index] = false;
+            _this7.progress[index] = 0;
+            _this7.isAudioLoading[index] = false;
           });
+          // Keep lightweight; don't auto-play on canplay to avoid double-starts
           audio.addEventListener("canplay", function () {
-            console.log("Audio can play for ayah ".concat(index + 1));
-            _this1.isAudioLoading[index] = false;
-            if (index === _this1.currentlyPlayingIndex && _this1.isAudioPlaying[index]) {
-              _this1.playAudio(index);
-            }
+            _this7.isAudioLoading[index] = false;
           });
           audio.addEventListener("ended", function () {
-            return _this1.handleAyahEnd(index);
+            return _this7.handleAyahEnd(index);
           });
           audio.addEventListener("error", function (e) {
-            var _this1$$toast;
+            var _this7$$toast;
             console.error("Audio error for ayah ".concat(index + 1, ":"), e);
-            _this1.isAudioLoading[index] = false;
-            (_this1$$toast = _this1.$toast) === null || _this1$$toast === void 0 || _this1$$toast.error("Failed to load audio for ayah ".concat(index + 1));
+            _this7.isAudioLoading[index] = false;
+            (_this7$$toast = _this7.$toast) === null || _this7$$toast === void 0 || _this7$$toast.error("Failed to load audio for ayah ".concat(index + 1));
           });
           return audio;
         } catch (e) {
-          var _this1$$toast2;
+          var _this7$$toast2;
           console.error("Failed to create audio for ayah ".concat(index + 1, ":"), e);
-          (_this1$$toast2 = _this1.$toast) === null || _this1$$toast2 === void 0 || _this1$$toast2.error("Failed to create audio for ayah ".concat(index + 1));
+          (_this7$$toast2 = _this7.$toast) === null || _this7$$toast2 === void 0 || _this7$$toast2.error("Failed to create audio for ayah ".concat(index + 1));
           return null;
         }
       });
       console.log('Audio elements initialized:', this.audioElements.length, 'elements');
     },
     preloadNextAyahs: function preloadNextAyahs(startIndex) {
-      var _this10 = this;
+      var _this8 = this;
       var maxPreload = 5;
       this.filteredAyahs.slice(startIndex, startIndex + maxPreload).forEach(function (ayah, index) {
         var realIndex = startIndex + index;
-        if (realIndex >= _this10.audioElements.length || _this10.audioElements[realIndex]) return;
+        if (realIndex >= _this8.audioElements.length || _this8.audioElements[realIndex]) return;
         if (!ayah.audio) {
           console.warn("No audio URL for ayah ".concat(realIndex + 1));
           return;
@@ -156437,40 +156298,40 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           var audio = new Audio(ayah.audio);
           audio.preload = 'metadata';
           audio.load();
-          audio.playbackRate = _this10.playbackSpeed;
-          audio.volume = _this10.volume;
+          audio.playbackRate = _this8.playbackSpeed;
+          audio.volume = _this8.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this10.updateProgress(realIndex);
+            return _this8.updateProgress(realIndex);
           });
           audio.addEventListener("loadedmetadata", function () {
             console.log("Metadata loaded for ayah ".concat(realIndex + 1, ", duration: ").concat(audio.duration));
-            _this10.progress[realIndex] = 0;
-            _this10.isAudioLoading[realIndex] = false;
+            _this8.progress[realIndex] = 0;
+            _this8.isAudioLoading[realIndex] = false;
           });
           audio.addEventListener("canplay", function () {
             console.log("Audio can play for ayah ".concat(realIndex + 1));
-            _this10.isAudioLoading[realIndex] = false;
+            _this8.isAudioLoading[realIndex] = false;
           });
           audio.addEventListener("ended", function () {
-            return _this10.handleAyahEnd(realIndex);
+            return _this8.handleAyahEnd(realIndex);
           });
           audio.addEventListener("error", function (e) {
-            var _this10$$toast;
+            var _this8$$toast;
             console.error("Audio error for ayah ".concat(realIndex + 1, ":"), e);
-            _this10.isAudioLoading[realIndex] = false;
-            (_this10$$toast = _this10.$toast) === null || _this10$$toast === void 0 || _this10$$toast.error("Failed to load audio for ayah ".concat(realIndex + 1));
+            _this8.isAudioLoading[realIndex] = false;
+            (_this8$$toast = _this8.$toast) === null || _this8$$toast === void 0 || _this8$$toast.error("Failed to load audio for ayah ".concat(realIndex + 1));
           });
-          _this10.audioElements[realIndex] = audio;
+          _this8.audioElements[realIndex] = audio;
         } catch (e) {
-          var _this10$$toast2;
+          var _this8$$toast2;
           console.error("Failed to create audio for ayah ".concat(realIndex + 1, ":"), e);
-          (_this10$$toast2 = _this10.$toast) === null || _this10$$toast2 === void 0 || _this10$$toast2.error("Failed to create audio for ayah ".concat(realIndex + 1));
+          (_this8$$toast2 = _this8.$toast) === null || _this8$$toast2 === void 0 || _this8$$toast2.error("Failed to create audio for ayah ".concat(realIndex + 1));
         }
       });
       console.log("Preloaded audio elements for ayahs ".concat(startIndex + 1, " to ").concat(Math.min(startIndex + maxPreload, this.filteredAyahs.length)));
     },
     playAudio: function playAudio(index) {
-      var _this11 = this;
+      var _this9 = this;
       console.log('Attempting to play audio for index:', index);
       if (index < 0 || index >= this.filteredAyahs.length || !this.audioElements[index]) {
         var _this$$toast;
@@ -156480,11 +156341,25 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }
       this.isAudioLoading[index] = true;
 
-      // Stop any currently playing audio
+      // Stop any currently playing audio and ensure exclusivity
       if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
         console.log('Pausing currently playing audio');
-        this.currentlyPlaying.pause();
-        this.currentlyPlaying.currentTime = 0;
+        try {
+          this.currentlyPlaying.pause();
+        } catch (_) {}
+        try {
+          this.currentlyPlaying.currentTime = 0;
+        } catch (_) {}
+      }
+      // Pause any stray audios just in case
+      if (Array.isArray(this.audioElements)) {
+        this.audioElements.forEach(function (a, i) {
+          if (a && i !== index) {
+            try {
+              a.pause();
+            } catch (_) {}
+          }
+        });
       }
 
       // Update playing states
@@ -156498,18 +156373,18 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 
       // Setup metadata and word timing
       this.currentlyPlaying.onloadedmetadata = function () {
-        console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(_this11.currentlyPlaying.duration));
-        var duration = _this11.currentlyPlaying.duration;
+        console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(_this9.currentlyPlaying.duration));
+        var duration = _this9.currentlyPlaying.duration;
         var wordCount = ayah.text.split(' ').length;
         if (wordCount > 0 && duration > 0) {
           var step = duration / wordCount;
-          _this11.wordTimings = Array.from({
+          _this9.wordTimings = Array.from({
             length: wordCount
           }, function (_, i) {
             return i * step;
           });
         } else {
-          _this11.wordTimings = [];
+          _this9.wordTimings = [];
         }
       };
       if (this.currentlyPlaying.readyState >= 1) {
@@ -156517,94 +156392,82 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }
       this.highlightedWordIndex = -1;
       this.currentlyPlaying.ontimeupdate = function () {
-        _this11.syncHighlight();
-        _this11.updateProgress(index);
+        _this9.syncHighlight();
+        _this9.updateProgress(index);
         // Removed continuous auto-scroll here to prevent jumpiness.
       };
       var _attemptPlay = function attemptPlay() {
         var attempts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
         var maxAttempts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
         if (attempts >= maxAttempts) {
-          var _this11$$toast;
+          var _this9$$toast;
           console.error("Failed to play audio for ayah ".concat(index + 1, " after ").concat(maxAttempts, " attempts"));
-          _this11.isAudioPlaying[index] = false;
-          _this11.isAudioLoading[index] = false;
-          _this11.isHighlighted = false;
-          (_this11$$toast = _this11.$toast) === null || _this11$$toast === void 0 || _this11$$toast.error("Failed to play audio for ayah ".concat(index + 1));
+          _this9.isAudioPlaying[index] = false;
+          _this9.isAudioLoading[index] = false;
+          _this9.isHighlighted = false;
+          (_this9$$toast = _this9.$toast) === null || _this9$$toast === void 0 || _this9$$toast.error("Failed to play audio for ayah ".concat(index + 1));
           return;
         }
-        _this11.currentlyPlaying.play().then(function () {
+        _this9.currentlyPlaying.play().then(function () {
           console.log("Playing audio for ayah ".concat(index + 1));
-          _this11.isAudioPlaying[index] = true;
-          _this11.isAudioLoading[index] = false;
-          _this11.isHighlighted = true;
-          _this11.showAudioPlayer = true;
-          _this11.preloadWindow(index, 3);
+          _this9.isAudioPlaying[index] = true;
+          _this9.isAudioLoading[index] = false;
+          _this9.isHighlighted = true;
+          _this9.showAudioPlayer = true;
+          _this9.preloadWindow(index, 3);
 
           // Start visualizer animation
-          _this11.animateVisualizer();
+          _this9.animateVisualizer();
 
-          // Ensure the current ayah is scrolled into view when playback starts
-          var now2 = Date.now();
-          if (now2 > _this11.autoScrollLockedUntil) {
-            _this11.lastAutoScrollAt = now2;
-            _this11.smoothScrollToAyah(index);
-          }
+          // removed auto-scroll when playback starts
         })["catch"](function (err) {
           console.error("Play error for ayah ".concat(index + 1, ":"), err);
-          if (_this11.currentlyPlaying.readyState < 2) {
+          if (_this9.currentlyPlaying.readyState < 2) {
             console.log("Audio not ready, retrying in 50ms for ayah ".concat(index + 1, " (attempt ").concat(attempts + 1, ")"));
             setTimeout(function () {
               return _attemptPlay(attempts + 1, maxAttempts);
             }, 50);
           } else {
-            var _this11$$toast2;
+            var _this9$$toast2;
             console.error("Unrecoverable play error for ayah ".concat(index + 1, ":"), err);
-            _this11.isAudioPlaying[index] = false;
-            _this11.isAudioLoading[index] = false;
-            _this11.isHighlighted = false;
-            (_this11$$toast2 = _this11.$toast) === null || _this11$$toast2 === void 0 || _this11$$toast2.error("Failed to play audio for ayah ".concat(index + 1));
-            _this11.handleAyahEnd(index);
+            _this9.isAudioPlaying[index] = false;
+            _this9.isAudioLoading[index] = false;
+            _this9.isHighlighted = false;
+            (_this9$$toast2 = _this9.$toast) === null || _this9$$toast2 === void 0 || _this9$$toast2.error("Failed to play audio for ayah ".concat(index + 1));
+            _this9.handleAyahEnd(index);
           }
         });
       };
-      if (this.currentlyPlaying.readyState >= 2) {
-        _attemptPlay();
-      } else {
-        this.currentlyPlaying.addEventListener("canplay", function () {
-          return _attemptPlay();
-        }, {
-          once: true
-        });
-        this.currentlyPlaying.load();
-      }
+
+      // Try to play immediately; let the browser buffer as needed
+      _attemptPlay();
     },
     preloadWindow: function preloadWindow(centerIndex) {
-      var _this12 = this;
+      var _this0 = this;
       var radius = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3;
       var start = Math.max(0, centerIndex - radius);
       var end = Math.min(this.filteredAyahs.length - 1, centerIndex + radius);
       var _loop = function _loop(i) {
-        if (!_this12.audioElements[i]) {
-          var ayah = _this12.filteredAyahs[i];
+        if (!_this0.audioElements[i]) {
+          var ayah = _this0.filteredAyahs[i];
           if (!(ayah !== null && ayah !== void 0 && ayah.audio)) return 1; // continue
           try {
             var audio = new Audio(ayah.audio);
             audio.preload = 'metadata';
             audio.load();
-            audio.playbackRate = _this12.playbackSpeed;
-            audio.volume = _this12.volume;
+            audio.playbackRate = _this0.playbackSpeed;
+            audio.volume = _this0.volume;
             audio.addEventListener("timeupdate", function () {
-              return _this12.updateProgress(i);
+              return _this0.updateProgress(i);
             });
             audio.addEventListener("loadedmetadata", function () {
-              _this12.progress[i] = 0;
-              _this12.isAudioLoading[i] = false;
+              _this0.progress[i] = 0;
+              _this0.isAudioLoading[i] = false;
             });
             audio.addEventListener("ended", function () {
-              return _this12.handleAyahEnd(i);
+              return _this0.handleAyahEnd(i);
             });
-            _this12.audioElements[i] = audio;
+            _this0.audioElements[i] = audio;
           } catch (e) {
             console.error("Failed to create audio for ayah ".concat(i + 1, ":"), e);
           }
@@ -156651,18 +156514,14 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       if (this.audioElements[index]) {
         console.log("Rewinding audio for ayah ".concat(index + 1));
         this.audioElements[index].currentTime = Math.max(0, this.audioElements[index].currentTime - 15);
-        if (this.isAudioPlaying[index]) {
-          this.smoothScrollToAyah(index);
-        }
+        // removed auto-scroll on rewind
       }
     },
     fastForwardAudio: function fastForwardAudio(index) {
       if (this.audioElements[index]) {
         console.log("Fast forwarding audio for ayah ".concat(index + 1));
         this.audioElements[index].currentTime = Math.min(this.audioElements[index].duration, this.audioElements[index].currentTime + 20);
-        if (this.isAudioPlaying[index]) {
-          this.smoothScrollToAyah(index);
-        }
+        // removed auto-scroll on fast-forward
       }
     },
     updateProgress: function updateProgress(index) {
@@ -156695,41 +156554,15 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       return highlightedText;
     },
     toggleVisibility: function toggleVisibility() {
-      var _this13 = this;
       this.isVisible = !this.isVisible;
-      this.$nextTick(function () {
-        _this13.ensureCardPositionsCached(function () {
-          if (_this13.isAudioPlaying[_this13.currentlyPlayingIndex]) {
-            _this13.smoothScrollToAyah(_this13.currentlyPlayingIndex);
-          }
-        });
-      });
     },
     increaseFontSize: function increaseFontSize() {
-      var _this14 = this;
       if (this.arabicFontSize < 40) this.arabicFontSize += 2;
       if (this.translationFontSize < 30) this.translationFontSize += 2;
-      this.$nextTick(function () {
-        _this14.cardPositions = [];
-        _this14.ensureCardPositionsCached(function () {
-          if (_this14.isAudioPlaying[_this14.currentlyPlayingIndex]) {
-            _this14.smoothScrollToAyah(_this14.currentlyPlayingIndex);
-          }
-        });
-      });
     },
     decreaseFontSize: function decreaseFontSize() {
-      var _this15 = this;
       if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
       if (this.translationFontSize > 12) this.translationFontSize -= 2;
-      this.$nextTick(function () {
-        _this15.cardPositions = [];
-        _this15.ensureCardPositionsCached(function () {
-          if (_this15.isAudioPlaying[_this15.currentlyPlayingIndex]) {
-            _this15.smoothScrollToAyah(_this15.currentlyPlayingIndex);
-          }
-        });
-      });
     },
     shareOnWhatsApp: function shareOnWhatsApp(ayah) {
       var message = 'Surah ' + this.surahDetails.surahNumber + ' - ' + this.surahDetails.englishName + ' (Ayah ' + ayah.number + ')\n\n' + 'Arabic: ' + ayah.text + '\n\n' + 'Translation: ' + ayah.translation + '\n\n' + 'Listen here: ' + ayah.audio;
@@ -156758,29 +156591,29 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       return languageFlags[lang.toLowerCase()] || '🌐';
     },
     fetchSurahs: function fetchSurahs() {
-      var _this16 = this;
+      var _this1 = this;
       this.isLoading = true;
       fetch("https://api.alquran.cloud/v1/surah").then(function (response) {
         if (!response.ok) throw new Error("Failed to fetch Surahs: ".concat(response.status));
         return response.json();
       }).then(function (data) {
-        if (!_this16._isDestroyed) {
-          _this16.surahs = data.data || [];
+        if (!_this1._isDestroyed) {
+          _this1.surahs = data.data || [];
         }
-        _this16.isLoading = false;
+        _this1.isLoading = false;
       })["catch"](function (error) {
         console.error("Error fetching Surahs:", error);
-        _this16.isLoading = false;
+        _this1.isLoading = false;
       });
     },
     fetchReciters: function fetchReciters() {
-      var _this17 = this;
+      var _this10 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
         var response, data, _t;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.p = _context.n) {
             case 0:
-              _this17.isLoading = true;
+              _this10.isLoading = true;
               _context.p = 1;
               _context.n = 2;
               return fetch("https://api.alquran.cloud/v1/edition/format/audio");
@@ -156796,8 +156629,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
               return response.json();
             case 4:
               data = _context.v;
-              if (!_this17._isDestroyed) {
-                _this17.reciters = data.data.filter(function (reciter) {
+              if (!_this10._isDestroyed) {
+                _this10.reciters = data.data.filter(function (reciter) {
                   return reciter.identifier && reciter.englishName;
                 }).map(function (reciter) {
                   return {
@@ -156808,14 +156641,14 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
                   return !['elmir kuliev 2 by 1muslimapp', 'elmir kuliev by 1muslimapp', 'elmir kuliev elevatemuslim', 'elmir kuliev 1muslim', 'elmir kuliev 2muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(reciter.englishName.toLowerCase());
                 });
               }
-              _this17.isLoading = false;
+              _this10.isLoading = false;
               _context.n = 6;
               break;
             case 5:
               _context.p = 5;
               _t = _context.v;
               console.error("Error fetching Reciters:", _t);
-              _this17.isLoading = false;
+              _this10.isLoading = false;
             case 6:
               return _context.a(2);
           }
@@ -156823,13 +156656,13 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }))();
     },
     fetchTranslations: function fetchTranslations() {
-      var _this18 = this;
+      var _this11 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-        var response, data, translations, _this18$$toast, _t2;
+        var response, data, translations, _this11$$toast, _t2;
         return _regenerator().w(function (_context2) {
           while (1) switch (_context2.p = _context2.n) {
             case 0:
-              _this18.isLoading = true;
+              _this11.isLoading = true;
               _context2.p = 1;
               _context2.n = 2;
               return fetch("https://api.alquran.cloud/v1/edition/type/translation");
@@ -156845,7 +156678,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
               return response.json();
             case 4:
               data = _context2.v;
-              if (!_this18._isDestroyed) {
+              if (!_this11._isDestroyed) {
                 _context2.n = 5;
                 break;
               }
@@ -156856,8 +156689,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
                 break;
               }
               console.error("No translation data received from API");
-              _this18.translations = [];
-              _this18.isLoading = false;
+              _this11.translations = [];
+              _this11.isLoading = false;
               return _context2.a(2);
             case 6:
               translations = data.data.map(function (translation) {
@@ -156865,7 +156698,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
                   identifier: translation.identifier,
                   englishName: translation.englishName || "Unknown Translation",
                   language: translation.language || "Unknown",
-                  flag: _this18.getFlagFromLanguage(translation.language || "Unknown")
+                  flag: _this11.getFlagFromLanguage(translation.language || "Unknown")
                 };
               }).filter(function (translation) {
                 return translation.flag !== '🌐';
@@ -156877,18 +156710,18 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
                 if (a.englishName > b.englishName) return 1;
                 return 0;
               });
-              _this18.translations = translations;
+              _this11.translations = translations;
               console.log('Translations fetched:', translations);
-              _this18.isLoading = false;
+              _this11.isLoading = false;
               _context2.n = 8;
               break;
             case 7:
               _context2.p = 7;
               _t2 = _context2.v;
               console.error("Error fetching Translations:", _t2);
-              _this18.translations = [];
-              (_this18$$toast = _this18.$toast) === null || _this18$$toast === void 0 || _this18$$toast.error("Failed to load translations");
-              _this18.isLoading = false;
+              _this11.translations = [];
+              (_this11$$toast = _this11.$toast) === null || _this11$$toast === void 0 || _this11$$toast.error("Failed to load translations");
+              _this11.isLoading = false;
             case 8:
               return _context2.a(2);
           }
@@ -156896,18 +156729,18 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }))();
     },
     fetchSurahDetails: function fetchSurahDetails() {
-      var _this19 = this;
+      var _this12 = this;
       if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return Promise.resolve();
       this.isLoading = true;
       return fetch("https://api.alquran.cloud/v1/surah/".concat(this.selectedSurah, "/editions/").concat(this.selectedReciter, ",").concat(this.selectedTranslation)).then(function (response) {
         if (!response.ok) throw new Error("Failed to fetch Surah details: ".concat(response.status));
         return response.json();
       }).then(function (data) {
-        if (_this19._isDestroyed) return;
+        if (_this12._isDestroyed) return;
         var arabicText = data.data[0];
         var translation = data.data[1];
-        _this19.surahDetails = {
-          surahNumber: _this19.selectedSurah,
+        _this12.surahDetails = {
+          surahNumber: _this12.selectedSurah,
           englishName: arabicText.englishName,
           name: arabicText.name,
           ayahs: arabicText.ayahs.map(function (ayah, index) {
@@ -156919,30 +156752,30 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
             };
           })
         };
-        console.log('Surah details fetched:', _this19.surahDetails);
-        _this19.isLoading = false;
+        console.log('Surah details fetched:', _this12.surahDetails);
+        _this12.isLoading = false;
       })["catch"](function (error) {
         console.error("Error fetching Surah details:", error);
-        _this19.isLoading = false;
+        _this12.isLoading = false;
       });
     },
     resetAllAudioPlayers: function resetAllAudioPlayers() {
-      var _this20 = this;
+      var _this13 = this;
       this.$nextTick(function () {
-        if (_this20.currentlyPlaying) {
-          _this20.currentlyPlaying.pause();
-          _this20.currentlyPlaying = null;
-          _this20.currentlyPlayingIndex = 0;
+        if (_this13.currentlyPlaying) {
+          _this13.currentlyPlaying.pause();
+          _this13.currentlyPlaying = null;
+          _this13.currentlyPlayingIndex = 0;
         }
-        if (_this20.audioElements && _this20.audioElements.forEach) {
-          _this20.audioElements.forEach(function (audio) {
+        if (_this13.audioElements && _this13.audioElements.forEach) {
+          _this13.audioElements.forEach(function (audio) {
             if (audio && audio.remove) audio.remove();
           });
         }
-        _this20.initializeAudioElements();
-        _this20.isAudioPlaying = new Array(_this20.filteredAyahs.length).fill(false);
-        _this20.isAudioLoading = new Array(_this20.filteredAyahs.length).fill(false);
-        _this20.progress = new Array(_this20.filteredAyahs.length).fill(0);
+        _this13.initializeAudioElements();
+        _this13.isAudioPlaying = new Array(_this13.filteredAyahs.length).fill(false);
+        _this13.isAudioLoading = new Array(_this13.filteredAyahs.length).fill(false);
+        _this13.progress = new Array(_this13.filteredAyahs.length).fill(0);
       });
     },
     savePreference: function savePreference(key, value) {
@@ -156999,18 +156832,17 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       this.showVolumeBar = !this.showVolumeBar;
     },
     updateVolume: function updateVolume() {
-      var _this21 = this;
+      var _this14 = this;
       if (this.currentlyPlaying) {
         this.currentlyPlaying.volume = this.volume;
       }
       if (this.audioElements && this.audioElements.forEach) {
         this.audioElements.forEach(function (audio) {
-          if (audio) audio.volume = _this21.volume;
+          if (audio) audio.volume = _this14.volume;
         });
       }
     },
     closeAudioPlayer: function closeAudioPlayer() {
-      var _this22 = this;
       if (this.currentlyPlayingIndex !== null) {
         this.stopAudio(this.currentlyPlayingIndex);
       }
@@ -157018,18 +156850,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       this.currentlyPlayingIndex = 0;
       this.currentlyPlaying = null;
       this.isHighlighted = false;
-      this.stopAutoScroll();
-
-      // Reset to top when closing audio player
-      this.$nextTick(function () {
-        setTimeout(function () {
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-          _this22.ensureCardPositionsCached(function () {});
-        }, 200);
-      });
     },
     syncHighlight: function syncHighlight() {
       var audio = this.currentlyPlaying;
@@ -157056,21 +156876,21 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       console.log("Seeking to ".concat(newTime.toFixed(2), "s (").concat((percentage * 100).toFixed(1), "%)"));
     },
     cyclePlaybackSpeed: function cyclePlaybackSpeed() {
-      var _this23 = this;
+      var _this15 = this;
       this.currentSpeedIndex = (this.currentSpeedIndex + 1) % this.playbackSpeeds.length;
       this.playbackSpeed = this.playbackSpeeds[this.currentSpeedIndex];
 
       // Update all audio elements
       if (this.audioElements && this.audioElements.forEach) {
         this.audioElements.forEach(function (audio) {
-          if (audio) audio.playbackRate = _this23.playbackSpeed;
+          if (audio) audio.playbackRate = _this15.playbackSpeed;
         });
       }
       this.savePreference('playbackSpeed', this.playbackSpeed);
       console.log("Playback speed set to ".concat(this.playbackSpeed, "x"));
     },
     animateVisualizer: function animateVisualizer() {
-      var _this24 = this;
+      var _this16 = this;
       if (!this.isAudioPlaying[this.currentlyPlayingIndex]) return;
 
       // Create animated bars based on audio volume (simulated)
@@ -157080,7 +156900,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         return Math.random() * 80 * volume + 10;
       });
       requestAnimationFrame(function () {
-        return _this24.animateVisualizer();
+        return _this16.animateVisualizer();
       });
     },
     toggleRepeat: function toggleRepeat() {
@@ -157089,65 +156909,35 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     }
   }
 }, "mounted", function mounted() {
-  var _this25 = this,
+  var _this17 = this,
     _JSON$parse,
     _JSON$parse2;
   // Keyboard shortcuts for better UX
   this._keydownHandler = function (e) {
-    if (!_this25.showAudioPlayer) return;
+    if (!_this17.showAudioPlayer) return;
     if (['INPUT', 'TEXTAREA'].includes((e.target || {}).tagName)) return;
     switch (e.key) {
       case ' ':
         e.preventDefault();
-        _this25.toggleAudioPlayer(_this25.currentlyPlayingIndex);
+        _this17.toggleAudioPlayer(_this17.currentlyPlayingIndex);
         break;
       case 'ArrowRight':
-        _this25.fastForwardAudio(_this25.currentlyPlayingIndex);
+        _this17.fastForwardAudio(_this17.currentlyPlayingIndex);
         break;
       case 'ArrowLeft':
-        _this25.rewindAudio(_this25.currentlyPlayingIndex);
+        _this17.rewindAudio(_this17.currentlyPlayingIndex);
         break;
       case 'ArrowDown':
-        _this25.playNextAyah(_this25.currentlyPlayingIndex);
+        _this17.playNextAyah(_this17.currentlyPlayingIndex);
         break;
       case 'ArrowUp':
-        _this25.playPrevAyah(_this25.currentlyPlayingIndex);
+        _this17.playPrevAyah(_this17.currentlyPlayingIndex);
         break;
     }
   };
   window.addEventListener('keydown', this._keydownHandler);
-  // Detect user manual scrolling and pause auto-scroll briefly
-  this._onUserScroll = function () {
-    _this25.isManualScrolling = true;
-    if (_this25.manualScrollTimer) clearTimeout(_this25.manualScrollTimer);
-    _this25.manualScrollTimer = setTimeout(function () {
-      _this25.isManualScrolling = false;
-    }, 3000);
-    var y = window.scrollY || window.pageYOffset;
-    // Lock auto-scroll for a while whenever user scrolls
-    _this25.autoScrollLockedUntil = Date.now() + 3000;
-    _this25.lastScrollY = y;
-    _this25.lastUserScrollAt = Date.now();
-  };
-  window.addEventListener('scroll', this._onUserScroll, {
-    passive: true
-  });
+  // removed scroll listeners and auto-scroll locking
 
-  // Also detect wheel and touch to lock auto-scroll immediately
-  this._onWheel = function () {
-    _this25.autoScrollLockedUntil = Date.now() + 3000;
-    _this25.lastUserScrollAt = Date.now();
-  };
-  this._onTouchMove = function () {
-    _this25.autoScrollLockedUntil = Date.now() + 3000;
-    _this25.lastUserScrollAt = Date.now();
-  };
-  window.addEventListener('wheel', this._onWheel, {
-    passive: true
-  });
-  window.addEventListener('touchmove', this._onTouchMove, {
-    passive: true
-  });
   this.selectedSurah = "1";
   this.selectedReciter = "ar.alafasy";
   this.selectedTranslation = "en.ahmedali";
@@ -157156,30 +156946,18 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
   this.continuousPlayback = (_JSON$parse = JSON.parse(localStorage.getItem('continuousPlayback'))) !== null && _JSON$parse !== void 0 ? _JSON$parse : true; // Load preference
   this.playbackSpeed = (_JSON$parse2 = JSON.parse(localStorage.getItem('playbackSpeed'))) !== null && _JSON$parse2 !== void 0 ? _JSON$parse2 : 1; // Load playback speed preference
 
-  // Ensure we start at the top
-  window.scrollTo({
-    top: 0,
-    behavior: 'instant'
-  });
+  // removed programmatic scroll to top
+
   Promise.all([this.fetchReciters(), this.fetchSurahs(), this.fetchTranslations(), this.fetchSurahDetails()]).then(function () {
-    _this25.isInitialLoad = false;
-    _this25.$nextTick(function () {
-      setTimeout(function () {
-        // Ensure we're still at the top after content loads
-        window.scrollTo({
-          top: 0,
-          behavior: 'instant'
-        });
-        _this25.ensureCardPositionsCached(function () {});
-      }, 1000);
+    _this17.isInitialLoad = false;
+    _this17.$nextTick(function () {
+      // removed scroll-to-top after initial load
     });
   });
 }), "beforeUnmount", function beforeUnmount() {
   this.isComponentAlive = false;
   window.removeEventListener('keydown', this._keydownHandler);
-  window.removeEventListener('scroll', this._onUserScroll);
-  window.removeEventListener('wheel', this._onWheel);
-  window.removeEventListener('touchmove', this._onTouchMove);
+  // removed scroll-related event listeners
   if (this.audioElements && this.audioElements.forEach) {
     this.audioElements.forEach(function (audio) {
       if (audio && audio.pause) audio.pause();
@@ -177546,7 +177324,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onKeydown: _cache[0] || (_cache[0] = function () {
       return $options.onTimelineKeydown && $options.onTimelineKeydown.apply($options, arguments);
     }),
-    ref: "timelineNav"
+    ref: "timelineNav",
+    tabindex: "0"
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.events, function (event, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: index,
@@ -195789,7 +195568,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Removed animate.css to reduce animation overhead */\n.audio-player-container[data-v-39610a88] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.98);\n  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);\n  border-radius: 12px 12px 0 0;\n  transition: transform 0.3s ease-in-out;\n}\n\n/* Reduce motion for users and improve tab switch performance */\n@media (prefers-reduced-motion: reduce) {\n[data-v-39610a88] {\n    animation: none !important;\n    transition: none !important;\n    scroll-behavior: auto !important;\n}\n}\n\n/* Defer heavy layout/paint when off-screen or hidden */\n.event-details[data-v-39610a88] {\n  content-visibility: auto;\n  contain-intrinsic-size: 800px 600px;\n}\n.custom-audio-player[data-v-39610a88] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 12px 16px;\n  width: 100%;\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.controls[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  width: 100%;\n  justify-content: center;\n}\n.control-icon[data-v-39610a88] {\n  color: #ffffff;\n  font-size: 1.5rem;\n  cursor: pointer;\n  transition: color 0.2s, transform 0.2s ease-in-out;\n  padding: 8px;\n}\n.control-icon[data-v-39610a88]:hover,\n.control-icon[data-v-39610a88]:active,\n.control-icon[data-v-39610a88]:focus {\n  color: #0db691;\n  transform: scale(1.1);\n  outline: none;\n}\n.close-icon[data-v-39610a88] {\n  margin-left: auto;\n  margin-right: 8px;\n}\n.volume-bar-container[data-v-39610a88] {\n  display: inline-flex;\n  align-items: center;\n  margin-left: 12px;\n  width: 100px;\n}\n.volume-slider[data-v-39610a88] {\n  width: 100%;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 6px;\n  background: #666;\n  outline: none;\n  opacity: 0.8;\n  transition: opacity 0.2s;\n  border-radius: 12px;\n}\n.volume-slider[data-v-39610a88]:hover {\n  opacity: 1;\n}\n.volume-slider[data-v-39610a88]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  background: #0db691;\n  cursor: pointer;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n}\n.volume-slider[data-v-39610a88]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  background: #0db691;\n  cursor: pointer;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n}\n.time[data-v-39610a88] {\n  color: #e0e0e0;\n  font-size: 0.9rem;\n  margin-left: 12px;\n  font-weight: 500;\n}\n.progress-bar[data-v-39610a88] {\n  width: 100%;\n  height: 8px;\n  background: #555;\n  border-radius: 12px;\n  margin-top: 12px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.progress[data-v-39610a88] {\n  height: 100%;\n  background: #0db691;\n  transition: width 0.3s ease;\n}\n.event-box[data-v-39610a88] {\n  background: #ffffff;\n  border-radius: 12px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  padding: 20px;\n  margin: 0 auto;\n}\n.time-estimates[data-v-39610a88] {\n  font-size: 0.9rem;\n  color: #333;\n}\n.time-estimates span[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n}\n\n/* Extra Small Screens (<400px) */\n@media (max-width: 399px) {\n.controls[data-v-39610a88] {\n    flex-direction: column;\n    gap: 8px;\n    align-items: center;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.5rem;\n    padding: 6px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: 0;\n    margin-right: 4px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 0;\n    margin-top: 8px;\n    width: 80px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 0;\n    margin-top: 8px;\n    font-size: 0.8rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 8px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 8px;\n}\n.progress-bar[data-v-39610a88] {\n    height: 6px;\n    margin-top: 8px;\n}\n.event-box[data-v-39610a88] {\n    padding: 12px;\n}\n.time-estimates[data-v-39610a88] {\n    flex-direction: column;\n    gap: 8px;\n    font-size: 0.85rem;\n}\n}\n\n/* Small Screens (400px–575px) */\n@media (min-width: 400px) and (max-width: 575px) {\n.controls[data-v-39610a88] {\n    gap: 12px;\n    flex-wrap: wrap;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 6px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 6px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 8px;\n    width: 80px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 8px;\n    font-size: 0.8rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 10px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 10px;\n}\n.progress-bar[data-v-39610a88] {\n    height: 6px;\n    margin-top: 10px;\n}\n.event-box[data-v-39610a88] {\n    padding: 16px;\n}\n.time-estimates[data-v-39610a88] {\n    font-size: 0.85rem;\n}\n}\n\n/* Medium Screens (576px–767px) */\n@media (min-width: 576px) and (max-width: 767px) {\n.controls[data-v-39610a88] {\n    gap: 14px;\n    flex-wrap: wrap;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 8px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 6px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 10px;\n    width: 90px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 10px;\n    font-size: 0.85rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 10px 14px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 10px 14px;\n}\n.progress-bar[data-v-39610a88] {\n    margin-top: 10px;\n}\n.event-box[data-v-39610a88] {\n    padding: 18px;\n}\n}\n\n/* Large Screens (≥768px) */\n@media (min-width: 768px) {\n.controls[data-v-39610a88] {\n    flex-direction: row;\n    flex-wrap: nowrap;\n    gap: 16px;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 8px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 8px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 12px;\n    width: 100px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 12px;\n    font-size: 0.9rem;\n}\n.progress-bar[data-v-39610a88] {\n    margin-top: 12px;\n}\n}\n@media (max-width: 767px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 100% !important;\n}\n}\n@media (min-width: 768px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 400px !important;\n}\n}\n.custom-offcanvas[data-v-39610a88] {\n  background-color: #10584f;\n  color: white;\n  min-width: 300px;\n}\n.fab[data-v-39610a88] {\n  transition: background-color 0.3s ease, transform 0.2s;\n}\n.fab[data-v-39610a88]:hover {\n}\n.action-button[data-v-39610a88] {\n  transition: all 0.3s ease;\n  cursor: pointer;\n  color: #333;\n}\n.action-button[data-v-39610a88]:hover {\n  color: #0db691;\n}\nmark[data-v-39610a88] {\n  background-color: #0db691;\n  color: white;\n  padding: 0 4px;\n  border-radius: 4px;\n}\n.timeline[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n}\n.timeline-wrapper[data-v-39610a88] {\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  scrollbar-width: none;\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n}\n.timeline[data-v-39610a88] {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: nowrap;\n  gap: 12px;\n  min-width: -moz-max-content;\n  min-width: max-content;\n}\n.timeline-point[data-v-39610a88] {\n  flex-shrink: 0;\n}\n.timeline-badge[data-v-39610a88] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  border: 1px solid #ced4da;\n  border-radius: 1rem;\n  padding: 0.8rem 1.3rem;\n  background-color: #f8f9fa;\n  color: #212529;\n  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  font-weight: 300;\n  white-space: nowrap;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.timeline-badge[data-v-39610a88]:hover {\n  background-color: #20c997;\n  color: white;\n  cursor: pointer;\n}\n.timeline-badge.active[data-v-39610a88] {\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border: 2px solid lightgrey;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);\n}\n.controls button[data-v-39610a88] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background-color 0.12s ease, color 0.12s ease;\n}\n.controls button[data-v-39610a88]:disabled {\n  cursor: not-allowed;\n}\n.fab[data-v-39610a88] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  background-color: #20c997;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n  transition: background-color 0.3s ease, transform 0.2s ease;\n  cursor: pointer;\n}\n.fab[data-v-39610a88]:hover {\n  background-color: #17a085;\n}\n.fade-enter-active[data-v-39610a88],\n.fade-leave-active[data-v-39610a88] {\n  transition: opacity 0.12s;\n}\n.fade-enter[data-v-39610a88],\n.fade-leave-to[data-v-39610a88] {\n  opacity: 0;\n}\n.summary-card[data-v-39610a88] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border: 1px solid #dee2e6;\n  border-radius: 12px;\n  padding: 1.5rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.ai-summary-inline[data-v-39610a88] {\n  margin-top: 1.5rem;\n  padding: 1rem;\n  border-radius: 0.75rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n  border: 2px solid rgb(103, 153, 103);\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n  font-size: 0.95rem;\n  line-height: 1.6;\n  color: #333;\n  margin-bottom: 0.75rem;\n}\n.ai-summary-inline .summary-footer[data-v-39610a88] {\n  padding-top: 0.5rem;\n  border-top: 1px solid #e9ecef;\n  font-size: 0.8rem;\n  color: #6c757d;\n}\n\n/* Mobile Responsive Styles */\n@media (max-width: 768px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.6rem 1rem;\n    font-size: 0.9rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.5rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.75rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 15px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.75rem;\n    margin-top: 1rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.9rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.5rem 1rem;\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.5rem 0.8rem;\n    font-size: 0.85rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.25rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.5rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 12px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.5rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.85rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.85rem;\n}\n.time-estimates span[data-v-39610a88] {\n    font-size: 0.8rem;\n}\n}\n@media (max-width: 480px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.4rem 0.6rem;\n    font-size: 0.8rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.1rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.3rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 10px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.4rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.8rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.35rem 0.7rem;\n    font-size: 0.8rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Removed animate.css to reduce animation overhead */\n.audio-player-container[data-v-39610a88] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.98);\n  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);\n  border-radius: 12px 12px 0 0;\n  transition: transform 0.3s ease-in-out;\n}\n\n/* Reduce motion for users and improve tab switch performance */\n@media (prefers-reduced-motion: reduce) {\n[data-v-39610a88] {\n    animation: none !important;\n    transition: none !important;\n    scroll-behavior: auto !important;\n}\n}\n\n/* Defer heavy layout/paint when off-screen or hidden */\n.event-details[data-v-39610a88] {\n  content-visibility: auto;\n  contain-intrinsic-size: 800px 600px;\n}\n.custom-audio-player[data-v-39610a88] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 12px 16px;\n  width: 100%;\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.controls[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  width: 100%;\n  justify-content: center;\n}\n.control-icon[data-v-39610a88] {\n  color: #ffffff;\n  font-size: 1.5rem;\n  cursor: pointer;\n  transition: color 0.2s, transform 0.2s ease-in-out;\n  padding: 8px;\n}\n.control-icon[data-v-39610a88]:hover,\n.control-icon[data-v-39610a88]:active,\n.control-icon[data-v-39610a88]:focus {\n  color: #0db691;\n  transform: scale(1.1);\n  outline: none;\n}\n.close-icon[data-v-39610a88] {\n  margin-left: auto;\n  margin-right: 8px;\n}\n.volume-bar-container[data-v-39610a88] {\n  display: inline-flex;\n  align-items: center;\n  margin-left: 12px;\n  width: 100px;\n}\n.volume-slider[data-v-39610a88] {\n  width: 100%;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 6px;\n  background: #666;\n  outline: none;\n  opacity: 0.8;\n  transition: opacity 0.2s;\n  border-radius: 12px;\n}\n.volume-slider[data-v-39610a88]:hover {\n  opacity: 1;\n}\n.volume-slider[data-v-39610a88]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  background: #0db691;\n  cursor: pointer;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n}\n.volume-slider[data-v-39610a88]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  background: #0db691;\n  cursor: pointer;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n}\n.time[data-v-39610a88] {\n  color: #e0e0e0;\n  font-size: 0.9rem;\n  margin-left: 12px;\n  font-weight: 500;\n}\n.progress-bar[data-v-39610a88] {\n  width: 100%;\n  height: 8px;\n  background: #555;\n  border-radius: 12px;\n  margin-top: 12px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.progress[data-v-39610a88] {\n  height: 100%;\n  background: #0db691;\n  transition: width 0.3s ease;\n}\n.event-box[data-v-39610a88] {\n  background: #ffffff;\n  border-radius: 12px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  padding: 20px;\n  margin: 0 auto;\n}\n.time-estimates[data-v-39610a88] {\n  font-size: 0.9rem;\n  color: #333;\n}\n.time-estimates span[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n}\n\n/* Extra Small Screens (<400px) */\n@media (max-width: 399px) {\n.controls[data-v-39610a88] {\n    flex-direction: column;\n    gap: 8px;\n    align-items: center;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.5rem;\n    padding: 6px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: 0;\n    margin-right: 4px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 0;\n    margin-top: 8px;\n    width: 80px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 0;\n    margin-top: 8px;\n    font-size: 0.8rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 8px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 8px;\n}\n.progress-bar[data-v-39610a88] {\n    height: 6px;\n    margin-top: 8px;\n}\n.event-box[data-v-39610a88] {\n    padding: 12px;\n}\n.time-estimates[data-v-39610a88] {\n    flex-direction: column;\n    gap: 8px;\n    font-size: 0.85rem;\n}\n}\n\n/* Small Screens (400px–575px) */\n@media (min-width: 400px) and (max-width: 575px) {\n.controls[data-v-39610a88] {\n    gap: 12px;\n    flex-wrap: wrap;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 6px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 6px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 8px;\n    width: 80px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 8px;\n    font-size: 0.8rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 10px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 10px;\n}\n.progress-bar[data-v-39610a88] {\n    height: 6px;\n    margin-top: 10px;\n}\n.event-box[data-v-39610a88] {\n    padding: 16px;\n}\n.time-estimates[data-v-39610a88] {\n    font-size: 0.85rem;\n}\n}\n\n/* Medium Screens (576px–767px) */\n@media (min-width: 576px) and (max-width: 767px) {\n.controls[data-v-39610a88] {\n    gap: 14px;\n    flex-wrap: wrap;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 8px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 6px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 10px;\n    width: 90px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 10px;\n    font-size: 0.85rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 10px 14px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 10px 14px;\n}\n.progress-bar[data-v-39610a88] {\n    margin-top: 10px;\n}\n.event-box[data-v-39610a88] {\n    padding: 18px;\n}\n}\n\n/* Large Screens (≥768px) */\n@media (min-width: 768px) {\n.controls[data-v-39610a88] {\n    flex-direction: row;\n    flex-wrap: nowrap;\n    gap: 16px;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 8px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 8px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 12px;\n    width: 100px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 12px;\n    font-size: 0.9rem;\n}\n.progress-bar[data-v-39610a88] {\n    margin-top: 12px;\n}\n}\n@media (max-width: 767px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 100% !important;\n}\n}\n@media (min-width: 768px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 400px !important;\n}\n}\n.custom-offcanvas[data-v-39610a88] {\n  background-color: #10584f;\n  color: white;\n  min-width: 300px;\n}\n.fab[data-v-39610a88] {\n  transition: background-color 0.3s ease, transform 0.2s;\n}\n.fab[data-v-39610a88]:hover {\n}\n.action-button[data-v-39610a88] {\n  transition: all 0.3s ease;\n  cursor: pointer;\n  color: #333;\n}\n.action-button[data-v-39610a88]:hover {\n  color: #0db691;\n}\nmark[data-v-39610a88] {\n  background-color: #0db691;\n  color: white;\n  padding: 0 4px;\n  border-radius: 4px;\n}\n.timeline-wrapper[data-v-39610a88] {\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  /* Make scrollbar visible and usable */\n  scrollbar-width: thin; /* Firefox */\n  scrollbar-color: #0db691 #e9ecef; /* Firefox */\n  scroll-snap-type: x proximity;\n}\n\n/* WebKit scrollbar styling */\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar {\n  height: 8px;\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar-track {\n  background: #e9ecef;\n  border-radius: 8px;\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar-thumb {\n  background-color: #0db691;\n  border-radius: 8px;\n}\n.timeline[data-v-39610a88] {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: nowrap;\n  gap: 12px;\n  min-width: -moz-max-content;\n  min-width: max-content;\n}\n.timeline-point[data-v-39610a88] {\n  flex-shrink: 0;\n  scroll-snap-align: start;\n}\n.timeline-badge[data-v-39610a88] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  border: 1px solid #ced4da;\n  border-radius: 1rem;\n  padding: 0.8rem 1.3rem;\n  background-color: #f8f9fa;\n  color: #212529;\n  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  font-weight: 300;\n  white-space: nowrap;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.timeline-badge[data-v-39610a88]:hover {\n  background-color: #20c997;\n  color: white;\n  cursor: pointer;\n}\n.timeline-badge.active[data-v-39610a88] {\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border: 2px solid lightgrey;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);\n}\n.controls button[data-v-39610a88] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background-color 0.12s ease, color 0.12s ease;\n}\n.controls button[data-v-39610a88]:disabled {\n  cursor: not-allowed;\n}\n.fab[data-v-39610a88] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  background-color: #20c997;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n  transition: background-color 0.3s ease, transform 0.2s ease;\n  cursor: pointer;\n}\n.fab[data-v-39610a88]:hover {\n  background-color: #17a085;\n}\n.fade-enter-active[data-v-39610a88],\n.fade-leave-active[data-v-39610a88] {\n  transition: opacity 0.12s;\n}\n.fade-enter[data-v-39610a88],\n.fade-leave-to[data-v-39610a88] {\n  opacity: 0;\n}\n.summary-card[data-v-39610a88] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border: 1px solid #dee2e6;\n  border-radius: 12px;\n  padding: 1.5rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.ai-summary-inline[data-v-39610a88] {\n  margin-top: 1.5rem;\n  padding: 1rem;\n  border-radius: 0.75rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n  border: 2px solid rgb(103, 153, 103);\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n  font-size: 0.95rem;\n  line-height: 1.6;\n  color: #333;\n  margin-bottom: 0.75rem;\n}\n.ai-summary-inline .summary-footer[data-v-39610a88] {\n  padding-top: 0.5rem;\n  border-top: 1px solid #e9ecef;\n  font-size: 0.8rem;\n  color: #6c757d;\n}\n\n/* Mobile Responsive Styles */\n@media (max-width: 768px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.6rem 1rem;\n    font-size: 0.9rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.5rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.75rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 15px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.75rem;\n    margin-top: 1rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.9rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.5rem 1rem;\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.5rem 0.8rem;\n    font-size: 0.85rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.25rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.5rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 12px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.5rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.85rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.85rem;\n}\n.time-estimates span[data-v-39610a88] {\n    font-size: 0.8rem;\n}\n}\n@media (max-width: 480px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.4rem 0.6rem;\n    font-size: 0.8rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.1rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.3rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 10px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.4rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.8rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.35rem 0.7rem;\n    font-size: 0.8rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -196199,7 +195978,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n  animation: pulse-828f3036 0.5s ease-in-out;\n}\n.currently-playing[data-v-828f3036] {\n  background-color: #00bfa640;\n  border: 2px solid #00bfa640;\n  border-radius: 8px;\n  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);\n  transform: scale(1.02);\n  transition: all 0.3s ease;\n}\n@keyframes pulse-828f3036 {\n0% {\n    border: 2px solid #00bfa6;\n}\n100% {\n    border: 2px solid transparent;\n}\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  transition: top 0.3s ease, height 0.3s ease;\n}\n@media (max-width: 768px) {\n.container[data-v-828f3036] {\n    padding-bottom: calc(100px + env(safe-area-inset-bottom));\n}\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.container[data-v-828f3036] {\n  padding-bottom: calc(120px + env(safe-area-inset-bottom));\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 5px 10px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n@media (max-width: 768px) {\n.controls .control-btn[title=\"Close\"][data-v-828f3036] {\n    margin-left: 0;\n    /* Remove the margin-left: auto to align with other buttons */\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.75rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.icon-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: inherit;\n  padding: 0;\n  cursor: pointer;\n}\n\n/* Increase icon sizes for per-ayah actions (desktop) */\n.ayah-card-container .icon-btn i[data-v-828f3036] {\n  font-size: 1.6rem;\n}\n\n/* Make sticky toggle icon a bit larger */\n.sticky-dropdown > span i[data-v-828f3036] {\n  font-size: 1.4rem;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 8px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 4px;\n  overflow: hidden;\n  cursor: pointer;\n  position: relative;\n  transition: background-color 0.2s ease;\n}\n.progress-bar[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n.ayah-card-container[data-v-828f3036] {\n  scroll-margin-top: 100px;\n}\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.7rem !important;\n    /* line-height: 5.8vh; */\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    /* line-height: 1.6; */\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(52, 58, 64, 0.95);\n}\n}\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n.loading-placeholder[data-v-828f3036] {\n  text-align: center;\n  padding: 20px;\n  font-size: 1.2rem;\n  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n.empty-state[data-v-828f3036] {\n  border: 1px dashed rgba(0,0,0,0.15);\n  border-radius: 8px;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n\n/* Mobile icon sizing overrides */\n@media (max-width: 768px) {\n.control-btn[data-v-828f3036] {\n    font-size: 2rem;\n}\n.ayah-card-container .icon-btn i[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n}\n.highlighted-word[data-v-828f3036] {\n  background: #00bfa6;\n  color: #fff;\n  border-radius: 4px;\n  padding: 0 2px;\n  transition: background 0.2s;\n}\n\n/* Audio Visualizer Styles */\n.audio-visualizer[data-v-828f3036] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 100%;\n  display: flex;\n  align-items: flex-end;\n  justify-content: space-around;\n  padding: 0 2px;\n  opacity: 0.7;\n  pointer-events: none;\n}\n.visualizer-bar[data-v-828f3036] {\n  width: 2px;\n  background: linear-gradient(to top, #00bfa6, #87ceeb);\n  border-radius: 1px;\n  animation: pulse-visualizer-828f3036 0.6s ease-in-out infinite alternate;\n}\n@keyframes pulse-visualizer-828f3036 {\n0% { opacity: 0.4;\n}\n100% { opacity: 1;\n}\n}\n\n/* Speed Indicator */\n.speed-indicator[data-v-828f3036] {\n  font-size: 0.7rem;\n  font-weight: bold;\n  margin-left: 2px;\n  color: #ff6b6b;\n}\n\n/* Enhanced Control Buttons */\n.control-btn[data-v-828f3036] {\n  transition: all 0.3s ease;\n  border-radius: 8px;\n}\n.control-btn[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.1);\n  transform: translateY(-2px);\n}\n.control-btn[data-v-828f3036]:active {\n  transform: translateY(0);\n}\n\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.speed-indicator[data-v-828f3036] {\n    font-size: 0.6rem;\n}\n.visualizer-bar[data-v-828f3036] {\n    width: 1px;\n}\n.audio-visualizer[data-v-828f3036] {\n    padding: 0 1px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n  animation: pulse-828f3036 0.5s ease-in-out;\n}\n.currently-playing[data-v-828f3036] {\n  background-color: #00bfa640;\n  border: 2px solid #00bfa640;\n  border-radius: 8px;\n  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);\n  transform: scale(1.02);\n  transition: all 0.3s ease;\n}\n@keyframes pulse-828f3036 {\n0% {\n    border: 2px solid #00bfa6;\n}\n100% {\n    border: 2px solid transparent;\n}\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  transition: top 0.3s ease, height 0.3s ease;\n}\n@media (max-width: 768px) {\n.container[data-v-828f3036] {\n    padding-bottom: calc(100px + env(safe-area-inset-bottom));\n}\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.container[data-v-828f3036] {\n  padding-bottom: calc(120px + env(safe-area-inset-bottom));\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 5px 10px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n@media (max-width: 768px) {\n.controls .control-btn[title=\"Close\"][data-v-828f3036] {\n    margin-left: 0;\n    /* Remove the margin-left: auto to align with other buttons */\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.75rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.icon-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: inherit;\n  padding: 0;\n  cursor: pointer;\n}\n\n/* Increase icon sizes for per-ayah actions (desktop) */\n.ayah-card-container .icon-btn i[data-v-828f3036] {\n  font-size: 1.6rem;\n}\n\n/* Make sticky toggle icon a bit larger */\n.sticky-dropdown > span i[data-v-828f3036] {\n  font-size: 1.4rem;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 8px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 4px;\n  overflow: hidden;\n  cursor: pointer;\n  position: relative;\n  transition: background-color 0.2s ease;\n}\n.progress-bar[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n\n/* removed scroll-margin to avoid scroll coupling */\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.7rem !important;\n    /* line-height: 5.8vh; */\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    /* line-height: 1.6; */\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(52, 58, 64, 0.95);\n}\n}\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n.loading-placeholder[data-v-828f3036] {\n  text-align: center;\n  padding: 20px;\n  font-size: 1.2rem;\n  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n.empty-state[data-v-828f3036] {\n  border: 1px dashed rgba(0,0,0,0.15);\n  border-radius: 8px;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n\n/* Mobile icon sizing overrides */\n@media (max-width: 768px) {\n.control-btn[data-v-828f3036] {\n    font-size: 2rem;\n}\n.ayah-card-container .icon-btn i[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n}\n.highlighted-word[data-v-828f3036] {\n  background: #00bfa6;\n  color: #fff;\n  border-radius: 4px;\n  padding: 0 2px;\n  transition: background 0.2s;\n}\n\n/* Audio Visualizer Styles */\n.audio-visualizer[data-v-828f3036] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 100%;\n  display: flex;\n  align-items: flex-end;\n  justify-content: space-around;\n  padding: 0 2px;\n  opacity: 0.7;\n  pointer-events: none;\n}\n.visualizer-bar[data-v-828f3036] {\n  width: 2px;\n  background: linear-gradient(to top, #00bfa6, #87ceeb);\n  border-radius: 1px;\n  animation: pulse-visualizer-828f3036 0.6s ease-in-out infinite alternate;\n}\n@keyframes pulse-visualizer-828f3036 {\n0% { opacity: 0.4;\n}\n100% { opacity: 1;\n}\n}\n\n/* Speed Indicator */\n.speed-indicator[data-v-828f3036] {\n  font-size: 0.7rem;\n  font-weight: bold;\n  margin-left: 2px;\n  color: #ff6b6b;\n}\n\n/* Enhanced Control Buttons */\n.control-btn[data-v-828f3036] {\n  transition: all 0.3s ease;\n  border-radius: 8px;\n}\n.control-btn[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.1);\n  transform: translateY(-2px);\n}\n.control-btn[data-v-828f3036]:active {\n  transform: translateY(0);\n}\n\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.speed-indicator[data-v-828f3036] {\n    font-size: 0.6rem;\n}\n.visualizer-bar[data-v-828f3036] {\n    width: 1px;\n}\n.audio-visualizer[data-v-828f3036] {\n    padding: 0 1px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
