@@ -38,7 +38,7 @@
             <!-- Results -->
             <div v-if="!loading">
               <!-- No Search State -->
-              <div v-if="!searchQuery || shops.length === 0" class="text-center py-5">
+              <div v-if="!searchQuery" class="text-center py-5">
                 <i class="bi bi-shop display-4 text-muted mb-3"></i>
                 <h3 class="h4 text-muted">Search for halal butchers</h3>
                 <p class="text-muted">Enter a city or address to find nearby halal butchers</p>

@@ -103,7 +103,7 @@
                 <div class="row mb-3">
                   <div class="col-12">
                     <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
-                      <button onclick="window.location.href='/quran'" aria-label="Open Quran Companion" style="
+                      <button onclick="window.location.href='/surat'" aria-label="Open Quran Explorer" style="
                 background: linear-gradient(135deg, #0b806f, #1a5f7a);
                 color: white;
                 border: none;
@@ -244,19 +244,12 @@
                     <img src="images/galaxy.png" width="80" height="80" alt="Magnifying glass exploring Islamic content"
                       loading="lazy" />
                   </div>
-                  <h3 class="h3 fw-bold mb-3">Explore with Ease</h3>
+                  <h3 class="h3 fw-bold ">Explore with Ease</h3>
                   <p class="mb-4" style="font-size: 16px; line-height: 1.6; color: #4a5568;">
                     Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics.
                     Find meaningful content instantly for your spiritual journey.
                   </p>
-                  <div class="d-grid">
-                    <a href="/surat" class="btn btn-lg"
-                      style="background: #0b806f; border: none; padding: 12px; font-weight: 600; color: white; text-decoration: none; border-radius: 8px; transition: background 0.3s ease;"
-                      aria-label="Learn more about exploring Islamic content"
-                      onmouseover="this.style.background='#1a5f7a'" onmouseout="this.style.background='#0b806f'">
-                      Explore Features
-                    </a>
-                  </div>
+                  
                 </div>
               </article>
             </div>
@@ -270,19 +263,12 @@
                     <img src="images/watching.png" width="80" height="80" alt="Headphones for audio content"
                       loading="lazy" />
                   </div>
-                  <h3 class="h3 fw-bold mb-3">Listen, Watch, Reflect</h3>
+                  <h3 class="h3 fw-bold ">Listen, Watch, Reflect</h3>
                   <p class="mb-4" style="font-size: 16px; line-height: 1.6; color: #4a5568;">
                     Enjoy Quran recitations, insightful podcasts, and Islamic art galleries.
                     Engage spiritually through multimedia content anywhere, anytime.
                   </p>
-                  <div class="d-grid">
-                    <a href="/content" class="btn btn-lg"
-                      style="background: #0b806f; border: none; padding: 12px; font-weight: 600; color: white; text-decoration: none; border-radius: 8px; transition: background 0.3s ease;"
-                      aria-label="Discover audio and visual Islamic content"
-                      onmouseover="this.style.background='#1a5f7a'" onmouseout="this.style.background='#0b806f'">
-                      Discover Media
-                    </a>
-                  </div>
+                  
                 </div>
               </article>
             </div>
@@ -296,19 +282,12 @@
                     <img src="images/school.png" width="80" height="80" alt="Graduation cap for learning"
                       loading="lazy" />
                   </div>
-                  <h3 class="h3 fw-bold mb-3">Learn Your Way</h3>
+                  <h3 class="h3 fw-bold">Learn Your Way</h3>
                   <p class="mb-4" style="font-size: 16px; line-height: 1.6; color: #4a5568;">
                     Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible learning
                     for everyone, regardless of ability.
                   </p>
-                  <div class="d-grid">
-                    <a href="/quran" class="btn btn-lg"
-                      style="background: #0b806f; border: none; padding: 12px; font-weight: 600; color: white; text-decoration: none; border-radius: 8px; transition: background 0.3s ease;"
-                      aria-label="Learn about accessible Islamic learning tools"
-                      onmouseover="this.style.background='#1a5f7a'" onmouseout="this.style.background='#0b806f'">
-                      Start Learning
-                    </a>
-                  </div>
+                  
                 </div>
               </article>
             </div>
@@ -330,7 +309,7 @@
             intelligent connection to the Divine.
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start">
-                    <a href="/quran" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
+                    <a href="/holy" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
               style="background: #0b806f; border: none; min-width: 160px;"
               aria-label="Learn more about Quran Companion features">
               Explore Quran
@@ -359,7 +338,7 @@
             Stay spiritually connected through sound and reflection wherever you are.
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start">
-            <a href="/content" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
+            <a href="/media" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
               style="background: #0b806f; border: none; min-width: 160px;"
               aria-label="Discover Islamic audio content and podcasts">
               Browse Content
