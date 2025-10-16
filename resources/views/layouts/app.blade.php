@@ -302,53 +302,53 @@ body{
         </button>   
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav justify-content-end pr-4 flex-grow-1" aria-label="Primary menu">                
-                    <li class="nav-item mt-3">
+                    <li class="nav-item mt-2">
                         <a class="nav-link pt-2 ml-3" href="/welcome" data-path="/home" data-nav-item="primary">Home</a>
                     </li>
                     
 
-                    <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/holy" data-path="/holy" data-nav-item="primary">Quran Portal</a>
+                    <li class="nav-item mt-2">
+                        <a class="nav-link ml-3 pt-2 pl-3" href="/holy" data-path="/holy" data-nav-item="primary">Quran Portal</a>
                     </li>
                     
-                    <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/media" data-path="/media" data-nav-item="primary">Media Center</a>
+                    <li class="nav-item mt-2">
+                        <a class="nav-link ml-3 pt-2 pl-3" href="/media" data-path="/media" data-nav-item="primary">Media Center</a>
                     </li>
 
-                    <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/knowledge" data-path="/knowledge" data-nav-item="primary">Islamic Knowledge</a>
+                    <li class="nav-item mt-2">
+                        <a class="nav-link ml-3 pt-2 pl-3" href="/knowledge" data-path="/knowledge" data-nav-item="primary">Islamic Knowledge</a>
                     </li>
                     
-                    <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/toolkit" data-path="/toolkit" data-nav-item="primary">Utility Toolkit</a>
+                    <li class="nav-item mt-2">
+                        <a class="nav-link ml-3 pt-2 pl-3" href="/toolkit" data-path="/toolkit" data-nav-item="primary">Utility Toolkit</a>
                     </li>
 
-                    <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/services" data-path="/services" data-nav-item="primary">Services</a>
+                    <li class="nav-item mt-2">
+                        <a class="nav-link ml-3 pt-2 pl-3" href="/services" data-path="/services" data-nav-item="primary">Services</a>
                     </li>
 
-                    <li class="nav-item mt-3">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/subscribe" data-path="/subscribe" data-nav-item="primary">Packages</a>
+                    <li class="nav-item mt-2">
+                        <a class="nav-link ml-3 pt-2 pl-3" href="/subscribe" data-path="/subscribe" data-nav-item="primary">Packages</a>
                     </li>
 
-                    <li class="nav-item mt-3">
+                    <li class="nav-item mt-2">
                         <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary">Donations</a>
                     </li>
                                     
                     @guest
                     @if (Route::has('login'))
-                    <li class="nav-item display-6 pl-3 mt-3">
+                    <li class="nav-item display-6 pl-3 mt-2">
                         <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login" data-nav-item="primary">{{ __('Login') }}</a>
                     </li>
                     @endif
                     <!-- @if (Route::has('register'))
-                    <li class="nav-item display-6 pl-3 mt-3">
+                    <li class="nav-item display-6 pl-3 mt-2">
                         <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
                     </li>
                     @endif -->
                     @else
                     <li class="nav-item dropdown pl-3">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle pt-2" href="#" role="button"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="User menu" data-nav-item="primary" v-pre>
                             <i class="bi bi-person-circle pr-2" style="font-size: 1.8rem"></i>
                             {{ Auth::user()->name }}
