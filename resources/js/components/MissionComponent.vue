@@ -1325,7 +1325,6 @@ mark {
   margin: 5px;
   padding: 10px 20px;
   border: none;
-  background-color: rgb(13, 182, 145);
   color: white;
   border-radius: 5px;
   cursor: pointer;
@@ -1337,9 +1336,6 @@ mark {
   cursor: not-allowed;
 }
 
-.controls button:hover:not(:disabled) {
-  background-color: #0db691;
-}
 
 .fab {
   position: fixed;
