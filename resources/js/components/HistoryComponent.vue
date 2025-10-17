@@ -61,6 +61,7 @@
               <i class="bi" :class="summaryLoading[idx] ? 'bi-hourglass-split' : 'bi-robot'"></i>
               <span class="ms-1 ms-sm-2">{{ summaryLoading[idx] ? 'Generating...' : 'AI Summary' }}</span>
             </button>
+            
             <button class="btn btn-sm btn-outline-dark fw-semibold transition ms-2 mb-2" @click.stop="increaseFontSize(idx)"
               @keydown.enter.stop="increaseFontSize(idx)" @keydown.space.prevent.stop="increaseFontSize(idx)"
               aria-label="Increase font size" title="Increase font size">
@@ -92,12 +93,17 @@
           </div>
           <!-- FAQ Content -->
           <div v-if="item.faq">
-            <div v-for="(faqItem, faqIdx) in item.faq" :key="faqIdx" class="mb-3">
+            <div v-for="(faqItem, faqIdx) in item.faq.slice(0, faqVisibleCount[idx] || item.faq.length)" :key="faqIdx" class="mb-3">
               <div style="font-weight: 600; color: #00bfa6; font-size: 1rem; margin-bottom: 0.5rem;">
                 <i class="bi bi-question-circle" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>
                 {{ faqItem.question }}
               </div>
               <div style="padding-left: 1.75rem;">{{ faqItem.answer }}</div>
+            </div>
+            <div v-if="(faqVisibleCount[idx] || 0) < item.faq.length" class="text-center mt-2">
+              <button class="btn btn-sm btn-outline-dark fw-semibold transition" @click.stop="showMoreFaq(idx)">
+                Show more
+              </button>
             </div>
           </div>
           <!-- Details (for regular sections) -->
@@ -163,13 +169,18 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(row, i) in item.table" :key="i">
+                  <tr v-for="(row, i) in item.table.slice(0, tableVisibleCount[idx] || item.table.length)" :key="i">
                     <td v-for="(val, k) in row" :key="k" style="padding: 1rem;">
                       {{ val }}
                     </td>
                   </tr>
                 </tbody>
               </table>
+              <div v-if="(tableVisibleCount[idx] || 0) < item.table.length" class="text-center mt-2">
+                <button class="btn btn-sm btn-outline-dark fw-semibold transition" @click.stop="showMoreTable(idx)">
+                  Show more rows
+                </button>
+              </div>
             </div>
           </div>
           <!-- Insights, Significance, Recommendations, Challenges (for regular sections) -->
@@ -297,6 +308,12 @@ export default {
       // Performance helpers
       scrollTicking: false,
       formatKeyCache: Object.create(null),
+      // Virtualization and debounce state
+      faqVisibleCount: [],
+      tableVisibleCount: [],
+      faqPageSize: 5,
+      tablePageSize: 20,
+      summarizeTimers: [],
       faq: [
         {
           question: 'When was the Quran first revealed?',
@@ -379,6 +396,9 @@ export default {
       this.fontSizes = this.accordionItems.map(() => 1.05);
       this.summaryLoading = this.accordionItems.map(() => false);
       this.summaries = this.accordionItems.map(() => null);
+      // Initialize virtualization counters per section
+      this.faqVisibleCount = this.accordionItems.map((item) => item.faq ? this.faqPageSize : 0);
+      this.tableVisibleCount = this.accordionItems.map((item) => (item.table && this.isRegularSection(item)) ? this.tablePageSize : 0);
       // Single-pass stats computation
       const stats = this.accordionItems.map(item => this.computeWordCountAndReadTime(item));
       this.wordCounts = stats.map(s => s.wordCount);
@@ -392,11 +412,6 @@ export default {
       this.readTimes = [];
     }
     window.addEventListener('scroll', this.handleScroll, { passive: true });
-    // Load jsPDF
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-    script.async = true;
-    document.head.appendChild(script);
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
@@ -452,26 +467,89 @@ export default {
         this.fontSizes[idx] = Math.max(0.8, this.fontSizes[idx] - 0.05);
       }
     },
-    async summarizeEvent(idx) {
+    summarizeEvent(idx) {
+      if (this.summarizeTimers[idx]) clearTimeout(this.summarizeTimers[idx]);
+      this.summarizeTimers[idx] = setTimeout(() => this._doSummarize(idx), 400);
+    },
+    async _doSummarize(idx) {
+      if (this.summaryLoading[idx]) return;
       this.summaryLoading[idx] = true;
       try {
         await new Promise(resolve => setTimeout(resolve, 1000));
         const item = this.accordionItems[idx];
-        const detailsKeys = Object.keys(item.details || {});
-        const summaryText = item.faq
-          ? `Summary of FAQ: This section addresses common questions about the Quran's history, such as its revelation, compilation, and significance.`
-          : item.conclusion
-          ? `Summary of Conclusion: This section summarizes the Quran's historical journey, final thoughts, and a call to action.`
-          : item.references
-          ? `Summary of References: This section lists sources used to document the Quran's history.`
-          : `Summary of ${item.title || 'Section'}: This section covers key aspects of the Quran's history${detailsKeys.length ? `, including ${detailsKeys.map(key => this.formatKey(key)).join(', ')}.` : '.'}`;
-        this.summaries[idx] = summaryText;
+        this.summaries[idx] = this.buildHeuristicSummary(item);
       } catch (error) {
         console.error('Error generating summary:', error);
         this.summaries[idx] = 'Failed to generate summary.';
       } finally {
         this.summaryLoading[idx] = false;
       }
+    },
+    buildHeuristicSummary(item) {
+      const pieces = [];
+
+      const pushText = (t) => {
+        if (!t) return;
+        const s = String(t).trim();
+        if (s) pieces.push(s);
+      };
+
+      if (item.faq) {
+        const qs = item.faq.map(f => f.question).filter(Boolean);
+        pushText('FAQ overview: common questions about revelation, preservation, and compilation.');
+        if (qs.length) pushText(`Top questions: ${qs.slice(0, 3).join('; ')}${qs.length > 3 ? '…' : ''}`);
+      } else if (item.conclusion) {
+        pushText(item.conclusion.summary || 'Summary of the Quran’s historical journey.');
+        if (item.conclusion.final_thoughts) pushText(`Final thoughts: ${item.conclusion.final_thoughts}`);
+        if (item.conclusion.call_to_action) pushText(`Call to action: ${item.conclusion.call_to_action}`);
+      } else if (item.references) {
+        const groups = Object.entries(item.references || {});
+        pushText(`References overview: ${groups.length} categories of sources.`);
+        const hints = groups.slice(0, 2).map(([k, v]) => `${this.formatKey(k)} (${(v || []).length})`);
+        if (hints.length) pushText(`Notable groups: ${hints.join('; ')}`);
+      } else if (this.isRegularSection(item)) {
+        const title = item.title || 'Section';
+        const stats = this.computeWordCountAndReadTime(item);
+        pushText(`${title}: key historical aspects in ~${stats.wordCount} words (~${stats.readTime} min read).`);
+        if (item.significance) pushText(`Significance: ${item.significance}`);
+        if (Array.isArray(item.insights) && item.insights.length) {
+          pushText(`Insights: ${item.insights.slice(0, 3).join('; ')}${item.insights.length > 3 ? '…' : ''}`);
+        }
+        const details = item.details || {};
+        const detailSnippets = [];
+        for (const [key, value] of Object.entries(details)) {
+          const label = this.formatKey(key);
+          if (typeof value === 'string') {
+            detailSnippets.push(`${label}: ${value.split(/(?<=[.!?])\s+/)[0]}`);
+          } else if (Array.isArray(value)) {
+            if (key === 'chronology' || key === 'events') {
+              detailSnippets.push(`${label}: ${value.slice(0, 3).join(' → ')}${value.length > 3 ? '…' : ''}`);
+            } else {
+              detailSnippets.push(`${label}: ${value.slice(0, 3).join('; ')}${value.length > 3 ? '…' : ''}`);
+            }
+          } else if (value && typeof value === 'object') {
+            if (key === 'recommendations') {
+              const names = value.map(r => this.formatKey(r.name)).filter(Boolean);
+              if (names.length) detailSnippets.push(`Recommendations: ${names.slice(0, 3).join('; ')}${names.length > 3 ? '…' : ''}`);
+            } else if (key === 'challenges') {
+              detailSnippets.push(`Challenges: ${value.slice(0, 3).join('; ')}${value.length > 3 ? '…' : ''}`);
+            } else {
+              const pairs = Object.entries(value).slice(0, 3).map(([k, v]) => `${this.formatKey(k)}: ${String(v).split(/(?<=[.!?])\s+/)[0]}`);
+              if (pairs.length) detailSnippets.push(`${label}: ${pairs.join('; ')}`);
+            }
+          }
+        }
+        if (detailSnippets.length) pushText(detailSnippets.join(' • '));
+        if (item.table && Array.isArray(item.table) && item.table.length) {
+          const cols = this.getTableColumns(item.table);
+          pushText(`Includes comparative table: ${item.table.length} rows × ${cols.length} columns.`);
+        }
+      }
+
+      // Compose without truncation
+      let text = pieces.join(' ');
+      text = text.replace(/\s+/g, ' ').trim();
+      return text || 'Summary unavailable.';
     },
     clearSummary(idx) {
       this.summaries[idx] = null;
@@ -594,12 +672,9 @@ export default {
       document.body.removeChild(printContainer);
       document.body.removeChild(style);
     },
-    generatePDF(idx) {
-      const { jsPDF } = window.jspdf;
-      if (!jsPDF) {
-        alert('PDF generation library not loaded. Please try again.');
-        return;
-      }
+    async generatePDF(idx) {
+      const jsPDF = await this.ensureJsPdf();
+      if (!jsPDF) return;
 
       const item = this.accordionItems[idx];
       const title = item.title || 'Untitled Section';
@@ -701,7 +776,8 @@ export default {
           y = addText('Comparative Table', 14, true, [0, 191, 166]);
           const columns = this.getTableColumns(item.table);
           const tableData = item.table.map(row => columns.map(col => row[col] || ''));
-          doc.autoTable({
+          if (typeof doc.autoTable === 'function') {
+            doc.autoTable({
             startY: y,
             head: [columns.map(col => this.formatKey(col))],
             body: tableData,
@@ -709,8 +785,9 @@ export default {
             styles: { fontSize: 10 * this.fontSizes[idx], textColor: [74, 85, 104] },
             headStyles: { fillColor: [247, 250, 252], textColor: [0, 191, 166], fontStyle: 'bold' },
             margin: { left: marginLeft, right: marginLeft }
-          });
-          y = doc.lastAutoTable.finalY + 10;
+            });
+            y = doc.lastAutoTable.finalY + 10;
+          }
         }
       }
 
@@ -720,6 +797,57 @@ export default {
         console.error('Error generating PDF:', error);
         alert('Failed to generate PDF. Please try again.');
       }
+    },
+    async ensureJsPdf() {
+      try {
+        if (window.jspdf && window.jspdf.jsPDF) {
+          if (!window.jsPDF && window.jspdf.jsPDF) window.jsPDF = window.jspdf.jsPDF;
+          await this.ensureJsPdfAutoTable();
+          return window.jspdf.jsPDF;
+        }
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+          script.async = true;
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+        if (!(window.jspdf && window.jspdf.jsPDF)) {
+          alert('Failed to load PDF library.');
+          return null;
+        }
+        if (!window.jsPDF && window.jspdf.jsPDF) window.jsPDF = window.jspdf.jsPDF;
+        await this.ensureJsPdfAutoTable();
+        return window.jspdf.jsPDF;
+      } catch (e) {
+        console.error('Error loading jsPDF:', e);
+        alert('PDF generation library not loaded. Please try again.');
+        return null;
+      }
+    },
+    async ensureJsPdfAutoTable() {
+      if (window.jspdf && window.jspdf.jsPDF && window.jspdf.jsPDF.API && window.jspdf.jsPDF.API.autoTable) return;
+      await new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js';
+        script.async = true;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+    },
+    showMoreFaq(idx) {
+      const max = this.accordionItems[idx]?.faq?.length || 0;
+      const current = this.faqVisibleCount[idx] || 0;
+      if (this.$set) this.$set(this.faqVisibleCount, idx, Math.min(current + this.faqPageSize, max));
+      else this.faqVisibleCount[idx] = Math.min(current + this.faqPageSize, max);
+    },
+    showMoreTable(idx) {
+      const max = (this.accordionItems[idx]?.table || []).length;
+      const current = this.tableVisibleCount[idx] || 0;
+      if (this.$set) this.$set(this.tableVisibleCount, idx, Math.min(current + this.tablePageSize, max));
+      else this.tableVisibleCount[idx] = Math.min(current + this.tablePageSize, max);
     },
     shareViaWhatsApp(idx) {
       const item = this.accordionItems[idx];
