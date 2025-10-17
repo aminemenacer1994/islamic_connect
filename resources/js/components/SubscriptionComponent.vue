@@ -104,11 +104,37 @@
           <div class="plans-header">
             <h2>Choose Your Subscription Plan</h2>
             <p>Select the plan that best suits your needs to unlock premium features and support our mission.</p>
+            <div class="billing-toggle" role="tablist" aria-label="Billing cycle">
+              <button
+                type="button"
+                role="tab"
+                :aria-selected="billingCycle === 'monthly'"
+                class="toggle-option"
+                :class="{ active: billingCycle === 'monthly' }"
+                @click="setBillingCycle('monthly')"
+              >
+                Monthly
+              </button>
+              <button
+                type="button"
+                role="tab"
+                :aria-selected="billingCycle === 'yearly'"
+                class="toggle-option"
+                :class="{ active: billingCycle === 'yearly' }"
+                @click="setBillingCycle('yearly')"
+              >
+                Yearly
+              </button>
+              <span class="toggle-indicator" :class="billingCycle"></span>
+            </div>
+            <!-- <div v-if="billingCycle === 'yearly' && yearlySavings" class="toggle-savings" aria-live="polite">
+              <i class="fas fa-tag"></i> {{ yearlySavings }}
+            </div> -->
           </div>
 
           <form method="POST" action="/subscribe" @submit.prevent="handleSubmit">
             <div class="plans-grid">
-              <div v-for="plan in plans" :key="plan.value" class="plan-card" :class="{
+              <div v-for="plan in filteredPlans" :key="plan.value || plan.name" class="plan-card" :class="{
                 'featured': plan.featured,
                 'selected': plan.value === selectedPlan
               }" @click="plan.value !== '' ? selectedPlan = plan.value : null">
@@ -217,6 +243,7 @@ export default {
     return {
       csrfToken: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
       selectedPlan: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
+      billingCycle: 'monthly',
       loading: true,
       submitting: false,
       cancelling: false,
@@ -334,6 +361,15 @@ export default {
   },
 
   computed: {
+    filteredPlans() {
+      const base = this.plans.find(p => p.value === '')
+      const premium = this.plans.find(p => this.billingCycle === 'monthly' ? p.name === 'Monthly' : p.name === 'Yearly')
+      return [base, premium].filter(Boolean)
+    },
+    yearlySavings() {
+      const yearly = this.plans.find(p => p.name === 'Yearly')
+      return yearly?.savings || ''
+    },
     planDisplayName() {
       return this.subscription?.stripe_price && this.planDetails[this.subscription.stripe_price] 
         ? this.planDetails[this.subscription.stripe_price] 
@@ -366,6 +402,9 @@ export default {
     this.checkSubscriptionStatus();
     this.checkUrlParams();
 
+    // Initialize billing cycle to monthly (no persistence)
+    this.setBillingCycle('monthly');
+
     if (window.flashError) {
       this.error = window.flashError;
       delete window.flashError;
@@ -377,6 +416,14 @@ export default {
   },
 
   methods: {
+    setBillingCycle(cycle) {
+      if (cycle === this.billingCycle) return;
+      this.billingCycle = cycle;
+      const target = this.plans.find(p => cycle === 'monthly' ? p.name === 'Monthly' : p.name === 'Yearly');
+      if (this.selectedPlan !== '' && target && this.selectedPlan !== target.value) {
+        this.selectedPlan = target.value;
+      }
+    },
     formatDate(dateString) {
       return dateString 
         ? new Date(dateString).toLocaleDateString('en-GB', { 
@@ -687,6 +734,69 @@ export default {
 
 .subscription-main {
   padding: 48px 0;
+}
+
+/* Billing cycle segmented toggle */
+.billing-toggle {
+  position: relative;
+  display: inline-flex;
+  background: #f3f4f6;
+  border-radius: 9999px;
+  padding: 6px;
+  gap: 8px;
+  margin-top: 12px;
+  box-shadow: inset 0 0 0 1px #e5e7eb;
+}
+
+.billing-toggle .toggle-option {
+  position: relative;
+  z-index: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  font-weight: 600;
+  /* color: #374151; */
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+
+.billing-toggle .toggle-option.active {
+  color: #ffffff;
+}
+
+.billing-toggle .toggle-indicator {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  width: calc(50% - 6px);
+  border-radius: 9999px;
+  background: #4b5563;
+  transition: transform 260ms ease, background-color 260ms ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.billing-toggle .toggle-indicator.monthly {
+  transform: translateX(0);
+  background: #2c7c6a;
+}
+
+.billing-toggle .toggle-indicator.yearly {
+  transform: translateX(100%);
+  background: #2c7c6a; /* match monthly green */
+}
+
+.toggle-savings {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #2c7c6a;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 6px 10px;
+  border-radius: 9999px;
 }
 
 .notification {

@@ -12153,6 +12153,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       csrfToken: ((_document$querySelect = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getAttribute('content')) || '',
       selectedPlan: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
+      billingCycle: 'monthly',
       loading: true,
       submitting: false,
       cancelling: false,
@@ -12225,6 +12226,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
+    filteredPlans() {
+      const base = this.plans.find(p => p.value === '');
+      const premium = this.plans.find(p => this.billingCycle === 'monthly' ? p.name === 'Monthly' : p.name === 'Yearly');
+      return [base, premium].filter(Boolean);
+    },
+    yearlySavings() {
+      const yearly = this.plans.find(p => p.name === 'Yearly');
+      return (yearly === null || yearly === void 0 ? void 0 : yearly.savings) || '';
+    },
     planDisplayName() {
       var _this$subscription;
       return (_this$subscription = this.subscription) !== null && _this$subscription !== void 0 && _this$subscription.stripe_price && this.planDetails[this.subscription.stripe_price] ? this.planDetails[this.subscription.stripe_price] : 'Free';
@@ -12253,6 +12263,9 @@ __webpack_require__.r(__webpack_exports__);
   mounted() {
     this.checkSubscriptionStatus();
     this.checkUrlParams();
+
+    // Initialize billing cycle to monthly (no persistence)
+    this.setBillingCycle('monthly');
     if (window.flashError) {
       this.error = window.flashError;
       delete window.flashError;
@@ -12263,6 +12276,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    setBillingCycle(cycle) {
+      if (cycle === this.billingCycle) return;
+      this.billingCycle = cycle;
+      const target = this.plans.find(p => cycle === 'monthly' ? p.name === 'Monthly' : p.name === 'Yearly');
+      if (this.selectedPlan !== '' && target && this.selectedPlan !== target.value) {
+        this.selectedPlan = target.value;
+      }
+    },
     formatDate(dateString) {
       return dateString ? new Date(dateString).toLocaleDateString('en-GB', {
         day: 'numeric',
@@ -37983,127 +38004,137 @@ const _hoisted_16 = {
   class: "notification notification-info"
 };
 const _hoisted_17 = {
+  class: "plans-header"
+};
+const _hoisted_18 = {
+  class: "billing-toggle",
+  role: "tablist",
+  "aria-label": "Billing cycle"
+};
+const _hoisted_19 = ["aria-selected"];
+const _hoisted_20 = ["aria-selected"];
+const _hoisted_21 = {
   class: "plans-grid"
 };
-const _hoisted_18 = ["onClick"];
-const _hoisted_19 = {
+const _hoisted_22 = ["onClick"];
+const _hoisted_23 = {
   key: 0,
   class: "plan-badge"
 };
-const _hoisted_20 = {
+const _hoisted_24 = {
   class: "plan-header"
 };
-const _hoisted_21 = {
+const _hoisted_25 = {
   class: "plan-icon"
 };
-const _hoisted_22 = {
+const _hoisted_26 = {
   class: "plan-price"
 };
-const _hoisted_23 = {
+const _hoisted_27 = {
   class: "amount"
 };
-const _hoisted_24 = {
+const _hoisted_28 = {
   class: "period"
 };
-const _hoisted_25 = {
+const _hoisted_29 = {
   key: 0,
   class: "savings"
 };
-const _hoisted_26 = {
+const _hoisted_30 = {
   class: "plan-description"
 };
-const _hoisted_27 = {
+const _hoisted_31 = {
   class: "plan-features"
 };
-const _hoisted_28 = {
+const _hoisted_32 = {
   class: "plan-selector"
 };
-const _hoisted_29 = {
+const _hoisted_33 = {
   key: 0,
   href: "/",
   class: "radio-label btn-get-started"
 };
-const _hoisted_30 = ["id", "value"];
-const _hoisted_31 = ["for", "title"];
-const _hoisted_32 = {
+const _hoisted_34 = ["id", "value"];
+const _hoisted_35 = ["for", "title"];
+const _hoisted_36 = {
   class: "payment-section"
 };
-const _hoisted_33 = ["value"];
-const _hoisted_34 = ["value"];
-const _hoisted_35 = ["disabled"];
-const _hoisted_36 = {
+const _hoisted_37 = ["value"];
+const _hoisted_38 = ["value"];
+const _hoisted_39 = ["disabled"];
+const _hoisted_40 = {
   class: "faq-section"
 };
-const _hoisted_37 = {
+const _hoisted_41 = {
   class: "container"
 };
-const _hoisted_38 = {
+const _hoisted_42 = {
   class: "faq-list"
 };
-const _hoisted_39 = ["onClick"];
-const _hoisted_40 = {
+const _hoisted_43 = ["onClick"];
+const _hoisted_44 = {
   key: 0,
   class: "faq-answer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$subscription;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     class: "subscription-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "container"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "header-content"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Manage Your Islamic Connect Subscription"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Join a growing global community of Muslims who are deepening their connection to the Qur’an and Islam through knowledge, reflection, and technology. Your subscription helps us build innovative tools for spiritual growth and keep our resources accessible for everyone.")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notifications "), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Manage Your Islamic Connect Subscription"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Join a growing global community of Muslims who are deepening their connection to the Qur’an and Islam through knowledge, reflection, and technology. Your subscription helps us build innovative tools for spiritual growth and keep our resources accessible for everyone.")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notifications "), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-check-circle"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.success), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[0] || (_cache[0] = (...args) => $options.clearNotification && $options.clearNotification(...args)),
     class: "close-btn"
-  }, [...(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-times"
-  }, null, -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-exclamation-triangle"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[1] || (_cache[1] = (...args) => $options.clearNotification && $options.clearNotification(...args)),
     class: "close-btn"
-  }, [...(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-times"
-  }, null, -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Container "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Container "), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "alertContainer",
     class: "alert-container"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [...(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "spinner"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Fetching your subscription details, please wait...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Image "), $data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Fetching your subscription details, please wait...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Image "), $data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/mark1.png",
     width: "100",
     alt: "Subscription Success",
     class: "success-image"
-  }, null, -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, -1 /* CACHED */)), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "success-message"
   }, " Thank you for your support! Your subscription helps sustain Islamic Connect as a free, accessible resource for Muslims worldwide. May Allahﷻ accept your contribution and bless your efforts. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = $event => $data.showSuccessImage = false),
     class: "btn btn-primary"
-  }, "Start Exploring")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription "), $data.isSubscribed && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Start Exploring")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription "), $data.isSubscribed && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-badge"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-crown"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Active Premium Subscription ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Active Premium Subscription ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "status-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-check-circle"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.planDisplayName), 1 /* TEXT */), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.planDisplayName), 1 /* TEXT */), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "subtitle"
-  }, "You're enjoying all premium features with your active subscription.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "You're enjoying all premium features with your active subscription.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "label"
   }, "Subscription Status", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "value",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       color: $options.canCancel ? '#2c7c6a' : '#6b7280'
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.subscriptionStatus), 5 /* TEXT, STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Your Premium Benefits", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPlanBenefits(), benefit => {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.subscriptionStatus), 5 /* TEXT, STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Your Premium Benefits", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPlanBenefits(), benefit => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "benefit-item",
       key: benefit
-    }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-check"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(benefit), 1 /* TEXT */)]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -38114,72 +38145,88 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }]),
     disabled: $data.cancelling || !$options.canCancel || $options.isCancelled,
     title: $options.isCancelled ? 'Your subscription is already cancelled' : 'Cancel your subscription (access ends immediately)'
-  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-times-circle"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : $options.isCancelled ? 'Subscription Cancelled' : 'Cancel Subscription'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_14)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans "), $options.showPlans && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : $options.isCancelled ? 'Subscription Cancelled' : 'Cancel Subscription'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_14)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans "), $options.showPlans && !$data.showSuccessImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-info-circle"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your subscription will end on " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.subscription.ends_at)) + ". Subscribe to a new plan to continue enjoying premium features and uninterrupted access.", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[4] || (_cache[4] = $event => $data.subscription = null),
     class: "close-btn"
-  }, [...(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-times"
-  }, null, -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "plans-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Choose Your Subscription Plan"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Select the plan that best suits your needs to unlock premium features and support our mission.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  }, null, -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Choose Your Subscription Plan", -1 /* CACHED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Select the plan that best suits your needs to unlock premium features and support our mission.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    role: "tab",
+    "aria-selected": $data.billingCycle === 'monthly',
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["toggle-option", {
+      active: $data.billingCycle === 'monthly'
+    }]),
+    onClick: _cache[5] || (_cache[5] = $event => $options.setBillingCycle('monthly'))
+  }, " Monthly ", 10 /* CLASS, PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    role: "tab",
+    "aria-selected": $data.billingCycle === 'yearly',
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["toggle-option", {
+      active: $data.billingCycle === 'yearly'
+    }]),
+    onClick: _cache[6] || (_cache[6] = $event => $options.setBillingCycle('yearly'))
+  }, " Yearly ", 10 /* CLASS, PROPS */, _hoisted_20), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["toggle-indicator", $data.billingCycle])
+  }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"billingCycle === 'yearly' && yearlySavings\" class=\"toggle-savings\" aria-live=\"polite\">\n              <i class=\"fas fa-tag\"></i> {{ yearlySavings }}\n            </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     method: "POST",
     action: "/subscribe",
-    onSubmit: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.handleSubmit && $options.handleSubmit(...args), ["prevent"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.plans, plan => {
+    onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.handleSubmit && $options.handleSubmit(...args), ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredPlans, plan => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: plan.value,
+      key: plan.value || plan.name,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["plan-card", {
         'featured': plan.featured,
         'selected': plan.value === $data.selectedPlan
       }]),
       onClick: $event => plan.value !== '' ? $data.selectedPlan = plan.value : null
-    }, [plan.featured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.badge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [plan.featured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.badge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(plan.icon)
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */)]), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, feature => {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */)]), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, feature => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: feature,
         class: "feature-item"
-      }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "fas fa-check"
       }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [plan.value === '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", _hoisted_29, " Get Started ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [plan.value === '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", _hoisted_33, " Get Started ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: 1
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "radio",
       id: plan.value,
       value: plan.value,
-      "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $data.selectedPlan = $event),
+      "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => $data.selectedPlan = $event),
       class: "radio-input"
-    }, null, 8 /* PROPS */, _hoisted_30), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, null, 8 /* PROPS */, _hoisted_34), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       for: plan.value,
       class: "radio-label",
       title: 'Select the ' + plan.name + ' plan'
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.value === $data.selectedPlan ? 'Selected' : 'Select Plan'), 9 /* TEXT, PROPS */, _hoisted_31)], 64 /* STABLE_FRAGMENT */))])], 10 /* CLASS, PROPS */, _hoisted_18);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.value === $data.selectedPlan ? 'Selected' : 'Select Plan'), 9 /* TEXT, PROPS */, _hoisted_35)], 64 /* STABLE_FRAGMENT */))])], 10 /* CLASS, PROPS */, _hoisted_22);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
     name: "_token",
     value: $data.csrfToken
-  }, null, 8 /* PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 8 /* PROPS */, _hoisted_37), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
     name: "price_lookup_key",
     value: $data.selectedPlan
-  }, null, 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_38), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     class: "btn btn-primary",
     disabled: $data.submitting
-  }, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-credit-card"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing Payment...' : 'Proceed to Secure Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_35), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing Payment...' : 'Proceed to Secure Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_39), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "security-note"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-lock"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment processing powered by Stripe ")], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment processing powered by Stripe ")], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "faq-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Frequently Asked Questions"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Find answers to common questions about our subscription plans and features.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, (faq, index) => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Frequently Asked Questions"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Find answers to common questions about our subscription plans and features.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, (faq, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
       class: "faq-item"
@@ -38190,8 +38237,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas fa-chevron-down", {
         'open': faq.open
       }])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_39), faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Confirmation Modal "), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal fade\" id=\"cancelConfirmationModal\" tabindex=\"-1\" aria-labelledby=\"cancelConfirmationLabel\" aria-hidden=\"true\" data-v-0ca26305><div class=\"modal-dialog\" data-v-0ca26305><div class=\"modal-content\" data-v-0ca26305><div class=\"modal-header\" data-v-0ca26305><h5 class=\"modal-title\" id=\"cancelConfirmationLabel\" data-v-0ca26305>Confirm Subscription Cancellation</h5><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\" data-v-0ca26305></button></div><div class=\"modal-body\" data-v-0ca26305> Are you sure you want to cancel your subscription? Your premium access will end immediately, and you will lose access to exclusive features. </div><div class=\"modal-footer\" data-v-0ca26305><button type=\"button\" class=\"btn btn-secondary\" id=\"cancelDismiss\" data-v-0ca26305>No, Keep My Subscription</button><button type=\"button\" class=\"btn btn-primary\" id=\"confirmCancel\" data-v-0ca26305>Yes, Cancel Subscription</button></div></div></div></div>", 1))]);
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_43), faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Confirmation Modal "), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal fade\" id=\"cancelConfirmationModal\" tabindex=\"-1\" aria-labelledby=\"cancelConfirmationLabel\" aria-hidden=\"true\" data-v-0ca26305><div class=\"modal-dialog\" data-v-0ca26305><div class=\"modal-content\" data-v-0ca26305><div class=\"modal-header\" data-v-0ca26305><h5 class=\"modal-title\" id=\"cancelConfirmationLabel\" data-v-0ca26305>Confirm Subscription Cancellation</h5><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\" data-v-0ca26305></button></div><div class=\"modal-body\" data-v-0ca26305> Are you sure you want to cancel your subscription? Your premium access will end immediately, and you will lose access to exclusive features. </div><div class=\"modal-footer\" data-v-0ca26305><button type=\"button\" class=\"btn btn-secondary\" id=\"cancelDismiss\" data-v-0ca26305>No, Keep My Subscription</button><button type=\"button\" class=\"btn btn-primary\" id=\"confirmCancel\" data-v-0ca26305>Yes, Cancel Subscription</button></div></div></div></div>", 1))]);
 }
 
 /***/ }),
@@ -49137,7 +49184,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background: linear-gradient(180deg, #f9fafb 0%, #f1f5f9 100%);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  color: #1f2937;\n}\n.container[data-v-0ca26305] {\n  margin: 0 auto;\n  padding: 0 16px;\n}\n.subscription-header[data-v-0ca26305] {\n  padding: 48px 0 32px;\n  text-align: center;\n  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.75rem;\n  font-weight: 800;\n  color: #111827;\n  margin-bottom: 12px;\n  line-height: 1.2;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #4b5563;\n  max-width: 1140px;\n  margin: 0 auto;\n  line-height: 1.75;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 48px 0;\n}\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 24px;\n  border-radius: 12px;\n  margin-bottom: 24px;\n  gap: 12px;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);\n  transition: transform 0.2s ease, opacity 0.2s ease;\n}\n.notification-success[data-v-0ca26305] {\n  background: #dcfce7;\n  border: 1px solid #86efac;\n  color: #166534;\n}\n.notification-error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #f87171;\n  color: #991b1b;\n}\n.notification-info[data-v-0ca26305] {\n  background: #e0f2fe;\n  border: 1px solid #7dd3fc;\n  color: #1e40af;\n}\n.notification i[data-v-0ca26305] {\n  font-size: 1.25rem;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  padding: 4px;\n  font-size: 1.25rem;\n  transition: transform 0.2s ease;\n}\n.close-btn[data-v-0ca26305]:hover {\n  transform: scale(1.1);\n}\n.alert-container[data-v-0ca26305] {\n  position: fixed;\n  top: 16px;\n  right: 16px;\n  z-index: 1000;\n  width: 320px;\n}\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 64px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 40px;\n  height: 40px;\n  border: 4px solid #e5e7eb;\n  border-top: 4px solid #2c7c6a;\n  border-radius: 50%;\n  animation: spin-0ca26305 0.8s linear infinite;\n  margin: 0 auto 16px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  font-weight: 500;\n}\n@keyframes spin-0ca26305 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n.active-subscription[data-v-0ca26305] {\n  max-width: 640px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n  overflow: hidden;\n  transition: transform 0.3s ease;\n}\n.subscription-card[data-v-0ca26305]:hover {\n  transform: translateY(-4px);\n}\n.card-badge[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 12px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n  padding: 32px 24px;\n  text-align: center;\n  background: #f9fafb;\n}\n.status-icon[data-v-0ca26305] {\n  width: 72px;\n  height: 72px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #2c7c6a;\n  font-size: 2rem;\n  transition: transform 0.3s ease;\n}\n.card-header:hover .status-icon[data-v-0ca26305] {\n  transform: scale(1.05);\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.875rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  margin-bottom: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #6b7280;\n  font-weight: 500;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n}\n.card-body[data-v-0ca26305] {\n  padding: 24px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 16px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 24px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.benefit-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 1rem;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.9375rem;\n}\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 14px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.7;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.btn-cancel[data-v-0ca26305] {\n  background: #dc2626;\n  color: white;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(.disabled):not(.cancelled) {\n  background: #b91c1c;\n  transform: translateY(-2px);\n}\n.btn-cancel.disabled[data-v-0ca26305] {\n  background: #d1d5db;\n  color: #374151;\n  cursor: not-allowed;\n}\n.btn-cancel.cancelled[data-v-0ca26305] {\n  background: #6b7280;\n  color: white;\n  cursor: default;\n}\n.success-image-container[data-v-0ca26305] {\n  text-align: center;\n  padding: 48px 0;\n  max-width: 480px;\n  margin: 0 auto;\n  animation: fadeIn-0ca26305 0.5s ease;\n}\n.success-image[data-v-0ca26305] {\n  max-width: 80px;\n  height: auto;\n  margin-bottom: 16px;\n}\n.success-message[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  margin-bottom: 24px;\n  line-height: 1.5;\n}\n.plans-view[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 32px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  align-items: start;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n\n/* 🔑 KEY FIX: Make cards stop at the button */\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e5e7eb;\n  border-radius: 16px;\n  padding: 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  display: flex;\n  flex-direction: column;\n  height: auto;\n  min-height: auto;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #2c7c6a;\n  transform: translateY(-6px);\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 100%);\n  transform: scale(1.03);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 6px 16px;\n  border-radius: 9999px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 56px;\n  height: 56px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 12px;\n  color: #2c7c6a;\n  font-size: 1.5rem;\n  transition: transform 0.3s ease;\n}\n.plan-card:hover .plan-icon[data-v-0ca26305] {\n  transform: scale(1.1);\n}\n.plan-header h2[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.25rem;\n  font-weight: 700;\n  color: #111827;\n}\n.period[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 0.9375rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n}\n.plan-description[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 0.875rem;\n  line-height: 1.5;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 12px;\n  flex-grow: 1;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e5e7eb;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 0.9375rem;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.875rem;\n}\n\n/* 🔑 KEY FIX: Push selector to bottom and prevent extra space */\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n  padding-bottom: 0;\n}\n.plan-selector .radio-label[data-v-0ca26305],\n.plan-selector .btn-get-started[data-v-0ca26305] {\n  margin-bottom: 0;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 0.9375rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: linear-gradient(45deg, #256355, #2bb880);\n}\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #6b7280;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n.faq-section[data-v-0ca26305] {\n  background: #ffffff;\n  padding: 64px 0;\n  border-top: 1px solid #e5e7eb;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 40px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n}\n.faq-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.faq-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 20px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #111827;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 1rem;\n  transition: transform 0.3s ease;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 20px;\n  animation: slideDown-0ca26305 0.3s ease;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #4b5563;\n  line-height: 1.6;\n  margin: 0;\n}\n\n/* Animations\n-------------------------------------------------- */\n@keyframes fadeIn-0ca26305 {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes slideDown-0ca26305 {\nfrom {\n    opacity: 0;\n    height: 0;\n}\nto {\n    opacity: 1;\n    height: auto;\n}\n}\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n    font-size: 2.25rem;\n}\n.header-content p[data-v-0ca26305] {\n    font-size: 1rem;\n}\n.plans-grid[data-v-0ca26305] {\n    grid-template-columns: 1fr;\n    align-items: start;\n    gap: 16px;\n}\n.plan-card.featured[data-v-0ca26305] {\n    transform: scale(1);\n}\n.card-header[data-v-0ca26305],\n  .card-body[data-v-0ca26305] {\n    padding: 20px;\n}\n.plan-card[data-v-0ca26305] {\n    padding: 20px;\n}\n.alert-container[data-v-0ca26305] {\n    width: 90%;\n    right: 5%;\n}\n.plan-description[data-v-0ca26305] {\n    font-size: 0.8125rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.subscription-container[data-v-0ca26305] {\n  min-height: 100vh;\n  background: linear-gradient(180deg, #f9fafb 0%, #f1f5f9 100%);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  color: #1f2937;\n}\n.container[data-v-0ca26305] {\n  margin: 0 auto;\n  padding: 0 16px;\n}\n.subscription-header[data-v-0ca26305] {\n  padding: 48px 0 32px;\n  text-align: center;\n  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);\n}\n.header-content h1[data-v-0ca26305] {\n  font-size: 2.75rem;\n  font-weight: 800;\n  color: #111827;\n  margin-bottom: 12px;\n  line-height: 1.2;\n}\n.header-content p[data-v-0ca26305] {\n  font-size: 1.125rem;\n  color: #4b5563;\n  max-width: 1140px;\n  margin: 0 auto;\n  line-height: 1.75;\n}\n.subscription-main[data-v-0ca26305] {\n  padding: 48px 0;\n}\n\n/* Billing cycle segmented toggle */\n.billing-toggle[data-v-0ca26305] {\n  position: relative;\n  display: inline-flex;\n  background: #f3f4f6;\n  border-radius: 9999px;\n  padding: 6px;\n  gap: 8px;\n  margin-top: 12px;\n  box-shadow: inset 0 0 0 1px #e5e7eb;\n}\n.billing-toggle .toggle-option[data-v-0ca26305] {\n  position: relative;\n  z-index: 1;\n  border: none;\n  background: transparent;\n  padding: 10px 18px;\n  border-radius: 9999px;\n  font-weight: 600;\n  /* color: #374151; */\n  cursor: pointer;\n  transition: color 200ms ease;\n}\n.billing-toggle .toggle-option.active[data-v-0ca26305] {\n  color: #ffffff;\n}\n.billing-toggle .toggle-indicator[data-v-0ca26305] {\n  position: absolute;\n  top: 6px;\n  bottom: 6px;\n  width: calc(50% - 6px);\n  border-radius: 9999px;\n  background: #4b5563;\n  transition: transform 260ms ease, background-color 260ms ease;\n  box-shadow: 0 2px 6px rgba(0,0,0,0.15);\n}\n.billing-toggle .toggle-indicator.monthly[data-v-0ca26305] {\n  transform: translateX(0);\n  background: #2c7c6a;\n}\n.billing-toggle .toggle-indicator.yearly[data-v-0ca26305] {\n  transform: translateX(100%);\n  background: #2c7c6a; /* match monthly green */\n}\n.toggle-savings[data-v-0ca26305] {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  margin-top: 10px;\n  font-weight: 600;\n  color: #2c7c6a;\n  background: #ecfdf5;\n  border: 1px solid #a7f3d0;\n  padding: 6px 10px;\n  border-radius: 9999px;\n}\n.notification[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  padding: 16px 24px;\n  border-radius: 12px;\n  margin-bottom: 24px;\n  gap: 12px;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);\n  transition: transform 0.2s ease, opacity 0.2s ease;\n}\n.notification-success[data-v-0ca26305] {\n  background: #dcfce7;\n  border: 1px solid #86efac;\n  color: #166534;\n}\n.notification-error[data-v-0ca26305] {\n  background: #fef2f2;\n  border: 1px solid #f87171;\n  color: #991b1b;\n}\n.notification-info[data-v-0ca26305] {\n  background: #e0f2fe;\n  border: 1px solid #7dd3fc;\n  color: #1e40af;\n}\n.notification i[data-v-0ca26305] {\n  font-size: 1.25rem;\n}\n.close-btn[data-v-0ca26305] {\n  background: none;\n  border: none;\n  color: inherit;\n  cursor: pointer;\n  padding: 4px;\n  font-size: 1.25rem;\n  transition: transform 0.2s ease;\n}\n.close-btn[data-v-0ca26305]:hover {\n  transform: scale(1.1);\n}\n.alert-container[data-v-0ca26305] {\n  position: fixed;\n  top: 16px;\n  right: 16px;\n  z-index: 1000;\n  width: 320px;\n}\n.loading-state[data-v-0ca26305] {\n  text-align: center;\n  padding: 64px 0;\n}\n.spinner[data-v-0ca26305] {\n  width: 40px;\n  height: 40px;\n  border: 4px solid #e5e7eb;\n  border-top: 4px solid #2c7c6a;\n  border-radius: 50%;\n  animation: spin-0ca26305 0.8s linear infinite;\n  margin: 0 auto 16px;\n}\n.loading-state p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  font-weight: 500;\n}\n@keyframes spin-0ca26305 {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n.active-subscription[data-v-0ca26305] {\n  max-width: 640px;\n  margin: 0 auto;\n}\n.subscription-card[data-v-0ca26305] {\n  background: white;\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n  overflow: hidden;\n  transition: transform 0.3s ease;\n}\n.subscription-card[data-v-0ca26305]:hover {\n  transform: translateY(-4px);\n}\n.card-badge[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 12px;\n  text-align: center;\n  font-weight: 600;\n  font-size: 0.875rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.card-header[data-v-0ca26305] {\n  padding: 32px 24px;\n  text-align: center;\n  background: #f9fafb;\n}\n.status-icon[data-v-0ca26305] {\n  width: 72px;\n  height: 72px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 16px;\n  color: #2c7c6a;\n  font-size: 2rem;\n  transition: transform 0.3s ease;\n}\n.card-header:hover .status-icon[data-v-0ca26305] {\n  transform: scale(1.05);\n}\n.card-header h2[data-v-0ca26305] {\n  font-size: 1.875rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 8px;\n}\n.subtitle[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  margin-bottom: 20px;\n}\n.status-item[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 4px;\n}\n.label[data-v-0ca26305] {\n  font-size: 0.875rem;\n  color: #6b7280;\n  font-weight: 500;\n}\n.value[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n}\n.card-body[data-v-0ca26305] {\n  padding: 24px;\n}\n.card-body h3[data-v-0ca26305] {\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 16px;\n  text-align: center;\n}\n.benefits-list[data-v-0ca26305] {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n  margin-bottom: 24px;\n}\n.benefit-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 12px 0;\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.benefit-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.benefit-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.benefit-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 1rem;\n}\n.benefit-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.9375rem;\n}\n.btn[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 14px 24px;\n  border: none;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  position: relative;\n}\n.btn[data-v-0ca26305]:disabled {\n  opacity: 0.7;\n  cursor: not-allowed;\n}\n.btn-primary[data-v-0ca26305] {\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n}\n.btn-primary[data-v-0ca26305]:hover:not(:disabled) {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.btn-cancel[data-v-0ca26305] {\n  background: #dc2626;\n  color: white;\n}\n.btn-cancel[data-v-0ca26305]:hover:not(.disabled):not(.cancelled) {\n  background: #b91c1c;\n  transform: translateY(-2px);\n}\n.btn-cancel.disabled[data-v-0ca26305] {\n  background: #d1d5db;\n  color: #374151;\n  cursor: not-allowed;\n}\n.btn-cancel.cancelled[data-v-0ca26305] {\n  background: #6b7280;\n  color: white;\n  cursor: default;\n}\n.success-image-container[data-v-0ca26305] {\n  text-align: center;\n  padding: 48px 0;\n  max-width: 480px;\n  margin: 0 auto;\n  animation: fadeIn-0ca26305 0.5s ease;\n}\n.success-image[data-v-0ca26305] {\n  max-width: 80px;\n  height: auto;\n  margin-bottom: 16px;\n}\n.success-message[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  margin-bottom: 24px;\n  line-height: 1.5;\n}\n.plans-view[data-v-0ca26305] {\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.plans-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 32px;\n}\n.plans-header h2[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plans-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1.125rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.plans-grid[data-v-0ca26305] {\n  display: grid;\n  align-items: start;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 24px;\n  margin-bottom: 48px;\n}\n\n/* 🔑 KEY FIX: Make cards stop at the button */\n.plan-card[data-v-0ca26305] {\n  background: white;\n  border: 2px solid #e5e7eb;\n  border-radius: 16px;\n  padding: 24px;\n  position: relative;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  display: flex;\n  flex-direction: column;\n  height: auto;\n  min-height: auto;\n}\n.plan-card[data-v-0ca26305]:hover {\n  border-color: #2c7c6a;\n  transform: translateY(-6px);\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);\n}\n.plan-card.selected[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: #f0fdfa;\n}\n.plan-card.featured[data-v-0ca26305] {\n  border-color: #2c7c6a;\n  background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 100%);\n  transform: scale(1.03);\n}\n.plan-badge[data-v-0ca26305] {\n  position: absolute;\n  top: -12px;\n  left: 50%;\n  transform: translateX(-50%);\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  padding: 6px 16px;\n  border-radius: 9999px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.plan-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.plan-icon[data-v-0ca26305] {\n  width: 56px;\n  height: 56px;\n  background: #d1fae5;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 auto 12px;\n  color: #2c7c6a;\n  font-size: 1.5rem;\n  transition: transform 0.3s ease;\n}\n.plan-card:hover .plan-icon[data-v-0ca26305] {\n  transform: scale(1.1);\n}\n.plan-header h2[data-v-0ca26305] {\n  font-size: 1.5rem;\n  font-weight: 600;\n  color: #111827;\n  margin-bottom: 12px;\n}\n.plan-price[data-v-0ca26305] {\n  margin-bottom: 8px;\n}\n.amount[data-v-0ca26305] {\n  font-size: 2.25rem;\n  font-weight: 700;\n  color: #111827;\n}\n.period[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 0.9375rem;\n}\n.savings[data-v-0ca26305] {\n  color: #059669;\n  font-weight: 600;\n  font-size: 0.875rem;\n}\n.plan-description[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 0.875rem;\n  line-height: 1.5;\n}\n.plan-features[data-v-0ca26305] {\n  margin-bottom: 12px;\n  flex-grow: 1;\n}\n.feature-item[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  padding: 10px 0;\n  border-bottom: 1px solid #e5e7eb;\n}\n.feature-item[data-v-0ca26305]:last-child {\n  border-bottom: none;\n}\n.feature-item i[data-v-0ca26305] {\n  color: #2c7c6a;\n  font-size: 0.9375rem;\n}\n.feature-item span[data-v-0ca26305] {\n  color: #374151;\n  font-size: 0.875rem;\n}\n\n/* 🔑 KEY FIX: Push selector to bottom and prevent extra space */\n.plan-selector[data-v-0ca26305] {\n  margin-top: auto;\n  padding-bottom: 0;\n}\n.plan-selector .radio-label[data-v-0ca26305],\n.plan-selector .btn-get-started[data-v-0ca26305] {\n  margin-bottom: 0;\n}\n.radio-input[data-v-0ca26305] {\n  display: none;\n}\n.radio-label[data-v-0ca26305] {\n  display: block;\n  text-align: center;\n  padding: 12px 16px;\n  background: linear-gradient(45deg, #2c7c6a, #34d399);\n  color: white;\n  border-radius: 8px;\n  font-weight: 600;\n  font-size: 0.9375rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.radio-label[data-v-0ca26305]:hover {\n  background: linear-gradient(45deg, #256355, #2bb880);\n  transform: translateY(-2px);\n}\n.plan-card.selected .radio-label[data-v-0ca26305] {\n  background: linear-gradient(45deg, #256355, #2bb880);\n}\n.payment-section[data-v-0ca26305] {\n  text-align: center;\n  max-width: 400px;\n  margin: 0 auto;\n}\n.security-note[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  color: #6b7280;\n  font-size: 0.875rem;\n  margin-top: 16px;\n}\n.faq-section[data-v-0ca26305] {\n  background: #ffffff;\n  padding: 64px 0;\n  border-top: 1px solid #e5e7eb;\n}\n.faq-header[data-v-0ca26305] {\n  text-align: center;\n  margin-bottom: 40px;\n}\n.faq-header h3[data-v-0ca26305] {\n  font-size: 2rem;\n  font-weight: 700;\n  color: #111827;\n}\n.faq-header p[data-v-0ca26305] {\n  color: #4b5563;\n  font-size: 1rem;\n  max-width: 640px;\n  margin: 0 auto;\n}\n.faq-list[data-v-0ca26305] {\n  max-width: 800px;\n  margin: 0 auto;\n}\n.faq-item[data-v-0ca26305] {\n  border-bottom: 1px solid #e5e7eb;\n  transition: background 0.2s ease;\n}\n.faq-item[data-v-0ca26305]:hover {\n  background: #f9fafb;\n}\n.faq-question[data-v-0ca26305] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 20px 0;\n  cursor: pointer;\n  gap: 16px;\n}\n.faq-question h4[data-v-0ca26305] {\n  flex: 1;\n  font-size: 1.125rem;\n  font-weight: 600;\n  color: #111827;\n  margin: 0;\n}\n.faq-question i[data-v-0ca26305] {\n  color: #6b7280;\n  font-size: 1rem;\n  transition: transform 0.3s ease;\n}\n.faq-question i.open[data-v-0ca26305] {\n  transform: rotate(180deg);\n}\n.faq-answer[data-v-0ca26305] {\n  padding-bottom: 20px;\n  animation: slideDown-0ca26305 0.3s ease;\n}\n.faq-answer p[data-v-0ca26305] {\n  color: #4b5563;\n  line-height: 1.6;\n  margin: 0;\n}\n\n/* Animations\n-------------------------------------------------- */\n@keyframes fadeIn-0ca26305 {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes slideDown-0ca26305 {\nfrom {\n    opacity: 0;\n    height: 0;\n}\nto {\n    opacity: 1;\n    height: auto;\n}\n}\n@media (max-width: 768px) {\n.header-content h1[data-v-0ca26305] {\n    font-size: 2.25rem;\n}\n.header-content p[data-v-0ca26305] {\n    font-size: 1rem;\n}\n.plans-grid[data-v-0ca26305] {\n    grid-template-columns: 1fr;\n    align-items: start;\n    gap: 16px;\n}\n.plan-card.featured[data-v-0ca26305] {\n    transform: scale(1);\n}\n.card-header[data-v-0ca26305],\n  .card-body[data-v-0ca26305] {\n    padding: 20px;\n}\n.plan-card[data-v-0ca26305] {\n    padding: 20px;\n}\n.alert-container[data-v-0ca26305] {\n    width: 90%;\n    right: 5%;\n}\n.plan-description[data-v-0ca26305] {\n    font-size: 0.8125rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
