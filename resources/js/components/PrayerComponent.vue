@@ -58,7 +58,7 @@
         </div>
 
         <div class="d-flex gap-2">
-          <button type="submit" class="btn btn-primary px-4">
+          <button type="submit" class="btn px-4" style="background-color: #00bfa6; color: white; font-weight: bold;">
             <i class="bi bi-search me-2"></i> Search
           </button>
           <button type="button" class="btn btn-outline-secondary px-4" @click="resetFields">

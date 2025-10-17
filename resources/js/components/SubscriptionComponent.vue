@@ -273,6 +273,7 @@ export default {
             'Islamic dictionary',
             'Islamic blogs',
             'Dua collection',
+            'Prayer times',
             'Hijri calendar'
           ]
         },

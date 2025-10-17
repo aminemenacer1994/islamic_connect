@@ -12194,7 +12194,7 @@ __webpack_require__.r(__webpack_exports__);
         badge: 'Free Forever',
         featured: false,
         description: 'Full access to all core Islamic resources — no payment required.',
-        features: ['Quran with audio recitation', 'Quran history', 'Names of Allah', 'Image gallery', 'Islamic dictionary', 'Islamic blogs', 'Dua collection', 'Hijri calendar']
+        features: ['Quran with audio recitation', 'Quran history', 'Names of Allah', 'Image gallery', 'Islamic dictionary', 'Islamic blogs', 'Dua collection', 'Prayer times', 'Hijri calendar']
       }, {
         value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
         name: 'Monthly',
@@ -33517,7 +33517,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     number: true
   }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
-    class: "btn btn-primary px-4"
+    class: "btn px-4",
+    style: {
+      "background-color": "#00bfa6",
+      "color": "white",
+      "font-weight": "bold"
+    }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-search me-2"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Search ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
