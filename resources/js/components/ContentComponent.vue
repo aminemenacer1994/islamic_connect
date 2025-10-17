@@ -310,6 +310,9 @@
     <div v-if="showAudioPlayer" class="audio-player-container">
       <div class="custom-audio-player" :class="{ minimized: isPlayerMinimized }">
         <div class="controls">
+          <div class="artwork" v-if="selectedPodcast && selectedPodcast.image">
+            <img :src="selectedPodcast.image" :alt="selectedPodcast.name" />
+          </div>
           <div class="control-group">
             <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind 15 seconds" aria-label="Rewind 15 seconds">
               <i class="bi bi-skip-backward-fill"></i>
@@ -327,8 +330,8 @@
 
           </div>
           <div class="info-section" aria-live="polite">
+            <span class="episode-title" v-if="visiblePodcasts[currentlyPlayingIndex]">{{ visiblePodcasts[currentlyPlayingIndex].title }}</span>
             <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
-            <span class="episode-title" v-if="visiblePodcasts[currentlyPlayingIndex]">• {{ visiblePodcasts[currentlyPlayingIndex].title }}</span>
           </div>
           <div class="audio-actions" style="display: flex; align-items: center; gap: 18px;">
             <div style="display: flex; align-items: center; gap: 10px;">
@@ -348,6 +351,9 @@
                 <option :value="2">2x</option>
               </select>
             </div>
+            <button @click="isPlayerMinimized = !isPlayerMinimized" class="control-btn" :title="isPlayerMinimized ? 'Expand' : 'Minimize'" :aria-pressed="isPlayerMinimized ? 'true' : 'false'" aria-label="Minimize player">
+              <i class="bi" :class="isPlayerMinimized ? 'bi-arrows-angle-expand' : 'bi-arrows-angle-contract'"></i>
+            </button>
             
             <button @click="closeAudioPlayer" class="control-btn close-btn" title="Close">
               <i class="bi bi-x-lg"></i>
@@ -357,6 +363,7 @@
         </div>
         <div class="progress-bar" @mousedown="startSeek" @click="seekAudio">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
+          <div class="progress-handle" :style="{ left: progress[currentlyPlayingIndex] + '%' }"></div>
         </div>
       </div>
     </div>
@@ -864,8 +871,8 @@ export default {
       let filtered = [...this.podcasts];
 
       // Apply language filter
-      if (this.selectedLanguageFilter) {
-        filtered = filtered.filter(podcast => podcast.language === this.selectedLanguageFilter);
+      if (this.languageFilter) {
+        filtered = filtered.filter(podcast => podcast.language === this.languageFilter);
       }
 
       // Apply date filter
@@ -1894,39 +1901,55 @@ export default {
   left: 0;
   width: 100%;
   background: #2c2c2c;
-  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.25);
   z-index: 1000;
-  padding: 8px 12px;
+  padding: 12px 16px;
 }
 
 .custom-audio-player {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 8px;
+  padding: 12px;
   color: #ccc;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
 }
 
 .controls {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 12px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+.artwork {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.artwork img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .control-group {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 0 0 auto;
 }
 
 .info-section {
+  display: flex;
   align-items: center;
-  gap: 12px;
-  flex-grow: 1;
+  gap: 14px;
+  flex: 1 1 auto;
+  min-width: 0; /* allow title to truncate */
   justify-content: center;
 }
 
@@ -1934,16 +1957,16 @@ export default {
   background: none;
   border: none;
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   cursor: pointer;
-  padding: 6px;
+  padding: 8px;
   border-radius: 4px;
   transition: background 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
 }
 
 .control-btn:hover {
@@ -1951,27 +1974,35 @@ export default {
 }
 
 .play-pause {
-  font-size: 1.5rem;
-  padding: 6px;
-  width: 40px;
-  height: 40px;
+  font-size: 1.8rem;
+  padding: 8px;
+  width: 50px;
+  height: 50px;
 }
 
 .time {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 500;
   color: #ccc;
-  min-width: 70px;
+  min-width: 80px;
   text-align: center;
   white-space: nowrap;
 }
 
-.title {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #ccc;
-  min-width: 100px;
-  text-align: center;
+.audio-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
+}
+
+.episode-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e7e7e7;
+  max-width: 42vw;
+  text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1986,17 +2017,31 @@ export default {
 
 .progress-bar {
   width: 100%;
-  height: 4px;
+  height: 6px;
   background: #555;
   cursor: pointer;
   position: relative;
-  margin: 4px 0;
+  margin: 6px 0;
+  border-radius: 4px;
 }
 
 .progress {
   height: 100%;
   background: #00ffcc;
   position: absolute;
+  border-radius: 4px;
+}
+
+.progress-handle {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #00ffcc;
+  box-shadow: 0 0 0 3px rgba(0,255,204,0.15);
+  pointer-events: none;
 }
 
 /* Responsive Adjustments */
@@ -2559,9 +2604,9 @@ export default {
     min-width: 60px;
   }
 
-  .title {
-    font-size: 0.85rem;
-    min-width: 80px;
+  .episode-title {
+    font-size: 0.95rem;
+    max-width: 46vw;
   }
 
   .close-btn {
@@ -2607,9 +2652,9 @@ export default {
     min-width: 50px;
   }
 
-  .title {
-    font-size: 0.8rem;
-    min-width: 70px;
+  .episode-title {
+    font-size: 0.9rem;
+    max-width: 50vw;
   }
 
   .close-btn {
