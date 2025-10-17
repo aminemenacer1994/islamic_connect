@@ -337,7 +337,7 @@ body{
                                     
                     @guest
                     @if (Route::has('login'))
-                    <li class="nav-item display-6 pl-3 mt-2">
+                    <li class="nav-item  pl-3 mt-2">
                         <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login" data-nav-item="primary">{{ __('Login') }}</a>
                     </li>
                     @endif

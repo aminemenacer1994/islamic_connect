@@ -39,6 +39,24 @@
           </select>
         </div>
 
+        <div class="flex-grow-1">
+          <label for="schoolSelect">Asr Juristic Method:</label>
+          <select id="schoolSelect" v-model.number="school" class="form-select">
+            <option :value="0">Shafi, Maliki, Hanbali (Standard)</option>
+            <option :value="1">Hanafi (Later Asr)</option>
+          </select>
+        </div>
+
+        <div class="flex-grow-1">
+          <label for="latAdjSelect">High Latitude Adjustment:</label>
+          <select id="latAdjSelect" v-model.number="latitudeAdjustmentMethod" class="form-select">
+            <option :value="0">None</option>
+            <option :value="1">Middle of the Night</option>
+            <option :value="2">One Seventh of the Night</option>
+            <option :value="3">Angle Based</option>
+          </select>
+        </div>
+
         <div class="d-flex gap-2">
           <button type="submit" class="btn btn-primary px-4">
             <i class="bi bi-search me-2"></i> Search
@@ -163,7 +181,13 @@ export default {
       useCurrentLocation: true,
       monthName: '',
       year: '',
-      errorMessage: ''
+      errorMessage: '',
+      // Asr juristic method (0: Shafi et al., 1: Hanafi)
+      school: 0,
+      // High latitude adjustment method (0 none, 1 middle, 2 one-seventh, 3 angle-based)
+      latitudeAdjustmentMethod: 3,
+      // Timezone reported by API for accurate display
+      apiTimezone: ''
     };
   },
   mounted() {
@@ -171,10 +195,14 @@ export default {
     const savedCity = localStorage.getItem('prayer_city');
     const savedCountry = localStorage.getItem('prayer_country');
     const savedMethod = localStorage.getItem('prayer_method');
+    const savedSchool = localStorage.getItem('prayer_school');
+    const savedLatAdj = localStorage.getItem('prayer_latAdj');
     if (savedCity && savedCountry && savedMethod) {
       this.city = savedCity;
       this.country = savedCountry;
       this.method = savedMethod;
+      if (savedSchool !== null) this.school = Number(savedSchool);
+      if (savedLatAdj !== null) this.latitudeAdjustmentMethod = Number(savedLatAdj);
       this.useCurrentLocation = false;
       // Try to geocode and fetch prayer times for saved location
       this.submitSearch();
@@ -185,15 +213,27 @@ export default {
   methods: {
     formatTime(time) {
       if (!time) return '--:--';
-      const [hourStr, minuteStr] = time.split(' ')[0].split(':');
+      // If API returns ISO8601, format reliably using locale
+      if (typeof time === 'string' && time.includes('T')) {
+        const d = new Date(time);
+        if (isNaN(d)) return '--:--';
+        const opts = { hour: 'numeric', minute: '2-digit', hour12: true };
+        try {
+          // Format using the target city's timezone from API
+          return new Intl.DateTimeFormat([], { ...opts, timeZone: this.apiTimezone || undefined }).format(d);
+        } catch (_) {
+          return d.toLocaleTimeString([], opts);
+        }
+      }
+      // Fallback for older string format like "05:30 (+01)"
+      const clean = String(time).split(' ')[0];
+      const [hourStr, minuteStr] = clean.split(':');
       let hour = parseInt(hourStr, 10);
       const minute = parseInt(minuteStr, 10);
+      if (Number.isNaN(hour) || Number.isNaN(minute)) return '--:--';
       const period = hour >= 12 ? 'PM' : 'AM';
-      if (hour === 0) {
-        hour = 12;
-      } else if (hour > 12) {
-        hour -= 12;
-      }
+      if (hour === 0) hour = 12;
+      else if (hour > 12) hour -= 12;
       return `${hour}:${minute.toString().padStart(2, '0')} ${period}`;
     },
     async getCurrentLocation() {
@@ -233,9 +273,8 @@ export default {
       const date = new Date();
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
-      // Use browser timezone for Aladhan API
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const url = `https://api.aladhan.com/v1/calendar?latitude=${this.latitude}&longitude=${this.longitude}&method=${this.method}&month=${month}&year=${year}&timezonestring=${encodeURIComponent(timezone)}&school=0`;
+      // Let Aladhan detect timezone from coordinates to avoid forcing browser TZ
+      const url = `https://api.aladhan.com/v1/calendar?latitude=${this.latitude}&longitude=${this.longitude}&method=${Number(this.method)}&month=${month}&year=${year}&school=${this.school}&latitudeAdjustmentMethod=${this.latitudeAdjustmentMethod}&iso8601=true`;
       try {
         const response = await fetch(url);
         const data = await response.json();
@@ -245,6 +284,12 @@ export default {
             const gregorian = data.data[0].date.gregorian;
             this.monthName = gregorian.month.en;
             this.year = gregorian.year;
+            // Capture API timezone for proper display formatting
+            if (data.data[0].meta && data.data[0].meta.timezone) {
+              this.apiTimezone = data.data[0].meta.timezone;
+            } else if (data.meta && data.meta.timezone) {
+              this.apiTimezone = data.meta.timezone;
+            }
           }
         } else {
           this.prayerData = [];
@@ -266,7 +311,9 @@ export default {
       // Save user preferences to localStorage
       localStorage.setItem('prayer_city', this.city);
       localStorage.setItem('prayer_country', this.country);
-      localStorage.setItem('prayer_method', this.method);
+      localStorage.setItem('prayer_method', String(this.method));
+      localStorage.setItem('prayer_school', String(this.school));
+      localStorage.setItem('prayer_latAdj', String(this.latitudeAdjustmentMethod));
       try {
         this.useCurrentLocation = false;
         const geo = await this.geocodeCity(this.city, this.country);
