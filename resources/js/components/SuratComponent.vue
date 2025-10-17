@@ -273,6 +273,8 @@ export default {
       // perf throttles
       lastProgressAt: 0,
       lastVizAt: 0,
+      // request control
+      _surahAborter: null,
     };
   },
   computed: {
@@ -316,6 +318,8 @@ export default {
     },
     selectedReciter: function (newVal) {
       if (newVal && !this.isLoading) {
+        // scroll to top immediately on change
+        try { window.scrollTo(0, 0); } catch (_) {}
         this.isLoading = true;
         this.savePreference("selectedReciter", newVal);
         this.currentlyPlayingIndex = 0;
@@ -334,6 +338,7 @@ export default {
     },
     selectedTranslation: function (newVal) {
       if (newVal && !this.isLoading) {
+        try { window.scrollTo(0, 0); } catch (_) {}
         this.isLoading = true;
         this.savePreference("selectedTranslation", newVal);
         this.currentlyPlayingIndex = 0;
@@ -351,6 +356,7 @@ export default {
     },
     selectedSurah: function (newVal) {
       if (newVal && !this.isLoading) {
+        try { window.scrollTo(0, 0); } catch (_) {}
         this.isLoading = true;
         this.savePreference("selectedSurah", newVal);
         this.currentlyPlayingIndex = 0;
@@ -392,6 +398,25 @@ export default {
     window.removeEventListener('resize', this.updateIsMobile);
   },
   methods: {
+    // simple localStorage cache with TTL and SWR
+    async cachedFetchJSON(url, cacheKey, ttlMs = 24 * 60 * 60 * 1000) {
+      try {
+        const raw = localStorage.getItem(cacheKey);
+        if (raw) {
+          const { ts, data } = JSON.parse(raw);
+          if (Date.now() - ts < ttlMs) {
+            // return cached immediately
+            return { data, fromCache: true };
+          }
+        }
+      } catch (_) {}
+
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`${res.status}`);
+      const json = await res.json();
+      try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data: json })); } catch (_) {}
+      return { data: json, fromCache: false };
+    },
     onKeydown(e) {
       const tag = (e.target && e.target.tagName || '').toLowerCase();
       if (e.target?.isContentEditable || ['input','textarea','select'].includes(tag)) return;
@@ -549,6 +574,7 @@ export default {
       let audio = this.audioElements[index];
       if (!audio) {
         audio = new Audio();
+        // use auto for current, metadata for preloaded next
         audio.preload = 'auto';
         audio.addEventListener("timeupdate", () => this.updateProgress(index));
         audio.addEventListener("ended", () => this.handleAyahEnd(index));
@@ -597,39 +623,42 @@ export default {
         // Removed continuous auto-scroll here to prevent jumpiness.
       };
 
-      // Try to play immediately; if blocked or not ready, wait canplaythrough
-      const startPlayback = () => {
-        audio.play().then(() => {
-          this.isAudioPlaying[index] = true;
-          this.isAudioLoading[index] = false;
-          this.isHighlighted = true;
-          this.showAudioPlayer = true;
-          this.animateVisualizer();
-        }).catch((err) => {
-          console.warn(`Immediate play failed for ayah ${index + 1}:`, err?.name || err);
-        });
+      // Optimistic immediate play, fallback to 'canplay' (faster than 'canplaythrough')
+      const markPlaying = () => {
+        this.isAudioPlaying[index] = true;
+        this.isAudioLoading[index] = false;
+        this.isHighlighted = true;
+        this.showAudioPlayer = true;
+        this.animateVisualizer();
+        // Opportunistically warm next ayah
+        this.prepareNextAudio(index + 1);
       };
+
+      const tryPlay = () => {
+        const p = audio.play();
+        if (p && typeof p.then === 'function') {
+          p.then(() => {
+            markPlaying();
+          }).catch((err) => {
+            // If playback fails (e.g., not enough data), wait for 'canplay' and retry once
+            const onCanPlay = () => {
+              audio.removeEventListener('canplay', onCanPlay);
+              const p2 = audio.play();
+              if (p2 && typeof p2.then === 'function') {
+                p2.then(() => markPlaying()).catch(() => {});
+              } else {
+                markPlaying();
+              }
+            };
+            audio.addEventListener('canplay', onCanPlay, { once: true });
+          });
+        } else {
+          markPlaying();
+        }
+      };
+
       this.isAudioLoading[index] = true;
-      // If metadata already available, start now
-      if (audio.readyState >= 2) {
-        startPlayback();
-      } else {
-        const onReady = () => {
-          audio.removeEventListener('canplaythrough', onReady);
-          startPlayback();
-        };
-        audio.addEventListener('canplaythrough', onReady, { once: true });
-        // Kick off network fetch
-        try { audio.load(); } catch (_) {}
-        // Safety timeout to avoid endless loading
-        clearTimeout(this._playTimeout);
-        this._playTimeout = setTimeout(() => {
-          if (!this.isAudioPlaying[index]) {
-            this.isAudioLoading[index] = false;
-            this.$toast?.error(`Audio is taking too long. Please try again.`);
-          }
-        }, 4000);
-      }
+      tryPlay();
     },
     pauseAudio: function (index) {
       if (this.audioElements[index]) {
@@ -671,6 +700,25 @@ export default {
         this.audioElements[index].currentTime = Math.min(this.audioElements[index].duration, this.audioElements[index].currentTime + 20);
         // removed auto-scroll on fast-forward
       }
+    },
+    // Prepare next audio element to reduce start latency on next ayah
+    prepareNextAudio(nextIndex) {
+      if (nextIndex == null || nextIndex >= this.filteredAyahs.length) return;
+      const nextAyah = this.filteredAyahs[nextIndex];
+      if (!nextAyah || !nextAyah.audio) return;
+      let a = this.audioElements[nextIndex];
+      if (!a) {
+        a = new Audio();
+        a.preload = 'metadata';
+        this.audioElements[nextIndex] = a;
+      }
+      if (a.src !== nextAyah.audio) {
+        try { a.pause(); } catch (_) {}
+        a.src = nextAyah.audio;
+        try { a.load(); } catch (_) {}
+      }
+      a.volume = this.volume;
+      a.playbackRate = this.playbackSpeed;
     },
     updateProgress: function (index) {
       if (this.audioElements[index] && this.audioElements[index].duration) {
@@ -735,30 +783,23 @@ export default {
       };
       return languageFlags[lang.toLowerCase()] || '🌐';
     },
-    fetchSurahs: function () {
+    fetchSurahs: async function () {
       this.isLoading = true;
-      fetch("https://api.alquran.cloud/v1/surah")
-        .then(response => {
-          if (!response.ok) throw new Error(`Failed to fetch Surahs: ${response.status}`);
-          return response.json();
-        })
-        .then(data => {
-          if (!this._isDestroyed) {
-            this.surahs = data.data || [];
-          }
-          this.isLoading = false;
-        })
-        .catch(error => {
-          console.error("Error fetching Surahs:", error);
-          this.isLoading = false;
-        });
+      try {
+        const { data, fromCache } = await this.cachedFetchJSON("https://api.alquran.cloud/v1/surah", 'cache:surahs');
+        if (!this._isDestroyed) this.surahs = data.data || [];
+        this.isLoading = false;
+        // Revalidate in background if served from cache
+        if (fromCache) setTimeout(() => this.cachedFetchJSON("https://api.alquran.cloud/v1/surah", 'cache:surahs').then(({ data }) => { if (!this._isDestroyed) this.surahs = data.data || []; }), 0);
+      } catch (error) {
+        console.error("Error fetching Surahs:", error);
+        this.isLoading = false;
+      }
     },
     async fetchReciters() {
       this.isLoading = true;
       try {
-        const response = await fetch("https://api.alquran.cloud/v1/edition/format/audio");
-        if (!response.ok) throw new Error(`Failed to fetch Reciters: ${response.status}`);
-        const data = await response.json();
+        const { data, fromCache } = await this.cachedFetchJSON("https://api.alquran.cloud/v1/edition/format/audio", 'cache:reciters');
         if (!this._isDestroyed) {
           this.reciters = data.data
             .filter(reciter => reciter.identifier && reciter.englishName)
@@ -780,6 +821,9 @@ export default {
             ].includes(reciter.englishName.toLowerCase()));
         }
         this.isLoading = false;
+        if (fromCache) setTimeout(async () => {
+          try { const fresh = await this.cachedFetchJSON("https://api.alquran.cloud/v1/edition/format/audio", 'cache:reciters'); if (!this._isDestroyed) this.reciters = fresh.data.data.filter(r=>r.identifier&&r.englishName).map(r=>({identifier:r.identifier,englishName:r.englishName||"Unknown Reciter"})).filter(r=>!['elmir kuliev 2 by 1muslimapp','elmir kuliev by 1muslimapp','elmir kuliev elevatemuslim','elmir kuliev 1muslim','elmir kuliev 2muslim','chinese','ibrahim walk','fooladvand - hedayatfar','shamshad ali khan','youssouf leclerc'].includes(r.englishName.toLowerCase())); } catch(_){}
+        }, 0);
       } catch (error) {
         console.error("Error fetching Reciters:", error);
         this.isLoading = false;
@@ -788,9 +832,7 @@ export default {
     async fetchTranslations() {
       this.isLoading = true;
       try {
-        const response = await fetch("https://api.alquran.cloud/v1/edition/type/translation");
-        if (!response.ok) throw new Error(`Failed to fetch Translations: ${response.status}`);
-        const data = await response.json();
+        const { data, fromCache } = await this.cachedFetchJSON("https://api.alquran.cloud/v1/edition/type/translation", 'cache:translations');
         if (this._isDestroyed) return;
         if (!data.data) {
           console.error("No translation data received from API");
@@ -814,6 +856,7 @@ export default {
         this.translations = translations;
         console.log('Translations fetched:', translations);
         this.isLoading = false;
+        if (fromCache) setTimeout(async () => { try { const fresh = await this.cachedFetchJSON("https://api.alquran.cloud/v1/edition/type/translation", 'cache:translations'); if (this._isDestroyed) return; const trs = fresh.data.data.map(t=>({identifier:t.identifier,englishName:t.englishName||"Unknown Translation",language:t.language||"Unknown",flag:this.getFlagFromLanguage(t.language||"Unknown")})).filter(t=>t.flag!=='🌐'); trs.sort((a,b)=>a.flag<b.flag?-1:a.flag>b.flag?1:a.englishName<b.englishName?-1:a.englishName>b.englishName?1:0); this.translations = trs; } catch(_){} }, 0);
       } catch (error) {
         console.error("Error fetching Translations:", error);
         this.translations = [];
@@ -824,13 +867,54 @@ export default {
     fetchSurahDetails: function () {
       if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return Promise.resolve();
       this.isLoading = true;
-      return fetch(`https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},${this.selectedTranslation}`)
+      const cacheKey = `cache:surah:${this.selectedSurah}:${this.selectedReciter}:${this.selectedTranslation}`;
+
+      // Serve from cache immediately if available
+      try {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          const obj = JSON.parse(cached);
+          if (obj && obj.ts) {
+            const data = obj.data;
+            const arabicText = data.data[0];
+            const translation = data.data[1];
+            this.surahDetails = {
+              surahNumber: this.selectedSurah,
+              englishName: arabicText.englishName,
+              name: arabicText.name,
+              ayahs: arabicText.ayahs.map((ayah, index) => {
+                const text = ayah.text || '';
+                const transText = translation.ayahs[index] && translation.ayahs[index].text ? translation.ayahs[index].text : "Translation not available";
+                const words = text ? text.split(' ') : [];
+                return {
+                  number: ayah.number,
+                  text,
+                  lowerText: text.toLowerCase(),
+                  translation: transText,
+                  lowerTranslation: transText.toLowerCase(),
+                  audio: ayah.audio || "",
+                  words,
+                };
+              })
+            };
+            this.isLoading = false;
+          }
+        }
+      } catch (_) {}
+
+      // Abort any in-flight request
+      try { if (this._surahAborter) this._surahAborter.abort(); } catch (_) {}
+      this._surahAborter = new AbortController();
+      const { signal } = this._surahAborter;
+      return fetch(`https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},${this.selectedTranslation}`, { signal })
         .then(response => {
           if (!response.ok) throw new Error(`Failed to fetch Surah details: ${response.status}`);
           return response.json();
         })
         .then(data => {
           if (this._isDestroyed) return;
+          // persist cache
+          try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data })); } catch (_) {}
           const arabicText = data.data[0];
           const translation = data.data[1];
           this.surahDetails = {
@@ -856,6 +940,7 @@ export default {
           this.isLoading = false;
         })
         .catch(error => {
+          if (error?.name === 'AbortError') return; // expected on change
           console.error("Error fetching Surah details:", error);
           this.isLoading = false;
         });
