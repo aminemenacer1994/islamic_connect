@@ -9511,7 +9511,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     expose: __expose
   }) {
     __expose();
-    const defaultPopularReciters = [{
+    const defaultPopularReciters = (0,vue__WEBPACK_IMPORTED_MODULE_0__.markRaw)([{
       id: 1,
       name: 'Mishary Rashid Alafasy',
       url: 'https://qurango.net/radio/mishary_alafasy',
@@ -9619,7 +9619,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       country: 'Saudi Arabia',
       imageUrl: 'images/mal.webp',
       imageLoaded: true
-    }];
+    }]);
 
     // State
     const showSuggestions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
@@ -9656,6 +9656,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     const audioPlayerJustOpened = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     const focusedStationId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
     const liveAnnouncement = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+
+    // Cached search helpers
+    const lowerSearchQuery = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => searchQuery.value.trim().toLowerCase());
+    const searchRegex = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
+      const raw = searchQuery.value || '';
+      if (!raw) return null;
+      // Keep previous behavior: use raw query in regex (case-insensitive)
+      try {
+        return new RegExp(`(${raw})`, 'gi');
+      } catch (_unused) {
+        return null;
+      }
+    });
 
     // Keyboard navigation helpers
     const onStationKeydown = (id, event) => {
@@ -9720,15 +9733,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (attrId) focusedStationId.value = Number(attrId);
     };
 
-    // Keep roving tabindex aligned with data
-    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(visibleStations, list => {
-      const ids = list.map(s => s.id);
-      if (!ids.length) return;
-      if (!focusedStationId.value || !ids.includes(focusedStationId.value)) {
-        focusedStationId.value = ids[0];
-        (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(() => focusStationByIndex(0));
-      }
-    });
+    // (moved below) Keep roving tabindex aligned with data
+
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(() => {
       // Initialize focus after stations load
       (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(() => {
@@ -9740,6 +9746,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
     // Computed
     const sortedStations = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
+      // Avoid extra array cloning when default sort
+      if (sortBy.value === 'default') return filteredStations.value;
       const stationsToSort = [...filteredStations.value];
       switch (sortBy.value) {
         case 'name_asc':
@@ -9754,6 +9762,16 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     });
     const visibleStations = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => sortedStations.value.slice(0, itemsToShow.value));
     const allLoaded = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => itemsToShow.value >= sortedStations.value.length);
+
+    // Keep roving tabindex aligned with data
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(visibleStations, list => {
+      const ids = list.map(s => s.id);
+      if (!ids.length) return;
+      if (!focusedStationId.value || !ids.includes(focusedStationId.value)) {
+        focusedStationId.value = ids[0];
+        (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(() => focusStationByIndex(0));
+      }
+    });
     const availableCategories = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => [...new Set(stations.value.map(station => station.category || 'Recitation'))]);
     const currentlyPlayingStation = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
       if (!currentPlayingStationId.value) return null;
@@ -9967,7 +9985,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       try {
         new URL(url);
         return true;
-      } catch (_unused) {
+      } catch (_unused2) {
         console.warn(`Invalid URL: ${url}`);
         return false;
       }
@@ -10018,10 +10036,14 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         runSearch();
       }, 180);
     };
+
+    // Keep filters in sync with same debounce
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(selectedCategory, () => handleSearch());
     const runSearch = () => {
       highlightIndex.value = -1;
-      if (searchQuery.value.length >= 2) {
-        filteredSuggestions.value = stations.value.filter(station => station.name.toLowerCase().includes(searchQuery.value.toLowerCase())).slice(0, 5);
+      if (lowerSearchQuery.value.length >= 2) {
+        const q = lowerSearchQuery.value;
+        filteredSuggestions.value = stations.value.filter(station => station.name.toLowerCase().includes(q)).slice(0, 5);
         showSuggestions.value = true;
       } else {
         filteredSuggestions.value = [];
@@ -10030,30 +10052,27 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
       // Reset visible window for new results
       itemsToShow.value = itemsPerPage.value;
-      const query = searchQuery.value.toLowerCase().trim();
+      const query = lowerSearchQuery.value;
       filteredStations.value = stations.value.filter(station => {
-        const matchesName = station.name.toLowerCase().includes(query);
+        const matchesName = query ? station.name.toLowerCase().includes(query) : true;
         const matchesCategory = selectedCategory.value === 'All Categories' || station.category === selectedCategory.value;
         return matchesName && matchesCategory;
       });
     };
     const highlightSearch = name => {
-      if (!searchQuery.value) return name;
-      const regex = new RegExp(`(${searchQuery.value})`, 'gi');
-      return name.replace(regex, '<mark style="background:#0db691;color:white">$1</mark>');
+      const rx = searchRegex.value;
+      if (!rx) return name;
+      return name.replace(rx, '<mark style="background:#0db691;color:white">$1</mark>');
     };
     const handlePlay = async (id, event) => {
-      Object.values(audioRefs).forEach(audio => {
-        if (audio !== event.target) {
-          audio.pause();
+      // Pause only the currently playing audio if different
+      if (currentPlayingStationId.value && currentPlayingStationId.value !== id) {
+        const prevAudio = audioRefs[currentPlayingStationId.value];
+        if (prevAudio && prevAudio !== event.target) {
+          prevAudio.pause();
+          playingStates.value[currentPlayingStationId.value] = false;
         }
-      });
-      const allStationsId = Object.keys(audioRefs);
-      allStationsId.forEach(stationId => {
-        if (id != stationId) {
-          playingStates.value[stationId] = false;
-        }
-      });
+      }
       currentAudio.value = event.target;
       currentPlayingStationId.value = id;
       playingStates.value[id] = true;
@@ -10260,6 +10279,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     });
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeUnmount)(() => {
       clearInterval(listenerInterval);
+      if (observer) observer.disconnect();
     });
     const handleAudioPlayerClick = event => {
       // Prevent closing if the audio player was just opened
@@ -10328,6 +10348,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       audioPlayerJustOpened,
       focusedStationId,
       liveAnnouncement,
+      lowerSearchQuery,
+      searchRegex,
       onStationKeydown,
       getStationNodes,
       focusStationByOffset,
@@ -10391,7 +10413,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       reactive: vue__WEBPACK_IMPORTED_MODULE_0__.reactive,
       nextTick: vue__WEBPACK_IMPORTED_MODULE_0__.nextTick,
       onBeforeUnmount: vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeUnmount,
-      watch: vue__WEBPACK_IMPORTED_MODULE_0__.watch
+      watch: vue__WEBPACK_IMPORTED_MODULE_0__.watch,
+      markRaw: vue__WEBPACK_IMPORTED_MODULE_0__.markRaw
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -35954,7 +35977,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-bold fs-3 text-dark"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "images/art.png",
-    width: "30px",
+    width: "30",
+    height: "30",
+    loading: "lazy",
+    decoding: "async",
+    alt: "decorative",
     class: "mb-1"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reciters Stations:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[4] || (_cache[4] = $event => $setup.viewMode = 'grid'),

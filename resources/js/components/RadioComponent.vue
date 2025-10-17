@@ -112,7 +112,7 @@
       <!-- All Reciters Stations -->
       <section class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="fw-bold fs-3 text-dark"><img src="images/art.png" width="30px" class="mb-1" /> Reciters Stations:</h3>
+          <h3 class="fw-bold fs-3 text-dark"><img src="images/art.png" width="30" height="30" loading="lazy" decoding="async" alt="decorative" class="mb-1" /> Reciters Stations:</h3>
           <div class="d-flex align-items-center gap-2">
             <button @click="viewMode = 'grid'" class="btn btn-outline-dark" :class="{ active: viewMode === 'grid' }"
               aria-label="Grid View">
@@ -281,7 +281,7 @@
             </div>
           </div>
         </div>
-      </section>
+  </section>
 
     </div>
 
@@ -339,9 +339,9 @@
   </div>
 </template>
 <script setup>
-import { ref, computed, onMounted, reactive, nextTick, onBeforeUnmount, watch } from 'vue';
+import { ref, computed, onMounted, reactive, nextTick, onBeforeUnmount, watch, markRaw } from 'vue';
 
-const defaultPopularReciters = [
+const defaultPopularReciters = markRaw([
   {
     id: 1,
     name: 'Mishary Rashid Alafasy',
@@ -462,7 +462,7 @@ const defaultPopularReciters = [
     imageUrl: 'images/mal.webp',
     imageLoaded: true
   }
-];
+]);
 
 // State
 const showSuggestions = ref(false);
@@ -499,6 +499,19 @@ let listenerInterval = null;
 const audioPlayerJustOpened = ref(false);
 const focusedStationId = ref(null);
 const liveAnnouncement = ref('');
+
+// Cached search helpers
+const lowerSearchQuery = computed(() => searchQuery.value.trim().toLowerCase());
+const searchRegex = computed(() => {
+  const raw = searchQuery.value || '';
+  if (!raw) return null;
+  // Keep previous behavior: use raw query in regex (case-insensitive)
+  try {
+    return new RegExp(`(${raw})`, 'gi');
+  } catch {
+    return null;
+  }
+});
 
 // Keyboard navigation helpers
 const onStationKeydown = (id, event) => {
@@ -566,15 +579,7 @@ const focusStationByIndex = (index) => {
   if (attrId) focusedStationId.value = Number(attrId);
 };
 
-// Keep roving tabindex aligned with data
-watch(visibleStations, (list) => {
-  const ids = list.map(s => s.id);
-  if (!ids.length) return;
-  if (!focusedStationId.value || !ids.includes(focusedStationId.value)) {
-    focusedStationId.value = ids[0];
-    nextTick(() => focusStationByIndex(0));
-  }
-});
+// (moved below) Keep roving tabindex aligned with data
 
 onMounted(() => {
   // Initialize focus after stations load
@@ -587,6 +592,8 @@ onMounted(() => {
 
 // Computed
 const sortedStations = computed(() => {
+  // Avoid extra array cloning when default sort
+  if (sortBy.value === 'default') return filteredStations.value;
   const stationsToSort = [...filteredStations.value];
   switch (sortBy.value) {
     case 'name_asc':
@@ -602,6 +609,16 @@ const sortedStations = computed(() => {
 
 const visibleStations = computed(() => sortedStations.value.slice(0, itemsToShow.value));
 const allLoaded = computed(() => itemsToShow.value >= sortedStations.value.length);
+
+// Keep roving tabindex aligned with data
+watch(visibleStations, (list) => {
+  const ids = list.map(s => s.id);
+  if (!ids.length) return;
+  if (!focusedStationId.value || !ids.includes(focusedStationId.value)) {
+    focusedStationId.value = ids[0];
+    nextTick(() => focusStationByIndex(0));
+  }
+});
 
 const availableCategories = computed(() => [...new Set(stations.value.map(station => station.category || 'Recitation'))]);
 
@@ -888,12 +905,16 @@ const handleSearch = () => {
   }, 180);
 };
 
+// Keep filters in sync with same debounce
+watch(selectedCategory, () => handleSearch());
+
 const runSearch = () => {
   highlightIndex.value = -1;
-  if (searchQuery.value.length >= 2) {
-    filteredSuggestions.value = stations.value.filter(station =>
-      station.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-    ).slice(0, 5);
+  if (lowerSearchQuery.value.length >= 2) {
+    const q = lowerSearchQuery.value;
+    filteredSuggestions.value = stations.value
+      .filter(station => station.name.toLowerCase().includes(q))
+      .slice(0, 5);
     showSuggestions.value = true;
   } else {
     filteredSuggestions.value = [];
@@ -902,33 +923,29 @@ const runSearch = () => {
 
   // Reset visible window for new results
   itemsToShow.value = itemsPerPage.value;
-  const query = searchQuery.value.toLowerCase().trim();
+  const query = lowerSearchQuery.value;
   filteredStations.value = stations.value.filter(station => {
-    const matchesName = station.name.toLowerCase().includes(query);
+    const matchesName = query ? station.name.toLowerCase().includes(query) : true;
     const matchesCategory = selectedCategory.value === 'All Categories' || station.category === selectedCategory.value;
     return matchesName && matchesCategory;
   });
 };
 
 const highlightSearch = (name) => {
-  if (!searchQuery.value) return name;
-  const regex = new RegExp(`(${searchQuery.value})`, 'gi');
-  return name.replace(regex, '<mark style="background:#0db691;color:white">$1</mark>');
+  const rx = searchRegex.value;
+  if (!rx) return name;
+  return name.replace(rx, '<mark style="background:#0db691;color:white">$1</mark>');
 };
 
 const handlePlay = async (id, event) => {
-  Object.values(audioRefs).forEach((audio) => {
-    if (audio !== event.target) {
-      audio.pause();
+  // Pause only the currently playing audio if different
+  if (currentPlayingStationId.value && currentPlayingStationId.value !== id) {
+    const prevAudio = audioRefs[currentPlayingStationId.value];
+    if (prevAudio && prevAudio !== event.target) {
+      prevAudio.pause();
+      playingStates.value[currentPlayingStationId.value] = false;
     }
-  });
-
-  const allStationsId = Object.keys(audioRefs);
-  allStationsId.forEach(stationId => {
-    if (id != stationId) {
-      playingStates.value[stationId] = false;
-    }
-  })
+  }
 
   currentAudio.value = event.target;
   currentPlayingStationId.value = id;
@@ -1151,6 +1168,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   clearInterval(listenerInterval);
+  if (observer) observer.disconnect();
 });
 
 const handleAudioPlayerClick = (event) => {
