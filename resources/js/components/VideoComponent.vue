@@ -76,9 +76,10 @@
               controls
               controlslist="nodownload noplaybackrate"
               loop
-              preload="none"
+              preload="metadata"
               muted
               playsinline
+              @click.stop="togglePlayPause($event)"
               @loadedmetadata="updateMetadata($event, video)"
             >
               Your browser does not support the video tag.
@@ -218,7 +219,11 @@ export default {
       this.computeVirtualWindow();
     },
     togglePlayPause(event) {
-      const video = event.currentTarget.querySelector('video');
+      // Support clicks on either the container or the video element itself
+      const target = event.currentTarget;
+      const video = target.tagName && target.tagName.toLowerCase() === 'video'
+        ? target
+        : target.querySelector('video');
       if (!video) return;
       const idx = this.findVideoIndexByEl(video);
       if (idx !== -1 && !this.videos[idx].loaded) {
@@ -229,6 +234,15 @@ export default {
       const others = this.$el.querySelectorAll('video');
       others.forEach(v => { if (v !== video && !v.paused) v.pause(); });
       if (video.paused) {
+        // Upgrade to HD on first play if available
+        if (idx !== -1) {
+          const item = this.videos[idx];
+          if (item && item.hdUrl && !item.upgraded) {
+            video.src = item.hdUrl;
+            item.url = item.hdUrl;
+            item.upgraded = true;
+          }
+        }
         video.muted = true;
         video.play().catch(() => {});
       } else {
@@ -250,14 +264,17 @@ export default {
         this.totalResults = total;
 
         const newItems = (data.videos || []).map(video => {
-          // Prefer a smaller file (around 540p/360p) for smoother scrolling
+          // Choose a sharper default and keep an HD URL for upgrade on play
           const pick = this.pickBestFile(video.video_files);
+          const hdPick = this.pickHighResFile(video.video_files);
           return {
             id: video.id,
             url: pick?.link,
+            hdUrl: hdPick?.link,
             thumbnail: video.image,
             description: video.user?.name || 'No description',
             loaded: false,
+            upgraded: false,
             metadata: { width: null, height: null, duration: null, aspectRatio: null }
           };
         });
@@ -362,19 +379,28 @@ export default {
     },
 
     pickBestFile(files = []) {
-      // Choose an MP4 around 360-540p if available, else fallback to first
+      // Prefer a sharper preview (near 1080w) for clarity
       const mp4s = files.filter(f => (f.link || '').includes('.mp4'));
-      const byWidth = (a, b) => (a.width || 0) - (b.width || 0);
-      const sorted = (mp4s.length ? mp4s : files).slice().sort(byWidth);
-      // Find closest to 540 width, fallback to mid or first
-      const target = 540;
+      const sorted = (mp4s.length ? mp4s : files).slice().sort((a, b) => (a.width || 0) - (b.width || 0));
+      const target = 1080;
       let best = sorted[0];
       let minDiff = Infinity;
       sorted.forEach(f => {
-        const diff = Math.abs((f.width || target) - target);
+        const w = f.width || target;
+        const diff = Math.abs(w - target);
         if (diff < minDiff) { minDiff = diff; best = f; }
       });
+      if (best && best.link) best.link = best.link.replace(/^http:\/\//, 'https://');
       return best || files[0] || null;
+    },
+
+    pickHighResFile(files = []) {
+      // Highest available MP4 (used on first play)
+      const mp4s = files.filter(f => (f.link || '').includes('.mp4'));
+      const sorted = (mp4s.length ? mp4s : files).slice().sort((a, b) => (b.width || 0) - (a.width || 0));
+      const best = sorted[0] || null;
+      if (best && best.link) best.link = best.link.replace(/^http:\/\//, 'https://');
+      return best;
     }
   },
 
@@ -408,6 +434,7 @@ export default {
 
 .video-container video {
   transition: opacity 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 .video-container video:hover {
@@ -557,8 +584,5 @@ video {
   contain: content;
 }
 
-/* Avoid costly hover effects on large videos */
-.video-container:hover {
-  /* no-op to prevent extra paints */
-}
+
 </style>
