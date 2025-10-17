@@ -303,7 +303,7 @@ body{
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav justify-content-end pr-4 flex-grow-1" aria-label="Primary menu">                
                     <li class="nav-item mt-2">
-                        <a class="nav-link pt-2 ml-3" href="/welcome" data-path="/home" data-nav-item="primary">Home</a>
+                        <a class="nav-link pt-2 ml-3" href="/" data-path="/" data-nav-item="primary">Home</a>
                     </li>
                     
 
