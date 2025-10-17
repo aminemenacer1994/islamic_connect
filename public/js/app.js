@@ -265,6 +265,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    cacheLimitOverride: {
+      type: Number,
+      default: null
+    }
+  },
   data() {
     return {
       downloading: false,
@@ -283,12 +289,18 @@ __webpack_require__.r(__webpack_exports__);
       isModalOpen: false,
       loading: true,
       apiKey: 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f',
+      // request controllers and caching to avoid wasted work
+      fetchAborter: null,
+      loadMoreAborter: null,
+      cache: new Map(),
+      cacheLimit: 60,
       // virtualization state
       startIndex: 0,
       endIndex: 0,
       itemsPerRow: 1,
       rowHeight: 620,
       rafId: null,
+      resizeRafId: null,
       filters: ['Islamic', 'Mosque', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab', 'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture']
     };
   },
@@ -310,6 +322,16 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted() {
+    // set cache limit: prop override > adaptive heuristic
+    try {
+      this.cacheLimit = this.cacheLimitOverride != null ? this.cacheLimitOverride : this.computeAdaptiveCacheLimit();
+    } catch (_) {}
+    // compute initial layout once
+    this.itemsPerRow = this.computeItemsPerRow();
+    this.$nextTick(() => {
+      this.measureRowHeight();
+      this.computeVirtualWindow();
+    });
     this.fetchGallery();
     window.addEventListener('scroll', this.onScroll, {
       passive: true
@@ -317,6 +339,12 @@ __webpack_require__.r(__webpack_exports__);
     window.addEventListener('resize', this.onResize, {
       passive: true
     });
+    // listen to network changes if available
+    if (navigator && navigator.connection && navigator.connection.addEventListener) {
+      try {
+        navigator.connection.addEventListener('change', this.onConnectionChange);
+      } catch (_) {}
+    }
   },
   beforeUnmount() {
     if (this.observer) {
@@ -325,10 +353,70 @@ __webpack_require__.r(__webpack_exports__);
       } catch (e) {}
       this.observer = null;
     }
+    if (this.fetchAborter) {
+      try {
+        this.fetchAborter.abort();
+      } catch (_) {}
+    }
+    if (this.loadMoreAborter) {
+      try {
+        this.loadMoreAborter.abort();
+      } catch (_) {}
+    }
     window.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('resize', this.onResize);
+    if (navigator && navigator.connection && navigator.connection.removeEventListener) {
+      try {
+        navigator.connection.removeEventListener('change', this.onConnectionChange);
+      } catch (_) {}
+    }
   },
   methods: {
+    computeAdaptiveCacheLimit() {
+      const mem = navigator && navigator.deviceMemory ? navigator.deviceMemory : undefined; // in GB
+      const conn = navigator && navigator.connection && navigator.connection.effectiveType ? navigator.connection.effectiveType : undefined;
+      // Baseline
+      let limit = 60;
+      // Memory-based tuning
+      if (mem !== undefined) {
+        if (mem <= 1) limit = 24;else if (mem <= 2) limit = 40;else if (mem >= 8) limit = 120;else if (mem >= 4) limit = 90;
+      }
+      // Network-based tuning (bias down on slow links)
+      if (conn) {
+        if (conn === 'slow-2g' || conn === '2g') limit = Math.min(limit, 24);else if (conn === '3g') limit = Math.min(limit, 40);
+      }
+      // Viewport hint: small screens tend to scroll fewer items
+      const vw = window && window.innerWidth ? window.innerWidth : 1024;
+      if (vw < 576) limit = Math.min(limit, 48);
+      return limit;
+    },
+    onConnectionChange() {
+      // honor explicit override
+      if (this.cacheLimitOverride != null) return;
+      try {
+        this.cacheLimit = this.computeAdaptiveCacheLimit();
+      } catch (_) {}
+    },
+    // Simple LRU cache helpers
+    cacheGet(key) {
+      if (!this.cache) return undefined;
+      const has = this.cache.has(key);
+      if (!has) return undefined;
+      const value = this.cache.get(key);
+      // refresh recency
+      this.cache.delete(key);
+      this.cache.set(key, value);
+      return value;
+    },
+    cacheSet(key, value) {
+      if (!this.cache) this.cache = new Map();
+      if (this.cache.has(key)) this.cache.delete(key);
+      this.cache.set(key, value);
+      if (this.cache.size > this.cacheLimit) {
+        const oldestKey = this.cache.keys().next().value;
+        this.cache.delete(oldestKey);
+      }
+    },
     focusPrevFilter(idx) {
       const prev = idx > 0 ? idx - 1 : this.filters.length - 1;
       this.activeFilter = this.filters[prev];
@@ -378,14 +466,33 @@ __webpack_require__.r(__webpack_exports__);
       try {
         const query = `Islamic ${this.searchTerm}`.trim();
         const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=${this.perPage}&page=${this.apiPage}`;
-        const response = await fetch(url, {
-          headers: {
-            Authorization: this.apiKey
-          }
-        });
-        const data = await response.json();
-        this.allImages = data.photos || [];
-        this.hasMore = Boolean(data.next_page);
+        const cacheKey = `${query}:1:${this.perPage}`;
+        // abort any in-flight fetch
+        if (this.fetchAborter) {
+          try {
+            this.fetchAborter.abort();
+          } catch (_) {}
+        }
+        this.fetchAborter = new AbortController();
+        const cached = this.cacheGet(cacheKey);
+        if (cached) {
+          this.allImages = cached.photos || [];
+          this.hasMore = Boolean(cached.hasMore);
+        } else {
+          const response = await fetch(url, {
+            headers: {
+              Authorization: this.apiKey
+            },
+            signal: this.fetchAborter.signal
+          });
+          const data = await response.json();
+          this.allImages = data.photos || [];
+          this.hasMore = Boolean(data.next_page);
+          this.cacheSet(cacheKey, {
+            photos: this.allImages.slice(),
+            hasMore: this.hasMore
+          });
+        }
         // Ensure observer is set up after first paint
         this.$nextTick(() => {
           if (!this.observer) this.setupObserver();
@@ -423,18 +530,40 @@ __webpack_require__.r(__webpack_exports__);
         const query = `Islamic ${this.searchTerm}`.trim();
         const nextPage = this.apiPage + 1;
         const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=${this.perPage}&page=${nextPage}`;
-        const response = await fetch(url, {
-          headers: {
-            Authorization: this.apiKey
-          }
-        });
-        const data = await response.json();
-        const photos = data.photos || [];
+        const cacheKey = `${query}:${nextPage}:${this.perPage}`;
+        // abort any in-flight load-more request
+        if (this.loadMoreAborter) {
+          try {
+            this.loadMoreAborter.abort();
+          } catch (_) {}
+        }
+        this.loadMoreAborter = new AbortController();
+        let photos = [];
+        let nextHasMore = true;
+        const cached = this.cacheGet(cacheKey);
+        if (cached) {
+          photos = cached.photos || [];
+          nextHasMore = Boolean(cached.hasMore);
+        } else {
+          const response = await fetch(url, {
+            headers: {
+              Authorization: this.apiKey
+            },
+            signal: this.loadMoreAborter.signal
+          });
+          const data = await response.json();
+          photos = data.photos || [];
+          nextHasMore = Boolean(data.next_page);
+          this.cacheSet(cacheKey, {
+            photos: photos.slice(),
+            hasMore: nextHasMore
+          });
+        }
         if (photos.length) {
-          this.allImages = this.allImages.concat(photos);
+          this.allImages.push(...photos);
           this.apiPage = nextPage;
         }
-        this.hasMore = Boolean(data.next_page);
+        this.hasMore = Boolean(nextHasMore);
         this.$nextTick(() => {
           this.measureRowHeight();
           this.computeVirtualWindow();
@@ -448,10 +577,9 @@ __webpack_require__.r(__webpack_exports__);
     // Virtualization helpers
     computeItemsPerRow() {
       const w = window.innerWidth || 1024;
-      this.itemsPerRow = w < 576 ? 1 : 3;
+      return w < 576 ? 1 : 3;
     },
     computeVirtualWindow() {
-      this.computeItemsPerRow();
       const total = this.allImages.length;
       if (!total) {
         this.startIndex = 0;
@@ -486,7 +614,16 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     onResize() {
-      this.computeVirtualWindow();
+      if (this.resizeRafId) return;
+      this.resizeRafId = requestAnimationFrame(() => {
+        const newPerRow = this.computeItemsPerRow();
+        if (newPerRow !== this.itemsPerRow) {
+          this.itemsPerRow = newPerRow;
+          this.measureRowHeight();
+        }
+        this.computeVirtualWindow();
+        this.resizeRafId = null;
+      });
     },
     applyFilter(keyword) {
       this.activeFilter = keyword;
