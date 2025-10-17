@@ -270,6 +270,9 @@ export default {
       lastAutoScrollAt: 0,
       isManualScrolling: false,
       manualScrollTimer: null,
+      // perf throttles
+      lastProgressAt: 0,
+      lastVizAt: 0,
     };
   },
   computed: {
@@ -278,8 +281,8 @@ export default {
       if (!this.debouncedQuery) return this.surahDetails.ayahs;
       const query = this.debouncedQuery.toLowerCase();
       return this.surahDetails.ayahs.filter(
-        ayah => ayah.text.toLowerCase().includes(query) ||
-          (ayah.translation && ayah.translation.toLowerCase().includes(query))
+        ayah => (ayah.lowerText && ayah.lowerText.includes(query)) ||
+          (ayah.lowerTranslation && ayah.lowerTranslation.includes(query))
       );
     },
     recitersSorted() {
@@ -365,10 +368,13 @@ export default {
       }
     },
     filteredAyahs: function (newAyahs) {
-      this.isAudioPlaying = new Array(newAyahs.length).fill(false);
-      this.isAudioLoading = new Array(newAyahs.length).fill(false);
-      this.progress = new Array(newAyahs.length).fill(0);
-      this.audioElements = new Array(newAyahs.length).fill(null);
+      const n = newAyahs.length;
+      // Reuse arrays to reduce reactive churn
+      this.isAudioPlaying.length = n; this.isAudioPlaying.fill(false);
+      this.isAudioLoading.length = n; this.isAudioLoading.fill(false);
+      this.progress.length = n; this.progress.fill(0);
+      this.audioElements.length = n;
+      for (let i = 0; i < n; i++) if (this.audioElements[i] === undefined) this.audioElements[i] = null;
       // Do not pre-create audio elements; create on-demand for faster starts
     }
   },
@@ -507,8 +513,8 @@ export default {
 
     // removed scrollToElement and smoothScrollToAyah
     highlightedText: function (ayah) {
-      if (!ayah.text) return "";
-      const words = ayah.text.split(" ");
+      if (!ayah || (!ayah.text && !ayah.words)) return "";
+      const words = ayah.words || (ayah.text ? ayah.text.split(" ") : []);
       return words
         .map((word, index) => {
           const isHighlighted = index === this.highlightedWordIndex ? "highlighted-word" : "";
@@ -571,7 +577,7 @@ export default {
       audio.onloadedmetadata = () => {
         console.log(`Metadata loaded for ayah ${index + 1}, duration: ${this.currentlyPlaying.duration}`);
         const duration = this.currentlyPlaying.duration;
-        const wordCount = ayah.text.split(' ').length;
+        const wordCount = (ayah.words || (ayah.text ? ayah.text.split(' ') : [])).length;
         if (wordCount > 0 && duration > 0) {
           const step = duration / wordCount;
           this.wordTimings = Array.from({ length: wordCount }, (_, i) => i * step);
@@ -583,7 +589,11 @@ export default {
       this.highlightedWordIndex = -1;
       audio.ontimeupdate = () => {
         this.syncHighlight();
-        this.updateProgress(index);
+        const now = (window.performance ? performance.now() : Date.now());
+        if (now - this.lastProgressAt > 100) { // ~10fps progress updates
+          this.lastProgressAt = now;
+          this.updateProgress(index);
+        }
         // Removed continuous auto-scroll here to prevent jumpiness.
       };
 
@@ -827,12 +837,20 @@ export default {
             surahNumber: this.selectedSurah,
             englishName: arabicText.englishName,
             name: arabicText.name,
-            ayahs: arabicText.ayahs.map((ayah, index) => ({
-              number: ayah.number,
-              text: ayah.text,
-              translation: translation.ayahs[index] && translation.ayahs[index].text ? translation.ayahs[index].text : "Translation not available",
-              audio: ayah.audio || ""
-            }))
+            ayahs: arabicText.ayahs.map((ayah, index) => {
+              const text = ayah.text || '';
+              const transText = translation.ayahs[index] && translation.ayahs[index].text ? translation.ayahs[index].text : "Translation not available";
+              const words = text ? text.split(' ') : [];
+              return {
+                number: ayah.number,
+                text,
+                lowerText: text.toLowerCase(),
+                translation: transText,
+                lowerTranslation: transText.toLowerCase(),
+                audio: ayah.audio || "",
+                words,
+              };
+            })
           };
           console.log('Surah details fetched:', this.surahDetails);
           this.isLoading = false;
@@ -979,15 +997,21 @@ export default {
     },
     animateVisualizer: function () {
       if (!this.isAudioPlaying[this.currentlyPlayingIndex]) return;
-      
+
+      const now = (window.performance ? performance.now() : Date.now());
+      if (now - this.lastVizAt < 33) { // ~30fps cap
+        return requestAnimationFrame(() => this.animateVisualizer());
+      }
+      this.lastVizAt = now;
+
       // Create animated bars based on audio volume (simulated)
       const audio = this.audioElements[this.currentlyPlayingIndex];
       const volume = audio ? Math.min(audio.volume * 2, 1) : 0.3;
-      
-      this.visualizerBars = this.visualizerBars.map(() => 
+
+      this.visualizerBars = this.visualizerBars.map(() =>
         Math.random() * 80 * volume + 10
       );
-      
+
       requestAnimationFrame(() => this.animateVisualizer());
     },
     toggleRepeat() {
