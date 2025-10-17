@@ -77,7 +77,7 @@
                                         role="listbox" :aria-activedescendant="selectedIndexAyah >= 0 ? `ayah-option-${selectedIndexAyah}` : null" aria-label="Ayah list" aria-controls="ayah-content"
                                         style="list-style-type: none">
 
-                                        <li v-for="(ayah, index) in ayat" :key="index" @click="selectAyah(index)"
+                                        <li v-for="(ayah, index) in ayat" :key="ayah.id || index" @click="selectAyah(index)"
                                             role="option"
                                             :id="`ayah-option-${index}`"
                                             :aria-selected="selectedIndexAyah === index"
@@ -833,32 +833,44 @@ export default {
         if (savedState !== null) {
             this.isVisible = JSON.parse(savedState);
         }
-        this.fetchAyat();
+        // Debounced initial fetch to avoid duplicate triggers from watchers
+        this.scheduleFetchAyat();
        
         this.getSurat(); // Call getSurat to populate the surah list
         this.prepareAyahText();
 
         // Keyboard navigation for ayah list within this component only
-        window.addEventListener("keydown", this.onKeydown);
+        const win = (typeof globalThis !== 'undefined' && globalThis.window) ? globalThis.window : (typeof window !== 'undefined' ? window : null);
+        win?.addEventListener?.("keydown", this.onKeydown);
 
         // Responsive a11y: track mobile viewport to toggle focusability of duplicate controls
         this.updateIsMobile();
-        window.addEventListener('resize', this.updateIsMobile);
+        // Create a debounced resize handler to reduce layout thrash
+        this.debouncedUpdateIsMobile = this.debounce(this.updateIsMobile, 150);
+        win?.addEventListener?.('resize', this.debouncedUpdateIsMobile, { passive: true });
 
     },
     // Ensure listeners are cleaned up when the component is destroyed
     beforeUnmount() {
-        window.removeEventListener("keydown", this.onKeydown);
-        window.removeEventListener('resize', this.updateIsMobile);
+        const win = (typeof globalThis !== 'undefined' && globalThis.window) ? globalThis.window : (typeof window !== 'undefined' ? window : null);
+        win?.removeEventListener?.("keydown", this.onKeydown);
+        win?.removeEventListener?.('resize', this.debouncedUpdateIsMobile || this.updateIsMobile);
     },
     // Vue 2 fallback (in case this project uses Vue 2)
     beforeDestroy() {
-        window.removeEventListener("keydown", this.onKeydown);
-        window.removeEventListener('resize', this.updateIsMobile);
+        const win2 = (typeof globalThis !== 'undefined' && globalThis.window) ? globalThis.window : (typeof window !== 'undefined' ? window : null);
+        win2?.removeEventListener?.("keydown", this.onKeydown);
+        win2?.removeEventListener?.('resize', this.debouncedUpdateIsMobile || this.updateIsMobile);
     },
 
     data() {
         return {
+            // Cache ayat per surah to avoid redundant fetches
+            ayahCache: {},
+            lastFetchedSurahId: null,
+            fetchAyatTimer: null,
+            ayatInflight: null,
+            debouncedUpdateIsMobile: null,
             surahs: [], // List of all Surahs
             reciters: [], // List of all Reciters
             translations: [], // List of all Translations
@@ -1148,30 +1160,61 @@ export default {
         },
         updateIsMobile() {
             try {
-                this.isMobile = window.matchMedia('(max-width: 767px)').matches;
+                const w = (typeof globalThis !== 'undefined' && globalThis.window) ? globalThis.window : (typeof window !== 'undefined' ? window : null);
+                if (w && typeof w.matchMedia === 'function') {
+                    this.isMobile = w.matchMedia('(max-width: 767px)').matches;
+                } else if (w && typeof w.innerWidth === 'number') {
+                    this.isMobile = w.innerWidth <= 767;
+                } else {
+                    this.isMobile = false;
+                }
             } catch (e) {
-                // Fallback using window width
-                this.isMobile = window.innerWidth <= 767;
+                this.isMobile = false;
             }
         },
-        fetchAyat: async function () {
-
+        // Simple debounce utility
+        debounce(fn, delay = 150) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        },
+        // Schedule ayah fetch with debounce to avoid duplicate triggers
+        scheduleFetchAyat(surahId) {
+            const id = surahId || this.selectedSurahId;
+            if (this.fetchAyatTimer) clearTimeout(this.fetchAyatTimer);
+            this.fetchAyatTimer = setTimeout(() => this.fetchAyat(id), 150);
+        },
+        async fetchAyat(surahIdArg) {
+            const surahId = surahIdArg || this.selectedSurahId;
+            if (!surahId) return;
+            // Serve from cache if present
+            if (this.ayahCache[surahId]) {
+                this.ayat = this.ayahCache[surahId];
+                this.dropdownHidden = false;
+                return;
+            }
+            // Prevent overlapping requests
+            if (this.ayatInflight) return;
             try {
                 this.isLoading = true;
-                const response = await axios.get("/get_ayat", {
-                    params: { surah_id: this.selectedSurahId },
-                });
+                this.ayatInflight = axios.get("/get_ayat", { params: { surah_id: surahId } });
+                const response = await this.ayatInflight;
                 this.ayat = response.data;
-
-                // Automatically select and display the first Ayah if available
-                if (this.ayat.length > 0) {
-                    this.selectedAyahId = this.ayat[0].id; // Select the first Ayah by default
-                    this.handleAyahChange(); // Trigger Ayah change to load its content
+                this.ayahCache[surahId] = response.data;
+                this.lastFetchedSurahId = surahId;
+                this.dropdownHidden = false;
+                // Select first ayah only if nothing is selected yet
+                if (this.ayat.length > 0 && (this.selectedAyahId === null || this.selectedAyahId === 0 || this.selectedAyahId === "")) {
+                    this.selectedAyahId = this.ayat[0].id;
+                    this.handleAyahChange();
                 }
             } catch (error) {
                 console.error("Error fetching ayat:", error);
             } finally {
                 this.isLoading = false;
+                this.ayatInflight = null;
             }
         },
         updateInformation(info) {
@@ -1577,46 +1620,26 @@ export default {
         },
         async getAyat() {
             if (this.selectedSurahId > 0) {
-                try {
-                    const response = await axios.get("/get_ayat", {
-                        params: {
-                            surah_id: this.selectedSurahId,
-                        },
-                    });
-                    this.ayat = response.data;
-                    this.dropdownHidden = false; // Show Ayah dropdown after fetching
-                } catch (error) {
-                    console.error("Error fetching ayat:", error);
-                    this.ayat = []; // Clear ayat on error
-                    this.dropdownHidden = true; // Hide Ayah dropdown
-                }
+                this.scheduleFetchAyat(this.selectedSurahId);
             } else {
                 this.ayat = [];
-                this.dropdownHidden = true; // Hide Ayah dropdown if no Surah is selected
+                this.dropdownHidden = true;
             }
         },
         async handleAyahChange() {
             const selectedAyahIndex = parseInt(this.selectedAyahId);
             const selectedAyah = this.ayat[selectedAyahIndex];
             if (selectedAyah) {
-                const ayahId = selectedAyah.id; // Assuming ayah has 'id' field, adjust if necessary
+                const ayahId = selectedAyah.id; // Assuming ayah has 'id' field
                 try {
-                    const tafseerResponse = await axios.get(
-                        `/tafseer/${ayahId}/fetch`
-                    );
+                    const [tafseerResponse, infoResponse] = await Promise.all([
+                        axios.get(`/tafseer/${ayahId}/fetch`),
+                        axios.get("/get_informations", { params: { id: ayahId } }),
+                    ]);
                     this.tafseer = tafseerResponse.data;
-
-                    const infoResponse = await axios.get("/get_informations", {
-                        params: {
-                            id: ayahId,
-                        },
-                    });
                     this.information = infoResponse.data;
                 } catch (error) {
-                    console.error(
-                        "Error fetching information or tafseer:",
-                        error
-                    );
+                    console.error("Error fetching information or tafseer:", error);
                 }
             }
         },
@@ -1707,26 +1730,19 @@ export default {
         },
         getTafseers: function (id, index) {
             this.selectedIndexAyah = index;
-            axios.get(`/tafseer/${id}/fetch`).then(
-                function (response) {
-                    console.log(response);
+            Promise.all([
+                axios.get(`/tafseer/${id}/fetch`),
+                axios.get("/get_informations", { params: { id } }),
+            ])
+                .then(([tafseerResp, infoResp]) => {
                     this.selectedAyah = id;
-                    this.tafseer = response.data;
+                    this.tafseer = tafseerResp.data;
+                    this.information = infoResp.data;
                     this.updateCardSection(this.ayat[index]);
-                }.bind(this)
-            );
-            axios
-                .get("/get_informations", {
-                    params: {
-                        id: id,
-                    },
                 })
-                .then(
-                    function (response) {
-                        this.selectedAyah = id;
-                        this.information = response.data;
-                    }.bind(this)
-                );
+                .catch((err) => {
+                    console.error("Error fetching tafseer/information:", err);
+                });
         },
     },
     created() {

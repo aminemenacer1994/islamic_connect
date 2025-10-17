@@ -8474,33 +8474,50 @@ __webpack_require__.r(__webpack_exports__);
     ScreenReader: _accesibility_ScreenReader_vue__WEBPACK_IMPORTED_MODULE_40__["default"]
   },
   mounted() {
+    var _win$addEventListener, _win$addEventListener2;
     const savedState = localStorage.getItem("toggleState");
     if (savedState !== null) {
       this.isVisible = JSON.parse(savedState);
     }
-    this.fetchAyat();
+    // Debounced initial fetch to avoid duplicate triggers from watchers
+    this.scheduleFetchAyat();
     this.getSurat(); // Call getSurat to populate the surah list
     this.prepareAyahText();
 
     // Keyboard navigation for ayah list within this component only
-    window.addEventListener("keydown", this.onKeydown);
+    const win = typeof globalThis !== 'undefined' && globalThis.window ? globalThis.window : typeof window !== 'undefined' ? window : null;
+    win === null || win === void 0 || (_win$addEventListener = win.addEventListener) === null || _win$addEventListener === void 0 || _win$addEventListener.call(win, "keydown", this.onKeydown);
 
     // Responsive a11y: track mobile viewport to toggle focusability of duplicate controls
     this.updateIsMobile();
-    window.addEventListener('resize', this.updateIsMobile);
+    // Create a debounced resize handler to reduce layout thrash
+    this.debouncedUpdateIsMobile = this.debounce(this.updateIsMobile, 150);
+    win === null || win === void 0 || (_win$addEventListener2 = win.addEventListener) === null || _win$addEventListener2 === void 0 || _win$addEventListener2.call(win, 'resize', this.debouncedUpdateIsMobile, {
+      passive: true
+    });
   },
   // Ensure listeners are cleaned up when the component is destroyed
   beforeUnmount() {
-    window.removeEventListener("keydown", this.onKeydown);
-    window.removeEventListener('resize', this.updateIsMobile);
+    var _win$removeEventListe, _win$removeEventListe2;
+    const win = typeof globalThis !== 'undefined' && globalThis.window ? globalThis.window : typeof window !== 'undefined' ? window : null;
+    win === null || win === void 0 || (_win$removeEventListe = win.removeEventListener) === null || _win$removeEventListe === void 0 || _win$removeEventListe.call(win, "keydown", this.onKeydown);
+    win === null || win === void 0 || (_win$removeEventListe2 = win.removeEventListener) === null || _win$removeEventListe2 === void 0 || _win$removeEventListe2.call(win, 'resize', this.debouncedUpdateIsMobile || this.updateIsMobile);
   },
   // Vue 2 fallback (in case this project uses Vue 2)
   beforeDestroy() {
-    window.removeEventListener("keydown", this.onKeydown);
-    window.removeEventListener('resize', this.updateIsMobile);
+    var _win2$removeEventList, _win2$removeEventList2;
+    const win2 = typeof globalThis !== 'undefined' && globalThis.window ? globalThis.window : typeof window !== 'undefined' ? window : null;
+    win2 === null || win2 === void 0 || (_win2$removeEventList = win2.removeEventListener) === null || _win2$removeEventList === void 0 || _win2$removeEventList.call(win2, "keydown", this.onKeydown);
+    win2 === null || win2 === void 0 || (_win2$removeEventList2 = win2.removeEventListener) === null || _win2$removeEventList2 === void 0 || _win2$removeEventList2.call(win2, 'resize', this.debouncedUpdateIsMobile || this.updateIsMobile);
   },
   data() {
     return {
+      // Cache ayat per surah to avoid redundant fetches
+      ayahCache: {},
+      lastFetchedSurahId: null,
+      fetchAyatTimer: null,
+      ayatInflight: null,
+      debouncedUpdateIsMobile: null,
       surahs: [],
       // List of all Surahs
       reciters: [],
@@ -8771,31 +8788,65 @@ __webpack_require__.r(__webpack_exports__);
     },
     updateIsMobile() {
       try {
-        this.isMobile = window.matchMedia('(max-width: 767px)').matches;
+        const w = typeof globalThis !== 'undefined' && globalThis.window ? globalThis.window : typeof window !== 'undefined' ? window : null;
+        if (w && typeof w.matchMedia === 'function') {
+          this.isMobile = w.matchMedia('(max-width: 767px)').matches;
+        } else if (w && typeof w.innerWidth === 'number') {
+          this.isMobile = w.innerWidth <= 767;
+        } else {
+          this.isMobile = false;
+        }
       } catch (e) {
-        // Fallback using window width
-        this.isMobile = window.innerWidth <= 767;
+        this.isMobile = false;
       }
     },
-    fetchAyat: async function () {
+    // Simple debounce utility
+    debounce(fn, delay = 150) {
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+      };
+    },
+    // Schedule ayah fetch with debounce to avoid duplicate triggers
+    scheduleFetchAyat(surahId) {
+      const id = surahId || this.selectedSurahId;
+      if (this.fetchAyatTimer) clearTimeout(this.fetchAyatTimer);
+      this.fetchAyatTimer = setTimeout(() => this.fetchAyat(id), 150);
+    },
+    async fetchAyat(surahIdArg) {
+      const surahId = surahIdArg || this.selectedSurahId;
+      if (!surahId) return;
+      // Serve from cache if present
+      if (this.ayahCache[surahId]) {
+        this.ayat = this.ayahCache[surahId];
+        this.dropdownHidden = false;
+        return;
+      }
+      // Prevent overlapping requests
+      if (this.ayatInflight) return;
       try {
         this.isLoading = true;
-        const response = await axios.get("/get_ayat", {
+        this.ayatInflight = axios.get("/get_ayat", {
           params: {
-            surah_id: this.selectedSurahId
+            surah_id: surahId
           }
         });
+        const response = await this.ayatInflight;
         this.ayat = response.data;
-
-        // Automatically select and display the first Ayah if available
-        if (this.ayat.length > 0) {
-          this.selectedAyahId = this.ayat[0].id; // Select the first Ayah by default
-          this.handleAyahChange(); // Trigger Ayah change to load its content
+        this.ayahCache[surahId] = response.data;
+        this.lastFetchedSurahId = surahId;
+        this.dropdownHidden = false;
+        // Select first ayah only if nothing is selected yet
+        if (this.ayat.length > 0 && (this.selectedAyahId === null || this.selectedAyahId === 0 || this.selectedAyahId === "")) {
+          this.selectedAyahId = this.ayat[0].id;
+          this.handleAyahChange();
         }
       } catch (error) {
         console.error("Error fetching ayat:", error);
       } finally {
         this.isLoading = false;
+        this.ayatInflight = null;
       }
     },
     updateInformation(info) {
@@ -9140,37 +9191,24 @@ __webpack_require__.r(__webpack_exports__);
     },
     async getAyat() {
       if (this.selectedSurahId > 0) {
-        try {
-          const response = await axios.get("/get_ayat", {
-            params: {
-              surah_id: this.selectedSurahId
-            }
-          });
-          this.ayat = response.data;
-          this.dropdownHidden = false; // Show Ayah dropdown after fetching
-        } catch (error) {
-          console.error("Error fetching ayat:", error);
-          this.ayat = []; // Clear ayat on error
-          this.dropdownHidden = true; // Hide Ayah dropdown
-        }
+        this.scheduleFetchAyat(this.selectedSurahId);
       } else {
         this.ayat = [];
-        this.dropdownHidden = true; // Hide Ayah dropdown if no Surah is selected
+        this.dropdownHidden = true;
       }
     },
     async handleAyahChange() {
       const selectedAyahIndex = parseInt(this.selectedAyahId);
       const selectedAyah = this.ayat[selectedAyahIndex];
       if (selectedAyah) {
-        const ayahId = selectedAyah.id; // Assuming ayah has 'id' field, adjust if necessary
+        const ayahId = selectedAyah.id; // Assuming ayah has 'id' field
         try {
-          const tafseerResponse = await axios.get(`/tafseer/${ayahId}/fetch`);
-          this.tafseer = tafseerResponse.data;
-          const infoResponse = await axios.get("/get_informations", {
+          const [tafseerResponse, infoResponse] = await Promise.all([axios.get(`/tafseer/${ayahId}/fetch`), axios.get("/get_informations", {
             params: {
               id: ayahId
             }
-          });
+          })]);
+          this.tafseer = tafseerResponse.data;
           this.information = infoResponse.data;
         } catch (error) {
           console.error("Error fetching information or tafseer:", error);
@@ -9256,20 +9294,18 @@ __webpack_require__.r(__webpack_exports__);
     },
     getTafseers: function (id, index) {
       this.selectedIndexAyah = index;
-      axios.get(`/tafseer/${id}/fetch`).then(function (response) {
-        console.log(response);
-        this.selectedAyah = id;
-        this.tafseer = response.data;
-        this.updateCardSection(this.ayat[index]);
-      }.bind(this));
-      axios.get("/get_informations", {
+      Promise.all([axios.get(`/tafseer/${id}/fetch`), axios.get("/get_informations", {
         params: {
-          id: id
+          id
         }
-      }).then(function (response) {
+      })]).then(([tafseerResp, infoResp]) => {
         this.selectedAyah = id;
-        this.information = response.data;
-      }.bind(this));
+        this.tafseer = tafseerResp.data;
+        this.information = infoResp.data;
+        this.updateCardSection(this.ayat[index]);
+      }).catch(err => {
+        console.error("Error fetching tafseer/information:", err);
+      });
     }
   },
   created() {
@@ -21406,12 +21442,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted() {
     this.initRecognition();
-    const modalElement = document.getElementById('exampleModal');
-    modalElement.addEventListener('hidden.bs.modal', this.resetForm);
+    const modalElement = typeof document !== 'undefined' ? document.getElementById('exampleModal') : null;
+    if (modalElement && modalElement.addEventListener) {
+      modalElement.addEventListener('hidden.bs.modal', this.resetForm);
+    }
   },
   beforeUnmount() {
-    const modalElement = document.getElementById('exampleModal');
-    modalElement.removeEventListener('hidden.bs.modal', this.resetForm);
+    const modalElement = typeof document !== 'undefined' ? document.getElementById('exampleModal') : null;
+    if (modalElement && modalElement.removeEventListener) {
+      modalElement.removeEventListener('hidden.bs.modal', this.resetForm);
+    }
   },
   methods: {
     initRecognition() {
@@ -21480,16 +21520,24 @@ __webpack_require__.r(__webpack_exports__);
     },
     closeModal() {
       this.resetForm();
-      const modalElement = document.getElementById('exampleModal');
-      const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
-      modalInstance.hide();
+      const modalElement = typeof document !== 'undefined' ? document.getElementById('exampleModal') : null;
+      const ModalCtor = typeof bootstrap !== 'undefined' && bootstrap && bootstrap.Modal ? bootstrap.Modal : null;
+      if (modalElement && ModalCtor) {
+        var _modalInstance$hide;
+        const modalInstance = ModalCtor.getOrCreateInstance(modalElement);
+        modalInstance === null || modalInstance === void 0 || (_modalInstance$hide = modalInstance.hide) === null || _modalInstance$hide === void 0 || _modalInstance$hide.call(modalInstance);
+      }
     },
     showModal() {
-      const modalElement = document.getElementById('exampleModal');
-      const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement, {
-        backdrop: true
-      });
-      modalInstance.show();
+      const modalElement = typeof document !== 'undefined' ? document.getElementById('exampleModal') : null;
+      const ModalCtor = typeof bootstrap !== 'undefined' && bootstrap && bootstrap.Modal ? bootstrap.Modal : null;
+      if (modalElement && ModalCtor) {
+        var _modalInstance$show;
+        const modalInstance = ModalCtor.getOrCreateInstance(modalElement, {
+          backdrop: true
+        });
+        modalInstance === null || modalInstance === void 0 || (_modalInstance$show = modalInstance.show) === null || _modalInstance$show === void 0 || _modalInstance$show.call(modalInstance);
+      }
     }
   }
 });
@@ -24182,21 +24230,29 @@ __webpack_require__.r(__webpack_exports__);
     },
     initModalReset() {
       const modalElement = this.$refs.modal;
-      modalElement.addEventListener('hidden.bs.modal', () => {
-        this.resetNoteForm();
-      });
+      if (modalElement && modalElement.addEventListener) {
+        modalElement.addEventListener('hidden.bs.modal', () => {
+          this.resetNoteForm();
+        });
+      }
     },
     closeModal() {
+      var _modalInstance$hide;
       const modalElement = this.$refs.modal;
-      const modalInstance = bootstrap__WEBPACK_IMPORTED_MODULE_3__.Modal.getInstance(modalElement) || new bootstrap__WEBPACK_IMPORTED_MODULE_3__.Modal(modalElement);
-      modalInstance.hide();
+      if (!modalElement) return;
+      const modalInstance = typeof bootstrap__WEBPACK_IMPORTED_MODULE_3__.Modal !== 'undefined' && bootstrap__WEBPACK_IMPORTED_MODULE_3__.Modal ? bootstrap__WEBPACK_IMPORTED_MODULE_3__.Modal.getInstance(modalElement) || new bootstrap__WEBPACK_IMPORTED_MODULE_3__.Modal(modalElement) : null;
+      modalInstance === null || modalInstance === void 0 || (_modalInstance$hide = modalInstance.hide) === null || _modalInstance$hide === void 0 || _modalInstance$hide.call(modalInstance);
 
       // Clean up any backdrops
-      const modalBackdrops = document.querySelectorAll('.modal-backdrop');
-      modalBackdrops.forEach(backdrop => {
-        backdrop.parentNode.removeChild(backdrop);
-      });
-      document.body.classList.remove('modal-open');
+      if (typeof document !== 'undefined') {
+        var _document$body, _document$body$remove;
+        const modalBackdrops = document.querySelectorAll('.modal-backdrop');
+        modalBackdrops.forEach(backdrop => {
+          var _backdrop$parentNode, _backdrop$parentNode$;
+          (_backdrop$parentNode = backdrop.parentNode) === null || _backdrop$parentNode === void 0 || (_backdrop$parentNode$ = _backdrop$parentNode.removeChild) === null || _backdrop$parentNode$ === void 0 || _backdrop$parentNode$.call(_backdrop$parentNode, backdrop);
+        });
+        (_document$body = document.body) === null || _document$body === void 0 || (_document$body = _document$body.classList) === null || _document$body === void 0 || (_document$body$remove = _document$body.remove) === null || _document$body$remove === void 0 || _document$body$remove.call(_document$body, 'modal-open');
+      }
     }
   }
 });
@@ -34479,7 +34535,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ayat, (ayah, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: index,
+      key: ayah.id || index,
       onClick: $event => $options.selectAyah(index),
       role: "option",
       id: `ayah-option-${index}`,

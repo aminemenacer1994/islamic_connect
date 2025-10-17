@@ -76,12 +76,16 @@ export default {
   },
   mounted() {
     this.initRecognition();
-    const modalElement = document.getElementById('exampleModal');
-    modalElement.addEventListener('hidden.bs.modal', this.resetForm);
+    const modalElement = (typeof document !== 'undefined') ? document.getElementById('exampleModal') : null;
+    if (modalElement && modalElement.addEventListener) {
+      modalElement.addEventListener('hidden.bs.modal', this.resetForm);
+    }
   },
   beforeUnmount() {
-    const modalElement = document.getElementById('exampleModal');
-    modalElement.removeEventListener('hidden.bs.modal', this.resetForm);
+    const modalElement = (typeof document !== 'undefined') ? document.getElementById('exampleModal') : null;
+    if (modalElement && modalElement.removeEventListener) {
+      modalElement.removeEventListener('hidden.bs.modal', this.resetForm);
+    }
   },
   methods: {
     initRecognition() {
@@ -157,14 +161,20 @@ export default {
     },
     closeModal() {
       this.resetForm();
-      const modalElement = document.getElementById('exampleModal');
-      const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
-      modalInstance.hide();
+      const modalElement = (typeof document !== 'undefined') ? document.getElementById('exampleModal') : null;
+      const ModalCtor = (typeof bootstrap !== 'undefined' && bootstrap && bootstrap.Modal) ? bootstrap.Modal : null;
+      if (modalElement && ModalCtor) {
+        const modalInstance = ModalCtor.getOrCreateInstance(modalElement);
+        modalInstance?.hide?.();
+      }
     },
     showModal() {
-      const modalElement = document.getElementById('exampleModal');
-      const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement, { backdrop: true });
-      modalInstance.show();
+      const modalElement = (typeof document !== 'undefined') ? document.getElementById('exampleModal') : null;
+      const ModalCtor = (typeof bootstrap !== 'undefined' && bootstrap && bootstrap.Modal) ? bootstrap.Modal : null;
+      if (modalElement && ModalCtor) {
+        const modalInstance = ModalCtor.getOrCreateInstance(modalElement, { backdrop: true });
+        modalInstance?.show?.();
+      }
     }
   }
 };

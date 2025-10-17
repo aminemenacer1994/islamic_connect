@@ -223,22 +223,28 @@ export default {
     },
     initModalReset() {
       const modalElement = this.$refs.modal;
-      modalElement.addEventListener('hidden.bs.modal', () => {
-        this.resetNoteForm();
-      });
+      if (modalElement && modalElement.addEventListener) {
+        modalElement.addEventListener('hidden.bs.modal', () => {
+          this.resetNoteForm();
+        });
+      }
     },
     closeModal() {
       const modalElement = this.$refs.modal;
-      const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
-      modalInstance.hide();
+      if (!modalElement) return;
+      const modalInstance = (typeof Modal !== 'undefined' && Modal)
+        ? (Modal.getInstance(modalElement) || new Modal(modalElement))
+        : null;
+      modalInstance?.hide?.();
 
       // Clean up any backdrops
-      const modalBackdrops = document.querySelectorAll('.modal-backdrop');
-      modalBackdrops.forEach(backdrop => {
-        backdrop.parentNode.removeChild(backdrop);
-      });
-
-      document.body.classList.remove('modal-open');
+      if (typeof document !== 'undefined') {
+        const modalBackdrops = document.querySelectorAll('.modal-backdrop');
+        modalBackdrops.forEach(backdrop => {
+          backdrop.parentNode?.removeChild?.(backdrop);
+        });
+        document.body?.classList?.remove?.('modal-open');
+      }
     }
   }
 };
