@@ -52,7 +52,7 @@
           <i :class="isOpen[idx] ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" style="font-size: 1rem;"></i>
         </div>
         <!-- Card Content -->
-        <div v-show="isOpen[idx]" :id="'section-content-' + idx" class="card-body px-4 py-4 rounded-bottom-3" :aria-labelledby="'section-header-' + idx"
+        <div v-if="isOpen[idx]" :id="'section-content-' + idx" class="card-body px-4 py-4 rounded-bottom-3" :aria-labelledby="'section-header-' + idx"
           :style="{ 'font-size': fontSizes[idx] + 'rem', 'background-color': '#ffffff', 'line-height': 1.7, 'color': '#4a5568' }">
           <!-- AI Summary, Font Size, Print, Export to PDF, and Share via WhatsApp Buttons -->
           <div class="mb-3">
@@ -294,6 +294,9 @@ export default {
       wordCounts: [], // Tracks word count for each section
       readTimes: [], // Tracks read time for each section
       screenReaderMessage: '',
+      // Performance helpers
+      scrollTicking: false,
+      formatKeyCache: Object.create(null),
       faq: [
         {
           question: 'When was the Quran first revealed?',
@@ -376,8 +379,10 @@ export default {
       this.fontSizes = this.accordionItems.map(() => 1.05);
       this.summaryLoading = this.accordionItems.map(() => false);
       this.summaries = this.accordionItems.map(() => null);
-      this.wordCounts = this.accordionItems.map(item => this.computeWordCountAndReadTime(item).wordCount);
-      this.readTimes = this.accordionItems.map(item => this.computeWordCountAndReadTime(item).readTime);
+      // Single-pass stats computation
+      const stats = this.accordionItems.map(item => this.computeWordCountAndReadTime(item));
+      this.wordCounts = stats.map(s => s.wordCount);
+      this.readTimes = stats.map(s => s.readTime);
     } else {
       this.isOpen = [];
       this.fontSizes = [];
@@ -386,7 +391,7 @@ export default {
       this.wordCounts = [];
       this.readTimes = [];
     }
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll, { passive: true });
     // Load jsPDF
     const script = document.createElement('script');
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
@@ -473,17 +478,20 @@ export default {
     },
     formatKey(key) {
       if (!key) return '';
+      const cached = this.formatKeyCache[key];
+      if (cached) return cached;
       const lowercaseWords = ['and', 'or', 'the', 'a', 'an', 'in', 'on', 'at', 'to', 'for', 'of', 'by'];
-      return key.replace(/_/g, ' ')
+      const formatted = key.replace(/_/g, ' ')
         .split(' ')
         .map((word, index) => {
-          // Always capitalize first word, or if not in lowercaseWords list
           if (index === 0 || !lowercaseWords.includes(word.toLowerCase())) {
             return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
           }
           return word.toLowerCase();
         })
-      .join(' ');
+        .join(' ');
+      this.formatKeyCache[key] = formatted;
+      return formatted;
     },
     isRegularSection(item) {
       return item && typeof item === 'object' && !item.conclusion && !item.references && !item.faq;
@@ -492,10 +500,15 @@ export default {
       return table && Array.isArray(table) && table[0] ? Object.keys(table[0]) : [];
     },
     handleScroll() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const documentHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrollPercent = documentHeight > 0 ? (scrollTop / documentHeight) * 100 : 0;
-      this.showScrollToTop = scrollPercent > 5;
+      if (this.scrollTicking) return;
+      this.scrollTicking = true;
+      window.requestAnimationFrame(() => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const documentHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercent = documentHeight > 0 ? (scrollTop / documentHeight) * 100 : 0;
+        this.showScrollToTop = scrollPercent > 5;
+        this.scrollTicking = false;
+      });
     },
     scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });

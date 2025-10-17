@@ -4956,6 +4956,9 @@ __webpack_require__.r(__webpack_exports__);
       readTimes: [],
       // Tracks read time for each section
       screenReaderMessage: '',
+      // Performance helpers
+      scrollTicking: false,
+      formatKeyCache: Object.create(null),
       faq: [{
         question: 'When was the Quran first revealed?',
         answer: 'The Quran was first revealed to Prophet Muhammad in 610 CE during the month of Ramadan in the Cave of Hira.'
@@ -5032,8 +5035,10 @@ __webpack_require__.r(__webpack_exports__);
       this.fontSizes = this.accordionItems.map(() => 1.05);
       this.summaryLoading = this.accordionItems.map(() => false);
       this.summaries = this.accordionItems.map(() => null);
-      this.wordCounts = this.accordionItems.map(item => this.computeWordCountAndReadTime(item).wordCount);
-      this.readTimes = this.accordionItems.map(item => this.computeWordCountAndReadTime(item).readTime);
+      // Single-pass stats computation
+      const stats = this.accordionItems.map(item => this.computeWordCountAndReadTime(item));
+      this.wordCounts = stats.map(s => s.wordCount);
+      this.readTimes = stats.map(s => s.readTime);
     } else {
       this.isOpen = [];
       this.fontSizes = [];
@@ -5042,7 +5047,9 @@ __webpack_require__.r(__webpack_exports__);
       this.wordCounts = [];
       this.readTimes = [];
     }
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll, {
+      passive: true
+    });
     // Load jsPDF
     const script = document.createElement('script');
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
@@ -5125,14 +5132,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     formatKey(key) {
       if (!key) return '';
+      const cached = this.formatKeyCache[key];
+      if (cached) return cached;
       const lowercaseWords = ['and', 'or', 'the', 'a', 'an', 'in', 'on', 'at', 'to', 'for', 'of', 'by'];
-      return key.replace(/_/g, ' ').split(' ').map((word, index) => {
-        // Always capitalize first word, or if not in lowercaseWords list
+      const formatted = key.replace(/_/g, ' ').split(' ').map((word, index) => {
         if (index === 0 || !lowercaseWords.includes(word.toLowerCase())) {
           return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
         }
         return word.toLowerCase();
       }).join(' ');
+      this.formatKeyCache[key] = formatted;
+      return formatted;
     },
     isRegularSection(item) {
       return item && typeof item === 'object' && !item.conclusion && !item.references && !item.faq;
@@ -5141,10 +5151,15 @@ __webpack_require__.r(__webpack_exports__);
       return table && Array.isArray(table) && table[0] ? Object.keys(table[0]) : [];
     },
     handleScroll() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const documentHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrollPercent = documentHeight > 0 ? scrollTop / documentHeight * 100 : 0;
-      this.showScrollToTop = scrollPercent > 5;
+      if (this.scrollTicking) return;
+      this.scrollTicking = true;
+      window.requestAnimationFrame(() => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const documentHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercent = documentHeight > 0 ? scrollTop / documentHeight * 100 : 0;
+        this.showScrollToTop = scrollPercent > 5;
+        this.scrollTicking = false;
+      });
     },
     scrollToTop() {
       window.scrollTo({
@@ -30620,7 +30635,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "1rem"
       }
-    }, null, 2 /* CLASS */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Content "), $data.isOpen[idx] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: 0,
       id: 'section-content-' + idx,
       class: "card-body px-4 py-4 rounded-bottom-3",
       "aria-labelledby": 'section-header-' + idx,
@@ -30839,7 +30855,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           key: i
         }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref), 1 /* TEXT */);
       }), 128 /* KEYED_FRAGMENT */))])])])]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 12 /* STYLE, PROPS */, _hoisted_9), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.isOpen[idx]]])]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 12 /* STYLE, PROPS */, _hoisted_9)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
   }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Fallback for empty data "), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
