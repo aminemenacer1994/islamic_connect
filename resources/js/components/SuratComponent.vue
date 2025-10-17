@@ -51,15 +51,17 @@
 
     <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
-    <div class="row rtl-text" role="listbox" :aria-activedescendant="selectedCardIndex >= 0 ? `ayah-card-${selectedCardIndex}` : null" aria-label="Ayah cards list">
+    <div class="row rtl-text" ref="listContainer" role="listbox" :aria-activedescendant="selectedCardIndex >= 0 ? `ayah-card-${selectedCardIndex}` : null" aria-label="Ayah cards list">
 
-      <div style="padding: 12px;  border-radius: 8px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs"
-        :key="ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="option"
-        :id="`ayah-card-${index}`" :aria-selected="selectedCardIndex === index" :tabindex="selectedCardIndex === index ? 0 : -1"
-        @click="selectCard(index)" @keydown.enter.prevent="toggleAudioPlayer(index)" @keydown.space.prevent="toggleAudioPlayer(index)"
+      <div :style="{ height: topSpacerHeight + 'px' }"></div>
+
+      <div style="padding: 12px;  border-radius: 8px;" ref="audioCard" v-for="item in visibleWindow"
+        :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="option"
+            :id="`ayah-card-${item.index}`" :aria-selected="selectedCardIndex === item.index" :tabindex="selectedCardIndex === item.index ? 0 : -1"
+        @click="selectCard(item.index)" @keydown.enter.prevent="toggleAudioPlayer(item.index)" @keydown.space.prevent="toggleAudioPlayer(item.index)"
         :class="{
-          'highlighted': isHighlighted && currentlyPlayingIndex === index,
-          'currently-playing': isAudioPlaying[index]
+          'highlighted': isHighlighted && currentlyPlayingIndex === item.index,
+          'currently-playing': isAudioPlaying[item.index]
         }">
         <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="
             border-top-left-radius: 25px;
@@ -73,7 +75,7 @@
           <div class="d-flex justify-content-between p-3 text-muted ltr-text">
             <h4>
               <img src="/images/art.png" width="35px" alt="Art Icon" />
-              {{ surahDetails?.surahNumber }} : {{ index + 1 }}
+              {{ surahDetails?.surahNumber }} : {{ item.index + 1 }}
             </h4>
           </div>
 
@@ -81,20 +83,19 @@
           <div class="row d-none d-md-flex" role="group" aria-label="Ayah controls (desktop)" :aria-hidden="isMobile">
             <div class="col-md-11">
               <div style="padding: 4px;">
-                <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
+                <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(item.ayah)"
                   :style="{ fontSize: arabicFontSize + 'px' }"></p>
                 <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h4>
-                <p class="fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
+                <p class="fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
                   :style="{ fontSize: translationFontSize + 'px' }"></p>
               </div>
             </div>
             <div class="col-md-1 text-center">
               <div class="d-flex flex-column align-items-center">
-                <button class="icon-btn mb-3" @click="toggleAudioPlayer(index)"
-                        :aria-label="isAudioPlaying[index] ? 'Pause ayah ' + (index + 1) : 'Play ayah ' + (index + 1)"
-                        :title="isAudioPlaying[index] ? 'Pause' : 'Play'">
-                  <i v-if="isAudioLoading[index]" class="bi bi-hourglass-split" aria-hidden="true"></i>
-                  <i v-else class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" aria-hidden="true"></i>
+                <button class="icon-btn mb-3" @click="toggleAudioPlayer(item.index)"
+                        :aria-label="isAudioPlaying[item.index] ? 'Pause ayah ' + (item.index + 1) : 'Play ayah ' + (item.index + 1)"
+                        :title="isAudioPlaying[item.index] ? 'Pause' : 'Play'">
+                  <i class="bi" :class="isAudioPlaying[item.index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" aria-hidden="true"></i>
                 </button>
                 <button class="icon-btn mb-3" @click="decreaseFontSize" aria-label="Decrease font size" title="Decrease Font Size">
                   <i class="bi bi-dash-circle-fill" aria-hidden="true"></i>
@@ -114,10 +115,10 @@
 
           <div style="padding: 8px;" class="d-block d-md-none" role="group" aria-label="Ayah controls (mobile)" :aria-hidden="!isMobile">
             <div>
-              <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
+              <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(item.ayah)"
                 :style="{ fontSize: arabicFontSize + 'px' }"></p>
               <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h4>
-              <p class="fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
+              <p class="fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
                 :style="{ fontSize: translationFontSize + 'px' }"></p>
             </div>
             <div class="row mb-3" style="display: flex; justify-content: center; margin: 0 -5px;">
@@ -133,25 +134,24 @@
                 </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <button class="icon-btn" @click="toggleAudioPlayer(index)"
-                        :aria-label="isAudioPlaying[index] ? 'Pause ayah ' + (index + 1) : 'Play ayah ' + (index + 1)"
-                        :title="isAudioPlaying[index] ? 'Pause' : 'Play'">
-                  <i v-if="isAudioLoading[index]" class="bi bi-hourglass-split" style="font-size: 1.7rem;" aria-hidden="true"></i>
-                  <i v-else class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="font-size: 1.7rem;" aria-hidden="true"></i>
+                <button class="icon-btn" @click="toggleAudioPlayer(item.index)"
+                        :aria-label="isAudioPlaying[item.index] ? 'Pause ayah ' + (item.index + 1) : 'Play ayah ' + (item.index + 1)"
+                        :title="isAudioPlaying[item.index] ? 'Pause' : 'Play'">
+                  <i class="bi" :class="isAudioPlaying[item.index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="font-size: 1.7rem;" aria-hidden="true"></i>
                 </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <button class="icon-btn" @click="rewindAudio(index)" aria-label="Rewind 15 seconds" title="Rewind">
+                <button class="icon-btn" @click="rewindAudio(item.index)" aria-label="Rewind 15 seconds" title="Rewind">
                   <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.7rem;" aria-hidden="true"></i>
                 </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <button class="icon-btn" @click="fastForwardAudio(index)" aria-label="Fast forward 20 seconds" title="Fast Forward">
+                <button class="icon-btn" @click="fastForwardAudio(item.index)" aria-label="Fast forward 20 seconds" title="Fast Forward">
                   <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.7rem;" aria-hidden="true"></i>
                 </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <button class="icon-btn" @click="shareOnWhatsApp(ayah)" aria-label="Share on WhatsApp" title="Share on WhatsApp">
+                <button class="icon-btn" @click="shareOnWhatsApp(item.ayah)" aria-label="Share on WhatsApp" title="Share on WhatsApp">
                   <i class="bi bi-whatsapp" style="font-size: 1.5rem;" aria-hidden="true"></i>
                 </button>
               </div>
@@ -159,6 +159,8 @@
           </div>
         </div>
       </div>
+
+      <div :style="{ height: bottomSpacerHeight + 'px' }"></div>
     </div>
 
     <!-- Screen reader live region -->
@@ -177,9 +179,7 @@
             <i class="bi bi-skip-backward-fill"></i>
           </button>
           <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause" aria-label="Play or Pause">
-            <i v-if="isAudioLoading[currentlyPlayingIndex]" class="bi bi-hourglass-split"></i>
-            <i v-else-if="isAudioPlaying[currentlyPlayingIndex]" class="bi bi-pause-fill"></i>
-            <i v-else class="bi bi-play-fill"></i>
+            <i :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
           </button>
           <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward" aria-label="Fast forward 20 seconds">
             <i class="bi bi-skip-forward-fill"></i>
@@ -275,6 +275,15 @@ export default {
       lastVizAt: 0,
       // request control
       _surahAborter: null,
+      // delayed spinner timers per index
+      loadingTimers: [],
+      // virtualization
+      itemHeight: 320,
+      windowSize: 22,
+      buffer: 6,
+      visibleStart: 0,
+      visibleEnd: 0,
+      listTop: 0,
     };
   },
   computed: {
@@ -307,7 +316,26 @@ export default {
         if ((a.flag || '') !== (b.flag || '')) return (a.flag || '').localeCompare(b.flag || '');
         return (a.englishName || '').localeCompare(b.englishName || '');
       });
-    }
+    },
+    totalItems() {
+      return (Array.isArray(this.filteredAyahs) ? this.filteredAyahs.length : 0);
+    },
+    visibleWindow() {
+      const start = Math.max(0, Math.min(this.visibleStart, this.totalItems));
+      const end = Math.max(start, Math.min(this.visibleEnd, this.totalItems));
+      const out = [];
+      if (!this.surahDetails || !Array.isArray(this.filteredAyahs)) return out;
+      for (let i = start; i < end; i++) out.push({ index: i, ayah: this.filteredAyahs[i] });
+      return out;
+    },
+    topSpacerHeight() {
+      return Math.max(0, this.visibleStart * this.itemHeight);
+    },
+    bottomSpacerHeight() {
+      const end = Math.max(this.visibleEnd, this.visibleStart);
+      const remaining = Math.max(0, (this.totalItems - end));
+      return remaining * this.itemHeight;
+    },
   },
   watch: {
     searchQuery: function (val) {
@@ -382,22 +410,81 @@ export default {
       this.audioElements.length = n;
       for (let i = 0; i < n; i++) if (this.audioElements[i] === undefined) this.audioElements[i] = null;
       // Do not pre-create audio elements; create on-demand for faster starts
+      // Reset virtualization window to top
+      this.visibleStart = 0;
+      this.visibleEnd = Math.min(this.windowSize + this.buffer * 2, n);
+      this.$nextTick(this.updateVirtualWindow);
     }
   },
   mounted() {
     window.addEventListener('keydown', this.onKeydown);
     this.updateIsMobile();
     window.addEventListener('resize', this.updateIsMobile);
+    // Virtualization hooks
+    this.$nextTick(() => {
+      this.computeListTop();
+      this.updateVirtualWindow();
+      this.$nextTick(this.calibrateItemHeight);
+      window.addEventListener('scroll', this.onScrollVirtual, { passive: true });
+      window.addEventListener('resize', this.computeListTop, { passive: true });
+      window.addEventListener('resize', this.calibrateItemHeight, { passive: true });
+    });
   },
   beforeUnmount() {
     window.removeEventListener('keydown', this.onKeydown);
     window.removeEventListener('resize', this.updateIsMobile);
+    window.removeEventListener('scroll', this.onScrollVirtual);
+    window.removeEventListener('resize', this.computeListTop);
+    window.removeEventListener('resize', this.calibrateItemHeight);
   },
   beforeDestroy() {
     window.removeEventListener('keydown', this.onKeydown);
     window.removeEventListener('resize', this.updateIsMobile);
+    window.removeEventListener('scroll', this.onScrollVirtual);
+    window.removeEventListener('resize', this.computeListTop);
+    window.removeEventListener('resize', this.calibrateItemHeight);
   },
   methods: {
+    calibrateItemHeight() {
+      try {
+        const el = this.$el.querySelector('.ayah-card-container');
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect && rect.height > 0) {
+          this.itemHeight = Math.round(rect.height + 24); // include margins/padding buffer
+          this.updateVirtualWindow();
+        }
+      } catch (_) {}
+    },
+    computeListTop() {
+      try {
+        const el = this.$refs.listContainer;
+        if (!el) { this.listTop = 0; return; }
+        const rect = el.getBoundingClientRect();
+        this.listTop = rect.top + window.scrollY;
+      } catch (_) { this.listTop = 0; }
+    },
+    onScrollVirtual() {
+      this.updateVirtualWindow();
+    },
+    updateVirtualWindow() {
+      const n = this.filteredAyahs ? this.filteredAyahs.length : 0;
+      if (n === 0) { this.visibleStart = 0; this.visibleEnd = 0; return; }
+      const y = window.scrollY - this.listTop;
+      // If we are at or above the list top, pin to start
+      if (window.scrollY <= this.listTop + 5) {
+        this.visibleStart = 0;
+        this.visibleEnd = Math.min(n, this.windowSize + this.buffer * 2);
+        return;
+      }
+      const approxIndex = Math.max(0, Math.floor(y / Math.max(1, this.itemHeight)));
+      const start = Math.max(0, approxIndex - this.buffer);
+      const end = Math.min(n, start + this.windowSize + this.buffer * 2);
+      if (start !== this.visibleStart || end !== this.visibleEnd) {
+        this.visibleStart = start;
+        this.visibleEnd = end;
+      }
+    },
     // simple localStorage cache with TTL and SWR
     async cachedFetchJSON(url, cacheKey, ttlMs = 24 * 60 * 60 * 1000) {
       try {
@@ -552,7 +639,11 @@ export default {
       console.log('Attempting to play audio for index:', index);
       if (index < 0 || index >= this.filteredAyahs.length) return;
 
-      this.isAudioLoading[index] = true;
+      // Defer showing loading spinner to avoid flicker; only show if slow (>200ms)
+      clearTimeout(this.loadingTimers[index]);
+      this.loadingTimers[index] = setTimeout(() => {
+        this.$set ? this.$set(this.isAudioLoading, index, true) : (this.isAudioLoading[index] = true);
+      }, 200);
 
       // Stop any currently playing audio and ensure exclusivity
       if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
@@ -580,6 +671,7 @@ export default {
         audio.addEventListener("ended", () => this.handleAyahEnd(index));
         audio.addEventListener("error", (e) => {
           console.error(`Audio error for ayah ${index + 1}:`, e);
+          clearTimeout(this.loadingTimers[index]);
           this.isAudioLoading[index] = false;
           this.isAudioPlaying[index] = false;
           this.$toast?.error(`Failed to load audio for ayah ${index + 1}`);
@@ -625,6 +717,7 @@ export default {
 
       // Optimistic immediate play, fallback to 'canplay' (faster than 'canplaythrough')
       const markPlaying = () => {
+        clearTimeout(this.loadingTimers[index]);
         this.isAudioPlaying[index] = true;
         this.isAudioLoading[index] = false;
         this.isHighlighted = true;
@@ -657,13 +750,13 @@ export default {
         }
       };
 
-      this.isAudioLoading[index] = true;
       tryPlay();
     },
     pauseAudio: function (index) {
       if (this.audioElements[index]) {
         console.log(`Pausing audio for ayah ${index + 1}`);
         this.audioElements[index].pause();
+        clearTimeout(this.loadingTimers[index]);
         this.isAudioPlaying[index] = false;
         this.isAudioLoading[index] = false;
       }
@@ -681,6 +774,7 @@ export default {
         console.log(`Stopping audio for ayah ${index + 1}`);
         this.audioElements[index].pause();
         this.audioElements[index].currentTime = 0;
+        clearTimeout(this.loadingTimers[index]);
         this.isAudioPlaying[index] = false;
         this.isAudioLoading[index] = false;
         this.progress[index] = 0;
@@ -898,6 +992,8 @@ export default {
               })
             };
             this.isLoading = false;
+            // Pre-warm current and next from cache path as well
+            this.$nextTick(() => { this.prepareNextAudio(0); this.prepareNextAudio(1); });
           }
         }
       } catch (_) {}
@@ -938,6 +1034,8 @@ export default {
           };
           console.log('Surah details fetched:', this.surahDetails);
           this.isLoading = false;
+          // Pre-warm the first and next ayah for instant playback
+          this.$nextTick(() => { this.prepareNextAudio(0); this.prepareNextAudio(1); });
         })
         .catch(error => {
           if (error?.name === 'AbortError') return; // expected on change
