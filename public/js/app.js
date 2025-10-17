@@ -11897,7 +11897,11 @@ __webpack_require__.r(__webpack_exports__);
       increaseBy: 8,
       isFetchingMore: false,
       bottomObserver: null,
-      debounceTimer: null,
+      // Debounced search input
+      debouncedQuery: '',
+      searchDebounce: null,
+      // Live region message for a11y
+      liveMessage: '',
       favorites: [],
       showFavorites: true,
       alertMessage: '',
@@ -11909,8 +11913,8 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     filteredChannels() {
       let filtered = [...this.channels];
-      if (this.searchQuery) {
-        filtered = filtered.filter(channel => channel.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+      if (this.debouncedQuery) {
+        filtered = filtered.filter(channel => channel.name.toLowerCase().includes(this.debouncedQuery.toLowerCase()));
       }
       if (this.selectedCategory !== 'all') {
         filtered = filtered.filter(channel => channel.category === this.selectedCategory);
@@ -11962,6 +11966,13 @@ __webpack_require__.r(__webpack_exports__);
         }, 3000);
       }
     },
+    // Debounce search input to reduce recomputes per keystroke
+    searchQuery(newVal) {
+      clearTimeout(this.searchDebounce);
+      this.searchDebounce = setTimeout(() => {
+        this.debouncedQuery = newVal || '';
+      }, 300);
+    },
     filteredChannels() {
       // Reset infinite scroll window on filter/search change
       this.visibleCount = 12;
@@ -11969,6 +11980,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted() {
+    // Initialize debounced query
+    this.debouncedQuery = this.searchQuery || '';
     try {
       const storedFavorites = JSON.parse(localStorage.getItem('favoriteChannels') || '[]');
       this.favorites = storedFavorites.filter(fav => this.channels.some(channel => channel.name === fav.name));
@@ -12134,7 +12147,6 @@ __webpack_require__.r(__webpack_exports__);
       this.selectedLanguage = 'all';
       this.selectedTag = 'all';
       this.sortBy = 'name-asc';
-      this.filterChannels();
       this.liveMessage = 'All filters cleared';
     },
     playChannel(channel) {
@@ -12169,7 +12181,9 @@ __webpack_require__.r(__webpack_exports__);
         if (hls_js__WEBPACK_IMPORTED_MODULE_0__["default"].isSupported()) {
           this.hlsInstance = new hls_js__WEBPACK_IMPORTED_MODULE_0__["default"]({
             enableWorker: true,
-            lowLatencyMode: true
+            lowLatencyMode: true,
+            capLevelToPlayerSize: true,
+            backBufferLength: 30
           });
           this.hlsInstance.loadSource(source);
           this.hlsInstance.attachMedia(video);
@@ -12265,12 +12279,6 @@ __webpack_require__.r(__webpack_exports__);
           console.error('PiP failed:', err);
         });
       }
-    },
-    filterChannels() {
-      clearTimeout(this.debounceTimer);
-      this.debounceTimer = setTimeout(() => {
-        // Filtering logic handled by computed properties
-      }, 300);
     },
     truncateDescription(text, maxLength) {
       if (text.length <= maxLength) {
@@ -37869,13 +37877,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "status",
     class: "visually-hidden",
     ref: "liveRegion"
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.liveMessage), 513 /* TEXT, NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Section (unchanged) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [$data.alertMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.alertMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header (unchanged) "), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.liveMessage), 513 /* TEXT, NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Section (unchanged) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [$data.alertMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.alertMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header (unchanged) "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     class: "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "fw-bold display-4 mb-3"
   }, "Channel Guide"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "lead text-muted mx-auto"
-  }, " Discover and explore Islamic channels easily. This feature helps you connect with authentic Islamic content by directing you to each channel’s posts, playlists, and videos on YouTube, you can quickly find and access valuable resources all in one place. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter/Search Section (unchanged) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, " Discover and explore Islamic channels easily. This feature helps you connect with authentic Islamic content by directing you to each channel’s posts, playlists, and videos on YouTube, you can quickly find and access valuable resources all in one place. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter/Search Section (unchanged) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "filterCategory",
     class: "visually-hidden"
   }, "Filter by category", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -37886,77 +37894,65 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "border-radius": "12px",
       "box-shadow": "0 2px 8px rgba(0,0,0,0.1)",
       "transition": "box-shadow 0.3s"
-    },
-    onChange: _cache[1] || (_cache[1] = (...args) => $options.filterChannels && $options.filterChannels(...args)),
-    onMouseover: _cache[2] || (_cache[2] = $event => this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'),
-    onMouseout: _cache[3] || (_cache[3] = $event => this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)')
-  }, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    }
+  }, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "all"
   }, "All Categories", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.categories, category => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: category,
       value: category
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category), 9 /* TEXT, PROPS */, _hoisted_7);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "filterLanguage",
     class: "visually-hidden"
   }, "Filter by language", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "filterLanguage",
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => $data.selectedLanguage = $event),
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.selectedLanguage = $event),
     class: "form-select",
     style: {
       "border-radius": "12px",
       "box-shadow": "0 2px 8px rgba(0,0,0,0.1)",
       "transition": "box-shadow 0.3s"
-    },
-    onChange: _cache[5] || (_cache[5] = (...args) => $options.filterChannels && $options.filterChannels(...args)),
-    onMouseover: _cache[6] || (_cache[6] = $event => this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'),
-    onMouseout: _cache[7] || (_cache[7] = $event => this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)')
-  }, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    }
+  }, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "all"
   }, "All Languages", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.languages, lang => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: lang,
       value: lang
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lang), 9 /* TEXT, PROPS */, _hoisted_9);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedLanguage]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedLanguage]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "filterTag",
     class: "visually-hidden"
   }, "Filter by tag", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "filterTag",
-    "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => $data.selectedTag = $event),
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $data.selectedTag = $event),
     class: "form-select",
     style: {
       "border-radius": "12px",
       "box-shadow": "0 2px 8px rgba(0,0,0,0.1)",
       "transition": "box-shadow 0.3s"
-    },
-    onChange: _cache[9] || (_cache[9] = (...args) => $options.filterChannels && $options.filterChannels(...args)),
-    onMouseover: _cache[10] || (_cache[10] = $event => this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'),
-    onMouseout: _cache[11] || (_cache[11] = $event => this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)')
-  }, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    }
+  }, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "all"
   }, "All Tags", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.tags, tag => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: tag,
       value: tag
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 9 /* TEXT, PROPS */, _hoisted_11);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTag]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTag]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "sortBy",
     class: "visually-hidden"
   }, "Sort channels", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "sortBy",
-    "onUpdate:modelValue": _cache[12] || (_cache[12] = $event => $data.sortBy = $event),
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $data.sortBy = $event),
     class: "form-select",
     style: {
       "border-radius": "12px",
       "box-shadow": "0 2px 8px rgba(0,0,0,0.1)",
       "transition": "box-shadow 0.3s"
-    },
-    onChange: _cache[13] || (_cache[13] = (...args) => $options.filterChannels && $options.filterChannels(...args)),
-    onMouseover: _cache[14] || (_cache[14] = $event => this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'),
-    onMouseout: _cache[15] || (_cache[15] = $event => this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)')
-  }, [...(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    }
+  }, [...(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "name-asc"
   }, "Name (A-Z)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "name-desc"
@@ -37964,7 +37960,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: "viewers-desc"
   }, "Viewers (High to Low)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "viewers-asc"
-  }, "Viewers (Low to High)", -1 /* CACHED */)]))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Viewers (Low to High)", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "input-group-text bg-white border-0",
     style: {
       "border-radius": "12px 0 0 12px",
@@ -37972,13 +37968,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-search"
-  })], -1 /* CACHED */)), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  })], -1 /* CACHED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "channelSearch",
     class: "visually-hidden"
   }, "Search channels", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     ref: "searchInput",
     id: "channelSearch",
-    "onUpdate:modelValue": _cache[16] || (_cache[16] = $event => $data.searchQuery = $event),
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => $data.searchQuery = $event),
     type: "text",
     class: "form-control",
     style: {
@@ -37986,11 +37982,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "box-shadow": "0 2px 8px rgba(0,0,0,0.1)",
       "transition": "box-shadow 0.3s"
     },
-    placeholder: "Search channels...",
-    onInput: _cache[17] || (_cache[17] = (...args) => $options.filterChannels && $options.filterChannels(...args)),
-    onMouseover: _cache[18] || (_cache[18] = $event => this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'),
-    onMouseout: _cache[19] || (_cache[19] = $event => this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)')
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    placeholder: "Search channels..."
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-outline-secondary w-100",
     style: {
       "border-radius": "12px",
@@ -37998,25 +37991,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "transition": "box-shadow 0.3s"
     },
     "aria-label": "Clear all filters",
-    onClick: _cache[20] || (_cache[20] = (...args) => $options.clearFilters && $options.clearFilters(...args)),
-    onMouseover: _cache[21] || (_cache[21] = $event => this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'),
-    onMouseout: _cache[22] || (_cache[22] = $event => this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)')
-  }, " Clear All Filters ", 32 /* NEED_HYDRATION */)])])]), $data.favorites.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", {
+    onClick: _cache[5] || (_cache[5] = (...args) => $options.clearFilters && $options.clearFilters(...args))
+  }, " Clear All Filters ")])])]), $data.favorites.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", {
     key: 0,
     class: "mb-5",
     "aria-label": "Favorite channels",
     role: "region",
     "aria-expanded": $data.showFavorites,
     "aria-labelledby": 'favorites-heading'
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    id: "favorites-heading",
-    class: "btn btn-link p-0 fw-bold text-decoration-none",
-    type: "button",
-    onClick: _cache[23] || (_cache[23] = (...args) => $options.toggleFavoritesSection && $options.toggleFavoritesSection(...args)),
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "aria-label": "Toggle favorite channels section",
+    class: "fw-bold mb-4 d-flex align-items-center",
+    onClick: _cache[6] || (_cache[6] = (...args) => $options.toggleFavoritesSection && $options.toggleFavoritesSection(...args)),
     "aria-expanded": $data.showFavorites,
     "aria-controls": "favorites-panel",
-    "aria-label": "Toggle favorite channels section"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Favorite Channels (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.favorites.length) + ") ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    id: "all-channels-heading"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Favorite Channels (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.favorites.length) + ") ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.showFavorites ? 'fas fa-chevron-up ms-2' : 'fas fa-chevron-down ms-2')
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_18)]), $data.showFavorites ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.favorites, (channel, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
@@ -38062,11 +38052,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => $options.toggleDescription(channel.name),
       "aria-label": `Read less about ${channel.name}`,
       "aria-expanded": "true"
-    }, " Read Less ", 8 /* PROPS */, _hoisted_29)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, " Read Less ", 8 /* PROPS */, _hoisted_29)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-users me-1"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.viewers || 'N/A') + " Joined", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.viewers || 'N/A') + " Joined", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-map-marker-alt me-1"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.location || 'Not specified'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.location || 'Not specified'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-clock me-1"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.schedule || 'No schedule'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.category), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(channel.languages, lang => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
@@ -38097,7 +38087,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "YouTube Channel",
       "aria-label": "Visit YouTube Channel",
       onClick: $event => $options.debugLink(channel.youtubeChannel, 'YouTube Channel')
-    }, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
         "margin-bottom": "4px",
@@ -38127,7 +38117,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Playlists",
       "aria-label": "View Playlists",
       onClick: $event => $options.debugLink(channel.playlistUrl, 'Playlists')
-    }, [...(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
         "margin-bottom": "4px",
@@ -38157,7 +38147,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Website",
       "aria-label": "Visit Website",
       onClick: $event => $options.debugLink(channel.websiteUrl, 'Website')
-    }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
         "margin-bottom": "4px",
@@ -38187,7 +38177,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Videos",
       "aria-label": "View Videos",
       onClick: $event => $options.debugLink(channel.youtubeChannel + '/videos', 'Videos')
-    }, [...(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
         "margin-bottom": "4px",
@@ -38216,7 +38206,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Videos",
       "aria-label": "View Videos",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.shareToWhatsApp(channel), ["prevent"])
-    }, [...(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
         "margin-bottom": "4px",
@@ -38228,16 +38218,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "font-size": "0.8rem"
       }
     }, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_38)])])])], 8 /* PROPS */, _hoisted_20);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_16)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Channels Section "), _cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_16)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Channels Section "), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "fw-bold mb-4 d-flex align-items-center",
     id: "all-channels-heading"
-  }, "All Channels:", -1 /* CACHED */)), _cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "All Channels:", -1 /* CACHED */)), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "visually-hidden",
     id: "kbd-help"
   }, "Use arrow keys to move between channels. Press Enter to activate, F to toggle favorite, and slash to focus search.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.visibleChannels, (channel, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       class: "col",
-      key: index,
+      key: channel.name,
       role: "listitem",
       ref_for: true,
       ref: "channelItems",
@@ -38290,11 +38280,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => $options.toggleDescription(channel.name),
       "aria-label": `Read less about ${channel.name}`,
       "aria-expanded": "true"
-    }, " Read Less ", 8 /* PROPS */, _hoisted_49)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, " Read Less ", 8 /* PROPS */, _hoisted_49)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-users me-1"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.viewers || 'N/A') + " Joined", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.viewers || 'N/A') + " Joined", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-clock me-1"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.schedule ? channel.schedule : 'No schedule'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.schedule ? channel.schedule : 'No schedule'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-map-marker-alt me-1"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.location || 'Not specified'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.category), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(channel.languages, lang => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
@@ -38325,7 +38315,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "YouTube Channel",
       "aria-label": "Visit YouTube Channel",
       onClick: $event => $options.debugLink(channel.youtubeChannel, 'YouTube Channel')
-    }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
         "margin-bottom": "4px",
@@ -38355,7 +38345,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Playlists",
       "aria-label": "View Playlists",
       onClick: $event => $options.debugLink(channel.playlistUrl, 'Playlists')
-    }, [...(_cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
         "margin-bottom": "4px",
@@ -38385,7 +38375,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Website",
       "aria-label": "Visit Website",
       onClick: $event => $options.debugLink(channel.websiteUrl, 'Website')
-    }, [...(_cache[47] || (_cache[47] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
         "margin-bottom": "4px",
@@ -38415,7 +38405,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Videos",
       "aria-label": "View Videos",
       onClick: $event => $options.debugLink(channel.youtubeChannel + '/videos', 'Videos')
-    }, [...(_cache[48] || (_cache[48] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
         "margin-bottom": "4px",
@@ -38444,7 +38434,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Share",
       "aria-label": "Share channel via WhatsApp",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.shareToWhatsApp(channel), ["prevent"])
-    }, [...(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "font-size": "1.2rem",
         "margin-bottom": "4px",
@@ -38456,7 +38446,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "font-size": "0.8rem"
       }
     }, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_58)])])])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_40);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Infinite Scroll Sentinel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, null, 512 /* NEED_PATCH */), $data.isFetchingMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_60, [...(_cache[50] || (_cache[50] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Infinite Scroll Sentinel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, null, 512 /* NEED_PATCH */), $data.isFetchingMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_60, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "spinner-border text-primary",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -49673,7 +49663,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.channel-card[data-v-670f86e6] {\n  transition: transform 0.2s;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.channel-card[data-v-670f86e6]:hover {\n  transform: translateY(-5px);\n}\n.channel-img[data-v-670f86e6] {\n  width: 100%;\n  height: 250px;\n  object-fit: contain;\n}\n\n/* .channel-gradient {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 15%;\n  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);\n} */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n}\n.channel-body a[data-v-670f86e6]:hover {\n  background-color: #f1f1f1;\n  transform: scale(1.1);\n}\n\n/* Pagination Styles */\n.pagination[data-v-670f86e6] {\n  margin-top: 1.5rem;\n}\n.pagination .page-item .page-link[data-v-670f86e6] {\n  border-radius: 8px;\n  margin: 0 4px;\n  padding: 0.5rem 1rem;\n  font-size: 1rem;\n  font-weight: 500;\n  color: #000000;\n  border: 1px solid #000000;\n  transition: all 0.2s ease;\n  min-width: 40px;\n  text-align: center;\n}\n.pagination .page-item.active .page-link[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n  color: #ffffff;\n}\n.pagination .page-item:not(.disabled) .page-link[data-v-670f86e6]:hover {\n  background-color: #e6f7f5;\n  border-color: #00bfa6;\n  color: #00bfa6;\n  transform: translateY(-2px);\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.pagination .page-item.disabled .page-link[data-v-670f86e6] {\n  color: #6c757d;\n  cursor: not-allowed;\n  background-color: #ffffff;\n  border-color: #000000;\n}\n@keyframes pulse-shadow-670f86e6 {\n0% {\n    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);\n}\n50% {\n    box-shadow: 0 8px 24px rgba(255, 0, 0, 0.5);\n}\n100% {\n    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);\n}\n}\n.description-wrapper[data-v-670f86e6] {\n  overflow: hidden;\n  transition: max-height 0.3s ease-in-out;\n  max-height: 6em;\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n  max-height: 23em;\n}\n.description-text[data-v-670f86e6] {\n  margin: 0;\n  display: inline;\n}\n.read-more[data-v-670f86e6] {\n  color: #00bfa6;\n  font-size: 0.8rem;\n  text-decoration: none;\n  transition: color 0.2s;\n}\n.read-more[data-v-670f86e6]:hover {\n  color: #008f7a;\n  text-decoration: underline;\n}\n@media (max-width: 576px) {\n.pagination .page-item .page-link[data-v-670f86e6] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.9rem;\n    min-width: 32px;\n}\n.description-wrapper[data-v-670f86e6] {\n    max-height: 3em;\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n    max-height: 15em;\n}\n.container[data-v-670f86e6] {\n    padding: 15px;\n}\n.channel-card[data-v-670f86e6] {\n    margin-bottom: 15px;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n\n  /* .channel-img-wrapper {\n    height: 280px;\n  } */\n  /* .favorites-section .channel-img-wrapper {\n    height: 160px;\n  } */\n.channel-body[data-v-670f86e6] {\n    padding: 10px;\n}\n.favorites-section .channel-body[data-v-670f86e6] {\n    padding: 8px;\n}\n.fw-bold.display-4[data-v-670f86e6] {\n    font-size: 1.8rem;\n}\n.lead[data-v-670f86e6] {\n    font-size: 1rem;\n    max-width: 100%;\n}\n.alert[data-v-670f86e6] {\n    max-width: calc(100% - 30px);\n    font-size: 0.9rem;\n    top: 70px;\n    right: 15px;\n}\n.channel-body h5[data-v-670f86e6] {\n    font-size: 1.1rem;\n}\n.favorites-section .channel-body h5[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.channel-body p[data-v-670f86e6],\n  .channel-body .small[data-v-670f86e6] {\n    font-size: 0.85rem;\n}\n.favorites-section .channel-body p[data-v-670f86e6],\n  .favorites-section .channel-body .small[data-v-670f86e6] {\n    font-size: 0.8rem;\n}\n.channel-body .badge[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.favorites-section .channel-body .badge[data-v-670f86e6] {\n    font-size: 0.6rem;\n}\n.channel-body a[data-v-670f86e6] {\n    min-width: 50px;\n    padding: 6px;\n}\n.favorites-section .channel-body a[data-v-670f86e6] {\n    min-width: 45px;\n    padding: 5px;\n}\n.channel-body a i[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.favorites-section .channel-body a i[data-v-670f86e6] {\n    font-size: 0.9rem;\n}\n.channel-body a small[data-v-670f86e6] {\n    font-size: 0.7rem;\n}\n.favorites-section .channel-body a small[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.bg-light[data-v-670f86e6] {\n    padding: 15px !important;\n}\n.form-control[data-v-670f86e6],\n  .form-select[data-v-670f86e6],\n  .input-group-text[data-v-670f86e6] {\n    font-size: 0.9rem;\n    border-radius: 8px !important;\n    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);\n}\n.form-control[data-v-670f86e6]:hover,\n  .form-select[data-v-670f86e6]:hover,\n  .input-group-text[data-v-670f86e6]:hover {\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);\n}\n}\ninput.form-control[data-v-670f86e6],\nselect.form-select[data-v-670f86e6] {\n  font-size: 0.9rem;\n}\n\n/* Reduced motion */\n@media (prefers-reduced-motion: reduce) {\n.card[data-v-670f86e6]:hover {\n    transform: none;\n    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);\n}\n.btn-primary[data-v-670f86e6]:hover,\n  .btn-outline-danger[data-v-670f86e6]:hover,\n  .btn-outline-secondary[data-v-670f86e6]:hover,\n  .btn-outline-success[data-v-670f86e6]:hover,\n  .btn-outline-primary[data-v-670f86e6]:hover {\n    transform: none;\n}\n.mini-screen[data-v-670f86e6] {\n    transition: none;\n    animation: none;\n}\n.animate__fadeInDown[data-v-670f86e6],\n  .animate__fadeInUp[data-v-670f86e6],\n  .animate__zoomIn[data-v-670f86e6],\n  .animate__shakeX[data-v-670f86e6],\n  .animate__rotate[data-v-670f86e6] {\n    animation: none;\n}\n}\n.channel-card h5[data-v-670f86e6] {\n  font-size: 1.4rem;\n  /* larger title */\n}\n.channel-card .description[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.channel-card .small-text[data-v-670f86e6] {\n  font-size: 0.95rem;\n}\n.channel-card .btn[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.card h5[data-v-670f86e6] {\n  font-size: 1.25rem;\n  /* slightly larger */\n  font-weight: 700;\n  /* bold, stronger emphasis */\n  color: #212529;\n  /* consistent dark text */\n  margin-bottom: 0.5rem;\n}\n\n/* Card meta info (address, viewers, stream type) */\n.card p[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 400;\n  color: #6c757d;\n  /* muted gray */\n  margin-bottom: 0.35rem;\n  line-height: 1.4;\n}\n.card p i[data-v-670f86e6] {\n  font-size: 0.9rem;\n  margin-right: 0.35rem;\n}\n\n/* Emphasis for important numbers */\n.card p span[data-v-670f86e6] {\n  font-weight: 600;\n  color: #212529;\n}\n\n/* Badge styles */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n  font-weight: 500;\n  padding: 0.4em 0.65em;\n  border-radius: 8px;\n}\n.badge.bg-primary[data-v-670f86e6] {\n  background-color: #00bfa6 !important;\n}\n.badge.bg-secondary[data-v-670f86e6] {\n  background-color: #6c757d !important;\n}\n.badge.bg-info[data-v-670f86e6] {\n  background-color: #e0f7f4 !important;\n  color: #004d43 !important;\n}\n\n/* Buttons inside cards */\n.card .btn[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 600;\n  border-radius: 50px;\n  padding: 0.5rem 1rem;\n}\n.card .btn-success[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n}\n.card .btn-success[data-v-670f86e6]:hover {\n  background-color: #009688;\n  border-color: #009688;\n}\n\n/* Card hover enhancement */\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.channel-card[data-v-670f86e6] {\n  transition: transform 0.2s;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.channel-card[data-v-670f86e6]:hover {\n  transform: translateY(-5px);\n}\n.channel-img[data-v-670f86e6] {\n  width: 100%;\n  height: 250px;\n  object-fit: contain;\n}\n\n/* Lightweight hover effects without JS handlers */\n.form-control[data-v-670f86e6]:hover,\n.form-select[data-v-670f86e6]:hover,\n.input-group-text[data-v-670f86e6]:hover,\n.btn[data-v-670f86e6]:hover {\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n\n/* .channel-gradient {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 15%;\n  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);\n} */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n}\n.channel-body a[data-v-670f86e6]:hover {\n  background-color: #f1f1f1;\n  transform: scale(1.1);\n}\n\n/* Pagination Styles */\n.pagination[data-v-670f86e6] {\n  margin-top: 1.5rem;\n}\n.pagination .page-item .page-link[data-v-670f86e6] {\n  border-radius: 8px;\n  margin: 0 4px;\n  padding: 0.5rem 1rem;\n  font-size: 1rem;\n  font-weight: 500;\n  color: #000000;\n  border: 1px solid #000000;\n  transition: all 0.2s ease;\n  min-width: 40px;\n  text-align: center;\n}\n.pagination .page-item.active .page-link[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n  color: #ffffff;\n}\n.pagination .page-item:not(.disabled) .page-link[data-v-670f86e6]:hover {\n  background-color: #e6f7f5;\n  border-color: #00bfa6;\n  color: #00bfa6;\n  transform: translateY(-2px);\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.pagination .page-item.disabled .page-link[data-v-670f86e6] {\n  color: #6c757d;\n  cursor: not-allowed;\n  background-color: #ffffff;\n  border-color: #000000;\n}\n@keyframes pulse-shadow-670f86e6 {\n0% {\n    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);\n}\n50% {\n    box-shadow: 0 8px 24px rgba(255, 0, 0, 0.5);\n}\n100% {\n    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);\n}\n}\n.description-wrapper[data-v-670f86e6] {\n  overflow: hidden;\n  transition: max-height 0.3s ease-in-out;\n  max-height: 6em;\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n  max-height: 23em;\n}\n.description-text[data-v-670f86e6] {\n  margin: 0;\n  display: inline;\n}\n.read-more[data-v-670f86e6] {\n  color: #00bfa6;\n  font-size: 0.8rem;\n  text-decoration: none;\n  transition: color 0.2s;\n}\n.read-more[data-v-670f86e6]:hover {\n  color: #008f7a;\n  text-decoration: underline;\n}\n@media (max-width: 576px) {\n.pagination .page-item .page-link[data-v-670f86e6] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.9rem;\n    min-width: 32px;\n}\n.description-wrapper[data-v-670f86e6] {\n    max-height: 3em;\n}\n.description-wrapper.expanded[data-v-670f86e6] {\n    max-height: 15em;\n}\n.container[data-v-670f86e6] {\n    padding: 15px;\n}\n.channel-card[data-v-670f86e6] {\n    margin-bottom: 15px;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n\n  /* .channel-img-wrapper {\n    height: 280px;\n  } */\n  /* .favorites-section .channel-img-wrapper {\n    height: 160px;\n  } */\n.channel-body[data-v-670f86e6] {\n    padding: 10px;\n}\n.favorites-section .channel-body[data-v-670f86e6] {\n    padding: 8px;\n}\n.fw-bold.display-4[data-v-670f86e6] {\n    font-size: 1.8rem;\n}\n.lead[data-v-670f86e6] {\n    font-size: 1rem;\n    max-width: 100%;\n}\n.alert[data-v-670f86e6] {\n    max-width: calc(100% - 30px);\n    font-size: 0.9rem;\n    top: 70px;\n    right: 15px;\n}\n.channel-body h5[data-v-670f86e6] {\n    font-size: 1.1rem;\n}\n.favorites-section .channel-body h5[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.channel-body p[data-v-670f86e6],\n  .channel-body .small[data-v-670f86e6] {\n    font-size: 0.85rem;\n}\n.favorites-section .channel-body p[data-v-670f86e6],\n  .favorites-section .channel-body .small[data-v-670f86e6] {\n    font-size: 0.8rem;\n}\n.channel-body .badge[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.favorites-section .channel-body .badge[data-v-670f86e6] {\n    font-size: 0.6rem;\n}\n.channel-body a[data-v-670f86e6] {\n    min-width: 50px;\n    padding: 6px;\n}\n.favorites-section .channel-body a[data-v-670f86e6] {\n    min-width: 45px;\n    padding: 5px;\n}\n.channel-body a i[data-v-670f86e6] {\n    font-size: 1rem;\n}\n.favorites-section .channel-body a i[data-v-670f86e6] {\n    font-size: 0.9rem;\n}\n.channel-body a small[data-v-670f86e6] {\n    font-size: 0.7rem;\n}\n.favorites-section .channel-body a small[data-v-670f86e6] {\n    font-size: 0.65rem;\n}\n.bg-light[data-v-670f86e6] {\n    padding: 15px !important;\n}\n.form-control[data-v-670f86e6],\n  .form-select[data-v-670f86e6],\n  .input-group-text[data-v-670f86e6] {\n    font-size: 0.9rem;\n    border-radius: 8px !important;\n    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);\n}\n.form-control[data-v-670f86e6]:hover,\n  .form-select[data-v-670f86e6]:hover,\n  .input-group-text[data-v-670f86e6]:hover {\n    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);\n}\n}\ninput.form-control[data-v-670f86e6],\nselect.form-select[data-v-670f86e6] {\n  font-size: 0.9rem;\n}\n\n/* Reduced motion */\n@media (prefers-reduced-motion: reduce) {\n.card[data-v-670f86e6]:hover {\n    transform: none;\n    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);\n}\n.btn-primary[data-v-670f86e6]:hover,\n  .btn-outline-danger[data-v-670f86e6]:hover,\n  .btn-outline-secondary[data-v-670f86e6]:hover,\n  .btn-outline-success[data-v-670f86e6]:hover,\n  .btn-outline-primary[data-v-670f86e6]:hover {\n    transform: none;\n}\n.mini-screen[data-v-670f86e6] {\n    transition: none;\n    animation: none;\n}\n.animate__fadeInDown[data-v-670f86e6],\n  .animate__fadeInUp[data-v-670f86e6],\n  .animate__zoomIn[data-v-670f86e6],\n  .animate__shakeX[data-v-670f86e6],\n  .animate__rotate[data-v-670f86e6] {\n    animation: none;\n}\n}\n.channel-card h5[data-v-670f86e6] {\n  font-size: 1.4rem;\n  /* larger title */\n}\n.channel-card .description[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.channel-card .small-text[data-v-670f86e6] {\n  font-size: 0.95rem;\n}\n.channel-card .btn[data-v-670f86e6] {\n  font-size: 1rem;\n}\n.card h5[data-v-670f86e6] {\n  font-size: 1.25rem;\n  /* slightly larger */\n  font-weight: 700;\n  /* bold, stronger emphasis */\n  color: #212529;\n  /* consistent dark text */\n  margin-bottom: 0.5rem;\n}\n\n/* Card meta info (address, viewers, stream type) */\n.card p[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 400;\n  color: #6c757d;\n  /* muted gray */\n  margin-bottom: 0.35rem;\n  line-height: 1.4;\n}\n.card p i[data-v-670f86e6] {\n  font-size: 0.9rem;\n  margin-right: 0.35rem;\n}\n\n/* Emphasis for important numbers */\n.card p span[data-v-670f86e6] {\n  font-weight: 600;\n  color: #212529;\n}\n\n/* Badge styles */\n.badge[data-v-670f86e6] {\n  font-size: 0.75rem;\n  font-weight: 500;\n  padding: 0.4em 0.65em;\n  border-radius: 8px;\n}\n.badge.bg-primary[data-v-670f86e6] {\n  background-color: #00bfa6 !important;\n}\n.badge.bg-secondary[data-v-670f86e6] {\n  background-color: #6c757d !important;\n}\n.badge.bg-info[data-v-670f86e6] {\n  background-color: #e0f7f4 !important;\n  color: #004d43 !important;\n}\n\n/* Buttons inside cards */\n.card .btn[data-v-670f86e6] {\n  font-size: 0.9rem;\n  font-weight: 600;\n  border-radius: 50px;\n  padding: 0.5rem 1rem;\n}\n.card .btn-success[data-v-670f86e6] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n}\n.card .btn-success[data-v-670f86e6]:hover {\n  background-color: #009688;\n  border-color: #009688;\n}\n\n/* Card hover enhancement */\n.card[data-v-670f86e6]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

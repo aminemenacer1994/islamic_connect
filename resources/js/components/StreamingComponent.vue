@@ -25,9 +25,7 @@
         <div class="col-12 col-md-3">
           <label for="filterCategory" class="visually-hidden">Filter by category</label>
           <select id="filterCategory" v-model="selectedCategory" class="form-select"
-            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-            @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;">
             <option value="all">All Categories</option>
             <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
           </select>
@@ -35,9 +33,7 @@
         <div class="col-12 col-md-3">
           <label for="filterLanguage" class="visually-hidden">Filter by language</label>
           <select id="filterLanguage" v-model="selectedLanguage" class="form-select"
-            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-            @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;">
             <option value="all">All Languages</option>
             <option v-for="lang in languages" :key="lang" :value="lang">{{ lang }}</option>
           </select>
@@ -45,9 +41,7 @@
         <div class="col-12 col-md-3">
           <label for="filterTag" class="visually-hidden">Filter by tag</label>
           <select id="filterTag" v-model="selectedTag" class="form-select"
-            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-            @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;">
             <option value="all">All Tags</option>
             <option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</option>
           </select>
@@ -55,9 +49,7 @@
         <div class="col-12 col-md-3">
           <label for="sortBy" class="visually-hidden">Sort channels</label>
           <select id="sortBy" v-model="sortBy" class="form-select"
-            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-            @change="filterChannels" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+            style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;">
             <option value="name-asc">Name (A-Z)</option>
             <option value="name-desc">Name (Z-A)</option>
             <option value="viewers-desc">Viewers (High to Low)</option>
@@ -73,16 +65,13 @@
             <label for="channelSearch" class="visually-hidden">Search channels</label>
             <input ref="searchInput" id="channelSearch" v-model="searchQuery" type="text" class="form-control"
               style="border-radius: 0 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-              placeholder="Search channels..." @input="filterChannels"
-              @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-              @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+              placeholder="Search channels...">
           </div>
         </div>
         <div class="col-12 col-md-3">
           <button class="btn btn-outline-secondary w-100"
             style="border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: box-shadow 0.3s;"
-            aria-label="Clear all filters" @click="clearFilters" @mouseover="this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'"
-            @mouseout="this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'">
+            aria-label="Clear all filters" @click="clearFilters">
             Clear All Filters
           </button>
         </div>
@@ -92,12 +81,7 @@
     <section v-if="favorites.length > 0" class="mb-5" aria-label="Favorite channels" role="region"
       :aria-expanded="showFavorites" :aria-labelledby="'favorites-heading'">
       <h2 class="fw-bold mb-3 d-flex align-items-center">
-        <button id="favorites-heading" class="btn btn-link p-0 fw-bold text-decoration-none" type="button"
-          @click="toggleFavoritesSection" :aria-expanded="showFavorites" aria-controls="favorites-panel"
-          aria-label="Toggle favorite channels section">
-          Favorite Channels ({{ favorites.length }})
-          <i :class="showFavorites ? 'fas fa-chevron-up ms-2' : 'fas fa-chevron-down ms-2'"></i>
-        </button>
+        <h2 aria-label="Toggle favorite channels section" class="fw-bold mb-4 d-flex align-items-center" @click="toggleFavoritesSection" :aria-expanded="showFavorites" aria-controls="favorites-panel" id="all-channels-heading">Favorite Channels ({{ favorites.length }}) <i :class="showFavorites ? 'fas fa-chevron-up ms-2' : 'fas fa-chevron-down ms-2'"></i></h2>  
       </h2>
       <div v-if="showFavorites" id="favorites-panel"
         class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" role="list">
@@ -197,7 +181,7 @@
     <p class="visually-hidden" id="kbd-help">Use arrow keys to move between channels. Press Enter to activate, F to toggle favorite, and slash to focus search.</p>
     <section class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-2" aria-label="Channel grid" role="list"
       aria-labelledby="all-channels-heading">
-      <article class="col" v-for="(channel, index) in visibleChannels" :key="index" role="listitem"
+      <article class="col" v-for="(channel, index) in visibleChannels" :key="channel.name" role="listitem"
         ref="channelItems" tabindex="0" :aria-labelledby="`chan-title-${index}`"
         @focus="onCardFocus(index)" @keydown="onCardKeydown(index, $event)">
         <div class="channel-card shadow-lg"
@@ -338,7 +322,11 @@ export default {
       increaseBy: 8,
       isFetchingMore: false,
       bottomObserver: null,
-      debounceTimer: null,
+      // Debounced search input
+      debouncedQuery: '',
+      searchDebounce: null,
+      // Live region message for a11y
+      liveMessage: '',
       favorites: [],
       showFavorites: true,
       alertMessage: '',
@@ -351,9 +339,9 @@ export default {
     filteredChannels() {
       let filtered = [...this.channels];
 
-      if (this.searchQuery) {
+      if (this.debouncedQuery) {
         filtered = filtered.filter(channel =>
-          channel.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+          channel.name.toLowerCase().includes(this.debouncedQuery.toLowerCase())
         );
       }
 
@@ -411,6 +399,13 @@ export default {
         }, 3000);
       }
     },
+    // Debounce search input to reduce recomputes per keystroke
+    searchQuery(newVal) {
+      clearTimeout(this.searchDebounce);
+      this.searchDebounce = setTimeout(() => {
+        this.debouncedQuery = newVal || '';
+      }, 300);
+    },
     filteredChannels() {
       // Reset infinite scroll window on filter/search change
       this.visibleCount = 12;
@@ -418,6 +413,8 @@ export default {
     }
   },
   mounted() {
+    // Initialize debounced query
+    this.debouncedQuery = this.searchQuery || '';
     try {
       const storedFavorites = JSON.parse(localStorage.getItem('favoriteChannels') || '[]');
       this.favorites = storedFavorites.filter(fav =>
@@ -583,7 +580,6 @@ export default {
       this.selectedLanguage = 'all';
       this.selectedTag = 'all';
       this.sortBy = 'name-asc';
-      this.filterChannels();
       this.liveMessage = 'All filters cleared';
     },
     playChannel(channel) {
@@ -625,7 +621,9 @@ export default {
         if (Hls.isSupported()) {
           this.hlsInstance = new Hls({
             enableWorker: true,
-            lowLatencyMode: true
+            lowLatencyMode: true,
+            capLevelToPlayerSize: true,
+            backBufferLength: 30
           });
 
           this.hlsInstance.loadSource(source);
@@ -723,12 +721,6 @@ export default {
         });
       }
     },
-    filterChannels() {
-      clearTimeout(this.debounceTimer);
-      this.debounceTimer = setTimeout(() => {
-        // Filtering logic handled by computed properties
-      }, 300);
-    },
     truncateDescription(text, maxLength) {
       if (text.length <= maxLength) {
         return { text: text, needsTruncation: false };
@@ -770,6 +762,14 @@ export default {
   width: 100%;
   height: 250px;
   object-fit: contain;
+}
+
+/* Lightweight hover effects without JS handlers */
+.form-control:hover,
+.form-select:hover,
+.input-group-text:hover,
+.btn:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* .channel-gradient {
