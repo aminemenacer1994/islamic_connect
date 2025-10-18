@@ -1598,8 +1598,10 @@
 </style>
 <script defer>
 import axios from "axios";
-import PrayerTimes from "./translation/PrayerTimes.vue";
-import AyahOfTheDay from './translation/AyahOfTheDay.vue';
+import { defineAsyncComponent } from 'vue';
+// Lazy-load heavier child components to improve initial render
+const PrayerTimes = defineAsyncComponent(() => import('./translation/PrayerTimes.vue'));
+const AyahOfTheDay = defineAsyncComponent(() => import('./translation/AyahOfTheDay.vue'));
 
 export default {
   components: {
@@ -1619,10 +1621,7 @@ export default {
       chunkSize: 4,
       mailing: {},
       feedback: {},
-      form: new Form({
-        name: "",
-        email: "",
-      }),
+      // Unified reactive form object (avoid duplicate keys)
       form: new Form({
         firstname: "",
         lastname: "",

@@ -20,7 +20,6 @@
                   <input id="mosque-search-input" type="search" class="form-control" placeholder="Enter city or country..."
                     aria-label="Search city or country" v-model="searchQuery" @input="handleTyping" autocomplete="off"
                     style="max-width: 300px;" />
-                  <small v-if="searchTooShort && searchQuery" class="text-muted ms-2">Type at least {{ minQueryLength }} characters</small>
                   <button class="btn  align-items-center justify-content-center "
                     style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
                     type="submit" :disabled="loading || searchTooShort">
@@ -136,7 +135,7 @@
             </div>
           </div>
 
-          <div v-if="!loading && mosques.length > 0" class="d-flex justify-content-between align-items-center"
+          <div v-if="!loading && searchSubmitted && mosques.length > 0" class="d-flex justify-content-between align-items-center"
             style="padding: 10px;">
             <small class="text-muted" aria-live="polite">
               Showing {{ mosques.length }} mosques
@@ -216,9 +215,8 @@ export default {
       }
     },
     handleTyping() {
-      // Debounce search while typing to reduce API calls
+      // Track typing state and reset results visibility, but do not auto-search
       this.isTyping = true;
-      // Clear previous results while user is typing a new query
       if (this.normalizedQuery !== this.lastQueryKey) {
         this.mosques = [];
         this.searchSubmitted = false;
@@ -226,12 +224,6 @@ export default {
       if (this.debounceHandle) clearTimeout(this.debounceHandle);
       this.debounceHandle = setTimeout(() => {
         this.isTyping = false;
-        if (!this.searchTooShort) {
-          // Only trigger if query changed from last executed one
-          if (this.normalizedQuery && this.normalizedQuery !== this.lastQueryKey) {
-            this.searchMosques();
-          }
-        }
       }, this.debounceMs);
     },
     shareViaWhatsApp(mosque) {

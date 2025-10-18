@@ -15,7 +15,7 @@
                   style="gap: 0.5rem;">
                   <label for="school-search-input" class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</label>
                   <input id="school-search-input" type="search" class="form-control" placeholder="Enter a city"
-                    aria-label="Search city" v-model="searchQuery" @input="handleTyping" autocomplete="off"
+                    aria-label="Search city" v-model="searchQuery" autocomplete="off"
                     style="max-width: 300px;" />
                   <button class="btn align-items-center justify-content-center"
                     style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
@@ -38,7 +38,7 @@
             <!-- Results -->
             <div v-if="!loading">
               <!-- No Search State -->
-              <div v-if="!searchQuery || schools.length === 0" class="text-center py-5">
+              <div v-if="!searchQuery || (!searchSubmitted && schools.length === 0)" class="text-center py-5">
                 <i class="bi bi-book display-4 text-muted mb-3"></i>
                 <h3 class="h4 text-muted">Search for Islamic Schools & Centers</h3>
                 <p class="text-center text-muted">Enter a city to find nearby Islamic schools, madrassas, or education
@@ -46,14 +46,11 @@
               </div>
 
               <!-- No Results State -->
-              <div v-else-if="searchQuery && schools.length === 0" class="text-center py-5">
+              <div v-else-if="searchSubmitted && searchQuery && schools.length === 0" class="text-center py-5">
                 <i class="bi bi-binoculars display-4 text-muted mb-3"></i>
                 <h3 class="h4 text-muted">No Islamic schools found</h3>
                 <p class="text-center text-muted">
-                  No Islamic schools or education centers found in {{ searchQuery }}. This may be due to
-                  incomplete OpenStreetMap data. Try another city, contribute to <a href="https://www.openstreetmap.org"
-                    target="_blank">OpenStreetMap</a>, or check directories like <a href="https://madrassah.co.uk"
-                    target="_blank">Madrassah.co.uk</a>.<br>
+                  No Islamic schools or education centers found in {{ searchQuery }}.
                 </p>
               </div>
 
@@ -129,7 +126,7 @@
             </div>
           </div>
 
-          <div v-if="!loading && schools.length > 0" class="d-flex justify-content-between align-items-center"
+          <div v-if="!loading && searchSubmitted && searchQuery && schools.length > 0" class="d-flex justify-content-between align-items-center"
             style="padding: 10px;">
             <small class="text-muted" aria-live="polite">
               Showing {{ schools.length }} Islamic educational schools & centers
@@ -154,7 +151,19 @@ export default {
       currentLocation: null,
       bbox: null,
       error: '',
+      // Track whether a search was explicitly submitted
+      searchSubmitted: false,
     };
+  },
+  watch: {
+    // When the search box is cleared, reset submission state and results
+    searchQuery(newVal) {
+      if (!newVal || !newVal.trim()) {
+        this.searchSubmitted = false;
+        this.schools = [];
+        this.error = '';
+      }
+    }
   },
   methods: {
     handleCardKeydown(index, event) {
@@ -188,6 +197,8 @@ export default {
         this.error = 'Please enter a city';
         return;
       }
+      // Mark that the user initiated a search explicitly
+      this.searchSubmitted = true;
 
       const cachedSearch = this.searchHistory.find(s => s.query === query);
       if (cachedSearch) {

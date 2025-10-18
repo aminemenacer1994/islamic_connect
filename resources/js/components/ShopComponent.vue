@@ -54,7 +54,7 @@
               <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
                    role="list"
                    aria-label="Search results">
-                <div class="col" v-for="(shop, index) in filteredShops" :key="shop.id">
+                <div class="col" v-for="(shop, index) in displayedShops" :key="shop.id">
                   <div class="card h-100" role="article"
                        :aria-label="`${shop.name}, ${shop.address || 'address not specified'}`"
                        tabindex="0"
@@ -98,9 +98,8 @@
 
                       <div class="d-flex justify-content-between align-items-center gap-2">
                         <!-- Get Directions Button -->
-                        <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                        <button class="btn btn-direction d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openMaps(shop.lat, shop.lon, shop.name)"
-                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
                           :aria-label="`Get directions to ${shop.name}`">
                           <i class="bi bi-geo-alt me-2"></i>
                           <b>Get Direction</b>
@@ -108,13 +107,8 @@
 
                         <!-- Call Shop Button -->
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                          @click="callShop(shop.phone)" :disabled="!shop.phone" :style="{
-                            background: shop.phone ? '#1881b9' : '#6c757d',
-                            boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
-                            color: 'white',
-                            height: '38px',
-                            cursor: shop.phone ? 'pointer' : 'not-allowed'
-                          }"
+                          @click="callShop(shop.phone)" :disabled="!shop.phone"
+                          :class="['btn-call', { 'btn-call--disabled': !shop.phone }]"
                           :aria-disabled="!shop.phone"
                           :aria-label="shop.phone ? `Call ${shop.name}` : `Phone number not available for ${shop.name}`">
                           <i class="bi bi-telephone me-2"></i>
@@ -128,11 +122,14 @@
             </div>
           </div>
 
-          <div v-if="!loading && shops.length > 0" class="d-flex justify-content-between align-items-center"
+          <div v-if="!loading && filteredShops.length > 0 && searchQuery" class="d-flex justify-content-between align-items-center flex-wrap gap-2"
             style="padding: 10px;">
             <small class="text-muted" aria-live="polite">
-              Showing {{ filteredShops.length }} of {{ shops.length }} places
+              Showing {{ displayedShops.length }} of {{ filteredShops.length }} places
             </small>
+            <button v-if="filteredShops.length > resultLimit" class="btn btn-sm btn-outline-secondary" @click="resultLimit += loadMoreStep">
+              Load more
+            </button>
           </div>
         </div>
       </div>
@@ -154,7 +151,20 @@ export default {
       currentLocation: null,
       searchRadius: 5000,
       maxRadius: 10000,
-      debounceTimeout: null,
+      
+      error: null,
+      // Networking controllers for aborting in-flight requests
+      geocodeController: null,
+      overpassController: null,
+      // Simple in-memory cache
+      cache: {
+        geocode: new Map(),
+        shops: new Map(),
+      },
+      // Rendering limits
+      resultLimit: 60,
+      loadMoreStep: 60,
+      _openStatusIntervalId: null,
       filters: {
         verifiedOnly: false,
         minRating: 0,
@@ -178,8 +188,19 @@ export default {
       script.async = true;
       document.head.appendChild(script);
       // Refresh open status every minute
-      setInterval(this.refreshOpenStatus, 60000);
+      this._openStatusIntervalId = setInterval(this.refreshOpenStatus, 60000);
     });
+  },
+  beforeUnmount() {
+    if (this._openStatusIntervalId) clearInterval(this._openStatusIntervalId);
+    if (this.geocodeController) this.geocodeController.abort();
+    if (this.overpassController) this.overpassController.abort();
+  },
+  // For Vue 2 backward compatibility
+  beforeDestroy() {
+    if (this._openStatusIntervalId) clearInterval(this._openStatusIntervalId);
+    if (this.geocodeController) this.geocodeController.abort();
+    if (this.overpassController) this.overpassController.abort();
   },
   computed: {
     filteredShops() {
@@ -188,6 +209,9 @@ export default {
         results = results.filter(shop => shop.type === this.activeType);
       }
       return results;
+    },
+    displayedShops() {
+      return this.filteredShops.slice(0, this.resultLimit);
     },
   },
   methods: {
@@ -255,10 +279,6 @@ export default {
       }
       return this.searchQuery.trim();
     },
-    handleTyping() {
-      clearTimeout(this.debounceTimeout);
-      this.debounceTimeout = setTimeout(() => this.searchLocation(), 800);
-    },
     async searchLocation() {
       const query = this.validateSearchQuery();
       if (!query) {
@@ -283,9 +303,24 @@ export default {
           'Accept-Language': 'en-US,en;q=0.9',
         });
 
+        // Abort any in-flight geocode
+        if (this.geocodeController) this.geocodeController.abort();
+        this.geocodeController = new AbortController();
+        const signal = this.geocodeController.signal;
+
+        // Geocode cache check
+        if (this.cache.geocode.has(query.toLowerCase())) {
+          const location = this.cache.geocode.get(query.toLowerCase());
+          this.currentLocation = location;
+          this.searchHistory.unshift({ query, location: this.currentLocation, timestamp: new Date() });
+          if (this.searchHistory.length > 5) this.searchHistory.pop();
+          await this.fetchNearbyShops();
+          return;
+        }
+
         let geocodeRes = await fetch(
           `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&addressdetails=1`,
-          { headers }
+          { headers, signal }
         );
 
         if (!geocodeRes.ok) throw new Error('Location search service unavailable');
@@ -304,6 +339,9 @@ export default {
           address: location.address,
         };
 
+        // Cache geocode result
+        this.cache.geocode.set(query.toLowerCase(), this.currentLocation);
+
         this.searchHistory.unshift({
           query,
           location: this.currentLocation,
@@ -314,6 +352,7 @@ export default {
         await this.fetchNearbyShops();
       } catch (err) {
         console.error('Search error:', err);
+        if (err.name === 'AbortError') return;
         this.error = err.message || 'Could not find location';
         this.shops = [];
       } finally {
@@ -325,6 +364,12 @@ export default {
 
       const { lat, lon } = this.currentLocation;
       const radius = this.searchRadius;
+
+      const cacheKey = `${lat.toFixed(3)},${lon.toFixed(3)}:${radius}`;
+      if (this.cache.shops.has(cacheKey)) {
+        this.shops = this.cache.shops.get(cacheKey);
+        return;
+      }
 
       const query = `
         [out:json][timeout:30];
@@ -339,19 +384,25 @@ export default {
       `;
 
       try {
-        const res = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`);
+        // Abort any in-flight overpass
+        if (this.overpassController) this.overpassController.abort();
+        this.overpassController = new AbortController();
+        const signal = this.overpassController.signal;
+
+        const res = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`, { signal });
         if (!res.ok) throw new Error('Failed to fetch halal butchers');
         const json = await res.json();
-        this.processShopData(json.elements || []);
+        this.processShopData(json.elements || [], cacheKey);
       } catch (err) {
         console.error('Fetch error:', err);
+        if (err.name === 'AbortError') return;
         this.error = err.message.includes('Too Many Requests')
           ? 'Rate limit hit. Please wait and try again.'
           : 'Could not load halal butchers';
         this.shops = [];
       }
     },
-    processShopData(elements) {
+    processShopData(elements, cacheKey = null) {
       const seen = new Set();
       const shops = [];
 
@@ -386,16 +437,16 @@ export default {
 
           let opening_hours_formatted = tags.opening_hours || 'Not specified';
           let isOpen = null;
-          if (tags.opening_hours && typeof opening_hours === 'function') {
+          if (tags.opening_hours && typeof window !== 'undefined' && typeof window.opening_hours === 'function') {
             try {
-              const oh = new opening_hours(tags.opening_hours, {
+              const oh = new window.opening_hours(tags.opening_hours, {
                 lat: coords.lat,
                 lon: coords.lon,
               });
               isOpen = oh.getState();
               opening_hours_formatted = this.parseOpeningHours(tags.opening_hours);
             } catch (e) {
-              console.warn('Opening hours parsing error:', e);
+              // Non-fatal
             }
           }
 
@@ -406,7 +457,7 @@ export default {
             lat: coords.lat,
             lon: coords.lon,
             address,
-            distance: (distance / 1000).toFixed(1),
+            distanceKm: Number((distance / 1000).toFixed(2)),
             phone: tags.phone,
             website: tags.website,
             cuisine: tags.cuisine || null,
@@ -445,7 +496,8 @@ export default {
           this.filters.paymentMethods.some(method => shop.payment_methods.includes(method))
         );
       }
-      this.shops = filteredShops.sort((a, b) => a.distance - b.distance);
+      this.shops = filteredShops.sort((a, b) => a.distanceKm - b.distanceKm);
+      if (cacheKey) this.cache.shops.set(cacheKey, this.shops);
     },
     async expandSearchRadius() {
       const increment = 2000;
@@ -505,9 +557,9 @@ export default {
       }
     },
     checkIfOpen(openingHours) {
-      if (!openingHours || typeof opening_hours !== 'function') return null;
+      if (!openingHours || typeof window === 'undefined' || typeof window.opening_hours !== 'function') return null;
       try {
-        const oh = new opening_hours(openingHours);
+        const oh = new window.opening_hours(openingHours);
         return oh.getState();
       } catch (e) {
         console.warn('Error checking open status:', e);
@@ -556,6 +608,27 @@ export default {
 .text-warning i {
   margin-right: 4px;
   /* Spacing between stars */
+}
+
+/* Lightweight button styling to reduce inline style churn */
+.btn-direction {
+  background: #00bfa6;
+  color: white;
+  height: 38px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.btn-call {
+  background: #1881b9;
+  color: white;
+  height: 38px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.btn-call--disabled,
+.btn-call:disabled {
+  background: #6c757d !important;
+  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {
