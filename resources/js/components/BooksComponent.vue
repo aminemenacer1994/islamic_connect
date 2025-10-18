@@ -10,10 +10,10 @@
         <div class="row justify-content-center mx-0">
           <div class="col-12 col-lg-10 col-xl-8 px-0">
             <div class="text-center mb-4 px-2 px-md-4">
-              <h1 class="display-4 fw-bold mb-3" style="color: #000;">
+              <h1 class="display-4 fw-bold mb-3" style="color: #000;" v-once>
                 <span>Islamic Dictionary</span>
               </h1>
-              <p class="mb-0" style="color: #000; font-size: 1.25rem;">A comprehensive resource for exploring Islamic
+              <p class="mb-0" style="color: #000; font-size: 1.25rem;" v-once>A comprehensive resource for exploring Islamic
                 terms and their meanings</p>
             </div>
 
@@ -289,6 +289,7 @@ export default {
   data() {
     return {
       terms: Array.isArray(islamicTerms?.terms) ? islamicTerms.terms : [],
+      indexedTerms: [],
       searchQuery: '',
       selectedSubject: '',
       sortBy: 'relevance',
@@ -316,75 +317,83 @@ export default {
   },
   computed: {
     filteredTerms() {
-      let terms = this.terms;
-      if (this.searchQuery) {
-        terms = terms.filter(term => {
-          if (!term) return false; // Guard against null/undefined terms
-          const q = this.searchQuery.toLowerCase();
-          return (
-            (term.term && term.term.toLowerCase().includes(q)) ||
-            (term.meaning && term.meaning.toLowerCase().includes(q)) ||
-            (term.phrase && term.phrase.toLowerCase().includes(q)) ||
-            (term.reference && term.reference.toLowerCase().includes(q))
-          );
-        });
-      }
-      if (this.selectedSubject && this.selectedSubject !== 'all') {
-        terms = terms.filter(term => term && term.subject === this.selectedSubject);
-      }
+      const q = this.searchQuery.trim().toLowerCase();
+      const subjectFilter = this.selectedSubject && this.selectedSubject !== 'all' ? this.selectedSubject : null;
+      const seen = new Set();
+      // Filter using prebuilt lowercase index, then map back to original term objects.
+      let filtered = this.terms.filter((term, idx) => {
+        if (!term) return false;
+        if (subjectFilter && term.subject !== subjectFilter) return false;
+        if (!q) {
+          // Deduplicate by term text even when no query
+          const key = (term.term || '').toLowerCase();
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        }
+        const it = this.indexedTerms[idx];
+        if (!it) return false;
+        const match = (
+          (it.termL && it.termL.includes(q)) ||
+          (it.meaningL && it.meaningL.includes(q)) ||
+          (it.phraseL && it.phraseL.includes(q)) ||
+          (it.referenceL && it.referenceL.includes(q))
+        );
+        if (!match) return false;
+        const key = it.termL || '';
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+
+      // Sort on a cloned array to avoid mutating reactive source
+      const out = filtered.slice();
       if (this.sortBy === 'term') {
-        terms.sort((a, b) => a.term.localeCompare(b.term));
+        out.sort((a, b) => a.term.localeCompare(b.term));
       } else if (this.sortBy === 'term-desc') {
-        terms.sort((a, b) => b.term.localeCompare(b.term));
+        out.sort((a, b) => b.term.localeCompare(a.term));
       } else if (this.sortBy === 'subject') {
-        terms.sort((a, b) => a.subject.localeCompare(b.subject));
+        out.sort((a, b) => a.subject.localeCompare(b.subject));
       } else if (this.sortBy === 'recent') {
-        terms.sort((a, b) => new Date(b.lastViewed || 0) - new Date(a.lastViewed || 0));
+        out.sort((a, b) => new Date(b.lastViewed || 0) - new Date(a.lastViewed || 0));
       } else if (this.sortBy === 'favorites') {
-        terms.sort((a, b) => {
-          const aIsFavorite = this.favorites.includes(a.id);
-          const bIsFavorite = this.favorites.includes(b.id);
-          if (aIsFavorite && !bIsFavorite) return -1;
-          if (!aIsFavorite && bIsFavorite) return 1;
+        const favs = new Set(this.favorites);
+        out.sort((a, b) => {
+          const aFav = favs.has(a.id);
+          const bFav = favs.has(b.id);
+          if (aFav && !bFav) return -1;
+          if (!aFav && bFav) return 1;
           return 0;
         });
       }
-      return terms;
+      return out;
     },
     filteredSuggestions() {
       const q = this.searchQuery.trim().toLowerCase();
       if (!q) return [];
-      // Deduplicate by term (case-insensitive)
       const seen = new Set();
-      return this.terms.filter(term => {
-        if (!term) return false;
-        const match = (
-          (term.term && term.term.toLowerCase().includes(q)) ||
-          (term.meaning && term.meaning.toLowerCase().includes(q)) ||
-          (term.reference && term.reference.toLowerCase().includes(q))
-        );
-        const key = term.term ? term.term.toLowerCase() : '';
-        if (match && !seen.has(key)) {
-          seen.add(key);
-          return true;
+      const results = [];
+      for (let i = 0; i < this.terms.length && results.length < 5; i++) {
+        const term = this.terms[i];
+        const it = this.indexedTerms[i];
+        if (!term || !it) continue;
+        if (
+          (it.termL && it.termL.includes(q)) ||
+          (it.meaningL && it.meaningL.includes(q)) ||
+          (it.referenceL && it.referenceL.includes(q))
+        ) {
+          const key = it.termL || '';
+          if (!seen.has(key)) {
+            seen.add(key);
+            results.push(term);
+          }
         }
-        return false;
-      }).slice(0, 5);
+      }
+      return results;
     },
     displayedTerms() {
-      // Deduplicate by term (case-insensitive)
-      const seen = new Set();
-      const terms = this.filteredTerms.filter(term => {
-        if (!term || !term.term) return false;
-        const key = term.term.toLowerCase();
-        if (!seen.has(key)) {
-          seen.add(key);
-          return true;
-        }
-        return false;
-      });
-      // Infinite scroll: return up to loadedCount terms
-      return terms.slice(0, this.loadedCount || this.itemsPerLoad);
+      // Infinite scroll: filteredTerms already deduped
+      return this.filteredTerms.slice(0, this.loadedCount || this.itemsPerLoad);
     },
     totalTerms() {
       return this.filteredTerms.length;
@@ -424,6 +433,7 @@ export default {
     this.loadRecentTerms();
     this.isSpeechSupported = 'SpeechRecognition' in window;
     this.isSpeechSynthesisSupported = 'SpeechSynthesisUtterance' in window;
+    this.buildIndex();
     if (this.subjects.length > 1) {
       this.quickFilters = this.subjects.map(s => ({
         key: s,
@@ -440,6 +450,19 @@ export default {
     });
   },
   methods: {
+    buildIndex() {
+      // Build a lowercase index aligned with this.terms for fast matching
+      this.indexedTerms = (this.terms || []).map(t => {
+        if (!t) return null;
+        return {
+          id: t.id,
+          termL: (t.term || '').toLowerCase(),
+          phraseL: (t.phrase || '').toLowerCase(),
+          meaningL: (t.meaning || '').toLowerCase(),
+          referenceL: (t.reference || '').toLowerCase(),
+        };
+      });
+    },
     loadSuggestions() {
       this.suggestions = this.terms.slice(0, 5);
       this.updateSuggestions();
@@ -458,8 +481,9 @@ export default {
     adjustFontSize(termId, change) {
       const currentSize = this.termFontSizes[termId] || 1;
       const newSize = currentSize + change * 0.1;
-      this.termFontSizes[termId] = Math.max(this.minFontSize, Math.min(this.maxFontSize, newSize));
-      this.$forceUpdate();
+      const bounded = Math.max(this.minFontSize, Math.min(this.maxFontSize, newSize));
+      // ensure reactivity without forcing update
+      this.$set(this.termFontSizes, termId, bounded);
     },
     initialize() {
       this.baseFontSize = parseFloat(localStorage.getItem('fontSize') || '1');
@@ -502,15 +526,7 @@ export default {
       this.resetInfiniteScroll();
       this.loadSuggestions();
     },
-    debounce(func, delay) {
-      let timeoutId;
-      return function (...args) {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-          func.apply(this, args);
-        }, delay);
-      };
-    },
+    // Debounce helper removed: use the top-level debounce already used in watchers
     clearSearch() {
       this.searchQuery = '';
       this.selectedSubject = '';
@@ -545,13 +561,10 @@ export default {
         const entry = entries[0];
         if (entry && entry.isIntersecting && this.hasMore && !this.isLoading) {
           this.isLoading = true;
-          // Simulate async fetch; in real case, fetch next page here
-          setTimeout(() => {
-            const remaining = this.totalTerms - this.loadedCount;
-            const toAdd = Math.min(this.itemsPerLoad, remaining);
-            this.loadedCount += toAdd;
-            this.isLoading = false;
-          }, 150);
+          const remaining = this.totalTerms - this.loadedCount;
+          const toAdd = Math.min(this.itemsPerLoad, remaining);
+          if (toAdd > 0) this.loadedCount += toAdd;
+          this.isLoading = false;
         }
       }, { root: null, rootMargin: '0px 0px 200px 0px', threshold: 0 });
       this.observer.observe(sentinel);
