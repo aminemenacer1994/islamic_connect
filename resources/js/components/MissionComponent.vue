@@ -1,7 +1,7 @@
 <template>
   <div class="container p-4">
-    <h1 class="fw-bold display-5 text-center mb-2">Seerah Timeline</h1>
-    <p class="text-center container mb-4 lead d-none d-md-block">
+    <h1 class="fw-bold display-5 text-center mb-2" v-once>Seerah Timeline</h1>
+    <p class="text-center container mb-4 lead d-none d-md-block" v-once>
       The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH). This timeline is
       designed to provide users with an accessible, interactive way to explore key moments in Islamic history, helping
       them better understand the significance of each event.
@@ -9,7 +9,7 @@
 
     <nav class="timeline-wrapper " aria-label="Seerah timeline">
       <ol class="timeline mb-3" role="list" @keydown="onTimelineKeydown" ref="timelineNav" tabindex="0">
-        <li v-for="(event, index) in events" :key="index" class="timeline-point" role="listitem" ref="eventRefs">
+        <li v-for="(event, index) in events" :key="event.id || event.year || index" class="timeline-point" role="listitem" ref="eventRefs">
           <button
             class="badge fs-6 timeline-badge"
             type="button"
@@ -75,21 +75,26 @@
 
         <!-- AI Summary Section (Inline) -->
         <transition name="fade-slide">
-          <div v-if="summaryText && isVisible" class="ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded" ref="summarySection"
+          <div v-if="summaryText && isVisible && showSummaryBox" class="ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded" ref="summarySection"
             style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 1px solid rgb(168 85 247);">
             <div class="d-flex align-items-center justify-content-between mb-2">
               <h6 class="mb-0 text-dark small">
                 <i class="bi bi-robot me-1 me-sm-2"></i>
                 AI Summary
               </h6>
-              <button class="btn btn-sm btn-outline-secondary" @click="toggleSummary"
-                :title="showSummary ? 'Hide Summary' : 'Show Summary'" :aria-expanded="showSummary ? 'true' : 'false'" aria-controls="ai-summary-panel">
-                <i class="bi" :class="showSummary ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-              </button>
+              <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-sm btn-outline-secondary" @click="toggleSummary"
+                  :title="showSummary ? 'Hide Summary' : 'Show Summary'" :aria-expanded="showSummary ? 'true' : 'false'" aria-controls="ai-summary-panel">
+                  <i class="bi" :class="showSummary ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-secondary" @click="closeSummaryBox" title="Close summary" aria-label="Close summary">
+                  <i class="bi bi-x"></i>
+                </button>
+              </div>
             </div>
 
             <transition name="fade-slide">
-              <div v-if="showSummary" id="ai-summary-panel" role="region" aria-live="polite">
+              <div v-show="showSummary" id="ai-summary-panel" role="region" aria-live="polite">
                 <div class="summary-text small" v-html="summaryText"></div>
                 <div class="summary-footer mt-2 pt-2 border-top">
                   <small class="text-muted">
@@ -203,9 +208,9 @@
         </div> -->
 
         <div class="controls text-center mt-3 mt-md-4">
-          <button @click="prev" :disabled="currentIndex === 0" class="btn btn-primary me-2 btn-sm" aria-label="Previous event">Previous</button>
+          <button @click="prev" :disabled="currentIndex === 0" class="btn me-2 btn-sm" style="background: rgb(13, 182, 145); color: white;" aria-label="Previous event">Previous</button>
           <button @click="next" :disabled="currentIndex === events.length - 1"
-            class="btn btn-primary btn-sm" aria-label="Next event">Next</button>
+            class="btn btn-sm" style="background: rgb(13, 182, 145); color: white;" aria-label="Next event">Next</button>
         </div>
       </div>
     </transition>
@@ -290,6 +295,8 @@ export default {
       summaryLoading: false,
       summaryError: '',
       showSummary: true,
+      showSummaryBox: true,
+      summaryCache: {},
       // Performance caches
       highlightedDescription: '',
       wordCount: 0,
@@ -359,6 +366,10 @@ export default {
     this.synth.onvoiceschanged = null;
     if (this.utterance) {
       this.synth.cancel();
+    }
+    if (this._filterTimer) {
+      clearTimeout(this._filterTimer);
+      this._filterTimer = null;
     }
     if (this._io) {
       try { this._io.disconnect(); } catch (_) {}
@@ -456,12 +467,13 @@ export default {
     },
     initializeTooltips() {
       if (!this.isVisible) return;
+      if (!(window && window.bootstrap)) return;
       this.$nextTick(() => {
         const root = this.$el || document;
         const tooltipTriggerList = root.querySelectorAll('[data-bs-toggle="tooltip"]');
         tooltipTriggerList.forEach(el => {
-          const existing = bootstrap.Tooltip.getInstance(el);
-          if (!existing) new bootstrap.Tooltip(el);
+          const existing = window.bootstrap.Tooltip.getInstance(el);
+          if (!existing) new window.bootstrap.Tooltip(el);
         });
       });
     },
@@ -791,72 +803,107 @@ export default {
       window.open(url, '_blank');
     },
     async summarizeEvent() {
+      const cacheKey = `${this.currentIndex}`;
+      if (this.summaryCache[cacheKey]) {
+        this.summaryText = this.summaryCache[cacheKey];
+        this.showSummary = true;
+        this.showSummaryBox = true;
+        return;
+      }
       this.summaryLoading = true;
       this.summaryText = '';
       this.summaryError = '';
       try {
-        await new Promise(resolve => setTimeout(resolve, 700));
-        const description = this.stripHtml(this.events[this.currentIndex]?.description || '');
+        const ev = this.events[this.currentIndex] || {};
+        const title = (ev.title || '').trim();
+        const description = (this.stripHtml(ev.description || '') || '').replace(/\s+/g, ' ').trim();
         if (!description) {
           this.summaryText = '<em>No summary available for this event.</em>';
           this.summaryLoading = false;
           return;
         }
-        // Split into sentences
-        const sentences = description.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 20);
-        // Keywords and important terms
-        const keywords = [
-          'Prophet', 'Muhammad', 'Mecca', 'Medina', 'revelation', 'migration', 'battle', 'companions', 'Islam', 'Qur\'an', 'message', 'peace', 'community', 'faith', 'Allah', 'year', 'event', 'significant', 'important', 'victory', 'treaty', 'journey', 'miracle', 'birth', 'death', 'leadership', 'mission', 'struggle', 'persecution', 'hijrah', 'expedition', 'conquest', 'farewell', 'sermon',
-          'Hijrah', 'Badr', 'Uhud', 'Hudaybiyyah', 'Isra', 'Mi\'raj', 'Ansar', 'Muhajirun', 'Sahabah', 'Quraish', 'Kaaba', 'Yathrib'
-        ];
-        // Score sentences by keyword matches and position
-        const scored = sentences.map((sentence, idx) => {
+
+        // Helpers
+        const tokenize = (s) => (s.toLowerCase().match(/[a-zA-Z'’]+|\d{1,4}/g) || []);
+        const unique = (arr) => Array.from(new Set(arr));
+        const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
+        // Sentence segmentation
+        const sentences = description.split(/(?<=[.!?])\s+(?=[A-Z0-9])/).map(s => s.trim()).filter(s => s.length > 0);
+        const titleTokens = unique(tokenize(title));
+
+        // Build term frequency from whole doc
+        const allTokens = tokenize(description);
+        const tf = {};
+        allTokens.forEach(t => tf[t] = (tf[t] || 0) + 1);
+
+        // Domain keywords and verbs
+        const domain = ['prophet','muhammad','mecca','medina','revelation','migration','battle','companions','islam','qur\'an','allah','hijrah','badr','uhud','hudaybiyyah','isra','mi\'raj','ansar','muhajirun','sahabah','quraish','kaaba','yathrib','treaty','sermon','expedition','persecution','miracle','conquest'];
+        const verbs = ['revealed','migrated','migrate','fled','arrived','established','sent','commanded','prohibited','fought','won','defeated','signed','pledged','preached','built','led','appointed','announced'];
+
+        // Skipping entity/year extraction; chips removed from summary output
+
+        // Score sentences
+        const scored = sentences.map((s, idx) => {
+          const toks = tokenize(s);
+          if (!toks.length) return { s, idx, score: -Infinity };
           let score = 0;
-          keywords.forEach(kw => {
-            if (sentence.toLowerCase().includes(kw.toLowerCase())) score += 2;
-          });
-          if (idx === 0) score += 1.5;
-          if (idx === sentences.length - 1) score += 1;
-          return { sentence, score };
-        });
-        scored.sort((a, b) => b.score - a.score || sentences.indexOf(a.sentence) - sentences.indexOf(b.sentence));
-        // Remove duplicates
-        const seen = new Set();
-        const unique = scored.filter(({ sentence }) => {
-          const s = sentence.trim();
-          if (seen.has(s)) return false;
-          seen.add(s);
-          return true;
-        });
-        // Take top 4, always include the first sentence for context
-        const summarySentences = [unique[0]?.sentence]
-          .concat(unique.slice(1, 4).map(s => s.sentence))
-          .filter(Boolean);
-        // Highlight important names/dates
-        const highlight = s =>
-          s.replace(/(Prophet Muhammad|Mecca|Medina|Qur'an|Allah|Hijrah|Badr|Uhud|Hudaybiyyah|Isra|Mi'raj|Ansar|Muhajirun|Sahabah|Quraish|Kaaba|Yathrib|\b\d{3,4}\b)/g, '<b>$1</b>');
-        let summary = '';
-        summarySentences.forEach(sentence => {
-          summary += `<p style=\"margin-bottom:1em;\">${highlight(sentence.trim())}</p>`;
-        });
-        if (summarySentences.length === 0) {
-          summary = '<em>No summary available for this event.</em>';
-        }
-        this.summaryText = summary;
-        // Auto-scroll to summary section
+          // term frequency weight
+          toks.forEach(t => { score += (tf[t] || 0); });
+          // domain keyword boost
+          domain.forEach(k => { if (s.toLowerCase().includes(k)) score += 2.5; });
+          // verbs boost (action)
+          verbs.forEach(v => { if (s.toLowerCase().includes(v)) score += 1.5; });
+          // numbers/years boost
+          if (/\b\d{3,4}\b/.test(s)) score += 1.2;
+          // title overlap
+          const overlap = toks.filter(t => titleTokens.includes(t)).length;
+          score += overlap * 1.2;
+          // position bias
+          if (idx === 0) score += 1.4;
+          if (idx === sentences.length - 1) score += 0.8;
+          // length normalization
+          const len = s.length;
+          if (len < 40) score -= 1.0;
+          if (len > 300) score -= 0.8;
+          return { s, idx, score };
+        }).filter(x => x.score > -Infinity);
+
+        scored.sort((a, b) => b.score - a.score || a.idx - b.idx);
+        const topK = clamp(Math.ceil(Math.min(5, Math.max(3, description.length / 350))), 3, 5);
+        const picked = unique(scored.slice(0, 10).map(x => x)).sort((a, b) => a.idx - b.idx).slice(0, topK);
+        const pickedSentences = picked.map(p => p.s.trim());
+
+        // Build output HTML
+        const bullets = pickedSentences.slice(0, topK).map(s => `<li>${s}</li>`).join('');
+        // Chips removed
+
+        const html = `
+          <div class="summary-card">
+            <ul class="mb-2 ps-3">${bullets}</ul>
+            
+          </div>
+        `;
+
+        this.summaryText = html;
+        this.showSummaryBox = true;
+        this.summaryCache[cacheKey] = html;
         this.$nextTick(() => {
           if (this.$refs.summarySection) {
             this.$refs.summarySection.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
         });
       } catch (err) {
-        this.summaryError = err.message || 'Error generating summary.';
+        this.summaryError = err && err.message ? err.message : 'Error generating summary.';
       } finally {
         this.summaryLoading = false;
       }
     },
     toggleSummary() {
       this.showSummary = !this.showSummary;
+    },
+    closeSummaryBox() {
+      this.showSummaryBox = false;
     },
   },
   watch: {
@@ -870,6 +917,7 @@ export default {
       this.summaryText = '';
       this.summaryError = '';
       this.showSummary = true;
+      this.showSummaryBox = true;
     },
   },
 };
