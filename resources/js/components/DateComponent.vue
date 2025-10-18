@@ -70,6 +70,15 @@
                   <button class="btn btn-dark px-4" type="submit">Submit</button>
                   <button class="btn btn-secondary px-4" type="button" @click="resetForm">Reset</button>
                 </div>
+                <div class="d-flex justify-content-center mt-2">
+                  <button class="btn btn-outline-secondary btn-sm" type="button" @click="getUserLocation">
+                    Use my location
+                  </button>
+                </div>
+                <div class="text-center mt-2">
+                  <small v-if="userAddress" class="text-muted">Location: {{ userAddress }}</small>
+                  <small v-else-if="locationError" class="text-danger">{{ locationError }}</small>
+                </div>
               </form>
 
               <div v-if="convertedDate"
@@ -104,16 +113,6 @@
                     </div>
                   </div>
                   <hr class="my-4" style="border-color: #e0e0e0;" />
-                  <!-- <div class="d-flex flex-column align-items-center mb-4">
-                    <span class="badge rounded-pill bg-light border px-3 py-2 mb-2 w-100 w-md-auto"
-                      style="font-size: 1rem; color: #333; border: 1px solid #e0e0e0; max-width: 100%; box-sizing: border-box;">
-                      <span class="me-2" style="color: #00a792;">📍</span>
-                      <b>Your Location:</b>
-                      <span v-if="userAddress">{{ userAddress }}</span>
-                      <span v-else-if="locationError" class="text-danger">{{ locationError }}</span>
-                      <span v-else class="text-muted">Detecting location...</span>
-                    </span>
-                  </div> -->
                   <div class="mb-2 text-center">
                     <span class="fs-5 align-middle" style="color: #00a792;">🗓️</span>
                     <span class="fw-bold align-middle ms-2">Islamic Calendar for {{ hijriMonthName }} {{ hijriYear
@@ -126,13 +125,13 @@
                       <caption class="text-muted">Islamic calendar month grid showing days of week and Hijri dates</caption>
                       <thead>
                         <tr role="row">
-                          <th v-for="day in ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']" :key="day"
+                          <th v-for="day in weekdaysShort" :key="day"
                             class="text-center small" scope="col" style="background: #f8f9fa;">{{ day }}</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="week in hijriMonthGrid" :key="week[0]" role="row">
-                          <td v-for="cell in week" :key="cell.day + '-' + cell.isCurrent" role="cell"
+                        <tr v-for="(week, wi) in hijriMonthGrid" :key="wi" role="row">
+                          <td v-for="(cell, ci) in week" :key="ci" role="cell"
                             :class="['text-center', cell.isCurrent ? 'bg-success text-white fw-bold' : '', 'small', cell.day ? 'calendar-day-cell' : '']"
                             style="vertical-align: middle; min-width: 36px; min-height: 36px;">
                             <span v-if="cell.day">{{ cell.day }}</span>
@@ -152,6 +151,11 @@
 </template>
 
 <script>
+// Precompute static year ranges to avoid re-allocations
+const YEARS_G = Array.from({ length: 201 }, (_, i) => 1900 + i); // 1900..2100
+const YEARS_H = Array.from({ length: 161 }, (_, i) => 1340 + i); // 1340..1500
+const HIJRI_MONTH_LENGTHS = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
+
 export default {
   data() {
     const currentDate = new Date();
@@ -183,27 +187,21 @@ export default {
       },
       userAddress: '',
       locationError: '',
+      // Caching for geolocation reverse lookup
+      lastCoords: null,
+      lastAddress: '',
+      geocodeInFlight: false,
     };
   },
   computed: {
+    weekdaysShort() {
+      return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    },
     months() {
       return this.sourceCalendar === 'gregorian' ? this.gregorianMonths : this.hijriMonths;
     },
     years() {
-      if (this.sourceCalendar === 'gregorian') {
-        const years = [];
-        for (let i = 1900; i <= 2100; i++) {
-          years.push(i);
-        }
-        return years;
-      } else {
-        // Hijri years range (approximately 1340-1500 AH)
-        const years = [];
-        for (let i = 1340; i <= 1500; i++) {
-          years.push(i);
-        }
-        return years;
-      }
+      return this.sourceCalendar === 'gregorian' ? YEARS_G : YEARS_H;
     },
     daysInMonth() {
       if (this.sourceCalendar === 'gregorian') {
@@ -211,8 +209,7 @@ export default {
       } else {
         // Approximate Hijri month lengths (alternating 29/30 days)
         // This is simplified - actual Hijri months depend on moon sightings
-        const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
-        return monthLengths[this.month - 1] || 30;
+        return HIJRI_MONTH_LENGTHS[this.month - 1] || 30;
       }
     },
     formattedSourceDate() {
@@ -231,54 +228,48 @@ export default {
       if (!this.convertedDate) return '';
       const date = this.sourceCalendar === 'gregorian'
         ? new Date(this.year, this.month - 1, this.day)
-        : this.hijriToGregorian(this.year, this.month, this.day);
+        : (() => { const g = this.hijriToGregorian(this.year, this.month, this.day); return new Date(g.year, g.month - 1, g.day); })();
       return this.weekdays[date.getDay()];
+    },
+    // Memoized conversions for target display
+    resultGregorian() {
+      if (!this.convertedDate) return null;
+      return this.targetCalendar === 'gregorian'
+        ? this.convertedDate
+        : this.hijriToGregorian(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
+    },
+    resultHijri() {
+      if (!this.convertedDate) return null;
+      return this.targetCalendar === 'hijri'
+        ? this.convertedDate
+        : this.gregorianToHijri(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
     },
     targetDayName() {
       if (!this.convertedDate) return '';
-      let date;
-      if (this.targetCalendar === 'gregorian') {
-        date = new Date(this.convertedDate.year, this.convertedDate.month - 1, this.convertedDate.day);
-      } else {
-        // Convert Hijri to Gregorian, then create a Date object
-        const greg = this.hijriToGregorian(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
-        date = new Date(greg.year, greg.month - 1, greg.day);
-      }
-      return this.weekdays[date.getDay()];
+      const g = this.resultGregorian;
+      const d = new Date(g.year, g.month - 1, g.day);
+      return this.weekdays[d.getDay()];
     },
     hijriMonthName() {
-      if (!this.convertedDate) return '';
-      // Always show the Hijri month for the result
-      const hijri = this.targetCalendar === 'hijri' ? this.convertedDate : this.gregorianToHijri(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
-      return this.hijriMonths[hijri.month - 1];
+      const h = this.resultHijri; if (!h) return '';
+      return this.hijriMonths[h.month - 1];
     },
     hijriYear() {
-      if (!this.convertedDate) return '';
-      const hijri = this.targetCalendar === 'hijri' ? this.convertedDate : this.gregorianToHijri(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
-      return hijri.year;
+      const h = this.resultHijri; if (!h) return '';
+      return h.year;
     },
     hijriMonthGrid() {
-      if (!this.convertedDate) return [];
-      // Get the Hijri month and year for the result
-      const hijri = this.targetCalendar === 'hijri' ? this.convertedDate : this.gregorianToHijri(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
-      const daysInMonth = this.getHijriMonthLength(hijri.year, hijri.month);
-      // Find the weekday of the 1st of this Hijri month
-      const gregDate = this.hijriToGregorian(hijri.year, hijri.month, 1);
+      const h = this.resultHijri; if (!h) return [];
+      const daysInMonth = this.getHijriMonthLength(h.year, h.month);
+      const gregDate = this.hijriToGregorian(h.year, h.month, 1);
       const firstDay = new Date(gregDate.year, gregDate.month - 1, gregDate.day).getDay();
       const grid = [];
-      let week = new Array(firstDay).fill({ day: '' });
+      let week = Array.from({ length: firstDay }, () => ({ day: '' }));
       for (let d = 1; d <= daysInMonth; d++) {
-        const isCurrent = d === hijri.day;
-        week.push({ day: d, isCurrent });
-        if (week.length === 7) {
-          grid.push(week);
-          week = [];
-        }
+        week.push({ day: d, isCurrent: d === h.day });
+        if (week.length === 7) { grid.push(week); week = []; }
       }
-      if (week.length) {
-        while (week.length < 7) week.push({ day: '' });
-        grid.push(week);
-      }
+      if (week.length) { while (week.length < 7) week.push({ day: '' }); grid.push(week); }
       return grid;
     }
   },
@@ -328,15 +319,13 @@ export default {
       } else {
         this.convertedDate = this.hijriToGregorian(this.year, this.month, this.day);
       }
-      this.getUserLocation();
+      // Geolocation is now user-triggered via a button for efficiency
     },
     getHijriMonthLength(year, month) {
       // Approximate Hijri month lengths (alternating 29/30 days)
-      const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
-      return monthLengths[(month - 1) % 12];
+      return HIJRI_MONTH_LENGTHS[(month - 1) % 12];
     },
     getUserLocation() {
-      this.userAddress = '';
       this.locationError = '';
       if (!navigator.geolocation) {
         this.locationError = 'Geolocation is not supported by your browser.';
@@ -345,7 +334,13 @@ export default {
       navigator.geolocation.getCurrentPosition(
         position => {
           const { latitude, longitude } = position.coords;
-          // Use a free geocoding API (e.g., OpenStreetMap Nominatim)
+          const key = `${latitude.toFixed(3)},${longitude.toFixed(3)}`;
+          if (this.lastCoords === key && this.lastAddress) {
+            this.userAddress = this.lastAddress;
+            return;
+          }
+          if (this.geocodeInFlight) return;
+          this.geocodeInFlight = true;
           fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
             .then(res => res.json())
             .then(data => {
@@ -355,9 +350,14 @@ export default {
               } else {
                 this.userAddress = 'Location found, but address unavailable.';
               }
+              this.lastCoords = key;
+              this.lastAddress = this.userAddress;
             })
             .catch(() => {
               this.locationError = 'Could not retrieve address.';
+            })
+            .finally(() => {
+              this.geocodeInFlight = false;
             });
         },
         error => {
@@ -380,16 +380,15 @@ export default {
       let hijriDay = diffDays - Math.floor(354.36667 * (hijriYear - 1));
 
       // Approximate month calculation
-      const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
       let hijriMonth = 1;
       let remainingDays = hijriDay;
 
       for (let i = 0; i < 12; i++) {
-        if (remainingDays <= monthLengths[i]) {
+        if (remainingDays <= HIJRI_MONTH_LENGTHS[i]) {
           hijriMonth = i + 1;
           break;
         }
-        remainingDays -= monthLengths[i];
+        remainingDays -= HIJRI_MONTH_LENGTHS[i];
       }
 
       return {
@@ -401,7 +400,6 @@ export default {
     hijriToGregorian(hYear, hMonth, hDay) {
       // Simplified conversion - inverse of the above
       const epoch = new Date(622, 6, 16);
-      const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
 
       let totalDays = 0;
       for (let y = 1; y < hYear; y++) {
@@ -411,7 +409,7 @@ export default {
       }
 
       for (let m = 1; m < hMonth; m++) {
-        totalDays += monthLengths[m - 1];
+        totalDays += HIJRI_MONTH_LENGTHS[m - 1];
       }
 
       totalDays += hDay - 1;

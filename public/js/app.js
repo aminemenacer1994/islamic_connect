@@ -3081,6 +3081,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+// Precompute static year ranges to avoid re-allocations
+const YEARS_G = Array.from({
+  length: 201
+}, (_, i) => 1900 + i); // 1900..2100
+const YEARS_H = Array.from({
+  length: 161
+}, (_, i) => 1340 + i); // 1340..1500
+const HIJRI_MONTH_LENGTHS = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data() {
     const currentDate = new Date();
@@ -3104,28 +3112,22 @@ __webpack_require__.r(__webpack_exports__);
         year: currentGregorianYear
       },
       userAddress: '',
-      locationError: ''
+      locationError: '',
+      // Caching for geolocation reverse lookup
+      lastCoords: null,
+      lastAddress: '',
+      geocodeInFlight: false
     };
   },
   computed: {
+    weekdaysShort() {
+      return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    },
     months() {
       return this.sourceCalendar === 'gregorian' ? this.gregorianMonths : this.hijriMonths;
     },
     years() {
-      if (this.sourceCalendar === 'gregorian') {
-        const years = [];
-        for (let i = 1900; i <= 2100; i++) {
-          years.push(i);
-        }
-        return years;
-      } else {
-        // Hijri years range (approximately 1340-1500 AH)
-        const years = [];
-        for (let i = 1340; i <= 1500; i++) {
-          years.push(i);
-        }
-        return years;
-      }
+      return this.sourceCalendar === 'gregorian' ? YEARS_G : YEARS_H;
     },
     daysInMonth() {
       if (this.sourceCalendar === 'gregorian') {
@@ -3133,8 +3135,7 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         // Approximate Hijri month lengths (alternating 29/30 days)
         // This is simplified - actual Hijri months depend on moon sightings
-        const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
-        return monthLengths[this.month - 1] || 30;
+        return HIJRI_MONTH_LENGTHS[this.month - 1] || 30;
       }
     },
     formattedSourceDate() {
@@ -3151,49 +3152,53 @@ __webpack_require__.r(__webpack_exports__);
     },
     sourceDayName() {
       if (!this.convertedDate) return '';
-      const date = this.sourceCalendar === 'gregorian' ? new Date(this.year, this.month - 1, this.day) : this.hijriToGregorian(this.year, this.month, this.day);
+      const date = this.sourceCalendar === 'gregorian' ? new Date(this.year, this.month - 1, this.day) : (() => {
+        const g = this.hijriToGregorian(this.year, this.month, this.day);
+        return new Date(g.year, g.month - 1, g.day);
+      })();
       return this.weekdays[date.getDay()];
+    },
+    // Memoized conversions for target display
+    resultGregorian() {
+      if (!this.convertedDate) return null;
+      return this.targetCalendar === 'gregorian' ? this.convertedDate : this.hijriToGregorian(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
+    },
+    resultHijri() {
+      if (!this.convertedDate) return null;
+      return this.targetCalendar === 'hijri' ? this.convertedDate : this.gregorianToHijri(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
     },
     targetDayName() {
       if (!this.convertedDate) return '';
-      let date;
-      if (this.targetCalendar === 'gregorian') {
-        date = new Date(this.convertedDate.year, this.convertedDate.month - 1, this.convertedDate.day);
-      } else {
-        // Convert Hijri to Gregorian, then create a Date object
-        const greg = this.hijriToGregorian(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
-        date = new Date(greg.year, greg.month - 1, greg.day);
-      }
-      return this.weekdays[date.getDay()];
+      const g = this.resultGregorian;
+      const d = new Date(g.year, g.month - 1, g.day);
+      return this.weekdays[d.getDay()];
     },
     hijriMonthName() {
-      if (!this.convertedDate) return '';
-      // Always show the Hijri month for the result
-      const hijri = this.targetCalendar === 'hijri' ? this.convertedDate : this.gregorianToHijri(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
-      return this.hijriMonths[hijri.month - 1];
+      const h = this.resultHijri;
+      if (!h) return '';
+      return this.hijriMonths[h.month - 1];
     },
     hijriYear() {
-      if (!this.convertedDate) return '';
-      const hijri = this.targetCalendar === 'hijri' ? this.convertedDate : this.gregorianToHijri(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
-      return hijri.year;
+      const h = this.resultHijri;
+      if (!h) return '';
+      return h.year;
     },
     hijriMonthGrid() {
-      if (!this.convertedDate) return [];
-      // Get the Hijri month and year for the result
-      const hijri = this.targetCalendar === 'hijri' ? this.convertedDate : this.gregorianToHijri(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
-      const daysInMonth = this.getHijriMonthLength(hijri.year, hijri.month);
-      // Find the weekday of the 1st of this Hijri month
-      const gregDate = this.hijriToGregorian(hijri.year, hijri.month, 1);
+      const h = this.resultHijri;
+      if (!h) return [];
+      const daysInMonth = this.getHijriMonthLength(h.year, h.month);
+      const gregDate = this.hijriToGregorian(h.year, h.month, 1);
       const firstDay = new Date(gregDate.year, gregDate.month - 1, gregDate.day).getDay();
       const grid = [];
-      let week = new Array(firstDay).fill({
+      let week = Array.from({
+        length: firstDay
+      }, () => ({
         day: ''
-      });
+      }));
       for (let d = 1; d <= daysInMonth; d++) {
-        const isCurrent = d === hijri.day;
         week.push({
           day: d,
-          isCurrent
+          isCurrent: d === h.day
         });
         if (week.length === 7) {
           grid.push(week);
@@ -3250,15 +3255,13 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.convertedDate = this.hijriToGregorian(this.year, this.month, this.day);
       }
-      this.getUserLocation();
+      // Geolocation is now user-triggered via a button for efficiency
     },
     getHijriMonthLength(year, month) {
       // Approximate Hijri month lengths (alternating 29/30 days)
-      const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
-      return monthLengths[(month - 1) % 12];
+      return HIJRI_MONTH_LENGTHS[(month - 1) % 12];
     },
     getUserLocation() {
-      this.userAddress = '';
       this.locationError = '';
       if (!navigator.geolocation) {
         this.locationError = 'Geolocation is not supported by your browser.';
@@ -3269,7 +3272,13 @@ __webpack_require__.r(__webpack_exports__);
           latitude,
           longitude
         } = position.coords;
-        // Use a free geocoding API (e.g., OpenStreetMap Nominatim)
+        const key = `${latitude.toFixed(3)},${longitude.toFixed(3)}`;
+        if (this.lastCoords === key && this.lastAddress) {
+          this.userAddress = this.lastAddress;
+          return;
+        }
+        if (this.geocodeInFlight) return;
+        this.geocodeInFlight = true;
         fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`).then(res => res.json()).then(data => {
           if (data.address) {
             const {
@@ -3283,8 +3292,12 @@ __webpack_require__.r(__webpack_exports__);
           } else {
             this.userAddress = 'Location found, but address unavailable.';
           }
+          this.lastCoords = key;
+          this.lastAddress = this.userAddress;
         }).catch(() => {
           this.locationError = 'Could not retrieve address.';
+        }).finally(() => {
+          this.geocodeInFlight = false;
         });
       }, error => {
         if (error.code === error.PERMISSION_DENIED) {
@@ -3304,15 +3317,14 @@ __webpack_require__.r(__webpack_exports__);
       let hijriDay = diffDays - Math.floor(354.36667 * (hijriYear - 1));
 
       // Approximate month calculation
-      const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
       let hijriMonth = 1;
       let remainingDays = hijriDay;
       for (let i = 0; i < 12; i++) {
-        if (remainingDays <= monthLengths[i]) {
+        if (remainingDays <= HIJRI_MONTH_LENGTHS[i]) {
           hijriMonth = i + 1;
           break;
         }
-        remainingDays -= monthLengths[i];
+        remainingDays -= HIJRI_MONTH_LENGTHS[i];
       }
       return {
         day: remainingDays,
@@ -3323,13 +3335,12 @@ __webpack_require__.r(__webpack_exports__);
     hijriToGregorian(hYear, hMonth, hDay) {
       // Simplified conversion - inverse of the above
       const epoch = new Date(622, 6, 16);
-      const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
       let totalDays = 0;
       for (let y = 1; y < hYear; y++) {
         totalDays += Math.floor(354 + (y % 30 === 2 || y % 30 === 5 || y % 30 === 7 || y % 30 === 10 || y % 30 === 13 || y % 30 === 16 || y % 30 === 18 || y % 30 === 21 || y % 30 === 24 || y % 30 === 26 || y % 30 === 29) ? 1 : 0);
       }
       for (let m = 1; m < hMonth; m++) {
-        totalDays += monthLengths[m - 1];
+        totalDays += HIJRI_MONTH_LENGTHS[m - 1];
       }
       totalDays += hDay - 1;
       const gregorianDate = new Date(epoch);
@@ -29108,10 +29119,24 @@ const _hoisted_22 = {
   class: "d-flex justify-content-center gap-3 mt-3"
 };
 const _hoisted_23 = {
+  class: "d-flex justify-content-center mt-2"
+};
+const _hoisted_24 = {
+  class: "text-center mt-2"
+};
+const _hoisted_25 = {
+  key: 0,
+  class: "text-muted"
+};
+const _hoisted_26 = {
+  key: 1,
+  class: "text-danger"
+};
+const _hoisted_27 = {
   key: 0,
   class: "d-flex justify-content-center align-items-center mt-5 mb-5"
 };
-const _hoisted_24 = {
+const _hoisted_28 = {
   class: "result-card w-100",
   style: {
     "background": "#f8f9fa",
@@ -29121,27 +29146,8 @@ const _hoisted_24 = {
     "padding": "2.5rem 1.5rem"
   }
 };
-const _hoisted_25 = {
-  class: "row g-4 align-items-stretch mb-4"
-};
-const _hoisted_26 = {
-  class: "col-12 col-md-6"
-};
-const _hoisted_27 = {
-  class: "p-4 bg-white rounded-3 border h-100 d-flex flex-column justify-content-center text-center",
-  style: {
-    "border": "1px solid #e0e0e0",
-    "border-radius": "14px"
-  }
-};
-const _hoisted_28 = {
-  class: "fw-bold mb-2",
-  style: {
-    "color": "#00a792"
-  }
-};
 const _hoisted_29 = {
-  class: "fs-4 mb-1"
+  class: "row g-4 align-items-stretch mb-4"
 };
 const _hoisted_30 = {
   class: "col-12 col-md-6"
@@ -29163,18 +29169,37 @@ const _hoisted_33 = {
   class: "fs-4 mb-1"
 };
 const _hoisted_34 = {
-  class: "mb-0 text-muted small"
+  class: "col-12 col-md-6"
 };
 const _hoisted_35 = {
-  class: "mb-2 text-center"
+  class: "p-4 bg-white rounded-3 border h-100 d-flex flex-column justify-content-center text-center",
+  style: {
+    "border": "1px solid #e0e0e0",
+    "border-radius": "14px"
+  }
 };
 const _hoisted_36 = {
-  class: "fw-bold align-middle ms-2"
+  class: "fw-bold mb-2",
+  style: {
+    "color": "#00a792"
+  }
 };
 const _hoisted_37 = {
-  class: "d-flex justify-content-center"
+  class: "fs-4 mb-1"
 };
 const _hoisted_38 = {
+  class: "mb-0 text-muted small"
+};
+const _hoisted_39 = {
+  class: "mb-2 text-center"
+};
+const _hoisted_40 = {
+  class: "fw-bold align-middle ms-2"
+};
+const _hoisted_41 = {
+  class: "d-flex justify-content-center"
+};
+const _hoisted_42 = {
   class: "table w-auto bg-white mb-0 calendar-table",
   role: "table",
   style: {
@@ -29183,21 +29208,21 @@ const _hoisted_38 = {
     "border": "1px solid #e0e0e0"
   }
 };
-const _hoisted_39 = {
+const _hoisted_43 = {
   role: "row"
 };
-const _hoisted_40 = {
+const _hoisted_44 = {
   key: 0
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     id: "date-title",
     class: "display-5 fw-bold text-center"
-  }, "Date Converter", -1 /* CACHED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Date Converter", -1 /* CACHED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-center container mb-2 lead"
-  }, " Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for finding Islamic dates for events, holidays, or just learning more about the calendars! ", -1 /* CACHED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for finding Islamic dates for events, holidays, or just learning more about the calendars! ", -1 /* CACHED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "alert alert-info text-center mb-3 container-fluid"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Did you know?"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" The Islamic calendar is about 10-12 days shorter than the Gregorian calendar each year, so Islamic months move through the seasons! ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Did you know?"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" The Islamic calendar is about 10-12 days shorter than the Gregorian calendar each year, so Islamic months move through the seasons! ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
       "padding": "0.9rem",
       "color": "white",
@@ -29206,26 +29231,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "fw-bold text-center"
   }, "Islamic Date Converter")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.convertDate && $options.convertDate(...args), ["prevent"]))
+    onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.convertDate && $options.convertDate(...args), ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select",
     id: "sourceCalendar",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.sourceCalendar = $event)
-  }, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [...(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "gregorian"
   }, "Gregorian", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "hijri"
-  }, "Hijri", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sourceCalendar]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Hijri", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sourceCalendar]]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "sourceCalendar"
   }, "Source Calendar", -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select",
     id: "targetCalendar",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.targetCalendar = $event)
-  }, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "hijri"
   }, "Hijri", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "gregorian"
-  }, "Gregorian", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.targetCalendar]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Gregorian", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.targetCalendar]]), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "targetCalendar"
   }, "Target Calendar", -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select",
@@ -29236,7 +29261,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       value: d,
       key: d
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(d), 9 /* TEXT, PROPS */, _hoisted_15);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.day]]), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.day]]), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "day"
   }, "Day", -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select",
@@ -29248,7 +29273,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       value: index + 1,
       key: index
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(m), 9 /* TEXT, PROPS */, _hoisted_18);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.month]]), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.month]]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "month"
   }, "Month", -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select",
@@ -29259,16 +29284,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       value: y,
       key: y
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(y), 9 /* TEXT, PROPS */, _hoisted_21);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.year]]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.year]]), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "year"
-  }, "Year", -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Year", -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-dark px-4",
     type: "submit"
   }, "Submit", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-secondary px-4",
     type: "button",
     onClick: _cache[6] || (_cache[6] = (...args) => $options.resetForm && $options.resetForm(...args))
-  }, "Reset")])], 32 /* NEED_HYDRATION */), $data.convertedDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Reset")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    class: "btn btn-outline-secondary btn-sm",
+    type: "button",
+    onClick: _cache[7] || (_cache[7] = (...args) => $options.getUserLocation && $options.getUserLocation(...args))
+  }, " Use my location ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [$data.userAddress ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_25, "Location: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.userAddress), 1 /* TEXT */)) : $data.locationError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.locationError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 32 /* NEED_HYDRATION */), $data.convertedDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "fs-2 align-middle",
@@ -29277,24 +29306,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, "📅"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "h4 fw-bold align-middle ms-2"
-  }, "Conversion Result")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Conversion Result")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-muted mb-1"
-  }, "Source", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.sourceCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedSourceDate), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Source", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.sourceCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedSourceDate), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-muted mb-1"
-  }, "Target", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.targetCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedTargetDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.targetDayName), 1 /* TEXT */)])])]), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Target", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.targetCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedTargetDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.targetDayName), 1 /* TEXT */)])])]), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     class: "my-4",
     style: {
       "border-color": "#e0e0e0"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"d-flex flex-column align-items-center mb-4\">\n                    <span class=\"badge rounded-pill bg-light border px-3 py-2 mb-2 w-100 w-md-auto\"\n                      style=\"font-size: 1rem; color: #333; border: 1px solid #e0e0e0; max-width: 100%; box-sizing: border-box;\">\n                      <span class=\"me-2\" style=\"color: #00a792;\">📍</span>\n                      <b>Your Location:</b>\n                      <span v-if=\"userAddress\">{{ userAddress }}</span>\n                      <span v-else-if=\"locationError\" class=\"text-danger\">{{ locationError }}</span>\n                      <span v-else class=\"text-muted\">Detecting location...</span>\n                    </span>\n                  </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "fs-5 align-middle",
     style: {
       "color": "#00a792"
     }
-  }, "🗓️", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, "Islamic Calendar for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriMonthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriYear), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_38, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("caption", {
+  }, "🗓️", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_40, "Islamic Calendar for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriMonthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriYear), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_42, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("caption", {
     class: "text-muted"
-  }, "Islamic calendar month grid showing days of week and Hijri dates", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], day => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  }, "Islamic calendar month grid showing days of week and Hijri dates", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_43, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.weekdaysShort, day => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("th", {
       key: day,
       class: "text-center small",
       scope: "col",
@@ -29302,13 +29331,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "background": "#f8f9fa"
       }
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day), 1 /* TEXT */);
-  }), 64 /* STABLE_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.hijriMonthGrid, week => {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.hijriMonthGrid, (week, wi) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
-      key: week[0],
+      key: wi,
       role: "row"
-    }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(week, cell => {
+    }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(week, (cell, ci) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", {
-        key: cell.day + '-' + cell.isCurrent,
+        key: ci,
         role: "cell",
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['text-center', cell.isCurrent ? 'bg-success text-white fw-bold' : '', 'small', cell.day ? 'calendar-day-cell' : '']),
         style: {
@@ -29316,7 +29345,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "min-width": "36px",
           "min-height": "36px"
         }
-      }, [cell.day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(cell.day), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
+      }, [cell.day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(cell.day), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
     }), 128 /* KEYED_FRAGMENT */))]);
   }), 128 /* KEYED_FRAGMENT */))])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])])]);
 }
