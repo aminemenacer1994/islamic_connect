@@ -38,64 +38,63 @@
           <div class="input-group input-group-lg" style="border-radius: 8px;">
             <span class="input-group-text bg-white border-end-0"><i class="bi bi-search" aria-hidden="true"></i></span>
             <input type="text" class="form-control border-start-0" placeholder="Search names..." aria-label="Search names"
-              v-model="searchQuery" @input="filterNames" />
+              v-model="searchQuery" @input="onSearchInput" />
           </div>
         </div>
       </div>
 
       <!-- Liked Names Section -->
       <div class="mb-5">
-        <div class="d-flex flex-row align-items-center mb-3 gap-3">
-          <h3 class="fw-bold mb-0">Liked Allah’s Names <span class="badge bg-success">{{ favoriteNames.length }}</span>
+        <div class="liked-header d-flex flex-row align-items-center gap-3">
+          <h3 class="fw-bold mb-0 mt-">Liked Allah’s Names <span class="badge badge-teal">{{ favoriteNames.length }}</span>
           </h3>
-          <div class="ms-auto">
+          <div class="liked-actions ms-auto ">
             <button class="btn btn-outline-danger me-2" :disabled="favoriteNames.length === 0"
               @click="clearAllFavorites" v-if="favoriteNames.length > 0">
               Unlike All
             </button>
-            <button v-if="favoriteNames.length > 0" class="btn btn-outline-primary" type="button"
-              data-bs-toggle="collapse" data-bs-target="#likedNamesCollapse" aria-expanded="true"
+            <button v-if="favoriteNames.length > 0" class="btn btn-outline-teal" type="button"
+              data-bs-toggle="collapse" data-bs-target="#likedNamesCollapse" :aria-expanded="!isCollapsed"
               aria-controls="likedNamesCollapse">
               <i :class="isCollapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
             </button>
           </div>
         </div>
-        <div class="collapse show" id="likedNamesCollapse">
+        <div class="collapse" id="likedNamesCollapse">
           <div class="row g-4">
             <div v-for="name in favoriteNamesData" :key="'fav-' + name.number" class="col-12 col-md-4">
-              <div class="card h-100" style="border-radius: 8px;" role="article" :aria-labelledby="'fav-title-' + name.number">
+              <div class="card h-100 card-teal mt-3" role="article" :aria-labelledby="'fav-title-' + name.number">
                 <div class="card-body d-flex flex-column">
                   <div class="d-flex justify-content-between align-items-start">
                     <span class="badge bg-secondary fs-6">{{ name.number }}</span>
                     <button class="btn p-0" type="button" :aria-pressed="isFavorited(name.number) ? 'true' : 'false'" :aria-label="isFavorited(name.number) ? 'Remove from liked' : 'Add to liked'" @click="toggleFavorite(name.number)">
-                      <i class="bi bi-heart-fill text-danger fs-4"></i>
+                      <i class="bi bi-heart-fill text-teal fs-4"></i>
                     </button>
                   </div>
-                  <p class="mt-3 mb-2" :id="'fav-title-' + name.number" style="font-size: 1.6rem;color:black"><b>{{ name.name }}</b></p>
+                  <p class="fav-title mt-3 mb-2 text-dark" :id="'fav-title-' + name.number"><b>{{ name.name }}</b></p>
                   <div class="display-5 text-end" dir="rtl">
-                    <strong class="medium text-muted" style="font-size: 2.4rem;">{{ name.arabic }}</strong>
+                    <strong class="fav-arabic medium text-muted">{{ name.arabic }}</strong>
                   </div>
                   <div v-if="showTranslation" class="mt-3">
-                    <strong style="font-size: 1.6rem;">Meaning:</strong>
-                    <p class="small text-muted" style="font-size: 1.2rem;">{{ name.translation }}</p>
+                    <strong class="fav-label">Meaning:</strong>
+                    <p class="fav-small small text-muted">{{ name.translation }}</p>
                   </div>
                   <div v-if="showDescription" class="mt-2">
-                    <strong style="font-size: 1.6rem;">Description:</strong>
-                    <p class="small text-muted" style="font-size: 1.2rem;">{{ name.description }}</p>
+                    <strong class="fav-label">Description:</strong>
+                    <p class="fav-small small text-muted">{{ name.description }}</p>
                   </div>
                   <!-- Button container pushed to the bottom -->
-                  <div class="d-flex justify-content-between align-items-center gap-2" style="padding: 10px;">
+                  <div class="fav-actions d-flex justify-content-between align-items-center gap-2">
                     <!-- Copy to Clipboard Button -->
-                    <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2" aria-label="Copy name to clipboard"
-                      @click="copyToClipboard(name)" style="background: #00bfa6; color: white; height: 38px">
+                    <button class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1 me-2" aria-label="Copy name to clipboard"
+                      @click="copyToClipboard(name)">
                       <span class="text-center w-100">
                         <b>Copy to Clipboard</b>
                       </span>
                     </button>
                     <!-- WhatsApp Share Button -->
-                    <a class="btn d-flex align-items-center justify-content-center flex-grow-1" aria-label="Share name on WhatsApp"
-                      :href="generateWhatsAppLink(name)" target="_blank" rel="noopener"
-                      style="background: #00bfa6; color: white; height: 38px">
+                    <a class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1" aria-label="Share name on WhatsApp"
+                      :href="generateWhatsAppLink(name)" target="_blank" rel="noopener">
                       <b>Share on WhatsApp</b>
                     </a>
                   </div>
@@ -106,7 +105,7 @@
         </div>
       </div>
 
-      <h3 class="fw-bold mb-3">All Allah's Names</h3>
+      <h3 class="fw-bold">All Allah's Names:</h3>
 
       <!-- Names Grid -->
       <div class="row g-4 mt-2">
@@ -116,30 +115,30 @@
               <div class="d-flex justify-content-between align-items-start">
                 <span class="badge bg-secondary fs-6">{{ name.number }}</span>
                 <button class="btn p-0" type="button" :aria-pressed="isFavorited(name.number) ? 'true' : 'false'" :aria-label="isFavorited(name.number) ? 'Remove from favorites' : 'Add to favorites'" @click="toggleFavorite(name.number)">
-                  <i :class="['bi', isFavorited(name.number) ? 'bi-heart-fill' : 'bi-heart', 'fs-4']" :style="{ color: isFavorited(name.number) ? 'red' : 'black' }"></i>
+                  <i :class="['bi', isFavorited(name.number) ? 'bi-heart-fill text-teal' : 'bi-heart text-dark', 'fs-4']"></i>
                 </button>
               </div>
 
-              <p class="mt-3 mb-2" :id="'name-title-' + name.number" style="font-size: 1.6rem;color:black"><b>{{ name.name }}</b></p>
+              <p class="name-title mt-3 mb-2 text-dark" :id="'name-title-' + name.number"><b>{{ name.name }}</b></p>
 
               <div v-if="showArabic" class="display-5 text-end" dir="rtl">
-                <strong class="medium text-muted" style="font-size: 2.4rem;">{{ name.arabic }}</strong>
+                <strong class="name-arabic medium text-muted">{{ name.arabic }}</strong>
               </div>
 
               <div v-if="showTranslation" class="mt-3">
-                <strong style="font-size: 1.6rem;">Meaning:</strong>
-                <p class="small text-muted" style="font-size: 1.2rem;">{{ name.translation }}</p>
+                <strong class="name-label">Meaning:</strong>
+                <p class="name-small small text-muted">{{ name.translation }}</p>
               </div>
 
               <div v-if="showDescription" class="mt-2">
-                <strong style="font-size: 1.6rem;">Description:</strong>
-                <p class="small text-muted" style="font-size: 1.2rem;">{{ name.description }}</p>
+                <strong class="name-label">Description:</strong>
+                <p class="name-small small text-muted">{{ name.description }}</p>
               </div>
             </div>
-            <div class="d-flex justify-content-between align-items-center gap-2 mb-2" style="padding: 10px;">
+            <div class="name-actions d-flex justify-content-between align-items-center gap-2 mb-2">
               <!-- Copy to Clipboard Button -->
-              <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2" aria-label="Copy name to clipboard"
-                @click="copyToClipboard(name)" style="background: #1881b9; color: white; height: 38px">
+              <button class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1 me-2" aria-label="Copy name to clipboard"
+                @click="copyToClipboard(name)">
                 <span class="text-center w-100">
                   <i class="bi bi-clipboard me-2"></i>
                   <b>Copy</b>
@@ -147,9 +146,8 @@
               </button>
 
               <!-- WhatsApp Share Button -->
-              <a class="btn d-flex align-items-center justify-content-center flex-grow-1" aria-label="Share name on WhatsApp"
-                :href="generateWhatsAppLink(name)" target="_blank" rel="noopener"
-                style="background: #00bfa6; color: white; height: 38px">
+              <a class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1" aria-label="Share name on WhatsApp"
+                :href="generateWhatsAppLink(name)" target="_blank" rel="noopener">
                 <i class="bi bi-whatsapp me-2"></i>
                 <b>Share</b>
               </a>
@@ -157,22 +155,6 @@
           </div>
         </div>
       </div>
-
-      <hr class="container" />
-
-      <!-- No Results -->
-      <!-- <div v-if="filteredNames.length === 0" class="text-center py-5">
-        <h3 class="text-muted">No names found</h3>
-        <button @click="resetFilters" class="btn btn-outline-dark mt-3">Reset Filters</button>
-      </div> -->
-
-      <!-- Floating Action Button -->
-      <!-- <button v-show="showScrollToTop" @click="scrollToTop"
-        class="btn position-fixed rounded-circle d-flex align-items-center justify-content-center"
-        style="bottom: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; background: rgb(13, 182, 145); color: white;"
-        title="Back to Top">
-        <i class="bi bi-chevron-up h3 fs-5"></i>
-      </button> -->
     </div>
   </div>
 </template>
@@ -878,7 +860,7 @@ export default {
         }
       ],
       showScrollToTop: false,
-      isCollapsed: false,
+      isCollapsed: true,
       searchQuery: '',
       activeLetter: '',
       showArabic: true,
@@ -892,7 +874,9 @@ export default {
   mounted() {
     this.handleScroll();
     const collapseElement = document.getElementById('likedNamesCollapse');
-    window.addEventListener('scroll', this.handleScroll);
+    // Throttle scroll handler and use passive listener for performance
+    this._throttledScroll = this.throttle(this.handleScroll, 100);
+    window.addEventListener('scroll', this._throttledScroll, { passive: true });
     collapseElement.addEventListener('shown.bs.collapse', () => {
       this.isCollapsed = false;
     });
@@ -900,8 +884,23 @@ export default {
       this.isCollapsed = true;
     });
   },
+  beforeUnmount() {
+    // Clean up scroll listener if present (Vue 3)
+    if (this._throttledScroll) {
+      window.removeEventListener('scroll', this._throttledScroll);
+    }
+  },
+  beforeDestroy() {
+    // Clean up scroll listener if present (Vue 2)
+    if (this._throttledScroll) {
+      window.removeEventListener('scroll', this._throttledScroll);
+    }
+  },
 
   computed: {
+    favoriteSet() {
+      return new Set(this.favoriteNames);
+    },
     favoriteNamesData() {
       return this.names.filter(name => this.favoriteNames.includes(name.number));
     }
@@ -915,6 +914,16 @@ export default {
     if (savedFavorites) {
       this.favoriteNames = JSON.parse(savedFavorites);
     }
+
+    // Build a lowercase search blob once for faster filtering
+    this.names.forEach(n => {
+      n._blob = `${n.name} ${n.translation} ${n.description}`.toLowerCase();
+    });
+
+    // Prepare debounced filter function for input handler
+    this._debouncedFilter = this.debounce(() => {
+      this.filterNames();
+    }, 150);
   },
   methods: {
 
@@ -928,6 +937,14 @@ export default {
       const text = `*${name.name}*\n\n🕋 Arabic: ${name.arabic}\n📝 Meaning: ${name.translation}\n📖 Description: ${name.description}`;
       return `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     },
+    onSearchInput() {
+      // Use debounced filtering on input events
+      if (this._debouncedFilter) {
+        this._debouncedFilter();
+      } else {
+        this.filterNames();
+      }
+    },
     filterNames() {
       if (!this.searchQuery && !this.activeLetter) {
         this.filteredNames = [...this.names];
@@ -936,10 +953,7 @@ export default {
 
       const query = this.searchQuery.toLowerCase();
       this.filteredNames = this.names.filter(name => {
-        const matchesSearch = !query ||
-          name.name.toLowerCase().includes(query) ||
-          name.translation.toLowerCase().includes(query) ||
-          name.description.toLowerCase().includes(query);
+        const matchesSearch = !query || (name._blob && name._blob.includes(query));
 
         const matchesLetter = !this.activeLetter ||
           name.name.startsWith(this.activeLetter);
@@ -970,13 +984,38 @@ export default {
       localStorage.setItem('favoriteNames', JSON.stringify(this.favoriteNames));
     },
     isFavorited(number) {
-      return this.favoriteNames.includes(number);
+      // O(1) lookup using Set
+      return this.favoriteSet.has(number);
     },
     debounce(fn, wait) {
       let timeout;
       return function (...args) {
         clearTimeout(timeout);
         timeout = setTimeout(() => fn.apply(this, args), wait);
+      };
+    },
+    throttle(fn, wait) {
+      let inThrottle = false;
+      let lastArgs = null;
+      let lastThis = null;
+      const invoke = () => {
+        if (lastArgs) {
+          fn.apply(lastThis, lastArgs);
+          lastArgs = lastThis = null;
+          setTimeout(invoke, wait);
+        } else {
+          inThrottle = false;
+        }
+      };
+      return function (...args) {
+        if (inThrottle) {
+          lastArgs = args;
+          lastThis = this;
+          return;
+        }
+        fn.apply(this, args);
+        inThrottle = true;
+        setTimeout(invoke, wait);
       };
     },
     handleScroll() {
@@ -995,14 +1034,6 @@ export default {
 
       // Show button only if scrolled past 20%
       this.showScrollToTop = scrollPercentage >= 20;
-
-      // Debugging: Log values to verify behavior
-      console.log({
-        scrollPosition,
-        documentHeight,
-        scrollPercentage,
-        showScrollToTop: this.showScrollToTop,
-      });
     },
     scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1012,6 +1043,53 @@ export default {
 </script>
 
 <style scoped>
+.names-container {
+  /* Provide teal palette for descendants */
+  --teal: #00bfa6;
+  --teal-dark: #089060;
+}
+
+.text-teal { color: var(--teal) !important; }
+.badge-teal { background-color: var(--teal); color: #fff; }
+.btn-teal {
+  background-color: var(--teal);
+  color: #fff;
+  border-color: var(--teal);
+}
+.btn-teal:hover {
+  background-color: var(--teal-dark);
+  border-color: var(--teal-dark);
+}
+.btn-outline-teal {
+  color: var(--teal);
+  border-color: var(--teal);
+}
+.btn-outline-teal:hover {
+  background-color: var(--teal);
+  color: #fff;
+}
+.btn-compact { height: 38px; }
+.card-teal {
+  border-radius: 8px;
+  border: 1px solid rgba(0, 191, 166, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* Liked section responsive tweaks */
+.fav-title { font-size: 1.6rem; }
+.fav-arabic { font-size: 2.4rem; }
+.fav-small { font-size: 1.2rem; }
+.fav-actions { padding: 10px; }
+
+@media (max-width: 576px) {
+  .liked-header { gap: 0.5rem; flex-wrap: wrap; }
+  .liked-actions { width: 100%; display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.25rem; }
+  .fav-title { font-size: 1.25rem; }
+  .fav-arabic { font-size: 1.8rem; }
+  .fav-small { font-size: 1rem; }
+  .fav-actions { padding: 6px; flex-direction: column; }
+  .fav-actions .btn { width: 100%; margin-right: 0 !important; }
+}
 .custom-success:checked {
   background-color: rgb(10, 150, 120) !important;
   border-color: rgb(10, 150, 120) !important;
@@ -1200,5 +1278,19 @@ html {
   .form-check {
     flex: 0 0 auto;
   }
+}
+
+/* All names responsive classes */
+.name-title { font-size: 1.6rem; }
+.name-arabic { font-size: 2.4rem; }
+.name-small { font-size: 1.2rem; }
+.name-actions { padding: 10px; }
+
+@media (max-width: 576px) {
+  .name-title { font-size: 1.25rem; }
+  .name-arabic { font-size: 1.8rem; }
+  .name-small { font-size: 1rem; }
+  .name-actions { padding: 6px; flex-direction: column; }
+  .name-actions .btn { width: 100%; margin-right: 0 !important; }
 }
 </style>

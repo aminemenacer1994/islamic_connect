@@ -7580,7 +7580,7 @@ __webpack_require__.r(__webpack_exports__);
         description: "The One who does not quickly punish the sinners."
       }],
       showScrollToTop: false,
-      isCollapsed: false,
+      isCollapsed: true,
       searchQuery: '',
       activeLetter: '',
       showArabic: true,
@@ -7594,7 +7594,11 @@ __webpack_require__.r(__webpack_exports__);
   mounted() {
     this.handleScroll();
     const collapseElement = document.getElementById('likedNamesCollapse');
-    window.addEventListener('scroll', this.handleScroll);
+    // Throttle scroll handler and use passive listener for performance
+    this._throttledScroll = this.throttle(this.handleScroll, 100);
+    window.addEventListener('scroll', this._throttledScroll, {
+      passive: true
+    });
     collapseElement.addEventListener('shown.bs.collapse', () => {
       this.isCollapsed = false;
     });
@@ -7602,7 +7606,22 @@ __webpack_require__.r(__webpack_exports__);
       this.isCollapsed = true;
     });
   },
+  beforeUnmount() {
+    // Clean up scroll listener if present (Vue 3)
+    if (this._throttledScroll) {
+      window.removeEventListener('scroll', this._throttledScroll);
+    }
+  },
+  beforeDestroy() {
+    // Clean up scroll listener if present (Vue 2)
+    if (this._throttledScroll) {
+      window.removeEventListener('scroll', this._throttledScroll);
+    }
+  },
   computed: {
+    favoriteSet() {
+      return new Set(this.favoriteNames);
+    },
     favoriteNamesData() {
       return this.names.filter(name => this.favoriteNames.includes(name.number));
     }
@@ -7616,6 +7635,16 @@ __webpack_require__.r(__webpack_exports__);
     if (savedFavorites) {
       this.favoriteNames = JSON.parse(savedFavorites);
     }
+
+    // Build a lowercase search blob once for faster filtering
+    this.names.forEach(n => {
+      n._blob = `${n.name} ${n.translation} ${n.description}`.toLowerCase();
+    });
+
+    // Prepare debounced filter function for input handler
+    this._debouncedFilter = this.debounce(() => {
+      this.filterNames();
+    }, 150);
   },
   methods: {
     copyToClipboard(name) {
@@ -7626,6 +7655,14 @@ __webpack_require__.r(__webpack_exports__);
       const text = `*${name.name}*\n\n🕋 Arabic: ${name.arabic}\n📝 Meaning: ${name.translation}\n📖 Description: ${name.description}`;
       return `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     },
+    onSearchInput() {
+      // Use debounced filtering on input events
+      if (this._debouncedFilter) {
+        this._debouncedFilter();
+      } else {
+        this.filterNames();
+      }
+    },
     filterNames() {
       if (!this.searchQuery && !this.activeLetter) {
         this.filteredNames = [...this.names];
@@ -7633,7 +7670,7 @@ __webpack_require__.r(__webpack_exports__);
       }
       const query = this.searchQuery.toLowerCase();
       this.filteredNames = this.names.filter(name => {
-        const matchesSearch = !query || name.name.toLowerCase().includes(query) || name.translation.toLowerCase().includes(query) || name.description.toLowerCase().includes(query);
+        const matchesSearch = !query || name._blob && name._blob.includes(query);
         const matchesLetter = !this.activeLetter || name.name.startsWith(this.activeLetter);
         return matchesSearch && matchesLetter;
       });
@@ -7661,13 +7698,38 @@ __webpack_require__.r(__webpack_exports__);
       localStorage.setItem('favoriteNames', JSON.stringify(this.favoriteNames));
     },
     isFavorited(number) {
-      return this.favoriteNames.includes(number);
+      // O(1) lookup using Set
+      return this.favoriteSet.has(number);
     },
     debounce(fn, wait) {
       let timeout;
       return function (...args) {
         clearTimeout(timeout);
         timeout = setTimeout(() => fn.apply(this, args), wait);
+      };
+    },
+    throttle(fn, wait) {
+      let inThrottle = false;
+      let lastArgs = null;
+      let lastThis = null;
+      const invoke = () => {
+        if (lastArgs) {
+          fn.apply(lastThis, lastArgs);
+          lastArgs = lastThis = null;
+          setTimeout(invoke, wait);
+        } else {
+          inThrottle = false;
+        }
+      };
+      return function (...args) {
+        if (inThrottle) {
+          lastArgs = args;
+          lastThis = this;
+          return;
+        }
+        fn.apply(this, args);
+        inThrottle = true;
+        setTimeout(invoke, wait);
       };
     },
     handleScroll() {
@@ -7686,14 +7748,6 @@ __webpack_require__.r(__webpack_exports__);
 
       // Show button only if scrolled past 20%
       this.showScrollToTop = scrollPercentage >= 20;
-
-      // Debugging: Log values to verify behavior
-      console.log({
-        scrollPosition,
-        documentHeight,
-        scrollPercentage,
-        showScrollToTop: this.showScrollToTop
-      });
     },
     scrollToTop() {
       window.scrollTo({
@@ -33837,29 +33891,21 @@ const _hoisted_10 = {
   class: "mb-5"
 };
 const _hoisted_11 = {
-  class: "d-flex flex-row align-items-center mb-3 gap-3"
+  class: "liked-header d-flex flex-row align-items-center gap-3"
 };
 const _hoisted_12 = {
-  class: "fw-bold mb-0"
+  class: "fw-bold mb-0 mt-"
 };
 const _hoisted_13 = {
-  class: "badge bg-success"
+  class: "badge badge-teal"
 };
 const _hoisted_14 = {
-  class: "ms-auto"
+  class: "liked-actions ms-auto"
 };
 const _hoisted_15 = ["disabled"];
-const _hoisted_16 = {
-  key: 1,
-  class: "btn btn-outline-primary",
-  type: "button",
-  "data-bs-toggle": "collapse",
-  "data-bs-target": "#likedNamesCollapse",
-  "aria-expanded": "true",
-  "aria-controls": "likedNamesCollapse"
-};
+const _hoisted_16 = ["aria-expanded"];
 const _hoisted_17 = {
-  class: "collapse show",
+  class: "collapse",
   id: "likedNamesCollapse"
 };
 const _hoisted_18 = {
@@ -33882,36 +33928,24 @@ const _hoisted_25 = {
   dir: "rtl"
 };
 const _hoisted_26 = {
-  class: "medium text-muted",
-  style: {
-    "font-size": "2.4rem"
-  }
+  class: "fav-arabic medium text-muted"
 };
 const _hoisted_27 = {
   key: 0,
   class: "mt-3"
 };
 const _hoisted_28 = {
-  class: "small text-muted",
-  style: {
-    "font-size": "1.2rem"
-  }
+  class: "fav-small small text-muted"
 };
 const _hoisted_29 = {
   key: 1,
   class: "mt-2"
 };
 const _hoisted_30 = {
-  class: "small text-muted",
-  style: {
-    "font-size": "1.2rem"
-  }
+  class: "fav-small small text-muted"
 };
 const _hoisted_31 = {
-  class: "d-flex justify-content-between align-items-center gap-2",
-  style: {
-    "padding": "10px"
-  }
+  class: "fav-actions d-flex justify-content-between align-items-center gap-2"
 };
 const _hoisted_32 = ["onClick"];
 const _hoisted_33 = ["href"];
@@ -33936,41 +33970,29 @@ const _hoisted_41 = {
   dir: "rtl"
 };
 const _hoisted_42 = {
-  class: "medium text-muted",
-  style: {
-    "font-size": "2.4rem"
-  }
+  class: "name-arabic medium text-muted"
 };
 const _hoisted_43 = {
   key: 1,
   class: "mt-3"
 };
 const _hoisted_44 = {
-  class: "small text-muted",
-  style: {
-    "font-size": "1.2rem"
-  }
+  class: "name-small small text-muted"
 };
 const _hoisted_45 = {
   key: 2,
   class: "mt-2"
 };
 const _hoisted_46 = {
-  class: "small text-muted",
-  style: {
-    "font-size": "1.2rem"
-  }
+  class: "name-small small text-muted"
 };
 const _hoisted_47 = {
-  class: "d-flex justify-content-between align-items-center gap-2 mb-2",
-  style: {
-    "padding": "10px"
-  }
+  class: "name-actions d-flex justify-content-between align-items-center gap-2 mb-2"
 };
 const _hoisted_48 = ["onClick"];
 const _hoisted_49 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "display-5 fw-bold text-dark"
@@ -34013,23 +34035,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Search names...",
     "aria-label": "Search names",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $data.searchQuery = $event),
-    onInput: _cache[4] || (_cache[4] = (...args) => $options.filterNames && $options.filterNames(...args))
+    onInput: _cache[4] || (_cache[4] = (...args) => $options.onSearchInput && $options.onSearchInput(...args))
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Names Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_12, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Liked Allah’s Names ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.favoriteNames.length), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [$data.favoriteNames.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     class: "btn btn-outline-danger me-2",
     disabled: $data.favoriteNames.length === 0,
     onClick: _cache[5] || (_cache[5] = (...args) => $options.clearAllFavorites && $options.clearAllFavorites(...args))
-  }, " Unlike All ", 8 /* PROPS */, _hoisted_15)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.favoriteNames.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, " Unlike All ", 8 /* PROPS */, _hoisted_15)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.favoriteNames.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 1,
+    class: "btn btn-outline-teal",
+    type: "button",
+    "data-bs-toggle": "collapse",
+    "data-bs-target": "#likedNamesCollapse",
+    "aria-expanded": !$data.isCollapsed,
+    "aria-controls": "likedNamesCollapse"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isCollapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up')
-  }, null, 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.favoriteNamesData, name => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_16)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.favoriteNamesData, name => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 'fav-' + name.number,
       class: "col-12 col-md-4"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "card h-100",
-      style: {
-        "border-radius": "8px"
-      },
+      class: "card h-100 card-teal mt-3",
       role: "article",
       "aria-labelledby": 'fav-title-' + name.number
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.number), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -34039,48 +34066,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $options.isFavorited(name.number) ? 'Remove from liked' : 'Add to liked',
       onClick: $event => $options.toggleFavorite(name.number)
     }, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-heart-fill text-danger fs-4"
+      class: "bi bi-heart-fill text-teal fs-4"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_23)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-      class: "mt-3 mb-2",
-      id: 'fav-title-' + name.number,
-      style: {
-        "font-size": "1.6rem",
-        "color": "black"
-      }
+      class: "fav-title mt-3 mb-2 text-dark",
+      id: 'fav-title-' + name.number
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)]), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
-      style: {
-        "font-size": "1.6rem"
-      }
+      class: "fav-label"
     }, "Meaning:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
-      style: {
-        "font-size": "1.6rem"
-      }
+      class: "fav-label"
     }, "Description:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Button container pushed to the bottom "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy to Clipboard Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn d-flex align-items-center justify-content-center flex-grow-1 me-2",
+      class: "btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1 me-2",
       "aria-label": "Copy name to clipboard",
-      onClick: $event => $options.copyToClipboard(name),
-      style: {
-        "background": "#00bfa6",
-        "color": "white",
-        "height": "38px"
-      }
+      onClick: $event => $options.copyToClipboard(name)
     }, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "text-center w-100"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Copy to Clipboard")], -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      class: "btn d-flex align-items-center justify-content-center flex-grow-1",
+      class: "btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1",
       "aria-label": "Share name on WhatsApp",
       href: $options.generateWhatsAppLink(name),
       target: "_blank",
-      rel: "noopener",
-      style: {
-        "background": "#00bfa6",
-        "color": "white",
-        "height": "38px"
-      }
+      rel: "noopener"
     }, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_33)])])], 8 /* PROPS */, _hoisted_19)]);
   }), 128 /* KEYED_FRAGMENT */))])])]), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    class: "fw-bold mb-3"
-  }, "All Allah's Names", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Names Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredNames, name => {
+    class: "fw-bold"
+  }, "All Allah's Names:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Names Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredNames, name => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: name.number,
       class: "col-12 col-md-4"
@@ -34095,55 +34104,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $options.isFavorited(name.number) ? 'Remove from favorites' : 'Add to favorites',
       onClick: $event => $options.toggleFavorite(name.number)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $options.isFavorited(name.number) ? 'bi-heart-fill' : 'bi-heart', 'fs-4']),
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        color: $options.isFavorited(name.number) ? 'red' : 'black'
-      })
-    }, null, 6 /* CLASS, STYLE */)], 8 /* PROPS */, _hoisted_39)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-      class: "mt-3 mb-2",
-      id: 'name-title-' + name.number,
-      style: {
-        "font-size": "1.6rem",
-        "color": "black"
-      }
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $options.isFavorited(name.number) ? 'bi-heart-fill text-teal' : 'bi-heart text-dark', 'fs-4'])
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_39)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      class: "name-title mt-3 mb-2 text-dark",
+      id: 'name-title-' + name.number
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_40), $data.showArabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
-      style: {
-        "font-size": "1.6rem"
-      }
+      class: "name-label"
     }, "Meaning:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
-      style: {
-        "font-size": "1.6rem"
-      }
+      class: "name-label"
     }, "Description:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy to Clipboard Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn d-flex align-items-center justify-content-center flex-grow-1 me-2",
+      class: "btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1 me-2",
       "aria-label": "Copy name to clipboard",
-      onClick: $event => $options.copyToClipboard(name),
-      style: {
-        "background": "#1881b9",
-        "color": "white",
-        "height": "38px"
-      }
+      onClick: $event => $options.copyToClipboard(name)
     }, [...(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "text-center w-100"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-clipboard me-2"
     }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Copy")], -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      class: "btn d-flex align-items-center justify-content-center flex-grow-1",
+      class: "btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1",
       "aria-label": "Share name on WhatsApp",
       href: $options.generateWhatsAppLink(name),
       target: "_blank",
-      rel: "noopener",
-      style: {
-        "background": "#00bfa6",
-        "color": "white",
-        "height": "38px"
-      }
+      rel: "noopener"
     }, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-whatsapp me-2"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_49)])], 8 /* PROPS */, _hoisted_35)]);
-  }), 128 /* KEYED_FRAGMENT */))]), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
-    class: "container"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"filteredNames.length === 0\" class=\"text-center py-5\">\n        <h3 class=\"text-muted\">No names found</h3>\n        <button @click=\"resetFilters\" class=\"btn btn-outline-dark mt-3\">Reset Filters</button>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-show=\"showScrollToTop\" @click=\"scrollToTop\"\n        class=\"btn position-fixed rounded-circle d-flex align-items-center justify-content-center\"\n        style=\"bottom: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; background: rgb(13, 182, 145); color: white;\"\n        title=\"Back to Top\">\n        <i class=\"bi bi-chevron-up h3 fs-5\"></i>\n      </button> ")])]);
+  }), 128 /* KEYED_FRAGMENT */))])])]);
 }
 
 /***/ }),
@@ -49692,7 +49678,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-success[data-v-062ee157]:checked {\n  background-color: rgb(10, 150, 120) !important;\n  border-color: rgb(10, 150, 120) !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n.cursor-pointer[data-v-062ee157] {\n  cursor: pointer;\n}\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  font-size: 1.1rem;\n}\n.btn-primary[data-v-062ee157] {\n  background-color: rgb(10, 150, 120);\n  color: rgb(255, 255, 255);\n  border-color: rgb(10, 150, 120);\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: rgb(255, 255, 255);\n  color: rgb(255, 255, 255);\n  border-color: rgb(8, 120, 96);\n}\n.btn-outline-primary[data-v-062ee157] {\n  border-color: rgb(10, 150, 120);\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: rgb(10, 150, 120);\n  border-color: rgb(10, 150, 120);\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-062ee157]:hover {\n  transform: translateY(-8px);\n}\n.featured-card[data-v-062ee157] {\n  border: 3px solid rgb(10, 150, 120);\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-062ee157] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: rgb(10, 150, 120);\n  border-color: rgb(10, 150, 120);\n}\n.floating-action-btn button[data-v-062ee157]:hover {\n  background-color: rgb(8, 120, 96);\n  border-color: rgb(8, 120, 96);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-062ee157] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-062ee157] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2.5rem;\n}\n}\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-062ee157] {\n  font-size: 3rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 10px;\n}\n.form-check[data-v-062ee157] {\n    flex: 1 1 100%;\n    margin-bottom: 12px;\n}\n}\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.names-container[data-v-062ee157] {\n  /* Provide teal palette for descendants */\n  --teal: #00bfa6;\n  --teal-dark: #089060;\n}\n.text-teal[data-v-062ee157] { color: var(--teal) !important;\n}\n.badge-teal[data-v-062ee157] { background-color: var(--teal); color: #fff;\n}\n.btn-teal[data-v-062ee157] {\n  background-color: var(--teal);\n  color: #fff;\n  border-color: var(--teal);\n}\n.btn-teal[data-v-062ee157]:hover {\n  background-color: var(--teal-dark);\n  border-color: var(--teal-dark);\n}\n.btn-outline-teal[data-v-062ee157] {\n  color: var(--teal);\n  border-color: var(--teal);\n}\n.btn-outline-teal[data-v-062ee157]:hover {\n  background-color: var(--teal);\n  color: #fff;\n}\n.btn-compact[data-v-062ee157] { height: 38px;\n}\n.card-teal[data-v-062ee157] {\n  border-radius: 8px;\n  border: 1px solid rgba(0, 191, 166, 0.3);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);\n}\n\n/* Liked section responsive tweaks */\n.fav-title[data-v-062ee157] { font-size: 1.6rem;\n}\n.fav-arabic[data-v-062ee157] { font-size: 2.4rem;\n}\n.fav-small[data-v-062ee157] { font-size: 1.2rem;\n}\n.fav-actions[data-v-062ee157] { padding: 10px;\n}\n@media (max-width: 576px) {\n.liked-header[data-v-062ee157] { gap: 0.5rem; flex-wrap: wrap;\n}\n.liked-actions[data-v-062ee157] { width: 100%; display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.25rem;\n}\n.fav-title[data-v-062ee157] { font-size: 1.25rem;\n}\n.fav-arabic[data-v-062ee157] { font-size: 1.8rem;\n}\n.fav-small[data-v-062ee157] { font-size: 1rem;\n}\n.fav-actions[data-v-062ee157] { padding: 6px; flex-direction: column;\n}\n.fav-actions .btn[data-v-062ee157] { width: 100%; margin-right: 0 !important;\n}\n}\n.custom-success[data-v-062ee157]:checked {\n  background-color: rgb(10, 150, 120) !important;\n  border-color: rgb(10, 150, 120) !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n.cursor-pointer[data-v-062ee157] {\n  cursor: pointer;\n}\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  font-size: 1.1rem;\n}\n.btn-primary[data-v-062ee157] {\n  background-color: rgb(10, 150, 120);\n  color: rgb(255, 255, 255);\n  border-color: rgb(10, 150, 120);\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: rgb(255, 255, 255);\n  color: rgb(255, 255, 255);\n  border-color: rgb(8, 120, 96);\n}\n.btn-outline-primary[data-v-062ee157] {\n  border-color: rgb(10, 150, 120);\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: rgb(10, 150, 120);\n  border-color: rgb(10, 150, 120);\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-062ee157]:hover {\n  transform: translateY(-8px);\n}\n.featured-card[data-v-062ee157] {\n  border: 3px solid rgb(10, 150, 120);\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-062ee157] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: rgb(10, 150, 120);\n  border-color: rgb(10, 150, 120);\n}\n.floating-action-btn button[data-v-062ee157]:hover {\n  background-color: rgb(8, 120, 96);\n  border-color: rgb(8, 120, 96);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-062ee157] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-062ee157] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2.5rem;\n}\n}\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-062ee157] {\n  font-size: 3rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 10px;\n}\n.form-check[data-v-062ee157] {\n    flex: 1 1 100%;\n    margin-bottom: 12px;\n}\n}\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n}\n}\n\n/* All names responsive classes */\n.name-title[data-v-062ee157] { font-size: 1.6rem;\n}\n.name-arabic[data-v-062ee157] { font-size: 2.4rem;\n}\n.name-small[data-v-062ee157] { font-size: 1.2rem;\n}\n.name-actions[data-v-062ee157] { padding: 10px;\n}\n@media (max-width: 576px) {\n.name-title[data-v-062ee157] { font-size: 1.25rem;\n}\n.name-arabic[data-v-062ee157] { font-size: 1.8rem;\n}\n.name-small[data-v-062ee157] { font-size: 1rem;\n}\n.name-actions[data-v-062ee157] { padding: 6px; flex-direction: column;\n}\n.name-actions .btn[data-v-062ee157] { width: 100%; margin-right: 0 !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
