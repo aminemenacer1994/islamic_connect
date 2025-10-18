@@ -1,7 +1,7 @@
 <template>
     <div class="blog-container">
         <!-- Page Header -->
-        <div class="page-header">
+        <div class="page-header" v-once>
             <div class="container">
                 <h1>Islamic Insights</h1>
                 <p>Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn
@@ -210,17 +210,24 @@
 <script>
 import blogsData from '../components/blogs.json';
 import _ from 'lodash'; // For debounce
+import { markRaw } from 'vue';
 
 export default {
     data() {
         return {
-            blogs: blogsData.map(blog => ({
-                ...blog,
-                tags: blog.tags || [],
-                hashtags: blog.hashtags || [],
-                wordCount: this.getWordCount(blog.content),
-                excerpt: this.getExcerpt(blog.content, 280)
-            })),
+            blogs: markRaw(blogsData.map(b => ({
+                ...b,
+                tags: b.tags || [],
+                hashtags: b.hashtags || [],
+                // precomputed, normalized fields for fast filtering/sorting/highlighting
+                title_lc: (b.title || '').toLowerCase(),
+                content_lc: this.stripHtml(b.content || '').toLowerCase(),
+                tags_lc: (b.tags || []).map(t => (t || '').toLowerCase()),
+                hashtags_lc: (b.hashtags || []).map(h => (h || '').toLowerCase()),
+                dateMs: new Date(b.date).getTime(),
+                wordCount: this.getWordCount(b.content),
+                excerpt: this.getExcerpt(b.content, 280)
+            }))),
             filtersVisible: true,
             uniqueTags: [],
             // Infinite scroll state
@@ -228,13 +235,14 @@ export default {
             batchSize: 6,
             // Virtualization windowing
             renderStart: 0,
-            maxRender: 40,
+            maxRender: 30,
             topSpacer: 0,
             loadingMore: false,
             sentinelIO: null,
             selectedBlog: null,
             layoutMode: 'grid',
             searchTerm: '',
+            searchTermDebounced: '',
             selectedTag: 'all',
             sortBy: 'newest',
             summaryText: '',
@@ -276,36 +284,38 @@ export default {
         modalSizes() {
             return '(min-width: 1200px) 1140px, 90vw';
         },
+        highlightRegex() {
+            const term = this.searchTermDebounced;
+            if (!term || term.length < 3) return null;
+            return new RegExp('(' + _.escapeRegExp(term) + ')', 'gi');
+        },
         filteredBlogs() {
-            let result = [...this.blogs];
+            let result = Array.isArray(this.blogs) ? this.blogs.slice() : [...this.blogs];
 
-            // Filter by category pill selection
+            // Category filter
             if (this.selectedCategory.tag !== 'all') {
-                result = result.filter(blog =>
-                    blog.tags && blog.tags.some(tag =>
-                        tag.toLowerCase().includes(this.selectedCategory.tag.toLowerCase())
-                    )
-                );
+                const cat = this.selectedCategory.tag.toLowerCase();
+                result = result.filter(b => (b.tags_lc && b.tags_lc.some(t => t.includes(cat))));
             }
 
-            // Filter by tag dropdown
+            // Tag dropdown filter
             if (this.selectedTag !== 'all') {
-                result = result.filter(blog => blog.tags && blog.tags.includes(this.selectedTag));
+                const tagLc = (this.selectedTag || '').toLowerCase();
+                result = result.filter(b => b.tags_lc && b.tags_lc.includes(tagLc));
             }
 
-            // Filter by search term
-            if (this.searchTerm.length >= 3) {
-                const searchLower = this.searchTerm.toLowerCase();
-                result = result.filter(blog =>
-                    blog.title.toLowerCase().includes(searchLower) ||
-                    blog.content.toLowerCase().includes(searchLower) ||
-                    (blog.tags && blog.tags.some(tag => tag.toLowerCase().includes(searchLower))) ||
-                    (blog.hashtags && blog.hashtags.some(hashtag => hashtag.toLowerCase().includes(searchLower)))
+            // Search term filter (debounced)
+            if (this.searchTermDebounced && this.searchTermDebounced.length >= 3) {
+                const q = this.searchTermDebounced.toLowerCase();
+                result = result.filter(b =>
+                    (b.title_lc && b.title_lc.includes(q)) ||
+                    (b.content_lc && b.content_lc.includes(q)) ||
+                    (b.tags_lc && b.tags_lc.some(t => t.includes(q))) ||
+                    (b.hashtags_lc && b.hashtags_lc.some(h => h.includes(q)))
                 );
             }
 
-            result = this.sortBlogs(result);
-            return result;
+            return this.sortBlogs(result);
         },
         renderEnd() {
             return Math.min(this.visibleCount, this.renderStart + this.maxRender);
@@ -325,6 +335,8 @@ export default {
         // Add all categories option at the beginning
         this.categories.unshift({ id: 0, name: 'All Categories', icon: 'fas fa-list', tag: 'all' });
         this.selectedCategory = this.categories[0];
+        // categories are static; mark raw to reduce deep reactivity cost
+        this.categories = markRaw(this.categories);
 
         // Prevent browser scroll restoration and ensure top on load
         try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
@@ -505,19 +517,20 @@ export default {
                     case 'nameZA':
                         return b.title.localeCompare(a.title);
                     case 'oldest':
-                        return new Date(a.date) - new Date(b.date);
+                        return (a.dateMs || new Date(a.date).getTime()) - (b.dateMs || new Date(b.date).getTime());
                     case 'newest':
                     default:
-                        return new Date(b.date) - new Date(a.date);
+                        return (b.dateMs || new Date(b.date).getTime()) - (a.dateMs || new Date(a.date).getTime());
                 }
             });
         },
         highlight(text) {
-            if (!this.searchTerm || this.searchTerm.length < 3) return text;
-            const regex = new RegExp(`(${_.escapeRegExp(this.searchTerm)})`, 'gi');
-            return typeof text === 'string' ? text.replace(regex, '<span class="highlight">$1</span>') : text;
+            if (!this.highlightRegex || typeof text !== 'string') return text;
+            return text.replace(this.highlightRegex, '<span class="highlight">$1</span>');
         },
-        debounceSearch: _.debounce(function () { this.$forceUpdate(); }, 200),
+        debounceSearch: _.debounce(function () {
+            this.searchTermDebounced = (this.searchTerm || '').trim();
+        }, 200),
         stripHtml(html) {
             const temp = document.createElement('div');
             temp.innerHTML = html;

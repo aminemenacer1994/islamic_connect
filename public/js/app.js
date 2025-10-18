@@ -10782,6 +10782,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_blogs_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/blogs.json */ "./resources/js/components/blogs.json");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -10793,12 +10794,18 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data() {
     return {
-      blogs: _components_blogs_json__WEBPACK_IMPORTED_MODULE_0__.map(blog => _objectSpread(_objectSpread({}, blog), {}, {
-        tags: blog.tags || [],
-        hashtags: blog.hashtags || [],
-        wordCount: this.getWordCount(blog.content),
-        excerpt: this.getExcerpt(blog.content, 280)
-      })),
+      blogs: (0,vue__WEBPACK_IMPORTED_MODULE_2__.markRaw)(_components_blogs_json__WEBPACK_IMPORTED_MODULE_0__.map(b => _objectSpread(_objectSpread({}, b), {}, {
+        tags: b.tags || [],
+        hashtags: b.hashtags || [],
+        // precomputed, normalized fields for fast filtering/sorting/highlighting
+        title_lc: (b.title || '').toLowerCase(),
+        content_lc: this.stripHtml(b.content || '').toLowerCase(),
+        tags_lc: (b.tags || []).map(t => (t || '').toLowerCase()),
+        hashtags_lc: (b.hashtags || []).map(h => (h || '').toLowerCase()),
+        dateMs: new Date(b.date).getTime(),
+        wordCount: this.getWordCount(b.content),
+        excerpt: this.getExcerpt(b.content, 280)
+      }))),
       filtersVisible: true,
       uniqueTags: [],
       // Infinite scroll state
@@ -10806,13 +10813,14 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       batchSize: 6,
       // Virtualization windowing
       renderStart: 0,
-      maxRender: 40,
+      maxRender: 30,
       topSpacer: 0,
       loadingMore: false,
       sentinelIO: null,
       selectedBlog: null,
       layoutMode: 'grid',
       searchTerm: '',
+      searchTermDebounced: '',
       selectedTag: 'all',
       sortBy: 'newest',
       summaryText: '',
@@ -10889,26 +10897,32 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     modalSizes() {
       return '(min-width: 1200px) 1140px, 90vw';
     },
+    highlightRegex() {
+      const term = this.searchTermDebounced;
+      if (!term || term.length < 3) return null;
+      return new RegExp('(' + lodash__WEBPACK_IMPORTED_MODULE_1___default().escapeRegExp(term) + ')', 'gi');
+    },
     filteredBlogs() {
-      let result = [...this.blogs];
+      let result = Array.isArray(this.blogs) ? this.blogs.slice() : [...this.blogs];
 
-      // Filter by category pill selection
+      // Category filter
       if (this.selectedCategory.tag !== 'all') {
-        result = result.filter(blog => blog.tags && blog.tags.some(tag => tag.toLowerCase().includes(this.selectedCategory.tag.toLowerCase())));
+        const cat = this.selectedCategory.tag.toLowerCase();
+        result = result.filter(b => b.tags_lc && b.tags_lc.some(t => t.includes(cat)));
       }
 
-      // Filter by tag dropdown
+      // Tag dropdown filter
       if (this.selectedTag !== 'all') {
-        result = result.filter(blog => blog.tags && blog.tags.includes(this.selectedTag));
+        const tagLc = (this.selectedTag || '').toLowerCase();
+        result = result.filter(b => b.tags_lc && b.tags_lc.includes(tagLc));
       }
 
-      // Filter by search term
-      if (this.searchTerm.length >= 3) {
-        const searchLower = this.searchTerm.toLowerCase();
-        result = result.filter(blog => blog.title.toLowerCase().includes(searchLower) || blog.content.toLowerCase().includes(searchLower) || blog.tags && blog.tags.some(tag => tag.toLowerCase().includes(searchLower)) || blog.hashtags && blog.hashtags.some(hashtag => hashtag.toLowerCase().includes(searchLower)));
+      // Search term filter (debounced)
+      if (this.searchTermDebounced && this.searchTermDebounced.length >= 3) {
+        const q = this.searchTermDebounced.toLowerCase();
+        result = result.filter(b => b.title_lc && b.title_lc.includes(q) || b.content_lc && b.content_lc.includes(q) || b.tags_lc && b.tags_lc.some(t => t.includes(q)) || b.hashtags_lc && b.hashtags_lc.some(h => h.includes(q)));
       }
-      result = this.sortBlogs(result);
-      return result;
+      return this.sortBlogs(result);
     },
     renderEnd() {
       return Math.min(this.visibleCount, this.renderStart + this.maxRender);
@@ -10943,6 +10957,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       tag: 'all'
     });
     this.selectedCategory = this.categories[0];
+    // categories are static; mark raw to reduce deep reactivity cost
+    this.categories = (0,vue__WEBPACK_IMPORTED_MODULE_2__.markRaw)(this.categories);
 
     // Prevent browser scroll restoration and ensure top on load
     try {
@@ -11151,20 +11167,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           case 'nameZA':
             return b.title.localeCompare(a.title);
           case 'oldest':
-            return new Date(a.date) - new Date(b.date);
+            return (a.dateMs || new Date(a.date).getTime()) - (b.dateMs || new Date(b.date).getTime());
           case 'newest':
           default:
-            return new Date(b.date) - new Date(a.date);
+            return (b.dateMs || new Date(b.date).getTime()) - (a.dateMs || new Date(a.date).getTime());
         }
       });
     },
     highlight(text) {
-      if (!this.searchTerm || this.searchTerm.length < 3) return text;
-      const regex = new RegExp(`(${lodash__WEBPACK_IMPORTED_MODULE_1___default().escapeRegExp(this.searchTerm)})`, 'gi');
-      return typeof text === 'string' ? text.replace(regex, '<span class="highlight">$1</span>') : text;
+      if (!this.highlightRegex || typeof text !== 'string') return text;
+      return text.replace(this.highlightRegex, '<span class="highlight">$1</span>');
     },
     debounceSearch: lodash__WEBPACK_IMPORTED_MODULE_1___default().debounce(function () {
-      this.$forceUpdate();
+      this.searchTermDebounced = (this.searchTerm || '').trim();
     }, 200),
     stripHtml(html) {
       const temp = document.createElement('div');
@@ -36574,208 +36589,207 @@ const _hoisted_1 = {
   class: "blog-container"
 };
 const _hoisted_2 = {
-  class: "page-header"
-};
-const _hoisted_3 = {
   class: "container"
 };
-const _hoisted_4 = {
+const _hoisted_3 = {
   class: "layout-toggle"
 };
-const _hoisted_5 = {
+const _hoisted_4 = {
   class: "btn-group",
   role: "group",
   "aria-label": "Layout toggle"
 };
-const _hoisted_6 = ["aria-pressed"];
-const _hoisted_7 = ["aria-pressed"];
-const _hoisted_8 = {
+const _hoisted_5 = ["onClick", "aria-pressed"];
+const _hoisted_6 = ["onClick", "aria-pressed"];
+const _hoisted_7 = {
   class: "category-pills-container mb-3"
 };
-const _hoisted_9 = {
+const _hoisted_8 = {
   class: "container"
 };
-const _hoisted_10 = {
+const _hoisted_9 = {
   class: "pills-wrapper"
 };
-const _hoisted_11 = {
+const _hoisted_10 = {
   key: 0,
   class: "fas fa-chevron-left",
   "aria-hidden": "true"
 };
-const _hoisted_12 = {
+const _hoisted_11 = {
   key: 1,
   class: "fallback-arrow"
 };
-const _hoisted_13 = ["onClick", "aria-selected", "tabindex"];
-const _hoisted_14 = {
+const _hoisted_12 = ["onClick", "aria-selected", "tabindex"];
+const _hoisted_13 = {
   key: 0,
   class: "fas fa-chevron-right",
   "aria-hidden": "true"
 };
-const _hoisted_15 = {
+const _hoisted_14 = {
   key: 1,
   class: "fallback-arrow"
 };
-const _hoisted_16 = {
+const _hoisted_15 = {
   class: "filter-container mt-3"
 };
-const _hoisted_17 = {
+const _hoisted_16 = {
   class: "container"
 };
-const _hoisted_18 = {
+const _hoisted_17 = {
   class: "filter-card"
 };
-const _hoisted_19 = {
+const _hoisted_18 = {
   class: "filter-header d-flex justify-content-between align-items-center mb-3"
 };
-const _hoisted_20 = {
+const _hoisted_19 = {
   class: "ml-2"
 };
-const _hoisted_21 = {
+const _hoisted_20 = {
   class: "row g-3 align-items-center justify-content-center"
 };
-const _hoisted_22 = {
+const _hoisted_21 = {
   class: "col-12 col-md-6"
 };
-const _hoisted_23 = {
+const _hoisted_22 = {
   class: "input-group"
 };
-const _hoisted_24 = {
+const _hoisted_23 = {
   class: "col-12 col-md-3"
 };
-const _hoisted_25 = ["value"];
+const _hoisted_24 = ["value"];
+const _hoisted_25 = {
+  class: "col-12 col-md-3"
+};
 const _hoisted_26 = {
-  class: "col-12 col-md-3"
-};
-const _hoisted_27 = {
   class: "container py-5"
 };
-const _hoisted_28 = ["onMouseenter"];
-const _hoisted_29 = {
+const _hoisted_27 = ["onMouseenter"];
+const _hoisted_28 = {
   class: "card h-100 animate-card"
 };
-const _hoisted_30 = ["src", "srcset", "sizes", "alt", "loading", "fetchpriority"];
-const _hoisted_31 = {
+const _hoisted_29 = ["src", "srcset", "sizes", "alt", "loading", "fetchpriority"];
+const _hoisted_30 = {
   key: 1,
   class: "skeleton skeleton-image mb-4"
 };
-const _hoisted_32 = ["onClick", "innerHTML"];
-const _hoisted_33 = ["innerHTML"];
-const _hoisted_34 = {
+const _hoisted_31 = ["onClick", "innerHTML"];
+const _hoisted_32 = ["innerHTML"];
+const _hoisted_33 = {
   class: "text-muted"
 };
-const _hoisted_35 = {
+const _hoisted_34 = {
   class: "card-tags"
 };
-const _hoisted_36 = ["innerHTML"];
-const _hoisted_37 = {
+const _hoisted_35 = ["innerHTML"];
+const _hoisted_36 = {
   key: 1,
   class: "text-muted"
 };
-const _hoisted_38 = ["onClick"];
-const _hoisted_39 = {
+const _hoisted_37 = ["onClick"];
+const _hoisted_38 = {
   ref: "infiniteSentinel",
   class: "infinite-sentinel",
   "aria-hidden": "true"
 };
-const _hoisted_40 = {
+const _hoisted_39 = {
   key: 0,
   class: "infinite-loading text-center mt-4"
 };
-const _hoisted_41 = {
+const _hoisted_40 = {
   class: "modal-content container"
 };
-const _hoisted_42 = {
+const _hoisted_41 = {
   class: "modal-header"
 };
-const _hoisted_43 = ["innerHTML"];
-const _hoisted_44 = {
+const _hoisted_42 = ["innerHTML"];
+const _hoisted_43 = {
   class: "modal-body"
 };
-const _hoisted_45 = {
+const _hoisted_44 = {
   class: "modal-meta"
 };
-const _hoisted_46 = {
+const _hoisted_45 = {
   class: "text-muted mb-3"
 };
-const _hoisted_47 = {
+const _hoisted_46 = {
   class: "modal-image-container mb-4"
 };
-const _hoisted_48 = ["src", "srcset", "sizes", "alt"];
-const _hoisted_49 = ["innerHTML"];
-const _hoisted_50 = {
+const _hoisted_47 = ["src", "srcset", "sizes", "alt"];
+const _hoisted_48 = ["innerHTML"];
+const _hoisted_49 = {
   class: "modal-tags mt-3"
 };
-const _hoisted_51 = ["innerHTML"];
-const _hoisted_52 = {
+const _hoisted_50 = ["innerHTML"];
+const _hoisted_51 = {
   key: 1,
   class: "text-muted"
 };
-const _hoisted_53 = {
+const _hoisted_52 = {
   class: "modal-hashtags mt-2"
 };
-const _hoisted_54 = ["innerHTML"];
-const _hoisted_55 = {
+const _hoisted_53 = ["innerHTML"];
+const _hoisted_54 = {
   key: 1,
   class: "text-muted"
 };
-const _hoisted_56 = {
+const _hoisted_55 = {
   key: 0,
   ref: "summarySection",
   class: "modal-summary mt-4"
 };
-const _hoisted_57 = ["innerHTML"];
-const _hoisted_58 = {
+const _hoisted_56 = ["innerHTML"];
+const _hoisted_57 = {
   class: "modal-footer"
 };
-const _hoisted_59 = ["disabled"];
-const _hoisted_60 = {
+const _hoisted_58 = ["disabled"];
+const _hoisted_59 = {
   key: 0
 };
-const _hoisted_61 = {
+const _hoisted_60 = {
   key: 1
 };
-const _hoisted_62 = {
+const _hoisted_61 = {
   key: 1,
   class: "modal-backdrop fade show"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Page Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Insights", -1 /* CACHED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Page Header "), _cache[0] || ((0,vue__WEBPACK_IMPORTED_MODULE_0__.setBlockTracking)(-1, true), (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "page-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Insights", -1 /* CACHED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Delve into a profound collection of spiritual guidance, timeless stories, and divine wisdom drawn from the rich tapestry of the Islamic tradition. Discover insights that illuminate the heart and mind, offering solace, direction, and a deeper connection to faith.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-layout", {
       'btn-active': $data.layoutMode === 'grid'
     }]),
-    onClick: _cache[0] || (_cache[0] = $event => $data.layoutMode = 'grid'),
+    onClick: $event => $data.layoutMode = 'grid',
     "aria-label": "Switch to grid layout",
     "aria-pressed": $data.layoutMode === 'grid'
-  }, [...(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-th-large me-1"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Grid ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Grid ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-layout", {
       'btn-active': $data.layoutMode === 'list'
     }]),
-    onClick: _cache[1] || (_cache[1] = $event => $data.layoutMode = 'list'),
+    onClick: $event => $data.layoutMode = 'list',
     "aria-label": "Switch to list layout",
     "aria-pressed": $data.layoutMode === 'list'
-  }, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-list me-1"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" List ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_7)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Pills Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [$data.showLeftArrow ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" List ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_6)])])])])).cacheIndex = 0, (0,vue__WEBPACK_IMPORTED_MODULE_0__.setBlockTracking)(1), _cache[0]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Pills Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [$data.showLeftArrow ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
-    onClick: _cache[2] || (_cache[2] = (...args) => $options.scrollLeft && $options.scrollLeft(...args)),
+    onClick: _cache[1] || (_cache[1] = (...args) => $options.scrollLeft && $options.scrollLeft(...args)),
     class: "scroll-arrow scroll-arrow-left",
     "aria-label": "Scroll categories left"
-  }, [$data.hasFontAwesome ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_11)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_12, "←"))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [$data.hasFontAwesome ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_10)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_11, "←"))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     ref: "pillsContainer",
     class: "pills-scroll-container",
-    onScroll: _cache[5] || (_cache[5] = (...args) => $options.updateArrowVisibility && $options.updateArrowVisibility(...args))
+    onScroll: _cache[4] || (_cache[4] = (...args) => $options.updateArrowVisibility && $options.updateArrowVisibility(...args))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "pills-list",
     role: "tablist",
     "aria-label": "Categories",
-    onKeydown: [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.focusAdjacentTab(-1), ["prevent"]), ["left"])), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.focusAdjacentTab(1), ["prevent"]), ["right"]))]
+    onKeydown: [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.focusAdjacentTab(-1), ["prevent"]), ["left"])), _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.focusAdjacentTab(1), ["prevent"]), ["right"]))]
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.categories, (category, idx) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: category.id,
@@ -36790,51 +36804,51 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ref: el => $data.categoryTabRefs[idx] = el
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([category.icon, "me-2"])
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_13);
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_12);
   }), 128 /* KEYED_FRAGMENT */))], 32 /* NEED_HYDRATION */)], 544 /* NEED_HYDRATION, NEED_PATCH */), $data.showRightArrow ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
-    onClick: _cache[6] || (_cache[6] = (...args) => $options.scrollRight && $options.scrollRight(...args)),
+    onClick: _cache[5] || (_cache[5] = (...args) => $options.scrollRight && $options.scrollRight(...args)),
     class: "scroll-arrow scroll-arrow-right",
     "aria-label": "Scroll categories right"
-  }, [$data.hasFontAwesome ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_14)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_15, "→"))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search and Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, [$data.hasFontAwesome ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_13)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_14, "→"))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search and Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mb-0 fw-bold"
   }, "Search & Filters", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-sm btn-outline-secondary toggle-btn",
-    onClick: _cache[7] || (_cache[7] = (...args) => $options.toggleFilters && $options.toggleFilters(...args))
+    onClick: _cache[6] || (_cache[6] = (...args) => $options.toggleFilters && $options.toggleFilters(...args))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.filtersVisible ? 'fas fa-chevron-up' : 'fas fa-chevron-down')
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.filtersVisible ? 'Hide Filters' : 'Show Filters'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.filtersVisible ? 'Hide Filters' : 'Show Filters'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["filter-content", {
       'd-none': !$data.filtersVisible
     }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => $data.searchTerm = $event),
-    onInput: _cache[9] || (_cache[9] = (...args) => $options.debounceSearch && $options.debounceSearch(...args)),
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => $data.searchTerm = $event),
+    onInput: _cache[8] || (_cache[8] = (...args) => $options.debounceSearch && $options.debounceSearch(...args)),
     type: "text",
     class: "form-control form-control-lg",
     placeholder: "Search blogs (min 3 chars)...",
     "aria-label": "Search blogs"
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchTerm]]), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchTerm]]), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "input-group-text"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-search text-white"
-  })], -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[10] || (_cache[10] = $event => $data.selectedTag = $event),
+  })], -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[9] || (_cache[9] = $event => $data.selectedTag = $event),
     class: "form-select form-select-lg",
     "aria-label": "Filter by tag"
-  }, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "all"
   }, "Categories", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.uniqueTags, tag => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: tag,
       value: tag
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 9 /* TEXT, PROPS */, _hoisted_25);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTag]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[11] || (_cache[11] = $event => $data.sortBy = $event),
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 9 /* TEXT, PROPS */, _hoisted_24);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTag]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[10] || (_cache[10] = $event => $data.sortBy = $event),
     class: "form-select form-select-lg",
     "aria-label": "Sort blogs",
-    onChange: _cache[12] || (_cache[12] = (...args) => _ctx.handleSortChange && _ctx.handleSortChange(...args))
-  }, [...(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    onChange: _cache[11] || (_cache[11] = (...args) => _ctx.handleSortChange && _ctx.handleSortChange(...args))
+  }, [...(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "newest",
     selected: ""
   }, "Newest", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
@@ -36843,7 +36857,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: "nameZA"
   }, "Name Z-A", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "oldest"
-  }, "Oldest", -1 /* CACHED */)]))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])])])], 2 /* CLASS */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Blog Layout "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Oldest", -1 /* CACHED */)]))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])])])], 2 /* CLASS */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Blog Layout "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["row", {
       'list-layout': $data.layoutMode === 'list'
     }])
@@ -36859,7 +36873,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ref_for: true,
       ref: el => $options.observeBlog(el, blog.id),
       onMouseenter: $event => $options.onCardMouseEnter(blog)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-image-container", {
         'container': $data.layoutMode === 'grid',
         'container-fluid': $data.layoutMode === 'list'
@@ -36877,17 +36891,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       loading: index < 4 ? 'eager' : 'lazy',
       decoding: "async",
       fetchpriority: index < 4 ? 'high' : 'auto'
-    }, null, 8 /* PROPS */, _hoisted_30)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, null, 8 /* PROPS */, _hoisted_29)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       class: "card-title",
       onClick: $event => $options.openModal(blog),
       "aria-label": "Read full blog post",
       innerHTML: $options.highlight(blog.title)
-    }, null, 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-text", {
         'list-content': $data.layoutMode === 'list'
       }]),
       innerHTML: $options.highlight(blog.excerpt)
-    }, null, 10 /* CLASS, PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_34, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(blog.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, null, 10 /* CLASS, PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_33, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(blog.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       class: "me-2"
     }, "Tags:", -1 /* CACHED */)), blog.tags && blog.tags.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: 0
@@ -36896,37 +36910,37 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: tag,
         class: "badge me-2 mb-2",
         innerHTML: $options.highlight(tag)
-      }, null, 8 /* PROPS */, _hoisted_36);
-    }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_37, "No tags available"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_35);
+    }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_36, "No tags available"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "read-more mt-4",
       onClick: $event => $options.openModal(blog),
       "aria-label": "Read full blog post"
-    }, [...(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Read More ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Read More ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "ms-1 fas fa-arrow-right"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_38)], 2 /* CLASS */)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_28);
-  }), 128 /* KEYED_FRAGMENT */))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Infinite Scroll Sentinel + Loader "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, null, 512 /* NEED_PATCH */), $data.loadingMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [...(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_37)], 2 /* CLASS */)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_27);
+  }), 128 /* KEYED_FRAGMENT */))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Infinite Scroll Sentinel + Loader "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, null, 512 /* NEED_PATCH */), $data.loadingMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [...(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-spinner fa-spin me-2"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Loading more… ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal for Full Blog Content "), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     class: "modal show d-block animate-modal",
     tabindex: "-1",
     role: "dialog",
-    onClick: _cache[17] || (_cache[17] = (...args) => $options.closeModal && $options.closeModal(...args))
+    onClick: _cache[16] || (_cache[16] = (...args) => $options.closeModal && $options.closeModal(...args))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-dialog modal-xl modal-dialog-centered",
     role: "document",
-    onClick: _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    onClick: _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     class: "modal-title",
     innerHTML: $options.highlight($data.selectedBlog.title)
-  }, null, 8 /* PROPS */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 8 /* PROPS */, _hoisted_42), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x-circle-fill h3",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[13] || (_cache[13] = (...args) => $options.closeModal && $options.closeModal(...args)),
+    onClick: _cache[12] || (_cache[12] = (...args) => $options.closeModal && $options.closeModal(...args)),
     "aria-label": "Close modal"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_46, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.selectedBlog.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_45, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.selectedBlog.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: $data.selectedBlog.image,
     srcset: $options.generateSrcSet($data.selectedBlog.image),
     sizes: $options.modalSizes,
@@ -36934,10 +36948,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     alt: $data.selectedBlog.title,
     decoding: "async",
     fetchpriority: "high"
-  }, null, 8 /* PROPS */, _hoisted_48)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, _hoisted_47)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-content-text",
     innerHTML: $options.highlight($data.selectedBlog.content)
-  }, null, 8 /* PROPS */, _hoisted_49), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+  }, null, 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     class: "me-2 fs-5"
   }, "Tags:", -1 /* CACHED */)), $data.selectedBlog.tags && $data.selectedBlog.tags.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
@@ -36946,8 +36960,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: tag,
       class: "badge me-2 mb-2",
       innerHTML: $options.highlight(tag)
-    }, null, 8 /* PROPS */, _hoisted_51);
-  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_52, "No tags available"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, null, 8 /* PROPS */, _hoisted_50);
+  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_51, "No tags available"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     class: "me-2 fs-5"
   }, "Hashtags:", -1 /* CACHED */)), $data.selectedBlog.hashtags && $data.selectedBlog.hashtags.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
@@ -36956,29 +36970,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: hashtag,
       class: "hashtag me-2",
       innerHTML: $options.highlight(hashtag)
-    }, null, 8 /* PROPS */, _hoisted_54);
-  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_55, "No hashtags available"))]), $data.summaryText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, null, 8 /* PROPS */, _hoisted_53);
+  }), 128 /* KEYED_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_54, "No hashtags available"))]), $data.summaryText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_55, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Summary:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     innerHTML: $data.summaryText
-  }, null, 8 /* PROPS */, _hoisted_57)], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, null, 8 /* PROPS */, _hoisted_56)], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     type: "button",
     class: "btn",
-    onClick: _cache[14] || (_cache[14] = $event => $options.shareToWhatsApp($data.selectedBlog)),
+    onClick: _cache[13] || (_cache[13] = $event => $options.shareToWhatsApp($data.selectedBlog)),
     "aria-label": "Share blog to WhatsApp"
-  }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Share "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Share "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "ms-1 fas fa-share"
   })], -1 /* CACHED */)]))])), [[_directive_tooltip, 'Share to WhatsApp']]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     type: "button",
     class: "btn",
-    onClick: _cache[15] || (_cache[15] = (...args) => $options.summarizeBlog && $options.summarizeBlog(...args)),
+    onClick: _cache[14] || (_cache[14] = (...args) => $options.summarizeBlog && $options.summarizeBlog(...args)),
     disabled: $data.summaryLoading,
     "aria-label": "Generate summary"
-  }, [$data.summaryLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_60, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [$data.summaryLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_59, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-spinner fa-spin"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Generating...", -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_61, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Generate Summary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Generating...", -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_60, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Generate Summary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "ms-1 fas fa-book"
-  })], -1 /* CACHED */)]))]))], 8 /* PROPS */, _hoisted_59)), [[_directive_tooltip, 'Generate summary']])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_62)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  })], -1 /* CACHED */)]))]))], 8 /* PROPS */, _hoisted_58)), [[_directive_tooltip, 'Generate summary']])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedBlog ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_61)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
