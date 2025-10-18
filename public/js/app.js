@@ -8406,6 +8406,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+// Hoisted constants to avoid reallocation on renders
+const DIRS_16 = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+const DIR_TO_ICON = {
+  N: "bi-arrow-up",
+  NNE: "bi-arrow-up-right",
+  NE: "bi-arrow-up-right",
+  ENE: "bi-arrow-up-right",
+  E: "bi-arrow-right",
+  ESE: "bi-arrow-down-right",
+  SE: "bi-arrow-down-right",
+  SSE: "bi-arrow-down-right",
+  S: "bi-arrow-down",
+  SSW: "bi-arrow-down-left",
+  SW: "bi-arrow-down-left",
+  WSW: "bi-arrow-down-left",
+  W: "bi-arrow-left",
+  WNW: "bi-arrow-up-left",
+  NW: "bi-arrow-up-left",
+  NNW: "bi-arrow-up-left"
+};
+let rafId = null;
+const DEGREE_EPS = 0.5;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "QiblaFinder",
   data() {
@@ -8456,6 +8478,22 @@ __webpack_require__.r(__webpack_exports__);
       if (deg < 0) deg += 360;
       return deg.toFixed(1);
     },
+    // Pre-format frequently shown values to reduce template work
+    computedBearing() {
+      return this.qiblaDirection == null ? "" : this.qiblaDirection.toFixed(1);
+    },
+    distanceKmRounded() {
+      return this.distanceToKaaba == null ? "" : this.distanceToKaaba.toFixed(0);
+    },
+    distanceMiRounded() {
+      return this.distanceToKaabaMiles == null ? "" : this.distanceToKaabaMiles.toFixed(0);
+    },
+    userLatFmt() {
+      return this.userLatitude == null ? "" : this.userLatitude.toFixed(4);
+    },
+    userLonFmt() {
+      return this.userLongitude == null ? "" : this.userLongitude.toFixed(4);
+    },
     relativeDirection() {
       if (this.qiblaDirection == null) return "";
       let deg = this.qiblaDirection % 360;
@@ -8466,25 +8504,7 @@ __webpack_require__.r(__webpack_exports__);
       return "Face South";
     },
     directionIconClass() {
-      const map = {
-        N: "bi-arrow-up",
-        NNE: "bi-arrow-up-right",
-        NE: "bi-arrow-up-right",
-        ENE: "bi-arrow-up-right",
-        E: "bi-arrow-right",
-        ESE: "bi-arrow-down-right",
-        SE: "bi-arrow-down-right",
-        SSE: "bi-arrow-down-right",
-        S: "bi-arrow-down",
-        SSW: "bi-arrow-down-left",
-        SW: "bi-arrow-down-left",
-        WSW: "bi-arrow-down-left",
-        W: "bi-arrow-left",
-        WNW: "bi-arrow-up-left",
-        NW: "bi-arrow-up-left",
-        NNW: "bi-arrow-up-left"
-      };
-      return map[this.qiblaCardinalDirection] || "bi-arrow-up";
+      return DIR_TO_ICON[this.qiblaCardinalDirection] || "bi-arrow-up";
     },
     qiblaCardinalDirectionText() {
       const map = {
@@ -8544,20 +8564,44 @@ __webpack_require__.r(__webpack_exports__);
       this.loading = true;
       this.error = "";
       try {
-        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(this.searchLocation)}&format=json&limit=1`);
-        const data = await response.json();
-        if (data.length) {
-          this.userLatitude = parseFloat(data[0].lat);
-          this.userLongitude = parseFloat(data[0].lon);
+        const key = this.cacheKeyGeo(this.searchLocation);
+        const cached = sessionStorage.getItem(key);
+        if (cached) {
+          const {
+            lat,
+            lon
+          } = JSON.parse(cached);
+          this.userLatitude = lat;
+          this.userLongitude = lon;
           this.location = {
-            lat: this.userLatitude,
-            lon: this.userLongitude
+            lat,
+            lon
           };
           this.calculateQibla();
           this.getPrayerTimes();
           this.lastUpdated = new Date().toLocaleString();
         } else {
-          this.error = "Location not found. Please try another search.";
+          const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(this.searchLocation)}&format=json&limit=1`);
+          const data = await response.json();
+          if (data.length) {
+            const lat = parseFloat(data[0].lat);
+            const lon = parseFloat(data[0].lon);
+            sessionStorage.setItem(key, JSON.stringify({
+              lat,
+              lon
+            }));
+            this.userLatitude = lat;
+            this.userLongitude = lon;
+            this.location = {
+              lat,
+              lon
+            };
+            this.calculateQibla();
+            this.getPrayerTimes();
+            this.lastUpdated = new Date().toLocaleString();
+          } else {
+            this.error = "Location not found. Please try another search.";
+          }
         }
       } catch (error) {
         this.error = "Failed to fetch location data. Please check your connection.";
@@ -8586,12 +8630,34 @@ __webpack_require__.r(__webpack_exports__);
         this.lastUpdated = new Date().toLocaleString();
         this.loading = false;
       }, error => {
-        this.error = `Could not get location: ${error.message}`;
+        // Retry once with high accuracy if permitted and not a permission issue
+        if (error.code !== error.PERMISSION_DENIED) {
+          navigator.geolocation.getCurrentPosition(pos => {
+            this.userLatitude = pos.coords.latitude;
+            this.userLongitude = pos.coords.longitude;
+            this.accuracy = pos.coords.accuracy;
+            this.location = {
+              lat: this.userLatitude,
+              lon: this.userLongitude
+            };
+            this.calculateQibla();
+            this.getPrayerTimes();
+            this.lastUpdated = new Date().toLocaleString();
+          }, e2 => {
+            this.error = `Could not get location: ${e2.message}`;
+          }, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+          });
+        } else {
+          this.error = `Could not get location: ${error.message}`;
+        }
         this.loading = false;
       }, {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
+        enableHighAccuracy: false,
+        timeout: 7000,
+        maximumAge: 300000
       });
     },
     calculateQibla() {
@@ -8603,12 +8669,10 @@ __webpack_require__.r(__webpack_exports__);
       const lon2 = kaabaLon * Math.PI / 180;
       const y = Math.sin(lon2 - lon1) * Math.cos(lat2);
       const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1);
-      const degrees = Math.atan2(y, x) * 180 / Math.PI;
-      this.qiblaDirection = degrees;
-      const directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
-      const normalizedDegrees = degrees < 0 ? degrees + 360 : degrees;
-      const index = Math.round(normalizedDegrees % 360 / 22.5);
-      this.qiblaCardinalDirection = directions[index % 16];
+      const deg = (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+      this.qiblaDirection = deg;
+      const index = Math.round(deg / 22.5) % 16;
+      this.qiblaCardinalDirection = DIRS_16[index];
       const R = 6371;
       const dLat = lat2 - lat1;
       const dLon = lon2 - lon1;
@@ -8620,15 +8684,19 @@ __webpack_require__.r(__webpack_exports__);
     handleOrientation(event) {
       const alpha = event.alpha;
       let newRotation;
-      if (alpha === null) {
-        newRotation = event.webkitCompassHeading || 360 - event.alpha;
+      if (alpha == null) {
+        var _event$webkitCompassH;
+        newRotation = (_event$webkitCompassH = event.webkitCompassHeading) !== null && _event$webkitCompassH !== void 0 ? _event$webkitCompassH : 0;
       } else {
         newRotation = 360 - alpha;
       }
-      // Smooth rotation using exponential moving average
-      const smoothingFactor = 0.1;
-      this.compassRotation = this.compassRotation ? (1 - smoothingFactor) * this.compassRotation + smoothingFactor * newRotation : newRotation;
-      this.isCalibrated = event.webkitCompassAccuracy && event.webkitCompassAccuracy < 30 || this.accuracy < 30;
+      if (Math.abs(newRotation - this.compassRotation) < DEGREE_EPS) return;
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        this.compassRotation = newRotation;
+        rafId = null;
+      });
+      this.isCalibrated = event.webkitCompassAccuracy && event.webkitCompassAccuracy < 30 || this.accuracy != null && this.accuracy < 30;
     },
     speakQiblaDirection() {
       if (!this.qiblaDirection) {
@@ -8719,6 +8787,15 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.userLatitude) return;
       this.error = "";
       try {
+        const key = this.cacheKeyPrayer();
+        const cached = key ? sessionStorage.getItem(key) : null;
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          this.prayerTimes = parsed.prayerTimes;
+          this.hijriDate = parsed.hijriDate;
+          this.timezone = parsed.timezone;
+          return;
+        }
         const response = await fetch(`https://api.aladhan.com/v1/timings?latitude=${this.userLatitude}&longitude=${this.userLongitude}&method=${this.calculationMethod}`);
         const data = await response.json();
         if (data.code === 200) {
@@ -8744,6 +8821,13 @@ __webpack_require__.r(__webpack_exports__);
           };
           this.hijriDate = data.data.date.hijri.date;
           this.timezone = data.data.meta.timezone;
+          if (key) {
+            sessionStorage.setItem(key, JSON.stringify({
+              prayerTimes: this.prayerTimes,
+              hijriDate: this.hijriDate,
+              timezone: this.timezone
+            }));
+          }
         } else {
           this.error = "Could not fetch prayer times.";
           this.prayerTimes = null;
@@ -8752,6 +8836,15 @@ __webpack_require__.r(__webpack_exports__);
         this.error = "Failed to fetch prayer times.";
         this.prayerTimes = null;
       }
+    },
+    cacheKeyPrayer() {
+      if (!this.userLatitude || !this.userLongitude) return null;
+      const lat = this.userLatitude.toFixed(4);
+      const lon = this.userLongitude.toFixed(4);
+      return `pt:${lat},${lon},m:${this.calculationMethod}`;
+    },
+    cacheKeyGeo(q) {
+      return `geo:${q.trim().toLowerCase()}`;
     },
     toggleFullscreen() {
       const el = this.$refs.qiblaFinder;
@@ -8777,18 +8870,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted() {
     this.loadVoices();
-    window.speechSynthesis.onvoiceschanged = this.loadVoices;
+    if (typeof window.speechSynthesis !== "undefined") {
+      window.speechSynthesis.onvoiceschanged = this.loadVoices;
+    }
     this.fetchQiblaDirection();
     if (typeof DeviceOrientationEvent !== "undefined" && "ondeviceorientationabsolute" in window) {
       this.sensorSupported = true;
-      window.addEventListener("deviceorientationabsolute", this.handleOrientation, true);
+      window.addEventListener("deviceorientationabsolute", this.handleOrientation, {
+        capture: true,
+        passive: true
+      });
     } else if (typeof DeviceOrientationEvent !== "undefined") {
       this.sensorSupported = true;
-      window.addEventListener("deviceorientation", this.handleOrientation, true);
-    }
-    this.populateVoiceList();
-    if (typeof speechSynthesis !== "undefined" && speechSynthesis.onvoiceschanged !== undefined) {
-      speechSynthesis.onvoiceschanged = this.populateVoiceList;
+      window.addEventListener("deviceorientation", this.handleOrientation, {
+        capture: true,
+        passive: true
+      });
     }
   },
   beforeDestroy() {
@@ -8799,6 +8896,7 @@ __webpack_require__.r(__webpack_exports__);
     if (typeof speechSynthesis !== "undefined") {
       speechSynthesis.onvoiceschanged = null;
     }
+    if (rafId) cancelAnimationFrame(rafId);
   }
 });
 
@@ -34914,7 +35012,6 @@ const _hoisted_46 = {
   class: "card card-custom mt-4"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$data$qiblaDirection, _$data$distanceToKaab, _$data$distanceToKaab2, _$data$userLatitude, _$data$userLongitude;
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     class: "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
@@ -34997,15 +35094,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "text-muted"
   }, "Direction", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $options.directionIconClass])
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$qiblaDirection = $data.qiblaDirection) === null || _$data$qiblaDirection === void 0 ? void 0 : _$data$qiblaDirection.toFixed(1)) + "° (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.qiblaCardinalDirection) + ") ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_18, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.computedBearing) + "° (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.qiblaCardinalDirection) + ") ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_18, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-muted"
   }, "Bearing from North", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.qiblaBearing) + "° clockwise", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_20, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-muted"
   }, "Relative Dir", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.relativeDirection), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_22, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-muted"
-  }, "Distance", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab = $data.distanceToKaaba) === null || _$data$distanceToKaab === void 0 ? void 0 : _$data$distanceToKaab.toFixed(0)) + " km / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab2 = $data.distanceToKaabaMiles) === null || _$data$distanceToKaab2 === void 0 ? void 0 : _$data$distanceToKaab2.toFixed(0)) + " mi", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_24, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Distance", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.distanceKmRounded) + " km / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.distanceMiRounded) + " mi", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_24, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-muted"
-  }, "Your Coordinates", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLatitude = $data.userLatitude) === null || _$data$userLatitude === void 0 ? void 0 : _$data$userLatitude.toFixed(4)) + "°, " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLongitude = $data.userLongitude) === null || _$data$userLongitude === void 0 ? void 0 : _$data$userLongitude.toFixed(4)) + "°", 1 /* TEXT */)]), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+  }, "Your Coordinates", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.userLatFmt) + "°, " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.userLonFmt) + "°", 1 /* TEXT */)]), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     class: "list-group-item d-flex justify-content-between align-items-center py-3 px-3",
     role: "listitem"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
