@@ -284,8 +284,16 @@
                   </div>
                 </div>
 
-                <!-- Chart -->
-                <!-- <canvas ref="zakatChart" id="zakatChart" class="mb-4"></canvas> -->
+                <!-- Charts Toggle + Canvas -->
+                <div class="summary-item mb-3">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="showChartsSwitch" v-model="showCharts">
+                    <label class="form-check-label" for="showChartsSwitch">Show asset breakdown chart</label>
+                  </div>
+                </div>
+                <div v-if="showCharts" class="chart-container mb-4">
+                  <canvas ref="zakatChart" id="zakatChart"></canvas>
+                </div>
 
                 <!-- Nisab Threshold -->
                 <div class="summary-item mb-4">
@@ -364,8 +372,6 @@
 </template>
 
 <script>
-import { Chart, registerables } from 'chart.js';
-Chart.register(...registerables);
 
 export default {
   name: 'ZakatCalculator',
@@ -380,6 +386,8 @@ export default {
   data() {
     return {
       chartInstance: null,
+      ChartCtor: null,
+      showCharts: false,
       zakatCalculated: false,
       isLoadingPrices: false,
       hawlMet: true,
@@ -494,7 +502,21 @@ export default {
       return this.zakatableAmount >= this.nisabThreshold || this.agriculturalZakat > 0;
     },
     isFormValid() {
-      return this.validateForm();
+      const values = [
+        this.goldGrams,
+        this.goldPrice,
+        this.silverGrams,
+        this.silverPrice,
+        this.cash,
+        this.investments,
+        this.businessAssets,
+        this.realEstate,
+        this.otherAssets,
+        this.agriculturalProduce,
+        this.liabilities,
+        this.otherLiabilities,
+      ];
+      return values.every(v => typeof v === 'number' && v >= 0);
     },
     assetBreakdown() {
       return {
@@ -574,21 +596,25 @@ export default {
         if (window.innerWidth <= 768 && this.$refs.zakatSummary) {
           this.$refs.zakatSummary.scrollIntoView({ behavior: 'smooth' });
         }
-        this.renderChart();
+        this.renderChartIfReady();
       });
     },
-    renderChart() {
-      if (this.chartInstance) {
-        this.chartInstance.destroy();
-      }
-
-      const ctx = this.$refs.zakatChart?.getContext('2d');
+    async ensureChartLoaded() {
+      if (this.ChartCtor) return;
+      const mod = await import('chart.js/auto');
+      this.ChartCtor = mod.default || mod;
+    },
+    async renderChartIfReady() {
+      if (!this.showCharts) return this.destroyChart();
+      await this.ensureChartLoaded();
+      const canvas = this.$refs.zakatChart;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
       if (!ctx) return;
-
       const assetValues = Object.values(this.assetBreakdown).filter(v => v > 0);
       const assetLabels = Object.keys(this.assetBreakdown).filter(k => this.assetBreakdown[k] > 0);
-
-      this.chartInstance = new Chart(ctx, {
+      if (this.chartInstance) this.chartInstance.destroy();
+      this.chartInstance = new this.ChartCtor(ctx, {
         type: 'doughnut',
         data: {
           labels: assetLabels,
@@ -605,18 +631,13 @@ export default {
         options: {
           responsive: true,
           plugins: {
-            legend: {
-              position: 'bottom',
-              labels: {
-                padding: 15,
-              },
-            },
+            legend: { position: 'bottom', labels: { padding: 15 } },
             tooltip: {
               callbacks: {
                 label: (context) => {
                   const label = context.label || '';
                   const value = context.raw || 0;
-                  return `${label}: ${this.currencySymbol}${value.toLocaleString()}`;
+                  return `${label}: ${this.currencySymbol}${Number(value).toLocaleString()}`;
                 },
               },
             },
@@ -624,6 +645,12 @@ export default {
           cutout: '60%',
         },
       });
+    },
+    destroyChart() {
+      if (this.chartInstance) {
+        this.chartInstance.destroy();
+        this.chartInstance = null;
+      }
     },
     printSummary() {
       const content = this.$refs.zakatSummary.innerHTML;
@@ -820,11 +847,8 @@ export default {
       }
     },
     resetCalculator() {
-      if (this.chartInstance) {
-        this.chartInstance.destroy();
-        this.chartInstance = null;
-      }
-
+      this.destroyChart();
+      this.showCharts = false;
       this.hawlMet = true;
       this.goldGrams = 0;
       this.goldPrice = 0;
@@ -873,7 +897,17 @@ export default {
       this.faqs[index].isOpen = !this.faqs[index].isOpen;
     },
   },
-  watch: {},
+  watch: {
+    showCharts() {
+      this.$nextTick(() => this.renderChartIfReady());
+    },
+    assetBreakdown: {
+      deep: true,
+      handler() {
+        if (this.zakatCalculated) this.renderChartIfReady();
+      },
+    },
+  },
   mounted() {
     this.$refs.zakatCalculator?.focus();
   },
