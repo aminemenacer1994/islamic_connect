@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div id="app">
+<div>
     <video-component></video-component>
 <div>
     {{-- @include('layouts.footer') --}}

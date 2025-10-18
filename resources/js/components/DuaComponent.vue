@@ -16,6 +16,17 @@
       </div>
     </transition>
 
+    <!-- Loading/Empty States -->
+    <div v-if="isLoading && !errorMessage" class="text-center my-5">
+      <div class="spinner-border text-success" role="status" aria-label="Loading"></div>
+      <div class="mt-2 text-muted">Loading duas…</div>
+    </div>
+    <div v-else-if="!isLoading && !errorMessage && filteredCategories.length === 0" class="text-center my-5">
+      <div class="alert alert-info text-center no-duas-message" role="status">
+        {{ viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found' }}
+      </div>
+    </div>
+
     <!-- Custom Search Tags -->
     <!-- <div class="container mb-4">
       <div class="search-tags d-flex overflow-auto pb-2">
@@ -295,6 +306,7 @@ export default {
       showScrollToTop: false,
       actionFeedback: {},
       errorMessage: null,
+      isLoading: true,
     };
   },
   computed: {
@@ -542,12 +554,14 @@ export default {
     },
   },
   created() {
+    try { console.debug('[DuaComponent] created()'); } catch(e) {}
     const storedLikedDuas = localStorage.getItem('likedDuas');
     if (storedLikedDuas) {
       this.likedDuas = JSON.parse(storedLikedDuas);
     }
 
-    fetch('/duaCollection.json')
+    // Robust path for JSON under public/
+    fetch(`${window.location.origin}/duaCollection.json`)
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -558,6 +572,7 @@ export default {
         if (!data.categories || !Array.isArray(data.categories)) {
           throw new Error('Invalid JSON structure: categories not found or not an array');
         }
+        try { console.debug('[DuaComponent] loaded categories:', data.categories.length); } catch(e) {}
         this.duaCollection = data.categories.map(category => ({
           ...category,
           collapsed: false,
@@ -580,8 +595,11 @@ export default {
       .catch(error => {
         console.error('Error loading dua collection:', error);
         this.errorMessage = 'Failed to load dua collection. Please try again later.';
+      })
+      .finally(() => {
+        this.isLoading = false;
       });
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll, { passive: true });
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);

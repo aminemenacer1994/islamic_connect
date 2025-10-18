@@ -1,11 +1,14 @@
 
 import axios from 'axios';
 
-// Import Bootstrap styles and JavaScript
-import 'bootstrap';
+// Ensure jQuery is available globally before AdminLTE
+import $ from 'jquery';
+window.$ = window.jQuery = $;
 
-// Import AdminLTE styles and JavaScript
+// Import Bootstrap and AdminLTE JavaScript
+import 'bootstrap';
 import 'admin-lte';
+
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
