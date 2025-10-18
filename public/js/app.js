@@ -1195,40 +1195,62 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+// Non-reactive constants
+const EVENTS_MAP = {
+  '1-1': ['Islamic New Year'],
+  '1-10': ['Day of Ashura'],
+  '3-12': ['Mawlid al-Nabi'],
+  '9-1': ['Beginning of Ramadan'],
+  '9-27': ['Laylat al-Qadr'],
+  '10-1': ['Eid al-Fitr'],
+  '12-10': ['Eid al-Adha'],
+  '12-18': ['Day of Arafah']
+};
+const GREGORIAN_SHORT = {
+  January: 'Jan',
+  February: 'Feb',
+  March: 'Mar',
+  April: 'Apr',
+  May: 'May',
+  June: 'Jun',
+  July: 'Jul',
+  August: 'Aug',
+  September: 'Sep',
+  October: 'Oct',
+  November: 'Nov',
+  December: 'Dec'
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data() {
     const currentDate = new Date();
+    const todayISO = new Date().toISOString().split('T')[0];
+    const yearRange = Array.from({
+      length: 21
+    }, (_, i) => 1440 + i);
     return {
       currentMonth: currentDate.getMonth(),
       currentYear: currentDate.getFullYear(),
       weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       islamicMonths: ['Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani', 'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Sha\'ban', 'Ramadan', 'Shawwal', 'Dhu al-Qi\'dah', 'Dhu al-Hijjah'],
       calendarData: [],
-      yearRange: [],
+      yearRange,
       loading: false,
       selectedDay: null,
       prayerTimes: null,
-      events: {
-        '1-1': ['Islamic New Year'],
-        '1-10': ['Day of Ashura'],
-        '3-12': ['Mawlid al-Nabi'],
-        '9-1': ['Beginning of Ramadan'],
-        '9-27': ['Laylat al-Qadr'],
-        '10-1': ['Eid al-Fitr'],
-        '12-10': ['Eid al-Adha'],
-        '12-18': ['Day of Arafah']
-      },
+      todayISO,
+      prayerLoading: false,
+      // Caches
+      calendarCache: Object.create(null),
+      // key: YYYY-M -> days[]
+      prayerCache: Object.create(null),
+      // key: YYYY-MM-DD -> timings
+      // Debounce/schedule fetch
+      fetchTimerId: null,
+      gregorianShort: GREGORIAN_SHORT,
       focusIndex: 0
     };
   },
   computed: {
-    yearRange() {
-      const years = [];
-      for (let year = 1440; year <= 1460; year++) {
-        years.push(year);
-      }
-      return years;
-    },
     calendarWeeks() {
       if (!this.calendarData.length) return [];
       const weeks = [];
@@ -1260,12 +1282,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
   },
   methods: {
     cellCount() {
-      return this.calendarWeeks.reduce((acc, w) => acc + w.length, 0);
+      return this.calendarWeeks.length * 7;
     },
     flatIndexOf(weekIndex, dayIndex) {
-      let idx = 0;
-      for (let i = 0; i < weekIndex; i++) idx += this.calendarWeeks[i].length;
-      return idx + dayIndex;
+      return weekIndex * 7 + dayIndex;
     },
     computeTabIndex(weekIndex, dayIndex, day) {
       if (!day) return -1;
@@ -1305,33 +1325,14 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           break;
         case 'Home':
           {
-            // Move to start of current row
-            let sum = 0,
-              rowStart = 0,
-              rowEnd = 0;
-            for (let i = 0; i < this.calendarWeeks.length; i++) {
-              const len = this.calendarWeeks[i].length;
-              rowEnd = sum + len - 1;
-              if (this.focusIndex >= sum && this.focusIndex <= rowEnd) {
-                rowStart = sum;
-                break;
-              }
-              sum += len;
-            }
+            const rowStart = Math.floor(this.focusIndex / 7) * 7;
             this.setFocusIndex(rowStart);
             break;
           }
         case 'End':
           {
-            // Move to end of current row
-            let sum = 0,
-              rowEnd = 0;
-            for (let i = 0; i < this.calendarWeeks.length; i++) {
-              const len = this.calendarWeeks[i].length;
-              rowEnd = sum + len - 1;
-              if (this.focusIndex >= sum && this.focusIndex <= rowEnd) break;
-              sum += len;
-            }
+            const rowStart = Math.floor(this.focusIndex / 7) * 7;
+            const rowEnd = Math.min(this.cellCount() - 1, rowStart + 6);
             this.setFocusIndex(rowEnd);
             break;
           }
@@ -1358,12 +1359,24 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       const hijriName = this.islamicMonths[day.hijri.month.number - 1] || '';
       return `${day.hijri.day} ${hijriName} ${day.hijri.year} AH, ${day.gregorian.day} ${day.gregorian.month.en} ${day.gregorian.year}`;
     },
+    scheduleFetch() {
+      if (this.fetchTimerId) clearTimeout(this.fetchTimerId);
+      this.fetchTimerId = setTimeout(() => {
+        this.fetchCalendarData();
+      }, 150);
+    },
     async fetchCalendarData() {
       this.loading = true;
       try {
-        const response = await fetch(`https://api.aladhan.com/v1/gToHCalendar/${this.currentMonth + 1}/${this.currentYear}?adjustment=0`);
-        const data = await response.json();
-        this.calendarData = data.data;
+        const key = `${this.currentYear}-${this.currentMonth + 1}`;
+        if (this.calendarCache[key]) {
+          this.calendarData = this.calendarCache[key];
+        } else {
+          const response = await fetch(`https://api.aladhan.com/v1/gToHCalendar/${this.currentMonth + 1}/${this.currentYear}?adjustment=0`);
+          const data = await response.json();
+          this.calendarData = data.data;
+          this.calendarCache[key] = data.data;
+        }
       } catch (error) {
         console.error("Error fetching calendar data:", error);
         this.calculateLocalCalendar();
@@ -1403,13 +1416,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     getEventsForDay(day, month) {
       const key = `${Number(month)}-${Number(day)}`;
-      return this.events[key] || [];
+      return EVENTS_MAP[key] || [];
     },
     isCurrentDay(day) {
       if (!day) return false;
-      const today = new Date();
-      const [year, month, date] = day.gregorian.date.split('-').map(Number);
-      return today.getDate() === date && today.getMonth() + 1 === month && today.getFullYear() === year;
+      return day.gregorian.date === this.todayISO;
     },
     previousMonth() {
       if (this.currentMonth === 0) {
@@ -1432,23 +1443,23 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     async showDayDetails(day) {
       if (!day) return;
       this.selectedDay = day;
+      const dateKey = day.gregorian.date;
       try {
-        const response = await fetch(`https://api.aladhan.com/v1/timings/${day.gregorian.date}?latitude=51.508515&longitude=-0.1254872&method=2`);
-        const data = await response.json();
-        this.prayerTimes = data.data.timings;
+        this.prayerLoading = true;
+        if (this.prayerCache[dateKey]) {
+          this.prayerTimes = this.prayerCache[dateKey];
+        } else {
+          const response = await fetch(`https://api.aladhan.com/v1/timings/${dateKey}?latitude=51.508515&longitude=-0.1254872&method=2`);
+          const data = await response.json();
+          this.prayerTimes = data.data.timings;
+          this.prayerCache[dateKey] = data.data.timings;
+        }
       } catch (error) {
         console.error("Error fetching prayer times:", error);
         this.prayerTimes = null;
+      } finally {
+        this.prayerLoading = false;
       }
-    },
-    async created() {
-      // Assuming fetchYearRange is a method that populates the yearRange
-      await this.fetchYearRange();
-      console.log(this.yearRange); // Ensure data is fetched and available
-    },
-    async fetchYearRange() {
-      // Fetch data from API or generate year range
-      this.yearRange = [];
     }
   },
   mounted() {
@@ -27376,18 +27387,22 @@ const _hoisted_26 = {
 };
 const _hoisted_27 = {
   key: 1,
-  class: "prayer-times"
+  class: "text-center my-2"
 };
 const _hoisted_28 = {
-  class: "row"
+  key: 2,
+  class: "prayer-times"
 };
 const _hoisted_29 = {
-  class: "prayer-time d-flex justify-content-between"
+  class: "row"
 };
 const _hoisted_30 = {
-  class: "fw-semibold"
+  class: "prayer-time d-flex justify-content-between"
 };
 const _hoisted_31 = {
+  class: "fw-semibold"
+};
+const _hoisted_32 = {
   class: "modal-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -27404,7 +27419,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-chevron-left"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous ", -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Center: Month & Year Selectors "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.currentMonth = $event),
-    onChange: _cache[2] || (_cache[2] = (...args) => $options.fetchCalendarData && $options.fetchCalendarData(...args)),
+    onChange: _cache[2] || (_cache[2] = (...args) => $options.scheduleFetch && $options.scheduleFetch(...args)),
     class: "form-select",
     style: {
       "min-width": "140px"
@@ -27416,12 +27431,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(month), 9 /* TEXT, PROPS */, _hoisted_6);
   }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.currentMonth]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $data.currentYear = $event),
-    onChange: _cache[4] || (_cache[4] = (...args) => $options.fetchCalendarData && $options.fetchCalendarData(...args)),
+    onChange: _cache[4] || (_cache[4] = (...args) => $options.scheduleFetch && $options.scheduleFetch(...args)),
     class: "form-select",
     style: {
       "min-width": "140px"
     }
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.yearRange, year => {
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.yearRange, year => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       value: year,
       key: year
@@ -27455,7 +27470,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(week, (day, dayIndex) => {
       var _day$events;
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-        key: dayIndex,
+        key: day ? day.gregorian.date : 'empty-' + weekIndex + '-' + dayIndex,
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col calendar-day border text-center py-3 position-relative", {
           'bg-info-subtle': $options.isCurrentDay(day),
           'text-muted': !day || !day.isCurrentMonth,
@@ -27469,7 +27484,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $event => $options.showDayDetails(day),
         ref_for: true,
         ref: "cells"
-      }, [day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.hijri.day), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.gregorian.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.gregorian.month.en.substring(0, 3)), 1 /* TEXT */), $options.isCurrentDay(day) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, "Today")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_day$events = day.events) !== null && _day$events !== void 0 && _day$events.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.hijri.day), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.gregorian.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.gregorianShort[day.gregorian.month.en] || day.gregorian.month.en), 1 /* TEXT */), $options.isCurrentDay(day) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, "Today")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_day$events = day.events) !== null && _day$events !== void 0 && _day$events.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-star-fill text-warning"
       }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_12);
     }), 128 /* KEYED_FRAGMENT */))]);
@@ -27483,12 +27498,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: index,
       class: "list-group-item"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerTimes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Prayer Times:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerTimes, (time, name) => {
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [...(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "spinner-border text-success",
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "visually-hidden"
+  }, "Loading...")], -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerTimes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Prayer Times:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerTimes, (time, name) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "col-6",
       key: name
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name) + ":", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(time), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name) + ":", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(time), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-secondary",
     onClick: _cache[8] || (_cache[8] = $event => $data.selectedDay = null)

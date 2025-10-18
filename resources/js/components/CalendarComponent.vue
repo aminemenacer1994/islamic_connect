@@ -19,13 +19,13 @@
 
         <!-- Center: Month & Year Selectors -->
         <div class="col-md-6 d-flex justify-content-center align-items-center gap-2">
-          <select v-model="currentMonth" @change="fetchCalendarData" class="form-select" style="min-width: 140px;">
+          <select v-model="currentMonth" @change="scheduleFetch" class="form-select" style="min-width: 140px;">
             <option v-for="(month, index) in islamicMonths" :value="index" :key="month">
               {{ month }}
             </option>
           </select>
 
-          <select v-model="currentYear" @change="fetchCalendarData" class="form-select" style="min-width: 140px;">
+          <select v-model="currentYear" @change="scheduleFetch" class="form-select" style="min-width: 140px;">
             <option v-for="year in yearRange" :value="year" :key="year">
               {{ year }} AH
             </option>
@@ -60,7 +60,7 @@
       <!-- Calendar Days -->
       <div class="calendar-days" role="grid" :aria-labelledby="'calendar-title'" @keydown="onGridKeydown" ref="grid">
         <div v-for="(week, weekIndex) in calendarWeeks" :key="weekIndex" class="row g-0 calendar-week" role="row">
-          <div v-for="(day, dayIndex) in week" :key="dayIndex"
+          <div v-for="(day, dayIndex) in week" :key="day ? day.gregorian.date : 'empty-' + weekIndex + '-' + dayIndex"
             class="col calendar-day border text-center py-3 position-relative" :class="{
               'bg-info-subtle': isCurrentDay(day),
               'text-muted': !day || !day.isCurrentMonth,
@@ -69,7 +69,7 @@
             }" role="gridcell" :tabindex="computeTabIndex(weekIndex, dayIndex, day)" :aria-selected="isCurrentDay(day) ? 'true' : 'false'" :aria-label="dayAriaLabel(day)" @click="showDayDetails(day)" ref="cells">
             <div v-if="day" class="day-content">
               <div class="fs-5 fw-bold">{{ day.hijri.day }}</div>
-              <div class="text-muted small">{{ day.gregorian.day }} {{ day.gregorian.month.en.substring(0, 3) }}</div>
+              <div class="text-muted small">{{ day.gregorian.day }} {{ gregorianShort[day.gregorian.month.en] || day.gregorian.month.en }}</div>
               <div v-if="isCurrentDay(day)" class="badge bg-success mt-1">Today</div>
               <div v-if="day.events?.length" class="event-indicator position-absolute top-0 end-0 p-1">
                 <i class="bi bi-star-fill text-warning"></i>
@@ -105,6 +105,11 @@
               </ul>
             </div>
 
+            <div v-if="prayerLoading" class="text-center my-2">
+              <div class="spinner-border text-success" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
             <div v-if="prayerTimes" class="prayer-times">
               <h6>Prayer Times:</h6>
               <div class="row">
@@ -129,9 +134,28 @@
 </template>
 
 <script>
+// Non-reactive constants
+const EVENTS_MAP = {
+  '1-1': ['Islamic New Year'],
+  '1-10': ['Day of Ashura'],
+  '3-12': ['Mawlid al-Nabi'],
+  '9-1': ['Beginning of Ramadan'],
+  '9-27': ['Laylat al-Qadr'],
+  '10-1': ['Eid al-Fitr'],
+  '12-10': ['Eid al-Adha'],
+  '12-18': ['Day of Arafah']
+};
+
+const GREGORIAN_SHORT = {
+  January: 'Jan', February: 'Feb', March: 'Mar', April: 'Apr', May: 'May', June: 'Jun',
+  July: 'Jul', August: 'Aug', September: 'Sep', October: 'Oct', November: 'Nov', December: 'Dec'
+};
+
 export default {
   data() {
     const currentDate = new Date();
+    const todayISO = new Date().toISOString().split('T')[0];
+    const yearRange = Array.from({ length: 21 }, (_, i) => 1440 + i);
     return {
       currentMonth: currentDate.getMonth(),
       currentYear: currentDate.getFullYear(),
@@ -142,31 +166,22 @@ export default {
         'Sha\'ban', 'Ramadan', 'Shawwal', 'Dhu al-Qi\'dah', 'Dhu al-Hijjah'
       ],
       calendarData: [],
-      yearRange: [],
+      yearRange,
       loading: false,
       selectedDay: null,
       prayerTimes: null,
-      events: {
-        '1-1': ['Islamic New Year'],
-        '1-10': ['Day of Ashura'],
-        '3-12': ['Mawlid al-Nabi'],
-        '9-1': ['Beginning of Ramadan'],
-        '9-27': ['Laylat al-Qadr'],
-        '10-1': ['Eid al-Fitr'],
-        '12-10': ['Eid al-Adha'],
-        '12-18': ['Day of Arafah']
-      },
+      todayISO,
+      prayerLoading: false,
+      // Caches
+      calendarCache: Object.create(null), // key: YYYY-M -> days[]
+      prayerCache: Object.create(null),   // key: YYYY-MM-DD -> timings
+      // Debounce/schedule fetch
+      fetchTimerId: null,
+      gregorianShort: GREGORIAN_SHORT,
       focusIndex: 0,
     };
   },
   computed: {
-    yearRange() {
-      const years = [];
-      for (let year = 1440; year <= 1460; year++) {
-        years.push(year);
-      }
-      return years;
-    },
     calendarWeeks() {
       if (!this.calendarData.length) return [];
 
@@ -202,12 +217,10 @@ export default {
   },
   methods: {
     cellCount() {
-      return this.calendarWeeks.reduce((acc, w) => acc + w.length, 0);
+      return this.calendarWeeks.length * 7;
     },
     flatIndexOf(weekIndex, dayIndex) {
-      let idx = 0;
-      for (let i = 0; i < weekIndex; i++) idx += this.calendarWeeks[i].length;
-      return idx + dayIndex;
+      return (weekIndex * 7) + dayIndex;
     },
     computeTabIndex(weekIndex, dayIndex, day) {
       if (!day) return -1;
@@ -242,26 +255,13 @@ export default {
         case 'ArrowDown':
           this.moveBy(7); break;
         case 'Home': {
-          // Move to start of current row
-          let sum = 0, rowStart = 0, rowEnd = 0;
-          for (let i = 0; i < this.calendarWeeks.length; i++) {
-            const len = this.calendarWeeks[i].length;
-            rowEnd = sum + len - 1;
-            if (this.focusIndex >= sum && this.focusIndex <= rowEnd) { rowStart = sum; break; }
-            sum += len;
-          }
+          const rowStart = Math.floor(this.focusIndex / 7) * 7;
           this.setFocusIndex(rowStart);
           break;
         }
         case 'End': {
-          // Move to end of current row
-          let sum = 0, rowEnd = 0;
-          for (let i = 0; i < this.calendarWeeks.length; i++) {
-            const len = this.calendarWeeks[i].length;
-            rowEnd = sum + len - 1;
-            if (this.focusIndex >= sum && this.focusIndex <= rowEnd) break;
-            sum += len;
-          }
+          const rowStart = Math.floor(this.focusIndex / 7) * 7;
+          const rowEnd = Math.min(this.cellCount() - 1, rowStart + 6);
           this.setFocusIndex(rowEnd);
           break;
         }
@@ -287,14 +287,26 @@ export default {
       const hijriName = this.islamicMonths[(day.hijri.month.number - 1)] || '';
       return `${day.hijri.day} ${hijriName} ${day.hijri.year} AH, ${day.gregorian.day} ${day.gregorian.month.en} ${day.gregorian.year}`;
     },
+    scheduleFetch() {
+      if (this.fetchTimerId) clearTimeout(this.fetchTimerId);
+      this.fetchTimerId = setTimeout(() => {
+        this.fetchCalendarData();
+      }, 150);
+    },
     async fetchCalendarData() {
       this.loading = true;
       try {
-        const response = await fetch(
-          `https://api.aladhan.com/v1/gToHCalendar/${this.currentMonth + 1}/${this.currentYear}?adjustment=0`
-        );
-        const data = await response.json();
-        this.calendarData = data.data;
+        const key = `${this.currentYear}-${this.currentMonth + 1}`;
+        if (this.calendarCache[key]) {
+          this.calendarData = this.calendarCache[key];
+        } else {
+          const response = await fetch(
+            `https://api.aladhan.com/v1/gToHCalendar/${this.currentMonth + 1}/${this.currentYear}?adjustment=0`
+          );
+          const data = await response.json();
+          this.calendarData = data.data;
+          this.calendarCache[key] = data.data;
+        }
       } catch (error) {
         console.error("Error fetching calendar data:", error);
         this.calculateLocalCalendar();
@@ -333,19 +345,11 @@ export default {
     },
     getEventsForDay(day, month) {
       const key = `${Number(month)}-${Number(day)}`;
-      return this.events[key] || [];
+      return EVENTS_MAP[key] || [];
     },
     isCurrentDay(day) {
       if (!day) return false;
-
-      const today = new Date();
-      const [year, month, date] = day.gregorian.date.split('-').map(Number);
-
-      return (
-        today.getDate() === date &&
-        today.getMonth() + 1 === month &&
-        today.getFullYear() === year
-      );
+      return day.gregorian.date === this.todayISO;
     },
     previousMonth() {
       if (this.currentMonth === 0) {
@@ -367,28 +371,27 @@ export default {
     },
     async showDayDetails(day) {
       if (!day) return;
-
       this.selectedDay = day;
+      const dateKey = day.gregorian.date;
       try {
-        const response = await fetch(
-          `https://api.aladhan.com/v1/timings/${day.gregorian.date}?latitude=51.508515&longitude=-0.1254872&method=2`
-        );
-        const data = await response.json();
-        this.prayerTimes = data.data.timings;
+        this.prayerLoading = true;
+        if (this.prayerCache[dateKey]) {
+          this.prayerTimes = this.prayerCache[dateKey];
+        } else {
+          const response = await fetch(
+            `https://api.aladhan.com/v1/timings/${dateKey}?latitude=51.508515&longitude=-0.1254872&method=2`
+          );
+          const data = await response.json();
+          this.prayerTimes = data.data.timings;
+          this.prayerCache[dateKey] = data.data.timings;
+        }
       } catch (error) {
         console.error("Error fetching prayer times:", error);
         this.prayerTimes = null;
+      } finally {
+        this.prayerLoading = false;
       }
     },
-    async created() {
-      // Assuming fetchYearRange is a method that populates the yearRange
-      await this.fetchYearRange();
-      console.log(this.yearRange); // Ensure data is fetched and available
-    },
-    async fetchYearRange() {
-      // Fetch data from API or generate year range
-      this.yearRange = [];
-    }
   },
   mounted() {
     this.fetchCalendarData();
