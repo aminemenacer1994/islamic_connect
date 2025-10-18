@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center fw-bold display-4 py-2 mt-4 mb-2">Prayer Times Calendar</h3>
+  <h3 class="text-center fw-bold display-4 py-2 mt-4 mb-2" v-once>Prayer Times Calendar</h3>
   <p class="text-center mb-4 lead container">
     Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your location
     or lets you manually choose.
@@ -81,7 +81,7 @@
         {{ useCurrentLocation ? ' (Current Location)' : ' (Search Results)' }}
         <div class="table-responsive table-scroll mt-3">
           <table class="table table-hover table-bordered text-center align-middle">
-            <thead class="table-secondary sticky-top">
+            <thead class="table-secondary sticky-top" v-once>
               <tr>
                 <th>Date</th>
                 <th>Fajr</th>
@@ -93,21 +93,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="day in prayerData" :key="day.date.gregorian.date">
-                <td class="fw-semibold">{{ day.date.gregorian.date }}</td>
-                <td>{{ formatTime(day.timings.Fajr) }}</td>
-                <td>{{ formatTime(day.timings.Sunrise) }}</td>
-                <td>{{ formatTime(day.timings.Dhuhr) }}</td>
-                <td>{{ formatTime(day.timings.Asr) }}</td>
-                <td>{{ formatTime(day.timings.Maghrib) }}</td>
-                <td>{{ formatTime(day.timings.Isha) }}</td>
+              <tr v-for="day in prayerRows" :key="day.date">
+                <td class="fw-semibold">{{ day.date }}</td>
+                <td>{{ day.fajr }}</td>
+                <td>{{ day.sunrise }}</td>
+                <td>{{ day.dhuhr }}</td>
+                <td>{{ day.asr }}</td>
+                <td>{{ day.maghrib }}</td>
+                <td>{{ day.isha }}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <div v-if="prayerData.length === 0 && submitted && !loading && !errorMessage" class="alert alert-warning text-center mt-4">
+      <div v-if="prayerRows.length === 0 && submitted && !loading && !errorMessage" class="alert alert-warning text-center mt-4">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
         No prayer times found. Please check your city/country or try another method.
       </div>
@@ -125,57 +125,65 @@ function debounce(fn, delay) {
   };
 }
 
+// Static constants (non-reactive)
+const COUNTRY_LIST = [
+  'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
+  'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia',
+  'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi',
+  'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros',
+  'Congo', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic',
+  'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia',
+  'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada',
+  'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia',
+  'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Ivory Coast', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan',
+  'Kenya', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya',
+  'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands',
+  'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique',
+  'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea',
+  'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru',
+  'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines',
+  'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia',
+  'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname',
+  'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad and Tobago',
+  'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay',
+  'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'
+];
+
+const METHOD_OPTIONS = {
+  0: 'Shia Ithna-Ashari (Jafari)',
+  1: 'University of Islamic Sciences, Karachi',
+  2: 'Islamic Society of North America (ISNA)',
+  3: 'Muslim World League (MWL)',
+  4: 'Umm Al-Qura University, Makkah',
+  5: 'Egyptian General Authority of Survey',
+  7: 'Institute of Geophysics, University of Tehran',
+  8: 'Gulf Region',
+  9: 'Kuwait',
+  10: 'Qatar',
+  11: 'Majlis Ugama Islam Singapura, Singapore',
+  12: 'Union Organization Islamic de France',
+  13: 'Diyanet İşleri Başkanlığı, Turkey',
+  14: 'Spiritual Administration of Muslims of Russia'
+};
+
 export default {
   name: 'PrayerTimes',
   data() {
     return {
       city: '',
       country: '',
-      countryList: [
-        'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
-        'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia',
-        'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi',
-        'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros',
-        'Congo', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic',
-        'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia',
-        'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada',
-        'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia',
-        'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Ivory Coast', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan',
-        'Kenya', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya',
-        'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands',
-        'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique',
-        'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea',
-        'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru',
-        'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines',
-        'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia',
-        'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname',
-        'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad and Tobago',
-        'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay',
-        'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'
-      ],
+      countryList: COUNTRY_LIST,
       citySuggestions: [],
       showCitySuggestions: false,
       latitude: null,
       longitude: null,
       debugInfo: '',
       method: '2',
-      methodOptions: {
-        0: 'Shia Ithna-Ashari (Jafari)',
-        1: 'University of Islamic Sciences, Karachi',
-        2: 'Islamic Society of North America (ISNA)',
-        3: 'Muslim World League (MWL)',
-        4: 'Umm Al-Qura University, Makkah',
-        5: 'Egyptian General Authority of Survey',
-        7: 'Institute of Geophysics, University of Tehran',
-        8: 'Gulf Region',
-        9: 'Kuwait',
-        10: 'Qatar',
-        11: 'Majlis Ugama Islam Singapura, Singapore',
-        12: 'Union Organization Islamic de France',
-        13: 'Diyanet İşleri Başkanlığı, Turkey',
-        14: 'Spiritual Administration of Muslims of Russia'
-      },
+      methodOptions: METHOD_OPTIONS,
+      // Raw API data (kept minimal usage)
       prayerData: [],
+      // Preformatted rows for rendering
+      prayerRows: [],
       loading: false,
       submitted: false,
       useCurrentLocation: true,
@@ -187,7 +195,10 @@ export default {
       // High latitude adjustment method (0 none, 1 middle, 2 one-seventh, 3 angle-based)
       latitudeAdjustmentMethod: 3,
       // Timezone reported by API for accurate display
-      apiTimezone: ''
+      apiTimezone: '',
+      // Internal caches/non-reactive helpers
+      _geoCache: new Map(),
+      _abortCity: null
     };
   },
   mounted() {
@@ -197,6 +208,9 @@ export default {
     const savedMethod = localStorage.getItem('prayer_method');
     const savedSchool = localStorage.getItem('prayer_school');
     const savedLatAdj = localStorage.getItem('prayer_latAdj');
+    const savedLat = localStorage.getItem('prayer_lat');
+    const savedLon = localStorage.getItem('prayer_lon');
+    const savedTZ = localStorage.getItem('prayer_tz');
     if (savedCity && savedCountry && savedMethod) {
       this.city = savedCity;
       this.country = savedCountry;
@@ -204,8 +218,16 @@ export default {
       if (savedSchool !== null) this.school = Number(savedSchool);
       if (savedLatAdj !== null) this.latitudeAdjustmentMethod = Number(savedLatAdj);
       this.useCurrentLocation = false;
-      // Try to geocode and fetch prayer times for saved location
-      this.submitSearch();
+      // Reuse saved coordinates if present to skip geocoding
+      if (savedLat && savedLon) {
+        this.latitude = Number(savedLat);
+        this.longitude = Number(savedLon);
+        if (savedTZ) this.apiTimezone = savedTZ;
+        this.fetchPrayerTimes();
+      } else {
+        // Try to geocode and fetch prayer times for saved location
+        this.submitSearch();
+      }
     } else {
       this.getCurrentLocation();
     }
@@ -253,6 +275,9 @@ export default {
         this.latitude = latitude;
         this.longitude = longitude;
         this.useCurrentLocation = true;
+        // persist coordinates and timezone when available
+        localStorage.setItem('prayer_lat', String(latitude));
+        localStorage.setItem('prayer_lon', String(longitude));
         await this.fetchPrayerTimes();
       } catch (err) {
         console.error('Geolocation failed:', err);
@@ -290,13 +315,28 @@ export default {
             } else if (data.meta && data.meta.timezone) {
               this.apiTimezone = data.meta.timezone;
             }
+            // Persist timezone for reuse
+            if (this.apiTimezone) localStorage.setItem('prayer_tz', this.apiTimezone);
+            // Preformat rows for faster rendering
+            const fmt = (t) => this.formatTime(t);
+            this.prayerRows = data.data.map((d) => ({
+              date: d.date.gregorian.date,
+              fajr: fmt(d.timings.Fajr),
+              sunrise: fmt(d.timings.Sunrise),
+              dhuhr: fmt(d.timings.Dhuhr),
+              asr: fmt(d.timings.Asr),
+              maghrib: fmt(d.timings.Maghrib),
+              isha: fmt(d.timings.Isha)
+            }));
           }
         } else {
           this.prayerData = [];
+          this.prayerRows = [];
         }
       } catch (err) {
         this.errorMessage = 'Failed to fetch prayer times. Please try again.';
         this.prayerData = [];
+        this.prayerRows = [];
       } finally {
         this.loading = false;
         this.submitted = true;
@@ -322,18 +362,22 @@ export default {
         if (geo.country) {
           this.country = geo.country;
         }
+        // persist coordinates for future sessions
+        localStorage.setItem('prayer_lat', String(this.latitude));
+        localStorage.setItem('prayer_lon', String(this.longitude));
         await this.fetchPrayerTimes();
       } catch (err) {
         this.errorMessage = 'Could not find the specified city/country. Please try again.';
         this.prayerData = [];
+        this.prayerRows = [];
         this.submitted = true;
       }
     },
     async geocodeCity(city, country = '') {
       let query = city;
-      if (country) {
-        query += ', ' + country;
-      }
+      if (country) query += ', ' + country;
+      const cacheKey = `${city}|${country}`.toLowerCase();
+      if (this._geoCache.has(cacheKey)) return this._geoCache.get(cacheKey);
       const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&addressdetails=1`;
       const res = await fetch(url);
       const data = await res.json();
@@ -343,11 +387,13 @@ export default {
       if (data[0].address && data[0].address.country) {
         detectedCountry = data[0].address.country;
       }
-      return {
+      const result = {
         lat: parseFloat(data[0].lat),
         lon: parseFloat(data[0].lon),
         country: detectedCountry
       };
+      this._geoCache.set(cacheKey, result);
+      return result;
     },
     resetFields() {
       this.useCurrentLocation = true;
@@ -355,6 +401,9 @@ export default {
       localStorage.removeItem('prayer_city');
       localStorage.removeItem('prayer_country');
       localStorage.removeItem('prayer_method');
+       localStorage.removeItem('prayer_lat');
+       localStorage.removeItem('prayer_lon');
+       localStorage.removeItem('prayer_tz');
       this.getCurrentLocation();
     },
     setDefaultLocation() {
@@ -374,7 +423,10 @@ export default {
       }
       const url = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(this.city)}&country=${encodeURIComponent(this.country)}&format=json&addressdetails=1&limit=5`;
       try {
-        const res = await fetch(url);
+        // Abort previous request if any
+        if (this._abortCity) this._abortCity.abort();
+        this._abortCity = new AbortController();
+        const res = await fetch(url, { signal: this._abortCity.signal });
         const data = await res.json();
         this.citySuggestions = data;
       } catch (e) {
