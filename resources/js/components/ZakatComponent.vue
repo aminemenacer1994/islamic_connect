@@ -288,7 +288,13 @@
                 <div class="summary-item mb-3">
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="showChartsSwitch" v-model="showCharts">
-                    <label class="form-check-label" for="showChartsSwitch">Show asset breakdown chart</label>
+                    <label class="form-check-label" for="showChartsSwitch">
+                      Show asset breakdown chart
+                      <span v-if="isChartLibLoading" class="ms-2 align-middle">
+                        <span class="spinner-border spinner-border-sm text-secondary" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Loading…</span>
+                      </span>
+                    </label>
                   </div>
                 </div>
                 <div v-if="showCharts" class="chart-container mb-4">
@@ -388,6 +394,7 @@ export default {
       chartInstance: null,
       ChartCtor: null,
       showCharts: false,
+      isChartLibLoading: false,
       zakatCalculated: false,
       isLoadingPrices: false,
       hawlMet: true,
@@ -601,8 +608,16 @@ export default {
     },
     async ensureChartLoaded() {
       if (this.ChartCtor) return;
-      const mod = await import('chart.js/auto');
-      this.ChartCtor = mod.default || mod;
+      this.isChartLibLoading = true;
+      try {
+        const mod = await import('chart.js/auto');
+        this.ChartCtor = mod.default || mod;
+      } catch (e) {
+        console.error('Failed to load chart library', e);
+        this.showCharts = false;
+      } finally {
+        this.isChartLibLoading = false;
+      }
     },
     async renderChartIfReady() {
       if (!this.showCharts) return this.destroyChart();
@@ -900,6 +915,9 @@ export default {
   watch: {
     showCharts() {
       this.$nextTick(() => this.renderChartIfReady());
+      try {
+        localStorage.setItem('zakat_show_charts', String(this.showCharts));
+      } catch (_) {}
     },
     assetBreakdown: {
       deep: true,
@@ -907,6 +925,14 @@ export default {
         if (this.zakatCalculated) this.renderChartIfReady();
       },
     },
+  },
+  mounted() {
+    // Restore charts preference
+    try {
+      const saved = localStorage.getItem('zakat_show_charts');
+      if (saved === 'true') this.showCharts = true;
+    } catch (_) {}
+    this.$refs.zakatCalculator?.focus();
   },
   mounted() {
     this.$refs.zakatCalculator?.focus();
@@ -935,8 +961,8 @@ export default {
 }
 
 .accordion-button:not(.collapsed) {
-  color: #0c63e4;
-  background-color: #e7f1ff;
+  color: #198754;
+  background-color: #e6f4ea;
 }
 
 .summary-item {
@@ -972,8 +998,14 @@ export default {
   border-radius: 0.5rem;
 }
 
+.accordion-button:hover {
+  color: #198754;
+  background-color: #f1f8f4;
+}
+
 .accordion-button:focus {
-  box-shadow: none;
+  border-color: rgba(25, 135, 84, 0.4);
+  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
 }
 
 .accordion-body {
