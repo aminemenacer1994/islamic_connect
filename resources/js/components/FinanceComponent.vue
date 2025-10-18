@@ -18,10 +18,10 @@
           <div class="card-body p-3">
             <!-- Dropdown for mobile screens -->
             <div class="d-md-none">
-              <select v-model="activeCategory" @change="setActiveCategory($event.target.value)"
+              <select v-model.number="activeCategory"
                 class="form-select rounded-pill" style="border-color: #0db691; color: #0db691;">
                 <option v-for="category in categories" :key="category.id" :value="category.id">
-                  {{ category.name }} ({{ getCategoryTipCount(category.id) }})
+                  {{ category.name }} ({{ tipCountsByCategory[category.id] || 0 }})
                 </option>
               </select>
             </div>
@@ -33,7 +33,7 @@
                   :class="{ 'btn-gradient text-white': activeCategory === category.id }"
                   :style="activeCategory === category.id ? 'border: none;' : 'border-color: #0db691; color: #0db691;'">
                   <span><i :class="getCategoryIcon(category.id)" class="me-2" aria-hidden="true"></i>{{ category.name }}</span>
-                  <span class="badge bg-white text-dark">{{ getCategoryTipCount(category.id) }}</span>
+                  <span class="badge bg-white text-dark">{{ tipCountsByCategory[category.id] || 0 }}</span>
                 </button>
               </div>
             </div>
@@ -48,7 +48,7 @@
             style="background: linear-gradient(135deg, #0db691, #0aa07e);">
             <h5 class="mb-0 d-flex align-items-center">
               <i :class="getCategoryIcon(activeCategory)" class="me-2"></i>
-              {{ getActiveCategoryName() }}
+              {{ activeCategoryName }}
             </h5>
           </div>
           <div class="card-body">
@@ -56,7 +56,7 @@
               No content available for this category.
             </div>
             <div v-else class="row g-4">
-              <div class="col-md-6" v-for="tip in filteredTips" :key="tip.id">
+              <div class="col-md-6" v-for="tip in paginatedTips" :key="tip.id">
                 <div class="card h-100 shadow-sm border-0 rounded-4" role="article" :aria-labelledby="'tip-title-' + tip.id">
                   <div class="card-header text-white" :style="`background-color: ${getCategoryColor(tip.category)}`">
                     <h6 class="mb-0" :id="'tip-title-' + tip.id">{{ tip.title }}</h6>
@@ -85,6 +85,16 @@
                 </div>
               </div>
             </div>
+            <!-- Pagination -->
+            <div v-if="totalPages > 1" class="d-flex justify-content-center align-items-center mt-3 gap-2">
+              <button class="btn btn-outline-success btn-sm" :disabled="currentPage === 1" @click="currentPage--">
+                <i class="bi bi-chevron-left"></i>
+              </button>
+              <span class="small">Page {{ currentPage }} of {{ totalPages }}</span>
+              <button class="btn btn-outline-success btn-sm" :disabled="currentPage === totalPages" @click="currentPage++">
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </div>
           </div> <!-- card-body -->
         </div>
       </div>
@@ -99,7 +109,9 @@ export default {
     return {
       categories: [],
       tips: [],
-      activeCategory: null, // Initialize as null to avoid invalid initial state
+      activeCategory: null, // will be set after load
+      currentPage: 1,
+      pageSize: 8,
       isLoading: false,
       error: null
     };
@@ -108,9 +120,32 @@ export default {
     this.loadData();
   },
   computed: {
+    // Map category id -> name for O(1) lookups
+    categoryNameById() {
+      const map = Object.create(null);
+      for (const c of this.categories) map[c.id] = c.name;
+      return map;
+    },
+    // Precompute counts once per tips change
+    tipCountsByCategory() {
+      const counts = Object.create(null);
+      for (const t of this.tips) counts[t.category] = (counts[t.category] || 0) + 1;
+      return counts;
+    },
+    activeCategoryName() {
+      if (!this.activeCategory) return 'All Categories';
+      return this.categoryNameById[this.activeCategory] || 'Uncategorized';
+    },
     filteredTips() {
       if (!this.activeCategory) return [];
-      return this.tips.filter(tip => tip.category === parseInt(this.activeCategory));
+      return this.tips.filter(tip => tip.category === this.activeCategory);
+    },
+    paginatedTips() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      return this.filteredTips.slice(start, start + this.pageSize);
+    },
+    totalPages() {
+      return Math.max(1, Math.ceil(this.filteredTips.length / this.pageSize) || 1);
     }
   },
   methods: {
@@ -131,7 +166,9 @@ export default {
       }
     },
     setActiveCategory(categoryId) {
-      this.activeCategory = parseInt(categoryId); // Ensure categoryId is an integer
+      // Buttons pass numbers; select casts via v-model.number
+      this.activeCategory = categoryId;
+      this.currentPage = 1;
     },
     getCategoryColor(categoryId) {
       const shades = {
@@ -145,15 +182,11 @@ export default {
         'bi-heart', 'bi-people', 'bi-file-text', 'bi-shake-hands'
       ];
       return icons[categoryId - 1] || 'bi-info-circle';
-    },
-    getCategoryName(categoryId) {
-      return this.categories.find(c => c.id === categoryId)?.name || 'Uncategorized';
-    },
-    getActiveCategoryName() {
-      return this.categories.find(c => c.id === this.activeCategory)?.name || 'All Categories';
-    },
-    getCategoryTipCount(categoryId) {
-      return this.tips.filter(tip => tip.category === categoryId).length || 0;
+    }
+  },
+  watch: {
+    activeCategory() {
+      this.currentPage = 1;
     }
   }
 };
