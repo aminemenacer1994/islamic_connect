@@ -18326,22 +18326,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! leaflet */ "./node_modules/leaflet/dist/leaflet-src.js");
-/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var leaflet_dist_leaflet_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! leaflet/dist/leaflet.css */ "./node_modules/leaflet/dist/leaflet.css");
-/* harmony import */ var leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! leaflet/dist/images/marker-icon-2x.png */ "./node_modules/leaflet/dist/images/marker-icon-2x.png");
-/* harmony import */ var leaflet_dist_images_marker_icon_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! leaflet/dist/images/marker-icon.png */ "./node_modules/leaflet/dist/images/marker-icon.png");
-/* harmony import */ var leaflet_dist_images_marker_shadow_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! leaflet/dist/images/marker-shadow.png */ "./node_modules/leaflet/dist/images/marker-shadow.png");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-
-
-
-
-leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
-  iconRetinaUrl: leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_2__["default"],
-  iconUrl: leaflet_dist_images_marker_icon_png__WEBPACK_IMPORTED_MODULE_3__["default"],
-  shadowUrl: leaflet_dist_images_marker_shadow_png__WEBPACK_IMPORTED_MODULE_4__["default"]
-});
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'HajjUmrahGuides',
   data() {
@@ -18355,7 +18341,8 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
       currentTab: 'hajj',
       copySuccess: false,
       showAISummary: false,
-      guides: {
+      // Large static guide data: mark as non-reactive for performance
+      guides: (0,vue__WEBPACK_IMPORTED_MODULE_0__.markRaw)({
         hajj: {
           title: "Hajj Guide",
           summary: "Hajj is the annual pilgrimage to Makkah, required once in a lifetime for those able. It involves a series of sacred rituals over several days, fostering spiritual renewal, unity, and devotion.",
@@ -18849,7 +18836,7 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
           }],
           commonMistakes: ["Not making intention (niyyah) clearly at Miqat.", "Breaking Ihram rules (using perfume, cutting hair/nails, etc.).", "Pushing or being impatient in crowds during Tawaf or Sa'i.", "Not performing the required number of Tawaf or Sa'i circuits.", "Neglecting to make dua or reflect spiritually during the rites.", "Leaving before shaving/trimming hair (Tahallul).", "Not seeking help or clarification when unsure about a ritual."]
         }
-      },
+      }),
       readTime: 0,
       listeningTime: 0,
       wordCount: 0,
@@ -18870,7 +18857,24 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
     this.calculateReadTimeAndWordCount();
     window.addEventListener('beforeunload', this.stopSpeech);
     window.addEventListener('visibilitychange', this.handleTabChange);
-    this.initMap();
+    // Defer map initialization until container is visible (improves initial render)
+    const el = document.getElementById('ritual-map');
+    if (el && 'IntersectionObserver' in window) {
+      const once = (entries, obs) => {
+        if (entries.some(e => e.isIntersecting)) {
+          this.initMap();
+          obs.disconnect();
+        }
+      };
+      const obs = new IntersectionObserver(once, {
+        root: null,
+        threshold: 0.1
+      });
+      obs.observe(el);
+    } else {
+      // Fallback: init immediately
+      this.initMap();
+    }
   },
   beforeUnmount() {
     window.removeEventListener('beforeunload', this.stopSpeech);
@@ -18881,6 +18885,12 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
     }
   },
   methods: {
+    stripHtml(html) {
+      if (!html) return '';
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      return (div.textContent || div.innerText || '').trim();
+    },
     onTablistKeydown(e) {
       const order = ['hajj', 'umrah'];
       const idx = order.indexOf(this.currentTab);
@@ -18935,7 +18945,7 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
         summary,
         steps
       } = this.currentContent;
-      const text = `${title || ''} ${summary || ''} ${(steps || []).map(s => s.title + ' ' + s.description).join(' ')}`.trim();
+      const text = `${title || ''} ${summary || ''} ${(steps || []).map(s => s.title + ' ' + this.stripHtml(s.description)).join(' ')}`.trim();
       if (!text) {
         alert("No content available to read.");
         return;
@@ -19003,7 +19013,7 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
     },
     async copyText() {
       this.isCopying = true;
-      const textToCopy = [this.currentContent.title, this.currentContent.summary, ...(this.currentContent.steps || []).map(s => s.title + '\n' + s.description)].filter(Boolean).join("\n\n");
+      const textToCopy = [this.currentContent.title, this.currentContent.summary, ...(this.currentContent.steps || []).map(s => s.title + '\n' + this.stripHtml(s.description))].filter(Boolean).join("\n\n");
       try {
         await navigator.clipboard.writeText(textToCopy);
         this.copySuccess = true;
@@ -19018,7 +19028,7 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
       }
     },
     calculateReadTimeAndWordCount() {
-      const text = [this.currentContent.title, this.currentContent.summary, ...(this.currentContent.steps || []).map(s => s.title + ' ' + s.description)].filter(Boolean).join(" ");
+      const text = [this.currentContent.title, this.currentContent.summary, ...(this.currentContent.steps || []).map(s => s.title + ' ' + this.stripHtml(s.description))].filter(Boolean).join(" ");
       this.wordCount = text.trim().split(/\s+/).filter(Boolean).length;
       this.readTime = Math.ceil(this.wordCount / 200);
       this.listeningTime = Math.ceil(this.wordCount / 150);
@@ -19030,7 +19040,7 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
     printGuide() {
       window.print();
     },
-    initMap() {
+    async initMap() {
       // Ritual locations (approximate lat/lng)
       this.ritualLocations = {
         hajj: [{
@@ -19063,14 +19073,38 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
           coords: [21.4231, 39.8280]
         }]
       };
-      this.map = leaflet__WEBPACK_IMPORTED_MODULE_0___default().map('ritual-map', {
+      // Lazy-load Leaflet only when needed to keep main bundle lean
+      const L = (await __webpack_require__.e(/*! import() */ "/js/vendor").then(__webpack_require__.t.bind(__webpack_require__, /*! leaflet */ "./node_modules/leaflet/dist/leaflet-src.js", 23))).default;
+      this.leaflet = L;
+      // Also ensure default marker assets are set up
+      try {
+        const markerIcon2x = (await __webpack_require__.e(/*! import() */ "/js/vendor").then(__webpack_require__.bind(__webpack_require__, /*! leaflet/dist/images/marker-icon-2x.png */ "./node_modules/leaflet/dist/images/marker-icon-2x.png"))).default;
+        const markerIcon = (await __webpack_require__.e(/*! import() */ "/js/vendor").then(__webpack_require__.bind(__webpack_require__, /*! leaflet/dist/images/marker-icon.png */ "./node_modules/leaflet/dist/images/marker-icon.png"))).default;
+        const markerShadow = (await __webpack_require__.e(/*! import() */ "/js/vendor").then(__webpack_require__.bind(__webpack_require__, /*! leaflet/dist/images/marker-shadow.png */ "./node_modules/leaflet/dist/images/marker-shadow.png"))).default;
+        L.Icon.Default.mergeOptions({
+          iconRetinaUrl: markerIcon2x,
+          iconUrl: markerIcon,
+          shadowUrl: markerShadow
+        });
+      } catch (e) {
+        // Silent fallback if assets fail to resolve
+      }
+      // Inject Leaflet CSS if not present
+      if (!document.getElementById('leaflet-css')) {
+        const link = document.createElement('link');
+        link.id = 'leaflet-css';
+        link.rel = 'stylesheet';
+        link.href = 'https://unpkg.com/leaflet/dist/leaflet.css';
+        document.head.appendChild(link);
+      }
+      this.map = L.map('ritual-map', {
         center: [21.4225, 39.8262],
         zoom: 13,
         scrollWheelZoom: false,
         zoomControl: false,
         attributionControl: false
       });
-      leaflet__WEBPACK_IMPORTED_MODULE_0___default().tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18
       }).addTo(this.map);
       this.updateMapRoute();
@@ -19088,32 +19122,41 @@ leaflet__WEBPACK_IMPORTED_MODULE_0___default().Icon.Default.mergeOptions({
         this.map.removeLayer(this.animatedRoute);
       }
       const locations = this.ritualLocations[this.currentTab];
+      const L = this.leaflet;
       this.markers = locations.map(loc => {
-        return leaflet__WEBPACK_IMPORTED_MODULE_0___default().marker(loc.coords, {
+        return L.marker(loc.coords, {
           title: loc.name
         }).addTo(this.map).bindPopup(`<b>${loc.name}</b>`);
       });
-      // Draw route with shadow/glow and animation
-      this.routeLine = leaflet__WEBPACK_IMPORTED_MODULE_0___default().polyline(locations.map(l => l.coords), {
+      // Draw route with shadow/glow; animate unless user prefers reduced motion
+      this.routeLine = L.polyline(locations.map(l => l.coords), {
         color: '#00bfa6',
         weight: 7,
         opacity: 0.5
       }).addTo(this.map);
-      this.animatedRoute = leaflet__WEBPACK_IMPORTED_MODULE_0___default().polyline([], {
-        color: '#009688',
-        weight: 4,
-        opacity: 0.9
-      }).addTo(this.map);
-      let i = 0;
-      const coords = locations.map(l => l.coords);
-      const animate = () => {
-        if (i <= coords.length) {
-          this.animatedRoute.setLatLngs(coords.slice(0, i));
-          i++;
-          setTimeout(animate, 180);
-        }
-      };
-      animate();
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReduced) {
+        this.animatedRoute = L.polyline([], {
+          color: '#009688',
+          weight: 4,
+          opacity: 0.9
+        }).addTo(this.map);
+        const coords = locations.map(l => l.coords);
+        let i = 0;
+        let last = 0;
+        const stepMs = 120;
+        const animate = ts => {
+          if (!last) last = ts;
+          const delta = ts - last;
+          if (delta >= stepMs) {
+            last = ts;
+            i++;
+            this.animatedRoute.setLatLngs(coords.slice(0, i));
+          }
+          if (i <= coords.length) requestAnimationFrame(animate);
+        };
+        requestAnimationFrame(animate);
+      }
       // Fit map to route
       this.map.fitBounds(this.routeLine.getBounds(), {
         padding: [30, 30]
@@ -50666,7 +50709,6 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css);"]);
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n::-moz-selection {\n  background-color: #00bfa6;\n  color: white;\n}\n::selection {\n  background-color: #00bfa6;\n  color: white;\n}\na {\n  color: #00bfa6;\n  text-decoration: none;\n}\na:hover {\n  color: #009688;\n}\n", ""]);
 // Exports

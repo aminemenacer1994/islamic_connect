@@ -168,17 +168,7 @@
 </template>
 
 <script>
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIcon2x,
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-});
+import { markRaw } from 'vue';
 
 export default {
   name: 'HajjUmrahGuides',
@@ -193,7 +183,8 @@ export default {
       currentTab: 'hajj',
       copySuccess: false,
       showAISummary: false,
-      guides: {
+      // Large static guide data: mark as non-reactive for performance
+      guides: markRaw({
         hajj: {
           title: "Hajj Guide",
           summary: "Hajj is the annual pilgrimage to Makkah, required once in a lifetime for those able. It involves a series of sacred rituals over several days, fostering spiritual renewal, unity, and devotion.",
@@ -718,7 +709,7 @@ export default {
             "Not seeking help or clarification when unsure about a ritual."
           ]
         }
-      },
+      }),
       readTime: 0,
       listeningTime: 0,
       wordCount: 0,
@@ -739,7 +730,21 @@ export default {
     this.calculateReadTimeAndWordCount();
     window.addEventListener('beforeunload', this.stopSpeech);
     window.addEventListener('visibilitychange', this.handleTabChange);
-    this.initMap();
+    // Defer map initialization until container is visible (improves initial render)
+    const el = document.getElementById('ritual-map');
+    if (el && 'IntersectionObserver' in window) {
+      const once = (entries, obs) => {
+        if (entries.some(e => e.isIntersecting)) {
+          this.initMap();
+          obs.disconnect();
+        }
+      };
+      const obs = new IntersectionObserver(once, { root: null, threshold: 0.1 });
+      obs.observe(el);
+    } else {
+      // Fallback: init immediately
+      this.initMap();
+    }
   },
   beforeUnmount() {
     window.removeEventListener('beforeunload', this.stopSpeech);
@@ -750,6 +755,12 @@ export default {
     }
   },
   methods: {
+    stripHtml(html) {
+      if (!html) return '';
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      return (div.textContent || div.innerText || '').trim();
+    },
     onTablistKeydown(e) {
       const order = ['hajj','umrah'];
       const idx = order.indexOf(this.currentTab);
@@ -800,7 +811,7 @@ export default {
         return;
       }
       const { title, summary, steps } = this.currentContent;
-      const text = `${title || ''} ${summary || ''} ${(steps || []).map(s => s.title + ' ' + s.description).join(' ')}`.trim();
+      const text = `${title || ''} ${summary || ''} ${(steps || []).map(s => s.title + ' ' + this.stripHtml(s.description)).join(' ')}`.trim();
       if (!text) {
         alert("No content available to read.");
         return;
@@ -871,7 +882,7 @@ export default {
       const textToCopy = [
         this.currentContent.title,
         this.currentContent.summary,
-        ...(this.currentContent.steps || []).map(s => s.title + '\n' + s.description)
+        ...(this.currentContent.steps || []).map(s => s.title + '\n' + this.stripHtml(s.description))
       ].filter(Boolean).join("\n\n");
       try {
         await navigator.clipboard.writeText(textToCopy);
@@ -890,7 +901,7 @@ export default {
       const text = [
         this.currentContent.title,
         this.currentContent.summary,
-        ...(this.currentContent.steps || []).map(s => s.title + ' ' + s.description)
+        ...(this.currentContent.steps || []).map(s => s.title + ' ' + this.stripHtml(s.description))
       ].filter(Boolean).join(" ");
       this.wordCount = text.trim().split(/\s+/).filter(Boolean).length;
       this.readTime = Math.ceil(this.wordCount / 200);
@@ -903,7 +914,7 @@ export default {
     printGuide() {
       window.print();
     },
-    initMap() {
+    async initMap() {
       // Ritual locations (approximate lat/lng)
       this.ritualLocations = {
         hajj: [
@@ -920,6 +931,27 @@ export default {
           { name: 'Marwah', coords: [21.4231, 39.8280] },
         ]
       };
+      // Lazy-load Leaflet only when needed to keep main bundle lean
+      const L = (await import('leaflet')).default;
+      this.leaflet = L;
+      // Also ensure default marker assets are set up
+      try {
+        const markerIcon2x = (await import('leaflet/dist/images/marker-icon-2x.png')).default;
+        const markerIcon = (await import('leaflet/dist/images/marker-icon.png')).default;
+        const markerShadow = (await import('leaflet/dist/images/marker-shadow.png')).default;
+        L.Icon.Default.mergeOptions({ iconRetinaUrl: markerIcon2x, iconUrl: markerIcon, shadowUrl: markerShadow });
+      } catch (e) {
+        // Silent fallback if assets fail to resolve
+      }
+      // Inject Leaflet CSS if not present
+      if (!document.getElementById('leaflet-css')) {
+        const link = document.createElement('link');
+        link.id = 'leaflet-css';
+        link.rel = 'stylesheet';
+        link.href = 'https://unpkg.com/leaflet/dist/leaflet.css';
+        document.head.appendChild(link);
+      }
+
       this.map = L.map('ritual-map', {
         center: [21.4225, 39.8262],
         zoom: 13,
@@ -945,22 +977,31 @@ export default {
         this.map.removeLayer(this.animatedRoute);
       }
       const locations = this.ritualLocations[this.currentTab];
+      const L = this.leaflet;
       this.markers = locations.map(loc => {
         return L.marker(loc.coords, { title: loc.name }).addTo(this.map).bindPopup(`<b>${loc.name}</b>`);
       });
-      // Draw route with shadow/glow and animation
+      // Draw route with shadow/glow; animate unless user prefers reduced motion
       this.routeLine = L.polyline(locations.map(l => l.coords), { color: '#00bfa6', weight: 7, opacity: 0.5 }).addTo(this.map);
-      this.animatedRoute = L.polyline([], { color: '#009688', weight: 4, opacity: 0.9 }).addTo(this.map);
-      let i = 0;
-      const coords = locations.map(l => l.coords);
-      const animate = () => {
-        if (i <= coords.length) {
-          this.animatedRoute.setLatLngs(coords.slice(0, i));
-          i++;
-          setTimeout(animate, 180);
-        }
-      };
-      animate();
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReduced) {
+        this.animatedRoute = L.polyline([], { color: '#009688', weight: 4, opacity: 0.9 }).addTo(this.map);
+        const coords = locations.map(l => l.coords);
+        let i = 0;
+        let last = 0;
+        const stepMs = 120;
+        const animate = (ts) => {
+          if (!last) last = ts;
+          const delta = ts - last;
+          if (delta >= stepMs) {
+            last = ts;
+            i++;
+            this.animatedRoute.setLatLngs(coords.slice(0, i));
+          }
+          if (i <= coords.length) requestAnimationFrame(animate);
+        };
+        requestAnimationFrame(animate);
+      }
       // Fit map to route
       this.map.fitBounds(this.routeLine.getBounds(), { padding: [30, 30] });
     }
@@ -1373,7 +1414,6 @@ section .list-unstyled li {
 </style>
 
 <style>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
 
 ::selection {
   background-color: #00bfa6;
