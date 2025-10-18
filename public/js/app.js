@@ -4101,6 +4101,9 @@ __webpack_require__.r(__webpack_exports__);
     const totalDuration = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
     const volume = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(70);
     const utterance = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    // Stable audio timing
+    const playbackStartMs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    const accumulatedMs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
     const currentPlayingContent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({
       title: '',
       category: ''
@@ -4128,11 +4131,14 @@ __webpack_require__.r(__webpack_exports__);
     const showSuggestions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     const highlightedIndex = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(-1);
     const showHelpModal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    const categoryMenu = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    const animFrameId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
     // AI Summary state
     const isSummaryLoading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     const summaryText = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
     const showSummary = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(true);
     const summarySectionRef = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    const audioBarVisible = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => isPlaying.value || isPaused.value);
     function increaseFontSize() {
       if (fontSize.value < maxFontSize) fontSize.value += 0.1;
     }
@@ -4141,16 +4147,28 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     // Word count, read time, listen time
+    // Preprocess guide data for faster search and metrics
+    const normalizedSections = _guides_json__WEBPACK_IMPORTED_MODULE_1__.sections.map((s, i) => {
+      const contentText = Array.isArray(s.content) ? s.content.join(' ') : s.content || '';
+      return {
+        index: i,
+        title: s.title,
+        titleL: s.title.toLowerCase(),
+        contentText,
+        contentL: contentText.toLowerCase()
+      };
+    });
+    const currentSection = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
+      if (selectedCategory.value === '' || !_guides_json__WEBPACK_IMPORTED_MODULE_1__.sections[selectedCategory.value]) return null;
+      return _guides_json__WEBPACK_IMPORTED_MODULE_1__.sections[selectedCategory.value];
+    });
+    const currentContentText = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
+      if (!currentSection.value) return '';
+      return Array.isArray(currentSection.value.content) ? currentSection.value.content.join(' ') : currentSection.value.content || '';
+    });
     const wordCount = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
-      if (selectedCategory.value === '' || !_guides_json__WEBPACK_IMPORTED_MODULE_1__.sections[selectedCategory.value]) return 0;
-      const section = _guides_json__WEBPACK_IMPORTED_MODULE_1__.sections[selectedCategory.value];
-      let text = '';
-      if (Array.isArray(section.content)) {
-        text = section.content.join(' ');
-      } else {
-        text = section.content || '';
-      }
-      return text.trim().split(/\s+/).filter(Boolean).length;
+      if (!currentContentText.value) return 0;
+      return currentContentText.value.trim().split(/\s+/).filter(Boolean).length;
     });
     const readTime = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
       // 200 words per minute
@@ -4201,14 +4219,11 @@ __webpack_require__.r(__webpack_exports__);
         updateReadingProgress();
       });
     });
-
-    // Clean up listeners
-    if (typeof window !== 'undefined') {
-      window.addEventListener('beforeunload', () => {
-        window.removeEventListener('scroll', handleScroll);
-        window.removeEventListener('resize', handleScroll);
-      });
-    }
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onUnmounted)(() => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      cancelAnimationFrame(animFrameId.value);
+    });
     const initializeCategories = () => {
       const categories = new Set();
       _guides_json__WEBPACK_IMPORTED_MODULE_1__.sections.forEach(section => {
@@ -4294,13 +4309,17 @@ __webpack_require__.r(__webpack_exports__);
       };
       return badgeClasses[category] || badgeClasses['General'];
     };
-    function updateReadingProgress() {
+
+    // Reading progress with cached element and rAF throttle
+    const contentCardEl = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    function cacheContentCard() {
       const el = contentSectionRef.value;
-      if (!el) {
-        readingProgress.value = 0;
-        return;
-      }
-      const content = el.querySelector('.content-card');
+      contentCardEl.value = el ? el.querySelector('.content-card') : null;
+    }
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(selectedCategory, () => cacheContentCard());
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(() => cacheContentCard());
+    function updateReadingProgress() {
+      const content = contentCardEl.value;
       if (!content) {
         readingProgress.value = 0;
         return;
@@ -4308,61 +4327,65 @@ __webpack_require__.r(__webpack_exports__);
       const rect = content.getBoundingClientRect();
       const windowHeight = window.innerHeight || document.documentElement.clientHeight;
       const contentHeight = content.scrollHeight;
-      // Calculate how much of the content is visible
-      let visible = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
-      visible = Math.max(0, visible);
-      let progress = 0;
-      if (contentHeight > 0) {
-        // Use scroll position within the content card
-        const scrollTop = window.scrollY + (windowHeight - rect.height) / 2 - rect.top;
-        progress = Math.min(100, Math.max(0, scrollTop / (contentHeight - rect.height) * 100));
-      }
+      const scrollTop = window.scrollY + (windowHeight - rect.height) / 2 - rect.top;
+      const progress = contentHeight > 0 ? Math.min(100, Math.max(0, scrollTop / (contentHeight - rect.height) * 100)) : 0;
       readingProgress.value = Math.round(progress);
     }
+    let ticking = false;
     function handleScroll() {
-      updateReadingProgress();
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateReadingProgress();
+          ticking = false;
+        });
+      }
     }
 
     // Suggestions computed property
+    // Debounced search input
+    const debouncedSearchText = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    let debounceTimer = null;
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(searchText, val => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        debouncedSearchText.value = val;
+      }, 150);
+    });
     const suggestions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
-      if (!searchText.value) return [];
-      const text = searchText.value.toLowerCase();
-      return _guides_json__WEBPACK_IMPORTED_MODULE_1__.sections.map((section, idx) => {
-        if (section.title.toLowerCase().includes(text)) {
-          return {
+      const q = debouncedSearchText.value.trim().toLowerCase();
+      if (!q) return [];
+      const results = [];
+      for (const s of normalizedSections) {
+        if (s.titleL.includes(q)) {
+          results.push({
             type: 'title',
-            value: section.title,
-            index: idx
-          };
-        }
-        if (typeof section.content === 'string' && section.content.toLowerCase().includes(text)) {
-          return {
+            value: s.title,
+            index: s.index
+          });
+        } else if (s.contentL.includes(q)) {
+          const snippet = s.contentText.slice(0, 100) + (s.contentText.length > 100 ? '...' : '');
+          results.push({
             type: 'content',
-            value: section.content.slice(0, 100) + '...',
-            index: idx
-          };
+            value: snippet,
+            index: s.index
+          });
         }
-        if (Array.isArray(section.content)) {
-          const found = section.content.find(item => item.toLowerCase().includes(text));
-          if (found) {
-            return {
-              type: 'content',
-              value: found.slice(0, 100) + '...',
-              index: idx
-            };
-          }
-        }
-        return null;
-      }).filter(Boolean).slice(0, 7);
+        if (results.length >= 7) break;
+      }
+      return results;
     });
     function selectSuggestion(suggestion) {
       searchText.value = suggestion.value;
       showSuggestions.value = false;
       selectedCategory.value = suggestion.index;
     }
+    function escapeRegex(s) {
+      return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
     function highlightSuggestion(text) {
       if (!searchText.value) return text;
-      const regex = new RegExp(`(${searchText.value})`, 'gi');
+      const regex = new RegExp(`(${escapeRegex(searchText.value)})`, 'gi');
       return text.replace(regex, '<mark>$1</mark>');
     }
 
@@ -4403,59 +4426,94 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
     function generateAISummary(title, content, category) {
-      // Extract key sentences and create a structured summary
-      const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 10);
-      const keyPoints = [];
+      // Tokenize and split sentences
+      const sentences = content.split(/(?<=[.!?])\s+/).map(s => s.trim()).filter(s => s.length > 25);
+      if (!sentences.length) return '<p>No summary available.</p>';
 
-      // Extract important concepts based on category
-      const categoryKeywords = {
-        'Theology': ['Allah', 'God', 'faith', 'belief', 'divine', 'spiritual', 'religious'],
-        'Worship': ['prayer', 'worship', 'fasting', 'hajj', 'dua', 'dhikr', 'ritual'],
-        'Ethics': ['morality', 'character', 'good', 'righteous', 'forgiveness', 'mercy', 'gratitude'],
+      // Build word frequency excluding stopwords
+      const stop = new Set(['the', 'and', 'a', 'an', 'is', 'are', 'to', 'of', 'in', 'on', 'for', 'with', 'as', 'by', 'it', 'that', 'this', 'be', 'or', 'from', 'at', 'was', 'were', 'which', 'has', 'have', 'had', 'their', 'its', 'into', 'about', 'also', 'not', 'but', 'can', 'may', 'such', 'like', 'then', 'than']);
+      const words = content.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w && !stop.has(w));
+      const freq = new Map();
+      for (const w of words) freq.set(w, (freq.get(w) || 0) + 1);
+
+      // Category and title terms boost
+      const titleTerms = new Set(title.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean));
+      const categoryMap = {
+        'Theology': ['allah', 'god', 'faith', 'belief', 'divine', 'spiritual', 'creed'],
+        'Worship': ['prayer', 'worship', 'fasting', 'hajj', 'dua', 'dhikr', 'salah', 'zakat'],
+        'Ethics': ['ethics', 'morality', 'character', 'virtue', 'forgiveness', 'mercy', 'gratitude'],
         'Social Justice': ['justice', 'equality', 'rights', 'community', 'society', 'fairness'],
-        'Family': ['marriage', 'family', 'women', 'relationships', 'husband', 'wife', 'children'],
-        'Finance': ['wealth', 'charity', 'financial', 'money', 'economic', 'business'],
+        'Family': ['family', 'marriage', 'spouse', 'children', 'parents', 'women', 'men'],
+        'Finance': ['wealth', 'charity', 'financial', 'money', 'economic', 'business', 'usury'],
         'Health': ['health', 'wellness', 'medical', 'physical', 'mental', 'hygiene'],
-        'Education': ['knowledge', 'learning', 'education', 'study', 'wisdom', 'intellectual'],
-        'Law': ['halal', 'haram', 'law', 'legal', 'permissible', 'forbidden'],
+        'Education': ['knowledge', 'learning', 'education', 'study', 'wisdom'],
+        'Law': ['halal', 'haram', 'law', 'legal', 'permissible', 'forbidden', 'fiqh'],
         'Environment': ['environment', 'nature', 'stewardship', 'earth', 'creation', 'sustainability']
       };
-      const keywords = categoryKeywords[category] || ['important', 'key', 'essential', 'fundamental'];
+      const catTerms = new Set((categoryMap[category] || []).map(s => s.toLowerCase()));
 
-      // Find sentences containing keywords
-      const relevantSentences = sentences.filter(sentence => keywords.some(keyword => sentence.toLowerCase().includes(keyword.toLowerCase())));
-
-      // Take first few relevant sentences or first few sentences if no keywords found
-      const summarySentences = relevantSentences.length > 0 ? relevantSentences.slice(0, 3) : sentences.slice(0, 2);
-
-      // Create structured summary
-      let summary = `<p><strong>Key Points:</strong></p><ul>`;
-      summarySentences.forEach(sentence => {
-        const cleanSentence = sentence.trim().replace(/^[,\s]+/, '');
-        if (cleanSentence.length > 20) {
-          summary += `<li>${cleanSentence}.</li>`;
+      // Score sentences: frequency sum + title overlap + category boost + position bonus
+      const scored = sentences.map((s, i) => {
+        const tokens = s.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
+        let score = 0;
+        for (const t of tokens) {
+          if (stop.has(t)) continue;
+          score += freq.get(t) || 0;
+          if (titleTerms.has(t)) score += 2; // title overlap
+          if (catTerms.has(t)) score += 1.5; // category relevance
         }
+        // slight bonus for early sentences
+        score += Math.max(0, 2 - i * 0.1);
+        return {
+          s,
+          i,
+          score
+        };
       });
-      summary += `</ul>`;
+      scored.sort((a, b) => b.score - a.score);
+      // pick top 6-8 distinct sentences preserving original order
+      const top = scored.slice(0, 12).sort((a, b) => a.i - b.i);
+      const chosen = [];
+      for (const x of top) {
+        if (chosen.length >= 7) break;
+        // basic diversity: skip if very similar (Jaccard over tokens)
+        const xt = new Set(x.s.toLowerCase().split(/\W+/));
+        let similar = false;
+        for (const y of chosen) {
+          const yt = new Set(y.s.toLowerCase().split(/\W+/));
+          const inter = new Set([...xt].filter(z => yt.has(z))).size;
+          const union = new Set([...xt, ...yt]).size;
+          if (union && inter / union > 0.7) {
+            similar = true;
+            break;
+          }
+        }
+        if (!similar) chosen.push(x);
+      }
 
-      // Add category-specific insights
-      const categoryInsights = {
-        'Theology': '<p><strong>Spiritual Significance:</strong> This guide explores fundamental Islamic beliefs and theological concepts that form the foundation of Muslim faith and practice.</p>',
-        'Worship': '<p><strong>Practical Application:</strong> This guide provides essential information about Islamic worship practices and their spiritual benefits.</p>',
-        'Ethics': '<p><strong>Moral Framework:</strong> This guide outlines Islamic ethical principles that guide personal conduct and character development.</p>',
-        'Social Justice': '<p><strong>Community Values:</strong> This guide emphasizes Islamic teachings on justice, equality, and social responsibility.</p>',
-        'Family': '<p><strong>Family Life:</strong> This guide covers Islamic perspectives on family relationships and marital harmony.</p>',
-        'Finance': '<p><strong>Economic Principles:</strong> This guide explains Islamic financial ethics and economic practices.</p>',
-        'Health': '<p><strong>Wellness Guidance:</strong> This guide provides Islamic perspectives on health and well-being.</p>',
-        'Education': '<p><strong>Knowledge Pursuit:</strong> This guide emphasizes the importance of education and knowledge in Islam.</p>',
-        'Law': '<p><strong>Legal Framework:</strong> This guide explains Islamic legal principles and what is permissible or forbidden.</p>',
-        'Environment': '<p><strong>Environmental Stewardship:</strong> This guide covers Islamic teachings on environmental responsibility.</p>'
-      };
-      summary += categoryInsights[category] || '<p><strong>Overview:</strong> This guide provides important Islamic teachings and practical guidance for daily life.</p>';
-      return summary;
+      // Build sections
+      const overview = chosen.slice(0, 2).map(x => x.s).join(' ');
+      const bullets = chosen.slice(0, 6).map(x => `<li>${x.s.replace(/^[,\s]+/, '')}</li>`).join('');
+      // Extract up to 5 frequent key terms for takeaway
+      const topTerms = [...freq.entries()].filter(([w]) => w.length > 3 && !titleTerms.has(w) && !stop.has(w)).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([w]) => w).join(', ');
+
+      // Approximate read and listen estimates here for context
+      const wc = content.trim().split(/\s+/).filter(Boolean).length;
+      const estRead = Math.max(1, Math.ceil(wc / 200));
+      const estListen = Math.max(1, Math.ceil(wc / 150));
+      const header = `<p><strong>Summary:</strong> Expanded insights from “${title}”.</p>`;
+      const overviewHtml = overview ? `<p>${overview}</p>` : '';
+      const list = `<p><strong>Key Points:</strong></p><ul>${bullets}</ul>`;
+      const terms = `<p><strong>Key Terms:</strong> <em>${topTerms || 'core principles'}</em>.</p>`;
+      const meta = `<p class="text-muted"><small>Approx. read: ${estRead} min • listen: ${estListen} min.</small></p>`;
+      return header + overviewHtml + list + terms + meta;
     }
     function toggleSummary() {
       showSummary.value = !showSummary.value;
+    }
+    function closeSummary() {
+      summaryText.value = '';
+      showSummary.value = false;
     }
     function scrollToSummary() {
       if (summarySectionRef.value) {
@@ -4500,6 +4558,9 @@ __webpack_require__.r(__webpack_exports__);
       fullText,
       isAuthenticated,
       userId,
+      // stable audio timing refs
+      playbackStartMs,
+      accumulatedMs,
       showAlert,
       showErrorAlert,
       alertMessage,
@@ -4528,15 +4589,20 @@ __webpack_require__.r(__webpack_exports__);
       selectSuggestion,
       highlightSuggestion,
       showHelpModal,
+      categoryMenu,
+      animFrameId,
       // AI Summary
       isSummaryLoading,
       summaryText,
       showSummary,
       generateSummary,
       toggleSummary,
+      closeSummary,
       summarySectionRef,
       scrollToSummary,
-      showSuccessMessage
+      showSuccessMessage,
+      escapeRegex,
+      audioBarVisible
     };
   },
   computed: {
@@ -4635,12 +4701,9 @@ __webpack_require__.r(__webpack_exports__);
       window.speechSynthesis.cancel();
       this.utterance = new SpeechSynthesisUtterance(this.fullText);
       this.utterance.volume = this.isMuted ? 0 : this.volume / 100;
-      this.utterance.onboundary = event => {
-        if (event.name === 'word') {
-          const textUpToBoundary = this.fullText.slice(0, event.charIndex);
-          this.currentTime = textUpToBoundary.trim().split(/\s+/).length * this.estimateWordDuration();
-        }
-      };
+
+      // Avoid boundary-based time jumps for stability
+      this.utterance.onboundary = null;
       this.utterance.onend = () => {
         this.isPlaying = false;
         this.isPaused = false;
@@ -4649,6 +4712,8 @@ __webpack_require__.r(__webpack_exports__);
       window.speechSynthesis.speak(this.utterance);
       this.isPlaying = true;
       this.isAudioLoading = false;
+      // initialize stable monotonic clock
+      this.playbackStartMs = performance.now();
       this.updateTime();
     },
     togglePlayPause() {
@@ -4663,6 +4728,8 @@ __webpack_require__.r(__webpack_exports__);
         window.speechSynthesis.pause();
         this.isPlaying = false;
         this.isPaused = true;
+        // accumulate elapsed
+        this.accumulatedMs += performance.now() - this.playbackStartMs;
       }
     },
     stopPlayback() {
@@ -4670,6 +4737,9 @@ __webpack_require__.r(__webpack_exports__);
       this.isPlaying = false;
       this.isPaused = false;
       this.currentTime = 0;
+      if (this.animFrameId) cancelAnimationFrame(this.animFrameId);
+      this.accumulatedMs = 0;
+      this.playbackStartMs = 0;
     },
     seekAudio(event) {
       // This is a simplified seek implementation
@@ -4705,11 +4775,13 @@ __webpack_require__.r(__webpack_exports__);
       return 0.4; // Average 400ms per word at 1x speed
     },
     updateTime() {
-      if (this.isPlaying) {
-        this.currentTime += 0.1;
-        if (this.currentTime < this.totalDuration) {
-          setTimeout(() => this.updateTime(), 100);
-        }
+      // Compute time from monotonic clock for stability
+      const now = performance.now();
+      const elapsed = this.isPlaying ? this.accumulatedMs + (now - this.playbackStartMs) : this.accumulatedMs;
+      const seconds = Math.min(this.totalDuration || 0, Math.max(0, elapsed / 1000));
+      this.currentTime = seconds;
+      if (this.isPlaying && this.currentTime < this.totalDuration) {
+        this.animFrameId = requestAnimationFrame(() => this.updateTime());
       }
     },
     getHighlightedText(item) {
@@ -4719,7 +4791,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     highlightText(text) {
       if (!this.searchText) return text;
-      const regex = new RegExp(`(${this.searchText})`, 'gi');
+      const regex = new RegExp(`(${this.escapeRegex(this.searchText)})`, 'gi');
       return text.replace(regex, '<mark>$1</mark>');
     },
     shareOnWhatsApp() {
@@ -4769,6 +4841,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     toggleSummary() {
       this.showSummary = !this.showSummary;
+    },
+    closeSummary() {
+      this.summaryText = '';
+      this.showSummary = false;
     },
     showIslamicGuideAlert(message) {
       this.alertMessage = message;
@@ -29928,113 +30004,112 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 const _hoisted_1 = {
-  class: "container my-4",
-  role: "main"
-};
-const _hoisted_2 = {
   class: "controls-section mb-4",
   style: {
     "border": "1px solid #009688"
   }
 };
-const _hoisted_3 = {
+const _hoisted_2 = {
   class: "row g-3 align-items-center"
 };
-const _hoisted_4 = {
+const _hoisted_3 = {
   class: "col-md-6"
 };
-const _hoisted_5 = {
+const _hoisted_4 = {
   class: "dropdown"
 };
-const _hoisted_6 = ["aria-current", "onClick"];
-const _hoisted_7 = {
+const _hoisted_5 = ["aria-current", "onClick"];
+const _hoisted_6 = {
   class: "guide-title"
 };
-const _hoisted_8 = {
+const _hoisted_7 = {
   key: 0,
   class: "col-md-6"
 };
-const _hoisted_9 = {
+const _hoisted_8 = {
   for: "search-input",
   class: "form-label"
 };
-const _hoisted_10 = {
+const _hoisted_9 = {
   class: "input-group"
 };
-const _hoisted_11 = {
+const _hoisted_10 = {
   key: 0,
   class: "autocomplete-suggestions"
 };
-const _hoisted_12 = ["onMousedown", "onMouseover"];
-const _hoisted_13 = ["innerHTML"];
-const _hoisted_14 = {
+const _hoisted_11 = ["onMousedown", "onMouseover"];
+const _hoisted_12 = ["innerHTML"];
+const _hoisted_13 = {
   key: 0,
   class: "suggestion-type"
 };
-const _hoisted_15 = {
+const _hoisted_14 = {
   key: 1,
   class: "suggestion-type"
 };
-const _hoisted_16 = {
+const _hoisted_15 = {
   key: 0,
   class: "mb-5",
   id: "content-section",
   ref: "contentSectionRef"
 };
-const _hoisted_17 = {
+const _hoisted_16 = {
   key: 0,
   class: "progress-tracker-container"
 };
+const _hoisted_17 = ["aria-valuenow"];
 const _hoisted_18 = ["aria-valuenow"];
-const _hoisted_19 = ["aria-valuenow"];
-const _hoisted_20 = {
+const _hoisted_19 = {
   class: "progress-labels d-flex justify-content-between small mt-1"
 };
-const _hoisted_21 = {
+const _hoisted_20 = {
   key: 0
 };
-const _hoisted_22 = {
+const _hoisted_21 = {
   class: "content-card card"
 };
-const _hoisted_23 = {
+const _hoisted_22 = {
   class: "card-body"
 };
-const _hoisted_24 = {
+const _hoisted_23 = {
   class: "d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3"
 };
-const _hoisted_25 = {
+const _hoisted_24 = {
   key: 0,
   class: "guide-meta mt-2 text-muted small"
 };
-const _hoisted_26 = {
+const _hoisted_25 = {
   title: "Total number of words in this guide section."
 };
-const _hoisted_27 = {
+const _hoisted_26 = {
   class: "d-flex gap-2",
   key: "button-group"
 };
-const _hoisted_28 = ["disabled"];
-const _hoisted_29 = ["disabled", "title"];
+const _hoisted_27 = ["disabled"];
+const _hoisted_28 = ["disabled", "title"];
+const _hoisted_29 = ["disabled"];
 const _hoisted_30 = ["disabled"];
-const _hoisted_31 = ["disabled"];
-const _hoisted_32 = {
+const _hoisted_31 = {
   class: "selected-content"
 };
-const _hoisted_33 = {
+const _hoisted_32 = {
   class: "d-flex align-items-start"
 };
-const _hoisted_34 = {
+const _hoisted_33 = {
   class: "badge bg-primary bg-opacity-10 text-primary me-3 mt-1"
 };
+const _hoisted_34 = ["innerHTML"];
 const _hoisted_35 = ["innerHTML"];
-const _hoisted_36 = ["innerHTML"];
-const _hoisted_37 = {
+const _hoisted_36 = {
   key: 0,
   class: "ai-summary-section mt-4",
   ref: "summarySectionRef"
 };
-const _hoisted_38 = {
+const _hoisted_37 = {
   class: "summary-header d-flex align-items-center justify-content-between mb-3"
+};
+const _hoisted_38 = {
+  class: "d-flex gap-2"
 };
 const _hoisted_39 = ["title"];
 const _hoisted_40 = {
@@ -30103,18 +30178,23 @@ const _hoisted_56 = {
   class: "help-modal-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['container my-4', {
+      'pad-for-audio': $setup.isPlaying || $setup.isPaused
+    }]),
+    role: "main"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     class: "text-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "header-title display-4 fw-bold"
   }, "Islamic Guides"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "header-description"
-  }, " Discover insights into the core beliefs, practices, and morals of Islam. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, " Discover insights into the core beliefs, practices, and morals of Islam. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "category-select",
     class: "form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-journal-bookmark me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Select a Guide ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Select a Guide ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-select dropdown-toggle",
     type: "button",
     id: "category-select",
@@ -30133,7 +30213,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onKeydown: [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.moveMenuFocus(1), ["prevent"]), ["down"])), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.moveMenuFocus(-1), ["prevent"]), ["up"]))]
     }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredSections, (section, index) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-        key: index,
+        key: section.title,
         role: "none"
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
         class: "dropdown-item d-flex align-items-center justify-content-between",
@@ -30145,21 +30225,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           $setup.showSuccessMessage('Guide selected successfully!');
         }, ["prevent"]),
         tabindex: -1
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge ms-2", $setup.getBadgeClasses(section.title)])
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getCategoryName(section.title)), 3 /* TEXT, CLASS */)], 8 /* PROPS */, _hoisted_6)]);
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getCategoryName(section.title)), 3 /* TEXT, CLASS */)], 8 /* PROPS */, _hoisted_5)]);
     }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), $setup.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_9, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), $setup.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_8, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-search me-2"
-  }, null, -1 /* CACHED */)), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Search Content ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Search Content ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-sm btn-link text-decoration-none ms-1",
     onClick: _cache[3] || (_cache[3] = $event => $setup.showHelpModal = true),
     title: "Search Help",
     "aria-label": "Search help"
-  }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-question-circle"
-  }, null, -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "search-input",
     type: "text",
     "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => $setup.searchText = $event),
@@ -30180,9 +30260,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       $setup.searchText = '';
       $setup.showSuccessMessage('Search cleared!');
     })
-  }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x"
-  }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Autocomplete Suggestions Dropdown "), $setup.showSuggestions && $setup.suggestions.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.suggestions, (suggestion, idx) => {
+  }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Autocomplete Suggestions Dropdown "), $setup.showSuggestions && $setup.suggestions.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.suggestions, (suggestion, idx) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: idx,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
@@ -30195,11 +30275,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onMouseover: $event => $setup.highlightedIndex = idx
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: $setup.highlightSuggestion(suggestion.value)
-    }, null, 8 /* PROPS */, _hoisted_13), suggestion.type === 'title' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_14, "Title")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_15, "Content"))], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_12);
+    }, null, 8 /* PROPS */, _hoisted_12), suggestion.type === 'title' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_13, "Title")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_14, "Content"))], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_11);
   }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade-slide"
   }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$setup.selectedCategory !== '' && $setup.guide.sections[$setup.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Tracker "), $setup.selectedCategory !== '' && $setup.guide.sections[$setup.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$setup.selectedCategory !== '' && $setup.guide.sections[$setup.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Tracker "), $setup.selectedCategory !== '' && $setup.guide.sections[$setup.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "progress-bar reading-progress",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         width: $setup.readingProgress + '%'
@@ -30209,7 +30289,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-valuemin": "0",
       "aria-valuemax": "100",
       "aria-label": "Reading progress"
-    }, null, 12 /* STYLE, PROPS */, _hoisted_18), $setup.isPlaying || $setup.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_17), $setup.isPlaying || $setup.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 0,
       class: "progress-bar audio-progress",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
@@ -30220,31 +30300,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-valuemin": "0",
       "aria-valuemax": "100",
       "aria-label": "Audio progress"
-    }, null, 12 /* STYLE, PROPS */, _hoisted_19)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [$setup.isPlaying || $setup.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_21, "Listen: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round($setup.audioProgress)) + "%", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_18)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [$setup.isPlaying || $setup.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_20, "Listen: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round($setup.audioProgress)) + "%", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
       class: "content-title mb-2",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $setup.fontSize + 'rem'
       })
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.guide.sections[$setup.selectedCategory].title), 5 /* TEXT, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge", $setup.getBadgeClasses($setup.guide.sections[$setup.selectedCategory].title)])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getCategoryName($setup.guide.sections[$setup.selectedCategory].title)), 3 /* TEXT, CLASS */), $setup.selectedCategory !== '' && $setup.guide.sections[$setup.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, "Word count: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.wordCount), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getCategoryName($setup.guide.sections[$setup.selectedCategory].title)), 3 /* TEXT, CLASS */), $setup.selectedCategory !== '' && $setup.guide.sections[$setup.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, "Word count: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.wordCount), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
       name: "fade-scale"
     }, {
-      default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-primary",
         onClick: _cache[12] || (_cache[12] = (...args) => $options.playCurrentContent && $options.playCurrentContent(...args)),
         disabled: $setup.isAudioLoading
-      }, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-play-fill"
-      }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Listen ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                    class=\"btn btn-sm btn-outline-primary\"\n                    @click=\"bookmarkGuide\"\n                    :disabled=\"!isAuthenticated\"\n                    :title=\"!isAuthenticated ? 'Please login to bookmark' : ''\"\n                    :aria-pressed=\"isBookmarked\"\n                  >\n                    <i :class=\"isBookmarked ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'\"></i>\n                    {{ isBookmarked ? 'Bookmarked' : 'Bookmark' }}\n                  </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Listen ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                    class=\"btn btn-sm btn-outline-primary\"\n                    @click=\"bookmarkGuide\"\n                    :disabled=\"!isAuthenticated\"\n                    :title=\"!isAuthenticated ? 'Please login to bookmark' : ''\"\n                    :aria-pressed=\"isBookmarked\"\n                  >\n                    <i :class=\"isBookmarked ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'\"></i>\n                    {{ isBookmarked ? 'Bookmarked' : 'Bookmark' }}\n                  </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-success",
         onClick: _cache[13] || (_cache[13] = (...args) => $options.shareOnWhatsApp && $options.shareOnWhatsApp(...args))
-      }, [...(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-share"
       }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-primary",
         onClick: _cache[14] || (_cache[14] = (...args) => $options.printGuide && $options.printGuide(...args))
-      }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-printer"
       }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Print ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-dark",
@@ -30253,21 +30333,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         title: $setup.isSummaryLoading ? 'Generating summary...' : 'Generate AI Summary'
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $setup.isSummaryLoading ? 'bi-hourglass-split' : 'bi-robot'])
-      }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.isSummaryLoading ? 'Generating...' : 'AI Summary'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.isSummaryLoading ? 'Generating...' : 'AI Summary'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-secondary",
         onClick: _cache[16] || (_cache[16] = (...args) => $setup.decreaseFontSize && $setup.decreaseFontSize(...args)),
         disabled: $setup.fontSize <= $setup.minFontSize,
         title: "Decrease font size",
         "aria-label": "Decrease font size"
-      }, " - ", 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, " - ", 8 /* PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-secondary",
         onClick: _cache[17] || (_cache[17] = (...args) => $setup.increaseFontSize && $setup.increaseFontSize(...args)),
         disabled: $setup.fontSize >= $setup.maxFontSize,
         title: "Increase font size",
         "aria-label": "Increase font size"
-      }, " + ", 8 /* PROPS */, _hoisted_31)])]),
+      }, " + ", 8 /* PROPS */, _hoisted_30)])]),
       _: 1 /* STABLE */
-    })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [Array.isArray($setup.guide.sections[$setup.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
+    })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [Array.isArray($setup.guide.sections[$setup.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
       key: 0,
       name: "stagger-fade",
       tag: "ul",
@@ -30277,13 +30357,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
           key: index,
           class: "mb-3 pb-3 border-bottom"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
           innerHTML: $options.getHighlightedText(item),
           class: "content-text",
           style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
             fontSize: $setup.fontSize - 0.2 + 'rem'
           })
-        }, null, 12 /* STYLE, PROPS */, _hoisted_35)])]);
+        }, null, 12 /* STYLE, PROPS */, _hoisted_34)])]);
       }), 128 /* KEYED_FRAGMENT */))]),
       _: 1 /* STABLE */
     })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -30293,27 +30373,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $setup.fontSize - 0.2 + 'rem'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_36))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_35))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
       name: "fade-slide",
       onAfterEnter: $setup.scrollToSummary
     }, {
-      default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$setup.summaryText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+      default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$setup.summaryText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
         class: "summary-title mb-0"
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-robot me-2 text-info"
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" AI Summary ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" AI Summary ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-secondary",
         onClick: _cache[18] || (_cache[18] = (...args) => $options.toggleSummary && $options.toggleSummary(...args)),
-        title: $setup.showSummary ? 'Hide Summary' : 'Show Summary'
+        title: $setup.showSummary ? 'Hide Summary' : 'Show Summary',
+        "aria-label": "Toggle AI summary visibility"
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $setup.showSummary ? 'bi-chevron-up' : 'bi-chevron-down'])
-      }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.showSummary ? 'Hide' : 'Show'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_39)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+      }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.showSummary ? 'Hide' : 'Show'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        class: "btn btn-sm btn-outline-secondary",
+        onClick: _cache[19] || (_cache[19] = (...args) => $options.closeSummary && $options.closeSummary(...args)),
+        title: "Close AI Summary",
+        "aria-label": "Close AI summary"
+      }, [...(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        class: "bi bi-x-lg"
+      }, null, -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
         name: "fade-slide"
       }, {
         default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$setup.showSummary ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
           class: "summary-text",
           innerHTML: $setup.summaryText
-        }, null, 8 /* PROPS */, _hoisted_42), _cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        }, null, 8 /* PROPS */, _hoisted_42), _cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
           class: "summary-footer mt-3 pt-3 border-top"
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
           class: "text-muted"
@@ -30330,50 +30418,50 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, {
     default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$setup.isPlaying || $setup.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPlayingContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPlayingContent.category || 'Recitation'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "audio-btn",
-      onClick: _cache[19] || (_cache[19] = (...args) => $options.stopPlayback && $options.stopPlayback(...args)),
+      onClick: _cache[20] || (_cache[20] = (...args) => $options.stopPlayback && $options.stopPlayback(...args)),
       "aria-label": "Rewind"
-    }, [...(_cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-skip-backward-fill"
     }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "audio-btn",
-      onClick: _cache[20] || (_cache[20] = (...args) => $options.togglePlayPause && $options.togglePlayPause(...args)),
+      onClick: _cache[21] || (_cache[21] = (...args) => $options.togglePlayPause && $options.togglePlayPause(...args)),
       "aria-label": "Play/Pause"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $setup.isPlaying ? 'bi-pause-fill' : 'bi-play-fill'])
     }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "audio-btn",
-      onClick: _cache[21] || (_cache[21] = (...args) => $options.stopPlayback && $options.stopPlayback(...args)),
+      onClick: _cache[22] || (_cache[22] = (...args) => $options.stopPlayback && $options.stopPlayback(...args)),
       "aria-label": "Forward"
-    }, [...(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-skip-forward-fill"
     }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "audio-btn",
-      onClick: _cache[22] || (_cache[22] = (...args) => $options.stopPlayback && $options.stopPlayback(...args)),
+      onClick: _cache[23] || (_cache[23] = (...args) => $options.stopPlayback && $options.stopPlayback(...args)),
       "aria-label": "Stop"
-    }, [...(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-stop-fill"
     }, null, -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "audio-progress",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         width: $setup.currentTime / $setup.totalDuration * 100 + '%'
       })
-    }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-volume-up-fill volume-icon"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "range",
       min: "0",
       max: "100",
-      "onUpdate:modelValue": _cache[23] || (_cache[23] = $event => $setup.volume = $event),
-      onInput: _cache[24] || (_cache[24] = (...args) => $options.updateVolume && $options.updateVolume(...args)),
+      "onUpdate:modelValue": _cache[24] || (_cache[24] = $event => $setup.volume = $event),
+      onInput: _cache[25] || (_cache[25] = (...args) => $options.updateVolume && $options.updateVolume(...args)),
       class: "audio-volume-slider",
       "aria-label": "Volume control"
     }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.volume, void 0, {
       number: true
     }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "audio-btn close-btn",
-      onClick: _cache[25] || (_cache[25] = (...args) => $options.stopPlayback && $options.stopPlayback(...args)),
+      onClick: _cache[26] || (_cache[26] = (...args) => $options.stopPlayback && $options.stopPlayback(...args)),
       "aria-label": "Close"
-    }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[47] || (_cache[47] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-x-lg"
     }, null, -1 /* CACHED */)]))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
@@ -30384,7 +30472,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "button",
       class: "btn-close",
       "aria-label": "Close alert",
-      onClick: _cache[26] || (_cache[26] = (...args) => $options.closeAlert && $options.closeAlert(...args))
+      onClick: _cache[27] || (_cache[27] = (...args) => $options.closeAlert && $options.closeAlert(...args))
     })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
@@ -30394,30 +30482,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "button",
       class: "btn-close",
       "aria-label": "Close error alert",
-      onClick: _cache[27] || (_cache[27] = (...args) => $options.closeErrorAlert && $options.closeErrorAlert(...args))
+      onClick: _cache[28] || (_cache[28] = (...args) => $options.closeErrorAlert && $options.closeErrorAlert(...args))
     })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Help Modal "), $setup.showHelpModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     class: "modal-overlay",
-    onClick: _cache[31] || (_cache[31] = $event => $setup.showHelpModal = false)
+    onClick: _cache[32] || (_cache[32] = $event => $setup.showHelpModal = false)
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "help-modal",
-    onClick: _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    onClick: _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "help-modal-title"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-search me-2"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Search Suggestions Guide ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "help-modal-close",
-    onClick: _cache[28] || (_cache[28] = $event => $setup.showHelpModal = false),
+    onClick: _cache[29] || (_cache[29] = $event => $setup.showHelpModal = false),
     "aria-label": "Close help"
-  }, [...(_cache[47] || (_cache[47] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x-lg"
-  }, null, -1 /* CACHED */)]))])]), _cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"help-modal-body\" data-v-6b54700c><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-lightbulb me-2\" data-v-6b54700c></i> How It Works </h4><p class=\"help-text\" data-v-6b54700c> The search feature provides intelligent suggestions as you type, helping you quickly find relevant content in Islamic guides. </p></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-keyboard me-2\" data-v-6b54700c></i> Keyboard Navigation </h4><div class=\"help-shortcuts\" data-v-6b54700c><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>↑</kbd> <span data-v-6b54700c>Move up through suggestions</span></div><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>↓</kbd> <span data-v-6b54700c>Move down through suggestions</span></div><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>Enter</kbd> <span data-v-6b54700c>Select highlighted suggestion</span></div><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>Esc</kbd> <span data-v-6b54700c>Close suggestions dropdown</span></div></div></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-mouse me-2\" data-v-6b54700c></i> Mouse Navigation </h4><ul class=\"help-list\" data-v-6b54700c><li data-v-6b54700c>Hover over any suggestion to highlight it</li><li data-v-6b54700c>Click on a suggestion to select it</li><li data-v-6b54700c>Click outside the dropdown to close it</li></ul></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-tags me-2\" data-v-6b54700c></i> Suggestion Types </h4><div class=\"suggestion-types\" data-v-6b54700c><div class=\"suggestion-type-example\" data-v-6b54700c><span class=\"suggestion-type-badge title\" data-v-6b54700c>Title</span><span class=\"suggestion-type-desc\" data-v-6b54700c>Matches guide section titles</span></div><div class=\"suggestion-type-example\" data-v-6b54700c><span class=\"suggestion-type-badge content\" data-v-6b54700c>Content</span><span class=\"suggestion-type-desc\" data-v-6b54700c>Matches text within guide content</span></div></div></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-search me-2\" data-v-6b54700c></i> Search Tips </h4><ul class=\"help-list\" data-v-6b54700c><li data-v-6b54700c>Start typing any word to see matching suggestions</li><li data-v-6b54700c>Suggestions are case-insensitive</li><li data-v-6b54700c>Selecting a suggestion will automatically switch to that guide section</li><li data-v-6b54700c>Use the clear button (×) to reset your search</li></ul></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-info-circle me-2\" data-v-6b54700c></i> Example </h4><div class=\"help-example\" data-v-6b54700c><p class=\"help-text\" data-v-6b54700c> Try typing <strong data-v-6b54700c>&quot;prayer&quot;</strong> to see suggestions for prayer-related content, or <strong data-v-6b54700c>&quot;quran&quot;</strong> for Quran-related guides. </p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)]))])]), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"help-modal-body\" data-v-6b54700c><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-lightbulb me-2\" data-v-6b54700c></i> How It Works </h4><p class=\"help-text\" data-v-6b54700c> The search feature provides intelligent suggestions as you type, helping you quickly find relevant content in Islamic guides. </p></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-keyboard me-2\" data-v-6b54700c></i> Keyboard Navigation </h4><div class=\"help-shortcuts\" data-v-6b54700c><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>↑</kbd> <span data-v-6b54700c>Move up through suggestions</span></div><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>↓</kbd> <span data-v-6b54700c>Move down through suggestions</span></div><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>Enter</kbd> <span data-v-6b54700c>Select highlighted suggestion</span></div><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>Esc</kbd> <span data-v-6b54700c>Close suggestions dropdown</span></div></div></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-mouse me-2\" data-v-6b54700c></i> Mouse Navigation </h4><ul class=\"help-list\" data-v-6b54700c><li data-v-6b54700c>Hover over any suggestion to highlight it</li><li data-v-6b54700c>Click on a suggestion to select it</li><li data-v-6b54700c>Click outside the dropdown to close it</li></ul></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-tags me-2\" data-v-6b54700c></i> Suggestion Types </h4><div class=\"suggestion-types\" data-v-6b54700c><div class=\"suggestion-type-example\" data-v-6b54700c><span class=\"suggestion-type-badge title\" data-v-6b54700c>Title</span><span class=\"suggestion-type-desc\" data-v-6b54700c>Matches guide section titles</span></div><div class=\"suggestion-type-example\" data-v-6b54700c><span class=\"suggestion-type-badge content\" data-v-6b54700c>Content</span><span class=\"suggestion-type-desc\" data-v-6b54700c>Matches text within guide content</span></div></div></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-search me-2\" data-v-6b54700c></i> Search Tips </h4><ul class=\"help-list\" data-v-6b54700c><li data-v-6b54700c>Start typing any word to see matching suggestions</li><li data-v-6b54700c>Suggestions are case-insensitive</li><li data-v-6b54700c>Selecting a suggestion will automatically switch to that guide section</li><li data-v-6b54700c>Use the clear button (×) to reset your search</li></ul></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-info-circle me-2\" data-v-6b54700c></i> Example </h4><div class=\"help-example\" data-v-6b54700c><p class=\"help-text\" data-v-6b54700c> Try typing <strong data-v-6b54700c>&quot;prayer&quot;</strong> to see suggestions for prayer-related content, or <strong data-v-6b54700c>&quot;quran&quot;</strong> for Quran-related guides. </p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-primary",
-    onClick: _cache[29] || (_cache[29] = $event => $setup.showHelpModal = false)
-  }, " Got it! ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    onClick: _cache[30] || (_cache[30] = $event => $setup.showHelpModal = false)
+  }, " Got it! ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
 }
 
 /***/ }),
@@ -49401,7 +49489,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Base Styles */\n[data-v-6b54700c]:root {\n  --primary-color: #00bfa6;\n  --primary-hover: #008f7a;\n  --text-color: #333;\n  --text-light: #6c757d;\n  --bg-color: #fff;\n  --border-color: #e9ecef;\n  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);\n}\n/* Typography */\nbody[data-v-6b54700c] {\n  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  color: var(--text-color);\n  line-height: 1.6;\n}\nh1[data-v-6b54700c], h2[data-v-6b54700c], h3[data-v-6b54700c], h4[data-v-6b54700c], h5[data-v-6b54700c], h6[data-v-6b54700c] {\n  font-weight: 700;\n  line-height: 1.3;\n}\n/* Header */\n.header-icon[data-v-6b54700c] {\n  font-size: 2.5rem;\n  color: var(--primary-color);\n}\n/* .header-title {\n  font-size: 2rem;\n  font-weight: 800;\n  color: var(--primary-color);\n  margin-bottom: 0.5rem;\n} */\n.header-description[data-v-6b54700c] {\n  font-size: 1.1rem;\n  color: var(--text-light);\n  max-width: 600px;\n  margin: 0 auto;\n}\n/* Controls */\n.controls-section[data-v-6b54700c] {\n  background-color: rgba(0, 191, 166, 0.05);\n  border: 1px solid rgba(0, 191, 166, 0.1);\n  border-radius: 12px;\n  padding: 1.5rem;\n}\n.form-label[data-v-6b54700c] {\n  font-weight: 600;\n  margin-bottom: 0.5rem;\n  color: var(--text-color);\n}\n.form-select[data-v-6b54700c], .form-control[data-v-6b54700c] {\n  border-radius: 8px;\n  padding: 0.75rem;\n  border: 1px solid var(--border-color);\n  font-size: 1rem;\n}\n.form-select[data-v-6b54700c]:focus, .form-control[data-v-6b54700c]:focus {\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n/* Content Card */\n.content-card[data-v-6b54700c] {\n  border-radius: 12px;\n  border: 1px solid var(--border-color);\n  box-shadow: var(--card-shadow);\n  overflow: hidden;\n  transition: transform 0.3s;\n}\n.content-card[data-v-6b54700c]:hover {\n  transform: translateY(-3px);\n}\n.content-title[data-v-6b54700c] {\n  font-size: 1.5rem;\n  margin-bottom: 0.5rem;\n}\n.content-text[data-v-6b54700c] {\n  font-size: 1.1rem;\n  line-height: 1.8;\n}\n.highlight-word[data-v-6b54700c] {\n  background-color: var(--primary-color);\n  color: white;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\nmark[data-v-6b54700c] {\n  background-color: #fff3a3;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\n/* Buttons */\n.btn[data-v-6b54700c] {\n  font-weight: 500;\n  transition: all 0.2s;\n  border-radius: 8px;\n}\n.btn-outline-primary[data-v-6b54700c] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-6b54700c]:hover {\n  background-color: var(--primary-color);\n  color: white;\n}\n/* Modern Audio Player Styles */\n.modern-audio-player[data-v-6b54700c],\n.modern-audio-player.w-100[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  background: #232323;\n  color: #fff;\n  border-radius: 0;\n  box-shadow: 0 4px 32px rgba(0,0,0,0.18);\n  padding: 1rem 1.5rem;\n  position: fixed;\n  left: 0;\n  bottom: 0;\n  transform: none;\n  width: 100vw;\n  max-width: 100vw;\n  z-index: 2000;\n}\n.audio-meta[data-v-6b54700c] {\n  min-width: 160px;\n  flex: 1 1 0;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.audio-title[data-v-6b54700c] {\n  font-weight: 700;\n  font-size: 1.15rem;\n  color: #fff;\n  margin-bottom: 0.1rem;\n}\n.small-title[data-v-6b54700c] {\n  font-size: 1rem;\n  text-align: left;\n}\n.audio-meta.text-start[data-v-6b54700c] {\n  text-align: left;\n}\n.audio-subtitle[data-v-6b54700c] {\n  font-size: 0.95rem;\n  color: #bdbdbd;\n  font-weight: 400;\n}\n.audio-controls[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.8rem;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.6rem;\n  padding: 0.5rem 0.7rem;\n  border-radius: 50%;\n  transition: background 0.2s, color 0.2s, transform 0.1s;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c]:hover, .audio-btn[data-v-6b54700c]:focus {\n  background: rgba(0,191,166,0.12);\n  color: #00bfa6;\n  outline: none;\n  transform: scale(1.08);\n}\n.close-btn[data-v-6b54700c] {\n  margin-left: 0.7rem;\n  font-size: 1.3rem;\n  background: none;\n  color: #bdbdbd;\n}\n.close-btn[data-v-6b54700c]:hover {\n  color: #ff4d4f;\n  background: rgba(255,77,79,0.08);\n}\n.audio-progress-wrap[data-v-6b54700c] {\n  flex: 3 1 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 180px;\n  margin: 0 1.2rem;\n}\n.audio-progress-bar[data-v-6b54700c] {\n  width: 100%;\n  height: 4px;\n  background: #444;\n  border-radius: 2px;\n  overflow: hidden;\n  position: relative;\n}\n.audio-progress[data-v-6b54700c] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6 0%, #008f7a 100%);\n  border-radius: 2px;\n  transition: width 0.2s;\n}\n.audio-right[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  min-width: 180px;\n  flex: 1 1 0;\n  justify-content: flex-end;\n}\n.volume-icon[data-v-6b54700c] {\n  font-size: 1.3rem;\n  color: #bdbdbd;\n}\n.audio-volume-slider[data-v-6b54700c] {\n  width: 120px;\n  accent-color: #00bfa6;\n  background: transparent;\n  margin: 0 0.5rem;\n  height: 4px;\n}\n.audio-volume-slider[data-v-6b54700c]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]:focus {\n  outline: none;\n}\n/* Transitions */\n.global-audio-player-enter-active[data-v-6b54700c],\n.global-audio-player-leave-active[data-v-6b54700c] {\n  transition: all 0.3s ease;\n}\n.global-audio-player-enter-from[data-v-6b54700c],\n.global-audio-player-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateX(-50%) translateY(100%);\n}\n.modern-audio-player.w-100[data-v-6b54700c] {\n  width: 100vw;\n  left: 0;\n  transform: none;\n  border-radius: 0;\n}\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.container[data-v-6b54700c] {\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n.header-title[data-v-6b54700c] {\n    font-size: 1.75rem;\n}\n.header-description[data-v-6b54700c] {\n  font-size: 1rem;\n}\n.global-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    padding: 1rem;\n    width: 100%;\n    border-radius: 0;\n    bottom: 0;\n}\n.player-desktop[data-v-6b54700c] {\n    display: none;\n}\n.player-mobile[data-v-6b54700c] {\n    display: flex;\n}\n.player-section[data-v-6b54700c] {\n    width: 100%;\n    margin-bottom: 0.5rem;\n}\n.player-info[data-v-6b54700c], .player-volume[data-v-6b54700c] {\n    min-width: auto;\n}\n.progress-bar-container[data-v-6b54700c] {\n    max-width: 100%;\n}\n.volume-slider[data-v-6b54700c] {\n    width: 60px;\n}\n}\n@media (max-width: 576px) {\n.header-title[data-v-6b54700c] {\n    font-size: 1.5rem;\n}\n.content-title[data-v-6b54700c] {\n    font-size: 1.3rem;\n}\n.content-text[data-v-6b54700c] {\n    font-size: 1rem;\n}\n.controls-section[data-v-6b54700c] {\n    padding: 1.2rem;\n}\n.btn[data-v-6b54700c] {\n    padding: 0.25rem 0.5rem;\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 900px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-wrap: wrap;\n    gap: 1rem;\n    padding: 0.7rem 0.5rem;\n    width: 100vw;\n    left: 0;\n    border-radius: 0;\n}\n.audio-meta[data-v-6b54700c], .audio-right[data-v-6b54700c] {\n    min-width: 120px;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    min-width: 120px;\n    margin: 0 0.5rem;\n}\n}\n@media (min-width: 601px) {\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    \n    flex-wrap: nowrap;\n    /* Prevent overlap */\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 3;\n    margin: 0 1.2rem;\n    flex: 3 1 0;\n    min-width: 120px;\n    flex-shrink: 1;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.audio-right[data-v-6b54700c] {\n    order: 4;\n    \n    min-width: 140px;\n    flex: 1 1 0;\n    display: flex;\n    align-items: center;\n    justify-content: flex-end;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    overflow: hidden;\n}\n}\n@media (max-width: 600px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: stretch;\n    border-radius: 0;\n    left: 0;\n    transform: none;\n    width: 100vw;\n    max-width: 100vw;\n    padding: 0.2rem 0.05rem;\n    border-radius: 0;\n}\n.audio-player-row.top[data-v-6b54700c], .audio-meta[data-v-6b54700c], .audio-title[data-v-6b54700c], .audio-subtitle[data-v-6b54700c] {\n    display: none !important;\n}\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex !important;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    \n    flex-wrap: nowrap;\n    overflow-x: auto;\n    -webkit-overflow-scrolling: touch;\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-controls[data-v-6b54700c] {\n    order: 1;\n    \n    margin: 0;\n    font-size: 0.95rem;\n    flex: 0 0 auto;\n    display: flex;\n    align-items: center;\n}\n.audio-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    padding: 0.18rem 0.22rem;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 2;\n    margin: 0 0.1rem;\n    flex: 2 1 0;\n    min-width: 0;\n    display: flex;\n    align-items: center;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    height: 3px;\n}\n.audio-right[data-v-6b54700c] {\n    order: 3;\n    \n    min-width: 0;\n    flex: 0 0 auto;\n    font-size: 0.85rem;\n    display: flex;\n    align-items: center;\n}\n.audio-volume-slider[data-v-6b54700c] {\n    width: 60px;\n    height: 2.5px;\n}\n.close-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    margin-left: 0.18rem;\n}\n.volume-icon[data-v-6b54700c] {\n    font-size: 0.95rem;\n}\n}\n/* Badge Styles */\n.badge[data-v-6b54700c] {\n  font-weight: 600;\n  padding: 0.5rem 0.75rem;\n  border-radius: 20px;\n  font-size: 0.85rem;\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n  border: 1px solid transparent;\n  transition: all 0.3s ease;\n}\n.badge[data-v-6b54700c]:hover {\n  transform: translateY(-1px);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n/* Custom Badge Color Schemes */\n.badge.bg-primary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;\n  color: white !important;\n  border-color: #667eea;\n}\n.badge.bg-success[data-v-6b54700c] {\n  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;\n  color: white !important;\n  border-color: #11998e;\n}\n.badge.bg-info[data-v-6b54700c] {\n  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;\n  color: white !important;\n  border-color: #4facfe;\n}\n.badge.bg-warning[data-v-6b54700c] {\n  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;\n  color: white !important;\n  border-color: #fa709a;\n}\n.badge.bg-secondary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%) !important;\n  color: #333 !important;\n  border-color: #a8edea;\n}\n.badge.bg-danger[data-v-6b54700c] {\n  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%) !important;\n  color: white !important;\n  border-color: #ff9a9e;\n}\n.badge.bg-dark[data-v-6b54700c] {\n  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;\n  color: white !important;\n  border-color: #2c3e50;\n}\n/* Responsive Badge Adjustments */\n@media (max-width: 768px) {\n.badge[data-v-6b54700c] {\n    font-size: 0.75rem;\n    padding: 0.4rem 0.6rem;\n}\n}\n@media (max-width: 576px) {\n.badge[data-v-6b54700c] {\n    font-size: 0.7rem;\n    padding: 0.35rem 0.5rem;\n}\n}\n/* Dropdown Styles */\n.dropdown-menu[data-v-6b54700c] {\n  max-height: 400px;\n  overflow-y: auto;\n  border: 1px solid #e9ecef;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  border-radius: 8px;\n}\n.dropdown-item[data-v-6b54700c] {\n  padding: 0.75rem 1rem;\n  border-bottom: 1px solid #f8f9fa;\n  transition: all 0.2s ease;\n}\n.dropdown-item[data-v-6b54700c]:hover {\n  background-color: #f8f9fa;\n  transform: translateX(2px);\n}\n.dropdown-item[data-v-6b54700c]:last-child {\n  border-bottom: none;\n}\n.guide-title[data-v-6b54700c] {\n  font-weight: 500;\n  color: #333;\n  flex: 1;\n  margin-right: 0.5rem;\n}\n.dropdown-item .badge[data-v-6b54700c] {\n  font-size: 0.7rem;\n  padding: 0.25rem 0.5rem;\n  flex-shrink: 0;\n}\n/* Custom Scrollbar for Dropdown */\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar {\n  width: 6px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n  border-radius: 3px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-thumb {\n  background: #c1c1c1;\n  border-radius: 3px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-thumb:hover {\n  background: #a8a8a8;\n}\n/* Category Filter Styles */\n.category-filters[data-v-6b54700c] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n.category-filters .btn[data-v-6b54700c] {\n  border-radius: 20px;\n  font-weight: 500;\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n}\n.category-filters .btn[data-v-6b54700c]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.category-filters .btn-primary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);\n  border-color: #00bfa6;\n  color: white;\n}\n.category-filters .btn-outline-primary[data-v-6b54700c] {\n  color: #00bfa6;\n  border-color: #00bfa6;\n  background: transparent;\n}\n.category-filters .btn-outline-primary[data-v-6b54700c]:hover {\n  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);\n  color: white;\n  border-color: #00bfa6;\n}\n.category-filters .badge[data-v-6b54700c] {\n  font-size: 0.6rem;\n  padding: 0.2rem 0.4rem;\n  border-radius: 10px;\n}\n/* Responsive adjustments for category filters */\n@media (max-width: 768px) {\n.category-filters[data-v-6b54700c] {\n    gap: 0.3rem;\n}\n.category-filters .btn[data-v-6b54700c] {\n    font-size: 0.8rem;\n    padding: 0.4rem 0.6rem;\n}\n.category-filters .badge[data-v-6b54700c] {\n    font-size: 0.5rem;\n    padding: 0.15rem 0.3rem;\n}\n}\n/* Animations */\n.fade-slide-enter-active[data-v-6b54700c], .fade-slide-leave-active[data-v-6b54700c] {\n  transition: opacity 0.5s, transform 0.5s;\n}\n.fade-slide-enter-from[data-v-6b54700c], .fade-slide-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateY(20px);\n}\n.fade-slide-enter-to[data-v-6b54700c], .fade-slide-leave-from[data-v-6b54700c] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.fade-scale-enter-active[data-v-6b54700c], .fade-scale-leave-active[data-v-6b54700c] {\n  transition: opacity 0.4s, transform 0.4s;\n}\n.fade-scale-enter-from[data-v-6b54700c], .fade-scale-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: scale(0.95);\n}\n.fade-scale-enter-to[data-v-6b54700c], .fade-scale-leave-from[data-v-6b54700c] {\n  opacity: 1;\n  transform: scale(1);\n}\n.stagger-fade-enter-active[data-v-6b54700c] {\n  transition: all 0.5s;\n  transition-delay: var(--stagger-delay, 0ms);\n}\n.stagger-fade-enter-from[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateY(20px);\n}\n.stagger-fade-enter-to[data-v-6b54700c] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.stagger-fade-leave-active[data-v-6b54700c] {\n  transition: opacity 0.3s;\n}\n.stagger-fade-leave-to[data-v-6b54700c] {\n  opacity: 0;\n}\n/* Progress Tracker Styles */\n.progress-tracker-container[data-v-6b54700c] {\n  position: relative;\n  margin-bottom: 0.5rem;\n  width: 100%;\n}\n.progress-bar[data-v-6b54700c] {\n  height: 6px;\n  border-radius: 3px;\n  background: #e0e0e0;\n  position: relative;\n  margin-bottom: 2px;\n  transition: width 0.3s;\n}\n.progress-bar.reading-progress[data-v-6b54700c] {\n  background: linear-gradient(90deg, #00bfa6 0%, #38ef7d 100%);\n  z-index: 1;\n}\n.progress-bar.audio-progress[data-v-6b54700c] {\n  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);\n  margin-top: -6px;\n  opacity: 0.85;\n  z-index: 2;\n}\n.progress-labels[data-v-6b54700c] {\n  font-size: 0.85rem;\n  color: #888;\n  margin-top: 2px;\n}\n.autocomplete-suggestions[data-v-6b54700c] {\n  position: absolute;\n  z-index: 1000;\n  background: #fff;\n  border: 1px solid #e9ecef;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.08);\n  width: 100%;\n  margin-top: 0.2rem;\n  list-style: none;\n  padding: 0;\n  max-height: 260px;\n  overflow-y: auto;\n}\n.autocomplete-suggestions li[data-v-6b54700c] {\n  padding: 0.7rem 1rem;\n  cursor: pointer;\n  transition: background 0.2s;\n  display: flex;\n  align-items: center;\n  gap: 0.7rem;\n}\n.autocomplete-suggestions li.highlighted[data-v-6b54700c],\n.autocomplete-suggestions li[data-v-6b54700c]:hover {\n  background: #f8f9fa;\n}\n.suggestion-type[data-v-6b54700c] {\n  font-size: 0.75rem;\n  color: #888;\n  margin-left: 0.5rem;\n  background: #f1f1f1;\n  border-radius: 8px;\n  padding: 0.1rem 0.5rem;\n}\n@media (max-width: 768px) {\n.autocomplete-suggestions li[data-v-6b54700c] {\n    padding: 0.5rem 0.7rem;\n    font-size: 0.95rem;\n}\n}\n/* Help Modal Styles */\n.modal-overlay[data-v-6b54700c] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 9999;\n  padding: 1rem;\n}\n.help-modal[data-v-6b54700c] {\n  background: white;\n  border-radius: 12px;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);\n  max-width: 600px;\n  width: 100%;\n  max-height: 90vh;\n  overflow-y: auto;\n  animation: modalSlideIn-6b54700c 0.3s ease-out;\n}\n@keyframes modalSlideIn-6b54700c {\nfrom {\n    opacity: 0;\n    transform: translateY(-20px) scale(0.95);\n}\nto {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n}\n}\n.help-modal-header[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1.5rem 1.5rem 1rem;\n  border-bottom: 1px solid #e9ecef;\n}\n.help-modal-title[data-v-6b54700c] {\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: var(--primary-color);\n}\n.help-modal-close[data-v-6b54700c] {\n  background: none;\n  border: none;\n  font-size: 1.25rem;\n  color: #6c757d;\n  cursor: pointer;\n  padding: 0.25rem;\n  border-radius: 4px;\n  transition: all 0.2s;\n}\n.help-modal-close[data-v-6b54700c]:hover {\n  background: #f8f9fa;\n  color: #333;\n}\n.help-modal-body[data-v-6b54700c] {\n  padding: 1.5rem;\n}\n.help-section[data-v-6b54700c] {\n  margin-bottom: 2rem;\n}\n.help-section[data-v-6b54700c]:last-child {\n  margin-bottom: 0;\n}\n.help-section-title[data-v-6b54700c] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: #333;\n  margin-bottom: 0.75rem;\n  display: flex;\n  align-items: center;\n}\n.help-text[data-v-6b54700c] {\n  color: #666;\n  line-height: 1.6;\n  margin-bottom: 0;\n}\n.help-shortcuts[data-v-6b54700c] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.shortcut-item[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.5rem;\n  background: #f8f9fa;\n  border-radius: 6px;\n}\n.shortcut-item kbd[data-v-6b54700c] {\n  background: #333;\n  color: white;\n  padding: 0.25rem 0.5rem;\n  border-radius: 4px;\n  font-size: 0.85rem;\n  font-family: monospace;\n  min-width: 2rem;\n  text-align: center;\n}\n.help-list[data-v-6b54700c] {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.help-list li[data-v-6b54700c] {\n  padding: 0.5rem 0;\n  color: #666;\n  position: relative;\n  padding-left: 1.5rem;\n}\n.help-list li[data-v-6b54700c]::before {\n  content: \"•\";\n  color: var(--primary-color);\n  font-weight: bold;\n  position: absolute;\n  left: 0;\n}\n.suggestion-types[data-v-6b54700c] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.suggestion-type-example[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.75rem;\n  background: #f8f9fa;\n  border-radius: 8px;\n}\n.suggestion-type-badge[data-v-6b54700c] {\n  padding: 0.25rem 0.5rem;\n  border-radius: 12px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.suggestion-type-badge.title[data-v-6b54700c] {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  color: white;\n}\n.suggestion-type-badge.content[data-v-6b54700c] {\n  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);\n  color: white;\n}\n.suggestion-type-desc[data-v-6b54700c] {\n  color: #666;\n  font-size: 0.9rem;\n}\n.help-example[data-v-6b54700c] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  padding: 1rem;\n  border-radius: 8px;\n  border-left: 4px solid var(--primary-color);\n}\n.help-modal-footer[data-v-6b54700c] {\n  padding: 1rem 1.5rem;\n  border-top: 1px solid #e9ecef;\n  display: flex;\n  justify-content: flex-end;\n}\n/* Responsive Help Modal */\n@media (max-width: 768px) {\n.help-modal[data-v-6b54700c] {\n    margin: 1rem;\n    max-height: calc(100vh - 2rem);\n}\n.help-modal-header[data-v-6b54700c] {\n    padding: 1rem 1rem 0.75rem;\n}\n.help-modal-title[data-v-6b54700c] {\n    font-size: 1.1rem;\n}\n.help-modal-body[data-v-6b54700c] {\n    padding: 1rem;\n}\n.help-section[data-v-6b54700c] {\n    margin-bottom: 1.5rem;\n}\n.help-section-title[data-v-6b54700c] {\n    font-size: 1rem;\n}\n.shortcut-item[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.suggestion-type-example[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n}\n@media (max-width: 576px) {\n.modal-overlay[data-v-6b54700c] {\n    padding: 0.5rem;\n}\n.help-modal[data-v-6b54700c] {\n    margin: 0.5rem;\n}\n.help-modal-header[data-v-6b54700c] {\n    padding: 0.75rem 0.75rem 0.5rem;\n}\n.help-modal-body[data-v-6b54700c] {\n    padding: 0.75rem;\n}\n.help-modal-footer[data-v-6b54700c] {\n    padding: 0.75rem;\n}\n}\n/* AI Summary Styles */\n.ai-summary-section[data-v-6b54700c] {\n  border-top: 2px solid #e9ecef;\n  padding-top: 1.5rem;\n}\n.summary-header[data-v-6b54700c] {\n  border-bottom: 1px solid #f8f9fa;\n  padding-bottom: 0.75rem;\n}\n.summary-title[data-v-6b54700c] {\n  font-size: 1.2rem;\n  font-weight: 600;\n  color: #333;\n  display: flex;\n  align-items: center;\n}\n.summary-content[data-v-6b54700c] {\n  animation: fadeInUp-6b54700c 0.4s ease-out;\n}\n@keyframes fadeInUp-6b54700c {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.summary-card[data-v-6b54700c] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border: 2px solid rgb(103, 153, 103);\n  border-radius: 12px;\n  padding: 1.5rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.summary-text[data-v-6b54700c] {\n  font-size: 1rem;\n  line-height: 1.7;\n  color: #333;\n  margin-bottom: 0;\n}\n.summary-text p[data-v-6b54700c] {\n  margin-bottom: 1rem;\n}\n.summary-text p[data-v-6b54700c]:last-child {\n  margin-bottom: 0;\n}\n.summary-text strong[data-v-6b54700c] {\n  color: var(--primary-color);\n  font-weight: 600;\n}\n.summary-footer[data-v-6b54700c] {\n  font-size: 0.85rem;\n  color: #6c757d;\n  border-top: 1px solid #dee2e6;\n}\n.summary-footer i[data-v-6b54700c] {\n  color: var(--primary-color);\n}\n/* Loading animation for summary button */\n.btn-outline-info[data-v-6b54700c]:disabled {\n  opacity: 0.7;\n  cursor: not-allowed;\n}\n.btn-outline-info:disabled i[data-v-6b54700c] {\n  animation: spin-6b54700c 1s linear infinite;\n}\n@keyframes spin-6b54700c {\nfrom {\n    transform: rotate(0deg);\n}\nto {\n    transform: rotate(360deg);\n}\n}\n/* Responsive AI Summary */\n@media (max-width: 768px) {\n.ai-summary-section[data-v-6b54700c] {\n    padding-top: 1rem;\n}\n.summary-card[data-v-6b54700c] {\n    padding: 1rem;\n}\n.summary-title[data-v-6b54700c] {\n    font-size: 1.1rem;\n}\n.summary-text[data-v-6b54700c] {\n    font-size: 0.95rem;\n}\n}\n@media (max-width: 576px) {\n.summary-header[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.summary-card[data-v-6b54700c] {\n    padding: 0.75rem;\n}\n.summary-text[data-v-6b54700c] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Base Styles */\n[data-v-6b54700c]:root {\n  --primary-color: #00bfa6;\n  --primary-hover: #008f7a;\n  --text-color: #333;\n  --text-light: #6c757d;\n  --bg-color: #fff;\n  --border-color: #e9ecef;\n  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);\n}\n/* Typography */\nbody[data-v-6b54700c] {\n  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  color: var(--text-color);\n  line-height: 1.6;\n}\nh1[data-v-6b54700c], h2[data-v-6b54700c], h3[data-v-6b54700c], h4[data-v-6b54700c], h5[data-v-6b54700c], h6[data-v-6b54700c] {\n  font-weight: 700;\n  line-height: 1.3;\n}\n/* Header */\n.header-icon[data-v-6b54700c] {\n  font-size: 2.5rem;\n  color: var(--primary-color);\n}\n/* .header-title {\n  font-size: 2rem;\n  font-weight: 800;\n  color: var(--primary-color);\n  margin-bottom: 0.5rem;\n} */\n.header-description[data-v-6b54700c] {\n  font-size: 1.1rem;\n  color: var(--text-light);\n  max-width: 600px;\n  margin: 0 auto;\n}\n/* Controls */\n.controls-section[data-v-6b54700c] {\n  background-color: rgba(0, 191, 166, 0.05);\n  border: 1px solid rgba(0, 191, 166, 0.1);\n  border-radius: 12px;\n  padding: 1.5rem;\n}\n.form-label[data-v-6b54700c] {\n  font-weight: 600;\n  margin-bottom: 0.5rem;\n  color: var(--text-color);\n}\n.form-select[data-v-6b54700c], .form-control[data-v-6b54700c] {\n  border-radius: 8px;\n  padding: 0.75rem;\n  border: 1px solid var(--border-color);\n  font-size: 1rem;\n}\n.form-select[data-v-6b54700c]:focus, .form-control[data-v-6b54700c]:focus {\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n/* Content Card */\n.content-card[data-v-6b54700c] {\n  border-radius: 12px;\n  border: 1px solid var(--border-color);\n  box-shadow: var(--card-shadow);\n  overflow: hidden;\n  transition: transform 0.3s;\n}\n.content-card[data-v-6b54700c]:hover {\n  transform: translateY(-3px);\n}\n.content-title[data-v-6b54700c] {\n  font-size: 1.5rem;\n  margin-bottom: 0.5rem;\n}\n.content-text[data-v-6b54700c] {\n  font-size: 1.1rem;\n  line-height: 1.8;\n}\n.highlight-word[data-v-6b54700c] {\n  background-color: var(--primary-color);\n  color: white;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\nmark[data-v-6b54700c] {\n  background-color: #fff3a3;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\n/* Buttons */\n.btn[data-v-6b54700c] {\n  font-weight: 500;\n  transition: all 0.2s;\n  border-radius: 8px;\n}\n.btn-outline-primary[data-v-6b54700c] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-6b54700c]:hover {\n  background-color: var(--primary-color);\n  color: white;\n}\n/* Modern Audio Player Styles */\n.modern-audio-player[data-v-6b54700c],\n.modern-audio-player.w-100[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  background: #232323;\n  color: #fff;\n  border-radius: 0;\n  box-shadow: 0 4px 32px rgba(0,0,0,0.18);\n  padding: 1rem 1.5rem;\n  position: fixed;\n  left: 0;\n  bottom: 0;\n  transform: none;\n  width: 100vw;\n  max-width: 100vw;\n  z-index: 2000;\n}\n.audio-meta[data-v-6b54700c] {\n  min-width: 160px;\n  flex: 1 1 0;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.audio-title[data-v-6b54700c] {\n  font-weight: 700;\n  font-size: 1.15rem;\n  color: #fff;\n  margin-bottom: 0.1rem;\n}\n.small-title[data-v-6b54700c] {\n  font-size: 1rem;\n  text-align: left;\n}\n.audio-meta.text-start[data-v-6b54700c] {\n  text-align: left;\n}\n.audio-subtitle[data-v-6b54700c] {\n  font-size: 0.95rem;\n  color: #bdbdbd;\n  font-weight: 400;\n}\n.audio-controls[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.8rem;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.6rem;\n  padding: 0.5rem 0.7rem;\n  border-radius: 50%;\n  transition: background 0.2s, color 0.2s, transform 0.1s;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c]:hover, .audio-btn[data-v-6b54700c]:focus {\n  background: rgba(0,191,166,0.12);\n  color: #00bfa6;\n  outline: none;\n  transform: scale(1.08);\n}\n.close-btn[data-v-6b54700c] {\n  margin-left: 0.7rem;\n  font-size: 1.3rem;\n  background: none;\n  color: #bdbdbd;\n}\n.close-btn[data-v-6b54700c]:hover {\n  color: #ff4d4f;\n  background: rgba(255,77,79,0.08);\n}\n.audio-progress-wrap[data-v-6b54700c] {\n  flex: 3 1 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 180px;\n  margin: 0 1.2rem;\n}\n.audio-progress-bar[data-v-6b54700c] {\n  width: 100%;\n  height: 4px;\n  background: #444;\n  border-radius: 2px;\n  overflow: hidden;\n  position: relative;\n}\n.audio-progress[data-v-6b54700c] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6 0%, #008f7a 100%);\n  border-radius: 2px;\n  transition: width 0.05s linear;\n  will-change: width;\n}\n.audio-right[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  min-width: 180px;\n  flex: 1 1 0;\n  justify-content: flex-end;\n}\n.volume-icon[data-v-6b54700c] {\n  font-size: 1.3rem;\n  color: #bdbdbd;\n}\n.audio-volume-slider[data-v-6b54700c] {\n  width: 120px;\n  accent-color: #00bfa6;\n  background: transparent;\n  margin: 0 0.5rem;\n  height: 4px;\n}\n.audio-volume-slider[data-v-6b54700c]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]:focus {\n  outline: none;\n}\n/* Transitions */\n.global-audio-player-enter-active[data-v-6b54700c],\n.global-audio-player-leave-active[data-v-6b54700c] {\n  transition: all 0.3s ease;\n}\n.global-audio-player-enter-from[data-v-6b54700c],\n.global-audio-player-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateX(-50%) translateY(100%);\n}\n.modern-audio-player.w-100[data-v-6b54700c] {\n  width: 100vw;\n  left: 0;\n  transform: none;\n  border-radius: 0;\n}\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.container[data-v-6b54700c] {\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n.header-title[data-v-6b54700c] {\n    font-size: 1.75rem;\n}\n.header-description[data-v-6b54700c] {\n  font-size: 1rem;\n}\n.global-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    padding: 1rem;\n    width: 100%;\n    border-radius: 0;\n    bottom: 0;\n}\n.player-desktop[data-v-6b54700c] {\n    display: none;\n}\n.player-mobile[data-v-6b54700c] {\n    display: flex;\n}\n.player-section[data-v-6b54700c] {\n    width: 100%;\n    margin-bottom: 0.5rem;\n}\n.player-info[data-v-6b54700c], .player-volume[data-v-6b54700c] {\n    min-width: auto;\n}\n.progress-bar-container[data-v-6b54700c] {\n    max-width: 100%;\n}\n.volume-slider[data-v-6b54700c] {\n    width: 60px;\n}\n}\n@media (max-width: 576px) {\n.header-title[data-v-6b54700c] {\n    font-size: 1.5rem;\n}\n.content-title[data-v-6b54700c] {\n    font-size: 1.3rem;\n}\n.content-text[data-v-6b54700c] {\n    font-size: 1rem;\n}\n.controls-section[data-v-6b54700c] {\n    padding: 1.2rem;\n}\n.btn[data-v-6b54700c] {\n    padding: 0.25rem 0.5rem;\n    font-size: 0.9rem;\n}\n}\n/* Ensure content not hidden behind fixed audio bar */\n.pad-for-audio[data-v-6b54700c] {\n  padding-bottom: 110px; /* approximate player height */\n}\n@media (max-width: 768px) {\n.pad-for-audio[data-v-6b54700c] { padding-bottom: 140px;\n}\n}\n@media (max-width: 900px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-wrap: wrap;\n    gap: 1rem;\n    padding: 0.7rem 0.5rem;\n    width: 100vw;\n    left: 0;\n    border-radius: 0;\n}\n.audio-meta[data-v-6b54700c], .audio-right[data-v-6b54700c] {\n    min-width: 120px;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    min-width: 120px;\n    margin: 0 0.5rem;\n}\n}\n@media (min-width: 601px) {\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    \n    flex-wrap: nowrap;\n    /* Prevent overlap */\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 3;\n    margin: 0 1.2rem;\n    flex: 3 1 0;\n    min-width: 120px;\n    flex-shrink: 1;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.audio-right[data-v-6b54700c] {\n    order: 4;\n    \n    min-width: 140px;\n    flex: 1 1 0;\n    display: flex;\n    align-items: center;\n    justify-content: flex-end;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    overflow: hidden;\n}\n}\n@media (max-width: 600px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: stretch;\n    border-radius: 0;\n    left: 0;\n    transform: none;\n    width: 100vw;\n    max-width: 100vw;\n    padding: 0.2rem 0.05rem;\n    border-radius: 0;\n}\n.audio-player-row.top[data-v-6b54700c], .audio-meta[data-v-6b54700c], .audio-title[data-v-6b54700c], .audio-subtitle[data-v-6b54700c] {\n    display: none !important;\n}\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex !important;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    \n    flex-wrap: nowrap;\n    overflow-x: auto;\n    -webkit-overflow-scrolling: touch;\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-controls[data-v-6b54700c] {\n    order: 1;\n    \n    margin: 0;\n    font-size: 0.95rem;\n    flex: 0 0 auto;\n    display: flex;\n    align-items: center;\n}\n.audio-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    padding: 0.18rem 0.22rem;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 2;\n    margin: 0 0.1rem;\n    flex: 2 1 0;\n    min-width: 0;\n    display: flex;\n    align-items: center;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    height: 3px;\n}\n.audio-right[data-v-6b54700c] {\n    order: 3;\n    \n    min-width: 0;\n    flex: 0 0 auto;\n    font-size: 0.85rem;\n    display: flex;\n    align-items: center;\n}\n.audio-volume-slider[data-v-6b54700c] {\n    width: 60px;\n    height: 2.5px;\n}\n.close-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    margin-left: 0.18rem;\n}\n.volume-icon[data-v-6b54700c] {\n    font-size: 0.95rem;\n}\n}\n/* Badge Styles */\n.badge[data-v-6b54700c] {\n  font-weight: 600;\n  padding: 0.5rem 0.75rem;\n  border-radius: 20px;\n  font-size: 0.85rem;\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n  border: 1px solid transparent;\n  transition: all 0.3s ease;\n}\n.badge[data-v-6b54700c]:hover {\n  transform: translateY(-1px);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n/* Custom Badge Color Schemes */\n.badge.bg-primary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;\n  color: white !important;\n  border-color: #667eea;\n}\n.badge.bg-success[data-v-6b54700c] {\n  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;\n  color: white !important;\n  border-color: #11998e;\n}\n.badge.bg-info[data-v-6b54700c] {\n  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;\n  color: white !important;\n  border-color: #4facfe;\n}\n.badge.bg-warning[data-v-6b54700c] {\n  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;\n  color: white !important;\n  border-color: #fa709a;\n}\n.badge.bg-secondary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%) !important;\n  color: #333 !important;\n  border-color: #a8edea;\n}\n.badge.bg-danger[data-v-6b54700c] {\n  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%) !important;\n  color: white !important;\n  border-color: #ff9a9e;\n}\n.badge.bg-dark[data-v-6b54700c] {\n  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;\n  color: white !important;\n  border-color: #2c3e50;\n}\n/* Responsive Badge Adjustments */\n@media (max-width: 768px) {\n.badge[data-v-6b54700c] {\n    font-size: 0.75rem;\n    padding: 0.4rem 0.6rem;\n}\n}\n@media (max-width: 576px) {\n.badge[data-v-6b54700c] {\n    font-size: 0.7rem;\n    padding: 0.35rem 0.5rem;\n}\n}\n/* Dropdown Styles */\n.dropdown-menu[data-v-6b54700c] {\n  max-height: 400px;\n  overflow-y: auto;\n  border: 1px solid #e9ecef;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  border-radius: 8px;\n}\n.dropdown-item[data-v-6b54700c] {\n  padding: 0.75rem 1rem;\n  border-bottom: 1px solid #f8f9fa;\n  transition: all 0.2s ease;\n}\n.dropdown-item[data-v-6b54700c]:hover {\n  background-color: #f8f9fa;\n  transform: translateX(2px);\n}\n.dropdown-item[data-v-6b54700c]:last-child {\n  border-bottom: none;\n}\n.guide-title[data-v-6b54700c] {\n  font-weight: 500;\n  color: #333;\n  flex: 1;\n  margin-right: 0.5rem;\n}\n.dropdown-item .badge[data-v-6b54700c] {\n  font-size: 0.7rem;\n  padding: 0.25rem 0.5rem;\n  flex-shrink: 0;\n}\n/* Custom Scrollbar for Dropdown */\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar {\n  width: 6px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n  border-radius: 3px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-thumb {\n  background: #c1c1c1;\n  border-radius: 3px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-thumb:hover {\n  background: #a8a8a8;\n}\n/* Category Filter Styles */\n.category-filters[data-v-6b54700c] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n.category-filters .btn[data-v-6b54700c] {\n  border-radius: 20px;\n  font-weight: 500;\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n}\n.category-filters .btn[data-v-6b54700c]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.category-filters .btn-primary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);\n  border-color: #00bfa6;\n  color: white;\n}\n.category-filters .btn-outline-primary[data-v-6b54700c] {\n  color: #00bfa6;\n  border-color: #00bfa6;\n  background: transparent;\n}\n.category-filters .btn-outline-primary[data-v-6b54700c]:hover {\n  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);\n  color: white;\n  border-color: #00bfa6;\n}\n.category-filters .badge[data-v-6b54700c] {\n  font-size: 0.6rem;\n  padding: 0.2rem 0.4rem;\n  border-radius: 10px;\n}\n/* Responsive adjustments for category filters */\n@media (max-width: 768px) {\n.category-filters[data-v-6b54700c] {\n    gap: 0.3rem;\n}\n.category-filters .btn[data-v-6b54700c] {\n    font-size: 0.8rem;\n    padding: 0.4rem 0.6rem;\n}\n.category-filters .badge[data-v-6b54700c] {\n    font-size: 0.5rem;\n    padding: 0.15rem 0.3rem;\n}\n}\n/* Animations */\n.fade-slide-enter-active[data-v-6b54700c], .fade-slide-leave-active[data-v-6b54700c] {\n  transition: opacity 0.5s, transform 0.5s;\n}\n.fade-slide-enter-from[data-v-6b54700c], .fade-slide-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateY(20px);\n}\n.fade-slide-enter-to[data-v-6b54700c], .fade-slide-leave-from[data-v-6b54700c] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.fade-scale-enter-active[data-v-6b54700c], .fade-scale-leave-active[data-v-6b54700c] {\n  transition: opacity 0.4s, transform 0.4s;\n}\n.fade-scale-enter-from[data-v-6b54700c], .fade-scale-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: scale(0.95);\n}\n.fade-scale-enter-to[data-v-6b54700c], .fade-scale-leave-from[data-v-6b54700c] {\n  opacity: 1;\n  transform: scale(1);\n}\n.stagger-fade-enter-active[data-v-6b54700c] {\n  transition: all 0.5s;\n  transition-delay: var(--stagger-delay, 0ms);\n}\n.stagger-fade-enter-from[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateY(20px);\n}\n.stagger-fade-enter-to[data-v-6b54700c] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.stagger-fade-leave-active[data-v-6b54700c] {\n  transition: opacity 0.3s;\n}\n.stagger-fade-leave-to[data-v-6b54700c] {\n  opacity: 0;\n}\n/* Progress Tracker Styles */\n.progress-tracker-container[data-v-6b54700c] {\n  position: relative;\n  margin-bottom: 0.5rem;\n  width: 100%;\n}\n.progress-bar[data-v-6b54700c] {\n  height: 6px;\n  border-radius: 3px;\n  background: #e0e0e0;\n  position: relative;\n  margin-bottom: 2px;\n  transition: width 0.1s linear;\n  will-change: width;\n}\n.progress-bar.reading-progress[data-v-6b54700c] {\n  background: linear-gradient(90deg, #00bfa6 0%, #38ef7d 100%);\n  z-index: 1;\n}\n.progress-bar.audio-progress[data-v-6b54700c] {\n  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);\n  margin-top: -6px;\n  opacity: 0.85;\n  z-index: 2;\n}\n.progress-labels[data-v-6b54700c] {\n  font-size: 0.85rem;\n  color: #888;\n  margin-top: 2px;\n}\n.autocomplete-suggestions[data-v-6b54700c] {\n  position: absolute;\n  z-index: 1000;\n  background: #fff;\n  border: 1px solid #e9ecef;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.08);\n  width: 100%;\n  margin-top: 0.2rem;\n  list-style: none;\n  padding: 0;\n  max-height: 260px;\n  overflow-y: auto;\n}\n.autocomplete-suggestions li[data-v-6b54700c] {\n  padding: 0.7rem 1rem;\n  cursor: pointer;\n  transition: background 0.2s;\n  display: flex;\n  align-items: center;\n  gap: 0.7rem;\n}\n.autocomplete-suggestions li.highlighted[data-v-6b54700c],\n.autocomplete-suggestions li[data-v-6b54700c]:hover {\n  background: #f8f9fa;\n}\n.suggestion-type[data-v-6b54700c] {\n  font-size: 0.75rem;\n  color: #888;\n  margin-left: 0.5rem;\n  background: #f1f1f1;\n  border-radius: 8px;\n  padding: 0.1rem 0.5rem;\n}\n@media (max-width: 768px) {\n.autocomplete-suggestions li[data-v-6b54700c] {\n    padding: 0.5rem 0.7rem;\n    font-size: 0.95rem;\n}\n}\n/* Help Modal Styles */\n.modal-overlay[data-v-6b54700c] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 9999;\n  padding: 1rem;\n}\n.help-modal[data-v-6b54700c] {\n  background: white;\n  border-radius: 12px;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);\n  max-width: 600px;\n  width: 100%;\n  max-height: 90vh;\n  overflow-y: auto;\n  animation: modalSlideIn-6b54700c 0.3s ease-out;\n}\n@keyframes modalSlideIn-6b54700c {\nfrom {\n    opacity: 0;\n    transform: translateY(-20px) scale(0.95);\n}\nto {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n}\n}\n.help-modal-header[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1.5rem 1.5rem 1rem;\n  border-bottom: 1px solid #e9ecef;\n}\n.help-modal-title[data-v-6b54700c] {\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: var(--primary-color);\n}\n.help-modal-close[data-v-6b54700c] {\n  background: none;\n  border: none;\n  font-size: 1.25rem;\n  color: #6c757d;\n  cursor: pointer;\n  padding: 0.25rem;\n  border-radius: 4px;\n  transition: all 0.2s;\n}\n.help-modal-close[data-v-6b54700c]:hover {\n  background: #f8f9fa;\n  color: #333;\n}\n.help-modal-body[data-v-6b54700c] {\n  padding: 1.5rem;\n}\n.help-section[data-v-6b54700c] {\n  margin-bottom: 2rem;\n}\n.help-section[data-v-6b54700c]:last-child {\n  margin-bottom: 0;\n}\n.help-section-title[data-v-6b54700c] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: #333;\n  margin-bottom: 0.75rem;\n  display: flex;\n  align-items: center;\n}\n.help-text[data-v-6b54700c] {\n  color: #666;\n  line-height: 1.6;\n  margin-bottom: 0;\n}\n.help-shortcuts[data-v-6b54700c] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.shortcut-item[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.5rem;\n  background: #f8f9fa;\n  border-radius: 6px;\n}\n.shortcut-item kbd[data-v-6b54700c] {\n  background: #333;\n  color: white;\n  padding: 0.25rem 0.5rem;\n  border-radius: 4px;\n  font-size: 0.85rem;\n  font-family: monospace;\n  min-width: 2rem;\n  text-align: center;\n}\n.help-list[data-v-6b54700c] {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.help-list li[data-v-6b54700c] {\n  padding: 0.5rem 0;\n  color: #666;\n  position: relative;\n  padding-left: 1.5rem;\n}\n.help-list li[data-v-6b54700c]::before {\n  content: \"•\";\n  color: var(--primary-color);\n  font-weight: bold;\n  position: absolute;\n  left: 0;\n}\n.suggestion-types[data-v-6b54700c] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.suggestion-type-example[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.75rem;\n  background: #f8f9fa;\n  border-radius: 8px;\n}\n.suggestion-type-badge[data-v-6b54700c] {\n  padding: 0.25rem 0.5rem;\n  border-radius: 12px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.suggestion-type-badge.title[data-v-6b54700c] {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  color: white;\n}\n.suggestion-type-badge.content[data-v-6b54700c] {\n  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);\n  color: white;\n}\n.suggestion-type-desc[data-v-6b54700c] {\n  color: #666;\n  font-size: 0.9rem;\n}\n.help-example[data-v-6b54700c] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  padding: 1rem;\n  border-radius: 8px;\n  border-left: 4px solid var(--primary-color);\n}\n.help-modal-footer[data-v-6b54700c] {\n  padding: 1rem 1.5rem;\n  border-top: 1px solid #e9ecef;\n  display: flex;\n  justify-content: flex-end;\n}\n/* Responsive Help Modal */\n@media (max-width: 768px) {\n.help-modal[data-v-6b54700c] {\n    margin: 1rem;\n    max-height: calc(100vh - 2rem);\n}\n.help-modal-header[data-v-6b54700c] {\n    padding: 1rem 1rem 0.75rem;\n}\n.help-modal-title[data-v-6b54700c] {\n    font-size: 1.1rem;\n}\n.help-modal-body[data-v-6b54700c] {\n    padding: 1rem;\n}\n.help-section[data-v-6b54700c] {\n    margin-bottom: 1.5rem;\n}\n.help-section-title[data-v-6b54700c] {\n    font-size: 1rem;\n}\n.shortcut-item[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.suggestion-type-example[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n}\n@media (max-width: 576px) {\n.modal-overlay[data-v-6b54700c] {\n    padding: 0.5rem;\n}\n.help-modal[data-v-6b54700c] {\n    margin: 0.5rem;\n}\n.help-modal-header[data-v-6b54700c] {\n    padding: 0.75rem 0.75rem 0.5rem;\n}\n.help-modal-body[data-v-6b54700c] {\n    padding: 0.75rem;\n}\n.help-modal-footer[data-v-6b54700c] {\n    padding: 0.75rem;\n}\n}\n/* AI Summary Styles */\n.ai-summary-section[data-v-6b54700c] {\n  border-top: 2px solid #e9ecef;\n  padding-top: 1.5rem;\n}\n.summary-header[data-v-6b54700c] {\n  border-bottom: 1px solid #f8f9fa;\n  padding-bottom: 0.75rem;\n}\n.summary-title[data-v-6b54700c] {\n  font-size: 1.2rem;\n  font-weight: 600;\n  color: #333;\n  display: flex;\n  align-items: center;\n}\n.summary-content[data-v-6b54700c] {\n  animation: fadeInUp-6b54700c 0.4s ease-out;\n}\n@keyframes fadeInUp-6b54700c {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.summary-card[data-v-6b54700c] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border: 2px solid rgb(103, 153, 103);\n  border-radius: 12px;\n  padding: 1.5rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.summary-text[data-v-6b54700c] {\n  font-size: 1rem;\n  line-height: 1.7;\n  color: #333;\n  margin-bottom: 0;\n}\n.summary-text p[data-v-6b54700c] {\n  margin-bottom: 1rem;\n}\n.summary-text p[data-v-6b54700c]:last-child {\n  margin-bottom: 0;\n}\n.summary-text strong[data-v-6b54700c] {\n  color: var(--primary-color);\n  font-weight: 600;\n}\n.summary-footer[data-v-6b54700c] {\n  font-size: 0.85rem;\n  color: #6c757d;\n  border-top: 1px solid #dee2e6;\n}\n.summary-footer i[data-v-6b54700c] {\n  color: var(--primary-color);\n}\n/* Loading animation for summary button */\n.btn-outline-info[data-v-6b54700c]:disabled {\n  opacity: 0.7;\n  cursor: not-allowed;\n}\n.btn-outline-info:disabled i[data-v-6b54700c] {\n  animation: spin-6b54700c 1s linear infinite;\n}\n@keyframes spin-6b54700c {\nfrom {\n    transform: rotate(0deg);\n}\nto {\n    transform: rotate(360deg);\n}\n}\n/* Responsive AI Summary */\n@media (max-width: 768px) {\n.ai-summary-section[data-v-6b54700c] {\n    padding-top: 1rem;\n}\n.summary-card[data-v-6b54700c] {\n    padding: 1rem;\n}\n.summary-title[data-v-6b54700c] {\n    font-size: 1.1rem;\n}\n.summary-text[data-v-6b54700c] {\n    font-size: 0.95rem;\n}\n}\n@media (max-width: 576px) {\n.summary-header[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.summary-card[data-v-6b54700c] {\n    padding: 0.75rem;\n}\n.summary-text[data-v-6b54700c] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

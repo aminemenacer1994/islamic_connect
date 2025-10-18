@@ -1,5 +1,5 @@
 <template>
-  <div class="container my-4" role="main">
+  <div :class="['container my-4', { 'pad-for-audio': isPlaying || isPaused }]" role="main">
     <!-- Header -->
     <header class="text-center mb-4">
       
@@ -30,7 +30,7 @@
             </button>
             <transition name="fade-slide">
               <ul class="dropdown-menu w-100" aria-labelledby="category-select" v-if="filteredSections.length" role="menu" ref="categoryMenu" @keydown.down.prevent="moveMenuFocus(1)" @keydown.up.prevent="moveMenuFocus(-1)">
-                <li v-for="(section, index) in filteredSections" :key="index" role="none">
+                <li v-for="(section, index) in filteredSections" :key="section.title" role="none">
                   <a 
                     class="dropdown-item d-flex align-items-center justify-content-between" 
                     href="#"
@@ -220,14 +220,25 @@
                     <i class="bi bi-robot me-2 text-info"></i>
                     AI Summary
                   </h4>
-                  <button 
-                    class="btn btn-sm btn-outline-secondary"
-                    @click="toggleSummary"
-                    :title="showSummary ? 'Hide Summary' : 'Show Summary'"
-                  >
-                    <i class="bi" :class="showSummary ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-                    {{ showSummary ? 'Hide' : 'Show' }}
-                  </button>
+                  <div class="d-flex gap-2">
+                    <button 
+                      class="btn btn-sm btn-outline-secondary"
+                      @click="toggleSummary"
+                      :title="showSummary ? 'Hide Summary' : 'Show Summary'"
+                      aria-label="Toggle AI summary visibility"
+                    >
+                      <i class="bi" :class="showSummary ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+                      {{ showSummary ? 'Hide' : 'Show' }}
+                    </button>
+                    <button
+                      class="btn btn-sm btn-outline-secondary"
+                      @click="closeSummary"
+                      title="Close AI Summary"
+                      aria-label="Close AI summary"
+                    >
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+                  </div>
                 </div>
                 
                 <transition name="fade-slide">
@@ -415,7 +426,7 @@
 </template>
 
 <script>
-import { ref, onMounted, computed, watch, nextTick } from 'vue';
+import { ref, onMounted, onUnmounted, computed, watch, nextTick } from 'vue';
 import guide from '../guides.json';
 import axios from 'axios';
 
@@ -432,6 +443,9 @@ export default {
     const totalDuration = ref(0);
     const volume = ref(70);
     const utterance = ref(null);
+    // Stable audio timing
+    const playbackStartMs = ref(0);
+    const accumulatedMs = ref(0);
     const currentPlayingContent = ref({
       title: '',
       category: ''
@@ -459,11 +473,14 @@ export default {
     const showSuggestions = ref(false);
     const highlightedIndex = ref(-1);
     const showHelpModal = ref(false);
+    const categoryMenu = ref(null);
+    const animFrameId = ref(0);
     // AI Summary state
     const isSummaryLoading = ref(false);
     const summaryText = ref('');
     const showSummary = ref(true);
     const summarySectionRef = ref(null);
+    const audioBarVisible = computed(() => isPlaying.value || isPaused.value);
 
     function increaseFontSize() {
       if (fontSize.value < maxFontSize) fontSize.value += 0.1;
@@ -473,16 +490,35 @@ export default {
     }
 
     // Word count, read time, listen time
+    // Preprocess guide data for faster search and metrics
+    const normalizedSections = guide.sections.map((s, i) => {
+      const contentText = Array.isArray(s.content)
+        ? s.content.join(' ')
+        : (s.content || '');
+      return {
+        index: i,
+        title: s.title,
+        titleL: s.title.toLowerCase(),
+        contentText,
+        contentL: contentText.toLowerCase(),
+      };
+    });
+
+    const currentSection = computed(() => {
+      if (selectedCategory.value === '' || !guide.sections[selectedCategory.value]) return null;
+      return guide.sections[selectedCategory.value];
+    });
+
+    const currentContentText = computed(() => {
+      if (!currentSection.value) return '';
+      return Array.isArray(currentSection.value.content)
+        ? currentSection.value.content.join(' ')
+        : (currentSection.value.content || '');
+    });
+
     const wordCount = computed(() => {
-      if (selectedCategory.value === '' || !guide.sections[selectedCategory.value]) return 0;
-      const section = guide.sections[selectedCategory.value];
-      let text = '';
-      if (Array.isArray(section.content)) {
-        text = section.content.join(' ');
-      } else {
-        text = section.content || '';
-      }
-      return text.trim().split(/\s+/).filter(Boolean).length;
+      if (!currentContentText.value) return 0;
+      return currentContentText.value.trim().split(/\s+/).filter(Boolean).length;
     });
     const readTime = computed(() => {
       // 200 words per minute
@@ -534,13 +570,11 @@ export default {
       });
     });
 
-    // Clean up listeners
-    if (typeof window !== 'undefined') {
-      window.addEventListener('beforeunload', () => {
-        window.removeEventListener('scroll', handleScroll);
-        window.removeEventListener('resize', handleScroll);
-      });
-    }
+    onUnmounted(() => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      cancelAnimationFrame(animFrameId.value);
+    });
 
     const initializeCategories = () => {
       const categories = new Set();
@@ -642,58 +676,62 @@ export default {
       return badgeClasses[category] || badgeClasses['General'];
     };
 
-    function updateReadingProgress() {
+    // Reading progress with cached element and rAF throttle
+    const contentCardEl = ref(null);
+    function cacheContentCard() {
       const el = contentSectionRef.value;
-      if (!el) {
-        readingProgress.value = 0;
-        return;
-      }
-      const content = el.querySelector('.content-card');
-      if (!content) {
-        readingProgress.value = 0;
-        return;
-      }
+      contentCardEl.value = el ? el.querySelector('.content-card') : null;
+    }
+    watch(selectedCategory, () => cacheContentCard());
+    nextTick(() => cacheContentCard());
+
+    function updateReadingProgress() {
+      const content = contentCardEl.value;
+      if (!content) { readingProgress.value = 0; return; }
       const rect = content.getBoundingClientRect();
       const windowHeight = window.innerHeight || document.documentElement.clientHeight;
       const contentHeight = content.scrollHeight;
-      // Calculate how much of the content is visible
-      let visible = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
-      visible = Math.max(0, visible);
-      let progress = 0;
-      if (contentHeight > 0) {
-        // Use scroll position within the content card
-        const scrollTop = window.scrollY + (windowHeight - rect.height) / 2 - rect.top;
-        progress = Math.min(100, Math.max(0, (scrollTop / (contentHeight - rect.height)) * 100));
-      }
+      const scrollTop = window.scrollY + (windowHeight - rect.height) / 2 - rect.top;
+      const progress = contentHeight > 0
+        ? Math.min(100, Math.max(0, (scrollTop / (contentHeight - rect.height)) * 100))
+        : 0;
       readingProgress.value = Math.round(progress);
     }
 
+    let ticking = false;
     function handleScroll() {
-      updateReadingProgress();
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateReadingProgress();
+          ticking = false;
+        });
+      }
     }
 
     // Suggestions computed property
+    // Debounced search input
+    const debouncedSearchText = ref('');
+    let debounceTimer = null;
+    watch(searchText, (val) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => { debouncedSearchText.value = val; }, 150);
+    });
+
     const suggestions = computed(() => {
-      if (!searchText.value) return [];
-      const text = searchText.value.toLowerCase();
-      return guide.sections
-        .map((section, idx) => {
-          if (section.title.toLowerCase().includes(text)) {
-            return { type: 'title', value: section.title, index: idx };
-          }
-          if (typeof section.content === 'string' && section.content.toLowerCase().includes(text)) {
-            return { type: 'content', value: section.content.slice(0, 100) + '...', index: idx };
-          }
-          if (Array.isArray(section.content)) {
-            const found = section.content.find(item => item.toLowerCase().includes(text));
-            if (found) {
-              return { type: 'content', value: found.slice(0, 100) + '...', index: idx };
-            }
-          }
-          return null;
-        })
-        .filter(Boolean)
-        .slice(0, 7);
+      const q = debouncedSearchText.value.trim().toLowerCase();
+      if (!q) return [];
+      const results = [];
+      for (const s of normalizedSections) {
+        if (s.titleL.includes(q)) {
+          results.push({ type: 'title', value: s.title, index: s.index });
+        } else if (s.contentL.includes(q)) {
+          const snippet = s.contentText.slice(0, 100) + (s.contentText.length > 100 ? '...' : '');
+          results.push({ type: 'content', value: snippet, index: s.index });
+        }
+        if (results.length >= 7) break;
+      }
+      return results;
     });
 
     function selectSuggestion(suggestion) {
@@ -701,9 +739,12 @@ export default {
       showSuggestions.value = false;
       selectedCategory.value = suggestion.index;
     }
+    function escapeRegex(s) {
+      return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
     function highlightSuggestion(text) {
       if (!searchText.value) return text;
-      const regex = new RegExp(`(${searchText.value})`, 'gi');
+      const regex = new RegExp(`(${escapeRegex(searchText.value)})`, 'gi');
       return text.replace(regex, '<mark>$1</mark>');
     }
 
@@ -748,71 +789,104 @@ export default {
     }
 
     function generateAISummary(title, content, category) {
-      // Extract key sentences and create a structured summary
-      const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 10);
-      const keyPoints = [];
-      
-      // Extract important concepts based on category
-      const categoryKeywords = {
-        'Theology': ['Allah', 'God', 'faith', 'belief', 'divine', 'spiritual', 'religious'],
-        'Worship': ['prayer', 'worship', 'fasting', 'hajj', 'dua', 'dhikr', 'ritual'],
-        'Ethics': ['morality', 'character', 'good', 'righteous', 'forgiveness', 'mercy', 'gratitude'],
-        'Social Justice': ['justice', 'equality', 'rights', 'community', 'society', 'fairness'],
-        'Family': ['marriage', 'family', 'women', 'relationships', 'husband', 'wife', 'children'],
-        'Finance': ['wealth', 'charity', 'financial', 'money', 'economic', 'business'],
-        'Health': ['health', 'wellness', 'medical', 'physical', 'mental', 'hygiene'],
-        'Education': ['knowledge', 'learning', 'education', 'study', 'wisdom', 'intellectual'],
-        'Law': ['halal', 'haram', 'law', 'legal', 'permissible', 'forbidden'],
-        'Environment': ['environment', 'nature', 'stewardship', 'earth', 'creation', 'sustainability']
+      // Tokenize and split sentences
+      const sentences = content
+        .split(/(?<=[.!?])\s+/)
+        .map(s => s.trim())
+        .filter(s => s.length > 25);
+
+      if (!sentences.length) return '<p>No summary available.</p>';
+
+      // Build word frequency excluding stopwords
+      const stop = new Set(['the','and','a','an','is','are','to','of','in','on','for','with','as','by','it','that','this','be','or','from','at','was','were','which','has','have','had','their','its','into','about','also','not','but','can','may','such','like','then','than']);
+      const words = content
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .split(/\s+/)
+        .filter(w => w && !stop.has(w));
+      const freq = new Map();
+      for (const w of words) freq.set(w, (freq.get(w) || 0) + 1);
+
+      // Category and title terms boost
+      const titleTerms = new Set(title.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean));
+      const categoryMap = {
+        'Theology': ['allah','god','faith','belief','divine','spiritual','creed'],
+        'Worship': ['prayer','worship','fasting','hajj','dua','dhikr','salah','zakat'],
+        'Ethics': ['ethics','morality','character','virtue','forgiveness','mercy','gratitude'],
+        'Social Justice': ['justice','equality','rights','community','society','fairness'],
+        'Family': ['family','marriage','spouse','children','parents','women','men'],
+        'Finance': ['wealth','charity','financial','money','economic','business','usury'],
+        'Health': ['health','wellness','medical','physical','mental','hygiene'],
+        'Education': ['knowledge','learning','education','study','wisdom'],
+        'Law': ['halal','haram','law','legal','permissible','forbidden','fiqh'],
+        'Environment': ['environment','nature','stewardship','earth','creation','sustainability']
       };
+      const catTerms = new Set((categoryMap[category] || []).map(s => s.toLowerCase()));
 
-      const keywords = categoryKeywords[category] || ['important', 'key', 'essential', 'fundamental'];
-      
-      // Find sentences containing keywords
-      const relevantSentences = sentences.filter(sentence => 
-        keywords.some(keyword => 
-          sentence.toLowerCase().includes(keyword.toLowerCase())
-        )
-      );
-
-      // Take first few relevant sentences or first few sentences if no keywords found
-      const summarySentences = relevantSentences.length > 0 
-        ? relevantSentences.slice(0, 3) 
-        : sentences.slice(0, 2);
-
-      // Create structured summary
-      let summary = `<p><strong>Key Points:</strong></p><ul>`;
-      
-      summarySentences.forEach(sentence => {
-        const cleanSentence = sentence.trim().replace(/^[,\s]+/, '');
-        if (cleanSentence.length > 20) {
-          summary += `<li>${cleanSentence}.</li>`;
+      // Score sentences: frequency sum + title overlap + category boost + position bonus
+      const scored = sentences.map((s, i) => {
+        const tokens = s.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
+        let score = 0;
+        for (const t of tokens) {
+          if (stop.has(t)) continue;
+          score += (freq.get(t) || 0);
+          if (titleTerms.has(t)) score += 2; // title overlap
+          if (catTerms.has(t)) score += 1.5; // category relevance
         }
+        // slight bonus for early sentences
+        score += Math.max(0, 2 - i * 0.1);
+        return { s, i, score };
       });
-      
-      summary += `</ul>`;
 
-      // Add category-specific insights
-      const categoryInsights = {
-        'Theology': '<p><strong>Spiritual Significance:</strong> This guide explores fundamental Islamic beliefs and theological concepts that form the foundation of Muslim faith and practice.</p>',
-        'Worship': '<p><strong>Practical Application:</strong> This guide provides essential information about Islamic worship practices and their spiritual benefits.</p>',
-        'Ethics': '<p><strong>Moral Framework:</strong> This guide outlines Islamic ethical principles that guide personal conduct and character development.</p>',
-        'Social Justice': '<p><strong>Community Values:</strong> This guide emphasizes Islamic teachings on justice, equality, and social responsibility.</p>',
-        'Family': '<p><strong>Family Life:</strong> This guide covers Islamic perspectives on family relationships and marital harmony.</p>',
-        'Finance': '<p><strong>Economic Principles:</strong> This guide explains Islamic financial ethics and economic practices.</p>',
-        'Health': '<p><strong>Wellness Guidance:</strong> This guide provides Islamic perspectives on health and well-being.</p>',
-        'Education': '<p><strong>Knowledge Pursuit:</strong> This guide emphasizes the importance of education and knowledge in Islam.</p>',
-        'Law': '<p><strong>Legal Framework:</strong> This guide explains Islamic legal principles and what is permissible or forbidden.</p>',
-        'Environment': '<p><strong>Environmental Stewardship:</strong> This guide covers Islamic teachings on environmental responsibility.</p>'
-      };
+      scored.sort((a, b) => b.score - a.score);
+      // pick top 6-8 distinct sentences preserving original order
+      const top = scored.slice(0, 12).sort((a,b) => a.i - b.i);
+      const chosen = [];
+      for (const x of top) {
+        if (chosen.length >= 7) break;
+        // basic diversity: skip if very similar (Jaccard over tokens)
+        const xt = new Set(x.s.toLowerCase().split(/\W+/));
+        let similar = false;
+        for (const y of chosen) {
+          const yt = new Set(y.s.toLowerCase().split(/\W+/));
+          const inter = new Set([...xt].filter(z => yt.has(z))).size;
+          const union = new Set([...xt, ...yt]).size;
+          if (union && inter / union > 0.7) { similar = true; break; }
+        }
+        if (!similar) chosen.push(x);
+      }
 
-      summary += categoryInsights[category] || '<p><strong>Overview:</strong> This guide provides important Islamic teachings and practical guidance for daily life.</p>';
+      // Build sections
+      const overview = chosen.slice(0, 2).map(x => x.s).join(' ');
+      const bullets = chosen.slice(0, 6).map(x => `<li>${x.s.replace(/^[,\s]+/, '')}</li>`).join('');
+      // Extract up to 5 frequent key terms for takeaway
+      const topTerms = [...freq.entries()]
+        .filter(([w]) => w.length > 3 && !titleTerms.has(w) && !stop.has(w))
+        .sort((a,b) => b[1]-a[1])
+        .slice(0,5)
+        .map(([w]) => w)
+        .join(', ');
 
-      return summary;
+      // Approximate read and listen estimates here for context
+      const wc = content.trim().split(/\s+/).filter(Boolean).length;
+      const estRead = Math.max(1, Math.ceil(wc / 200));
+      const estListen = Math.max(1, Math.ceil(wc / 150));
+
+      const header = `<p><strong>Summary:</strong> Expanded insights from “${title}”.</p>`;
+      const overviewHtml = overview ? `<p>${overview}</p>` : '';
+      const list = `<p><strong>Key Points:</strong></p><ul>${bullets}</ul>`;
+      const terms = `<p><strong>Key Terms:</strong> <em>${topTerms || 'core principles'}</em>.</p>`;
+      const meta = `<p class="text-muted"><small>Approx. read: ${estRead} min • listen: ${estListen} min.</small></p>`;
+      return header + overviewHtml + list + terms + meta;
     }
 
     function toggleSummary() {
       showSummary.value = !showSummary.value;
+    }
+
+    function closeSummary() {
+      summaryText.value = '';
+      showSummary.value = false;
     }
 
     function scrollToSummary() {
@@ -853,6 +927,9 @@ export default {
       fullText,
       isAuthenticated,
       userId,
+      // stable audio timing refs
+      playbackStartMs,
+      accumulatedMs,
       showAlert,
       showErrorAlert,
       alertMessage,
@@ -881,15 +958,20 @@ export default {
       selectSuggestion,
       highlightSuggestion,
       showHelpModal,
+      categoryMenu,
+      animFrameId,
       // AI Summary
       isSummaryLoading,
       summaryText,
       showSummary,
       generateSummary,
       toggleSummary,
+      closeSummary,
       summarySectionRef,
       scrollToSummary,
       showSuccessMessage,
+      escapeRegex,
+      audioBarVisible,
     };
   },
   computed: {
@@ -1005,12 +1087,8 @@ export default {
       this.utterance = new SpeechSynthesisUtterance(this.fullText);
       this.utterance.volume = this.isMuted ? 0 : this.volume / 100;
 
-      this.utterance.onboundary = (event) => {
-        if (event.name === 'word') {
-          const textUpToBoundary = this.fullText.slice(0, event.charIndex);
-          this.currentTime = textUpToBoundary.trim().split(/\s+/).length * this.estimateWordDuration();
-        }
-      };
+      // Avoid boundary-based time jumps for stability
+      this.utterance.onboundary = null;
 
       this.utterance.onend = () => {
         this.isPlaying = false;
@@ -1021,6 +1099,8 @@ export default {
       window.speechSynthesis.speak(this.utterance);
       this.isPlaying = true;
       this.isAudioLoading = false;
+      // initialize stable monotonic clock
+      this.playbackStartMs = performance.now();
       this.updateTime();
     },
 
@@ -1037,6 +1117,8 @@ export default {
         window.speechSynthesis.pause();
         this.isPlaying = false;
         this.isPaused = true;
+        // accumulate elapsed
+        this.accumulatedMs += performance.now() - this.playbackStartMs;
       }
     },
 
@@ -1045,6 +1127,9 @@ export default {
       this.isPlaying = false;
       this.isPaused = false;
       this.currentTime = 0;
+      if (this.animFrameId) cancelAnimationFrame(this.animFrameId);
+      this.accumulatedMs = 0;
+      this.playbackStartMs = 0;
     },
 
     seekAudio(event) {
@@ -1088,11 +1173,13 @@ export default {
     },
 
     updateTime() {
-      if (this.isPlaying) {
-        this.currentTime += 0.1;
-        if (this.currentTime < this.totalDuration) {
-          setTimeout(() => this.updateTime(), 100);
-        }
+      // Compute time from monotonic clock for stability
+      const now = performance.now();
+      const elapsed = this.isPlaying ? (this.accumulatedMs + (now - this.playbackStartMs)) : this.accumulatedMs;
+      const seconds = Math.min(this.totalDuration || 0, Math.max(0, elapsed / 1000));
+      this.currentTime = seconds;
+      if (this.isPlaying && this.currentTime < this.totalDuration) {
+        this.animFrameId = requestAnimationFrame(() => this.updateTime());
       }
     },
 
@@ -1106,7 +1193,7 @@ export default {
 
     highlightText(text) {
       if (!this.searchText) return text;
-      const regex = new RegExp(`(${this.searchText})`, 'gi');
+      const regex = new RegExp(`(${this.escapeRegex(this.searchText)})`, 'gi');
       return text.replace(regex, '<mark>$1</mark>');
     },
 
@@ -1166,6 +1253,10 @@ export default {
 
     toggleSummary() {
       this.showSummary = !this.showSummary;
+    },
+    closeSummary() {
+      this.summaryText = '';
+      this.showSummary = false;
     },
 
     showIslamicGuideAlert(message) {
@@ -1432,7 +1523,8 @@ mark {
   height: 100%;
   background: linear-gradient(90deg, #00bfa6 0%, #008f7a 100%);
   border-radius: 2px;
-  transition: width 0.2s;
+  transition: width 0.05s linear;
+  will-change: width;
 }
 .audio-right {
   display: flex;
@@ -1565,6 +1657,14 @@ mark {
     padding: 0.25rem 0.5rem;
     font-size: 0.9rem;
   }
+}
+
+/* Ensure content not hidden behind fixed audio bar */
+.pad-for-audio {
+  padding-bottom: 110px; /* approximate player height */
+}
+@media (max-width: 768px) {
+  .pad-for-audio { padding-bottom: 140px; }
 }
 
 @media (max-width: 900px) {
@@ -1943,7 +2043,8 @@ mark {
   background: #e0e0e0;
   position: relative;
   margin-bottom: 2px;
-  transition: width 0.3s;
+  transition: width 0.1s linear;
+  will-change: width;
 }
 .progress-bar.reading-progress {
   background: linear-gradient(90deg, #00bfa6 0%, #38ef7d 100%);
