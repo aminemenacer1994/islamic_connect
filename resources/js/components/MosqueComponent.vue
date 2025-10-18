@@ -15,14 +15,15 @@
               <div>
                 <!-- Inline Search Bar with Label, Input, and Button -->
                 <form class="d-flex align-items-center mb-3" role="search" aria-label="Search for mosques by city" @submit.prevent="searchMosques"
-                  style="gap: 0.5rem;">
+                  style="gap: 0.5rem; flex-wrap: wrap;">
                   <label for="mosque-search-input" class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</label>
                   <input id="mosque-search-input" type="search" class="form-control" placeholder="Enter city or country..."
                     aria-label="Search city or country" v-model="searchQuery" @input="handleTyping" autocomplete="off"
                     style="max-width: 300px;" />
+                  <small v-if="searchTooShort && searchQuery" class="text-muted ms-2">Type at least {{ minQueryLength }} characters</small>
                   <button class="btn  align-items-center justify-content-center "
                     style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
-                    type="submit" :disabled="loading">
+                    type="submit" :disabled="loading || searchTooShort">
                     <span v-if="!loading">Search</span>
                     <span v-else class="spinner-border spinner-border-sm"></span>
                   </button>
@@ -81,16 +82,16 @@
                       <div class="mb-2">
                         <p class="text-muted mb-0">
                           <i class="bi bi-geo me-2"></i>
-                          <small>{{ mosque.lat.toFixed(4) }}, {{ mosque.lon.toFixed(4) }}</small>
+                          <small>{{ mosque.latStr }}, {{ mosque.lonStr }}</small>
                         </p>
                       </div>
 
                       <div class="mb-2 d-flex align-items-center">
                         <span class="text-warning me-2">
-                          <i class="bi bi-star-fill" v-for="n in mosque.rating" :key="'star-' + n"></i>
-                          <i class="bi bi-star" v-for="n in (5 - mosque.rating)" :key="'empty-' + n"></i>
+                          <i class="bi bi-star-fill" v-for="n in mosque.ratingFilled" :key="'star-' + n"></i>
+                          <i class="bi bi-star" v-for="n in mosque.ratingEmpty" :key="'empty-' + n"></i>
                         </span>
-                        <h6 class="mb-0">Capacity: {{ mosque.capacity.toLocaleString() }}</h6>
+                        <h6 class="mb-0">Capacity: {{ mosque.capacityStr }}</h6>
                       </div>
 
                       <div class="mb-2 facilities">
@@ -157,7 +158,20 @@ export default {
       mosques: [],
       loading: false,
       lastSearchLocation: null,
-      focusedIndex: -1
+      focusedIndex: -1,
+      // Track if a search was submitted to drive empty states
+      searchSubmitted: false,
+      // Simple in-memory caches to avoid duplicate requests
+      geocodeCache: Object.create(null),
+      overpassCache: Object.create(null),
+      // Allow canceling in-flight requests when a new search starts
+      abortController: null,
+      // Debounced search config
+      debounceHandle: null,
+      debounceMs: 500,
+      minQueryLength: 3,
+      isTyping: false,
+      lastQueryKey: ''
     };
   },
   computed: {
@@ -166,8 +180,15 @@ export default {
     },
     attributionText() {
       return `Data © ${new Date().getFullYear()} OpenStreetMap contributors`;
+    },
+    normalizedQuery() {
+      return this.searchQuery.trim().toLowerCase();
+    },
+    searchTooShort() {
+      return this.normalizedQuery.length < this.minQueryLength;
     }
   },
+  watch: {},
   methods: {
     handleCardKeydown(index, event) {
       const key = event.key;
@@ -195,7 +216,23 @@ export default {
       }
     },
     handleTyping() {
-      this.error = ""; // Clear error on typing
+      // Debounce search while typing to reduce API calls
+      this.isTyping = true;
+      // Clear previous results while user is typing a new query
+      if (this.normalizedQuery !== this.lastQueryKey) {
+        this.mosques = [];
+        this.searchSubmitted = false;
+      }
+      if (this.debounceHandle) clearTimeout(this.debounceHandle);
+      this.debounceHandle = setTimeout(() => {
+        this.isTyping = false;
+        if (!this.searchTooShort) {
+          // Only trigger if query changed from last executed one
+          if (this.normalizedQuery && this.normalizedQuery !== this.lastQueryKey) {
+            this.searchMosques();
+          }
+        }
+      }, this.debounceMs);
     },
     shareViaWhatsApp(mosque) {
       // Format the mosque details
@@ -219,19 +256,28 @@ export default {
 
     async searchMosques() {
       if (!this.searchQuery.trim()) return;
+      if (this.searchTooShort) return;
 
+      // Cancel any in-flight requests
+      try { this.abortController?.abort(); } catch (_) {}
+      this.abortController = new AbortController();
+      const { signal } = this.abortController;
+
+      this.searchSubmitted = true;
       this.loading = true;
       this.mosques = [];
       this.lastSearchLocation = this.searchQuery;
+      this.lastQueryKey = this.normalizedQuery;
 
       try {
-        const coords = await this.geocodeLocation(this.searchQuery);
+        const coords = await this.geocodeLocation(this.searchQuery, signal);
         if (!coords) return;
 
         const mosques = await this.fetchMosquesFromOverpass(
           coords.lat,
           coords.lon,
-          parseInt(this.radius)
+          parseInt(this.radius),
+          signal
         );
 
         // Filter out mosques with "unnamed" or "prayer room" in their name
@@ -244,7 +290,10 @@ export default {
             name.trim().length > 0;        // ensure name isn't empty
         });
 
-        this.mosques = filteredMosques.map(mosque => this.processMosqueData(mosque, coords));
+        // Preprocess and sort by distance for better relevance
+        const processed = filteredMosques.map(mosque => this.processMosqueData(mosque, coords));
+        processed.sort((a, b) => a.distance - b.distance);
+        this.mosques = processed;
       } catch (error) {
         console.error("Error in mosque search:", error);
         this.mosques = [];
@@ -253,20 +302,27 @@ export default {
       }
     },
 
-    async geocodeLocation(query) {
+    async geocodeLocation(query, signal) {
       try {
+        // Return from cache if available
+        const key = query.trim().toLowerCase();
+        if (this.geocodeCache[key]) return this.geocodeCache[key];
+
         const response = await fetch(
-          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`,
+          { signal }
         );
         const data = await response.json();
-        return data.length > 0 ? { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) } : null;
+        const result = data.length > 0 ? { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) } : null;
+        if (result) this.geocodeCache[key] = result;
+        return result;
       } catch (error) {
         console.error("Geocoding error:", error);
         return null;
       }
     },
 
-    async fetchMosquesFromOverpass(lat, lon, radius) {
+    async fetchMosquesFromOverpass(lat, lon, radius, signal) {
       const radiusInDegrees = radius / 111320;
       const south = Math.min(lat - radiusInDegrees, lat + radiusInDegrees);
       const north = Math.max(lat - radiusInDegrees, lat + radiusInDegrees);
@@ -285,13 +341,28 @@ export default {
         out skel qt;
       `;
 
+      // Cache by bounding box to avoid re-querying Overpass for same area
+      const cacheKey = `${south.toFixed(6)},${west.toFixed(6)},${north.toFixed(6)},${east.toFixed(6)}`;
+      if (this.overpassCache[cacheKey]) return this.overpassCache[cacheKey];
+
       try {
+        // Prefer POST to avoid very long URLs; pass signal for cancelation
         const response = await fetch(
-          `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`,
-          { headers: { 'Accept': 'application/json' } }
+          `https://overpass-api.de/api/interpreter`,
+          {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `data=${encodeURIComponent(query)}`,
+            signal
+          }
         );
         const data = await response.json();
-        return data.elements || [];
+        const elements = data.elements || [];
+        this.overpassCache[cacheKey] = elements;
+        return elements;
       } catch (error) {
         console.error("Overpass API error:", error);
         return [];
@@ -299,19 +370,45 @@ export default {
     },
 
     processMosqueData(mosque, coords) {
+      const lat = mosque.lat || (mosque.center?.lat || coords.lat);
+      const lon = mosque.lon || (mosque.center?.lon || coords.lon);
+      const rating = this.generateRandomRating();
+      const capacity = this.estimateCapacity(mosque);
+      const distance = this.haversineDistance(coords.lat, coords.lon, lat, lon);
+
       return {
         id: mosque.id,
         name: mosque.tags?.name || "Unnamed Mosque",
         address: this.getAddress(mosque.tags),
         city: mosque.tags?.["addr:city"] || this.lastSearchLocation,
         country: mosque.tags?.["addr:country"] || "",
-        lat: mosque.lat || (mosque.center?.lat || coords.lat),
-        lon: mosque.lon || (mosque.center?.lon || coords.lon),
-        capacity: this.estimateCapacity(mosque),
+        lat,
+        lon,
+        capacity,
         facilities: this.detectFacilities(mosque),
-        rating: this.generateRandomRating(),
-        tags: mosque.tags || {}
+        rating,
+        tags: mosque.tags || {},
+        // Precomputed display helpers to reduce template work
+        latStr: lat.toFixed(4),
+        lonStr: lon.toFixed(4),
+        capacityStr: capacity.toLocaleString(),
+        ratingFilled: rating,
+        ratingEmpty: 5 - rating,
+        distance // in km
       };
+    },
+
+    haversineDistance(lat1, lon1, lat2, lon2) {
+      const toRad = d => (d * Math.PI) / 180;
+      const R = 6371; // km
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
     },
 
     getAddress(tags) {

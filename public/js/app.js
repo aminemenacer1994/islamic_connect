@@ -6907,7 +6907,20 @@ __webpack_require__.r(__webpack_exports__);
       mosques: [],
       loading: false,
       lastSearchLocation: null,
-      focusedIndex: -1
+      focusedIndex: -1,
+      // Track if a search was submitted to drive empty states
+      searchSubmitted: false,
+      // Simple in-memory caches to avoid duplicate requests
+      geocodeCache: Object.create(null),
+      overpassCache: Object.create(null),
+      // Allow canceling in-flight requests when a new search starts
+      abortController: null,
+      // Debounced search config
+      debounceHandle: null,
+      debounceMs: 500,
+      minQueryLength: 3,
+      isTyping: false,
+      lastQueryKey: ''
     };
   },
   computed: {
@@ -6916,8 +6929,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     attributionText() {
       return `Data © ${new Date().getFullYear()} OpenStreetMap contributors`;
+    },
+    normalizedQuery() {
+      return this.searchQuery.trim().toLowerCase();
+    },
+    searchTooShort() {
+      return this.normalizedQuery.length < this.minQueryLength;
     }
   },
+  watch: {},
   methods: {
     handleCardKeydown(index, event) {
       const key = event.key;
@@ -6947,7 +6967,23 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     handleTyping() {
-      this.error = ""; // Clear error on typing
+      // Debounce search while typing to reduce API calls
+      this.isTyping = true;
+      // Clear previous results while user is typing a new query
+      if (this.normalizedQuery !== this.lastQueryKey) {
+        this.mosques = [];
+        this.searchSubmitted = false;
+      }
+      if (this.debounceHandle) clearTimeout(this.debounceHandle);
+      this.debounceHandle = setTimeout(() => {
+        this.isTyping = false;
+        if (!this.searchTooShort) {
+          // Only trigger if query changed from last executed one
+          if (this.normalizedQuery && this.normalizedQuery !== this.lastQueryKey) {
+            this.searchMosques();
+          }
+        }
+      }, this.debounceMs);
     },
     shareViaWhatsApp(mosque) {
       var _mosque$tags;
@@ -6965,13 +7001,26 @@ __webpack_require__.r(__webpack_exports__);
     },
     async searchMosques() {
       if (!this.searchQuery.trim()) return;
+      if (this.searchTooShort) return;
+
+      // Cancel any in-flight requests
+      try {
+        var _this$abortController;
+        (_this$abortController = this.abortController) === null || _this$abortController === void 0 || _this$abortController.abort();
+      } catch (_) {}
+      this.abortController = new AbortController();
+      const {
+        signal
+      } = this.abortController;
+      this.searchSubmitted = true;
       this.loading = true;
       this.mosques = [];
       this.lastSearchLocation = this.searchQuery;
+      this.lastQueryKey = this.normalizedQuery;
       try {
-        const coords = await this.geocodeLocation(this.searchQuery);
+        const coords = await this.geocodeLocation(this.searchQuery, signal);
         if (!coords) return;
-        const mosques = await this.fetchMosquesFromOverpass(coords.lat, coords.lon, parseInt(this.radius));
+        const mosques = await this.fetchMosquesFromOverpass(coords.lat, coords.lon, parseInt(this.radius), signal);
 
         // Filter out mosques with "unnamed" or "prayer room" in their name
         const filteredMosques = mosques.filter(mosque => {
@@ -6983,7 +7032,11 @@ __webpack_require__.r(__webpack_exports__);
           // common misspelling
           name.trim().length > 0; // ensure name isn't empty
         });
-        this.mosques = filteredMosques.map(mosque => this.processMosqueData(mosque, coords));
+
+        // Preprocess and sort by distance for better relevance
+        const processed = filteredMosques.map(mosque => this.processMosqueData(mosque, coords));
+        processed.sort((a, b) => a.distance - b.distance);
+        this.mosques = processed;
       } catch (error) {
         console.error("Error in mosque search:", error);
         this.mosques = [];
@@ -6991,20 +7044,27 @@ __webpack_require__.r(__webpack_exports__);
         this.loading = false;
       }
     },
-    async geocodeLocation(query) {
+    async geocodeLocation(query, signal) {
       try {
-        const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`);
+        // Return from cache if available
+        const key = query.trim().toLowerCase();
+        if (this.geocodeCache[key]) return this.geocodeCache[key];
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`, {
+          signal
+        });
         const data = await response.json();
-        return data.length > 0 ? {
+        const result = data.length > 0 ? {
           lat: parseFloat(data[0].lat),
           lon: parseFloat(data[0].lon)
         } : null;
+        if (result) this.geocodeCache[key] = result;
+        return result;
       } catch (error) {
         console.error("Geocoding error:", error);
         return null;
       }
     },
-    async fetchMosquesFromOverpass(lat, lon, radius) {
+    async fetchMosquesFromOverpass(lat, lon, radius, signal) {
       const radiusInDegrees = radius / 111320;
       const south = Math.min(lat - radiusInDegrees, lat + radiusInDegrees);
       const north = Math.max(lat - radiusInDegrees, lat + radiusInDegrees);
@@ -7021,34 +7081,66 @@ __webpack_require__.r(__webpack_exports__);
         >;
         out skel qt;
       `;
+
+      // Cache by bounding box to avoid re-querying Overpass for same area
+      const cacheKey = `${south.toFixed(6)},${west.toFixed(6)},${north.toFixed(6)},${east.toFixed(6)}`;
+      if (this.overpassCache[cacheKey]) return this.overpassCache[cacheKey];
       try {
-        const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`, {
+        // Prefer POST to avoid very long URLs; pass signal for cancelation
+        const response = await fetch(`https://overpass-api.de/api/interpreter`, {
+          method: 'POST',
           headers: {
-            'Accept': 'application/json'
-          }
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: `data=${encodeURIComponent(query)}`,
+          signal
         });
         const data = await response.json();
-        return data.elements || [];
+        const elements = data.elements || [];
+        this.overpassCache[cacheKey] = elements;
+        return elements;
       } catch (error) {
         console.error("Overpass API error:", error);
         return [];
       }
     },
     processMosqueData(mosque, coords) {
-      var _mosque$tags3, _mosque$tags4, _mosque$tags5, _mosque$center, _mosque$center2;
+      var _mosque$center, _mosque$center2, _mosque$tags3, _mosque$tags4, _mosque$tags5;
+      const lat = mosque.lat || ((_mosque$center = mosque.center) === null || _mosque$center === void 0 ? void 0 : _mosque$center.lat) || coords.lat;
+      const lon = mosque.lon || ((_mosque$center2 = mosque.center) === null || _mosque$center2 === void 0 ? void 0 : _mosque$center2.lon) || coords.lon;
+      const rating = this.generateRandomRating();
+      const capacity = this.estimateCapacity(mosque);
+      const distance = this.haversineDistance(coords.lat, coords.lon, lat, lon);
       return {
         id: mosque.id,
         name: ((_mosque$tags3 = mosque.tags) === null || _mosque$tags3 === void 0 ? void 0 : _mosque$tags3.name) || "Unnamed Mosque",
         address: this.getAddress(mosque.tags),
         city: ((_mosque$tags4 = mosque.tags) === null || _mosque$tags4 === void 0 ? void 0 : _mosque$tags4["addr:city"]) || this.lastSearchLocation,
         country: ((_mosque$tags5 = mosque.tags) === null || _mosque$tags5 === void 0 ? void 0 : _mosque$tags5["addr:country"]) || "",
-        lat: mosque.lat || ((_mosque$center = mosque.center) === null || _mosque$center === void 0 ? void 0 : _mosque$center.lat) || coords.lat,
-        lon: mosque.lon || ((_mosque$center2 = mosque.center) === null || _mosque$center2 === void 0 ? void 0 : _mosque$center2.lon) || coords.lon,
-        capacity: this.estimateCapacity(mosque),
+        lat,
+        lon,
+        capacity,
         facilities: this.detectFacilities(mosque),
-        rating: this.generateRandomRating(),
-        tags: mosque.tags || {}
+        rating,
+        tags: mosque.tags || {},
+        // Precomputed display helpers to reduce template work
+        latStr: lat.toFixed(4),
+        lonStr: lon.toFixed(4),
+        capacityStr: capacity.toLocaleString(),
+        ratingFilled: rating,
+        ratingEmpty: 5 - rating,
+        distance // in km
       };
+    },
+    haversineDistance(lat1, lon1, lat2, lon2) {
+      const toRad = d => d * Math.PI / 180;
+      const R = 6371; // km
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
     },
     getAddress(tags) {
       if (!tags) return "Address not specified";
@@ -34096,58 +34188,62 @@ const _hoisted_5 = {
 const _hoisted_6 = {
   class: "row mb-4 justify-content-center"
 };
-const _hoisted_7 = ["disabled"];
-const _hoisted_8 = {
+const _hoisted_7 = {
+  key: 0,
+  class: "text-muted ms-2"
+};
+const _hoisted_8 = ["disabled"];
+const _hoisted_9 = {
   key: 0
 };
-const _hoisted_9 = {
+const _hoisted_10 = {
   key: 1,
   class: "spinner-border spinner-border-sm"
 };
-const _hoisted_10 = {
+const _hoisted_11 = {
   key: 0,
   class: "text-center py-5",
   "aria-live": "polite",
   "aria-busy": "true"
 };
-const _hoisted_11 = {
+const _hoisted_12 = {
   class: "mt-3"
 };
-const _hoisted_12 = {
+const _hoisted_13 = {
   key: 1
 };
-const _hoisted_13 = {
+const _hoisted_14 = {
   key: 0,
   class: "text-center py-5"
 };
-const _hoisted_14 = {
+const _hoisted_15 = {
   class: "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4",
   role: "list",
   "aria-label": "Search results"
 };
-const _hoisted_15 = ["aria-label", "onKeydown"];
-const _hoisted_16 = {
+const _hoisted_16 = ["aria-label", "onKeydown"];
+const _hoisted_17 = {
   style: {
     "padding": "15px 15px 0 15px"
   },
   class: "text-center"
 };
-const _hoisted_17 = {
+const _hoisted_18 = {
   class: "card-title fw-bold text-dark text-center mb-3",
   style: {
     "font-size": "25px"
   }
 };
-const _hoisted_18 = {
+const _hoisted_19 = {
   class: "card-body pt-0"
 };
-const _hoisted_19 = {
+const _hoisted_20 = {
   class: "mb-2"
 };
-const _hoisted_20 = {
+const _hoisted_21 = {
   class: "d-flex align-items-start"
 };
-const _hoisted_21 = {
+const _hoisted_22 = {
   class: "text-truncate",
   style: {
     "display": "-webkit-box",
@@ -34155,50 +34251,50 @@ const _hoisted_21 = {
     "-webkit-box-orient": "vertical"
   }
 };
-const _hoisted_22 = {
+const _hoisted_23 = {
   class: "mb-2"
 };
-const _hoisted_23 = {
+const _hoisted_24 = {
   class: "text-muted mb-0"
 };
-const _hoisted_24 = {
+const _hoisted_25 = {
   class: "mb-2 d-flex align-items-center"
 };
-const _hoisted_25 = {
+const _hoisted_26 = {
   class: "text-warning me-2"
 };
-const _hoisted_26 = {
+const _hoisted_27 = {
   class: "mb-0"
 };
-const _hoisted_27 = {
+const _hoisted_28 = {
   class: "mb-2 facilities"
 };
-const _hoisted_28 = {
+const _hoisted_29 = {
   class: "d-flex flex-wrap align-items-center",
   style: {
     "gap": "0.4rem"
   }
 };
-const _hoisted_29 = {
+const _hoisted_30 = {
   key: 0,
   class: "opening-hours mb-2 mt-2"
 };
-const _hoisted_30 = {
+const _hoisted_31 = {
   class: "text-muted"
 };
-const _hoisted_31 = {
+const _hoisted_32 = {
   class: "d-flex justify-content-between align-items-center gap-2"
 };
-const _hoisted_32 = ["onClick", "aria-label"];
 const _hoisted_33 = ["onClick", "aria-label"];
-const _hoisted_34 = {
+const _hoisted_34 = ["onClick", "aria-label"];
+const _hoisted_35 = {
   key: 0,
   class: "d-flex justify-content-between align-items-center",
   style: {
     "padding": "10px"
   }
 };
-const _hoisted_35 = {
+const _hoisted_36 = {
   class: "text-muted",
   "aria-live": "polite"
 };
@@ -34214,7 +34310,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Search for mosques by city",
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.searchMosques && $options.searchMosques(...args), ["prevent"])),
     style: {
-      "gap": "0.5rem"
+      "gap": "0.5rem",
+      "flex-wrap": "wrap"
     }
   }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "mosque-search-input",
@@ -34234,7 +34331,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "max-width": "300px"
     }
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), $options.searchTooShort && $data.searchQuery ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_7, "Type at least " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.minQueryLength) + " characters", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn align-items-center justify-content-center",
     style: {
       "background": "#00bfa6",
@@ -34243,8 +34340,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "height": "38px"
     },
     type: "submit",
-    disabled: $data.loading
-  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9))], 8 /* PROPS */, _hoisted_7)], 32 /* NEED_HYDRATION */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    disabled: $data.loading || $options.searchTooShort
+  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10))], 8 /* PROPS */, _hoisted_8)], 32 /* NEED_HYDRATION */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "spinner-border text-primary",
     style: {
       "width": "3rem",
@@ -34254,13 +34351,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Loading results"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"
-  }, "Loading...")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, "Searching for mosques in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [!$data.searchQuery || !_ctx.searchSubmitted && $data.mosques.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [...(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Loading...")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, "Searching for mosques in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [!$data.searchQuery || !$data.searchSubmitted && $data.mosques.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [...(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-compass display-4 text-muted mb-3"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h4 text-muted"
   }, "Search for mosques worldwide", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted"
-  }, "Enter a city or town name to begin", -1 /* CACHED */)]))])) : _ctx.searchSubmitted && $data.searchQuery && $data.mosques.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, "Enter a city or town name to begin", -1 /* CACHED */)]))])) : $data.searchSubmitted && $data.searchQuery && $data.mosques.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-center py-5"
@@ -34272,7 +34369,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "text-muted"
   }, "Try adjusting your search or increasing the radius.")], -1 /* CACHED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 2
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.mosques, (mosque, index) => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.mosques, (mosque, index) => {
     var _mosque$tags;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "col",
@@ -34283,21 +34380,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": `${mosque.name}, ${mosque.address}`,
       tabindex: "0",
       onKeydown: $event => $options.handleCardKeydown(index, $event)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-geo-alt-fill me-2 flex-shrink-0"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.address), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_23, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.address), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-geo me-2"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.lat.toFixed(4)) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.lon.toFixed(4)), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(mosque.rating, n => {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.latStr) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.lonStr), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(mosque.ratingFilled, n => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
         class: "bi bi-star-fill",
         key: 'star-' + n
       });
-    }), 128 /* KEYED_FRAGMENT */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(5 - mosque.rating, n => {
+    }), 128 /* KEYED_FRAGMENT */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(mosque.ratingEmpty, n => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
         class: "bi bi-star",
         key: 'empty-' + n
       });
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_26, "Capacity: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.capacity.toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(mosque.facilities, facility => {
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_27, "Capacity: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.capacityStr), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(mosque.facilities, facility => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge rounded-pill d-flex align-items-center", $options.getFacilityBadgeClass(facility)]),
         key: facility,
@@ -34305,7 +34402,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "padding": "0.5em 0.8em"
         }
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(facility), 3 /* TEXT, CLASS */);
-    }), 128 /* KEYED_FRAGMENT */))])]), (_mosque$tags = mosque.tags) !== null && _mosque$tags !== void 0 && _mosque$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_30, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }), 128 /* KEYED_FRAGMENT */))])]), (_mosque$tags = mosque.tags) !== null && _mosque$tags !== void 0 && _mosque$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_31, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn d-flex align-items-center justify-content-center flex-grow-1",
       onClick: $event => $options.openGoogleMaps(mosque.lat, mosque.lon),
       style: {
@@ -34317,7 +34414,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": `Get directions to ${mosque.name}`
     }, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-geo-alt me-2"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn d-flex align-items-center justify-content-center flex-grow-1",
       onClick: $event => $options.shareViaWhatsApp(mosque),
       style: {
@@ -34329,8 +34426,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": `Share ${mosque.name} details via WhatsApp`
     }, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-whatsapp me-2"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share Details", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_33)])])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_15)]);
-  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.mosques.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_35, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.mosques.length) + " mosques ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share Details", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_34)])])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_16)]);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.mosques.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_36, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.mosques.length) + " mosques ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
 /***/ }),
@@ -34637,13 +34734,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Payment Methods", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.paymentMethods, method => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: method.id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(method.brand) + " ending in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(method.last4), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[0] || (_cache[0] = (...args) => $options.fetchPaymentMethods && $options.fetchPaymentMethods(...args))
-  }, "Refresh Payment Methods")]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div>\n        <h2>Payment Methods</h2>\n        <ul>\n            <li v-for=\"method in paymentMethods\" :key=\"method.id\">\n                {{ method.brand }} ending in {{ method.last4 }}\n            </li>\n        </ul>\n        <button @click=\"fetchPaymentMethods\">Refresh Payment Methods</button>\n    </div> ");
 }
 
 /***/ }),

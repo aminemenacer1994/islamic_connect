@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <!-- <div>
         <h2>Payment Methods</h2>
         <ul>
             <li v-for="method in paymentMethods" :key="method.id">
@@ -7,7 +7,7 @@
             </li>
         </ul>
         <button @click="fetchPaymentMethods">Refresh Payment Methods</button>
-    </div>
+    </div> -->
 </template>
 
 <script>
