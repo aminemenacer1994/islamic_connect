@@ -172,7 +172,7 @@
                 <!-- Title -->
                 <h4 class="card-title fw-semibold mb-3 position-relative pb-2" :id="`dua-title-${dua.id}`"
                   :style="{ fontSize: 'calc(var(--font-size-base) * 1)' }"><img src="images/art.png" width="20px"
-                    class="me-2 " alt="Category icon" /> {{ highlightText(dua.title) }}
+                    class="me-2 " alt="Category icon" /> <span v-html="highlightText(dua.title)"></span>
                 </h4>
 
                 <!-- Arabic Text -->
@@ -426,23 +426,38 @@ export default {
       return `bi ${icons[tag] || 'bi-tag-fill'}`;
     },
     highlightText(text) {
-      if (!this.searchQuery.trim() && !this.selectedTag) return text;
+      if (!text) return '';
+      const raw = text.toString();
 
-      let highlightedText = text;
+      // If no search or tag filters, return escaped text
+      if (!this.searchQuery.trim() && !this.selectedTag) {
+        return raw
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+      }
 
+      // Escape first to avoid injecting existing markup, then re-inject highlights
+      let escaped = raw
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // Highlight search terms
       const searchTerms = this.searchQuery.trim() ? [this.searchQuery] : [];
       searchTerms.forEach(term => {
-        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-        highlightedText = highlightedText.replace(regex, '<mark class="mark-search">$1</mark>');
+        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')})`, 'gi');
+        escaped = escaped.replace(regex, '<mark class="mark-search">$1</mark>');
       });
 
+      // Highlight selected tag and its synonyms
       const tagTerms = this.selectedTag ? [this.selectedTag, ...(this.tagSynonyms[this.selectedTag] || [])] : [];
       tagTerms.forEach(term => {
-        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-        highlightedText = highlightedText.replace(regex, '<mark class="mark-tag">$1</mark>');
+        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')})`, 'gi');
+        escaped = escaped.replace(regex, '<mark class="mark-tag">$1</mark>');
       });
 
-      return highlightedText;
+      return escaped;
     },
     toggleTag(tag) {
       this.selectedTag = (tag === 'All' || this.selectedTag === tag) ? '' : tag;
