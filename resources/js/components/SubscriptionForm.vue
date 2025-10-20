@@ -38,9 +38,8 @@
             <form method="POST" action="/subscribe" class="subscription-form">
                 <input type="hidden" name="_token" :value="csrfToken">
                 <select name="price_lookup_key" required v-model="selectedPlan" class="form-control">
-                    <option value="price_1SDrmPGsDD2PdzHqTgawcJZd">Premium Monthly (£1.99)</option>
-                    <option value="price_1SHNXJGsDD2PdzHqyD7VcnHr">Premium Yearly (£17.99)</option>
-                    <option value="price_1SDrmPGsDD2PdzHqvk1SOoT3">Premium Lifetime (£25)</option>
+                    <option :value="PRICE_IDS.monthly">Premium Monthly (£1.99)</option>
+                    <option :value="PRICE_IDS.yearly">Premium Yearly (£17.99)</option>
                 </select>
                 <button type="submit" class="btn btn-primary" :disabled="submitting">
                     {{ submitting ? 'Processing...' : 'Subscribe' }}
@@ -54,7 +53,11 @@
 import { ref, onMounted, computed } from 'vue';
 
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-const selectedPlan = ref('price_1SDrmPGsDD2PdzHqTgawcJZd');
+const PRICE_IDS = window.appConfig?.stripePrices || {
+  monthly: 'price_1SKJCyGsDD2PdzHqUEaWiQkG',
+  yearly: 'price_1SKJCyGsDD2PdzHq4qsR1TRh',
+};
+const selectedPlan = ref(PRICE_IDS.monthly);
 const loading = ref(true);
 const submitting = ref(false);
 const cancelling = ref(false);
@@ -64,9 +67,8 @@ const isSubscribed = ref(false);
 const subscription = ref(null);
 
 const planDetails = {
-    'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly (£1.99)',
-    'price_1SHNXJGsDD2PdzHqyD7VcnHr': 'Premium Yearly (£17.99)',
-    'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime (£25)',
+    [PRICE_IDS.monthly]: 'Premium Monthly (£1.99)',
+    [PRICE_IDS.yearly]: 'Premium Yearly (£17.99)',
 };
 
 const planDisplayName = computed(() => {
@@ -184,11 +186,14 @@ const handleCancelSubscription = async () => {
         const data = await response.json();
         
         if (response.ok && data.success) {
+            // Immediately reflect as not subscribed and show plans
             await fetchSubscriptionStatus();
-            success.value = `Subscription cancelled. Access continues until ${new Date(data.ends_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.`;
+            isSubscribed.value = false;
+            success.value = 'Subscription cancelled.';
+            // Optionally redirect to pricing/subscription to show plans cleanly
             setTimeout(() => {
-                success.value = '';
-            }, 8000);
+                window.location.replace('/subscribe?cancelled=1');
+            }, 500);
         } else {
             throw new Error(data.message || 'Failed to cancel subscription');
         }

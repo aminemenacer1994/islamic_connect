@@ -60,6 +60,12 @@ return [
         'secret' => env('STRIPE_SECRET'),
         'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
         'price_id' => env('STRIPE_PRICE_ID'),
+        'donation_price_id' => env('STRIPE_DONATION_PRICE_ID'),
+        'prices' => [
+            'monthly' => env('STRIPE_PRICE_MONTHLY'),
+            'yearly' => env('STRIPE_PRICE_YEARLY'),
+            'lifetime' => env('STRIPE_PRICE_LIFETIME'),
+        ],
         'webhook' => [
             'secret' => env('STRIPE_WEBHOOK_SECRET'),
             'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),

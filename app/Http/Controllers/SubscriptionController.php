@@ -211,8 +211,13 @@ class SubscriptionController extends Controller
 
     public function createSubscription(Request $request)
     {
+        $allowedPrices = array_filter([
+            config('services.stripe.prices.monthly') ?: 'price_1SKJCyGsDD2PdzHqUEaWiQkG',
+            config('services.stripe.prices.yearly') ?: 'price_1SKJCyGsDD2PdzHq4qsR1TRh',
+        ]);
+
         $request->validate([
-            'price_lookup_key' => 'required|string|in:price_1SDrmPGsDD2PdzHqTgawcJZd,price_1SHNXJGsDD2PdzHqyD7VcnHr,price_1SDrmPGsDD2PdzHqvk1SOoT3',
+            'price_lookup_key' => 'required|string|in:' . implode(',', $allowedPrices),
         ]);
 
         $user = Auth::user();
@@ -328,13 +333,18 @@ class SubscriptionController extends Controller
         }
 
         try {
+            // Cancel immediately on Stripe and locally (no grace period)
+            // This reflects as "canceled" right away on Stripe dashboard
             $subscription->cancelNow();
+
+            // Refresh subscription instance to read updated timestamps
             $subscription->refresh();
 
             return response()->json([
                 'success' => true,
                 'ends_at' => optional($subscription->ends_at)->toIso8601String(),
-                'message' => 'Subscription cancelled successfully'
+                'state' => 'canceled_now',
+                'message' => 'Subscription cancelled immediately.'
             ]);
         } catch (\Exception $e) {
             Log::error('Error cancelling subscription: ' . $e->getMessage());

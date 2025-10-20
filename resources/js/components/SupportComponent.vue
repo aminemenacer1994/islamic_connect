@@ -94,6 +94,35 @@
                 <p class="text-muted">Your support enables us to continue our mission</p>
               </div>
 
+              <!-- Amount Selector -->
+              <div class="mb-3">
+                <label for="donation-amount" class="form-label">Choose an amount (GBP)</label>
+                <div class="input-group">
+                  <span class="input-group-text">£</span>
+                  <input
+                    id="donation-amount"
+                    type="number"
+                    min="1"
+                    step="1"
+                    class="form-control"
+                    :aria-invalid="!isValidAmount"
+                    :class="{ 'is-invalid': !isValidAmount }"
+                    v-model.number="amount"
+                    @input="onAmountInput"
+                  />
+                </div>
+                <div class="invalid-feedback" v-if="!isValidAmount">
+                  Please enter a whole-number amount between £1 and £100,000.
+                </div>
+                <div class="form-text">Minimum £1. Whole numbers only.</div>
+                <div class="mt-2 d-flex gap-2 flex-wrap">
+                  <button type="button" class="btn btn-outline-secondary btn-sm" @click="amount = 5">£5</button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm" @click="amount = 10">£10</button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm" @click="amount = 25">£25</button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm" @click="amount = 50">£50</button>
+                </div>
+              </div>
+
               <!-- Trust Indicators -->
               <div class="trust-indicators mb-4">
                 <div class="trust-item">
@@ -160,7 +189,8 @@ export default {
       return this.amount;
     },
     isValidAmount() {
-      return this.finalAmount > 0;
+      const n = Number(this.finalAmount);
+      return Number.isFinite(n) && Number.isInteger(n) && n >= 1 && n <= 100000;
     },
     impactMessage() {
       if (this.amount >= 100) return 'Major platform enhancement';
@@ -169,18 +199,67 @@ export default {
       return 'Helps maintain basic access';
     },
     stripeUrl() {
-      const amountInCents = this.finalAmount * 100;
-      return `https://donate.stripe.com/6oE5kY84oc3q7fy145?amount=${amountInCents}`;
+      const amountInCents = Math.round(this.finalAmount * 100);
+      // Webpack Mix: read MIX_ variables via process.env
+      const base = (typeof process !== 'undefined' && process.env && process.env.MIX_STRIPE_DONATE_URL)
+        ? process.env.MIX_STRIPE_DONATE_URL
+        : 'https://donate.stripe.com/6oE5kY84oc3q7fy145';
+      return `${base}?amount=${amountInCents}`;
     }
   },
   methods: {
-    processDonation() {
+    onAmountInput(e){
+      // Coerce to integer pounds and clamp to range
+      let v = parseInt(e.target.value || '');
+      if (isNaN(v)) v = 0;
+      if (v < 0) v = 0;
+      if (v > 100000) v = 100000;
+      this.amount = v;
+    },
+    async processDonation() {
       if (!this.isValidAmount) {
         alert('Please select a contribution amount.');
         return;
       }
-      
-      window.location.href = this.stripeUrl;
+
+      try {
+        // Prepare CSRF
+        const tokenEl = document.querySelector('meta[name="csrf-token"]');
+        const csrf = tokenEl ? tokenEl.getAttribute('content') : '';
+
+        // Create a Checkout session on the server
+        const res = await fetch('/support/create-checkout-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrf,
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ amount: this.finalAmount })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.error || 'Failed to create payment session');
+
+        // Redirect to Stripe Checkout using Stripe.js
+        const key = (document.querySelector('meta[name="stripe-key"]')||{}).getAttribute?.('content');
+        if (!key) throw new Error('Stripe publishable key missing');
+        const stripe = window.Stripe ? window.Stripe(key) : null;
+        if (!stripe) throw new Error('Stripe.js not loaded');
+
+        const result = await stripe.redirectToCheckout({ sessionId: data.id });
+        if (result.error) {
+          throw new Error(result.error.message || 'Redirect failed');
+        }
+      } catch (err) {
+        console.error('Donation error:', err);
+        // Fallback to Payment Link if configured
+        try {
+          window.location.href = this.stripeUrl;
+        } catch (_e) {
+          alert('Unable to start payment: ' + (err?.message || 'unknown error'));
+        }
+      }
     }
   }
 }

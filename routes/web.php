@@ -80,6 +80,15 @@ Route::get('/home', fn() => view('home'));
 // Auth Routes
 Auth::routes();
 
+Route::get('/php-runtime-check', function () {
+    return [
+    'php' => PHP_VERSION,
+    'sapi' => php_sapi_name(),
+    'pdo' => extension_loaded('pdo') ? 'yes' : 'no',
+    'pdo_mysql' => extension_loaded('pdo_mysql') ? 'yes' : 'no',
+    ];
+    });
+
 
 // Social Auth
 Route::get('auth/facebook', [LoginController::class, 'redirectToFacebook'])->name('facebook-auth');
@@ -96,7 +105,7 @@ Route::post('/stripe/webhook', [SubscriptionController::class, 'handleWebhook'])
     ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 
 // Donation Routes
-Route::get('/donation/success', fn() => view('donation.success'))->name('donation.success');
+Route::get('/donation/success', [SupportController::class, 'success'])->name('donation.success');
 Route::get('/donation/cancel', fn() => view('donation.cancel'))->name('donation.cancel');
 
 // Public API Routes
@@ -116,6 +125,8 @@ Route::get('/collection', [CollectionController::class, 'index'])->name('collect
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/join_us', [JoinUsController::class, 'index'])->name('join_us');
 Route::get('/support', [SupportController::class, 'index'])->name('support');
+// Create Stripe Checkout session for donations (optional, for API-driven flow)
+Route::post('/support/create-checkout-session', [SupportController::class, 'createCheckoutSession']);
 Route::get('/mission', [MissionController::class, 'index'])->name('mission');
 Route::get('/updates', [UpdatesController::class, 'index']);
 Route::get('/ayahs', [QuranController::class, 'index']);

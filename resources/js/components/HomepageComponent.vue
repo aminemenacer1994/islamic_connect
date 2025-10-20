@@ -176,9 +176,7 @@
                   <div class="carousel-item">
                     <img src="/images/surat2.png" class="d-block w-100" alt="Quran explorer">
                   </div>
-                  <div class="carousel-item">
-                    <img src="/images/podcast2.png" class="d-block w-100" alt="Audio podcasts">
-                  </div>
+                  
                   <div class="carousel-item">
                     <img src="/images/seerah2.png" class="d-block w-100" alt="Seerah timeline">
                   </div>
@@ -202,8 +200,6 @@
                     aria-label="Slide 4"></button>
                   <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4"
                     aria-label="Slide 5"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="5"
-                    aria-label="Slide 6"></button>
                 </div>
               </div>
             </div>
@@ -333,7 +329,7 @@
       <!-- Second Row - Audio Content -->
       <div class="row py-4 py-lg-5 align-items-center">
         <div class="col-lg-6 mb-4 mb-lg-0">
-          <img src="/images/podcast2.png" class="img-fluid rounded-3 shadow-sm"
+          <img src="/images/radio2.png" class="img-fluid rounded-3 shadow-sm"
             alt="Islamic podcasts and audio content streaming interface" loading="lazy" width="600" height="400">
         </div>
         <div class="col-lg-6">
@@ -426,10 +422,10 @@
       </div>
     </section>
 
-    <section class="py-5 combined-section">
+    <!--<section class="py-5 combined-section">
       <div class="container-fluid">
         <div class="row align-items-stretch">
-          <!-- Value Proposition Column -->
+          -- Value Proposition Column --
           <div class="col-lg-1 mb-4">
           </div>
           <div class="col-lg-5 mb-4">
@@ -471,15 +467,15 @@
             </div>
           </div>
 
-          <!-- Donation Section Column -->
-          <div class="col-lg-5 mb-4">
+          -- Donation Section Column --
+          -- <div class="col-lg-5 mb-4">
             <div class="donation-form">
               <div class="form-header text-center mb-4">
                 <h3 class="mb-3">Make a Difference</h3>
                 <p class="text-muted">Your support enables us to continue our mission</p>
               </div>
 
-              <!-- Trust Indicators -->
+              -- Trust Indicators --
               <div class="trust-indicators mb-4">
                 <div class="trust-item">
                   <i class="fas fa-lock"></i>
@@ -495,22 +491,22 @@
                 </div>
               </div>
 
-              <!-- Summary -->
+              -- Summary --
               <div v-if="isValidAmount" class="summary-section mb-4">
                 <div class="summary-header">
                   <h3>Ready to Contribute</h3>
                 </div>
-                <!-- <div class="summary-item">
+                -- <div class="summary-item">
                   <span>Amount:</span>
                   <strong>£{{ finalAmount }}</strong>
-                </div> -->
+                </div> --
                 <div class="summary-item">
                   <span>Your Impact:</span>
                   <strong>{{ impactMessage }}</strong>
                 </div>
               </div>
 
-              <!-- Submit Button -->
+              -- Submit Button --
               <button class="btn btn-primary w-100" @click="processDonation" :disabled="!isValidAmount">
                 <i class="fas fa-lock me-2"></i>
                 Proceed to Secure Payment
@@ -528,7 +524,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- AI Tools & Features Section - Optimized -->
     <section class="py-5" aria-labelledby="ai-tools-title">
@@ -730,7 +726,7 @@
                     <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">Simple and transparent</h3>
                     <p class="mb-3" style="color:#4a5568;">Secure Stripe payments. Cancel anytime. No tracking, no ads.
                     </p>
-                    <button @click="processDonation" aria-label="Support and access premium" style="
+                    <button @click="goTo('/support')" aria-label="Support and access premium" style="
                         background: rgba(255, 255, 255, 0.9);
                         color: #1a5f7a;
                         border: 2px solid #1a5f7a;
@@ -1658,6 +1654,11 @@ export default {
     }
   },
   methods: {
+    goTo(path) {
+      if (typeof window !== 'undefined' && window?.location) {
+        window.location.href = path;
+      }
+    },
     processDonation() {
       if (!this.isValidAmount) {
         alert('Please select a contribution amount.');

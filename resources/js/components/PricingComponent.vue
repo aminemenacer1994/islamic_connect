@@ -245,7 +245,7 @@ export default {
       ],
       plans: [
         {
-          value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
+          value: (window.appConfig?.stripePrices?.monthly) || 'price_1SKJCyGsDD2PdzHqUEaWiQkG',
           name: 'Monthly',
           price: '£1.99',
           period: 'per month',
@@ -260,7 +260,7 @@ export default {
           ]
         },
         {
-          value: 'price_1SHNXJGsDD2PdzHqyD7VcnHr',
+          value: (window.appConfig?.stripePrices?.yearly) || 'price_1SKJCyGsDD2PdzHq4qsR1TRh',
           name: 'Yearly',
           price: '£17.99',
           period: 'per year',
@@ -274,29 +274,15 @@ export default {
             'Annual billing',
             'Priority support'
           ]
-        },
-        {
-          value: 'price_1SDrmPGsDD2PdzHqvk1SOoT3',
-          name: 'Lifetime',
-          price: '£25',
-          period: 'one-time payment',
-          savings: 'Never pay again',
-          icon: 'fas fa-infinity',
-          badge: 'Best Deal',
-          featured: false,
-          features: [
-            'All premium features',
-            'Lifetime access',
-            'One-time payment',
-            'VIP support'
-          ]
         }
       ],
-      planDetails: {
-        'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
-        'price_1SHNXJGsDD2PdzHqyD7VcnHr': 'Premium Yearly',
-        'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime',
-      }
+      planDetails: (() => {
+        const ids = window.appConfig?.stripePrices || {};
+        return {
+          [ids.monthly || 'price_1SKJCyGsDD2PdzHqUEaWiQkG']: 'Premium Monthly',
+          [ids.yearly || 'price_1SKJCyGsDD2PdzHq4qsR1TRh']: 'Premium Yearly',
+        };
+      })()
     };
   },
   computed: {

@@ -20,14 +20,15 @@ class CharityController extends Controller
     {
 
         $paymentIntent = null;
-        
-        StripeGateway::setApiKey('sk_test_51OhWyICJwy2NXBn16E2cUdudCq7XSdvJV9FpLq7LxWTrooUS9oi6wgYW6HY7zwpgP4qSXkOjPjxYhoSgphVgAvkW006dFAQZ2q');
+        // Use the configured Stripe secret from environment (no hard-coded keys)
+        StripeGateway::setApiKey(config('services.stripe.secret'));
 
         try {
 
             $request->validate([
                 'amount' => 'required|numeric|min:1',
-                'currency' => 'required|string|in:usd', // Adjust currency as needed
+                // Donations are processed in GBP for this project
+                'currency' => 'required|string|in:gbp',
             ]);
 
             $paymentIntent = PaymentIntent::create([
@@ -52,7 +53,7 @@ class CharityController extends Controller
 
     public function completePayment(Request $request)
     {
-        $stripe = new StripeClient('sk_test_51OhWyICJwy2NXBn16E2cUdudCq7XSdvJV9FpLq7LxWTrooUS9oi6wgYW6HY7zwpgP4qSXkOjPjxYhoSgphVgAvkW006dFAQZ2q');
+        $stripe = new StripeClient(config('services.stripe.secret'));
 
         // Retrieve the payment intent ID from the request or any other source
         $paymentIntentId = $request->input('PAYMENT_INTENT_ID');

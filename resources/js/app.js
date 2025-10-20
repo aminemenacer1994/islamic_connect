@@ -101,7 +101,7 @@ import SubscriptionComponent from './components/SubscriptionComponent.vue';
 
 import { StripePlugin } from 'vue-stripe-elements-plus';
 import { ref, onMounted } from 'vue';
-import { trackAndDetect, hasReached } from './utils/milestones';
+// Removed session milestone tracking
 
 const app = createApp({
   components: { SubscriptionForm },
@@ -126,8 +126,6 @@ const app = createApp({
     if (savedMode !== null) {
       this.darkModeState.isDarkMode = savedMode === 'true';
     }
-    // Start session time milestone tracker
-    this.startSessionMilestones();
   },
   methods: {
     setDarkMode(isDarkMode) {
@@ -135,54 +133,7 @@ const app = createApp({
       // Save the preference to localStorage
       localStorage.setItem('darkMode', isDarkMode);
     },
-    startSessionMilestones() {
-      // Only run once per page load
-      if (window.__sessionMilestonesStarted) return;
-      window.__sessionMilestonesStarted = true;
-
-      const thresholds = [5, 10, 20]; // minutes
-      const scope = 'session';
-      const key = 'active_minutes';
-
-      let minutes = 0;
-
-      const showAlert = (message) => {
-        let el = document.getElementById('session-milestone-alert');
-        if (!el) {
-          el = document.createElement('div');
-          el.id = 'session-milestone-alert';
-          el.className = 'alert alert-success';
-          el.style.position = 'fixed';
-          el.style.top = '10px';
-          el.style.right = '10px';
-          el.style.zIndex = '1200';
-          document.body.appendChild(el);
-        }
-        el.textContent = message;
-        el.style.display = 'block';
-        setTimeout(() => {
-          if (el) el.style.display = 'none';
-        }, 3500);
-      };
-
-      const tick = () => {
-        minutes += 1;
-        // Store minutes in session scope
-        const current = parseInt(sessionStorage.getItem('session_count_' + key) || '0', 10) || 0;
-        sessionStorage.setItem('session_count_' + key, String(current + 1));
-
-        // Detect newly reached thresholds (session-scoped)
-        const hit = trackAndDetect(key, thresholds, scope);
-        if (hit && hit.threshold) {
-          if (hit.threshold === 5) showAlert('You have stayed engaged for 5 minutes. Great focus!');
-          else if (hit.threshold === 10) showAlert('You’ve stayed engaged for 10 minutes. May it benefit you.');
-          else if (hit.threshold === 20) showAlert('20 minutes of focused time — excellent dedication.');
-        }
-      };
-
-      // First tick happens after one minute, then every minute
-      setInterval(tick, 60 * 1000);
-    },
+    // Removed startSessionMilestones method
   },
   provide() {
     // Provide the dark mode state to all child components

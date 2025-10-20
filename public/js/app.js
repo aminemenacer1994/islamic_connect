@@ -5953,6 +5953,12 @@ const AyahOfTheDay = (0,vue__WEBPACK_IMPORTED_MODULE_1__.defineAsyncComponent)((
     }
   },
   methods: {
+    goTo(path) {
+      var _window;
+      if (typeof window !== 'undefined' && (_window = window) !== null && _window !== void 0 && _window.location) {
+        window.location.href = path;
+      }
+    },
     processDonation() {
       if (!this.isValidAmount) {
         alert('Please select a contribution amount.');
@@ -8392,7 +8398,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'SubscriptionComponent',
   data() {
-    var _document$querySelect;
+    var _document$querySelect, _window$appConfig, _window$appConfig2;
     return {
       csrfToken: ((_document$querySelect = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getAttribute('content')) || '',
       selectedPlan: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
@@ -8417,7 +8423,7 @@ __webpack_require__.r(__webpack_exports__);
         open: false
       }],
       plans: [{
-        value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
+        value: ((_window$appConfig = window.appConfig) === null || _window$appConfig === void 0 || (_window$appConfig = _window$appConfig.stripePrices) === null || _window$appConfig === void 0 ? void 0 : _window$appConfig.monthly) || 'price_1SKJCyGsDD2PdzHqUEaWiQkG',
         name: 'Monthly',
         price: '£1.99',
         period: 'per month',
@@ -8426,7 +8432,7 @@ __webpack_require__.r(__webpack_exports__);
         featured: false,
         features: ['All premium features', 'Cancel anytime', 'Monthly billing', '24/7 support']
       }, {
-        value: 'price_1SHNXJGsDD2PdzHqyD7VcnHr',
+        value: ((_window$appConfig2 = window.appConfig) === null || _window$appConfig2 === void 0 || (_window$appConfig2 = _window$appConfig2.stripePrices) === null || _window$appConfig2 === void 0 ? void 0 : _window$appConfig2.yearly) || 'price_1SKJCyGsDD2PdzHq4qsR1TRh',
         name: 'Yearly',
         price: '£17.99',
         period: 'per year',
@@ -8435,22 +8441,14 @@ __webpack_require__.r(__webpack_exports__);
         badge: 'Most Popular',
         featured: true,
         features: ['All premium features', 'Best value', 'Annual billing', 'Priority support']
-      }, {
-        value: 'price_1SDrmPGsDD2PdzHqvk1SOoT3',
-        name: 'Lifetime',
-        price: '£25',
-        period: 'one-time payment',
-        savings: 'Never pay again',
-        icon: 'fas fa-infinity',
-        badge: 'Best Deal',
-        featured: false,
-        features: ['All premium features', 'Lifetime access', 'One-time payment', 'VIP support']
       }],
-      planDetails: {
-        'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
-        'price_1SHNXJGsDD2PdzHqyD7VcnHr': 'Premium Yearly',
-        'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime'
-      }
+      planDetails: (_window$appConfig3 => {
+        const ids = ((_window$appConfig3 = window.appConfig) === null || _window$appConfig3 === void 0 ? void 0 : _window$appConfig3.stripePrices) || {};
+        return {
+          [ids.monthly || 'price_1SKJCyGsDD2PdzHqUEaWiQkG']: 'Premium Monthly',
+          [ids.yearly || 'price_1SKJCyGsDD2PdzHq4qsR1TRh']: 'Premium Yearly'
+        };
+      })()
     };
   },
   computed: {
@@ -13075,10 +13073,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'SubscriptionComponent',
   data() {
-    var _document$querySelect;
+    var _document$querySelect, _window$appConfig, _window$appConfig2, _window$appConfig3;
     return {
       csrfToken: ((_document$querySelect = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getAttribute('content')) || '',
-      selectedPlan: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
+      selectedPlan: ((_window$appConfig = window.appConfig) === null || _window$appConfig === void 0 || (_window$appConfig = _window$appConfig.stripePrices) === null || _window$appConfig === void 0 ? void 0 : _window$appConfig.monthly) || 'price_1SKJCyGsDD2PdzHqUEaWiQkG',
       billingCycle: 'monthly',
       loading: true,
       submitting: false,
@@ -13123,7 +13121,7 @@ __webpack_require__.r(__webpack_exports__);
         description: 'Full access to all core Islamic resources — no payment required.',
         features: ['Quran with audio recitation', 'Quran history', 'Names of Allah', 'Image gallery', 'Islamic dictionary', 'Islamic blogs', 'Dua collection', 'Prayer times', 'Hijri calendar']
       }, {
-        value: 'price_1SDrmPGsDD2PdzHqTgawcJZd',
+        value: ((_window$appConfig2 = window.appConfig) === null || _window$appConfig2 === void 0 || (_window$appConfig2 = _window$appConfig2.stripePrices) === null || _window$appConfig2 === void 0 ? void 0 : _window$appConfig2.monthly) || 'price_1SKJCyGsDD2PdzHqUEaWiQkG',
         name: 'Monthly',
         price: '£1.99',
         period: ' per month',
@@ -13133,7 +13131,7 @@ __webpack_require__.r(__webpack_exports__);
         description: 'Unlock powerful tools that help you learn, reflect, and stay inspired every day.',
         features: ['All of the basic features', 'Quran with Smart Search & Accessibility', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
       }, {
-        value: 'price_1SHNXJGsDD2PdzHqyD7VcnHr',
+        value: ((_window$appConfig3 = window.appConfig) === null || _window$appConfig3 === void 0 || (_window$appConfig3 = _window$appConfig3.stripePrices) === null || _window$appConfig3 === void 0 ? void 0 : _window$appConfig3.yearly) || 'price_1SKJCyGsDD2PdzHq4qsR1TRh',
         name: 'Yearly',
         price: '£17.99',
         period: 'per year',
@@ -13144,11 +13142,13 @@ __webpack_require__.r(__webpack_exports__);
         description: 'Best value for those dedicated to lifelong learning, enjoy all Monthly benefits at a discounted rate.',
         features: ['All of the basic features', 'Quran with Smart Search & Accessibility', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
       }],
-      planDetails: {
-        'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly',
-        'price_1SHNXJGsDD2PdzHqyD7VcnHr': 'Premium Yearly',
-        'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime'
-      }
+      planDetails: (_window$appConfig4 => {
+        const ids = ((_window$appConfig4 = window.appConfig) === null || _window$appConfig4 === void 0 ? void 0 : _window$appConfig4.stripePrices) || {};
+        return {
+          [ids.monthly || 'price_1SKJCyGsDD2PdzHqUEaWiQkG']: 'Premium Monthly',
+          [ids.yearly || 'price_1SKJCyGsDD2PdzHq4qsR1TRh']: 'Premium Yearly'
+        };
+      })()
     };
   },
   computed: {
@@ -13503,9 +13503,14 @@ __webpack_require__.r(__webpack_exports__);
   setup(__props, {
     expose: __expose
   }) {
+    var _window$appConfig;
     __expose();
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    const selectedPlan = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('price_1SDrmPGsDD2PdzHqTgawcJZd');
+    const PRICE_IDS = ((_window$appConfig = window.appConfig) === null || _window$appConfig === void 0 ? void 0 : _window$appConfig.stripePrices) || {
+      monthly: 'price_1SKJCyGsDD2PdzHqUEaWiQkG',
+      yearly: 'price_1SKJCyGsDD2PdzHq4qsR1TRh'
+    };
+    const selectedPlan = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(PRICE_IDS.monthly);
     const loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(true);
     const submitting = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     const cancelling = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
@@ -13514,9 +13519,8 @@ __webpack_require__.r(__webpack_exports__);
     const isSubscribed = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     const subscription = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
     const planDetails = {
-      'price_1SDrmPGsDD2PdzHqTgawcJZd': 'Premium Monthly (£1.99)',
-      'price_1SHNXJGsDD2PdzHqyD7VcnHr': 'Premium Yearly (£17.99)',
-      'price_1SDrmPGsDD2PdzHqvk1SOoT3': 'Premium Lifetime (£25)'
+      [PRICE_IDS.monthly]: 'Premium Monthly (£1.99)',
+      [PRICE_IDS.yearly]: 'Premium Yearly (£17.99)'
     };
     const planDisplayName = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
       var _subscription$value;
@@ -13619,15 +13623,14 @@ __webpack_require__.r(__webpack_exports__);
         });
         const data = await response.json();
         if (response.ok && data.success) {
+          // Immediately reflect as not subscribed and show plans
           await fetchSubscriptionStatus();
-          success.value = `Subscription cancelled. Access continues until ${new Date(data.ends_at).toLocaleDateString('en-GB', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric'
-          })}.`;
+          isSubscribed.value = false;
+          success.value = 'Subscription cancelled.';
+          // Optionally redirect to pricing/subscription to show plans cleanly
           setTimeout(() => {
-            success.value = '';
-          }, 8000);
+            window.location.replace('/subscribe?cancelled=1');
+          }, 500);
         } else {
           throw new Error(data.message || 'Failed to cancel subscription');
         }
@@ -13640,6 +13643,7 @@ __webpack_require__.r(__webpack_exports__);
     };
     const __returned__ = {
       csrfToken,
+      PRICE_IDS,
       selectedPlan,
       loading,
       submitting,
@@ -13678,6 +13682,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data() {
     return {
@@ -13689,7 +13694,8 @@ __webpack_require__.r(__webpack_exports__);
       return this.amount;
     },
     isValidAmount() {
-      return this.finalAmount > 0;
+      const n = Number(this.finalAmount);
+      return Number.isFinite(n) && Number.isInteger(n) && n >= 1 && n <= 100000;
     },
     impactMessage() {
       if (this.amount >= 100) return 'Major platform enhancement';
@@ -13698,17 +13704,67 @@ __webpack_require__.r(__webpack_exports__);
       return 'Helps maintain basic access';
     },
     stripeUrl() {
-      const amountInCents = this.finalAmount * 100;
-      return `https://donate.stripe.com/6oE5kY84oc3q7fy145?amount=${amountInCents}`;
+      const amountInCents = Math.round(this.finalAmount * 100);
+      // Webpack Mix: read MIX_ variables via process.env
+      const base = typeof process !== 'undefined' && process.env && process.env.MIX_STRIPE_DONATE_URL ? process.env.MIX_STRIPE_DONATE_URL : 'https://donate.stripe.com/6oE5kY84oc3q7fy145';
+      return `${base}?amount=${amountInCents}`;
     }
   },
   methods: {
-    processDonation() {
+    onAmountInput(e) {
+      // Coerce to integer pounds and clamp to range
+      let v = parseInt(e.target.value || '');
+      if (isNaN(v)) v = 0;
+      if (v < 0) v = 0;
+      if (v > 100000) v = 100000;
+      this.amount = v;
+    },
+    async processDonation() {
       if (!this.isValidAmount) {
         alert('Please select a contribution amount.');
         return;
       }
-      window.location.href = this.stripeUrl;
+      try {
+        var _getAttribute, _ref;
+        // Prepare CSRF
+        const tokenEl = document.querySelector('meta[name="csrf-token"]');
+        const csrf = tokenEl ? tokenEl.getAttribute('content') : '';
+
+        // Create a Checkout session on the server
+        const res = await fetch('/support/create-checkout-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrf,
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            amount: this.finalAmount
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error((data === null || data === void 0 ? void 0 : data.error) || 'Failed to create payment session');
+
+        // Redirect to Stripe Checkout using Stripe.js
+        const key = (_getAttribute = (_ref = document.querySelector('meta[name="stripe-key"]') || {}).getAttribute) === null || _getAttribute === void 0 ? void 0 : _getAttribute.call(_ref, 'content');
+        if (!key) throw new Error('Stripe publishable key missing');
+        const stripe = window.Stripe ? window.Stripe(key) : null;
+        if (!stripe) throw new Error('Stripe.js not loaded');
+        const result = await stripe.redirectToCheckout({
+          sessionId: data.id
+        });
+        if (result.error) {
+          throw new Error(result.error.message || 'Redirect failed');
+        }
+      } catch (err) {
+        console.error('Donation error:', err);
+        // Fallback to Payment Link if configured
+        try {
+          window.location.href = this.stripeUrl;
+        } catch (_e) {
+          alert('Unable to start payment: ' + ((err === null || err === void 0 ? void 0 : err.message) || 'unknown error'));
+        }
+      }
     }
   }
 });
@@ -32189,49 +32245,26 @@ const _hoisted_4 = {
   class: "col-12"
 };
 const _hoisted_5 = {
-  class: "py-5 combined-section"
-};
-const _hoisted_6 = {
-  class: "container-fluid"
-};
-const _hoisted_7 = {
-  class: "row align-items-stretch"
-};
-const _hoisted_8 = {
-  class: "col-lg-5 mb-4"
-};
-const _hoisted_9 = {
-  class: "donation-form"
-};
-const _hoisted_10 = {
-  key: 0,
-  class: "summary-section mb-4"
-};
-const _hoisted_11 = {
-  class: "summary-item"
-};
-const _hoisted_12 = ["disabled"];
-const _hoisted_13 = {
   class: "py-5 bg-white",
   "aria-labelledby": "premium-heading",
   role: "region"
 };
-const _hoisted_14 = {
+const _hoisted_6 = {
   class: "container"
 };
-const _hoisted_15 = {
+const _hoisted_7 = {
   class: "row justify-content-center"
 };
-const _hoisted_16 = {
+const _hoisted_8 = {
   class: "col-lg-10"
 };
-const _hoisted_17 = {
+const _hoisted_9 = {
   class: "row g-4"
 };
-const _hoisted_18 = {
+const _hoisted_10 = {
   class: "col-md-6"
 };
-const _hoisted_19 = {
+const _hoisted_11 = {
   class: "h-100 d-flex flex-column justify-content-between",
   style: {
     "background": "white",
@@ -32240,10 +32273,10 @@ const _hoisted_19 = {
     "box-shadow": "0 10px 30px rgba(0,0,0,0.08)"
   }
 };
-const _hoisted_20 = {
+const _hoisted_12 = {
   class: "p-4 text-start"
 };
-const _hoisted_21 = {
+const _hoisted_13 = {
   class: "py-5 contact-section",
   "aria-labelledby": "contact-heading",
   style: {
@@ -32251,17 +32284,41 @@ const _hoisted_21 = {
     "box-shadow": "0 7px 29px rgba(100, 100, 111, 0.2)"
   }
 };
-const _hoisted_22 = {
+const _hoisted_14 = {
   class: "container-fluid"
 };
-const _hoisted_23 = {
+const _hoisted_15 = {
   class: "row justify-content-center"
 };
-const _hoisted_24 = {
+const _hoisted_16 = {
   class: "col-md-10 col-lg-6 mt-4"
 };
-const _hoisted_25 = {
+const _hoisted_17 = {
   class: "row g-3"
+};
+const _hoisted_18 = {
+  class: "col-md-6"
+};
+const _hoisted_19 = {
+  class: "mb-3"
+};
+const _hoisted_20 = {
+  class: "col-md-6"
+};
+const _hoisted_21 = {
+  class: "mb-3"
+};
+const _hoisted_22 = {
+  class: "col-md-6"
+};
+const _hoisted_23 = {
+  class: "mb-3"
+};
+const _hoisted_24 = {
+  class: "col-md-6"
+};
+const _hoisted_25 = {
+  class: "mb-3"
 };
 const _hoisted_26 = {
   class: "col-md-6"
@@ -32270,38 +32327,14 @@ const _hoisted_27 = {
   class: "mb-3"
 };
 const _hoisted_28 = {
-  class: "col-md-6"
+  class: "col-12"
 };
 const _hoisted_29 = {
   class: "mb-3"
 };
-const _hoisted_30 = {
-  class: "col-md-6"
-};
-const _hoisted_31 = {
-  class: "mb-3"
-};
-const _hoisted_32 = {
-  class: "col-md-6"
-};
-const _hoisted_33 = {
-  class: "mb-3"
-};
-const _hoisted_34 = {
-  class: "col-md-6"
-};
-const _hoisted_35 = {
-  class: "mb-3"
-};
-const _hoisted_36 = {
-  class: "col-12"
-};
-const _hoisted_37 = {
-  class: "mb-3"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_PrayerTimes = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("PrayerTimes");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "jumbotron",
     style: {
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
@@ -32557,12 +32590,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/podcast2.png",
-    class: "d-block w-100",
-    alt: "Audio podcasts"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "carousel-item"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/seerah2.png",
     class: "d-block w-100",
     alt: "Seerah timeline"
@@ -32607,12 +32634,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-target": "#carouselExampleInterval",
     "data-bs-slide-to": "4",
     "aria-label": "Slide 5"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "data-bs-target": "#carouselExampleInterval",
-    "data-bs-slide-to": "5",
-    "aria-label": "Slide 6"
-  })])])])])])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" SEO Optimized Heading "), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  })])])])])])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" SEO Optimized Heading "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     id: "prayer-times-heading",
     class: "text-center mb-4",
     style: {
@@ -32625,29 +32647,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "reduce-motion": true,
     "aria-live": "polite",
     "aria-atomic": "true"
-  })])])])]), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section aria-labelledby=\"services-heading\" data-v-2ba25654><div class=\"py-5\" style=\"background:#f8f9fa;\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-5\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h2 id=\"services-heading\" class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>What We Offer</h2><p class=\"lead text-muted\" data-v-2ba25654>Comprehensive Islamic resources designed for modern learners</p></div></div><div class=\"row g-4\" data-v-2ba25654><!-- Card 1: Explore with Ease --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/galaxy.png\" width=\"80\" height=\"80\" alt=\"Magnifying glass exploring Islamic content\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Explore with Ease</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics. Find meaningful content instantly for your spiritual journey. </p></div></article></div><!-- Card 2: Listen, Watch, Reflect --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/watching.png\" width=\"80\" height=\"80\" alt=\"Headphones for audio content\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Listen, Watch, Reflect</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Enjoy Quran recitations, insightful podcasts, and Islamic art galleries. Engage spiritually through multimedia content anywhere, anytime. </p></div></article></div><!-- Card 3: Learn Your Way --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/school.png\" width=\"80\" height=\"80\" alt=\"Graduation cap for learning\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Learn Your Way</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible learning for everyone, regardless of ability. </p></div></article></div></div></div></div></section><section class=\"container pt-3\" aria-label=\"Islamic Connect Features\" data-v-2ba25654><!-- First Row - Quran Companion --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Quran Companion: AI-Powered &amp; Accessible </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Experience the Quran with advanced AI tools for reading, listening, and understanding. Featuring text-to-speech, screen reader support, and voice search for an accessible, intelligent connection to the Divine. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start\" data-v-2ba25654><a href=\"/holy\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" aria-label=\"Learn more about Quran Companion features\" data-v-2ba25654> Explore Quran </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/companion2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran Companion interface showing AI-powered features and accessibility tools\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div><!-- Second Row - Audio Content --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/podcast2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Islamic podcasts and audio content streaming interface\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div><div class=\"col-lg-6\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Spiritual Content On-The-Go </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place. Stay spiritually connected through sound and reflection wherever you are. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start\" data-v-2ba25654><a href=\"/media\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" aria-label=\"Discover Islamic audio content and podcasts\" data-v-2ba25654> Browse Content </a></div></div></div><!-- Third Row - Quran Explorer --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Deep Quran Exploration </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Search, explore, and engage with every verse effortlessly. Discover tafsir, translations, and recitations with tools designed for simplicity and spiritual growth. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start\" data-v-2ba25654><a href=\"/surat\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" aria-label=\"Start exploring Quran verses and translations\" data-v-2ba25654> Start Exploring </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/surat2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran exploration interface with search and translation features\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div></section>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Section "), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"stats-section\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center\" data-v-2ba25654><div class=\"col-lg-10 text-center\" data-v-2ba25654><h2 class=\"section-title\" data-v-2ba25654>Our Impact in Numbers</h2><p class=\"section-lead\" data-v-2ba25654>Measurable results showing how we&#39;re making Islamic knowledge accessible to all</p><div class=\"row container-fluid stats-grid\" data-v-2ba25654><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>60+</h3><p data-v-2ba25654>Countries</p><small data-v-2ba25654>Global reach</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>500+</h3><p data-v-2ba25654>Cities/Towns</p><small data-v-2ba25654>Worldwide presence</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>100%</h3><p data-v-2ba25654>Accessibility &amp; SEO</p><small data-v-2ba25654>Score</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>1,090%</h3><p data-v-2ba25654>Growth</p><small data-v-2ba25654>Returning users</small></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Value Proposition Column "), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-lg-1 mb-4\" data-v-2ba25654></div><div class=\"col-lg-5 mb-4\" data-v-2ba25654><div class=\"value-proposition-wrapper\" data-v-2ba25654><div class=\"form-header text-center mb-4\" data-v-2ba25654><h2 class=\"mb-3\" data-v-2ba25654>Strategic Impact Areas</h2></div><div class=\"row\" data-v-2ba25654><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>📚</div><h3 data-v-2ba25654>Educational Content</h3><p data-v-2ba25654>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>♿</div><h3 data-v-2ba25654>Accessibility Features</h3><p data-v-2ba25654>Implementing screen reader support and voice interfaces for inclusive access</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>⚙️</div><h3 data-v-2ba25654>Platform Infrastructure</h3><p data-v-2ba25654>Maintaining robust servers and scalable architecture for global user base</p></div></div><div class=\"col-md-6 mb-4\" data-v-2ba25654><div class=\"value-card\" data-v-2ba25654><div class=\"value-icon\" data-v-2ba25654>🌍</div><h3 data-v-2ba25654>Global Outreach</h3><p data-v-2ba25654>Expanding to underserved Muslim communities worldwide</p></div></div></div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Donation Section Column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "form-header text-center mb-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    class: "mb-3"
-  }, "Make a Difference"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "text-muted"
-  }, "Your support enables us to continue our mission")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Trust Indicators "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"trust-indicators mb-4\" data-v-2ba25654><div class=\"trust-item\" data-v-2ba25654><i class=\"fas fa-lock\" data-v-2ba25654></i><span data-v-2ba25654>Secure Payment</span></div><div class=\"trust-item\" data-v-2ba25654><i class=\"fas fa-shield-alt\" data-v-2ba25654></i><span data-v-2ba25654>SSL Encrypted</span></div><div class=\"trust-item\" data-v-2ba25654><i class=\"fas fa-certificate\" data-v-2ba25654></i><span data-v-2ba25654>Stripe Verified</span></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Summary "), $options.isValidAmount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "summary-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Ready to Contribute")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"summary-item\">\n                  <span>Amount:</span>\n                  <strong>£{{ finalAmount }}</strong>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your Impact:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.impactMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "btn btn-primary w-100",
-    onClick: _cache[0] || (_cache[0] = (...args) => $options.processDonation && $options.processDonation(...args)),
-    disabled: !$options.isValidAmount
-  }, [...(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-lock me-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Proceed to Secure Payment ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_12), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "security-guarantee text-center mt-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "small text-muted"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-shield-alt me-1"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Your contribution is securely processed by Stripe. We never store your payment details. ")])], -1 /* CACHED */))])]), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "col-lg-1 mb-4"
-  }, null, -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Tools & Features Section - Optimized "), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" aria-labelledby=\"ai-tools-title\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654></div><h2 id=\"ai-tools-title\" class=\"h2 mb-3 fw-bold\" data-v-2ba25654>AI-Powered Tools for Enhanced Islamic Learning</h2></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><div class=\"col-12\" data-v-2ba25654><p class=\"lead text-center mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone. Our tools are designed to empower individuals through inclusive, personalized learning experiences that adapt to diverse abilities and learning preferences. </p></div><!-- Feature 1: Speech-to-Text --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"60\" height=\"60\" alt=\"Microphone icon representing speech-to-text feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Speech-to-Text for Islamic Notes</h3><p class=\"mb-0\" data-v-2ba25654> Capture your spoken reflections and thoughts on Islamic teachings effortlessly. Perfect for documenting insights and ensuring accessibility for those who prefer audio input. </p></div></div></div><!-- Feature 2: Voice Search --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"60\" height=\"60\" alt=\"Voice recognition icon for voice search feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Voice-Activated Quran Search</h3><p class=\"mb-0\" data-v-2ba25654> Use voice commands to search Quranic verses and teachings. A hands-free, accessible way to explore Islamic content quickly and intuitively. </p></div></div></div><!-- Feature 3: Note Editor --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"60\" height=\"60\" alt=\"E-learning icon for note editor feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Advanced Islamic Note Editor</h3><p class=\"mb-0\" data-v-2ba25654> A customizable note-taking tool designed specifically for Islamic studies. Organize your reflections, bookmarks, and study notes with ease. </p></div></div></div><!-- Feature 4: Text Summarization --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/content.png\" width=\"60\" height=\"60\" alt=\"Content icon for text summarization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>AI Text Summarization</h3><p class=\"mb-0\" data-v-2ba25654> Quickly understand complex Islamic texts with AI-powered summaries. Extract key insights from lengthy content to enhance your learning efficiency. </p></div></div></div><!-- Feature 5: Audio Sync --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"60\" height=\"60\" alt=\"Highlighter icon for audio synchronization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Word-by-Word Quran Highlighting</h3><p class=\"mb-0\" data-v-2ba25654> Follow Quranic recitations with synchronized text highlighting. Each word lights up as it&#39;s recited, improving pronunciation and comprehension. </p></div></div></div><!-- Feature 6: Text-to-Speech --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"60\" height=\"60\" alt=\"Chat icon for text-to-speech feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Text-to-Speech for Translations</h3><p class=\"mb-0\" data-v-2ba25654> Listen to Quran translations and Tafsir explanations. High-quality audio delivery makes Islamic knowledge accessible while multitasking or for visual impairments. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Premium CTA Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])])])]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section aria-labelledby=\"services-heading\" data-v-2ba25654><div class=\"py-5\" style=\"background:#f8f9fa;\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-5\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h2 id=\"services-heading\" class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>What We Offer</h2><p class=\"lead text-muted\" data-v-2ba25654>Comprehensive Islamic resources designed for modern learners</p></div></div><div class=\"row g-4\" data-v-2ba25654><!-- Card 1: Explore with Ease --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/galaxy.png\" width=\"80\" height=\"80\" alt=\"Magnifying glass exploring Islamic content\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Explore with Ease</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics. Find meaningful content instantly for your spiritual journey. </p></div></article></div><!-- Card 2: Listen, Watch, Reflect --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/watching.png\" width=\"80\" height=\"80\" alt=\"Headphones for audio content\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Listen, Watch, Reflect</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Enjoy Quran recitations, insightful podcasts, and Islamic art galleries. Engage spiritually through multimedia content anywhere, anytime. </p></div></article></div><!-- Card 3: Learn Your Way --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/school.png\" width=\"80\" height=\"80\" alt=\"Graduation cap for learning\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Learn Your Way</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible learning for everyone, regardless of ability. </p></div></article></div></div></div></div></section><section class=\"container pt-3\" aria-label=\"Islamic Connect Features\" data-v-2ba25654><!-- First Row - Quran Companion --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Quran Companion: AI-Powered &amp; Accessible </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Experience the Quran with advanced AI tools for reading, listening, and understanding. Featuring text-to-speech, screen reader support, and voice search for an accessible, intelligent connection to the Divine. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start\" data-v-2ba25654><a href=\"/holy\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" aria-label=\"Learn more about Quran Companion features\" data-v-2ba25654> Explore Quran </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/companion2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran Companion interface showing AI-powered features and accessibility tools\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div><!-- Second Row - Audio Content --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/radio2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Islamic podcasts and audio content streaming interface\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div><div class=\"col-lg-6\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Spiritual Content On-The-Go </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place. Stay spiritually connected through sound and reflection wherever you are. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start\" data-v-2ba25654><a href=\"/media\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" aria-label=\"Discover Islamic audio content and podcasts\" data-v-2ba25654> Browse Content </a></div></div></div><!-- Third Row - Quran Explorer --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Deep Quran Exploration </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Search, explore, and engage with every verse effortlessly. Discover tafsir, translations, and recitations with tools designed for simplicity and spiritual growth. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start\" data-v-2ba25654><a href=\"/surat\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" aria-label=\"Start exploring Quran verses and translations\" data-v-2ba25654> Start Exploring </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/surat2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran exploration interface with search and translation features\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div></section>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Section "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"stats-section\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center\" data-v-2ba25654><div class=\"col-lg-10 text-center\" data-v-2ba25654><h2 class=\"section-title\" data-v-2ba25654>Our Impact in Numbers</h2><p class=\"section-lead\" data-v-2ba25654>Measurable results showing how we&#39;re making Islamic knowledge accessible to all</p><div class=\"row container-fluid stats-grid\" data-v-2ba25654><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>60+</h3><p data-v-2ba25654>Countries</p><small data-v-2ba25654>Global reach</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>500+</h3><p data-v-2ba25654>Cities/Towns</p><small data-v-2ba25654>Worldwide presence</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>100%</h3><p data-v-2ba25654>Accessibility &amp; SEO</p><small data-v-2ba25654>Score</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>1,090%</h3><p data-v-2ba25654>Growth</p><small data-v-2ba25654>Returning users</small></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<section class=\"py-5 combined-section\">\n      <div class=\"container-fluid\">\n        <div class=\"row align-items-stretch\">\n          -- Value Proposition Column --\n          <div class=\"col-lg-1 mb-4\">\n          </div>\n          <div class=\"col-lg-5 mb-4\">\n            <div class=\"value-proposition-wrapper\">\n\n              <div class=\"form-header text-center mb-4\">\n                <h2 class=\"mb-3\">Strategic Impact Areas</h2>\n              </div>\n              <div class=\"row\">\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">📚</div>\n                    <h3>Educational Content</h3>\n                    <p>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p>\n                  </div>\n                </div>\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">♿</div>\n                    <h3>Accessibility Features</h3>\n                    <p>Implementing screen reader support and voice interfaces for inclusive access</p>\n                  </div>\n                </div>\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">⚙️</div>\n                    <h3>Platform Infrastructure</h3>\n                    <p>Maintaining robust servers and scalable architecture for global user base</p>\n                  </div>\n                </div>\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">🌍</div>\n                    <h3>Global Outreach</h3>\n                    <p>Expanding to underserved Muslim communities worldwide</p>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          -- Donation Section Column --\n          -- <div class=\"col-lg-5 mb-4\">\n            <div class=\"donation-form\">\n              <div class=\"form-header text-center mb-4\">\n                <h3 class=\"mb-3\">Make a Difference</h3>\n                <p class=\"text-muted\">Your support enables us to continue our mission</p>\n              </div>\n\n              -- Trust Indicators --\n              <div class=\"trust-indicators mb-4\">\n                <div class=\"trust-item\">\n                  <i class=\"fas fa-lock\"></i>\n                  <span>Secure Payment</span>\n                </div>\n                <div class=\"trust-item\">\n                  <i class=\"fas fa-shield-alt\"></i>\n                  <span>SSL Encrypted</span>\n                </div>\n                <div class=\"trust-item\">\n                  <i class=\"fas fa-certificate\"></i>\n                  <span>Stripe Verified</span>\n                </div>\n              </div>\n\n              -- Summary --\n              <div v-if=\"isValidAmount\" class=\"summary-section mb-4\">\n                <div class=\"summary-header\">\n                  <h3>Ready to Contribute</h3>\n                </div>\n                -- <div class=\"summary-item\">\n                  <span>Amount:</span>\n                  <strong>£{{ finalAmount }}</strong>\n                </div> --\n                <div class=\"summary-item\">\n                  <span>Your Impact:</span>\n                  <strong>{{ impactMessage }}</strong>\n                </div>\n              </div>\n\n              -- Submit Button --\n              <button class=\"btn btn-primary w-100\" @click=\"processDonation\" :disabled=\"!isValidAmount\">\n                <i class=\"fas fa-lock me-2\"></i>\n                Proceed to Secure Payment\n              </button>\n\n              <div class=\"security-guarantee text-center mt-3\">\n                <p class=\"small text-muted\">\n                  <i class=\"fas fa-shield-alt me-1\"></i>\n                  Your contribution is securely processed by Stripe. We never store your payment details.\n                </p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-lg-1 mb-4\">\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Tools & Features Section - Optimized "), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" aria-labelledby=\"ai-tools-title\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654></div><h2 id=\"ai-tools-title\" class=\"h2 mb-3 fw-bold\" data-v-2ba25654>AI-Powered Tools for Enhanced Islamic Learning</h2></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><div class=\"col-12\" data-v-2ba25654><p class=\"lead text-center mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone. Our tools are designed to empower individuals through inclusive, personalized learning experiences that adapt to diverse abilities and learning preferences. </p></div><!-- Feature 1: Speech-to-Text --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"60\" height=\"60\" alt=\"Microphone icon representing speech-to-text feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Speech-to-Text for Islamic Notes</h3><p class=\"mb-0\" data-v-2ba25654> Capture your spoken reflections and thoughts on Islamic teachings effortlessly. Perfect for documenting insights and ensuring accessibility for those who prefer audio input. </p></div></div></div><!-- Feature 2: Voice Search --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"60\" height=\"60\" alt=\"Voice recognition icon for voice search feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Voice-Activated Quran Search</h3><p class=\"mb-0\" data-v-2ba25654> Use voice commands to search Quranic verses and teachings. A hands-free, accessible way to explore Islamic content quickly and intuitively. </p></div></div></div><!-- Feature 3: Note Editor --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"60\" height=\"60\" alt=\"E-learning icon for note editor feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Advanced Islamic Note Editor</h3><p class=\"mb-0\" data-v-2ba25654> A customizable note-taking tool designed specifically for Islamic studies. Organize your reflections, bookmarks, and study notes with ease. </p></div></div></div><!-- Feature 4: Text Summarization --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/content.png\" width=\"60\" height=\"60\" alt=\"Content icon for text summarization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>AI Text Summarization</h3><p class=\"mb-0\" data-v-2ba25654> Quickly understand complex Islamic texts with AI-powered summaries. Extract key insights from lengthy content to enhance your learning efficiency. </p></div></div></div><!-- Feature 5: Audio Sync --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"60\" height=\"60\" alt=\"Highlighter icon for audio synchronization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Word-by-Word Quran Highlighting</h3><p class=\"mb-0\" data-v-2ba25654> Follow Quranic recitations with synchronized text highlighting. Each word lights up as it&#39;s recited, improving pronunciation and comprehension. </p></div></div></div><!-- Feature 6: Text-to-Speech --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"60\" height=\"60\" alt=\"Chat icon for text-to-speech feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Text-to-Speech for Translations</h3><p class=\"mb-0\" data-v-2ba25654> Listen to Quran translations and Tafsir explanations. High-quality audio delivery makes Islamic knowledge accessible while multitasking or for visual impairments. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Premium CTA Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "row justify-content-center text-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-lg-8"
@@ -32663,18 +32663,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "line-height": "1.7"
     }
-  }, " Your support sustains this khidmah and keeps Islamic knowledge accessible for everyone. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Faith-centered quote "), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row justify-content-center mb-4 quote-wrapper bg-white\" data-v-2ba25654><div class=\"col-lg-9\" data-v-2ba25654><div class=\"quote-card\" data-v-2ba25654><!-- Subtle glowing accent --><div class=\"quote-glow\" data-v-2ba25654></div><div class=\"quote-content\" data-v-2ba25654><!-- First Quote --><p class=\"faith-quote\" data-v-2ba25654><span class=\"quote-mark\" aria-hidden=\"true\" data-v-2ba25654>“</span> Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise. <span class=\"quote-mark\" aria-hidden=\"true\" data-v-2ba25654>”</span></p><div class=\"quote-ref\" data-v-2ba25654>Hadith — Sahih Muslim</div><!-- Decorative divider --><div class=\"quote-divider\" data-v-2ba25654></div><!-- Second Quote --><!-- &lt;p class=&quot;faith-dua&quot;&gt;\n                  &lt;span class=&quot;quote-mark&quot; aria-hidden=&quot;true&quot;&gt;“&lt;/span&gt;\n                  My Lord, increase me in knowledge.\n                  &lt;span class=&quot;quote-mark&quot; aria-hidden=&quot;true&quot;&gt;”&lt;/span&gt;\n                  &lt;span class=&quot;dua-ref&quot;&gt;(Quran 20:114)&lt;/span&gt;\n                &lt;/p&gt; --></div></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-md-6\" data-v-2ba25654><div class=\"card h-100 border-0\" style=\"box-shadow:0 10px 30px rgba(0,0,0,0.08);\" data-v-2ba25654><div class=\"card-body p-4 text-start\" data-v-2ba25654><h3 class=\"h4 fw-bold mb-3\" style=\"color:#2c3e50;\" data-v-2ba25654>What your support enables</h3><ul class=\"mb-0\" style=\"list-style:none;padding-left:0;color:#4a5568;line-height:1.7;\" data-v-2ba25654><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Keep Quran tools fast, accessible, and ad‑free</li><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Offer trustworthy resources curated with amanah</li><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Deliver new features shaped by your feedback</li><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Make the platform available to those who can’t pay</li></ul></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, " Your support sustains this khidmah and keeps Islamic knowledge accessible for everyone. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Faith-centered quote "), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row justify-content-center mb-4 quote-wrapper bg-white\" data-v-2ba25654><div class=\"col-lg-9\" data-v-2ba25654><div class=\"quote-card\" data-v-2ba25654><!-- Subtle glowing accent --><div class=\"quote-glow\" data-v-2ba25654></div><div class=\"quote-content\" data-v-2ba25654><!-- First Quote --><p class=\"faith-quote\" data-v-2ba25654><span class=\"quote-mark\" aria-hidden=\"true\" data-v-2ba25654>“</span> Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise. <span class=\"quote-mark\" aria-hidden=\"true\" data-v-2ba25654>”</span></p><div class=\"quote-ref\" data-v-2ba25654>Hadith — Sahih Muslim</div><!-- Decorative divider --><div class=\"quote-divider\" data-v-2ba25654></div><!-- Second Quote --><!-- &lt;p class=&quot;faith-dua&quot;&gt;\n                  &lt;span class=&quot;quote-mark&quot; aria-hidden=&quot;true&quot;&gt;“&lt;/span&gt;\n                  My Lord, increase me in knowledge.\n                  &lt;span class=&quot;quote-mark&quot; aria-hidden=&quot;true&quot;&gt;”&lt;/span&gt;\n                  &lt;span class=&quot;dua-ref&quot;&gt;(Quran 20:114)&lt;/span&gt;\n                &lt;/p&gt; --></div></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-md-6\" data-v-2ba25654><div class=\"card h-100 border-0\" style=\"box-shadow:0 10px 30px rgba(0,0,0,0.08);\" data-v-2ba25654><div class=\"card-body p-4 text-start\" data-v-2ba25654><h3 class=\"h4 fw-bold mb-3\" style=\"color:#2c3e50;\" data-v-2ba25654>What your support enables</h3><ul class=\"mb-0\" style=\"list-style:none;padding-left:0;color:#4a5568;line-height:1.7;\" data-v-2ba25654><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Keep Quran tools fast, accessible, and ad‑free</li><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Offer trustworthy resources curated with amanah</li><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Deliver new features shaped by your feedback</li><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Make the platform available to those who can’t pay</li></ul></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h4 fw-bold mb-3",
     style: {
       "color": "#2c3e50"
     }
-  }, "Simple and transparent", -1 /* CACHED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Simple and transparent", -1 /* CACHED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-3",
     style: {
       "color": "#4a5568"
     }
   }, "Secure Stripe payments. Cancel anytime. No tracking, no ads. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[1] || (_cache[1] = (...args) => $options.processDonation && $options.processDonation(...args)),
+    onClick: _cache[0] || (_cache[0] = $event => $options.goTo('/support')),
     "aria-label": "Support and access premium",
     style: {
       "background": "rgba(255, 255, 255, 0.9)",
@@ -32690,9 +32690,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onmouseover: "this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';",
     onmouseout: "this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';"
-  }, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-heart me-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Provide a small Donation ", -1 /* CACHED */)]))])]), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Provide a small Donation ", -1 /* CACHED */)]))])]), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "px-4 pb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center",
@@ -32702,7 +32702,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-lock"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, "SSL encrypted • PCI compliant")])], -1 /* CACHED */))])])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quick Join Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Enhanced Quick Join Section "), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, "SSL encrypted • PCI compliant")])], -1 /* CACHED */))])])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quick Join Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Enhanced Quick Join Section "), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
     class: "py-5 quick-join-section",
     style: {
       "background": "linear-gradient(135deg, #0b806f 0%, #1a5f7a 100%)",
@@ -32948,7 +32948,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-quran"
-  })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "row justify-content-center text-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-lg-8 col-xxl-7"
@@ -32957,84 +32957,84 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "display-5 fw-bold mb-3"
   }, "Get In Touch"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "lead fw-semibold text-muted"
-  }, " Have questions or need assistance? We're here to help! Reach out to Islamic Connect for support, feedback, or inquiries about our content and services. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onReset: _cache[8] || (_cache[8] = (...args) => _ctx.reset && _ctx.reset(...args)),
-    onSubmit: _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.sendMessage(), ["prevent"])),
+  }, " Have questions or need assistance? We're here to help! Reach out to Islamic Connect for support, feedback, or inquiries about our content and services. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onReset: _cache[7] || (_cache[7] = (...args) => _ctx.reset && _ctx.reset(...args)),
+    onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.sendMessage(), ["prevent"])),
     role: "form",
     "aria-label": "Contact form"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" First Name "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" First Name "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "firstname",
     class: "form-label visually-hidden"
   }, "First Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "firstname",
     class: "form-control form-control-lg bg-light",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $data.form.firstname = $event),
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.form.firstname = $event),
     name: "firstname",
     placeholder: "First name",
     type: "text",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.firstname]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Last Name "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.firstname]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Last Name "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "lastname",
     class: "form-label visually-hidden"
   }, "Last Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "lastname",
     class: "form-control form-control-lg bg-light",
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $data.form.lastname = $event),
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $data.form.lastname = $event),
     name: "lastname",
     placeholder: "Last name",
     type: "text",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.lastname]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Email "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.lastname]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Email "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "email",
     class: "form-label visually-hidden"
   }, "Email Address", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "email",
     class: "form-control form-control-lg bg-light",
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => $data.form.email = $event),
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $data.form.email = $event),
     name: "email",
     placeholder: "Email address",
     type: "email",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subject "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subject "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "subject",
     class: "form-label visually-hidden"
   }, "Subject", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "subject",
     class: "form-control form-control-lg bg-light",
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $data.form.subject = $event),
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => $data.form.subject = $event),
     name: "subject",
     placeholder: "Subject",
     type: "text",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.subject]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Phone Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.subject]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Phone Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "mobile",
     class: "form-label visually-hidden"
   }, "Phone Number", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "mobile",
     class: "form-control form-control-lg bg-light",
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => $data.form.mobile = $event),
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $data.form.mobile = $event),
     name: "mobile",
     placeholder: "Phone number (optional)",
     type: "tel",
     pattern: "[0-9]{10,15}",
     title: "Please enter a valid phone number"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.mobile]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Message "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.mobile]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Message "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "message",
     class: "form-label visually-hidden"
   }, "Your Message", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     id: "message",
     class: "form-control form-control-lg bg-light",
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => $data.form.message = $event),
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => $data.form.message = $event),
     name: "message",
     placeholder: "Your message",
     rows: "5",
     "aria-required": "true",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.message]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-12\" data-v-2ba25654><div class=\"d-grid\" data-v-2ba25654><button type=\"submit\" class=\"btn btn-primary btn-lg fw-bold py-3\" style=\"background:#0b806f;border:none;box-shadow:0 7px 29px rgba(100, 100, 111, 0.2);\" aria-label=\"Send your message\" data-v-2ba25654><span class=\"d-flex align-items-center justify-content-center\" data-v-2ba25654><i class=\"fas fa-paper-plane me-2\" aria-hidden=\"true\" data-v-2ba25654></i> Send Message </span></button></div></div>", 1))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Remove the container if you want to extend the Footer to full width. "), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.message]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-12\" data-v-2ba25654><div class=\"d-grid\" data-v-2ba25654><button type=\"submit\" class=\"btn btn-primary btn-lg fw-bold py-3\" style=\"background:#0b806f;border:none;box-shadow:0 7px 29px rgba(100, 100, 111, 0.2);\" aria-label=\"Send your message\" data-v-2ba25654><span class=\"d-flex align-items-center justify-content-center\" data-v-2ba25654><i class=\"fas fa-paper-plane me-2\" aria-hidden=\"true\" data-v-2ba25654></i> Send Message </span></button></div></div>", 1))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Remove the container if you want to extend the Footer to full width. "), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", {
     style: {
       "background": "linear-gradient(135deg, rgb(11, 128, 111), rgb(26, 95, 122))"
     }
@@ -39685,10 +39685,12 @@ const _hoisted_11 = {
   class: "subscription-form"
 };
 const _hoisted_12 = ["value"];
-const _hoisted_13 = ["disabled"];
+const _hoisted_13 = ["value"];
+const _hoisted_14 = ["value"];
+const _hoisted_15 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$setup$subscription, _$setup$subscription2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Subscription", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Message "), $setup.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.success), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Message "), $setup.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $setup.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [...(_cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading subscription details...", -1 /* CACHED */)]))])) : $setup.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Subscription", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Message "), $setup.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.success), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Message "), $setup.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $setup.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [...(_cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading subscription details...", -1 /* CACHED */)]))])) : $setup.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 3
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscribed View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Active Subscription", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.planDisplayName), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$subscription = $setup.subscription) !== null && _$setup$subscription !== void 0 && _$setup$subscription.ends_at ? 'Ends:' : 'Status:'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$subscription2 = $setup.subscription) !== null && _$setup$subscription2 !== void 0 && _$setup$subscription2.ends_at ? $setup.formatDate($setup.subscription.ends_at) : 'Active'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: $setup.handleCancelSubscription,
@@ -39696,7 +39698,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: $setup.cancelling
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.cancelling ? 'Cancelling...' : 'Cancel Subscription'), 9 /* TEXT, PROPS */, _hoisted_9)])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 4
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Selection View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Selection View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     id: "planHeading"
   }, "Choose Your Plan", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
@@ -39707,17 +39709,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     required: "",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $setup.selectedPlan = $event),
     class: "form-control"
-  }, [...(_cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "price_1SDrmPGsDD2PdzHqTgawcJZd"
-  }, "Premium Monthly (£1.99)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "price_1SHNXJGsDD2PdzHqyD7VcnHr"
-  }, "Premium Yearly (£17.99)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "price_1SDrmPGsDD2PdzHqvk1SOoT3"
-  }, "Premium Lifetime (£25)", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: $setup.PRICE_IDS.monthly
+  }, "Premium Monthly (£1.99)", 8 /* PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: $setup.PRICE_IDS.yearly
+  }, "Premium Yearly (£17.99)", 8 /* PROPS */, _hoisted_14)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     class: "btn btn-primary",
     disabled: $setup.submitting
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.submitting ? 'Processing...' : 'Subscribe'), 9 /* TEXT, PROPS */, _hoisted_13)])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))]);
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.submitting ? 'Processing...' : 'Subscribe'), 9 /* TEXT, PROPS */, _hoisted_15)])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))]);
 }
 
 /***/ }),
@@ -39753,35 +39753,85 @@ const _hoisted_6 = {
   class: "donation-form"
 };
 const _hoisted_7 = {
+  class: "mb-3"
+};
+const _hoisted_8 = {
+  class: "input-group"
+};
+const _hoisted_9 = ["aria-invalid"];
+const _hoisted_10 = {
+  key: 0,
+  class: "invalid-feedback"
+};
+const _hoisted_11 = {
+  class: "mt-2 d-flex gap-2 flex-wrap"
+};
+const _hoisted_12 = {
   key: 0,
   class: "summary-section mb-4"
 };
-const _hoisted_8 = {
+const _hoisted_13 = {
   class: "summary-item"
 };
-const _hoisted_9 = ["disabled"];
+const _hoisted_14 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"hero-section\" data-v-57940159><div class=\"container\" data-v-57940159><div class=\"row justify-content-center\" data-v-57940159><div class=\"col-lg-10 text-center text-white\" data-v-57940159><h1 class=\"mb-4 text-white\" data-v-57940159>Support Islamic Education Technology</h1><p class=\"lead mb-5\" data-v-57940159>Your contribution helps make authentic Islamic knowledge accessible to a global audience</p><!-- Impact Metrics --><div class=\"row\" data-v-57940159><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>100%</h3><p data-v-57940159>Accessibility &amp; SEO Score</p></div></div><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>60+</h3><p data-v-57940159>Countries</p></div></div><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>500+</h3><p data-v-57940159>Cities</p></div></div><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>1,090%</h3><p data-v-57940159>User Growth</p></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Combined Value Proposition and Donation Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Value Proposition Column "), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-lg-1 mb-4\" data-v-57940159></div><div class=\"col-lg-5 mb-4\" data-v-57940159><div class=\"value-proposition-wrapper\" data-v-57940159><div class=\"form-header text-center mb-4\" data-v-57940159><h2 class=\"mb-3\" data-v-57940159>Strategic Impact Areas</h2></div><div class=\"row\" data-v-57940159><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>📚</div><h4 data-v-57940159>Educational Content</h4><p data-v-57940159>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p></div></div><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>♿</div><h4 data-v-57940159>Accessibility Features</h4><p data-v-57940159>Implementing screen reader support and voice interfaces for inclusive access</p></div></div><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>⚙️</div><h4 data-v-57940159>Platform Infrastructure</h4><p data-v-57940159>Maintaining robust servers and scalable architecture for global user base</p></div></div><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>🌍</div><h4 data-v-57940159>Global Outreach</h4><p data-v-57940159>Expanding to underserved Muslim communities worldwide</p></div></div></div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Donation Section Column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"hero-section\" data-v-57940159><div class=\"container\" data-v-57940159><div class=\"row justify-content-center\" data-v-57940159><div class=\"col-lg-10 text-center text-white\" data-v-57940159><h1 class=\"mb-4 text-white\" data-v-57940159>Support Islamic Education Technology</h1><p class=\"lead mb-5\" data-v-57940159>Your contribution helps make authentic Islamic knowledge accessible to a global audience</p><!-- Impact Metrics --><div class=\"row\" data-v-57940159><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>100%</h3><p data-v-57940159>Accessibility &amp; SEO Score</p></div></div><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>60+</h3><p data-v-57940159>Countries</p></div></div><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>500+</h3><p data-v-57940159>Cities</p></div></div><div class=\"col-md-3 mb-4\" data-v-57940159><div class=\"metric-item\" data-v-57940159><h3 data-v-57940159>1,090%</h3><p data-v-57940159>User Growth</p></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Combined Value Proposition and Donation Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Value Proposition Column "), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-lg-1 mb-4\" data-v-57940159></div><div class=\"col-lg-5 mb-4\" data-v-57940159><div class=\"value-proposition-wrapper\" data-v-57940159><div class=\"form-header text-center mb-4\" data-v-57940159><h2 class=\"mb-3\" data-v-57940159>Strategic Impact Areas</h2></div><div class=\"row\" data-v-57940159><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>📚</div><h4 data-v-57940159>Educational Content</h4><p data-v-57940159>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p></div></div><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>♿</div><h4 data-v-57940159>Accessibility Features</h4><p data-v-57940159>Implementing screen reader support and voice interfaces for inclusive access</p></div></div><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>⚙️</div><h4 data-v-57940159>Platform Infrastructure</h4><p data-v-57940159>Maintaining robust servers and scalable architecture for global user base</p></div></div><div class=\"col-md-6 mb-4\" data-v-57940159><div class=\"value-card\" data-v-57940159><div class=\"value-icon\" data-v-57940159>🌍</div><h4 data-v-57940159>Global Outreach</h4><p data-v-57940159>Expanding to underserved Muslim communities worldwide</p></div></div></div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Donation Section Column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "form-header text-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "mb-3"
   }, "Make a Difference"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted"
-  }, "Your support enables us to continue our mission")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Trust Indicators "), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"trust-indicators mb-4\" data-v-57940159><div class=\"trust-item\" data-v-57940159><i class=\"fas fa-lock\" data-v-57940159></i><span data-v-57940159>Secure Payment</span></div><div class=\"trust-item\" data-v-57940159><i class=\"fas fa-shield-alt\" data-v-57940159></i><span data-v-57940159>SSL Encrypted</span></div><div class=\"trust-item\" data-v-57940159><i class=\"fas fa-certificate\" data-v-57940159></i><span data-v-57940159>Stripe Verified</span></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Summary "), $options.isValidAmount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Your support enables us to continue our mission")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Amount Selector "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    for: "donation-amount",
+    class: "form-label"
+  }, "Choose an amount (GBP)", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "input-group-text"
+  }, "£", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    id: "donation-amount",
+    type: "number",
+    min: "1",
+    step: "1",
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': !$options.isValidAmount
+    }]),
+    "aria-invalid": !$options.isValidAmount,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.amount = $event),
+    onInput: _cache[1] || (_cache[1] = (...args) => $options.onAmountInput && $options.onAmountInput(...args))
+  }, null, 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_9), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.amount, void 0, {
+    number: true
+  }]])]), !$options.isValidAmount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, " Please enter a whole-number amount between £1 and £100,000. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "form-text"
+  }, "Minimum £1. Whole numbers only.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn btn-outline-secondary btn-sm",
+    onClick: _cache[2] || (_cache[2] = $event => $data.amount = 5)
+  }, "£5"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn btn-outline-secondary btn-sm",
+    onClick: _cache[3] || (_cache[3] = $event => $data.amount = 10)
+  }, "£10"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn btn-outline-secondary btn-sm",
+    onClick: _cache[4] || (_cache[4] = $event => $data.amount = 25)
+  }, "£25"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn btn-outline-secondary btn-sm",
+    onClick: _cache[5] || (_cache[5] = $event => $data.amount = 50)
+  }, "£50")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Trust Indicators "), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"trust-indicators mb-4\" data-v-57940159><div class=\"trust-item\" data-v-57940159><i class=\"fas fa-lock\" data-v-57940159></i><span data-v-57940159>Secure Payment</span></div><div class=\"trust-item\" data-v-57940159><i class=\"fas fa-shield-alt\" data-v-57940159></i><span data-v-57940159>SSL Encrypted</span></div><div class=\"trust-item\" data-v-57940159><i class=\"fas fa-certificate\" data-v-57940159></i><span data-v-57940159>Stripe Verified</span></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Summary "), $options.isValidAmount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "summary-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Ready to Contribute")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"summary-item\">\n                  <span>Amount:</span>\n                  <strong>£{{ finalAmount }}</strong>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your Impact:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.impactMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Ready to Contribute")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"summary-item\">\n                  <span>Amount:</span>\n                  <strong>£{{ finalAmount }}</strong>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Your Impact:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.impactMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-primary w-100",
-    onClick: _cache[0] || (_cache[0] = (...args) => $options.processDonation && $options.processDonation(...args)),
+    onClick: _cache[6] || (_cache[6] = (...args) => $options.processDonation && $options.processDonation(...args)),
     disabled: !$options.isValidAmount
-  }, [...(_cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-lock me-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Proceed to Secure Payment ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_9), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Proceed to Secure Payment ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_14), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "security-guarantee text-center mt-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "small text-muted"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-shield-alt me-1"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Your contribution is securely processed by Stripe. We never store your payment details. ")])], -1 /* CACHED */))])]), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Your contribution is securely processed by Stripe. We never store your payment details. ")])], -1 /* CACHED */))])]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-lg-1 mb-4"
   }, null, -1 /* CACHED */))])])])]);
 }
@@ -54758,7 +54808,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_SubscriptionComponent_vue__WEBPACK_IMPORTED_MODULE_92__ = __webpack_require__(/*! ./components/SubscriptionComponent.vue */ "./resources/js/components/SubscriptionComponent.vue");
 /* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_93__ = __webpack_require__(/*! vue-stripe-elements-plus */ "./node_modules/vue-stripe-elements-plus/dist/index.js");
 /* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_93___default = /*#__PURE__*/__webpack_require__.n(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_93__);
-/* harmony import */ var _utils_milestones__WEBPACK_IMPORTED_MODULE_94__ = __webpack_require__(/*! ./utils/milestones */ "./resources/js/utils/milestones.js");
 /* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
@@ -54857,6 +54906,7 @@ window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
 
 
 
+// Removed session milestone tracking
 
 const app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
   components: {
@@ -54885,57 +54935,14 @@ const app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
     if (savedMode !== null) {
       this.darkModeState.isDarkMode = savedMode === 'true';
     }
-    // Start session time milestone tracker
-    this.startSessionMilestones();
   },
   methods: {
     setDarkMode(isDarkMode) {
       this.darkModeState.isDarkMode = isDarkMode;
       // Save the preference to localStorage
       localStorage.setItem('darkMode', isDarkMode);
-    },
-    startSessionMilestones() {
-      // Only run once per page load
-      if (window.__sessionMilestonesStarted) return;
-      window.__sessionMilestonesStarted = true;
-      const thresholds = [5, 10, 20]; // minutes
-      const scope = 'session';
-      const key = 'active_minutes';
-      let minutes = 0;
-      const showAlert = message => {
-        let el = document.getElementById('session-milestone-alert');
-        if (!el) {
-          el = document.createElement('div');
-          el.id = 'session-milestone-alert';
-          el.className = 'alert alert-success';
-          el.style.position = 'fixed';
-          el.style.top = '10px';
-          el.style.right = '10px';
-          el.style.zIndex = '1200';
-          document.body.appendChild(el);
-        }
-        el.textContent = message;
-        el.style.display = 'block';
-        setTimeout(() => {
-          if (el) el.style.display = 'none';
-        }, 3500);
-      };
-      const tick = () => {
-        minutes += 1;
-        // Store minutes in session scope
-        const current = parseInt(sessionStorage.getItem('session_count_' + key) || '0', 10) || 0;
-        sessionStorage.setItem('session_count_' + key, String(current + 1));
-
-        // Detect newly reached thresholds (session-scoped)
-        const hit = (0,_utils_milestones__WEBPACK_IMPORTED_MODULE_94__.trackAndDetect)(key, thresholds, scope);
-        if (hit && hit.threshold) {
-          if (hit.threshold === 5) showAlert('You have stayed engaged for 5 minutes. Great focus!');else if (hit.threshold === 10) showAlert('You’ve stayed engaged for 10 minutes. May it benefit you.');else if (hit.threshold === 20) showAlert('20 minutes of focused time — excellent dedication.');
-        }
-      };
-
-      // First tick happens after one minute, then every minute
-      setInterval(tick, 60 * 1000);
     }
+    // Removed startSessionMilestones method
   },
   provide() {
     // Provide the dark mode state to all child components

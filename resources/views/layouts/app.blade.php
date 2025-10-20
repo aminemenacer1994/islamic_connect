@@ -37,6 +37,7 @@
         gtag('config', 'G-QWLL07EBX9');
     </script>
     @yield('critical')
+    @stack('critical')
 
     <style>
 
@@ -389,9 +390,9 @@ body{
     </div>
 
     <!-- Scripts -->
-    <script src="{{ mix('js/manifest.js') }}"></script>
-    <script src="{{ mix('js/vendor.js') }}"></script>
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script defer src="{{ mix('js/manifest.js') }}"></script>
+    <script defer src="{{ mix('js/vendor.js') }}"></script>
+    <script defer src="{{ mix('js/app.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const navLinks = document.querySelectorAll('.nav-link');
