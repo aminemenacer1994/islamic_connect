@@ -277,6 +277,37 @@ body{
     border-bottom: 2px solid #0b5d4b; /* Optional underline */
     transition: color 0.3s ease, border-bottom 0.3s ease;
 }
+
+/* Uniform alignment for collapsed mobile menu */
+@media (max-width: 767.98px) {
+  .navbar-collapse .navbar-nav .nav-item {
+    margin-left: 0 !important;
+    padding-left: 0 !important; /* neutralize any pl-* utilities on li (e.g., Login) */
+  }
+  .navbar-collapse .navbar-nav .nav-link {
+    margin-left: 0 !important; /* neutralize any ml-* utilities */
+    padding-left: 1.25rem !important; /* consistent indent */
+  }
+  /* Ensure user dropdown toggle aligns identically */
+  .navbar-collapse .navbar-nav .dropdown,
+  .navbar-collapse .navbar-nav .dropdown-toggle {
+    margin-left: 0 !important;
+    padding-left: 1.25rem !important;
+  }
+  .navbar-collapse .navbar-nav .dropdown-toggle .bi {
+    margin-right: .5rem; /* breathing room between icon and name */
+  }
+
+  /* Make sure the hamburger stays above the expanded menu on iOS Safari */
+  .navbar .navbar-toggler {
+    position: relative;
+    z-index: 1060; /* above collapse content */
+  }
+  .navbar .navbar-collapse {
+    position: relative;
+    z-index: 1000;
+  }
+}
     </style>
 </head>
 <body>
@@ -297,7 +328,7 @@ body{
             >
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        <button id="navbarToggler" class="navbar-toggler" type="button"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>   
@@ -396,6 +427,44 @@ body{
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const navLinks = document.querySelectorAll('.nav-link');
+            // Ensure hamburger toggler controls the collapse reliably
+            try {
+                const toggler = document.getElementById('navbarToggler') || document.querySelector('.navbar-toggler');
+                const collapseEl = document.getElementById('navbarSupportedContent');
+                if (collapseEl && window.bootstrap) {
+                    // Create a single Collapse controller; we removed data-bs-* on the button to avoid double toggles
+                    const bsCollapse = window.bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+
+                    const setExpanded = (expanded) => {
+                        if (toggler) {
+                            toggler.classList.toggle('collapsed', !expanded);
+                            toggler.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                        }
+                    };
+                    // Toggle open/close when pressing the burger
+                    if (toggler){
+                        toggler.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const isShown = collapseEl.classList.contains('show');
+                            isShown ? bsCollapse.hide() : bsCollapse.show();
+                        }, { passive: true });
+                    }
+
+                    // Close the menu only for plain nav links (not dropdown toggles)
+                    collapseEl.querySelectorAll('a.nav-link:not(.dropdown-toggle), .dropdown-item').forEach(a => {
+                        a.addEventListener('click', () => {
+                            if (window.innerWidth < 768) {
+                                bsCollapse.hide();
+                            }
+                        });
+                    });
+
+                    // Keep aria-expanded in sync with collapse events
+                    collapseEl.addEventListener('shown.bs.collapse', () => setExpanded(true));
+                    collapseEl.addEventListener('hidden.bs.collapse', () => setExpanded(false));
+                }
+            } catch(_) { /* ignore */ }
         
             // Highlight the active link based on the current page or localStorage
             const currentPath = localStorage.getItem('activeNav') || window.location.pathname;
