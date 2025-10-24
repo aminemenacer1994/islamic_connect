@@ -32358,7 +32358,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "right": "-10%",
       "width": "400px",
       "height": "400px",
-      "background": "linear-gradient(135deg, rgba(0, 191, 166, 0.1) 0%, rgba(26, 95, 122, 0.1) 100%)",
       "border-radius": "50%",
       "animation": "float-hero 8s ease-in-out infinite",
       "z-index": "1"
