@@ -273,6 +273,15 @@ class SubscriptionController extends Controller
             ], 401);
         }
 
+        // Super admin is always treated as subscribed
+        if ($user->isAdmin()) {
+            return response()->json([
+                'is_subscribed' => true,
+                'plan' => 'admin',
+                'ends_at' => null,
+            ]);
+        }
+
         $subscription = $user->subscription('premium');
 
         if ($subscription && ($subscription->active() || $subscription->onGracePeriod())) {

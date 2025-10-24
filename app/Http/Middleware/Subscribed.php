@@ -10,7 +10,7 @@ class Subscribed
 {
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->subscribed('premium')) {
+        if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->subscribed('premium'))) {
             return $next($request);
         }
 
