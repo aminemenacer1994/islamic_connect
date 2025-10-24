@@ -466,22 +466,32 @@ body{
                 }
             } catch(_) { /* ignore */ }
         
-            // Highlight the active link based on the current page or localStorage
-            const currentPath = localStorage.getItem('activeNav') || window.location.pathname;
-        
-            navLinks.forEach(link => {
-                if (link.dataset.path === currentPath) {
-                    link.classList.add('active');
-                    link.setAttribute('aria-current', 'page');
-                } else {
-                    link.classList.remove('active');
-                    link.removeAttribute('aria-current');
-                }
-        
-                // Add click event listener to update localStorage
-                link.addEventListener('click', () => {
-                    localStorage.setItem('activeNav', link.dataset.path);
-                });
+            // Highlight the active link based strictly on current URL
+            // Normalize trailing slashes and choose the longest matching data-path prefix
+            const normalize = (p) => {
+                if (!p) return '/';
+                try {
+                    p = p.trim();
+                } catch(_){}
+                if (p.length > 1 && p.endsWith('/')) p = p.replace(/\/+$/,'');
+                return p || '/';
+            };
+            const pathNow = normalize(window.location.pathname);
+            const links = Array.from(navLinks).filter(a => a.dataset && typeof a.dataset.path === 'string');
+            const candidates = links.map(a => normalize(a.dataset.path));
+            // pick exact match, otherwise longest prefix match excluding root unless root is the only match
+            let best = candidates.find(p => p === pathNow);
+            if (!best){
+                const pref = candidates
+                    .filter(p => p !== '/' && (pathNow === p || pathNow.startsWith(p + '/')))
+                    .sort((a,b) => b.length - a.length);
+                best = pref[0] || '/';
+            }
+            links.forEach(a => {
+                const ap = normalize(a.dataset.path);
+                const isActive = ap === best;
+                a.classList.toggle('active', isActive);
+                if (isActive) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
             });
 
             // Keyboard navigation across top-level menu items (Left/Right)

@@ -46,5 +46,32 @@
     @yield('content')
     <script src="{{ mix('js/app.js') }}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const normalize = (p) => {
+                if (!p) return '/';
+                try { p = p.trim(); } catch(_){}
+                if (p.length > 1 && p.endsWith('/')) p = p.replace(/\/+$/,'');
+                return p || '/';
+            };
+            const pathNow = normalize(window.location.pathname);
+            const links = Array.from(navLinks).filter(a => a.dataset && typeof a.dataset.path === 'string');
+            const candidates = links.map(a => normalize(a.dataset.path));
+            let best = candidates.find(p => p === pathNow);
+            if (!best){
+                const pref = candidates
+                    .filter(p => p !== '/' && (pathNow === p || pathNow.startsWith(p + '/')))
+                    .sort((a,b) => b.length - a.length);
+                best = pref[0] || '/';
+            }
+            links.forEach(a => {
+                const ap = normalize(a.dataset.path);
+                const isActive = ap === best;
+                a.classList.toggle('active', isActive);
+                if (isActive) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+            });
+        });
+    </script>
 </body>
 </html>
