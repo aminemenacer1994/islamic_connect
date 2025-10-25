@@ -102,7 +102,7 @@
                 <div class="row mb-3">
                   <div class="col-12">
                     <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
-                      <button onclick="window.location.href='/surat'" aria-label="Open Quran Explorer" style="
+                      <button type="button" onclick="window.location.href='/surat'" style="
                 background: linear-gradient(135deg, #0b806f, #1a5f7a);
                 color: white;
                 border: none;
@@ -127,7 +127,7 @@
                 "></span>
                       </button>
 
-                      <button onclick="window.location.href='/subscribe'" aria-label="Support our mission" style="
+                      <button type="button" onclick="window.location.href='/subscribe'" style="
                 background: rgba(255, 255, 255, 0.9);
                 color: #1a5f7a;
                 border: 2px solid #1a5f7a;
@@ -312,8 +312,7 @@
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start">
             <a href="/holy" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
-              style="background: #0b806f; border: none; min-width: 160px;"
-              aria-label="Learn more about Quran Companion features">
+              style="background: #0b806f; border: none; min-width: 160px;">
               Explore Quran
             </a>
           </div>
@@ -341,8 +340,7 @@
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start">
             <a href="/media" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
-              style="background: #0b806f; border: none; min-width: 160px;"
-              aria-label="Discover Islamic audio content and podcasts">
+              style="background: #0b806f; border: none; min-width: 160px;">
               Browse Content
             </a>
           </div>
@@ -361,8 +359,7 @@
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start">
             <a href="/surat" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
-              style="background: #0b806f; border: none; min-width: 160px;"
-              aria-label="Start exploring Quran verses and translations">
+              style="background: #0b806f; border: none; min-width: 160px;">
               Start Exploring
             </a>
           </div>
@@ -725,7 +722,7 @@
                     <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">Simple and transparent</h3>
                     <p class="mb-3" style="color:#4a5568;">Secure Stripe payments. Cancel anytime. No tracking, no ads.
                     </p>
-                    <button @click="goTo('/support')" aria-label="Support and access premium" style="
+                    <button @click="goTo('/support')" style="
                         background: rgba(255, 255, 255, 0.9);
                         color: #1a5f7a;
                         border: 2px solid #1a5f7a;
@@ -1050,7 +1047,7 @@
                   <div class="d-grid">
                     <button type="submit" class="btn btn-primary btn-lg fw-bold py-3"
                       style="background: #0b806f; border: none; box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);"
-                      aria-label="Send your message">
+                      >
                       <span class="d-flex align-items-center justify-content-center">
                         <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>
                         Send Message
@@ -1086,19 +1083,24 @@
           <!-- Grid column -->
           <div class="col-md-5 col-lg-4 ml-lg-0 mt-3 text-center text-md-end">
             <!-- Facebook -->
-            <a class="btn btn-outline-light btn-floating m-1 text-white" href="https://www.facebook.com/profile.php?id=61560313385599" role="button"><i
-                class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-outline-light btn-floating m-1 text-white" href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page">
+                <i class="fab fa-facebook-f" aria-hidden="true"></i>
+            </a>
 
             <!-- Twitter -->
-            <a class="btn btn-outline-light btn-floating m-1 text-white" href="https://x.com/islamiconnect24" role="button"><i
-                class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-light btn-floating m-1 text-white" href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile">
+                <i class="fab fa-twitter" aria-hidden="true"></i>
+            </a>
 
             <!-- linkedin -->
-            <a class="btn btn-outline-light btn-floating m-1 text-white" href="https://www.linkedin.com/company/islamic-connect/" role="button"><i class="fa-brands fa-linkedin"></i></a>
+            <a class="btn btn-outline-light btn-floating m-1 text-white" href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page">
+                <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+            </a>
 
             <!-- Instagram -->
-            <a class="btn btn-outline-light btn-floating m-1 text-white" href="https://www.instagram.com/islamicconnect24/" role="button"><i
-                class="fab fa-instagram"></i></a>
+            <a class="btn btn-outline-light btn-floating m-1 text-white" href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile">
+                <i class="fab fa-instagram" aria-hidden="true"></i>
+            </a>
           </div>
           <!-- Grid column -->
         </div>

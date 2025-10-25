@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="stripe-key" content="{{ config('services.stripe.key') }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title', 'Islamic Connect — Explore Quran, Media, and Accessible Tools')</title>
 
     <!-- CSS Assets -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
@@ -414,6 +414,11 @@ body{
     </nav>
         <!-- Main Content -->
         <main id="main-content" role="main" tabindex="-1">
+            @hasSection('page_h1')
+                @yield('page_h1')
+            @else
+                <h1 class="sr-only" id="page-title">@yield('title', 'Islamic Connect')</h1>
+            @endif
             <div id="app">
                 @yield('content')
             </div>

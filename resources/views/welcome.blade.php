@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Islamic Connect — Connecting You to Islamic Knowledge')
+
 @section('critical')
     <!-- Critical CSS + LCP Preload for welcome -->
     <link rel="preload" as="image" href="/images/qenew.png" fetchpriority="high">
@@ -19,4 +21,8 @@
 @section('content')
     <homepage-component></homepage-component>
     {{-- @include('layouts.footer') --}}
+@endsection
+
+@section('page_h1')
+{{-- Primary H1 provided within Vue component hero --}}
 @endsection
