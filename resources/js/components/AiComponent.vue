@@ -20,7 +20,7 @@
             class="form-control"
             :aria-label="'Search Islamic images'"
             placeholder="Search for Islamic images..." />
-          <button class="btn" type="submit" style="background-color: #0db691; color: white;">
+          <button class="btn" type="submit" style="background-color: #0db691; color: #000;">
             Search
           </button>
         </form>
@@ -38,7 +38,7 @@
           v-for="(filter, idx) in filters"
           :key="filter"
           class="badge flex-shrink-0 text-center px-3 py-2 d-flex align-items-center gap-2"
-          :class="{ 'active text-white': activeFilter === filter, 'bg-light text-dark': activeFilter !== filter }"
+          :class="{ 'active': activeFilter === filter, 'bg-light text-dark': activeFilter !== filter }"
           role="radio"
           :aria-checked="String(activeFilter === filter)"
           :tabindex="activeFilter === filter ? 0 : -1"
@@ -532,6 +532,11 @@ export default {
 </script>
 
 <style scoped>
+.text-muted {
+  /* Increase contrast on light backgrounds (#f5f5f5) to meet WCAG AA */
+  color: #495057 !important; /* Bootstrap gray-700, contrast > 4.5:1 on #f5f5f5 */
+}
+
 .img-fluid {
   width: 100%;
   height: auto;
@@ -545,7 +550,7 @@ export default {
 
 .custom-btn {
   background-color: #0db691;
-  color: white;
+  color: #000; /* Black text for AA contrast on light teal */
   padding: 10px;
   border-radius: 6px;
   transition: all 0.3s ease;
@@ -556,7 +561,7 @@ export default {
 .custom-btn:hover {
   background-color: #0aa07f;
   transform: translateY(-2px);
-  color: white;
+  color: #000; /* maintain contrast on hover */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -608,7 +613,7 @@ export default {
 
 .badge {
   background-color: black;
-  color: #0d6e5a;
+  color: #fff; /* ensure high contrast on default black badge */
   font-size: 1em;
   border: 1px solid #0db69175;
   border-radius: 8px;
@@ -617,14 +622,14 @@ export default {
 }
 
 .badge.active {
-  background-color: #0db691;
-  color: white;
+  background-color: #0db691; /* active teal */
+  color: #000; /* black text for AA contrast */
   transform: scale(1.05);
 }
 
 .badge:hover {
   background-color: #0aa07f;
-  color: white;
+  color: #000; /* maintain contrast on hover */
   transform: scale(1.05);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
