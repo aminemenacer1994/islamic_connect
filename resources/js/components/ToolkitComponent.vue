@@ -20,7 +20,7 @@
               prayers.
             </p>
             <button class="form-control" onclick="window.location.href='/qibla'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Find Qibla</b></span>
             </button>
@@ -40,7 +40,7 @@
               with sunrise and Qibla direction support.
             </p>
             <button class="form-control" onclick="window.location.href='/prayer'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>View Prayer Times</b></span>
             </button>
@@ -60,7 +60,7 @@
               Sunnah for every occasion—complete with Arabic, translation and audio to help you
               reflect and connect.</p>
             <button class="form-control" onclick="window.location.href='/dua'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Explore Duas</b></span>
             </button>
@@ -78,7 +78,7 @@
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Easily calculate your zakat based
               on your assets and liabilities with up-to-date nisab values and simplified guidance.</p>
 
-              <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/zakat')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                  <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/zakat')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
                 <span class="text-center w-100"><b>Calculate Zakat</b></span>
               </button>
               <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
@@ -101,7 +101,7 @@
               events like Ramadan, Eid, and Hajj.
             </p>
             <button class="form-control" onclick="window.location.href='/date'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Convert Date</b></span>
             </button>
@@ -120,7 +120,7 @@
               Islamic pilgrimages to the holy city of Makkah</p>
 
             <button class="form-control" onclick="window.location.href='/umrah'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Read Guides</b></span>
             </button>
@@ -138,7 +138,7 @@
               the Gregorian calendar, with key Islamic dates and fasting reminders.</p>
 
             <button class="form-control" onclick="window.location.href='/calendar'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Open Calendar</b></span>
             </button>
@@ -171,7 +171,7 @@ export default {
 }
 
 .card.custom-card button.form-control {
-    background: #00bfa6;
+    background: #0b5d4b;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     color: white;
     height: 38px;

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div id="app">
+<div>
     <toolkit-component
         :is-authenticated="@json(auth()->check())"
         :is-subscribed="@json(optional(auth()->user())->subscribed('premium'))"

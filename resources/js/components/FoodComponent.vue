@@ -19,7 +19,7 @@
                   aria-label="Search" v-model="searchQuery" autocomplete="off" style="max-width: 300px;"
                   ref="searchInput" />
                 <button class="btn align-items-center justify-content-center"
-                  style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                  style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
                   type="submit" :disabled="loading">
                   <span v-if="!loading">Search</span>
                   <span v-else class="spinner-border spinner-border-sm"></span>
@@ -96,7 +96,7 @@
                       class="card-footer mt-auto border-top-0 d-flex justify-content-between align-items-center gap-2">
                       <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                         @click="openGoogleMaps(shop.lat, shop.lon, shop.name)"
-                        style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                        style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
                         <span class="text-center w-100">
                           <b>Get Direction</b>
                         </span>

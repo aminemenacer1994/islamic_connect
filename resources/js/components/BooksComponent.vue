@@ -805,9 +805,9 @@ export default {
 
 .list-group-item.active,
 .list-group-item:active {
-  background-color: rgb(0, 191, 166) !important;
+  background-color: #0b5d4b !important;
   color: #fff !important;
-  border-color: rgb(0, 191, 166) !important;
+  border-color: #094c3f !important;
 }
 
 @media (max-width: 768px) {

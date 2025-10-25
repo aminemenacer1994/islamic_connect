@@ -12,12 +12,12 @@
                         <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
                             Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life.
                         </p>
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/content')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/content')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
                             <span class="text-center w-100"><b>Stream Podcasts</b></span>
                         </button>
                         <div v-else class="restricted-access text-center p-2" style="border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none" style="color: #00bfa6; font-weight: bold;">Subscribe Now</a>
+                            <a href="/subscribe" class="text-decoration-none" style="color: #006b5f; font-weight: bold;">Subscribe Now</a>
                         </div>
                     </div>
                 </div>
@@ -31,12 +31,12 @@
                         <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
                             Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube.
                         </p>
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/streaming')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/streaming')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
                             <span class="text-center w-100"><b>View Channels</b></span>
                         </button>
                         <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none" style="color: #00bfa6; font-weight: bold;">Subscribe Now</a>
+                            <a href="/subscribe" class="text-decoration-none" style="color: #006b5f; font-weight: bold;">Subscribe Now</a>
                         </div>
                     </div>
                 </div>
@@ -50,12 +50,12 @@
                         <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
                             Tune in to live Islamic radio from around the world, featuring Qur'an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages.
                         </p>
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/radio')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/radio')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
                             <span class="text-center w-100"><b>Explore Reciters</b></span>
                         </button>
                         <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none" style="color: #00bfa6; font-weight: bold;">Subscribe Now</a>
+                            <a href="/subscribe" class="text-decoration-none" style="color: #006b5f; font-weight: bold;">Subscribe Now</a>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                             Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and tradition.
                         </p>
                         <button class="form-control" onclick="window.location.href='/gallery'"
-                            style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                            style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                             type="submit">
                             <span class="text-center w-100"><b>View Gallery</b></span>
                         </button>
@@ -84,7 +84,7 @@
                         <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
                             Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections.
                         </p>
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/video')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/video')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
                             <span class="text-center w-100"><b>Watch Videos</b></span>
                         </button>
                         <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
@@ -119,7 +119,7 @@ export default {
 }
 
 .card.custom-card button.form-control {
-    background: #00bfa6;
+    background: #0b5d4b;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     color: white;
     height: 38px;
@@ -149,16 +149,16 @@ export default {
 
 @keyframes borderPulse {
     0% {
-        border-color: lightseagreen;
-        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
+        border-color: #006b5f;
+        box-shadow: 0 0 5px rgba(0, 107, 95, 0.4);
     }
     50% {
-        border-color: #00bfa6;
-        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);
+        border-color: #00564c;
+        box-shadow: 0 0 12px rgba(0, 86, 76, 0.7);
     }
     100% {
-        border-color: lightseagreen;
-        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
+        border-color: #006b5f;
+        box-shadow: 0 0 5px rgba(0, 107, 95, 0.4);
     }
 }
 
@@ -177,7 +177,7 @@ export default {
 }
 
 .restricted-access a:hover {
-    color: #009e87;
+    color: #00564c;
     text-decoration: underline;
 }
 </style>

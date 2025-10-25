@@ -1,6 +1,7 @@
 @extends('layouts.app')
+@section('title', 'Islamic Connect — Subscribe')
 @section('content')
-<div id="app">
+<div>
     <script>
       window.appConfig = Object.assign({}, window.appConfig || {}, {
         stripePrices: {

@@ -1,5 +1,5 @@
 <template>
-    <div id="app" role="main" aria-label="Quran Companion">
+    <div id="app">
         <div class="py-4 text-center ">
             <Title />
             <!-- <ChatBot /> -->
@@ -45,7 +45,7 @@
                         @submit.prevent="scrollToAyah">
                         <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
                             type="number" placeholder="Enter Verse Number" v-model="verseNumber" required />
-                        <button class="btn btn-success mb-1 ml-1" style="background: #00bfa6;border-radius: 5px;"
+                        <button class="btn btn-success mb-1 ml-1" style="background: #0b5d4b;border-radius: 5px;"
                             type="submit">
                             Search
                         </button>
@@ -74,7 +74,7 @@
 
 
                                     <ul class="col-md-12 list-group root" id="toggle" ref="ayahList"
-                                        role="listbox" :aria-activedescendant="selectedIndexAyah >= 0 ? `ayah-option-${selectedIndexAyah}` : null" aria-label="Ayah list" aria-controls="ayah-content"
+                                        role="listbox" tabindex="0" :aria-activedescendant="selectedIndexAyah >= 0 ? `ayah-option-${selectedIndexAyah}` : null" aria-label="Ayah list" aria-controls="ayah-content"
                                         style="list-style-type: none">
 
                                         <li v-for="(ayah, index) in ayat" :key="ayah.id || index" @click="selectAyah(index)"
@@ -260,7 +260,7 @@
                                                     <div class="row pt-2 text-center">
                                                         <div class="col desktop-icon" style="cursor: pointer;">
                                                             <i class="bi bi-file-earmark-text text-right mr-2 h4"
-                                                                aria-expanded="false" data-bs-placement="top"
+                                                                data-bs-placement="top"
                                                                 title="Write a note"
                                                                 @click="openModal('translationNote')"></i>
                                                             <div class="icon-text pt-2">Write a Note</div>
@@ -268,7 +268,7 @@
                                                         <div class="col desktop-icon" style="cursor: pointer;">
                                                             <i @click="submitForm"
                                                                 class="bi bi-bookmark text-right mr-2 h4"
-                                                                aria-expanded="false" title="Bookmark verse"></i>
+                                                                title="Bookmark verse"></i>
                                                             <div class="icon-text pt-2">Bookmark</div>
                                                         </div>
                                                         <!-- <div class="col desktop-icon" style="cursor: pointer;">
@@ -282,7 +282,7 @@
                                                             <i title="Give feedback" data-bs-toggle="modal"
                                                                 data-bs-target="#exampleModal"
                                                                 class="bi bi-chat-left-text desktop-icon text-right mr-2 h4"
-                                                                aria-expanded="false" data-bs-placement="top"></i>
+                                                                data-bs-placement="top"></i>
                                                             <div class="icon-text pt-2">Feedback</div>
                                                         </div>
                                                         <!-- <div class="col desktop-icon" style="cursor: pointer;">

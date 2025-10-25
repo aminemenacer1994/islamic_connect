@@ -45,5 +45,7 @@
   font-display: swap;
 }
 
-@import '../../node_modules/bootstrap/dist/css/bootstrap.css';
+/* Global theme variables (light/dark + high contrast) */
+@import './themes.css';
 
+@import '../../node_modules/bootstrap/dist/css/bootstrap.css';

@@ -51,13 +51,13 @@
 
     <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
-    <div class="row rtl-text" ref="listContainer" role="listbox" :aria-activedescendant="selectedCardIndex >= 0 ? `ayah-card-${selectedCardIndex}` : null" aria-label="Ayah cards list">
+    <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list">
 
       <div :style="{ height: topSpacerHeight + 'px' }"></div>
 
       <div style="padding: 12px;  border-radius: 8px;" ref="audioCard" v-for="item in visibleWindow"
-        :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="option"
-            :id="`ayah-card-${item.index}`" :aria-selected="selectedCardIndex === item.index" :tabindex="selectedCardIndex === item.index ? 0 : -1"
+        :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="listitem"
+            :id="`ayah-card-${item.index}`"
         @click="selectCard(item.index)" @keydown.enter.prevent="toggleAudioPlayer(item.index)" @keydown.space.prevent="toggleAudioPlayer(item.index)"
         :class="{
           'highlighted': isHighlighted && currentlyPlayingIndex === item.index,
@@ -207,7 +207,7 @@
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
-        <div class="progress-bar" role="progressbar" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0" @click="seekToPosition" ref="progressBar">
+        <div class="progress-bar" role="progressbar" aria-label="Audio playback progress" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0" :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`" @click="seekToPosition" ref="progressBar">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
           <div class="audio-visualizer" ref="visualizer">
             <div v-for="(bar, index) in visualizerBars" :key="index" 
@@ -1563,7 +1563,7 @@ export default {
 }
 
 .highlighted-word {
-  background: #00bfa6;
+  background: #0b5d4b;
   color: #fff;
   border-radius: 4px;
   padding: 0 2px;

@@ -1008,9 +1008,9 @@ const getStationStatus = (id) => {
     return { text: 'Offline', class: 'bg-danger' };
   }
   if (isPlaying(id)) {
-    return { text: 'live', class: 'bg-theme-teal text-white' };
+    return { text: 'live', class: 'bg-theme-teal text-dark' };
   }
-  return { text: 'live', class: 'bg-theme-teal text-white' };
+  return { text: 'live', class: 'bg-theme-teal text-dark' };
 };
 
 const isLive = (id) => isNaN(durations.value[id]) || durations.value[id] === Infinity;
@@ -1295,7 +1295,7 @@ body {
 }
 
 .play-button {
-  background: #00bfa6;
+  background: #0b5d4b;
   border-radius: 50%;
   width: clamp(40px, 10vw, 44px);
   height: clamp(40px, 10vw, 44px);
@@ -1350,7 +1350,7 @@ body {
   -webkit-appearance: none;
   width: 12px;
   height: 12px;
-  background: #00bfa6;
+  background: #0b5d4b;
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;
@@ -1360,7 +1360,7 @@ body {
 .volume-bar::-moz-range-thumb {
   width: 12px;
   height: 12px;
-  background: #00bfa6;
+  background: #0b5d4b;
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;
@@ -1469,7 +1469,7 @@ mark {
 }
 
 .btn-outline-teal:hover {
-  background: #00bfa6;
+  background: #0b5d4b;
   color: #ffffff;
 }
 
@@ -1930,7 +1930,13 @@ mark {
   background-color: #00bfa6;
 }
 
+/* Accessibility: ensure sufficient contrast for teal text on light backgrounds */
 .text-theme-teal {
-  color: #00bfa6;
+  color: #006b5f;
+}
+
+/* In station cards specifically, enforce darker teal for readability over light tiles */
+.station-list-item .text-theme-teal {
+  color: #006b5f;
 }
 </style>

@@ -46,7 +46,7 @@ export default {
 <style scoped>
 .card {
   display: flex;
-  border: 3px solid #00BFA6;
+  border: 3px solid #0b5d4b;
   border-radius: 10px;
 }
 

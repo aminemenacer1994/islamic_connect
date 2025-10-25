@@ -72,7 +72,8 @@ use Illuminate\Http\Request;
 // ========================================
 // PUBLIC ROUTES
 // ========================================
-Route::get('/', fn() => view('app'));
+// Use the main home view that extends layouts.app (contains #app root)
+// Route::get('/', fn() => view('app'));
 Route::get('/welcome', fn() => view('home'));
 Route::get('/', fn() => view('home'));
 Route::get('/home', fn() => view('home'));

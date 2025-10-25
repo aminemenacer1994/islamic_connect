@@ -12,8 +12,9 @@
         .error { background-color: #f8d7da; border-color: #f5c6cb; }
         .info { background-color: #d1ecf1; border-color: #bee5eb; }
         pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
-        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-        button:hover { background: #0056b3; }
+        button { background: #006b5f; color: #ffffff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #00564c; }
+        button:focus { outline: 3px solid #00564c; outline-offset: 2px; }
     </style>
 </head>
 <body>

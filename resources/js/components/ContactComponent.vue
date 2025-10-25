@@ -43,7 +43,7 @@
 						</div>
 						<div class="col-md-12">
 							<div class="d-grid ">
-								<button class="form-control" style="background:#00BFA6; color:white" type="submit">Send message</button>
+								<button class="form-control" style="background:#0b5d4b; color:white" type="submit">Send message</button>
 							</div>
 						</div>
 					</div>

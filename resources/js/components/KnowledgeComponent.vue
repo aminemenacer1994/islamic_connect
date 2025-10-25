@@ -20,7 +20,7 @@
               establishing Islam.
             </p>
             <button class="form-control" onclick="window.location.href='/mission'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>View Seerah</b></span>
             </button>
@@ -38,7 +38,7 @@
               prayer with our Salat Guide. This walks you through each of the five daily prayers
             </p>
             <button class="form-control" onclick="window.location.href='/athkar'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Learn Salat</b></span>
             </button>
@@ -58,7 +58,7 @@
               are 99 beautiful names that describe Allah’s attributes, such as mercy, wisdom, power, and justice.</p>
 
             <button class="form-control" onclick="window.location.href='/name'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Search Names</b></span>
             </button>
@@ -76,7 +76,7 @@
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover a comprehensive collection
               of clear and reliable Islamic guides designed to support every stage of your spiritual journey.</p>
             <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/guide')" type="button"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
               <span class="text-center w-100"><b>Read Guides</b></span>
             </button>
             <div v-else class="restricted-access text-center p-2"
@@ -101,7 +101,7 @@
               principles.
             </p>
             <button class="form-control" onclick="window.location.href='/finance'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Read More</b></span>
             </button>
@@ -121,7 +121,7 @@
               principles.
             </p>
             <button class="form-control" onclick="window.location.href='/read'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Seach Blogs</b></span>
             </button>
@@ -141,7 +141,7 @@
               related to Islam
             </p>
             <button class="form-control" onclick="window.location.href='/books'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Explore Words</b></span>
             </button>
@@ -177,7 +177,7 @@ export default {
 }
 
 .card.custom-card button.form-control {
-  background: #00bfa6;
+  background: #0b5d4b;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   color: white;
   height: 38px;

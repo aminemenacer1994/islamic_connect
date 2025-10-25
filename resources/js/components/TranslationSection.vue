@@ -86,19 +86,21 @@
             isReading ? (isPaused ? 'bi-play-circle-fill' : 'bi-pause-circle-fill') : 'bi-play-circle-fill',
             'h3',
             'custom-icon-play'
-          ]" style="cursor: pointer;" aria-label="Play or pause translation audio"
+          ]" style="cursor: pointer;" role="button" :tabindex="0"
+            aria-label="Play or pause translation audio"
+            @keydown.enter.prevent="toggleSpeech" @keydown.space.prevent="toggleSpeech"
             title="Play/Pause Translation Audio"></i>
 
           <!-- Stop Button, visible only after Play button is clicked -->
           <i v-if="isReading && !isPaused" @click="stopReading"
-            :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']" style="cursor: pointer;"
-            aria-label="Stop reading audio" title="Stop Translation Audio"></i>
+            :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']" style="cursor: pointer;" role="button" :tabindex="0"
+            aria-label="Stop reading audio" @keydown.enter.prevent="stopReading" @keydown.space.prevent="stopReading" title="Stop Translation Audio"></i>
 
           <!-- Font Size Adjustments -->
-          <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase"
-            aria-placeholder="Increase text size" @click="increaseFontSize" title="Increase Text Size"></i>
-          <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease"
-            aria-placeholder="Decrease text size" @click="decreaseFontSize" title="Decrease Text Size"></i>
+          <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase" role="button" :tabindex="0"
+            aria-label="Increase text size" @click="increaseFontSize" @keydown.enter.prevent="increaseFontSize" @keydown.space.prevent="increaseFontSize" title="Increase Text Size"></i>
+          <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease" role="button" :tabindex="0"
+            aria-label="Decrease text size" @click="decreaseFontSize" @keydown.enter.prevent="decreaseFontSize" @keydown.space.prevent="decreaseFontSize" title="Decrease Text Size"></i>
 
           <!-- Voice settings -->
           <!-- <i class="bi bi-gear-fill h3 custom-icon-increase" style="cursor: pointer" @click="showOptions = !showOptions"

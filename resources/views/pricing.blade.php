@@ -1,6 +1,7 @@
 @extends('layouts.app')
+@section('title', 'Islamic Connect — Pricing')
 @section('content')
-<div id="app" >
+<div >
     <pricing-component></pricing-component>
 <div>
 @endsection

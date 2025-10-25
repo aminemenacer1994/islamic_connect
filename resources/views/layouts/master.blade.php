@@ -17,7 +17,7 @@
     }
 
     .nav-link.active {
-      background-color: #00BFA6;
+      background-color: #006b5f;
       color: white;
     }
 
@@ -28,7 +28,7 @@
     }
 
     .navbar-nav .nav-item .nav-link:hover {
-      color: #00BFA6;
+      color: #0b5d4b;
     }
 
     /* Hide sidebar on smaller screen sizes */

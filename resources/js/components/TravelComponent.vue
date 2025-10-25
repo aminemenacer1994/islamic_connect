@@ -393,7 +393,7 @@ body {
 }
 
 .btn-visit {
-  background: #00bfa6;
+  background: #0b5d4b;
   color: white;
   flex: 1;
 }

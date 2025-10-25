@@ -59,13 +59,13 @@
             <h5 class="form-label pb-2"><b>Font size:</b></h5>
             <div class="col">
               <label>
-                Increase size: <i class="bi bi-plus-circle-fill h3 pb-1 custom-icon-increase" @click="increaseFontSize"></i>
+                Increase size: <i class="bi bi-plus-circle-fill h3 pb-1 custom-icon-increase" role="button" tabindex="0" aria-label="Increase text size" @click="increaseFontSize" @keydown.enter.prevent="increaseFontSize" @keydown.space.prevent="increaseFontSize"></i>
                 {{ formattedFontSize }}
               </label>
             </div>
             <div class="col">
               <label>
-                Decrease size: <i class="bi bi-dash-circle-fill h3 pb-1 custom-icon-decrease" @click="decreaseFontSize"></i>
+                Decrease size: <i class="bi bi-dash-circle-fill h3 pb-1 custom-icon-decrease" role="button" tabindex="0" aria-label="Decrease text size" @click="decreaseFontSize" @keydown.enter.prevent="decreaseFontSize" @keydown.space.prevent="decreaseFontSize"></i>
                 {{ formattedFontSize }}
               </label>
             </div>

@@ -18,7 +18,7 @@
                     aria-label="Search city" v-model="searchQuery" autocomplete="off"
                     style="max-width: 300px;" />
                   <button class="btn align-items-center justify-content-center"
-                    style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                    style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
                     type="submit" :disabled="loading">
                     <span v-if="!loading">Search</span>
                     <span v-else class="spinner-border spinner-border-sm"></span>
@@ -107,7 +107,7 @@
                     <div class="d-flex justify-content-between align-items-center gap-2" style="padding: 10px;">
                       <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                         @click="openGoogleMaps(school.lat, school.lon, school.name)"
-                        style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                        style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
                         aria-label="Get directions to {{ school.name }}">
                         <i class="bi bi-geo-alt me-2"></i>
                         <b>Get Directions</b>

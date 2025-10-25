@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div id="app">
+<div>
     <finance-component></finance-component>
     {{-- @include('layouts.footer') --}}
 

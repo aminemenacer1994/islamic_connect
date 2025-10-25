@@ -193,7 +193,7 @@
           <div class="col-12 col-md-3">
             <div class="input-group filter-group">
               <span class="input-group-text bg-white border-end-0"><i class="bi bi-hourglass-split"></i></span>
-              <select v-model="durationFilter" class="form-select border-start-0">
+              <select v-model="durationFilter" class="form-select border-start-0" aria-label="Filter by duration">
                 <option value="" disabled selected hidden>Select Duration</option>
                 <option value="0-10">0-10 min</option>
                 <option value="10-30">10-30 min</option>
@@ -205,7 +205,7 @@
           <div class="col-12 col-md-3">
             <div class="input-group filter-group">
               <span class="input-group-text bg-white border-end-0"><i class="bi bi-translate"></i></span>
-              <select v-model="languageFilter" class="form-select border-start-0">
+              <select v-model="languageFilter" class="form-select border-start-0" aria-label="Filter by language">
                 <option value="">All Languages</option>
                 <option value="English">English</option>
                 <option value="Arabic">Arabic</option>
@@ -216,7 +216,7 @@
           <div class="col-12 col-md-3">
             <div class="input-group filter-group">
               <span class="input-group-text bg-white border-end-0"><i class="bi bi-funnel"></i></span>
-              <select v-model="sortOption" class="form-select border-start-0">
+              <select v-model="sortOption" class="form-select border-start-0" aria-label="Sort episodes">
                 <option value="mostViewed">Most Viewed</option>
                 <option value="leastViewed">Least Viewed</option>
                 <option value="newest">Newest</option>
@@ -1452,7 +1452,7 @@ export default {
 .section-subtitle {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #6c757d;
+  color: #495057; /* Increased contrast vs. light backgrounds for WCAG AA */
   margin: 0;
   line-height: 1.5;
 }
@@ -2882,7 +2882,7 @@ export default {
   gap: 1.2rem;
   margin-top: 0.2rem;
   font-size: 0.98rem;
-  color: #6c757d;
+  color: #495057; /* Increased contrast for badges text */
 }
 
 .duration-badge,
@@ -2895,6 +2895,7 @@ export default {
   padding: 2px 10px;
   font-size: 0.95rem;
   font-weight: 500;
+  color: #495057; /* ensure text within badge meets AA on #f8f9fa */
 }
 
 .new-badge {

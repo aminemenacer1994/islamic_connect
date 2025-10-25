@@ -4,3 +4,8 @@
 .swal2-popup.swal2-toast {
   box-sizing: border-box;
 }
+
+/* Accessibility: ensure teal badges meet WCAG contrast */
+.badge.bg-theme-teal {
+  color: #212529 !important; /* force dark text on teal background */
+}

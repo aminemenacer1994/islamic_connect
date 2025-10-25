@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div id="app">
+<div>
     <food-component></food-component>
     {{-- @include('layouts.footer') --}}
 

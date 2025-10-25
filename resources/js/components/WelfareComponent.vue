@@ -17,7 +17,7 @@
               <input id="searchInput" type="search" class="form-control" placeholder="Enter city..."
                 aria-label="Search" v-model="searchQuery" autocomplete="off"
                 style="max-width: 300px;" ref="searchInput" />
-              <button class="btn btn-primary" style="background: #00bfa6; color: white; height: 38px"
+              <button class="btn btn-primary" style="background: #0b5d4b; color: white; height: 38px"
                 type="submit" :disabled="loading">
                 <span v-if="!loading">Search</span>
                 <span v-else class="spinner-border spinner-border-sm"></span>
@@ -80,11 +80,11 @@
                         <small class="text-muted"><strong>Opening Times:</strong> {{ charity.tags.opening_hours }}</small>
                       </div>
                       <div class="d-flex justify-content-between gap-2">
-                        <button class="btn flex-grow-1" style="background: #00bfa6; color: white; height: 38px"
+                        <button class="btn flex-grow-1" style="background: #0b5d4b; color: white; height: 38px"
                           @click="openGoogleMaps(charity.lat, charity.lon, charity.name)">
                           <b>Get Direction</b>
                         </button>
-                        <button class="btn flex-grow-1" style="background: #1881b9; color: white; height: 38px"
+                        <button class="btn flex-grow-1" style="background: #0e6aa3; color: white; height: 38px"
                           @click="callCharity(charity.phone)" :disabled="!charity.phone">
                           <b>Call Charity</b>
                         </button>

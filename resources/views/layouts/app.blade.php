@@ -9,10 +9,12 @@
     <title>@yield('title', 'Islamic Connect — Explore Quran, Media, and Accessible Tools')</title>
 
     <!-- CSS Assets -->
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <!-- Vendor CSS first -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- App CSS last so it overrides vendor defaults -->
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Analytics -->
@@ -40,28 +42,35 @@
     @stack('critical')
 
     <style>
+:root{
+  --brand-teal-600:#0b806f; /* primary brand (passes 4.5:1 on white with white text 7+:1 on teal bg) */
+  --brand-teal-700:#0b5d4b; /* darker for hover/active */
+  --brand-teal-800:#094c3f;
+  --neutral-900:#212529;   /* default body text for contrast */
+  --neutral-700:#495057;   /* muted text with AA on white */
+}
 
 
 
 .nav-link{
-  color:#212529; /* Bootstrap body color: high contrast on light bg */
+  color:var(--neutral-900); /* High contrast on light bg */
 }
 .nav-link:hover{
-  color:#0b5d4b; /* darker teal for 4.5:1 contrast */
+  color:var(--brand-teal-700); /* darker teal for 4.5:1 contrast */
   transition: color 0.3s ease;
 }
 
 /* Ensure navbar links maintain sufficient contrast on .navbar-light */
 .navbar-light .navbar-nav .nav-link{
-  color:#212529 !important;
+  color:var(--neutral-900) !important;
 }
 .navbar-light .navbar-nav .nav-link:focus,
 .navbar-light .navbar-nav .nav-link:hover{
-  color:#0b5d4b !important;
+  color:var(--brand-teal-700) !important;
 }
 .navbar-light .navbar-nav .nav-link.active,
 .navbar-light .navbar-nav .show > .nav-link{
-  color:#0b5d4b !important;
+  color:var(--brand-teal-700) !important;
 }
 
 .button-36:hover {
@@ -273,10 +282,15 @@ body{
 }
 .nav-link.active {
     font-weight: 600;
-    color: #0b5d4b; /* High-contrast highlight */
-    border-bottom: 2px solid #0b5d4b; /* Optional underline */
+    color: var(--brand-teal-700); /* High-contrast highlight */
+    border-bottom: 2px solid var(--brand-teal-700); /* Optional underline */
     transition: color 0.3s ease, border-bottom 0.3s ease;
 }
+
+/* Improve placeholder contrast (AA on white) */
+::placeholder{ color: #6b7280; opacity:1; }
+:-ms-input-placeholder{ color:#6b7280; }
+::-ms-input-placeholder{ color:#6b7280; }
 
 /* Uniform alignment for collapsed mobile menu */
 @media (max-width: 767.98px) {

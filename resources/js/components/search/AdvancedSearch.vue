@@ -705,7 +705,7 @@ export default {
 }
 
 .btn-primary {
-  background-color: #00BFA6 !important;
+  background-color: #0b5d4b !important;
   border-radius: 10px;
 }
 

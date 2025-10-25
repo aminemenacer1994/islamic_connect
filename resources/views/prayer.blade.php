@@ -1,6 +1,7 @@
 @extends('layouts.app')
+@section('title', 'Islamic Connect — Prayer Times')
 @section('content')
-<div id="app" >
+<div >
     <prayer-component></prayer-component>
 <div>
 @endsection

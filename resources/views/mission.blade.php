@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div id="app">
+<div>
     <mission-component></mission-component>
 <div>
     {{-- @include('layouts.footer') --}}

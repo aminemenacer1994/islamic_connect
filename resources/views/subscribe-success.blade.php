@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Subscription Success - Islamic Connect</title>
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
+@extends('layouts.app')
+@section('title', 'Islamic Connect — Subscription Success')
+@section('content')
+    <div class="container py-4">
         <h1>Success!</h1>
         <p>{{ session('message') }}</p>
-        <a href="{{ route('subscribe') }}">Back to Subscribe</a>
+        <p><a class="btn btn-primary" href="{{ route('subscribe') }}">Back to Subscribe</a></p>
     </div>
-</body>
-</html>
+@endsection

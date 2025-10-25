@@ -16,7 +16,7 @@
 							</div>
 							<div class="col-md-4">
 								<div class="d-grid">
-									<button class="form-control" style="background:#00BFA6; color:white" type="submit">Subscribe</button>
+									<button class="form-control" style="background:#0b5d4b; color:white" type="submit">Subscribe</button>
 								</div>
 							</div>
 						</form>

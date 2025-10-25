@@ -1,3 +1,4 @@
+console.log('[Vue] app.js start');
 require("./bootstrap");
 import { createApp } from "vue";
 import * as bootstrap from 'bootstrap';
@@ -159,7 +160,7 @@ try {
   if (StripePlugin && (typeof StripePlugin === 'function' || typeof StripePlugin.install === 'function')) {
     app.use(StripePlugin, { key: process.env.MIX_STRIPE_PUBLISHABLE_KEY });
   } else {
-    console.debug('[Stripe] Plugin not compatible with current Vue build; skipping');
+    console.log('[Stripe] Plugin not compatible with current Vue build; skipping');
   }
 } catch (e) {
   console.debug('[Stripe] Skipped plugin registration:', e?.message || e);
@@ -251,7 +252,37 @@ app.component('history-component', HistoryComponent);
 app.component('payment-methods-component', PaymentMethodsComponent);
 app.component('read-component', ReadComponent);
 
-app.mount("#app");
-if (typeof window !== 'undefined') {
-  console.debug('[Vue] mounted on #app');
+const mountApp = () => {
+  const target = document.getElementById('app');
+  if (!target) {
+    console.warn('[Vue] mount target #app not found yet; retrying after DOMContentLoaded');
+    document.addEventListener('DOMContentLoaded', () => {
+      const t2 = document.getElementById('app');
+      if (t2) {
+        app.mount('#app');
+        console.log('[Vue] mounted on #app (after DOMContentLoaded)');
+      } else {
+        console.error('[Vue] mount failed: #app missing on DOMContentLoaded');
+      }
+    }, { once: true });
+    return;
+  }
+  app.mount('#app');
+  console.log('[Vue] mounted on #app');
+};
+
+try { mountApp(); } catch (e) {
+  console.error('[Vue] mount failed:', e);
+  try {
+    const root = document.getElementById('app');
+    if (root) root.innerHTML = '<div style="padding:16px;color:#b00020;">App failed to initialize. Check console for details.</div>';
+  } catch(_) {}
 }
+
+// Global error diagnostics to surface silent failures
+window.addEventListener('error', (e) => {
+  console.error('[GlobalError]', e?.message || e);
+});
+window.addEventListener('unhandledrejection', (e) => {
+  console.error('[UnhandledRejection]', e?.reason || e);
+});

@@ -1,6 +1,7 @@
 @extends('layouts.app')
+@section('title', 'Islamic Connect — Mosque Locator')
 @section('content')
-<div id="app">
+<div>
     <mosque-component></mosque-component>
 <div>
     {{-- @include('layouts.footer') --}}

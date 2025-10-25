@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Islamic Connect — Services')
 @section('content')
 <div>
     <services-component

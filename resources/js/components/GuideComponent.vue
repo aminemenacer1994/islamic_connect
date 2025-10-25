@@ -1550,7 +1550,7 @@ mark {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #00bfa6;
+  background: #0b5d4b;
   border: 2px solid #fff;
   box-shadow: 0 2px 8px rgba(0,191,166,0.18);
   cursor: pointer;
@@ -1559,7 +1559,7 @@ mark {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #00bfa6;
+  background: #0b5d4b;
   border: 2px solid #fff;
   box-shadow: 0 2px 8px rgba(0,191,166,0.18);
   cursor: pointer;

@@ -1,19 +1,19 @@
 <!-- NavTabs.vue -->
 <template>
 <div class="overflow-auto">
- <ul class="nav nav-tabs text-left justify-content-start pt-3 flex-nowrap" style="white-space: nowrap;" role="tablist">
-  <li class="nav-item">
-   <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab">
+ <ul class="nav nav-tabs text-left justify-content-start pt-3 flex-nowrap" style="white-space: nowrap;" role="tablist" aria-label="Content sections">
+  <li class="nav-item" role="presentation">
+   <a class="nav-link active" id="tab-translation" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" tabindex="0">
     <b>Translation</b>
    </a>
   </li>
-  <li class="nav-item">
-   <a class="nav-link" data-bs-toggle="tab" href="#profile" role="tab">
+  <li class="nav-item" role="presentation">
+   <a class="nav-link" id="tab-tafseer" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">
     <b>Tafseer</b>
    </a>
   </li>
-  <li class="nav-item">
-   <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab">
+  <li class="nav-item" role="presentation">
+   <a class="nav-link" id="tab-transliteration" data-bs-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false" tabindex="-1">
     <b>Transliteration</b>
    </a>
   </li>
@@ -44,7 +44,7 @@ export default {
 }
 
 .nav-tabs>.nav-item>.nav-link {
- color: #888888;
+ color: #4b5563;
  margin: 0;
  margin-right: 5px;
  background-color: transparent;
@@ -58,7 +58,7 @@ export default {
 }
 
 .nav-tabs>.nav-item>.nav-link.active {
- background-color: rgba(0, 191, 166, 0.233);
+ background-color: rgba(0, 107, 95, 0.2);
  color: rgb(7, 6, 6);
  border-radius:8px;
  padding-bottom: 8%;

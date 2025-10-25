@@ -50,7 +50,7 @@
                 </div>
                 
                 <div class="d-grid mb-3">
-                    <button type="submit" style="background:rgb(53, 163, 139); color:white" class="btn btn-lg">Sign In</button>
+                    <button type="submit" style="background: var(--primary-color); color: #ffffff;" class="btn btn-lg">Sign In</button>
                 </div>
             </form>
             
@@ -75,8 +75,8 @@
 
 <style>
     :root {
-        --primary-color: #35a38b;
-        --primary-hover: #2d8c77;
+        --primary-color: #006b5f;
+        --primary-hover: #00564c;
         --text-color: #1a1a1a;
         --light-bg: #f8f9fa;
         --border-radius: 8px;
@@ -187,7 +187,7 @@
     
     .form-control:focus {
         border-color: var(--primary-color);
-        box-shadow: 0 0 0 0.2rem rgba(53, 163, 139, 0.25);
+        box-shadow: 0 0 0 0.2rem rgba(0, 107, 95, 0.25);
     }
     
     .btn-primary {
@@ -203,7 +203,7 @@
         background-color: var(--primary-hover);
         border-color: var(--primary-hover);
         transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(53, 163, 139, 0.3);
+        box-shadow: 0 4px 8px rgba(0, 107, 95, 0.3);
     }
     
     .divider {

@@ -18,7 +18,7 @@
               details.
             </p>
 
-            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/mosque')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/mosque')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
               <span class="text-center w-100"><b>Find a Mosque</b></span>
             </button>
             <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
@@ -38,7 +38,7 @@
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover delicious and certified
               halal butcher at your fingertips. Whether you're traveling or you're new in town.</p>
-            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/shop')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/shop')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
               <span class="text-center w-100"><b>Search Butchers</b></span>
             </button>
             <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
@@ -58,7 +58,7 @@
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover delicious and certified
               halal food at your fingertips. Whether you're traveling or you're new in town.</p>
             <button class="form-control" onclick="window.location.href='/store'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Locate Shops</b></span>
             </button>
@@ -75,7 +75,7 @@
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover delicious and certified
               halal food at your fingertips. Whether you're traveling or you're new in town.</p>
             <button class="form-control" onclick="window.location.href='/food'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Search Foods</b></span>
             </button>
@@ -91,7 +91,7 @@
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Schools & Centers</h5>
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover trusted Islamic schools, madrassas, and educational centers near you with ease for the knowledge of islam.</p>
-            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/school')" type="button" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/school')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
               <span class="text-center w-100"><b>Visit Schools</b></span>
             </button>
             <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
@@ -114,7 +114,7 @@
               Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts
             </p>
             <button class="form-control" onclick="window.location.href='/support'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Support Us</b></span>
             </button>
@@ -149,7 +149,7 @@ export default {
 }
 
 .card.custom-card button.form-control {
-    background: #00bfa6;
+    background: #0b5d4b;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     color: white;
     height: 38px;

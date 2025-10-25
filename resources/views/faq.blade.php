@@ -1,7 +1,7 @@
 @extends('layouts.app')
+@section('title', 'Islamic Connect — FAQ')
 @section('content')
- <div id="app">
+ <div>
    <faq-component></faq-component>
  <div>
 @endsection
-

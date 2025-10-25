@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div id="app">
+<div>
     <convert-component></convert-component>
 <div>
 @endsection
-

@@ -859,15 +859,18 @@ export default {
 }
 
 .read-more {
-  color: #00bfa6;
+  color: #00695c; /* darker teal for better contrast on light bg */
   font-size: 0.8rem;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color 0.2s, text-decoration-color 0.2s;
 }
 
-.read-more:hover {
-  color: #008f7a;
+.read-more:hover,
+.read-more:focus,
+.read-more:focus-visible {
+  color: #00564d;
   text-decoration: underline;
+  text-decoration-color: currentColor;
 }
 
 @media (max-width: 576px) {
@@ -953,6 +956,7 @@ export default {
   .channel-body a {
     min-width: 50px;
     padding: 6px;
+    color: #495057 !important; /* improve contrast vs light backgrounds */
   }
 
   .favorites-section .channel-body a {
@@ -962,6 +966,7 @@ export default {
 
   .channel-body a i {
     font-size: 1rem;
+    color: #495057 !important; /* sync icon color with text for contrast */
   }
 
   .favorites-section .channel-body a i {
@@ -970,6 +975,7 @@ export default {
 
   .channel-body a small {
     font-size: 0.7rem;
+    color: inherit; /* inherit the higher-contrast link color */
   }
 
   .favorites-section .channel-body a small {
@@ -1029,6 +1035,18 @@ select.form-select {
   }
 }
 
+.channel-body a {
+  color: #495057 !important;
+}
+
+.channel-body a i {
+  color: inherit !important;
+}
+
+.channel-body a small {
+  color: inherit;
+}
+
 .channel-card h5 {
   font-size: 1.4rem;
   /* larger title */
@@ -1077,6 +1095,19 @@ select.form-select {
   color: #212529;
 }
 
+/* Accessibility: ensure outline-secondary has sufficient contrast on bg-light */
+.btn.btn-outline-secondary {
+  color: #495057 !important; /* darker than #6c757d for 4.5:1 on #f8f9fa */
+  border-color: #495057 !important;
+}
+
+.btn.btn-outline-secondary:focus,
+.btn.btn-outline-secondary:hover {
+  color: #ffffff !important;
+  background-color: #495057 !important;
+  border-color: #495057 !important;
+}
+
 /* Badge styles */
 .badge {
   font-size: 0.75rem;
@@ -1087,6 +1118,7 @@ select.form-select {
 
 .badge.bg-primary {
   background-color: #00bfa6 !important;
+  color: #00332e !important; /* dark text for AA contrast */
 }
 
 .badge.bg-secondary {

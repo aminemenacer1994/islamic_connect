@@ -30,7 +30,14 @@ mix.webpackConfig({
     target: 'web',
     output: {
         chunkFormat: 'array-push'
-    }
+    },
+    resolve: {
+        alias: {
+            // Use the Vue build that includes the template compiler so in-DOM
+            // templates inside Blade (e.g., <homepage-component/>) are compiled.
+            vue$: 'vue/dist/vue.esm-bundler.js',
+        },
+    },
 });
 
 // Enable versioning in production to add cache-busting query strings

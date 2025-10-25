@@ -19,7 +19,7 @@
                   aria-label="Search city" v-model="searchQuery" autocomplete="off"
                   style="max-width: 300px;" ref="searchInput" />
                 <button class="btn align-items-center justify-content-center"
-                  style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                  style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
                   type="submit" :disabled="loading">
                   <span v-if="!loading">Search</span>
                   <span v-else class="spinner-border spinner-border-sm"></span>
@@ -612,7 +612,7 @@ export default {
 
 /* Lightweight button styling to reduce inline style churn */
 .btn-direction {
-  background: #00bfa6;
+  background: #0b5d4b;
   color: white;
   height: 38px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;

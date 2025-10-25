@@ -1,6 +1,7 @@
 @extends('layouts.app')
+@section('title', 'Islamic Connect — Welfare')
 @section('content')
-<div id="app">
+<div>
     <welfare-component></welfare-component>
     {{-- @include('layouts.footer') --}}
 

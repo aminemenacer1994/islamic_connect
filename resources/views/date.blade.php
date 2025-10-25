@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
- <div id="app">
+ <div>
   <date-component ></date-component>
 {{-- @include('layouts.footer') --}}
 @endsection

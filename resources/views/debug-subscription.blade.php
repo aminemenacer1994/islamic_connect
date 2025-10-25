@@ -22,7 +22,7 @@
         .debug-section {
             margin-bottom: 30px;
             padding: 15px;
-            border-left: 4px solid #007cba;
+            border-left: 4px solid #006b5f;
             background: #f8f9fa;
         }
         .debug-section h3 {
@@ -50,17 +50,16 @@
             color: #004085;
         }
         button {
-            background: #007cba;
-            color: white;
+            background: #006b5f;
+            color: #ffffff;
             border: none;
             padding: 10px 20px;
             border-radius: 4px;
             cursor: pointer;
             margin: 5px;
         }
-        button:hover {
-            background: #005a8b;
-        }
+        button:hover { background: #00564c; }
+        button:focus { outline: 3px solid #00564c; outline-offset: 2px; }
         pre {
             background: #f8f9fa;
             padding: 15px;

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Islamic Connect — Payment')
 @section('content')
 <div class="container-fluid">
     <div class="row">

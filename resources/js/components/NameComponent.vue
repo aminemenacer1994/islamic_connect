@@ -1044,9 +1044,9 @@ export default {
 
 <style scoped>
 .names-container {
-  /* Provide teal palette for descendants */
-  --teal: #00bfa6;
-  --teal-dark: #089060;
+  /* Provide teal palette for descendants (AA compliant) */
+  --teal: #006b5f;
+  --teal-dark: #00564c;
 }
 
 .text-teal { color: var(--teal) !important; }
@@ -1071,7 +1071,7 @@ export default {
 .btn-compact { height: 38px; }
 .card-teal {
   border-radius: 8px;
-  border: 1px solid rgba(0, 191, 166, 0.3);
+  border: 1px solid rgba(0, 107, 95, 0.3);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
@@ -1091,8 +1091,8 @@ export default {
   .fav-actions .btn { width: 100%; margin-right: 0 !important; }
 }
 .custom-success:checked {
-  background-color: rgb(10, 150, 120) !important;
-  border-color: rgb(10, 150, 120) !important;
+  background-color: #006b5f !important;
+  border-color: #006b5f !important;
 }
 
 html {
@@ -1110,7 +1110,7 @@ html {
 
 .featured-card {
   background: linear-gradient(135deg, #e0f7fa, #ffffff);
-  border-left: 5px solid rgb(10, 150, 120);
+  border-left: 5px solid #006b5f;
 }
 
 .names-container {
@@ -1120,24 +1120,26 @@ html {
 }
 
 .btn-primary {
-  background-color: rgb(10, 150, 120);
-  color: rgb(255, 255, 255);
-  border-color: rgb(10, 150, 120);
+  background-color: #006b5f;
+  color: #ffffff;
+  border-color: #006b5f;
 }
 
 .btn-primary:hover {
-  background-color: rgb(255, 255, 255);
-  color: rgb(255, 255, 255);
-  border-color: rgb(8, 120, 96);
+  background-color: #00564c;
+  color: #ffffff;
+  border-color: #00564c;
 }
 
 .btn-outline-primary {
-  border-color: rgb(10, 150, 120);
+  border-color: #006b5f;
+  color: #006b5f;
 }
 
 .btn-outline-primary:hover {
-  background-color: rgb(10, 150, 120);
-  border-color: rgb(10, 150, 120);
+  background-color: #006b5f;
+  border-color: #006b5f;
+  color: #ffffff;
 }
 
 .names-grid {
@@ -1159,7 +1161,7 @@ html {
 }
 
 .featured-card {
-  border: 3px solid rgb(10, 150, 120);
+  border: 3px solid #006b5f;
 }
 
 .arabic-name {
@@ -1182,13 +1184,13 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgb(10, 150, 120);
-  border-color: rgb(10, 150, 120);
+  background-color: #006b5f;
+  border-color: #006b5f;
 }
 
 .floating-action-btn button:hover {
-  background-color: rgb(8, 120, 96);
-  border-color: rgb(8, 120, 96);
+  background-color: #00564c;
+  border-color: #00564c;
 }
 
 @media (max-width: 768px) {

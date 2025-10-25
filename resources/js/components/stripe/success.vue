@@ -51,7 +51,7 @@ h1 {
 }
 
 p {
-  color: #6b7280;
+  color: #4b5563;
   margin-bottom: 2rem;
 }
 
@@ -59,7 +59,7 @@ p {
   width: 40px;
   height: 40px;
   border: 4px solid #f3f4f6;
-  border-top: 4px solid #00bfa6;
+  border-top: 4px solid #006b5f;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto;

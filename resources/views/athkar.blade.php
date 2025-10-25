@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div id="app">
+<div>
     <athkar-component></athkar-component>
     {{-- @include('layouts.footer') --}}
 

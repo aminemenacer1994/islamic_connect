@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Success - Islamic Connect</title>
+@extends('layouts.app')
+@section('title', 'Islamic Connect — Payment Success')
+@section('content')
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,14 +30,14 @@
             margin-bottom: 1rem;
         }
         p {
-            color: #6b7280;
+            color: #4b5563;
             margin-bottom: 2rem;
         }
         .loading-spinner {
             width: 40px;
             height: 40px;
             border: 4px solid #f3f4f6;
-            border-top: 4px solid #00bfa6;
+            border-top: 4px solid #006b5f;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto;
@@ -50,8 +47,6 @@
             100% { transform: rotate(360deg); }
         }
     </style>
-</head>
-<body>
     <div class="success-container">
         <div class="success-icon">✓</div>
         <h1>Payment Successful!</h1>
@@ -64,5 +59,4 @@
             window.location.href = '/home';
         }, 5000);
     </script>
-</body>
-</html>
+@endsection

@@ -1,6 +1,7 @@
 @extends('layouts.app')
+@section('title', 'Islamic Connect — Streaming')
 @section('content')
-<div id="app">
+<div>
     <streaming-component></streaming-component>
 <div>
     {{-- @include('layouts.footer') --}}

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Islamic Connect — Knowledge')
 @section('content')
 <div>
     <knowledge-component
