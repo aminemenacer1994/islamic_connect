@@ -21,11 +21,11 @@
               <!-- Search Stats -->
               <div class="mb-4" v-if="searchQuery || selectedSubject">
                 <div class="d-flex flex-wrap align-items-center gap-3 px-1" aria-live="polite">
-                  <span class="badge fs-6 px-3 py-2" style="background-color: #e0fff8; color: #00bfa6;">
+                  <span class="badge fs-6 px-3 py-2" style="background-color: #e0fff8; color: #00796b;">
                     <i class="bi bi-search me-2" aria-hidden="true"></i>{{ filteredTerms?.length || 0 }} results
                   </span>
                   <span v-if="selectedSubject" class="badge fs-6 px-3 py-2"
-                    style="background-color: #e0fff8; color: #00bfa6;">
+                    style="background-color: #e0fff8; color: #00796b;">
                     <i class="bi bi-tag me-2"></i>{{ selectedSubject }}
                   </span>
                   <button class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-2" @click="clearSearch"
@@ -39,7 +39,7 @@
               <div class="mb-3">
                 <div class="row g-2 align-items-center flex-nowrap">
                   <div class="col-12 col-md-12">
-                    <div class="input-group shadow-sm" style="--primary-color: #00bfa6; --spacing: 0.5rem;">
+                    <div class="input-group shadow-sm" style="--primary-color: #00796b; --spacing: 0.5rem;">
                       <input id="searchQuery" type="text" v-model="searchQuery"
                         class="form-control border-0 ps-4 pe-0 py-3" placeholder="Search terms, meanings, references..."
                         aria-label="Search Islamic Dictionary" :aria-controls="'results-region'"
@@ -83,7 +83,7 @@
                             <small class="text-muted">{{ suggestion.meaning.substring(0, 60) }}...</small>
                           </div>
                           <div class="d-flex flex-column align-items-end">
-                            <span class="badge" style="background-color: #e0fff8; color: #00bfa6;">{{ suggestion.subject
+                          <span class="badge" style="background-color: #e0fff8; color: #00796b;">{{ suggestion.subject
                               }}</span>
                             <small class="text-muted">{{ getMatchType(suggestion) }}</small>
                           </div>
@@ -176,7 +176,7 @@
           <!-- Empty state -->
           <div v-if="displayedTerms.length === 0">
             <div class="mb-4">
-              <i class="bi bi-search-heart display-1" style="color: #00bfa6; opacity: 0.75;"></i>
+              <i class="bi bi-search-heart display-1" style="color: #00796b; opacity: 0.75;"></i>
             </div>
             <h3 class="fw-bold mb-3 fs-4 text-dark">No terms found</h3>
             <p class="text-muted mb-4 fs-5">Try adjusting your search criteria or browse all terms</p>
@@ -196,23 +196,23 @@
                 tabindex="0" role="article" :aria-labelledby="'term-title-' + term.id"
                 @keydown.enter="handleCardClick(term.id)" @keydown.space.prevent="handleCardClick(term.id)">
                 <div class="card-body d-flex flex-column p-4 gap-2">
-                  <span class="badge rounded-pill mb-3 px-3 py-2" style="background-color: #e0fff8; color: #00bfa6;">
+                  <span class="badge rounded-pill mb-3 px-3 py-2" style="background-color: #e0fff8; color: #00796b;">
                     {{ term.subject }}
                   </span>
-                  <h5 class="card-title fw-bold mb-3 fs-4" :id="'term-title-' + term.id" style="color: #00bfa6;">{{ term.term }}</h5>
-                  <p class="card-text mb-3" style="color: #00bfa6;">
+                  <h5 class="card-title fw-bold mb-3 fs-4" :id="'term-title-' + term.id" style="color: #00796b;">{{ term.term }}</h5>
+                  <p class="card-text mb-3" style="color: #00796b;">
                     <em>"{{ term.phrase }}"</em>
                   </p>
                   <div class="mb-3">
-                    <h6 class="fw-bold mb-2" style="color: #00bfa6;">Meaning</h6>
+                    <h6 class="fw-bold mb-2" style="color: #00796b;">Meaning</h6>
                     <p class="mb-0">{{ term.meaning }}</p>
                   </div>
                   <div class="mb-3">
-                    <h6 class="fw-bold mb-2" style="color: #00bfa6;">Example</h6>
+                    <h6 class="fw-bold mb-2" style="color: #00796b;">Example</h6>
                     <p class="mb-0">{{ term.example }}</p>
                   </div>
                   <div class="mb-3">
-                    <h6 class="fw-bold mb-2" style="color: #00bfa6;">Reference</h6>
+                    <h6 class="fw-bold mb-2" style="color: #00796b;">Reference</h6>
                     <p class="mb-0">{{ term.reference }}</p>
                   </div>
                 </div>

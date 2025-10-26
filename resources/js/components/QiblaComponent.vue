@@ -1044,6 +1044,12 @@ export default {
   border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
+/* Accessibility: ensure sufficient contrast for the header lead paragraph */
+header .lead.text-muted {
+  /* Darker than Bootstrap's #6c757d to pass on #f5f5f5 */
+  color: #495057 !important;
+}
+
 @media (max-width: 767.98px) {
   .qibla-info-modern-card {
     border-radius: 1.2rem;
