@@ -208,9 +208,9 @@
         </div> -->
 
         <div class="controls text-center mt-3 mt-md-4">
-          <button @click="prev" :disabled="currentIndex === 0" class="btn me-2 btn-sm" style="background: rgb(13, 182, 145); color: white;" aria-label="Previous event">Previous</button>
+          <button @click="prev" :disabled="currentIndex === 0" class="btn me-2 btn-sm" style="background: #0f766e; color: #ffffff;" aria-label="Previous event">Previous</button>
           <button @click="next" :disabled="currentIndex === events.length - 1"
-            class="btn btn-sm" style="background: rgb(13, 182, 145); color: white;" aria-label="Next event">Next</button>
+            class="btn btn-sm" style="background: #0f766e; color: #ffffff;" aria-label="Next event">Next</button>
         </div>
       </div>
     </transition>
@@ -1366,14 +1366,14 @@ mark {
 }
 
 .timeline-badge:hover {
-  background-color: #20c997;
-  color: white;
+  background-color: #0f766e; /* darker teal for contrast */
+  color: #ffffff;
   cursor: pointer;
 }
 
 .timeline-badge.active {
-  background-color: rgb(13, 182, 145);
-  color: white;
+  background-color: #0f766e; /* darker teal for contrast */
+  color: #ffffff;
   border: 2px solid lightgrey;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
