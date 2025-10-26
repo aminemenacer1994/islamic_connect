@@ -1,7 +1,7 @@
 <template>
   <div class="container py-4">
     <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Animated Videos</h2>
-    <p class="text-center text-muted mb-4" style="font-size: 18px;">
+    <p class="text-center text-dark mb-4" style="font-size: 18px;">
       Discover a captivating collection of Islamic animated videos, bringing to life the beauty and spirituality of
       Islamic culture.
       From the grandeur of mosques and intricate calligraphy to the serenity of nature and historical landmarks.
@@ -19,7 +19,7 @@
             class="form-control"
             :aria-label="'Search Islamic videos'"
             placeholder="Search for Islamic videos..." />
-          <button class="btn" type="submit" style="background-color: #0db691; color: white;">Search</button>
+          <button class="btn" type="submit" style="background-color: #00695c; color: #ffffff;">Search</button>
         </form>
       </div>
     </div>
@@ -32,6 +32,7 @@
           style="overflow-x: auto; cursor: pointer; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none;"
           role="radiogroup"
           aria-label="Filter videos"
+          tabindex="0"
         >
           <button
             v-for="(filter, idx) in filters"
@@ -63,6 +64,7 @@
           <div
             class="ratio ratio-16x9 video-container"
             style="height: 500px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
+            role="button"
             @click="togglePlayPause($event)"
             tabindex="0"
             :aria-label="'Video: ' + (video.description || 'Islamic animation') + '. Press Enter to play/pause'"
@@ -425,6 +427,11 @@ export default {
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
+.video-container:focus {
+  outline: 2px solid #0db691;
+  outline-offset: 2px;
+}
+
 .video-container:hover {
   transform: scale(1.05);
   /* Slight zoom effect on hover */
@@ -460,16 +467,19 @@ export default {
 }
 
 .custom-btn {
-  background-color: #0db691;
-  color: white;
+  background-color: #00695c;
+  color: #ffffff;
   padding: 10px;
   transition: background-color 0.3s, transform 0.2s;
 }
 
-.custom-btn:hover {
-  background-color: #0aa07f;
+.custom-btn:hover,
+.custom-btn:focus {
+  background-color: #005347;
   transform: translateY(-2px);
-  color: #fff;
+  color: #ffffff;
+  outline: 2px solid #003c34;
+  outline-offset: 2px;
 }
 
 .scrollmenu {
@@ -535,6 +545,11 @@ export default {
 .filter-scroll::-webkit-scrollbar {
   display: none;
   cursor: pointer;
+}
+
+.filter-scroll:focus {
+  outline: 2px solid #0db691;
+  outline-offset: 2px;
 }
 
 .scroll-fade {
