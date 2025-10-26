@@ -1160,7 +1160,8 @@ export default {
 }
 
 .section-title i {
-  color: #888;
+  /* Improve icon contrast on light background */
+  color: #666;
 }
 
 section {

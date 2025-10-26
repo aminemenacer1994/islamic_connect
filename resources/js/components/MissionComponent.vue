@@ -1345,6 +1345,12 @@ mark {
   min-width: max-content;
 }
 
+/* Remove the vertical white line rendered via a ::before pseudo-element */
+.timeline::before {
+  content: none !important;
+  display: none !important;
+}
+
 .timeline-point {
   flex-shrink: 0;
   scroll-snap-align: start;

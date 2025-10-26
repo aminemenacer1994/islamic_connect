@@ -18,8 +18,14 @@
           <div class="card-body p-3">
             <!-- Dropdown for mobile screens -->
             <div class="d-md-none">
-              <select v-model.number="activeCategory"
-                class="form-select rounded-pill" style="border-color: #0db691; color: #0db691;">
+              <label for="finance-category-select" class="form-label visually-hidden">Select category</label>
+              <select
+                id="finance-category-select"
+                v-model.number="activeCategory"
+                class="form-select rounded-pill"
+                style="border-color: #0db691;"
+                aria-label="Select finance category"
+              >
                 <option v-for="category in categories" :key="category.id" :value="category.id">
                   {{ category.name }} ({{ tipCountsByCategory[category.id] || 0 }})
                 </option>
@@ -31,7 +37,7 @@
                 <button v-for="category in categories" :key="category.id" @click="setActiveCategory(category.id)"
                   class="btn btn-light border rounded-pill text-start d-flex justify-content-between align-items-center"
                   :class="{ 'btn-gradient text-white': activeCategory === category.id }"
-                  :style="activeCategory === category.id ? 'border: none;' : 'border-color: #0db691; color: #0db691;'">
+                  :style="activeCategory === category.id ? 'border: none;' : 'border-color: #0db691; color: #0a4f3c;'">
                   <span><i :class="getCategoryIcon(category.id)" class="me-2" aria-hidden="true"></i>{{ category.name }}</span>
                   <span class="badge bg-white text-dark">{{ tipCountsByCategory[category.id] || 0 }}</span>
                 </button>
@@ -192,6 +198,22 @@ export default {
 };
 </script>
 <style scoped>
+.lead.text-muted {
+  /* Improve contrast on light backgrounds (#f5f5f5 body) */
+  color: #495057 !important; /* darker than Bootstrap's #6c757d */
+}
+
+/* Force accessible text color for the mobile category select */
+#finance-category-select {
+  color: #0a4f3c !important; /* ≥ 4.5:1 on white */
+  border-color: #0db691 !important;
+  background-color: #ffffff;
+}
+
+#finance-category-select option {
+  color: #0a4f3c;
+}
+
 .text-gradient {
   background: linear-gradient(to right, #0db691, #0aa07e);
   -webkit-background-clip: text;

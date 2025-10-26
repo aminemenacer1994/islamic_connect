@@ -20207,9 +20207,9 @@ body.sidebar-collapse:not(.sidebar-mini-xs):not(.sidebar-mini-md):not(.sidebar-m
   border: 1px solid #dee2e6;
 }.timeline-inverse > div > .timeline-item > .timeline-header {
   border-bottom-color: #dee2e6;
-}.dark-mode .timeline::before {
-  background-color: #6c757d;
-}.dark-mode .timeline > div > .timeline-item {
+}
+
+.dark-mode .timeline > div > .timeline-item {
   background-color: #343a40;
   color: #fff;
   border-color: #6c757d;

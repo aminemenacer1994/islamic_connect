@@ -361,7 +361,8 @@ export default {
   background: none;
   border: none;
   font-size: 1.25rem;
-  color: #999;
+  /* Improve contrast for close icon */
+  color: #666;
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 8px;
@@ -396,7 +397,8 @@ export default {
 
 .ayah-ref {
   font-size: 0.875rem;
-  color: #888;
+  /* Increase contrast for reference text */
+  color: #666;
   font-weight: 500;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['container my-4', { 'pad-for-audio': isPlaying || isPaused }]" role="main">
+  <div class="guide-root" :class="['container my-4', { 'pad-for-audio': isPlaying || isPaused }]" role="main">
     <!-- Header -->
     <header class="text-center mb-4">
       
@@ -10,7 +10,7 @@
     </header>
 
     <!-- Controls Section -->
-    <section class="controls-section mb-4" style="border: 1px solid #009688;">
+    <section class="controls-section mb-4" style="border: 1px solid var(--primary-color);">
       <div class="row g-3 align-items-center" >
         <!-- Category Dropdown -->
         <div class="col-md-6">
@@ -1228,7 +1228,7 @@ export default {
             <title>Print Guide - ${title}</title>
             <style>
               body { font-family: 'Inter', Arial, sans-serif; padding: 2rem; color: #222; background: #fff; }
-              .print-title { font-size: 2rem; font-weight: bold; margin-bottom: 0.5rem; color: #00bfa6; }
+              .print-title { font-size: 2rem; font-weight: bold; margin-bottom: 0.5rem; color: var(--primary-color); }
               .print-badge { margin-bottom: 1.5rem; display: inline-block; }
               .print-content { font-size: 1.1rem; line-height: 1.7; margin-top: 1.5rem; }
               ul { margin: 0; padding-left: 1.5rem; }
@@ -1303,9 +1303,10 @@ export default {
 
 <style scoped>
 /* Base Styles */
-:root {
-  --primary-color: #00bfa6;
-  --primary-hover: #008f7a;
+.guide-root {
+  /* Darker teal improves contrast on white and as a filled background with white text */
+  --primary-color: #00695c;
+  --primary-hover: #00564c;
   --text-color: #333;
   --text-light: #6c757d;
   --bg-color: #fff;
@@ -1340,7 +1341,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .header-description {
   font-size: 1.1rem;
-  color: var(--text-light);
+  /* Darker gray for AA contrast on light backgrounds */
+  color: #495057;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -1415,13 +1417,25 @@ mark {
 }
 
 .btn-outline-primary {
-  color: var(--primary-color);
-  border-color: var(--primary-color);
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
 }
 
-.btn-outline-primary:hover {
-  background-color: var(--primary-color);
-  color: white;
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+/* Success outline buttons: use darker green for contrast */
+.btn-outline-success {
+  color: #1e7e34;
+  border-color: #1e7e34;
+}
+
+.btn-outline-success:hover {
+  background-color: #1e7e34;
+  color: #fff;
 }
 
 /* Modern Audio Player Styles */
@@ -1488,8 +1502,8 @@ mark {
   justify-content: center;
 }
 .audio-btn:hover, .audio-btn:focus {
-  background: rgba(0,191,166,0.12);
-  color: #00bfa6;
+  background: rgba(0, 105, 92, 0.12);
+  color: var(--primary-color);
   outline: none;
   transform: scale(1.08);
 }
@@ -1521,7 +1535,7 @@ mark {
 }
 .audio-progress {
   height: 100%;
-  background: linear-gradient(90deg, #00bfa6 0%, #008f7a 100%);
+  background: var(--primary-color);
   border-radius: 2px;
   transition: width 0.05s linear;
   will-change: width;
@@ -1539,7 +1553,7 @@ mark {
 }
 .audio-volume-slider {
   width: 120px;
-  accent-color: #00bfa6;
+  accent-color: var(--primary-color);
   background: transparent;
   margin: 0 0.5rem;
   height: 4px;
@@ -1947,21 +1961,21 @@ mark {
 }
 
 .category-filters .btn-primary {
-  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);
-  border-color: #00bfa6;
-  color: white;
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #fff;
 }
 
 .category-filters .btn-outline-primary {
-  color: #00bfa6;
-  border-color: #00bfa6;
+  color: var(--primary-color);
+  border-color: var(--primary-color);
   background: transparent;
 }
 
 .category-filters .btn-outline-primary:hover {
-  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);
-  color: white;
-  border-color: #00bfa6;
+  background: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
 }
 
 .category-filters .badge {
@@ -2047,7 +2061,7 @@ mark {
   will-change: width;
 }
 .progress-bar.reading-progress {
-  background: linear-gradient(90deg, #00bfa6 0%, #38ef7d 100%);
+  background: linear-gradient(90deg, var(--primary-color) 0%, #38ef7d 100%);
   z-index: 1;
 }
 .progress-bar.audio-progress {
@@ -2058,7 +2072,8 @@ mark {
 }
 .progress-labels {
   font-size: 0.85rem;
-  color: #888;
+  /* Increase contrast for accessibility (WCAG 2.0 AA) */
+  color: #666;
   margin-top: 2px;
 }
 .autocomplete-suggestions {
@@ -2089,7 +2104,8 @@ mark {
 }
 .suggestion-type {
   font-size: 0.75rem;
-  color: #888;
+  /* Improve contrast on light tag background */
+  color: #666;
   margin-left: 0.5rem;
   background: #f1f1f1;
   border-radius: 8px;
