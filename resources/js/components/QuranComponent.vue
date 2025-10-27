@@ -325,14 +325,14 @@
                                         <!-- dropdown mobile content -->
                                         <div>
                                             <div class="pt-2" ref="targetTranslationElement"
-                                                 @touchstart.passive="handleTouchStart"
+                                                 @touchstart="handleTouchStart($event)"
                                                  @touchmove.passive="handleTouchMove"
-                                                 @touchend.passive="handleTouchEnd"
+                                                 @touchend="handleTouchEnd($event)"
                                                  @pointerdown.passive="handlePointerDown"
                                                  @pointermove.passive="handlePointerMove"
                                                  @pointerup.passive="handlePointerUp"
                                                  @wheel.passive="handleWheel">
-                                                <TranslationSection :currentAyah="currentAyah" :isVisible="!isVisible"
+                                                <TranslationSection ref="translationSection" :currentAyah="currentAyah" :isVisible="!isVisible"
                                                     :information="information" :isFullScreen="isFullScreen"
                                                     :expanded="expanded" :showMoreLink="showMoreLink"
                                                     :showAlertText="showAlertText" :showAlert="showAlert"
@@ -499,15 +499,15 @@
                                         </div>
 
                                         <!-- Main content  -->
-                                        <div class="pt-2" ref="targetTafseerElement"
-                                             @touchstart.passive="handleTouchStart"
-                                             @touchmove.passive="handleTouchMove"
-                                             @touchend.passive="handleTouchEnd"
-                                             @pointerdown.passive="handlePointerDown"
-                                             @pointermove.passive="handlePointerMove"
-                                             @pointerup.passive="handlePointerUp"
-                                             @wheel.passive="handleWheel">
-                                            <TafseerSection :currentAyah="currentAyah" :isVisible="!isVisible"
+                                          <div class="pt-2" ref="targetTafseerElement"
+                                              @touchstart="handleTouchStart($event)"
+                                              @touchmove.passive="handleTouchMove"
+                                              @touchend="handleTouchEnd($event)"
+                                              @pointerdown.passive="handlePointerDown"
+                                              @pointermove.passive="handlePointerMove"
+                                              @pointerup.passive="handlePointerUp"
+                                              @wheel.passive="handleWheel">
+                                            <TafseerSection ref="tafseerSection" :currentAyah="currentAyah" :isVisible="!isVisible"
                                                 :information="information" :isFullScreen="isFullScreen"
                                                 :expanded="expanded" :showMoreLink="showMoreLink"
                                                 :showAlertText="showAlertText" :showAlert="showAlert"
@@ -673,14 +673,14 @@
                                             </div>
 
                                             <div ref="targetTransliterationElement"
-                                                 @touchstart.passive="handleTouchStart"
+                                                 @touchstart="handleTouchStart($event)"
                                                  @touchmove.passive="handleTouchMove"
-                                                 @touchend.passive="handleTouchEnd"
+                                                 @touchend="handleTouchEnd($event)"
                                                  @pointerdown.passive="handlePointerDown"
                                                  @pointermove.passive="handlePointerMove"
                                                  @pointerup.passive="handlePointerUp"
                                                  @wheel.passive="handleWheel">
-                                                <TransliterationSection :currentAyah="currentAyah"
+                                                <TransliterationSection ref="transliterationSection" :currentAyah="currentAyah"
                                                     :isVisible="!isVisible" :information="information"
                                                     :isFullScreen="isFullScreen" :expanded="expanded"
                                                     :showMoreLink="showMoreLink" :showAlertText="showAlertText"
@@ -869,13 +869,63 @@ export default {
         // Create a debounced resize handler to reduce layout thrash
         this.debouncedUpdateIsMobile = this.debounce(this.updateIsMobile, 150);
         win?.addEventListener?.('resize', this.debouncedUpdateIsMobile, { passive: true });
+        // Gesture gating for tablets/phones only
+        this.updateInputModalityGestureGate();
+        try {
+            if (this._coarseMql && this._coarseMql.addEventListener) {
+                this._coarseMql.addEventListener('change', this.updateInputModalityGestureGate, { passive: true });
+            } else if (this._coarseMql && this._coarseMql.addListener) {
+                this._coarseMql.addListener(this.updateInputModalityGestureGate);
+            }
+        } catch(_) {}
 
+        // Track Bootstrap tab changes to stop previous audio and set active tab
+        try {
+            if (typeof document !== 'undefined') {
+                this._onTabShown = (e) => {
+                    let id = e.target?.getAttribute?.('data-bs-target') || e.target?.getAttribute?.('href') || '';
+                    if (id && id.startsWith('#')) id = id.slice(1);
+                    if (id) this.activeTab = id;
+                    this.stopAllAudio && this.stopAllAudio();
+                    console.log('[Audio] tab switched, activeTab=', this.activeTab);
+                };
+                document.addEventListener('shown.bs.tab', this._onTabShown);
+            }
+        } catch(_) {}
+
+        // Attach a window wheel listener only if gestures are enabled (coarse pointer)
+        if (this.allowGestures && typeof window !== 'undefined') {
+            this._onWindowWheel = (e) => {
+                const areaTaf = this.$refs && this.$refs.targetTafseerElement;
+                const areaTrn = this.$refs && this.$refs.targetTranslationElement;
+                const areaTrl = this.$refs && this.$refs.targetTransliterationElement;
+                const path = (e.composedPath && e.composedPath()) || [];
+                const within = [areaTaf, areaTrn, areaTrl]
+                    .filter(Boolean)
+                    .some((el) => path.includes(el) || (e.target && el.contains && el.contains(e.target)));
+                if (!within) return;
+                this.handleWheel(e);
+            };
+            window.addEventListener('wheel', this._onWindowWheel, { passive: true });
+            console.log('[Swipe] window wheel listener attached (tafseer/translation/transliteration)');
+        }
     },
     // Ensure listeners are cleaned up when the component is destroyed
     beforeUnmount() {
         const win = (typeof globalThis !== 'undefined' && globalThis.window) ? globalThis.window : (typeof window !== 'undefined' ? window : null);
         win?.removeEventListener?.("keydown", this.onKeydown);
         win?.removeEventListener?.('resize', this.debouncedUpdateIsMobile || this.updateIsMobile);
+        try {
+            if (this._coarseMql && this._coarseMql.removeEventListener) {
+                this._coarseMql.removeEventListener('change', this.updateInputModalityGestureGate);
+            } else if (this._coarseMql && this._coarseMql.removeListener) {
+                this._coarseMql.removeListener(this.updateInputModalityGestureGate);
+            }
+        } catch(_) {}
+        if (typeof window !== 'undefined' && this._onWindowWheel) {
+            window.removeEventListener('wheel', this._onWindowWheel, { passive: true });
+            this._onWindowWheel = null;
+        }
     },
     // Vue 2 fallback (in case this project uses Vue 2)
     beforeDestroy() {
@@ -1014,8 +1064,11 @@ export default {
             isMobile: false,
             // Swipe tracking
             touchStartX: 0,
+            touchStartY: 0,
             touchEndX: 0,
+            touchEndY: 0,
             touchStartTime: 0,
+            
             // Pointer tracking (for non-touch devices)
             pointerStartX: 0,
             pointerStartY: 0,
@@ -1028,15 +1081,20 @@ export default {
             wheelAccumY: 0,
             wheelLastTime: 0,
             // Tunable thresholds
-            // Tuned for Mac trackpads: more sensitive horizontally
-            swipeMinDistance: 45,
-            swipeMaxDuration: 450,
-            wheelThreshold: 35,
+            // Balanced defaults (tablet + desktop testing)
+            swipeMinDistance: 50,
+            swipeMaxDuration: 400,
+            wheelThreshold: 40,
             wheelVertLeak: 18,
-            wheelResetMs: 180,
+            wheelResetMs: 160,
             // Debounce multiple triggers
-            gestureCooldownMs: 350,
-            lastGestureTs: 0
+            gestureCooldownMs: 300,
+            lastGestureTs: 0,
+            // Environment gating
+            isCoarsePointer: false,
+            allowGestures: true,
+            _coarseMql: null,
+            activeTab: 'home'
         };
     },
     computed: {
@@ -1271,10 +1329,25 @@ export default {
             this.tafseer = tafseerData;
         },
         toggleAudioPlayback() {
-            const audioPlayer = this.$refs.audioPlayer;
-            if (audioPlayer) {
-                audioPlayer.currentTime = 0;
-                audioPlayer.play();
+            // Prefer toggling the active section if present; fall back to all
+            const sections = [
+                this.$refs.tafseerSection,
+                this.$refs.translationSection,
+                this.$refs.transliterationSection,
+            ].filter(Boolean);
+            let toggled = false;
+            for (const sec of sections) {
+                if (typeof sec?.toggleSpeech === 'function') {
+                    try {
+                        sec.toggleSpeech();
+                        toggled = true;
+                    } catch (e) {
+                        console.warn('toggleSpeech failed on section', e);
+                    }
+                }
+            }
+            if (!toggled) {
+                console.warn('No section available to toggle audio');
             }
         },
         showSettingsOffcanvas() {
@@ -1570,32 +1643,33 @@ export default {
         },
 
         handleTouchStart(event) {
-            const touch = event.changedTouches
-                ? event.changedTouches[0]
-                : event;
+            if (!this.allowGestures) return;
+            const touch = event.changedTouches ? event.changedTouches[0] : event;
             if (this.isInteractiveTarget(event.target)) return;
             this.touchStartX = touch.screenX;
+            this.touchStartY = touch.screenY;
             this.touchStartTime = Date.now();
-            console.log('[Swipe] touchstart at', this.touchStartX);
         },
         handleTouchMove(event) {
-            const touch = event.changedTouches
-                ? event.changedTouches[0]
-                : event;
+            if (!this.allowGestures) return;
+            const touch = event.changedTouches ? event.changedTouches[0] : event;
             if (this.isInteractiveTarget(event.target)) return;
             this.touchEndX = touch.screenX;
-            console.log('[Swipe] touchmove to', this.touchEndX);
+            this.touchEndY = touch.screenY;
         },
-        handleTouchEnd() {
+        handleTouchEnd(event) {
+            if (!this.allowGestures) return;
             const touchEndTime = Date.now();
             const timeDiff = touchEndTime - this.touchStartTime;
-            const deltaX = this.touchEndX - this.touchStartX;
+            const deltaX = (this.touchEndX || this.touchStartX) - this.touchStartX;
+            const deltaY = (this.touchEndY || this.touchStartY) - this.touchStartY;
             const minSwipeDistance = this.swipeMinDistance;
             const maxSwipeDuration = this.swipeMaxDuration;
 
             // Swipe gesture detection
             if (
                 Math.abs(deltaX) > minSwipeDistance &&
+                Math.abs(deltaY) < this.wheelVertLeak &&
                 timeDiff < maxSwipeDuration
             ) {
                 if (deltaX > 0) {
@@ -1605,8 +1679,6 @@ export default {
                     console.log('[Swipe] touchend → LEFT', { deltaX, timeDiff });
                     this.onSwipeLeft();
                 }
-            } else {
-                console.log('[Swipe] touchend ignored', { deltaX, timeDiff });
             }
         },
         onSwipeRight() {
@@ -1631,9 +1703,10 @@ export default {
         },
         // Pointer events (covers some laptops/tablets)
         handlePointerDown(e) {
+            if (!this.allowGestures) return;
             if (this.isInteractiveTarget(e.target)) return;
-            // Allow mouse drags on laptops (primary button only)
-            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            // Do not handle desktop mouse drags; allow touch/pen only
+            if (e.pointerType === 'mouse') return;
             this.pointerActive = true;
             this.pointerStartX = e.screenX;
             this.pointerStartY = e.screenY;
@@ -1641,6 +1714,7 @@ export default {
             console.log('[Swipe] pointerdown', { x: this.pointerStartX, y: this.pointerStartY, type: e.pointerType });
         },
         handlePointerMove(e) {
+            if (!this.allowGestures) return;
             if (!this.pointerActive) return;
             if (this.isInteractiveTarget(e.target)) return;
             this.pointerEndX = e.screenX;
@@ -1648,6 +1722,7 @@ export default {
             console.log('[Swipe] pointermove', { x: this.pointerEndX, y: this.pointerEndY });
         },
         handlePointerUp(e) {
+            if (!this.allowGestures) return;
             if (!this.pointerActive) return;
             this.pointerActive = false;
             const timeDiff = Date.now() - this.pointerStartTime;
@@ -1667,11 +1742,12 @@ export default {
                     this.onSwipeLeft();
                 }
             } else {
-                console.log('[Swipe] pointerup ignored', { deltaX, deltaY, timeDiff });
-            }
+                // ignore non-swipe pointerup
+                }
         },
         // Trackpad horizontal gestures via wheel
         handleWheel(e) {
+            if (!this.allowGestures) return;
             if (this.isInteractiveTarget(e.target)) return;
             // Normalize delta based on deltaMode: 0=pixel,1=line,2=page
             const unit = e.deltaMode === 1 ? 16 : (e.deltaMode === 2 ? window.innerHeight : 1);
@@ -1709,6 +1785,25 @@ export default {
             } else {
                 // Verbose debug for tuning
                 console.log('[Swipe] wheel accumulate', { x: this.wheelAccumX, y: this.wheelAccumY, dt, mode: e.deltaMode });
+            }
+        },
+        
+        // Detect whether device uses coarse pointer (touch/tablet) and gate gestures
+        updateInputModalityGestureGate() {
+            try {
+                const w = (typeof globalThis !== 'undefined' && globalThis.window) ? globalThis.window : (typeof window !== 'undefined' ? window : null);
+                if (!w || !w.matchMedia) {
+                    this.isCoarsePointer = false;
+                    this.allowGestures = false;
+                    return;
+                }
+                this._coarseMql = this._coarseMql || w.matchMedia('(pointer: coarse)');
+                this.isCoarsePointer = !!this._coarseMql.matches;
+                this.allowGestures = this.isCoarsePointer; // enable on tablets/phones only
+                console.log('[Swipe] modality gate', { isCoarsePointer: this.isCoarsePointer, allowGestures: this.allowGestures });
+            } catch (_) {
+                this.isCoarsePointer = false;
+                this.allowGestures = false;
             }
         },
         cancelHold() {
@@ -1995,3 +2090,7 @@ export default {
 
 <style scoped src="./css/styles.css">
 </style>
+        if (typeof document !== 'undefined' && this._onTabShown) {
+            document.removeEventListener('shown.bs.tab', this._onTabShown);
+            this._onTabShown = null;
+        }
