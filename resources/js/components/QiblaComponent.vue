@@ -1044,10 +1044,11 @@ export default {
   border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
-/* Accessibility: ensure sufficient contrast for the header lead paragraph */
-header .lead.text-muted {
-  /* Darker than Bootstrap's #6c757d to pass on #f5f5f5 */
-  color: #495057 !important;
+/* Accessibility: ensure sufficient contrast for lead muted text */
+/* Broaden selector and darken further to guarantee >= 4.5:1 on #f5f5f5 */
+header .lead.text-muted,
+.lead.text-muted {
+  color: #343a40 !important;
 }
 
 @media (max-width: 767.98px) {

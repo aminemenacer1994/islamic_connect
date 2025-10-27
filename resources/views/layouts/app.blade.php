@@ -445,7 +445,7 @@ body{
     <script defer src="{{ mix('js/app.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const navLinks = document.querySelectorAll('.nav-link');
+            const navLinks = document.querySelectorAll('ul[aria-label="Primary menu"] a.nav-link');
             // Ensure hamburger toggler controls the collapse reliably
             try {
                 const toggler = document.getElementById('navbarToggler') || document.querySelector('.navbar-toggler');
@@ -496,19 +496,54 @@ body{
                 return p || '/';
             };
             const pathNow = normalize(window.location.pathname);
+
+            // Build a deterministic alias map and prefer the longest matching key
+            const aliasMap = {
+                // Home
+                '/': '/', '/home': '/', '/welcome': '/',
+                // Quran portal (user-specified)
+                '/holy': '/holy', '/quran': '/holy', '/surat': '/holy', '/history': '/holy',
+                // Media center (user-specified)
+                '/media': '/media', '/content': '/media', '/streaming': '/media', '/radio': '/media', '/gallery': '/media', '/video': '/media',
+                // Knowledge (user-specified)
+                '/knowledge': '/knowledge', '/mission': '/knowledge', '/name': '/knowledge', '/guide': '/knowledge', '/read': '/knowledge', '/books': '/knowledge', '/boos': '/knowledge',
+                // Toolkit (user-specified)
+                '/toolkit': '/toolkit', '/qibla': '/toolkit', '/prayer': '/toolkit', '/dua': '/toolkit', '/zakat': '/toolkit', '/date': '/toolkit', '/umrah': '/toolkit', '/calendar': '/toolkit',
+                // Services (user-specified)
+                '/services': '/services', '/mosque': '/services', '/shop': '/services', '/school': '/services', '/support': '/services',
+                // Other existing mappings kept sensible
+                '/store': '/services', '/finance': '/services',
+                // Packages
+                '/subscribe': '/subscribe', '/packages': '/subscribe', '/pricing': '/subscribe'
+            };
+
+            const aliasKeys = Object.keys(aliasMap);
+            let effectivePath = (() => {
+                // longest key that equals or is a prefix of current path
+                const match = aliasKeys
+                    .map(k => normalize(k))
+                    .filter(k => pathNow === k || pathNow.startsWith(k + '/'))
+                    .sort((a,b) => b.length - a.length)[0];
+                return match ? normalize(aliasMap[match]) : pathNow;
+            })();
+
             const links = Array.from(navLinks).filter(a => a.dataset && typeof a.dataset.path === 'string');
             const candidates = links.map(a => normalize(a.dataset.path));
-            // pick exact match, otherwise longest prefix match excluding root unless root is the only match
-            let best = candidates.find(p => p === pathNow);
+            
+            // 1) Try group target exact
+            let best = candidates.find(p => p === effectivePath);
+            // 2) Try exact path
+            if (!best) best = candidates.find(p => p === pathNow);
+            // 3) Try longest prefix of current path
             if (!best){
                 const pref = candidates
                     .filter(p => p !== '/' && (pathNow === p || pathNow.startsWith(p + '/')))
-                    .sort((a,b) => b.length - a.length);
-                best = pref[0] || '/';
+                    .sort((a,b) => b.length - a.length)[0];
+                best = pref || undefined;
             }
             links.forEach(a => {
                 const ap = normalize(a.dataset.path);
-                const isActive = ap === best;
+                const isActive = !!best && ap === best;
                 a.classList.toggle('active', isActive);
                 if (isActive) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
             });
