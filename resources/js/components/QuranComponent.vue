@@ -324,7 +324,14 @@
                                         </div>
                                         <!-- dropdown mobile content -->
                                         <div>
-                                            <div class="pt-2" ref="targetTranslationElement">
+                                            <div class="pt-2" ref="targetTranslationElement"
+                                                 @touchstart.passive="handleTouchStart"
+                                                 @touchmove.passive="handleTouchMove"
+                                                 @touchend.passive="handleTouchEnd"
+                                                 @pointerdown.passive="handlePointerDown"
+                                                 @pointermove.passive="handlePointerMove"
+                                                 @pointerup.passive="handlePointerUp"
+                                                 @wheel.passive="handleWheel">
                                                 <TranslationSection :currentAyah="currentAyah" :isVisible="!isVisible"
                                                     :information="information" :isFullScreen="isFullScreen"
                                                     :expanded="expanded" :showMoreLink="showMoreLink"
@@ -492,7 +499,14 @@
                                         </div>
 
                                         <!-- Main content  -->
-                                        <div class="pt-2" ref="targetTafseerElement">
+                                        <div class="pt-2" ref="targetTafseerElement"
+                                             @touchstart.passive="handleTouchStart"
+                                             @touchmove.passive="handleTouchMove"
+                                             @touchend.passive="handleTouchEnd"
+                                             @pointerdown.passive="handlePointerDown"
+                                             @pointermove.passive="handlePointerMove"
+                                             @pointerup.passive="handlePointerUp"
+                                             @wheel.passive="handleWheel">
                                             <TafseerSection :currentAyah="currentAyah" :isVisible="!isVisible"
                                                 :information="information" :isFullScreen="isFullScreen"
                                                 :expanded="expanded" :showMoreLink="showMoreLink"
@@ -658,7 +672,14 @@
                                                 </div>
                                             </div>
 
-                                            <div ref="targetTransliterationElement">
+                                            <div ref="targetTransliterationElement"
+                                                 @touchstart.passive="handleTouchStart"
+                                                 @touchmove.passive="handleTouchMove"
+                                                 @touchend.passive="handleTouchEnd"
+                                                 @pointerdown.passive="handlePointerDown"
+                                                 @pointermove.passive="handlePointerMove"
+                                                 @pointerup.passive="handlePointerUp"
+                                                 @wheel.passive="handleWheel">
                                                 <TransliterationSection :currentAyah="currentAyah"
                                                     :isVisible="!isVisible" :information="information"
                                                     :isFullScreen="isFullScreen" :expanded="expanded"
@@ -990,7 +1011,32 @@ export default {
             // Accessibility: live region message
             screenReaderMessage: "",
             // Track viewport for responsive ARIA handling
-            isMobile: false
+            isMobile: false,
+            // Swipe tracking
+            touchStartX: 0,
+            touchEndX: 0,
+            touchStartTime: 0,
+            // Pointer tracking (for non-touch devices)
+            pointerStartX: 0,
+            pointerStartY: 0,
+            pointerEndX: 0,
+            pointerEndY: 0,
+            pointerStartTime: 0,
+            pointerActive: false,
+            // Wheel tracking (for trackpads)
+            wheelAccumX: 0,
+            wheelAccumY: 0,
+            wheelLastTime: 0,
+            // Tunable thresholds
+            // Tuned for Mac trackpads: more sensitive horizontally
+            swipeMinDistance: 45,
+            swipeMaxDuration: 450,
+            wheelThreshold: 35,
+            wheelVertLeak: 18,
+            wheelResetMs: 180,
+            // Debounce multiple triggers
+            gestureCooldownMs: 350,
+            lastGestureTs: 0
         };
     },
     computed: {
@@ -1017,6 +1063,7 @@ export default {
         
     },
     methods: {
+        // Thresholds can be tweaked here directly if needed.
         
         handleDarkModeChange(isDarkMode) {
             this.isDarkMode = isDarkMode;
@@ -1510,25 +1557,41 @@ export default {
         toggleFullScreen() {
             this.isFullScreen = !this.isFullScreen;
         },
+        // Utility: ignore interactive targets and selections
+        isInteractiveTarget(el) {
+            if (!el) return false;
+            const interactiveSelector = 'a, button, input, textarea, select, [role="button"], [contenteditable="true"]';
+            if (el.closest && el.closest(interactiveSelector)) return true;
+            try {
+                const sel = (typeof window !== 'undefined' && window.getSelection) ? window.getSelection() : null;
+                if (sel && sel.type === 'Range' && String(sel).length > 0) return true;
+            } catch (_) {}
+            return false;
+        },
+
         handleTouchStart(event) {
             const touch = event.changedTouches
                 ? event.changedTouches[0]
                 : event;
+            if (this.isInteractiveTarget(event.target)) return;
             this.touchStartX = touch.screenX;
             this.touchStartTime = Date.now();
+            console.log('[Swipe] touchstart at', this.touchStartX);
         },
         handleTouchMove(event) {
             const touch = event.changedTouches
                 ? event.changedTouches[0]
                 : event;
+            if (this.isInteractiveTarget(event.target)) return;
             this.touchEndX = touch.screenX;
+            console.log('[Swipe] touchmove to', this.touchEndX);
         },
         handleTouchEnd() {
             const touchEndTime = Date.now();
             const timeDiff = touchEndTime - this.touchStartTime;
             const deltaX = this.touchEndX - this.touchStartX;
-            const minSwipeDistance = 50; // Minimum distance in pixels to detect swipe
-            const maxSwipeDuration = 500; // Maximum duration in ms for a swipe
+            const minSwipeDistance = this.swipeMinDistance;
+            const maxSwipeDuration = this.swipeMaxDuration;
 
             // Swipe gesture detection
             if (
@@ -1536,10 +1599,116 @@ export default {
                 timeDiff < maxSwipeDuration
             ) {
                 if (deltaX > 0) {
+                    console.log('[Swipe] touchend → RIGHT', { deltaX, timeDiff });
                     this.onSwipeRight();
                 } else {
+                    console.log('[Swipe] touchend → LEFT', { deltaX, timeDiff });
                     this.onSwipeLeft();
                 }
+            } else {
+                console.log('[Swipe] touchend ignored', { deltaX, timeDiff });
+            }
+        },
+        onSwipeRight() {
+            const now = Date.now();
+            if (now - this.lastGestureTs < this.gestureCooldownMs) {
+                console.log('[Swipe] RIGHT ignored (cooldown)');
+                return;
+            }
+            this.lastGestureTs = now;
+            console.log('[Swipe] ACTION: NEXT VERSE');
+            this.goToNextAyah();
+        },
+        onSwipeLeft() {
+            const now = Date.now();
+            if (now - this.lastGestureTs < this.gestureCooldownMs) {
+                console.log('[Swipe] LEFT ignored (cooldown)');
+                return;
+            }
+            this.lastGestureTs = now;
+            console.log('[Swipe] ACTION: PREVIOUS VERSE');
+            this.goToPreviousAyah();
+        },
+        // Pointer events (covers some laptops/tablets)
+        handlePointerDown(e) {
+            if (this.isInteractiveTarget(e.target)) return;
+            // Allow mouse drags on laptops (primary button only)
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            this.pointerActive = true;
+            this.pointerStartX = e.screenX;
+            this.pointerStartY = e.screenY;
+            this.pointerStartTime = Date.now();
+            console.log('[Swipe] pointerdown', { x: this.pointerStartX, y: this.pointerStartY, type: e.pointerType });
+        },
+        handlePointerMove(e) {
+            if (!this.pointerActive) return;
+            if (this.isInteractiveTarget(e.target)) return;
+            this.pointerEndX = e.screenX;
+            this.pointerEndY = e.screenY;
+            console.log('[Swipe] pointermove', { x: this.pointerEndX, y: this.pointerEndY });
+        },
+        handlePointerUp(e) {
+            if (!this.pointerActive) return;
+            this.pointerActive = false;
+            const timeDiff = Date.now() - this.pointerStartTime;
+            const endX = (this.pointerEndX || e.screenX);
+            const endY = (this.pointerEndY || e.screenY);
+            const deltaX = endX - this.pointerStartX;
+            const deltaY = endY - this.pointerStartY;
+            const minSwipeDistance = this.swipeMinDistance;
+            const maxSwipeDuration = this.swipeMaxDuration;
+            const vertLeak = this.wheelVertLeak; // reuse vertical tolerance
+            if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < vertLeak && timeDiff < maxSwipeDuration) {
+                if (deltaX > 0) {
+                    console.log('[Swipe] pointerup → RIGHT', { deltaX, deltaY, timeDiff });
+                    this.onSwipeRight();
+                } else {
+                    console.log('[Swipe] pointerup → LEFT', { deltaX, deltaY, timeDiff });
+                    this.onSwipeLeft();
+                }
+            } else {
+                console.log('[Swipe] pointerup ignored', { deltaX, deltaY, timeDiff });
+            }
+        },
+        // Trackpad horizontal gestures via wheel
+        handleWheel(e) {
+            if (this.isInteractiveTarget(e.target)) return;
+            // Normalize delta based on deltaMode: 0=pixel,1=line,2=page
+            const unit = e.deltaMode === 1 ? 16 : (e.deltaMode === 2 ? window.innerHeight : 1);
+            const dx = e.deltaX * unit;
+            const dy = e.deltaY * unit;
+            const now = Date.now();
+            const dt = now - (this.wheelLastTime || now);
+            this.wheelLastTime = now;
+
+            // Reset accumulation if pause is long
+            if (dt > this.wheelResetMs) {
+                this.wheelAccumX = 0;
+                this.wheelAccumY = 0;
+            }
+
+            this.wheelAccumX += dx;
+            this.wheelAccumY += dy;
+
+            const horiz = Math.abs(this.wheelAccumX);
+            const vert = Math.abs(this.wheelAccumY);
+            const threshold = this.wheelThreshold; // strong horizontal swipe
+            const vertLeak = this.wheelVertLeak;  // ignore if mostly vertical
+
+            if (horiz > threshold && vert < vertLeak) {
+                if (this.wheelAccumX > 0) {
+                    console.log('[Swipe] trackpad wheel → LEFT (prev)', { accumX: this.wheelAccumX, accumY: this.wheelAccumY });
+                    this.onSwipeLeft();
+                } else {
+                    console.log('[Swipe] trackpad wheel → RIGHT (next)', { accumX: this.wheelAccumX, accumY: this.wheelAccumY });
+                    this.onSwipeRight();
+                }
+                // Reset after action
+                this.wheelAccumX = 0;
+                this.wheelAccumY = 0;
+            } else {
+                // Verbose debug for tuning
+                console.log('[Swipe] wheel accumulate', { x: this.wheelAccumX, y: this.wheelAccumY, dt, mode: e.deltaMode });
             }
         },
         cancelHold() {
@@ -1750,6 +1919,40 @@ export default {
         this.fetchSurahs();
         this.fetchReciters();
         this.fetchTranslations();
+    },
+    mounted() {
+        // One-time debug: show current gesture thresholds
+        try {
+            console.log('[Swipe] thresholds', {
+                swipeMinDistance: this.swipeMinDistance,
+                swipeMaxDuration: this.swipeMaxDuration,
+                wheelThreshold: this.wheelThreshold,
+                wheelVertLeak: this.wheelVertLeak,
+                wheelResetMs: this.wheelResetMs,
+            });
+            // Fallback: listen on window for wheel events and scope them to Tafseer area
+            if (typeof window !== 'undefined') {
+                this._onWindowWheel = (e) => {
+                    const areaTaf = this.$refs && this.$refs.targetTafseerElement;
+                    const areaTrn = this.$refs && this.$refs.targetTranslationElement;
+                    const areaTrl = this.$refs && this.$refs.targetTransliterationElement;
+                    const path = (e.composedPath && e.composedPath()) || [];
+                    const within = [areaTaf, areaTrn, areaTrl]
+                        .filter(Boolean)
+                        .some((el) => path.includes(el) || (e.target && el.contains && el.contains(e.target)));
+                    if (!within) return; // ignore events outside the content areas
+                    this.handleWheel(e);
+                };
+                window.addEventListener('wheel', this._onWindowWheel, { passive: true });
+                console.log('[Swipe] window wheel listener attached (tafseer/translation/transliteration)');
+            }
+        } catch (_) {}
+    },
+    beforeUnmount() {
+        if (typeof window !== 'undefined' && this._onWindowWheel) {
+            window.removeEventListener('wheel', this._onWindowWheel, { passive: true });
+            this._onWindowWheel = null;
+        }
     },
     watch: {
         ayah: {
