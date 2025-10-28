@@ -1,5 +1,5 @@
 <template>
-  <div class="container p-4">
+  <div class="container p-4" :class="{ 'pb-audio-gap': showAudioPlayer }">
     <h1 class="fw-bold display-5 text-center mb-2" v-once>Seerah Timeline</h1>
     <p class="text-center container mb-4 lead d-none d-md-block" v-once>
       The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH). This timeline is
@@ -122,6 +122,10 @@
           padding: '0.75rem',
           fontSize: Math.max(14, fontSize) + 'px'
         }" v-html="highlightedDescription"></h5>
+        <div v-if="events[currentIndex].references" class="mt-2 small text-muted">
+          <strong>References:</strong>
+          <span>{{ events[currentIndex].references }}</span>
+        </div>
 
 
 
@@ -207,7 +211,7 @@
           <i class="bi bi-gear-fill fs-4"></i>
         </div> -->
 
-        <div class="controls text-center mt-3 mt-md-4">
+        <div class="controls text-center mt-3 mt-md-4" :class="{ 'mb-audio-gap': showAudioPlayer }">
           <button @click="prev" :disabled="currentIndex === 0" class="btn me-2 btn-sm" style="background: #0f766e; color: #ffffff;" aria-label="Previous event">Previous</button>
           <button @click="next" :disabled="currentIndex === events.length - 1"
             class="btn btn-sm" style="background: #0f766e; color: #ffffff;" aria-label="Next event">Next</button>
@@ -338,6 +342,10 @@ export default {
     this.initializeAudioStates();
     this.initializeTooltips();
     this.updateCurrentMetrics();
+    // Ensure document has bottom padding when audio player is visible
+    if (this.showAudioPlayer) {
+      try { document.body.classList.add('with-audio-player'); } catch (_) {}
+    }
     // Observe visibility (e.g., when inside hidden tabs/pills)
     this.$nextTick(() => {
       try {
@@ -375,6 +383,7 @@ export default {
       try { this._io.disconnect(); } catch (_) {}
       this._io = null;
     }
+    try { document.body.classList.remove('with-audio-player'); } catch (_) {}
   },
   methods: {
     updateCurrentMetrics() {
@@ -538,6 +547,7 @@ export default {
         this.progress[index] = (startWordIndex / wordCount) * 100;
         this.currentTime = (startWordIndex / wordCount) * this.totalTime;
       }
+      try { document.body.classList.add('with-audio-player'); } catch (_) {}
     },
     stopAudio(index) {
       if (this.synth.speaking || this.synth.paused) {
@@ -549,6 +559,7 @@ export default {
         this.pausedWordIndex = 0;
         this.showAudioPlayer = false;
       }
+      try { document.body.classList.remove('with-audio-player'); } catch (_) {}
     },
     rewindAudio(index) {
       if (!this.utterance || !this.isAudioPlaying[index]) return;
@@ -1494,8 +1505,9 @@ mark {
 
 @media (max-width: 576px) {
   .timeline-badge {
-    padding: 0.5rem 0.8rem;
-    font-size: 0.85rem;
+    padding: 0.8rem 1.2rem; /* increase size on small screens */
+    font-size: 1rem;
+    border-radius: 1.25rem;
   }
 
   .display-6 {
@@ -1519,8 +1531,9 @@ mark {
   }
 
   .controls button {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.85rem;
+    padding: 0.6rem 1.1rem; /* larger next/prev on small screens */
+    font-size: 1rem;
+    border-radius: 0.6rem;
   }
 
   .time-estimates span {
@@ -1530,8 +1543,8 @@ mark {
 
 @media (max-width: 480px) {
   .timeline-badge {
-    padding: 0.4rem 0.6rem;
-    font-size: 0.8rem;
+    padding: 0.75rem 1rem; /* increase size further on very small screens */
+    font-size: 0.95rem;
   }
 
   .display-6 {
@@ -1555,8 +1568,25 @@ mark {
   }
 
   .controls button {
-    padding: 0.35rem 0.7rem;
-    font-size: 0.8rem;
+    padding: 0.55rem 1rem;
+    font-size: 0.95rem;
   }
 }
+
+/* Spacing between controls and audio player when visible */
+.mb-audio-gap {
+  margin-bottom: 24px; /* ensure clear separation on all sizes */
+}
+
+/* Prevent overlap of fixed audio player with page content */
+.pb-audio-gap {
+  padding-bottom: 120px; /* reserve space for fixed player height */
+}
+</style>
+
+<!-- Global (unscoped) spacing to ensure content is never overlapped by the fixed audio bar -->
+<style>
+  body.with-audio-player {
+    padding-bottom: 140px; /* reserve space for the fixed audio bar */
+  }
 </style>
