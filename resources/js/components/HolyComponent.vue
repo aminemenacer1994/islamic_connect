@@ -16,14 +16,11 @@
                             Explore the beauty and guidance of the Quran at your fingertips — perfect for seekers,
                             travelers, and newcomers alike.
                         </p>
-
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/quran')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                        <button class="form-control" onclick="window.location.href='/quran'"
+                            style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                            type="submit">
                             <span class="text-center w-100"><b>Explore Quran</b></span>
                         </button>
-                        <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
-                            <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none" style="color: #00bfa6; font-weight: bold;">Subscribe Now</a>
-                        </div>
                     </div>
                 </div>
             </div>
