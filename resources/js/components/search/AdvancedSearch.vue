@@ -2,29 +2,44 @@
   <div>
     <!-- Search Input Group -->
     <div>
+      <!-- Unified input group to align input and mic button on all screens -->
+      <div class="container pb-3 px-3">
+        <div class="input-group w-100 search-input-group position-relative">
+          <input
+            type="search"
+            @keyup="onInput"
+            v-model="searchTerm"
+            placeholder="Search for a word in the quran..."
+            class="form-control"
+            style="padding: 12px 14px; height: 48px;"
+          />
+          <button
+            type="button"
+            class="btn button-36 bi bi-mic-fill d-flex align-items-center justify-content-center"
+            aria-label="Voice search"
+            title="Voice search"
+            @click="isListening ? stopVoiceRecognition() : startVoiceRecognition()"
+            style="height: 48px; min-width: 48px;"
+          ></button>
 
-      <div class="container input-group pb-3" style="position: relative;">
-        <input type="search" @keyup="onInput" v-model="searchTerm" placeholder="Search for a keyword..."
-          class="form-control mobile-only"
-          style="flex: 1; padding: 15px; height: 50px;" />
-
-        <!-- Suggestions Dropdown -->
-        <ul v-if="suggestions.length" class="list-group suggestions"
-          style="position: absolute; top: 100%; left: 0; width: 95%; z-index: 1000; max-height: 700px; overflow-y: auto;">
-          <li class="list-group-item text-left list-group-item-success" v-for="(suggestion, index) in suggestions"
-            :key="index" @click="selectSuggestion(suggestion)" style="padding: 15px;">
-            {{ suggestion }}
-          </li>
-        </ul>
-
-        <!-- Voice input button -->
-        <button type="button" class="btn button-36 bi bi-mic-fill" aria-label="Voice search"
-          title="Voice search"
-          @click="isListening ? stopVoiceRecognition() : startVoiceRecognition()"
-          style="height: 50px; display: flex; align-items: center; justify-content: center; padding: 0 20px;">
-          <!-- <span style="color:white"><b>Voice Search</b></span> -->
-        </button>
-        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+          <!-- Suggestions Dropdown (full width under the input group) -->
+          <ul
+            v-if="suggestions.length"
+            class="list-group suggestions position-absolute"
+            style="top: 100%; left: 0; right: 0; width: 100%; z-index: 1000; max-height: 60vh; overflow-y: auto;"
+          >
+            <li
+              class="list-group-item text-left list-group-item-success"
+              v-for="(suggestion, index) in suggestions"
+              :key="index"
+              @click="selectSuggestion(suggestion)"
+              style="padding: 12px 14px;"
+            >
+              {{ suggestion }}
+            </li>
+          </ul>
+        </div>
+        <div v-if="errorMessage" class="error-message mt-2">{{ errorMessage }}</div>
       </div>
     </div>
 
@@ -512,6 +527,31 @@ export default {
 
 };
 </script>
+
+<style scoped>
+/* Ensure input and mic button align cleanly on mobile and desktop */
+.search-input-group > .form-control {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.search-input-group > .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+/* Prevent container overflow causing misalignment */
+.search-input-group {
+  width: 100%;
+}
+/* Improve list item text alignment on small screens */
+.suggestions .list-group-item {
+  text-align: left;
+}
+@media (max-width: 576px) {
+  .search-input-group > .form-control {
+    font-size: 0.95rem;
+  }
+}
+</style>
 
 <style scoped>
 .error-message {

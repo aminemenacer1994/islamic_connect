@@ -321,6 +321,13 @@
                                                     @keydown.enter.prevent="goToLastAyah" @keydown.space.prevent="goToLastAyah"
                                                     @click="goToLastAyah()" title="Last verse"></i>
                                             </div>
+                                            <!-- Mobile/Tablet tip: swipe between verses -->
+                                            <div v-if="showSwipeTip" class="swipe-tip alert py-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none" role="alert">
+                                                <div class="d-flex align-items-center overflow-hidden">
+                                                    <span class="text-truncate">Swipe left or right to change verses</span>
+                                                </div>
+                                                <button type="button" class="btn-close ms-2 flex-shrink-0" aria-label="Close" @click="dismissSwipeTip"></button>
+                                            </div>
                                         </div>
                                         <!-- dropdown mobile content -->
                                         <div>
@@ -495,6 +502,13 @@
                                                     <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
                                                         @click="goToLastAyah()" title="End verse"></i>
                                                 </div>
+                                                <!-- Mobile/Tablet tip: swipe between verses -->
+                                                <div v-if="showSwipeTip" class="swipe-tip alert py-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none" role="alert">
+                                                    <div class="d-flex align-items-center overflow-hidden">
+                                                        <span class="text-truncate">Swipe left or right to change verses</span>
+                                                    </div>
+                                                    <button type="button" class="btn-close ms-2 flex-shrink-0" aria-label="Close" @click="dismissSwipeTip"></button>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -668,6 +682,13 @@
                                                             @click="goToNextAyah()" title="Next verse"></i>
                                                         <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
                                                             @click="goToLastAyah()" title="End verse"></i>
+                                                    </div>
+                                                    <!-- Mobile/Tablet tip: swipe between verses -->
+                                                    <div v-if="showSwipeTip" class="swipe-tip alert py-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none" role="alert">
+                                                        <div class="d-flex align-items-center overflow-hidden">
+                                                            <span class="text-truncate">Swipe left or right to change verses</span>
+                                                        </div>
+                                                        <button type="button" class="btn-close ms-2 flex-shrink-0" aria-label="Close" @click="dismissSwipeTip"></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -909,6 +930,16 @@ export default {
             window.addEventListener('wheel', this._onWindowWheel, { passive: true });
             console.log('[Swipe] window wheel listener attached (tafseer/translation/transliteration)');
         }
+
+        // Swipe tip persisted dismissal
+        try {
+            const dismissed = localStorage.getItem('swipeTipDismissed');
+            if (dismissed === '1') {
+                this.showSwipeTip = false;
+            } else {
+                this.showSwipeTip = true;
+            }
+        } catch(_) { this.showSwipeTip = true; }
     },
     // Ensure listeners are cleaned up when the component is destroyed
     beforeUnmount() {
@@ -1081,11 +1112,11 @@ export default {
             wheelAccumY: 0,
             wheelLastTime: 0,
             // Tunable thresholds
-            // Balanced defaults (tablet + desktop testing)
-            swipeMinDistance: 50,
-            swipeMaxDuration: 400,
-            wheelThreshold: 40,
-            wheelVertLeak: 18,
+            // Gesture thresholds (relaxed for reliability on mobile/tablets)
+            swipeMinDistance: 35,
+            swipeMaxDuration: 600,
+            wheelThreshold: 35,
+            wheelVertLeak: 30,
             wheelResetMs: 160,
             // Debounce multiple triggers
             gestureCooldownMs: 300,
@@ -1094,7 +1125,9 @@ export default {
             isCoarsePointer: false,
             allowGestures: true,
             _coarseMql: null,
-            activeTab: 'home'
+            activeTab: 'home',
+            // UI: swipe tip visibility (mobile/tablet only)
+            showSwipeTip: true
         };
     },
     computed: {
@@ -1125,6 +1158,10 @@ export default {
         
         handleDarkModeChange(isDarkMode) {
             this.isDarkMode = isDarkMode;
+        },
+        dismissSwipeTip() {
+            this.showSwipeTip = false;
+            try { localStorage.setItem('swipeTipDismissed','1'); } catch(_) {}
         },
         // Handle keyboard navigation for ayat
         onKeydown(e) {
@@ -1658,7 +1695,7 @@ export default {
             this.touchEndY = touch.screenY;
         },
         handleTouchEnd(event) {
-            if (!this.allowGestures) return;
+            if (!this.allowGestures) { console.log('[Swipe] touchend ignored (gestures disabled)'); return; }
             const touchEndTime = Date.now();
             const timeDiff = touchEndTime - this.touchStartTime;
             const deltaX = (this.touchEndX || this.touchStartX) - this.touchStartX;
@@ -1799,8 +1836,11 @@ export default {
                 }
                 this._coarseMql = this._coarseMql || w.matchMedia('(pointer: coarse)');
                 this.isCoarsePointer = !!this._coarseMql.matches;
-                this.allowGestures = this.isCoarsePointer; // enable on tablets/phones only
-                console.log('[Swipe] modality gate', { isCoarsePointer: this.isCoarsePointer, allowGestures: this.allowGestures });
+                const ua = (typeof navigator !== 'undefined' && navigator.userAgent) ? navigator.userAgent : '';
+                const iOSoriPadOS = /iPad|iPhone|iPod/.test(ua) || (typeof navigator !== 'undefined' && navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                const smallOrTabletWidth = (w.innerWidth || 0) <= 1200; // includes tablets and most laptops in tablet mode
+                this.allowGestures = this.isCoarsePointer || iOSoriPadOS || smallOrTabletWidth;
+                console.log('[Swipe] modality gate', { isCoarsePointer: this.isCoarsePointer, iOSoriPadOS, smallOrTabletWidth, allowGestures: this.allowGestures });
             } catch (_) {
                 this.isCoarsePointer = false;
                 this.allowGestures = false;
@@ -2018,6 +2058,8 @@ export default {
     mounted() {
         // One-time debug: show current gesture thresholds
         try {
+            // Ensure gesture gating is evaluated at mount
+            this.updateInputModalityGestureGate && this.updateInputModalityGestureGate();
             console.log('[Swipe] thresholds', {
                 swipeMinDistance: this.swipeMinDistance,
                 swipeMaxDuration: this.swipeMaxDuration,
@@ -2090,7 +2132,25 @@ export default {
 
 <style scoped src="./css/styles.css">
 </style>
-        if (typeof document !== 'undefined' && this._onTabShown) {
-            document.removeEventListener('shown.bs.tab', this._onTabShown);
-            this._onTabShown = null;
-        }
+<style scoped>
+.swipe-tip {
+  background-color: #e7f1ff; /* light blue */
+  border: 1px solid #b6d4fe; /* blue border */
+  color: #0a58ca; /* primary blue text */
+  border-radius: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.swipe-tip .icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #0a58ca;
+  color: #fff;
+  font-size: 12px;
+}
+</style>
