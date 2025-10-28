@@ -6,9 +6,15 @@
         Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for
         finding Islamic dates for events, holidays, or just learning more about the calendars!
       </p>
-      <div class="alert alert-info text-center mb-3 container-fluid">
-        <b>Did you know?</b> The Islamic calendar is about 10-12 days shorter than the Gregorian calendar each year, so
-        Islamic months move through the seasons!
+      <div v-if="showDidYouKnow" class="alert alert-info alert-islamic text-center mb-3 w-auto mx-auto px-3" role="alert" aria-live="polite">
+        <div class="alert-inner">
+          <span class="alert-icon" aria-hidden="true">☪️</span>
+          <div class="alert-content">
+            <strong>Did you know?</strong> The Islamic calendar is about 10–12 days shorter than the Gregorian calendar each year, so
+            Islamic months move through the seasons!
+          </div>
+        </div>
+        <button type="button" class="btn-close alert-close" aria-label="Close notice" @click="showDidYouKnow = false"></button>
       </div>
       <div class="row justify-content-center">
         <div class="col-12 col-md-12 col-lg-10">
@@ -162,6 +168,7 @@ export default {
     const currentGregorianYear = currentDate.getFullYear();
     return {
       hover: false,
+      showDidYouKnow: true,
       sourceCalendar: 'gregorian',
       targetCalendar: 'hijri',
       day: currentDate.getDate(),
@@ -479,9 +486,64 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 167, 146, 0.08);
 }
 
+/* Custom Islamic info alert */
+.alert-islamic {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* keep content centered */
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.5rem;
+  border-left: 6px solid var(--alert-islamic-accent, #0dcaf0);
+  background-color: var(--alert-islamic-bg, #e9f7fb);
+  color: var(--alert-islamic-fg, #055160);
+  box-shadow: 0 2px 12px var(--alert-islamic-shadow, rgba(13, 202, 240, 0.12));
+  width: auto;
+  max-width: calc(100% - 2rem); /* add breathing room on phones */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Breakpoint-based widths to mimic Bootstrap container sizes */
+@media (min-width: 576px) {
+  .alert-islamic { max-width: 540px; }
+}
+@media (min-width: 768px) {
+  .alert-islamic { max-width: 720px; }
+}
+@media (min-width: 992px) {
+  .alert-islamic { max-width: 840px; }
+}
+
+.alert-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.alert-islamic .alert-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.alert-islamic .alert-content {
+  font-size: 0.95rem;
+}
+
+.alert-islamic .alert-close {
+  position: static; /* inline with content */
+  margin-left: 0.5rem;
+  opacity: 0.7;
+}
+.alert-islamic .alert-close:hover { opacity: 0.95; }
+
 @media (max-width: 768px) {
   .result-card {
     padding: 1.2rem 0.2rem !important;
+  }
+  .alert-islamic .alert-content {
+    font-size: 0.92rem;
   }
 }
 @media (max-width: 600px) {
