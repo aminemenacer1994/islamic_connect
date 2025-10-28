@@ -35,41 +35,75 @@
 
         <!-- Combined Controls and Info Row -->
         <div class="d-flex justify-content-center align-items-center gap-2 gap-sm-4 mb-3 mb-md-4 flex-wrap">
-          <!-- Time Estimates -->
-          <div class="d-flex gap-2 gap-sm-4 text-center">
-            <span class="small">
-              <i class="bi bi-book me-1"></i>
-              <strong>Read:</strong> {{ readTime }}m
-            </span>
-            <span class="small">
-              <i class="bi bi-headphones me-1"></i>
-              <strong>Listen:</strong> {{ listenTime }}m
-            </span>
-            <span class="small">
-              <i class="bi bi-file-earmark-word me-1"></i>
-              <strong>Words:</strong> {{ wordCount }}
-            </span>
+          
+
+          <!-- Quick Actions -->
+          <div class="d-flex align-items-center gap-2 ms-sm-3 mt-2 mt-sm-0 quick-actions shadow-sm" role="toolbar" aria-label="Text and share actions">
+            <!-- AI Summary Button -->
+          <button class="btn btn-sm btn-outline-dark" @click="summarizeEvent" :disabled="summaryLoading" :aria-busy="summaryLoading ? 'true' : 'false'">
+            <i class="bi" :class="summaryLoading ? 'bi-hourglass-split' : 'bi-robot'"></i>
+            <span class="ms-1 ms-sm-2">{{ summaryLoading ? 'Generating...' : 'AI Summary' }}</span>
+          </button>
+            <button class="btn btn-sm btn-outline-dark" @click="decFont" title="Decrease font size" aria-label="Decrease font size">
+              <span class="fw-semibold">A−</span>
+              <span class="d-none d-md-inline ms-1">Smaller</span>
+            </button>
+            <button class="btn btn-sm btn-outline-dark" @click="incFont" title="Increase font size" aria-label="Increase font size">
+              <span class="fw-semibold">A+</span>
+              <span class="d-none d-md-inline ms-1">Larger</span>
+            </button>
+            <span class="qa-sep d-none d-sm-inline" aria-hidden="true"></span>
+            <button class="btn btn-sm btn-outline-success" @click="shareOnWhatsApp" title="Share on WhatsApp" aria-label="Share on WhatsApp">
+              <i class="bi bi-whatsapp"></i>
+              <span class="d-none d-md-inline ms-1">WhatsApp</span>
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" @click="copyToClipboard" title="Copy text" aria-label="Copy text">
+              <i class="bi bi-clipboard"></i>
+              <span class="d-none d-md-inline ms-1">Copy</span>
+            </button>
+            <button class="btn btn-sm btn-outline-primary" @click="printEvent" title="Print" aria-label="Print">
+              <i class="bi bi-printer"></i>
+              <span class="d-none d-md-inline ms-1">Print</span>
+            </button>
+            <button class="btn btn-sm btn-outline-danger" @click="downloadPdf" title="Download PDF" aria-label="Download PDF">
+              <i class="bi bi-file-earmark-pdf"></i>
+              <span class="d-none d-md-inline ms-1">PDF</span>
+            </button>
           </div>
         </div>
 
         <!-- AI Summary and Play Button Row -->
         <div class="d-flex justify-content-center align-items-center gap-3 gap-md-4 mb-3 mb-md-4">
-          <!-- AI Summary Button -->
-          <button class="btn btn-sm btn-outline-dark" @click="summarizeEvent" :disabled="summaryLoading" :aria-busy="summaryLoading ? 'true' : 'false'">
-            <i class="bi" :class="summaryLoading ? 'bi-hourglass-split' : 'bi-robot'"></i>
-            <span class="ms-1 ms-sm-2">{{ summaryLoading ? 'Generating...' : 'AI Summary' }}</span>
-          </button>
-
-          <!-- Play Button -->
+          
+          <!-- Time Estimates -->
+          <div class="d-flex gap-2 gap-sm-4 text-center">
+            <span class="medium mt-2">
+              <i class="bi bi-book me-1"></i>
+              <strong>Read:</strong> {{ readTime }}m
+            </span>
+            <span class="medium mt-2">
+              <i class="bi bi-headphones me-1"></i>
+              <strong>Listen:</strong> {{ listenTime }}m
+            </span>
+            <span class="medium mt-2">
+              <i class="bi bi-file-earmark-word me-1"></i>
+              <strong>Words:</strong> {{ wordCount }}
+            </span>
+            <!-- Play Button -->
           <div class="text-center">
             <button
-              class="btn p-0"
+              class="btn p-0 play-toggle"
+              :class="{ playing: isAudioPlaying[currentIndex] }"
               :aria-label="isAudioPlaying[currentIndex] ? 'Pause audio' : 'Play audio'"
+              :aria-pressed="isAudioPlaying[currentIndex] ? 'true' : 'false'"
               @click="toggleAudioPlayer(currentIndex)"
+              @keydown.enter.prevent="toggleAudioPlayer(currentIndex)"
+              @keydown.space.prevent="toggleAudioPlayer(currentIndex)"
               :title="isAudioPlaying[currentIndex] ? 'Pause' : 'Play'"
             >
-              <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="font-size: 1.75rem;"></i>
+              <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="font-size: 1.9rem;"></i>
             </button>
+          </div>
           </div>
         </div>
 
@@ -256,6 +290,7 @@
 </template>
 
 <script>
+import { jsPDF } from 'jspdf';
 import { events } from './prophet_events.json';
 
 export default {
@@ -771,12 +806,315 @@ export default {
     decreaseFontSize() {
       if (this.tempFontSize > 1) this.tempFontSize -= 1;
     },
+    // Quick action font size controls (kept in sync with offcanvas values)
+    incFont() {
+      const next = (this.fontSize || 16) + 1;
+      this.fontSize = next;
+      this.tempFontSize = next;
+    },
+    decFont() {
+      const next = Math.max(1, (this.fontSize || 16) - 1);
+      this.fontSize = next;
+      this.tempFontSize = next;
+    },
     submitFontSize() {
       this.fontSize = this.tempFontSize;
       this.showSuccess = true;
       setTimeout(() => {
         this.showSuccess = false;
       }, 2000);
+    },
+    buildPrintHtml(title, html) {
+      const styles = `
+        <style>
+          html, body { height: 100%; }
+          body { margin: 24px; background: #fff; font-family: ${this.fontSettings.fontFamily}; }
+          h1 { margin: 0 0 16px; font-size: 22px; }
+          .content {
+            line-height: 1.7em;
+            background-color: ${this.fontSettings.backgroundColor};
+            color: ${this.fontSettings.color};
+            font-style: ${this.fontSettings.fontStyle};
+            text-shadow: ${this.fontSettings.textShadow};
+            text-decoration: ${this.fontSettings.textDecoration};
+            padding: 12px;
+            font-size: ${Math.max(14, this.fontSize)}px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+          }
+          @media print { body { margin: 0; } }
+        </style>
+      `;
+      const safeTitle = title || 'Event';
+      // Exclude title/header for print/PDF per request
+      return `<!doctype html><html><head><meta charset="utf-8"><title>${safeTitle}</title>${styles}</head><body><div class="content">${html || ''}</div></body></html>`;
+    },
+    printEvent() {
+      try {
+        const ev = this.events[this.currentIndex] || {};
+        const title = (ev.title || '').trim();
+        const html = ev.description || '';
+        const docHtml = this.buildPrintHtml(title, html);
+
+        // Use hidden iframe so no blob: URL is shown
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'fixed';
+        iframe.style.right = '0';
+        iframe.style.bottom = '0';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.border = '0';
+        document.body.appendChild(iframe);
+        const idoc = iframe.contentWindow || iframe.contentDocument;
+        const doc = idoc.document || idoc;
+        doc.open();
+        doc.write(docHtml);
+        doc.close();
+        setTimeout(() => {
+          try { idoc.focus(); idoc.print(); } catch (_) {}
+          setTimeout(() => { try { document.body.removeChild(iframe); } catch (_) {} }, 1000);
+        }, 400);
+      } catch (_) { /* no-op */ }
+    },
+    async downloadPdf() {
+      try {
+        const ev = this.events[this.currentIndex] || {};
+        const title = (ev.title || '').trim() || 'Event';
+        const rawHtml = ev.description || '';
+        const blocks = this.buildPdfBlocks(rawHtml);
+
+        // Create a plain-text PDF (more reliable across browsers)
+        const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+        // Attempt to embed Unicode-friendly fonts if available in /public/fonts
+        const fonts = await this.embedPdfFonts(doc);
+        const fontBody = fonts?.body || { family: 'Times', style: 'normal' };
+        const fontHeading = fonts?.heading || { family: fontBody.family, style: 'bold' };
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const margin = 56; // pt, wider margins for readability
+        // Header (site name left, date right)
+        // Remove header and title in PDF as requested
+        let y = margin;
+
+        // Exclude document title from PDF export
+
+        // Meta line
+        const meta = `Words: ${this.wordCount}  •  Read: ${this.readTime}m  •  Listen: ${this.listenTime}m`;
+        doc.setFont(fontBody.family, fontBody.style || 'normal');
+        doc.setFontSize(10);
+        const metaLines = doc.splitTextToSize(meta, pageWidth - margin * 2);
+        doc.text(metaLines, margin, y);
+        y += (metaLines.length * 12) + 16;
+
+        // Body with basic formatting (headings, bullets, paragraphs)
+        const px = Math.max(16, this.fontSize);
+        const bodyPt = Math.max(12, Math.round(px * 0.75)); // px → pt
+        const paraLH = Math.round(bodyPt * 1.7);
+        const bulletIndent = 18; // indent for bullets
+        const firstLineIndent = 12; // indent first line of paragraph
+        blocks.forEach((blk) => {
+          if (!blk.text) { y += 8; return; }
+          let font = fontBody.family;
+          let style = 'normal';
+          let size = bodyPt;
+          let prefix = '';
+          let x = margin;
+          if (blk.type === 'heading') {
+            style = 'bold';
+            size = Math.max(bodyPt + 3, 13);
+          } else if (blk.type === 'bullet') {
+            prefix = blk.num ? `${blk.num}. ` : '• ';
+            x = margin + bulletIndent;
+          }
+          doc.setFont(font, style);
+          doc.setFontSize(size);
+          const maxWidth = pageWidth - margin * 2 - (x - margin);
+          const text = prefix + this.sanitizeForPdf(blk.text);
+          const lines = doc.splitTextToSize(text, maxWidth);
+          const lh = blk.type === 'heading' ? Math.round(size * 1.6) : paraLH;
+          if (blk.type === 'paragraph') {
+            // justified paragraph with first-line indent
+            const indentX = x + firstLineIndent;
+            const result = this.drawJustifiedParagraph(doc, lines, indentX, x, y, maxWidth, lh, pageHeight, margin);
+            y = result.y;
+          } else {
+            lines.forEach((ln) => {
+              if (y + lh > pageHeight - margin) { doc.addPage(); y = margin; }
+              doc.text(ln, x, y);
+              y += lh;
+            });
+          }
+          y += blk.type === 'heading' ? 8 : 10; // block spacing
+        });
+        // Add page numbers footer
+        this.addPdfPageNumbers(doc, margin);
+
+        doc.save(`${title}.pdf`);
+      } catch (e) {
+        console.error(e);
+        this.printEvent();
+      }
+    },
+    buildPdfBlocks(rawHtml) {
+      // Very light HTML → blocks: headings, bullets, paragraphs
+      const container = document.createElement('div');
+      container.innerHTML = rawHtml || '';
+      const blocks = [];
+      const pushParagraph = (text) => {
+        const t = (text || '').replace(/\s+/g, ' ').trim();
+        if (t) blocks.push({ type: 'paragraph', text: t });
+      };
+      const walk = (node) => {
+        if (!node) return;
+        const nodeName = (node.nodeName || '').toLowerCase();
+        // Ignore stray text nodes at root level to avoid fragmentation
+        if (nodeName.match(/^h[1-6]$/)) {
+          blocks.push({ type: 'heading', text: (node.textContent || '').trim() });
+          return;
+        }
+        if (nodeName === 'ul' || nodeName === 'ol') {
+          let num = 1;
+          Array.from(node.children || []).forEach((li) => {
+            if (li.nodeName.toLowerCase() === 'li') {
+              const t = (li.textContent || '').replace(/\s+/g, ' ').trim();
+              if (t) blocks.push({ type: 'bullet', text: t, num: nodeName === 'ol' ? num++ : null });
+            }
+          });
+          return;
+        }
+        if (nodeName === 'br') {
+          blocks.push({ type: 'paragraph', text: '' });
+          return;
+        }
+        if (nodeName === 'p' || nodeName === 'div' || nodeName === 'section' || nodeName === 'article') {
+          let t = (node.textContent || '')
+            .replace(/\s+/g, ' ')
+            .replace(/\s*\n\s*/g, ' ')
+            .trim();
+          if (t) {
+            // If paragraph contains multiple hyphen-led items, convert to bullets
+            const hyphenItems = t.match(/(?:^|\s)[-–—]\s+[^-–—].+?(?=(?:\s[-–—]\s)|$)/g);
+            const numberedItems = t.match(/(?:^|\s)(\d+)\.\s+.+?(?=(?:\s\d+\.)|$)/g);
+            if (hyphenItems && hyphenItems.length >= 3) {
+              hyphenItems.forEach(item => {
+                const txt = item.replace(/^\s*[-–—]\s+/, '').trim();
+                if (txt) blocks.push({ type: 'bullet', text: txt });
+              });
+            } else if (numberedItems && numberedItems.length >= 3) {
+              let n = 1;
+              numberedItems.forEach(item => {
+                const txt = item.replace(/^\s*\d+\.\s+/, '').trim();
+                if (txt) blocks.push({ type: 'bullet', text: txt, num: n++ });
+              });
+            } else {
+              blocks.push({ type: 'paragraph', text: t });
+            }
+          }
+          return;
+        }
+        Array.from(node.childNodes || []).forEach(walk);
+      };
+      Array.from(container.childNodes || []).forEach(walk);
+      const plain = (this.stripHtml(rawHtml || '') || '').replace(/\s+/g, ' ').trim();
+      if (!blocks.length && plain) {
+        blocks.push({ type: 'paragraph', text: plain });
+      } else {
+        // Fallback: if extracted text is much shorter than plain text, use plain
+        const extracted = blocks.map(b => b.text).join(' ').length;
+        if (plain && extracted < plain.length * 0.5) {
+          return [{ type: 'paragraph', text: plain }];
+        }
+      }
+      return blocks;
+    },
+    drawJustifiedParagraph(doc, lines, indentX, baseX, startY, maxWidth, lineHeight, pageHeight, margin) {
+      let y = startY;
+      const spaceWidth = doc.getTextWidth(' ');
+      lines.forEach((line, idx) => {
+        if (y + lineHeight > pageHeight - margin) {
+          doc.addPage();
+          // No header; continue content at top margin
+          y = margin;
+        }
+        // Last line or very short line: left align
+        if (idx === lines.length - 1 || line.length < 20) {
+          doc.text(line, idx === 0 ? indentX : baseX, y);
+          y += lineHeight;
+          return;
+        }
+        const words = line.split(/\s+/).filter(Boolean);
+        if (words.length <= 2) {
+          doc.text(line, idx === 0 ? indentX : baseX, y);
+          y += lineHeight;
+          return;
+        }
+        const textWidth = words.reduce((acc, w, i) => acc + doc.getTextWidth(w) + (i ? spaceWidth : 0), 0);
+        const extra = (maxWidth - textWidth) / (words.length - 1);
+        let x = idx === 0 ? indentX : baseX;
+        words.forEach((w, i) => {
+          doc.text(w, x, y);
+          if (i < words.length - 1) x += doc.getTextWidth(w) + spaceWidth + Math.max(0, extra);
+        });
+        y += lineHeight;
+      });
+      return { y };
+    },
+    async embedPdfFonts(doc) {
+      const tryAdd = async (url, vfsName, family, style) => {
+        try {
+          const res = await fetch(url, { cache: 'no-cache' });
+          if (!res.ok) return false;
+          const buf = await res.arrayBuffer();
+          const b64 = this._arrayBufferToBase64(buf);
+          doc.addFileToVFS(vfsName, b64);
+          doc.addFont(vfsName, family, style);
+          return true;
+        } catch (_) { return false; }
+      };
+      const okRegular = await tryAdd('/fonts/NotoSans-Regular.ttf', 'NotoSans-Regular.ttf', 'NotoSans', 'normal');
+      const okBold = await tryAdd('/fonts/NotoSans-Bold.ttf', 'NotoSans-Bold.ttf', 'NotoSans', 'bold');
+      if (okRegular) {
+        const body = { family: 'NotoSans', style: 'normal' };
+        const heading = { family: 'NotoSans', style: okBold ? 'bold' : 'normal' };
+        return { body, heading };
+      }
+      return null;
+    },
+    _arrayBufferToBase64(buffer) {
+      let binary = '';
+      const bytes = new Uint8Array(buffer);
+      const chunk = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunk) {
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+      }
+      return btoa(binary);
+    },
+    addPdfPageNumbers(doc, margin = 40) {
+      const pageCount = doc.getNumberOfPages();
+      const width = doc.internal.pageSize.getWidth();
+      const height = doc.internal.pageSize.getHeight();
+      doc.setFontSize(9);
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        const label = `${i} / ${pageCount}`;
+        doc.text(label, width - margin, height - Math.max(18, Math.round(9 * 1.4)), { align: 'right' });
+      }
+    },
+    sanitizeForPdf(text) {
+      if (!text) return '';
+      let t = String(text)
+        .replace(/\u00A0/g, ' ') // nbsp
+        .replace(/[“”]/g, '"')
+        .replace(/[‘’]/g, "'")
+        .replace(/[‐‑–—]/g, '-') // hyphen, non-breaking hyphen, en/em dash
+        .replace(/…/g, '...')
+        .replace(/\u200B|\u200E|\u200F/g, ''); // zero-width/RTL marks
+      // Replace common Islamic marks with ASCII form
+      t = t.replace(/[ﷺؐﷻ]+/g, '(PBUH)');
+      // Strip combining diacritics
+      try { t = t.normalize('NFD').replace(/\p{Diacritic}+/gu, ''); } catch (_) {}
+      // Collapse spaces
+      return t.replace(/\s{2,}/g, ' ').trim();
     },
     filterEvents() {
       if (this._filterTimer) clearTimeout(this._filterTimer);
@@ -1067,6 +1405,22 @@ export default {
   height: 100%;
   background: #0db691;
   transition: width 0.3s ease;
+}
+
+/* Interactive play button */
+.play-toggle {
+  transition: transform 120ms ease, filter 160ms ease;
+  outline: none;
+}
+.play-toggle:hover { transform: scale(1.06); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+.play-toggle:active { transform: scale(0.98); }
+.play-toggle:focus-visible { box-shadow: 0 0 0 0.2rem rgba(13,182,145,0.35); border-radius: 999px; }
+.play-toggle.playing i { animation: playPulse 1.8s ease-in-out infinite; color: #0db691; }
+
+@keyframes playPulse {
+  0% { text-shadow: 0 0 0 rgba(13,182,145,0.0); }
+  50% { text-shadow: 0 0 12px rgba(13,182,145,0.6); }
+  100% { text-shadow: 0 0 0 rgba(13,182,145,0.0); }
 }
 
 .event-box {
@@ -1581,6 +1935,38 @@ mark {
 /* Prevent overlap of fixed audio player with page content */
 .pb-audio-gap {
   padding-bottom: 120px; /* reserve space for fixed player height */
+}
+
+/* Quick actions spacing and divider */
+.quick-actions {
+  gap: 6px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 999px;
+  padding: 4px 8px;
+}
+@media (min-width: 576px) {
+  .quick-actions {
+    margin-left: 1rem !important;
+    padding-left: 0.5rem;
+  }
+}
+@media (max-width: 575.98px) {
+  .quick-actions {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 0.25rem !important;
+  }
+}
+
+.qa-sep {
+  width: 1px;
+  height: 20px;
+  background: #e9ecef;
+  margin: 0 4px;
+  display: inline-block;
+  border-radius: 1px;
 }
 </style>
 

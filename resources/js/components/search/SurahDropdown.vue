@@ -1,9 +1,8 @@
 <template>
     <div class="surah-dropdown">
         <select
-            class="form-control custom-dropdown card"
+            class="form-control custom-dropdown card select-shadow"
             aria-label="Select a Surah"
-            style=" border-radius: 8px;"
             :value="selectedSurahLocal"
             @change="handleChange"
         >

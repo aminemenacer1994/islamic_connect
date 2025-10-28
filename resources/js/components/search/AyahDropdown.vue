@@ -1,8 +1,7 @@
 <template>
   <div class="container-fluid">
     <select
-      class="form-control right-side-form card container"
-      style="border-radius: 8px;"
+      class="form-control right-side-form card container select-shadow"
       v-model="selectedAyahId"
       @change="handleAyahChange"
       :disabled="isLoading"
