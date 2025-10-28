@@ -6841,13 +6841,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
         // Exclude document title from PDF export
 
-        // Meta line
-        const meta = `Words: ${this.wordCount}  •  Read: ${this.readTime}m  •  Listen: ${this.listenTime}m`;
-        doc.setFont(fontBody.family, fontBody.style || 'normal');
-        doc.setFontSize(10);
-        const metaLines = doc.splitTextToSize(meta, pageWidth - margin * 2);
-        doc.text(metaLines, margin, y);
-        y += metaLines.length * 12 + 16;
+        // Meta line removed programmatically
 
         // Body with basic formatting (headings, bullets, paragraphs)
         const px = Math.max(16, this.fontSize);
@@ -6984,15 +6978,81 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       };
       Array.from(container.childNodes || []).forEach(walk);
       const plain = (this.stripHtml(rawHtml || '') || '').replace(/\s+/g, ' ').trim();
+      const pushNumberedFromPlain = txt => {
+        // Build numbered items from inline "1. ... 2. ..." pattern
+        const re = /(\d+)\.\s+/g;
+        const items = [];
+        let lastIndex = 0;
+        let m;
+        let order = [];
+        while ((m = re.exec(txt)) !== null) {
+          order.push({
+            n: parseInt(m[1], 10),
+            i: m.index
+          });
+        }
+        if (order.length >= 2) {
+          for (let k = 0; k < order.length; k++) {
+            const start = order[k].i + (order[k].n.toString().length + 2); // skip "N. "
+            const end = k + 1 < order.length ? order[k + 1].i : txt.length;
+            const slice = txt.slice(start, end).trim();
+            if (slice) items.push({
+              type: 'bullet',
+              num: k + 1,
+              text: slice
+            });
+          }
+        }
+        return items;
+      };
+      const pushBulletsFromPlain = txt => {
+        // Build bullets from repeated hyphen markers
+        const parts = txt.split(/(?:^|\s)[\-–—]\s+/).map(s => s.trim()).filter(Boolean);
+        if (parts.length >= 2) {
+          return parts.map(t => ({
+            type: 'bullet',
+            text: t
+          }));
+        }
+        return [];
+      };
+      const chunkSentences = txt => {
+        const sents = txt.split(/(?<=[.!?])\s+(?=[A-Z0-9"“'])/).map(s => s.trim()).filter(Boolean);
+        if (!sents.length) return [];
+        const out = [];
+        const group = 3; // 2-3 sentences per paragraph
+        for (let i = 0; i < sents.length; i += group) {
+          out.push({
+            type: 'paragraph',
+            text: sents.slice(i, i + group).join(' ')
+          });
+        }
+        return out;
+      };
       if (!blocks.length && plain) {
-        blocks.push({
+        // Try numbered items first
+        let built = pushNumberedFromPlain(plain);
+        if (built.length >= 2) return built;
+        // Try bullet items
+        built = pushBulletsFromPlain(plain);
+        if (built.length >= 2) return built;
+        // Otherwise chunk by sentences into paragraphs
+        built = chunkSentences(plain);
+        if (built.length) return built;
+        return [{
           type: 'paragraph',
           text: plain
-        });
+        }];
       } else {
-        // Fallback: if extracted text is much shorter than plain text, use plain
+        // If extracted content is far shorter than plain, regenerate using sentence chunking
         const extracted = blocks.map(b => b.text).join(' ').length;
         if (plain && extracted < plain.length * 0.5) {
+          let built = pushNumberedFromPlain(plain);
+          if (built.length >= 2) return built;
+          built = pushBulletsFromPlain(plain);
+          if (built.length >= 2) return built;
+          built = chunkSentences(plain);
+          if (built.length) return built;
           return [{
             type: 'paragraph',
             text: plain
