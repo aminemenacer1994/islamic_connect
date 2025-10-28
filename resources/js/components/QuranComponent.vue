@@ -503,7 +503,7 @@
                                                         @click="goToLastAyah()" title="End verse"></i>
                                                 </div>
                                                 <!-- Mobile/Tablet tip: swipe between verses -->
-                                                <div v-if="showSwipeTip" class="swipe-tip alert py-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none" role="alert">
+                                                <div v-if="showSwipeTip" class="swipe-tip alert py-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none" role="alert">
                                                     <div class="d-flex align-items-center overflow-hidden">
                                                         <span class="text-truncate">Swipe left or right to change verses</span>
                                                     </div>

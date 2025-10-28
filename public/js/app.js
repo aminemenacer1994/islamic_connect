@@ -36069,7 +36069,7 @@ const _hoisted_62 = {
 };
 const _hoisted_63 = {
   key: 0,
-  class: "swipe-tip alert py-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none",
+  class: "swipe-tip alert py-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none",
   role: "alert"
 };
 const _hoisted_64 = {
