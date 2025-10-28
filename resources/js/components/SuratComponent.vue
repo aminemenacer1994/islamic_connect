@@ -134,15 +134,15 @@
                 </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
+                <button class="icon-btn" @click="rewindAudio(item.index)" aria-label="Rewind 15 seconds" title="Rewind">
+                  <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.7rem;" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="col-2 text-center" style="padding: 3px;">
                 <button class="icon-btn" @click="toggleAudioPlayer(item.index)"
                         :aria-label="isAudioPlaying[item.index] ? 'Pause ayah ' + (item.index + 1) : 'Play ayah ' + (item.index + 1)"
                         :title="isAudioPlaying[item.index] ? 'Pause' : 'Play'">
                   <i class="bi" :class="isAudioPlaying[item.index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="font-size: 1.7rem;" aria-hidden="true"></i>
-                </button>
-              </div>
-              <div class="col-2 text-center" style="padding: 3px;">
-                <button class="icon-btn" @click="rewindAudio(item.index)" aria-label="Rewind 15 seconds" title="Rewind">
-                  <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.7rem;" aria-hidden="true"></i>
                 </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
