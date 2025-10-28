@@ -10007,9 +10007,21 @@ __webpack_require__.r(__webpack_exports__);
     handleTouchMove(event) {
       if (!this.allowGestures) return;
       const touch = event.changedTouches ? event.changedTouches[0] : event;
-      if (this.isInteractiveTarget(event.target)) return;
-      this.touchEndX = touch.screenX;
-      this.touchEndY = touch.screenY;
+      // Allow form controls to operate normally; otherwise enable swipe
+      const tag = event.target && event.target.tagName ? event.target.tagName.toLowerCase() : '';
+      const isFormControl = ['input', 'textarea', 'select', 'button'].includes(tag) || event.target && event.target.isContentEditable;
+      if (isFormControl) return;
+      const cx = typeof touch.clientX === 'number' ? touch.clientX : touch.screenX;
+      const cy = typeof touch.clientY === 'number' ? touch.clientY : touch.screenY;
+      this.touchEndX = cx;
+      this.touchEndY = cy;
+
+      // Horizontal-intent guard: once clearly horizontal, prevent page scroll (Safari requires non-passive)
+      const dx = Math.abs((this.touchEndX || this.touchStartX) - this.touchStartX);
+      const dy = Math.abs((this.touchEndY || this.touchStartY) - this.touchStartY);
+      if (dx > 10 && dx > dy && event.cancelable) {
+        event.preventDefault();
+      }
     },
     handleTouchEnd(event) {
       if (!this.allowGestures) {
@@ -10173,26 +10185,32 @@ __webpack_require__.r(__webpack_exports__);
     // Detect whether device uses coarse pointer (touch/tablet) and gate gestures
     updateInputModalityGestureGate() {
       try {
-        const w = typeof globalThis !== 'undefined' && globalThis.window ? globalThis.window : typeof window !== 'undefined' ? window : null;
-        if (!w || !w.matchMedia) {
-          this.isCoarsePointer = false;
+        const w = typeof window !== 'undefined' ? window : null;
+        const n = typeof navigator !== 'undefined' ? navigator : null;
+        if (!w) {
           this.allowGestures = false;
           return;
         }
-        this._coarseMql = this._coarseMql || w.matchMedia('(pointer: coarse)');
-        this.isCoarsePointer = !!this._coarseMql.matches;
-        const ua = typeof navigator !== 'undefined' && navigator.userAgent ? navigator.userAgent : '';
-        const iOSoriPadOS = /iPad|iPhone|iPod/.test(ua) || typeof navigator !== 'undefined' && navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
-        const smallOrTabletWidth = (w.innerWidth || 0) <= 1200; // includes tablets and most laptops in tablet mode
-        this.allowGestures = this.isCoarsePointer || iOSoriPadOS || smallOrTabletWidth;
+        const hasTouch = 'ontouchstart' in w || n && typeof n.maxTouchPoints === 'number' && n.maxTouchPoints > 0 || n && typeof n.msMaxTouchPoints === 'number' && n.msMaxTouchPoints > 0;
+        const coarseNow = w.matchMedia && (w.matchMedia('(pointer: coarse)').matches || w.matchMedia('(any-pointer: coarse)').matches || w.matchMedia('(hover: none)').matches);
+        const ua = n && n.userAgent ? n.userAgent : '';
+        const iOSoriPadOS = /iPad|iPhone|iPod/.test(ua) || n && n.platform === 'MacIntel' && (n.maxTouchPoints || 0) > 1;
+        const sw = w.screen && w.screen.width ? w.screen.width : w.innerWidth || 0;
+        const sh = w.screen && w.screen.height ? w.screen.height : w.innerHeight || 0;
+        const minDim = Math.min(sw, sh);
+        const maxDim = Math.max(sw, sh);
+        const tabletHeuristic = minDim >= 600 && maxDim <= 1400;
+        this.allowGestures = !!(hasTouch || coarseNow || iOSoriPadOS || tabletHeuristic);
         console.log('[Swipe] modality gate', {
-          isCoarsePointer: this.isCoarsePointer,
+          hasTouch,
+          coarseNow,
           iOSoriPadOS,
-          smallOrTabletWidth,
+          sw,
+          sh,
+          tabletHeuristic,
           allowGestures: this.allowGestures
         });
       } catch (_) {
-        this.isCoarsePointer = false;
         this.allowGestures = false;
       }
     },
@@ -10419,6 +10437,43 @@ __webpack_require__.r(__webpack_exports__);
         console.log('[Swipe] window wheel listener attached (tafseer/translation/transliteration)');
       }
     } catch (_) {}
+
+    // Window-level touch listeners to reliably capture gestures on iPad/tablets
+    try {
+      if (typeof window !== 'undefined') {
+        this._onWindowTouchStart = e => {
+          const areas = [this.$refs.targetTafseerElement, this.$refs.targetTranslationElement, this.$refs.targetTransliterationElement].filter(Boolean);
+          const path = e.composedPath && e.composedPath() || [];
+          if (areas.some(el => path.includes(el) || e.target && el.contains && el.contains(e.target))) {
+            this.handleTouchStart(e);
+          }
+        };
+        this._onWindowTouchMove = e => {
+          const areas = [this.$refs.targetTafseerElement, this.$refs.targetTranslationElement, this.$refs.targetTransliterationElement].filter(Boolean);
+          const path = e.composedPath && e.composedPath() || [];
+          if (areas.some(el => path.includes(el) || e.target && el.contains && el.contains(e.target))) {
+            this.handleTouchMove(e);
+          }
+        };
+        this._onWindowTouchEnd = e => {
+          const areas = [this.$refs.targetTafseerElement, this.$refs.targetTranslationElement, this.$refs.targetTransliterationElement].filter(Boolean);
+          const path = e.composedPath && e.composedPath() || [];
+          if (areas.some(el => path.includes(el) || e.target && el.contains && el.contains(e.target))) {
+            this.handleTouchEnd(e);
+          }
+        };
+        window.addEventListener('touchstart', this._onWindowTouchStart, {
+          passive: true
+        });
+        window.addEventListener('touchmove', this._onWindowTouchMove, {
+          passive: false
+        });
+        window.addEventListener('touchend', this._onWindowTouchEnd, {
+          passive: true
+        });
+        console.log('[Swipe] window touch listeners attached');
+      }
+    } catch (_) {}
   },
   beforeUnmount() {
     if (typeof window !== 'undefined' && this._onWindowWheel) {
@@ -10426,6 +10481,18 @@ __webpack_require__.r(__webpack_exports__);
         passive: true
       });
       this._onWindowWheel = null;
+    }
+    if (typeof window !== 'undefined') {
+      if (this._onWindowTouchStart) window.removeEventListener('touchstart', this._onWindowTouchStart, {
+        passive: true
+      });
+      if (this._onWindowTouchMove) window.removeEventListener('touchmove', this._onWindowTouchMove, {
+        passive: true
+      });
+      if (this._onWindowTouchEnd) window.removeEventListener('touchend', this._onWindowTouchEnd, {
+        passive: true
+      });
+      this._onWindowTouchStart = this._onWindowTouchMove = this._onWindowTouchEnd = null;
     }
   },
   watch: {
@@ -36069,7 +36136,7 @@ const _hoisted_62 = {
 };
 const _hoisted_63 = {
   key: 0,
-  class: "swipe-tip alert py-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none",
+  class: "swipe-tip alert py-2 mb-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none",
   role: "alert"
 };
 const _hoisted_64 = {
@@ -36129,7 +36196,7 @@ const _hoisted_78 = {
 };
 const _hoisted_79 = {
   key: 0,
-  class: "swipe-tip alert py-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none",
+  class: "swipe-tip alert py-2 pb-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none",
   role: "alert"
 };
 const _hoisted_80 = {
@@ -36397,7 +36464,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "pt-2",
     ref: "targetTranslationElement",
     onTouchstart: _cache[29] || (_cache[29] = $event => $options.handleTouchStart($event)),
-    onTouchmovePassive: _cache[30] || (_cache[30] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
+    onTouchmove: _cache[30] || (_cache[30] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
     onTouchend: _cache[31] || (_cache[31] = $event => $options.handleTouchEnd($event)),
     onPointerdownPassive: _cache[32] || (_cache[32] = (...args) => $options.handlePointerDown && $options.handlePointerDown(...args)),
     onPointermovePassive: _cache[33] || (_cache[33] = (...args) => $options.handlePointerMove && $options.handlePointerMove(...args)),
@@ -36576,7 +36643,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "pt-2",
     ref: "targetTafseerElement",
     onTouchstart: _cache[57] || (_cache[57] = $event => $options.handleTouchStart($event)),
-    onTouchmovePassive: _cache[58] || (_cache[58] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
+    onTouchmove: _cache[58] || (_cache[58] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
     onTouchend: _cache[59] || (_cache[59] = $event => $options.handleTouchEnd($event)),
     onPointerdownPassive: _cache[60] || (_cache[60] = (...args) => $options.handlePointerDown && $options.handlePointerDown(...args)),
     onPointermovePassive: _cache[61] || (_cache[61] = (...args) => $options.handlePointerMove && $options.handlePointerMove(...args)),
@@ -36737,7 +36804,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     ref: "targetTransliterationElement",
     onTouchstart: _cache[77] || (_cache[77] = $event => $options.handleTouchStart($event)),
-    onTouchmovePassive: _cache[78] || (_cache[78] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
+    onTouchmove: _cache[78] || (_cache[78] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
     onTouchend: _cache[79] || (_cache[79] = $event => $options.handleTouchEnd($event)),
     onPointerdownPassive: _cache[80] || (_cache[80] = (...args) => $options.handlePointerDown && $options.handlePointerDown(...args)),
     onPointermovePassive: _cache[81] || (_cache[81] = (...args) => $options.handlePointerMove && $options.handlePointerMove(...args)),
