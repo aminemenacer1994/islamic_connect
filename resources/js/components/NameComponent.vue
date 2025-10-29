@@ -11,34 +11,37 @@
 
     <!-- Search & Filters -->
     <div>
-      <div class="row text-center">
-        <!-- Toggle switches (left column) -->
-        <div class="col-12 col-lg-6 mb-3">
-          <div class="d-flex gap-3 justify-content-center p-3 rounded">
-            <div class="form-check form-switch fs-5 text-white">
+      <div class="text-center">
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch text-white m-0">
               <input class="form-check-input custom-success" type="checkbox" id="arabicToggle" v-model="showArabic">
               <label class="form-check-label text-dark" for="arabicToggle"><b>Arabic</b></label>
             </div>
-            <div class="form-check form-switch fs-5 text-white">
+          </div>
+          <div class="col">
+            <div class="form-check form-switch  text-white m-0">
               <input class="form-check-input custom-success" type="checkbox" id="translationToggle"
                 v-model="showTranslation" checked>
               <label class="form-check-label text-dark" for="translationToggle"><b>Meaning</b></label>
             </div>
-            <div class="form-check form-switch fs-5 text-white">
+          </div>
+          <div class="col">
+            <div class="form-check form-switch -5 text-white desc-check m-0">
               <input class="form-check-input custom-success" type="checkbox" id="descToggle" v-model="showDescription"
                 checked>
               <label class="form-check-label text-dark" for="descToggle"><b>Description</b></label>
             </div>
           </div>
         </div>
-
-
-        <!-- Search bar (right column) -->
-        <div class="col-12 col-lg-6 mb-3">
-          <div class="input-group input-group-lg" style="border-radius: 8px;">
-            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search" aria-hidden="true"></i></span>
-            <input type="text" class="form-control border-start-0" placeholder="Search names..." aria-label="Search names"
-              v-model="searchQuery" @input="onSearchInput" />
+        <div class="row container">
+          <div class="col-md-12 mb-3 mt-3">
+            <div class="input-group input-group-lg" style="border-radius: 12px;">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"
+                  aria-hidden="true"></i></span>
+              <input type="text" class="form-control border-start-0" placeholder="Search names..."
+                aria-label="Search names" v-model="searchQuery" @input="onSearchInput" />
+            </div>
           </div>
         </div>
       </div>
@@ -46,16 +49,16 @@
       <!-- Liked Names Section -->
       <div class="mb-5">
         <div class="liked-header d-flex flex-row align-items-center gap-3">
-          <h3 class="fw-bold mb-0 mt-">Liked Allah’s Names <span class="badge badge-teal">{{ favoriteNames.length }}</span>
+          <h3 class="fw-bold mb-0 mt-">Liked Allah’s Names <span class="badge badge-teal">{{ favoriteNames.length
+              }}</span>
           </h3>
           <div class="liked-actions ms-auto ">
             <button class="btn btn-outline-danger me-2" :disabled="favoriteNames.length === 0"
               @click="clearAllFavorites" v-if="favoriteNames.length > 0">
               Unlike All
             </button>
-            <button v-if="favoriteNames.length > 0" class="btn btn-outline-teal" type="button"
-              data-bs-toggle="collapse" data-bs-target="#likedNamesCollapse" :aria-expanded="!isCollapsed"
-              aria-controls="likedNamesCollapse">
+            <button v-if="favoriteNames.length > 0" class="btn btn-outline-teal" type="button" data-bs-toggle="collapse"
+              data-bs-target="#likedNamesCollapse" :aria-expanded="!isCollapsed" aria-controls="likedNamesCollapse">
               <i :class="isCollapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
             </button>
           </div>
@@ -67,7 +70,9 @@
                 <div class="card-body d-flex flex-column">
                   <div class="d-flex justify-content-between align-items-start">
                     <span class="badge bg-secondary fs-6">{{ name.number }}</span>
-                    <button class="btn p-0" type="button" :aria-pressed="isFavorited(name.number) ? 'true' : 'false'" :aria-label="isFavorited(name.number) ? 'Remove from liked' : 'Add to liked'" @click="toggleFavorite(name.number)">
+                    <button class="btn p-0" type="button" :aria-pressed="isFavorited(name.number) ? 'true' : 'false'"
+                      :aria-label="isFavorited(name.number) ? 'Remove from liked' : 'Add to liked'"
+                      @click="toggleFavorite(name.number)">
                       <i class="bi bi-heart-fill text-teal fs-4"></i>
                     </button>
                   </div>
@@ -86,15 +91,17 @@
                   <!-- Button container pushed to the bottom -->
                   <div class="fav-actions d-flex justify-content-between align-items-center gap-2">
                     <!-- Copy to Clipboard Button -->
-                    <button class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1 me-2" aria-label="Copy name to clipboard"
-                      @click="copyToClipboard(name)">
+                    <button
+                      class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1 me-2"
+                      aria-label="Copy name to clipboard" @click="copyToClipboard(name)">
                       <span class="text-center w-100">
                         <b>Copy to Clipboard</b>
                       </span>
                     </button>
                     <!-- WhatsApp Share Button -->
-                    <a class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1" aria-label="Share name on WhatsApp"
-                      :href="generateWhatsAppLink(name)" target="_blank" rel="noopener">
+                    <a class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1"
+                      aria-label="Share name on WhatsApp" :href="generateWhatsAppLink(name)" target="_blank"
+                      rel="noopener">
                       <b>Share on WhatsApp</b>
                     </a>
                   </div>
@@ -114,8 +121,11 @@
             <div class="card-body h-100">
               <div class="d-flex justify-content-between align-items-start">
                 <span class="badge bg-secondary fs-6">{{ name.number }}</span>
-                <button class="btn p-0" type="button" :aria-pressed="isFavorited(name.number) ? 'true' : 'false'" :aria-label="isFavorited(name.number) ? 'Remove from favorites' : 'Add to favorites'" @click="toggleFavorite(name.number)">
-                  <i :class="['bi', isFavorited(name.number) ? 'bi-heart-fill text-teal' : 'bi-heart text-dark', 'fs-4']"></i>
+                <button class="btn p-0" type="button" :aria-pressed="isFavorited(name.number) ? 'true' : 'false'"
+                  :aria-label="isFavorited(name.number) ? 'Remove from favorites' : 'Add to favorites'"
+                  @click="toggleFavorite(name.number)">
+                  <i
+                    :class="['bi', isFavorited(name.number) ? 'bi-heart-fill text-teal' : 'bi-heart text-dark', 'fs-4']"></i>
                 </button>
               </div>
 
@@ -137,8 +147,8 @@
             </div>
             <div class="name-actions d-flex justify-content-between align-items-center gap-2 mb-2">
               <!-- Copy to Clipboard Button -->
-              <button class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1 me-2" aria-label="Copy name to clipboard"
-                @click="copyToClipboard(name)">
+              <button class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1 me-2"
+                aria-label="Copy name to clipboard" @click="copyToClipboard(name)">
                 <span class="text-center w-100">
                   <i class="bi bi-clipboard me-2"></i>
                   <b>Copy</b>
@@ -146,8 +156,8 @@
               </button>
 
               <!-- WhatsApp Share Button -->
-              <a class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1" aria-label="Share name on WhatsApp"
-                :href="generateWhatsAppLink(name)" target="_blank" rel="noopener">
+              <a class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1"
+                aria-label="Share name on WhatsApp" :href="generateWhatsAppLink(name)" target="_blank" rel="noopener">
                 <i class="bi bi-whatsapp me-2"></i>
                 <b>Share</b>
               </a>
@@ -1049,26 +1059,40 @@ export default {
   --teal-dark: #00564c;
 }
 
-.text-teal { color: var(--teal) !important; }
-.badge-teal { background-color: var(--teal); color: #fff; }
+.text-teal {
+  color: var(--teal) !important;
+}
+
+.badge-teal {
+  background-color: var(--teal);
+  color: #fff;
+}
+
 .btn-teal {
   background-color: var(--teal);
   color: #fff;
   border-color: var(--teal);
 }
+
 .btn-teal:hover {
   background-color: var(--teal-dark);
   border-color: var(--teal-dark);
 }
+
 .btn-outline-teal {
   color: var(--teal);
   border-color: var(--teal);
 }
+
 .btn-outline-teal:hover {
   background-color: var(--teal);
   color: #fff;
 }
-.btn-compact { height: 38px; }
+
+.btn-compact {
+  height: 38px;
+}
+
 .card-teal {
   border-radius: 8px;
   border: 1px solid rgba(0, 107, 95, 0.3);
@@ -1076,20 +1100,59 @@ export default {
 }
 
 /* Liked section responsive tweaks */
-.fav-title { font-size: 1.6rem; }
-.fav-arabic { font-size: 2.4rem; }
-.fav-small { font-size: 1.2rem; }
-.fav-actions { padding: 10px; }
+.fav-title {
+  font-size: 1.6rem;
+}
+
+.fav-arabic {
+  font-size: 2.4rem;
+}
+
+.fav-small {
+  font-size: 1.2rem;
+}
+
+.fav-actions {
+  padding: 10px;
+}
 
 @media (max-width: 576px) {
-  .liked-header { gap: 0.5rem; flex-wrap: wrap; }
-  .liked-actions { width: 100%; display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.25rem; }
-  .fav-title { font-size: 1.25rem; }
-  .fav-arabic { font-size: 1.8rem; }
-  .fav-small { font-size: 1rem; }
-  .fav-actions { padding: 6px; flex-direction: column; }
-  .fav-actions .btn { width: 100%; margin-right: 0 !important; }
+  .liked-header {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .liked-actions {
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    margin-top: 0.25rem;
+  }
+
+  .fav-title {
+    font-size: 1.25rem;
+  }
+
+  .fav-arabic {
+    font-size: 1.8rem;
+  }
+
+  .fav-small {
+    font-size: 1rem;
+  }
+
+  .fav-actions {
+    padding: 6px;
+    flex-direction: column;
+  }
+
+  .fav-actions .btn {
+    width: 100%;
+    margin-right: 0 !important;
+  }
 }
+
 .custom-success:checked {
   background-color: #006b5f !important;
   border-color: #006b5f !important;
@@ -1257,18 +1320,53 @@ html {
   font-size: 1rem;
 }
 
-.form-check-label {
-  font-size: 1.2rem;
+/* .form-check-label { font-size: 1.2rem; } */
+
+/* Keep Arabic + Meaning together, minimal padding */
+.toggle-switches-container {
+  padding: 8px;
+  gap: 12px;
+}
+
+.toggle-pair {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  column-gap: 16px;
+  white-space: nowrap;
+}
+
+.toggle-switches-container .form-check {
+  flex: 0 0 auto;
+  margin-bottom: 0;
+  margin-right: 0;
+}
+
+.toggle-switches-container .form-switch {
+  padding-left: 0;
+}
+
+.toggle-switches-container .form-check .form-check-input {
+  margin-right: 8px;
+}
+
+/* Slightly smaller switches on compact screens */
+.form-switch .form-check-input {
+  width: 2.25rem;
+  height: 1.2rem;
+}
+
+.form-switch .form-check-input:checked {
+  background-size: 1.2rem 1.2rem;
+}
+
+.desc-check {
+  flex: 0 0 auto;
 }
 
 @media (max-width: 768px) {
   .toggle-switches-container {
-    padding: 10px;
-  }
-
-  .form-check {
-    flex: 1 1 100%;
-    margin-bottom: 12px;
+    padding: 6px;
   }
 }
 
@@ -1282,17 +1380,51 @@ html {
   }
 }
 
+/* Let Description drop below on narrow screens; keep pair intact */
+@media (max-width: 576px) {
+  .desc-check {
+    flex-basis: 100%;
+  }
+}
+
 /* All names responsive classes */
-.name-title { font-size: 1.6rem; }
-.name-arabic { font-size: 2.4rem; }
-.name-small { font-size: 1.2rem; }
-.name-actions { padding: 10px; }
+.name-title {
+  font-size: 1.6rem;
+}
+
+.name-arabic {
+  font-size: 2.4rem;
+}
+
+.name-small {
+  font-size: 1.2rem;
+}
+
+.name-actions {
+  padding: 10px;
+}
 
 @media (max-width: 576px) {
-  .name-title { font-size: 1.25rem; }
-  .name-arabic { font-size: 1.8rem; }
-  .name-small { font-size: 1rem; }
-  .name-actions { padding: 6px; flex-direction: column; }
-  .name-actions .btn { width: 100%; margin-right: 0 !important; }
+  .name-title {
+    font-size: 1.25rem;
+  }
+
+  .name-arabic {
+    font-size: 1.8rem;
+  }
+
+  .name-small {
+    font-size: 1rem;
+  }
+
+  .name-actions {
+    padding: 6px;
+    flex-direction: column;
+  }
+
+  .name-actions .btn {
+    width: 100%;
+    margin-right: 0 !important;
+  }
 }
 </style>

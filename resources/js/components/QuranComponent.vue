@@ -335,6 +335,7 @@
                                                  @touchstart="handleTouchStart($event)"
                                                  @touchmove="handleTouchMove"
                                                  @touchend="handleTouchEnd($event)"
+                                                 @touchcancel="handleTouchEnd($event)"
                                                  @pointerdown="handlePointerDown"
                                                  @pointermove="handlePointerMove"
                                                  @pointerup="handlePointerUp"
@@ -1682,8 +1683,11 @@ export default {
             if (!this.allowGestures) return;
             const touch = event.changedTouches ? event.changedTouches[0] : event;
             if (this.isInteractiveTarget(event.target)) return;
-            this.touchStartX = touch.screenX;
-            this.touchStartY = touch.screenY;
+            // Use client coordinates consistently across start/move/end
+            const cx = (typeof touch.clientX === 'number') ? touch.clientX : touch.screenX;
+            const cy = (typeof touch.clientY === 'number') ? touch.clientY : touch.screenY;
+            this.touchStartX = cx;
+            this.touchStartY = cy;
             this.touchStartTime = Date.now();
         },
         handleTouchMove(event) {
@@ -1710,8 +1714,10 @@ export default {
             if (!this.allowGestures) { console.log('[Swipe] touchend ignored (gestures disabled)'); return; }
             const touchEndTime = Date.now();
             const timeDiff = touchEndTime - this.touchStartTime;
-            const deltaX = (this.touchEndX || this.touchStartX) - this.touchStartX;
-            const deltaY = (this.touchEndY || this.touchStartY) - this.touchStartY;
+            const endX = (typeof this.touchEndX === 'number') ? this.touchEndX : this.touchStartX;
+            const endY = (typeof this.touchEndY === 'number') ? this.touchEndY : this.touchStartY;
+            const deltaX = endX - this.touchStartX;
+            const deltaY = endY - this.touchStartY;
             const minSwipeDistance = this.swipeMinDistance;
             const maxSwipeDuration = this.swipeMaxDuration;
 
