@@ -41,4 +41,74 @@
   font-display: swap;
 }
 /* Global theme variables (light/dark + high contrast) */
+/* Bootstrap 5.2-compatible soft alert helpers (pastel background, readable text) */
+.alert-soft-success {
+  background-color: #e9f7ef;
+  color: #0a3622;
+  border: 1px solid #bfe6cf;
+}
+.alert-soft-primary {
+  background-color: #eaf2ff;
+  color: #052c65;
+  border: 1px solid #c6dafc;
+}
+.alert-soft-danger {
+  background-color: #fdecef;
+  color: #58151c;
+  border: 1px solid #f2c2c9;
+}
+.alert-soft-warning {
+  background-color: #fff7e6;
+  color: #663c00;
+  border: 1px solid #ffe3a3;
+}
+/* Ensure rounded/shadowed alerts have consistent inner spacing */
+.alert.alert-soft-success,
+.alert.alert-soft-primary,
+.alert.alert-soft-danger,
+.alert.alert-soft-warning {
+  margin-bottom: 0;
+}
+/* Soft cards: pastel backgrounds with subtle borders and readable text */
+.card-soft-success {
+  background-color: #e9f7ef;
+  color: #0a3622;
+  border: 1px solid #bfe6cf !important;
+}
+.card-soft-primary {
+  background-color: #eaf2ff;
+  color: #052c65;
+  border: 1px solid #c6dafc !important;
+}
+.card-soft-danger {
+  background-color: #fdecef;
+  color: #58151c;
+  border: 1px solid #f2c2c9 !important;
+}
+.card-soft-warning {
+  background-color: #fff7e6;
+  color: #663c00;
+  border: 1px solid #ffe3a3 !important;
+}
+/* Soft badges matching the soft palette */
+.badge-soft-success {
+  background-color: #e9f7ef;
+  color: #0a3622;
+  border: 1px solid #bfe6cf;
+}
+.badge-soft-primary {
+  background-color: #eaf2ff;
+  color: #052c65;
+  border: 1px solid #c6dafc;
+}
+.badge-soft-danger {
+  background-color: #fdecef;
+  color: #58151c;
+  border: 1px solid #f2c2c9;
+}
+.badge-soft-warning {
+  background-color: #fff7e6;
+  color: #663c00;
+  border: 1px solid #ffe3a3;
+}
 

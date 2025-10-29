@@ -43663,21 +43663,21 @@ const _hoisted_18 = {
 const _hoisted_19 = ["innerHTML"];
 const _hoisted_20 = {
   key: 0,
-  class: "alert alert-success rounded-4 shadow-sm mt-2",
+  class: "alert alert-soft-success rounded-4 shadow-sm mt-2",
   role: "region",
   "aria-label": "Dua"
 };
 const _hoisted_21 = ["innerHTML"];
 const _hoisted_22 = {
   key: 1,
-  class: "alert alert-warning rounded-4 shadow-sm mt-2",
+  class: "alert alert-soft-warning rounded-4 shadow-sm mt-2",
   role: "region",
   "aria-label": "Warning"
 };
 const _hoisted_23 = ["innerHTML"];
 const _hoisted_24 = {
   key: 2,
-  class: "alert alert-primary rounded-4 shadow-sm mt-2",
+  class: "alert alert-soft-primary rounded-4 shadow-sm mt-2",
   role: "region",
   "aria-label": "Do's"
 };
@@ -43686,7 +43686,7 @@ const _hoisted_25 = {
 };
 const _hoisted_26 = {
   key: 3,
-  class: "alert alert-danger rounded-4 shadow-sm mt-2",
+  class: "alert alert-soft-danger rounded-4 shadow-sm mt-2",
   role: "region",
   "aria-label": "Don'ts"
 };

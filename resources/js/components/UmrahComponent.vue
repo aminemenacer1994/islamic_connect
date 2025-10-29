@@ -75,24 +75,24 @@
                     :aria-label="'Step details: ' + step.title">
                     <div class="accordion-body">
                       <div class="mb-2" v-html="step.description"></div>
-                      <div v-if="step.dua" class="alert alert-success rounded-4 shadow-sm mt-2" role="region"
+                      <div v-if="step.dua" class="alert alert-soft-success rounded-4 shadow-sm mt-2" role="region"
                         aria-label="Dua">
                         <h5 class="mb-2"><i class="bi bi-journal-richtext me-2" aria-hidden="true"></i>Dua</h5>
                         <span v-html="step.dua"></span>
                       </div>
-                      <div v-if="step.warning" class="alert alert-warning rounded-4 shadow-sm mt-2" role="region"
+                      <div v-if="step.warning" class="alert alert-soft-warning rounded-4 shadow-sm mt-2" role="region"
                         aria-label="Warning">
                         <h5 class="mb-2"><i class="bi bi-exclamation-triangle me-2" aria-hidden="true"></i>Warning</h5>
                         <span v-html="step.warning"></span>
                       </div>
-                      <div v-if="step.dos" class="alert alert-primary rounded-4 shadow-sm mt-2" role="region"
+                      <div v-if="step.dos" class="alert alert-soft-primary rounded-4 shadow-sm mt-2" role="region"
                         aria-label="Do's">
                         <h5 class="mb-2"><i class="bi bi-hand-thumbs-up me-2" aria-hidden="true"></i>Do's</h5>
                         <ul class="mb-0">
                           <li v-for="(doItem, dIdx) in step.dos" :key="dIdx">{{ doItem }}</li>
                         </ul>
                       </div>
-                      <div v-if="step.donts" class="alert alert-danger rounded-4 shadow-sm mt-2" role="region"
+                      <div v-if="step.donts" class="alert alert-soft-danger rounded-4 shadow-sm mt-2" role="region"
                         aria-label="Don'ts">
                         <h5 class="mb-2"><i class="bi bi-hand-thumbs-down me-2" aria-hidden="true"></i>Don'ts</h5>
                         <ul class="mb-0">
