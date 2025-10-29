@@ -1113,8 +1113,8 @@ export default {
             wheelLastTime: 0,
             // Tunable thresholds
             // Gesture thresholds (relaxed for reliability on mobile/tablets)
-            swipeMinDistance: 35,
-            swipeMaxDuration: 600,
+            swipeMinDistance: 20,
+            swipeMaxDuration: 800,
             wheelThreshold: 35,
             wheelVertLeak: 30,
             wheelResetMs: 160,
@@ -2151,9 +2151,15 @@ export default {
         }
     },
     watch: {
+        // When ayat list loads for a surah, auto-select verse 1 and fetch its content
+        ayat(newList) {
+            if (Array.isArray(newList) && newList.length > 0) {
+                this.selectAyah(0);
+            }
+        },
         ayah: {
             handler(newAyah) {
-                console.log("Ayah received:", newAyah); // Debugging log
+                console.log("Ayah received:", newAyah);
                 if (newAyah && newAyah.text) {
                     this.prepareAyahText();
                 }
@@ -2164,19 +2170,13 @@ export default {
             this.selectedSurahId = newSurah;
             this.getAyat();
         },
+        // Single, consolidated watcher: do not clear selection, just fetch and set index 0
         selectedSurahId: {
-            handler(newValue) {
-                if (newValue) {
-                    this.selectedAyahId = ""; // Reset selected Ayah when Surah changes
-                    this.fetchAyat(); // Fetch Ayah for the new Surah
-                }
-            },
             immediate: true,
-        },
-        selectedSurahId(newVal) {
-            if (newVal) {
+            handler(newVal) {
+                if (!newVal) return;
+                this.selectedIndexAyah = 0;
                 this.fetchAyat();
-                this.selectedIndexAyah = 0; // Highlight the first verse
             }
         },
         "information.ayah.surah.name_ar": "updateFileName",

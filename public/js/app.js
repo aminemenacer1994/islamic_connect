@@ -9941,8 +9941,8 @@ __webpack_require__.r(__webpack_exports__);
       wheelLastTime: 0,
       // Tunable thresholds
       // Gesture thresholds (relaxed for reliability on mobile/tablets)
-      swipeMinDistance: 35,
-      swipeMaxDuration: 600,
+      swipeMinDistance: 20,
+      swipeMaxDuration: 800,
       wheelThreshold: 35,
       wheelVertLeak: 30,
       wheelResetMs: 160,
@@ -10939,9 +10939,15 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   watch: {
+    // When ayat list loads for a surah, auto-select verse 1 and fetch its content
+    ayat(newList) {
+      if (Array.isArray(newList) && newList.length > 0) {
+        this.selectAyah(0);
+      }
+    },
     ayah: {
       handler(newAyah) {
-        console.log("Ayah received:", newAyah); // Debugging log
+        console.log("Ayah received:", newAyah);
         if (newAyah && newAyah.text) {
           this.prepareAyahText();
         }
@@ -10952,19 +10958,13 @@ __webpack_require__.r(__webpack_exports__);
       this.selectedSurahId = newSurah;
       this.getAyat();
     },
+    // Single, consolidated watcher: do not clear selection, just fetch and set index 0
     selectedSurahId: {
-      handler(newValue) {
-        if (newValue) {
-          this.selectedAyahId = ""; // Reset selected Ayah when Surah changes
-          this.fetchAyat(); // Fetch Ayah for the new Surah
-        }
-      },
-      immediate: true
-    },
-    selectedSurahId(newVal) {
-      if (newVal) {
+      immediate: true,
+      handler(newVal) {
+        if (!newVal) return;
+        this.selectedIndexAyah = 0;
         this.fetchAyat();
-        this.selectedIndexAyah = 0; // Highlight the first verse
       }
     },
     "information.ayah.surah.name_ar": "updateFileName",
@@ -13974,7 +13974,7 @@ __webpack_require__.r(__webpack_exports__);
         badge: 'Free Forever',
         featured: false,
         description: 'Full access to all core Islamic resources — no payment required.',
-        features: ['Quran with audio recitation', 'Quran history', 'Names of Allah', 'Image gallery', 'Islamic dictionary', 'Islamic blogs', 'Dua collection', 'Prayer times', 'Hijri calendar']
+        features: ['Quran with Smart Search & Accessibility', 'Quran with audio recitation', 'Quran history', 'Names of Allah', 'Image gallery', 'Islamic dictionary', 'Islamic blogs', 'Dua collection', 'Prayer times', 'Hijri calendar']
       }, {
         value: ((_window$appConfig2 = window.appConfig) === null || _window$appConfig2 === void 0 || (_window$appConfig2 = _window$appConfig2.stripePrices) === null || _window$appConfig2 === void 0 ? void 0 : _window$appConfig2.monthly) || 'price_1SKJCyGsDD2PdzHqUEaWiQkG',
         name: 'Monthly',
@@ -13984,7 +13984,7 @@ __webpack_require__.r(__webpack_exports__);
         badge: 'Most Popular',
         featured: true,
         description: 'Unlock powerful tools that help you learn, reflect, and stay inspired every day.',
-        features: ['All of the basic features', 'Quran with Smart Search & Accessibility', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
+        features: ['All of the basic features', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
       }, {
         value: ((_window$appConfig3 = window.appConfig) === null || _window$appConfig3 === void 0 || (_window$appConfig3 = _window$appConfig3.stripePrices) === null || _window$appConfig3 === void 0 ? void 0 : _window$appConfig3.yearly) || 'price_1SKJCyGsDD2PdzHq4qsR1TRh',
         name: 'Yearly',
@@ -17789,9 +17789,10 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       default: "rgba(0, 191, 166)"
     },
+    // Optional: not actually used; keep for compatibility
     translation: {
       type: String,
-      required: true
+      default: ""
     },
     information: {
       type: Object,
@@ -17843,7 +17844,7 @@ __webpack_require__.r(__webpack_exports__);
       // Get the ayah_text from information
       const ayahText = typeof this.information.ayah_text === "object" ? this.information.ayah_text.text : this.information.ayah_text;
       // Return the formatted string
-      return `Translation: ${this.ayah_text}`;
+      return `Translation: ${ayahText}`;
     },
     formattedResult() {
       if (!this.result) return "";
@@ -17908,8 +17909,8 @@ __webpack_require__.r(__webpack_exports__);
       resetDisabled: true,
       utterance: null,
       successMessage: false,
-      words: this.information.translation.split(" "),
-      text: this.information.translation,
+      words: (this.information && this.information.translation ? this.information.translation : '').split(" "),
+      text: this.information && this.information.translation || '',
       currentWordIndex: -1,
       ayahAudio: null,
       // Store the audio URL
@@ -17944,7 +17945,7 @@ __webpack_require__.r(__webpack_exports__);
         }, 3000);
       }
     }
-    this.renderedText = this.information.translation;
+    this.renderedText = this.information && this.information.translation || '';
     this.clearHighlight();
     this.stopReading();
     this.$emit("ayah-text", this.information.ayah.ayah_text);

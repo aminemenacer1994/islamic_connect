@@ -180,9 +180,10 @@ export default {
       type: String,
       default: "rgba(0, 191, 166)"
     },
+    // Optional: not actually used; keep for compatibility
     translation: {
       type: String,
-      required: true
+      default: ""
     },
     information: {
       type: Object,
@@ -240,7 +241,7 @@ export default {
           this.information.ayah_text.text :
           this.information.ayah_text;
       // Return the formatted string
-      return `Translation: ${this.ayah_text}`;
+      return `Translation: ${ayahText}`;
     },
 
     formattedResult() {
@@ -298,8 +299,8 @@ export default {
       resetDisabled: true,
       utterance: null,
       successMessage: false,
-      words: this.information.translation.split(" "),
-      text: this.information.translation,
+      words: (this.information && this.information.translation ? this.information.translation : '').split(" "),
+      text: (this.information && this.information.translation) || '',
       currentWordIndex: -1,
       ayahAudio: null, // Store the audio URL
       ayahId: 1, // Example ayah ID
@@ -327,7 +328,7 @@ export default {
         }, 3000);
       }
     }
-    this.renderedText = this.information.translation;
+    this.renderedText = (this.information && this.information.translation) || '';
     this.clearHighlight();
     this.stopReading();
     this.$emit("ayah-text", this.information.ayah.ayah_text);
