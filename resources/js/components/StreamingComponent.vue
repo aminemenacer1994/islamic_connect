@@ -1,5 +1,14 @@
 <template>
   <main class="container py-5" role="main">
+    <div class="row justify-content-center text-center mb-3">
+      <div class="col-lg-10 col-xl-10">
+        <h1 class="display-5 fw-bold">Channel Guide</h1>
+        <p class="lead">
+          Discover and explore Islamic channels easily. This feature helps you connect with authentic Islamic content by directing you to each channel’s posts, playlists, and videos on YouTube, you can quickly find and access valuable resources all in one place.
+        </p>
+      </div>
+    </div>
+    
     <!-- Screen reader live region for polite updates -->
     <div aria-live="polite" role="status" class="visually-hidden" ref="liveRegion">{{ liveMessage }}</div>
     <!-- Alert Section (unchanged) -->
@@ -9,14 +18,6 @@
         {{ alertMessage }}
       </div>
     </section>
-
-    <!-- Header (unchanged) -->
-    <header class="text-center mb-5">
-      <h1 class="fw-bold display-4 mb-3">Channel Guide</h1>
-      <p class="lead text-muted mx-auto">
-        Discover and explore Islamic channels easily. This feature helps you connect with authentic Islamic content by directing you to each channel’s posts, playlists, and videos on YouTube, you can quickly find and access valuable resources all in one place.
-      </p>
-    </header>
 
     <!-- Filter/Search Section (unchanged) -->
     <section class="mb-5 p-3 bg-light rounded-3 shadow-sm" style="background: #f8f9fa; border: 1px solid #e0e0e0;"

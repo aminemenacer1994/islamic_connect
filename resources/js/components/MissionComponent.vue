@@ -1,24 +1,23 @@
 <template>
-  <div class="container p-4" :class="{ 'pb-audio-gap': showAudioPlayer }">
-    <h1 class="fw-bold display-5 text-center mb-2" v-once>Seerah Timeline</h1>
-    <p class="text-center container mb-4 lead d-none d-md-block" v-once>
-      The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH). This timeline is
-      designed to provide users with an accessible, interactive way to explore key moments in Islamic history, helping
-      them better understand the significance of each event.
-    </p>
+  <div class="p-5" :class="{ 'pb-audio-gap': showAudioPlayer }">
+
+    <div class="row justify-content-center text-center mb-3">
+      <div class="col-lg-10 col-xl-10">
+        <h1 class="display-5 fw-bold">Seerah Timeline</h1>
+        <p class="lead">
+          The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH).
+        </p>
+      </div>
+    </div>
 
     <nav class="timeline-wrapper " aria-label="Seerah timeline">
       <ol class="timeline mb-3" role="list" @keydown="onTimelineKeydown" ref="timelineNav" tabindex="0">
-        <li v-for="(event, index) in events" :key="event.id || event.year || index" class="timeline-point" role="listitem" ref="eventRefs">
-          <button
-            class="badge fs-6 timeline-badge"
-            type="button"
-            :class="{ active: index === currentIndex }"
+        <li v-for="(event, index) in events" :key="event.id || event.year || index" class="timeline-point"
+          role="listitem" ref="eventRefs">
+          <button class="badge fs-6 timeline-badge" type="button" :class="{ active: index === currentIndex }"
             :aria-current="index === currentIndex ? 'step' : null"
             :aria-label="`Year ${event.year}. ${index === currentIndex ? 'Current event' : 'Activate to view details'}`"
-            :tabindex="index === currentIndex ? 0 : -1"
-            @click="selectEvent(index)"
-          >
+            :tabindex="index === currentIndex ? 0 : -1" @click="selectEvent(index)">
             {{ event.year }}
           </button>
         </li>
@@ -26,90 +25,118 @@
     </nav>
 
     <transition name="fade" mode="out-in">
-      <div v-if="events.length" :key="currentIndex" class="event-box event-details" role="region" :aria-labelledby="`event-title-${currentIndex}`">
+      <div v-if="events.length" :key="currentIndex" class="event-box event-details" role="region"
+        :aria-labelledby="`event-title-${currentIndex}`">
         <div v-if="copySuccess" class="alert alert-success" role="status" aria-live="polite">
           Text copied to clipboard!
         </div>
 
-        <div class="fw-bold display-6 text-center mb-3" :id="`event-title-${currentIndex}`">{{ events[currentIndex].title }}</div>
+        <div class="fw-bold display-6 text-center mb-3" :id="`event-title-${currentIndex}`">{{
+          events[currentIndex].title }}</div>
 
         <!-- Combined Controls and Info Row -->
         <div class="d-flex justify-content-center align-items-center gap-2 gap-sm-4 mb-3 mb-md-4 flex-wrap">
-          
+          <!-- Actions Toolbar -->
+          <div
+            class="d-flex align-items-center gap-2 gap-sm-3 ms-sm-3 mt-2 mt-sm-0 quick-actions shadow-sm px-2 py-2 rounded-3 bg-white"
+            role="toolbar" aria-label="Event actions toolbar">
+            <!-- AI Summary -->
+            <div class="btn-group" role="group" aria-label="AI tools">
+              <button class="btn btn-sm btn-outline-dark" @click="summarizeEvent" :disabled="summaryLoading"
+                :aria-busy="summaryLoading ? 'true' : 'false'" title="AI Summary" aria-label="AI Summary">
+                <i class="bi" :class="summaryLoading ? 'bi-hourglass-split' : 'bi-robot'"></i>
+                <span class="ms-1 ms-sm-2 d-none d-sm-inline">{{ summaryLoading ? 'Generating...' : 'AI Summary'
+                  }}</span>
+              </button>
+            </div>
 
-          <!-- Quick Actions -->
-          <div class="d-flex align-items-center gap-2 ms-sm-3 mt-2 mt-sm-0 quick-actions shadow-sm" role="toolbar" aria-label="Text and share actions">
-            <!-- AI Summary Button -->
-          <button class="btn btn-sm btn-outline-dark" @click="summarizeEvent" :disabled="summaryLoading" :aria-busy="summaryLoading ? 'true' : 'false'">
-            <i class="bi" :class="summaryLoading ? 'bi-hourglass-split' : 'bi-robot'"></i>
-            <span class="ms-1 ms-sm-2">{{ summaryLoading ? 'Generating...' : 'AI Summary' }}</span>
-          </button>
-            <button class="btn btn-sm btn-outline-dark" @click="decFont" title="Decrease font size" aria-label="Decrease font size">
-              <span class="fw-semibold">A−</span>
-              <span class="d-none d-md-inline ms-1">Smaller</span>
-            </button>
-            <button class="btn btn-sm btn-outline-dark" @click="incFont" title="Increase font size" aria-label="Increase font size">
-              <span class="fw-semibold">A+</span>
-              <span class="d-none d-md-inline ms-1">Larger</span>
-            </button>
-            <span class="qa-sep d-none d-sm-inline" aria-hidden="true"></span>
-            <button class="btn btn-sm btn-outline-success" @click="shareOnWhatsApp" title="Share on WhatsApp" aria-label="Share on WhatsApp">
-              <i class="bi bi-whatsapp"></i>
-              <span class="d-none d-md-inline ms-1">WhatsApp</span>
-            </button>
-            <button class="btn btn-sm btn-outline-secondary" @click="copyToClipboard" title="Copy text" aria-label="Copy text">
-              <i class="bi bi-clipboard"></i>
-              <span class="d-none d-md-inline ms-1">Copy</span>
-            </button>
-            <button class="btn btn-sm btn-outline-primary" @click="printEvent" title="Print" aria-label="Print">
-              <i class="bi bi-printer"></i>
-              <span class="d-none d-md-inline ms-1">Print</span>
-            </button>
-            <button class="btn btn-sm btn-outline-danger" @click="downloadPdf" title="Download PDF" aria-label="Download PDF">
-              <i class="bi bi-file-earmark-pdf"></i>
-              <span class="d-none d-md-inline ms-1">PDF</span>
-            </button>
+            <div class="vr d-none d-sm-inline mx-1" aria-hidden="true"></div>
+
+            <!-- Font size controls -->
+            <div class="btn-group" role="group" aria-label="Font size">
+              <button class="btn btn-sm btn-outline-dark" @click="decFont" title="Decrease font size"
+                aria-label="Decrease font size">
+                <span class="fw-semibold">A−</span>
+                <span class="d-none d-md-inline ms-1">Smaller</span>
+              </button>
+              <button class="btn btn-sm btn-outline-dark" @click="incFont" title="Increase font size"
+                aria-label="Increase font size">
+                <span class="fw-semibold">A+</span>
+                <span class="d-none d-md-inline ms-1">Larger</span>
+              </button>
+            </div>
+
+            <div class="vr d-none d-sm-inline mx-1" aria-hidden="true"></div>
+
+            <!-- Share and copy -->
+            <div class="btn-group" role="group" aria-label="Share and copy">
+              <button class="btn btn-sm btn-outline-success" @click="shareOnWhatsApp" title="Share on WhatsApp"
+                aria-label="Share on WhatsApp">
+                <i class="bi bi-whatsapp"></i>
+                <span class="d-none d-md-inline ms-1">WhatsApp</span>
+              </button>
+              <button class="btn btn-sm btn-outline-secondary" @click="copyToClipboard" title="Copy text"
+                aria-label="Copy text">
+                <i class="bi bi-clipboard"></i>
+                <span class="d-none d-md-inline ms-1">Copy</span>
+              </button>
+            </div>
+
+            <div class="vr d-none d-sm-inline mx-1" aria-hidden="true"></div>
+
+            <!-- Export -->
+            <div class="btn-group" role="group" aria-label="Export">
+              <button class="btn btn-sm btn-outline-primary" @click="printEvent" title="Print" aria-label="Print">
+                <i class="bi bi-printer"></i>
+                <span class="d-none d-md-inline ms-1">Print</span>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" @click="downloadPdf" title="Download PDF"
+                aria-label="Download PDF">
+                <i class="bi bi-file-earmark-pdf"></i>
+                <span class="d-none d-md-inline ms-1">PDF</span>
+              </button>
+            </div>
           </div>
         </div>
 
         <!-- AI Summary and Play Button Row -->
-        <div class="d-flex justify-content-center align-items-center gap-3 gap-md-4 mb-3 mb-md-4">
-          
+        <div class="d-flex align-items-center flex-wrap gap-3 mb-3 mb-md-4">
           <!-- Time Estimates -->
-          <div class="d-flex gap-2 gap-sm-4 text-center">
-            <span class="medium mt-2">
+          <div class="d-flex align-items-center flex-wrap text-center gap-3 gap-sm-4" role="group"
+            aria-label="Time estimates">
+            <span class="medium d-flex align-items-center">
               <i class="bi bi-book me-1"></i>
-              <strong>Read:</strong> {{ readTime }}m
+              <strong class="me-1">Read:</strong> {{ readTime }}m
             </span>
-            <span class="medium mt-2">
+            <span class="medium d-flex align-items-center">
               <i class="bi bi-headphones me-1"></i>
-              <strong>Listen:</strong> {{ listenTime }}m
+              <strong class="me-1">Listen:</strong> {{ listenTime }}m
             </span>
-            <span class="medium mt-2">
+            <span class="medium d-flex align-items-center">
               <i class="bi bi-file-earmark-word me-1"></i>
-              <strong>Words:</strong> {{ wordCount }}
+              <strong class="me-1">Words:</strong> {{ wordCount }}
             </span>
-            <!-- Play Button -->
-          <div class="text-center">
-            <button
-              class="btn p-0 play-toggle"
-              :class="{ playing: isAudioPlaying[currentIndex] }"
-              :aria-label="isAudioPlaying[currentIndex] ? 'Pause audio' : 'Play audio'"
-              :aria-pressed="isAudioPlaying[currentIndex] ? 'true' : 'false'"
-              @click="toggleAudioPlayer(currentIndex)"
-              @keydown.enter.prevent="toggleAudioPlayer(currentIndex)"
-              @keydown.space.prevent="toggleAudioPlayer(currentIndex)"
-              :title="isAudioPlaying[currentIndex] ? 'Pause' : 'Play'"
-            >
-              <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="font-size: 1.9rem;"></i>
-            </button>
+            <!-- Play Button aligned to the end -->
+            <div class="ms-auto text-center">
+              <button class="btn p-0 play-toggle play-btn-circle" :class="{ playing: isAudioPlaying[currentIndex] }"
+                :aria-label="isAudioPlaying[currentIndex] ? 'Pause audio' : 'Play audio'"
+                :aria-pressed="isAudioPlaying[currentIndex] ? 'true' : 'false'" @click="toggleAudioPlayer(currentIndex)"
+                @keydown.enter.prevent="toggleAudioPlayer(currentIndex)"
+                @keydown.space.prevent="toggleAudioPlayer(currentIndex)"
+                :title="isAudioPlaying[currentIndex] ? 'Pause' : 'Play'">
+                <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
+                  style="font-size: clamp(1.8rem, 2.5vw, 2.6rem);"></i>
+              </button>
+            </div>
           </div>
-          </div>
+
+
         </div>
 
         <!-- AI Summary Section (Inline) -->
         <transition name="fade-slide">
-          <div v-if="summaryText && isVisible && showSummaryBox" class="ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded" ref="summarySection"
+          <div v-if="summaryText && isVisible && showSummaryBox"
+            class="ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded" ref="summarySection"
             style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 1px solid rgb(168 85 247);">
             <div class="d-flex align-items-center justify-content-between mb-2">
               <h6 class="mb-0 text-dark small">
@@ -118,10 +145,12 @@
               </h6>
               <div class="d-flex align-items-center gap-2">
                 <button class="btn btn-sm btn-outline-secondary" @click="toggleSummary"
-                  :title="showSummary ? 'Hide Summary' : 'Show Summary'" :aria-expanded="showSummary ? 'true' : 'false'" aria-controls="ai-summary-panel">
+                  :title="showSummary ? 'Hide Summary' : 'Show Summary'" :aria-expanded="showSummary ? 'true' : 'false'"
+                  aria-controls="ai-summary-panel">
                   <i class="bi" :class="showSummary ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-secondary" @click="closeSummaryBox" title="Close summary" aria-label="Close summary">
+                <button class="btn btn-sm btn-outline-secondary" @click="closeSummaryBox" title="Close summary"
+                  aria-label="Close summary">
                   <i class="bi bi-x"></i>
                 </button>
               </div>
@@ -246,9 +275,10 @@
         </div> -->
 
         <div class="controls text-center mt-3 mt-md-4" :class="{ 'mb-audio-gap': showAudioPlayer }">
-          <button @click="prev" :disabled="currentIndex === 0" class="btn me-2 btn-sm" style="background: #0f766e; color: #ffffff;" aria-label="Previous event">Previous</button>
-          <button @click="next" :disabled="currentIndex === events.length - 1"
-            class="btn btn-sm" style="background: #0f766e; color: #ffffff;" aria-label="Next event">Next</button>
+          <button @click="prev" :disabled="currentIndex === 0" class="btn me-2 btn-sm"
+            style="background: #0f766e; color: #ffffff;" aria-label="Previous event">Previous</button>
+          <button @click="next" :disabled="currentIndex === events.length - 1" class="btn btn-sm"
+            style="background: #0f766e; color: #ffffff;" aria-label="Next event">Next</button>
         </div>
       </div>
     </transition>
@@ -257,16 +287,21 @@
     <div v-if="showAudioPlayer" class="audio-player-container" role="region" aria-label="Audio player">
       <div class="custom-audio-player">
         <div class="controls">
-          <button class="control-icon btn btn-link p-0" @click="rewindAudio(currentlyPlayingIndex)" title="Rewind 10s" aria-label="Rewind 10 seconds">
+          <button class="control-icon btn btn-link p-0" @click="rewindAudio(currentlyPlayingIndex)" title="Rewind 10s"
+            aria-label="Rewind 10 seconds">
             <i class="bi bi-skip-backward-fill"></i>
           </button>
-          <button class="control-icon btn btn-link p-0" @click="toggleAudioPlayer(currentlyPlayingIndex)" :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'" :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'">
+          <button class="control-icon btn btn-link p-0" @click="toggleAudioPlayer(currentlyPlayingIndex)"
+            :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"
+            :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'">
             <i class="bi" :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
           </button>
-          <button class="control-icon btn btn-link p-0" @click="fastForwardAudio(currentlyPlayingIndex)" title="Fast Forward 10s" aria-label="Fast forward 10 seconds">
+          <button class="control-icon btn btn-link p-0" @click="fastForwardAudio(currentlyPlayingIndex)"
+            title="Fast Forward 10s" aria-label="Fast forward 10 seconds">
             <i class="bi bi-skip-forward-fill"></i>
           </button>
-          <button class="control-icon btn btn-link p-0" @click="stopAudio(currentlyPlayingIndex)" title="Stop" aria-label="Stop">
+          <button class="control-icon btn btn-link p-0" @click="stopAudio(currentlyPlayingIndex)" title="Stop"
+            aria-label="Stop">
             <i class="bi bi-stop-fill"></i>
           </button>
           <button class="control-icon btn btn-link p-0" @click="toggleVolume" title="Volume" aria-label="Adjust volume">
@@ -276,12 +311,19 @@
             <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume" class="volume-slider"
               aria-label="Volume control" aria-live="polite" />
           </div>
-          <span class="time" role="status" aria-live="polite">{{ formatTime(currentTime) }} / {{ formatTime(totalTime) }}</span>
-          <button class="control-icon btn btn-link p-0 close-icon" @click="closeAudioPlayer" title="Close" aria-label="Close audio player">
+          <span class="time" role="status" aria-live="polite">{{ formatTime(currentTime) }} / {{ formatTime(totalTime)
+            }}</span>
+          <button class="control-icon btn btn-link p-0 close-icon" @click="closeAudioPlayer" title="Close"
+            aria-label="Close audio player">
             <i class="bi bi-x"></i>
           </button>
         </div>
-        <div class="progress-bar" role="progressbar" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="Math.round(progress[currentlyPlayingIndex] || 0)" :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`" tabindex="0" @keydown.left.prevent="keyboardSeek(-5)" @keydown.right.prevent="keyboardSeek(5)" @keydown.pageDown.prevent="keyboardSeek(-10)" @keydown.pageUp.prevent="keyboardSeek(10)" @click="seekAudio($event, currentlyPlayingIndex)" aria-label="Seek audio">
+        <div class="progress-bar" role="progressbar" :aria-valuemin="0" :aria-valuemax="100"
+          :aria-valuenow="Math.round(progress[currentlyPlayingIndex] || 0)"
+          :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`" tabindex="0"
+          @keydown.left.prevent="keyboardSeek(-5)" @keydown.right.prevent="keyboardSeek(5)"
+          @keydown.pageDown.prevent="keyboardSeek(-10)" @keydown.pageUp.prevent="keyboardSeek(10)"
+          @click="seekAudio($event, currentlyPlayingIndex)" aria-label="Seek audio">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
         </div>
       </div>
@@ -361,6 +403,9 @@ export default {
       this.fontSettings = JSON.parse(saved);
     }
     window.addEventListener('resize', this.updateOffcanvasWidth);
+    // Track scroll to update tab title at top
+    try { this._originalTitle = document.title; } catch (_) { this._originalTitle = 'Islamic Connect'; }
+    window.addEventListener('scroll', this.handleScrollForTitle, { passive: true });
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     this.synth.onvoiceschanged = this.loadVoices;
     this.loadVoices();
@@ -377,9 +422,10 @@ export default {
     this.initializeAudioStates();
     this.initializeTooltips();
     this.updateCurrentMetrics();
+    this.updateDocumentTitle();
     // Ensure document has bottom padding when audio player is visible
     if (this.showAudioPlayer) {
-      try { document.body.classList.add('with-audio-player'); } catch (_) {}
+      try { document.body.classList.add('with-audio-player'); } catch (_) { }
     }
     // Observe visibility (e.g., when inside hidden tabs/pills)
     this.$nextTick(() => {
@@ -406,6 +452,7 @@ export default {
   beforeUnmount() {
     window.removeEventListener('resize', this.updateOffcanvasWidth);
     document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+    window.removeEventListener('scroll', this.handleScrollForTitle);
     this.synth.onvoiceschanged = null;
     if (this.utterance) {
       this.synth.cancel();
@@ -415,12 +462,23 @@ export default {
       this._filterTimer = null;
     }
     if (this._io) {
-      try { this._io.disconnect(); } catch (_) {}
+      try { this._io.disconnect(); } catch (_) { }
       this._io = null;
     }
-    try { document.body.classList.remove('with-audio-player'); } catch (_) {}
+    try { document.body.classList.remove('with-audio-player'); } catch (_) { }
   },
   methods: {
+    handleScrollForTitle() {
+      this.updateDocumentTitle();
+    },
+    updateDocumentTitle() {
+      const base = this._originalTitle || 'Islamic Connect';
+      const atTop = (typeof window !== 'undefined') ? (window.scrollY <= 0) : true;
+      const currentTitle = this.events && this.events[this.currentIndex] ? this.events[this.currentIndex].title : '';
+      try {
+        document.title = atTop && currentTitle ? `${base} — ${currentTitle}` : base;
+      } catch (_) { }
+    },
     updateCurrentMetrics() {
       const ev = this.events[this.currentIndex] || {};
       const baseHtml = ev.description || '';
@@ -582,7 +640,7 @@ export default {
         this.progress[index] = (startWordIndex / wordCount) * 100;
         this.currentTime = (startWordIndex / wordCount) * this.totalTime;
       }
-      try { document.body.classList.add('with-audio-player'); } catch (_) {}
+      try { document.body.classList.add('with-audio-player'); } catch (_) { }
     },
     stopAudio(index) {
       if (this.synth.speaking || this.synth.paused) {
@@ -594,7 +652,7 @@ export default {
         this.pausedWordIndex = 0;
         this.showAudioPlayer = false;
       }
-      try { document.body.classList.remove('with-audio-player'); } catch (_) {}
+      try { document.body.classList.remove('with-audio-player'); } catch (_) { }
     },
     rewindAudio(index) {
       if (!this.utterance || !this.isAudioPlaying[index]) return;
@@ -738,6 +796,7 @@ export default {
       this.currentIndex = index;
       this.scrollToEvent(index);
       this.updateCurrentMetrics();
+      this.updateDocumentTitle();
     },
     scrollToEvent(index) {
       const refs = this.$refs.eventRefs;
@@ -754,20 +813,18 @@ export default {
       if (this.currentIndex > 0) {
         this.stopAudio(this.currentlyPlayingIndex);
         this.currentIndex--;
-        if (window.innerWidth >= 768) {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         this.updateCurrentMetrics();
+        this.updateDocumentTitle();
       }
     },
     next() {
       if (this.currentIndex < this.events.length - 1) {
         this.stopAudio(this.currentlyPlayingIndex);
         this.currentIndex++;
-        if (window.innerWidth >= 768) {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         this.updateCurrentMetrics();
+        this.updateDocumentTitle();
       }
     },
     saveSettings() {
@@ -871,8 +928,8 @@ export default {
         doc.write(docHtml);
         doc.close();
         setTimeout(() => {
-          try { idoc.focus(); idoc.print(); } catch (_) {}
-          setTimeout(() => { try { document.body.removeChild(iframe); } catch (_) {} }, 1000);
+          try { idoc.focus(); idoc.print(); } catch (_) { }
+          setTimeout(() => { try { document.body.removeChild(iframe); } catch (_) { } }, 1000);
         }, 400);
       } catch (_) { /* no-op */ }
     },
@@ -1156,7 +1213,7 @@ export default {
       // Replace common Islamic marks with ASCII form
       t = t.replace(/[ﷺؐﷻ]+/g, '(PBUH)');
       // Strip combining diacritics
-      try { t = t.normalize('NFD').replace(/\p{Diacritic}+/gu, ''); } catch (_) {}
+      try { t = t.normalize('NFD').replace(/\p{Diacritic}+/gu, ''); } catch (_) { }
       // Collapse spaces
       return t.replace(/\s{2,}/g, ' ').trim();
     },
@@ -1231,8 +1288,8 @@ export default {
         allTokens.forEach(t => tf[t] = (tf[t] || 0) + 1);
 
         // Domain keywords and verbs
-        const domain = ['prophet','muhammad','mecca','medina','revelation','migration','battle','companions','islam','qur\'an','allah','hijrah','badr','uhud','hudaybiyyah','isra','mi\'raj','ansar','muhajirun','sahabah','quraish','kaaba','yathrib','treaty','sermon','expedition','persecution','miracle','conquest'];
-        const verbs = ['revealed','migrated','migrate','fled','arrived','established','sent','commanded','prohibited','fought','won','defeated','signed','pledged','preached','built','led','appointed','announced'];
+        const domain = ['prophet', 'muhammad', 'mecca', 'medina', 'revelation', 'migration', 'battle', 'companions', 'islam', 'qur\'an', 'allah', 'hijrah', 'badr', 'uhud', 'hudaybiyyah', 'isra', 'mi\'raj', 'ansar', 'muhajirun', 'sahabah', 'quraish', 'kaaba', 'yathrib', 'treaty', 'sermon', 'expedition', 'persecution', 'miracle', 'conquest'];
+        const verbs = ['revealed', 'migrated', 'migrate', 'fled', 'arrived', 'established', 'sent', 'commanded', 'prohibited', 'fought', 'won', 'defeated', 'signed', 'pledged', 'preached', 'built', 'led', 'appointed', 'announced'];
 
         // Skipping entity/year extraction; chips removed from summary output
 
@@ -1318,6 +1375,39 @@ export default {
 
 <style scoped>
 /* Removed animate.css to reduce animation overhead */
+
+.play-btn-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #2125290d;
+  /* subtle dark tint */
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+}
+
+.play-btn-circle:hover {
+  background-color: #2125291f;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.play-btn-circle:active {
+  transform: scale(0.98);
+}
+
+.play-btn-circle.playing {
+  background-color: #0f766e1f;
+  /* match brand teal hint when playing */
+}
+
+@media (min-width: 768px) {
+  .play-btn-circle {
+    width: 46px;
+    height: 46px;
+  }
+}
 
 .audio-player-container {
   position: fixed;
@@ -1456,15 +1546,38 @@ export default {
   transition: transform 120ms ease, filter 160ms ease;
   outline: none;
 }
-.play-toggle:hover { transform: scale(1.06); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
-.play-toggle:active { transform: scale(0.98); }
-.play-toggle:focus-visible { box-shadow: 0 0 0 0.2rem rgba(13,182,145,0.35); border-radius: 999px; }
-.play-toggle.playing i { animation: playPulse 1.8s ease-in-out infinite; color: #0db691; }
+
+.play-toggle:hover {
+  transform: scale(1.06);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.play-toggle:active {
+  transform: scale(0.98);
+}
+
+.play-toggle:focus-visible {
+  box-shadow: 0 0 0 0.2rem rgba(13, 182, 145, 0.35);
+  border-radius: 999px;
+}
+
+.play-toggle.playing i {
+  animation: playPulse 1.8s ease-in-out infinite;
+  color: #0db691;
+}
 
 @keyframes playPulse {
-  0% { text-shadow: 0 0 0 rgba(13,182,145,0.0); }
-  50% { text-shadow: 0 0 12px rgba(13,182,145,0.6); }
-  100% { text-shadow: 0 0 0 rgba(13,182,145,0.0); }
+  0% {
+    text-shadow: 0 0 0 rgba(13, 182, 145, 0.0);
+  }
+
+  50% {
+    text-shadow: 0 0 12px rgba(13, 182, 145, 0.6);
+  }
+
+  100% {
+    text-shadow: 0 0 0 rgba(13, 182, 145, 0.0);
+  }
 }
 
 .event-box {
@@ -1703,7 +1816,7 @@ export default {
   transition: background-color 0.3s ease, transform 0.2s;
 }
 
-.fab:hover { }
+.fab:hover {}
 
 .action-button {
   transition: all 0.3s ease;
@@ -1726,8 +1839,10 @@ mark {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   /* Make scrollbar visible and usable */
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #0db691 #e9ecef; /* Firefox */
+  scrollbar-width: thin;
+  /* Firefox */
+  scrollbar-color: #0db691 #e9ecef;
+  /* Firefox */
   scroll-snap-type: x proximity;
 }
 
@@ -1735,10 +1850,12 @@ mark {
 .timeline-wrapper::-webkit-scrollbar {
   height: 8px;
 }
+
 .timeline-wrapper::-webkit-scrollbar-track {
   background: #e9ecef;
   border-radius: 8px;
 }
+
 .timeline-wrapper::-webkit-scrollbar-thumb {
   background-color: #0db691;
   border-radius: 8px;
@@ -1781,13 +1898,15 @@ mark {
 }
 
 .timeline-badge:hover {
-  background-color: #0f766e; /* darker teal for contrast */
+  background-color: #0f766e;
+  /* darker teal for contrast */
   color: #ffffff;
   cursor: pointer;
 }
 
 .timeline-badge.active {
-  background-color: #0f766e; /* darker teal for contrast */
+  background-color: #0f766e;
+  /* darker teal for contrast */
   color: #ffffff;
   border: 2px solid lightgrey;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
@@ -1903,7 +2022,8 @@ mark {
 
 @media (max-width: 576px) {
   .timeline-badge {
-    padding: 0.8rem 1.2rem; /* increase size on small screens */
+    padding: 0.8rem 1.2rem;
+    /* increase size on small screens */
     font-size: 1rem;
     border-radius: 1.25rem;
   }
@@ -1912,9 +2032,6 @@ mark {
     font-size: 1.25rem;
   }
 
-  .display-5 {
-    font-size: 1.5rem;
-  }
 
   .event-box {
     padding: 12px;
@@ -1929,7 +2046,8 @@ mark {
   }
 
   .controls button {
-    padding: 0.6rem 1.1rem; /* larger next/prev on small screens */
+    padding: 0.6rem 1.1rem;
+    /* larger next/prev on small screens */
     font-size: 1rem;
     border-radius: 0.6rem;
   }
@@ -1941,7 +2059,8 @@ mark {
 
 @media (max-width: 480px) {
   .timeline-badge {
-    padding: 0.75rem 1rem; /* increase size further on very small screens */
+    padding: 0.75rem 1rem;
+    /* increase size further on very small screens */
     font-size: 0.95rem;
   }
 
@@ -1949,9 +2068,6 @@ mark {
     font-size: 1.1rem;
   }
 
-  .display-5 {
-    font-size: 1.3rem;
-  }
 
   .event-box {
     padding: 10px;
@@ -1973,12 +2089,14 @@ mark {
 
 /* Spacing between controls and audio player when visible */
 .mb-audio-gap {
-  margin-bottom: 24px; /* ensure clear separation on all sizes */
+  margin-bottom: 24px;
+  /* ensure clear separation on all sizes */
 }
 
 /* Prevent overlap of fixed audio player with page content */
 .pb-audio-gap {
-  padding-bottom: 120px; /* reserve space for fixed player height */
+  padding-bottom: 120px;
+  /* reserve space for fixed player height */
 }
 
 /* Quick actions spacing and divider */
@@ -1989,12 +2107,14 @@ mark {
   border-radius: 999px;
   padding: 4px 8px;
 }
+
 @media (min-width: 576px) {
   .quick-actions {
     margin-left: 1rem !important;
     padding-left: 0.5rem;
   }
 }
+
 @media (max-width: 575.98px) {
   .quick-actions {
     width: 100%;
@@ -2016,7 +2136,8 @@ mark {
 
 <!-- Global (unscoped) spacing to ensure content is never overlapped by the fixed audio bar -->
 <style>
-  body.with-audio-player {
-    padding-bottom: 140px; /* reserve space for the fixed audio bar */
-  }
+body.with-audio-player {
+  padding-bottom: 140px;
+  /* reserve space for the fixed audio bar */
+}
 </style>

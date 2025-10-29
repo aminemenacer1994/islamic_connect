@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-3">
+  <div class="container py-5">
     <!-- Title -->
     <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Gallery</h2>
     <p class="text-center text-muted mb-4" style="font-size: 18px;">

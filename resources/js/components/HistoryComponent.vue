@@ -1,17 +1,16 @@
 <template>
-  <div class="container py-5" role="main" aria-label="Quran History"
-    style="font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 1200px;">
+  <div class="container py-4" role="main" aria-label="Quran History">
     <!-- Header -->
-    <header class="text-center mb-5">
-      <h1 class="fw-bold display-4 mb-3" style="color: #2d3748; letter-spacing: -0.02rem;">
-        Quran History
-      </h1>
-      <p class="lead mb-0"
-        style="color: #4a5568; font-size: 1.15rem; line-height: 1.6; max-width: 800px; margin: 0 auto;">
-        Explore the Quran’s journey—its revelation, memorization, and codification—as a unifying force for the global
-        Muslim community.
-      </p>
-    </header>
+
+    <div class="row justify-content-center text-center mb-3">
+      <div class="col-lg-10 col-xl-10">
+        <h1 class="display-5 fw-bold">Quran History</h1>
+        <p class="lead">
+          Explore the Quran’s journey—its revelation, memorization, and codification—as a unifying force for the global
+          Muslim community.
+        </p>
+      </div>
+    </div>
 
     <!-- Open All and Close All Buttons -->
     <div class="text-end mb-3">

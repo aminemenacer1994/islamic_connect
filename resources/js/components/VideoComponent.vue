@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4">
+  <div class="container py-5">
     <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Animated Videos</h2>
     <p class="text-center text-dark mb-4" style="font-size: 18px;">
       Discover a captivating collection of Islamic animated videos, bringing to life the beauty and spirituality of

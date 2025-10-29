@@ -1,13 +1,15 @@
 <template>
   <div class="container py-4">
     <!-- Header Section -->
-    <div>
-      <h1 class="display-4 fw-bold text-center">Islamic Podcasts</h1>
-      <p class="text-center container mb-4 lead">
-        Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions,
-        thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen
-        your understanding of Islam.
-      </p>
+    <div class="row justify-content-center text-center mb-3">
+      <div class="col-lg-10 col-xl-10">
+        <h1 class="display-5 fw-bold">Islamic Podcasts</h1>
+        <p class="lead">
+          Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions,
+          thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen
+          your understanding of Islam.
+        </p>
+      </div>
     </div>
 
     <!-- Podcast Selection Section -->

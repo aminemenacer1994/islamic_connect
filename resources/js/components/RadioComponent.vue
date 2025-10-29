@@ -1,12 +1,15 @@
 <template>
   <div>
     <div class="container py-5">
-      <h1 class="main-title fw-bold">Islamic Reciters Stations</h1>
-
-      <p class="text-center lead" style="font-size: 1.25rem;">
-        Discover live Quranic reciters stations from renowned reciters worldwide.
-      </p>
-
+      <div class="row justify-content-center text-center mb-3">
+        <div class="col-lg-10 col-xl-10">
+          <h1 class="display-5 fw-bold">Islamic Reciters Stations</h1>
+          <p class="lead">
+            Discover live Quranic reciters stations from renowned reciters worldwide.
+          </p>
+        </div>
+      </div>
+      
       <!-- Search Bar and Category Dropdown -->
       <section class="mb-5" role="search" aria-label="Search and filter stations">
         <div class="fixed-footer p-4 mb-5 border-md" style="border-radius: 8px;">
