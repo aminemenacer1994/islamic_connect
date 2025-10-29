@@ -56,40 +56,72 @@
           :style="{ 'font-size': fontSizes[idx] + 'rem', 'background-color': '#ffffff', 'line-height': 1.7, 'color': '#4a5568' }">
           <!-- AI Summary, Font Size, Print, Export to PDF, and Share via WhatsApp Buttons -->
           <div class="mb-3">
-            <button class="btn btn-sm btn-outline-dark fw-semibold transition ms-2 mb-2" @click="summarizeEvent(idx)" :disabled="summaryLoading[idx]"
-              aria-label="Generate AI summary">
-              <i class="bi" :class="summaryLoading[idx] ? 'bi-hourglass-split' : 'bi-robot'"></i>
-              <span class="ms-1 ms-sm-2">{{ summaryLoading[idx] ? 'Generating...' : 'AI Summary' }}</span>
-            </button>
-            
-            <button class="btn btn-sm btn-outline-dark fw-semibold transition ms-2 mb-2" @click.stop="increaseFontSize(idx)"
-              @keydown.enter.stop="increaseFontSize(idx)" @keydown.space.prevent.stop="increaseFontSize(idx)"
-              aria-label="Increase font size" title="Increase font size">
-              <i class="bi bi-zoom-in mr-2" style="font-size: 0.8rem;"></i> Increase font size
-            </button>
-            <button class="btn btn-sm btn-outline-dark fw-semibold transition mb-2 ms-2" @click.stop="decreaseFontSize(idx)"
-              @keydown.enter.stop="decreaseFontSize(idx)" @keydown.space.prevent.stop="decreaseFontSize(idx)"
-              aria-label="Decrease font size" title="Decrease font size">
-              <i class="bi bi-zoom-out mr-2" style="font-size: 0.8rem;"></i>Decrease font size
-            </button>
-            <button class="btn btn-sm btn-outline-dark fw-semibold transition mb-2 ms-2" @click.stop="printSection(idx)"
-              @keydown.enter.stop="printSection(idx)" @keydown.space.prevent.stop="printSection(idx)"
-              aria-label="Print section" title="Print section">
-              <i class="bi bi-printer mr-2" style="font-size: 0.8rem;"></i>Print
-            </button>
-            <button class="btn btn-sm btn-outline-dark fw-semibold transition mb-2 ms-2" @click.stop="generatePDF(idx)"
-              @keydown.enter.stop="generatePDF(idx)" @keydown.space.prevent.stop="generatePDF(idx)"
-              aria-label="Export to PDF" title="Export to PDF">
-              <i class="bi bi-file-earmark-pdf mr-2" style="font-size: 0.8rem;"></i>Export to PDF
-            </button>
-            <div v-if="summaries[idx]" class="mt-2 p-3 rounded-3 position-relative" style="background-color: #f7fafc; border: 2px solid rgb(103, 153, 103);">
-              <button class="btn btn-sm p-0 position-absolute top-0 end-0 m-2" @click="clearSummary(idx)"
-                @keydown.enter="clearSummary(idx)" @keydown.space.prevent="clearSummary(idx)"
-                aria-label="Close summary" title="Close">
-                <i class="bi bi-x" style="font-size: 1.2rem; color: #4a5568;"></i>
-              </button>
-              <strong>AI Summary:</strong> {{ summaries[idx] }}
+            <div class="btn-toolbar flex-wrap gap-2">
+              <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Content actions">
+                <button class="btn btn-outline-dark fw-semibold transition"
+                  @click="summarizeEvent(idx)"
+                  :disabled="summaryLoading[idx]"
+                  aria-label="Generate AI summary">
+                  <i class="bi" :class="summaryLoading[idx] ? 'bi-hourglass-split' : 'bi-robot'" aria-hidden="true"></i>
+                  <span class="ms-1 d-none d-sm-inline">{{ summaryLoading[idx] ? 'Generating...' : 'AI Summary' }}</span>
+                  <span class="ms-1 d-inline d-sm-none">{{ summaryLoading[idx] ? 'Generating...' : 'AI Summary' }}</span>
+                </button>
+
+                <button class="btn btn-outline-dark fw-semibold transition"
+                  @click.stop="increaseFontSize(idx)"
+                  @keydown.enter.stop="increaseFontSize(idx)"
+                  @keydown.space.prevent.stop="increaseFontSize(idx)"
+                  aria-label="Increase font size" title="Increase font size">
+                  <i class="bi bi-zoom-in me-1" aria-hidden="true"></i>
+                  <span class="d-none d-sm-inline">Increase font size</span>
+                  <span class="d-inline d-sm-none">A+</span>
+                </button>
+
+                <button class="btn btn-outline-dark fw-semibold transition"
+                  @click.stop="decreaseFontSize(idx)"
+                  @keydown.enter.stop="decreaseFontSize(idx)"
+                  @keydown.space.prevent.stop="decreaseFontSize(idx)"
+                  aria-label="Decrease font size" title="Decrease font size">
+                  <i class="bi bi-zoom-out me-1" aria-hidden="true"></i>
+                  <span class="d-none d-sm-inline">Decrease font size</span>
+                  <span class="d-inline d-sm-none">A-</span>
+                </button>
+
+                <button class="btn btn-outline-dark fw-semibold transition"
+                  @click.stop="printSection(idx)"
+                  @keydown.enter.stop="printSection(idx)"
+                  @keydown.space.prevent.stop="printSection(idx)"
+                  aria-label="Print section" title="Print section">
+                  <i class="bi bi-printer me-1" aria-hidden="true"></i>
+                  <span class="d-none d-sm-inline">Print</span>
+                  <span class="d-inline d-sm-none">Print</span>
+                </button>
+
+                <button class="btn btn-outline-dark fw-semibold transition"
+                  @click.stop="generatePDF(idx)"
+                  @keydown.enter.stop="generatePDF(idx)"
+                  @keydown.space.prevent.stop="generatePDF(idx)"
+                  aria-label="Export to PDF" title="Export to PDF">
+                  <i class="bi bi-file-earmark-pdf me-1" aria-hidden="true"></i>
+                  <span class="d-none d-sm-inline">Export to PDF</span>
+                  <span class="d-inline d-sm-none">PDF</span>
+                </button>
+              </div>
             </div>
+
+            <Transition name="fade">
+              <div v-if="summaries[idx]" class="mt-3 p-3 rounded-3 position-relative summary-box">
+                <button class="btn btn-sm p-1 position-absolute top-0 end-0 m-2"
+                  @click="clearSummary(idx)"
+                  @keydown.enter="clearSummary(idx)"
+                  @keydown.space.prevent="clearSummary(idx)"
+                  aria-label="Close summary" title="Close">
+                  <i class="bi bi-x-lg" aria-hidden="true"></i>
+                </button>
+                <strong>AI Summary:</strong>
+                <div class="mt-1">{{ summaries[idx] }}</div>
+              </div>
+            </Transition>
           </div>
           <!-- FAQ Content -->
           <div v-if="item.faq">
@@ -953,4 +985,17 @@ export default {
 .text-muted {
   color: #6b7280 !important;
 }
+
+/* Subtle fade for summary appear/disappear */
+.fade-enter-active, .fade-leave-active { transition: opacity .2s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+
+/* Clean summary box styles without inline CSS */
+.summary-box {
+  background-color: #f7fafc;
+  border: 2px solid rgb(103, 153, 103);
+}
+
+/* Consistent, compact icon sizing and spacing */
+.btn i { font-size: 0.9rem; }
 </style>
