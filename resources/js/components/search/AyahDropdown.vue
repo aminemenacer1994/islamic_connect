@@ -2,6 +2,7 @@
   <div class="container-fluid">
     <select
       class="form-control right-side-form card container select-shadow"
+      :key="`${selectedSurahId}-${currentAyahId || currentAyahNum || 'na'}`"
       v-model="selectedAyahId"
       @change="handleAyahChange"
       :disabled="isLoading"

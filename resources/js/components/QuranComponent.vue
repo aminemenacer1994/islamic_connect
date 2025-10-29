@@ -331,13 +331,13 @@
                                         </div>
                                         <!-- dropdown mobile content -->
                                         <div>
-                                            <div class="pt-2" ref="targetTranslationElement"
+                                            <div class="pt-2 swipe-surface" ref="targetTranslationElement"
                                                  @touchstart="handleTouchStart($event)"
                                                  @touchmove="handleTouchMove"
                                                  @touchend="handleTouchEnd($event)"
-                                                 @pointerdown.passive="handlePointerDown"
-                                                 @pointermove.passive="handlePointerMove"
-                                                 @pointerup.passive="handlePointerUp"
+                                                 @pointerdown="handlePointerDown"
+                                                 @pointermove="handlePointerMove"
+                                                 @pointerup="handlePointerUp"
                                                  @wheel.passive="handleWheel">
                                                 <TranslationSection ref="translationSection" :currentAyah="currentAyah" :isVisible="!isVisible"
                                                     :information="information" :isFullScreen="isFullScreen"
@@ -346,11 +346,10 @@
                                                     :showErrorAlert="showErrorAlert" :showAlertTextNote="showAlertTextNote
                                                         " :isPlaying="isPlaying" @highlightText="highlightText"
                                                     @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
-                                                    @toggle-full-screen="toggleFullScreen
-                                                    " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
-                                                    " @toggle-audio="toggleAudioPlayback
-                                                    " @update-success-message="updateSuccessMessage
-                                                    " />
+                                                    @toggle-full-screen="toggleFullScreen"
+                                                    @toggle-expand="toggleExpand" @close-alert-text="closeAlertText"
+                                                    @toggle-audio="toggleAudioPlayback"
+                                                    @update-success-message="updateSuccessMessage" />
                                             </div>
 
                                             <!-- <div v-if="!isVisible" class="container-fluid text-center mobile-only">
@@ -2212,4 +2211,5 @@ export default {
   color: #fff;
   font-size: 12px;
 }
+.swipe-surface { touch-action: none; }
 </style>

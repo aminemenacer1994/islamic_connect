@@ -36971,14 +36971,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Close",
     onClick: _cache[28] || (_cache[28] = (...args) => $options.dismissSwipeTip && $options.dismissSwipeTip(...args))
   })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "pt-2",
+    class: "pt-2 swipe-surface",
     ref: "targetTranslationElement",
     onTouchstart: _cache[29] || (_cache[29] = $event => $options.handleTouchStart($event)),
     onTouchmove: _cache[30] || (_cache[30] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
     onTouchend: _cache[31] || (_cache[31] = $event => $options.handleTouchEnd($event)),
-    onPointerdownPassive: _cache[32] || (_cache[32] = (...args) => $options.handlePointerDown && $options.handlePointerDown(...args)),
-    onPointermovePassive: _cache[33] || (_cache[33] = (...args) => $options.handlePointerMove && $options.handlePointerMove(...args)),
-    onPointerupPassive: _cache[34] || (_cache[34] = (...args) => $options.handlePointerUp && $options.handlePointerUp(...args)),
+    onPointerdown: _cache[32] || (_cache[32] = (...args) => $options.handlePointerDown && $options.handlePointerDown(...args)),
+    onPointermove: _cache[33] || (_cache[33] = (...args) => $options.handlePointerMove && $options.handlePointerMove(...args)),
+    onPointerup: _cache[34] || (_cache[34] = (...args) => $options.handlePointerUp && $options.handlePointerUp(...args)),
     onWheelPassive: _cache[35] || (_cache[35] = (...args) => $options.handleWheel && $options.handleWheel(...args))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationSection, {
     ref: "translationSection",
@@ -48604,11 +48604,12 @@ const _hoisted_1 = {
 const _hoisted_2 = ["disabled"];
 const _hoisted_3 = ["value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control right-side-form card container select-shadow", {
       'desktop-hidden': true,
       'mobile-visible': true
     }]),
+    key: `${$props.selectedSurahId}-${_ctx.currentAyahId || _ctx.currentAyahNum || 'na'}`,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.selectedAyahId = $event),
     onChange: _cache[1] || (_cache[1] = (...args) => $options.handleAyahChange && $options.handleAyahChange(...args)),
     disabled: $data.isLoading
@@ -48619,7 +48620,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: ayah.id,
       value: ayah.id
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAyahOption(ayah)), 9 /* TEXT, PROPS */, _hoisted_3);
-  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_2), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedAyahId]])]);
+  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_2)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedAyahId]])]);
 }
 
 /***/ }),
@@ -51482,7 +51483,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.swipe-tip[data-v-2b3c2c26] {\n  background-color: #e7f1ff; /* light blue */\n  border: 1px solid #b6d4fe; /* blue border */\n  color: #0a58ca; /* primary blue text */\n  border-radius: 8px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.swipe-tip .icon-circle[data-v-2b3c2c26] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  border-radius: 50%;\n  background-color: #0a58ca;\n  color: #fff;\n  font-size: 12px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.swipe-tip[data-v-2b3c2c26] {\n  background-color: #e7f1ff; /* light blue */\n  border: 1px solid #b6d4fe; /* blue border */\n  color: #0a58ca; /* primary blue text */\n  border-radius: 8px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.swipe-tip .icon-circle[data-v-2b3c2c26] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  border-radius: 50%;\n  background-color: #0a58ca;\n  color: #fff;\n  font-size: 12px;\n}\n.swipe-surface[data-v-2b3c2c26] { touch-action: none;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
