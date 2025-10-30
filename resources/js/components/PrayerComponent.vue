@@ -1,12 +1,13 @@
 <template>
-  <h3 class="text-center fw-bold display-4 py-2 mt-4 mb-2" v-once>Prayer Times Calendar</h3>
-  <p class="text-center mb-4 lead container">
-    Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your location
-    or lets you manually choose.
-  </p>
 
-  <div class="container-fluid my-3 d-flex justify-content-center">
-    <div class="card shadow p-4 w-100" style="max-width: 1500px;">
+  <h2 class="text-center py-4 fw-bold display-5 display-md-4">Prayer Times Calendar</h2>
+    <p class="text-center text-dark mb-4 mt-1 px-3 px-md-0" style="font-size: 18px;">
+      Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your location
+      or lets you manually choose.
+    </p>
+
+  <div class="container d-flex justify-content-center">
+    <div class="card shadow p-4 w-100">
       <!-- Input Form -->
       <form @submit.prevent="submitSearch"
         class="container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4">

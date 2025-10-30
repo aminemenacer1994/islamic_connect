@@ -2,11 +2,11 @@
   <main role="main" aria-labelledby="umrah-title">
     <!-- Skip to main content link for screen readers and keyboard users -->
     <a href="#main-content" class="visually-hidden-focusable skip-link">Skip to main content</a>
-    <div class="container-fluid py-4" id="main-content" tabindex="-1">
+    <div class="container-fluid py-5" id="main-content" tabindex="-1">
       <div class="text-center mb-5">
-        <h1 id="umrah-title" class="display-4 fw-bold mb-4">
+        <h2 id="umrah-title" class="display-5 fw-bold mb-4">
           Hajj & Umrah Guides
-        </h1>
+        </h2>
         <p class="mx-auto description text-muted" style="max-width: 900px; font-size: 1.2rem;">
           <i class="bi bi-info-circle me-2" aria-hidden="true"></i>These guides provide essential knowledge on the
           rituals, historical

@@ -1,13 +1,10 @@
 <template>
   <div class="guide-root" :class="['container my-4', { 'pad-for-audio': isPlaying || isPaused }]" role="main">
-    <!-- Header -->
-    <header class="text-center mb-4">
-      
-      <h1 class="header-title display-4 fw-bold">Islamic Guides</h1>
-      <p class="header-description">
-        Discover insights into the core beliefs, practices, and morals of Islam.
-      </p>
-    </header>
+   
+    <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Guides</h2>
+    <p class="text-center text-dark mb-4" style="font-size: 18px;">
+      Discover insights into the core beliefs, practices, and morals of Islam.
+    </p>
 
     <!-- Controls Section -->
     <section class="controls-section mb-4" style="border: 1px solid var(--primary-color);">

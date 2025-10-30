@@ -2,7 +2,7 @@
   <div class="container-fluid py-4" role="main" aria-labelledby="mosque-finder-heading">
     <div class="row justify-content-center">
       <div class="col-lg-10">
-        <h1 id="mosque-finder-heading" class="display-4 fw-bold text-center">Mosque Locater</h1>
+        <h2 class="display-5 fw-bold text-center">Mosque Locater</h2>
         <p class="text-center container mb-4 lead">
           Easily find nearby mosques based on your current location, complete with detailed directions to help you
           connect with your local community.

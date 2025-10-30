@@ -1,20 +1,18 @@
 <template>
   <div class="zakat-calculator">
     <!-- Hero Section -->
-    <div class="hero-section text-center py-4">
-      <h1 class="display-4 fw-bold">Zakat Calculator</h1>
-      <p class="lead text-muted mx-auto col-md-8">
-        Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab
-        threshold and calculate the 2.5% Zakat due on your eligible assets. Learn about Zakat and ensure accurate calculations.
-      </p>
-    </div>
+    <h2 class="mb-2 text-center py-4 fw-bold display-5 ">Zakat Calculator</h2>
+    <p class="text-center container text-dark mb-4" style="font-size: 18px;">
+      Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab
+      threshold and calculate the 2.5% Zakat due on your eligible assets. Learn about Zakat and ensure accurate calculations.
+    </p>
     <div class="container-fluid">
       <div class="row g-4 justify-content-center">
         <div :class="zakatCalculated ? 'col-lg-7' : 'col-lg-9'" class="calculator-column">
           <div class="card shadow-md rounded-4">
             <div class="card-body p-lg-5">
               <!-- Currency and Nisab Selection -->
-              <h2 class="mb-4 fw-bold text-dark text-left">Zakat Calculator</h2>
+              <h4 class="mb-4 fw-bold text-dark text-left">Zakat Calculator</h4>
 
               <div class="row g-3">
                 <div class="col-md-6">

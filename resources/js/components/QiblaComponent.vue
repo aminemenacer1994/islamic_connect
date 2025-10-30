@@ -1,10 +1,10 @@
 <template>
   <main class="container py-5" ref="qiblaFinder" role="main" aria-labelledby="qibla-title">
     <!-- Header -->
-    <header class="text-center mb-5">
-      <h1 id="qibla-title" class="display-3 fw-bold mb-2">Qibla Compass</h1>
-      <p class="lead text-muted">Your essential companion for locating the precise direction of the Kaaba in Mecca for Islamic prayers, ensuring accurate alignment from anywhere in the world. This tool also provides reliable prayer times tailored to your location</p>
-    </header>
+    <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Qibla Compass</h2>
+    <p class="text-center text-dark mb-4" style="font-size: 18px;">
+      Your essential companion for locating the precise direction of the Kaaba in Mecca for Islamic prayers, ensuring accurate alignment from anywhere in the world. This tool also provides reliable prayer times tailored to your location
+    </p>
 
     <!-- Search & Location -->
     <section class="card shadow-sm mb-4" role="region" aria-labelledby="find-location-title">
@@ -21,7 +21,7 @@
             aria-label="Enter a city or address"
           />
           <button
-            class="btn btn-primary"
+            class="btn btn-success"
             @click="searchQibla"
             :disabled="loading"
             title="Search"

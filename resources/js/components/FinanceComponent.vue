@@ -1,8 +1,8 @@
 <template>
   <div class="container py-4">
     <!-- Title -->
-    <div class="display-4 fw-bold text-center mb-3">Islamic Finance</div>
-    <p class="lead text-center text-muted mb-4">
+    <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Finance</h2>
+    <p class="text-center text-dark mb-4" style="font-size: 18px;">
       Rooted in ethical principles, Islamic finance ensures fairness and transparency in financial transactions in
       accordance with Shariah.
     </p>

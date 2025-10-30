@@ -9,13 +9,11 @@
       <div class="container-fluid px-3 px-md-4">
         <div class="row justify-content-center mx-0">
           <div class="col-12 col-lg-10 col-xl-8 px-0">
-            <div class="text-center mb-4 px-2 px-md-4">
-              <h1 class="display-4 fw-bold mb-3" style="color: #000;" v-once>
-                <span>Islamic Dictionary</span>
-              </h1>
-              <p class="mb-0" style="color: #000; font-size: 1.25rem;" v-once>A comprehensive resource for exploring Islamic
-                terms and their meanings</p>
-            </div>
+            
+            <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Dictionary</h2>
+            <p class="text-center text-dark mb-4" style="font-size: 18px;">
+              A comprehensive resource for exploring Islamic terms and their meanings
+            </p>
 
             <div>
               <!-- Search Stats -->
