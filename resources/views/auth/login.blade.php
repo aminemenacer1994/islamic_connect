@@ -9,8 +9,7 @@
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <h1>Welcome Back</h1>
-                <p>Sign in to access Quranic resources and Islamic knowledge</p>
+                <h1 style="font-weight:bold"><strong>Welcome Back</strong></h1>
             </div>
             
             <form method="POST" action="{{ route('login') }}">
@@ -49,6 +48,8 @@
                     <!-- <a href="#" class="text-decoration-none" style="color: var(--primary-color);">Forgot password?</a> -->
                 </div>
                 
+                <p class="text-muted small benefits-text">Create an account to save bookmarks, write reflections, report errors, and manage your subscriptions.</p>
+
                 <div class="d-grid mb-3">
                     <button type="submit" style="background: var(--primary-color); color: #ffffff;" class="btn btn-lg">Sign In</button>
                 </div>
@@ -170,6 +171,20 @@
     .login-header p {
         color: #6c757d;
         margin-bottom: 0;
+    }
+    
+    .benefits-text {
+        max-width: 44rem;
+        margin: 0.5rem auto 0;
+        font-size: 0.95rem; /* slightly larger than small */
+        line-height: 1.55;
+        text-align: center;
+        margin-bottom: 0.9rem;
+    }
+    @media (min-width: 992px) {
+        .benefits-text {
+            font-size: 1rem; /* subtle bump on large screens */
+        }
     }
     
     .form-label {

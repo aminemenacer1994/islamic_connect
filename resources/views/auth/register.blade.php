@@ -6,8 +6,7 @@
     <div class="register-container">
         <div class="register-card">
             <div class="register-header">
-                <h1>Create an Account</h1>
-                <p>Join Islamic Connect to access Quranic resources and Islamic knowledge</p>
+                <h1><strong>Create an Account</strong></h1>
             </div>
             
             <form method="POST" action="{{ route('register') }}">
@@ -58,6 +57,8 @@
                             placeholder="Confirm your password">
                 </div>
                 
+                <p class="text-muted small benefits-text">Create an account to save favorites, write notes, report errors, and manage subscriptions.</p>
+
                 <div class="d-grid mb-3">
                     <button type="submit" style="background: var(--primary-color); color: #ffffff;" class="btn btn-lg">Create Account</button>
                 </div>
@@ -180,6 +181,20 @@
     .register-header p {
         color: #6c757d;
         margin-bottom: 0;
+    }
+    
+    .benefits-text {
+        max-width: 44rem;
+        margin: 0.5rem auto 0;
+        font-size: 0.95rem; /* slightly larger than small */
+        line-height: 1.55;
+        text-align: center;
+        margin-bottom: 0.9rem;
+    }
+    @media (min-width: 992px) {
+        .benefits-text {
+            font-size: 1rem; /* subtle bump on large screens */
+        }
     }
     
     .form-label {
