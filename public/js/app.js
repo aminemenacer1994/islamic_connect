@@ -41316,7 +41316,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Share on WhatsApp",
       title: "Share on WhatsApp"
     }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-whatsapp",
+      class: "bi bi-share-fill",
       style: {
         "font-size": "1.5rem"
       },

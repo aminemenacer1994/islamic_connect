@@ -152,7 +152,7 @@
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
                 <button class="icon-btn" @click="shareOnWhatsApp(item.ayah)" aria-label="Share on WhatsApp" title="Share on WhatsApp">
-                  <i class="bi bi-whatsapp" style="font-size: 1.5rem;" aria-hidden="true"></i>
+                  <i class="bi bi-share-fill" style="font-size: 1.5rem;" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
