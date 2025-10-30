@@ -1,14 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Islamic Connect — Profile')
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2">
-            @include('partials.sidebar')
-        </div>
-        <div class="col-md-10">
-            <profile-component :user="{{ Auth::user() }}"></profile-component>
-        </div>
-    </div>
+@include('partials.sidebar')
+<div class="container-fluid content-with-sidebar">
+    <profile-component :user="{{ Auth::user() }}"></profile-component>
 </div>
 @endsection

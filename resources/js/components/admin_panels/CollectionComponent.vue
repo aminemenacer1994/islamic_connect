@@ -1,6 +1,6 @@
 <template>
 <div id="app">
- <h1 class="pt-4 pb-3 text-center"><strong>Collections</strong></h1>
+ <!-- <h1 class="pt-4 pb-3 text-center"><strong>Collections</strong></h1> -->
 
  <!-- Container visible only on mobile screens -->
  <div class="container text-center mt-3 d-md-none">
@@ -19,8 +19,8 @@
  </div>
 
  <!-- Create Folder Modal -->
- <div class="modal fade" id="createFolderModal" tabindex="-1" aria-labelledby="createFolderModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal fade" id="createFolderModal" tabindex="-1" aria-labelledby="createFolderModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-modern">
    <div class="modal-content">
     <div class="modal-header">
      <h5 class="modal-title" id="createFolderModalLabel">Create New Collection</h5>
@@ -64,9 +64,7 @@
       <div class="flex justify-content-center mr-1">
         <button 
           :class="['btn', 'btn-success', { 'highlight': highlightedIndex === index }]" 
-          @click="highlight(index)"
-          style="linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);"
-         >
+          @click="highlight(index)"         >
           {{ folder.name }}        
           <i class="bi bi-trash" @click.prevent="confirmDeleteFolder(folder.id)"></i>
 
@@ -107,7 +105,7 @@
 
  <!-- Modal -->
  <div class="modal fade" id="viewBookmarkModal" tabindex="-1" aria-labelledby="viewBookmarkModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-modern">
    <div class="modal-content">
     <div class="modal-header">
      <h5 class="modal-title" id="viewBookmarkModalLabel">Bookmark Details</h5>
@@ -276,6 +274,9 @@ export default {
 </script>
 
 <style>
+.modal-modern .modal-content{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}
+.modal-modern .modal-header{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}
+.modal-modern .btn-close{filter:none}
 
 .btn {
   transition: background-color 0.3s, color 0.3s;

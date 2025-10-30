@@ -1,169 +1,189 @@
 <template>
-<div id="app">
- <h2 class="pb-3 pt-4 text-center"><strong>Profile</strong></h2>
-
- <!-- edit new Modal -->
- <div class="modal fade" id="editNew" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-   <div class="modal-content">
-    <div class="modal-header">
-     <h5 class="modal-title text-dark" id="addNew">
-      Edit User Profile
-     </h5>
-     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-     </button>
+  <div id="app" class="profile-wrap">
+    <!-- Top dark-green toolbar with search and quick actions -->
+    <div class="profile-topbar">
+      <div class="container d-flex align-items-center justify-content-between gap-2">
+        <div class="searchbar">
+          <i class="bi bi-search"></i>
+          <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
+        </div>
+        <div class="top-actions d-none d-md-flex align-items-center gap-2">
+          <button class="btn btn-ghost-light btn-sm">Today</button>
+          <button class="btn btn-ghost-light btn-sm" aria-label="Notifications"><i class="bi bi-bell"></i></button>
+          <button class="btn btn-ghost-light btn-sm" aria-label="Settings"><i class="bi bi-gear"></i></button>
+        </div>
+      </div>
     </div>
-    <div class="modal-body">
-     <form @submit.prevent="updateUser()">
 
-      <div class="mb-3">
-       <label for="formGroupExampleInput" class="form-label"><strong>Firstname:</strong></label>
-       <input v-model="form.name" type="text" name="name" placeholder="Enter name" class="form-control" />
-      </div>
-      <div class="mb-3">
-       <label for="formGroupExampleInput2" class="form-label"><strong>Lastname:</strong></label>
-       <input v-model="form.lastname" type="text" name="lastname" placeholder="Enter lastname" class="form-control" />
-      </div>
-      <div class="mb-3">
-       <label for="formGroupExampleInput" class="form-label"><strong>Email address:</strong></label>
-       <input v-model="form.email" name="email" id="email" placeholder="email" class="form-control" />
-      </div>
-      <div class="mb-3">
-       <label for="formGroupExampleInput" class="form-label"><strong>Phone number:</strong></label>
-       <input v-model="form.phone" type="text" name="phone" placeholder="Enter mobile number" class="form-control" />
-      </div>
-      <div class="mb-3">
-       <label for="formGroupExampleInput" class="form-label"><strong>Password:</strong></label>
-       <input v-model="form.password" id="password" type="text" name="password" placeholder="Enter password" class="form-control" />
-      </div>
-      <div class="modal-footer">
-       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-        Close
-       </button>
-       <button type="submit" class="btn btn-primary">
-        Update
-       </button>
+    <div class="container my-3">
+      <h5 class="mb-3">My Profile</h5>
+
+      <!-- Overview card -->
+      <div class="card frosted p-3 mb-3">
+        <div class="d-flex align-items-center gap-3">
+          <img :src="avatarUrl" alt="Avatar" class="avatar-lg rounded-circle">
+          <div class="flex-grow-1">
+            <h5 class="m-0 d-flex align-items-center gap-2">
+              <span>{{ user.name }} {{ user.lastname }}</span>
+              <span v-if="user?.user_type || user?.role" class="role-badge" aria-label="User role">{{ user.user_type || user.role }}</span>
+            </h5>
+            <div class="text-muted small">Member since {{ formattedJoin }}</div>
+          </div>
+        </div>
       </div>
 
-     </form>
+      <!-- Personal Information section -->
+      <div class="section-card">
+        <div class="section-header">
+          <h6 class="m-0">Personal Information</h6>
+          <button class="btn btn-sm btn-amber" data-bs-toggle="modal" data-bs-target="#editNew" @click="editModal(user)">
+            <i class="bi bi-pencil-square me-1"></i> Edit
+          </button>
+        </div>
+        <div class="section-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="field">
+                <div class="field-label">First Name</div>
+                <div class="field-value">{{ user.name || '—' }}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="field">
+                <div class="field-label">Last Name</div>
+                <div class="field-value">{{ user.lastname || '—' }}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="field">
+                <div class="field-label">User Role</div>
+                <div class="field-value">{{ user.user_type || user.role || 'User' }}</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="field">
+                <div class="field-label">Email Address</div>
+                <div class="field-value">{{ user.email }}</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="field">
+                <div class="field-label">Phone Number</div>
+                <div class="field-value">{{ user.phone || '—' }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Address section (placeholders if missing) -->
+      <div class="section-card mt-3">
+        <div class="section-header">
+          <h6 class="m-0">Address</h6>
+          <button class="btn btn-sm btn-amber" data-bs-toggle="modal" data-bs-target="#editNew" @click="editModal(user)">
+            <i class="bi bi-pencil-square me-1"></i> Edit
+          </button>
+        </div>
+        <div class="section-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="field">
+                <div class="field-label">Country</div>
+                <div class="field-value">{{ user.country || '—' }}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="field">
+                <div class="field-label">City</div>
+                <div class="field-value">{{ user.city || '—' }}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="field">
+                <div class="field-label">Postal Code</div>
+                <div class="field-value">{{ user.postal_code || '—' }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-   </div>
+
+    <!-- Edit Profile Modal (Bootstrap 5) -->
+    <div class="modal fade" id="editNew" tabindex="-1" aria-labelledby="editNewLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editNewLabel">Edit Profile</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="updateUser" novalidate>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">First name</label>
+                  <div class="input-group">
+                    <span class="input-group-text" aria-hidden="true"><i class="bi bi-person"></i></span>
+                    <input v-model="form.name" type="text" class="form-control" placeholder="Enter first name" aria-label="First name">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Last name</label>
+                  <div class="input-group">
+                    <span class="input-group-text" aria-hidden="true"><i class="bi bi-person"></i></span>
+                    <input v-model="form.lastname" type="text" class="form-control" placeholder="Enter last name" aria-label="Last name">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Email</label>
+                  <div class="input-group">
+                    <span class="input-group-text" aria-hidden="true"><i class="bi bi-envelope"></i></span>
+                    <input v-model="form.email" type="email" class="form-control" placeholder="name@example.com" aria-label="Email">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Phone</label>
+                  <div class="input-group">
+                    <span class="input-group-text" aria-hidden="true"><i class="bi bi-telephone"></i></span>
+                    <input v-model="form.phone" type="tel" class="form-control" placeholder="e.g. +1 555 555 5555" aria-label="Phone">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <label class="form-label mb-0">Password</label>
+                    <small class="text-muted">Leave blank to keep current</small>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-text" aria-hidden="true"><i class="bi bi-lock"></i></span>
+                    <input v-model="form.password" type="password" class="form-control" placeholder="••••••••" aria-label="Password">
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end gap-2 mt-4">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
- </div>
-
- <div class="container text-center">
-
-  <div class="row pb-2  text-center">
-
-   <div class="col">
-    <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#3D8F67;background:#d1f4d0"><a href="/notes" style="text-decoration:none;color:#3D8F67;background:#d1f4d0">Notes</a></span>
-   </div>
-   <div class="col">
-    <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#B70D52;background:#ead1dc"><a href="/bookmarks" style="text-decoration:none;color:#B70D52;background:#ead1dc">Bookmarks</a></span>
-   </div>
-   <div class="col">
-    <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#0263FF;background:#c2d8fb"><a href="/home" style="text-decoration:none;color:#0263FF;background:#c2d8fb">Home</a></span>
-   </div>
-
-  </div>
- </div>
-
- <!-- profile section -->
- <div class="container">
-  <div class="row ">
-   <div class="col-lg-8">
-    <div class="card mb-4">
-     <div class="card-body" style="border:2px solid rgba(0, 191, 166); border-radius:8px">
-      <div class="row">
-       <div class="text-center">
-        <h3 class="mb-3 text-left"><strong>Personal Information:</strong></h3>
-       </div>
-      </div>
-      <hr>
-      <div class="row">
-       <div class="col-sm-3">
-        <strong class="mb-0">Full Name:</strong>
-       </div>
-       <div class="col-sm-9">
-        <p class="text-muted mb-0 text-black">{{ user.name }} {{ user.lastname }}</p>
-       </div>
-      </div>
-      <hr>
-      <div class="row">
-       <div class="col-sm-3">
-        <strong class="mb-0">Email:</strong>
-       </div>
-       <div class="col-sm-9">
-        <p class="text-muted mb-0">{{ user.email }}</p>
-       </div>
-      </div>
-      <hr>
-      <div class="row">
-       <div class="col-sm-3">
-        <strong class="mb-0">Phone:</strong>
-       </div>
-       <div class="col-sm-9">
-        <p class="text-muted mb-0">{{ user.phone }}</p>
-       </div>
-      </div>
-      <hr>
-      <button data-bs-toggle="modal" data-bs-target="#editNew" type="button" class="btn text-white text-right user-btn mr-2" style="background:rgba(0, 191, 166); color:white; font-weight:bold; border-radius:8px" @click="editModal(user)">
-       Edit Profile
-      </button>
-     </div>
-    </div>
-   </div>
-
-   <div class="col-lg-4">
-    <div class="card mb-4">
-     <div class="card-body text-center" style="border:2px solid rgba(0, 191, 166); border-radius:8px">
-      <div class="row">
-       <div class="text-center">
-        <h3 class="mb-3 text-left"><strong>Statistics:</strong></h3>
-       </div>
-      </div>
-      <ul class="list-group list-group-flush">
-       <li class="list-group-item d-flex justify-content-between align-items-center">
-        <i class="bi bi-file-earmark-fill h4 links"></i>
-        <b class="text-left"><a href="/notes" style="text-decoration:none; color:black">Notes</a></b>
-        <span class="badge rounded-pill" style="background: rgba(0, 191, 166)">{{ notes.length }}</span>
-       </li>
-       <li class="list-group-item d-flex justify-content-between align-items-center">
-       <i class="bi bi-bookmark-fill h4 links"></i>
-        <b class="text-left"><a href="/bookmarks" style="text-decoration:none; color:black">Bookmarks</a></b>
-        <span class="badge rounded-pill h4" style="background: rgba(0, 191, 166)">{{ bookmarks.length }}</span>
-       </li>
-       <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
-       <i class="bi bi-collection-fill h4 links"></i>
-        <b class="text-left">Collections</b>
-        <span class="badge rounded-pill" style="background: rgba(0, 191, 166)">{{ folders.length }}</span>
-       </li> -->
-      </ul>
-     </div>
-    </div>
-   </div>
-  </div>
- </div>
-
-</div>
 </template>
 
 <script>
 import axios from "axios";
+import Swal from "sweetalert2";
 export default {
   props: {
-  information: { // Assuming information is passed as a prop
-   type: Object,
-   default: null
-  }
- },
+    information: { type: Object, default: null },
+    user: { type: Object, required: true }
+  },
  mounted() {
   this.fetchUserIdAndNotes();
   this.fetchUserIdAndBookmarks();
   this.fetchUserIdAndFolders();
  },
- props: ["user"],
  data() {
   return {
    users: {},
@@ -182,6 +202,30 @@ export default {
     password: ""
    }),
   };
+  },
+  computed: {
+    avatarUrl(){
+      try {
+        const email=(this.user?.email||'').trim().toLowerCase();
+        const hash = window.md5 ? window.md5(email) : '';
+        // fallback to identicon param if md5 not available
+        return `https://www.gravatar.com/avatar/${hash}?s=140&d=identicon`;
+      } catch(_) {
+        return `https://www.gravatar.com/avatar/?s=140&d=identicon`;
+      }
+    },
+    formattedJoin(){
+      try{
+        const d = new Date(this.user?.created_at || this.user?.createdAt || '');
+        if (!isNaN(d)) {
+          const y=d.getFullYear();
+          const m=String(d.getMonth()+1).padStart(2,'0');
+          const day=String(d.getDate()).padStart(2,'0');
+          return `${y}-${m}-${day}`;
+        }
+        return '';
+      }catch(_){return ''}
+    }
   },
   methods: {
   async fetchUserIdAndNotes() {
@@ -289,27 +333,24 @@ export default {
     1000
    ).then((result) => {
     if (result.isConfirmed) {
-     axios.post(`api/update-users/${this.form.id}`, this.form);
-     Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "User created successfully ",
-      showConfirmButton: false,
-      timer: 1500,
-     });
-     window.location.reload();
-     this.loadUsers();
-     $("#editNew").modal("hide");
-     self.close();
+     axios.post(`api/update-users/${this.form.id}`, this.form)
+      .then(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Profile updated",
+          showConfirmButton: false,
+          timer: 1200,
+        });
+        this.hideEditModal();
+      })
+      .catch(() => {
+        Swal.fire({ icon: 'error', title: 'Update failed', timer: 1500, showConfirmButton: false });
+      });
     }
    });
   },
   
-  // add new modal
-  newModal(user) {
-   this.form.reset();
-   $("#addNew").modal("show");
-  },
   //edit user modal
   editModal(user) {
    this.editmode = true;
@@ -318,12 +359,59 @@ export default {
   },
   viewModal(user) {
    this.form.reset();
-   $("#view").modal("show");
+   // optional: show a separate view modal if implemented
    this.form.fill(user);
   },
+  hideEditModal(){
+    try {
+      const el=document.getElementById('editNew');
+      if(!el) return;
+      const inst=bootstrap.Modal.getInstance(el) || bootstrap.Modal.getOrCreateInstance(el);
+      inst.hide();
+    } catch(_) {}
+  }
  },
 };
 </script>
+
+<style scoped>
+/* Colors inspired by reference */
+.profile-wrap{background:linear-gradient(180deg,#f3f4f6, #eef1f4)}
+.profile-topbar{background:var(--ref-green); color:#fff; padding:12px 0; border-bottom-left-radius:14px; border-bottom-right-radius:14px}
+.profile-topbar .btn{border-radius:10px}
+.searchbar{position:relative; max-width:560px; flex:1}
+.searchbar i{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#d9efe7}
+.searchbar .form-control{padding-left:38px; background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.2); border-radius:12px}
+.searchbar .form-control:focus{box-shadow:0 0 0 2px rgba(255,255,255,.30); border-color:#fff}
+.searchbar .form-control::placeholder{color:#cfe7df}
+.frosted{background:#fbfcfd; border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 8px 24px rgba(15,23,42,.06)}
+.avatar-lg{width:64px;height:64px}
+.section-card{background:#fafbfc; border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 8px 24px rgba(15,23,42,.06)}
+.section-header{display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid #eef2f5}
+.section-body{padding:16px}
+.field{background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px; padding:12px}
+.field-label{font-size:.8rem; color:#475569; margin-bottom:2px}
+.field-value{font-weight:700; color:#0f172a}
+/* Role badge */
+.role-badge{background:#e6fcf7; color:var(--ref-green); border:1px solid #b3efe3; padding:4px 8px; border-radius:999px; font-size:.75rem; font-weight:700}
+/* Amber button to match reference */
+.btn-amber{background:var(--ref-amber); border-color:var(--ref-amber); color:#212529}
+.btn-amber:hover{filter:brightness(.95)}
+/* Ghost light button for topbar actions */
+.btn-ghost-light{background:transparent; color:#fff; border:1px solid rgba(255,255,255,.35)}
+.btn-ghost-light:hover{background:rgba(255,255,255,.12); color:#fff}
+/* Modern modal styling */
+.modal-modern .modal-content{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}
+.modal-modern .modal-header{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}
+.modal-modern .btn-close{filter:none}
+.modal-modern .input-group-text{background:#f1f5f9; border-color:#e2e8f0}
+.modal-modern .form-control:focus{box-shadow:0 0 0 .2rem rgba(11,128,111,.15); border-color: var(--ref-green)}
+/* Mobile refinements */
+@media (max-width: 576px){
+  .profile-topbar{padding:10px 0}
+  .avatar-lg{width:56px;height:56px}
+}
+</style>
 
 <style>
 .links {

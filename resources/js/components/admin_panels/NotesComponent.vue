@@ -1,36 +1,28 @@
 <template>
   <div>
-   <h2 class="pt-4 pb-3 text-center"><strong>Notes</strong></h2>
   
-   <!-- Container visible only on mobile screens -->
-   <div class="container text-center mt-3 d-md-none">
-    <div class="row pb-2 text-center">
-     <div class="col">
-      <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#B70D52;background:#ead1dc">
-       <a href="/bookmarks" style="text-decoration:none;color:#B70D52;background:#ead1dc">Bookmarks</a>
-      </span>
-     </div>
-     <div class="col">
-      <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#0263FF;background:#c2d8fb">
-       <a href="/profile" style="text-decoration:none;color:#0263FF;background:#c2d8fb">Profile</a>
-      </span>
-     </div>
-     <div class="col">
-        <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#3D8F67;background:#d1f4d0">
-          <a href="/home" style="text-decoration:none;color:#3D8F67;background:#d1f4d0">Home</a>
-        </span>
-      </div>
-    </div>
-   </div>
+   <!-- removed mobile quick-links to keep the page minimal -->
   
    <!-- Notes Container -->
-   <div class="container">
+   <div class=" pt-4">
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+      <div class="input-group" style="max-width:380px">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input v-model="query" class="form-control" placeholder="Search notes..." />
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <select v-model="sortBy" class="form-select">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+        </select>
+      </div>
+    </div>
     <h3 class="pb-3 text-center">
      <strong>You have:</strong> <b style="color:rgb(0, 191, 166)">{{ notes.length }}</b> <strong>notes</strong>
   
     </h3>
     <div class="row">
-     <div class="col-md-4 mb-4 collage-item" v-for="note in notes" :key="note.id">
+     <div class="col-md-4 mb-4 collage-item" v-for="note in filteredNotes" :key="note.id">
       <!-- Note Card -->
       <div class="card" style="border-radius:8px;padding:10px; border: 2px solid rgba(0, 191, 166);">
        <div class="card-body">
@@ -43,6 +35,7 @@
          <h5><strong>Note:</strong></h5>
          <div class="mt-2 text-dark text-left" v-text="stripHtmlTags(note.ayah_notes)"></div>
         </div>
+        <div class="text-muted small mt-2">{{ extractDate(note.created_at) }}</div>
         <!-- <div>
          <b>This note is: <b style="color:rgba(0, 191, 166);">{{ parseInt(note.option) === 0 ? 'public' : 'private' }}</b></b>
         </div> -->
@@ -69,7 +62,7 @@
   
    <!-- Edit Note Modal -->
    <div class="modal fade" id="editNotes" tabindex="-1" aria-labelledby="editNotesLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
      <div class="modal-content">
       <div class="modal-header">
        <h5 class="modal-title text-dark" id="editNotesLabel"><strong>Edit Note</strong></h5>
@@ -114,7 +107,7 @@
   
    <!-- View Note Modal -->
    <div class="modal fade" id="viewNotes" tabindex="-1" aria-labelledby="viewNotesLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
      <div class="modal-content">
       <div class="modal-header">
        <h5 class="modal-title text-dark" id="viewNotesLabel"><b>View Note</b></h5>
@@ -175,11 +168,13 @@
    components: {
     Editor
    },
-   data() {
+  data() {
     return {
      notes: [],
      option: 0,
      userId: null,
+     query: '',
+     sortBy: 'newest',
      form: {
       surah_name: '',
       ayah_verse_ar: '',
@@ -222,24 +217,19 @@
     stripHtmlTags(text) {
       return text ? text.replace(/<\/?[^>]+(>|$)/g, "") : '';
     },
-    viewModal(note) {
-     // Populate the form object with the note's data
-     console.log("Note Data:", note);
-     this.form = {
-      surah_name: note.surah_name || '',
-      ayah_verse_ar: note.ayah_verse_ar || '',
-      ayah_verse_en: note.ayah_verse_en || '',
-      ayah_notes: note.ayah_notes || '',
-      option: note.option || '',
-      created_at: note.created_at || '',
-     };
-  
-     // Open the modal using Bootstrap 5
-    //  const viewNotesModal = new bootstrap.Modal(document.getElementById('viewNotes'));
-    //  viewNotesModal.show();
-    },
     extractDate(dateTimeString) {
-     return dateTimeString.split('T')[0];
+      if (!dateTimeString) return '';
+      try {
+        const d = new Date(dateTimeString);
+        if (!isNaN(d.getTime())) {
+          const y = d.getFullYear();
+          const m = String(d.getMonth()+1).padStart(2,'0');
+          const day = String(d.getDate()).padStart(2,'0');
+          return `${y}-${m}-${day}`;
+        }
+        // Fallback to split when not parseable
+        return (dateTimeString.split('T')[0] || dateTimeString).trim();
+      } catch(_) { return String(dateTimeString).split('T')[0]; }
     },
     async fetchNotes(userId) {
      try {
@@ -253,10 +243,22 @@
      }
     },
     viewModal(note) {
-     this.form = {
-      ...note
-     };
-     $('#viewNotes').modal('show');
+      this.form = {
+        surah_name: note.surah_name || '',
+        ayah_verse_ar: note.ayah_verse_ar || '',
+        ayah_verse_en: note.ayah_verse_en || '',
+        ayah_notes: note.ayah_notes || '',
+        option: note.option || '',
+        created_at: note.created_at || '',
+        id: note.id
+      };
+      try {
+        const modalEl = document.getElementById('viewNotes');
+        if (modalEl) {
+          const instance = bootstrap.Modal.getOrCreateInstance(modalEl);
+          instance.show();
+        }
+      } catch(_) {}
     },
     truncatedHtml(html, maxLength = 150) {
      const div = document.createElement("div");
@@ -336,23 +338,51 @@
      });
     },
     openEditModal(note) {
-     this.selectedNote = note;
-     this.form.ayah_notes = note.content;
-     this.form.ayah_notes = this.sanitizeInput(this.form.ayah_notes);
-     // Initialize the modal if not already done
-     const editModal = new bootstrap.Modal(document.getElementById('editNotes'));
-     editModal.show();
+      this.form = {
+        ...this.form,
+        ...note,
+        ayah_notes: note.ayah_notes || ''
+      };
+      try {
+        const editEl = document.getElementById('editNotes');
+        if (editEl) {
+          const instance = bootstrap.Modal.getOrCreateInstance(editEl);
+          instance.show();
+        }
+      } catch(_) {}
     },
     editModal(note) {
-     this.form = {
-      ...note
-     }; // Make sure form is populated
-     $('#editNotes').modal('show');
+      // Keep a single bootstrap-5 path (no jQuery)
+      this.openEditModal(note);
     },
   
+   },
+   computed: {
+    filteredNotes(){
+      const q=(this.query||'').toLowerCase();
+      const list=this.notes.filter(n=>{
+        const plain=this.stripHtmlTags((n.ayah_notes||'').toString()).toLowerCase();
+        return !q || plain.includes(q);
+      });
+      return list.sort((a,b)=>{
+        const da=new Date(a.created_at||0).getTime();
+        const db=new Date(b.created_at||0).getTime();
+        return this.sortBy==='newest'? db-da : da-db;
+      });
+    }
    }
   };
   </script>
+
+<style scoped>
+.page-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0 18px}
+.page-title{font-weight:700}
+.count-chip{background:#f7f7f8;border:1px solid #e6e8eb;padding:6px 10px;border-radius:999px;font-weight:600;color:#0b5d4b}
+.card{border:1px solid #e6e8eb !important;border-radius:12px !important;box-shadow:0 1px 2px rgba(0,0,0,.06);transition:transform .12s ease, box-shadow .12s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10)}
+.card .small{color:#6b7280}
+.card h5{font-weight:700}
+</style>
   
   <style>
   .editor {

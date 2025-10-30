@@ -1,40 +1,28 @@
 <template>
   <div id="app">
-    <h2 class="pt-4 pb-3 text-center"><strong>Bookmarks</strong></h2>
-
-    <!-- Container visible only on mobile screens -->
-    <div class="container text-center mt-3 d-md-none">
-      <div class="row pb-2 text-center">
-        <div class="col">
-          <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#3D8F67;background:#d1f4d0">
-            <a href="/notes" style="text-decoration:none;color:#3D8F67;background:#d1f4d0">Notes</a>
-          </span>
-        </div>
-
-        <div class="col">
-          <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#0263FF;background:#c2d8fb">
-            <a href="/profile" style="text-decoration:none;color:#0263FF;background:#c2d8fb">Profile</a>
-          </span>
-        </div>
-
-        <div class="col">
-          <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#0263FF;background:#ead1dc">
-            <a href="/home" style="text-decoration:none;color:#B70D52;background:#ead1dc">Home</a>
-          </span>
-        </div>
-
-      </div>
-    </div>
-
     <!-- Bookmarks Container -->
     <div class="container">
-      <h3 class="pb-3 text-center">
-        <strong>You have:</strong> <b style="color:rgb(0, 191, 166)">{{ bookmarks.length }}</b> <strong>bookmarks</strong>
-      </h3>
-      <div class="row">
-        <div class="col-md-4 mb-4" v-for="bookmark in bookmarks" :key="bookmark.id">
+      <div v-if="bookmarks.length === 0" class="text-center py-5">
+        <div class="card p-4 mx-auto" style="max-width:520px">
+          <div class="mb-2">🔖</div>
+          <h5 class="mb-2">No bookmarks yet</h5>
+          <p class="text-muted mb-0">Save favorite ayahs from the Quran page to see them here.</p>
+        </div>
+      </div>
+      <div v-else class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+        <div class="input-group" style="max-width:380px">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input v-model="query" class="form-control" placeholder="Search bookmarks..." />
+        </div>
+        <select v-model="sortBy" class="form-select" style="max-width:200px">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+        </select>
+      </div>
+      <div v-if="bookmarks.length" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+        <div class="col" v-for="bookmark in filteredBookmarks" :key="bookmark.id">
           <!-- Bookmark Card -->
-          <div class="card" style="border-radius:8px;padding:10px; border: 2px solid rgba(0, 191, 166);">
+          <div class="card p-3">
             <div class="card-body">
               <!-- Bookmark details -->
               <!-- Truncated text example -->
@@ -75,7 +63,7 @@
       aria-labelledby="viewBookmarkLabel"
       aria-hidden="true"
      >
-      <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="viewBookmarkLabel"><strong>View Bookmark</strong></h5>
@@ -154,6 +142,8 @@ export default {
   data() {
     return {
       bookmarks: [],
+      query: '',
+      sortBy: 'newest',
       form: {
         id: "",
         ayah_num: "",
@@ -236,10 +226,28 @@ export default {
       }
     },
   },
+  computed: {
+    filteredBookmarks(){
+      const q=(this.query||'').toLowerCase();
+      const list=this.bookmarks.filter(b=>{
+        const s=(b.surah_name||'').toLowerCase();
+        const e=(b.ayah_verse_en||'').toLowerCase();
+        return !q || s.includes(q) || e.includes(q);
+      });
+      return list.sort((a,b)=>{
+        const da=new Date(a.created_at||0).getTime();
+        const db=new Date(b.created_at||0).getTime();
+        return this.sortBy==='newest'? db-da : da-db;
+      });
+    }
+  },
 };
 </script>
 
 <style scoped>
+.modal-modern .modal-content{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}
+.modal-modern .modal-header{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}
+.modal-modern .btn-close{filter:none}
 .modal-title {
   color: #343a40;
 }
@@ -275,4 +283,12 @@ export default {
   outline: none;
   box-shadow: none;
 }
+
+/* Card polish for bookmark grid */
+.card{border:1px solid #e6e8eb !important;border-radius:12px !important;box-shadow:0 1px 2px rgba(0,0,0,.06);transition:transform .12s ease, box-shadow .12s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10)}
+.truncate{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.page-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0 18px}
+.page-title{font-weight:700}
+.count-chip{background:#f7f7f8;border:1px solid #e6e8eb;padding:6px 10px;border-radius:999px;font-weight:600;color:#0b5d4b}
 </style>

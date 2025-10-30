@@ -1,18 +1,15 @@
 <template>
 <div>
-  <h2 class="pt-3 text-center"><strong>Feedback Management</strong></h2>
 
   <!-- view new Modal -->
   <div class="modal fade" id="editNewFeedback" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-dark" id="addNew">
             View message
           </h5>
-          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form>
@@ -189,5 +186,9 @@ export default {
 </script>
 
 <style>
-
+.modal-modern .modal-content{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}
+.modal-modern .modal-header{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}
+.modal-modern .btn-close{filter:none}
+.modal-modern .input-group-text{background:#f1f5f9; border-color:#e2e8f0}
+.modal-modern .form-control:focus{box-shadow:0 0 0 .2rem rgba(11,128,111,.15); border-color: var(--bs-primary)}
 </style>

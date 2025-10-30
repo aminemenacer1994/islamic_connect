@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="description" content="Welcome to Islamic Connect, your hub for Islamic teachings, Quranic resources, podcasts, and AI-powered accessibility tools. Explore our website for educational content, community engagement, and more.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="stripe-key" content="{{ config('services.stripe.key') }}">
     <title>@yield('title', 'Islamic Connect — Explore Quran, Media, and Accessible Tools')</title>
 
     <!-- CSS Assets -->
@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Analytics -->
     <!-- Google Analytics -->
     <!-- <script>
         // Immediately check localStorage and apply dark mode if needed
@@ -34,7 +33,10 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWLL07EBX9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){ dataLayer.push(arguments); }
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
         gtag('config', 'G-QWLL07EBX9');
     </script>
@@ -42,378 +44,634 @@
     @stack('critical')
 
     <style>
-:root{
-  --brand-teal-600:#0b806f; /* primary brand (passes 4.5:1 on white with white text 7+:1 on teal bg) */
-  --brand-teal-700:#0b5d4b; /* darker for hover/active */
-  --brand-teal-800:#094c3f;
-  --neutral-900:#212529;   /* default body text for contrast */
-  --neutral-700:#495057;   /* muted text with AA on white */
-}
+        :root {
+            --brand-teal-600: #0b806f;
+            /* primary brand (passes 4.5:1 on white with white text 7+:1 on teal bg) */
+            --brand-teal-700: #0b5d4b;
+            /* darker for hover/active */
+            --brand-teal-800: #094c3f;
+            --neutral-900: #212529;
+            /* default body text for contrast */
+            --neutral-700: #495057;
+            /* muted text with AA on white */
+            --surface: #ffffff;
+            --surface-2: #f7f7f8;
+            --border: #e6e8eb;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, .06);
+            --shadow-md: 0 6px 18px rgba(0, 0, 0, .10);
+            --radius: 12px;
+            /* Bootstrap color overrides */
+            --bs-primary: #0b806f;
+            --bs-primary-rgb: 11, 128, 111;
+            --bs-success: #13a27f;
+            --bs-success-rgb: 19, 162, 127;
+            --bs-info: #0ea5e9;
+            --bs-warning: #f59e0b;
+            --bs-danger: #ef4444;
+        }
 
 
 
-.nav-link{
-  color:var(--neutral-900); /* High contrast on light bg */
-}
-.nav-link:hover{
-  color:var(--brand-teal-700); /* darker teal for 4.5:1 contrast */
-  transition: color 0.3s ease;
-}
+        .nav-link {
+            color: var(--neutral-900);
+            /* High contrast on light bg */
+        }
 
-/* Ensure navbar links maintain sufficient contrast on .navbar-light */
-.navbar-light .navbar-nav .nav-link{
-  color:var(--neutral-900) !important;
-}
-.navbar-light .navbar-nav .nav-link:focus,
-.navbar-light .navbar-nav .nav-link:hover{
-  color:var(--brand-teal-700) !important;
-}
-.navbar-light .navbar-nav .nav-link.active,
-.navbar-light .navbar-nav .show > .nav-link{
-  color:var(--brand-teal-700) !important;
-}
+        .nav-link:hover {
+            color: var(--brand-teal-700);
+            /* darker teal for 4.5:1 contrast */
+            transition: color 0.3s ease;
+        }
 
-.button-36:hover {
-  box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
-  transition-duration: .1s;
-}
+        /* Ensure navbar links maintain sufficient contrast on .navbar-light */
+        .navbar-light .navbar-nav .nav-link {
+            color: var(--neutral-900) !important;
+        }
 
-@media (min-width: 768px) {
-  .button-36 {
-    padding: 0 2.6rem;
-  }
-}
+        .navbar-light .navbar-nav .nav-link:focus,
+        .navbar-light .navbar-nav .nav-link:hover {
+            color: var(--brand-teal-700) !important;
+        }
 
-@media (min-width: 768px) {
-  .button-64 {
-    font-size: 24px;
-    min-width: 196px;
-  }
-}
+        .navbar-light .navbar-nav .nav-link.active,
+        .navbar-light .navbar-nav .show>.nav-link {
+            color: var(--brand-teal-700) !important;
+        }
 
-.nav-link { text-decoration: none; }
+        .button-36:hover {
+            box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+            transition-duration: .1s;
+        }
 
-body{
-    padding-top: 70px;
-}
+        @media (min-width: 768px) {
+            .button-36 {
+                padding: 0 2.6rem;
+            }
+        }
 
-/* Screen-reader utilities */
-.sr-only{
-    position:absolute;
-    width:1px;
-    height:1px;
-    padding:0;
-    margin:-1px;
-    overflow:hidden;
-    clip:rect(0,0,0,0);
-    white-space:nowrap;
-    border:0;
-}
-.sr-only-focusable:active,.sr-only-focusable:focus{
-    position:static;
-    width:auto;
-    height:auto;
-    margin:0;
-    overflow:visible;
-    clip:auto;
-    white-space:normal;
-}
+        @media (min-width: 768px) {
+            .button-64 {
+                font-size: 24px;
+                min-width: 196px;
+            }
+        }
 
-/* Skip link */
-.skip-to-content{
-    position:absolute;
-    top:-40px;
-    left:8px;
-    background:#fff;
-    color:#000;
-    padding:8px 12px;
-    z-index:10000;
-    border-radius:6px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.2);
-}
-.skip-to-content:focus{
-    top:8px;
-}
+        .nav-link {
+            text-decoration: none;
+        }
 
-/* Focus visibility */
-:focus-visible{
-    outline:3px solid #0b5d4b; /* higher contrast focus outline */
-    outline-offset:2px;
-}
+        body {
+            padding-top: 70px;
+        }
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce){
-    *{
-        animation-duration:0.001ms !important;
-        animation-iteration-count:1 !important;
-        transition-duration:0.001ms !important;
-        scroll-behavior:auto !important;
-    }
-}
+        /* Page shell */
+        .app-shell {
+            display: flex;
+            gap: 20px
+        }
 
-/* Class-driven reduced motion (user preference) */
-.reduced-motion *{
-    animation-duration:0.001ms !important;
-    animation-iteration-count:1 !important;
-    transition-duration:0.001ms !important;
-    scroll-behavior:auto !important;
-}
+        .content-area {
+            flex: 1;
+            min-width: 0
+        }
 
-/* High contrast mode */
-.high-contrast body{
-    background-color:#ffffff !important;
-    color:#000000 !important;
-}
-.high-contrast a,.high-contrast .nav-link{
-    color:#004085 !important;
-}
-.high-contrast a:focus-visible,
-.high-contrast button:focus-visible,
-.high-contrast [role="button"]:focus-visible{
-    outline:3px solid #000 !important;
-}
-.high-contrast .btn-primary{
-    background-color:#0d6efd !important;
-    border-color:#0d6efd !important;
-    color:#fff !important;
-}
-.a11y-toggle{
-    position:fixed;
-    right:16px;
-    bottom:16px;
-    z-index:1100;
-}
-.a11y-panel{
-    position:fixed;
-    right:16px;
-    bottom:64px;
-    width:280px;
-    max-width:90vw;
-    background:#fff;
-    border-radius:10px;
-    box-shadow:0 8px 24px rgba(0,0,0,.2);
-    z-index:1100;
-}
-.a11y-panel header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:10px 12px;
-    border-bottom:1px solid #e5e7eb;
-}
-.a11y-panel .content{ padding:12px; }
-.a11y-panel[hidden]{ display:none; }
-/* Custom Styles */
-.custom-nav {
-    display: flex;
-    direction: rtl; /* Right-to-left scrolling direction */
-    overflow-x: auto; /* Enable horizontal scrolling */
-    overflow-y: hidden; /* Prevent vertical scrolling */
-    max-width: 100%; /* Adjust to the container's width */
-    white-space: nowrap; /* Prevent items from wrapping to next line */
-    background-color:rgba(0, 0, 0, 0.21); /* Light background color */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Medium shadow */
-    padding: 10px; /* Adjust padding for spacing */
-    gap: 15px; /* Space between items */
-    margin: 0;
-    border-radius: 8px; /* Rounded corners for aesthetic */
-    height: 60px; /* Adjust height for proper alignment */
-    scrollbar-width: thin; /* Thin scrollbar for Firefox */
-    -ms-overflow-style: none; /* Remove scrollbar for IE and Edge */
-}
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 12px 0 10px
+        }
 
-/* Custom scrollbar for WebKit browsers (Chrome, Safari) */
-.custom-nav::-webkit-scrollbar {
-    height: 8px; /* Horizontal scrollbar height */
-}
+        .page-title {
+            font-weight: 700;
+            letter-spacing: .2px
+        }
 
-.custom-nav::-webkit-scrollbar-thumb {
-    background-color: #cccccc;
-    border-radius: 4px;
-}
+        .count-chip {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-weight: 600;
+            color: var(--brand-teal-700)
+        }
 
-.nav-item {
-    display: inline-block; /* Ensure items are displayed in a row */
-    font-size: 15px;
-}
+        .card-lite {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            transition: transform .12s ease, box-shadow .12s ease
+        }
 
-.nav-link {
-    display: inline-block;
-    text-align: center;
-    padding: 5px 10px;
-    font-size: 15px;
-}
-.responsive-nav {
-  display: flex;
-  flex-wrap: wrap; /* Allow wrapping on smaller screens */
-  justify-content: center; /* Center the links */
-  list-style: none; /* Remove bullet points */
-  padding: 0;
-  margin: 0;
-}
+        .card-lite:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md)
+        }
 
-.responsive-nav .nav-item {
-  margin: 5px; /* Add some spacing between items */
-}
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px
+        }
 
-.responsive-nav .nav-link {
-  padding: 10px 15px; /* Adjust padding as needed */
-  text-decoration: none; /* Remove underlines from links */
-  color: #333; /* Set link color */
-  border-radius: 5px; /* Add rounded corners (optional) */
-}
+        @media (max-width: 992px) {
+            .grid-3 {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+        }
 
-.responsive-nav .nav-link:hover {
-  background-color: #f0f0f0; /* Add hover effect (optional) */
-}
+        @media (max-width: 576px) {
+            .grid-3 {
+                grid-template-columns: 1fr
+            }
+        }
 
-/* Media query for smaller screens (e.g., mobile) */
-@media (max-width: 768px) {
-  .responsive-nav {
-    flex-direction: column; /* Stack links vertically */
-    align-items: center; /* Center links horizontally */
-  }
+        /* Refined sidebar */
+        .vc-sidebar {
+            position: sticky;
+            top: 80px;
+            left: 0px;
+            height: calc(100vh - 90px);
+            padding: 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .06)
+        }
 
-  .responsive-nav .nav-item {
-    width: 100%; /* Make each item take full width */
-    text-align: center; /* Center text within items */
-    margin: 5px 0; /* Adjust margin for vertical spacing */
-  }
-}
-.nav-link.active {
-    font-weight: 600;
-    color: var(--brand-teal-700); /* High-contrast highlight */
-    border-bottom: 2px solid var(--brand-teal-700); /* Optional underline */
-    transition: color 0.3s ease, border-bottom 0.3s ease;
-}
+        .vc-sidebar .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px 14px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 12px
+        }
 
-/* Improve placeholder contrast (AA on white) */
-::placeholder{ color: #6b7280; opacity:1; }
-:-ms-input-placeholder{ color:#6b7280; }
-::-ms-input-placeholder{ color:#6b7280; }
+        .vc-sidebar .sidebar-header .brand {
+            font-weight: 700;
+            letter-spacing: .2px
+        }
 
-/* Uniform alignment for collapsed mobile menu */
-@media (max-width: 767.98px) {
-  .navbar-collapse .navbar-nav .nav-item {
-    margin-left: 0 !important;
-    padding-left: 0 !important; /* neutralize any pl-* utilities on li (e.g., Login) */
-  }
-  .navbar-collapse .navbar-nav .nav-link {
-    margin-left: 0 !important; /* neutralize any ml-* utilities */
-    padding-left: 1.25rem !important; /* consistent indent */
-  }
-  /* Ensure user dropdown toggle aligns identically */
-  .navbar-collapse .navbar-nav .dropdown,
-  .navbar-collapse .navbar-nav .dropdown-toggle {
-    margin-left: 0 !important;
-    padding-left: 1.25rem !important;
-  }
-  .navbar-collapse .navbar-nav .dropdown-toggle .bi {
-    margin-right: .5rem; /* breathing room between icon and name */
-  }
+        .vc-sidebar .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--neutral-900);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-weight: 600
+        }
 
-  /* Make sure the hamburger stays above the expanded menu on iOS Safari */
-  .navbar .navbar-toggler {
-    position: relative;
-    z-index: 1060; /* above collapse content */
-  }
-  .navbar .navbar-collapse {
-    position: relative;
-    z-index: 1000;
-  }
-}
+        .vc-sidebar .nav-link .label {
+            opacity: .9
+        }
+
+        .vc-sidebar .nav-link:hover {
+            background: var(--surface-2)
+        }
+
+        .vc-sidebar .nav-link.active {
+            background: #d1f4d0;
+            color: #0b5d4b;
+            box-shadow: 0 3px 0 #0b5d4b33 inset
+        }
+
+        .vc-sidebar .nav-link.active .bi {
+            color: #0b5d4b
+        }
+
+        .vc-sidebar .bi {
+            font-size: 1.15rem;
+            color: #687076
+        }
+
+        /* Fixed sidebar layout option */
+        :root {
+            --navbar-h: 70px;
+            --sidebar-w: 320px;
+        }
+
+        .fixed-sidebar {
+            position: fixed !important;
+            top: var(--navbar-h);
+            left: 0;
+            width: var(--sidebar-w);
+            height: calc(100vh - var(--navbar-h) - 10px);
+            overflow: auto;
+            z-index: 1030;
+        }
+
+        .content-with-sidebar {
+            position: relative;
+            margin-left: var(--sidebar-w);
+            max-width: calc(100% - var(--sidebar-w) - 24px);
+            padding: 0 16px 24px; /* counteract .row negative margins and add breathing room */
+        }
+
+        @media (max-width: 991.98px) {
+            .fixed-sidebar {
+                position: static !important;
+                width: auto;
+                height: auto;
+            }
+
+            .content-with-sidebar {
+                margin-left: 0;
+                max-width: 100%;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+        }
+
+        /* Screen-reader utilities */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .sr-only-focusable:active,
+        .sr-only-focusable:focus {
+            position: static;
+            width: auto;
+            height: auto;
+            margin: 0;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+        }
+
+        /* Skip link */
+        .skip-to-content {
+            position: absolute;
+            top: -40px;
+            left: 8px;
+            background: #fff;
+            color: #000;
+            padding: 8px 12px;
+            z-index: 10000;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .skip-to-content:focus {
+            top: 8px;
+        }
+
+        /* Focus visibility */
+        :focus-visible {
+            outline: 3px solid #0b5d4b;
+            /* higher contrast focus outline */
+            outline-offset: 2px;
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Class-driven reduced motion (user preference) */
+        .reduced-motion * {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+            scroll-behavior: auto !important;
+        }
+
+        /* High contrast mode */
+        .high-contrast body {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+        }
+
+        .high-contrast a,
+        .high-contrast .nav-link {
+            color: #004085 !important;
+        }
+
+        .high-contrast a:focus-visible,
+        .high-contrast button:focus-visible,
+        .high-contrast [role="button"]:focus-visible {
+            outline: 3px solid #000 !important;
+        }
+
+        .high-contrast .btn-primary {
+            background-color: #0d6efd !important;
+            border-color: #0d6efd !important;
+            color: #fff !important;
+        }
+
+        .a11y-toggle {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            z-index: 1100;
+        }
+
+        .a11y-panel {
+            position: fixed;
+            right: 16px;
+            bottom: 64px;
+            width: 280px;
+            max-width: 90vw;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+            z-index: 1100;
+        }
+
+        .a11y-panel header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .a11y-panel .content {
+            padding: 12px;
+        }
+
+        .a11y-panel[hidden] {
+            display: none;
+        }
+
+        /* Custom Styles */
+        .custom-nav {
+            display: flex;
+            direction: rtl;
+            /* Right-to-left scrolling direction */
+            overflow-x: auto;
+            /* Enable horizontal scrolling */
+            overflow-y: hidden;
+            /* Prevent vertical scrolling */
+            max-width: 100%;
+            /* Adjust to the container's width */
+            white-space: nowrap;
+            /* Prevent items from wrapping to next line */
+            background-color: rgba(0, 0, 0, 0.21);
+            /* Light background color */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Medium shadow */
+            padding: 10px;
+            /* Adjust padding for spacing */
+            gap: 15px;
+            /* Space between items */
+            margin: 0;
+            border-radius: 8px;
+            /* Rounded corners for aesthetic */
+            height: 60px;
+            /* Adjust height for proper alignment */
+            scrollbar-width: thin;
+            /* Thin scrollbar for Firefox */
+            -ms-overflow-style: none;
+            /* Remove scrollbar for IE and Edge */
+        }
+
+        /* Custom scrollbar for WebKit browsers (Chrome, Safari) */
+        .custom-nav::-webkit-scrollbar {
+            height: 8px;
+            /* Horizontal scrollbar height */
+        }
+
+        .custom-nav::-webkit-scrollbar-thumb {
+            background-color: #cccccc;
+            border-radius: 4px;
+        }
+
+        .nav-item {
+            display: inline-block;
+            /* Ensure items are displayed in a row */
+            font-size: 15px;
+        }
+
+        .nav-link {
+            display: inline-block;
+            text-align: center;
+            padding: 5px 10px;
+            font-size: 15px;
+        }
+
+        .responsive-nav {
+            display: flex;
+            flex-wrap: wrap;
+            /* Allow wrapping on smaller screens */
+            justify-content: center;
+            /* Center the links */
+            list-style: none;
+            /* Remove bullet points */
+            padding: 0;
+            margin: 0;
+        }
+
+        .responsive-nav .nav-item {
+            margin: 5px;
+            /* Add some spacing between items */
+        }
+
+        .responsive-nav .nav-link {
+            padding: 10px 15px;
+            /* Adjust padding as needed */
+            text-decoration: none;
+            /* Remove underlines from links */
+            color: #333;
+            /* Set link color */
+            border-radius: 5px;
+            /* Add rounded corners (optional) */
+        }
+
+        .responsive-nav .nav-link:hover {
+            background-color: #f0f0f0;
+            /* Add hover effect (optional) */
+        }
+
+        /* Media query for smaller screens (e.g., mobile) */
+        @media (max-width: 768px) {
+            .responsive-nav {
+                flex-direction: column;
+                /* Stack links vertically */
+                align-items: center;
+                /* Center links horizontally */
+            }
+
+            .responsive-nav .nav-item {
+                width: 100%;
+                /* Make each item take full width */
+                text-align: center;
+                /* Center text within items */
+                margin: 5px 0;
+                /* Adjust margin for vertical spacing */
+            }
+        }
+
+        .nav-link.active {
+            font-weight: 600;
+            color: var(--brand-teal-700);
+            /* High-contrast highlight */
+            border-bottom: 2px solid var(--brand-teal-700);
+            /* Optional underline */
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+        }
+
+        /* Improve placeholder contrast (AA on white) */
+        ::placeholder {
+            color: #6b7280;
+            opacity: 1;
+        }
+
+        :-ms-input-placeholder {
+            color: #6b7280;
+        }
+
+        ::-ms-input-placeholder {
+            color: #6b7280;
+        }
+
+        /* Uniform alignment for collapsed mobile menu */
+        @media (max-width: 767.98px) {
+            .navbar-collapse .navbar-nav .nav-item {
+                margin-left: 0 !important;
+                padding-left: 0 !important;
+                /* neutralize any pl-* utilities on li (e.g., Login) */
+            }
+
+            .navbar-collapse .navbar-nav .nav-link {
+                margin-left: 0 !important;
+                /* neutralize any ml-* utilities */
+                padding-left: 1.25rem !important;
+                /* consistent indent */
+            }
+
+            /* Ensure user dropdown toggle aligns identically */
+            .navbar-collapse .navbar-nav .dropdown,
+            .navbar-collapse .navbar-nav .dropdown-toggle {
+                margin-left: 0 !important;
+                padding-left: 1.25rem !important;
+            }
+
+            .navbar-collapse .navbar-nav .dropdown-toggle .bi {
+                margin-right: .5rem;
+                /* breathing room between icon and name */
+            }
+
+            /* Make sure the hamburger stays above the expanded menu on iOS Safari */
+            .navbar .navbar-toggler {
+                position: relative;
+                z-index: 1060;
+                /* above collapse content */
+            }
+
+            .navbar .navbar-collapse {
+                position: relative;
+                z-index: 1000;
+            }
+        }
     </style>
 </head>
+
 <body>
     <a class="skip-to-content" href="#main-content">Skip to main content</a>
     <div>
         <!-- Navbar -->
-    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-lg py-1" role="navigation" aria-label="Primary">
-        <div class="container-fluid">
-        <a class="navbar-brand" href="/welcome" data-path="/welcome" aria-label="Home">
-            <img 
-                src="/images/logo_main.png" 
-                width="300"
-                height="200"
-                alt="Islamic Connect Logo"
-                loading="lazy"
-                height="auto" 
-                class="img-fluid"
-            >
-        </a>
+        <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-lg py-1" role="navigation" aria-label="Primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/welcome" data-path="/welcome" aria-label="Home">
+                    <img
+                        src="/images/logo_main.png"
+                        width="300"
+                        height="200"
+                        alt="Islamic Connect Logo"
+                        loading="lazy"
+                        height="auto"
+                        class="img-fluid">
+                </a>
 
-        <button id="navbarToggler" class="navbar-toggler" type="button"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>   
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav justify-content-end pr-4 flex-grow-1" aria-label="Primary menu">                
-                    <li class="nav-item mt-2">
-                        <a class="nav-link pt-2 ml-3" href="/" data-path="/" data-nav-item="primary">Home</a>
-                    </li>
-                    
+                <button id="navbarToggler" class="navbar-toggler" type="button"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav justify-content-end pr-4 flex-grow-1" aria-label="Primary menu">
+                        <li class="nav-item mt-2">
+                            <a class="nav-link pt-2 ml-3" href="/" data-path="/" data-nav-item="primary">Home</a>
+                        </li>
 
-                    <li class="nav-item mt-2">
-                        <a class="nav-link ml-3 pt-2 pl-3" href="/holy" data-path="/holy" data-nav-item="primary">Quran Portal</a>
-                    </li>
-                    
-                    <li class="nav-item mt-2">
-                        <a class="nav-link ml-3 pt-2 pl-3" href="/media" data-path="/media" data-nav-item="primary">Media Center</a>
-                    </li>
 
-                    <li class="nav-item mt-2">
-                        <a class="nav-link ml-3 pt-2 pl-3" href="/knowledge" data-path="/knowledge" data-nav-item="primary">Islamic Knowledge</a>
-                    </li>
-                    
-                    <li class="nav-item mt-2">
-                        <a class="nav-link ml-3 pt-2 pl-3" href="/toolkit" data-path="/toolkit" data-nav-item="primary">Utility Toolkit</a>
-                    </li>
+                        <li class="nav-item mt-2">
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/holy" data-path="/holy" data-nav-item="primary">Quran Portal</a>
+                        </li>
 
-                    <li class="nav-item mt-2">
-                        <a class="nav-link ml-3 pt-2 pl-3" href="/services" data-path="/services" data-nav-item="primary">Services</a>
-                    </li>
+                        <li class="nav-item mt-2">
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/media" data-path="/media" data-nav-item="primary">Media Center</a>
+                        </li>
 
-                    <li class="nav-item mt-2">
-                        <a class="nav-link ml-3 pt-2 pl-3" href="/subscribe" data-path="/subscribe" data-nav-item="primary">Packages</a>
-                    </li>
+                        <li class="nav-item mt-2">
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/knowledge" data-path="/knowledge" data-nav-item="primary">Islamic Knowledge</a>
+                        </li>
 
-                    <li class="nav-item mt-2">
-                        <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary">Donations</a>
-                    </li>
-                                    
-                    @guest
-                    @if (Route::has('login'))
-                    <li class="nav-item  pl-3 mt-2">
-                        <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login" data-nav-item="primary">{{ __('Login') }}</a>
-                    </li>
-                    @endif
-                    <!-- @if (Route::has('register'))
+                        <li class="nav-item mt-2">
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/toolkit" data-path="/toolkit" data-nav-item="primary">Utility Toolkit</a>
+                        </li>
+
+                        <li class="nav-item mt-2">
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/services" data-path="/services" data-nav-item="primary">Services</a>
+                        </li>
+
+                        <li class="nav-item mt-2">
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/subscribe" data-path="/subscribe" data-nav-item="primary">Packages</a>
+                        </li>
+
+                        <li class="nav-item mt-2">
+                            <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary">Donations</a>
+                        </li>
+
+                        @guest
+                        @if (Route::has('login'))
+                        <li class="nav-item  pl-3 mt-2">
+                            <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login" data-nav-item="primary">{{ __('Login') }}</a>
+                        </li>
+                        @endif
+                        <!-- @if (Route::has('register'))
                     <li class="nav-item display-6 pl-3 mt-2">
                         <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
                     </li>
                     @endif -->
-                    @else
-                    <li class="nav-item dropdown pl-3">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle pt-2" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="User menu" data-nav-item="primary" v-pre>
-                            <i class="bi bi-person-circle pr-2" style="font-size: 1.8rem"></i>
-                            {{ Auth::user()->name }}
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" role="menuitem" href="/bookmarks">Bookmarks</a>
-                            <a class="dropdown-item" role="menuitem" href="/notes">Notes & Reflections</a>
-                            <a class="dropdown-item" role="menuitem" href="/profile">Profile</a>
-                            <a class="dropdown-item" role="menuitem" href="{{ route('logout') }}"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                        @else
+                        <li class="nav-item dropdown pl-3">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle pt-2" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="User menu" data-nav-item="primary" v-pre>
+                                <i class="bi bi-person-circle pr-2" style="font-size: 1.8rem"></i>
+                                {{ Auth::user()->name }}
                             </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                    @endguest
-                    <!-- <li class="pl-4 pb-2 pt-3"> 
+                            <div class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" role="menuitem" href="/bookmarks">Bookmarks</a>
+                                <a class="dropdown-item" role="menuitem" href="/notes">Notes & Reflections</a>
+                                <a class="dropdown-item" role="menuitem" href="/profile">Profile</a>
+                                <a class="dropdown-item" role="menuitem" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                        @endguest
+                        <!-- <li class="pl-4 pb-2 pt-3"> 
                         <button class="button-36" role="button">
                             <span>
                                 <strong>
@@ -422,16 +680,16 @@ body{
                             </span>
                         </button>
                     </li> -->
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
         <!-- Main Content -->
         <main id="main-content" role="main" tabindex="-1">
             @hasSection('page_h1')
-                @yield('page_h1')
+            @yield('page_h1')
             @else
-                <h1 class="sr-only" id="page-title">@yield('title', 'Islamic Connect')</h1>
+            <h1 class="sr-only" id="page-title">@yield('title', 'Islamic Connect')</h1>
             @endif
             <div id="app">
                 @yield('content')
@@ -445,6 +703,7 @@ body{
     <script defer src="{{ mix('js/app.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // No theme toggle (removed on request)
             const navLinks = document.querySelectorAll('ul[aria-label="Primary menu"] a.nav-link');
             // Ensure hamburger toggler controls the collapse reliably
             try {
@@ -452,7 +711,9 @@ body{
                 const collapseEl = document.getElementById('navbarSupportedContent');
                 if (collapseEl && window.bootstrap) {
                     // Create a single Collapse controller; we removed data-bs-* on the button to avoid double toggles
-                    const bsCollapse = window.bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+                    const bsCollapse = window.bootstrap.Collapse.getOrCreateInstance(collapseEl, {
+                        toggle: false
+                    });
 
                     const setExpanded = (expanded) => {
                         if (toggler) {
@@ -461,13 +722,15 @@ body{
                         }
                     };
                     // Toggle open/close when pressing the burger
-                    if (toggler){
+                    if (toggler) {
                         toggler.addEventListener('click', (e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             const isShown = collapseEl.classList.contains('show');
                             isShown ? bsCollapse.hide() : bsCollapse.show();
-                        }, { passive: true });
+                        }, {
+                            passive: true
+                        });
                     }
 
                     // Close the menu only for plain nav links (not dropdown toggles)
@@ -483,16 +746,17 @@ body{
                     collapseEl.addEventListener('shown.bs.collapse', () => setExpanded(true));
                     collapseEl.addEventListener('hidden.bs.collapse', () => setExpanded(false));
                 }
-            } catch(_) { /* ignore */ }
-        
+            } catch (_) {
+                /* ignore */ }
+
             // Highlight the active link based strictly on current URL
             // Normalize trailing slashes and choose the longest matching data-path prefix
             const normalize = (p) => {
                 if (!p) return '/';
                 try {
                     p = p.trim();
-                } catch(_){}
-                if (p.length > 1 && p.endsWith('/')) p = p.replace(/\/+$/,'');
+                } catch (_) {}
+                if (p.length > 1 && p.endsWith('/')) p = p.replace(/\/+$/, '');
                 return p || '/';
             };
             const pathNow = normalize(window.location.pathname);
@@ -500,21 +764,51 @@ body{
             // Build a deterministic alias map and prefer the longest matching key
             const aliasMap = {
                 // Home
-                '/': '/', '/home': '/', '/welcome': '/',
+                '/': '/',
+                '/home': '/',
+                '/welcome': '/',
                 // Quran portal (user-specified)
-                '/holy': '/holy', '/quran': '/holy', '/surat': '/holy', '/history': '/holy',
+                '/holy': '/holy',
+                '/quran': '/holy',
+                '/surat': '/holy',
+                '/history': '/holy',
                 // Media center (user-specified)
-                '/media': '/media', '/content': '/media', '/streaming': '/media', '/radio': '/media', '/gallery': '/media', '/video': '/media',
+                '/media': '/media',
+                '/content': '/media',
+                '/streaming': '/media',
+                '/radio': '/media',
+                '/gallery': '/media',
+                '/video': '/media',
                 // Knowledge (user-specified)
-                '/knowledge': '/knowledge', '/mission': '/knowledge', '/name': '/knowledge', '/guide': '/knowledge', '/read': '/knowledge', '/books': '/knowledge', '/boos': '/knowledge',
+                '/knowledge': '/knowledge',
+                '/mission': '/knowledge',
+                '/name': '/knowledge',
+                '/guide': '/knowledge',
+                '/read': '/knowledge',
+                '/books': '/knowledge',
+                '/boos': '/knowledge',
                 // Toolkit (user-specified)
-                '/toolkit': '/toolkit', '/qibla': '/toolkit', '/prayer': '/toolkit', '/dua': '/toolkit', '/zakat': '/toolkit', '/date': '/toolkit', '/umrah': '/toolkit', '/calendar': '/toolkit',
+                '/toolkit': '/toolkit',
+                '/qibla': '/toolkit',
+                '/prayer': '/toolkit',
+                '/dua': '/toolkit',
+                '/zakat': '/toolkit',
+                '/date': '/toolkit',
+                '/umrah': '/toolkit',
+                '/calendar': '/toolkit',
                 // Services (user-specified)
-                '/services': '/services', '/mosque': '/services', '/shop': '/services', '/school': '/services', '/support': '/services',
+                '/services': '/services',
+                '/mosque': '/services',
+                '/shop': '/services',
+                '/school': '/services',
+                '/support': '/services',
                 // Other existing mappings kept sensible
-                '/store': '/services', '/finance': '/services',
+                '/store': '/services',
+                '/finance': '/services',
                 // Packages
-                '/subscribe': '/subscribe', '/packages': '/subscribe', '/pricing': '/subscribe'
+                '/subscribe': '/subscribe',
+                '/packages': '/subscribe',
+                '/pricing': '/subscribe'
             };
 
             const aliasKeys = Object.keys(aliasMap);
@@ -523,38 +817,39 @@ body{
                 const match = aliasKeys
                     .map(k => normalize(k))
                     .filter(k => pathNow === k || pathNow.startsWith(k + '/'))
-                    .sort((a,b) => b.length - a.length)[0];
+                    .sort((a, b) => b.length - a.length)[0];
                 return match ? normalize(aliasMap[match]) : pathNow;
             })();
 
             const links = Array.from(navLinks).filter(a => a.dataset && typeof a.dataset.path === 'string');
             const candidates = links.map(a => normalize(a.dataset.path));
-            
+
             // 1) Try group target exact
             let best = candidates.find(p => p === effectivePath);
             // 2) Try exact path
             if (!best) best = candidates.find(p => p === pathNow);
             // 3) Try longest prefix of current path
-            if (!best){
+            if (!best) {
                 const pref = candidates
                     .filter(p => p !== '/' && (pathNow === p || pathNow.startsWith(p + '/')))
-                    .sort((a,b) => b.length - a.length)[0];
+                    .sort((a, b) => b.length - a.length)[0];
                 best = pref || undefined;
             }
             links.forEach(a => {
                 const ap = normalize(a.dataset.path);
                 const isActive = !!best && ap === best;
                 a.classList.toggle('active', isActive);
-                if (isActive) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+                if (isActive) a.setAttribute('aria-current', 'page');
+                else a.removeAttribute('aria-current');
             });
 
             // Keyboard navigation across top-level menu items (Left/Right)
             const menuItems = Array.from(document.querySelectorAll('[data-nav-item="primary"]'));
             const menubar = document.querySelector('ul[aria-label="Primary menu"]');
-            if (menubar && menuItems.length){
+            if (menubar && menuItems.length) {
                 menubar.addEventListener('keydown', (e) => {
                     const currentIndex = menuItems.indexOf(document.activeElement);
-                    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
                         e.preventDefault();
                         let nextIndex = currentIndex;
                         if (e.key === 'ArrowRight') nextIndex = (currentIndex + 1 + menuItems.length) % menuItems.length;
@@ -566,15 +861,15 @@ body{
 
             // Sync dropdown aria-expanded and support Enter/Space
             const dropdownToggle = document.getElementById('navbarDropdown');
-            if (dropdownToggle){
+            if (dropdownToggle) {
                 dropdownToggle.addEventListener('shown.bs.dropdown', () => dropdownToggle.setAttribute('aria-expanded', 'true'));
                 dropdownToggle.addEventListener('hidden.bs.dropdown', () => dropdownToggle.setAttribute('aria-expanded', 'false'));
                 dropdownToggle.addEventListener('keydown', (e) => {
-                    if (e.key === ' ' || e.key === 'Enter'){
+                    if (e.key === ' ' || e.key === 'Enter') {
                         e.preventDefault();
                         dropdownToggle.click();
                     }
-                    if (e.key === 'Escape'){
+                    if (e.key === 'Escape') {
                         dropdownToggle.setAttribute('aria-expanded', 'false');
                         dropdownToggle.focus();
                     }
@@ -591,14 +886,14 @@ body{
             // Wire up panel toggles if present
             const hcToggle = document.getElementById('a11yHighContrast');
             const rmToggle = document.getElementById('a11yReducedMotion');
-            if (hcToggle){
+            if (hcToggle) {
                 hcToggle.checked = highContrast;
                 hcToggle.addEventListener('change', () => {
                     root.classList.toggle('high-contrast', hcToggle.checked);
                     localStorage.setItem('a11y_high_contrast', hcToggle.checked);
                 });
             }
-            if (rmToggle){
+            if (rmToggle) {
                 rmToggle.checked = reducedMotion;
                 rmToggle.addEventListener('change', () => {
                     root.classList.toggle('reduced-motion', rmToggle.checked);
@@ -610,13 +905,13 @@ body{
             const panel = document.getElementById('a11yPanel');
             const openBtn = document.getElementById('a11yOpen');
             const closeBtn = document.getElementById('a11yClose');
-            if (openBtn && panel){
+            if (openBtn && panel) {
                 openBtn.addEventListener('click', () => {
                     panel.hidden = false;
                     panel.querySelector('h3')?.focus();
                 });
             }
-            if (closeBtn && panel){
+            if (closeBtn && panel) {
                 closeBtn.addEventListener('click', () => {
                     panel.hidden = true;
                     openBtn.focus();
@@ -624,15 +919,15 @@ body{
             }
         });
     </script>
-    
+
 
     @if (app()->environment('local'))
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.7.2/axe.min.js" integrity="sha512-y+Q+1e8p91bQm9b5wz9mKZ9WgSJND0bKx9D6o1XyJQPUWq2wYtGPB+8v8N+Zm0g5oY4KZq2rJb6z5m9q5y0kYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        window.addEventListener('load', function(){
-            if (window.axe){
+        window.addEventListener('load', function() {
+            if (window.axe) {
                 axe.run().then(results => {
-                    if (results && results.violations && results.violations.length){
+                    if (results && results.violations && results.violations.length) {
                         // Log concise output for devs
                         console.group('[axe] Accessibility issues');
                         results.violations.forEach(v => console.warn(v.id, v.impact, v.description, v.nodes));
@@ -643,6 +938,7 @@ body{
         });
     </script>
     @endif
-        
+
 </body>
+
 </html>

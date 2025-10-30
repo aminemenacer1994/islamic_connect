@@ -1,8 +1,6 @@
 <template>
 <div id="app">
-   <h2 class="pt-3 pb-3 text-center"><strong>Dashboard</strong></h2>
-  <p class="container text-center">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
-
+  
     <div class="row ">
 
       <div class="col-md-6"> <canvas id="myChart" width="150px"></canvas></div>

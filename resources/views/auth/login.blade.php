@@ -45,10 +45,14 @@
                             Remember me
                         </label>
                     </div>
-                    <!-- <a href="#" class="text-decoration-none" style="color: var(--primary-color);">Forgot password?</a> -->
+                    @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}" class="text-decoration-none forgot-password-link">
+                        Forgot password?
+                    </a>
+                    @endif
                 </div>
                 
-                <p class="text-muted small benefits-text">Create an account to save bookmarks, write reflections, report errors, and manage your subscriptions.</p>
+                <!-- <p class="text-muted small benefits-text">Create an account to save bookmarks, write reflections, report errors, and manage your subscriptions.</p> -->
 
                 <div class="d-grid mb-3">
                     <button type="submit" style="background: var(--primary-color); color: #ffffff;" class="btn btn-lg">Sign In</button>
@@ -297,6 +301,16 @@
     
     .login-footer a:hover {
         text-decoration: underline;
+    }
+
+    .forgot-password-link {
+        color: var(--primary-color);
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+    .forgot-password-link:hover {
+        text-decoration: underline;
+        color: var(--primary-hover);
     }
     
     .invalid-feedback {

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;">
+<nav class="navbar navbar-expand-md" role="navigation" aria-label="Primary navigation" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;">
     <div class="container-fluid">
         <a class="navbar-brand" href="/welcome">
             <img src="/images/logo_main.png" width="275" height="54" class="d-inline-block align-top" alt="islamic connect logo" loading="lazy">
@@ -26,9 +26,9 @@
                 <li class="nav-item mt-3">
                     <a style="font-family:inter; color: black;" class="nav-link ml-4 pl-3 pr-5" href="/join_us">Mailing List</a>
                 </li>
-                <button @click="getSummary" :disabled="loading" style="background:linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB); ">
-                    <span>Try Premium</span>
-                </button>
+                <a class="btn btn-sm text-white" href="/pricing" style="background:linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);">
+                    Try Premium
+                </a>
 
                 <!-- Right Side Of Navbar -->
                 @guest

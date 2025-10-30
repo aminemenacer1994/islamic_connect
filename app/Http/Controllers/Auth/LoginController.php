@@ -107,11 +107,12 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect()->route('login');
     }
 
     public function __construct()
     {
-        $this->middleware('guest')->except('/');
+        // Allow authenticated users to access the logout action; guests elsewhere
+        $this->middleware('guest')->except('logout');
     }
 }

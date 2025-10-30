@@ -1,15 +1,9 @@
 @extends('layouts.app')
 @section('title', 'Islamic Connect — Payment')
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2">
-            @include('partials.sidebar')
-        </div>
-        <div class="col-md-10">
-            <payment-component></payment-component>
-            {{-- @include('layouts.footer') --}}
-        </div>
-    </div>
+@include('partials.sidebar')
+<div class="container-fluid content-with-sidebar">
+    <payment-component></payment-component>
+    {{-- @include('layouts.footer') --}}
 </div>
 @endsection

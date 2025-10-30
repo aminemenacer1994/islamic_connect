@@ -6,7 +6,8 @@
     <div class="register-container">
         <div class="register-card">
             <div class="register-header">
-                <h1><strong>Create an Account</strong></h1>
+                <h1 class="mb-1"><strong>Create an account</strong></h1>
+                <p class="text-muted">Fast sign-up. No credit card.</p>
             </div>
             
             <form method="POST" action="{{ route('register') }}">
@@ -57,7 +58,7 @@
                             placeholder="Confirm your password">
                 </div>
                 
-                <p class="text-muted small benefits-text">Create an account to save favorites, write notes, report errors, and manage subscriptions.</p>
+                <p class="text-muted small benefits-text">Create your free account to save bookmarks, write notes, sync across devices, and manage email preferences. No spam. Ever.</p>
 
                 <div class="d-grid mb-3">
                     <button type="submit" style="background: var(--primary-color); color: #ffffff;" class="btn btn-lg">Create Account</button>
