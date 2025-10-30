@@ -22996,7 +22996,7 @@ __webpack_require__.r(__webpack_exports__);
       userId: null,
       notes: [],
       bookmarks: [],
-      //  folders: [],
+      folders: [],
       editmode: false,
       form: new Form({
         id: "",
@@ -23044,35 +23044,34 @@ __webpack_require__.r(__webpack_exports__);
         console.error('Error fetching user ID or bookmarks:', error);
       }
     },
-    // async fetchUserIdAndFolders() {
-    //   try {
-    //     const response = await fetch('/api/userId');
-    //     if (!response.ok) {
-    //       throw new Error('Failed to fetch user ID');
-    //     }
-    //     const data = await response.json();
-    //     this.userId = data.userId;
-
-    //     if (this.userId) {
-    //       await this.fetchFolders(this.userId);
-    //     } else {
-    //       console.error('User ID not found');
-    //     }
-    //   } catch (error) {
-    //     console.error('Error fetching user ID or folders:', error);
-    //   }
-    // },
-    // async fetchFolders(userId) {
-    //   try {
-    //     const response = await fetch(`/api/fetch-folders/${userId}`);
-    //     if (!response.ok) {
-    //       throw new Error('Failed to fetch folders');
-    //     }
-    //     this.folders = await response.json(); // Correctly updating folders
-    //   } catch (error) {
-    //     console.error('Error fetching folders:', error);
-    //   }
-    // },
+    async fetchUserIdAndFolders() {
+      try {
+        const response = await fetch('/api/userId');
+        if (!response.ok) {
+          throw new Error('Failed to fetch user ID');
+        }
+        const data = await response.json();
+        this.userId = data.userId;
+        if (this.userId) {
+          await this.fetchFolders(this.userId);
+        } else {
+          console.error('User ID not found');
+        }
+      } catch (error) {
+        console.error('Error fetching user ID or folders:', error);
+      }
+    },
+    async fetchFolders(userId) {
+      try {
+        const response = await fetch(`/api/fetch-folders/${userId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch folders');
+        }
+        this.folders = await response.json();
+      } catch (error) {
+        console.error('Error fetching folders:', error);
+      }
+    },
     async fetchNotes(userId) {
       try {
         const response = await fetch(`/api/fetch-notes/${userId}`);
