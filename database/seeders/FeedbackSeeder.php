@@ -19,12 +19,12 @@ class FeedbackSeeder extends Seeder
 
         foreach(range(1,15) as $index){
             DB::table('feedback')->insert([
-                'firstname' => $faker->firstNameMale(),
-                'lastname' => $faker->lastname(),
-                'email' => $faker->email(),
-                'mobile' => $faker->PhoneNumber,
-                'subject' => $faker->word(),
-                'message' => $faker->text,
+                'firstname' => $faker->firstName(),
+                'lastname' => $faker->lastName(),
+                'email' => $faker->unique()->safeEmail(),
+                'mobile' => $faker->phoneNumber(),
+                'subject' => $faker->sentence(4),
+                'message' => $faker->paragraph(),
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
             ]);

@@ -3,7 +3,7 @@
 
   <!-- view new Modal -->
   <div class="modal fade" id="editNewMail" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-dark" id="addNew">
@@ -60,27 +60,29 @@
 
   <DataTable class="pt-5" v-model:filters="filters" showGridlines stripedRows sortable filterDisplay="row" :value="mailinglists" paginator :rows="7" :rowsPerPageOptions="[5, 10, 20, 50]" removableSort width="100%" tableStyle="max-width:100%">
     <template #header>
-      <div class="flex justify-content-start" style="display: flex;">
-
-        <p style="display: flex" class=" ml-auto mr-3 mt-2 text-black">
-          Search:
-        </p>
-        <span>
-          <InputText v-model="filters['global'].value" style="float: left" placeholder="Keyword Search" />
+      <div class="table-toolbar">
+        <div class="title"><i class="bi bi-envelope-at-fill me-2"></i>Mailing List</div>
+        <span class="spacer"></span>
+        
+        <span class="search-wrapper">
+          <i class="bi bi-search"></i>
+          <InputText v-model="filters['global'].value" placeholder="Search subscribers..." />
         </span>
       </div>
     </template>
 
-    <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" sortable class="text-left" style="align-items:center" width>
+    <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" sortable class="text-left" style="align-items:center">
+      <template #filter="{filterModel}">
+        <InputText v-model="filterModel.value" :placeholder="'Filter ' + col.header" class="p-column-filter" />
+      </template>
     </Column>
 
-    <Column :exportable="true" style="min-width: 8rem">
-      <template #body="slotProps">
-        <div class="wrapper text-center" style="display:flex">
-          <Button data-bs-toggle="modal" data-bs-target="#editNewMail" type="button" class="btn user-btn text-white text-center mr-2 action btn1" style="background-color: #1e88e5; display:flex;display:inline-block" @click="editModal(slotProps.data)">
-            <i class="pi pi-eye mr-2"></i>
-            View
-          </Button>
+    <Column header="Actions" :exportable="false" style="min-width: 12rem">
+      <template #body="{ data }">
+        <div class="row-actions">
+          <button data-bs-toggle="modal" data-bs-target="#editNewMail" type="button" class="btn btn-sm btn-primary" @click="editModal(data)">
+            <i class="bi bi-eye me-1"></i> View
+          </button>
         </div>
       </template>
     </Column>
@@ -107,13 +109,14 @@ export default {
           value: null,
           matchMode: FilterMatchMode.CONTAINS,
         },
+        
+        name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        lastname: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        phone: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        email: { value: null, matchMode: FilterMatchMode.CONTAINS },
       },
       mailinglists: null,
       columns: [{
-          field: "id",
-          header: "ID",
-          sortable: true,
-        }, {
           field: "name",
           header: "Firstname",
           sortable: true,
@@ -172,4 +175,14 @@ export default {
 .modal-modern .modal-content{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}
 .modal-modern .modal-header{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}
 .modal-modern .btn-close{filter:none}
+</style>
+
+<style>
+.table-toolbar{display:flex; align-items:center; gap:.75rem}
+.table-toolbar .spacer{flex:1}
+.table-toolbar .search-wrapper{display:flex; align-items:center; gap:.5rem; padding:.25rem .5rem; border:1px solid #e2e8f0; border-radius:8px; background:#fff}
+.btn-add,.btn-add.p-button{background:var(--ref-green)!important; border-color:var(--ref-green)!important; color:#fff!important; border:none; padding:.55rem .95rem; border-radius:10px; box-shadow:0 6px 14px rgba(0,191,166,.18)}
+.btn-add.outline{background:#fff!important; color:var(--ref-green)!important; border:2px solid var(--ref-green)!important; box-shadow:none}
+.btn-add.outline:hover{background:var(--ref-green)!important; color:#fff!important; box-shadow:0 6px 14px rgba(0,191,166,.18)}
+.row-actions{display:inline-flex; align-items:center; gap:.5rem}
 </style>

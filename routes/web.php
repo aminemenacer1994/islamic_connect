@@ -223,7 +223,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     // Dashboard & Profile
     Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
     Route::get('/profile', fn() => view('profile'))->name('profile');
-    Route::get('api/fetch-dashboard', [DashboardController::class, 'getDashboard'])->name('fetch_dashboard');    
+    Route::get('api/fetch-dashboard', [DashboardController::class, 'getDashboard'])->name('fetch_dashboard');
+    Route::get('api/admin-metrics', [DashboardController::class, 'metrics'])->name('admin_metrics');
     
     // Bookmarks & Folders
     Route::get('/bookmarks', [BookmarkController::class, 'index']);

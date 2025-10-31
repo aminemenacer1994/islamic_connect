@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="pt-4 pb-3 text-center"><strong>Notes & Reflections Board</strong></h2>
+    
     <p class="lead container text-center">
       This page is a space to share your personal Islamic reflections and insights with others. Together, we can
       inspire, learn, and grow in our faith, helping each other on our spiritual journeys through shared thoughts and
@@ -84,7 +84,7 @@
 
     <!-- View Note Modal -->
     <div class="modal fade" id="viewNotes" tabindex="-1" aria-labelledby="viewNotesLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-md-down">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title text-dark"><b>View Note</b></h5>

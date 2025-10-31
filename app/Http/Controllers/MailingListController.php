@@ -14,7 +14,7 @@ class MailingListController extends Controller
     
     public function getMail()
     {
-        $mailinglist = Mailinglist::orderBy('id', 'desc')->get();
+        $mailinglist = MailingList::orderBy('id', 'desc')->get();
         return $mailinglist;
     }
 

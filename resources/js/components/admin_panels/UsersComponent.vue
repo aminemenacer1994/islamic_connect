@@ -1,10 +1,9 @@
 <template>
 <div id="app">
-   <h2 class="pt-3 text-center"><strong>Users Management</strong></h2>
 
   <!-- view new Modal -->
   <div class="modal fade" id="editNewUser" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-dark" id="addNew">
@@ -76,7 +75,7 @@
 
   <!-- add user -->
   <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="addNew" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-dark fs-5" id="exampleModalLabel"><b>Add new user</b></h5>
@@ -136,7 +135,7 @@
 
   <!-- edit user -->
   <div class="modal fade" id="editNew" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-dark" id="addNew">
@@ -197,53 +196,65 @@
 
 
 
-  <DataTable v-model:filters="filters"  :value="users" ref="dt" class="text-center pt-5" width="100%" paginator :rows="7" :rowsPerPageOptions="[5, 10, 20, 50]"  >
+  <DataTable
+    v-model:filters="filters"
+    :value="users"
+    :loading="loading"
+    ref="dt"
+    class="pt-4 modern-datatable teal-accent"
+    showGridlines
+    stripedRows
+    rowHover
+    responsiveLayout="scroll"
+    filterDisplay="row"
+    paginator
+    :rows="10"
+    :rowsPerPageOptions="[10, 20, 50, 100]"
+    paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+    currentPageReportTemplate="Showing {first}–{last} of {totalRecords} users"
+  >
     <template #header>
 
-      <div class="flex justify-content-start" style="display:flex">
-      
-        <Button type="button" class="flex flex-column md:flex-row md:justify-content-between  mr-3" style="background:teal;border-radius:8%" data-bs-toggle="modal" data-bs-target="#createModal">
-          Add New User
-        </button>
- 
-        <p style="display: flex" class=" ml-auto mr-3 mt-2 text-black">
-          Search:
-        </p>
-        <span>
-          <InputText class="flex justify-content-end ml-2" v-model="filters['global'].value" placeholder="Keyword Search" />
+      <div class="table-toolbar">
+        <div class="title"><i class="bi bi-people-fill me-2"></i>Users</div>
+        <span class="spacer"></span>
+        
+        <span class="search-wrapper">
+          <i class="bi bi-search"></i>
+          <InputText v-model="filters['global'].value" placeholder="Search users..." />
         </span>
-
       </div>
 
     </template>
 
-    <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" sortable style="text-align:center" >
+    <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" sortable style="text-align:center">
+      <template #filter="{filterModel}">
+        <InputText v-model="filterModel.value" :placeholder="'Filter ' + col.header" class="p-column-filter" />
+      </template>
     </Column>
 
-    <Column :exportable="true" >
-      <template #body="slotProps">
-        <div style="display:flex">
-
-          <div class="text-center">
-            <Button data-bs-toggle="modal" data-bs-target="#editNewUser" type="button" class="btn user-btn text-white text-center mr-2 action btn1" style="background-color: #1e88e5; display:flex;display:inline-block" @click="editModal(slotProps.data)">
-              <i class="bi bi-eye mr-2"></i>
-              View
-            </Button>
-            <button data-bs-toggle="modal" data-bs-target="#editNew" type="button" class="btn text-white user-btn mr-2" style="background-color: #43a047;display:inline" @click="editModal(slotProps.data)">
-              <i class="bi bi-pencil"></i>
-              Edit
-            </button>
-            <button class="btn text-white user-btn" style="background-color: #b71c1c" @click="deleteUser(slotProps.data.id)">
-              <i class="bi bi-trash"></i>
-              Delete
-            </button>
-
-          </div>
+    <Column header="Actions" :exportable="false" style="min-width: 16rem; text-align:center;">
+      <template #body="{ data }">
+        <div class="row-actions">
+          <button data-bs-toggle="modal" data-bs-target="#editNewUser" type="button" class="btn btn-sm btn-primary" @click="editModal(data)">
+            <i class="bi bi-eye me-1"></i> View
+          </button>
+          <button data-bs-toggle="modal" data-bs-target="#editNew" type="button" class="btn btn-sm btn-success" @click="editModal(data)">
+            <i class="bi bi-pencil me-1"></i> Edit
+          </button>
+          <button class="btn btn-sm btn-danger" @click="deleteUser(data.id)">
+            <i class="bi bi-trash me-1"></i> Delete
+          </button>
         </div>
       </template>
     </Column>
 
-    <template #footer> In total there are {{ users ? users.length : 0 }} Users. </template>
+    <template #empty>
+      <div class="empty">No users found.</div>
+    </template>
+    <template #footer>
+      <span class="footer-count">Total: {{ users ? users.length : 0 }} users</span>
+    </template>
 
   </DataTable>
 
@@ -259,27 +270,31 @@ export default {
   mounted() {
     this.loadUsers();
     this.InitializeForm();
-
- ProductService.getProductsMini().then((data) => (this.users = data));
   },
   data() {
     return {
+      loading: false,
       filters: {
         global: {
           value: null,
           matchMode: FilterMatchMode.CONTAINS,
         },
+        
+        name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        lastname: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        email: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        user_type: { value: null, matchMode: FilterMatchMode.EQUALS },
       },
       users: [],
       searchValue: "",
       totalUsers: 0,
 
       columns: [
-        {
-          field: "id",
-          header: "ID",
-          sortable: true,
-        },
+        // {
+        //   field: "id",
+        //   header: "ID",
+        //   sortable: true,
+        // },
         {
           field: "name",
           header: "Firstname",
@@ -296,7 +311,7 @@ export default {
           sortable: true,
         },
         {
-          field: "role",
+          field: "user_type",
           header: "User Type",
           sortable: true,
         }
@@ -310,7 +325,6 @@ export default {
         phone: "",
         // status: "",
         password: "",
-        role:"",
         user_type: "",
       }),
     }
@@ -336,8 +350,11 @@ export default {
       this.form.email = "";
     },
     loadUsers() {
+      this.loading = true;
       axios.get("api/fetch-users").then((data) => {
         this.users = data.data;
+      }).finally(() => {
+        this.loading = false;
       });
     },
 
@@ -461,4 +478,25 @@ export default {
 .modal-modern .btn-close{filter:none}
 .modal-modern .input-group-text{background:#f1f5f9; border-color:#e2e8f0}
 .modal-modern .form-control:focus{box-shadow:0 0 0 .2rem rgba(11,128,111,.15); border-color: var(--bs-primary)}
+.modern-datatable{width:100%}
+.table-toolbar{display:flex; align-items:center; gap:.75rem}
+.table-toolbar .spacer{flex:1}
+.table-toolbar .search-wrapper{display:flex; align-items:center; gap:.5rem; padding:.25rem .5rem; border:1px solid #e2e8f0; border-radius:8px; background:#fff}
+.btn-add,.btn-add.p-button{background:var(--ref-green)!important; border-color:var(--ref-green)!important; color:#fff!important; border:none; padding:.55rem .95rem; border-radius:10px; box-shadow:0 6px 14px rgba(0,191,166,.18)}
+.btn-add:hover{filter:brightness(.95)}
+/* outlined variant */
+.btn-add.outline{background:#fff!important; color:var(--ref-green)!important; border:2px solid var(--ref-green)!important; box-shadow:none}
+.btn-add.outline:hover{background:var(--ref-green)!important; color:#fff!important; box-shadow:0 6px 14px rgba(0,191,166,.18)}
+.empty{color:#6b7280; padding:1rem}
+.footer-count{color:#374151}
+/* subtle teal accent + hover animation */
+.teal-accent .p-datatable-header{background:linear-gradient(0deg, #f6faf9, #fff); border:1px solid #e2e8f0; border-radius:12px}
+.teal-accent .p-datatable-tbody > tr{transition:background .18s ease, transform .18s ease}
+.teal-accent .p-datatable-tbody > tr:hover{background:#f1fcf9}
+.teal-accent .p-button{background:var(--ref-green); border-color:var(--ref-green)}
+.teal-accent .p-paginator .p-paginator-current{color:#0f766e}
+.row-actions{display:inline-flex; align-items:center; gap:.5rem}
+.table-toolbar{display:flex; align-items:center; gap:.75rem}
+.table-toolbar .spacer{flex:1}
+.table-toolbar .search-wrapper{display:flex; align-items:center; gap:.5rem; padding:.25rem .5rem; border:1px solid #e2e8f0; border-radius:8px; background:#fff}
 </style>

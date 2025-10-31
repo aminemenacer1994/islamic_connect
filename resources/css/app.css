@@ -50,6 +50,18 @@
 
 @import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 
+/* Custom brand action colors override (teal primary) */
+:root {
+  --bs-primary: #00bfa6;
+  --bs-primary-rgb: 0,191,166;
+  --bs-success: #009e8a;
+  --bs-warning: #ffd166;
+}
+.btn-primary{background-color:var(--bs-primary)!important; border-color:var(--bs-primary)!important}
+.btn-primary:hover{filter:brightness(.95)}
+.btn-success{background-color:var(--bs-success)!important; border-color:var(--bs-success)!important}
+.btn-warning{background-color:var(--bs-warning)!important; border-color:var(--bs-warning)!important; color:#111}
+
 /* Bootstrap 5.2-compatible soft alert helpers (pastel background, readable text) */
 .alert-soft-success {
   background-color: #e9f7ef;

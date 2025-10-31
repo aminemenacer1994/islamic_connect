@@ -272,10 +272,35 @@
         }
 
         @media (max-width: 991.98px) {
+            /* Off-canvas behavior for the sidebar on tablets/phones */
             .fixed-sidebar {
-                position: static !important;
-                width: auto;
-                height: auto;
+                position: fixed !important;
+                top: var(--navbar-h);
+                left: 0;
+                width: min(88vw, var(--sidebar-w));
+                height: calc(100vh - var(--navbar-h));
+                transform: translateX(-100%);
+                transition: transform .3s ease;
+                z-index: 1045; /* above content, below navbar */
+            }
+
+            .fixed-sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-backdrop {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, .4);
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity .3s ease, visibility .3s ease;
+                z-index: 1040;
+            }
+
+            .sidebar-backdrop.active {
+                opacity: 1;
+                visibility: visible;
             }
 
             .content-with-sidebar {
@@ -283,6 +308,11 @@
                 max-width: 100%;
                 padding-left: 12px;
                 padding-right: 12px;
+            }
+
+            /* Prevent page scroll while sidebar is open */
+            body.sidebar-open {
+                overflow: hidden;
             }
         }
 
@@ -580,6 +610,12 @@
                 z-index: 1000;
             }
         }
+        
+        /* Admin mobile switcher visibility rules */
+        @media (max-width: 991.98px) {
+            body.has-admin-sidebar .navbar-toggler { display: none !important; }
+            body.has-admin-sidebar #admin-mobile-switcher { display: block !important; }
+        }
     </style>
 </head>
 
@@ -599,6 +635,8 @@
                         height="auto"
                         class="img-fluid">
                 </a>
+
+                
 
                 <button id="navbarToggler" class="navbar-toggler" type="button"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -684,6 +722,17 @@
                 </div>
             </div>
         </nav>
+        
+        <!-- Admin mobile section switcher (full-width below navbar) -->
+        <div id="admin-mobile-switcher" class="d-md-none bg-white border-bottom shadow-sm" style="display:none;">
+            <div class="container-fluid py-2 px-3">
+                <select id="adminSectionSelect" class="form-select mt-3" aria-label="Go to section">
+                    <option value="" disabled selected>Go to…</option>
+                </select>
+            </div>
+        </div>
+        <!-- Sidebar Backdrop for mobile off-canvas -->
+        <div id="sidebar-backdrop" class="sidebar-backdrop" aria-hidden="true"></div>
         <!-- Main Content -->
         <main id="main-content" role="main" tabindex="-1">
             @hasSection('page_h1')
@@ -709,11 +758,42 @@
             try {
                 const toggler = document.getElementById('navbarToggler') || document.querySelector('.navbar-toggler');
                 const collapseEl = document.getElementById('navbarSupportedContent');
+                const sidebarEl = document.getElementById('tablet-sidebar');
+                const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+                // Create Bootstrap collapse controller if available (for desktop top-nav)
+                let bsCollapse = null;
                 if (collapseEl && window.bootstrap) {
-                    // Create a single Collapse controller; we removed data-bs-* on the button to avoid double toggles
-                    const bsCollapse = window.bootstrap.Collapse.getOrCreateInstance(collapseEl, {
-                        toggle: false
-                    });
+                    bsCollapse = window.bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+                }
+
+                // If an admin sidebar exists, enhance mobile UX with a section dropdown
+                if (sidebarEl) {
+                    document.body.classList.add('has-admin-sidebar');
+                    const switcherWrap = document.getElementById('admin-mobile-switcher');
+                    const selectEl = document.getElementById('adminSectionSelect');
+                    if (switcherWrap && selectEl) {
+                        const links = Array.from(sidebarEl.querySelectorAll('a.nav-link'))
+                          .map(a => ({ href: a.getAttribute('href'), label: a.textContent.trim() }))
+                          .filter(x => x.href && x.label);
+                        if (links.length) {
+                            // Populate options
+                            selectEl.innerHTML = '<option value="" disabled>Go to…</option>' +
+                              links.map(l => `<option value="${l.href}">${l.label}</option>`).join('');
+                            // Select current
+                            const cur = window.location.pathname.replace(/\/+$/, '') || '/';
+                            let match = links.find(l => cur === new URL(l.href, window.location.origin).pathname);
+                            if (!match) match = links.find(l => cur.startsWith(new URL(l.href, window.location.origin).pathname + '/'));
+                            if (match) selectEl.value = match.href;
+                            // Show widget
+                            switcherWrap.style.display = 'block';
+                            // Navigate on change
+                            selectEl.addEventListener('change', (e) => {
+                                const url = e.target.value;
+                                if (url) window.location.assign(url);
+                            });
+                        }
+                    }
+                }
 
                     const setExpanded = (expanded) => {
                         if (toggler) {
@@ -721,33 +801,88 @@
                             toggler.setAttribute('aria-expanded', expanded ? 'true' : 'false');
                         }
                     };
+                    // Helper to toggle sidebar on small screens
+                    const toggleSidebarMobile = () => {
+                        if (!sidebarEl) return false;
+                        const isSmall = window.matchMedia('(max-width: 991.98px)').matches;
+                        if (!isSmall) return false;
+                        const willShow = !sidebarEl.classList.contains('active');
+                        sidebarEl.classList.toggle('active', willShow);
+                        if (sidebarBackdrop) sidebarBackdrop.classList.toggle('active', willShow);
+                        document.body.classList.toggle('sidebar-open', willShow);
+                        // Keep hamburger aria-expanded in sync
+                        setExpanded(willShow);
+                        return true;
+                    };
+
                     // Toggle open/close when pressing the burger
                     if (toggler) {
                         toggler.addEventListener('click', (e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            const isShown = collapseEl.classList.contains('show');
-                            isShown ? bsCollapse.hide() : bsCollapse.show();
+                            // If we have a sidebar, prefer toggling it on small screens
+                            if (toggleSidebarMobile()) return;
+                            if (bsCollapse && collapseEl) {
+                                const isShown = collapseEl.classList.contains('show');
+                                isShown ? bsCollapse.hide() : bsCollapse.show();
+                            }
                         }, {
                             passive: true
                         });
                     }
 
-                    // Close the menu only for plain nav links (not dropdown toggles)
-                    collapseEl.querySelectorAll('a.nav-link:not(.dropdown-toggle), .dropdown-item').forEach(a => {
-                        a.addEventListener('click', () => {
-                            if (window.innerWidth < 768) {
-                                bsCollapse.hide();
+                    // Backdrop click closes sidebar on mobile
+                    if (sidebarBackdrop) {
+                        sidebarBackdrop.addEventListener('click', () => {
+                            if (sidebarEl?.classList.contains('active')) {
+                                sidebarEl.classList.remove('active');
+                                sidebarBackdrop.classList.remove('active');
+                                setExpanded(false);
                             }
                         });
+                    }
+
+                    // Close sidebar when a sidebar link is clicked (mobile)
+                    if (sidebarEl) {
+                        sidebarEl.querySelectorAll('a.nav-link').forEach(a => {
+                            a.addEventListener('click', () => {
+                                if (window.matchMedia('(max-width: 991.98px)').matches) {
+                                    sidebarEl.classList.remove('active');
+                                    if (sidebarBackdrop) sidebarBackdrop.classList.remove('active');
+                                    setExpanded(false);
+                                    document.body.classList.remove('sidebar-open');
+                                }
+                            });
+                        });
+                    }
+
+                    // ESC key closes the sidebar on mobile
+                    document.addEventListener('keydown', (ev) => {
+                        if (ev.key === 'Escape' && sidebarEl?.classList.contains('active')) {
+                            sidebarEl.classList.remove('active');
+                            if (sidebarBackdrop) sidebarBackdrop.classList.remove('active');
+                            document.body.classList.remove('sidebar-open');
+                            setExpanded(false);
+                        }
                     });
 
-                    // Keep aria-expanded in sync with collapse events
-                    collapseEl.addEventListener('shown.bs.collapse', () => setExpanded(true));
-                    collapseEl.addEventListener('hidden.bs.collapse', () => setExpanded(false));
-                }
-            } catch (_) {
-                /* ignore */ }
+                    // Close the menu only for plain nav links (not dropdown toggles)
+                    if (collapseEl) {
+                        collapseEl.querySelectorAll('a.nav-link:not(.dropdown-toggle), .dropdown-item').forEach(a => {
+                            a.addEventListener('click', () => {
+                                if (window.innerWidth < 768 && bsCollapse) {
+                                    bsCollapse.hide();
+                                }
+                            });
+                        });
+                        if (window.bootstrap && bsCollapse) {
+                            collapseEl.addEventListener('shown.bs.collapse', () => setExpanded(true));
+                            collapseEl.addEventListener('hidden.bs.collapse', () => setExpanded(false));
+                        }
+                    }
+                
+                } catch (_) {
+                    /* ignore */ }
 
             // Highlight the active link based strictly on current URL
             // Normalize trailing slashes and choose the longest matching data-path prefix

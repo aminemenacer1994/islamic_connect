@@ -15,8 +15,8 @@
       <span class="label">Users</span>
      </a>
     </li>
-    <li class="nav-item" data-search="feedback reports correction admin">
-     <a href="/correction" class="nav-link {{ request()->is('correction') ? 'active' : '' }}">
+    <li class="nav-item" data-search="feedback reports messages admin">
+     <a href="/feedback" class="nav-link {{ request()->is('feedback') ? 'active' : '' }}">
       <i class="bi bi-chat-left-text-fill mr-3"></i>
       <span class="label">Feedback</span>
      </a>
@@ -45,12 +45,12 @@
       <span class="label">Bookmarks</span>
      </a>
     </li>
-    <li class="nav-item" data-search="collections library saved">
+    <!-- <li class="nav-item" data-search="collections library saved">
      <a href="/collection" class="nav-link">
       <i class="bi bi-bookmark-dash-fill mr-3"></i>
       <span class="label">Collections</span>
      </a>
-    </li>
+    </li> -->
     <li class="nav-item" data-search="notes reflections writing">
      <a href="/notes" class="nav-link {{ request()->is('notes') ? 'active' : '' }}">
       <i class="bi bi-file-earmark-text-fill mr-3"></i>
@@ -61,7 +61,7 @@
      <a class="nav-link" href="{{ route('logout') }}"
       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
       <i class="bi bi-plug-fill" style="font-size: 22px"></i>
-      <span class="label mr-3 mb-4">{{ __('Logout') }}</span>
+      <span class="label mr-3 mb-2yes do ">{{ __('Logout') }}</span>
      </a>
      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
       @csrf

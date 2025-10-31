@@ -20,7 +20,7 @@
 
  <!-- Create Folder Modal -->
   <div class="modal fade" id="createFolderModal" tabindex="-1" aria-labelledby="createFolderModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-modern">
+  <div class="modal-dialog modal-modern modal-fullscreen-md-down">
    <div class="modal-content">
     <div class="modal-header">
      <h5 class="modal-title" id="createFolderModalLabel">Create New Collection</h5>
@@ -41,9 +41,6 @@
  </div>
 
  <!-- Folder Selection -->
- <h3 class="pb-3 mt-3 text-center">
-  <strong>You have:</strong> <b style="color:rgb(0, 191, 166)">{{ folders.length }}</b> <strong>Collections</strong>
- </h3>
  <div class="row">
   <div class="col-md-2">
    <div class="button-63 " @click="openCreateFolderModal">
@@ -58,7 +55,6 @@
  </div>
 
 <div class="pt-5 pb-3">
-  <h2>Collections:</h2>
   <div class="container scrollmenu">
     <a href="#" v-for="folder in folders" :key="folder.id" @click.prevent="selectFolder(folder.id)">
       <div class="flex justify-content-center mr-1">
@@ -105,7 +101,7 @@
 
  <!-- Modal -->
  <div class="modal fade" id="viewBookmarkModal" tabindex="-1" aria-labelledby="viewBookmarkModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-modern">
+  <div class="modal-dialog modal-modern modal-fullscreen-md-down">
    <div class="modal-content">
     <div class="modal-header">
      <h5 class="modal-title" id="viewBookmarkModalLabel">Bookmark Details</h5>

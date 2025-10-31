@@ -22,6 +22,19 @@
     --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
+/* Shared brand accents (available in both themes) */
+:root {
+    --ref-green: #00bfa6;
+    --ref-green-600: #009e8a;
+    --ref-green-50: #e6fcf7;
+    --ref-amber: #ffd166;
+    --surface-soft: #f6faf9;
+    --shadow-soft: 0 8px 24px rgba(15,23,42,.06);
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --anim-soft: 220ms cubic-bezier(.2,.7,.2,1);
+}
+
 /* Transition for theme changes */
 * {
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;

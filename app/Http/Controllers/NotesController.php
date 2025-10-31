@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Note;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 
 class NotesController extends Controller
@@ -90,6 +91,7 @@ class NotesController extends Controller
     public function updateNotes(Request $request, $id)
     {
         // Validate the input data
+        // Accept either visibility_option or legacy option
         $validatedData = $request->validate([
             'surah_name' => 'nullable|string',
             'ayah_num' => 'nullable|string',
@@ -97,9 +99,14 @@ class NotesController extends Controller
             'ayah_verse_en' => 'nullable|string',
             'ayah_info' => 'nullable|string',
             'ayah_notes' => 'required|string', 
-            'visibility_option' => 'required|integer|in:0,1',  // 0 for public, 1 for private
+            'visibility_option' => 'nullable|integer|in:0,1',  // 0 for public, 1 for private
             'is_speech_to_text' => 'boolean',
         ]);
+
+        // Backwards compatibility: map 'option' to 'visibility_option' when missing
+        if (!$request->has('visibility_option')) {
+            $validatedData['visibility_option'] = (int) ($request->input('option', 0));
+        }
 
         // Find the note by ID
         $note = Note::findOrFail($id);
@@ -118,8 +125,34 @@ class NotesController extends Controller
             $validatedData['ayah_notes'] = $this->addMediaToNotes($validatedData['ayah_notes'], $imagePaths);
         }
 
+        // Normalize visibility field to match DB column
+        if (array_key_exists('visibility_option', $validatedData)) {
+            if (Schema::hasColumn('notes', 'visibility_option')) {
+                // keep as-is; also mirror to legacy if present
+                if (Schema::hasColumn('notes', 'option')) {
+                    $validatedData['option'] = (int) $validatedData['visibility_option'];
+                }
+            } else {
+                // DB does not have visibility_option; fall back to legacy 'option'
+                $validatedData['option'] = (int) $validatedData['visibility_option'];
+                unset($validatedData['visibility_option']);
+            }
+        }
+
+        // Only include columns that actually exist in the notes table
+        try {
+            $columns = Schema::getColumnListing('notes');
+        } catch (\Throwable $e) {
+            $columns = array_keys($validatedData); // fallback
+        }
+        $payload = collect($validatedData)
+            ->filter(function ($v, $k) use ($columns) {
+                return in_array($k, $columns, true);
+            })
+            ->toArray();
+
         // Update the note
-        $note->update($validatedData);
+        $note->update($payload);
 
         return response()->json(['message' => 'Note updated successfully', 'note' => $note]);
     }

@@ -18,6 +18,37 @@
         </div>
       </div>
 
+      <!-- Quick Stats -->
+      <div class="row g-3 mb-3">
+        <div class="col-md-4">
+          <div class="stat-card fade-pop" aria-label="Collections count">
+            <div class="stat-icon bg-teal"><i class="bi bi-collection"></i></div>
+            <div class="stat-body">
+              <div class="stat-label">Collections</div>
+              <div class="stat-value">{{ (folders && folders.length) || 0 }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-card fade-pop" aria-label="Bookmarks count">
+            <div class="stat-icon bg-teal"><i class="bi bi-bookmark-star"></i></div>
+            <div class="stat-body">
+              <div class="stat-label">Bookmarks</div>
+              <div class="stat-value">{{ (bookmarks && bookmarks.length) || 0 }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-card fade-pop" aria-label="Notes count">
+            <div class="stat-icon bg-teal"><i class="bi bi-journal-text"></i></div>
+            <div class="stat-body">
+              <div class="stat-label">Notes</div>
+              <div class="stat-value">{{ (notes && notes.length) || 0 }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Personal Information section -->
       <div class="section-card">
         <div class="section-header">
@@ -97,7 +128,7 @@
 
     <!-- Edit Profile Modal (Bootstrap 5) -->
     <div class="modal fade" id="editNew" tabindex="-1" aria-labelledby="editNewLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="editNewLabel">Edit Profile</h5>
@@ -406,4 +437,14 @@ export default {
  color: rgb(119, 119, 119);
  transition: opacity .9s, margin-left .5s, margin-right .5s;
 }
+</style>
+
+<style scoped>
+.stat-card{display:flex; align-items:center; gap:.75rem; background:var(--surface-soft); border:1px solid #e5e7eb; border-radius:var(--radius-lg); padding:14px 16px; box-shadow:var(--shadow-soft)}
+.stat-icon{width:40px;height:40px; display:flex; align-items:center; justify-content:center; border-radius:10px; color:#fff; background:var(--ref-green)}
+.stat-icon.bg-teal{background:var(--ref-green)}
+.stat-label{font-size:.8rem; color:#64748b}
+.stat-value{font-weight:800; font-size:1.25rem; color:#0f172a}
+.fade-pop{animation:fadePop var(--anim-soft) ease-out both}
+@keyframes fadePop{from{opacity:0; transform:translateY(6px) scale(.98)} to{opacity:1; transform:translateY(0) scale(1)}}
 </style>

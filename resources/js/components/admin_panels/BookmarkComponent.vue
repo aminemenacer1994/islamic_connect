@@ -63,7 +63,7 @@
       aria-labelledby="viewBookmarkLabel"
       aria-hidden="true"
      >
-      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="viewBookmarkLabel"><strong>View Bookmark</strong></h5>

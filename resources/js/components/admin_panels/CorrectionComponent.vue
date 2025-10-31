@@ -2,7 +2,7 @@
 <div>
   <!-- view new Modal -->
   <div class="modal fade" id="editNewCorrection" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-dark" id="addNew">
@@ -99,12 +99,7 @@ export default {
         },
       },
       corrections: null,
-      columns: [{
-          field: "id",
-          header: "ID",
-          sortable: true,
-        }, 
-        
+      columns: [
         {
           field: "rating",
           header: "Rating",
