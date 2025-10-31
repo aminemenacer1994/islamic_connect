@@ -1,22 +1,8 @@
 <template>
   <div id="app" class="profile-wrap">
-    <!-- Top dark-green toolbar with search and quick actions -->
-    <div class="profile-topbar">
-      <div class="container d-flex align-items-center justify-content-between gap-2">
-        <div class="searchbar">
-          <i class="bi bi-search"></i>
-          <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
-        </div>
-        <div class="top-actions d-none d-md-flex align-items-center gap-2">
-          <button class="btn btn-ghost-light btn-sm">Today</button>
-          <button class="btn btn-ghost-light btn-sm" aria-label="Notifications"><i class="bi bi-bell"></i></button>
-          <button class="btn btn-ghost-light btn-sm" aria-label="Settings"><i class="bi bi-gear"></i></button>
-        </div>
-      </div>
-    </div>
+   
 
-    <div class="container my-3">
-      <h5 class="mb-3">My Profile</h5>
+    <div class="container mt-4">
 
       <!-- Overview card -->
       <div class="card frosted p-3 mb-3">

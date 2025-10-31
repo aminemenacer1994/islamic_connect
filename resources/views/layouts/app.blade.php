@@ -191,10 +191,8 @@
         /* Refined sidebar */
         .vc-sidebar {
             position: sticky;
-            top: 80px;
+            top: var(--navbar-h);
             left: 0px;
-            height: calc(100vh - 90px);
-            padding: 16px;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 16px;
@@ -250,7 +248,8 @@
 
         /* Fixed sidebar layout option */
         :root {
-            --navbar-h: 70px;
+            /* Keep this in sync with actual navbar height */
+            --navbar-h: 88px;
             --sidebar-w: 320px;
         }
 
@@ -261,7 +260,8 @@
             width: var(--sidebar-w);
             height: calc(100vh - var(--navbar-h) - 10px);
             overflow: auto;
-            z-index: 1030;
+            /* Keep below navbar (Bootstrap fixed-top ~1030) */
+            z-index: 1020;
         }
 
         .content-with-sidebar {
