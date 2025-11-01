@@ -22982,7 +22982,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
     },
     viewModal(note) {
+      var _note$visibility_opti;
       console.log('View clicked:', note.id);
+      const vis = this.normalizeVisibility((_note$visibility_opti = note.visibility_option) !== null && _note$visibility_opti !== void 0 ? _note$visibility_opti : note.option);
       this.form = {
         id: note.id,
         surah_name: note.surah_name || '',
@@ -22990,7 +22992,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         ayah_verse_en: note.ayah_verse_en || '',
         ayah_notes: note.ayah_notes || '',
         option: typeof note.option !== 'undefined' ? note.option : '',
-        visibility_option: typeof note.visibility_option !== 'undefined' ? Number(note.visibility_option) : typeof note.option !== 'undefined' ? Number(note.option) : 0,
+        visibility_option: vis,
         created_at: note.created_at || ''
       };
       this.cleanupModalBackdrops();
@@ -23008,7 +23010,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       });
     },
     editModal(note) {
+      var _note$visibility_opti2;
       console.log('Edit clicked:', note.id);
+      // hydrate reactive form with selected note
+      const vis = this.normalizeVisibility((_note$visibility_opti2 = note.visibility_option) !== null && _note$visibility_opti2 !== void 0 ? _note$visibility_opti2 : note.option);
       this.form = {
         id: note.id,
         surah_name: note.surah_name || '',
@@ -23016,22 +23021,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         ayah_verse_en: note.ayah_verse_en || '',
         ayah_notes: note.ayah_notes || '',
         option: typeof note.option !== 'undefined' ? note.option : '',
-        visibility_option: typeof note.visibility_option !== 'undefined' ? Number(note.visibility_option) : typeof note.option !== 'undefined' ? Number(note.option) : 0,
+        visibility_option: vis,
         created_at: note.created_at || ''
       };
-      this.cleanupModalBackdrops();
-      this.$nextTick(() => {
-        try {
-          var _window$bootstrap4;
-          const modalEl = document.getElementById('editNotes');
-          if (modalEl && (_window$bootstrap4 = window.bootstrap) !== null && _window$bootstrap4 !== void 0 && _window$bootstrap4.Modal) {
-            const modal = window.bootstrap.Modal.getOrCreateInstance(modalEl);
-            modal.show();
-          }
-        } catch (e) {
-          console.error('Error opening edit modal:', e);
-        }
-      });
+      // no programmatic show; rely on data-bs-toggle for reliability
     },
     truncatedHtml(html, maxLength = 150) {
       const div = document.createElement("div");
@@ -23063,9 +23056,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       });
       if (!result.isConfirmed) return;
       try {
-        var _this$form$visibility;
         const payload = _objectSpread(_objectSpread({}, this.form), {}, {
-          visibility_option: Number((_this$form$visibility = this.form.visibility_option) !== null && _this$form$visibility !== void 0 ? _this$form$visibility : 0)
+          visibility_option: this.normalizeVisibility(this.form.visibility_option)
         });
         await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(`api/update-notes/${this.form.id}`, payload);
         this.closeModal('editNotes');
@@ -23089,6 +23081,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     isBusy(id) {
       return !!this.busy[id];
+    },
+    normalizeVisibility(val) {
+      if (val === 'private' || val === 1 || val === '1') return 1;
+      if (val === 'public' || val === 0 || val === '0' || val === undefined || val === null) return 0;
+      return val ? 1 : 0;
     },
     async deleteNote(id) {
       console.log('Delete clicked:', id);
@@ -47414,6 +47411,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn btn-icon btn-success outline",
+      "data-bs-toggle": "modal",
+      "data-bs-target": "#editNotes",
       onClick: $event => $options.editModal(note),
       title: "Edit",
       "aria-label": "Edit note"

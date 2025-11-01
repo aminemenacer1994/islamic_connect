@@ -42,6 +42,8 @@
             <button 
               type="button" 
               class="btn btn-icon btn-success outline" 
+              data-bs-toggle="modal"
+              data-bs-target="#editNotes"
               @click="editModal(note)"
               title="Edit"
               aria-label="Edit note">
@@ -285,6 +287,7 @@ export default {
     },
     viewModal(note) {
       console.log('View clicked:', note.id);
+      const vis = this.normalizeVisibility(note.visibility_option ?? note.option);
       this.form = {
         id: note.id,
         surah_name: note.surah_name || '',
@@ -292,7 +295,7 @@ export default {
         ayah_verse_en: note.ayah_verse_en || '',
         ayah_notes: note.ayah_notes || '',
         option: typeof note.option !== 'undefined' ? note.option : '',
-        visibility_option: typeof note.visibility_option !== 'undefined' ? Number(note.visibility_option) : (typeof note.option !== 'undefined' ? Number(note.option) : 0),
+        visibility_option: vis,
         created_at: note.created_at || '',
       };
       this.cleanupModalBackdrops();
@@ -310,6 +313,8 @@ export default {
     },
     editModal(note) {
       console.log('Edit clicked:', note.id);
+      // hydrate reactive form with selected note
+      const vis = this.normalizeVisibility(note.visibility_option ?? note.option);
       this.form = {
         id: note.id,
         surah_name: note.surah_name || '',
@@ -317,21 +322,10 @@ export default {
         ayah_verse_en: note.ayah_verse_en || '',
         ayah_notes: note.ayah_notes || '',
         option: typeof note.option !== 'undefined' ? note.option : '',
-        visibility_option: typeof note.visibility_option !== 'undefined' ? Number(note.visibility_option) : (typeof note.option !== 'undefined' ? Number(note.option) : 0),
+        visibility_option: vis,
         created_at: note.created_at || '',
       };
-      this.cleanupModalBackdrops();
-      this.$nextTick(() => {
-        try {
-          const modalEl = document.getElementById('editNotes');
-          if (modalEl && window.bootstrap?.Modal) {
-            const modal = window.bootstrap.Modal.getOrCreateInstance(modalEl);
-            modal.show();
-          }
-        } catch (e) {
-          console.error('Error opening edit modal:', e);
-        }
-      });
+      // no programmatic show; rely on data-bs-toggle for reliability
     },
     truncatedHtml(html, maxLength = 150) {
       const div = document.createElement("div");
@@ -361,7 +355,7 @@ export default {
       if (!result.isConfirmed) return;
 
       try {
-        const payload = { ...this.form, visibility_option: Number(this.form.visibility_option ?? 0) };
+        const payload = { ...this.form, visibility_option: this.normalizeVisibility(this.form.visibility_option) };
         await axios.post(`api/update-notes/${this.form.id}`, payload);
         this.closeModal('editNotes');
         await this.fetchNotes(this.userId);
@@ -379,6 +373,11 @@ export default {
     },
     isBusy(id) {
       return !!this.busy[id];
+    },
+    normalizeVisibility(val){
+      if (val === 'private' || val === 1 || val === '1') return 1;
+      if (val === 'public' || val === 0 || val === '0' || val === undefined || val === null) return 0;
+      return val ? 1 : 0;
     },
     async deleteNote(id) {
       console.log('Delete clicked:', id);

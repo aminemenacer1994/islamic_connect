@@ -163,34 +163,43 @@ class NotesController extends Controller
             $validatedData['ayah_notes'] = $this->addMediaToNotes($validatedData['ayah_notes'], $imagePaths);
         }
 
-        // Normalize visibility field to match DB column
+        // Normalize visibility field to match DB column semantics
         if (array_key_exists('visibility_option', $validatedData)) {
+            $incoming = $validatedData['visibility_option'];
+            $numeric = is_numeric($incoming) ? (int) $incoming : null;
+            $asString = null;
+
+            // DB migration in this repo defines visibility_option as string with default 'public'
+            if ($numeric !== null) {
+                $asString = $numeric === 1 ? 'private' : 'public';
+            } elseif (is_string($incoming)) {
+                $asString = $incoming; // already string; assume valid
+                $numeric = ($incoming === 'private') ? 1 : 0;
+            }
+
             if (Schema::hasColumn('notes', 'visibility_option')) {
-                // keep as-is; also mirror to legacy if present
+                // If column likely stores strings, send the string version
+                $validatedData['visibility_option'] = $asString ?? $incoming;
+                // Mirror to legacy numeric column if present
                 if (Schema::hasColumn('notes', 'option')) {
-                    $validatedData['option'] = (int) $validatedData['visibility_option'];
+                    $validatedData['option'] = $numeric ?? 0;
                 }
             } else {
-                // DB does not have visibility_option; fall back to legacy 'option'
-                $validatedData['option'] = (int) $validatedData['visibility_option'];
+                // DB does not have visibility_option; fall back to legacy 'option' only
+                $validatedData['option'] = $numeric ?? 0;
                 unset($validatedData['visibility_option']);
             }
         }
 
-        // Only include columns that actually exist in the notes table
-        try {
-            $columns = Schema::getColumnListing('notes');
-        } catch (\Throwable $e) {
-            $columns = array_keys($validatedData); // fallback
-        }
+        // Only include fillable attributes from the Note model
+        $fillable = (new Note())->getFillable();
         $payload = collect($validatedData)
-            ->filter(function ($v, $k) use ($columns) {
-                return in_array($k, $columns, true);
-            })
+            ->filter(function ($v, $k) use ($fillable) { return in_array($k, $fillable, true); })
             ->toArray();
 
-        // Update the note
-        $note->update($payload);
+        // Update using fill/save to respect fillable and avoid empty-update edge cases
+        $note->fill($payload);
+        $note->save();
 
         return response()->json(['message' => 'Note updated successfully', 'note' => $note]);
     }
@@ -198,19 +207,15 @@ class NotesController extends Controller
     // Helper function to add media links to the 'ayah_notes' field
     private function addMediaToNotes($ayahNotes, $imagePaths)
     {
-        foreach ($mediaPaths as $path) {
-            // Check if the file is an image or video
-            $ext = pathinfo($path, PATHINFO_EXTENSION);
-            
-            if (in_array(strtolower($ext), ['mp4', 'webm', 'ogg'])) {
-                // For video files
-                $ayahNotes .= '<video src="' . asset('storage/' . $path) . '" class="' . $class . '" controls></video>';
+        foreach ($imagePaths as $path) {
+            $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+            $url = asset('storage/' . ltrim($path, '/'));
+            if (in_array($ext, ['mp4', 'webm', 'ogg'])) {
+                $ayahNotes .= '<video src="' . $url . '" controls style="max-width:100%;height:auto"></video>';
             } else {
-                // For image files
-                $ayahNotes .= '<img src="' . asset('storage/' . $path) . '" class="' . $class . '" />';
+                $ayahNotes .= '<img src="' . $url . '" alt="attachment" style="max-width:100%;height:auto" />';
             }
         }
-
         return $ayahNotes;
     }
 

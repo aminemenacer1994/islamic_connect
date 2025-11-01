@@ -17,7 +17,9 @@ class Note extends Model
         'ayah_verse_ar',
         'ayah_verse_en',
         'ayah_notes',
-        'visibility_option', 
+        'visibility_option',
+        // Legacy column used in some databases
+        'option',
         'is_speech_to_text'
     ];
 }
