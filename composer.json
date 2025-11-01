@@ -13,6 +13,8 @@
         "barryvdh/laravel-dompdf": "^1.0",
         "dompdf/dompdf": "^1.2.2",
         "fruitcake/laravel-cors": "^3.0",
+        "google/analytics-data": "*",
+        "google/apiclient": "^2.15",
         "google/cloud": "^0.263.0",
         "google/cloud-speech": "^1.19",
         "google/cloud-storage": "^1.36",

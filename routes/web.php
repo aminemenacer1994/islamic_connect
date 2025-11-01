@@ -69,6 +69,8 @@ use App\Http\Controllers\ReadController;
 use App\Http\Controllers\SubscriptionController;
 use Illuminate\Http\Request;
 
+
+Route::get('/debug/ga4', fn() => ['config' => config('services.ga4.property_id'), 'env' => env('GA4_PROPERTY_ID')]);
 // ========================================
 // PUBLIC ROUTES
 // ========================================
@@ -276,6 +278,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('api/stripe/transactions', [PaymentController::class, 'getStripeTransactions']);
     Route::get('/donations', [DonationController::class, 'index']);
     Route::get('/fetch-donations', [DonationController::class, 'getDonations']);
+
+    // Analytics routes removed
     
 });
 

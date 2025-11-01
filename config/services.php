@@ -73,5 +73,6 @@ return [
         'model' => App\Models\User::class,
     ],
     
+    // GA4 analytics config removed
 
 ];

@@ -21,6 +21,7 @@
       <span class="label">Feedback</span>
      </a>
     </li>
+    
     <li class="nav-item" data-search="payments transactions finance stripe">
      <a href="/payments" class="nav-link {{ request()->is('payments') ? 'active' : '' }}">
       <i class="bi bi-credit-card-fill mr-3"></i>
