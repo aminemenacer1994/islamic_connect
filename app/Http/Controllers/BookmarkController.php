@@ -17,9 +17,8 @@ class BookmarkController extends Controller
             return view('bookmark', ['bookmarks' => collect()]);
         }
 
-        // Support datasets that may reference users.id or users.user_id
-        $ids = array_unique(array_filter([(int) $user->id, (int) $user->user_id]));
-        $bookmarks = Bookmark::whereIn('user_id', $ids)
+        // Bookmarks are scoped to the authenticated user's primary id
+        $bookmarks = Bookmark::where('user_id', (int) $user->id)
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -33,19 +32,12 @@ class BookmarkController extends Controller
             abort(401);
         }
 
-        // Prefer legacy external id if present, otherwise primary key id
-        $effective = method_exists($user, 'effectiveUserId')
-            ? $user->effectiveUserId()
-            : ($user->user_id ?: $user->id);
-
         // Client can only fetch its own bookmarks
-        if ((int) $userId !== (int) $effective) {
+        if ((int) $userId !== (int) $user->id) {
             abort(403);
         }
 
-        // Query by both possible identifiers to support mixed data
-        $ids = array_unique(array_filter([(int) $user->id, (int) $user->user_id]));
-        $bookmarks = Bookmark::whereIn('user_id', $ids)
+        $bookmarks = Bookmark::where('user_id', (int)$user->id)
             ->orderBy('created_at', 'desc')
             ->get();
 

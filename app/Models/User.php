@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -25,6 +26,18 @@ class User extends Authenticatable
         // 'subscription_ends_at' => 'datetime', // Remove this
     ];
 
+    protected static function booted(): void
+    {
+        static::created(function (User $user) {
+            // Ensure user_id starts from 0 and increments with id
+            if ($user->user_id === null || $user->user_id === $user->id) {
+                $user->user_id = max(0, (int)$user->id - 1);
+                // Update directly to avoid recursion
+                DB::table('users')->where('id', $user->id)->update(['user_id' => $user->user_id]);
+            }
+        });
+    }
+
     public function notes()
     {
         // Notes now consistently reference users.id
@@ -33,9 +46,8 @@ class User extends Authenticatable
 
     public function bookmarks()
     {
-        // Support legacy data where related tables reference users.user_id
-        $localKey = $this->user_id ? 'user_id' : 'id';
-        return $this->hasMany(Bookmark::class, 'user_id', $localKey);
+        // Bookmarks reference users.id in this app
+        return $this->hasMany(Bookmark::class, 'user_id', 'id');
     }
 
     public function folders()
@@ -104,6 +116,7 @@ class User extends Authenticatable
     // Preferred helper to reference the identifier used by related tables
     public function effectiveUserId(): int
     {
-        return (int) ($this->user_id ?: $this->id);
+        // External-facing numeric identifier starting at 0
+        return (int) ($this->user_id ?? max(0, $this->id - 1));
     }
 }

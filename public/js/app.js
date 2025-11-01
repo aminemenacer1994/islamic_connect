@@ -21847,7 +21847,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var primevue_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! primevue/api */ "./node_modules/primevue/api/api.esm.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_1__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -21889,26 +21890,9 @@ __webpack_require__.r(__webpack_exports__);
   data() {
     return {
       loading: false,
-      searchValue: '',
-      filters: {
-        global: {
-          value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_1__.FilterMatchMode.CONTAINS
-        }
-      },
-      columns: [{
-        field: 'surah_name',
-        header: 'Surah'
-      }, {
-        field: 'ayah_num',
-        header: 'Ayah #'
-      }, {
-        field: 'ayah_verse_en',
-        header: 'English'
-      }, {
-        field: 'created_at',
-        header: 'Created'
-      }],
+      query: '',
+      sortBy: 'newest',
+      busy: {},
       bookmarks: [],
       userId: null,
       form: {
@@ -21925,11 +21909,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    onGlobalFilter(e) {
-      this.filters.global.value = e.target.value;
-    },
     redirectToBookmark(url) {
       window.location.href = url;
+    },
+    stripHtmlTags(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.innerHTML = text;
+      return div.textContent || div.innerText || '';
     },
     extractDate(dateTimeString) {
       if (!dateTimeString) return '';
@@ -21965,28 +21952,39 @@ __webpack_require__.r(__webpack_exports__);
       });
       instance.show();
     },
-    deleteBookmark(id) {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+    async deleteBookmark(id) {
+      const result = await sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+        title: "Delete bookmark?",
+        text: "This action cannot be undone.",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete bookmark!"
-      }).then(result => {
-        if (result.isConfirmed) {
-          axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/delete-bookmarks/${id}`);
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Bookmark deleted successfully",
-            showConfirmButton: false,
-            timer: 1500
-          });
-          this.fetchBookmarks(this.userId);
-        }
+        confirmButtonColor: "#b00020",
+        cancelButtonColor: "#6b7280",
+        confirmButtonText: "Delete"
       });
+      if (!result.isConfirmed) return;
+      try {
+        this.$set ? this.$set(this.busy, id, true) : this.busy[id] = true;
+        await axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/delete-bookmarks/${id}`);
+        await this.fetchBookmarks(this.userId);
+        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Bookmark deleted',
+          timer: 1200,
+          showConfirmButton: false
+        });
+      } catch (e) {
+        console.error('Delete error:', e);
+        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
+          icon: 'error',
+          title: 'Delete failed',
+          timer: 1400,
+          showConfirmButton: false
+        });
+      } finally {
+        this.busy[id] = false;
+      }
     },
     closeModal() {
       var _window$bootstrap4;
@@ -22004,9 +22002,25 @@ __webpack_require__.r(__webpack_exports__);
       backdrops.forEach(b => b.parentNode && b.parentNode.removeChild(b));
       document.body.classList.remove('modal-open');
       document.body.style.removeProperty('padding-right');
+    },
+    isBusy(id) {
+      return !!this.busy[id];
     }
   },
-  computed: {}
+  computed: {
+    filteredBookmarks() {
+      const q = (this.query || '').toLowerCase();
+      const list = (this.bookmarks || []).filter(bm => {
+        const parts = [bm.surah_name, String(bm.ayah_num), bm.ayah_verse_ar, bm.ayah_verse_en].map(v => this.stripHtmlTags((v || '').toString()).toLowerCase());
+        return !q || parts.some(p => p.includes(q));
+      });
+      return list.sort((a, b) => {
+        const da = new Date(a.created_at || 0).getTime();
+        const db = new Date(b.created_at || 0).getTime();
+        return this.sortBy === 'newest' ? db - da : da - db;
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -45863,29 +45877,66 @@ const _hoisted_1 = {
   id: "app"
 };
 const _hoisted_2 = {
-  class: "table-toolbar"
+  class: "pt-4"
 };
 const _hoisted_3 = {
-  class: "search-wrapper"
+  class: "d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2"
 };
 const _hoisted_4 = {
-  key: 0
+  class: "input-group",
+  style: {
+    "max-width": "380px"
+  }
 };
 const _hoisted_5 = {
-  key: 1
+  class: "d-flex align-items-center gap-2"
 };
 const _hoisted_6 = {
-  key: 2
+  class: "pb-3 text-center"
 };
 const _hoisted_7 = {
-  class: "row-actions"
+  style: {
+    "color": "rgb(0, 191, 166)"
+  }
 };
-const _hoisted_8 = ["onClick"];
-const _hoisted_9 = ["onClick"];
+const _hoisted_8 = {
+  class: "row"
+};
+const _hoisted_9 = {
+  class: "note-card"
+};
 const _hoisted_10 = {
-  class: "footer-count"
+  class: "note-body"
 };
 const _hoisted_11 = {
+  class: "fw-semibold mb-1"
+};
+const _hoisted_12 = {
+  class: "note-meta"
+};
+const _hoisted_13 = {
+  class: "date"
+};
+const _hoisted_14 = {
+  class: "note-actions",
+  role: "group",
+  "aria-label": "Bookmark actions"
+};
+const _hoisted_15 = ["onClick"];
+const _hoisted_16 = ["disabled", "onClick", "title"];
+const _hoisted_17 = {
+  key: 0,
+  class: "spinner-border spinner-border-sm"
+};
+const _hoisted_18 = {
+  key: 1,
+  class: "bi bi-trash"
+};
+const _hoisted_19 = {
+  key: 0,
+  class: "empty text-center py-4"
+};
+const _hoisted_20 = {
   class: "modal fade",
   id: "viewBookmark",
   ref: "viewBookmarkModal",
@@ -45893,123 +45944,94 @@ const _hoisted_11 = {
   "aria-labelledby": "viewBookmarkLabel",
   "aria-hidden": "true"
 };
-const _hoisted_12 = {
+const _hoisted_21 = {
   class: "modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down"
 };
-const _hoisted_13 = {
+const _hoisted_22 = {
   class: "modal-content"
 };
-const _hoisted_14 = {
+const _hoisted_23 = {
   class: "modal-body"
 };
-const _hoisted_15 = {
+const _hoisted_24 = {
   class: "container"
 };
-const _hoisted_16 = {
+const _hoisted_25 = {
   class: "mb-3"
 };
-const _hoisted_17 = {
+const _hoisted_26 = {
   class: "mt-2 text-dark"
 };
-const _hoisted_18 = {
+const _hoisted_27 = {
   class: "mb-3"
 };
-const _hoisted_19 = {
+const _hoisted_28 = {
   class: "mt-2 text-dark"
 };
-const _hoisted_20 = {
+const _hoisted_29 = {
   class: "mb-3"
 };
-const _hoisted_21 = {
+const _hoisted_30 = {
   class: "mt-2 text-dark"
 };
-const _hoisted_22 = {
+const _hoisted_31 = {
   class: "mb-3"
 };
-const _hoisted_23 = {
+const _hoisted_32 = {
   class: "mt-2 text-dark"
 };
-const _hoisted_24 = {
+const _hoisted_33 = {
+  class: "mb-3"
+};
+const _hoisted_34 = {
+  class: "mt-2 text-dark"
+};
+const _hoisted_35 = {
   class: "modal-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_Column = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Column");
-  const _component_DataTable = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("DataTable");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bookmarks Table (PrimeVue) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DataTable, {
-    value: $data.bookmarks,
-    loading: $data.loading,
-    ref: "dt",
-    filters: $data.filters,
-    "onUpdate:filters": _cache[2] || (_cache[2] = $event => $data.filters = $event),
-    globalFilterFields: ($data.columns || []).map(c => c.field),
-    class: "pt-4 modern-datatable teal-accent",
-    showGridlines: "",
-    stripedRows: "",
-    rowHover: "",
-    responsiveLayout: "scroll",
-    paginator: "",
-    rows: 10,
-    rowsPerPageOptions: [10, 20, 50, 100],
-    paginatorTemplate: "RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink",
-    currentPageReportTemplate: "Showing {first}–{last} of {totalRecords} bookmarks"
-  }, {
-    header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "title"
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header: search & sort "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "input-group-text"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-search"
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.query = $event),
+    class: "form-control",
+    placeholder: "Search bookmarks..."
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.query]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.sortBy = $event),
+    class: "form-select"
+  }, [...(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "newest"
+  }, "Newest first", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "oldest"
+  }, "Oldest first", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_6, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "You have: ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.bookmarks.length), 1 /* TEXT */), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, " bookmarks", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredBookmarks, bm => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      class: "col-md-4 mb-4",
+      key: bm.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "note-chip"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-bookmark-fill me-2"
-    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Bookmarks")], -1 /* CACHED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "spacer"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-search"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      class: "form-control form-control-sm border-0",
-      type: "text",
-      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.searchValue = $event),
-      placeholder: "Search bookmarks...",
-      onInput: _cache[1] || (_cache[1] = (...args) => $options.onGlobalFilter && $options.onGlobalFilter(...args))
-    }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchValue]])])])]),
-    empty: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [...(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "empty text-center py-4"
-    }, "No bookmarks yet. Save favorite ayahs from the Quran page to see them here.", -1 /* CACHED */)]))]),
-    footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, "Total: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.bookmarks ? $data.bookmarks.length : 0) + " bookmarks", 1 /* TEXT */)]),
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.columns, col => {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Column, {
-        key: col.field,
-        field: col.field,
-        header: col.header,
-        sortable: ""
-      }, {
-        body: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(({
-          data
-        }) => [col.field === 'created_at' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate(data.created_at)), 1 /* TEXT */)) : col.field === 'ayah_verse_en' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.truncatedText(data.ayah_verse_en)), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data[col.field]), 1 /* TEXT */))]),
-        _: 2 /* DYNAMIC */
-      }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["field", "header"]);
-    }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Column, {
-      header: "Actions",
-      exportable: false,
-      style: {
-        "min-width": "14rem",
-        "text-align": "center"
-      }
-    }, {
-      body: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(({
-        data
-      }) => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        type: "button",
-        class: "btn btn-sm btn-primary",
-        onClick: $event => $options.viewModal(data)
-      }, [...(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        class: "bi bi-eye me-1"
-      }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" View ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_8), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        class: "btn btn-sm btn-danger",
-        onClick: $event => $options.deleteBookmark(data.id)
-      }, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        class: "bi bi-trash me-1"
-      }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_9)])]),
-      _: 1 /* STABLE */
-    })]),
-    _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["value", "loading", "filters", "globalFilterFields"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" View Bookmark Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "bi bi-bookmark-fill me-1"
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Bookmark ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(bm.surah_name) + " • Ayah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(bm.ayah_num), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.truncatedText(bm.ayah_verse_en || bm.ayah_verse_ar)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-calendar3 me-1"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate(bm.created_at)), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: "btn btn-icon btn-ghost",
+      onClick: $event => $options.viewModal(bm),
+      title: "View",
+      "aria-label": "View bookmark"
+    }, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-eye"
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: "btn btn-icon btn-danger outline",
+      disabled: $options.isBusy(bm.id),
+      onClick: $event => $options.deleteBookmark(bm.id),
+      title: $options.isBusy(bm.id) ? 'Deleting…' : 'Delete',
+      "aria-label": "Delete bookmark"
+    }, [$options.isBusy(bm.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_17)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_18))], 8 /* PROPS */, _hoisted_16)])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), !$data.loading && $options.filteredBookmarks.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, " No bookmarks yet. Save favorite ayahs from the Quran page to see them here. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" View Bookmark Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title",
@@ -46019,18 +46041,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Surah Name:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.surah_name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Surah Name:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.surah_name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Arabic Verse:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_verse_ar), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Ayah Number:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_num), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "English Info:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_verse_en), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Arabic Verse:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_verse_ar), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Date Created:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate($data.form.created_at)), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "English Info:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_verse_en), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    class: "form-label"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Date Created:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate($data.form.created_at)), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-secondary",
-    onClick: _cache[3] || (_cache[3] = (...args) => $options.closeModal && $options.closeModal(...args)),
+    onClick: _cache[2] || (_cache[2] = (...args) => $options.closeModal && $options.closeModal(...args)),
     "data-bs-dismiss": "modal"
   }, "Close")])])])], 512 /* NEED_PATCH */)]);
 }
@@ -53033,7 +53057,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-modern .modal-content[data-v-64c2eda2]{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}\n.modal-modern .modal-header[data-v-64c2eda2]{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}\n.modal-modern .btn-close[data-v-64c2eda2]{filter:none}\n.modal-title[data-v-64c2eda2] {\n  color: #343a40;\n}\n.text-dark[data-v-64c2eda2] {\n  color: #343a40 !important;\n}\n.modal-footer .btn-secondary[data-v-64c2eda2] {\n  background-color: #6c757d;\n  border-color: #6c757d;\n}\n.modal-footer .btn-secondary[data-v-64c2eda2]:hover {\n  background-color: #5a6268;\n  border-color: #545b62;\n}\n.modal-content[data-v-64c2eda2] {\n  border-radius: 0.5rem;\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);\n}\n.modal-header[data-v-64c2eda2] {\n  border-bottom: 1px solid #dee2e6;\n}\n.modal-footer[data-v-64c2eda2] {\n  border-top: 1px solid #dee2e6;\n}\n.btn-close[data-v-64c2eda2] {\n  outline: none;\n  box-shadow: none;\n}\n/* DataTable polish to match other panels */\n.modern-datatable[data-v-64c2eda2]{width:100%}\n.table-toolbar[data-v-64c2eda2]{display:flex; align-items:center; gap:.75rem}\n.table-toolbar .spacer[data-v-64c2eda2]{flex:1}\n.table-toolbar .search-wrapper[data-v-64c2eda2]{display:flex; align-items:center; gap:.5rem; padding:.25rem .5rem; border:1px solid #e2e8f0; border-radius:8px; background:#fff}\n.teal-accent .p-datatable-header[data-v-64c2eda2]{background:linear-gradient(0deg, #f6faf9, #fff); border:1px solid #e2e8f0; border-radius:12px}\n.teal-accent .p-datatable-tbody > tr[data-v-64c2eda2]{transition:background .18s ease}\n.teal-accent .p-datatable-tbody > tr[data-v-64c2eda2]:hover{background:#f1fcf9}\n.row-actions[data-v-64c2eda2]{display:inline-flex; align-items:center; gap:.5rem}\n.empty[data-v-64c2eda2]{color:#6b7280; padding:1rem}\n.footer-count[data-v-64c2eda2]{color:#374151}\n.truncate[data-v-64c2eda2]{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-modern .modal-content[data-v-64c2eda2]{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}\n.modal-modern .modal-header[data-v-64c2eda2]{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}\n.modal-modern .btn-close[data-v-64c2eda2]{filter:none}\n.modal-title[data-v-64c2eda2] { color: #343a40;\n}\n.text-dark[data-v-64c2eda2] { color: #343a40 !important;\n}\n.modal-footer .btn-secondary[data-v-64c2eda2] { background-color: #6c757d; border-color: #6c757d;\n}\n.modal-footer .btn-secondary[data-v-64c2eda2]:hover { background-color: #5a6268; border-color: #545b62;\n}\n.modal-content[data-v-64c2eda2] { border-radius: 0.5rem; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);\n}\n.modal-header[data-v-64c2eda2] { border-bottom: 1px solid #dee2e6;\n}\n.modal-footer[data-v-64c2eda2] { border-top: 1px solid #dee2e6;\n}\n.btn-close[data-v-64c2eda2] { outline: none; box-shadow: none;\n}\n/* Card UI (reused from Notes) */\n.note-card[data-v-64c2eda2] { position: relative; background: #fff; border: 1px solid #e6e8eb; border-radius: 16px; padding: 16px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); transition: transform 0.18s ease, box-shadow 0.18s ease; cursor: default; pointer-events: auto;\n}\n.note-card[data-v-64c2eda2]:before { content: \"\"; position: absolute; inset: 0; border-radius: 16px; padding: 1px; background: linear-gradient(120deg, rgba(0, 191, 166, 0.4), rgba(0, 191, 166, 0) 40%, rgba(124, 77, 255, 0.15)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;\n}\n.note-card[data-v-64c2eda2]:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);\n}\n.note-chip[data-v-64c2eda2] { display: inline-flex; align-items: center; gap: 0.4rem; background: #e6fcf7; color: #0f766e; border: 1px solid #b3efe3; border-radius: 999px; font-weight: 700; font-size: 0.8rem; padding: 4px 10px; margin-bottom: 10px; pointer-events: none;\n}\n.note-body[data-v-64c2eda2] { color: #0f172a; min-height: 96px; margin-bottom: 8px; pointer-events: none;\n}\n.note-meta[data-v-64c2eda2] { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; color: #64748b; font-size: 0.85rem; pointer-events: none;\n}\n.note-actions[data-v-64c2eda2] { display: flex; align-items: center; gap: 0.5rem; margin-top: 10px; position: relative; z-index: 10;\n}\n.btn-icon[data-v-64c2eda2] { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border-radius: 10px; pointer-events: auto; cursor: pointer; transition: all 0.2s ease;\n}\n.btn-icon[data-v-64c2eda2]:hover:not(:disabled) { transform: scale(1.05);\n}\n.btn-icon[data-v-64c2eda2]:disabled { opacity: 0.6; cursor: not-allowed;\n}\n.btn-danger.outline[data-v-64c2eda2] { background: #fff !important; color: #b00020 !important; border: 2px solid #b00020 !important; box-shadow: none;\n}\n.btn-danger.outline[data-v-64c2eda2]:hover:not(:disabled) { background: #b00020 !important; color: #fff !important;\n}\n.btn-ghost[data-v-64c2eda2] { background: #fff; border: 1px solid #e6e8eb; color: #0f172a;\n}\n.btn-ghost[data-v-64c2eda2]:hover { background: #f7faf9;\n}\n.empty[data-v-64c2eda2] { color:#6b7280; padding:1rem\n}\n.truncate[data-v-64c2eda2]{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

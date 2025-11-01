@@ -145,9 +145,8 @@ class NotesController extends Controller
         $note = Note::findOrFail($id);
 
         // Authorize update (owner-only)
-        $user = auth()->user();
-        $effectiveId = $user ? (int) $user->id : 0;
-        if ((int)$note->user_id !== (int)$effectiveId) {
+        $effectiveId = (int) auth()->id();
+        if ((int)$note->user_id !== $effectiveId) {
             abort(403);
         }
 
@@ -224,9 +223,7 @@ class NotesController extends Controller
     public function deleteNotes($id)
     {
         $note = Note::findOrFail($id);
-        $user = auth()->user();
-        $effectiveId = $user ? (method_exists($user, 'effectiveUserId') ? $user->effectiveUserId() : ($user->user_id ?: $user->id)) : 0;
-        if ((int)$note->user_id !== (int)$effectiveId) {
+        if ((int)$note->user_id !== (int) auth()->id()) {
             abort(403);
         }
         $note->delete();
