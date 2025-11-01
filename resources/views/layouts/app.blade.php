@@ -233,12 +233,16 @@
 
         .vc-sidebar .nav-link.active {
             background: #d1f4d0;
-            color: #0b5d4b;
+            color: #228B22; /* forest green */
             box-shadow: 0 3px 0 #0b5d4b33 inset
         }
 
+        .vc-sidebar .nav-link.active .label {
+            color: #228B22; /* ensure text is forest green */
+        }
+
         .vc-sidebar .nav-link.active .bi {
-            color: #0b5d4b
+            color: #228B22; /* match icon to forest green */
         }
 
         .vc-sidebar .bi {
@@ -251,6 +255,31 @@
             /* Keep this in sync with actual navbar height */
             --navbar-h: 88px;
             --sidebar-w: 320px;
+        }
+
+        /* Tablet tweaks */
+        @media (max-width: 991.98px) {
+            :root { --navbar-h: 64px; }
+            body { padding-top: 64px; }
+            .navbar-brand img { max-width: 160px; height: auto; }
+            .page-header { flex-wrap: wrap; gap: 8px; }
+            .page-header > * { flex: 1 1 auto; }
+            .grid-3 { gap: 14px; }
+            .nav-pills, .nav-tabs { flex-wrap: wrap; row-gap: 6px; }
+            .nav-pills .nav-link, .nav-tabs .nav-link { white-space: nowrap; }
+        }
+
+        /* Mobile tweaks */
+        @media (max-width: 575.98px) {
+            :root { --navbar-h: 56px; }
+            body { padding-top: 56px; }
+            .navbar-brand img { max-width: 130px; height: auto; }
+            .content-area { padding-inline: 8px; }
+            .grid-3 { gap: 12px; }
+            .page-header { align-items: stretch; }
+            .page-title { font-size: 1.1rem; }
+            .count-chip { padding: 4px 8px; font-size: .9rem; }
+            .btn, .button-36, .button-64 { width: 100%; max-width: 100%; }
         }
 
         .fixed-sidebar {
