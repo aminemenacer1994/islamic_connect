@@ -1,59 +1,65 @@
 <template>
   <div id="app">
-    <!-- Bookmarks Container -->
-    <div class="container">
-      <div v-if="bookmarks.length === 0" class="text-center py-5">
-        <div class="card p-4 mx-auto" style="max-width:520px">
-          <div class="mb-2">🔖</div>
-          <h5 class="mb-2">No bookmarks yet</h5>
-          <p class="text-muted mb-0">Save favorite ayahs from the Quran page to see them here.</p>
+    <!-- Bookmarks Table (PrimeVue) -->
+    <DataTable
+      v-model:filters="filters"
+      :value="bookmarks"
+      :loading="loading"
+      class="pt-4 modern-datatable teal-accent"
+      showGridlines
+      stripedRows
+      rowHover
+      responsiveLayout="scroll"
+      filterDisplay="row"
+      paginator
+      :rows="10"
+      :rowsPerPageOptions="[10, 20, 50, 100]"
+      paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+      currentPageReportTemplate="Showing {first}–{last} of {totalRecords} bookmarks"
+    >
+      <template #header>
+        <div class="table-toolbar">
+          <div class="title"><i class="bi bi-bookmark-fill me-2"></i>Bookmarks</div>
+          <span class="spacer"></span>
+          <span class="search-wrapper">
+            <i class="bi bi-search"></i>
+            <InputText v-model="filters['global'].value" placeholder="Search bookmarks..." />
+          </span>
         </div>
-      </div>
-      <div v-else class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-        <div class="input-group" style="max-width:380px">
-          <span class="input-group-text"><i class="bi bi-search"></i></span>
-          <input v-model="query" class="form-control" placeholder="Search bookmarks..." />
-        </div>
-        <select v-model="sortBy" class="form-select" style="max-width:200px">
-          <option value="newest">Newest first</option>
-          <option value="oldest">Oldest first</option>
-        </select>
-      </div>
-      <div v-if="bookmarks.length" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
-        <div class="col" v-for="bookmark in filteredBookmarks" :key="bookmark.id">
-          <!-- Bookmark Card -->
-          <div class="card p-3">
-            <div class="card-body">
-              <!-- Bookmark details -->
-              <!-- Truncated text example -->
-              <div class="truncate">
-                <h5> <strong>Surah Name:</strong></h5>
-                {{ truncatedText(bookmark.surah_name) }}
-              </div>
-              <!-- End of truncated text -->
-              <div class="mt-2">
-                <h5><strong>Information:</strong></h5>
-                {{ truncatedText(bookmark.ayah_verse_en) }}
-              </div>
-              <hr />
-              <!-- Icons for actions -->
-              <i
-                class="bi bi-eye-fill h4"
-                style="color:rgb(0, 191, 166); cursor:pointer"
-                data-bs-toggle="modal"
-                data-bs-target="#viewBookmark"
-                @click="viewModal(bookmark)"
-              ></i>
-              <i
-                class="bi bi-trash-fill h4 ml-3"
-                style="color:rgb(0, 191, 166); cursor:pointer"
-                @click="deleteBookmark(bookmark.id)"
-              ></i>
-            </div>
+      </template>
+
+      <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" sortable>
+        <template #body="{ data }">
+          <span v-if="col.field==='created_at'">{{ extractDate(data.created_at) }}</span>
+          <span v-else-if="col.field==='ayah_verse_en'">{{ truncatedText(data.ayah_verse_en) }}</span>
+          <span v-else>{{ data[col.field] }}</span>
+        </template>
+        <template #filter="{filterModel}">
+          <InputText v-model="filterModel.value" :placeholder="'Filter ' + col.header" class="p-column-filter" />
+        </template>
+      </Column>
+
+      <Column header="Actions" :exportable="false" style="min-width: 14rem; text-align:center;">
+        <template #body="{ data }">
+          <div class="row-actions">
+            <button data-bs-toggle="modal" data-bs-target="#viewBookmark" type="button" class="btn btn-sm btn-primary" @click="viewModal(data)">
+              <i class="bi bi-eye me-1"></i> View
+            </button>
+            <button class="btn btn-sm btn-danger" @click="deleteBookmark(data.id)">
+              <i class="bi bi-trash me-1"></i> Delete
+            </button>
           </div>
-        </div>
-      </div>
-    </div>
+        </template>
+      </Column>
+
+      <template #empty>
+        <div class="empty text-center py-4">No bookmarks yet. Save favorite ayahs from the Quran page to see them here.</div>
+      </template>
+      <template #footer>
+        <span class="footer-count">Total: {{ bookmarks ? bookmarks.length : 0 }} bookmarks</span>
+      </template>
+
+    </DataTable>
 
     <!-- View Bookmark Modal -->
     <div
@@ -113,6 +119,7 @@
 
 <script>
 import axios from "axios";
+import { FilterMatchMode } from "primevue/api";
 
 export default {
   name: 'BookmarksApp',
@@ -141,16 +148,27 @@ export default {
   },
   data() {
     return {
+      loading: false,
+      filters: {
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        surah_name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        ayah_num: { value: null, matchMode: FilterMatchMode.EQUALS },
+        ayah_verse_en: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        created_at: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      },
+      columns: [
+        { field: 'surah_name', header: 'Surah' },
+        { field: 'ayah_num', header: 'Ayah #' },
+        { field: 'ayah_verse_en', header: 'English' },
+        { field: 'created_at', header: 'Created' },
+      ],
       bookmarks: [],
-      query: '',
-      sortBy: 'newest',
+      userId: null,
       form: {
         id: "",
         ayah_num: "",
         ayah_text: "",
-        created_at: "",
         surah_name: "",
-        ayah_num: "",
         ayah_verse_ar: "",
         ayah_verse_en: "",
         ayah_notes: "",
@@ -169,13 +187,16 @@ export default {
     },
     async fetchBookmarks(userId) {
       try {
-        const response = await fetch(`/api/fetch-bookmarks/${userId}`);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        this.bookmarks = await response.json();
+        this.loading = true;
+        const res = await axios.get(`/api/fetch-bookmarks/${userId}`);
+        // support either array or { data: [...] }
+        const payload = Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
+        this.bookmarks = payload;
+        console.log('Loaded bookmarks:', this.bookmarks.length);
       } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
+        console.error('Failed to load bookmarks:', error);
+      } finally {
+        this.loading = false;
       }
     },
     truncatedText(text) {
@@ -226,21 +247,7 @@ export default {
       }
     },
   },
-  computed: {
-    filteredBookmarks(){
-      const q=(this.query||'').toLowerCase();
-      const list=this.bookmarks.filter(b=>{
-        const s=(b.surah_name||'').toLowerCase();
-        const e=(b.ayah_verse_en||'').toLowerCase();
-        return !q || s.includes(q) || e.includes(q);
-      });
-      return list.sort((a,b)=>{
-        const da=new Date(a.created_at||0).getTime();
-        const db=new Date(b.created_at||0).getTime();
-        return this.sortBy==='newest'? db-da : da-db;
-      });
-    }
-  },
+  computed: {},
 };
 </script>
 
@@ -284,11 +291,16 @@ export default {
   box-shadow: none;
 }
 
-/* Card polish for bookmark grid */
-.card{border:1px solid #e6e8eb !important;border-radius:12px !important;box-shadow:0 1px 2px rgba(0,0,0,.06);transition:transform .12s ease, box-shadow .12s ease}
-.card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10)}
+/* DataTable polish to match other panels */
+.modern-datatable{width:100%}
+.table-toolbar{display:flex; align-items:center; gap:.75rem}
+.table-toolbar .spacer{flex:1}
+.table-toolbar .search-wrapper{display:flex; align-items:center; gap:.5rem; padding:.25rem .5rem; border:1px solid #e2e8f0; border-radius:8px; background:#fff}
+.teal-accent .p-datatable-header{background:linear-gradient(0deg, #f6faf9, #fff); border:1px solid #e2e8f0; border-radius:12px}
+.teal-accent .p-datatable-tbody > tr{transition:background .18s ease}
+.teal-accent .p-datatable-tbody > tr:hover{background:#f1fcf9}
+.row-actions{display:inline-flex; align-items:center; gap:.5rem}
+.empty{color:#6b7280; padding:1rem}
+.footer-count{color:#374151}
 .truncate{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.page-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0 18px}
-.page-title{font-weight:700}
-.count-chip{background:#f7f7f8;border:1px solid #e6e8eb;padding:6px 10px;border-radius:999px;font-weight:600;color:#0b5d4b}
 </style>

@@ -21847,6 +21847,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var primevue_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! primevue/api */ "./node_modules/primevue/api/api.esm.js");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'BookmarksApp',
@@ -21871,16 +21873,49 @@ __webpack_require__.r(__webpack_exports__);
   },
   data() {
     return {
+      loading: false,
+      filters: {
+        global: {
+          value: null,
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_1__.FilterMatchMode.CONTAINS
+        },
+        surah_name: {
+          value: null,
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_1__.FilterMatchMode.STARTS_WITH
+        },
+        ayah_num: {
+          value: null,
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_1__.FilterMatchMode.EQUALS
+        },
+        ayah_verse_en: {
+          value: null,
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_1__.FilterMatchMode.CONTAINS
+        },
+        created_at: {
+          value: null,
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_1__.FilterMatchMode.CONTAINS
+        }
+      },
+      columns: [{
+        field: 'surah_name',
+        header: 'Surah'
+      }, {
+        field: 'ayah_num',
+        header: 'Ayah #'
+      }, {
+        field: 'ayah_verse_en',
+        header: 'English'
+      }, {
+        field: 'created_at',
+        header: 'Created'
+      }],
       bookmarks: [],
-      query: '',
-      sortBy: 'newest',
+      userId: null,
       form: {
         id: "",
         ayah_num: "",
         ayah_text: "",
-        created_at: "",
         surah_name: "",
-        ayah_num: "",
         ayah_verse_ar: "",
         ayah_verse_en: "",
         ayah_notes: "",
@@ -21899,13 +21934,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     async fetchBookmarks(userId) {
       try {
-        const response = await fetch(`/api/fetch-bookmarks/${userId}`);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        this.bookmarks = await response.json();
+        var _res$data$data, _res$data;
+        this.loading = true;
+        const res = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(`/api/fetch-bookmarks/${userId}`);
+        // support either array or { data: [...] }
+        const payload = Array.isArray(res.data) ? res.data : (_res$data$data = (_res$data = res.data) === null || _res$data === void 0 ? void 0 : _res$data.data) !== null && _res$data$data !== void 0 ? _res$data$data : [];
+        this.bookmarks = payload;
+        console.log('Loaded bookmarks:', this.bookmarks.length);
       } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
+        console.error('Failed to load bookmarks:', error);
+      } finally {
+        this.loading = false;
       }
     },
     truncatedText(text) {
@@ -21952,21 +21991,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  computed: {
-    filteredBookmarks() {
-      const q = (this.query || '').toLowerCase();
-      const list = this.bookmarks.filter(b => {
-        const s = (b.surah_name || '').toLowerCase();
-        const e = (b.ayah_verse_en || '').toLowerCase();
-        return !q || s.includes(q) || e.includes(q);
-      });
-      return list.sort((a, b) => {
-        const da = new Date(a.created_at || 0).getTime();
-        const db = new Date(b.created_at || 0).getTime();
-        return this.sortBy === 'newest' ? db - da : da - db;
-      });
-    }
-  }
+  computed: {}
 });
 
 /***/ }),
@@ -45848,58 +45873,52 @@ const _hoisted_1 = {
   id: "app"
 };
 const _hoisted_2 = {
-  class: "container"
+  class: "table-toolbar"
 };
 const _hoisted_3 = {
-  key: 0,
-  class: "text-center py-5"
+  class: "search-wrapper"
 };
 const _hoisted_4 = {
-  key: 1,
-  class: "d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2"
+  key: 0
 };
 const _hoisted_5 = {
-  class: "input-group",
-  style: {
-    "max-width": "380px"
-  }
+  key: 1
 };
 const _hoisted_6 = {
-  key: 2,
-  class: "row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3"
+  key: 2
 };
 const _hoisted_7 = {
-  class: "card p-3"
+  class: "row-actions"
 };
-const _hoisted_8 = {
-  class: "card-body"
-};
-const _hoisted_9 = {
-  class: "truncate"
-};
+const _hoisted_8 = ["onClick"];
+const _hoisted_9 = ["onClick"];
 const _hoisted_10 = {
-  class: "mt-2"
+  class: "footer-count"
 };
-const _hoisted_11 = ["onClick"];
-const _hoisted_12 = ["onClick"];
-const _hoisted_13 = {
+const _hoisted_11 = {
   class: "modal fade",
   id: "viewBookmark",
   tabindex: "-1",
   "aria-labelledby": "viewBookmarkLabel",
   "aria-hidden": "true"
 };
-const _hoisted_14 = {
+const _hoisted_12 = {
   class: "modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down"
 };
-const _hoisted_15 = {
+const _hoisted_13 = {
   class: "modal-content"
 };
-const _hoisted_16 = {
+const _hoisted_14 = {
   class: "modal-body"
 };
-const _hoisted_17 = {
+const _hoisted_15 = {
   class: "container"
+};
+const _hoisted_16 = {
+  class: "mb-3"
+};
+const _hoisted_17 = {
+  class: "mt-2 text-dark"
 };
 const _hoisted_18 = {
   class: "mb-3"
@@ -45920,66 +45939,94 @@ const _hoisted_23 = {
   class: "mt-2 text-dark"
 };
 const _hoisted_24 = {
-  class: "mb-3"
-};
-const _hoisted_25 = {
-  class: "mt-2 text-dark"
-};
-const _hoisted_26 = {
   class: "modal-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bookmarks Container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [$data.bookmarks.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [...(_cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card p-4 mx-auto",
-    style: {
-      "max-width": "520px"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "mb-2"
-  }, "🔖"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2"
-  }, "No bookmarks yet"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "text-muted mb-0"
-  }, "Save favorite ayahs from the Quran page to see them here.")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "input-group-text"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-search"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.query = $event),
-    class: "form-control",
-    placeholder: "Search bookmarks..."
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.query]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.sortBy = $event),
-    class: "form-select",
-    style: {
-      "max-width": "200px"
-    }
-  }, [...(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "newest"
-  }, "Newest first", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "oldest"
-  }, "Oldest first", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])])), $data.bookmarks.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredBookmarks, bookmark => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      class: "col",
-      key: bookmark.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bookmark Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bookmark details "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Truncated text example "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Surah Name:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.truncatedText(bookmark.surah_name)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End of truncated text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Information:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.truncatedText(bookmark.ayah_verse_en)), 1 /* TEXT */)]), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons for actions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-eye-fill h4",
+  const _component_InputText = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("InputText");
+  const _component_Column = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Column");
+  const _component_DataTable = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("DataTable");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bookmarks Table (PrimeVue) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DataTable, {
+    filters: $data.filters,
+    "onUpdate:filters": _cache[1] || (_cache[1] = $event => $data.filters = $event),
+    value: $data.bookmarks,
+    loading: $data.loading,
+    class: "pt-4 modern-datatable teal-accent",
+    showGridlines: "",
+    stripedRows: "",
+    rowHover: "",
+    responsiveLayout: "scroll",
+    filterDisplay: "row",
+    paginator: "",
+    rows: 10,
+    rowsPerPageOptions: [10, 20, 50, 100],
+    paginatorTemplate: "RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink",
+    currentPageReportTemplate: "Showing {first}–{last} of {totalRecords} bookmarks"
+  }, {
+    header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "title"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-bookmark-fill me-2"
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Bookmarks")], -1 /* CACHED */)), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "spacer"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_3, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-search"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputText, {
+      modelValue: $data.filters['global'].value,
+      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.filters['global'].value = $event),
+      placeholder: "Search bookmarks..."
+    }, null, 8 /* PROPS */, ["modelValue"])])])]),
+    empty: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "empty text-center py-4"
+    }, "No bookmarks yet. Save favorite ayahs from the Quran page to see them here.", -1 /* CACHED */)]))]),
+    footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, "Total: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.bookmarks ? $data.bookmarks.length : 0) + " bookmarks", 1 /* TEXT */)]),
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.columns, col => {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Column, {
+        key: col.field,
+        field: col.field,
+        header: col.header,
+        sortable: ""
+      }, {
+        body: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(({
+          data
+        }) => [col.field === 'created_at' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate(data.created_at)), 1 /* TEXT */)) : col.field === 'ayah_verse_en' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.truncatedText(data.ayah_verse_en)), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data[col.field]), 1 /* TEXT */))]),
+        filter: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(({
+          filterModel
+        }) => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputText, {
+          modelValue: filterModel.value,
+          "onUpdate:modelValue": $event => filterModel.value = $event,
+          placeholder: 'Filter ' + col.header,
+          class: "p-column-filter"
+        }, null, 8 /* PROPS */, ["modelValue", "onUpdate:modelValue", "placeholder"])]),
+        _: 2 /* DYNAMIC */
+      }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["field", "header"]);
+    }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Column, {
+      header: "Actions",
+      exportable: false,
       style: {
-        "color": "rgb(0, 191, 166)",
-        "cursor": "pointer"
-      },
-      "data-bs-toggle": "modal",
-      "data-bs-target": "#viewBookmark",
-      onClick: $event => $options.viewModal(bookmark)
-    }, null, 8 /* PROPS */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-trash-fill h4 ml-3",
-      style: {
-        "color": "rgb(0, 191, 166)",
-        "cursor": "pointer"
-      },
-      onClick: $event => $options.deleteBookmark(bookmark.id)
-    }, null, 8 /* PROPS */, _hoisted_12)])])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" View Bookmark Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "min-width": "14rem",
+        "text-align": "center"
+      }
+    }, {
+      body: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(({
+        data
+      }) => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "data-bs-toggle": "modal",
+        "data-bs-target": "#viewBookmark",
+        type: "button",
+        class: "btn btn-sm btn-primary",
+        onClick: $event => $options.viewModal(data)
+      }, [...(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        class: "bi bi-eye me-1"
+      }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" View ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_8), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        class: "btn btn-sm btn-danger",
+        onClick: $event => $options.deleteBookmark(data.id)
+      }, [...(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        class: "bi bi-trash me-1"
+      }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_9)])]),
+      _: 1 /* STABLE */
+    })]),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["filters", "value", "loading"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" View Bookmark Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title",
@@ -45989,15 +46036,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Surah Name:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.surah_name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Surah Name:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.surah_name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Arabic Verse:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_verse_ar), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Arabic Verse:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_verse_ar), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "English Info:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_verse_en), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "English Info:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_verse_en), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Date Created:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate($data.form.created_at)), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Date Created:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate($data.form.created_at)), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-secondary",
     onClick: _cache[2] || (_cache[2] = (...args) => $options.closeModal && $options.closeModal(...args)),
@@ -53018,7 +53065,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-modern .modal-content[data-v-64c2eda2]{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}\n.modal-modern .modal-header[data-v-64c2eda2]{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}\n.modal-modern .btn-close[data-v-64c2eda2]{filter:none}\n.modal-title[data-v-64c2eda2] {\n  color: #343a40;\n}\n.text-dark[data-v-64c2eda2] {\n  color: #343a40 !important;\n}\n.modal-footer .btn-secondary[data-v-64c2eda2] {\n  background-color: #6c757d;\n  border-color: #6c757d;\n}\n.modal-footer .btn-secondary[data-v-64c2eda2]:hover {\n  background-color: #5a6268;\n  border-color: #545b62;\n}\n.modal-content[data-v-64c2eda2] {\n  border-radius: 0.5rem;\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);\n}\n.modal-header[data-v-64c2eda2] {\n  border-bottom: 1px solid #dee2e6;\n}\n.modal-footer[data-v-64c2eda2] {\n  border-top: 1px solid #dee2e6;\n}\n.btn-close[data-v-64c2eda2] {\n  outline: none;\n  box-shadow: none;\n}\n/* Card polish for bookmark grid */\n.card[data-v-64c2eda2]{border:1px solid #e6e8eb !important;border-radius:12px !important;box-shadow:0 1px 2px rgba(0,0,0,.06);transition:transform .12s ease, box-shadow .12s ease}\n.card[data-v-64c2eda2]:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10)}\n.truncate[data-v-64c2eda2]{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}\n.page-header[data-v-64c2eda2]{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0 18px}\n.page-title[data-v-64c2eda2]{font-weight:700}\n.count-chip[data-v-64c2eda2]{background:#f7f7f8;border:1px solid #e6e8eb;padding:6px 10px;border-radius:999px;font-weight:600;color:#0b5d4b}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-modern .modal-content[data-v-64c2eda2]{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}\n.modal-modern .modal-header[data-v-64c2eda2]{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}\n.modal-modern .btn-close[data-v-64c2eda2]{filter:none}\n.modal-title[data-v-64c2eda2] {\n  color: #343a40;\n}\n.text-dark[data-v-64c2eda2] {\n  color: #343a40 !important;\n}\n.modal-footer .btn-secondary[data-v-64c2eda2] {\n  background-color: #6c757d;\n  border-color: #6c757d;\n}\n.modal-footer .btn-secondary[data-v-64c2eda2]:hover {\n  background-color: #5a6268;\n  border-color: #545b62;\n}\n.modal-content[data-v-64c2eda2] {\n  border-radius: 0.5rem;\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);\n}\n.modal-header[data-v-64c2eda2] {\n  border-bottom: 1px solid #dee2e6;\n}\n.modal-footer[data-v-64c2eda2] {\n  border-top: 1px solid #dee2e6;\n}\n.btn-close[data-v-64c2eda2] {\n  outline: none;\n  box-shadow: none;\n}\n/* DataTable polish to match other panels */\n.modern-datatable[data-v-64c2eda2]{width:100%}\n.table-toolbar[data-v-64c2eda2]{display:flex; align-items:center; gap:.75rem}\n.table-toolbar .spacer[data-v-64c2eda2]{flex:1}\n.table-toolbar .search-wrapper[data-v-64c2eda2]{display:flex; align-items:center; gap:.5rem; padding:.25rem .5rem; border:1px solid #e2e8f0; border-radius:8px; background:#fff}\n.teal-accent .p-datatable-header[data-v-64c2eda2]{background:linear-gradient(0deg, #f6faf9, #fff); border:1px solid #e2e8f0; border-radius:12px}\n.teal-accent .p-datatable-tbody > tr[data-v-64c2eda2]{transition:background .18s ease}\n.teal-accent .p-datatable-tbody > tr[data-v-64c2eda2]:hover{background:#f1fcf9}\n.row-actions[data-v-64c2eda2]{display:inline-flex; align-items:center; gap:.5rem}\n.empty[data-v-64c2eda2]{color:#6b7280; padding:1rem}\n.footer-count[data-v-64c2eda2]{color:#374151}\n.truncate[data-v-64c2eda2]{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
