@@ -58,23 +58,17 @@
     </div>
   </div>
 
-  <DataTable class="pt-5" v-model:filters="filters" showGridlines stripedRows sortable filterDisplay="row" :value="mailinglists" paginator :rows="7" :rowsPerPageOptions="[5, 10, 20, 50]" removableSort width="100%" tableStyle="max-width:100%">
+  <DataTable class="pt-5" showGridlines stripedRows sortable :value="mailinglists" paginator :rows="7" :rowsPerPageOptions="[5, 10, 20, 50]" removableSort width="100%" tableStyle="max-width:100%">
     <template #header>
       <div class="table-toolbar">
         <div class="title"><i class="bi bi-envelope-at-fill me-2"></i>Mailing List</div>
         <span class="spacer"></span>
         
-        <span class="search-wrapper">
-          <i class="bi bi-search"></i>
-          <InputText v-model="filters['global'].value" placeholder="Search subscribers..." />
-        </span>
+        
       </div>
     </template>
 
     <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" sortable class="text-left" style="align-items:center">
-      <template #filter="{filterModel}">
-        <InputText v-model="filterModel.value" :placeholder="'Filter ' + col.header" class="p-column-filter" />
-      </template>
     </Column>
 
     <Column header="Actions" :exportable="false" style="min-width: 12rem">
@@ -95,26 +89,13 @@
 
 <script>
 import axios from "axios";
-import {
-  FilterMatchMode
-} from "primevue/api";
+ 
 export default {
   mounted() {
     this.loadMailingList();
   },
   data() {
     return {
-      filters: {
-        global: {
-          value: null,
-          matchMode: FilterMatchMode.CONTAINS,
-        },
-        
-        name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        lastname: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        phone: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        email: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      },
       mailinglists: null,
       columns: [{
           field: "name",

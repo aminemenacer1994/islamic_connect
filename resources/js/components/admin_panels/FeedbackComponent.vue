@@ -68,14 +68,12 @@
 
   <DataTable
     class="pt-4 modern-datatable"
-    v-model:filters="filters"
     :value="feedbacks"
     :loading="loading"
     showGridlines
     stripedRows
     rowHover
     responsiveLayout="scroll"
-    filterDisplay="row"
     paginator
     :rows="10"
     :rowsPerPageOptions="[10, 20, 50, 100]"
@@ -90,17 +88,11 @@
         <div class="title"><i class="bi bi-chat-dots me-2"></i>Feedback</div>
         <span class="spacer"></span>
         
-        <span class="search-wrapper">
-          <i class="bi bi-search"></i>
-          <InputText v-model="filters['global'].value" placeholder="Search feedback..." />
-        </span>
+        
       </div>
     </template>
 
     <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" sortable class="text-left" style="align-items:center">
-      <template #filter="{filterModel}">
-        <InputText v-model="filterModel.value" :placeholder="'Filter ' + col.header" class="p-column-filter" />
-      </template>
     </Column>
 
     <Column :exportable="true" style="min-width: 8rem">
@@ -132,9 +124,7 @@
 <script>
 import axios from "axios";
 
-import {
-  FilterMatchMode
-} from "primevue/api";
+ 
 
 export default {
   mounted() {
@@ -143,17 +133,7 @@ export default {
   data() {
     return {
       loading: false,
-      filters: {
-        global: {
-          value: null,
-          matchMode: FilterMatchMode.CONTAINS,
-        },
-        
-        firstname: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        lastname: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        email: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        subject: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      },
+      
       columns: [
         {
           field: "firstname",

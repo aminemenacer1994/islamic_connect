@@ -76,7 +76,6 @@
   <!-- payment datatable -->
   <DataTable
     class="pt-4 modern-datatable"
-    v-model:filters="filters"
     :value="payments"
     :loading="loading"
     showGridlines
@@ -100,10 +99,7 @@
           <i class="bi bi-cloud-download me-2"></i>Load from Stripe
         </Button> -->
 
-        <span class="search-wrapper">
-          <i class="bi bi-search"></i>
-          <InputText v-model="filters['global'].value" placeholder="Search payments..." />
-        </span>
+        
       </div>
       <div v-if="errorMsg" class="alert alert-warning mt-2" role="alert">
         {{ errorMsg }}
@@ -170,9 +166,7 @@
 
 <script>
 import axios from "axios";
-import {
-  FilterMatchMode
-} from "primevue/api";
+ 
 
 export default {
   mounted() {
@@ -183,12 +177,6 @@ export default {
     return {
       loading: false,
       errorMsg: '',
-      filters: {
-        global: {
-          value: null,
-          matchMode: FilterMatchMode.CONTAINS,
-        },
-      },
       searchValue: "",
       columns: [],
       payments: null,

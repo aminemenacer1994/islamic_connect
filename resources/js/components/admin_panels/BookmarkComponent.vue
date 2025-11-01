@@ -2,7 +2,6 @@
   <div id="app">
     <!-- Bookmarks Table (PrimeVue) -->
     <DataTable
-      v-model:filters="filters"
       :value="bookmarks"
       :loading="loading"
       class="pt-4 modern-datatable teal-accent"
@@ -10,7 +9,6 @@
       stripedRows
       rowHover
       responsiveLayout="scroll"
-      filterDisplay="row"
       paginator
       :rows="10"
       :rowsPerPageOptions="[10, 20, 50, 100]"
@@ -21,10 +19,7 @@
         <div class="table-toolbar">
           <div class="title"><i class="bi bi-bookmark-fill me-2"></i>Bookmarks</div>
           <span class="spacer"></span>
-          <span class="search-wrapper">
-            <i class="bi bi-search"></i>
-            <InputText v-model="filters['global'].value" placeholder="Search bookmarks..." />
-          </span>
+          
         </div>
       </template>
 
@@ -33,9 +28,6 @@
           <span v-if="col.field==='created_at'">{{ extractDate(data.created_at) }}</span>
           <span v-else-if="col.field==='ayah_verse_en'">{{ truncatedText(data.ayah_verse_en) }}</span>
           <span v-else>{{ data[col.field] }}</span>
-        </template>
-        <template #filter="{filterModel}">
-          <InputText v-model="filterModel.value" :placeholder="'Filter ' + col.header" class="p-column-filter" />
         </template>
       </Column>
 
@@ -120,7 +112,7 @@
 
 <script>
 import axios from "axios";
-import { FilterMatchMode } from "primevue/api";
+ 
 
 export default {
   name: 'BookmarksApp',
@@ -163,13 +155,7 @@ export default {
   data() {
     return {
       loading: false,
-      filters: {
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        surah_name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        ayah_num: { value: null, matchMode: FilterMatchMode.EQUALS },
-        ayah_verse_en: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        created_at: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      },
+      
       columns: [
         { field: 'surah_name', header: 'Surah' },
         { field: 'ayah_num', header: 'Ayah #' },

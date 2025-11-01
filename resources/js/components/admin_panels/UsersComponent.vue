@@ -197,7 +197,6 @@
 
 
   <DataTable
-    v-model:filters="filters"
     :value="users"
     :loading="loading"
     ref="dt"
@@ -206,7 +205,6 @@
     stripedRows
     rowHover
     responsiveLayout="scroll"
-    filterDisplay="row"
     paginator
     :rows="10"
     :rowsPerPageOptions="[10, 20, 50, 100]"
@@ -219,18 +217,12 @@
         <div class="title"><i class="bi bi-people-fill me-2"></i>Users</div>
         <span class="spacer"></span>
         
-        <span class="search-wrapper">
-          <i class="bi bi-search"></i>
-          <InputText v-model="filters['global'].value" placeholder="Search users..." />
-        </span>
+        
       </div>
 
     </template>
 
     <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" sortable style="text-align:center">
-      <template #filter="{filterModel}">
-        <InputText v-model="filterModel.value" :placeholder="'Filter ' + col.header" class="p-column-filter" />
-      </template>
     </Column>
 
     <Column header="Actions" :exportable="false" style="min-width: 16rem; text-align:center;">
@@ -263,9 +255,7 @@
 
 <script>
 import axios from "axios";
-import {
-  FilterMatchMode
-} from "primevue/api";
+ 
 export default {
   mounted() {
     this.loadUsers();
@@ -274,17 +264,6 @@ export default {
   data() {
     return {
       loading: false,
-      filters: {
-        global: {
-          value: null,
-          matchMode: FilterMatchMode.CONTAINS,
-        },
-        
-        name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        lastname: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        email: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        user_type: { value: null, matchMode: FilterMatchMode.EQUALS },
-      },
       users: [],
       searchValue: "",
       totalUsers: 0,

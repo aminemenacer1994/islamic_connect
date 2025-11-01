@@ -44,17 +44,9 @@
     </div>
   </div>
 
-  <DataTable class="pt-5" v-model:filters="filters" showGridlines stripedRows sortable filterDisplay="row" :value="corrections" paginator :rows="7" :rowsPerPageOptions="[5, 10, 20, 50]" removableSort width="100%" tableStyle="max-width:100%">
+  <DataTable class="pt-5" showGridlines stripedRows sortable :value="corrections" paginator :rows="7" :rowsPerPageOptions="[5, 10, 20, 50]" removableSort width="100%" tableStyle="max-width:100%">
     <template #header>
-      <div class="flex justify-content-start" style="display: flex;">
-
-        <p style="display: flex" class=" ml-auto mr-3 mt-2 text-black">
-          Search:
-        </p>
-        <span>
-          <InputText v-model="filters['global'].value" style="float: left" placeholder="Keyword Search" />
-        </span>
-      </div>
+      <div class="flex justify-content-start" style="display: flex;"></div>
     </template>
 
     <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" sortable class="text-left" style="align-items:center" width>
@@ -83,21 +75,13 @@
 
 <script>
 import axios from "axios";
-import {
-  FilterMatchMode
-} from "primevue/api";
+ 
 export default {
   mounted() {
     this.loadCorrections();
   },
   data() {
     return {
-      filters: {
-        global: {
-          value: null,
-          matchMode: FilterMatchMode.CONTAINS,
-        },
-      },
       corrections: null,
       columns: [
         {

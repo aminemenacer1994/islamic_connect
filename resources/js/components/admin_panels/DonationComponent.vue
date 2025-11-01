@@ -76,7 +76,6 @@
   <!-- donation datatable -->
   <DataTable
     class="pt-4 modern-datatable"
-    v-model:filters="filters"
     :value="donations"
     :loading="loading"
     showGridlines
@@ -97,10 +96,7 @@
         <div class="title"><i class="bi bi-gift me-2"></i>Donations</div>
         <span class="spacer"></span>
         
-        <span class="search-wrapper">
-          <i class="bi bi-search"></i>
-          <InputText v-model="filters['global'].value" placeholder="Search donations..." />
-        </span>
+        
       </div>
     </template>
 
@@ -130,9 +126,7 @@
 
 <script>
 import axios from "axios";
-import {
-  FilterMatchMode
-} from "primevue/api";
+ 
 
 export default {
   mounted() {
@@ -141,12 +135,6 @@ export default {
   data() {
     return {
       loading: false,
-      filters: {
-        global: {
-          value: null,
-          matchMode: FilterMatchMode.CONTAINS,
-        },
-      },
       searchValue: "",
       columns: [{
           field: "firstname",
