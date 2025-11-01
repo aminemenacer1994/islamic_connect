@@ -50,8 +50,21 @@ class NotesController extends Controller
     }
     
 
-    public function fetchNotes()
+    public function fetchNotes($userId = null)
     {
+        // If authenticated, prefer returning the caller's notes (or a requested userId when allowed)
+        if (auth()->check()) {
+            $currentId = auth()->id();
+            $targetId = $userId ?: $currentId;
+
+            // Allow viewing own notes; admins may view any user's notes
+            if ((int)$targetId === (int)$currentId || (method_exists(auth()->user(), 'isAdmin') && auth()->user()->isAdmin())) {
+                $notes = Note::where('user_id', $targetId)->orderBy('created_at', 'desc')->get();
+                return response()->json($notes);
+            }
+        }
+
+        // Fallback: return only public notes
         $publicNotes = Note::where('visibility_option', 'public')->orderBy('created_at', 'desc')->get();
         return response()->json($publicNotes);
     }

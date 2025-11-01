@@ -42,7 +42,7 @@
       <Column header="Actions" :exportable="false" style="min-width: 14rem; text-align:center;">
         <template #body="{ data }">
           <div class="row-actions">
-            <button data-bs-toggle="modal" data-bs-target="#viewBookmark" type="button" class="btn btn-sm btn-primary" @click="viewModal(data)">
+            <button type="button" class="btn btn-sm btn-primary" @click="viewModal(data)">
               <i class="bi bi-eye me-1"></i> View
             </button>
             <button class="btn btn-sm btn-danger" @click="deleteBookmark(data.id)">
@@ -65,6 +65,7 @@
     <div
       class="modal fade"
       id="viewBookmark"
+      ref="viewBookmarkModal"
       tabindex="-1"
       aria-labelledby="viewBookmarkLabel"
       aria-hidden="true"
@@ -145,6 +146,19 @@ export default {
       .catch((error) => {
         console.error("Error fetching user ID:", error);
       });
+    // Bootstrap modal cleanup to avoid stuck backdrops
+    const modalElement = this.$refs.viewBookmarkModal;
+    if (modalElement && window.bootstrap?.Modal) {
+      modalElement.addEventListener('hidden.bs.modal', this.onModalHidden);
+    }
+  },
+  beforeUnmount() {
+    const modalElement = this.$refs.viewBookmarkModal;
+    if (modalElement) {
+      modalElement.removeEventListener('hidden.bs.modal', this.onModalHidden);
+      const instance = window.bootstrap?.Modal?.getInstance(modalElement);
+      if (instance) instance.dispose();
+    }
   },
   data() {
     return {
@@ -208,8 +222,11 @@ export default {
     
     viewModal(bookmark) {
       this.form = bookmark;
-      const modalElement = new bootstrap.Modal(document.getElementById('viewBookmark'));
-      modalElement.show();
+      const el = this.$refs.viewBookmarkModal || document.getElementById('viewBookmark');
+      const instance = window.bootstrap?.Modal?.getOrCreateInstance
+        ? window.bootstrap.Modal.getOrCreateInstance(el, { backdrop: true })
+        : new bootstrap.Modal(el, { backdrop: true });
+      instance.show();
     },
     deleteBookmark(id) {
       Swal.fire({
@@ -235,16 +252,20 @@ export default {
       });
     },
     closeModal() {
-      const modalElement = document.getElementById('viewBookmark');
-      const bootstrapModal = bootstrap.Modal.getInstance(modalElement);
-      if (bootstrapModal) {
-        bootstrapModal.hide();
-      }
-
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        backdrop.remove();
-      }
+      const el = this.$refs.viewBookmarkModal || document.getElementById('viewBookmark');
+      const instance = window.bootstrap?.Modal?.getInstance(el) || (window.bootstrap ? null : bootstrap.Modal.getInstance(el));
+      if (instance) instance.hide();
+      // Fallback cleanup in case instance isn't available
+      this.cleanupBackdrops();
+    },
+    onModalHidden() {
+      this.cleanupBackdrops();
+    },
+    cleanupBackdrops() {
+      const backdrops = document.querySelectorAll('.modal-backdrop');
+      backdrops.forEach(b => b.parentNode && b.parentNode.removeChild(b));
+      document.body.classList.remove('modal-open');
+      document.body.style.removeProperty('padding-right');
     },
   },
   computed: {},

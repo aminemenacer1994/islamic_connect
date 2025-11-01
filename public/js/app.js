@@ -21853,6 +21853,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'BookmarksApp',
   mounted() {
+    var _window$bootstrap;
     fetch("/api/userId").then(response => {
       if (!response.ok) {
         throw new Error("Failed to fetch user ID");
@@ -21870,6 +21871,20 @@ __webpack_require__.r(__webpack_exports__);
     }).catch(error => {
       console.error("Error fetching user ID:", error);
     });
+    // Bootstrap modal cleanup to avoid stuck backdrops
+    const modalElement = this.$refs.viewBookmarkModal;
+    if (modalElement && (_window$bootstrap = window.bootstrap) !== null && _window$bootstrap !== void 0 && _window$bootstrap.Modal) {
+      modalElement.addEventListener('hidden.bs.modal', this.onModalHidden);
+    }
+  },
+  beforeUnmount() {
+    const modalElement = this.$refs.viewBookmarkModal;
+    if (modalElement) {
+      var _window$bootstrap2;
+      modalElement.removeEventListener('hidden.bs.modal', this.onModalHidden);
+      const instance = (_window$bootstrap2 = window.bootstrap) === null || _window$bootstrap2 === void 0 || (_window$bootstrap2 = _window$bootstrap2.Modal) === null || _window$bootstrap2 === void 0 ? void 0 : _window$bootstrap2.getInstance(modalElement);
+      if (instance) instance.dispose();
+    }
   },
   data() {
     return {
@@ -21952,9 +21967,15 @@ __webpack_require__.r(__webpack_exports__);
       return text.length > this.maxLength ? text.substring(0, this.maxLength) + '...' : text;
     },
     viewModal(bookmark) {
+      var _window$bootstrap3;
       this.form = bookmark;
-      const modalElement = new bootstrap.Modal(document.getElementById('viewBookmark'));
-      modalElement.show();
+      const el = this.$refs.viewBookmarkModal || document.getElementById('viewBookmark');
+      const instance = (_window$bootstrap3 = window.bootstrap) !== null && _window$bootstrap3 !== void 0 && (_window$bootstrap3 = _window$bootstrap3.Modal) !== null && _window$bootstrap3 !== void 0 && _window$bootstrap3.getOrCreateInstance ? window.bootstrap.Modal.getOrCreateInstance(el, {
+        backdrop: true
+      }) : new bootstrap.Modal(el, {
+        backdrop: true
+      });
+      instance.show();
     },
     deleteBookmark(id) {
       Swal.fire({
@@ -21980,15 +22001,21 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     closeModal() {
-      const modalElement = document.getElementById('viewBookmark');
-      const bootstrapModal = bootstrap.Modal.getInstance(modalElement);
-      if (bootstrapModal) {
-        bootstrapModal.hide();
-      }
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        backdrop.remove();
-      }
+      var _window$bootstrap4;
+      const el = this.$refs.viewBookmarkModal || document.getElementById('viewBookmark');
+      const instance = ((_window$bootstrap4 = window.bootstrap) === null || _window$bootstrap4 === void 0 || (_window$bootstrap4 = _window$bootstrap4.Modal) === null || _window$bootstrap4 === void 0 ? void 0 : _window$bootstrap4.getInstance(el)) || (window.bootstrap ? null : bootstrap.Modal.getInstance(el));
+      if (instance) instance.hide();
+      // Fallback cleanup in case instance isn't available
+      this.cleanupBackdrops();
+    },
+    onModalHidden() {
+      this.cleanupBackdrops();
+    },
+    cleanupBackdrops() {
+      const backdrops = document.querySelectorAll('.modal-backdrop');
+      backdrops.forEach(b => b.parentNode && b.parentNode.removeChild(b));
+      document.body.classList.remove('modal-open');
+      document.body.style.removeProperty('padding-right');
     }
   },
   computed: {}
@@ -45898,6 +45925,7 @@ const _hoisted_10 = {
 const _hoisted_11 = {
   class: "modal fade",
   id: "viewBookmark",
+  ref: "viewBookmarkModal",
   tabindex: "-1",
   "aria-labelledby": "viewBookmarkLabel",
   "aria-hidden": "true"
@@ -46010,8 +46038,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       body: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(({
         data
       }) => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        "data-bs-toggle": "modal",
-        "data-bs-target": "#viewBookmark",
         type: "button",
         class: "btn btn-sm btn-primary",
         onClick: $event => $options.viewModal(data)
@@ -46049,7 +46075,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn btn-secondary",
     onClick: _cache[2] || (_cache[2] = (...args) => $options.closeModal && $options.closeModal(...args)),
     "data-bs-dismiss": "modal"
-  }, "Close")])])])])]);
+  }, "Close")])])])], 512 /* NEED_PATCH */)]);
 }
 
 /***/ }),

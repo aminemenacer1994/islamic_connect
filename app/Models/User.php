@@ -27,7 +27,8 @@ class User extends Authenticatable
 
     public function notes()
     {
-        return $this->hasMany(Note::class, 'user_id', 'user_id');
+        // Foreign key on notes table is 'user_id'; local key on users is 'id'
+        return $this->hasMany(Note::class, 'user_id', 'id');
     }
 
     public function bookmarks()
