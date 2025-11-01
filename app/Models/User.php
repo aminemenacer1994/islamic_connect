@@ -27,8 +27,10 @@ class User extends Authenticatable
 
     public function notes()
     {
-        // Foreign key on notes table is 'user_id'; local key on users is 'id'
-        return $this->hasMany(Note::class, 'user_id', 'id');
+        // In this project, legacy data uses users.user_id as the external id
+        // while Laravel uses users.id. Notes.user_id points to users.user_id.
+        // Use local key 'user_id' to match existing data.
+        return $this->hasMany(Note::class, 'user_id', 'user_id');
     }
 
     public function bookmarks()
@@ -97,5 +99,11 @@ class User extends Authenticatable
     public function hasActiveSubscription(): bool
     {
         return $this->subscribed('premium');
+    }
+
+    // Preferred helper to reference the identifier used by related tables
+    public function effectiveUserId(): int
+    {
+        return (int) ($this->user_id ?: $this->id);
     }
 }

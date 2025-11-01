@@ -22,8 +22,18 @@ class NotesController extends Controller
 
     public function getNotes($userId)
     {
-        $currentUserId = auth()->id();
-        $notes = Note::where('user_id', $currentUserId)->orderBy('created_at', 'desc')->get();
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+        $effectiveId = method_exists($user, 'effectiveUserId') ? $user->effectiveUserId() : ($user->user_id ?: $user->id);
+        $targetId = (int) $userId ?: $effectiveId;
+
+        if ($targetId !== $effectiveId && !(method_exists($user, 'isAdmin') && $user->isAdmin())) {
+            abort(403);
+        }
+
+        $notes = Note::where('user_id', $targetId)->orderBy('created_at', 'desc')->get();
         return response()->json($notes);
     }
 
@@ -54,7 +64,8 @@ class NotesController extends Controller
     {
         // If authenticated, prefer returning the caller's notes (or a requested userId when allowed)
         if (auth()->check()) {
-            $currentId = auth()->id();
+            $user = auth()->user();
+            $currentId = method_exists($user, 'effectiveUserId') ? $user->effectiveUserId() : ($user->user_id ?: $user->id);
             $targetId = $userId ?: $currentId;
 
             // Allow viewing own notes; admins may view any user's notes
@@ -83,8 +94,9 @@ class NotesController extends Controller
             'is_speech_to_text' => 'boolean',
         ]);
 
-        // Set the user ID to the currently authenticated user
-        $validatedData['user_id'] = auth()->id();
+        // Set the user ID to the effective user identifier
+        $user = auth()->user();
+        $validatedData['user_id'] = $user ? (method_exists($user, 'effectiveUserId') ? $user->effectiveUserId() : ($user->user_id ?: $user->id)) : null;
 
         // Handle file uploads (if applicable)
         if ($request->hasFile('ayah_images')) {
@@ -131,7 +143,9 @@ class NotesController extends Controller
         $note = Note::findOrFail($id);
 
         // Authorize update (owner-only)
-        if ($note->user_id !== auth()->id()) {
+        $user = auth()->user();
+        $effectiveId = $user ? (method_exists($user, 'effectiveUserId') ? $user->effectiveUserId() : ($user->user_id ?: $user->id)) : 0;
+        if ((int)$note->user_id !== (int)$effectiveId) {
             abort(403);
         }
 
@@ -203,7 +217,9 @@ class NotesController extends Controller
     public function deleteNotes($id)
     {
         $note = Note::findOrFail($id);
-        if ($note->user_id !== auth()->id()) {
+        $user = auth()->user();
+        $effectiveId = $user ? (method_exists($user, 'effectiveUserId') ? $user->effectiveUserId() : ($user->user_id ?: $user->id)) : 0;
+        if ((int)$note->user_id !== (int)$effectiveId) {
             abort(403);
         }
         $note->delete();
