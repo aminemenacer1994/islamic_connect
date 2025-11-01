@@ -26,11 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MailingSeeder::class);
         $this->call(QuranInformationSeeder::class);
         $this->call(NoteSeeder::class);
-        // $this->call(AudioLinksSeeder::class);
-        // $this->call(ChapterSeeder::class);
-        // $this->call(ImamSeeder::class);
-        // $this->call(AhmedRazaTranslationSeeder::class);
-
-
+        $this->call(BookmarkSeeder::class);
+        
     }
 }

@@ -96,9 +96,9 @@
       <div class="table-toolbar">
         <div class="title"><i class="bi bi-credit-card me-2"></i>Payments</div>
         <span class="spacer"></span>
-        <Button class="btn-add outline" @click="loadStripe()" :disabled="loading">
+        <!-- <Button class="btn-add outline" @click="loadStripe()" :disabled="loading">
           <i class="bi bi-cloud-download me-2"></i>Load from Stripe
-        </Button>
+        </Button> -->
 
         <span class="search-wrapper">
           <i class="bi bi-search"></i>
