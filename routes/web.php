@@ -273,6 +273,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     // Payments & Donations
     Route::get('/payments', [PaymentController::class, 'index']);
     Route::get('api/fetch-payments', [PaymentController::class, 'getPayments']);
+    Route::get('api/stripe/transactions', [PaymentController::class, 'getStripeTransactions']);
     Route::get('/donations', [DonationController::class, 'index']);
     Route::get('/fetch-donations', [DonationController::class, 'getDonations']);
     

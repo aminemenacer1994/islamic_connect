@@ -124,6 +124,9 @@ class SubscriptionController extends Controller
             case 'checkout.session.completed':
                 $session = $event->data->object;
                 $this->handleCheckoutSessionCompleted($session);
+                if (isset($session->mode) && $session->mode === 'payment') {
+                    $this->recordOneTimePaymentFromSession($session);
+                }
                 break;
 
             case 'customer.subscription.created':
@@ -135,6 +138,21 @@ class SubscriptionController extends Controller
             case 'customer.subscription.deleted':
                 $subscription = $event->data->object;
                 $this->handleSubscriptionDeleted($subscription);
+                break;
+
+            case 'payment_intent.succeeded':
+                $intent = $event->data->object;
+                $this->recordPaymentIntent($intent, 'succeeded');
+                break;
+
+            case 'payment_intent.payment_failed':
+                $intent = $event->data->object;
+                $this->recordPaymentIntent($intent, 'failed');
+                break;
+
+            case 'charge.refunded':
+                $charge = $event->data->object;
+                $this->recordChargeRefund($charge);
                 break;
         }
 
@@ -396,6 +414,143 @@ class SubscriptionController extends Controller
                 'success' => false,
                 'message' => 'Error adding payment method: ' . $e->getMessage()
             ], 500);
+        }
+    }
+
+    /**
+     * Mirror a one-time Checkout payment into the local payment table.
+     */
+    protected function recordOneTimePaymentFromSession($session): void
+    {
+        try {
+            $piId = is_string($session->payment_intent) ? $session->payment_intent : (isset($session->payment_intent->id) ? $session->payment_intent->id : null);
+            $amount = null;
+            $currency = null;
+            $paymentMethod = 'card';
+            $receiptUrl = null;
+
+            if (is_object($session->payment_intent)) {
+                $amount = $session->payment_intent->amount_received ?? $session->payment_intent->amount ?? null;
+                $currency = $session->payment_intent->currency ?? null;
+                if (!empty($session->payment_intent->charges->data)) {
+                    $charge = $session->payment_intent->charges->data[0];
+                    $paymentMethod = $charge->payment_method_details->type ?? $paymentMethod;
+                    $receiptUrl = $charge->receipt_url ?? null;
+                }
+            }
+
+            \App\Models\Payment::updateOrCreate(
+                [ 'stripe_checkout_session_id' => $session->id ],
+                [
+                    'name' => 'Stripe Payment',
+                    'description' => 'Checkout payment',
+                    'payment_method' => $paymentMethod ?? 'card',
+                    'currency' => strtoupper($currency ?? 'GBP'),
+                    'amount' => $amount !== null ? (string) $amount : null,
+                    'status' => $session->payment_status ?? 'processing',
+                    'date' => now()->toDateTimeString(),
+                    'provider' => 'stripe',
+                    'stripe_payment_intent_id' => $piId,
+                    'receipt_url' => $receiptUrl,
+                    'metadata' => json_encode([
+                        'mode' => $session->mode ?? null,
+                        'customer' => $session->customer ?? null,
+                    ]),
+                ]
+            );
+        } catch (\Throwable $e) {
+            \Log::error('Failed recording Checkout payment', ['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Mirror PaymentIntent status and details into local payment table.
+     */
+    protected function recordPaymentIntent($intent, string $mappedStatus): void
+    {
+        try {
+            $amount = $intent->amount_received ?? $intent->amount ?? null;
+            $currency = $intent->currency ?? 'gbp';
+            $paymentMethod = isset($intent->payment_method) ? (is_object($intent->payment_method) ? ($intent->payment_method->type ?? 'card') : 'card') : 'card';
+            $receiptUrl = null;
+            if (!empty($intent->charges->data)) {
+                $charge = $intent->charges->data[0];
+                $paymentMethod = $charge->payment_method_details->type ?? $paymentMethod;
+                $receiptUrl = $charge->receipt_url ?? null;
+            }
+
+            \App\Models\Payment::updateOrCreate(
+                [ 'stripe_payment_intent_id' => $intent->id ],
+                [
+                    'name' => 'Stripe Payment',
+                    'description' => $intent->description ?? 'Payment Intent',
+                    'payment_method' => $paymentMethod,
+                    'currency' => strtoupper($currency),
+                    'amount' => $amount !== null ? (string) $amount : null,
+                    'status' => $mappedStatus,
+                    'date' => now()->toDateTimeString(),
+                    'provider' => 'stripe',
+                    'receipt_url' => $receiptUrl,
+                    'metadata' => json_encode([
+                        'customer' => $intent->customer ?? null,
+                        'latest_charge' => isset($charge) ? $charge->id : null,
+                    ]),
+                ]
+            );
+        } catch (\Throwable $e) {
+            \Log::error('Failed recording PaymentIntent', ['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Reflect refunds (full or partial) from a Charge object.
+     */
+    protected function recordChargeRefund($charge): void
+    {
+        try {
+            $refunded = (bool)($charge->refunded ?? false);
+            $amount = $charge->amount ?? null;
+            $amountRefunded = $charge->amount_refunded ?? 0;
+            $status = $refunded && $amountRefunded >= ($amount ?? 0)
+                ? 'refunded'
+                : 'partial_refund';
+
+            // Link by PaymentIntent when possible
+            $intentId = is_string($charge->payment_intent)
+                ? $charge->payment_intent
+                : (isset($charge->payment_intent->id) ? $charge->payment_intent->id : null);
+
+            $attributes = [
+                'name' => 'Stripe Refund',
+                'description' => 'Charge refunded',
+                'payment_method' => $charge->payment_method_details->type ?? 'card',
+                'currency' => strtoupper($charge->currency ?? 'GBP'),
+                'amount' => $amount !== null ? (string) $amount : null,
+                'status' => $status,
+                'date' => now()->toDateTimeString(),
+                'provider' => 'stripe',
+                'receipt_url' => $charge->receipt_url ?? null,
+                'metadata' => json_encode([
+                    'charge_id' => $charge->id ?? null,
+                    'amount_refunded' => $amountRefunded,
+                    'payment_intent' => $intentId,
+                ]),
+            ];
+
+            if ($intentId) {
+                \App\Models\Payment::updateOrCreate(
+                    ['stripe_payment_intent_id' => $intentId],
+                    $attributes
+                );
+            } else {
+                // Fallback: upsert by receipt URL or create new row
+                \App\Models\Payment::updateOrCreate(
+                    ['receipt_url' => $charge->receipt_url ?? null],
+                    $attributes
+                );
+            }
+        } catch (\Throwable $e) {
+            \Log::error('Failed recording refund', ['error' => $e->getMessage()]);
         }
     }
 }

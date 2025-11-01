@@ -96,15 +96,42 @@
       <div class="table-toolbar">
         <div class="title"><i class="bi bi-credit-card me-2"></i>Payments</div>
         <span class="spacer"></span>
-        
+        <Button class="btn-add outline" @click="loadStripe()" :disabled="loading">
+          <i class="bi bi-cloud-download me-2"></i>Load from Stripe
+        </Button>
+
         <span class="search-wrapper">
           <i class="bi bi-search"></i>
           <InputText v-model="filters['global'].value" placeholder="Search payments..." />
         </span>
       </div>
+      <div v-if="errorMsg" class="alert alert-warning mt-2" role="alert">
+        {{ errorMsg }}
+      </div>
     </template>
 
-    <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" sortable class="text-left" style="align-items:center" width>
+    <Column field="amount" header="Amount" sortable>
+      <template #body="{ data }">
+        <span>{{ formatAmount(data.amount, data.currency) }}</span>
+        <small class="text-muted ms-1">{{ data.currency }}</small>
+      </template>
+    </Column>
+    <Column field="status" header="Status" sortable>
+      <template #body="{ data }">
+        <span class="badge bg-light text-dark" :data-status="data.status">{{ prettyStatus(data.status) }}</span>
+      </template>
+    </Column>
+    <Column field="payment_method" header="Payment method" sortable></Column>
+    <Column field="description" header="Description" sortable></Column>
+    <Column field="customer" header="Customer" sortable></Column>
+    <Column field="date" header="Date" sortable></Column>
+    <!-- <Column field="refunded_date" header="Refunded date" sortable></Column> -->
+    <!-- <Column field="decline_code" header="Decline" sortable></Column> -->
+    <Column field="receipt_url" header="Receipt" :exportable="false">
+      <template #body="{ data }">
+        <a v-if="data.receipt_url" :href="data.receipt_url" target="_blank" rel="noopener">Receipt</a>
+        <span v-else>—</span>
+      </template>
     </Column>
 
     <Column header="Actions" :exportable="false" style="min-width: 12rem">
@@ -149,11 +176,13 @@ import {
 
 export default {
   mounted() {
-    this.loadPayments();
+    // Load live Stripe data by default; local mirror still available
+    this.loadStripe();
   },
   data() {
     return {
       loading: false,
+      errorMsg: '',
       filters: {
         global: {
           value: null,
@@ -161,34 +190,7 @@ export default {
         },
       },
       searchValue: "",
-      columns: [
-        {
-          field: "name",
-          header: "Name",
-          sortable: true,
-        },
-        {
-          field: "amount",
-          header: "Amount",
-          sortable: true,
-        },
-        {
-          field: "payment_method",
-          header: "Payment Method",
-          sortable: true,
-        },
-        {
-          field: "currency",
-          header: "Currency",
-          sortable: true,
-        },
-        {
-          field: "status",
-          header: "Status",
-          sortable: true,
-        },
-
-      ],
+      columns: [],
       payments: null,
 
       form: new Form({
@@ -210,6 +212,34 @@ export default {
       axios.get("api/fetch-payments").then((data) => {
         this.payments = data.data;
       }).finally(()=>{ this.loading = false; });
+    },
+    async loadStripe(){
+      this.loading = true;
+      this.errorMsg = '';
+      try{
+        const res = await axios.get('api/stripe/transactions');
+        if (res.data && res.data.error) {
+          this.errorMsg = res.data.error;
+          this.payments = [];
+          return;
+        }
+        const rows = (res.data && res.data.data) ? res.data.data : [];
+        // Use rows as-is; backend already shapes like Stripe
+        this.payments = rows;
+      } catch (e) {
+        this.errorMsg = (e?.response?.data?.error) || 'Failed to load from Stripe. Check server logs and STRIPE_SECRET.';
+      } finally {
+        this.loading = false;
+      }
+    },
+    prettyStatus(s){
+      if(!s) return '—';
+      const map = { reversed:'Reversed', refunded:'Refunded', canceled:'Cancelled', cancelled:'Cancelled', succeeded:'Succeeded', failed:'Failed' };
+      return map[String(s).toLowerCase()] || s;
+    },
+    formatAmount(amount, currency){
+      if (amount === null || amount === undefined || amount === '') return '—';
+      try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: currency || 'GBP' }).format(parseFloat(amount)); } catch(e){ return amount + ' ' + (currency||''); }
     },
 
     //edit donation modal

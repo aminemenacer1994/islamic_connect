@@ -20,6 +20,16 @@ class Payment extends Model
         'amount',
         'status',
         'date',
-       
+        // Stripe linkage
+        'provider',
+        'stripe_payment_intent_id',
+        'stripe_checkout_session_id',
+        'receipt_url',
+        'metadata',
+        
+    ];
+
+    protected $casts = [
+        'metadata' => 'array',
     ];
 }
