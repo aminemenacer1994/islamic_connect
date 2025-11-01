@@ -26,8 +26,9 @@ class NotesController extends Controller
         if (!$user) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-        $effectiveId = method_exists($user, 'effectiveUserId') ? $user->effectiveUserId() : ($user->user_id ?: $user->id);
-        $targetId = (int) $userId ?: $effectiveId;
+        // Notes are keyed to users.id
+        $effectiveId = (int) ($user->id);
+        $targetId = (int) ($userId ?: $effectiveId);
 
         if ($targetId !== $effectiveId && !(method_exists($user, 'isAdmin') && $user->isAdmin())) {
             abort(403);
@@ -65,7 +66,8 @@ class NotesController extends Controller
         // If authenticated, prefer returning the caller's notes (or a requested userId when allowed)
         if (auth()->check()) {
             $user = auth()->user();
-            $currentId = method_exists($user, 'effectiveUserId') ? $user->effectiveUserId() : ($user->user_id ?: $user->id);
+            // Notes are keyed to users.id
+            $currentId = (int) ($user->id);
             $targetId = $userId ?: $currentId;
 
             // Allow viewing own notes; admins may view any user's notes
@@ -96,7 +98,7 @@ class NotesController extends Controller
 
         // Set the user ID to the effective user identifier
         $user = auth()->user();
-        $validatedData['user_id'] = $user ? (method_exists($user, 'effectiveUserId') ? $user->effectiveUserId() : ($user->user_id ?: $user->id)) : null;
+        $validatedData['user_id'] = $user ? (int) $user->id : null;
 
         // Handle file uploads (if applicable)
         if ($request->hasFile('ayah_images')) {
@@ -144,7 +146,7 @@ class NotesController extends Controller
 
         // Authorize update (owner-only)
         $user = auth()->user();
-        $effectiveId = $user ? (method_exists($user, 'effectiveUserId') ? $user->effectiveUserId() : ($user->user_id ?: $user->id)) : 0;
+        $effectiveId = $user ? (int) $user->id : 0;
         if ((int)$note->user_id !== (int)$effectiveId) {
             abort(403);
         }

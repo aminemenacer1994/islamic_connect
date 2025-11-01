@@ -706,6 +706,10 @@
                             <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary">Donations</a>
                         </li>
 
+                        <li class="nav-item mt-2">
+                            <a class="nav-link pt-2 ml-3 pl-3" href="/bookmarks" data-path="/bookmarks" data-nav-item="primary">Bookmarks</a>
+                        </li>
+
                         @guest
                         @if (Route::has('login'))
                         <li class="nav-item  pl-3 mt-2">
@@ -972,7 +976,8 @@
                 // Packages
                 '/subscribe': '/subscribe',
                 '/packages': '/subscribe',
-                '/pricing': '/subscribe'
+                '/pricing': '/subscribe',
+                '/bookmarks': '/bookmarks',
             };
 
             const aliasKeys = Object.keys(aliasMap);

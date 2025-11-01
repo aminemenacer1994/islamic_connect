@@ -12,14 +12,40 @@ class BookmarkController extends Controller
     public function index()
     {
         // Retrieves bookmarks associated with the authenticated user
-        $bookmarks = Auth::user()->bookmarks()->orderBy('created_at', 'desc')->get();
+        $user = Auth::user();
+        if (!$user) {
+            return view('bookmark', ['bookmarks' => collect()]);
+        }
+
+        // Support datasets that may reference users.id or users.user_id
+        $ids = array_unique(array_filter([(int) $user->id, (int) $user->user_id]));
+        $bookmarks = Bookmark::whereIn('user_id', $ids)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('bookmark', compact('bookmarks'));
     }
 
     public function getBookmarks($userId)
     {
-        $currentUserId = Auth::id();
-        $bookmarks = Bookmark::where('user_id', $currentUserId)
+        $user = Auth::user();
+        if (!$user) {
+            abort(401);
+        }
+
+        // Prefer legacy external id if present, otherwise primary key id
+        $effective = method_exists($user, 'effectiveUserId')
+            ? $user->effectiveUserId()
+            : ($user->user_id ?: $user->id);
+
+        // Client can only fetch its own bookmarks
+        if ((int) $userId !== (int) $effective) {
+            abort(403);
+        }
+
+        // Query by both possible identifiers to support mixed data
+        $ids = array_unique(array_filter([(int) $user->id, (int) $user->user_id]));
+        $bookmarks = Bookmark::whereIn('user_id', $ids)
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -123,4 +149,3 @@ class BookmarkController extends Controller
         return response()->json(['message' => 'Bookmark deleted successfully']);
     }
 }
-

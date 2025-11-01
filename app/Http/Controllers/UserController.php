@@ -24,9 +24,8 @@ class UserController extends Controller
     {
         $user = auth()->user();
         if ($user) {
-            // Prefer legacy external id if present, otherwise use primary key id
-            $effective = method_exists($user, 'effectiveUserId') ? $user->effectiveUserId() : ($user->user_id ?: $user->id);
-            return response()->json(['userId' => $effective]);
+            // Standardize on primary key id for client-side use
+            return response()->json(['userId' => (int) $user->id]);
         } else {
             return response()->json(['error' => 'User ID not found'], 404);
         }

@@ -27,15 +27,15 @@ class User extends Authenticatable
 
     public function notes()
     {
-        // In this project, legacy data uses users.user_id as the external id
-        // while Laravel uses users.id. Notes.user_id points to users.user_id.
-        // Use local key 'user_id' to match existing data.
-        return $this->hasMany(Note::class, 'user_id', 'user_id');
+        // Notes now consistently reference users.id
+        return $this->hasMany(Note::class);
     }
 
     public function bookmarks()
     {
-        return $this->hasMany(Bookmark::class);
+        // Support legacy data where related tables reference users.user_id
+        $localKey = $this->user_id ? 'user_id' : 'id';
+        return $this->hasMany(Bookmark::class, 'user_id', $localKey);
     }
 
     public function folders()
