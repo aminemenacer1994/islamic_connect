@@ -4,6 +4,9 @@
     <DataTable
       :value="bookmarks"
       :loading="loading"
+      ref="dt"
+      v-model:filters="filters"
+      :globalFilterFields="(columns || []).map(c => c.field)"
       class="pt-4 modern-datatable teal-accent"
       showGridlines
       stripedRows
@@ -19,7 +22,16 @@
         <div class="table-toolbar">
           <div class="title"><i class="bi bi-bookmark-fill me-2"></i>Bookmarks</div>
           <span class="spacer"></span>
-          
+          <div class="search-wrapper">
+            <i class="bi bi-search"></i>
+            <input
+              class="form-control form-control-sm border-0"
+              type="text"
+              v-model="searchValue"
+              placeholder="Search bookmarks..."
+              @input="onGlobalFilter"
+            />
+          </div>
         </div>
       </template>
 
@@ -112,7 +124,7 @@
 
 <script>
 import axios from "axios";
- 
+import { FilterMatchMode } from 'primevue/api'
 
 export default {
   name: 'BookmarksApp',
@@ -156,6 +168,8 @@ export default {
     return {
       loading: false,
       
+      searchValue: '',
+      filters: { global: { value: null, matchMode: FilterMatchMode.CONTAINS } },
       columns: [
         { field: 'surah_name', header: 'Surah' },
         { field: 'ayah_num', header: 'Ayah #' },
@@ -178,6 +192,7 @@ export default {
     };
   },
   methods: {
+    onGlobalFilter(e){ this.filters.global.value = e.target.value; },
     redirectToBookmark(url) {
       window.location.href = url;
     },

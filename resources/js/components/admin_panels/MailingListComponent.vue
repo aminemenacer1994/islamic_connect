@@ -58,13 +58,21 @@
     </div>
   </div>
 
-  <DataTable class="pt-5" showGridlines stripedRows sortable :value="mailinglists" paginator :rows="7" :rowsPerPageOptions="[5, 10, 20, 50]" removableSort width="100%" tableStyle="max-width:100%">
+  <DataTable ref="dt" class="pt-5" showGridlines stripedRows sortable :value="mailinglists" v-model:filters="filters" :globalFilterFields="(columns || []).map(c => c.field)" paginator :rows="7" :rowsPerPageOptions="[5, 10, 20, 50]" removableSort width="100%" tableStyle="max-width:100%">
     <template #header>
       <div class="table-toolbar">
         <div class="title"><i class="bi bi-envelope-at-fill me-2"></i>Mailing List</div>
         <span class="spacer"></span>
-        
-        
+        <div class="search-wrapper">
+          <i class="bi bi-search"></i>
+          <input
+            class="form-control form-control-sm border-0"
+            type="text"
+            v-model="searchValue"
+            placeholder="Search mailing list..."
+            @input="onGlobalFilter"
+          />
+        </div>
       </div>
     </template>
 
@@ -89,7 +97,7 @@
 
 <script>
 import axios from "axios";
- 
+import { FilterMatchMode } from 'primevue/api'
 export default {
   mounted() {
     this.loadMailingList();
@@ -97,6 +105,8 @@ export default {
   data() {
     return {
       mailinglists: null,
+      searchValue: '',
+      filters: { global: { value: null, matchMode: FilterMatchMode.CONTAINS } },
       columns: [{
           field: "name",
           header: "Firstname",
@@ -131,6 +141,7 @@ export default {
     }
   },
   methods: {
+    onGlobalFilter(e){ this.filters.global.value = e.target.value; },
     loadMailingList() {
       axios.get("api/fetch-mail").then((data) => {
         this.mailinglists = data.data;

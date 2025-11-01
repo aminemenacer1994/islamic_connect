@@ -78,6 +78,9 @@
     class="pt-4 modern-datatable"
     :value="donations"
     :loading="loading"
+    ref="dt"
+    v-model:filters="filters"
+    :globalFilterFields="(columns || []).map(c => c.field)"
     showGridlines
     stripedRows
     rowHover
@@ -95,8 +98,16 @@
       <div class="table-toolbar">
         <div class="title"><i class="bi bi-gift me-2"></i>Donations</div>
         <span class="spacer"></span>
-        
-        
+        <div class="search-wrapper">
+          <i class="bi bi-search"></i>
+          <input
+            class="form-control form-control-sm border-0"
+            type="text"
+            v-model="searchValue"
+            placeholder="Search donations..."
+            @input="onGlobalFilter"
+          />
+        </div>
       </div>
     </template>
 
@@ -126,6 +137,7 @@
 
 <script>
 import axios from "axios";
+import { FilterMatchMode } from 'primevue/api'
  
 
 export default {
@@ -136,6 +148,7 @@ export default {
     return {
       loading: false,
       searchValue: "",
+      filters: { global: { value: null, matchMode: FilterMatchMode.CONTAINS } },
       columns: [{
           field: "firstname",
           header: "Firstname",
@@ -179,6 +192,7 @@ export default {
     };
   },
   methods: {
+    onGlobalFilter(e){ this.filters.global.value = e.target.value; },
 
     loadDonations() {
       this.loading = true;

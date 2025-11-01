@@ -205,6 +205,8 @@
     stripedRows
     rowHover
     responsiveLayout="scroll"
+    v-model:filters="filters"
+    :globalFilterFields="globalFields"
     paginator
     :rows="10"
     :rowsPerPageOptions="[10, 20, 50, 100]"
@@ -216,8 +218,16 @@
       <div class="table-toolbar">
         <div class="title"><i class="bi bi-people-fill me-2"></i>Users</div>
         <span class="spacer"></span>
-        
-        
+        <div class="search-wrapper">
+          <i class="bi bi-search"></i>
+          <input
+            class="form-control form-control-sm border-0"
+            type="text"
+            v-model="searchValue"
+            placeholder="Search users..."
+            @input="onGlobalFilter"
+          />
+        </div>
       </div>
 
     </template>
@@ -255,6 +265,7 @@
 
 <script>
 import axios from "axios";
+import { FilterMatchMode } from 'primevue/api'
  
 export default {
   mounted() {
@@ -266,6 +277,7 @@ export default {
       loading: false,
       users: [],
       searchValue: "",
+      filters: { global: { value: null, matchMode: FilterMatchMode.CONTAINS } },
       totalUsers: 0,
 
       columns: [
@@ -308,7 +320,15 @@ export default {
       }),
     }
   },
+  computed: {
+    globalFields(){
+      return (this.columns || []).map(c => c.field);
+    }
+  },
   methods: {
+    onGlobalFilter(e){
+      this.filters.global.value = e.target.value;
+    },
 
     InitializeForm() {
       this.form.id = "";

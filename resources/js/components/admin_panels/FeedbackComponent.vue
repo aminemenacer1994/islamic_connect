@@ -70,6 +70,9 @@
     class="pt-4 modern-datatable"
     :value="feedbacks"
     :loading="loading"
+    ref="dt"
+    v-model:filters="filters"
+    :globalFilterFields="(columns || []).map(c => c.field)"
     showGridlines
     stripedRows
     rowHover
@@ -87,8 +90,16 @@
       <div class="table-toolbar">
         <div class="title"><i class="bi bi-chat-dots me-2"></i>Feedback</div>
         <span class="spacer"></span>
-        
-        
+        <div class="search-wrapper">
+          <i class="bi bi-search"></i>
+          <input
+            class="form-control form-control-sm border-0"
+            type="text"
+            v-model="searchValue"
+            placeholder="Search feedback..."
+            @input="onGlobalFilter"
+          />
+        </div>
       </div>
     </template>
 
@@ -123,8 +134,7 @@
 
 <script>
 import axios from "axios";
-
- 
+import { FilterMatchMode } from 'primevue/api'
 
 export default {
   mounted() {
@@ -133,7 +143,8 @@ export default {
   data() {
     return {
       loading: false,
-      
+      searchValue: '',
+      filters: { global: { value: null, matchMode: FilterMatchMode.CONTAINS } },
       columns: [
         {
           field: "firstname",
@@ -171,6 +182,7 @@ export default {
     }
   },
   methods: {
+    onGlobalFilter(e){ this.filters.global.value = e.target.value; },
 
     loadFeedbacks() {
       this.loading = true;

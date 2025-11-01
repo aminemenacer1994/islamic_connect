@@ -78,6 +78,9 @@
     class="pt-4 modern-datatable"
     :value="payments"
     :loading="loading"
+    ref="dt"
+    v-model:filters="filters"
+    :globalFilterFields="['amount','status','payment_method','description','customer','date']"
     showGridlines
     stripedRows
     rowHover
@@ -98,8 +101,16 @@
         <!-- <Button class="btn-add outline" @click="loadStripe()" :disabled="loading">
           <i class="bi bi-cloud-download me-2"></i>Load from Stripe
         </Button> -->
-
-        
+        <div class="search-wrapper">
+          <i class="bi bi-search"></i>
+          <input
+            class="form-control form-control-sm border-0"
+            type="text"
+            v-model="searchValue"
+            placeholder="Search payments..."
+            @input="onGlobalFilter"
+          />
+        </div>
       </div>
       <div v-if="errorMsg" class="alert alert-warning mt-2" role="alert">
         {{ errorMsg }}
@@ -166,6 +177,7 @@
 
 <script>
 import axios from "axios";
+import { FilterMatchMode } from 'primevue/api'
  
 
 export default {
@@ -178,6 +190,7 @@ export default {
       loading: false,
       errorMsg: '',
       searchValue: "",
+      filters: { global: { value: null, matchMode: FilterMatchMode.CONTAINS } },
       columns: [],
       payments: null,
 
@@ -194,6 +207,7 @@ export default {
     }
   },
   methods: {
+    onGlobalFilter(e){ this.filters.global.value = e.target.value; },
 
     loadPayments() {
       this.loading = true;
