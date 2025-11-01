@@ -18,7 +18,10 @@ class BookmarkController extends Controller
 
     public function getBookmarks($userId)
     {
-        $bookmarks = Bookmark::where('user_id', $userId)->orderBy('created_at', 'desc')->get();
+        $currentUserId = Auth::id();
+        $bookmarks = Bookmark::where('user_id', $currentUserId)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return response()->json($bookmarks);
     }
@@ -120,5 +123,4 @@ class BookmarkController extends Controller
         return response()->json(['message' => 'Bookmark deleted successfully']);
     }
 }
-
 

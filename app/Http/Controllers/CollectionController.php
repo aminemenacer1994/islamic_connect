@@ -26,7 +26,8 @@ class CollectionController extends Controller
 
     public function getBookmarks($userId)
     {
-        $bookmarks = Bookmark::where('user_id', $userId)
+        $currentUserId = Auth::id();
+        $bookmarks = Bookmark::where('user_id', $currentUserId)
             ->with('folder')
             ->orderBy('created_at', 'desc')
             ->get();

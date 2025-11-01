@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(SurahSeeder::class);
         $this->call(AyahSeeder::class);
+        $this->call(SuperAdminSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(FeedbackSeeder::class);
         $this->call(TafseerSeeder::class);

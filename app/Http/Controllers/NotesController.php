@@ -22,13 +22,19 @@ class NotesController extends Controller
 
     public function getNotes($userId)
     {
-        $notes = Note::where('user_id', $userId)->orderBy('created_at', 'desc')->get();
+        $currentUserId = auth()->id();
+        $notes = Note::where('user_id', $currentUserId)->orderBy('created_at', 'desc')->get();
         return response()->json($notes);
     }
 
     public function getNotesWithComments()
     {
-        $notes = Note::with('comments')->get(); // Eager load comments with notes
+        if (!auth()->check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+        $notes = Note::where('user_id', auth()->id())
+            ->with('comments')
+            ->get();
         return response()->json(['notes' => $notes], 200);
     }
 
@@ -111,6 +117,11 @@ class NotesController extends Controller
         // Find the note by ID
         $note = Note::findOrFail($id);
 
+        // Authorize update (owner-only)
+        if ($note->user_id !== auth()->id()) {
+            abort(403);
+        }
+
         // Handle file uploads (if applicable)
         if ($request->hasFile('ayah_images')) {
             // Handle image or video file upload here (example: upload to storage and save the file path)
@@ -179,6 +190,9 @@ class NotesController extends Controller
     public function deleteNotes($id)
     {
         $note = Note::findOrFail($id);
+        if ($note->user_id !== auth()->id()) {
+            abort(403);
+        }
         $note->delete();
         return response()->json(['message' => 'Note deleted successfully']);
     }

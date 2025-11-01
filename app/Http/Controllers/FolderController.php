@@ -17,7 +17,10 @@ class FolderController extends Controller
 
     public function fetchFolders()
     {
-        $folders = Folder::get();
+        if (!Auth::check()) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+        $folders = Auth::user()->folders()->get();
         return response()->json($folders);
     }
 
@@ -91,4 +94,3 @@ class FolderController extends Controller
     }
 
 }
-
