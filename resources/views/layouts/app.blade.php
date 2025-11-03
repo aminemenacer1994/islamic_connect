@@ -619,7 +619,6 @@
             .navbar-collapse .navbar-nav .dropdown,
             .navbar-collapse .navbar-nav .dropdown-toggle {
                 margin-left: 0 !important;
-                padding-left: 1.25rem !important;
             }
 
             .navbar-collapse .navbar-nav .dropdown-toggle .bi {
@@ -722,10 +721,10 @@
                     </li>
                     @endif -->
                         @else
-                        <li class="nav-item dropdown pl-3">
+                        <li class="nav-item dropdown pl-3 mt-2">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle pt-2" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="User menu" data-nav-item="primary" v-pre>
-                                <i class="bi bi-person-circle pr-2" style="font-size: 1.8rem"></i>
+                                <i class="bi bi-person-circle" style="font-size: 1.6rem"></i>
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="navbarDropdown">
