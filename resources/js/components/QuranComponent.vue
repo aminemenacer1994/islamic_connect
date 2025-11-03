@@ -2206,6 +2206,11 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.swipe-tip .btn-close {
+  width: .25rem;
+  height: .25rem;
+  padding: .25rem;
+}
 .swipe-tip .icon-circle {
   display: inline-flex;
   align-items: center;

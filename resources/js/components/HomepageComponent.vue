@@ -310,7 +310,7 @@
             Featuring text-to-speech, screen reader support, and voice search for an accessible,
             intelligent connection to the Divine.
           </p>
-          <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start">
+          <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
             <a href="/holy" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
               style="background: #0b806f; border: none; min-width: 160px;">
               Explore Quran
@@ -338,7 +338,7 @@
             Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place.
             Stay spiritually connected through sound and reflection wherever you are.
           </p>
-          <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start">
+          <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
             <a href="/media" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
               style="background: #0b806f; border: none; min-width: 160px;">
               Browse Content
@@ -357,7 +357,7 @@
             Search, explore, and engage with every verse effortlessly. Discover tafsir, translations,
             and recitations with tools designed for simplicity and spiritual growth.
           </p>
-          <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-start">
+          <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
             <a href="/surat" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
               style="background: #0b806f; border: none; min-width: 160px;">
               Start Exploring

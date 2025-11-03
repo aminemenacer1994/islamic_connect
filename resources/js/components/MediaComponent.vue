@@ -89,7 +89,7 @@
                         </button>
                         <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none" style="color: #00bfa6; font-weight: bold;">Subscribe Now</a>
+                            <a href="/subscribe" class="text-decoration-none" style="color: rgb(0, 107, 95); font-weight: bold;">Subscribe Now</a>
                         </div>
                     </div>
                 </div>

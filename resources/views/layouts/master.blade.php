@@ -23,6 +23,9 @@
         .main-navbar { position: sticky; top:0; z-index:1020; background: #fff; border-bottom: 1px solid #eef2f5; }
         .main-navbar .nav-link { color:#111; }
         .main-navbar .nav-link:hover { color:#0b5d4b; }
+        /* Brand logo sizing */
+        .navbar-brand img { height: 56px; width: auto; }
+        @media (max-width: 576px) { .navbar-brand img { height: 44px; } }
         .topbar-tools { display:flex; gap:10px; align-items:center; }
         .search-wrap { flex:1; max-width: 560px; position: relative; }
         .search-wrap input { width:100%; border:1px solid #e6eaee; border-radius: 999px; padding:10px 14px 10px 40px; background:#fafbfc; }
@@ -87,7 +90,7 @@
                 <i class="bi bi-list" style="font-size:1.4rem"></i>
             </button>
             <a class="navbar-brand" href="/">
-                <img src="/images/logo_main.png" width="220" height="45" class="d-inline-block align-top" alt="Islamic Connect logo" loading="lazy">
+                <img src="/images/logo_main.png" class="d-inline-block align-top" alt="Islamic Connect logo" loading="lazy">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

@@ -4,23 +4,25 @@
     <div>
       <!-- Unified input group to align input and mic button on all screens -->
       <div class="container pb-3 px-3">
-        <div class="input-group w-100 search-input-group position-relative">
+        <div class="input-group w-100 search-input-group position-relative elegant-search">
           <input
             type="search"
             @keyup="onInput"
             v-model="searchTerm"
-            placeholder="Search for a word in the quran..."
-            class="form-control"
-            style="padding: 12px 14px; height: 48px;"
+            placeholder="Search for a keyword..."
+            class="form-control search-pill"
+            style="padding: 12px 16px; height: 50px;"
           />
           <button
             type="button"
-            class="btn button-36 bi bi-mic-fill d-flex align-items-center justify-content-center"
+            class="btn mic-btn d-flex align-items-center justify-content-center"
             aria-label="Voice search"
             title="Voice search"
             @click="isListening ? stopVoiceRecognition() : startVoiceRecognition()"
-            style="height: 48px; min-width: 48px;"
-          ></button>
+            style="height: 50px; min-width: 56px;"
+          >
+            <i class="bi bi-mic-fill"></i>
+          </button>
 
           <!-- Suggestions Dropdown (full width under the input group) -->
           <ul
@@ -533,14 +535,19 @@ export default {
 .search-input-group > .form-control {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  /* Make input fill available space */
+  flex: 1 1 auto;
+  min-width: 0;
 }
 .search-input-group > .btn {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  flex: 0 0 auto;
 }
 /* Prevent container overflow causing misalignment */
 .search-input-group {
   width: 100%;
+  flex-wrap: nowrap;
 }
 /* Improve list item text alignment on small screens */
 .suggestions .list-group-item {
@@ -554,6 +561,12 @@ export default {
 </style>
 
 <style scoped>
+.elegant-search { border-radius: 12px; overflow: hidden; box-shadow: 0 1px 0 rgba(0,0,0,.02), 0 2px 8px rgba(0,0,0,.06); }
+.search-pill { border: 1px solid #e6eaee; background:#fff; font-size: 1rem; }
+.search-pill::placeholder { color:#9aa4b2; }
+.mic-btn { background-image: linear-gradient(135deg,#6a7cf7 0%, #6b4df2 50%, #6b3ef0 100%); color:#fff; border:none; width:56px; display:flex; align-items:center; justify-content:center; }
+.mic-btn:hover { filter: brightness(1.05); }
+.mic-btn .bi { font-size: 1.1rem; }
 .error-message {
   margin-top: 10px;
   padding: 10px;
