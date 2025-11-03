@@ -273,7 +273,7 @@
         @media (max-width: 575.98px) {
             :root { --navbar-h: 56px; }
             body { padding-top: 56px; }
-            .navbar-brand img { max-width: 130px; height: auto; }
+            .navbar-brand img { max-width: 250px; height: auto; }
             .content-area { padding-inline: 8px; }
             .grid-3 { gap: 12px; }
             .page-header { align-items: stretch; }
