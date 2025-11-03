@@ -586,6 +586,24 @@
             transition: color 0.3s ease, border-bottom 0.3s ease;
         }
 
+        /* --- Navbar link normalization (desktop/tablet) --- */
+        @media (min-width: 768px) {
+            /* Use flex gap for even spacing instead of mixed ml/pl utilities */
+            .navbar .navbar-nav { gap: 2rem; align-items: center; }
+
+            /* Remove item-level top margins that misalign baselines */
+            .navbar .navbar-nav .nav-item { margin-top: 0 !important; }
+
+            /* Uniform link box so underline doesn’t shift layout */
+            .navbar .navbar-nav .nav-link {
+                display: inline-flex;
+                align-items: center;
+                padding: .75rem 0 !important; /* vertical rhythm, no left/right padding */
+                margin: 0 !important;          /* neutralize ml-* from markup */
+                border-bottom: 2px solid transparent; /* reserve space for active underline */
+            }
+        }
+
         /* Improve placeholder contrast (AA on white) */
         ::placeholder {
             color: #6b7280;
@@ -637,6 +655,21 @@
                 position: relative;
                 z-index: 1000;
             }
+        }
+        
+        /* User dropdown: tidy spacing between name and caret */
+        .navbar .dropdown-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0; /* no extra gap now that icon is removed */
+        }
+        .navbar .dropdown-toggle::after { margin-left: .35rem; }
+
+        /* Keep same treatment inside collapsed menu */
+        .navbar-collapse .navbar-nav .dropdown-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0;
         }
         
         /* Admin mobile switcher visibility rules */
@@ -724,7 +757,6 @@
                         <li class="nav-item dropdown pl-3 mt-2">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle pt-2" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="User menu" data-nav-item="primary" v-pre>
-                                <i class="bi bi-person-circle" style="font-size: 1.6rem"></i>
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="navbarDropdown">
