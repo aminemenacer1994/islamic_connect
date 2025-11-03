@@ -385,14 +385,14 @@
             <div class="row container-fluid stats-grid">
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>65+</h3>
+                  <h3>66</h3>
                   <p>Countries</p>
                   <small>Global reach</small>
                 </div>
               </div>
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>570+</h3>
+                  <h3>568</h3>
                   <p>Cities/Towns</p>
                   <small>Worldwide presence</small>
                 </div>
