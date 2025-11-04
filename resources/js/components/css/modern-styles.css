@@ -232,6 +232,12 @@
     border-bottom: 3px solid var(--primary-color);
 }
 
+/* Swipe surfaces: allow vertical scroll, fast horizontal swipes */
+.swipe-surface {
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
 /* Content Sections */
 .tab-pane {
     padding: 1.5rem 0;

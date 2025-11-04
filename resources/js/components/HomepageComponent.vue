@@ -311,7 +311,7 @@
             intelligent connection to the Divine.
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
-            <a href="/holy" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
+            <a href="/quran" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
               style="background: #0b806f; border: none; min-width: 160px;">
               Explore Quran
             </a>

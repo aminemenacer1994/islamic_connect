@@ -7,7 +7,13 @@
       </h5>
     </div>
 
-    <div @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd" class="swipeable-div w-100">
+    <div
+      @pointerdown="onPointerDown"
+      @pointermove="onPointerMove"
+      @pointerup="onPointerUp"
+      @pointercancel="onPointerCancel"
+      class="swipeable-div w-100"
+    >
       <div class="btn">
         <h5 class="text-right " name="ayah_text" style="line-height: 1.6em">{{ information.ayah.ayah_text }}</h5>
       </div>
@@ -74,8 +80,13 @@ export default {
       showAlert: false,
       showErrorAlert: false,
       showAlertTextNote: false,
-      touchStartX: 0,
-      touchEndX: 0,
+      // Pointer/swipe state
+      startX: 0,
+      startY: 0,
+      lastX: 0,
+      pointerActive: false,
+      isSwiping: false,
+      suppressClick: false,
       fontSize: this.getFontSize(),
     };
   },
@@ -111,28 +122,87 @@ export default {
         return text;
       }
     },
-    handleTouchStart(event) {
-      this.touchStartX = event.changedTouches[0].screenX;
+    // High‑performance swipe using Pointer Events
+    onPointerDown(e) {
+      // Only handle primary touch/pen/mouse; ignore multi-touch
+      if (!e.isPrimary) return;
+      // Ignore interactive elements so taps don't clash
+      const interactive = e.target.closest(
+        'button, a, input, textarea, select, [role="button"], .custom-icon-increase, .custom-icon-decrease'
+      );
+      if (interactive) return;
+
+      this.pointerActive = true;
+      this.isSwiping = false;
+      this.suppressClick = false;
+      this.startX = e.clientX;
+      this.startY = e.clientY;
+      this.lastX = e.clientX;
+      // Capture to continue receiving moves even if pointer leaves element
+      try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {}
     },
-    handleTouchMove(event) {
-      this.touchEndX = event.changedTouches[0].screenX;
-    },
-    handleTouchEnd() {
-      if (this.touchEndX < this.touchStartX) {
-        this.goToNextAyah();
-      } else if (this.touchEndX > this.touchStartX) {
-        this.goToPreviousAyah();
+    onPointerMove(e) {
+      if (!this.pointerActive) return;
+      // Throttle work; we only need to check direction/threshold
+      this.lastX = e.clientX;
+      const dx = this.lastX - this.startX;
+      const dy = e.clientY - this.startY;
+
+      // Angle guard (~30°): prefer horizontal motion
+      const horizontalEnough = Math.abs(dx) > Math.abs(dy) * 1.732; // tan(60°)
+      const passedThreshold = Math.abs(dx) > 40; // pixels
+
+      if (!this.isSwiping && horizontalEnough && passedThreshold) {
+        this.isSwiping = true;
+        this.suppressClick = true; // prevent accidental clicks after swipe
+        // Prevent scroll jank while swiping horizontally
+        e.preventDefault();
       }
-      this.touchStartX = 0;
-      this.touchEndX = 0;
+    },
+    onPointerUp(e) {
+      if (!this.pointerActive) return;
+      const dx = this.lastX - this.startX;
+      const absDx = Math.abs(dx);
+      const dy = e.clientY - this.startY;
+      const horizontalEnough = absDx > Math.abs(dy) * 1.732;
+      const passedThreshold = absDx > 40;
+
+      if (this.isSwiping && horizontalEnough && passedThreshold) {
+        if (dx < 0) {
+          this.goToNextAyah();
+        } else {
+          this.goToPreviousAyah();
+        }
+      }
+
+      this.pointerActive = false;
+      this.isSwiping = false;
+      try { e.currentTarget.releasePointerCapture(e.pointerId); } catch (_) {}
+
+      // Suppress the next click if a swipe occurred
+      if (this.suppressClick) {
+        const el = this.$refs.targetElement;
+        const handler = (evt) => {
+          evt.stopPropagation();
+          evt.preventDefault();
+        };
+        // One-tick listener to swallow the immediate click
+        el.addEventListener('click', handler, { capture: true, once: true });
+      }
+      this.suppressClick = false;
+    },
+    onPointerCancel() {
+      this.pointerActive = false;
+      this.isSwiping = false;
+      this.suppressClick = false;
     },
     goToNextAyah() {
-      // Logic to go to the next verse
-      alert('Going to next verse!'); // Replace with actual logic to navigate to the next verse
+      // Emit so parent can handle fast navigation without UI blocking
+      this.$emit('next-ayah');
     },
     goToPreviousAyah() {
-      // Logic to go to the previous verse
-      alert('Going to previous verse!'); // Replace with actual logic to navigate to the previous verse
+      // Emit so parent can handle fast navigation without UI blocking
+      this.$emit('prev-ayah');
     },
     // Additional methods can be added as needed
   }
@@ -152,7 +222,10 @@ export default {
 }
 
 .swipeable-div {
+  /* Allow vertical scrolling; enable fast, conflict-free horizontal swipes */
   touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 

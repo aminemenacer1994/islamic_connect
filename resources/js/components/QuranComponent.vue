@@ -331,7 +331,8 @@
                                         </div>
                                         <!-- dropdown mobile content -->
                                         <div>
-                                            <div class="pt-2 swipe-surface" ref="targetTranslationElement"
+                                            <transition :name="lastSwipeDir === 'next' ? 'swipe-next' : 'swipe-prev'">
+                                            <div class="pt-2 swipe-surface" ref="targetTranslationElement" :key="selectedAyah"
                                                  @touchstart="handleTouchStart($event)"
                                                  @touchmove="handleTouchMove"
                                                  @touchend="handleTouchEnd($event)"
@@ -339,7 +340,7 @@
                                                  @pointerdown="handlePointerDown"
                                                  @pointermove="handlePointerMove"
                                                  @pointerup="handlePointerUp"
-                                                 @wheel.passive="handleWheel">
+                                                 @wheel.passive="handleWheelTranslation">
                                                 <TranslationSection ref="translationSection" :currentAyah="currentAyah" :isVisible="!isVisible"
                                                     :information="information" :isFullScreen="isFullScreen"
                                                     :expanded="expanded" :showMoreLink="showMoreLink"
@@ -352,6 +353,7 @@
                                                     @toggle-audio="toggleAudioPlayback"
                                                     @update-success-message="updateSuccessMessage" />
                                             </div>
+                                            </transition>
 
                                             <!-- <div v-if="!isVisible" class="container-fluid text-center mobile-only">
                                                 <div class="row">
@@ -513,14 +515,15 @@
                                         </div>
 
                                         <!-- Main content  -->
-                                          <div class="pt-2" ref="targetTafseerElement"
+                                            <transition :name="lastSwipeDir === 'next' ? 'swipe-next' : 'swipe-prev'">
+                                            <div class="pt-2 swipe-surface" ref="targetTafseerElement" :key="selectedAyah"
                                               @touchstart="handleTouchStart($event)"
                                               @touchmove="handleTouchMove"
                                               @touchend="handleTouchEnd($event)"
-                                              @pointerdown.passive="handlePointerDown"
-                                              @pointermove.passive="handlePointerMove"
-                                              @pointerup.passive="handlePointerUp"
-                                              @wheel.passive="handleWheel">
+                                              @pointerdown="handlePointerDown"
+                                              @pointermove="handlePointerMove"
+                                              @pointerup="handlePointerUp"
+                                              @wheel.passive="handleWheelTafseer">
                                             <TafseerSection ref="tafseerSection" :currentAyah="currentAyah" :isVisible="!isVisible"
                                                 :information="information" :isFullScreen="isFullScreen"
                                                 :expanded="expanded" :showMoreLink="showMoreLink"
@@ -533,6 +536,7 @@
                                                 @toggle-audio="toggleAudioPlayback" @update-success-message="updateSuccessMessage
                                                 " />
                                         </div>
+                                        </transition>
 
                                         <!-- <div v-if="!isVisible" class="container-fluid text-center mobile-only">
                                             <div class="row">
@@ -693,14 +697,15 @@
                                                 </div>
                                             </div>
 
-                                            <div ref="targetTransliterationElement"
+                                            <transition :name="lastSwipeDir === 'next' ? 'swipe-next' : 'swipe-prev'">
+                                            <div ref="targetTransliterationElement" class="swipe-surface" :key="selectedAyah"
                                                  @touchstart="handleTouchStart($event)"
                                                  @touchmove="handleTouchMove"
                                                  @touchend="handleTouchEnd($event)"
-                                                 @pointerdown.passive="handlePointerDown"
-                                                 @pointermove.passive="handlePointerMove"
-                                                 @pointerup.passive="handlePointerUp"
-                                                 @wheel.passive="handleWheel">
+                                                 @pointerdown="handlePointerDown"
+                                                 @pointermove="handlePointerMove"
+                                                 @pointerup="handlePointerUp"
+                                                 @wheel.passive="handleWheelTransliteration">
                                                 <TransliterationSection ref="transliterationSection" :currentAyah="currentAyah"
                                                     :isVisible="!isVisible" :information="information"
                                                     :isFullScreen="isFullScreen" :expanded="expanded"
@@ -714,6 +719,7 @@
                                                     " @toggle-audio="toggleAudioPlayback
                                                     " />
                                             </div>
+                                            </transition>
 
                                             <!-- <div v-if="!isVisible" class="container-fluid text-center mobile-only">
                                                 <div class="row">
@@ -908,7 +914,6 @@ export default {
                     if (id && id.startsWith('#')) id = id.slice(1);
                     if (id) this.activeTab = id;
                     this.stopAllAudio && this.stopAllAudio();
-                    console.log('[Audio] tab switched, activeTab=', this.activeTab);
                 };
                 document.addEventListener('shown.bs.tab', this._onTabShown);
             }
@@ -916,19 +921,8 @@ export default {
 
         // Attach a window wheel listener only if gestures are enabled (coarse pointer)
         if (this.allowGestures && typeof window !== 'undefined') {
-            this._onWindowWheel = (e) => {
-                const areaTaf = this.$refs && this.$refs.targetTafseerElement;
-                const areaTrn = this.$refs && this.$refs.targetTranslationElement;
-                const areaTrl = this.$refs && this.$refs.targetTransliterationElement;
-                const path = (e.composedPath && e.composedPath()) || [];
-                const within = [areaTaf, areaTrn, areaTrl]
-                    .filter(Boolean)
-                    .some((el) => path.includes(el) || (e.target && el.contains && el.contains(e.target)));
-                if (!within) return;
-                this.handleWheel(e);
-            };
+            this._onWindowWheel = (e) => this.handleWheel(e);
             window.addEventListener('wheel', this._onWindowWheel, { passive: true });
-            console.log('[Swipe] window wheel listener attached (tafseer/translation/transliteration)');
         }
 
         // Swipe tip persisted dismissal
@@ -969,6 +963,8 @@ export default {
         return {
             // Cache ayat per surah to avoid redundant fetches
             ayahCache: {},
+            tafseerCache: {},
+            infoCache: {},
             lastFetchedSurahId: null,
             fetchAyatTimer: null,
             ayatInflight: null,
@@ -1127,7 +1123,8 @@ export default {
             _coarseMql: null,
             activeTab: 'home',
             // UI: swipe tip visibility (mobile/tablet only)
-            showSwipeTip: true
+            showSwipeTip: true,
+            lastSwipeDir: null
         };
     },
     computed: {
@@ -1680,7 +1677,6 @@ export default {
         },
 
         handleTouchStart(event) {
-            if (!this.allowGestures) return;
             const touch = event.changedTouches ? event.changedTouches[0] : event;
             if (this.isInteractiveTarget(event.target)) return;
             // Use client coordinates consistently across start/move/end
@@ -1691,7 +1687,6 @@ export default {
             this.touchStartTime = Date.now();
         },
         handleTouchMove(event) {
-            if (!this.allowGestures) return;
             const touch = event.changedTouches ? event.changedTouches[0] : event;
             // Allow form controls to operate normally; otherwise enable swipe
             const tag = (event.target && event.target.tagName) ? event.target.tagName.toLowerCase() : '';
@@ -1706,12 +1701,11 @@ export default {
             // Horizontal-intent guard: once clearly horizontal, prevent page scroll (Safari requires non-passive)
             const dx = Math.abs((this.touchEndX || this.touchStartX) - this.touchStartX);
             const dy = Math.abs((this.touchEndY || this.touchStartY) - this.touchStartY);
-            if (dx > 10 && dx > dy && event.cancelable) {
+            if (dx > 16 && dx > dy * 1.5 && event.cancelable) {
                 event.preventDefault();
             }
         },
         handleTouchEnd(event) {
-            if (!this.allowGestures) { console.log('[Swipe] touchend ignored (gestures disabled)'); return; }
             const touchEndTime = Date.now();
             const timeDiff = touchEndTime - this.touchStartTime;
             const endX = (typeof this.touchEndX === 'number') ? this.touchEndX : this.touchStartX;
@@ -1728,10 +1722,8 @@ export default {
                 timeDiff < maxSwipeDuration
             ) {
                 if (deltaX > 0) {
-                    console.log('[Swipe] touchend → RIGHT', { deltaX, timeDiff });
                     this.onSwipeRight();
                 } else {
-                    console.log('[Swipe] touchend → LEFT', { deltaX, timeDiff });
                     this.onSwipeLeft();
                 }
             }
@@ -1739,50 +1731,49 @@ export default {
         onSwipeRight() {
             const now = Date.now();
             if (now - this.lastGestureTs < this.gestureCooldownMs) {
-                console.log('[Swipe] RIGHT ignored (cooldown)');
                 return;
             }
             this.lastGestureTs = now;
-            console.log('[Swipe] ACTION: NEXT VERSE');
+            this.lastSwipeDir = 'next';
+            this.suppressNextClick();
             this.goToNextAyah();
         },
         onSwipeLeft() {
             const now = Date.now();
             if (now - this.lastGestureTs < this.gestureCooldownMs) {
-                console.log('[Swipe] LEFT ignored (cooldown)');
                 return;
             }
             this.lastGestureTs = now;
-            console.log('[Swipe] ACTION: PREVIOUS VERSE');
+            this.lastSwipeDir = 'prev';
+            this.suppressNextClick();
             this.goToPreviousAyah();
         },
         // Pointer events (covers some laptops/tablets)
         handlePointerDown(e) {
-            if (!this.allowGestures) return;
             if (this.isInteractiveTarget(e.target)) return;
             // Do not handle desktop mouse drags; allow touch/pen only
             if (e.pointerType === 'mouse') return;
             this.pointerActive = true;
-            this.pointerStartX = e.screenX;
-            this.pointerStartY = e.screenY;
+            this.pointerStartX = e.clientX;
+            this.pointerStartY = e.clientY;
             this.pointerStartTime = Date.now();
-            console.log('[Swipe] pointerdown', { x: this.pointerStartX, y: this.pointerStartY, type: e.pointerType });
+            try { e.currentTarget.setPointerCapture(e.pointerId); } catch(_) {}
         },
         handlePointerMove(e) {
-            if (!this.allowGestures) return;
             if (!this.pointerActive) return;
             if (this.isInteractiveTarget(e.target)) return;
-            this.pointerEndX = e.screenX;
-            this.pointerEndY = e.screenY;
-            console.log('[Swipe] pointermove', { x: this.pointerEndX, y: this.pointerEndY });
+            this.pointerEndX = e.clientX;
+            this.pointerEndY = e.clientY;
+            const dx = Math.abs(this.pointerEndX - this.pointerStartX);
+            const dy = Math.abs(this.pointerEndY - this.pointerStartY);
+            if (dx > 16 && dx > dy * 1.5 && e.cancelable) e.preventDefault();
         },
         handlePointerUp(e) {
-            if (!this.allowGestures) return;
             if (!this.pointerActive) return;
             this.pointerActive = false;
             const timeDiff = Date.now() - this.pointerStartTime;
-            const endX = (this.pointerEndX || e.screenX);
-            const endY = (this.pointerEndY || e.screenY);
+            const endX = (this.pointerEndX || e.clientX);
+            const endY = (this.pointerEndY || e.clientY);
             const deltaX = endX - this.pointerStartX;
             const deltaY = endY - this.pointerStartY;
             const minSwipeDistance = this.swipeMinDistance;
@@ -1790,18 +1781,37 @@ export default {
             const vertLeak = this.wheelVertLeak; // reuse vertical tolerance
             if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < vertLeak && timeDiff < maxSwipeDuration) {
                 if (deltaX > 0) {
-                    console.log('[Swipe] pointerup → RIGHT', { deltaX, deltaY, timeDiff });
                     this.onSwipeRight();
                 } else {
-                    console.log('[Swipe] pointerup → LEFT', { deltaX, deltaY, timeDiff });
                     this.onSwipeLeft();
                 }
             } else {
                 // ignore non-swipe pointerup
                 }
+            try { e.currentTarget.releasePointerCapture(e.pointerId); } catch(_) {}
         },
         // Trackpad horizontal gestures via wheel
-        handleWheel(e) {
+        handleWheel(eOrCtx, maybeEvent) {
+            // Support both direct calls from template handlers providing context,
+            // and window listener that passes the event only and resolves context.
+            let ctx;
+            let e;
+            if (typeof eOrCtx === 'string') {
+                ctx = eOrCtx;
+                e = maybeEvent;
+            } else {
+                e = eOrCtx;
+                // Resolve context by containment
+                const tT = this.$refs && this.$refs.targetTranslationElement;
+                const tF = this.$refs && this.$refs.targetTafseerElement;
+                const tL = this.$refs && this.$refs.targetTransliterationElement;
+                const path = (e.composedPath && e.composedPath()) || [];
+                if (tT && (path.includes(tT) || (e.target && tT.contains && tT.contains(e.target)))) ctx = 'translation';
+                else if (tF && (path.includes(tF) || (e.target && tF.contains && tF.contains(e.target)))) ctx = 'tafseer';
+                else if (tL && (path.includes(tL) || (e.target && tL.contains && tL.contains(e.target)))) ctx = 'transliteration';
+            }
+            if (!ctx) return;
+            if (this.activeTab && this.activeTab !== ctx) return;
             if (!this.allowGestures) return;
             if (this.isInteractiveTarget(e.target)) return;
             // Normalize delta based on deltaMode: 0=pixel,1=line,2=page
@@ -1828,19 +1838,30 @@ export default {
 
             if (horiz > threshold && vert < vertLeak) {
                 if (this.wheelAccumX > 0) {
-                    console.log('[Swipe] trackpad wheel → LEFT (prev)', { accumX: this.wheelAccumX, accumY: this.wheelAccumY });
                     this.onSwipeLeft();
                 } else {
-                    console.log('[Swipe] trackpad wheel → RIGHT (next)', { accumX: this.wheelAccumX, accumY: this.wheelAccumY });
                     this.onSwipeRight();
                 }
                 // Reset after action
                 this.wheelAccumX = 0;
                 this.wheelAccumY = 0;
             } else {
-                // Verbose debug for tuning
-                console.log('[Swipe] wheel accumulate', { x: this.wheelAccumX, y: this.wheelAccumY, dt, mode: e.deltaMode });
+                // keep silent to avoid log overhead in production
             }
+        },
+        handleWheelTranslation(e) { this.handleWheel('translation', e); },
+        handleWheelTafseer(e) { this.handleWheel('tafseer', e); },
+        handleWheelTransliteration(e) { this.handleWheel('transliteration', e); },
+        suppressNextClick() {
+            try {
+                const els = [this.$refs.targetTranslationElement, this.$refs.targetTafseerElement, this.$refs.targetTransliterationElement].filter(Boolean);
+                els.forEach((el) => {
+                    el.addEventListener('click', (ev) => {
+                        ev.stopPropagation();
+                        ev.preventDefault();
+                    }, { capture: true, once: true });
+                });
+            } catch(_) {}
         },
         
         // Detect whether device uses coarse pointer (touch/tablet) and gate gestures
@@ -1868,7 +1889,7 @@ export default {
                 const tabletHeuristic = (minDim >= 600 && maxDim <= 1400);
 
                 this.allowGestures = !!(hasTouch || coarseNow || iOSoriPadOS || tabletHeuristic);
-                console.log('[Swipe] modality gate', { hasTouch, coarseNow, iOSoriPadOS, sw, sh, tabletHeuristic, allowGestures: this.allowGestures });
+                // silent in production; keep logic only
             } catch (_) {
                 this.allowGestures = false;
             }
@@ -2061,19 +2082,36 @@ export default {
         },
         getTafseers: function (id, index) {
             this.selectedIndexAyah = index;
-            Promise.all([
+            this.fetchAyahData(id).then(({ tafseer, information }) => {
+                this.selectedAyah = id;
+                this.tafseer = tafseer;
+                this.information = information;
+                this.updateCardSection(this.ayat[index]);
+                // Prefetch a sliding window (±2) for instant rapid swipes
+                const count = this.ayat.length;
+                const offsets = [-2, -1, 1, 2];
+                offsets.forEach((d) => {
+                    if (!count) return;
+                    const j = (index + d + count) % count;
+                    const item = this.ayat[j];
+                    if (item && item.id) this.fetchAyahData(item.id).catch(() => {});
+                });
+            }).catch((err) => {
+                console.error("Error fetching tafseer/information:", err);
+            });
+        },
+        async fetchAyahData(id) {
+            // Serve from cache when available
+            const cachedT = this.tafseerCache[id];
+            const cachedI = this.infoCache[id];
+            if (cachedT && cachedI) return { tafseer: cachedT, information: cachedI };
+            const [tafseerResp, infoResp] = await Promise.all([
                 axios.get(`/tafseer/${id}/fetch`),
                 axios.get("/get_informations", { params: { id } }),
-            ])
-                .then(([tafseerResp, infoResp]) => {
-                    this.selectedAyah = id;
-                    this.tafseer = tafseerResp.data;
-                    this.information = infoResp.data;
-                    this.updateCardSection(this.ayat[index]);
-                })
-                .catch((err) => {
-                    console.error("Error fetching tafseer/information:", err);
-                });
+            ]);
+            this.tafseerCache[id] = tafseerResp.data;
+            this.infoCache[id] = infoResp.data;
+            return { tafseer: tafseerResp.data, information: infoResp.data };
         },
     },
     created() {
@@ -2222,5 +2260,14 @@ export default {
   color: #fff;
   font-size: 12px;
 }
-.swipe-surface { touch-action: none; }
+.swipe-surface { touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
+
+/* Direction-aware verse transition */
+.swipe-next-enter-from { opacity: 0; transform: translateX(24px); }
+.swipe-next-enter-active { transition: transform 160ms ease, opacity 160ms ease; }
+.swipe-next-enter-to { opacity: 1; transform: translateX(0); }
+
+.swipe-prev-enter-from { opacity: 0; transform: translateX(-24px); }
+.swipe-prev-enter-active { transition: transform 160ms ease, opacity 160ms ease; }
+.swipe-prev-enter-to { opacity: 1; transform: translateX(0); }
 </style>

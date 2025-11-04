@@ -9749,7 +9749,6 @@ __webpack_require__.r(__webpack_exports__);
           if (id && id.startsWith('#')) id = id.slice(1);
           if (id) this.activeTab = id;
           this.stopAllAudio && this.stopAllAudio();
-          console.log('[Audio] tab switched, activeTab=', this.activeTab);
         };
         document.addEventListener('shown.bs.tab', this._onTabShown);
       }
@@ -9757,19 +9756,10 @@ __webpack_require__.r(__webpack_exports__);
 
     // Attach a window wheel listener only if gestures are enabled (coarse pointer)
     if (this.allowGestures && typeof window !== 'undefined') {
-      this._onWindowWheel = e => {
-        const areaTaf = this.$refs && this.$refs.targetTafseerElement;
-        const areaTrn = this.$refs && this.$refs.targetTranslationElement;
-        const areaTrl = this.$refs && this.$refs.targetTransliterationElement;
-        const path = e.composedPath && e.composedPath() || [];
-        const within = [areaTaf, areaTrn, areaTrl].filter(Boolean).some(el => path.includes(el) || e.target && el.contains && el.contains(e.target));
-        if (!within) return;
-        this.handleWheel(e);
-      };
+      this._onWindowWheel = e => this.handleWheel(e);
       window.addEventListener('wheel', this._onWindowWheel, {
         passive: true
       });
-      console.log('[Swipe] window wheel listener attached (tafseer/translation/transliteration)');
     }
 
     // Swipe tip persisted dismissal
@@ -9815,6 +9805,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       // Cache ayat per surah to avoid redundant fetches
       ayahCache: {},
+      tafseerCache: {},
+      infoCache: {},
       lastFetchedSurahId: null,
       fetchAyatTimer: null,
       ayatInflight: null,
@@ -9976,7 +9968,8 @@ __webpack_require__.r(__webpack_exports__);
       _coarseMql: null,
       activeTab: 'home',
       // UI: swipe tip visibility (mobile/tablet only)
-      showSwipeTip: true
+      showSwipeTip: true,
+      lastSwipeDir: null
     };
   },
   computed: {
@@ -10461,7 +10454,6 @@ __webpack_require__.r(__webpack_exports__);
       return false;
     },
     handleTouchStart(event) {
-      if (!this.allowGestures) return;
       const touch = event.changedTouches ? event.changedTouches[0] : event;
       if (this.isInteractiveTarget(event.target)) return;
       // Use client coordinates consistently across start/move/end
@@ -10472,7 +10464,6 @@ __webpack_require__.r(__webpack_exports__);
       this.touchStartTime = Date.now();
     },
     handleTouchMove(event) {
-      if (!this.allowGestures) return;
       const touch = event.changedTouches ? event.changedTouches[0] : event;
       // Allow form controls to operate normally; otherwise enable swipe
       const tag = event.target && event.target.tagName ? event.target.tagName.toLowerCase() : '';
@@ -10486,15 +10477,11 @@ __webpack_require__.r(__webpack_exports__);
       // Horizontal-intent guard: once clearly horizontal, prevent page scroll (Safari requires non-passive)
       const dx = Math.abs((this.touchEndX || this.touchStartX) - this.touchStartX);
       const dy = Math.abs((this.touchEndY || this.touchStartY) - this.touchStartY);
-      if (dx > 10 && dx > dy && event.cancelable) {
+      if (dx > 16 && dx > dy * 1.5 && event.cancelable) {
         event.preventDefault();
       }
     },
     handleTouchEnd(event) {
-      if (!this.allowGestures) {
-        console.log('[Swipe] touchend ignored (gestures disabled)');
-        return;
-      }
       const touchEndTime = Date.now();
       const timeDiff = touchEndTime - this.touchStartTime;
       const endX = typeof this.touchEndX === 'number' ? this.touchEndX : this.touchStartX;
@@ -10507,16 +10494,8 @@ __webpack_require__.r(__webpack_exports__);
       // Swipe gesture detection
       if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < this.wheelVertLeak && timeDiff < maxSwipeDuration) {
         if (deltaX > 0) {
-          console.log('[Swipe] touchend → RIGHT', {
-            deltaX,
-            timeDiff
-          });
           this.onSwipeRight();
         } else {
-          console.log('[Swipe] touchend → LEFT', {
-            deltaX,
-            timeDiff
-          });
           this.onSwipeLeft();
         }
       }
@@ -10524,57 +10503,51 @@ __webpack_require__.r(__webpack_exports__);
     onSwipeRight() {
       const now = Date.now();
       if (now - this.lastGestureTs < this.gestureCooldownMs) {
-        console.log('[Swipe] RIGHT ignored (cooldown)');
         return;
       }
       this.lastGestureTs = now;
-      console.log('[Swipe] ACTION: NEXT VERSE');
+      this.lastSwipeDir = 'next';
+      this.suppressNextClick();
       this.goToNextAyah();
     },
     onSwipeLeft() {
       const now = Date.now();
       if (now - this.lastGestureTs < this.gestureCooldownMs) {
-        console.log('[Swipe] LEFT ignored (cooldown)');
         return;
       }
       this.lastGestureTs = now;
-      console.log('[Swipe] ACTION: PREVIOUS VERSE');
+      this.lastSwipeDir = 'prev';
+      this.suppressNextClick();
       this.goToPreviousAyah();
     },
     // Pointer events (covers some laptops/tablets)
     handlePointerDown(e) {
-      if (!this.allowGestures) return;
       if (this.isInteractiveTarget(e.target)) return;
       // Do not handle desktop mouse drags; allow touch/pen only
       if (e.pointerType === 'mouse') return;
       this.pointerActive = true;
-      this.pointerStartX = e.screenX;
-      this.pointerStartY = e.screenY;
+      this.pointerStartX = e.clientX;
+      this.pointerStartY = e.clientY;
       this.pointerStartTime = Date.now();
-      console.log('[Swipe] pointerdown', {
-        x: this.pointerStartX,
-        y: this.pointerStartY,
-        type: e.pointerType
-      });
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch (_) {}
     },
     handlePointerMove(e) {
-      if (!this.allowGestures) return;
       if (!this.pointerActive) return;
       if (this.isInteractiveTarget(e.target)) return;
-      this.pointerEndX = e.screenX;
-      this.pointerEndY = e.screenY;
-      console.log('[Swipe] pointermove', {
-        x: this.pointerEndX,
-        y: this.pointerEndY
-      });
+      this.pointerEndX = e.clientX;
+      this.pointerEndY = e.clientY;
+      const dx = Math.abs(this.pointerEndX - this.pointerStartX);
+      const dy = Math.abs(this.pointerEndY - this.pointerStartY);
+      if (dx > 16 && dx > dy * 1.5 && e.cancelable) e.preventDefault();
     },
     handlePointerUp(e) {
-      if (!this.allowGestures) return;
       if (!this.pointerActive) return;
       this.pointerActive = false;
       const timeDiff = Date.now() - this.pointerStartTime;
-      const endX = this.pointerEndX || e.screenX;
-      const endY = this.pointerEndY || e.screenY;
+      const endX = this.pointerEndX || e.clientX;
+      const endY = this.pointerEndY || e.clientY;
       const deltaX = endX - this.pointerStartX;
       const deltaY = endY - this.pointerStartY;
       const minSwipeDistance = this.swipeMinDistance;
@@ -10582,26 +10555,37 @@ __webpack_require__.r(__webpack_exports__);
       const vertLeak = this.wheelVertLeak; // reuse vertical tolerance
       if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < vertLeak && timeDiff < maxSwipeDuration) {
         if (deltaX > 0) {
-          console.log('[Swipe] pointerup → RIGHT', {
-            deltaX,
-            deltaY,
-            timeDiff
-          });
           this.onSwipeRight();
         } else {
-          console.log('[Swipe] pointerup → LEFT', {
-            deltaX,
-            deltaY,
-            timeDiff
-          });
           this.onSwipeLeft();
         }
       } else {
         // ignore non-swipe pointerup
       }
+      try {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      } catch (_) {}
     },
     // Trackpad horizontal gestures via wheel
-    handleWheel(e) {
+    handleWheel(eOrCtx, maybeEvent) {
+      // Support both direct calls from template handlers providing context,
+      // and window listener that passes the event only and resolves context.
+      let ctx;
+      let e;
+      if (typeof eOrCtx === 'string') {
+        ctx = eOrCtx;
+        e = maybeEvent;
+      } else {
+        e = eOrCtx;
+        // Resolve context by containment
+        const tT = this.$refs && this.$refs.targetTranslationElement;
+        const tF = this.$refs && this.$refs.targetTafseerElement;
+        const tL = this.$refs && this.$refs.targetTransliterationElement;
+        const path = e.composedPath && e.composedPath() || [];
+        if (tT && (path.includes(tT) || e.target && tT.contains && tT.contains(e.target))) ctx = 'translation';else if (tF && (path.includes(tF) || e.target && tF.contains && tF.contains(e.target))) ctx = 'tafseer';else if (tL && (path.includes(tL) || e.target && tL.contains && tL.contains(e.target))) ctx = 'transliteration';
+      }
+      if (!ctx) return;
+      if (this.activeTab && this.activeTab !== ctx) return;
       if (!this.allowGestures) return;
       if (this.isInteractiveTarget(e.target)) return;
       // Normalize delta based on deltaMode: 0=pixel,1=line,2=page
@@ -10626,30 +10610,39 @@ __webpack_require__.r(__webpack_exports__);
 
       if (horiz > threshold && vert < vertLeak) {
         if (this.wheelAccumX > 0) {
-          console.log('[Swipe] trackpad wheel → LEFT (prev)', {
-            accumX: this.wheelAccumX,
-            accumY: this.wheelAccumY
-          });
           this.onSwipeLeft();
         } else {
-          console.log('[Swipe] trackpad wheel → RIGHT (next)', {
-            accumX: this.wheelAccumX,
-            accumY: this.wheelAccumY
-          });
           this.onSwipeRight();
         }
         // Reset after action
         this.wheelAccumX = 0;
         this.wheelAccumY = 0;
       } else {
-        // Verbose debug for tuning
-        console.log('[Swipe] wheel accumulate', {
-          x: this.wheelAccumX,
-          y: this.wheelAccumY,
-          dt,
-          mode: e.deltaMode
-        });
+        // keep silent to avoid log overhead in production
       }
+    },
+    handleWheelTranslation(e) {
+      this.handleWheel('translation', e);
+    },
+    handleWheelTafseer(e) {
+      this.handleWheel('tafseer', e);
+    },
+    handleWheelTransliteration(e) {
+      this.handleWheel('transliteration', e);
+    },
+    suppressNextClick() {
+      try {
+        const els = [this.$refs.targetTranslationElement, this.$refs.targetTafseerElement, this.$refs.targetTransliterationElement].filter(Boolean);
+        els.forEach(el => {
+          el.addEventListener('click', ev => {
+            ev.stopPropagation();
+            ev.preventDefault();
+          }, {
+            capture: true,
+            once: true
+          });
+        });
+      } catch (_) {}
     },
     // Detect whether device uses coarse pointer (touch/tablet) and gate gestures
     updateInputModalityGestureGate() {
@@ -10670,15 +10663,7 @@ __webpack_require__.r(__webpack_exports__);
         const maxDim = Math.max(sw, sh);
         const tabletHeuristic = minDim >= 600 && maxDim <= 1400;
         this.allowGestures = !!(hasTouch || coarseNow || iOSoriPadOS || tabletHeuristic);
-        console.log('[Swipe] modality gate', {
-          hasTouch,
-          coarseNow,
-          iOSoriPadOS,
-          sw,
-          sh,
-          tabletHeuristic,
-          allowGestures: this.allowGestures
-        });
+        // silent in production; keep logic only
       } catch (_) {
         this.allowGestures = false;
       }
@@ -10857,18 +10842,46 @@ __webpack_require__.r(__webpack_exports__);
     },
     getTafseers: function (id, index) {
       this.selectedIndexAyah = index;
-      Promise.all([axios.get(`/tafseer/${id}/fetch`), axios.get("/get_informations", {
-        params: {
-          id
-        }
-      })]).then(([tafseerResp, infoResp]) => {
+      this.fetchAyahData(id).then(({
+        tafseer,
+        information
+      }) => {
         this.selectedAyah = id;
-        this.tafseer = tafseerResp.data;
-        this.information = infoResp.data;
+        this.tafseer = tafseer;
+        this.information = information;
         this.updateCardSection(this.ayat[index]);
+        // Prefetch a sliding window (±2) for instant rapid swipes
+        const count = this.ayat.length;
+        const offsets = [-2, -1, 1, 2];
+        offsets.forEach(d => {
+          if (!count) return;
+          const j = (index + d + count) % count;
+          const item = this.ayat[j];
+          if (item && item.id) this.fetchAyahData(item.id).catch(() => {});
+        });
       }).catch(err => {
         console.error("Error fetching tafseer/information:", err);
       });
+    },
+    async fetchAyahData(id) {
+      // Serve from cache when available
+      const cachedT = this.tafseerCache[id];
+      const cachedI = this.infoCache[id];
+      if (cachedT && cachedI) return {
+        tafseer: cachedT,
+        information: cachedI
+      };
+      const [tafseerResp, infoResp] = await Promise.all([axios.get(`/tafseer/${id}/fetch`), axios.get("/get_informations", {
+        params: {
+          id
+        }
+      })]);
+      this.tafseerCache[id] = tafseerResp.data;
+      this.infoCache[id] = infoResp.data;
+      return {
+        tafseer: tafseerResp.data,
+        information: infoResp.data
+      };
     }
   },
   created() {
@@ -33952,7 +33965,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "reduce-motion": true,
     "aria-live": "polite",
     "aria-atomic": "true"
-  })])])])]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section aria-labelledby=\"services-heading\" data-v-2ba25654><div class=\"py-5\" style=\"background:#f8f9fa;\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-5\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h2 id=\"services-heading\" class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>What We Offer</h2><p class=\"lead text-muted\" data-v-2ba25654>Comprehensive Islamic resources designed for modern learners</p></div></div><div class=\"row g-4\" data-v-2ba25654><!-- Card 1: Explore with Ease --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/galaxy.png\" width=\"80\" height=\"80\" alt=\"Magnifying glass exploring Islamic content\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Explore with Ease</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics. Find meaningful content instantly for your spiritual journey. </p></div></article></div><!-- Card 2: Listen, Watch, Reflect --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/watching.png\" width=\"80\" height=\"80\" alt=\"Headphones for audio content\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Listen, Watch, Reflect</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Enjoy Quran recitations, insightful podcasts, and Islamic art galleries. Engage spiritually through multimedia content anywhere, anytime. </p></div></article></div><!-- Card 3: Learn Your Way --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/school.png\" width=\"80\" height=\"80\" alt=\"Graduation cap for learning\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Learn Your Way</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible learning for everyone, regardless of ability. </p></div></article></div></div></div></div></section><section class=\"container pt-3\" aria-label=\"Islamic Connect Features\" data-v-2ba25654><!-- First Row - Quran Companion --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Quran Companion: AI-Powered &amp; Accessible </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Experience the Quran with advanced AI tools for reading, listening, and understanding. Featuring text-to-speech, screen reader support, and voice search for an accessible, intelligent connection to the Divine. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-2ba25654><a href=\"/holy\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" data-v-2ba25654> Explore Quran </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/companion2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran Companion interface showing AI-powered features and accessibility tools\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div><!-- Second Row - Audio Content --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/radio2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Islamic podcasts and audio content streaming interface\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div><div class=\"col-lg-6\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Spiritual Content On-The-Go </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place. Stay spiritually connected through sound and reflection wherever you are. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-2ba25654><a href=\"/media\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" data-v-2ba25654> Browse Content </a></div></div></div><!-- Third Row - Quran Explorer --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Deep Quran Exploration </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Search, explore, and engage with every verse effortlessly. Discover tafsir, translations, and recitations with tools designed for simplicity and spiritual growth. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-2ba25654><a href=\"/surat\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" data-v-2ba25654> Start Exploring </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/surat2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran exploration interface with search and translation features\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div></section>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Section "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"stats-section\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center\" data-v-2ba25654><div class=\"col-lg-10 text-center\" data-v-2ba25654><h2 class=\"section-title\" data-v-2ba25654>Our Impact in Numbers</h2><p class=\"section-lead\" data-v-2ba25654>Measurable results showing how we&#39;re making Islamic knowledge accessible to all</p><div class=\"row container-fluid stats-grid\" data-v-2ba25654><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>66</h3><p data-v-2ba25654>Countries</p><small data-v-2ba25654>Global reach</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>568</h3><p data-v-2ba25654>Cities/Towns</p><small data-v-2ba25654>Worldwide presence</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>100%</h3><p data-v-2ba25654>Accessibility &amp; SEO</p><small data-v-2ba25654>Score</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>1,090%</h3><p data-v-2ba25654>Growth</p><small data-v-2ba25654>Returning users</small></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<section class=\"py-5 combined-section\">\n      <div class=\"container-fluid\">\n        <div class=\"row align-items-stretch\">\n          -- Value Proposition Column --\n          <div class=\"col-lg-1 mb-4\">\n          </div>\n          <div class=\"col-lg-5 mb-4\">\n            <div class=\"value-proposition-wrapper\">\n\n              <div class=\"form-header text-center mb-4\">\n                <h2 class=\"mb-3\">Strategic Impact Areas</h2>\n              </div>\n              <div class=\"row\">\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">📚</div>\n                    <h3>Educational Content</h3>\n                    <p>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p>\n                  </div>\n                </div>\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">♿</div>\n                    <h3>Accessibility Features</h3>\n                    <p>Implementing screen reader support and voice interfaces for inclusive access</p>\n                  </div>\n                </div>\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">⚙️</div>\n                    <h3>Platform Infrastructure</h3>\n                    <p>Maintaining robust servers and scalable architecture for global user base</p>\n                  </div>\n                </div>\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">🌍</div>\n                    <h3>Global Outreach</h3>\n                    <p>Expanding to underserved Muslim communities worldwide</p>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          -- Donation Section Column --\n          -- <div class=\"col-lg-5 mb-4\">\n            <div class=\"donation-form\">\n              <div class=\"form-header text-center mb-4\">\n                <h3 class=\"mb-3\">Make a Difference</h3>\n                <p class=\"text-muted\">Your support enables us to continue our mission</p>\n              </div>\n\n              -- Trust Indicators --\n              <div class=\"trust-indicators mb-4\">\n                <div class=\"trust-item\">\n                  <i class=\"fas fa-lock\"></i>\n                  <span>Secure Payment</span>\n                </div>\n                <div class=\"trust-item\">\n                  <i class=\"fas fa-shield-alt\"></i>\n                  <span>SSL Encrypted</span>\n                </div>\n                <div class=\"trust-item\">\n                  <i class=\"fas fa-certificate\"></i>\n                  <span>Stripe Verified</span>\n                </div>\n              </div>\n\n              -- Summary --\n              <div v-if=\"isValidAmount\" class=\"summary-section mb-4\">\n                <div class=\"summary-header\">\n                  <h3>Ready to Contribute</h3>\n                </div>\n                -- <div class=\"summary-item\">\n                  <span>Amount:</span>\n                  <strong>£{{ finalAmount }}</strong>\n                </div> --\n                <div class=\"summary-item\">\n                  <span>Your Impact:</span>\n                  <strong>{{ impactMessage }}</strong>\n                </div>\n              </div>\n\n              -- Submit Button --\n              <button class=\"btn btn-primary w-100\" @click=\"processDonation\" :disabled=\"!isValidAmount\">\n                <i class=\"fas fa-lock me-2\"></i>\n                Proceed to Secure Payment\n              </button>\n\n              <div class=\"security-guarantee text-center mt-3\">\n                <p class=\"small text-muted\">\n                  <i class=\"fas fa-shield-alt me-1\"></i>\n                  Your contribution is securely processed by Stripe. We never store your payment details.\n                </p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-lg-1 mb-4\">\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Tools & Features Section - Optimized "), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" aria-labelledby=\"ai-tools-title\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654></div><h2 id=\"ai-tools-title\" class=\"h2 mb-3 fw-bold\" data-v-2ba25654>AI-Powered Tools for Enhanced Islamic Learning</h2></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><div class=\"col-12\" data-v-2ba25654><p class=\"lead text-center mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone. Our tools are designed to empower individuals through inclusive, personalized learning experiences that adapt to diverse abilities and learning preferences. </p></div><!-- Feature 1: Speech-to-Text --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"60\" height=\"60\" alt=\"Microphone icon representing speech-to-text feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Speech-to-Text for Islamic Notes</h3><p class=\"mb-0\" data-v-2ba25654> Capture your spoken reflections and thoughts on Islamic teachings effortlessly. Perfect for documenting insights and ensuring accessibility for those who prefer audio input. </p></div></div></div><!-- Feature 2: Voice Search --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"60\" height=\"60\" alt=\"Voice recognition icon for voice search feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Voice-Activated Quran Search</h3><p class=\"mb-0\" data-v-2ba25654> Use voice commands to search Quranic verses and teachings. A hands-free, accessible way to explore Islamic content quickly and intuitively. </p></div></div></div><!-- Feature 3: Note Editor --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"60\" height=\"60\" alt=\"E-learning icon for note editor feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Advanced Islamic Note Editor</h3><p class=\"mb-0\" data-v-2ba25654> A customizable note-taking tool designed specifically for Islamic studies. Organize your reflections, bookmarks, and study notes with ease. </p></div></div></div><!-- Feature 4: Text Summarization --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/content.png\" width=\"60\" height=\"60\" alt=\"Content icon for text summarization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>AI Text Summarization</h3><p class=\"mb-0\" data-v-2ba25654> Quickly understand complex Islamic texts with AI-powered summaries. Extract key insights from lengthy content to enhance your learning efficiency. </p></div></div></div><!-- Feature 5: Audio Sync --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"60\" height=\"60\" alt=\"Highlighter icon for audio synchronization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Word-by-Word Quran Highlighting</h3><p class=\"mb-0\" data-v-2ba25654> Follow Quranic recitations with synchronized text highlighting. Each word lights up as it&#39;s recited, improving pronunciation and comprehension. </p></div></div></div><!-- Feature 6: Text-to-Speech --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"60\" height=\"60\" alt=\"Chat icon for text-to-speech feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Text-to-Speech for Translations</h3><p class=\"mb-0\" data-v-2ba25654> Listen to Quran translations and Tafsir explanations. High-quality audio delivery makes Islamic knowledge accessible while multitasking or for visual impairments. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Premium CTA Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])])])]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section aria-labelledby=\"services-heading\" data-v-2ba25654><div class=\"py-5\" style=\"background:#f8f9fa;\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-5\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h2 id=\"services-heading\" class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>What We Offer</h2><p class=\"lead text-muted\" data-v-2ba25654>Comprehensive Islamic resources designed for modern learners</p></div></div><div class=\"row g-4\" data-v-2ba25654><!-- Card 1: Explore with Ease --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/galaxy.png\" width=\"80\" height=\"80\" alt=\"Magnifying glass exploring Islamic content\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Explore with Ease</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics. Find meaningful content instantly for your spiritual journey. </p></div></article></div><!-- Card 2: Listen, Watch, Reflect --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/watching.png\" width=\"80\" height=\"80\" alt=\"Headphones for audio content\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Listen, Watch, Reflect</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Enjoy Quran recitations, insightful podcasts, and Islamic art galleries. Engage spiritually through multimedia content anywhere, anytime. </p></div></article></div><!-- Card 3: Learn Your Way --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/school.png\" width=\"80\" height=\"80\" alt=\"Graduation cap for learning\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Learn Your Way</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible learning for everyone, regardless of ability. </p></div></article></div></div></div></div></section><section class=\"container pt-3\" aria-label=\"Islamic Connect Features\" data-v-2ba25654><!-- First Row - Quran Companion --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Quran Companion: AI-Powered &amp; Accessible </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Experience the Quran with advanced AI tools for reading, listening, and understanding. Featuring text-to-speech, screen reader support, and voice search for an accessible, intelligent connection to the Divine. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-2ba25654><a href=\"/quran\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" data-v-2ba25654> Explore Quran </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/companion2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran Companion interface showing AI-powered features and accessibility tools\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div><!-- Second Row - Audio Content --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/radio2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Islamic podcasts and audio content streaming interface\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div><div class=\"col-lg-6\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Spiritual Content On-The-Go </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place. Stay spiritually connected through sound and reflection wherever you are. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-2ba25654><a href=\"/media\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" data-v-2ba25654> Browse Content </a></div></div></div><!-- Third Row - Quran Explorer --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Deep Quran Exploration </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Search, explore, and engage with every verse effortlessly. Discover tafsir, translations, and recitations with tools designed for simplicity and spiritual growth. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-2ba25654><a href=\"/surat\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:#0b806f;border:none;min-width:160px;\" data-v-2ba25654> Start Exploring </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/surat2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran exploration interface with search and translation features\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div></section>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Section "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"stats-section\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center\" data-v-2ba25654><div class=\"col-lg-10 text-center\" data-v-2ba25654><h2 class=\"section-title\" data-v-2ba25654>Our Impact in Numbers</h2><p class=\"section-lead\" data-v-2ba25654>Measurable results showing how we&#39;re making Islamic knowledge accessible to all</p><div class=\"row container-fluid stats-grid\" data-v-2ba25654><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>66</h3><p data-v-2ba25654>Countries</p><small data-v-2ba25654>Global reach</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>568</h3><p data-v-2ba25654>Cities/Towns</p><small data-v-2ba25654>Worldwide presence</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>100%</h3><p data-v-2ba25654>Accessibility &amp; SEO</p><small data-v-2ba25654>Score</small></div></div><div class=\"col-md-3 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>1,090%</h3><p data-v-2ba25654>Growth</p><small data-v-2ba25654>Returning users</small></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<section class=\"py-5 combined-section\">\n      <div class=\"container-fluid\">\n        <div class=\"row align-items-stretch\">\n          -- Value Proposition Column --\n          <div class=\"col-lg-1 mb-4\">\n          </div>\n          <div class=\"col-lg-5 mb-4\">\n            <div class=\"value-proposition-wrapper\">\n\n              <div class=\"form-header text-center mb-4\">\n                <h2 class=\"mb-3\">Strategic Impact Areas</h2>\n              </div>\n              <div class=\"row\">\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">📚</div>\n                    <h3>Educational Content</h3>\n                    <p>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p>\n                  </div>\n                </div>\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">♿</div>\n                    <h3>Accessibility Features</h3>\n                    <p>Implementing screen reader support and voice interfaces for inclusive access</p>\n                  </div>\n                </div>\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">⚙️</div>\n                    <h3>Platform Infrastructure</h3>\n                    <p>Maintaining robust servers and scalable architecture for global user base</p>\n                  </div>\n                </div>\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">🌍</div>\n                    <h3>Global Outreach</h3>\n                    <p>Expanding to underserved Muslim communities worldwide</p>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          -- Donation Section Column --\n          -- <div class=\"col-lg-5 mb-4\">\n            <div class=\"donation-form\">\n              <div class=\"form-header text-center mb-4\">\n                <h3 class=\"mb-3\">Make a Difference</h3>\n                <p class=\"text-muted\">Your support enables us to continue our mission</p>\n              </div>\n\n              -- Trust Indicators --\n              <div class=\"trust-indicators mb-4\">\n                <div class=\"trust-item\">\n                  <i class=\"fas fa-lock\"></i>\n                  <span>Secure Payment</span>\n                </div>\n                <div class=\"trust-item\">\n                  <i class=\"fas fa-shield-alt\"></i>\n                  <span>SSL Encrypted</span>\n                </div>\n                <div class=\"trust-item\">\n                  <i class=\"fas fa-certificate\"></i>\n                  <span>Stripe Verified</span>\n                </div>\n              </div>\n\n              -- Summary --\n              <div v-if=\"isValidAmount\" class=\"summary-section mb-4\">\n                <div class=\"summary-header\">\n                  <h3>Ready to Contribute</h3>\n                </div>\n                -- <div class=\"summary-item\">\n                  <span>Amount:</span>\n                  <strong>£{{ finalAmount }}</strong>\n                </div> --\n                <div class=\"summary-item\">\n                  <span>Your Impact:</span>\n                  <strong>{{ impactMessage }}</strong>\n                </div>\n              </div>\n\n              -- Submit Button --\n              <button class=\"btn btn-primary w-100\" @click=\"processDonation\" :disabled=\"!isValidAmount\">\n                <i class=\"fas fa-lock me-2\"></i>\n                Proceed to Secure Payment\n              </button>\n\n              <div class=\"security-guarantee text-center mt-3\">\n                <p class=\"small text-muted\">\n                  <i class=\"fas fa-shield-alt me-1\"></i>\n                  Your contribution is securely processed by Stripe. We never store your payment details.\n                </p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-lg-1 mb-4\">\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Tools & Features Section - Optimized "), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" aria-labelledby=\"ai-tools-title\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654></div><h2 id=\"ai-tools-title\" class=\"h2 mb-3 fw-bold\" data-v-2ba25654>AI-Powered Tools for Enhanced Islamic Learning</h2></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><div class=\"col-12\" data-v-2ba25654><p class=\"lead text-center mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone. Our tools are designed to empower individuals through inclusive, personalized learning experiences that adapt to diverse abilities and learning preferences. </p></div><!-- Feature 1: Speech-to-Text --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"60\" height=\"60\" alt=\"Microphone icon representing speech-to-text feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Speech-to-Text for Islamic Notes</h3><p class=\"mb-0\" data-v-2ba25654> Capture your spoken reflections and thoughts on Islamic teachings effortlessly. Perfect for documenting insights and ensuring accessibility for those who prefer audio input. </p></div></div></div><!-- Feature 2: Voice Search --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"60\" height=\"60\" alt=\"Voice recognition icon for voice search feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Voice-Activated Quran Search</h3><p class=\"mb-0\" data-v-2ba25654> Use voice commands to search Quranic verses and teachings. A hands-free, accessible way to explore Islamic content quickly and intuitively. </p></div></div></div><!-- Feature 3: Note Editor --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"60\" height=\"60\" alt=\"E-learning icon for note editor feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Advanced Islamic Note Editor</h3><p class=\"mb-0\" data-v-2ba25654> A customizable note-taking tool designed specifically for Islamic studies. Organize your reflections, bookmarks, and study notes with ease. </p></div></div></div><!-- Feature 4: Text Summarization --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/content.png\" width=\"60\" height=\"60\" alt=\"Content icon for text summarization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>AI Text Summarization</h3><p class=\"mb-0\" data-v-2ba25654> Quickly understand complex Islamic texts with AI-powered summaries. Extract key insights from lengthy content to enhance your learning efficiency. </p></div></div></div><!-- Feature 5: Audio Sync --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"60\" height=\"60\" alt=\"Highlighter icon for audio synchronization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Word-by-Word Quran Highlighting</h3><p class=\"mb-0\" data-v-2ba25654> Follow Quranic recitations with synchronized text highlighting. Each word lights up as it&#39;s recited, improving pronunciation and comprehension. </p></div></div></div><!-- Feature 6: Text-to-Speech --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"60\" height=\"60\" alt=\"Chat icon for text-to-speech feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Text-to-Speech for Translations</h3><p class=\"mb-0\" data-v-2ba25654> Listen to Quran translations and Tafsir explanations. High-quality audio delivery makes Islamic knowledge accessible while multitasking or for visual impairments. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Premium CTA Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "row justify-content-center text-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-lg-8"
@@ -37505,39 +37518,45 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close ms-2 flex-shrink-0",
     "aria-label": "Close",
     onClick: _cache[28] || (_cache[28] = (...args) => $options.dismissSwipeTip && $options.dismissSwipeTip(...args))
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "pt-2 swipe-surface",
-    ref: "targetTranslationElement",
-    onTouchstart: _cache[29] || (_cache[29] = $event => $options.handleTouchStart($event)),
-    onTouchmove: _cache[30] || (_cache[30] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
-    onTouchend: _cache[31] || (_cache[31] = $event => $options.handleTouchEnd($event)),
-    onTouchcancel: _cache[32] || (_cache[32] = $event => $options.handleTouchEnd($event)),
-    onPointerdown: _cache[33] || (_cache[33] = (...args) => $options.handlePointerDown && $options.handlePointerDown(...args)),
-    onPointermove: _cache[34] || (_cache[34] = (...args) => $options.handlePointerMove && $options.handlePointerMove(...args)),
-    onPointerup: _cache[35] || (_cache[35] = (...args) => $options.handlePointerUp && $options.handlePointerUp(...args)),
-    onWheelPassive: _cache[36] || (_cache[36] = (...args) => $options.handleWheel && $options.handleWheel(...args))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationSection, {
-    ref: "translationSection",
-    currentAyah: _ctx.currentAyah,
-    isVisible: !$data.isVisible,
-    information: $data.information,
-    isFullScreen: $data.isFullScreen,
-    expanded: $data.expanded,
-    showMoreLink: _ctx.showMoreLink,
-    showAlertText: $data.showAlertText,
-    showAlert: $data.showAlert,
-    showErrorAlert: $data.showErrorAlert,
-    showAlertTextNote: $data.showAlertTextNote,
-    isPlaying: _ctx.isPlaying,
-    onHighlightText: $options.highlightText,
-    onClearHighlight: $options.clearHighlight,
-    onToggleChange: $options.saveToggleState,
-    onToggleFullScreen: $options.toggleFullScreen,
-    onToggleExpand: $options.toggleExpand,
-    onCloseAlertText: $options.closeAlertText,
-    onToggleAudio: $options.toggleAudioPlayback,
-    onUpdateSuccessMessage: _ctx.updateSuccessMessage
-  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 544 /* NEED_HYDRATION, NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationActions, {
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: $data.lastSwipeDir === 'next' ? 'swipe-next' : 'swipe-prev'
+  }, {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      class: "pt-2 swipe-surface",
+      ref: "targetTranslationElement",
+      key: $data.selectedAyah,
+      onTouchstart: _cache[29] || (_cache[29] = $event => $options.handleTouchStart($event)),
+      onTouchmove: _cache[30] || (_cache[30] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
+      onTouchend: _cache[31] || (_cache[31] = $event => $options.handleTouchEnd($event)),
+      onTouchcancel: _cache[32] || (_cache[32] = $event => $options.handleTouchEnd($event)),
+      onPointerdown: _cache[33] || (_cache[33] = (...args) => $options.handlePointerDown && $options.handlePointerDown(...args)),
+      onPointermove: _cache[34] || (_cache[34] = (...args) => $options.handlePointerMove && $options.handlePointerMove(...args)),
+      onPointerup: _cache[35] || (_cache[35] = (...args) => $options.handlePointerUp && $options.handlePointerUp(...args)),
+      onWheelPassive: _cache[36] || (_cache[36] = (...args) => $options.handleWheelTranslation && $options.handleWheelTranslation(...args))
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationSection, {
+      ref: "translationSection",
+      currentAyah: _ctx.currentAyah,
+      isVisible: !$data.isVisible,
+      information: $data.information,
+      isFullScreen: $data.isFullScreen,
+      expanded: $data.expanded,
+      showMoreLink: _ctx.showMoreLink,
+      showAlertText: $data.showAlertText,
+      showAlert: $data.showAlert,
+      showErrorAlert: $data.showErrorAlert,
+      showAlertTextNote: $data.showAlertTextNote,
+      isPlaying: _ctx.isPlaying,
+      onHighlightText: $options.highlightText,
+      onClearHighlight: $options.clearHighlight,
+      onToggleChange: $options.saveToggleState,
+      onToggleFullScreen: $options.toggleFullScreen,
+      onToggleExpand: $options.toggleExpand,
+      onCloseAlertText: $options.closeAlertText,
+      onToggleAudio: $options.toggleAudioPlayback,
+      onUpdateSuccessMessage: _ctx.updateSuccessMessage
+    }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 32 /* NEED_HYDRATION */))]),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["name"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: _ctx.translation,
     onOpenModal: $options.openModal,
@@ -37685,38 +37704,44 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close ms-2 flex-shrink-0",
     "aria-label": "Close",
     onClick: _cache[57] || (_cache[57] = (...args) => $options.dismissSwipeTip && $options.dismissSwipeTip(...args))
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main content  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "pt-2",
-    ref: "targetTafseerElement",
-    onTouchstart: _cache[58] || (_cache[58] = $event => $options.handleTouchStart($event)),
-    onTouchmove: _cache[59] || (_cache[59] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
-    onTouchend: _cache[60] || (_cache[60] = $event => $options.handleTouchEnd($event)),
-    onPointerdownPassive: _cache[61] || (_cache[61] = (...args) => $options.handlePointerDown && $options.handlePointerDown(...args)),
-    onPointermovePassive: _cache[62] || (_cache[62] = (...args) => $options.handlePointerMove && $options.handlePointerMove(...args)),
-    onPointerupPassive: _cache[63] || (_cache[63] = (...args) => $options.handlePointerUp && $options.handlePointerUp(...args)),
-    onWheelPassive: _cache[64] || (_cache[64] = (...args) => $options.handleWheel && $options.handleWheel(...args))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerSection, {
-    ref: "tafseerSection",
-    currentAyah: _ctx.currentAyah,
-    isVisible: !$data.isVisible,
-    information: $data.information,
-    isFullScreen: $data.isFullScreen,
-    expanded: $data.expanded,
-    showMoreLink: _ctx.showMoreLink,
-    showAlertText: $data.showAlertText,
-    showAlert: $data.showAlert,
-    showErrorAlert: $data.showErrorAlert,
-    showAlertTextNote: $data.showAlertTextNote,
-    isPlaying: _ctx.isPlaying,
-    onHighlightText: $options.highlightText,
-    onClearHighlight: $options.clearHighlight,
-    onToggleChange: $options.saveToggleState,
-    onToggleFullScreen: $options.toggleFullScreen,
-    onToggleExpand: $options.toggleExpand,
-    onCloseAlertText: $options.closeAlertText,
-    onToggleAudio: $options.toggleAudioPlayback,
-    onUpdateSuccessMessage: _ctx.updateSuccessMessage
-  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 544 /* NEED_HYDRATION, NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                            <div class=\"row\">\n                                                <div class=\"col\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-center mobile-only h3 pt-3\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div>\n                                            </div>\n                                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerActions, {
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main content  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: $data.lastSwipeDir === 'next' ? 'swipe-next' : 'swipe-prev'
+  }, {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      class: "pt-2 swipe-surface",
+      ref: "targetTafseerElement",
+      key: $data.selectedAyah,
+      onTouchstart: _cache[58] || (_cache[58] = $event => $options.handleTouchStart($event)),
+      onTouchmove: _cache[59] || (_cache[59] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
+      onTouchend: _cache[60] || (_cache[60] = $event => $options.handleTouchEnd($event)),
+      onPointerdown: _cache[61] || (_cache[61] = (...args) => $options.handlePointerDown && $options.handlePointerDown(...args)),
+      onPointermove: _cache[62] || (_cache[62] = (...args) => $options.handlePointerMove && $options.handlePointerMove(...args)),
+      onPointerup: _cache[63] || (_cache[63] = (...args) => $options.handlePointerUp && $options.handlePointerUp(...args)),
+      onWheelPassive: _cache[64] || (_cache[64] = (...args) => $options.handleWheelTafseer && $options.handleWheelTafseer(...args))
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerSection, {
+      ref: "tafseerSection",
+      currentAyah: _ctx.currentAyah,
+      isVisible: !$data.isVisible,
+      information: $data.information,
+      isFullScreen: $data.isFullScreen,
+      expanded: $data.expanded,
+      showMoreLink: _ctx.showMoreLink,
+      showAlertText: $data.showAlertText,
+      showAlert: $data.showAlert,
+      showErrorAlert: $data.showErrorAlert,
+      showAlertTextNote: $data.showAlertTextNote,
+      isPlaying: _ctx.isPlaying,
+      onHighlightText: $options.highlightText,
+      onClearHighlight: $options.clearHighlight,
+      onToggleChange: $options.saveToggleState,
+      onToggleFullScreen: $options.toggleFullScreen,
+      onToggleExpand: $options.toggleExpand,
+      onCloseAlertText: $options.closeAlertText,
+      onToggleAudio: $options.toggleAudioPlayback,
+      onUpdateSuccessMessage: _ctx.updateSuccessMessage
+    }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 32 /* NEED_HYDRATION */))]),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["name"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                            <div class=\"row\">\n                                                <div class=\"col\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-center mobile-only h3 pt-3\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div>\n                                            </div>\n                                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: _ctx.translation,
     onOpenModal: $options.openModal,
@@ -37847,36 +37872,43 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close ms-2 flex-shrink-0",
     "aria-label": "Close",
     onClick: _cache[77] || (_cache[77] = (...args) => $options.dismissSwipeTip && $options.dismissSwipeTip(...args))
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    ref: "targetTransliterationElement",
-    onTouchstart: _cache[78] || (_cache[78] = $event => $options.handleTouchStart($event)),
-    onTouchmove: _cache[79] || (_cache[79] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
-    onTouchend: _cache[80] || (_cache[80] = $event => $options.handleTouchEnd($event)),
-    onPointerdownPassive: _cache[81] || (_cache[81] = (...args) => $options.handlePointerDown && $options.handlePointerDown(...args)),
-    onPointermovePassive: _cache[82] || (_cache[82] = (...args) => $options.handlePointerMove && $options.handlePointerMove(...args)),
-    onPointerupPassive: _cache[83] || (_cache[83] = (...args) => $options.handlePointerUp && $options.handlePointerUp(...args)),
-    onWheelPassive: _cache[84] || (_cache[84] = (...args) => $options.handleWheel && $options.handleWheel(...args))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationSection, {
-    ref: "transliterationSection",
-    currentAyah: _ctx.currentAyah,
-    isVisible: !$data.isVisible,
-    information: $data.information,
-    isFullScreen: $data.isFullScreen,
-    expanded: $data.expanded,
-    showMoreLink: _ctx.showMoreLink,
-    showAlertText: $data.showAlertText,
-    showAlert: $data.showAlert,
-    showErrorAlert: $data.showErrorAlert,
-    showAlertTextNote: $data.showAlertTextNote,
-    isPlaying: _ctx.isPlaying,
-    onHighlightText: $options.highlightText,
-    onClearHighlight: $options.clearHighlight,
-    onToggleChange: $options.saveToggleState,
-    onToggleFullScreen: $options.toggleFullScreen,
-    onToggleExpand: $options.toggleExpand,
-    onCloseAlertText: $options.closeAlertText,
-    onToggleAudio: $options.toggleAudioPlayback
-  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio"])], 544 /* NEED_HYDRATION, NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_80, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationActions, {
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: $data.lastSwipeDir === 'next' ? 'swipe-next' : 'swipe-prev'
+  }, {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      ref: "targetTransliterationElement",
+      class: "swipe-surface",
+      key: $data.selectedAyah,
+      onTouchstart: _cache[78] || (_cache[78] = $event => $options.handleTouchStart($event)),
+      onTouchmove: _cache[79] || (_cache[79] = (...args) => $options.handleTouchMove && $options.handleTouchMove(...args)),
+      onTouchend: _cache[80] || (_cache[80] = $event => $options.handleTouchEnd($event)),
+      onPointerdown: _cache[81] || (_cache[81] = (...args) => $options.handlePointerDown && $options.handlePointerDown(...args)),
+      onPointermove: _cache[82] || (_cache[82] = (...args) => $options.handlePointerMove && $options.handlePointerMove(...args)),
+      onPointerup: _cache[83] || (_cache[83] = (...args) => $options.handlePointerUp && $options.handlePointerUp(...args)),
+      onWheelPassive: _cache[84] || (_cache[84] = (...args) => $options.handleWheelTransliteration && $options.handleWheelTransliteration(...args))
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationSection, {
+      ref: "transliterationSection",
+      currentAyah: _ctx.currentAyah,
+      isVisible: !$data.isVisible,
+      information: $data.information,
+      isFullScreen: $data.isFullScreen,
+      expanded: $data.expanded,
+      showMoreLink: _ctx.showMoreLink,
+      showAlertText: $data.showAlertText,
+      showAlert: $data.showAlert,
+      showErrorAlert: $data.showErrorAlert,
+      showAlertTextNote: $data.showAlertTextNote,
+      isPlaying: _ctx.isPlaying,
+      onHighlightText: $options.highlightText,
+      onClearHighlight: $options.clearHighlight,
+      onToggleChange: $options.saveToggleState,
+      onToggleFullScreen: $options.toggleFullScreen,
+      onToggleExpand: $options.toggleExpand,
+      onCloseAlertText: $options.closeAlertText,
+      onToggleAudio: $options.toggleAudioPlayback
+    }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio"])], 32 /* NEED_HYDRATION */))]),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["name"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_80, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: _ctx.translation,
     onOpenModal: $options.openModal,
@@ -52458,7 +52490,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.swipe-tip[data-v-2b3c2c26] {\n  background-color: #e7f1ff; /* light blue */\n  border: 1px solid #b6d4fe; /* blue border */\n  color: #0a58ca; /* primary blue text */\n  border-radius: 8px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.swipe-tip .btn-close[data-v-2b3c2c26] {\n  width: .25rem;\n  height: .25rem;\n  padding: .25rem;\n}\n.swipe-tip .icon-circle[data-v-2b3c2c26] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  border-radius: 50%;\n  background-color: #0a58ca;\n  color: #fff;\n  font-size: 12px;\n}\n.swipe-surface[data-v-2b3c2c26] { touch-action: none;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.swipe-tip[data-v-2b3c2c26] {\n  background-color: #e7f1ff; /* light blue */\n  border: 1px solid #b6d4fe; /* blue border */\n  color: #0a58ca; /* primary blue text */\n  border-radius: 8px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.swipe-tip .btn-close[data-v-2b3c2c26] {\n  width: .25rem;\n  height: .25rem;\n  padding: .25rem;\n}\n.swipe-tip .icon-circle[data-v-2b3c2c26] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  border-radius: 50%;\n  background-color: #0a58ca;\n  color: #fff;\n  font-size: 12px;\n}\n.swipe-surface[data-v-2b3c2c26] { touch-action: pan-y; -webkit-tap-highlight-color: transparent;\n}\n/* Direction-aware verse transition */\n.swipe-next-enter-from[data-v-2b3c2c26] { opacity: 0; transform: translateX(24px);\n}\n.swipe-next-enter-active[data-v-2b3c2c26] { transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-next-enter-to[data-v-2b3c2c26] { opacity: 1; transform: translateX(0);\n}\n.swipe-prev-enter-from[data-v-2b3c2c26] { opacity: 0; transform: translateX(-24px);\n}\n.swipe-prev-enter-active[data-v-2b3c2c26] { transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-prev-enter-to[data-v-2b3c2c26] { opacity: 1; transform: translateX(0);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
