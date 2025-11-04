@@ -3,7 +3,7 @@
 <div>
     <toolkit-component
         :is-authenticated="@json(auth()->check())"
-        :is-subscribed="@json(optional(auth()->user())->subscribed('premium'))"
+        :is-subscribed="@json(optional(auth()->user())->hasPremiumAccess() ?? false)"
     ></toolkit-component>
 <div>
     {{-- @include('layouts.footer') --}}

@@ -29,6 +29,10 @@ class EnsureUserIsSubscribed
             return redirect('/login')->with('error', 'Please log in to access this content.');
         }
 
+        if ($user->isAdmin()) {
+            return $next($request);
+        }
+
         if (!$user->subscribed('premium')) {
             return redirect('/subscribe')->with('error', 'This content requires an active subscription.');
         }

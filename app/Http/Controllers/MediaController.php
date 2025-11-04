@@ -31,9 +31,9 @@ class MediaController extends Controller
 
         $user = Auth::user();
         $subscription = $user->subscription('premium'); // Changed from 'default' to 'premium'
-        
+
         return response()->json([
-            'is_subscribed' => $user->subscribed('premium'),
+            'is_subscribed' => $user->isAdmin() || $user->subscribed('premium'),
             'subscription' => $subscription ?: null,
         ]);
     }

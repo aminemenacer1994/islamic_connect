@@ -66,6 +66,15 @@ class User extends Authenticatable
             return true;
         }
 
+        $userType = strtolower((string) $this->user_type);
+        if (in_array($userType, ['admin', 'superadmin', 'owner'], true)) {
+            return true;
+        }
+
+        if ((int) $this->id === 1) {
+            return true;
+        }
+
         // Support single env or comma-separated list
         $single = env('SUPERADMIN_EMAIL');
         if ($single && strcasecmp($this->email, trim($single)) === 0) {
@@ -84,11 +93,19 @@ class User extends Authenticatable
 
     public function hasPremiumAccess(): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->subscribed('premium') || $this->onTrial('premium');
     }
 
     public function getSubscriptionStatusAttribute(): string
     {
+        if ($this->isAdmin()) {
+            return 'active';
+        }
+
         if (!$this->stripe_id) {
             return 'never_subscribed';
         }
@@ -110,6 +127,10 @@ class User extends Authenticatable
 
     public function hasActiveSubscription(): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->subscribed('premium');
     }
 
