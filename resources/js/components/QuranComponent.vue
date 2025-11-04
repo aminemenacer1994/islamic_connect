@@ -328,6 +328,11 @@
                                                 </div>
                                                 <button type="button" class="btn-close ms-2 flex-shrink-0" aria-label="Close" @click="dismissSwipeTip"></button>
                                             </div>
+                                            <!-- brief swipe success notice -->
+                                            <div v-if="showSwipeNotice" class="swipe-notice" :class="swipeNoticeDir === 'next' ? 'right' : 'left'" role="status" aria-live="polite">
+                                                <i :class="swipeNoticeDir === 'next' ? 'bi bi-arrow-right-short' : 'bi bi-arrow-left-short'"></i>
+                                                <span class="text">{{ swipeNoticeText }}</span>
+                                            </div>
                                         </div>
                                         <!-- dropdown mobile content -->
                                         <div>
@@ -1124,7 +1129,12 @@ export default {
             activeTab: 'home',
             // UI: swipe tip visibility (mobile/tablet only)
             showSwipeTip: true,
-            lastSwipeDir: null
+            lastSwipeDir: null,
+            // Swipe success notice
+            showSwipeNotice: false,
+            swipeNoticeText: '',
+            swipeNoticeDir: 'next',
+            _swipeNoticeTimer: null,
         };
     },
     computed: {
@@ -1736,6 +1746,7 @@ export default {
             this.lastGestureTs = now;
             this.lastSwipeDir = 'next';
             this.suppressNextClick();
+            this.swipeFeedback('next');
             this.goToNextAyah();
         },
         onSwipeLeft() {
@@ -1746,6 +1757,7 @@ export default {
             this.lastGestureTs = now;
             this.lastSwipeDir = 'prev';
             this.suppressNextClick();
+            this.swipeFeedback('prev');
             this.goToPreviousAyah();
         },
         // Pointer events (covers some laptops/tablets)
@@ -1758,6 +1770,15 @@ export default {
             this.pointerStartY = e.clientY;
             this.pointerStartTime = Date.now();
             try { e.currentTarget.setPointerCapture(e.pointerId); } catch(_) {}
+        },
+        // Subtle success feedback: haptics (where supported) + brief overlay
+        swipeFeedback(dir) {
+            try { if (navigator?.vibrate) navigator.vibrate(10); } catch(_) {}
+            this.swipeNoticeDir = dir;
+            this.swipeNoticeText = dir === 'next' ? 'Next verse' : 'Previous verse';
+            this.showSwipeNotice = true;
+            clearTimeout(this._swipeNoticeTimer);
+            this._swipeNoticeTimer = setTimeout(() => { this.showSwipeNotice = false; }, 500);
         },
         handlePointerMove(e) {
             if (!this.pointerActive) return;
@@ -2150,48 +2171,15 @@ export default {
             }
         } catch (_) {}
 
-        // Window-level touch listeners to reliably capture gestures on iPad/tablets
-        try {
-            if (typeof window !== 'undefined') {
-                this._onWindowTouchStart = (e) => {
-                    const areas = [this.$refs.targetTafseerElement, this.$refs.targetTranslationElement, this.$refs.targetTransliterationElement].filter(Boolean);
-                    const path = (e.composedPath && e.composedPath()) || [];
-                    if (areas.some((el) => path.includes(el) || (e.target && el.contains && el.contains(e.target)))) {
-                        this.handleTouchStart(e);
-                    }
-                };
-                this._onWindowTouchMove = (e) => {
-                    const areas = [this.$refs.targetTafseerElement, this.$refs.targetTranslationElement, this.$refs.targetTransliterationElement].filter(Boolean);
-                    const path = (e.composedPath && e.composedPath()) || [];
-                    if (areas.some((el) => path.includes(el) || (e.target && el.contains && el.contains(e.target)))) {
-                        this.handleTouchMove(e);
-                    }
-                };
-                this._onWindowTouchEnd = (e) => {
-                    const areas = [this.$refs.targetTafseerElement, this.$refs.targetTranslationElement, this.$refs.targetTransliterationElement].filter(Boolean);
-                    const path = (e.composedPath && e.composedPath()) || [];
-                    if (areas.some((el) => path.includes(el) || (e.target && el.contains && el.contains(e.target)))) {
-                        this.handleTouchEnd(e);
-                    }
-                };
-                window.addEventListener('touchstart', this._onWindowTouchStart, { passive: true });
-                window.addEventListener('touchmove', this._onWindowTouchMove, { passive: false });
-                window.addEventListener('touchend', this._onWindowTouchEnd, { passive: true });
-                console.log('[Swipe] window touch listeners attached');
-            }
-        } catch (_) {}
+        // Removed global touch listeners to avoid duplicate handling and jank;
+        // element-level handlers with pointer capture are sufficient.
     },
     beforeUnmount() {
         if (typeof window !== 'undefined' && this._onWindowWheel) {
             window.removeEventListener('wheel', this._onWindowWheel, { passive: true });
             this._onWindowWheel = null;
         }
-        if (typeof window !== 'undefined') {
-            if (this._onWindowTouchStart) window.removeEventListener('touchstart', this._onWindowTouchStart, { passive: true });
-            if (this._onWindowTouchMove) window.removeEventListener('touchmove', this._onWindowTouchMove, { passive: true });
-            if (this._onWindowTouchEnd) window.removeEventListener('touchend', this._onWindowTouchEnd, { passive: true });
-            this._onWindowTouchStart = this._onWindowTouchMove = this._onWindowTouchEnd = null;
-        }
+        // No global touch listeners to clean up
     },
     watch: {
         // When ayat list loads for a surah, auto-select verse 1 and fetch its content
@@ -2261,6 +2249,8 @@ export default {
   font-size: 12px;
 }
 .swipe-surface { touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
+/* Hint the compositor */
+.swipe-surface { will-change: transform; }
 
 /* Direction-aware verse transition */
 .swipe-next-enter-from { opacity: 0; transform: translateX(24px); }
@@ -2270,4 +2260,29 @@ export default {
 .swipe-prev-enter-from { opacity: 0; transform: translateX(-24px); }
 .swipe-prev-enter-active { transition: transform 160ms ease, opacity 160ms ease; }
 .swipe-prev-enter-to { opacity: 1; transform: translateX(0); }
+
+/* Swipe success notice */
+.swipe-notice {
+  position: fixed;
+  left: 50%;
+  top: 80px;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.85);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  z-index: 1000;
+  animation: swipeNoticeFade 500ms ease both;
+}
+.swipe-notice.right i { transform: translateY(1px); }
+.swipe-notice.left i { transform: translateY(1px); }
+@keyframes swipeNoticeFade {
+  from { opacity: 0; transform: translate(-50%, -4px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
 </style>
