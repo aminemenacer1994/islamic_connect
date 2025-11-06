@@ -1,12 +1,13 @@
 <template>
     <div id="app">
-        <div class="py-4 text-center ">
+        <div class="py-4 text-center position-relative">
             <Title />
             <!-- <ChatBot /> -->
             <h1 class="text-center container mb-4 lead" style="line-height: 1.6em;">
                 The Quran Companion page utilizes AI tools and accessibility features to enrich your learning
                 experience. It offers text-to-speech, speech-to-text, and synchronized highlighting and more.
             </h1>
+
             <div v-if="!isVisible" class="shadow-md">
                 <!-- <h4 class="fw-bold text-center pt-2 mb-2 container" v-if="information != null">Search for a word in the
                     Quran...</h4> -->
@@ -32,15 +33,17 @@
 
                 <div class="col-md-4 pt-2">
                     <h5 id="surah-select-label" class="fw-bold text-left -2 ">Select a Surah:</h5>
-                    <SurahDropdown aria-labelledby="surah-select-label" class="col-md-12" :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
-                        :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
+                    <SurahDropdown aria-labelledby="surah-select-label" class="col-md-12"
+                        :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah" :surat="surat"
+                        @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
 
                     <!-- <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" /> -->
-                   
+
 
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
-                    <h5 id="ayah-select-label" class="fw-bold text-left mb-2" v-if="information != null">Select a Verse:</h5>
+                    <h5 id="ayah-select-label" class="fw-bold text-left mb-2" v-if="information != null">Select a Verse:
+                    </h5>
                     <!-- <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
                         @submit.prevent="scrollToAyah">
                         <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
@@ -50,9 +53,9 @@
                             Search
                         </button>
                     </form> -->
-                    <AyahDropdown aria-labelledby="ayah-select-label" :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
-                        @update-information="updateInformation" @update-tafseer="updateTafseer"
-                        v-if="ayah == null && !dropdownHidden"
+                    <AyahDropdown aria-labelledby="ayah-select-label" :selectedSurahId="selectedSurahId"
+                        :dropdownHidden="dropdownHidden" @update-information="updateInformation"
+                        @update-tafseer="updateTafseer" v-if="ayah == null && !dropdownHidden"
                         class="ayah-dropdown-hidden-on-desktop d-block d-md-none" />
 
                     <!-- List of Ayat for Surah (desktop) -->
@@ -73,18 +76,18 @@
                                     background: white;">
 
 
-                                    <ul class="col-md-12 list-group root" id="toggle" ref="ayahList"
-                                        role="listbox" tabindex="0" :aria-activedescendant="selectedIndexAyah >= 0 ? `ayah-option-${selectedIndexAyah}` : null" aria-label="Ayah list" aria-controls="ayah-content"
+                                    <ul class="col-md-12 list-group root" id="toggle" ref="ayahList" role="listbox"
+                                        tabindex="0"
+                                        :aria-activedescendant="selectedIndexAyah >= 0 ? `ayah-option-${selectedIndexAyah}` : null"
+                                        aria-label="Ayah list" aria-controls="ayah-content"
                                         style="list-style-type: none">
 
-                                        <li v-for="(ayah, index) in ayat" :key="ayah.id || index" @click="selectAyah(index)"
-                                            role="option"
-                                            :id="`ayah-option-${index}`"
+                                        <li v-for="(ayah, index) in ayat" :key="ayah.id || index"
+                                            @click="selectAyah(index)" role="option" :id="`ayah-option-${index}`"
                                             :aria-selected="selectedIndexAyah === index"
                                             :tabindex="selectedIndexAyah === index ? 0 : -1"
                                             @keydown.enter.prevent="selectAyah(index)"
-                                            @keydown.space.prevent="selectAyah(index)"
-                                            :class="{
+                                            @keydown.space.prevent="selectAyah(index)" :class="{
                                                 selected:
                                                     selectedIndexAyah === index ||
                                                     (verseNumber &&
@@ -108,14 +111,14 @@
                 </div>
                 <div class="col-md-8 pt-2 card-hide text-left pr-4">
                     <Welcome v-if="information == null" />
-                    
+
                     <div class="mb-2" v-else>
                         <!-- <h4 class="fw-bold text-center" >Verse Breakdown...</h4> -->
                         <!-- breakdown content here -->
-                         
+
                     </div>
-                    <div class="card content" >
-                        <div  v-if="information != null">
+                    <div class="card content">
+                        <div v-if="information != null">
                             <div class="container-fluid ">
                                 <div class="row">
                                     <NavTabs />
@@ -208,42 +211,49 @@
                                     <div class="tab-pane active content " id="home" role="tabpanel"
                                         v-if="information != null">
                                         <!-- Screen reader live region for announcing selection changes -->
-                                        <div class="visually-hidden" aria-live="polite" aria-atomic="true">{{ screenReaderMessage }}</div>
-                                        <div id="ayah-content" :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
-                                            @update-information="updateInformation" :style="{
+                                        <div class="visually-hidden" aria-live="polite" aria-atomic="true">{{
+                                            screenReaderMessage }}</div>
+                                        <div id="ayah-content" :selectedSurahId="selectedSurah"
+                                            @update-tafseer="updateTafseer" @update-information="updateInformation"
+                                            :style="{
 
 
                                             }" class="icon-container hide-on-mobile mb-3">
-                                            <div class="text-center icon-text" role="group" aria-label="Verse navigation controls" :aria-hidden="isMobile">
-                                                <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah"
-                                                    role="button" aria-label="Go to first verse" :tabindex="isMobile ? -1 : 0"
-                                                    @keydown.enter.prevent="goToFirstAyah" @keydown.space.prevent="goToFirstAyah"
-                                                    style="cursor: pointer" @click="goToFirstAyah"
-                                                    title="First verse"></i>
+                                            <div class="text-center icon-text" role="group"
+                                                aria-label="Verse navigation controls" :aria-hidden="isMobile">
+                                                <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah" role="button"
+                                                    aria-label="Go to first verse" :tabindex="isMobile ? -1 : 0"
+                                                    @keydown.enter.prevent="goToFirstAyah"
+                                                    @keydown.space.prevent="goToFirstAyah" style="cursor: pointer"
+                                                    @click="goToFirstAyah" title="First verse"></i>
                                                 <div class="large">First verse</div>
                                             </div>
-                                            <div class="text-center" role="group" aria-label="Previous verse" :aria-hidden="isMobile">
+                                            <div class="text-center" role="group" aria-label="Previous verse"
+                                                :aria-hidden="isMobile">
                                                 <i class="bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
-                                                    role="button" aria-label="Go to previous verse" :tabindex="isMobile ? -1 : 0"
-                                                    @keydown.enter.prevent="goToPreviousAyah" @keydown.space.prevent="goToPreviousAyah"
-                                                    style="cursor: pointer" @click="goToPreviousAyah"
-                                                    title="Previous verse"></i>
+                                                    role="button" aria-label="Go to previous verse"
+                                                    :tabindex="isMobile ? -1 : 0"
+                                                    @keydown.enter.prevent="goToPreviousAyah"
+                                                    @keydown.space.prevent="goToPreviousAyah" style="cursor: pointer"
+                                                    @click="goToPreviousAyah" title="Previous verse"></i>
                                                 <div class="large">Previous verse</div>
                                             </div>
-                                            <div class="text-center" role="group" aria-label="Next verse" :aria-hidden="isMobile">
+                                            <div class="text-center" role="group" aria-label="Next verse"
+                                                :aria-hidden="isMobile">
                                                 <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
-                                                    role="button" aria-label="Go to next verse" :tabindex="isMobile ? -1 : 0"
-                                                    @keydown.enter.prevent="goToNextAyah" @keydown.space.prevent="goToNextAyah"
-                                                    style="cursor: pointer" @click="goToNextAyah"
-                                                    title="Next verse"></i>
+                                                    role="button" aria-label="Go to next verse"
+                                                    :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToNextAyah"
+                                                    @keydown.space.prevent="goToNextAyah" style="cursor: pointer"
+                                                    @click="goToNextAyah" title="Next verse"></i>
                                                 <div class="large">Next verse</div>
                                             </div>
-                                            <div class="text-center" role="group" aria-label="Last verse" :aria-hidden="isMobile">
+                                            <div class="text-center" role="group" aria-label="Last verse"
+                                                :aria-hidden="isMobile">
                                                 <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon"
-                                                    role="button" aria-label="Go to last verse" :tabindex="isMobile ? -1 : 0"
-                                                    @keydown.enter.prevent="goToLastAyah" @keydown.space.prevent="goToLastAyah"
-                                                    style="cursor: pointer" @click="goToLastAyah"
-                                                    title="Last verse"></i>
+                                                    role="button" aria-label="Go to last verse"
+                                                    :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToLastAyah"
+                                                    @keydown.space.prevent="goToLastAyah" style="cursor: pointer"
+                                                    @click="goToLastAyah" title="Last verse"></i>
                                                 <div class="large">Last verse</div>
                                             </div>
                                         </div>
@@ -260,8 +270,7 @@
                                                     <div class="row pt-2 text-center">
                                                         <div class="col desktop-icon" style="cursor: pointer;">
                                                             <i class="bi bi-file-earmark-text text-right mr-2 h4"
-                                                                data-bs-placement="top"
-                                                                title="Write a note"
+                                                                data-bs-placement="top" title="Write a note"
                                                                 @click="openModal('translationNote')"></i>
                                                             <div class="icon-text pt-2">Write a Note</div>
                                                         </div>
@@ -299,65 +308,78 @@
 
                                         <!-- mobile navigation  -->
                                         <div class="dropdown mobile-only pb-2" :aria-hidden="!isMobile">
-                                            <div :style="iconStyle" class="icon-container" role="group" aria-label="Verse navigation controls (mobile)">
+                                            <div :style="iconStyle" class="icon-container" role="group"
+                                                aria-label="Verse navigation controls (mobile)">
 
                                                 <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
-                                                    role="button" aria-label="Go to first verse" :tabindex="isMobile ? 0 : -1"
-                                                    @keydown.enter.prevent="goToFirstAyah" @keydown.space.prevent="goToFirstAyah"
-                                                    @click="goToFirstAyah()" title="First verse"></i>
+                                                    role="button" aria-label="Go to first verse"
+                                                    :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToFirstAyah"
+                                                    @keydown.space.prevent="goToFirstAyah" @click="goToFirstAyah()"
+                                                    title="First verse"></i>
                                                 <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
-                                                    role="button" aria-label="Go to previous verse" :tabindex="isMobile ? 0 : -1"
-                                                    @keydown.enter.prevent="goToPreviousAyah" @keydown.space.prevent="goToPreviousAyah"
+                                                    role="button" aria-label="Go to previous verse"
+                                                    :tabindex="isMobile ? 0 : -1"
+                                                    @keydown.enter.prevent="goToPreviousAyah"
+                                                    @keydown.space.prevent="goToPreviousAyah"
                                                     @click="goToPreviousAyah()" title="Previous verse"></i>
                                                 <!-- <i @click="submitForm" class="bi bi-bookmark mb-2 h4"
                                                     aria-expanded="false" data-bs-placement="top"
                                                     title="Bookmark verse"></i> -->
                                                 <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
-                                                    role="button" aria-label="Go to next verse" :tabindex="isMobile ? 0 : -1"
-                                                    @keydown.enter.prevent="goToNextAyah" @keydown.space.prevent="goToNextAyah"
-                                                    @click="goToNextAyah()" title="Next verse"></i>
+                                                    role="button" aria-label="Go to next verse"
+                                                    :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToNextAyah"
+                                                    @keydown.space.prevent="goToNextAyah" @click="goToNextAyah()"
+                                                    title="Next verse"></i>
                                                 <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
-                                                    role="button" aria-label="Go to last verse" :tabindex="isMobile ? 0 : -1"
-                                                    @keydown.enter.prevent="goToLastAyah" @keydown.space.prevent="goToLastAyah"
-                                                    @click="goToLastAyah()" title="Last verse"></i>
+                                                    role="button" aria-label="Go to last verse"
+                                                    :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToLastAyah"
+                                                    @keydown.space.prevent="goToLastAyah" @click="goToLastAyah()"
+                                                    title="Last verse"></i>
                                             </div>
                                             <!-- Mobile/Tablet tip: swipe between verses -->
-                                            <div v-if="showSwipeTip" class="swipe-tip alert py-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none" role="alert">
+                                            <div v-if="showSwipeTip"
+                                                class="swipe-tip alert py-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none"
+                                                role="alert">
                                                 <div class="d-flex align-items-center overflow-hidden">
-                                                    <span class="text-truncate">Swipe left or right to change verses</span>
+                                                    <span class="text-truncate">Swipe left or right to change
+                                                        verses</span>
                                                 </div>
-                                                <button type="button" class="btn-close ms-2 flex-shrink-0" aria-label="Close" @click="dismissSwipeTip"></button>
+                                                <button type="button" class="btn-close ms-2 flex-shrink-0"
+                                                    aria-label="Close" @click="dismissSwipeTip"></button>
                                             </div>
                                             <!-- brief swipe success notice -->
-                                            <div v-if="showSwipeNotice" class="swipe-notice" :class="swipeNoticeDir === 'next' ? 'right' : 'left'" role="status" aria-live="polite">
-                                                <i :class="swipeNoticeDir === 'next' ? 'bi bi-arrow-right-short' : 'bi bi-arrow-left-short'"></i>
+                                            <div v-if="showSwipeNotice" class="swipe-notice"
+                                                :class="swipeNoticeDir === 'next' ? 'right' : 'left'" role="status"
+                                                aria-live="polite">
+                                                <i
+                                                    :class="swipeNoticeDir === 'next' ? 'bi bi-arrow-right-short' : 'bi bi-arrow-left-short'"></i>
                                                 <span class="text">{{ swipeNoticeText }}</span>
                                             </div>
                                         </div>
                                         <!-- dropdown mobile content -->
                                         <div>
                                             <transition :name="lastSwipeDir === 'next' ? 'swipe-next' : 'swipe-prev'">
-                                            <div class="pt-2 swipe-surface" ref="targetTranslationElement" :key="selectedAyah"
-                                                 @touchstart="handleTouchStart($event)"
-                                                 @touchmove="handleTouchMove"
-                                                 @touchend="handleTouchEnd($event)"
-                                                 @touchcancel="handleTouchEnd($event)"
-                                                 @pointerdown="handlePointerDown"
-                                                 @pointermove="handlePointerMove"
-                                                 @pointerup="handlePointerUp"
-                                                 @wheel.passive="handleWheelTranslation">
-                                                <TranslationSection ref="translationSection" :currentAyah="currentAyah" :isVisible="!isVisible"
-                                                    :information="information" :isFullScreen="isFullScreen"
-                                                    :expanded="expanded" :showMoreLink="showMoreLink"
-                                                    :showAlertText="showAlertText" :showAlert="showAlert"
-                                                    :showErrorAlert="showErrorAlert" :showAlertTextNote="showAlertTextNote
-                                                        " :isPlaying="isPlaying" @highlightText="highlightText"
-                                                    @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
-                                                    @toggle-full-screen="toggleFullScreen"
-                                                    @toggle-expand="toggleExpand" @close-alert-text="closeAlertText"
-                                                    @toggle-audio="toggleAudioPlayback"
-                                                    @update-success-message="updateSuccessMessage" />
-                                            </div>
+                                                <div class="pt-2 swipe-surface" ref="targetTranslationElement"
+                                                    :key="selectedAyah" @touchstart="handleTouchStart($event)"
+                                                    @touchmove="handleTouchMove" @touchend="handleTouchEnd($event)"
+                                                    @touchcancel="handleTouchEnd($event)"
+                                                    @pointerdown="handlePointerDown" @pointermove="handlePointerMove"
+                                                    @pointerup="handlePointerUp"
+                                                    @wheel.passive="handleWheelTranslation">
+                                                    <TranslationSection ref="translationSection"
+                                                        :currentAyah="currentAyah" :isVisible="!isVisible"
+                                                        :information="information" :isFullScreen="isFullScreen"
+                                                        :expanded="expanded" :showMoreLink="showMoreLink"
+                                                        :showAlertText="showAlertText" :showAlert="showAlert"
+                                                        :showErrorAlert="showErrorAlert" :showAlertTextNote="showAlertTextNote
+                                                            " :isPlaying="isPlaying" @highlightText="highlightText"
+                                                        @clearHighlight="clearHighlight"
+                                                        @toggle-change="saveToggleState"
+                                                        @toggle-full-screen="toggleFullScreen"
+                                                        @toggle-expand="toggleExpand" @close-alert-text="closeAlertText"
+                                                        @toggle-audio="toggleAudioPlayback"
+                                                        @update-success-message="updateSuccessMessage" />
+                                                </div>
                                             </transition>
 
                                             <!-- <div v-if="!isVisible" class="container-fluid text-center mobile-only">
@@ -392,36 +414,42 @@
                                             <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
                                                 @update-information="updateInformation"
                                                 class="icon-container hide-on-mobile mb-3" :aria-hidden="isMobile">
-                                                <div class="text-center" role="group" aria-label="Verse navigation controls (desktop)">
+                                                <div class="text-center" role="group"
+                                                    aria-label="Verse navigation controls (desktop)">
                                                     <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah"
-                                                        role="button" aria-label="Go to first verse" :tabindex="isMobile ? -1 : 0"
-                                                        @keydown.enter.prevent="goToFirstAyah" @keydown.space.prevent="goToFirstAyah"
-                                                        style="cursor: pointer" @click="goToFirstAyah"
-                                                        title="First verse"></i>
+                                                        role="button" aria-label="Go to first verse"
+                                                        :tabindex="isMobile ? -1 : 0"
+                                                        @keydown.enter.prevent="goToFirstAyah"
+                                                        @keydown.space.prevent="goToFirstAyah" style="cursor: pointer"
+                                                        @click="goToFirstAyah" title="First verse"></i>
                                                     <div class="large">First verse</div>
                                                 </div>
                                                 <div class="text-center" role="group" aria-label="Previous verse">
                                                     <i class="bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
-                                                        role="button" aria-label="Go to previous verse" :tabindex="isMobile ? -1 : 0"
-                                                        @keydown.enter.prevent="goToPreviousAyah" @keydown.space.prevent="goToPreviousAyah"
+                                                        role="button" aria-label="Go to previous verse"
+                                                        :tabindex="isMobile ? -1 : 0"
+                                                        @keydown.enter.prevent="goToPreviousAyah"
+                                                        @keydown.space.prevent="goToPreviousAyah"
                                                         style="cursor: pointer" @click="goToPreviousAyah"
                                                         title="Previous verse"></i>
                                                     <div class="large">Previous verse</div>
                                                 </div>
                                                 <div class="text-center" role="group" aria-label="Next verse">
                                                     <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
-                                                        role="button" aria-label="Go to next verse" :tabindex="isMobile ? -1 : 0"
-                                                        @keydown.enter.prevent="goToNextAyah" @keydown.space.prevent="goToNextAyah"
-                                                        style="cursor: pointer" @click="goToNextAyah"
-                                                        title="Next verse"></i>
+                                                        role="button" aria-label="Go to next verse"
+                                                        :tabindex="isMobile ? -1 : 0"
+                                                        @keydown.enter.prevent="goToNextAyah"
+                                                        @keydown.space.prevent="goToNextAyah" style="cursor: pointer"
+                                                        @click="goToNextAyah" title="Next verse"></i>
                                                     <div class="large">Next verse</div>
                                                 </div>
                                                 <div class="text-center" role="group" aria-label="Last verse">
                                                     <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon"
-                                                        role="button" aria-label="Go to last verse" :tabindex="isMobile ? -1 : 0"
-                                                        @keydown.enter.prevent="goToLastAyah" @keydown.space.prevent="goToLastAyah"
-                                                        style="cursor: pointer" @click="goToLastAyah"
-                                                        title="Last verse"></i>
+                                                        role="button" aria-label="Go to last verse"
+                                                        :tabindex="isMobile ? -1 : 0"
+                                                        @keydown.enter.prevent="goToLastAyah"
+                                                        @keydown.space.prevent="goToLastAyah" style="cursor: pointer"
+                                                        @click="goToLastAyah" title="Last verse"></i>
                                                     <div class="large">Last verse</div>
                                                 </div>
                                             </div>
@@ -510,37 +538,39 @@
                                                         @click="goToLastAyah()" title="End verse"></i>
                                                 </div>
                                                 <!-- Mobile/Tablet tip: swipe between verses -->
-                                                <div v-if="showSwipeTip" class="swipe-tip alert py-2 mb-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none" role="alert">
+                                                <div v-if="showSwipeTip"
+                                                    class="swipe-tip alert py-2 mb-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none"
+                                                    role="alert">
                                                     <div class="d-flex align-items-center overflow-hidden">
-                                                        <span class="text-truncate">Swipe left or right to change verses</span>
+                                                        <span class="text-truncate">Swipe left or right to change
+                                                            verses</span>
                                                     </div>
-                                                    <button type="button" class="btn-close ms-2 flex-shrink-0" aria-label="Close" @click="dismissSwipeTip"></button>
+                                                    <button type="button" class="btn-close ms-2 flex-shrink-0"
+                                                        aria-label="Close" @click="dismissSwipeTip"></button>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <!-- Main content  -->
-                                            <transition :name="lastSwipeDir === 'next' ? 'swipe-next' : 'swipe-prev'">
-                                            <div class="pt-2 swipe-surface" ref="targetTafseerElement" :key="selectedAyah"
-                                              @touchstart="handleTouchStart($event)"
-                                              @touchmove="handleTouchMove"
-                                              @touchend="handleTouchEnd($event)"
-                                              @pointerdown="handlePointerDown"
-                                              @pointermove="handlePointerMove"
-                                              @pointerup="handlePointerUp"
-                                              @wheel.passive="handleWheelTafseer">
-                                            <TafseerSection ref="tafseerSection" :currentAyah="currentAyah" :isVisible="!isVisible"
-                                                :information="information" :isFullScreen="isFullScreen"
-                                                :expanded="expanded" :showMoreLink="showMoreLink"
-                                                :showAlertText="showAlertText" :showAlert="showAlert"
-                                                :showErrorAlert="showErrorAlert" :showAlertTextNote="showAlertTextNote
-                                                    " :isPlaying="isPlaying" @highlightText="highlightText"
-                                                @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
-                                                @toggle-full-screen="toggleFullScreen
-                                                " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText"
-                                                @toggle-audio="toggleAudioPlayback" @update-success-message="updateSuccessMessage
-                                                " />
-                                        </div>
+                                        <transition :name="lastSwipeDir === 'next' ? 'swipe-next' : 'swipe-prev'">
+                                            <div class="pt-2 swipe-surface" ref="targetTafseerElement"
+                                                :key="selectedAyah" @touchstart="handleTouchStart($event)"
+                                                @touchmove="handleTouchMove" @touchend="handleTouchEnd($event)"
+                                                @pointerdown="handlePointerDown" @pointermove="handlePointerMove"
+                                                @pointerup="handlePointerUp" @wheel.passive="handleWheelTafseer">
+                                                <TafseerSection ref="tafseerSection" :currentAyah="currentAyah"
+                                                    :isVisible="!isVisible" :information="information"
+                                                    :isFullScreen="isFullScreen" :expanded="expanded"
+                                                    :showMoreLink="showMoreLink" :showAlertText="showAlertText"
+                                                    :showAlert="showAlert" :showErrorAlert="showErrorAlert"
+                                                    :showAlertTextNote="showAlertTextNote
+                                                        " :isPlaying="isPlaying" @highlightText="highlightText"
+                                                    @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
+                                                    @toggle-full-screen="toggleFullScreen
+                                                    " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText"
+                                                    @toggle-audio="toggleAudioPlayback" @update-success-message="updateSuccessMessage
+                                                    " />
+                                            </div>
                                         </transition>
 
                                         <!-- <div v-if="!isVisible" class="container-fluid text-center mobile-only">
@@ -693,37 +723,39 @@
                                                             @click="goToLastAyah()" title="End verse"></i>
                                                     </div>
                                                     <!-- Mobile/Tablet tip: swipe between verses -->
-                                                    <div v-if="showSwipeTip" class="swipe-tip alert py-2 pb-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none" role="alert">
+                                                    <div v-if="showSwipeTip"
+                                                        class="swipe-tip alert py-2 pb-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none"
+                                                        role="alert">
                                                         <div class="d-flex align-items-center overflow-hidden">
-                                                            <span class="text-truncate">Swipe left or right to change verses</span>
+                                                            <span class="text-truncate">Swipe left or right to change
+                                                                verses</span>
                                                         </div>
-                                                        <button type="button" class="btn-close ms-2 flex-shrink-0" aria-label="Close" @click="dismissSwipeTip"></button>
+                                                        <button type="button" class="btn-close ms-2 flex-shrink-0"
+                                                            aria-label="Close" @click="dismissSwipeTip"></button>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <transition :name="lastSwipeDir === 'next' ? 'swipe-next' : 'swipe-prev'">
-                                            <div ref="targetTransliterationElement" class="swipe-surface" :key="selectedAyah"
-                                                 @touchstart="handleTouchStart($event)"
-                                                 @touchmove="handleTouchMove"
-                                                 @touchend="handleTouchEnd($event)"
-                                                 @pointerdown="handlePointerDown"
-                                                 @pointermove="handlePointerMove"
-                                                 @pointerup="handlePointerUp"
-                                                 @wheel.passive="handleWheelTransliteration">
-                                                <TransliterationSection ref="transliterationSection" :currentAyah="currentAyah"
-                                                    :isVisible="!isVisible" :information="information"
-                                                    :isFullScreen="isFullScreen" :expanded="expanded"
-                                                    :showMoreLink="showMoreLink" :showAlertText="showAlertText"
-                                                    :showAlert="showAlert" :showErrorAlert="showErrorAlert"
-                                                    :showAlertTextNote="showAlertTextNote
-                                                        " :isPlaying="isPlaying" @highlightText="highlightText"
-                                                    @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
-                                                    @toggle-full-screen="toggleFullScreen
-                                                    " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
+                                                <div ref="targetTransliterationElement" class="swipe-surface"
+                                                    :key="selectedAyah" @touchstart="handleTouchStart($event)"
+                                                    @touchmove="handleTouchMove" @touchend="handleTouchEnd($event)"
+                                                    @pointerdown="handlePointerDown" @pointermove="handlePointerMove"
+                                                    @pointerup="handlePointerUp"
+                                                    @wheel.passive="handleWheelTransliteration">
+                                                    <TransliterationSection ref="transliterationSection"
+                                                        :currentAyah="currentAyah" :isVisible="!isVisible"
+                                                        :information="information" :isFullScreen="isFullScreen"
+                                                        :expanded="expanded" :showMoreLink="showMoreLink"
+                                                        :showAlertText="showAlertText" :showAlert="showAlert"
+                                                        :showErrorAlert="showErrorAlert" :showAlertTextNote="showAlertTextNote
+                                                            " :isPlaying="isPlaying" @highlightText="highlightText"
+                                                        @clearHighlight="clearHighlight"
+                                                        @toggle-change="saveToggleState" @toggle-full-screen="toggleFullScreen
+                                                        " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
                                                     " @toggle-audio="toggleAudioPlayback
                                                     " />
-                                            </div>
+                                                </div>
                                             </transition>
 
                                             <!-- <div v-if="!isVisible" class="container-fluid text-center mobile-only">
@@ -751,6 +783,62 @@
                                             <!-- end toolbar mobile -->
 
                                             <SurahInfoModal :information="information" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-show="showNextStep" style="padding: 10px;">
+                                <div class="mx-auto mb-4" style="
+                                    
+                                    background: linear-gradient(135deg, rgba(26, 95, 122, 0.12), rgba(11, 128, 111, 0.12));
+                                    border: 1px solid rgba(11, 128, 111, 0.25);
+                                    border-radius: 16px;
+                                    
+                                    box-shadow: 0 12px 32px rgba(26, 95, 122, 0.12);
+                                    backdrop-filter: blur(6px);
+                                    padding: 1.25rem 1.75rem;
+                                ">
+                                    <div class="d-flex align-items-start gap-3 text-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <div style="
+                                
+                                border-radius: 50%;
+                                background: rgba(11, 128, 111, 0.18);
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                color: #0b806f;
+                                font-size: 1.35rem;
+                                box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.2);
+                                ">
+                                                <i class="fas fa-headphones"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="mb-2 fw-semibold text-uppercase"
+                                                style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+                                                NEXT STEP
+                                            </p>
+                                            <p class="mb-3" style="color: #1f2933; line-height: 1.8;">
+                                                Ready to let the verses resonate? Transition seamlessly from reading to
+                                                listening with our curated
+                                                <a href="/radio#reciters" class="fw-semibold text-decoration-none"
+                                                    style="color:#0b806f;">
+                                                    reciter stations
+                                                </a>, featuring beloved voices from across the Ummah.
+                                            </p>
+                                            <a href="/radio#reciters"
+                                                class="btn btn-sm fw-semibold text-white px-3 py-2" style="
+                                background: linear-gradient(135deg, #0b806f, #1a5f7a);
+                                border: none;
+                                border-radius: 999px;
+                                box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
+                                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
+                                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
+                                                Listen Now
+                                                <i class="fas fa-arrow-up-right-from-square ms-2"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -881,14 +969,13 @@ export default {
     },
 
     mounted() {
-        
         const savedState = localStorage.getItem("toggleState");
         if (savedState !== null) {
             this.isVisible = JSON.parse(savedState);
         }
         // Debounced initial fetch to avoid duplicate triggers from watchers
         this.scheduleFetchAyat();
-       
+
         this.getSurat(); // Call getSurat to populate the surah list
         this.prepareAyahText();
 
@@ -909,7 +996,7 @@ export default {
             } else if (this._coarseMql && this._coarseMql.addListener) {
                 this._coarseMql.addListener(this.updateInputModalityGestureGate);
             }
-        } catch(_) {}
+        } catch (_) { }
 
         // Track Bootstrap tab changes to stop previous audio and set active tab
         try {
@@ -922,7 +1009,7 @@ export default {
                 };
                 document.addEventListener('shown.bs.tab', this._onTabShown);
             }
-        } catch(_) {}
+        } catch (_) { }
 
         // Attach a window wheel listener only if gestures are enabled (coarse pointer)
         if (this.allowGestures && typeof window !== 'undefined') {
@@ -938,20 +1025,22 @@ export default {
             } else {
                 this.showSwipeTip = true;
             }
-        } catch(_) { this.showSwipeTip = true; }
+        } catch (_) { this.showSwipeTip = true; }
     },
     // Ensure listeners are cleaned up when the component is destroyed
     beforeUnmount() {
         const win = (typeof globalThis !== 'undefined' && globalThis.window) ? globalThis.window : (typeof window !== 'undefined' ? window : null);
         win?.removeEventListener?.("keydown", this.onKeydown);
         win?.removeEventListener?.('resize', this.debouncedUpdateIsMobile || this.updateIsMobile);
+        this.clearNextStepTimer();
+        this.showNextStep = false;
         try {
             if (this._coarseMql && this._coarseMql.removeEventListener) {
                 this._coarseMql.removeEventListener('change', this.updateInputModalityGestureGate);
             } else if (this._coarseMql && this._coarseMql.removeListener) {
                 this._coarseMql.removeListener(this.updateInputModalityGestureGate);
             }
-        } catch(_) {}
+        } catch (_) { }
         if (typeof window !== 'undefined' && this._onWindowWheel) {
             window.removeEventListener('wheel', this._onWindowWheel, { passive: true });
             this._onWindowWheel = null;
@@ -1005,8 +1094,8 @@ export default {
             isVisible: false,
             showSuccessMessage: false, // Controls visibility of success messag
             selectedStyle: null,
-            
-            
+
+
             // Text transformation and alignment
             textTransform: "none",
             textAlign: "left",
@@ -1015,6 +1104,14 @@ export default {
             isCollapsed: false,
             showSuccessMessage: false,
             showMessage: false,
+            // Delay reveal for Next Step card
+            showNextStep: false,
+            _nextStepTimer: null,
+            // Defaults to silence warnings seen in console
+            showMoreLink: false,
+            isPlaying: false,
+            ayah: null,
+            dropdownHidden: false,
             filteredSurah: [],
             //twitter/whatsapp
             information: {
@@ -1048,7 +1145,7 @@ export default {
             expanded: false,
             //full screen toggle
             isFullScreen: false,
-            
+
             // auth login
             isLoggedIn: false,
             // main search
@@ -1100,7 +1197,7 @@ export default {
             touchEndX: 0,
             touchEndY: 0,
             touchStartTime: 0,
-            
+
             // Pointer tracking (for non-touch devices)
             pointerStartX: 0,
             pointerStartY: 0,
@@ -1158,17 +1255,37 @@ export default {
                     : this.information.translation;
             return `Translation: ${translation}`;
         },
-        
+
     },
     methods: {
         // Thresholds can be tweaked here directly if needed.
-        
+
+        startNextStepTimer() {
+            this.showNextStep = false;
+            this.clearNextStepTimer();
+            try {
+                this._nextStepTimer = setTimeout(() => {
+                    this.showNextStep = true;
+                    this._nextStepTimer = null;
+                }, 10000);
+            } catch (_) {
+                this.showNextStep = true;
+            }
+        },
+
+        clearNextStepTimer() {
+            if (this._nextStepTimer) {
+                clearTimeout(this._nextStepTimer);
+                this._nextStepTimer = null;
+            }
+        },
+
         handleDarkModeChange(isDarkMode) {
             this.isDarkMode = isDarkMode;
         },
         dismissSwipeTip() {
             this.showSwipeTip = false;
-            try { localStorage.setItem('swipeTipDismissed','1'); } catch(_) {}
+            try { localStorage.setItem('swipeTipDismissed', '1'); } catch (_) { }
         },
         // Handle keyboard navigation for ayat
         onKeydown(e) {
@@ -1565,7 +1682,7 @@ export default {
                     this.selectedStyle.fontStyle || this.fontFamily;
             }
         },
-        
+
         toggleVisibility() {
             this.isVisible = !this.isVisible;
         },
@@ -1682,7 +1799,7 @@ export default {
             try {
                 const sel = (typeof window !== 'undefined' && window.getSelection) ? window.getSelection() : null;
                 if (sel && sel.type === 'Range' && String(sel).length > 0) return true;
-            } catch (_) {}
+            } catch (_) { }
             return false;
         },
 
@@ -1700,7 +1817,7 @@ export default {
             const touch = event.changedTouches ? event.changedTouches[0] : event;
             // Allow form controls to operate normally; otherwise enable swipe
             const tag = (event.target && event.target.tagName) ? event.target.tagName.toLowerCase() : '';
-            const isFormControl = ['input','textarea','select','button'].includes(tag) || (event.target && event.target.isContentEditable);
+            const isFormControl = ['input', 'textarea', 'select', 'button'].includes(tag) || (event.target && event.target.isContentEditable);
             if (isFormControl) return;
 
             const cx = (typeof touch.clientX === 'number') ? touch.clientX : touch.screenX;
@@ -1769,11 +1886,11 @@ export default {
             this.pointerStartX = e.clientX;
             this.pointerStartY = e.clientY;
             this.pointerStartTime = Date.now();
-            try { e.currentTarget.setPointerCapture(e.pointerId); } catch(_) {}
+            try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) { }
         },
         // Subtle success feedback: haptics (where supported) + brief overlay
         swipeFeedback(dir) {
-            try { if (navigator?.vibrate) navigator.vibrate(10); } catch(_) {}
+            try { if (navigator?.vibrate) navigator.vibrate(10); } catch (_) { }
             this.swipeNoticeDir = dir;
             this.swipeNoticeText = dir === 'next' ? 'Next verse' : 'Previous verse';
             this.showSwipeNotice = true;
@@ -1808,8 +1925,8 @@ export default {
                 }
             } else {
                 // ignore non-swipe pointerup
-                }
-            try { e.currentTarget.releasePointerCapture(e.pointerId); } catch(_) {}
+            }
+            try { e.currentTarget.releasePointerCapture(e.pointerId); } catch (_) { }
         },
         // Trackpad horizontal gestures via wheel
         handleWheel(eOrCtx, maybeEvent) {
@@ -1882,9 +1999,9 @@ export default {
                         ev.preventDefault();
                     }, { capture: true, once: true });
                 });
-            } catch(_) {}
+            } catch (_) { }
         },
-        
+
         // Detect whether device uses coarse pointer (touch/tablet) and gate gestures
         updateInputModalityGestureGate() {
             try {
@@ -1942,7 +2059,7 @@ export default {
             this.selectAyah(this.ayat.length - 1);
         },
 
-        
+
         handleNoteClick() {
             if (this.isLoggedIn) {
                 this.showAlertTextNote = false;
@@ -2115,7 +2232,7 @@ export default {
                     if (!count) return;
                     const j = (index + d + count) % count;
                     const item = this.ayat[j];
-                    if (item && item.id) this.fetchAyahData(item.id).catch(() => {});
+                    if (item && item.id) this.fetchAyahData(item.id).catch(() => { });
                 });
             }).catch((err) => {
                 console.error("Error fetching tafseer/information:", err);
@@ -2136,10 +2253,23 @@ export default {
         },
     },
     created() {
+        this.startNextStepTimer();
         this.userId = localStorage.getItem("userId");
         this.fetchSurahs();
         this.fetchReciters();
         this.fetchTranslations();
+    },
+    activated() {
+        this.startNextStepTimer();
+    },
+    deactivated() {
+        this.clearNextStepTimer();
+        this.showNextStep = false;
+    },
+    beforeRouteLeave(to, from, next) {
+        this.clearNextStepTimer();
+        this.showNextStep = false;
+        next();
     },
     mounted() {
         // One-time debug: show current gesture thresholds
@@ -2169,7 +2299,7 @@ export default {
                 window.addEventListener('wheel', this._onWindowWheel, { passive: true });
                 console.log('[Swipe] window wheel listener attached (tafseer/translation/transliteration)');
             }
-        } catch (_) {}
+        } catch (_) { }
 
         // Removed global touch listeners to avoid duplicate handling and jank;
         // element-level handlers with pointer capture are sufficient.
@@ -2179,6 +2309,8 @@ export default {
             window.removeEventListener('wheel', this._onWindowWheel, { passive: true });
             this._onWindowWheel = null;
         }
+        this.clearNextStepTimer();
+        this.showNextStep = false;
         // No global touch listeners to clean up
     },
     watch: {
@@ -2220,69 +2352,114 @@ export default {
 };
 </script>
 
-<style scoped src="./css/styles.css">
-</style>
+<style scoped src="./css/styles.css"></style>
 <style scoped>
 .swipe-tip {
-  background-color: #e7f1ff; /* light blue */
-  border: 1px solid #b6d4fe; /* blue border */
-  color: #0a58ca; /* primary blue text */
-  border-radius: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    background-color: #e7f1ff;
+    /* light blue */
+    border: 1px solid #b6d4fe;
+    /* blue border */
+    color: #0a58ca;
+    /* primary blue text */
+    border-radius: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 .swipe-tip .btn-close {
-  width: .25rem;
-  height: .25rem;
-  padding: .25rem;
+    width: .25rem;
+    height: .25rem;
+    padding: .25rem;
 }
+
 .swipe-tip .icon-circle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background-color: #0a58ca;
-  color: #fff;
-  font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #0a58ca;
+    color: #fff;
+    font-size: 12px;
 }
-.swipe-surface { touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
+
+.swipe-surface {
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
 /* Hint the compositor */
-.swipe-surface { will-change: transform; }
+.swipe-surface {
+    will-change: transform;
+}
 
 /* Direction-aware verse transition */
-.swipe-next-enter-from { opacity: 0; transform: translateX(24px); }
-.swipe-next-enter-active { transition: transform 160ms ease, opacity 160ms ease; }
-.swipe-next-enter-to { opacity: 1; transform: translateX(0); }
+.swipe-next-enter-from {
+    opacity: 0;
+    transform: translateX(24px);
+}
 
-.swipe-prev-enter-from { opacity: 0; transform: translateX(-24px); }
-.swipe-prev-enter-active { transition: transform 160ms ease, opacity 160ms ease; }
-.swipe-prev-enter-to { opacity: 1; transform: translateX(0); }
+.swipe-next-enter-active {
+    transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.swipe-next-enter-to {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.swipe-prev-enter-from {
+    opacity: 0;
+    transform: translateX(-24px);
+}
+
+.swipe-prev-enter-active {
+    transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.swipe-prev-enter-to {
+    opacity: 1;
+    transform: translateX(0);
+}
 
 /* Swipe success notice */
 .swipe-notice {
-  position: fixed;
-  left: 50%;
-  top: 80px;
-  transform: translateX(-50%);
-  background: rgba(15, 23, 42, 0.85);
-  color: #fff;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 0.9rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  pointer-events: none;
-  z-index: 1000;
-  animation: swipeNoticeFade 500ms ease both;
+    position: fixed;
+    left: 50%;
+    top: 80px;
+    transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.85);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+    z-index: 1000;
+    animation: swipeNoticeFade 500ms ease both;
 }
-.swipe-notice.right i { transform: translateY(1px); }
-.swipe-notice.left i { transform: translateY(1px); }
+
+.swipe-notice.right i {
+    transform: translateY(1px);
+}
+
+.swipe-notice.left i {
+    transform: translateY(1px);
+}
+
 @keyframes swipeNoticeFade {
-  from { opacity: 0; transform: translate(-50%, -4px); }
-  to   { opacity: 1; transform: translate(-50%, 0); }
+    from {
+        opacity: 0;
+        transform: translate(-50%, -4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
 }
 </style>

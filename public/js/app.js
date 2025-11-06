@@ -9780,6 +9780,8 @@ __webpack_require__.r(__webpack_exports__);
     const win = typeof globalThis !== 'undefined' && globalThis.window ? globalThis.window : typeof window !== 'undefined' ? window : null;
     win === null || win === void 0 || (_win$removeEventListe = win.removeEventListener) === null || _win$removeEventListe === void 0 || _win$removeEventListe.call(win, "keydown", this.onKeydown);
     win === null || win === void 0 || (_win$removeEventListe2 = win.removeEventListener) === null || _win$removeEventListe2 === void 0 || _win$removeEventListe2.call(win, 'resize', this.debouncedUpdateIsMobile || this.updateIsMobile);
+    this.clearNextStepTimer();
+    this.showNextStep = false;
     try {
       if (this._coarseMql && this._coarseMql.removeEventListener) {
         this._coarseMql.removeEventListener('change', this.updateInputModalityGestureGate);
@@ -9859,6 +9861,14 @@ __webpack_require__.r(__webpack_exports__);
       isCollapsed: false,
       showSuccessMessage: false,
       showMessage: false,
+      // Delay reveal for Next Step card
+      showNextStep: false,
+      _nextStepTimer: null,
+      // Defaults to silence warnings seen in console
+      showMoreLink: false,
+      isPlaying: false,
+      ayah: null,
+      dropdownHidden: false,
       filteredSurah: [],
       //twitter/whatsapp
       information: {
@@ -9994,6 +10004,24 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     // Thresholds can be tweaked here directly if needed.
 
+    startNextStepTimer() {
+      this.showNextStep = false;
+      this.clearNextStepTimer();
+      try {
+        this._nextStepTimer = setTimeout(() => {
+          this.showNextStep = true;
+          this._nextStepTimer = null;
+        }, 10000);
+      } catch (_) {
+        this.showNextStep = true;
+      }
+    },
+    clearNextStepTimer() {
+      if (this._nextStepTimer) {
+        clearTimeout(this._nextStepTimer);
+        this._nextStepTimer = null;
+      }
+    },
     handleDarkModeChange(isDarkMode) {
       this.isDarkMode = isDarkMode;
     },
@@ -10906,10 +10934,23 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created() {
+    this.startNextStepTimer();
     this.userId = localStorage.getItem("userId");
     this.fetchSurahs();
     this.fetchReciters();
     this.fetchTranslations();
+  },
+  activated() {
+    this.startNextStepTimer();
+  },
+  deactivated() {
+    this.clearNextStepTimer();
+    this.showNextStep = false;
+  },
+  beforeRouteLeave(to, from, next) {
+    this.clearNextStepTimer();
+    this.showNextStep = false;
+    next();
   },
   mounted() {
     // One-time debug: show current gesture thresholds
@@ -10951,6 +10992,8 @@ __webpack_require__.r(__webpack_exports__);
       });
       this._onWindowWheel = null;
     }
+    this.clearNextStepTimer();
+    this.showNextStep = false;
     // No global touch listeners to clean up
   },
   watch: {
@@ -36972,7 +37015,7 @@ const _hoisted_1 = {
   id: "app"
 };
 const _hoisted_2 = {
-  class: "py-4 text-center"
+  class: "py-4 text-center position-relative"
 };
 const _hoisted_3 = {
   key: 0,
@@ -37244,6 +37287,11 @@ const _hoisted_82 = {
   key: 0,
   class: "card text-bg-light card-body"
 };
+const _hoisted_83 = {
+  style: {
+    "padding": "10px"
+  }
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Title");
   const _component_AdvancedSearch = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AdvancedSearch");
@@ -37263,7 +37311,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_TranslationNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TranslationNote");
   const _component_TafseerNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TafseerNote");
   const _component_TransliterationNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TransliterationNote");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ChatBot /> "), _cache[113] || (_cache[113] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ChatBot /> "), _cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "text-center container mb-4 lead",
     style: {
       "line-height": "1.6em"
@@ -37282,7 +37330,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     surat: $data.surat,
     "onUpdate:selectedSurah": $options.updateSelectedSurah,
     onFetchAyat: $options.getAyat
-  }, null, 8 /* PROPS */, ["selectedSurah", "filteredSurah", "surat", "onUpdate:selectedSurah", "onFetchAyat"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FilteredSurahList :filteredSurah=\"filteredSurah\" @select-surah=\"selectSurahFromResults\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AddBookmark /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </div> "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_6, "Select a Verse:")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form class=\"d-flex pb-2 container hide-on-mobile-tablet\" v-if=\"information != null\" role=\"search\"\n                        @submit.prevent=\"scrollToAyah\">\n                        <input class=\"form-control me-2\" style=\"border: 3px solid #31464338; border-radius: 10px; \"\n                            type=\"number\" placeholder=\"Enter Verse Number\" v-model=\"verseNumber\" required />\n                        <button class=\"btn btn-success mb-1 ml-1\" style=\"background: #0b5d4b;border-radius: 5px;\"\n                            type=\"submit\">\n                            Search\n                        </button>\n                    </form> "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AyahDropdown, {
+  }, null, 8 /* PROPS */, ["selectedSurah", "filteredSurah", "surat", "onUpdate:selectedSurah", "onFetchAyat"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FilteredSurahList :filteredSurah=\"filteredSurah\" @select-surah=\"selectSurahFromResults\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AddBookmark /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </div> "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_6, "Select a Verse: ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form class=\"d-flex pb-2 container hide-on-mobile-tablet\" v-if=\"information != null\" role=\"search\"\n                        @submit.prevent=\"scrollToAyah\">\n                        <input class=\"form-control me-2\" style=\"border: 3px solid #31464338; border-radius: 10px; \"\n                            type=\"number\" placeholder=\"Enter Verse Number\" v-model=\"verseNumber\" required />\n                        <button class=\"btn btn-success mb-1 ml-1\" style=\"background: #0b5d4b;border-radius: 5px;\"\n                            type=\"submit\">\n                            Search\n                        </button>\n                    </form> "), $data.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AyahDropdown, {
     key: 1,
     "aria-labelledby": "ayah-select-label",
     selectedSurahId: $data.selectedSurahId,
@@ -37290,7 +37338,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onUpdateInformation: $options.updateInformation,
     onUpdateTafseer: $options.updateTafseer,
     class: "ayah-dropdown-hidden-on-desktop d-block d-md-none"
-  }, null, 8 /* PROPS */, ["selectedSurahId", "dropdownHidden", "onUpdateInformation", "onUpdateTafseer"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List of Ayat for Surah (desktop) "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_ctx.ayah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error alert "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ErrorAlert, {
+  }, null, 8 /* PROPS */, ["selectedSurahId", "dropdownHidden", "onUpdateInformation", "onUpdateTafseer"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List of Ayat for Surah (desktop) "), $data.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [$data.ayah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error alert "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ErrorAlert, {
     showError: $data.showError,
     onDismissError: _ctx.dismissError
   }, null, 8 /* PROPS */, ["showError", "onDismissError"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
@@ -37526,12 +37574,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       information: $data.information,
       isFullScreen: $data.isFullScreen,
       expanded: $data.expanded,
-      showMoreLink: _ctx.showMoreLink,
+      showMoreLink: $data.showMoreLink,
       showAlertText: $data.showAlertText,
       showAlert: $data.showAlert,
       showErrorAlert: $data.showErrorAlert,
       showAlertTextNote: $data.showAlertTextNote,
-      isPlaying: _ctx.isPlaying,
+      isPlaying: $data.isPlaying,
       onHighlightText: $options.highlightText,
       onClearHighlight: $options.clearHighlight,
       onToggleChange: $options.saveToggleState,
@@ -37548,7 +37596,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onOpenModal: $options.openModal,
     onSubmitForm: $options.submitForm,
     onToggleAudio: $options.toggleAudioPlayback,
-    isPlaying: _ctx.isPlaying
+    isPlaying: $data.isPlaying
   }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafseer Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurah,
     onUpdateTafseer: _cache[49] || (_cache[49] = (...args) => $options.updateTafseer && $options.updateTafseer(...args)),
@@ -37711,12 +37759,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       information: $data.information,
       isFullScreen: $data.isFullScreen,
       expanded: $data.expanded,
-      showMoreLink: _ctx.showMoreLink,
+      showMoreLink: $data.showMoreLink,
       showAlertText: $data.showAlertText,
       showAlert: $data.showAlert,
       showErrorAlert: $data.showErrorAlert,
       showAlertTextNote: $data.showAlertTextNote,
-      isPlaying: _ctx.isPlaying,
+      isPlaying: $data.isPlaying,
       onHighlightText: $options.highlightText,
       onClearHighlight: $options.clearHighlight,
       onToggleChange: $options.saveToggleState,
@@ -37733,7 +37781,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onOpenModal: $options.openModal,
     onSubmitForm: $options.submitFormTafseer,
     onToggleAudio: $options.toggleAudioPlayback,
-    isPlaying: _ctx.isPlaying
+    isPlaying: $data.isPlaying
   }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahInfoModal, {
     information: $data.information
   }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Transliteration Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -37879,12 +37927,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       information: $data.information,
       isFullScreen: $data.isFullScreen,
       expanded: $data.expanded,
-      showMoreLink: _ctx.showMoreLink,
+      showMoreLink: $data.showMoreLink,
       showAlertText: $data.showAlertText,
       showAlert: $data.showAlert,
       showErrorAlert: $data.showErrorAlert,
       showAlertTextNote: $data.showAlertTextNote,
-      isPlaying: _ctx.isPlaying,
+      isPlaying: $data.isPlaying,
       onHighlightText: $options.highlightText,
       onClearHighlight: $options.clearHighlight,
       onToggleChange: $options.saveToggleState,
@@ -37900,10 +37948,70 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onOpenModal: $options.openModal,
     onSubmitForm: $options.submitFormTransliteration,
     onToggleAudio: $options.toggleAudioPlayback,
-    isPlaying: _ctx.isPlaying
+    isPlaying: $data.isPlaying
   }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" end toolbar mobile "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahInfoModal, {
     information: $data.information
-  }, null, 8 /* PROPS */, ["information"])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CorrectionModal), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modals "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationNote, {
+  }, null, 8 /* PROPS */, ["information"])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [...(_cache[113] || (_cache[113] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "mx-auto mb-4",
+    style: {
+      "background": "linear-gradient(135deg, rgba(26, 95, 122, 0.12), rgba(11, 128, 111, 0.12))",
+      "border": "1px solid rgba(11, 128, 111, 0.25)",
+      "border-radius": "16px",
+      "box-shadow": "0 12px 32px rgba(26, 95, 122, 0.12)",
+      "backdrop-filter": "blur(6px)",
+      "padding": "1.25rem 1.75rem"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "d-flex align-items-start gap-3 text-start"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "flex-shrink-0 mt-1"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "border-radius": "50%",
+      "background": "rgba(11, 128, 111, 0.18)",
+      "display": "flex",
+      "align-items": "center",
+      "justify-content": "center",
+      "color": "#0b806f",
+      "font-size": "1.35rem",
+      "box-shadow": "inset 0 0 0 1px rgba(11, 128, 111, 0.2)"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "fas fa-headphones"
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "mb-2 fw-semibold text-uppercase",
+    style: {
+      "letter-spacing": "0.1em",
+      "color": "#1a5f7a",
+      "font-size": "0.78rem"
+    }
+  }, " NEXT STEP "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "mb-3",
+    style: {
+      "color": "#1f2933",
+      "line-height": "1.8"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Ready to let the verses resonate? Transition seamlessly from reading to listening with our curated "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "/radio#reciters",
+    class: "fw-semibold text-decoration-none",
+    style: {
+      "color": "#0b806f"
+    }
+  }, " reciter stations "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(", featuring beloved voices from across the Ummah. ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "/radio#reciters",
+    class: "btn btn-sm fw-semibold text-white px-3 py-2",
+    style: {
+      "background": "linear-gradient(135deg, #0b806f, #1a5f7a)",
+      "border": "none",
+      "border-radius": "999px",
+      "box-shadow": "0 10px 20px rgba(26, 95, 122, 0.25)",
+      "transition": "transform 0.2s ease, box-shadow 0.2s ease"
+    },
+    onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Listen Now "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "fas fa-arrow-up-right-from-square ms-2"
+  })])])])], -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showNextStep]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CorrectionModal), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modals "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationNote, {
     ref: "translationNote",
     information: _ctx.modalInformation
   }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerNote, {
@@ -38002,6 +38110,7 @@ const _hoisted_25 = {
 };
 const _hoisted_26 = ["onClick"];
 const _hoisted_27 = {
+  id: "reciters",
   class: "mb-5"
 };
 const _hoisted_28 = {
@@ -52476,7 +52585,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.swipe-tip[data-v-2b3c2c26] {\n  background-color: #e7f1ff; /* light blue */\n  border: 1px solid #b6d4fe; /* blue border */\n  color: #0a58ca; /* primary blue text */\n  border-radius: 8px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.swipe-tip .btn-close[data-v-2b3c2c26] {\n  width: .25rem;\n  height: .25rem;\n  padding: .25rem;\n}\n.swipe-tip .icon-circle[data-v-2b3c2c26] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 22px;\n  height: 22px;\n  border-radius: 50%;\n  background-color: #0a58ca;\n  color: #fff;\n  font-size: 12px;\n}\n.swipe-surface[data-v-2b3c2c26] { touch-action: pan-y; -webkit-tap-highlight-color: transparent;\n}\n/* Hint the compositor */\n.swipe-surface[data-v-2b3c2c26] { will-change: transform;\n}\n/* Direction-aware verse transition */\n.swipe-next-enter-from[data-v-2b3c2c26] { opacity: 0; transform: translateX(24px);\n}\n.swipe-next-enter-active[data-v-2b3c2c26] { transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-next-enter-to[data-v-2b3c2c26] { opacity: 1; transform: translateX(0);\n}\n.swipe-prev-enter-from[data-v-2b3c2c26] { opacity: 0; transform: translateX(-24px);\n}\n.swipe-prev-enter-active[data-v-2b3c2c26] { transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-prev-enter-to[data-v-2b3c2c26] { opacity: 1; transform: translateX(0);\n}\n/* Swipe success notice */\n.swipe-notice[data-v-2b3c2c26] {\n  position: fixed;\n  left: 50%;\n  top: 80px;\n  transform: translateX(-50%);\n  background: rgba(15, 23, 42, 0.85);\n  color: #fff;\n  padding: 6px 10px;\n  border-radius: 999px;\n  font-size: 0.9rem;\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  pointer-events: none;\n  z-index: 1000;\n  animation: swipeNoticeFade-2b3c2c26 500ms ease both;\n}\n.swipe-notice.right i[data-v-2b3c2c26] { transform: translateY(1px);\n}\n.swipe-notice.left i[data-v-2b3c2c26] { transform: translateY(1px);\n}\n@keyframes swipeNoticeFade-2b3c2c26 {\nfrom { opacity: 0; transform: translate(-50%, -4px);\n}\nto   { opacity: 1; transform: translate(-50%, 0);\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.swipe-tip[data-v-2b3c2c26] {\n    background-color: #e7f1ff;\n    /* light blue */\n    border: 1px solid #b6d4fe;\n    /* blue border */\n    color: #0a58ca;\n    /* primary blue text */\n    border-radius: 8px;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n}\n.swipe-tip .btn-close[data-v-2b3c2c26] {\n    width: .25rem;\n    height: .25rem;\n    padding: .25rem;\n}\n.swipe-tip .icon-circle[data-v-2b3c2c26] {\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    width: 22px;\n    height: 22px;\n    border-radius: 50%;\n    background-color: #0a58ca;\n    color: #fff;\n    font-size: 12px;\n}\n.swipe-surface[data-v-2b3c2c26] {\n    touch-action: pan-y;\n    -webkit-tap-highlight-color: transparent;\n}\n\n/* Hint the compositor */\n.swipe-surface[data-v-2b3c2c26] {\n    will-change: transform;\n}\n\n/* Direction-aware verse transition */\n.swipe-next-enter-from[data-v-2b3c2c26] {\n    opacity: 0;\n    transform: translateX(24px);\n}\n.swipe-next-enter-active[data-v-2b3c2c26] {\n    transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-next-enter-to[data-v-2b3c2c26] {\n    opacity: 1;\n    transform: translateX(0);\n}\n.swipe-prev-enter-from[data-v-2b3c2c26] {\n    opacity: 0;\n    transform: translateX(-24px);\n}\n.swipe-prev-enter-active[data-v-2b3c2c26] {\n    transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-prev-enter-to[data-v-2b3c2c26] {\n    opacity: 1;\n    transform: translateX(0);\n}\n\n/* Swipe success notice */\n.swipe-notice[data-v-2b3c2c26] {\n    position: fixed;\n    left: 50%;\n    top: 80px;\n    transform: translateX(-50%);\n    background: rgba(15, 23, 42, 0.85);\n    color: #fff;\n    padding: 6px 10px;\n    border-radius: 999px;\n    font-size: 0.9rem;\n    display: inline-flex;\n    align-items: center;\n    gap: 6px;\n    pointer-events: none;\n    z-index: 1000;\n    animation: swipeNoticeFade-2b3c2c26 500ms ease both;\n}\n.swipe-notice.right i[data-v-2b3c2c26] {\n    transform: translateY(1px);\n}\n.swipe-notice.left i[data-v-2b3c2c26] {\n    transform: translateY(1px);\n}\n@keyframes swipeNoticeFade-2b3c2c26 {\nfrom {\n        opacity: 0;\n        transform: translate(-50%, -4px);\n}\nto {\n        opacity: 1;\n        transform: translate(-50%, 0);\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -113,7 +113,7 @@
       </section>
 
       <!-- All Reciters Stations -->
-      <section class="mb-5">
+      <section id="reciters" class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h3 class="fw-bold fs-3 text-dark"><img src="images/art.png" width="30" height="30" loading="lazy" decoding="async" alt="decorative" class="mb-1" /> Reciters Stations:</h3>
           <div class="d-flex align-items-center gap-2">

@@ -3,10 +3,34 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Welcome to Islamic Connect, your hub for Islamic teachings, Quranic resources, podcasts, and AI-powered accessibility tools. Explore our website for educational content, community engagement, and more.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Islamic Connect — Explore Quran, Media, and Accessible Tools')</title>
+    @php
+        $canonicalUrl = trim($__env->yieldContent('canonical', url()->current()));
+        $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect — Explore Quran, Media, and Accessible Tools'));
+        $metaDescription = trim(
+            $__env->yieldContent(
+                'meta_description',
+                'Islamic Connect curates trusted Islamic knowledge, Quran recitations, accessibility tools, and community programs to support Muslims everywhere.'
+            )
+        );
+        $metaImage = trim($__env->yieldContent('meta_image', asset('images/logo_main.png')));
+        $metaType = trim($__env->yieldContent('meta_type', 'website'));
+    @endphp
+    <title>@yield('title', $metaTitle)</title>
+    <link rel="canonical" href="{{ $canonicalUrl }}">
+    <meta name="description" content="{{ $metaDescription }}">
+    <meta property="og:site_name" content="Islamic Connect">
+    <meta property="og:type" content="{{ $metaType }}">
+    <meta property="og:title" content="{{ $metaTitle }}">
+    <meta property="og:description" content="{{ $metaDescription }}">
+    <meta property="og:url" content="{{ $canonicalUrl }}">
+    <meta property="og:image" content="{{ $metaImage }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $metaTitle }}">
+    <meta name="twitter:description" content="{{ $metaDescription }}">
+    <meta name="twitter:image" content="{{ $metaImage }}">
+    @stack('seo')
 
     <!-- CSS Assets -->
     <!-- Vendor CSS first -->
@@ -42,6 +66,25 @@
     </script>
     @yield('critical')
     @stack('critical')
+    @php
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'WebSite',
+            'name' => 'Islamic Connect',
+            'url' => $canonicalUrl,
+            'description' => $metaDescription,
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'Islamic Connect',
+                'logo' => asset('images/logo_main.png'),
+            ],
+            'inLanguage' => str_replace('_', '-', app()->getLocale()),
+        ];
+    @endphp
+    <script type="application/ld+json">
+        {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+    </script>
+    @stack('structured-data')
 
     <style>
         :root {
