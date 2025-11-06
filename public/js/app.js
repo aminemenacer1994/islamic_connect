@@ -5890,8 +5890,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // Lazy-load heavier child components to improve initial render
-const PrayerTimes = (0,vue__WEBPACK_IMPORTED_MODULE_1__.defineAsyncComponent)(() => Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./translation/PrayerTimes.vue */ "./resources/js/components/translation/PrayerTimes.vue")));
-const AyahOfTheDay = (0,vue__WEBPACK_IMPORTED_MODULE_1__.defineAsyncComponent)(() => Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./translation/AyahOfTheDay.vue */ "./resources/js/components/translation/AyahOfTheDay.vue")));
+const PrayerTimes = (0,vue__WEBPACK_IMPORTED_MODULE_1__.defineAsyncComponent)(() => __webpack_require__.e(/*! import() */ "resources_js_components_translation_PrayerTimes_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./translation/PrayerTimes.vue */ "./resources/js/components/translation/PrayerTimes.vue")));
+const AyahOfTheDay = (0,vue__WEBPACK_IMPORTED_MODULE_1__.defineAsyncComponent)(() => __webpack_require__.e(/*! import() */ "resources_js_components_translation_AyahOfTheDay_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./translation/AyahOfTheDay.vue */ "./resources/js/components/translation/AyahOfTheDay.vue")));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     // HijriCalendar
@@ -6028,6 +6028,22 @@ const AyahOfTheDay = (0,vue__WEBPACK_IMPORTED_MODULE_1__.defineAsyncComponent)((
       });
     }
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Intro/Title.vue?vue&type=script&defer=true&lang=js":
+/*!*****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Intro/Title.vue?vue&type=script&defer=true&lang=js ***!
+  \*****************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'Title'
 });
 
 /***/ }),
@@ -9557,53 +9573,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _translation_ChatBot_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./translation/ChatBot.vue */ "./resources/js/components/translation/ChatBot.vue");
-/* harmony import */ var _DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
-/* harmony import */ var _surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
-/* harmony import */ var _search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
-/* harmony import */ var _search_SurahList_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
-/* harmony import */ var _search_SurahDropdown_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./search/SurahDropdown.vue */ "./resources/js/components/search/SurahDropdown.vue");
-/* harmony import */ var _bookmark_and_notes_links_BookmarksAndNotes_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./bookmark_and_notes_links/BookmarksAndNotes.vue */ "./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue");
-/* harmony import */ var _modals_AlertModal_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modals/AlertModal.vue */ "./resources/js/components/modals/AlertModal.vue");
-/* harmony import */ var _Intro_Welcome_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Intro/Welcome.vue */ "./resources/js/components/Intro/Welcome.vue");
-/* harmony import */ var _intro_Title_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./intro/Title.vue */ "./resources/js/components/intro/Title.vue");
-/* harmony import */ var _modals_CorrectionModal_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modals/CorrectionModal.vue */ "./resources/js/components/modals/CorrectionModal.vue");
-/* harmony import */ var _intro_Donation_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
-/* harmony import */ var _tabs_NavTabs_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./tabs/NavTabs.vue */ "./resources/js/components/tabs/NavTabs.vue");
-/* harmony import */ var _translation_AyahInfo_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./translation/AyahInfo.vue */ "./resources/js/components/translation/AyahInfo.vue");
-/* harmony import */ var _translation_MainAyah_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./translation/MainAyah.vue */ "./resources/js/components/translation/MainAyah.vue");
-/* harmony import */ var _translation_EnglishTranslation_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./translation/EnglishTranslation.vue */ "./resources/js/components/translation/EnglishTranslation.vue");
-/* harmony import */ var _translation_Translator_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./translation/Translator.vue */ "./resources/js/components/translation/Translator.vue");
-/* harmony import */ var _search_AyahSearchVerseNum_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./search/AyahSearchVerseNum.vue */ "./resources/js/components/search/AyahSearchVerseNum.vue");
-/* harmony import */ var _search_ErrorAlert_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./search/ErrorAlert.vue */ "./resources/js/components/search/ErrorAlert.vue");
-/* harmony import */ var _search_AyahDropdown_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./search/AyahDropdown.vue */ "./resources/js/components/search/AyahDropdown.vue");
-/* harmony import */ var _translation_features_screen_capture_ScreenTranslationCapture_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./translation/features/screen_capture/ScreenTranslationCapture.vue */ "./resources/js/components/translation/features/screen_capture/ScreenTranslationCapture.vue");
-/* harmony import */ var _translation_features_screen_capture_ScreenTafseerCapture_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./translation/features/screen_capture/ScreenTafseerCapture.vue */ "./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue");
-/* harmony import */ var _translation_features_screen_capture_ScreenTransliterationCapture_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./translation/features/screen_capture/ScreenTransliterationCapture.vue */ "./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue");
-/* harmony import */ var _modals_SurahInfoModal_vue__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./modals/SurahInfoModal.vue */ "./resources/js/components/modals/SurahInfoModal.vue");
-/* harmony import */ var _translation_features_notes_TranslationNote_vue__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./translation/features/notes/TranslationNote.vue */ "./resources/js/components/translation/features/notes/TranslationNote.vue");
-/* harmony import */ var _translation_features_notes_TafseerNote_vue__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./translation/features/notes/TafseerNote.vue */ "./resources/js/components/translation/features/notes/TafseerNote.vue");
-/* harmony import */ var _translation_features_notes_TransliterationNote_vue__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./translation/features/notes/TransliterationNote.vue */ "./resources/js/components/translation/features/notes/TransliterationNote.vue");
-/* harmony import */ var _translation_features_bookmarking_BookmarkTranslation_vue__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./translation/features/bookmarking/BookmarkTranslation.vue */ "./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue");
-/* harmony import */ var _search_FilteredSurahList_vue__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./search/FilteredSurahList.vue */ "./resources/js/components/search/FilteredSurahList.vue");
-/* harmony import */ var _TafseerSection_vue__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./TafseerSection.vue */ "./resources/js/components/TafseerSection.vue");
-/* harmony import */ var _TranslationSection_vue__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./TranslationSection.vue */ "./resources/js/components/TranslationSection.vue");
-/* harmony import */ var _TransliterationSection__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./TransliterationSection */ "./resources/js/components/TransliterationSection.vue");
-/* harmony import */ var _TranslationActions_vue__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./TranslationActions.vue */ "./resources/js/components/TranslationActions.vue");
-/* harmony import */ var _TafseerActions_vue__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./TafseerActions.vue */ "./resources/js/components/TafseerActions.vue");
-/* harmony import */ var _TransliterationActions_vue__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./TransliterationActions.vue */ "./resources/js/components/TransliterationActions.vue");
-/* harmony import */ var _translation_features_speech_recognition_SpeechRecognition_vue__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./translation/features/speech_recognition/SpeechRecognition.vue */ "./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue");
-/* harmony import */ var _search_AdvancedSearch_vue__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./search/AdvancedSearch.vue */ "./resources/js/components/search/AdvancedSearch.vue");
-/* harmony import */ var _accesibility_KeyboardNavigation_vue__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./accesibility/KeyboardNavigation.vue */ "./resources/js/components/accesibility/KeyboardNavigation.vue");
-/* harmony import */ var _folder_manager_FolderSelectionModal_vue__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./folder_manager/FolderSelectionModal.vue */ "./resources/js/components/folder_manager/FolderSelectionModal.vue");
-/* harmony import */ var _accesibility_ScreenReader_vue__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./accesibility/ScreenReader.vue */ "./resources/js/components/accesibility/ScreenReader.vue");
-/* harmony import */ var _search_AyahSelector_vue__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./search/AyahSelector.vue */ "./resources/js/components/search/AyahSelector.vue");
-/* harmony import */ var _content_searchContent_vue__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./content/searchContent.vue */ "./resources/js/components/content/searchContent.vue");
-/* harmony import */ var _translation_AyahOfTheDay_vue__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./translation/AyahOfTheDay.vue */ "./resources/js/components/translation/AyahOfTheDay.vue");
-/* harmony import */ var _translation_PrayerTimes_vue__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./translation/PrayerTimes.vue */ "./resources/js/components/translation/PrayerTimes.vue");
-/* harmony import */ var _translation_HelpGuideModal_vue__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./translation/HelpGuideModal.vue */ "./resources/js/components/translation/HelpGuideModal.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _Intro_Title_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Intro/Title.vue */ "./resources/js/components/Intro/Title.vue");
+/* harmony import */ var _search_AdvancedSearch_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./search/AdvancedSearch.vue */ "./resources/js/components/search/AdvancedSearch.vue");
+/* harmony import */ var _search_SurahDropdown_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./search/SurahDropdown.vue */ "./resources/js/components/search/SurahDropdown.vue");
+/* harmony import */ var _search_AyahDropdown_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./search/AyahDropdown.vue */ "./resources/js/components/search/AyahDropdown.vue");
+/* harmony import */ var _search_ErrorAlert_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./search/ErrorAlert.vue */ "./resources/js/components/search/ErrorAlert.vue");
+/* harmony import */ var _tabs_NavTabs_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tabs/NavTabs.vue */ "./resources/js/components/tabs/NavTabs.vue");
+/* harmony import */ var _TranslationSection_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TranslationSection.vue */ "./resources/js/components/TranslationSection.vue");
+/* harmony import */ var _TafseerSection_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TafseerSection.vue */ "./resources/js/components/TafseerSection.vue");
+/* harmony import */ var _TransliterationSection_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./TransliterationSection.vue */ "./resources/js/components/TransliterationSection.vue");
+/* harmony import */ var _TranslationActions_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./TranslationActions.vue */ "./resources/js/components/TranslationActions.vue");
+/* harmony import */ var _TafseerActions_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./TafseerActions.vue */ "./resources/js/components/TafseerActions.vue");
+/* harmony import */ var _TransliterationActions_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./TransliterationActions.vue */ "./resources/js/components/TransliterationActions.vue");
+/* harmony import */ var _translation_features_notes_TranslationNote_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./translation/features/notes/TranslationNote.vue */ "./resources/js/components/translation/features/notes/TranslationNote.vue");
+/* harmony import */ var _translation_features_notes_TafseerNote_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./translation/features/notes/TafseerNote.vue */ "./resources/js/components/translation/features/notes/TafseerNote.vue");
+/* harmony import */ var _translation_features_notes_TransliterationNote_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./translation/features/notes/TransliterationNote.vue */ "./resources/js/components/translation/features/notes/TransliterationNote.vue");
+/* harmony import */ var _modals_SurahInfoModal_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./modals/SurahInfoModal.vue */ "./resources/js/components/modals/SurahInfoModal.vue");
+/* harmony import */ var _Intro_Welcome_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Intro/Welcome.vue */ "./resources/js/components/Intro/Welcome.vue");
+/* harmony import */ var _translation_HelpGuideModal_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./translation/HelpGuideModal.vue */ "./resources/js/components/translation/HelpGuideModal.vue");
 
 
 
@@ -9623,398 +9611,220 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import PdfDownload from './pdf/PdfDownload.vue'
-// import PdfDownloadTafsser from './pdf/PdfDownloadTafsser.vue'
-// import PdfDownloadTransliteration from './pdf/PdfDownloadTransliteration.vue'
-
-
-
-
-
-
-
-
-
+const STORAGE_KEYS = {
+  toggle: "toggleState",
+  swipeTip: "quran.swipeTipDismissed"
+};
+const PREFETCH_OFFSETS = [-2, -1, 1, 2];
+function toNumber(value) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : null;
+}
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "QuranComponent",
-  props: {},
   components: {
-    HelpGuideModal: _translation_HelpGuideModal_vue__WEBPACK_IMPORTED_MODULE_45__["default"],
-    ChatBot: _translation_ChatBot_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    DarkModeToggle: _DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    PrayerTimes: _translation_PrayerTimes_vue__WEBPACK_IMPORTED_MODULE_44__["default"],
-    AyahOfTheDay: _translation_AyahOfTheDay_vue__WEBPACK_IMPORTED_MODULE_43__["default"],
-    SearchContent: _content_searchContent_vue__WEBPACK_IMPORTED_MODULE_42__["default"],
-    CustomSurahSelection: _surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    AyahSelector: _search_AyahSelector_vue__WEBPACK_IMPORTED_MODULE_41__["default"],
-    SurahList: _search_SurahList_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    SurahDropdown: _search_SurahDropdown_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
-    BookmarksAndNotes: _bookmark_and_notes_links_BookmarksAndNotes_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
-    AlertModal: _modals_AlertModal_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
-    Welcome: _Intro_Welcome_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
-    CorrectionModal: _modals_CorrectionModal_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
-    Donation: _intro_Donation_vue__WEBPACK_IMPORTED_MODULE_12__["default"],
-    NavTabs: _tabs_NavTabs_vue__WEBPACK_IMPORTED_MODULE_13__["default"],
-    Title: _intro_Title_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
-    SearchForm: _search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    AyahInfo: _translation_AyahInfo_vue__WEBPACK_IMPORTED_MODULE_14__["default"],
-    MainAyah: _translation_MainAyah_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
-    EnglishTranslation: _translation_EnglishTranslation_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
-    Translator: _translation_Translator_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
-    AyahSearchVerseNum: _search_AyahSearchVerseNum_vue__WEBPACK_IMPORTED_MODULE_18__["default"],
-    ErrorAlert: _search_ErrorAlert_vue__WEBPACK_IMPORTED_MODULE_19__["default"],
-    AyahDropdown: _search_AyahDropdown_vue__WEBPACK_IMPORTED_MODULE_20__["default"],
-    ScreenTranslationCapture: _translation_features_screen_capture_ScreenTranslationCapture_vue__WEBPACK_IMPORTED_MODULE_21__["default"],
-    ScreenTafseerCapture: _translation_features_screen_capture_ScreenTafseerCapture_vue__WEBPACK_IMPORTED_MODULE_22__["default"],
-    ScreenTransliterationCapture: _translation_features_screen_capture_ScreenTransliterationCapture_vue__WEBPACK_IMPORTED_MODULE_23__["default"],
-    SurahInfoModal: _modals_SurahInfoModal_vue__WEBPACK_IMPORTED_MODULE_24__["default"],
-    TranslationNote: _translation_features_notes_TranslationNote_vue__WEBPACK_IMPORTED_MODULE_25__["default"],
-    TafseerNote: _translation_features_notes_TafseerNote_vue__WEBPACK_IMPORTED_MODULE_26__["default"],
-    TransliterationNote: _translation_features_notes_TransliterationNote_vue__WEBPACK_IMPORTED_MODULE_27__["default"],
-    BookmarkTranslation: _translation_features_bookmarking_BookmarkTranslation_vue__WEBPACK_IMPORTED_MODULE_28__["default"],
-    FilteredSurahList: _search_FilteredSurahList_vue__WEBPACK_IMPORTED_MODULE_29__["default"],
-    TafseerSection: _TafseerSection_vue__WEBPACK_IMPORTED_MODULE_30__["default"],
-    TranslationSection: _TranslationSection_vue__WEBPACK_IMPORTED_MODULE_31__["default"],
-    TransliterationSection: _TransliterationSection__WEBPACK_IMPORTED_MODULE_32__["default"],
-    TranslationActions: _TranslationActions_vue__WEBPACK_IMPORTED_MODULE_33__["default"],
-    TafseerActions: _TafseerActions_vue__WEBPACK_IMPORTED_MODULE_34__["default"],
-    TransliterationActions: _TransliterationActions_vue__WEBPACK_IMPORTED_MODULE_35__["default"],
-    SpeechRecognition: _translation_features_speech_recognition_SpeechRecognition_vue__WEBPACK_IMPORTED_MODULE_36__["default"],
-    // PdfDownload,
-    FolderSelectionModal: _folder_manager_FolderSelectionModal_vue__WEBPACK_IMPORTED_MODULE_39__["default"],
-    // PdfDownloadTransliteration,
-    // PdfDownloadTafsser,
-    AdvancedSearch: _search_AdvancedSearch_vue__WEBPACK_IMPORTED_MODULE_37__["default"],
-    KeyboardNavigation: _accesibility_KeyboardNavigation_vue__WEBPACK_IMPORTED_MODULE_38__["default"],
-    ScreenReader: _accesibility_ScreenReader_vue__WEBPACK_IMPORTED_MODULE_40__["default"]
-  },
-  mounted() {
-    var _win$addEventListener, _win$addEventListener2;
-    const savedState = localStorage.getItem("toggleState");
-    if (savedState !== null) {
-      this.isVisible = JSON.parse(savedState);
-    }
-    // Debounced initial fetch to avoid duplicate triggers from watchers
-    this.scheduleFetchAyat();
-    this.getSurat(); // Call getSurat to populate the surah list
-    this.prepareAyahText();
-
-    // Keyboard navigation for ayah list within this component only
-    const win = typeof globalThis !== 'undefined' && globalThis.window ? globalThis.window : typeof window !== 'undefined' ? window : null;
-    win === null || win === void 0 || (_win$addEventListener = win.addEventListener) === null || _win$addEventListener === void 0 || _win$addEventListener.call(win, "keydown", this.onKeydown);
-
-    // Responsive a11y: track mobile viewport to toggle focusability of duplicate controls
-    this.updateIsMobile();
-    // Create a debounced resize handler to reduce layout thrash
-    this.debouncedUpdateIsMobile = this.debounce(this.updateIsMobile, 150);
-    win === null || win === void 0 || (_win$addEventListener2 = win.addEventListener) === null || _win$addEventListener2 === void 0 || _win$addEventListener2.call(win, 'resize', this.debouncedUpdateIsMobile, {
-      passive: true
-    });
-    // Gesture gating for tablets/phones only
-    this.updateInputModalityGestureGate();
-    try {
-      if (this._coarseMql && this._coarseMql.addEventListener) {
-        this._coarseMql.addEventListener('change', this.updateInputModalityGestureGate, {
-          passive: true
-        });
-      } else if (this._coarseMql && this._coarseMql.addListener) {
-        this._coarseMql.addListener(this.updateInputModalityGestureGate);
-      }
-    } catch (_) {}
-
-    // Track Bootstrap tab changes to stop previous audio and set active tab
-    try {
-      if (typeof document !== 'undefined') {
-        this._onTabShown = e => {
-          var _e$target, _e$target$getAttribut, _e$target2, _e$target2$getAttribu;
-          let id = ((_e$target = e.target) === null || _e$target === void 0 || (_e$target$getAttribut = _e$target.getAttribute) === null || _e$target$getAttribut === void 0 ? void 0 : _e$target$getAttribut.call(_e$target, 'data-bs-target')) || ((_e$target2 = e.target) === null || _e$target2 === void 0 || (_e$target2$getAttribu = _e$target2.getAttribute) === null || _e$target2$getAttribu === void 0 ? void 0 : _e$target2$getAttribu.call(_e$target2, 'href')) || '';
-          if (id && id.startsWith('#')) id = id.slice(1);
-          if (id) this.activeTab = id;
-          this.stopAllAudio && this.stopAllAudio();
-        };
-        document.addEventListener('shown.bs.tab', this._onTabShown);
-      }
-    } catch (_) {}
-
-    // Attach a window wheel listener only if gestures are enabled (coarse pointer)
-    if (this.allowGestures && typeof window !== 'undefined') {
-      this._onWindowWheel = e => this.handleWheel(e);
-      window.addEventListener('wheel', this._onWindowWheel, {
-        passive: true
-      });
-    }
-
-    // Swipe tip persisted dismissal
-    try {
-      const dismissed = localStorage.getItem('swipeTipDismissed');
-      if (dismissed === '1') {
-        this.showSwipeTip = false;
-      } else {
-        this.showSwipeTip = true;
-      }
-    } catch (_) {
-      this.showSwipeTip = true;
-    }
-  },
-  // Ensure listeners are cleaned up when the component is destroyed
-  beforeUnmount() {
-    var _win$removeEventListe, _win$removeEventListe2;
-    const win = typeof globalThis !== 'undefined' && globalThis.window ? globalThis.window : typeof window !== 'undefined' ? window : null;
-    win === null || win === void 0 || (_win$removeEventListe = win.removeEventListener) === null || _win$removeEventListe === void 0 || _win$removeEventListe.call(win, "keydown", this.onKeydown);
-    win === null || win === void 0 || (_win$removeEventListe2 = win.removeEventListener) === null || _win$removeEventListe2 === void 0 || _win$removeEventListe2.call(win, 'resize', this.debouncedUpdateIsMobile || this.updateIsMobile);
-    this.clearNextStepTimer();
-    this.showNextStep = false;
-    try {
-      if (this._coarseMql && this._coarseMql.removeEventListener) {
-        this._coarseMql.removeEventListener('change', this.updateInputModalityGestureGate);
-      } else if (this._coarseMql && this._coarseMql.removeListener) {
-        this._coarseMql.removeListener(this.updateInputModalityGestureGate);
-      }
-    } catch (_) {}
-    if (typeof window !== 'undefined' && this._onWindowWheel) {
-      window.removeEventListener('wheel', this._onWindowWheel, {
-        passive: true
-      });
-      this._onWindowWheel = null;
-    }
-  },
-  // Vue 2 fallback (in case this project uses Vue 2)
-  beforeDestroy() {
-    var _win2$removeEventList, _win2$removeEventList2;
-    const win2 = typeof globalThis !== 'undefined' && globalThis.window ? globalThis.window : typeof window !== 'undefined' ? window : null;
-    win2 === null || win2 === void 0 || (_win2$removeEventList = win2.removeEventListener) === null || _win2$removeEventList === void 0 || _win2$removeEventList.call(win2, "keydown", this.onKeydown);
-    win2 === null || win2 === void 0 || (_win2$removeEventList2 = win2.removeEventListener) === null || _win2$removeEventList2 === void 0 || _win2$removeEventList2.call(win2, 'resize', this.debouncedUpdateIsMobile || this.updateIsMobile);
+    Title: _Intro_Title_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    AdvancedSearch: _search_AdvancedSearch_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    SurahDropdown: _search_SurahDropdown_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    AyahDropdown: _search_AyahDropdown_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    ErrorAlert: _search_ErrorAlert_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    NavTabs: _tabs_NavTabs_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    TranslationSection: _TranslationSection_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
+    TafseerSection: _TafseerSection_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
+    TransliterationSection: _TransliterationSection_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
+    TranslationActions: _TranslationActions_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
+    TafseerActions: _TafseerActions_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
+    TransliterationActions: _TransliterationActions_vue__WEBPACK_IMPORTED_MODULE_12__["default"],
+    TranslationNote: _translation_features_notes_TranslationNote_vue__WEBPACK_IMPORTED_MODULE_13__["default"],
+    TafseerNote: _translation_features_notes_TafseerNote_vue__WEBPACK_IMPORTED_MODULE_14__["default"],
+    TransliterationNote: _translation_features_notes_TransliterationNote_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
+    SurahInfoModal: _modals_SurahInfoModal_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
+    Welcome: _Intro_Welcome_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
+    HelpGuideModal: _translation_HelpGuideModal_vue__WEBPACK_IMPORTED_MODULE_18__["default"]
   },
   data() {
     return {
-      // Cache ayat per surah to avoid redundant fetches
-      ayahCache: {},
-      tafseerCache: {},
-      infoCache: {},
-      lastFetchedSurahId: null,
-      fetchAyatTimer: null,
-      ayatInflight: null,
-      debouncedUpdateIsMobile: null,
-      surahs: [],
-      // List of all Surahs
-      reciters: [],
-      // List of all Reciters
-      translations: [],
-      // List of all Translations
-      selectedSurah: "",
-      // Selected Surah number
-      selectedReciter: "",
-      // Default reciter
-      selectedTranslation: "",
-      // Default translation
-      selectedSurahId: 1,
-      isDarkMode: false,
-      showAudio: false,
-      userIsLoggedIn: true,
-      newThemeName: "",
-      savedThemes: [],
-      selectedTheme: null,
-      isAdvancedSearchVisible: false,
-      // Controls the visibility of AdvancedSearch
-      searchTerm: "",
-      results: [],
-      filteredResults: [],
-      selectedSurah: null,
-      selectedAyah: null,
-      selectedTafseer: null,
-      userId: null,
-      bookmarkSubmitted: false,
-      // Set initial state
-      selectedFolderId: null,
-      isVisible1: false,
-      isOpen: false,
-      recognition: null,
-      isListening: false,
-      transcript: "",
+      // UI state
       isVisible: false,
-      showSuccessMessage: false,
-      // Controls visibility of success messag
-      selectedStyle: null,
-      // Text transformation and alignment
-      textTransform: "none",
-      textAlign: "left",
-      // For showing success message
-      showSuccessMessage: false,
-      isCollapsed: false,
-      showSuccessMessage: false,
-      showMessage: false,
-      // Delay reveal for Next Step card
-      showNextStep: false,
-      _nextStepTimer: null,
-      // Defaults to silence warnings seen in console
-      showMoreLink: false,
+      isOpen: false,
+      isFullScreen: false,
+      activeTab: "home",
+      isMobile: false,
       isPlaying: false,
-      ayah: null,
-      dropdownHidden: false,
-      filteredSurah: [],
-      //twitter/whatsapp
-      information: {
-        translation: "",
-        transliteration: "" // Example translated text
-      },
-      selectedSurahIndex: null,
-      tafseer: "",
-      //custom surah collection
-      customSuratList: [],
-      // track selected id
-      selectedSurahId: null,
-      selectedAyahId: 0,
-      // initialize empty arrays
-      data: [],
+      expanded: false,
+      showSwipeTip: false,
+      showSwipeNotice: false,
+      swipeNoticeText: "",
+      swipeNoticeDir: "next",
+      lastSwipeDir: "next",
+      showNextStep: false,
+      nextStepDismissed: false,
+      screenReaderMessage: "",
+      modalInformation: null,
+      dropdownHidden: true,
+      // Surah / Ayah data
       surat: [],
+      filteredSurah: [],
+      selectedSurahId: null,
       ayat: [],
-      tafseers: [],
-      currentSurah: null,
-      currentVerse: null,
-      currentTafseer: "",
-      // storage
+      selectedIndexAyah: -1,
+      selectedAyahId: null,
+      selectedAyah: null,
+      verseNumber: "",
       information: null,
       tafseer: null,
-      surah: null,
-      ayah_id: null,
-      // ayah controls
-      surat: 0,
-      selectedIndexAyah: 0,
-      //expand text
-      expanded: false,
-      //full screen toggle
-      isFullScreen: false,
-      // auth login
-      isLoggedIn: false,
-      // main search
-      showClearButton: false,
-      searchTerm: "",
-      filteredSurah: [],
-      // main card visibility
-      isCardVisible: false,
-      // select ayah dropdown
-      selectedIndexAyah: -1,
-      selectedIndexAyah: null,
-      selectedAyah: null,
-      dropdownHidden: true,
-      verseNumber: null,
-      //alerts
-      showError: false,
-      showAlert1: false,
+      translation: "",
+      currentAyah: null,
+      // Additional UI helpers consumed by child components
+      showMoreLink: false,
       showAlertText: false,
       showAlert: false,
       showErrorAlert: false,
       showAlertTextNote: false,
-      maxLength: 400,
+      showAlert1: false,
+      showError: false,
+      // Network + cache state
+      isLoading: false,
+      ayahCache: Object.create(null),
+      infoCache: Object.create(null),
+      tafseerCache: Object.create(null),
+      ayatInflight: null,
+      fetchAyatTimer: null,
+      // Alert + feedback
       alertMessage: "",
-      alertType: "",
-      // correction modal
-      form: new Form({
-        id: "",
-        name: "",
-        email: "",
-        mistake_type: "",
-        added_notes: "",
-        ayah_num: ""
-      }),
-      // search
-      searchFilters: new Form({
-        name_en: "",
-        name_ar: ""
-      }),
-      loading: false,
-      // Accessibility: live region message
-      screenReaderMessage: "",
-      // Track viewport for responsive ARIA handling
-      isMobile: false,
-      // Swipe tracking
+      alertType: "success",
+      // Session data
+      userId: null,
+      // Gesture tracking
+      allowGestures: true,
       touchStartX: 0,
       touchStartY: 0,
       touchEndX: 0,
       touchEndY: 0,
       touchStartTime: 0,
-      // Pointer tracking (for non-touch devices)
+      pointerActive: false,
       pointerStartX: 0,
       pointerStartY: 0,
-      pointerEndX: 0,
-      pointerEndY: 0,
       pointerStartTime: 0,
-      pointerActive: false,
-      // Wheel tracking (for trackpads)
+      lastGestureTs: 0,
       wheelAccumX: 0,
-      wheelAccumY: 0,
       wheelLastTime: 0,
-      // Tunable thresholds
-      // Gesture thresholds (relaxed for reliability on mobile/tablets)
       swipeMinDistance: 20,
       swipeMaxDuration: 800,
       wheelThreshold: 35,
       wheelVertLeak: 30,
       wheelResetMs: 160,
-      // Debounce multiple triggers
-      gestureCooldownMs: 300,
-      lastGestureTs: 0,
-      // Environment gating
-      isCoarsePointer: false,
-      allowGestures: true,
-      _coarseMql: null,
-      activeTab: 'home',
-      // UI: swipe tip visibility (mobile/tablet only)
-      showSwipeTip: true,
-      lastSwipeDir: null,
-      // Swipe success notice
-      showSwipeNotice: false,
-      swipeNoticeText: '',
-      swipeNoticeDir: 'next',
-      _swipeNoticeTimer: null
+      gestureCooldownMs: 300
     };
   },
   computed: {
-    // Filter ayahs based on search query
-    filteredAyahs() {
-      if (!this.surahDetails) return [];
-      if (!this.searchQuery) return this.surahDetails.ayahs;
-      const query = this.searchQuery.toLowerCase();
-      return this.surahDetails.ayahs.filter(ayah => ayah.text.toLowerCase().includes(query) || ayah.translation.toLowerCase().includes(query));
-    },
     combinedText() {
-      // Check if ayah_text and translation have nested structure
-      const translation = typeof this.information.translation === "object" ? this.information.translation.text : this.information.translation;
-      return `Translation: ${translation}`;
+      var _this$information, _this$information$tra, _this$information2;
+      const translation = typeof ((_this$information = this.information) === null || _this$information === void 0 ? void 0 : _this$information.translation) === "object" ? (_this$information$tra = this.information.translation) === null || _this$information$tra === void 0 ? void 0 : _this$information$tra.text : (_this$information2 = this.information) === null || _this$information2 === void 0 ? void 0 : _this$information2.translation;
+      return translation ? `Translation: ${translation}` : "";
+    }
+  },
+  created() {
+    this.bootstrapComponent();
+  },
+  mounted() {
+    this.updateIsMobile();
+    this.updateInputModalityGestureGate();
+    this.setupSwipeTip();
+    this._onResize = () => {
+      this.updateIsMobile();
+      this.updateInputModalityGestureGate();
+    };
+    window.addEventListener("resize", this._onResize, {
+      passive: true
+    });
+    this._onWheel = event => this.handleWindowWheel(event);
+    window.addEventListener("wheel", this._onWheel, {
+      passive: true
+    });
+  },
+  beforeUnmount() {
+    if (this._onResize) {
+      window.removeEventListener("resize", this._onResize, {
+        passive: true
+      });
+      this._onResize = null;
+    }
+    if (this._onWheel) {
+      window.removeEventListener("wheel", this._onWheel, {
+        passive: true
+      });
+      this._onWheel = null;
+    }
+    if (this.fetchAyatTimer) {
+      clearTimeout(this.fetchAyatTimer);
+      this.fetchAyatTimer = null;
+    }
+    this.clearNextStepTimer();
+    if (this._swipeNoticeTimer) {
+      clearTimeout(this._swipeNoticeTimer);
+      this._swipeNoticeTimer = null;
     }
   },
   methods: {
-    // Thresholds can be tweaked here directly if needed.
-
-    startNextStepTimer() {
-      this.showNextStep = false;
-      this.clearNextStepTimer();
+    async bootstrapComponent() {
+      this.restoreToggleState();
+      this.userId = this.safeGetLocalStorage("userId");
+      await this.fetchSurahList();
+      this.startNextStepTimer();
+    },
+    safeGetLocalStorage(key) {
       try {
-        this._nextStepTimer = setTimeout(() => {
-          this.showNextStep = true;
-          this._nextStepTimer = null;
-        }, 10000);
-      } catch (_) {
-        this.showNextStep = true;
+        return window.localStorage.getItem(key);
+      } catch (error) {
+        return null;
       }
+    },
+    restoreToggleState() {
+      const raw = this.safeGetLocalStorage(STORAGE_KEYS.toggle);
+      if (raw !== null) {
+        try {
+          this.isVisible = JSON.parse(raw);
+        } catch (error) {
+          this.isVisible = raw === "true";
+        }
+      }
+    },
+    setupSwipeTip() {
+      const dismissed = this.safeGetLocalStorage(STORAGE_KEYS.swipeTip);
+      this.showSwipeTip = dismissed !== "1" && (this.isMobile || this.allowGestures);
+    },
+    async fetchSurahList() {
+      try {
+        const {
+          data
+        } = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/get_surat");
+        this.surat = Array.isArray(data) ? data : [];
+        this.filteredSurah = this.surat;
+      } catch (error) {
+        console.error("Error fetching surahs:", error);
+      }
+    },
+    saveToggleState() {
+      try {
+        window.localStorage.setItem(STORAGE_KEYS.toggle, JSON.stringify(this.isVisible));
+      } catch (error) {
+        // ignore storage issues gracefully
+      }
+    },
+    startNextStepTimer() {
+      if (this.nextStepDismissed) {
+        this.showNextStep = false;
+        return;
+      }
+      this.clearNextStepTimer();
+      this.showNextStep = false;
+      this._nextStepTimer = setTimeout(() => {
+        if (!this.nextStepDismissed) {
+          this.showNextStep = true;
+        }
+        this._nextStepTimer = null;
+      }, 10000);
     },
     clearNextStepTimer() {
       if (this._nextStepTimer) {
@@ -10022,194 +9832,69 @@ __webpack_require__.r(__webpack_exports__);
         this._nextStepTimer = null;
       }
     },
-    handleDarkModeChange(isDarkMode) {
-      this.isDarkMode = isDarkMode;
+    updateIsMobile() {
+      this.isMobile = (window.innerWidth || 0) <= 767;
     },
-    dismissSwipeTip() {
-      this.showSwipeTip = false;
+    updateInputModalityGestureGate() {
       try {
-        localStorage.setItem('swipeTipDismissed', '1');
-      } catch (_) {}
-    },
-    // Handle keyboard navigation for ayat
-    onKeydown(e) {
-      // Ignore when typing in form fields or contenteditable areas
-      const tag = e.target && e.target.tagName ? e.target.tagName.toLowerCase() : "";
-      const isEditable = e.target && (e.target.isContentEditable || ["input", "textarea", "select"].includes(tag));
-      if (isEditable) return;
-
-      // No ayat loaded or no selection context
-      if (!Array.isArray(this.ayat) || this.ayat.length === 0) return;
-      switch (e.key) {
-        case "ArrowRight":
-        case "ArrowDown":
-          e.preventDefault();
-          this.goToNextAyah();
-          break;
-        case "ArrowLeft":
-        case "ArrowUp":
-          e.preventDefault();
-          this.goToPreviousAyah();
-          break;
-        case "Home":
-          e.preventDefault();
-          this.goToFirstAyah();
-          break;
-        case "End":
-          e.preventDefault();
-          this.goToLastAyah();
-          break;
-        default:
-          break;
+        const hasTouch = "ontouchstart" in window || (navigator.maxTouchPoints || 0) > 0;
+        this.allowGestures = hasTouch || this.isMobile;
+      } catch (error) {
+        this.allowGestures = this.isMobile;
       }
     },
-    prepareAyahText() {
-      if (!this.ayah || !this.ayah.text) {
-        console.error("prepareAyahText: ayah.text is missing!", this.ayah);
+    updateSelectedSurah(id) {
+      const numeric = toNumber(id);
+      if (!numeric || numeric === this.selectedSurahId) {
         return;
       }
-      this.words = this.ayah.text.split(" ");
-      this.timestamps = this.words.map((_, index) => index * 0.5);
-      this.highlightedAyah = this.words.join(" ");
-      console.log("Highlighted Ayah Text:", this.highlightedAyah); // Debugging log
+      this.selectedSurahId = numeric;
+      this.selectedIndexAyah = -1;
+      this.selectedAyahId = null;
+      this.selectedAyah = null;
+      this.currentAyah = null;
+      this.dropdownHidden = false;
+      this.information = null;
+      this.tafseer = null;
+      this.scheduleFetchAyat(numeric);
     },
-    // Fetch all Surahs
-    async fetchSurahs() {
-      try {
-        const response = await fetch("https://api.alquran.cloud/v1/surah");
-        if (!response.ok) throw new Error("Failed to fetch Surahs");
-        const data = await response.json();
-        this.surahs = data.data;
-      } catch (error) {
-        console.error("Error fetching Surahs:", error);
+    scheduleFetchAyat(id = this.selectedSurahId) {
+      if (!id) return;
+      if (this.fetchAyatTimer) {
+        clearTimeout(this.fetchAyatTimer);
       }
-    },
-    async fetchReciters() {
-      try {
-        const response = await fetch("https://api.alquran.cloud/v1/edition/format/audio");
-        if (!response.ok) throw new Error("Failed to fetch Reciters");
-        const data = await response.json();
-        this.reciters = data.data.filter(reciter => reciter.identifier && reciter.englishName).map(reciter => ({
-          identifier: reciter.identifier,
-          englishName: reciter.englishName || "Unknown Reciter"
-        }));
-      } catch (error) {
-        console.error("Error fetching Reciters:", error);
-      }
-    },
-    // Fetch all Translations
-    async fetchTranslations() {
-      try {
-        const response = await fetch("https://api.alquran.cloud/v1/edition/type/translation");
-        if (!response.ok) throw new Error("Failed to fetch Translations");
-        const data = await response.json();
-        this.translations = data.data;
-      } catch (error) {
-        console.error("Error fetching Translations:", error);
-      }
-    },
-    async fetchSurahDetails() {
-      if (!this.selectedSurah) return;
-      try {
-        const response = await fetch(`https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},${this.selectedTranslation}`);
-        if (!response.ok) throw new Error("Failed to fetch Surah details");
-        const data = await response.json();
-        const arabicText = data.data[0];
-        const translation = data.data[1];
-        this.surahDetails = {
-          surahNumber: this.selectedSurah,
-          englishName: arabicText.englishName,
-          name: arabicText.name,
-          ayahs: arabicText.ayahs.map((ayah, index) => {
-            var _translation$ayahs$in;
-            return {
-              number: ayah.number,
-              text: ayah.text,
-              translation: ((_translation$ayahs$in = translation.ayahs[index]) === null || _translation$ayahs$in === void 0 ? void 0 : _translation$ayahs$in.text) || "Translation not available",
-              audio: ayah.audio || ""
-            };
-          })
-        };
-      } catch (error) {
-        console.error("Error fetching Surah details:", error);
-      }
-    },
-    setSelectedSurah(value) {
-      console.log(value);
-      this.selectedSurah = value;
-    },
-    saveToggleState() {
-      // Save the toggle state to localStorage
-      localStorage.setItem("toggleState", JSON.stringify(this.isVisible));
-    },
-    updateAyah(newAyah) {
-      this.currentAyah = newAyah;
-    },
-    highlightText(charIndex, currentWord) {
-      this.$refs.translationSection.highlightText(charIndex, currentWord);
-    },
-    clearHighlight() {
-      this.$nextTick(() => {
-        if (this.currentAyah && this.currentAyah.translation) {
-          this.renderedText = `<span>${this.currentAyah.translation}</span>`;
-        }
-      });
-    },
-    updateIsMobile() {
-      try {
-        const w = typeof globalThis !== 'undefined' && globalThis.window ? globalThis.window : typeof window !== 'undefined' ? window : null;
-        if (w && typeof w.matchMedia === 'function') {
-          this.isMobile = w.matchMedia('(max-width: 767px)').matches;
-        } else if (w && typeof w.innerWidth === 'number') {
-          this.isMobile = w.innerWidth <= 767;
-        } else {
-          this.isMobile = false;
-        }
-      } catch (e) {
-        this.isMobile = false;
-      }
-    },
-    // Simple debounce utility
-    debounce(fn, delay = 150) {
-      let timer;
-      return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => fn.apply(this, args), delay);
-      };
-    },
-    // Schedule ayah fetch with debounce to avoid duplicate triggers
-    scheduleFetchAyat(surahId) {
-      const id = surahId || this.selectedSurahId;
-      if (this.fetchAyatTimer) clearTimeout(this.fetchAyatTimer);
       this.fetchAyatTimer = setTimeout(() => this.fetchAyat(id), 150);
     },
-    async fetchAyat(surahIdArg) {
-      const surahId = surahIdArg || this.selectedSurahId;
-      if (!surahId) return;
-      // Serve from cache if present
-      if (this.ayahCache[surahId]) {
-        this.ayat = this.ayahCache[surahId];
-        this.dropdownHidden = false;
+    async fetchAyat(id = this.selectedSurahId) {
+      if (!id) return;
+      if (this.ayahCache[id]) {
+        this.ayat = this.ayahCache[id];
+        this.dropdownHidden = !this.ayat.length;
+        if (this.ayat.length) {
+          this.selectAyah(Math.max(0, this.selectedIndexAyah));
+        }
         return;
       }
-      // Prevent overlapping requests
       if (this.ayatInflight) return;
       try {
         this.isLoading = true;
-        this.ayatInflight = axios.get("/get_ayat", {
+        this.ayatInflight = axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/get_ayat", {
           params: {
-            surah_id: surahId
+            surah_id: id
           }
         });
-        const response = await this.ayatInflight;
-        this.ayat = response.data;
-        this.ayahCache[surahId] = response.data;
-        this.lastFetchedSurahId = surahId;
-        this.dropdownHidden = false;
-        // Select first ayah only if nothing is selected yet
-        if (this.ayat.length > 0 && (this.selectedAyahId === null || this.selectedAyahId === 0 || this.selectedAyahId === "")) {
-          this.selectedAyahId = this.ayat[0].id;
-          this.handleAyahChange();
+        const {
+          data
+        } = await this.ayatInflight;
+        const ayat = Array.isArray(data) ? data : [];
+        this.ayahCache[id] = ayat;
+        this.ayat = ayat;
+        this.dropdownHidden = !ayat.length;
+        if (ayat.length) {
+          this.selectAyah(0);
+        } else {
+          this.information = null;
+          this.tafseer = null;
         }
       } catch (error) {
         console.error("Error fetching ayat:", error);
@@ -10218,817 +9903,380 @@ __webpack_require__.r(__webpack_exports__);
         this.ayatInflight = null;
       }
     },
-    updateInformation(info) {
-      this.information = info;
-    },
-    updateTafseer(tafseerData) {
-      this.tafseer = tafseerData;
-    },
-    toggleAudioPlayback() {
-      // Prefer toggling the active section if present; fall back to all
-      const sections = [this.$refs.tafseerSection, this.$refs.translationSection, this.$refs.transliterationSection].filter(Boolean);
-      let toggled = false;
-      for (const sec of sections) {
-        if (typeof (sec === null || sec === void 0 ? void 0 : sec.toggleSpeech) === 'function') {
-          try {
-            sec.toggleSpeech();
-            toggled = true;
-          } catch (e) {
-            console.warn('toggleSpeech failed on section', e);
-          }
-        }
+    selectAyah(index) {
+      var _ayah$id;
+      if (!Array.isArray(this.ayat) || !this.ayat.length) return;
+      const clamped = Math.max(0, Math.min(index, this.ayat.length - 1));
+      if (this.selectedIndexAyah === clamped && this.information) {
+        this.scrollToSelectedAyah();
+        return;
       }
-      if (!toggled) {
-        console.warn('No section available to toggle audio');
+      this.selectedIndexAyah = clamped;
+      const ayah = this.ayat[clamped];
+      this.selectedAyah = ayah;
+      this.currentAyah = ayah;
+      this.selectedAyahId = (_ayah$id = ayah === null || ayah === void 0 ? void 0 : ayah.id) !== null && _ayah$id !== void 0 ? _ayah$id : null;
+      if (!ayah) return;
+      this.updateCardSection(ayah);
+      this.screenReaderMessage = `Selected verse ${ayah.ayah_id}`;
+      this.scrollToSelectedAyah();
+      this.ensureAyahPayload(ayah, clamped);
+    },
+    async ensureAyahPayload(ayah, index) {
+      if (!(ayah !== null && ayah !== void 0 && ayah.id)) return;
+      const cachedInfo = this.infoCache[ayah.id];
+      const cachedTafseer = this.tafseerCache[ayah.id];
+      if (cachedInfo && cachedTafseer) {
+        this.applyAyahPayload(cachedInfo, cachedTafseer);
+        this.prefetchAdjacentAyahData(index);
+        return;
       }
-    },
-    showSettingsOffcanvas() {
-      // Select the offcanvas element by its ID
-      const settingsOffcanvasElement = document.getElementById("settingsOffcanvas");
-      // Initialize the Bootstrap Offcanvas component
-      const offcanvas = new bootstrap.Offcanvas(settingsOffcanvasElement, {
-        backdrop: true,
-        // Adds a backdrop behind the off-canvas
-        keyboard: true // Allows closing with the keyboard (Escape key)
-      });
-      // Show the offcanvas
-      offcanvas.show();
-    },
-    handleItemSelected(selectedItem) {
-      alert(`Selected item: ${selectedItem}`);
-    },
-    submitForm() {
-      const formData = {
-        surah_name: this.information.ayah.surah.name_en,
-        ayah_num: this.information.ayah_id,
-        ayah_verse_ar: this.information.ayah.ayah_text,
-        ayah_verse_en: this.information.translation,
-        user_id: this.userId
-      };
-      axios.post("/bookmarks", formData).then(response => {
-        // Successfully bookmarked
-        this.showAlert = true;
-        this.alertMessage = "Ayah bookmarked successfully!";
-        this.alertType = "success"; // Success alert for logged-in users
-        localStorage.setItem(`bookmarkSubmitted_${this.information.ayah_id}`, true);
-        this.hideAlertAfterDelay();
-      }).catch(error => {
-        // Error during bookmark submission
-        console.error("Error submitting bookmark:", error);
-        this.showErrorAlert = true; // Danger alert for request failure
-        this.hideAlertAfterDelayError();
-      });
-    },
-    submitFormTafseer() {
-      const formData1 = {
-        surah_name: this.information.ayah.surah.name_en,
-        ayah_num: this.information.ayah_id,
-        ayah_verse_ar: this.information.ayah.ayah_text,
-        ayah_verse_en: this.tafseer,
-        user_id: this.userId
-      };
-      axios.post("/bookmarks", formData1).then(response => {
-        this.showAlert = true;
-        this.alertMessage = "Tafseer bookmarked successfully!";
-        this.alertType = "success";
-        localStorage.setItem(`bookmarkSubmitted_${this.information.ayah_id}`, true);
-        this.hideAlertAfterDelay();
-      }).catch(error => {
-        console.error("Error submitting bookmark:", error);
-        this.showErrorAlert = true;
-        this.hideAlertAfterDelayError();
-      });
-    },
-    submitFormTransliteration() {
-      const formData2 = {
-        surah_name: this.information.ayah.surah.name_en,
-        ayah_num: this.information.ayah_id,
-        ayah_verse_ar: this.information.ayah.ayah_text,
-        ayah_verse_en: this.information.transliteration,
-        user_id: this.userId
-      };
-      axios.post("/bookmarks", formData2).then(response => {
-        this.showAlert = true;
-        this.alertMessage = "Transliteration bookmarked successfully!";
-        this.alertType = "success";
-        localStorage.setItem(`bookmarkSubmitted_${this.information.ayah_id}`, true);
-        this.hideAlertAfterDelay();
-      }).catch(error => {
-        console.error("Error submitting bookmark:", error);
-        this.showErrorAlert = true;
-        this.hideAlertAfterDelayError();
-      });
-    },
-    hideAlertAfterDelay() {
-      setTimeout(() => {
-        this.showAlert = false;
-      }, 3000); // Hide the alert after 3 seconds
-    },
-    hideAlertAfterDelayError() {
-      setTimeout(() => {
-        this.showErrorAlert = false;
-      }, 3000); // Hide the alert after 3 seconds
-    },
-    toggleAdvancedSearch() {
-      this.isAdvancedSearchVisible = !this.isAdvancedSearchVisible; // Toggle the visibility
-    },
-    async fetchSurahs() {
       try {
-        const response = await fetch("/get_surat"); // Adjust the API endpoint as needed
-        this.surat = await response.json();
+        this.isLoading = true;
+        const [info, tafseer] = await Promise.all([this.fetchInformation(ayah.id), this.fetchTafseer(ayah.id)]);
+        this.infoCache[ayah.id] = info;
+        this.tafseerCache[ayah.id] = tafseer;
+        this.applyAyahPayload(info, tafseer);
+        this.prefetchAdjacentAyahData(index);
       } catch (error) {
-        console.error("Error fetching surahs:", error);
+        console.error("Error fetching ayah payload:", error);
+      } finally {
+        this.isLoading = false;
       }
     },
-    toggleContent1() {
-      this.isVisible1 = !this.isVisible1; // Toggle the visibility
-    },
-    toggleContent() {
-      this.isOpen = !this.isOpen; // Toggle the content's visibility
-    },
-    toggleCollapse() {
-      this.isCollapsed = !this.isCollapsed;
-    },
-    openModal(modalRef) {
-      // Ensure the ref exists
-      if (!this.$refs[modalRef]) {
-        console.error(`Modal reference '${modalRef}' not found.`);
-        return;
+    applyAyahPayload(info, tafseer) {
+      if (info) {
+        var _info$translation;
+        this.information = info;
+        this.modalInformation = info;
+        this.translation = typeof info.translation === "object" ? (_info$translation = info.translation) === null || _info$translation === void 0 ? void 0 : _info$translation.text : info.translation;
       }
-      const modalComponent = this.$refs[modalRef];
-      // Ensure the component has a `showModal` method
-      if (typeof modalComponent.showModal !== "function") {
-        console.error(`showModal is not a function in '${modalRef}'.`);
-        return;
-      }
-      // Call the `showModal` method
-      modalComponent.showModal();
-    },
-    showModal() {
-      const modal = new bootstrap.Modal(document.getElementById("styleModal"));
-      modal.show();
-      this.successMessage = ""; // Reset the success message when the modal is opened
-    },
-    applyStyle() {
-      if (this.selectedStyle) {
-        this.bgColor = this.selectedStyle.backgroundColor || this.bgColor;
-        this.textColor = this.selectedStyle.textColor || this.textColor;
-        this.iconColor = this.selectedStyle.iconColor || this.iconColor;
-        this.fontFamily = this.selectedStyle.fontStyle || this.fontFamily;
+      if (tafseer) {
+        this.tafseer = tafseer;
       }
     },
-    toggleVisibility() {
-      this.isVisible = !this.isVisible;
-    },
-    handleTranscript(transcript) {
-      this.transcript = transcript;
-    },
-    openModal(modalRef) {
-      const modalComponent = this.$refs[modalRef];
-      if (modalComponent && typeof modalComponent.showModal === "function") {
-        modalComponent.showModal();
-      } else {
-        console.error(`Modal reference '${modalRef}' not found or showModal is not a function.`);
-      }
-    },
-    updateSelectedSurah(newSurahId) {
-      this.selectedSurahId = newSurahId; // Sync emitted value to local state
-    },
-    updateSelectedSurah(id) {
-      console.log("1 -> compo: " + id, this.dropdownHidden);
-      this.selectedSurahId = id;
-      this.dropdownHidden = false; // Ensure dropdown is visible when a Surah is selected
-
-      console.log("quran compo: " + id, this.dropdownHidden);
-      this.getAyat(id);
-    },
-    updateSelectedSurah(surah) {
-      this.selectedSurah = surah;
-      this.selectedSurahId = surah.id; // Assuming `surah` object has an `id` field
-      console.log("selectedSurahId: ", surah, this.selectedSurahId);
-    },
-    updateSelectedSurah(newSurah) {
-      this.selectedSurah = newSurah;
-    },
-    updateInformation(newInformation) {
-      this.information = newInformation;
-    },
-    updateTafseer(newTafseer) {
-      this.tafseer = newTafseer;
-    },
-    handleUpdateResults(results) {
-      this.filteredSurah = results;
-    },
-    handleClearResults() {
-      this.filteredSurah = [];
-    },
-    handleSelectSurah(surahId) {
-      this.selectedSurah = surahId;
-      this.filteredSurah = []; // Hide the search results list
-    },
-    selectSurahFromResults(surah) {
-      this.selectedSurah = surah.id;
-      this.filteredSurah = []; // Hide the search results list
-    },
-    handleScrollToAyah(verseNumber) {
-      this.$nextTick(() => {
-        const ayahElement = this.$refs.ayahContainer.querySelector(`#ayah-${verseNumber}`);
-        if (ayahElement) {
-          ayahElement.scrollIntoView({
-            behavior: "smooth"
-          });
-        } else {
-          console.error("Ayah not found:", verseNumber);
+    prefetchAdjacentAyahData(index) {
+      PREFETCH_OFFSETS.forEach(offset => {
+        const targetIndex = index + offset;
+        if (targetIndex < 0 || targetIndex >= this.ayat.length) return;
+        const target = this.ayat[targetIndex];
+        if (!(target !== null && target !== void 0 && target.id)) return;
+        if (!this.infoCache[target.id]) {
+          this.fetchInformation(target.id).then(info => {
+            this.infoCache[target.id] = info;
+          }).catch(() => {});
+        }
+        if (!this.tafseerCache[target.id]) {
+          this.fetchTafseer(target.id).then(tafseer => {
+            this.tafseerCache[target.id] = tafseer;
+          }).catch(() => {});
         }
       });
     },
-    toggleExpand() {
-      this.expanded = !this.expanded;
-    },
-    getSelectedSurahAyat() {
-      const surahData = this.surat.find(surah => surah.id === parseInt(this.surah));
-      return surahData ? surahData.ayat : [];
-      // removed by dead control flow
-
-      // removed by dead control flow
-
-    },
-    updateAyah(newIndex) {
-      this.selectedIndexAyah = newIndex;
-      console.log(`Selected Ayah: ${newIndex}`);
-    },
-    closeAlertText() {
-      this.showAlertText = false;
-    },
-    triggerBookmarkSuccess() {
-      this.showAlert = true;
-    },
-    triggerLoginError() {
-      this.showErrorAlert = true;
-    },
-    triggerNoteLoginError() {
-      this.showAlertTextNote = true;
-    },
-    toggleFullScreen() {
-      this.isFullScreen = !this.isFullScreen;
-    },
-    toggleFullScreen() {
-      this.isFullScreen = !this.isFullScreen;
-    },
-    // Utility: ignore interactive targets and selections
-    isInteractiveTarget(el) {
-      if (!el) return false;
-      const interactiveSelector = 'a, button, input, textarea, select, [role="button"], [contenteditable="true"]';
-      if (el.closest && el.closest(interactiveSelector)) return true;
-      try {
-        const sel = typeof window !== 'undefined' && window.getSelection ? window.getSelection() : null;
-        if (sel && sel.type === 'Range' && String(sel).length > 0) return true;
-      } catch (_) {}
-      return false;
-    },
-    handleTouchStart(event) {
-      const touch = event.changedTouches ? event.changedTouches[0] : event;
-      if (this.isInteractiveTarget(event.target)) return;
-      // Use client coordinates consistently across start/move/end
-      const cx = typeof touch.clientX === 'number' ? touch.clientX : touch.screenX;
-      const cy = typeof touch.clientY === 'number' ? touch.clientY : touch.screenY;
-      this.touchStartX = cx;
-      this.touchStartY = cy;
-      this.touchStartTime = Date.now();
-    },
-    handleTouchMove(event) {
-      const touch = event.changedTouches ? event.changedTouches[0] : event;
-      // Allow form controls to operate normally; otherwise enable swipe
-      const tag = event.target && event.target.tagName ? event.target.tagName.toLowerCase() : '';
-      const isFormControl = ['input', 'textarea', 'select', 'button'].includes(tag) || event.target && event.target.isContentEditable;
-      if (isFormControl) return;
-      const cx = typeof touch.clientX === 'number' ? touch.clientX : touch.screenX;
-      const cy = typeof touch.clientY === 'number' ? touch.clientY : touch.screenY;
-      this.touchEndX = cx;
-      this.touchEndY = cy;
-
-      // Horizontal-intent guard: once clearly horizontal, prevent page scroll (Safari requires non-passive)
-      const dx = Math.abs((this.touchEndX || this.touchStartX) - this.touchStartX);
-      const dy = Math.abs((this.touchEndY || this.touchStartY) - this.touchStartY);
-      if (dx > 16 && dx > dy * 1.5 && event.cancelable) {
-        event.preventDefault();
-      }
-    },
-    handleTouchEnd(event) {
-      const touchEndTime = Date.now();
-      const timeDiff = touchEndTime - this.touchStartTime;
-      const endX = typeof this.touchEndX === 'number' ? this.touchEndX : this.touchStartX;
-      const endY = typeof this.touchEndY === 'number' ? this.touchEndY : this.touchStartY;
-      const deltaX = endX - this.touchStartX;
-      const deltaY = endY - this.touchStartY;
-      const minSwipeDistance = this.swipeMinDistance;
-      const maxSwipeDuration = this.swipeMaxDuration;
-
-      // Swipe gesture detection
-      if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < this.wheelVertLeak && timeDiff < maxSwipeDuration) {
-        if (deltaX > 0) {
-          this.onSwipeRight();
-        } else {
-          this.onSwipeLeft();
+    async fetchInformation(id) {
+      const {
+        data
+      } = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/get_informations", {
+        params: {
+          id
         }
-      }
+      });
+      return data;
     },
-    onSwipeRight() {
-      const now = Date.now();
-      if (now - this.lastGestureTs < this.gestureCooldownMs) {
-        return;
-      }
-      this.lastGestureTs = now;
-      this.lastSwipeDir = 'next';
-      this.suppressNextClick();
-      this.swipeFeedback('next');
-      this.goToNextAyah();
+    async fetchTafseer(id) {
+      const {
+        data
+      } = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(`/tafseer/${id}/fetch`);
+      return data;
     },
-    onSwipeLeft() {
-      const now = Date.now();
-      if (now - this.lastGestureTs < this.gestureCooldownMs) {
-        return;
-      }
-      this.lastGestureTs = now;
-      this.lastSwipeDir = 'prev';
-      this.suppressNextClick();
-      this.swipeFeedback('prev');
-      this.goToPreviousAyah();
-    },
-    // Pointer events (covers some laptops/tablets)
-    handlePointerDown(e) {
-      if (this.isInteractiveTarget(e.target)) return;
-      // Do not handle desktop mouse drags; allow touch/pen only
-      if (e.pointerType === 'mouse') return;
-      this.pointerActive = true;
-      this.pointerStartX = e.clientX;
-      this.pointerStartY = e.clientY;
-      this.pointerStartTime = Date.now();
-      try {
-        e.currentTarget.setPointerCapture(e.pointerId);
-      } catch (_) {}
-    },
-    // Subtle success feedback: haptics (where supported) + brief overlay
-    swipeFeedback(dir) {
-      try {
-        var _navigator;
-        if ((_navigator = navigator) !== null && _navigator !== void 0 && _navigator.vibrate) navigator.vibrate(10);
-      } catch (_) {}
-      this.swipeNoticeDir = dir;
-      this.swipeNoticeText = dir === 'next' ? 'Next verse' : 'Previous verse';
-      this.showSwipeNotice = true;
-      clearTimeout(this._swipeNoticeTimer);
-      this._swipeNoticeTimer = setTimeout(() => {
-        this.showSwipeNotice = false;
-      }, 500);
-    },
-    handlePointerMove(e) {
-      if (!this.pointerActive) return;
-      if (this.isInteractiveTarget(e.target)) return;
-      this.pointerEndX = e.clientX;
-      this.pointerEndY = e.clientY;
-      const dx = Math.abs(this.pointerEndX - this.pointerStartX);
-      const dy = Math.abs(this.pointerEndY - this.pointerStartY);
-      if (dx > 16 && dx > dy * 1.5 && e.cancelable) e.preventDefault();
-    },
-    handlePointerUp(e) {
-      if (!this.pointerActive) return;
-      this.pointerActive = false;
-      const timeDiff = Date.now() - this.pointerStartTime;
-      const endX = this.pointerEndX || e.clientX;
-      const endY = this.pointerEndY || e.clientY;
-      const deltaX = endX - this.pointerStartX;
-      const deltaY = endY - this.pointerStartY;
-      const minSwipeDistance = this.swipeMinDistance;
-      const maxSwipeDuration = this.swipeMaxDuration;
-      const vertLeak = this.wheelVertLeak; // reuse vertical tolerance
-      if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < vertLeak && timeDiff < maxSwipeDuration) {
-        if (deltaX > 0) {
-          this.onSwipeRight();
-        } else {
-          this.onSwipeLeft();
-        }
-      } else {
-        // ignore non-swipe pointerup
-      }
-      try {
-        e.currentTarget.releasePointerCapture(e.pointerId);
-      } catch (_) {}
-    },
-    // Trackpad horizontal gestures via wheel
-    handleWheel(eOrCtx, maybeEvent) {
-      // Support both direct calls from template handlers providing context,
-      // and window listener that passes the event only and resolves context.
-      let ctx;
-      let e;
-      if (typeof eOrCtx === 'string') {
-        ctx = eOrCtx;
-        e = maybeEvent;
-      } else {
-        e = eOrCtx;
-        // Resolve context by containment
-        const tT = this.$refs && this.$refs.targetTranslationElement;
-        const tF = this.$refs && this.$refs.targetTafseerElement;
-        const tL = this.$refs && this.$refs.targetTransliterationElement;
-        const path = e.composedPath && e.composedPath() || [];
-        if (tT && (path.includes(tT) || e.target && tT.contains && tT.contains(e.target))) ctx = 'translation';else if (tF && (path.includes(tF) || e.target && tF.contains && tF.contains(e.target))) ctx = 'tafseer';else if (tL && (path.includes(tL) || e.target && tL.contains && tL.contains(e.target))) ctx = 'transliteration';
-      }
-      if (!ctx) return;
-      if (this.activeTab && this.activeTab !== ctx) return;
-      if (!this.allowGestures) return;
-      if (this.isInteractiveTarget(e.target)) return;
-      // Normalize delta based on deltaMode: 0=pixel,1=line,2=page
-      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
-      const dx = e.deltaX * unit;
-      const dy = e.deltaY * unit;
-      const now = Date.now();
-      const dt = now - (this.wheelLastTime || now);
-      this.wheelLastTime = now;
-
-      // Reset accumulation if pause is long
-      if (dt > this.wheelResetMs) {
-        this.wheelAccumX = 0;
-        this.wheelAccumY = 0;
-      }
-      this.wheelAccumX += dx;
-      this.wheelAccumY += dy;
-      const horiz = Math.abs(this.wheelAccumX);
-      const vert = Math.abs(this.wheelAccumY);
-      const threshold = this.wheelThreshold; // strong horizontal swipe
-      const vertLeak = this.wheelVertLeak; // ignore if mostly vertical
-
-      if (horiz > threshold && vert < vertLeak) {
-        if (this.wheelAccumX > 0) {
-          this.onSwipeLeft();
-        } else {
-          this.onSwipeRight();
-        }
-        // Reset after action
-        this.wheelAccumX = 0;
-        this.wheelAccumY = 0;
-      } else {
-        // keep silent to avoid log overhead in production
-      }
-    },
-    handleWheelTranslation(e) {
-      this.handleWheel('translation', e);
-    },
-    handleWheelTafseer(e) {
-      this.handleWheel('tafseer', e);
-    },
-    handleWheelTransliteration(e) {
-      this.handleWheel('transliteration', e);
-    },
-    suppressNextClick() {
-      try {
-        const els = [this.$refs.targetTranslationElement, this.$refs.targetTafseerElement, this.$refs.targetTransliterationElement].filter(Boolean);
-        els.forEach(el => {
-          el.addEventListener('click', ev => {
-            ev.stopPropagation();
-            ev.preventDefault();
-          }, {
-            capture: true,
-            once: true
+    scrollToSelectedAyah() {
+      this.$nextTick(() => {
+        const list = this.$refs.ayahList;
+        if (!list) return;
+        const selected = list.querySelector(".selected");
+        if (selected) {
+          selected.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
           });
-        });
-      } catch (_) {}
-    },
-    // Detect whether device uses coarse pointer (touch/tablet) and gate gestures
-    updateInputModalityGestureGate() {
-      try {
-        const w = typeof window !== 'undefined' ? window : null;
-        const n = typeof navigator !== 'undefined' ? navigator : null;
-        if (!w) {
-          this.allowGestures = false;
-          return;
         }
-        const hasTouch = 'ontouchstart' in w || n && typeof n.maxTouchPoints === 'number' && n.maxTouchPoints > 0 || n && typeof n.msMaxTouchPoints === 'number' && n.msMaxTouchPoints > 0;
-        const coarseNow = w.matchMedia && (w.matchMedia('(pointer: coarse)').matches || w.matchMedia('(any-pointer: coarse)').matches || w.matchMedia('(hover: none)').matches);
-        const ua = n && n.userAgent ? n.userAgent : '';
-        const iOSoriPadOS = /iPad|iPhone|iPod/.test(ua) || n && n.platform === 'MacIntel' && (n.maxTouchPoints || 0) > 1;
-        const sw = w.screen && w.screen.width ? w.screen.width : w.innerWidth || 0;
-        const sh = w.screen && w.screen.height ? w.screen.height : w.innerHeight || 0;
-        const minDim = Math.min(sw, sh);
-        const maxDim = Math.max(sw, sh);
-        const tabletHeuristic = minDim >= 600 && maxDim <= 1400;
-        this.allowGestures = !!(hasTouch || coarseNow || iOSoriPadOS || tabletHeuristic);
-        // silent in production; keep logic only
-      } catch (_) {
-        this.allowGestures = false;
-      }
+      });
     },
-    cancelHold() {
-      this.touchStartTime = 0; // Reset hold detection
+    updateCardSection(ayah) {
+      this.currentAyah = ayah;
+    },
+    dismissError() {
+      this.showError = false;
     },
     goToFirstAyah() {
       this.selectAyah(0);
     },
     goToPreviousAyah() {
-      this.clearHighlight();
-      if (this.selectedIndexAyah > 0) {
-        this.selectAyah(this.selectedIndexAyah - 1);
-      } else {
-        this.selectAyah(this.ayat.length - 1);
-      }
+      if (!this.ayat.length) return;
+      const nextIndex = (this.selectedIndexAyah - 1 + this.ayat.length) % this.ayat.length;
+      this.selectAyah(nextIndex);
     },
     goToNextAyah() {
-      this.clearHighlight();
-      if (this.selectedIndexAyah < this.ayat.length - 1) {
-        this.selectAyah(this.selectedIndexAyah + 1);
-      } else {
-        this.selectAyah(0);
-      }
+      if (!this.ayat.length) return;
+      const nextIndex = (this.selectedIndexAyah + 1) % this.ayat.length;
+      this.selectAyah(nextIndex);
     },
     goToLastAyah() {
-      this.clearHighlight();
+      if (!this.ayat.length) return;
       this.selectAyah(this.ayat.length - 1);
     },
-    handleNoteClick() {
-      if (this.isLoggedIn) {
-        this.showAlertTextNote = false;
-        $("#exampleModal1").modal("show");
-      } else {
-        this.showAlertTextNote = true;
+    handleInputChange(payload) {
+      if (payload && Array.isArray(payload.results)) {
+        this.filteredResults = payload.results;
       }
     },
-    submitCat() {
-      const formData = {
-        surah_name: this.information.ayah.surah.name_en,
-        ayah_num: this.information.ayah_id,
-        ayah_verse_ar: this.information.ayah.ayah_text,
-        ayah_verse_en: this.information.translation,
-        category_id: this.selectedCategory
-      };
-      axios.post("/submit_category", formData);
+    toggleContent() {
+      this.isOpen = !this.isOpen;
     },
-    scrollToAyah() {
-      const verseNum = parseInt(this.verseNumber);
-      if (!isNaN(verseNum) && verseNum >= 1 && verseNum <= this.ayat.length) {
-        const ayahElement = this.$refs.ayahList.querySelectorAll("li")[verseNum - 1];
-        if (ayahElement) {
-          ayahElement.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
+    toggleExpand() {
+      this.expanded = !this.expanded;
+    },
+    toggleFullScreen() {
+      this.isFullScreen = !this.isFullScreen;
+    },
+    toggleAudioPlayback() {
+      const sections = [this.$refs.translationSection, this.$refs.tafseerSection, this.$refs.transliterationSection].filter(Boolean);
+      sections.forEach(section => {
+        if (typeof (section === null || section === void 0 ? void 0 : section.toggleSpeech) === "function") {
+          try {
+            section.toggleSpeech();
+          } catch (error) {
+            console.warn("toggleSpeech failed", error);
+          }
         }
-      } else {
-        this.showError = true;
-        setTimeout(() => {
-          this.showError = false;
-        }, 5000);
+      });
+    },
+    updateInformation(info) {
+      var _info$translation2, _info$ayah;
+      if (!info) return;
+      this.information = info;
+      this.modalInformation = info;
+      this.translation = typeof info.translation === "object" ? (_info$translation2 = info.translation) === null || _info$translation2 === void 0 ? void 0 : _info$translation2.text : info.translation;
+      if ((_info$ayah = info.ayah) !== null && _info$ayah !== void 0 && _info$ayah.id) {
+        this.infoCache[info.ayah.id] = info;
       }
     },
-    async getSurat() {
+    updateTafseer(tafseer) {
+      this.tafseer = tafseer;
+      if (this.selectedAyahId) {
+        this.tafseerCache[this.selectedAyahId] = tafseer;
+      }
+    },
+    handleTouchStart(event) {
+      var _touch$clientX, _touch$clientY;
+      if (!this.allowGestures) return;
+      const touch = event.changedTouches ? event.changedTouches[0] : event;
+      this.touchStartX = (_touch$clientX = touch.clientX) !== null && _touch$clientX !== void 0 ? _touch$clientX : 0;
+      this.touchStartY = (_touch$clientY = touch.clientY) !== null && _touch$clientY !== void 0 ? _touch$clientY : 0;
+      this.touchStartTime = Date.now();
+    },
+    handleTouchMove(event) {
+      var _touch$clientX2, _touch$clientY2;
+      if (!this.allowGestures) return;
+      const touch = event.changedTouches ? event.changedTouches[0] : event;
+      this.touchEndX = (_touch$clientX2 = touch.clientX) !== null && _touch$clientX2 !== void 0 ? _touch$clientX2 : 0;
+      this.touchEndY = (_touch$clientY2 = touch.clientY) !== null && _touch$clientY2 !== void 0 ? _touch$clientY2 : 0;
+    },
+    handleTouchEnd() {
+      if (!this.allowGestures) return;
+      const deltaX = (this.touchEndX || this.touchStartX) - this.touchStartX;
+      const deltaY = (this.touchEndY || this.touchStartY) - this.touchStartY;
+      const duration = Date.now() - this.touchStartTime;
+      if (Math.abs(deltaX) < this.swipeMinDistance || Math.abs(deltaY) > this.wheelVertLeak || duration > this.swipeMaxDuration) {
+        return;
+      }
+      if (deltaX > 0) {
+        this.goToPreviousAyah();
+        this.triggerSwipeFeedback("prev");
+      } else {
+        this.goToNextAyah();
+        this.triggerSwipeFeedback("next");
+      }
+    },
+    handlePointerDown(event) {
+      if (!this.allowGestures || event.pointerType === "mouse") return;
+      this.pointerActive = true;
+      this.pointerStartX = event.clientX;
+      this.pointerStartY = event.clientY;
+      this.pointerStartTime = Date.now();
+    },
+    handlePointerMove(event) {
+      if (!this.allowGestures || !this.pointerActive) return;
+      this.touchEndX = event.clientX;
+      this.touchEndY = event.clientY;
+    },
+    handlePointerUp() {
+      if (!this.allowGestures || !this.pointerActive) return;
+      this.pointerActive = false;
+      const deltaX = (this.touchEndX || this.pointerStartX) - this.pointerStartX;
+      const duration = Date.now() - this.pointerStartTime;
+      if (Math.abs(deltaX) < this.swipeMinDistance || duration > this.swipeMaxDuration) return;
+      if (deltaX > 0) {
+        this.goToPreviousAyah();
+        this.triggerSwipeFeedback("prev");
+      } else {
+        this.goToNextAyah();
+        this.triggerSwipeFeedback("next");
+      }
+    },
+    handleWindowWheel(event) {
+      if (!this.allowGestures) return;
+      const now = Date.now();
+      if (now - this.wheelLastTime > this.wheelResetMs) {
+        this.wheelAccumX = 0;
+      }
+      this.wheelAccumX += event.deltaX;
+      this.wheelLastTime = now;
+      if (Math.abs(this.wheelAccumX) < this.wheelThreshold) return;
+      if (this.wheelAccumX > 0) {
+        this.goToNextAyah();
+        this.triggerSwipeFeedback("next");
+      } else {
+        this.goToPreviousAyah();
+        this.triggerSwipeFeedback("prev");
+      }
+      this.wheelAccumX = 0;
+    },
+    handleWheelTranslation(event) {
+      this.handleWindowWheel(event);
+    },
+    handleWheelTafseer(event) {
+      this.handleWindowWheel(event);
+    },
+    handleWheelTransliteration(event) {
+      this.handleWindowWheel(event);
+    },
+    triggerSwipeFeedback(direction) {
+      this.lastSwipeDir = direction;
+      this.swipeNoticeDir = direction;
+      this.swipeNoticeText = direction === "next" ? "Next verse" : "Previous verse";
+      this.showSwipeNotice = true;
+      if (this._swipeNoticeTimer) {
+        clearTimeout(this._swipeNoticeTimer);
+      }
+      this._swipeNoticeTimer = setTimeout(() => {
+        this.showSwipeNotice = false;
+        this._swipeNoticeTimer = null;
+      }, 500);
+    },
+    dismissSwipeTip() {
+      this.showSwipeTip = false;
       try {
-        const response = await axios.get("/get_surat"); // Ensure this URL is correct
-        this.surat = response.data;
+        window.localStorage.setItem(STORAGE_KEYS.swipeTip, "1");
       } catch (error) {
-        console.error("Error fetching surahs:", error);
+        // ignore
       }
     },
-    async getAyat() {
-      if (this.selectedSurahId > 0) {
-        this.scheduleFetchAyat(this.selectedSurahId);
-      } else {
-        this.ayat = [];
-        this.dropdownHidden = true;
+    dismissNextStep() {
+      this.nextStepDismissed = true;
+      this.showNextStep = false;
+      this.clearNextStepTimer();
+    },
+    clearHighlight() {
+      // placeholder for child callback
+    },
+    highlightText(charIndex, currentWord) {
+      var _this$$refs$translati;
+      if ((_this$$refs$translati = this.$refs.translationSection) !== null && _this$$refs$translati !== void 0 && _this$$refs$translati.highlightText) {
+        this.$refs.translationSection.highlightText(charIndex, currentWord);
       }
     },
-    async handleAyahChange() {
-      const selectedAyahIndex = parseInt(this.selectedAyahId);
-      const selectedAyah = this.ayat[selectedAyahIndex];
-      if (selectedAyah) {
-        const ayahId = selectedAyah.id; // Assuming ayah has 'id' field
-        try {
-          const [tafseerResponse, infoResponse] = await Promise.all([axios.get(`/tafseer/${ayahId}/fetch`), axios.get("/get_informations", {
-            params: {
-              id: ayahId
-            }
-          })]);
-          this.tafseer = tafseerResponse.data;
-          this.information = infoResponse.data;
-        } catch (error) {
-          console.error("Error fetching information or tafseer:", error);
-        }
+    closeModal() {
+      this.modalInformation = null;
+    },
+    openModal(refName) {
+      const ref = this.$refs[refName];
+      if (ref && typeof ref.showModal === "function") {
+        ref.showModal();
       }
     },
-    showCard() {
-      this.isCardVisible = true; // Show the card when button is clicked
+    closeAlertText() {
+      this.showAlertText = false;
     },
-    updateCardSection(ayah) {
-      // Assuming you have properties like 'ayahTranslation', 'ayahTafseer', etc. bound to the card section
-      this.ayahTranslation = ayah.translation;
-      this.ayahTafseer = ayah.tafseer;
-      this.ayahTransliteration = ayah.transliteration;
-      // Add any additional data you want to show in the card section
+    updateSuccessMessage(message) {
+      this.alertMessage = message;
+      this.showAlertText = !!message;
     },
-    selectAyah(index) {
-      this.selectedIndexAyah = index;
-      this.updateCardSection(this.ayat[index]);
-      this.scrollToSelectedAyah();
-      this.getTafseers(this.ayat[index].id, index);
-      // Update screen reader announcement
+    async sendBookmark(payload, successMessage) {
       try {
-        const verseNum = this.ayat[index] && (this.ayat[index].ayah_id || this.ayat[index].id) || index + 1;
-        const surahName = this.information && this.information.ayah && this.information.ayah.surah && (this.information.ayah.surah.name_en || this.information.ayah.surah.name_ar) || "";
-        this.screenReaderMessage = `Selected verse ${verseNum}${surahName ? ` from ${surahName}` : ''}.`;
-      } catch (e) {
-        this.screenReaderMessage = `Selected verse ${index + 1}.`;
+        await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/bookmarks", payload);
+        this.alertMessage = successMessage;
+        this.alertType = "success";
+        this.showAlert = true;
+        this.scheduleAlertDismiss();
+      } catch (error) {
+        console.error("Error submitting bookmark:", error);
+        this.showErrorAlert = true;
+        this.scheduleAlertDismiss("error");
       }
     },
-    scrollToSelectedAyah() {
-      this.$nextTick(() => {
-        const selectedAyah = this.$refs.ayahList.querySelector(".selected");
-        if (selectedAyah) {
-          selectedAyah.scrollIntoView({
-            behavior: "smooth"
-          });
+    submitBookmarkPayload(content, successMessage) {
+      var _this$information3, _ayah$surah, _this$information4;
+      const ayah = (_this$information3 = this.information) === null || _this$information3 === void 0 ? void 0 : _this$information3.ayah;
+      if (!ayah || !content) {
+        this.showErrorAlert = true;
+        this.scheduleAlertDismiss("error");
+        return;
+      }
+      const payload = {
+        surah_name: (_ayah$surah = ayah.surah) === null || _ayah$surah === void 0 ? void 0 : _ayah$surah.name_en,
+        ayah_num: (_this$information4 = this.information) === null || _this$information4 === void 0 ? void 0 : _this$information4.ayah_id,
+        ayah_verse_ar: ayah.ayah_text,
+        ayah_verse_en: content,
+        user_id: this.userId
+      };
+      this.sendBookmark(payload, successMessage);
+    },
+    submitForm() {
+      this.submitBookmarkPayload(this.translation, "Ayah bookmarked successfully!");
+    },
+    submitFormTafseer() {
+      this.submitBookmarkPayload(this.tafseer, "Tafseer bookmarked successfully!");
+    },
+    submitFormTransliteration() {
+      var _this$information5;
+      const transliteration = (_this$information5 = this.information) === null || _this$information5 === void 0 ? void 0 : _this$information5.transliteration;
+      this.submitBookmarkPayload(transliteration, "Transliteration bookmarked successfully!");
+    },
+    scheduleAlertDismiss(type = "success") {
+      setTimeout(() => {
+        if (type === "success") {
+          this.showAlert = false;
         } else {
-          // Display error alert if no ayah is selected
-          this.showError = true;
-          // Automatically dismiss the alert after 5 seconds
-          setTimeout(() => {
-            this.dismissError();
-          }, 1000);
+          this.showErrorAlert = false;
         }
-      });
+      }, 3000);
     },
-    determineNextAyah() {
-      const currentIndex = this.ayat.findIndex(ayah => ayah.id === this.selectedAyah.id);
-      if (currentIndex !== -1 && currentIndex < this.ayat.length - 1) {
-        return this.ayat[currentIndex + 1];
-      }
-      return null;
+    getAyat() {
+      this.scheduleFetchAyat();
     },
-    determinePreviousAyah() {
-      const currentIndex = this.ayat.findIndex(ayah => ayah.id === this.selectedAyah.id);
-      if (currentIndex > 0) {
-        return this.ayat[currentIndex - 1];
-      }
-      return null;
-    },
-    selectSurah() {
-      this.ayat = this.fetchAyatForSurah(this.surah); // Replace with actual logic
-      this.selectedAyah = this.ayat.length > 0 ? "0" : "0"; // Select the first ayah
-    },
-    selectSurah(surahId) {
-      this.surah = surahId;
-      this.searchTerm = "";
-      this.filteredSurah = [];
-      this.showClearButton = false;
-      this.getAyat();
-      this.$nextTick(() => {
-        this.autoHighlightFirstAyah();
-      });
-    },
-    autoHighlightFirstAyah() {
-      if (this.ayat.length > 0) {
-        this.selectedIndexAyah = 0; // Select the first Ayah
-        this.scrollToSelectedAyah(); // Scroll to the first Ayah (optional)
-        this.getTafseers(this.ayat[0].id, 0); // Fetch Tafseer, translation, etc. for the first Ayah
-        this.updateCardSection(this.ayat[0]); // Update card with first Ayah data
-      }
-    },
-    getTafseers: function (id, index) {
-      this.selectedIndexAyah = index;
-      this.fetchAyahData(id).then(({
-        tafseer,
-        information
-      }) => {
-        this.selectedAyah = id;
-        this.tafseer = tafseer;
-        this.information = information;
-        this.updateCardSection(this.ayat[index]);
-        // Prefetch a sliding window (±2) for instant rapid swipes
-        const count = this.ayat.length;
-        const offsets = [-2, -1, 1, 2];
-        offsets.forEach(d => {
-          if (!count) return;
-          const j = (index + d + count) % count;
-          const item = this.ayat[j];
-          if (item && item.id) this.fetchAyahData(item.id).catch(() => {});
-        });
-      }).catch(err => {
-        console.error("Error fetching tafseer/information:", err);
-      });
-    },
-    async fetchAyahData(id) {
-      // Serve from cache when available
-      const cachedT = this.tafseerCache[id];
-      const cachedI = this.infoCache[id];
-      if (cachedT && cachedI) return {
-        tafseer: cachedT,
-        information: cachedI
-      };
-      const [tafseerResp, infoResp] = await Promise.all([axios.get(`/tafseer/${id}/fetch`), axios.get("/get_informations", {
-        params: {
-          id
-        }
-      })]);
-      this.tafseerCache[id] = tafseerResp.data;
-      this.infoCache[id] = infoResp.data;
-      return {
-        tafseer: tafseerResp.data,
-        information: infoResp.data
-      };
+    selectSurahFromResults(surah) {
+      if (!surah) return;
+      this.updateSelectedSurah(surah.id || surah);
     }
-  },
-  created() {
-    this.startNextStepTimer();
-    this.userId = localStorage.getItem("userId");
-    this.fetchSurahs();
-    this.fetchReciters();
-    this.fetchTranslations();
-  },
-  activated() {
-    this.startNextStepTimer();
-  },
-  deactivated() {
-    this.clearNextStepTimer();
-    this.showNextStep = false;
-  },
-  beforeRouteLeave(to, from, next) {
-    this.clearNextStepTimer();
-    this.showNextStep = false;
-    next();
-  },
-  mounted() {
-    // One-time debug: show current gesture thresholds
-    try {
-      // Ensure gesture gating is evaluated at mount
-      this.updateInputModalityGestureGate && this.updateInputModalityGestureGate();
-      console.log('[Swipe] thresholds', {
-        swipeMinDistance: this.swipeMinDistance,
-        swipeMaxDuration: this.swipeMaxDuration,
-        wheelThreshold: this.wheelThreshold,
-        wheelVertLeak: this.wheelVertLeak,
-        wheelResetMs: this.wheelResetMs
-      });
-      // Fallback: listen on window for wheel events and scope them to Tafseer area
-      if (typeof window !== 'undefined') {
-        this._onWindowWheel = e => {
-          const areaTaf = this.$refs && this.$refs.targetTafseerElement;
-          const areaTrn = this.$refs && this.$refs.targetTranslationElement;
-          const areaTrl = this.$refs && this.$refs.targetTransliterationElement;
-          const path = e.composedPath && e.composedPath() || [];
-          const within = [areaTaf, areaTrn, areaTrl].filter(Boolean).some(el => path.includes(el) || e.target && el.contains && el.contains(e.target));
-          if (!within) return; // ignore events outside the content areas
-          this.handleWheel(e);
-        };
-        window.addEventListener('wheel', this._onWindowWheel, {
-          passive: true
-        });
-        console.log('[Swipe] window wheel listener attached (tafseer/translation/transliteration)');
-      }
-    } catch (_) {}
-
-    // Removed global touch listeners to avoid duplicate handling and jank;
-    // element-level handlers with pointer capture are sufficient.
-  },
-  beforeUnmount() {
-    if (typeof window !== 'undefined' && this._onWindowWheel) {
-      window.removeEventListener('wheel', this._onWindowWheel, {
-        passive: true
-      });
-      this._onWindowWheel = null;
-    }
-    this.clearNextStepTimer();
-    this.showNextStep = false;
-    // No global touch listeners to clean up
   },
   watch: {
-    // When ayat list loads for a surah, auto-select verse 1 and fetch its content
-    ayat(newList) {
-      if (Array.isArray(newList) && newList.length > 0) {
+    ayat(newAyat) {
+      if (Array.isArray(newAyat) && newAyat.length) {
         this.selectAyah(0);
       }
     },
-    ayah: {
-      handler(newAyah) {
-        console.log("Ayah received:", newAyah);
-        if (newAyah && newAyah.text) {
-          this.prepareAyahText();
+    verseNumber(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        const numeric = toNumber(newVal);
+        if (numeric && numeric >= 1 && numeric <= this.ayat.length) {
+          this.selectAyah(numeric - 1);
         }
-      },
-      immediate: true
-    },
-    selectedSurah(newSurah) {
-      this.selectedSurahId = newSurah;
-      this.getAyat();
-    },
-    // Single, consolidated watcher: do not clear selection, just fetch and set index 0
-    selectedSurahId: {
-      immediate: true,
-      handler(newVal) {
-        if (!newVal) return;
-        this.selectedIndexAyah = 0;
-        this.fetchAyat();
       }
     },
-    "information.ayah.surah.name_ar": "updateFileName",
-    verseNumber(newVal, oldVal) {
-      if (newVal !== oldVal && parseInt(newVal)) {
-        this.selectedIndexAyah = parseInt(newVal) - 1;
+    selectedSurahId(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.scheduleFetchAyat(newVal);
       }
     }
   }
@@ -21765,72 +21013,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/accesibility/KeyboardNavigation.vue?vue&type=script&lang=js":
-/*!**************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/accesibility/KeyboardNavigation.vue?vue&type=script&lang=js ***!
-  \**************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {
-    items: {
-      type: Array,
-      required: true
-    }
-  },
-  data() {
-    return {
-      activeIndex: 0
-    };
-  },
-  methods: {
-    handleKeydown(event) {
-      switch (event.key) {
-        case "ArrowDown":
-          this.activeIndex = (this.activeIndex + 1) % this.items.length; // Navigate down
-          break;
-        case "ArrowUp":
-          this.activeIndex = (this.activeIndex - 1 + this.items.length) % this.items.length; // Navigate up
-          break;
-        case "Enter":
-        case " ":
-          this.activateItem(); // Activate selected item (Enter or Space)
-          break;
-        case "Escape":
-          this.closeMenu(); // Handle Escape key (optional: close menu/modal)
-          break;
-        case "Home":
-          this.activeIndex = 0; // Jump to the first item
-          break;
-        case "End":
-          this.activeIndex = this.items.length - 1; // Jump to the last item
-          break;
-        case "PageUp":
-          this.scrollToTop(); // Custom: scroll to the top
-          break;
-        case "PageDown":
-          this.scrollToBottom(); // Custom: scroll to the bottom
-          break;
-      }
-    },
-    setActive(index) {
-      this.activeIndex = index;
-    }
-  },
-  mounted() {
-    window.addEventListener("keydown", this.handleKeydown);
-  },
-  beforeDestroy() {
-    window.removeEventListener("keydown", this.handleKeydown);
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/accesibility/ScreenReader.vue?vue&type=script&lang=js":
 /*!********************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/accesibility/ScreenReader.vue?vue&type=script&lang=js ***!
@@ -23784,125 +22966,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue?vue&type=script&defer=true&lang=js":
-/*!************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue?vue&type=script&defer=true&lang=js ***!
-  \************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'BookmarksAndNotes',
-  props: {
-    information: {
-      type: Object,
-      default: null
-    },
-    iconColor: {
-      type: String,
-      default: ''
-    },
-    isLoggedIn: {
-      type: Boolean,
-      required: true
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/content/searchContent.vue?vue&type=script&lang=js":
-/*!****************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/content/searchContent.vue?vue&type=script&lang=js ***!
-  \****************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  data() {
-    return {
-      searchQuery: '',
-      selectedCategory: '',
-      startDate: '',
-      endDate: '',
-      searchResults: [],
-      // Array to store search results
-      modalContent: null,
-      // Content for the modal
-      showModal: false // Modal visibility flag
-    };
-  },
-  methods: {
-    // Handle input change
-    onSearchInput() {
-      // You can process input dynamically here
-    },
-    // Fetch content from Hugging Face API based on the search query
-    async searchContent() {
-      try {
-        const apiToken = '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'; // Replace with your Hugging Face API token
-        const apiUrl = 'https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2';
-
-        // Structure the input dynamically
-        const input = {
-          inputs: {
-            source_sentences: [this.searchQuery] // Pass the search query as an array in 'sentences'
-          }
-        };
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${apiToken}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(input)
-        });
-        const data = await response.json();
-
-        // Handle response and store the search results
-        if (data && Array.isArray(data)) {
-          this.searchResults = data.map(item => ({
-            title: item.title || 'Result Title',
-            description: item.snippet || item.generated_text || 'No description available'
-          }));
-        } else if (data.error) {
-          console.error('API Error:', data.error);
-        }
-      } catch (error) {
-        console.error('Error fetching content from Hugging Face API:', error);
-      }
-    },
-    // Open the modal and display the content
-    openModal(result) {
-      this.modalContent = result;
-      this.showModal = true;
-    },
-    // Close the modal
-    closeModal() {
-      this.showModal = false;
-      this.modalContent = null;
-    },
-    // Export content to PDF (placeholder function)
-    exportToPDF() {
-      console.log('Exporting to PDF...');
-      // Implement PDF export logic here
-    },
-    // Export content to MP3 (placeholder function)
-    exportToMP3() {
-      console.log('Exporting to MP3...');
-      // Implement MP3 export logic here
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/folder_manager/FolderSelectionModal.vue?vue&type=script&lang=js":
 /*!******************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/folder_manager/FolderSelectionModal.vue?vue&type=script&lang=js ***!
@@ -24041,22 +23104,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/intro/Title.vue?vue&type=script&defer=true&lang=js":
-/*!*****************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/intro/Title.vue?vue&type=script&defer=true&lang=js ***!
-  \*****************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'Title'
-});
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/AlertModal.vue?vue&type=script&lang=js":
 /*!************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/AlertModal.vue?vue&type=script&lang=js ***!
@@ -24087,137 +23134,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     triggerNoteLoginError() {
       this.$emit('trigger-note-login-error'); // Emit event to trigger note login error alert
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/CorrectionModal.vue?vue&type=script&defer=true&lang=js":
-/*!****************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/CorrectionModal.vue?vue&type=script&defer=true&lang=js ***!
-  \****************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'CorrectionModal',
-  data() {
-    return {
-      isListening: false,
-      recognition: null,
-      form: {
-        added_notes: '',
-        rating: 0
-      }
-    };
-  },
-  mounted() {
-    this.initRecognition();
-    const modalElement = typeof document !== 'undefined' ? document.getElementById('exampleModal') : null;
-    if (modalElement && modalElement.addEventListener) {
-      modalElement.addEventListener('hidden.bs.modal', this.resetForm);
-    }
-  },
-  beforeUnmount() {
-    const modalElement = typeof document !== 'undefined' ? document.getElementById('exampleModal') : null;
-    if (modalElement && modalElement.removeEventListener) {
-      modalElement.removeEventListener('hidden.bs.modal', this.resetForm);
-    }
-  },
-  methods: {
-    initRecognition() {
-      this.recognition = new webkitSpeechRecognition();
-      this.recognition.continuous = true;
-      this.recognition.interimResults = true;
-      this.recognition.lang = 'en-US';
-      this.recognition.onresult = event => {
-        const transcript = Array.from(event.results).map(result => result[0].transcript).join('');
-        this.form.added_notes = transcript;
-      };
-      this.recognition.onend = () => {
-        this.isListening = false;
-      };
-      this.recognition.onerror = event => {
-        console.error('Speech Recognition Error:', event.error);
-        this.isListening = false;
-      };
-    },
-    startRecognition() {
-      if (!this.isListening) {
-        this.form.added_notes = '';
-        this.isListening = true;
-        this.recognition.start();
-      }
-    },
-    stopRecognition() {
-      if (this.isListening) {
-        this.recognition.stop();
-        this.isListening = false;
-      }
-    },
-    setRating(star) {
-      this.form.rating = star;
-    },
-    createCorrection() {
-      sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
-        title: "Are you sure?",
-        text: "You want to submit the message!",
-        showCancelButton: true,
-        confirmButtonColor: "green",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Submit!"
-      }).then(result => {
-        if (result.isConfirmed) {
-          axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/submit-correction", this.form).then(res => {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
-              position: "top-end",
-              icon: "success",
-              title: "Message submitted successfully",
-              showConfirmButton: false,
-              timer: 1500
-            });
-            this.resetForm();
-            this.closeModal();
-          }).catch(err => {
-            console.error(err);
-            sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire("Error!", "Failed to submit. Fill in all the fields", "error");
-          });
-        }
-      });
-    },
-    resetForm() {
-      this.form.added_notes = '';
-      this.form.rating = 0;
-    },
-    closeModal() {
-      this.resetForm();
-      const modalElement = typeof document !== 'undefined' ? document.getElementById('exampleModal') : null;
-      const ModalCtor = typeof bootstrap !== 'undefined' && bootstrap && bootstrap.Modal ? bootstrap.Modal : null;
-      if (modalElement && ModalCtor) {
-        var _modalInstance$hide;
-        const modalInstance = ModalCtor.getOrCreateInstance(modalElement);
-        modalInstance === null || modalInstance === void 0 || (_modalInstance$hide = modalInstance.hide) === null || _modalInstance$hide === void 0 || _modalInstance$hide.call(modalInstance);
-      }
-    },
-    showModal() {
-      const modalElement = typeof document !== 'undefined' ? document.getElementById('exampleModal') : null;
-      const ModalCtor = typeof bootstrap !== 'undefined' && bootstrap && bootstrap.Modal ? bootstrap.Modal : null;
-      if (modalElement && ModalCtor) {
-        var _modalInstance$show;
-        const modalInstance = ModalCtor.getOrCreateInstance(modalElement, {
-          backdrop: true
-        });
-        modalInstance === null || modalInstance === void 0 || (_modalInstance$show = modalInstance.show) === null || _modalInstance$show === void 0 || _modalInstance$show.call(modalInstance);
-      }
     }
   }
 });
@@ -24851,142 +23767,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=script&lang=js":
-/*!********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=script&lang=js ***!
-  \********************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'SearchForm',
-  props: {
-    verseNumber: {
-      type: Number,
-      required: true
-    }
-  },
-  data() {
-    return {
-      localVerseNumber: this.verseNumber || '' // default to empty string if verseNumber is not provided
-    };
-  },
-  methods: {
-    onSubmit() {
-      if (this.localVerseNumber) {
-        this.$emit('submit', this.localVerseNumber);
-      } else {
-        alert('Please enter a valid verse number.');
-      }
-    }
-  },
-  watch: {
-    verseNumber(newValue) {
-      this.localVerseNumber = newValue || ''; // Handle undefined or null values
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSelector.vue?vue&type=script&lang=js":
-/*!**************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSelector.vue?vue&type=script&lang=js ***!
-  \**************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {
-    selectedSurahId: {
-      type: Number,
-      required: true
-    }
-  },
-  data() {
-    return {
-      selectedAyahId: null,
-      // Initially null
-      ayat: [],
-      tafseer: null,
-      information: null,
-      highlightedAyahId: null,
-      highlightedAyah: null
-    };
-  },
-  methods: {
-    handleAyahChange() {
-      const selectedAyahIndex = parseInt(this.selectedAyahId);
-      this.selectAyah(selectedAyahIndex);
-    },
-    async fetchAyat() {
-      try {
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/get_ayat", {
-          params: {
-            surah_id: this.selectedSurahId
-          }
-        });
-        this.ayat = response.data;
-
-        // Automatically select and highlight the first Ayah if available
-        if (this.ayat.length > 0) {
-          this.selectAyah(0); // Select and highlight the first Ayah
-        } else {
-          this.selectedAyahId = null; // Reset if no ayat are available
-        }
-      } catch (error) {
-        console.error("Error fetching ayat:", error);
-      }
-    },
-    async selectAyah(index) {
-      const selectedAyah = this.ayat[index];
-      if (selectedAyah) {
-        const ayahId = selectedAyah.id;
-        this.selectedAyahId = index; // Sync dropdown with selected ayah
-        this.highlightedAyahId = ayahId;
-        this.highlightedAyah = selectedAyah;
-        try {
-          const tafseerResponse = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(`/tafseer/${ayahId}/fetch`);
-          this.tafseer = tafseerResponse.data;
-          const infoResponse = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/get_informations", {
-            params: {
-              id: ayahId
-            }
-          });
-          this.information = infoResponse.data;
-
-          // Emit the information and tafseer data to the parent component
-          this.$emit("update-information", this.information);
-          this.$emit("update-tafseer", this.tafseer);
-        } catch (error) {
-          console.error("Error fetching information or tafseer:", error);
-        }
-      }
-    }
-  },
-  watch: {
-    selectedSurahId: {
-      handler(newValue) {
-        if (newValue) {
-          this.selectedAyahId = null; // Reset selected ayah when surah changes
-          this.fetchAyat();
-        }
-      },
-      immediate: true
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/ErrorAlert.vue?vue&type=script&lang=js":
 /*!************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/ErrorAlert.vue?vue&type=script&lang=js ***!
@@ -25007,30 +23787,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     dismissError() {
       this.$emit('dismiss-error');
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/FilteredSurahList.vue?vue&type=script&lang=js":
-/*!*******************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/FilteredSurahList.vue?vue&type=script&lang=js ***!
-  \*******************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'FilteredSurahList',
-  props: {
-    filteredSurah: Array
-  },
-  methods: {
-    selectSurah(surah) {
-      this.$emit('select-surah', surah);
     }
   }
 });
@@ -25088,59 +23844,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     hideMagnifier() {
       this.isVisible = false;
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/SearchForm.vue?vue&type=script&lang=js":
-/*!************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/SearchForm.vue?vue&type=script&lang=js ***!
-  \************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'SearchForm',
-  props: {
-    surat: {
-      type: Array,
-      required: true
-    }
-  },
-  data() {
-    return {
-      searchTerm: '',
-      showClearButton: false,
-      filteredSurah: []
-    };
-  },
-  methods: {
-    clearResults() {
-      this.searchTerm = '';
-      this.filteredSurah = [];
-      this.showClearButton = false;
-      this.$emit('clear-results');
-    },
-    search() {
-      const searchTerm = this.searchTerm.trim().toLowerCase();
-      if (searchTerm === '') {
-        this.filteredSurah = [];
-        this.showClearButton = false;
-        this.$emit('update-results', []);
-        return;
-      }
-      this.filteredSurah = this.surat.filter(surah => {
-        const nameEn = surah.name_en.toLowerCase();
-        const nameAr = surah.name_ar.toLowerCase();
-        return nameEn.includes(searchTerm) || nameAr.includes(searchTerm);
-      });
-      this.showClearButton = true;
-      this.$emit('update-results', this.filteredSurah);
     }
   }
 });
@@ -25491,164 +24194,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahOfTheDay.vue?vue&type=script&lang=js":
-/*!*******************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahOfTheDay.vue?vue&type=script&lang=js ***!
-  \*******************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'AyahOfTheDay',
-  data() {
-    return {
-      ayah: null,
-      isVisible: true,
-      apiUrl: "https://api.alquran.cloud/v1/ayah",
-      translationLangs: ["en.asad", "ur.junagarhi"],
-      showTranslation: false,
-      selectedLanguage: "en",
-      showTafsir: false,
-      fontSize: 1.8,
-      showToast: false,
-      toastMessage: ""
-    };
-  },
-  computed: {
-    availableTranslations() {
-      var _this$ayah;
-      return (_this$ayah = this.ayah) !== null && _this$ayah !== void 0 && _this$ayah.translations ? Object.keys(this.ayah.translations) : [];
-    },
-    formatDate() {
-      return new Date().toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-    }
-  },
-  methods: {
-    closeMessageBox() {
-      this.isVisible = false;
-    },
-    async fetchAyahOfTheDay() {
-      // Use a consistent ayah for demo - in production, use random or sequential
-      const demoAyah = 255; // Ayat ul Kursi
-
-      try {
-        const arabicUrl = `${this.apiUrl}/${demoAyah}`;
-        const arabicResponse = await fetch(arabicUrl);
-        if (!arabicResponse.ok) throw new Error('Network error');
-        const arabicData = await arabicResponse.json();
-        const translations = {};
-
-        // Fetch translations
-        for (const lang of this.translationLangs) {
-          const translationUrl = `${this.apiUrl}/${demoAyah}/${lang}`;
-          const translationResponse = await fetch(translationUrl);
-          if (translationResponse.ok) {
-            const translationData = await translationResponse.json();
-            const langCode = lang.split('.')[1] || lang;
-            translations[langCode] = translationData.data.text;
-          }
-        }
-
-        // Enhanced tafsir
-        const tafsir = "The Throne Verse (Ayat al-Kursi) is one of the most profound verses in the Quran, emphasizing God's absolute sovereignty, knowledge, and power over all creation. It serves as a reminder of divine protection and the limitless nature of God's authority, offering spiritual comfort and reinforcing faith in the Creator's omnipotence and mercy.";
-        if (arabicData !== null && arabicData !== void 0 && arabicData.data) {
-          this.ayah = {
-            arabic: arabicData.data.text,
-            translations: translations,
-            tafsir: tafsir,
-            surah: arabicData.data.surah.englishName,
-            surahNumber: arabicData.data.surah.number,
-            ayahNumber: arabicData.data.numberInSurah
-          };
-        }
-      } catch (error) {
-        console.error("Error fetching Ayah:", error);
-        // Fallback data
-        this.ayah = {
-          arabic: "اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ",
-          translations: {
-            en: "Allah - there is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.",
-            ur: "اللہ وہ ہے جس کے سوا کوئی معبود نہیں، زندہ اور قائم رہنے والا ہے، نہ اُسے اُونگھ آتی ہے نہ نیند، زمین اور آسمانوں میں جو کچھ ہے اُسی کا ہے، کون ہے جو اُس کے حضور اُس کی اجازت کے بغیر سفارش کر سکے؟ جو کچھ لوگوں کے سامنے ہے اُسے بھی جانتا ہے اور جو کچھ اُن کے پیچھے ہے اُسے بھی، اور وہ اُس کی معلومات میں سے کسی چیز پر احاطہ نہیں کر سکتے مگر جتنا وہ چاہے، اُس کی کرسی زمین اور آسمانوں کو گھیرے ہوئے ہے، اور اُن کی حفاظت اُس پر گراں نہیں، اور وہ بلند مرتبہ اور عظمت والا ہے۔"
-          },
-          tafsir: "The Throne Verse (Ayat al-Kursi) is one of the most profound verses in the Quran, emphasizing God's absolute sovereignty, knowledge, and power over all creation. It serves as a reminder of divine protection and the limitless nature of God's authority, offering spiritual comfort and reinforcing faith in the Creator's omnipotence and mercy.",
-          surah: "Al-Baqarah",
-          surahNumber: 2,
-          ayahNumber: 255
-        };
-      }
-    },
-    toggleTranslation() {
-      this.showTranslation = !this.showTranslation;
-      if (this.showTranslation && !this.selectedLanguage) {
-        this.selectedLanguage = this.availableTranslations[0];
-      }
-    },
-    toggleTafsir() {
-      this.showTafsir = !this.showTafsir;
-    },
-    selectTranslation(lang) {
-      this.selectedLanguage = lang;
-    },
-    increaseFontSize() {
-      if (this.fontSize < 2.4) this.fontSize += 0.1;
-    },
-    decreaseFontSize() {
-      if (this.fontSize > 1.2) this.fontSize -= 0.1;
-    },
-    async copyToClipboard() {
-      const text = `${this.ayah.arabic}\n\n- Surah ${this.ayah.surah} ${this.ayah.surahNumber}:${this.ayah.ayahNumber}`;
-      try {
-        await navigator.clipboard.writeText(text);
-        this.showToastMessage('Copied to clipboard');
-      } catch (err) {
-        this.showToastMessage('Failed to copy');
-      }
-    },
-    async shareAyah() {
-      const text = `${this.ayah.arabic}\n\n- Surah ${this.ayah.surah} ${this.ayah.surahNumber}:${this.ayah.ayahNumber}`;
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: 'Ayah of the Day',
-            text: text,
-            url: window.location.href
-          });
-        } catch (err) {
-          this.copyToClipboard();
-        }
-      } else {
-        this.copyToClipboard();
-      }
-    },
-    bookmarkAyah() {
-      this.showToastMessage('Bookmarked');
-    },
-    showToastMessage(message) {
-      this.toastMessage = message;
-      this.showToast = true;
-      setTimeout(() => {
-        this.showToast = false;
-      }, 3000);
-    },
-    isRtlLanguage(lang) {
-      return ['ur', 'ar'].includes(lang.toLowerCase());
-    }
-  },
-  mounted() {
-    this.fetchAyahOfTheDay();
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/ChatBot.vue?vue&type=script&lang=js":
 /*!**************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/ChatBot.vue?vue&type=script&lang=js ***!
@@ -25937,57 +24482,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/EnglishTranslation.vue?vue&type=script&lang=js":
-/*!*************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/EnglishTranslation.vue?vue&type=script&lang=js ***!
-  \*************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'AyahTranslation',
-  props: {
-    information: {
-      type: Object,
-      required: true
-    }
-  },
-  data() {
-    return {
-      expanded: false,
-      truncatedText: ''
-    };
-  },
-  computed: {
-    showMoreLink() {
-      return this.information.translation.length > 300; // Adjust the length as needed
-    }
-  },
-  methods: {
-    toggleExpand() {
-      this.expanded = !this.expanded;
-      if (!this.expanded) {
-        this.truncatedText = this.truncateText(this.information.translation);
-      }
-    },
-    truncateText(text) {
-      if (text.length <= 300) {
-        // Adjust the length as needed
-        return text;
-      }
-      return text.substring(0, 300) + '...';
-    }
-  },
-  mounted() {
-    this.truncatedText = this.truncateText(this.information.translation);
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/HelpGuideModal.vue?vue&type=script&lang=js":
 /*!*********************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/HelpGuideModal.vue?vue&type=script&lang=js ***!
@@ -26040,212 +24534,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/PrayerTimes.vue?vue&type=script&lang=js":
-/*!******************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/PrayerTimes.vue?vue&type=script&lang=js ***!
-  \******************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'PrayerTimes',
-  data() {
-    return {
-      city: "",
-      cityName: null,
-      prayerTimes: null,
-      nextPrayer: null,
-      loading: false,
-      error: null,
-      lat: null,
-      lon: null,
-      gregorianDate: "",
-      hijriDate: ""
-    };
-  },
-  computed: {
-    filteredPrayerTimes() {
-      if (!this.prayerTimes) return {};
-      const unwantedKeys = ["Sunset", "Imsak", "Firstthird", "Lastthird", "Midnight"];
-      return Object.fromEntries(Object.entries(this.prayerTimes).filter(([key]) => !unwantedKeys.includes(key)));
-    }
-  },
-  mounted() {
-    this.setCurrentDate();
-    this.getCurrentLocation();
-
-    // Update prayer times every minute to keep next prayer accurate
-    this.updateInterval = setInterval(() => {
-      if (this.prayerTimes) {
-        this.calculateNextPrayer();
-      }
-    }, 60000);
-  },
-  beforeUnmount() {
-    if (this.updateInterval) {
-      clearInterval(this.updateInterval);
-    }
-  },
-  methods: {
-    setCurrentDate() {
-      const now = new Date();
-      this.gregorianDate = now.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-
-      // Use Intl for Hijri date if available, fallback to moment
-      if (typeof Intl !== 'undefined' && Intl.DateTimeFormat) {
-        const hijriFormatter = new Intl.DateTimeFormat('en-US-u-ca-islamic', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric'
-        });
-        this.hijriDate = hijriFormatter.format(now);
-      } else if (typeof moment !== 'undefined') {
-        this.hijriDate = moment().format('iMMMM iYYYY');
-      }
-    },
-    getCurrentLocation() {
-      if (!navigator.geolocation) {
-        this.error = "Geolocation is not supported by your browser.";
-        return;
-      }
-      this.loading = true;
-
-      // Add timeout for geolocation
-      const geoTimeout = setTimeout(() => {
-        this.error = "Location request timed out. Using default location.";
-        this.loading = false;
-        this.fetchPrayerTimesByCity('London'); // Fallback city
-      }, 10000);
-      navigator.geolocation.getCurrentPosition(position => {
-        clearTimeout(geoTimeout);
-        this.lat = position.coords.latitude;
-        this.lon = position.coords.longitude;
-        this.fetchPrayerTimesByLocation();
-      }, error => {
-        clearTimeout(geoTimeout);
-        this.error = "Unable to retrieve your location. Using default location.";
-        this.fetchPrayerTimesByCity('London'); // Fallback city
-      }, {
-        enableHighAccuracy: false,
-        timeout: 10000,
-        maximumAge: 300000 // 5 minutes cache
-      });
-    },
-    async fetchPrayerTimesByLocation() {
-      if (!this.lat || !this.lon) return;
-      try {
-        // Cache key for localStorage
-        const cacheKey = `prayer-${this.lat}-${this.lon}-${new Date().toDateString()}`;
-        const cached = localStorage.getItem(cacheKey);
-        if (cached) {
-          const _data = JSON.parse(cached);
-          this.prayerTimes = _data.timings;
-          this.cityName = _data.location.city;
-          this.calculateNextPrayer();
-          this.loading = false;
-          return;
-        }
-        const response = await fetch(`https://api.aladhan.com/v1/timings?latitude=${this.lat}&longitude=${this.lon}&method=2`);
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        if (data.code === 200) {
-          this.prayerTimes = data.data.timings;
-          this.cityName = data.data.meta.timezone; // More reliable than city name
-
-          // Cache the response
-          localStorage.setItem(cacheKey, JSON.stringify({
-            timings: data.data.timings,
-            location: data.data.meta
-          }));
-          this.calculateNextPrayer();
-        } else {
-          throw new Error('Invalid response from prayer times API');
-        }
-      } catch (error) {
-        this.error = "Unable to fetch prayer times. Please try again later.";
-        console.error("Prayer times error:", error);
-      } finally {
-        this.loading = false;
-      }
-    },
-    async fetchPrayerTimesByCity(city = 'London') {
-      try {
-        const cacheKey = `prayer-${city}-${new Date().toDateString()}`;
-        const cached = localStorage.getItem(cacheKey);
-        if (cached) {
-          const _data2 = JSON.parse(cached);
-          this.prayerTimes = _data2.timings;
-          this.cityName = city;
-          this.calculateNextPrayer();
-          return;
-        }
-        const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=GB&method=2`);
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        if (data.code === 200) {
-          this.prayerTimes = data.data.timings;
-          this.cityName = city;
-          localStorage.setItem(cacheKey, JSON.stringify({
-            timings: data.data.timings
-          }));
-          this.calculateNextPrayer();
-        }
-      } catch (error) {
-        this.error = "Unable to fetch prayer times for the specified city.";
-        console.error("City prayer times error:", error);
-      }
-    },
-    calculateNextPrayer() {
-      if (!this.prayerTimes) return;
-      const now = new Date();
-      const currentTime = now.getHours() * 60 + now.getMinutes();
-      let nextPrayerTime = Infinity;
-      let nextPrayerName = null;
-      Object.entries(this.filteredPrayerTimes).forEach(([prayer, time]) => {
-        const [hours, minutes] = time.split(':').map(Number);
-        const prayerTime = hours * 60 + minutes;
-
-        // If prayer time is later today and earlier than current next prayer
-        if (prayerTime > currentTime && prayerTime < nextPrayerTime) {
-          nextPrayerTime = prayerTime;
-          nextPrayerName = prayer;
-        }
-      });
-
-      // If no prayer found for today, use Fajr tomorrow
-      this.nextPrayer = nextPrayerName || 'Fajr';
-    },
-    getPrayerDisplayName(prayer) {
-      const names = {
-        'Fajr': 'Fajr',
-        'Dhuhr': 'Dhuhr',
-        'Asr': 'Asr',
-        'Maghrib': 'Maghrib',
-        'Isha': 'Isha',
-        'Sunrise': 'Sunrise'
-      };
-      return names[prayer] || prayer;
-    },
-    formatTime(time) {
-      // Convert to 12-hour format
-      const [hours, minutes] = time.split(':').map(Number);
-      const period = hours >= 12 ? 'PM' : 'AM';
-      const twelveHour = hours % 12 || 12;
-      return `${twelveHour}:${minutes.toString().padStart(2, '0')} ${period}`;
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/Translator.vue?vue&type=script&lang=js":
 /*!*****************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/Translator.vue?vue&type=script&lang=js ***!
@@ -26266,133 +24554,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     // You can add methods specific to this component here if needed
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=script&lang=js":
-/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=script&lang=js ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var _utils_milestones__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../utils/milestones */ "./resources/js/utils/milestones.js");
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'BookmarkTranslation',
-  props: {
-    information: {
-      type: Object,
-      required: true,
-      default: () => ({
-        surah: {
-          name_en: ''
-        },
-        ayah_text: '',
-        ayah_id: null,
-        translation: ''
-      }),
-      validator(value) {
-        return value.surah && value.surah.name_en !== undefined && value.ayah_text !== undefined && value.ayah_id !== undefined && value.translation !== undefined;
-      }
-    }
-  },
-  data() {
-    return {
-      showAlert: false,
-      showErrorAlert: false,
-      folders: [],
-      // Ensure you fetch and populate this array from your backend or state
-      bookmarks: [],
-      selectedFolderId: null,
-      milestoneMessage: ''
-    };
-  },
-  created() {
-    const {
-      ayah_id
-    } = this.information;
-    const submitted = localStorage.getItem(`bookmarkSubmitted_${ayah_id}`);
-    if (submitted) {
-      this.showAlert = true;
-      this.hideAlertAfterDelay();
-    }
-  },
-  methods: {
-    selectFolder(folderId) {
-      this.selectedFolderId = folderId;
-      this.submitForm2(); // Automatically submit the form after selecting the folder
-    },
-    async submitForm2() {
-      const {
-        surah,
-        ayah_text,
-        ayah_id,
-        translation
-      } = this.information;
-      if (!surah || !ayah_text || ayah_id === null || !translation) {
-        console.error('Information prop is incomplete or missing.');
-        this.showErrorAlert = true;
-        this.hideAlertAfterDelay();
-        return;
-      }
-
-      // Check if the user has selected a folder
-      if (!this.selectedFolderId) {
-        console.error('No folder selected.');
-        this.showErrorAlert = true;
-        this.hideAlertAfterDelay();
-        return;
-      }
-      const formData = {
-        surah_name: surah.name_en,
-        ayah_num: ayah_id,
-        ayah_verse_ar: ayah_text,
-        ayah_verse_en: translation,
-        folder_id: this.selectedFolderId // Include the selected folder ID
-      };
-      try {
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('/bookmarks', formData);
-        console.log(response.data.message);
-        localStorage.setItem(`bookmarkSubmitted_${ayah_id}`, true);
-        this.showAlert = true;
-        this.showErrorAlert = false;
-        // Milestone tracking: bookmarks saved
-        const hit = (0,_utils_milestones__WEBPACK_IMPORTED_MODULE_1__.trackAndDetect)('bookmarks_saved', [1, 5, 10, 25, 50], 'persistent');
-        if (hit && hit.threshold) {
-          if (hit.threshold === 1) {
-            this.milestoneMessage = "Masha'Allah! First bookmark saved — your journey begins.";
-          } else {
-            this.milestoneMessage = `Masha'Allah! ${hit.threshold} bookmarks added — keep going.`;
-          }
-          this.hideMilestoneAfterDelay();
-        }
-        this.hideAlertAfterDelay();
-      } catch (error) {
-        console.error(error);
-        this.showAlert = false;
-        this.showErrorAlert = true;
-        this.hideAlertAfterDelay();
-      }
-    },
-    hideAlertAfterDelay() {
-      setTimeout(() => {
-        this.showAlert = false;
-        this.showErrorAlert = false;
-      }, 3000); // Hide alerts after 3 seconds
-    },
-    hideMilestoneAfterDelay() {
-      setTimeout(() => {
-        this.milestoneMessage = '';
-      }, 3500);
-    }
   }
 });
 
@@ -26939,121 +25100,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=script&lang=js":
-/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=script&lang=js ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_0__);
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {
-    targetTafseerRef: {
-      type: String,
-      required: true
-    }
-  },
-  data() {
-    return {
-      previewImage: null,
-      showSuccessMessage: false // To control the success message visibility
-    };
-  },
-  methods: {
-    captureTafseer() {
-      // Access the target translation element using the ref passed as a prop
-      const targetTafseerElement = this.$parent.$refs[this.targetTafseerRef];
-      if (!targetTafseerElement) {
-        console.error("Invalid element provided as targetTafseerRef");
-        return;
-      }
-
-      // Store the original padding of the target element
-      const originalPadding = targetTafseerElement.style.padding;
-
-      // Set the desired padding
-      targetTafseerElement.style.padding = "10px"; // Adjust this value as needed
-
-      const unwantedElements = ['.icon-container, .settings, .summary, .href, .mobile-only, .bar, .pitch, .rate, .container.text-center, ' + '.custom-icon-play, .bi-rewind-circle-fill, .bi-plus-circle-fill, .bi-dash-circle-fill, ' + '.bi-play-circle-fill, .bi-pause-circle-fill, .bi-stop-circle-fill, .custom-icon-decrease, .word-count'];
-
-      // Function to hide elements
-      const hideElements = selectorArray => {
-        selectorArray.forEach(selector => {
-          const elements = document.querySelectorAll(selector);
-          elements.forEach(el => {
-            el.style.display = 'none';
-          });
-        });
-      };
-
-      // Function to show elements
-      const showElements = selectorArray => {
-        selectorArray.forEach(selector => {
-          const elements = document.querySelectorAll(selector);
-          elements.forEach(el => {
-            el.style.display = '';
-          });
-        });
-      };
-
-      // Hide unwanted elements before capturing
-      hideElements(unwantedElements);
-      setTimeout(() => {
-        html2canvas__WEBPACK_IMPORTED_MODULE_0___default()(targetTafseerElement, {
-          allowTaint: true,
-          useCORS: true
-        }).then(canvas => {
-          const dataUrl = canvas.toDataURL("image/png");
-
-          // Automatically trigger download of the image
-          const link = document.createElement("a");
-          link.href = dataUrl;
-          link.download = "screenshot.png";
-          link.click();
-
-          // Show success message after download
-          this.showSuccessMessage = true;
-
-          // Hide success message after 5 seconds
-          setTimeout(() => {
-            this.showSuccessMessage = false;
-          }, 5000);
-
-          // Restore visibility of unwanted elements
-          showElements(unwantedElements);
-        }).catch(error => {
-          console.error("Failed to capture screenshot:", error);
-          // Ensure to show elements if an error occurs
-          showElements(unwantedElements);
-        });
-      }, 200);
-    },
-    downloadImage(format) {
-      if (!this.previewImage) return;
-      const link = document.createElement('a');
-      link.download = `screenshot.${format}`;
-      if (format === 'jpg') {
-        const jpgDataUrl = this.previewImage.replace('image/png', 'image/jpeg');
-        link.href = jpgDataUrl;
-      } else {
-        link.href = this.previewImage;
-      }
-      link.click();
-    },
-    closeSuccessMessage() {
-      this.showSuccessMessage = false;
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTranslationCapture.vue?vue&type=script&lang=js":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTranslationCapture.vue?vue&type=script&lang=js ***!
@@ -27151,160 +25197,6 @@ __webpack_require__.r(__webpack_exports__);
         link.href = this.previewImage;
       }
       link.click();
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue?vue&type=script&lang=js":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue?vue&type=script&lang=js ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_0__);
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {
-    targetTransliterationRef: {
-      type: String,
-      required: true
-    }
-  },
-  data() {
-    return {
-      previewImage: null
-    };
-  },
-  methods: {
-    captureTransliteration() {
-      const targetTransliterationElement = this.$parent.$refs[this.targetTransliterationRef];
-      if (!targetTransliterationElement) {
-        console.error("Invalid element provided as targetTransliterationRef");
-        return;
-      }
-
-      // Store the original padding of the target element
-      const originalPadding = targetTransliterationElement.style.padding;
-
-      // Set the desired padding
-      targetTransliterationElement.style.padding = "10px"; // Adjust this value as needed
-
-      // Define the CSS selectors for the unwanted elements
-      const unwantedSelectors = ['.icon-container', '.settings', '.summary', '.href', '.mobile-only', '.bar', '.pitch', '.rate', '.container.text-center', '.custom-icon-play', '.bi-rewind-circle-fill', '.bi-plus-circle-fill', '.bi-dash-circle-fill', '.bi-play-circle-fill', '.bi-pause-circle-fill', '.bi-stop-circle-fill', '.custom-icon-decrease', '.word-count'];
-
-      // Hide the unwanted elements
-      unwantedSelectors.forEach(selector => {
-        const elements = document.querySelectorAll(selector);
-        if (elements.length === 0) {
-          console.warn(`No elements found for selector: ${selector}`);
-        }
-        elements.forEach(element => {
-          if (element) {
-            element.style.display = 'none';
-          }
-        });
-      });
-      setTimeout(() => {
-        html2canvas__WEBPACK_IMPORTED_MODULE_0___default()(targetTransliterationElement, {
-          allowTaint: true,
-          // Capture cross-origin content if necessary
-          useCORS: true // Allow cross-origin images
-        }).then(canvas => {
-          const dataUrl = canvas.toDataURL("image/png");
-
-          // Automatically trigger download of the image
-          const link = document.createElement("a");
-          link.href = dataUrl;
-          link.download = "screenshot.png";
-          link.click();
-
-          // Restore the visibility of unwanted elements
-          unwantedSelectors.forEach(selector => {
-            const elements = document.querySelectorAll(selector);
-            elements.forEach(element => {
-              if (element) {
-                element.style.display = '';
-              }
-            });
-          });
-        }).catch(error => {
-          console.error("Failed to capture screenshot:", error);
-        });
-      }, 200);
-    },
-    downloadImage(format) {
-      if (!this.previewImage) return;
-      const link = document.createElement('a');
-      link.download = `screenshot.${format}`;
-      if (format === 'jpg') {
-        const jpgDataUrl = this.previewImage.replace('image/png', 'image/jpeg');
-        link.href = jpgDataUrl;
-      } else {
-        link.href = this.previewImage;
-      }
-      link.click();
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue?vue&type=script&lang=js":
-/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue?vue&type=script&lang=js ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  data() {
-    return {
-      transcription: '',
-      audioUrl: '',
-      mediaRecorder: null,
-      audioChunks: []
-    };
-  },
-  methods: {
-    async startRecording() {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true
-      });
-      this.mediaRecorder = new MediaRecorder(stream);
-      this.mediaRecorder.start();
-      this.mediaRecorder.ondataavailable = event => {
-        this.audioChunks.push(event.data);
-      };
-      this.mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(this.audioChunks, {
-          type: 'audio/wav'
-        });
-        this.audioChunks = [];
-        const formData = new FormData();
-        formData.append('audio', audioBlob);
-        try {
-          const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('https://localhost:8000/api/upload', formData);
-          this.transcription = response.data.transcription;
-          this.audioUrl = URL.createObjectURL(audioBlob);
-        } catch (error) {
-          console.error('Error uploading audio:', error);
-        }
-      };
-    },
-    stopRecording() {
-      this.mediaRecorder.stop();
     }
   }
 });
@@ -34413,6 +32305,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Intro/Title.vue?vue&type=template&id=97a9358c":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Intro/Title.vue?vue&type=template&id=97a9358c ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+const _hoisted_1 = {
+  class: "display-5 fw-bold mb-3"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_1, [...(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Quran Companion", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"lead container\">Your personal AI-powered Quranic study assistant. Explore advanced tools like voice search, real-time\n    audio highlighting, and daily reflections to deepen your connection with the Quran.\n  </p> ")], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
+}
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Intro/Welcome.vue?vue&type=template&id=76d15ec4":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Intro/Welcome.vue?vue&type=template&id=76d15ec4 ***!
@@ -37292,6 +35205,17 @@ const _hoisted_83 = {
     "padding": "10px"
   }
 };
+const _hoisted_84 = {
+  class: "mx-auto mb-4 next-step-card",
+  style: {
+    "background": "linear-gradient(135deg, rgba(26, 95, 122, 0.12), rgba(11, 128, 111, 0.12))",
+    "border": "1px solid rgba(11, 128, 111, 0.25)",
+    "border-radius": "16px",
+    "box-shadow": "0 12px 32px rgba(26, 95, 122, 0.12)",
+    "backdrop-filter": "blur(6px)",
+    "padding": "1.25rem 1.75rem"
+  }
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Title");
   const _component_AdvancedSearch = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AdvancedSearch");
@@ -37311,15 +35235,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_TranslationNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TranslationNote");
   const _component_TafseerNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TafseerNote");
   const _component_TransliterationNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TransliterationNote");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ChatBot /> "), _cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ChatBot /> "), _cache[115] || (_cache[115] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "text-center container mb-4 lead",
     style: {
       "line-height": "1.6em"
     }
   }, " The Quran Companion page utilizes AI tools and accessibility features to enrich your learning experience. It offers text-to-speech, speech-to-text, and synchronized highlighting and more. ", -1 /* CACHED */)), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"fw-bold text-center pt-2 mb-2 container\" v-if=\"information != null\">Search for a word in the\n                    Quran...</h4> "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AdvancedSearch, {
     key: 0,
-    onInputChange: _ctx.handleInputChange
-  }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                    <div class=\"col-12 col-md-6\">\n                        <SurahDropdown v-if=\"!selectedSurahId\" class=\"pt-1\" :selectedSurah=\"selectedSurahId\"\n                            :filteredSurah=\"filteredSurah\" :surat=\"surat\" @update:selectedSurah=\"updateSelectedSurah\"\n                            @fetchAyat=\"getAyat\" />\n                    </div>\n                    <div class=\"col-12 col-md-6\">\n                        <HelpGuideModal />\n                    </div>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[85] || (_cache[85] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    onInputChange: $options.handleInputChange
+  }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                    <div class=\"col-12 col-md-6\">\n                        <SurahDropdown v-if=\"!selectedSurahId\" class=\"pt-1\" :selectedSurah=\"selectedSurahId\"\n                            :filteredSurah=\"filteredSurah\" :surat=\"surat\" @update:selectedSurah=\"updateSelectedSurah\"\n                            @fetchAyat=\"getAyat\" />\n                    </div>\n                    <div class=\"col-12 col-md-6\">\n                        <HelpGuideModal />\n                    </div>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[86] || (_cache[86] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     id: "surah-select-label",
     class: "fw-bold text-left -2"
   }, "Select a Surah:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
@@ -37330,7 +35254,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     surat: $data.surat,
     "onUpdate:selectedSurah": $options.updateSelectedSurah,
     onFetchAyat: $options.getAyat
-  }, null, 8 /* PROPS */, ["selectedSurah", "filteredSurah", "surat", "onUpdate:selectedSurah", "onFetchAyat"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FilteredSurahList :filteredSurah=\"filteredSurah\" @select-surah=\"selectSurahFromResults\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AddBookmark /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </div> "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_6, "Select a Verse: ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form class=\"d-flex pb-2 container hide-on-mobile-tablet\" v-if=\"information != null\" role=\"search\"\n                        @submit.prevent=\"scrollToAyah\">\n                        <input class=\"form-control me-2\" style=\"border: 3px solid #31464338; border-radius: 10px; \"\n                            type=\"number\" placeholder=\"Enter Verse Number\" v-model=\"verseNumber\" required />\n                        <button class=\"btn btn-success mb-1 ml-1\" style=\"background: #0b5d4b;border-radius: 5px;\"\n                            type=\"submit\">\n                            Search\n                        </button>\n                    </form> "), $data.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AyahDropdown, {
+  }, null, 8 /* PROPS */, ["selectedSurah", "filteredSurah", "surat", "onUpdate:selectedSurah", "onFetchAyat"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FilteredSurahList :filteredSurah=\"filteredSurah\" @select-surah=\"selectSurahFromResults\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AddBookmark /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </div> "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_6, "Select a Verse: ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form class=\"d-flex pb-2 container hide-on-mobile-tablet\" v-if=\"information != null\" role=\"search\"\n                        @submit.prevent=\"scrollToAyah\">\n                        <input class=\"form-control me-2\" style=\"border: 3px solid #31464338; border-radius: 10px; \"\n                            type=\"number\" placeholder=\"Enter Verse Number\" v-model=\"verseNumber\" required />\n                        <button class=\"btn btn-success mb-1 ml-1\" style=\"background: #0b5d4b;border-radius: 5px;\"\n                            type=\"submit\">\n                            Search\n                        </button>\n                    </form> "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AyahDropdown, {
     key: 1,
     "aria-labelledby": "ayah-select-label",
     selectedSurahId: $data.selectedSurahId,
@@ -37338,9 +35262,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onUpdateInformation: $options.updateInformation,
     onUpdateTafseer: $options.updateTafseer,
     class: "ayah-dropdown-hidden-on-desktop d-block d-md-none"
-  }, null, 8 /* PROPS */, ["selectedSurahId", "dropdownHidden", "onUpdateInformation", "onUpdateTafseer"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List of Ayat for Surah (desktop) "), $data.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [$data.ayah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error alert "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ErrorAlert, {
+  }, null, 8 /* PROPS */, ["selectedSurahId", "dropdownHidden", "onUpdateInformation", "onUpdateTafseer"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List of Ayat for Surah (desktop) "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_ctx.ayah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error alert "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ErrorAlert, {
     showError: $data.showError,
-    onDismissError: _ctx.dismissError
+    onDismissError: $options.dismissError
   }, null, 8 /* PROPS */, ["showError", "onDismissError"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
     class: "col-md-12 list-group root",
     id: "toggle",
@@ -37374,7 +35298,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: 0
   })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"fw-bold text-center\" >Verse Breakdown...</h4> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" breakdown content here ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"translationInfo\" tabindex=\"-1\"\n                                    aria-labelledby=\"surahInfoModalLabel\" aria-hidden=\"true\" @click.self=\"closeModal\">\n                                    <div class=\"modal-dialog modal-dialog-centered modal-lg\">\n                                        <div class=\"modal-content\">\n                                            <div class=\"modal-header\">\n                                                <h1 class=\"modal-title fs-5\" id=\"surahInfoModalLabel\">\n                                                    <strong>Surah Information</strong>\n                                                </h1>\n                                                <button type=\"button\" class=\"btn-close\" @click=\"closeModal\"\n                                                    aria-label=\"Close\"></button>\n                                            </div>\n                                            <div class=\"modal-body\">\n                                                <form class=\" text-left\">\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\" class=\"form-label\">Surah Name\n                                                            (English):</label>\n                                                        <p class=\"mt-2 text-dark text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.name_en\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\"\n                                                            class=\"form-label text-left\">Surah\n                                                            Information:</label>\n                                                        <p class=\"text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.text\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                </form>\n                                            </div>\n                                            <div class=\"modal-footer\">\n                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\"\n                                                    @click=\"closeModal\">\n                                                    Close\n                                                </button>\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Welcome :information=\"information\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screen reader live region for announcing selection changes "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.screenReaderMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "ayah-content",
-    selectedSurahId: $data.selectedSurah,
+    selectedSurahId: $data.selectedSurahId,
     onUpdateTafseer: _cache[12] || (_cache[12] = (...args) => $options.updateTafseer && $options.updateTafseer(...args)),
     onUpdateInformation: _cache[13] || (_cache[13] = (...args) => $options.updateInformation && $options.updateInformation(...args)),
     style: {},
@@ -37395,7 +35319,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[2] || (_cache[2] = (...args) => $options.goToFirstAyah && $options.goToFirstAyah(...args)),
     title: "First verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_27), _cache[86] || (_cache[86] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_27), _cache[87] || (_cache[87] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
   }, "First verse", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-center",
@@ -37413,7 +35337,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[5] || (_cache[5] = (...args) => $options.goToPreviousAyah && $options.goToPreviousAyah(...args)),
     title: "Previous verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_29), _cache[87] || (_cache[87] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_29), _cache[88] || (_cache[88] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
   }, "Previous verse", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-center",
@@ -37431,7 +35355,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[8] || (_cache[8] = (...args) => $options.goToNextAyah && $options.goToNextAyah(...args)),
     title: "Next verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_31), _cache[88] || (_cache[88] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_31), _cache[89] || (_cache[89] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
   }, "Next verse", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-center",
@@ -37449,7 +35373,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[11] || (_cache[11] = (...args) => $options.goToLastAyah && $options.goToLastAyah(...args)),
     title: "Last verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_33), _cache[89] || (_cache[89] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_33), _cache[90] || (_cache[90] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
   }, "Last verse", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_32)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
@@ -37459,15 +35383,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-placement": "top",
     title: "Write a note",
     onClick: _cache[14] || (_cache[14] = $event => $options.openModal('translationNote'))
-  }), _cache[90] || (_cache[90] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[91] || (_cache[91] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "icon-text pt-2"
   }, "Write a Note", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[15] || (_cache[15] = (...args) => $options.submitForm && $options.submitForm(...args)),
     class: "bi bi-bookmark text-right mr-2 h4",
     title: "Bookmark verse"
-  }), _cache[91] || (_cache[91] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[92] || (_cache[92] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "icon-text pt-2"
-  }, "Bookmark", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                data-bs-toggle=\"modal\" data-bs-target=\"#translationInfo\"\n                                                                aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                title=\"Surah info\"></i>\n                                                            <div class=\"icon-text pt-2\">Surah Info</div>\n                                                        </div> "), _cache[92] || (_cache[92] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Bookmark", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                data-bs-toggle=\"modal\" data-bs-target=\"#translationInfo\"\n                                                                aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                title=\"Surah info\"></i>\n                                                            <div class=\"icon-text pt-2\">Surah Info</div>\n                                                        </div> "), _cache[93] || (_cache[93] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col desktop-icon",
     style: {
       "cursor": "pointer"
@@ -37480,7 +35404,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-placement": "top"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "icon-text pt-2"
-  }, "Feedback")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-arrows-fullscreen h4\"\n                                                                @click=\"toggleFullScreen\" title=\"Full screen\"></i>\n                                                            <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                        </div> ")])]), _cache[93] || (_cache[93] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Feedback")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-arrows-fullscreen h4\"\n                                                                @click=\"toggleFullScreen\" title=\"Full screen\"></i>\n                                                            <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                        </div> ")])]), _cache[94] || (_cache[94] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
       "border": "2px solid #333"
     }
@@ -37536,7 +35460,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onKeydown: [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToLastAyah && $options.goToLastAyah(...args), ["prevent"]), ["enter"])), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToLastAyah && $options.goToLastAyah(...args), ["prevent"]), ["space"]))],
     onClick: _cache[27] || (_cache[27] = $event => $options.goToLastAyah()),
     title: "Last verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_43)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet tip: swipe between verses "), $data.showSwipeTip ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [_cache[94] || (_cache[94] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_43)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet tip: swipe between verses "), $data.showSwipeTip ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [_cache[95] || (_cache[95] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-truncate"
@@ -37569,7 +35493,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onWheelPassive: _cache[36] || (_cache[36] = (...args) => $options.handleWheelTranslation && $options.handleWheelTranslation(...args))
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationSection, {
       ref: "translationSection",
-      currentAyah: _ctx.currentAyah,
+      currentAyah: $data.currentAyah,
       isVisible: !$data.isVisible,
       information: $data.information,
       isFullScreen: $data.isFullScreen,
@@ -37587,18 +35511,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onToggleExpand: $options.toggleExpand,
       onCloseAlertText: $options.closeAlertText,
       onToggleAudio: $options.toggleAudioPlayback,
-      onUpdateSuccessMessage: _ctx.updateSuccessMessage
+      onUpdateSuccessMessage: $options.updateSuccessMessage
     }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 32 /* NEED_HYDRATION */))]),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["name"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationActions, {
     targetTranslationRef: 'targetTranslationElement',
-    translation: _ctx.translation,
+    translation: $data.translation,
+    information: $data.information,
     onOpenModal: $options.openModal,
     onSubmitForm: $options.submitForm,
-    onToggleAudio: $options.toggleAudioPlayback,
-    isPlaying: $data.isPlaying
-  }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafseer Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    selectedSurahId: $data.selectedSurah,
+    onToggleAudio: $options.toggleAudioPlayback
+  }, null, 8 /* PROPS */, ["translation", "information", "onOpenModal", "onSubmitForm", "onToggleAudio"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafseer Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    selectedSurahId: $data.selectedSurahId,
     onUpdateTafseer: _cache[49] || (_cache[49] = (...args) => $options.updateTafseer && $options.updateTafseer(...args)),
     onUpdateInformation: _cache[50] || (_cache[50] = (...args) => $options.updateInformation && $options.updateInformation(...args)),
     class: "icon-container hide-on-mobile mb-3",
@@ -37614,7 +35538,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[39] || (_cache[39] = (...args) => $options.goToFirstAyah && $options.goToFirstAyah(...args)),
     title: "First verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_51), _cache[95] || (_cache[95] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_51), _cache[96] || (_cache[96] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
   }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
@@ -37627,7 +35551,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[42] || (_cache[42] = (...args) => $options.goToPreviousAyah && $options.goToPreviousAyah(...args)),
     title: "Previous verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_53), _cache[96] || (_cache[96] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_53), _cache[97] || (_cache[97] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
   }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
@@ -37640,7 +35564,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[45] || (_cache[45] = (...args) => $options.goToNextAyah && $options.goToNextAyah(...args)),
     title: "Next verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_55), _cache[97] || (_cache[97] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_55), _cache[98] || (_cache[98] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
   }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon",
@@ -37653,7 +35577,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[48] || (_cache[48] = (...args) => $options.goToLastAyah && $options.goToLastAyah(...args)),
     title: "Last verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_57), _cache[98] || (_cache[98] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_57), _cache[99] || (_cache[99] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
   }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_49), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
@@ -37664,7 +35588,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-placement": "top",
     title: "Write a note",
     onClick: _cache[51] || (_cache[51] = $event => $options.openModal('tafseerNote'))
-  }), _cache[99] || (_cache[99] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[100] || (_cache[100] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "icon-text pt-2 mb-2"
@@ -37674,11 +35598,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-expanded": "false",
     "data-bs-placement": "top",
     title: "Bookmark verse"
-  }), _cache[100] || (_cache[100] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[101] || (_cache[101] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "icon-text pt-2 mb-2"
-  }, "Bookmark")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                    data-bs-toggle=\"modal\"\n                                                                    data-bs-target=\"#translationInfo\"\n                                                                    aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                    title=\"Surah info\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Surah Info</div>\n                                                                </div>\n                                                            </div> "), _cache[101] || (_cache[101] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Bookmark")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                    data-bs-toggle=\"modal\"\n                                                                    data-bs-target=\"#translationInfo\"\n                                                                    aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                    title=\"Surah info\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Surah Info</div>\n                                                                </div>\n                                                            </div> "), _cache[102] || (_cache[102] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col desktop-icon",
     style: {
       "cursor": "pointer"
@@ -37694,7 +35618,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "icon-text pt-2 mb-2"
-  }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                \" title=\"Full screen\" aria-expanded=\"false\"\n                                                                    data-bs-placement=\"top\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                                </div>\n                                                            </div> ")])]), _cache[102] || (_cache[102] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                \" title=\"Full screen\" aria-expanded=\"false\"\n                                                                    data-bs-placement=\"top\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                                </div>\n                                                            </div> ")])]), _cache[103] || (_cache[103] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
       "border": "2px solid #333"
     }
@@ -37729,7 +35653,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[56] || (_cache[56] = $event => $options.goToLastAyah()),
     title: "End verse"
-  })], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet tip: swipe between verses "), $data.showSwipeTip ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [_cache[103] || (_cache[103] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet tip: swipe between verses "), $data.showSwipeTip ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [_cache[104] || (_cache[104] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-truncate"
@@ -37754,7 +35678,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onWheelPassive: _cache[64] || (_cache[64] = (...args) => $options.handleWheelTafseer && $options.handleWheelTafseer(...args))
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerSection, {
       ref: "tafseerSection",
-      currentAyah: _ctx.currentAyah,
+      currentAyah: $data.currentAyah,
       isVisible: !$data.isVisible,
       information: $data.information,
       isFullScreen: $data.isFullScreen,
@@ -37772,20 +35696,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onToggleExpand: $options.toggleExpand,
       onCloseAlertText: $options.closeAlertText,
       onToggleAudio: $options.toggleAudioPlayback,
-      onUpdateSuccessMessage: _ctx.updateSuccessMessage
+      onUpdateSuccessMessage: $options.updateSuccessMessage
     }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 32 /* NEED_HYDRATION */))]),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["name"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                            <div class=\"row\">\n                                                <div class=\"col\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-center mobile-only h3 pt-3\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div>\n                                            </div>\n                                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_65, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerActions, {
-    targetTranslationRef: 'targetTranslationElement',
-    translation: _ctx.translation,
+    targetTafseerRef: 'targetTafseerElement',
+    tafseer: $data.tafseer,
+    information: $data.information,
     onOpenModal: $options.openModal,
     onSubmitForm: $options.submitFormTafseer,
-    onToggleAudio: $options.toggleAudioPlayback,
-    isPlaying: $data.isPlaying
-  }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahInfoModal, {
+    onToggleAudio: $options.toggleAudioPlayback
+  }, null, 8 /* PROPS */, ["tafseer", "information", "onOpenModal", "onSubmitForm", "onToggleAudio"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahInfoModal, {
     information: $data.information
   }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Transliteration Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    selectedSurahId: $data.selectedSurah,
+    selectedSurahId: $data.selectedSurahId,
     onUpdateTafseer: _cache[69] || (_cache[69] = (...args) => $options.updateTafseer && $options.updateTafseer(...args)),
     onUpdateInformation: _cache[70] || (_cache[70] = (...args) => $options.updateInformation && $options.updateInformation(...args)),
     class: "icon-container hide-on-mobile mb-3"
@@ -37796,7 +35720,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[65] || (_cache[65] = (...args) => $options.goToFirstAyah && $options.goToFirstAyah(...args)),
     title: "First verse"
-  }), _cache[104] || (_cache[104] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[105] || (_cache[105] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
   }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon",
@@ -37805,7 +35729,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[66] || (_cache[66] = (...args) => $options.goToPreviousAyah && $options.goToPreviousAyah(...args)),
     title: "Previous verse"
-  }), _cache[105] || (_cache[105] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[106] || (_cache[106] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
   }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon",
@@ -37814,7 +35738,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[67] || (_cache[67] = (...args) => $options.goToNextAyah && $options.goToNextAyah(...args)),
     title: "Next verse"
-  }), _cache[106] || (_cache[106] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[107] || (_cache[107] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
   }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-end-fill pt-2 h2 icon-container custom-prev-ayah desktop-icon",
@@ -37823,7 +35747,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[68] || (_cache[68] = (...args) => $options.goToLastAyah && $options.goToLastAyah(...args)),
     title: "Last verse"
-  }), _cache[107] || (_cache[107] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[108] || (_cache[108] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
   }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_69), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.iconStyle)
@@ -37833,7 +35757,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-placement": "top",
     title: "Write a note",
     onClick: _cache[71] || (_cache[71] = $event => $options.openModal('transliterationNote'))
-  }), _cache[108] || (_cache[108] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[109] || (_cache[109] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "icon-text pt-2 mb-2"
@@ -37842,11 +35766,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
     title: "Bookmark verse"
-  }), _cache[109] || (_cache[109] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[110] || (_cache[110] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "icon-text pt-2 mb-2"
-  }, "Bookmark")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                        data-bs-toggle=\"modal\"\n                                                                        data-bs-target=\"#translationInfo\"\n                                                                        aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                        title=\"Surah info\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Surah Info\n                                                                        </div>\n                                                                    </div>\n                                                                </div> "), _cache[110] || (_cache[110] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Bookmark")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-info-circle h4 mr-2 pl-2\"\n                                                                        data-bs-toggle=\"modal\"\n                                                                        data-bs-target=\"#translationInfo\"\n                                                                        aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                                        title=\"Surah info\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Surah Info\n                                                                        </div>\n                                                                    </div>\n                                                                </div> "), _cache[111] || (_cache[111] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col desktop-icon",
     style: {
       "cursor": "pointer"
@@ -37862,7 +35786,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "icon-text pt-2 mb-2"
-  }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                    \" title=\"Full screen\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Full Screen\n                                                                        </div>\n                                                                    </div>\n                                                                </div> ")])]), _cache[111] || (_cache[111] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                    \" title=\"Full screen\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Full Screen\n                                                                        </div>\n                                                                    </div>\n                                                                </div> ")])]), _cache[112] || (_cache[112] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
       "border": "2px solid\n                                                                #333"
     }
@@ -37897,7 +35821,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[76] || (_cache[76] = $event => $options.goToLastAyah()),
     title: "End verse"
-  })], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet tip: swipe between verses "), $data.showSwipeTip ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_80, [_cache[112] || (_cache[112] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet tip: swipe between verses "), $data.showSwipeTip ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_80, [_cache[113] || (_cache[113] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-truncate"
@@ -37922,7 +35846,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onWheelPassive: _cache[84] || (_cache[84] = (...args) => $options.handleWheelTransliteration && $options.handleWheelTransliteration(...args))
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationSection, {
       ref: "transliterationSection",
-      currentAyah: _ctx.currentAyah,
+      currentAyah: $data.currentAyah,
       isVisible: !$data.isVisible,
       information: $data.information,
       isFullScreen: $data.isFullScreen,
@@ -37943,25 +35867,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio"])], 32 /* NEED_HYDRATION */))]),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["name"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationActions, {
-    targetTranslationRef: 'targetTranslationElement',
-    translation: _ctx.translation,
+    targetTransliterationRef: 'targetTransliterationElement',
+    transliteration: $data.information ? $data.information.transliteration : '',
+    isVisible: !$data.isVisible,
     onOpenModal: $options.openModal,
     onSubmitForm: $options.submitFormTransliteration,
-    onToggleAudio: $options.toggleAudioPlayback,
-    isPlaying: $data.isPlaying
-  }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" end toolbar mobile "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahInfoModal, {
+    onToggleAudio: $options.toggleAudioPlayback
+  }, null, 8 /* PROPS */, ["transliteration", "isVisible", "onOpenModal", "onSubmitForm", "onToggleAudio"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" end toolbar mobile "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahInfoModal, {
     information: $data.information
-  }, null, 8 /* PROPS */, ["information"])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [...(_cache[113] || (_cache[113] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "mx-auto mb-4",
-    style: {
-      "background": "linear-gradient(135deg, rgba(26, 95, 122, 0.12), rgba(11, 128, 111, 0.12))",
-      "border": "1px solid rgba(11, 128, 111, 0.25)",
-      "border-radius": "16px",
-      "box-shadow": "0 12px 32px rgba(26, 95, 122, 0.12)",
-      "backdrop-filter": "blur(6px)",
-      "padding": "1.25rem 1.75rem"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["information"])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn-close next-step-close",
+    "aria-label": "Dismiss next step",
+    onClick: _cache[85] || (_cache[85] = (...args) => $options.dismissNextStep && $options.dismissNextStep(...args))
+  }), _cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-start gap-3 text-start"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "flex-shrink-0 mt-1"
@@ -38011,15 +35930,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Listen Now "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-arrow-up-right-from-square ms-2"
-  })])])])], -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showNextStep]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CorrectionModal), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modals "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationNote, {
+  })])])], -1 /* CACHED */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showNextStep]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CorrectionModal), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modals "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationNote, {
     ref: "translationNote",
-    information: _ctx.modalInformation
+    information: $data.modalInformation
   }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerNote, {
     ref: "tafseerNote",
-    information: _ctx.modalInformation
+    information: $data.modalInformation
   }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationNote, {
     ref: "transliterationNote",
-    information: _ctx.modalInformation
+    information: $data.modalInformation
   }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])]);
 }
 
@@ -45935,27 +43854,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/accesibility/KeyboardNavigation.vue?vue&type=template&id=1a682eac":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/accesibility/KeyboardNavigation.vue?vue&type=template&id=1a682eac ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = {
-  class: "navigation"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1);
-}
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/accesibility/ScreenReader.vue?vue&type=template&id=0ac6db40":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/accesibility/ScreenReader.vue?vue&type=template&id=0ac6db40 ***!
@@ -48925,139 +46823,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue?vue&type=template&id=09a563a6":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue?vue&type=template&id=09a563a6 ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = {
-  key: 0
-};
-const _hoisted_2 = {
-  class: "row",
-  style: {
-    "padding": "10px"
-  }
-};
-const _hoisted_3 = {
-  class: "text-center"
-};
-const _hoisted_4 = {
-  class: "row"
-};
-const _hoisted_5 = {
-  class: "col"
-};
-const _hoisted_6 = {
-  href: "/bookmarks",
-  class: "h4"
-};
-const _hoisted_7 = {
-  class: "col"
-};
-const _hoisted_8 = {
-  href: "/notes",
-  class: "h4"
-};
-const _hoisted_9 = {
-  class: "col"
-};
-const _hoisted_10 = {
-  href: "/profile",
-  class: "h2"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return $props.information !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      color: $props.iconColor
-    })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.information.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.information.content), 1 /* TEXT */)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      color: $props.iconColor
-    }),
-    class: "bi bi-bookmark h4"
-  }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      color: $props.iconColor
-    }),
-    class: "bi bi-file-earmark-text h4"
-  }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col\">\n            <a href=\"/group_notes\" class=\"h4\">\n              <i :style=\"{ color: iconColor }\" class=\"bi bi-boxes h3\"></i>\n            </a>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      color: $props.iconColor
-    }),
-    class: "bi bi-person h2"
-  }, null, 4 /* STYLE */)])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
-}
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/content/searchContent.vue?vue&type=template&id=aaaf7840&scoped=true":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/content/searchContent.vue?vue&type=template&id=aaaf7840&scoped=true ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = {
-  class: "filters"
-};
-const _hoisted_2 = {
-  key: 0
-};
-const _hoisted_3 = ["onClick"];
-const _hoisted_4 = {
-  key: 1,
-  class: "modal-overlay"
-};
-const _hoisted_5 = {
-  class: "modal-content"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Advanced Search", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.searchQuery = $event),
-    type: "text",
-    placeholder: "Search content...",
-    onInput: _cache[1] || (_cache[1] = (...args) => $options.onSearchInput && $options.onSearchInput(...args))
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $data.selectedCategory = $event)
-  }, [...(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"\" data-v-aaaf7840>Select Category</option><option value=\"Seerah\" data-v-aaaf7840>Seerah</option><option value=\"Hadith\" data-v-aaaf7840>Hadith</option><option value=\"Blog\" data-v-aaaf7840>Blog</option><option value=\"Podcast\" data-v-aaaf7840>Podcast</option>", 5)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $data.startDate = $event),
-    type: "date",
-    placeholder: "Start Date"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.startDate]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => $data.endDate = $event),
-    type: "date",
-    placeholder: "End Date"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.endDate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[5] || (_cache[5] = (...args) => $options.searchContent && $options.searchContent(...args))
-  }, "Search"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Results "), $data.searchResults.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Search Results", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.searchResults, (result, index) => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: index,
-      onClick: $event => $options.openModal(result)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.description), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_3);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal for Detailed View "), $data.showModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.modalContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.modalContent.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[6] || (_cache[6] = (...args) => $options.closeModal && $options.closeModal(...args))
-  }, "Close"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Export Options "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[7] || (_cache[7] = (...args) => $options.exportToPDF && $options.exportToPDF(...args))
-  }, "Export to PDF"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[8] || (_cache[8] = (...args) => $options.exportToMP3 && $options.exportToMP3(...args))
-  }, "Export to MP3")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-}
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/folder_manager/FolderSelectionModal.vue?vue&type=template&id=05031f07&scoped=true":
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/folder_manager/FolderSelectionModal.vue?vue&type=template&id=05031f07&scoped=true ***!
@@ -49162,27 +46927,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/intro/Title.vue?vue&type=template&id=20cea54c":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/intro/Title.vue?vue&type=template&id=20cea54c ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = {
-  class: "display-5 fw-bold mb-3"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_1, [...(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Quran Companion", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"lead container\">Your personal AI-powered Quranic study assistant. Explore advanced tools like voice search, real-time\n    audio highlighting, and daily reflections to deepen your connection with the Quran.\n  </p> ")], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
-}
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/AlertModal.vue?vue&type=template&id=2c5e9d42":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/AlertModal.vue?vue&type=template&id=2c5e9d42 ***!
@@ -49215,131 +46959,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: 3,
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['alert', _ctx.alertType === 'success' ? 'alert-success' : 'alert-danger'])
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.alertMessage), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-}
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/CorrectionModal.vue?vue&type=template&id=0019a231&scoped=true":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/CorrectionModal.vue?vue&type=template&id=0019a231&scoped=true ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = {
-  class: "modal fade",
-  id: "exampleModal",
-  tabindex: "-1",
-  "aria-labelledby": "exampleModalLabel",
-  "aria-hidden": "true"
-};
-const _hoisted_2 = {
-  class: "modal-dialog modal-dialog-centered modal-lg"
-};
-const _hoisted_3 = {
-  class: "modal-content"
-};
-const _hoisted_4 = {
-  class: "modal-header"
-};
-const _hoisted_5 = {
-  class: "modal-body"
-};
-const _hoisted_6 = {
-  class: "text-center"
-};
-const _hoisted_7 = {
-  class: "row star-rating"
-};
-const _hoisted_8 = {
-  class: "col container-fluid text-left"
-};
-const _hoisted_9 = ["onClick"];
-const _hoisted_10 = {
-  class: "container text-center"
-};
-const _hoisted_11 = {
-  class: "row"
-};
-const _hoisted_12 = {
-  class: "col"
-};
-const _hoisted_13 = ["disabled"];
-const _hoisted_14 = {
-  class: "col"
-};
-const _hoisted_15 = ["disabled"];
-const _hoisted_16 = {
-  class: "mt-3"
-};
-const _hoisted_17 = {
-  key: 0,
-  class: "text-success"
-};
-const _hoisted_18 = ["readonly"];
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal Structure "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    class: "modal-title",
-    id: "exampleModalLabel"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rate your experience")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn-close",
-    "data-bs-dismiss": "modal",
-    "aria-label": "Close",
-    onClick: _cache[0] || (_cache[0] = (...args) => $options.closeModal && $options.closeModal(...args))
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.createCorrection && $options.createCorrection(...args), ["prevent"])),
-    id: "reportForm"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rating "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-    class: "text-left"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Your Rating:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(5, star => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      key: star,
-      onClick: $event => $options.setRating(star),
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
-        'active': star <= $data.form.rating
-      })
-    }, " ★ ", 10 /* CLASS, PROPS */, _hoisted_9);
-  }), 64 /* STABLE_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notes "), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "mb-3 mt-3 text-left"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "What could we improve on?")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn btn-success me-2",
-    onClick: _cache[1] || (_cache[1] = (...args) => $options.startRecognition && $options.startRecognition(...args)),
-    disabled: $data.isListening
-  }, [...(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-play-circle text-white"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Start Recording ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_13)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn btn-danger",
-    onClick: _cache[2] || (_cache[2] = (...args) => $options.stopRecognition && $options.stopRecognition(...args)),
-    disabled: !$data.isListening
-  }, [...(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-stop-circle text-white"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop Recording ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_15)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [$data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_17, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
-    class: "pt-3"
-  }, "Listening...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $data.form.added_notes = $event),
-    class: "form-control pb-2",
-    rows: "5",
-    placeholder: "Your speech will appear here...",
-    readonly: $data.isListening
-  }, null, 8 /* PROPS */, _hoisted_18), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.added_notes]])])], 32 /* NEED_HYDRATION */)]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "modal-footer"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn btn-secondary",
-    "data-bs-dismiss": "modal"
-  }, "Close"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "submit",
-    form: "reportForm",
-    class: "btn btn-success"
-  }, "Submit")], -1 /* CACHED */))])])])]);
 }
 
 /***/ }),
@@ -49727,123 +47346,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=template&id=43f8b8c4&scoped=true":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=template&id=43f8b8c4&scoped=true ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("form", {
-    class: "d-flex pb-2 card",
-    role: "search",
-    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.onSubmit && $options.onSubmit(...args), ["prevent"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    class: "form-control me-2",
-    type: "number",
-    placeholder: "Enter Verse Number",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.localVerseNumber = $event),
-    required: "",
-    min: "1"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.localVerseNumber, void 0, {
-    number: true
-  }]]), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "btn btn-success mb-1 ms-2",
-    type: "submit"
-  }, "Search", -1 /* CACHED */))], 32 /* NEED_HYDRATION */);
-}
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSelector.vue?vue&type=template&id=0f14c00a":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSelector.vue?vue&type=template&id=0f14c00a ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = ["value"];
-const _hoisted_2 = {
-  key: 0,
-  class: "highlighted-ayah"
-};
-const _hoisted_3 = {
-  key: 0
-};
-const _hoisted_4 = {
-  key: 1
-};
-const _hoisted_5 = {
-  class: "custom-scrollbar pb-5",
-  style: {
-    "overflow-y": "auto",
-    "max-height": "600px",
-    "background": "white",
-    "border-radius": "10px",
-    "box-shadow": "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
-  }
-};
-const _hoisted_6 = {
-  class: "col-md-12 list-group container-fluid root",
-  id: "toggle",
-  ref: "ayahList",
-  style: {
-    "list-style-type": "none",
-    "padding": "8px"
-  }
-};
-const _hoisted_7 = ["onClick"];
-const _hoisted_8 = {
-  class: "text-right",
-  style: {
-    "display": "flex"
-  }
-};
-const _hoisted_9 = {
-  class: "text-right"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown to select Ayah "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    class: "form-control mobile-only hide-on-full-screen hide-on-tablet right-side-form card select-shadow",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.selectedAyahId = $event),
-    onChange: _cache[1] || (_cache[1] = (...args) => $options.handleAyahChange && $options.handleAyahChange(...args))
-  }, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    disabled: "",
-    value: ""
-  }, "Select Ayah", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ayat, (ayah, index) => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: index,
-      value: index
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 9 /* TEXT, PROPS */, _hoisted_1);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedAyahId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Display highlighted Ayah information "), $data.highlightedAyah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Ayah Text:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.highlightedAyah.ayah_text), 1 /* TEXT */)]), $data.information ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_3, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Additional Information:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.information), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tafseer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_4, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Tafseer:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.tafseer), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List of Ayat with highlighting for selected Ayah "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ayat, (ayah, index) => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: index,
-      onClick: $event => $options.selectAyah(index),
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
-        selected: $data.selectedAyahId === index,
-        highlighted: $data.highlightedAyahId === ayah.id
-      }),
-      style: {
-        "padding": "10px",
-        "border-radius": "10px"
-      }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_8, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_7);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])]);
-}
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/ErrorAlert.vue?vue&type=template&id=4955f2e0&scoped=true":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/ErrorAlert.vue?vue&type=template&id=4955f2e0&scoped=true ***!
@@ -49872,24 +47374,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/FilteredSurahList.vue?vue&type=template&id=61e91e62&scoped=true":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/FilteredSurahList.vue?vue&type=template&id=61e91e62&scoped=true ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"filteredSurah.length\">\n    <ul class=\"col-md-12 mt-1 scrollable-list\" style=\"list-style-type: none; overflow-y: auto; max-height: 400px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;\">\n      <li v-for=\"surah in filteredSurah\" :key=\"surah.id\" @click=\"selectSurah(surah)\" style=\"cursor: pointer; padding:5px;  border-radius:5px;\" class=\"highlight-on-hover\">\n        <div style=\"display: flex; align-items: center;\">\n          <img src=\"/images/art.png\" style=\"width: 23px\" class=\"mb-1 mr-2\" loading=\"lazy\"/>\n          <p style=\"font-size: 18px;\" class=\"mt-2\">{{ surah.name_en }} - {{ surah.name_ar }}</p>\n        </div>\n      </li>\n    </ul>\n  </div> ");
-}
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/Magnifier.vue?vue&type=template&id=22b58b02&scoped=true":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/Magnifier.vue?vue&type=template&id=22b58b02&scoped=true ***!
@@ -49908,46 +47392,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "magnifier",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.magnifierStyle)
   }, null, 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
-}
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/SearchForm.vue?vue&type=template&id=a3ffe590":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/SearchForm.vue?vue&type=template&id=a3ffe590 ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("form", {
-    class: "search-form d-flex container h1",
-    style: {
-      "border-radius": "6px"
-    },
-    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.search && $options.search(...args), ["prevent"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    style: {
-      "border": "3px solid #00bfa6"
-    },
-    class: "form-control me-2 display-3",
-    type: "search",
-    id: "search",
-    name: "search",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.searchTerm = $event),
-    placeholder: "What Surah do you want to read today?",
-    autocomplete: "off",
-    onKeyup: _cache[1] || (_cache[1] = (...args) => $options.search && $options.search(...args))
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchTerm]]), $data.showClearButton ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
-    class: "btn btn-outline-secondary h2",
-    onClick: _cache[2] || (_cache[2] = (...args) => $options.clearResults && $options.clearResults(...args))
-  }, " Clear ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 32 /* NEED_HYDRATION */);
 }
 
 /***/ }),
@@ -50333,188 +47777,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahOfTheDay.vue?vue&type=template&id=0523142a&scoped=true":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahOfTheDay.vue?vue&type=template&id=0523142a&scoped=true ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = {
-  key: 0,
-  class: "ayah-container"
-};
-const _hoisted_2 = {
-  class: "ayah-header"
-};
-const _hoisted_3 = {
-  class: "header-content"
-};
-const _hoisted_4 = {
-  class: "title-section"
-};
-const _hoisted_5 = {
-  class: "subtitle"
-};
-const _hoisted_6 = {
-  class: "ayah-content"
-};
-const _hoisted_7 = {
-  class: "surah-info"
-};
-const _hoisted_8 = {
-  class: "surah-badge"
-};
-const _hoisted_9 = {
-  class: "ayah-ref"
-};
-const _hoisted_10 = {
-  class: "arabic-section"
-};
-const _hoisted_11 = {
-  class: "toggle-section"
-};
-const _hoisted_12 = {
-  key: 0,
-  class: "translation-section"
-};
-const _hoisted_13 = {
-  class: "language-selector"
-};
-const _hoisted_14 = ["onClick"];
-const _hoisted_15 = {
-  key: 0,
-  class: "toggle-section"
-};
-const _hoisted_16 = {
-  key: 0,
-  class: "tafsir-section"
-};
-const _hoisted_17 = {
-  class: "tafsir-text"
-};
-const _hoisted_18 = {
-  class: "action-bar"
-};
-const _hoisted_19 = {
-  class: "action-group"
-};
-const _hoisted_20 = ["disabled"];
-const _hoisted_21 = ["disabled"];
-const _hoisted_22 = {
-  class: "action-group"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return $data.isVisible && $data.ayah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimal Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "icon-wrapper"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-moon-stars"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    class: "title"
-  }, "Ayah of the Day", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "close-btn",
-    onClick: _cache[0] || (_cache[0] = (...args) => $options.closeMessageBox && $options.closeMessageBox(...args)),
-    "aria-label": "Close"
-  }, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-x"
-  }, null, -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah Info "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, "Surah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.surah), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.surahNumber) + ":" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.ayahNumber), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "arabic-text",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      fontSize: `${$data.fontSize}rem`
-    })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.arabic), 5 /* TEXT, STYLE */), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "decoration"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "decoration-line"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-flower1"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "decoration-line"
-  })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["toggle-btn", {
-      'active': $data.showTranslation
-    }]),
-    onClick: _cache[1] || (_cache[1] = (...args) => $options.toggleTranslation && $options.toggleTranslation(...args))
-  }, [...(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Translation", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "toggle-switch"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "toggle-knob"
-  })], -1 /* CACHED */)]))], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
-    name: "fade-slide"
-  }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.availableTranslations, lang => {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-        key: lang,
-        class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["lang-btn", {
-          'active': $data.selectedLanguage === lang
-        }]),
-        onClick: $event => $options.selectTranslation(lang)
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lang.toUpperCase()), 11 /* TEXT, CLASS, PROPS */, _hoisted_14);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["translation-text", {
-        'rtl': $options.isRtlLanguage($data.selectedLanguage)
-      }])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.translations[$data.selectedLanguage]), 3 /* TEXT, CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
-    _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafsir Toggle "), $data.ayah.tafsir ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["toggle-btn", {
-      'active': $data.showTafsir
-    }]),
-    onClick: _cache[2] || (_cache[2] = (...args) => $options.toggleTafsir && $options.toggleTafsir(...args))
-  }, [...(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Tafsir", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "toggle-switch"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "toggle-knob"
-  })], -1 /* CACHED */)]))], 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafsir "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
-    name: "fade-slide"
-  }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.showTafsir && $data.ayah.tafsir ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.ayah.tafsir), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
-    _: 1 /* STABLE */
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "action-btn",
-    onClick: _cache[3] || (_cache[3] = (...args) => $options.decreaseFontSize && $options.decreaseFontSize(...args)),
-    disabled: $data.fontSize <= 1.2
-  }, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-dash-lg"
-  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_20), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "font-size-label"
-  }, "Font Size", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "action-btn",
-    onClick: _cache[4] || (_cache[4] = (...args) => $options.increaseFontSize && $options.increaseFontSize(...args)),
-    disabled: $data.fontSize >= 2.4
-  }, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-plus-lg"
-  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_21)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "action-btn",
-    onClick: _cache[5] || (_cache[5] = (...args) => $options.copyToClipboard && $options.copyToClipboard(...args))
-  }, [...(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-clipboard"
-  }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "action-btn",
-    onClick: _cache[6] || (_cache[6] = (...args) => $options.shareAyah && $options.shareAyah(...args))
-  }, [...(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-share"
-  }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "action-btn",
-    onClick: _cache[7] || (_cache[7] = (...args) => $options.bookmarkAyah && $options.bookmarkAyah(...args))
-  }, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-bookmark"
-  }, null, -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toast "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["toast", {
-      'show': $data.showToast
-    }])
-  }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-check-circle"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.toastMessage), 1 /* TEXT */)], 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
-}
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/ChatBot.vue?vue&type=template&id=14b64f56&scoped=true":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/ChatBot.vue?vue&type=template&id=14b64f56&scoped=true ***!
@@ -50705,35 +47967,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/EnglishTranslation.vue?vue&type=template&id=7a2befea&scoped=true":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/EnglishTranslation.vue?vue&type=template&id=7a2befea&scoped=true ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = {
-  class: "text-left ayah-translation",
-  ref: "heading3",
-  style: {
-    "line-height": "1.6em"
-  }
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.expanded ? $props.information.translation : $data.truncatedText) + " ", 1 /* TEXT */), $options.showMoreLink ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
-    key: 0,
-    href: "#",
-    onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.toggleExpand && $options.toggleExpand(...args), ["prevent"]))
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.expanded ? 'Show Less' : 'Show More'), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */);
-}
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/HelpGuideModal.vue?vue&type=template&id=0f15fe0a":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/HelpGuideModal.vue?vue&type=template&id=0f15fe0a ***!
@@ -50782,96 +48015,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/PrayerTimes.vue?vue&type=template&id=5ae7cc26&scoped=true":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/PrayerTimes.vue?vue&type=template&id=5ae7cc26&scoped=true ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = {
-  class: "container-fluid mt-3",
-  "aria-labelledby": "prayer-times-heading"
-};
-const _hoisted_2 = {
-  class: "text-center container"
-};
-const _hoisted_3 = {
-  class: "row mb-3",
-  style: {
-    "align-items": "center",
-    "text-align": "center"
-  }
-};
-const _hoisted_4 = {
-  key: 0,
-  class: "text-center mb-4",
-  role: "status",
-  "aria-live": "polite"
-};
-const _hoisted_5 = {
-  key: 1,
-  class: "alert alert-warning text-center",
-  role: "alert",
-  "aria-live": "assertive"
-};
-const _hoisted_6 = {
-  key: 0,
-  class: "row justify-content-center g-3",
-  role: "list",
-  "aria-label": "Prayer times"
-};
-const _hoisted_7 = ["aria-current"];
-const _hoisted_8 = {
-  key: 0,
-  class: "badge mt-2 small",
-  style: {
-    "background": "#0b806f !important",
-    "color": "#ffffff !important"
-  },
-  "aria-label": "Next prayer"
-};
-const _hoisted_9 = {
-  key: 1,
-  class: "text-center text-muted"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State with Accessibility "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [...(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "spinner",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mt-2 text-muted"
-  }, "Loading prayer times...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error State "), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-exclamation-triangle me-2",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Prayer Times Grid "), $data.prayerTimes && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredPrayerTimes, (time, prayer) => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      class: "col-6 col-sm-4 col-md-3 col-lg-2",
-      key: prayer,
-      role: "listitem"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-3 text-center rounded shadow-sm h-100 prayer-card", {
-        'text-white': prayer === $data.nextPrayer,
-        'bg-light': prayer !== $data.nextPrayer
-      }]),
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(prayer === $data.nextPrayer ? 'background: #1a5f7a !important;' : ''),
-      "aria-current": prayer === $data.nextPrayer ? 'true' : 'false'
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["h6 fw-bold mb-2", prayer === $data.nextPrayer ? 'text-white' : 'text-dark'])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getPrayerDisplayName(prayer)), 3 /* TEXT, CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-      class: "mb-0 fs-5 fw-bold",
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(prayer === $data.nextPrayer ? 'color: white !important;' : 'color: #1a5f7a !important;')
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(time)), 5 /* TEXT, STYLE */), prayer === $data.nextPrayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, " Next ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 14 /* CLASS, STYLE, PROPS */, _hoisted_7)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Fallback when no data "), !$data.prayerTimes && !$data.loading && !$data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [...(_cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Unable to load prayer times. Please check your connection.", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
-}
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/Translator.vue?vue&type=template&id=4d3aa73a&scoped=true":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/Translator.vue?vue&type=template&id=4d3aa73a&scoped=true ***!
@@ -50895,106 +48038,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     alt: "lamp",
     loading: "lazy"
   }, null, -1 /* CACHED */)), _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Translation:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.translator), 1 /* TEXT */)]);
-}
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=template&id=62339b22&scoped=true":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=template&id=62339b22&scoped=true ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = {
-  class: "modal fade",
-  id: "folderModal",
-  tabindex: "-1",
-  "aria-labelledby": "folderModalLabel",
-  "aria-hidden": "true"
-};
-const _hoisted_2 = {
-  class: "modal-dialog modal-dialog-centered modal-lg"
-};
-const _hoisted_3 = {
-  class: "modal-content"
-};
-const _hoisted_4 = {
-  class: "modal-body"
-};
-const _hoisted_5 = {
-  key: 0
-};
-const _hoisted_6 = ["onClick"];
-const _hoisted_7 = {
-  key: 1
-};
-const _hoisted_8 = {
-  key: 0,
-  class: "alert alert-success",
-  role: "alert"
-};
-const _hoisted_9 = {
-  key: 1,
-  class: "alert alert-danger",
-  role: "alert"
-};
-const _hoisted_10 = {
-  key: 2,
-  class: "alert alert-success",
-  role: "alert"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Button to Trigger Folder Selection Modal "), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    style: {
-      "background-color": "rgba(0, 191, 166, 0.452)",
-      "cursor": "pointer",
-      "color": "black",
-      "font-style": "bolder"
-    },
-    class: "btn button-success pb-2",
-    "data-bs-toggle": "modal",
-    "data-bs-target": "#folderModal"
-  }, " Collections ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Folder Selection Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "modal-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "modal-title",
-    id: "folderModalLabel"
-  }, "Select a Folder"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    style: {
-      "background-color": "rgba(0, 191, 166, 0.452)",
-      "cursor": "pointer"
-    },
-    class: "btn-close",
-    "data-bs-dismiss": "modal",
-    "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [$data.folders && $data.folders.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Select a folder to save your bookmark:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.folders, folder => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: folder.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn btn-info",
-      style: {
-        "text-decoration": "none"
-      },
-      onClick: $event => $options.selectFolder(folder.id),
-      "data-bs-dismiss": "modal"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.name), 9 /* TEXT, PROPS */, _hoisted_6)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [...(_cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "No folders available. Please create a folder first.", -1 /* CACHED */)]))]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bookmark Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[0] || (_cache[0] = (...args) => $options.submitForm2 && $options.submitForm2(...args)),
-    class: "bi bi-bookmark text-right mr-2 h4",
-    "aria-expanded": "false",
-    "data-bs-placement": "top",
-    title: "Bookmark verse",
-    style: {
-      "color": "rgba(0, 191, 166)",
-      "cursor": "pointer"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success and Error Alerts "), $data.showAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, " Bookmark saved successfully! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showErrorAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, " An error occurred while saving the bookmark. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Milestone Alert "), $data.milestoneMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.milestoneMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -51509,89 +48552,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=template&id=8f92b726&scoped=true":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=template&id=8f92b726&scoped=true ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = {
-  class: "modal fade",
-  id: "previewModal",
-  tabindex: "-1",
-  "aria-labelledby": "previewModalLabel",
-  "aria-hidden": "true"
-};
-const _hoisted_2 = {
-  class: "modal-dialog modal-xl modal-dialog-centered"
-};
-const _hoisted_3 = {
-  class: "modal-content"
-};
-const _hoisted_4 = {
-  class: "modal-body text-center",
-  style: {
-    "box-shadow": "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",
-    "padding": "15px"
-  }
-};
-const _hoisted_5 = ["src"];
-const _hoisted_6 = {
-  key: 1
-};
-const _hoisted_7 = {
-  class: "modal-footer"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screenshot icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-camera text-right mr-2 h3",
-    onClick: _cache[0] || (_cache[0] = (...args) => $options.captureTafseer && $options.captureTafseer(...args)),
-    "aria-expanded": "false",
-    "data-bs-placement": "top",
-    title: "Screenshot verse",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      iconColor: _ctx.iconColor,
-      cursor: 'pointer'
-    })
-  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Message (Bootstrap Alert) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"showSuccessMessage\" class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">\n      Screenshot captured successfully!\n      <button type=\"button\" class=\"btn-close\" @click=\"closeSuccessMessage\" aria-label=\"Close\"></button>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "modal-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    class: "modal-title",
-    id: "previewModalLabel"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Screenshot Preview")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn-close",
-    "data-bs-dismiss": "modal",
-    "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [$data.previewImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
-    key: 0,
-    src: $data.previewImage,
-    alt: "Screenshot",
-    class: "img-fluid",
-    loading: "lazy"
-  }, null, 8 /* PROPS */, _hoisted_5)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, "Loading..."))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn btn-secondary",
-    "data-bs-dismiss": "modal"
-  }, "Cancel", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn btn-success",
-    onClick: _cache[1] || (_cache[1] = $event => $options.downloadImage('png'))
-  }, "Download PNG"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn btn-success",
-    onClick: _cache[2] || (_cache[2] = $event => $options.downloadImage('jpg'))
-  }, "Download JPG")])])])])]);
-}
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTranslationCapture.vue?vue&type=template&id=6429d634":
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTranslationCapture.vue?vue&type=template&id=6429d634 ***!
@@ -51671,115 +48631,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn btn-success",
     onClick: _cache[2] || (_cache[2] = $event => $options.downloadImage('jpg'))
   }, "Download JPG")])])])])]);
-}
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue?vue&type=template&id=025b3868":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue?vue&type=template&id=025b3868 ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = {
-  class: "modal fade",
-  id: "previewModal",
-  tabindex: "-1",
-  "aria-labelledby": "previewModalLabel",
-  "aria-hidden": "true"
-};
-const _hoisted_2 = {
-  class: "modal-dialog modal-xl modal-dialog-centered"
-};
-const _hoisted_3 = {
-  class: "modal-content"
-};
-const _hoisted_4 = {
-  class: "modal-body text-center",
-  style: {
-    "box-shadow": "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",
-    "padding": "15px"
-  }
-};
-const _hoisted_5 = ["src"];
-const _hoisted_6 = {
-  key: 1
-};
-const _hoisted_7 = {
-  class: "modal-footer"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screenshot icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-camera text-right mr-2 h3",
-    onClick: _cache[0] || (_cache[0] = (...args) => $options.captureTransliteration && $options.captureTransliteration(...args)),
-    "aria-expanded": "false",
-    "data-bs-placement": "top",
-    title: "Screenshot verse",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      iconColor: _ctx.iconColor,
-      cursor: 'pointer'
-    })
-  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "modal-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    class: "modal-title",
-    id: "previewModalLabel"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Screenshot Preview")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn-close",
-    "data-bs-dismiss": "modal",
-    "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [$data.previewImage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
-    key: 0,
-    src: $data.previewImage,
-    alt: "Screenshot",
-    class: "img-fluid"
-  }, null, 8 /* PROPS */, _hoisted_5)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, "Loading..."))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn btn-secondary",
-    "data-bs-dismiss": "modal"
-  }, "Cancel", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn btn-success",
-    onClick: _cache[1] || (_cache[1] = $event => $options.downloadImage('png'))
-  }, "Download PNG"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn btn-success",
-    onClick: _cache[2] || (_cache[2] = $event => $options.downloadImage('jpg'))
-  }, "Download JPG")])])])])]);
-}
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue?vue&type=template&id=684b0c59":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue?vue&type=template&id=684b0c59 ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-const _hoisted_1 = ["src"];
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Speech to Text", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[0] || (_cache[0] = (...args) => $options.startRecording && $options.startRecording(...args))
-  }, "Start Recording"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[1] || (_cache[1] = (...args) => $options.stopRecording && $options.stopRecording(...args))
-  }, "Stop Recording"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Transcription: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.transcription), 1 /* TEXT */), $data.audioUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
-    key: 0,
-    src: $data.audioUrl,
-    controls: ""
-  }, null, 8 /* PROPS */, _hoisted_1)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -52585,7 +49436,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.swipe-tip[data-v-2b3c2c26] {\n    background-color: #e7f1ff;\n    /* light blue */\n    border: 1px solid #b6d4fe;\n    /* blue border */\n    color: #0a58ca;\n    /* primary blue text */\n    border-radius: 8px;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n}\n.swipe-tip .btn-close[data-v-2b3c2c26] {\n    width: .25rem;\n    height: .25rem;\n    padding: .25rem;\n}\n.swipe-tip .icon-circle[data-v-2b3c2c26] {\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    width: 22px;\n    height: 22px;\n    border-radius: 50%;\n    background-color: #0a58ca;\n    color: #fff;\n    font-size: 12px;\n}\n.swipe-surface[data-v-2b3c2c26] {\n    touch-action: pan-y;\n    -webkit-tap-highlight-color: transparent;\n}\n\n/* Hint the compositor */\n.swipe-surface[data-v-2b3c2c26] {\n    will-change: transform;\n}\n\n/* Direction-aware verse transition */\n.swipe-next-enter-from[data-v-2b3c2c26] {\n    opacity: 0;\n    transform: translateX(24px);\n}\n.swipe-next-enter-active[data-v-2b3c2c26] {\n    transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-next-enter-to[data-v-2b3c2c26] {\n    opacity: 1;\n    transform: translateX(0);\n}\n.swipe-prev-enter-from[data-v-2b3c2c26] {\n    opacity: 0;\n    transform: translateX(-24px);\n}\n.swipe-prev-enter-active[data-v-2b3c2c26] {\n    transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-prev-enter-to[data-v-2b3c2c26] {\n    opacity: 1;\n    transform: translateX(0);\n}\n\n/* Swipe success notice */\n.swipe-notice[data-v-2b3c2c26] {\n    position: fixed;\n    left: 50%;\n    top: 80px;\n    transform: translateX(-50%);\n    background: rgba(15, 23, 42, 0.85);\n    color: #fff;\n    padding: 6px 10px;\n    border-radius: 999px;\n    font-size: 0.9rem;\n    display: inline-flex;\n    align-items: center;\n    gap: 6px;\n    pointer-events: none;\n    z-index: 1000;\n    animation: swipeNoticeFade-2b3c2c26 500ms ease both;\n}\n.swipe-notice.right i[data-v-2b3c2c26] {\n    transform: translateY(1px);\n}\n.swipe-notice.left i[data-v-2b3c2c26] {\n    transform: translateY(1px);\n}\n@keyframes swipeNoticeFade-2b3c2c26 {\nfrom {\n        opacity: 0;\n        transform: translate(-50%, -4px);\n}\nto {\n        opacity: 1;\n        transform: translate(-50%, 0);\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.swipe-tip[data-v-2b3c2c26] {\n    background-color: #e7f1ff;\n    /* light blue */\n    border: 1px solid #b6d4fe;\n    /* blue border */\n    color: #0a58ca;\n    /* primary blue text */\n    border-radius: 8px;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n}\n.swipe-tip .btn-close[data-v-2b3c2c26] {\n    width: .25rem;\n    height: .25rem;\n    padding: .25rem;\n}\n.swipe-tip .icon-circle[data-v-2b3c2c26] {\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    width: 22px;\n    height: 22px;\n    border-radius: 50%;\n    background-color: #0a58ca;\n    color: #fff;\n    font-size: 12px;\n}\n.swipe-surface[data-v-2b3c2c26] {\n    touch-action: pan-y;\n    -webkit-tap-highlight-color: transparent;\n}\n\n/* Hint the compositor */\n.swipe-surface[data-v-2b3c2c26] {\n    will-change: transform;\n}\n\n/* Direction-aware verse transition */\n.swipe-next-enter-from[data-v-2b3c2c26] {\n    opacity: 0;\n    transform: translateX(24px);\n}\n.swipe-next-enter-active[data-v-2b3c2c26] {\n    transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-next-enter-to[data-v-2b3c2c26] {\n    opacity: 1;\n    transform: translateX(0);\n}\n.swipe-prev-enter-from[data-v-2b3c2c26] {\n    opacity: 0;\n    transform: translateX(-24px);\n}\n.swipe-prev-enter-active[data-v-2b3c2c26] {\n    transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-prev-enter-to[data-v-2b3c2c26] {\n    opacity: 1;\n    transform: translateX(0);\n}\n\n/* Swipe success notice */\n.swipe-notice[data-v-2b3c2c26] {\n    position: fixed;\n    left: 50%;\n    top: 80px;\n    transform: translateX(-50%);\n    background: rgba(15, 23, 42, 0.85);\n    color: #fff;\n    padding: 6px 10px;\n    border-radius: 999px;\n    font-size: 0.9rem;\n    display: inline-flex;\n    align-items: center;\n    gap: 6px;\n    pointer-events: none;\n    z-index: 1000;\n    animation: swipeNoticeFade-2b3c2c26 500ms ease both;\n}\n.swipe-notice.right i[data-v-2b3c2c26] {\n    transform: translateY(1px);\n}\n.swipe-notice.left i[data-v-2b3c2c26] {\n    transform: translateY(1px);\n}\n@keyframes swipeNoticeFade-2b3c2c26 {\nfrom {\n        opacity: 0;\n        transform: translate(-50%, -4px);\n}\nto {\n        opacity: 1;\n        transform: translate(-50%, 0);\n}\n}\n.next-step-card[data-v-2b3c2c26] {\n    position: relative;\n}\n.next-step-close[data-v-2b3c2c26] {\n    position: absolute;\n    top: 12px;\n    right: 12px;\n    filter: invert(35%) sepia(16%) saturate(640%) hue-rotate(133deg) brightness(94%) contrast(91%);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -53561,29 +50412,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-modern .modal-content{border:
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/content/searchContent.vue?vue&type=style&index=0&id=aaaf7840&scoped=true&lang=css":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/content/searchContent.vue?vue&type=style&index=0&id=aaaf7840&scoped=true&lang=css ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-overlay[data-v-aaaf7840] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.modal-content[data-v-aaaf7840] {\n  background: white;\n  padding: 20px;\n  border-radius: 5px;\n  width: 80%;\n}\nbutton[data-v-aaaf7840] {\n  margin: 5px;\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/folder_manager/FolderSelectionModal.vue?vue&type=style&index=0&id=05031f07&scoped=true&lang=css":
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/folder_manager/FolderSelectionModal.vue?vue&type=style&index=0&id=05031f07&scoped=true&lang=css ***!
@@ -53647,29 +50475,6 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n/* Add your custom styles for alerts here */\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/CorrectionModal.vue?vue&type=style&index=0&id=0019a231&scoped=true&lang=css":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/CorrectionModal.vue?vue&type=style&index=0&id=0019a231&scoped=true&lang=css ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.star-rating[data-v-0019a231] {\n  font-size: 38px;\n  color: #ddd;\n}\n.star-rating span[data-v-0019a231] {\n  cursor: pointer;\n}\n.star-rating span.active[data-v-0019a231] {\n  color: gold;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -53791,52 +50596,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.form-control[data-v-5832b188] {\n  
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=style&index=0&id=43f8b8c4&scoped=true&lang=css":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=style&index=0&id=43f8b8c4&scoped=true&lang=css ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-43f8b8c4] {\n  display: flex;\n  border: 3px solid #0b5d4b;\n  border-radius: 10px;\n}\nbutton[data-v-43f8b8c4] {\n  margin-left: 0.5rem;  /* Adjust the button's margin for better spacing */\n}\ninput[data-v-43f8b8c4] {\n  width: auto; /* Ensure input width adjusts properly */\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSelector.vue?vue&type=style&index=0&id=0f14c00a&lang=css":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSelector.vue?vue&type=style&index=0&id=0f14c00a&lang=css ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted-ayah {\n    background-color: #f0f8ff;\n    padding: 10px;\n    border-radius: 5px;\n    font-weight: bold;\n    margin-top: 20px;\n}\n.selected {\n    background-color: #d0f0c0; /* Light green to indicate selection */\n}\n.highlighted {\n    background-color: #f0f8ff; /* Light blue for highlighted Ayah */\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/ErrorAlert.vue?vue&type=style&index=0&id=4955f2e0&scoped=true&lang=css":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/ErrorAlert.vue?vue&type=style&index=0&id=4955f2e0&scoped=true&lang=css ***!
@@ -53854,29 +50613,6 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.alert[data-v-4955f2e0] {\n  position: fixed;\n  top: 20px;\n  right: 20px;\n}\n.btn-close[data-v-4955f2e0] {\n  background: none;\n  border: none;\n  font-size: 1.5rem;\n  line-height: 1;\n  color: #000;\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/FilteredSurahList.vue?vue&type=style&index=0&id=61e91e62&scoped=true&lang=css":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/FilteredSurahList.vue?vue&type=style&index=0&id=61e91e62&scoped=true&lang=css ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Add scoped styles if necessary */\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -54044,29 +50780,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.mr-2[data-v-1f073694] {\n  margin-r
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahOfTheDay.vue?vue&type=style&index=0&id=0523142a&scoped=true&lang=css":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahOfTheDay.vue?vue&type=style&index=0&id=0523142a&scoped=true&lang=css ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.ayah-container[data-v-0523142a] {\n  margin: 2rem auto;\n  padding: 0;\n  background: white;\n  border-radius: 20px;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;\n  overflow: hidden;\n}\n\n/* Header */\n.ayah-header[data-v-0523142a] {\n  padding: 1.5rem 2rem 1rem;\n  border-bottom: 1px solid #f0f0f0;\n}\n.header-content[data-v-0523142a] {\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n}\n.title-section[data-v-0523142a] {\n  display: flex;\n  align-items: flex-start;\n  gap: 0.75rem;\n}\n.icon-wrapper[data-v-0523142a] {\n  width: 40px;\n  height: 40px;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  border-radius: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: white;\n  font-size: 1.1rem;\n}\n.title[data-v-0523142a] {\n  font-size: 1.25rem;\n  font-weight: 700;\n  color: #1a1a1a;\n  margin: 0 0 0.25rem 0;\n  line-height: 1.2;\n}\n.subtitle[data-v-0523142a] {\n  font-size: 0.875rem;\n  color: #666;\n  margin: 0;\n  font-weight: 400;\n}\n.close-btn[data-v-0523142a] {\n  background: none;\n  border: none;\n  font-size: 1.25rem;\n  /* Improve contrast for close icon */\n  color: #666;\n  cursor: pointer;\n  padding: 0.5rem;\n  border-radius: 8px;\n  transition: all 0.2s ease;\n}\n.close-btn[data-v-0523142a]:hover {\n  background: #f5f5f5;\n  color: #666;\n}\n\n/* Main Content */\n.ayah-content[data-v-0523142a] {\n  padding: 0 2rem;\n}\n.surah-info[data-v-0523142a] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin: 1.5rem 0 2rem;\n}\n.surah-badge[data-v-0523142a] {\n  background: #f8f9fa;\n  padding: 0.5rem 1rem;\n  border-radius: 20px;\n  font-size: 0.875rem;\n  font-weight: 600;\n  color: #555;\n}\n.ayah-ref[data-v-0523142a] {\n  font-size: 0.875rem;\n  /* Increase contrast for reference text */\n  color: #666;\n  font-weight: 500;\n}\n\n/* Arabic Section */\n.arabic-section[data-v-0523142a] {\n  text-align: center;\n  margin: 2rem 0;\n}\n.arabic-text[data-v-0523142a] {\n  font-family: \"Amiri\", \"Scheherazade New\", \"Lateef\", serif;\n  direction: rtl;\n  line-height: 2.2;\n  color: #1a1a1a;\n  font-weight: 600;\n  margin: 0 0 1.5rem 0;\n  text-align: justify;\n}\n.decoration[data-v-0523142a] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 1rem;\n  color: #ddd;\n}\n.decoration-line[data-v-0523142a] {\n  flex: 1;\n  height: 1px;\n  background: #f0f0f0;\n}\n\n/* Toggle Sections */\n.toggle-section[data-v-0523142a] {\n  margin: 1.5rem 0;\n}\n.toggle-btn[data-v-0523142a] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100%;\n  background: none;\n  border: none;\n  padding: 1rem 0;\n  cursor: pointer;\n  color: #555;\n  font-weight: 500;\n  transition: color 0.2s ease;\n}\n.toggle-btn[data-v-0523142a]:hover {\n  color: #333;\n}\n.toggle-btn.active[data-v-0523142a] {\n  color: #667eea;\n}\n.toggle-switch[data-v-0523142a] {\n  width: 44px;\n  height: 24px;\n  background: #e0e0e0;\n  border-radius: 12px;\n  position: relative;\n  transition: background 0.2s ease;\n}\n.toggle-btn.active .toggle-switch[data-v-0523142a] {\n  background: #667eea;\n}\n.toggle-knob[data-v-0523142a] {\n  width: 20px;\n  height: 20px;\n  background: white;\n  border-radius: 50%;\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  transition: transform 0.2s ease;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);\n}\n.toggle-btn.active .toggle-knob[data-v-0523142a] {\n  transform: translateX(20px);\n}\n\n/* Translation & Tafsir */\n.translation-section[data-v-0523142a],\n.tafsir-section[data-v-0523142a] {\n  margin: 1rem 0 2rem;\n}\n.language-selector[data-v-0523142a] {\n  display: flex;\n  gap: 0.5rem;\n  margin-bottom: 1rem;\n}\n.lang-btn[data-v-0523142a] {\n  padding: 0.375rem 0.75rem;\n  border: 1px solid #e0e0e0;\n  background: white;\n  border-radius: 8px;\n  font-size: 0.75rem;\n  font-weight: 500;\n  color: #666;\n  cursor: pointer;\n  transition: all 0.2s ease;\n}\n.lang-btn.active[data-v-0523142a] {\n  background: #667eea;\n  border-color: #667eea;\n  color: white;\n}\n.translation-text[data-v-0523142a] {\n  line-height: 1.7;\n  color: #444;\n  font-size: 1rem;\n  text-align: left;\n}\n.translation-text.rtl[data-v-0523142a] {\n  direction: rtl;\n  text-align: right;\n  font-family: \"Amiri\", \"Scheherazade New\", serif;\n}\n.tafsir-text[data-v-0523142a] {\n  line-height: 1.6;\n  color: #555;\n  font-size: 0.95rem;\n  background: #fafafa;\n  padding: 1.5rem;\n  border-radius: 12px;\n  border-left: 4px solid #667eea;\n}\n\n/* Action Bar */\n.action-bar[data-v-0523142a] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1.5rem 2rem;\n  background: #fafafa;\n  border-top: 1px solid #f0f0f0;\n}\n.action-group[data-v-0523142a] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}\n.action-btn[data-v-0523142a] {\n  background: white;\n  border: 1px solid #e0e0e0;\n  border-radius: 10px;\n  padding: 0.75rem;\n  color: #666;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.action-btn[data-v-0523142a]:hover:not(:disabled) {\n  border-color: #667eea;\n  color: #667eea;\n  transform: translateY(-1px);\n}\n.action-btn[data-v-0523142a]:disabled {\n  opacity: 0.4;\n  cursor: not-allowed;\n}\n.font-size-label[data-v-0523142a] {\n  font-size: 0.875rem;\n  color: #666;\n  font-weight: 500;\n  min-width: 70px;\n  text-align: center;\n}\n\n/* Toast */\n.toast[data-v-0523142a] {\n  position: fixed;\n  bottom: 2rem;\n  left: 50%;\n  transform: translateX(-50%) translateY(100px);\n  background: #1a1a1a;\n  color: white;\n  padding: 1rem 1.5rem;\n  border-radius: 12px;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-size: 0.875rem;\n  font-weight: 500;\n  opacity: 0;\n  transition: all 0.3s ease;\n  z-index: 1000;\n}\n.toast.show[data-v-0523142a] {\n  transform: translateX(-50%) translateY(0);\n  opacity: 1;\n}\n\n/* Animations */\n.fade-slide-enter-active[data-v-0523142a],\n.fade-slide-leave-active[data-v-0523142a] {\n  transition: all 0.3s ease;\n}\n.fade-slide-enter-from[data-v-0523142a] {\n  opacity: 0;\n  transform: translateY(-10px);\n}\n.fade-slide-leave-to[data-v-0523142a] {\n  opacity: 0;\n  transform: translateY(-10px);\n}\n\n/* Responsive */\n@media (max-width: 640px) {\n.ayah-container[data-v-0523142a] {\n    margin: 1rem;\n    border-radius: 16px;\n}\n.ayah-header[data-v-0523142a],\n  .ayah-content[data-v-0523142a] {\n    padding: 1rem 1.5rem;\n}\n.action-bar[data-v-0523142a] {\n    padding: 1rem 1.5rem;\n    flex-direction: column;\n    gap: 1rem;\n    align-items: stretch;\n}\n.action-group[data-v-0523142a] {\n    justify-content: center;\n}\n.arabic-text[data-v-0523142a] {\n    line-height: 2;\n    font-size: 1.6rem;\n}\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/ChatBot.vue?vue&type=style&index=0&id=14b64f56&scoped=true&lang=css":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/ChatBot.vue?vue&type=style&index=0&id=14b64f56&scoped=true&lang=css ***!
@@ -54084,29 +50797,6 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.header-buttons[data-v-14b64f56] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.save-btn[data-v-14b64f56],\n.download-btn[data-v-14b64f56],\n.load-btn[data-v-14b64f56] {\n  background: none;\n  border: none;\n  color: #333;\n  cursor: pointer;\n  font-size: 1em;\n}\n.save-btn[data-v-14b64f56]:hover,\n.download-btn[data-v-14b64f56]:hover,\n.load-btn[data-v-14b64f56]:hover {\n  color: #0db691;\n}\n.copy-btn[data-v-14b64f56] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.copy-btn[data-v-14b64f56]:hover {\n  background-color: #0a8a72;\n}\n.whatsapp-btn[data-v-14b64f56] {\n  background-color: #25d366;\n  /* WhatsApp green */\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n}\n.whatsapp-btn[data-v-14b64f56]:hover {\n  background-color: #128c7e;\n  /* Darker WhatsApp green */\n}\n.mic-btn[data-v-14b64f56] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.mic-btn[data-v-14b64f56]:disabled {\n  background-color: #ccc;\n  cursor: not-allowed;\n}\n.mic-btn[data-v-14b64f56]:hover:not(:disabled) {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-14b64f56] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-14b64f56]:hover {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-14b64f56] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-14b64f56]:hover {\n  background-color: #0a8a72;\n}\n.message-header[data-v-14b64f56] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 5px;\n}\n.timestamp[data-v-14b64f56] {\n  font-size: 0.8em;\n  color: #ffffff;\n}\n\n/* Hide scrollbar for Chrome, Safari, and Opera */\n.messages[data-v-14b64f56]::-webkit-scrollbar,\n.common-questions[data-v-14b64f56]::-webkit-scrollbar {\n  display: none;\n}\n\n/* Hide scrollbar for IE, Edge, and Firefox */\n.messages[data-v-14b64f56],\n.common-questions[data-v-14b64f56] {\n  -ms-overflow-style: none;\n  /* IE and Edge */\n  scrollbar-width: none;\n  /* Firefox */\n}\n.container[data-v-14b64f56] {\n  position: relative;\n  padding: 8px;\n}\n.fab[data-v-14b64f56] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  color: white;\n  font-size: 30px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  z-index: 9999;\n}\n.fab[data-v-14b64f56]:hover {\n  background-color: #0a8a72;\n}\n.fab i[data-v-14b64f56] {\n  font-size: 24px;\n}\n.chatbox[data-v-14b64f56] {\n  position: fixed;\n  bottom: 100px;\n  right: 20px;\n  width: 90%;\n  max-width: 500px;\n  height: 70vh;\n  /* Default height */\n  background-color: #fff;\n  border-radius: 12px;\n  /* Add border-radius */\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  padding: 20px;\n  /* Add padding */\n  z-index: 999;\n  overflow: hidden;\n  /* Prevent overflow */\n  display: flex;\n  flex-direction: column;\n}\n.chatbox.expanded[data-v-14b64f56] {\n  max-width: 75%;\n  width: 75%;\n}\n.chat-header[data-v-14b64f56] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 1.3em;\n  font-weight: bold;\n  margin-bottom: 15px;\n}\n.header-buttons[data-v-14b64f56] {\n  display: flex;\n}\n.expand-btn[data-v-14b64f56],\n.close-btn[data-v-14b64f56] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  color: #333;\n}\n.expand-btn[data-v-14b64f56]:hover,\n.close-btn[data-v-14b64f56]:hover {\n  color: #0db691;\n}\n.common-questions-container[data-v-14b64f56] {\n  position: sticky;\n  top: 0;\n  background-color: #fff;\n  z-index: 1;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #eee;\n}\n.common-questions[data-v-14b64f56] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  overflow-x: auto;\n}\n.question-row[data-v-14b64f56] {\n  display: flex;\n  gap: 10px;\n  padding-bottom: 10px;\n}\n.question-btn[data-v-14b64f56] {\n  flex: 0 0 auto;\n  padding: 8px 12px;\n  border: none;\n  background-color: #0db691;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  font-size: 0.9em;\n  white-space: nowrap;\n}\n.question-btn[data-v-14b64f56]:hover {\n  background-color: #0a8a72;\n}\n.messages[data-v-14b64f56] {\n  flex: 1;\n  overflow-y: auto;\n  margin-bottom: 20px;\n}\n.message[data-v-14b64f56] {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.user-message[data-v-14b64f56],\n.bot-message[data-v-14b64f56] {\n  padding: 8px 10px;\n  border-radius: 8px;\n  max-width: 80%;\n  word-wrap: break-word;\n}\n.user-message[data-v-14b64f56] {\n  background-color: #f1f1f1;\n  align-self: flex-end;\n  text-align: left;\n}\n.bot-message[data-v-14b64f56] {\n  background-color: #0a8a72;\n  color: white;\n  /* align-self: flex-start; */\n}\n.input-container[data-v-14b64f56] {\n  position: sticky;\n  bottom: 0;\n  background-color: #fff;\n  padding-top: 10px;\n  border-top: 1px solid #eee;\n  display: flex;\n  gap: 10px;\n  margin-bottom: 10px;\n  justify-content: space-between;\n}\n.input-box[data-v-14b64f56] {\n  padding: 8px 12px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  width: 98%;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-14b64f56] {\n  padding: 8px 12px;\n  border: none;\n  background-color: #0a8a72;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-14b64f56]:disabled {\n  background-color: #d6d6d6;\n  cursor: not-allowed;\n}\n.clear-button[data-v-14b64f56] {\n  padding: 8px 10px;\n  border: none;\n  background-color: #ff4d4d;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  width: 100%;\n  margin-top: 10px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.loading[data-v-14b64f56] {\n  margin-top: 10px;\n  font-size: 1.1em;\n  color: #555;\n}\n.edit-button[data-v-14b64f56] {\n  text-align: right;\n  padding: 4px 8px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 0.8em;\n}\n.edit-button[data-v-14b64f56]:hover {\n  background-color: #0a8a72;\n}\n@media (max-width: 600px) {\n.chatbox[data-v-14b64f56] {\n    width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    max-width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    height: calc(100vh - 20px) !important;\n    /* Full height with padding */\n    bottom: 10px !important;\n    /* Add padding at the bottom */\n    right: 10px !important;\n    /* Add padding on the right */\n    left: 10px !important;\n    /* Add padding on the left */\n    border-radius: 12px !important;\n    /* Keep border-radius */\n    padding: 15px !important;\n    /* Reduce padding for more space */\n}\n.chat-header[data-v-14b64f56] {\n    border-radius: 0 !important;\n    /* Remove rounded corners */\n}\n.messages[data-v-14b64f56] {\n    max-height: calc(100vh - 160px);\n    /* Adjust height dynamically */\n    overflow-y: auto;\n}\n.expand-btn[data-v-14b64f56] {\n    display: none !important;\n}\n.fab[data-v-14b64f56] {\n    width: 50px;\n    height: 50px;\n    /* font-size: 20px; */\n}\n.input-container[data-v-14b64f56] {\n    flex-direction: column;\n    gap: 5px;\n}\n.user-message[data-v-14b64f56],\n  .bot-message[data-v-14b64f56] {\n    max-width: 100%;\n}\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/EnglishTranslation.vue?vue&type=style&index=0&id=7a2befea&scoped=true&lang=css":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/EnglishTranslation.vue?vue&type=style&index=0&id=7a2befea&scoped=true&lang=css ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.ayah-translation[data-v-7a2befea] {\n  line-height: 1.8em;\n  font-size: 1.2rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -54136,29 +50826,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.btn[data-v-7135cb41] {\n  padding: 
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/PrayerTimes.vue?vue&type=style&index=0&id=5ae7cc26&scoped=true&lang=css":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/PrayerTimes.vue?vue&type=style&index=0&id=5ae7cc26&scoped=true&lang=css ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.prayer-card[data-v-5ae7cc26] {\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n}\n.prayer-card[data-v-5ae7cc26]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;\n}\n.date-badge[data-v-5ae7cc26] {\n  padding: 0.5rem 1rem;\n  background: #f8f9fa;\n  border-radius: 8px;\n  border: 1px solid #e9ecef;\n}\n.spinner[data-v-5ae7cc26] {\n  border: 3px solid #f3f3f3;\n  border-top: 3px solid #1a5f7a !important;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  animation: spin-5ae7cc26 1s linear infinite;\n}\n@keyframes spin-5ae7cc26 {\n0% { transform: rotate(0deg);\n}\n100% { transform: rotate(360deg);\n}\n}\n\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.prayer-card[data-v-5ae7cc26] {\n    transition: none;\n}\n.spinner[data-v-5ae7cc26] {\n    animation: none;\n    border-top-color: transparent;\n}\n}\n\n/* High contrast support */\n@media (prefers-contrast: high) {\n.prayer-card[data-v-5ae7cc26] {\n    border: 2px solid #000;\n}\n}\n\n/* Mobile optimizations */\n@media (max-width: 768px) {\n.prayer-card[data-v-5ae7cc26] {\n    padding: 1rem 0.5rem !important;\n}\n.date-badge[data-v-5ae7cc26] {\n    padding: 0.5rem;\n    font-size: 0.9rem;\n}\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/Translator.vue?vue&type=style&index=0&id=4d3aa73a&scoped=true&lang=css":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/Translator.vue?vue&type=style&index=0&id=4d3aa73a&scoped=true&lang=css ***!
@@ -54176,29 +50843,6 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n/* Add specific styles for TranslationInfo component here */\n.text-left[data-v-4d3aa73a] {\n  text-align: left;\n}\n.mt-3[data-v-4d3aa73a] {\n  margin-top: 1rem;\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=style&index=0&id=62339b22&scoped=true&lang=css":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=style&index=0&id=62339b22&scoped=true&lang=css ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.alert[data-v-62339b22] {\n  position: fixed;\n  top: 10px;\n  right: 10px;\n  z-index: 1000;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -54268,29 +50912,6 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\nbutton[data-v-0768f714] {\n  margin: 10px;\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=style&index=0&id=8f92b726&scoped=true&lang=css":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=style&index=0&id=8f92b726&scoped=true&lang=css ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* You can adjust the CSS for the success message here */\n.alert[data-v-8f92b726] {\n  position: absolute;\n  top: 10px;\n  right: 10px;\n  z-index: 1050; /* Ensure the alert is above other content */\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -56518,35 +53139,6 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/content/searchContent.vue?vue&type=style&index=0&id=aaaf7840&scoped=true&lang=css":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/content/searchContent.vue?vue&type=style&index=0&id=aaaf7840&scoped=true&lang=css ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_searchContent_vue_vue_type_style_index_0_id_aaaf7840_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./searchContent.vue?vue&type=style&index=0&id=aaaf7840&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/content/searchContent.vue?vue&type=style&index=0&id=aaaf7840&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_searchContent_vue_vue_type_style_index_0_id_aaaf7840_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_searchContent_vue_vue_type_style_index_0_id_aaaf7840_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/folder_manager/FolderSelectionModal.vue?vue&type=style&index=0&id=05031f07&scoped=true&lang=css":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/folder_manager/FolderSelectionModal.vue?vue&type=style&index=0&id=05031f07&scoped=true&lang=css ***!
@@ -56631,35 +53223,6 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AlertModal_vue_vue_type_style_index_0_id_2c5e9d42_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/CorrectionModal.vue?vue&type=style&index=0&id=0019a231&scoped=true&lang=css":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/CorrectionModal.vue?vue&type=style&index=0&id=0019a231&scoped=true&lang=css ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CorrectionModal_vue_vue_type_style_index_0_id_0019a231_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CorrectionModal.vue?vue&type=style&index=0&id=0019a231&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/CorrectionModal.vue?vue&type=style&index=0&id=0019a231&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CorrectionModal_vue_vue_type_style_index_0_id_0019a231_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CorrectionModal_vue_vue_type_style_index_0_id_0019a231_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -56808,64 +53371,6 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=style&index=0&id=43f8b8c4&scoped=true&lang=css":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=style&index=0&id=43f8b8c4&scoped=true&lang=css ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSearchVerseNum_vue_vue_type_style_index_0_id_43f8b8c4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahSearchVerseNum.vue?vue&type=style&index=0&id=43f8b8c4&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=style&index=0&id=43f8b8c4&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSearchVerseNum_vue_vue_type_style_index_0_id_43f8b8c4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSearchVerseNum_vue_vue_type_style_index_0_id_43f8b8c4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSelector.vue?vue&type=style&index=0&id=0f14c00a&lang=css":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSelector.vue?vue&type=style&index=0&id=0f14c00a&lang=css ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSelector_vue_vue_type_style_index_0_id_0f14c00a_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahSelector.vue?vue&type=style&index=0&id=0f14c00a&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSelector.vue?vue&type=style&index=0&id=0f14c00a&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSelector_vue_vue_type_style_index_0_id_0f14c00a_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSelector_vue_vue_type_style_index_0_id_0f14c00a_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/ErrorAlert.vue?vue&type=style&index=0&id=4955f2e0&scoped=true&lang=css":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/ErrorAlert.vue?vue&type=style&index=0&id=4955f2e0&scoped=true&lang=css ***!
@@ -56892,35 +53397,6 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ErrorAlert_vue_vue_type_style_index_0_id_4955f2e0_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/FilteredSurahList.vue?vue&type=style&index=0&id=61e91e62&scoped=true&lang=css":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/FilteredSurahList.vue?vue&type=style&index=0&id=61e91e62&scoped=true&lang=css ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilteredSurahList_vue_vue_type_style_index_0_id_61e91e62_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FilteredSurahList.vue?vue&type=style&index=0&id=61e91e62&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/FilteredSurahList.vue?vue&type=style&index=0&id=61e91e62&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilteredSurahList_vue_vue_type_style_index_0_id_61e91e62_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilteredSurahList_vue_vue_type_style_index_0_id_61e91e62_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -57127,35 +53603,6 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahOfTheDay.vue?vue&type=style&index=0&id=0523142a&scoped=true&lang=css":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahOfTheDay.vue?vue&type=style&index=0&id=0523142a&scoped=true&lang=css ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahOfTheDay_vue_vue_type_style_index_0_id_0523142a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahOfTheDay.vue?vue&type=style&index=0&id=0523142a&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahOfTheDay.vue?vue&type=style&index=0&id=0523142a&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahOfTheDay_vue_vue_type_style_index_0_id_0523142a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahOfTheDay_vue_vue_type_style_index_0_id_0523142a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/ChatBot.vue?vue&type=style&index=0&id=14b64f56&scoped=true&lang=css":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/ChatBot.vue?vue&type=style&index=0&id=14b64f56&scoped=true&lang=css ***!
@@ -57182,35 +53629,6 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ChatBot_vue_vue_type_style_index_0_id_14b64f56_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/EnglishTranslation.vue?vue&type=style&index=0&id=7a2befea&scoped=true&lang=css":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/EnglishTranslation.vue?vue&type=style&index=0&id=7a2befea&scoped=true&lang=css ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EnglishTranslation_vue_vue_type_style_index_0_id_7a2befea_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EnglishTranslation.vue?vue&type=style&index=0&id=7a2befea&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/EnglishTranslation.vue?vue&type=style&index=0&id=7a2befea&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EnglishTranslation_vue_vue_type_style_index_0_id_7a2befea_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EnglishTranslation_vue_vue_type_style_index_0_id_7a2befea_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -57243,35 +53661,6 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/PrayerTimes.vue?vue&type=style&index=0&id=5ae7cc26&scoped=true&lang=css":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/PrayerTimes.vue?vue&type=style&index=0&id=5ae7cc26&scoped=true&lang=css ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PrayerTimes_vue_vue_type_style_index_0_id_5ae7cc26_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PrayerTimes.vue?vue&type=style&index=0&id=5ae7cc26&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/PrayerTimes.vue?vue&type=style&index=0&id=5ae7cc26&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PrayerTimes_vue_vue_type_style_index_0_id_5ae7cc26_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PrayerTimes_vue_vue_type_style_index_0_id_5ae7cc26_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/Translator.vue?vue&type=style&index=0&id=4d3aa73a&scoped=true&lang=css":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/Translator.vue?vue&type=style&index=0&id=4d3aa73a&scoped=true&lang=css ***!
@@ -57298,35 +53687,6 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Translator_vue_vue_type_style_index_0_id_4d3aa73a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=style&index=0&id=62339b22&scoped=true&lang=css":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=style&index=0&id=62339b22&scoped=true&lang=css ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarkTranslation_vue_vue_type_style_index_0_id_62339b22_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./BookmarkTranslation.vue?vue&type=style&index=0&id=62339b22&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=style&index=0&id=62339b22&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarkTranslation_vue_vue_type_style_index_0_id_62339b22_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarkTranslation_vue_vue_type_style_index_0_id_62339b22_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -57414,35 +53774,6 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TransliterationNote_vue_vue_type_style_index_0_id_0768f714_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=style&index=0&id=8f92b726&scoped=true&lang=css":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=style&index=0&id=8f92b726&scoped=true&lang=css ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTafseerCapture_vue_vue_type_style_index_0_id_8f92b726_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ScreenTafseerCapture.vue?vue&type=style&index=0&id=8f92b726&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=style&index=0&id=8f92b726&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTafseerCapture_vue_vue_type_style_index_0_id_8f92b726_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTafseerCapture_vue_vue_type_style_index_0_id_8f92b726_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -59553,6 +55884,64 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HomepageComponent_vue_vue_type_template_id_2ba25654_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HomepageComponent_vue_vue_type_template_id_2ba25654_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HomepageComponent.vue?vue&type=template&id=2ba25654&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HomepageComponent.vue?vue&type=template&id=2ba25654&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Intro/Title.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/components/Intro/Title.vue ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Title_vue_vue_type_template_id_97a9358c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Title.vue?vue&type=template&id=97a9358c */ "./resources/js/components/Intro/Title.vue?vue&type=template&id=97a9358c");
+/* harmony import */ var _Title_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Title.vue?vue&type=script&defer=true&lang=js */ "./resources/js/components/Intro/Title.vue?vue&type=script&defer=true&lang=js");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Title_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Title_vue_vue_type_template_id_97a9358c__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Intro/Title.vue"]])
+/* hot reload */
+if (false) // removed by dead control flow
+{}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/Intro/Title.vue?vue&type=script&defer=true&lang=js":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/Intro/Title.vue?vue&type=script&defer=true&lang=js ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Title_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Title_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Title.vue?vue&type=script&defer=true&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Intro/Title.vue?vue&type=script&defer=true&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/Intro/Title.vue?vue&type=template&id=97a9358c":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/Intro/Title.vue?vue&type=template&id=97a9358c ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Title_vue_vue_type_template_id_97a9358c__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Title_vue_vue_type_template_id_97a9358c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Title.vue?vue&type=template&id=97a9358c */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Intro/Title.vue?vue&type=template&id=97a9358c");
 
 
 /***/ }),
@@ -62283,64 +58672,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/accesibility/KeyboardNavigation.vue":
-/*!*********************************************************************!*\
-  !*** ./resources/js/components/accesibility/KeyboardNavigation.vue ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _KeyboardNavigation_vue_vue_type_template_id_1a682eac__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./KeyboardNavigation.vue?vue&type=template&id=1a682eac */ "./resources/js/components/accesibility/KeyboardNavigation.vue?vue&type=template&id=1a682eac");
-/* harmony import */ var _KeyboardNavigation_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./KeyboardNavigation.vue?vue&type=script&lang=js */ "./resources/js/components/accesibility/KeyboardNavigation.vue?vue&type=script&lang=js");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_KeyboardNavigation_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_KeyboardNavigation_vue_vue_type_template_id_1a682eac__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/accesibility/KeyboardNavigation.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/accesibility/KeyboardNavigation.vue?vue&type=script&lang=js":
-/*!*********************************************************************************************!*\
-  !*** ./resources/js/components/accesibility/KeyboardNavigation.vue?vue&type=script&lang=js ***!
-  \*********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_KeyboardNavigation_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_KeyboardNavigation_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./KeyboardNavigation.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/accesibility/KeyboardNavigation.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/accesibility/KeyboardNavigation.vue?vue&type=template&id=1a682eac":
-/*!***************************************************************************************************!*\
-  !*** ./resources/js/components/accesibility/KeyboardNavigation.vue?vue&type=template&id=1a682eac ***!
-  \***************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_KeyboardNavigation_vue_vue_type_template_id_1a682eac__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_KeyboardNavigation_vue_vue_type_template_id_1a682eac__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./KeyboardNavigation.vue?vue&type=template&id=1a682eac */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/accesibility/KeyboardNavigation.vue?vue&type=template&id=1a682eac");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/accesibility/ScreenReader.vue":
 /*!***************************************************************!*\
   !*** ./resources/js/components/accesibility/ScreenReader.vue ***!
@@ -63370,137 +59701,6 @@ module.exports = /*#__PURE__*/JSON.parse('[{"id":1,"title":"The Importance of Da
 
 /***/ }),
 
-/***/ "./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue":
-/*!********************************************************************************!*\
-  !*** ./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue ***!
-  \********************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _BookmarksAndNotes_vue_vue_type_template_id_09a563a6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BookmarksAndNotes.vue?vue&type=template&id=09a563a6 */ "./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue?vue&type=template&id=09a563a6");
-/* harmony import */ var _BookmarksAndNotes_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BookmarksAndNotes.vue?vue&type=script&defer=true&lang=js */ "./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue?vue&type=script&defer=true&lang=js");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_BookmarksAndNotes_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_BookmarksAndNotes_vue_vue_type_template_id_09a563a6__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue?vue&type=script&defer=true&lang=js":
-/*!*******************************************************************************************************************!*\
-  !*** ./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue?vue&type=script&defer=true&lang=js ***!
-  \*******************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarksAndNotes_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarksAndNotes_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./BookmarksAndNotes.vue?vue&type=script&defer=true&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue?vue&type=script&defer=true&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue?vue&type=template&id=09a563a6":
-/*!**************************************************************************************************************!*\
-  !*** ./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue?vue&type=template&id=09a563a6 ***!
-  \**************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarksAndNotes_vue_vue_type_template_id_09a563a6__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarksAndNotes_vue_vue_type_template_id_09a563a6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./BookmarksAndNotes.vue?vue&type=template&id=09a563a6 */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/bookmark_and_notes_links/BookmarksAndNotes.vue?vue&type=template&id=09a563a6");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/content/searchContent.vue":
-/*!***********************************************************!*\
-  !*** ./resources/js/components/content/searchContent.vue ***!
-  \***********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _searchContent_vue_vue_type_template_id_aaaf7840_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./searchContent.vue?vue&type=template&id=aaaf7840&scoped=true */ "./resources/js/components/content/searchContent.vue?vue&type=template&id=aaaf7840&scoped=true");
-/* harmony import */ var _searchContent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./searchContent.vue?vue&type=script&lang=js */ "./resources/js/components/content/searchContent.vue?vue&type=script&lang=js");
-/* harmony import */ var _searchContent_vue_vue_type_style_index_0_id_aaaf7840_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./searchContent.vue?vue&type=style&index=0&id=aaaf7840&scoped=true&lang=css */ "./resources/js/components/content/searchContent.vue?vue&type=style&index=0&id=aaaf7840&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_searchContent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_searchContent_vue_vue_type_template_id_aaaf7840_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-aaaf7840"],['__file',"resources/js/components/content/searchContent.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/content/searchContent.vue?vue&type=script&lang=js":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/components/content/searchContent.vue?vue&type=script&lang=js ***!
-  \***********************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_searchContent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_searchContent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./searchContent.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/content/searchContent.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/content/searchContent.vue?vue&type=style&index=0&id=aaaf7840&scoped=true&lang=css":
-/*!*******************************************************************************************************************!*\
-  !*** ./resources/js/components/content/searchContent.vue?vue&type=style&index=0&id=aaaf7840&scoped=true&lang=css ***!
-  \*******************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_searchContent_vue_vue_type_style_index_0_id_aaaf7840_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./searchContent.vue?vue&type=style&index=0&id=aaaf7840&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/content/searchContent.vue?vue&type=style&index=0&id=aaaf7840&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/content/searchContent.vue?vue&type=template&id=aaaf7840&scoped=true":
-/*!*****************************************************************************************************!*\
-  !*** ./resources/js/components/content/searchContent.vue?vue&type=template&id=aaaf7840&scoped=true ***!
-  \*****************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_searchContent_vue_vue_type_template_id_aaaf7840_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_searchContent_vue_vue_type_template_id_aaaf7840_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./searchContent.vue?vue&type=template&id=aaaf7840&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/content/searchContent.vue?vue&type=template&id=aaaf7840&scoped=true");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/css/styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external":
 /*!*****************************************************************************************************************!*\
   !*** ./resources/js/components/css/styles.css?vue&type=style&index=0&id=2b3c2c26&scoped=true&lang=css&external ***!
@@ -63669,64 +59869,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/intro/Title.vue":
-/*!*************************************************!*\
-  !*** ./resources/js/components/intro/Title.vue ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Title_vue_vue_type_template_id_20cea54c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Title.vue?vue&type=template&id=20cea54c */ "./resources/js/components/intro/Title.vue?vue&type=template&id=20cea54c");
-/* harmony import */ var _Title_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Title.vue?vue&type=script&defer=true&lang=js */ "./resources/js/components/intro/Title.vue?vue&type=script&defer=true&lang=js");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Title_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Title_vue_vue_type_template_id_20cea54c__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/intro/Title.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/intro/Title.vue?vue&type=script&defer=true&lang=js":
-/*!************************************************************************************!*\
-  !*** ./resources/js/components/intro/Title.vue?vue&type=script&defer=true&lang=js ***!
-  \************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Title_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Title_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Title.vue?vue&type=script&defer=true&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/intro/Title.vue?vue&type=script&defer=true&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/intro/Title.vue?vue&type=template&id=20cea54c":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/components/intro/Title.vue?vue&type=template&id=20cea54c ***!
-  \*******************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Title_vue_vue_type_template_id_20cea54c__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Title_vue_vue_type_template_id_20cea54c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Title.vue?vue&type=template&id=20cea54c */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/intro/Title.vue?vue&type=template&id=20cea54c");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/islamic_terms.json":
 /*!****************************************************!*\
   !*** ./resources/js/components/islamic_terms.json ***!
@@ -63806,79 +59948,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AlertModal_vue_vue_type_template_id_2c5e9d42__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AlertModal_vue_vue_type_template_id_2c5e9d42__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AlertModal.vue?vue&type=template&id=2c5e9d42 */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/AlertModal.vue?vue&type=template&id=2c5e9d42");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/modals/CorrectionModal.vue":
-/*!************************************************************!*\
-  !*** ./resources/js/components/modals/CorrectionModal.vue ***!
-  \************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _CorrectionModal_vue_vue_type_template_id_0019a231_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CorrectionModal.vue?vue&type=template&id=0019a231&scoped=true */ "./resources/js/components/modals/CorrectionModal.vue?vue&type=template&id=0019a231&scoped=true");
-/* harmony import */ var _CorrectionModal_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CorrectionModal.vue?vue&type=script&defer=true&lang=js */ "./resources/js/components/modals/CorrectionModal.vue?vue&type=script&defer=true&lang=js");
-/* harmony import */ var _CorrectionModal_vue_vue_type_style_index_0_id_0019a231_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CorrectionModal.vue?vue&type=style&index=0&id=0019a231&scoped=true&lang=css */ "./resources/js/components/modals/CorrectionModal.vue?vue&type=style&index=0&id=0019a231&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_CorrectionModal_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_CorrectionModal_vue_vue_type_template_id_0019a231_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-0019a231"],['__file',"resources/js/components/modals/CorrectionModal.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/modals/CorrectionModal.vue?vue&type=script&defer=true&lang=js":
-/*!***********************************************************************************************!*\
-  !*** ./resources/js/components/modals/CorrectionModal.vue?vue&type=script&defer=true&lang=js ***!
-  \***********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CorrectionModal_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CorrectionModal_vue_vue_type_script_defer_true_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CorrectionModal.vue?vue&type=script&defer=true&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/CorrectionModal.vue?vue&type=script&defer=true&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/modals/CorrectionModal.vue?vue&type=style&index=0&id=0019a231&scoped=true&lang=css":
-/*!********************************************************************************************************************!*\
-  !*** ./resources/js/components/modals/CorrectionModal.vue?vue&type=style&index=0&id=0019a231&scoped=true&lang=css ***!
-  \********************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CorrectionModal_vue_vue_type_style_index_0_id_0019a231_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CorrectionModal.vue?vue&type=style&index=0&id=0019a231&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/CorrectionModal.vue?vue&type=style&index=0&id=0019a231&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/modals/CorrectionModal.vue?vue&type=template&id=0019a231&scoped=true":
-/*!******************************************************************************************************!*\
-  !*** ./resources/js/components/modals/CorrectionModal.vue?vue&type=template&id=0019a231&scoped=true ***!
-  \******************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CorrectionModal_vue_vue_type_template_id_0019a231_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CorrectionModal_vue_vue_type_template_id_0019a231_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CorrectionModal.vue?vue&type=template&id=0019a231&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/CorrectionModal.vue?vue&type=template&id=0019a231&scoped=true");
 
 
 /***/ }),
@@ -64219,152 +60288,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/search/AyahSearchVerseNum.vue":
-/*!***************************************************************!*\
-  !*** ./resources/js/components/search/AyahSearchVerseNum.vue ***!
-  \***************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _AyahSearchVerseNum_vue_vue_type_template_id_43f8b8c4_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AyahSearchVerseNum.vue?vue&type=template&id=43f8b8c4&scoped=true */ "./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=template&id=43f8b8c4&scoped=true");
-/* harmony import */ var _AyahSearchVerseNum_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AyahSearchVerseNum.vue?vue&type=script&lang=js */ "./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=script&lang=js");
-/* harmony import */ var _AyahSearchVerseNum_vue_vue_type_style_index_0_id_43f8b8c4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AyahSearchVerseNum.vue?vue&type=style&index=0&id=43f8b8c4&scoped=true&lang=css */ "./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=style&index=0&id=43f8b8c4&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AyahSearchVerseNum_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AyahSearchVerseNum_vue_vue_type_template_id_43f8b8c4_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-43f8b8c4"],['__file',"resources/js/components/search/AyahSearchVerseNum.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=script&lang=js":
-/*!***************************************************************************************!*\
-  !*** ./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=script&lang=js ***!
-  \***************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSearchVerseNum_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSearchVerseNum_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahSearchVerseNum.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=style&index=0&id=43f8b8c4&scoped=true&lang=css":
-/*!***********************************************************************************************************************!*\
-  !*** ./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=style&index=0&id=43f8b8c4&scoped=true&lang=css ***!
-  \***********************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSearchVerseNum_vue_vue_type_style_index_0_id_43f8b8c4_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahSearchVerseNum.vue?vue&type=style&index=0&id=43f8b8c4&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=style&index=0&id=43f8b8c4&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=template&id=43f8b8c4&scoped=true":
-/*!*********************************************************************************************************!*\
-  !*** ./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=template&id=43f8b8c4&scoped=true ***!
-  \*********************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSearchVerseNum_vue_vue_type_template_id_43f8b8c4_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSearchVerseNum_vue_vue_type_template_id_43f8b8c4_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahSearchVerseNum.vue?vue&type=template&id=43f8b8c4&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSearchVerseNum.vue?vue&type=template&id=43f8b8c4&scoped=true");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/search/AyahSelector.vue":
-/*!*********************************************************!*\
-  !*** ./resources/js/components/search/AyahSelector.vue ***!
-  \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _AyahSelector_vue_vue_type_template_id_0f14c00a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AyahSelector.vue?vue&type=template&id=0f14c00a */ "./resources/js/components/search/AyahSelector.vue?vue&type=template&id=0f14c00a");
-/* harmony import */ var _AyahSelector_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AyahSelector.vue?vue&type=script&lang=js */ "./resources/js/components/search/AyahSelector.vue?vue&type=script&lang=js");
-/* harmony import */ var _AyahSelector_vue_vue_type_style_index_0_id_0f14c00a_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AyahSelector.vue?vue&type=style&index=0&id=0f14c00a&lang=css */ "./resources/js/components/search/AyahSelector.vue?vue&type=style&index=0&id=0f14c00a&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AyahSelector_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AyahSelector_vue_vue_type_template_id_0f14c00a__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/search/AyahSelector.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/search/AyahSelector.vue?vue&type=script&lang=js":
-/*!*********************************************************************************!*\
-  !*** ./resources/js/components/search/AyahSelector.vue?vue&type=script&lang=js ***!
-  \*********************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSelector_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSelector_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahSelector.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSelector.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/search/AyahSelector.vue?vue&type=style&index=0&id=0f14c00a&lang=css":
-/*!*****************************************************************************************************!*\
-  !*** ./resources/js/components/search/AyahSelector.vue?vue&type=style&index=0&id=0f14c00a&lang=css ***!
-  \*****************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSelector_vue_vue_type_style_index_0_id_0f14c00a_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahSelector.vue?vue&type=style&index=0&id=0f14c00a&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSelector.vue?vue&type=style&index=0&id=0f14c00a&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/search/AyahSelector.vue?vue&type=template&id=0f14c00a":
-/*!***************************************************************************************!*\
-  !*** ./resources/js/components/search/AyahSelector.vue?vue&type=template&id=0f14c00a ***!
-  \***************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSelector_vue_vue_type_template_id_0f14c00a__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahSelector_vue_vue_type_template_id_0f14c00a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahSelector.vue?vue&type=template&id=0f14c00a */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/AyahSelector.vue?vue&type=template&id=0f14c00a");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/search/ErrorAlert.vue":
 /*!*******************************************************!*\
   !*** ./resources/js/components/search/ErrorAlert.vue ***!
@@ -64438,79 +60361,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/search/FilteredSurahList.vue":
-/*!**************************************************************!*\
-  !*** ./resources/js/components/search/FilteredSurahList.vue ***!
-  \**************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _FilteredSurahList_vue_vue_type_template_id_61e91e62_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FilteredSurahList.vue?vue&type=template&id=61e91e62&scoped=true */ "./resources/js/components/search/FilteredSurahList.vue?vue&type=template&id=61e91e62&scoped=true");
-/* harmony import */ var _FilteredSurahList_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FilteredSurahList.vue?vue&type=script&lang=js */ "./resources/js/components/search/FilteredSurahList.vue?vue&type=script&lang=js");
-/* harmony import */ var _FilteredSurahList_vue_vue_type_style_index_0_id_61e91e62_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FilteredSurahList.vue?vue&type=style&index=0&id=61e91e62&scoped=true&lang=css */ "./resources/js/components/search/FilteredSurahList.vue?vue&type=style&index=0&id=61e91e62&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_FilteredSurahList_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_FilteredSurahList_vue_vue_type_template_id_61e91e62_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-61e91e62"],['__file',"resources/js/components/search/FilteredSurahList.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/search/FilteredSurahList.vue?vue&type=script&lang=js":
-/*!**************************************************************************************!*\
-  !*** ./resources/js/components/search/FilteredSurahList.vue?vue&type=script&lang=js ***!
-  \**************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilteredSurahList_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilteredSurahList_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FilteredSurahList.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/FilteredSurahList.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/search/FilteredSurahList.vue?vue&type=style&index=0&id=61e91e62&scoped=true&lang=css":
-/*!**********************************************************************************************************************!*\
-  !*** ./resources/js/components/search/FilteredSurahList.vue?vue&type=style&index=0&id=61e91e62&scoped=true&lang=css ***!
-  \**********************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilteredSurahList_vue_vue_type_style_index_0_id_61e91e62_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FilteredSurahList.vue?vue&type=style&index=0&id=61e91e62&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/FilteredSurahList.vue?vue&type=style&index=0&id=61e91e62&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/search/FilteredSurahList.vue?vue&type=template&id=61e91e62&scoped=true":
-/*!********************************************************************************************************!*\
-  !*** ./resources/js/components/search/FilteredSurahList.vue?vue&type=template&id=61e91e62&scoped=true ***!
-  \********************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilteredSurahList_vue_vue_type_template_id_61e91e62_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilteredSurahList_vue_vue_type_template_id_61e91e62_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FilteredSurahList.vue?vue&type=template&id=61e91e62&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/FilteredSurahList.vue?vue&type=template&id=61e91e62&scoped=true");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/search/Magnifier.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/search/Magnifier.vue ***!
@@ -64580,64 +60430,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Magnifier_vue_vue_type_template_id_22b58b02_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Magnifier_vue_vue_type_template_id_22b58b02_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Magnifier.vue?vue&type=template&id=22b58b02&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/Magnifier.vue?vue&type=template&id=22b58b02&scoped=true");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/search/SearchForm.vue":
-/*!*******************************************************!*\
-  !*** ./resources/js/components/search/SearchForm.vue ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _SearchForm_vue_vue_type_template_id_a3ffe590__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SearchForm.vue?vue&type=template&id=a3ffe590 */ "./resources/js/components/search/SearchForm.vue?vue&type=template&id=a3ffe590");
-/* harmony import */ var _SearchForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SearchForm.vue?vue&type=script&lang=js */ "./resources/js/components/search/SearchForm.vue?vue&type=script&lang=js");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_SearchForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_SearchForm_vue_vue_type_template_id_a3ffe590__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/search/SearchForm.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/search/SearchForm.vue?vue&type=script&lang=js":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/components/search/SearchForm.vue?vue&type=script&lang=js ***!
-  \*******************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SearchForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SearchForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SearchForm.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/SearchForm.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/search/SearchForm.vue?vue&type=template&id=a3ffe590":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/search/SearchForm.vue?vue&type=template&id=a3ffe590 ***!
-  \*************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SearchForm_vue_vue_type_template_id_a3ffe590__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SearchForm_vue_vue_type_template_id_a3ffe590__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SearchForm.vue?vue&type=template&id=a3ffe590 */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/search/SearchForm.vue?vue&type=template&id=a3ffe590");
 
 
 /***/ }),
@@ -65148,79 +60940,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/translation/AyahOfTheDay.vue":
-/*!**************************************************************!*\
-  !*** ./resources/js/components/translation/AyahOfTheDay.vue ***!
-  \**************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _AyahOfTheDay_vue_vue_type_template_id_0523142a_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AyahOfTheDay.vue?vue&type=template&id=0523142a&scoped=true */ "./resources/js/components/translation/AyahOfTheDay.vue?vue&type=template&id=0523142a&scoped=true");
-/* harmony import */ var _AyahOfTheDay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AyahOfTheDay.vue?vue&type=script&lang=js */ "./resources/js/components/translation/AyahOfTheDay.vue?vue&type=script&lang=js");
-/* harmony import */ var _AyahOfTheDay_vue_vue_type_style_index_0_id_0523142a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AyahOfTheDay.vue?vue&type=style&index=0&id=0523142a&scoped=true&lang=css */ "./resources/js/components/translation/AyahOfTheDay.vue?vue&type=style&index=0&id=0523142a&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AyahOfTheDay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AyahOfTheDay_vue_vue_type_template_id_0523142a_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-0523142a"],['__file',"resources/js/components/translation/AyahOfTheDay.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/AyahOfTheDay.vue?vue&type=script&lang=js":
-/*!**************************************************************************************!*\
-  !*** ./resources/js/components/translation/AyahOfTheDay.vue?vue&type=script&lang=js ***!
-  \**************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahOfTheDay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahOfTheDay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahOfTheDay.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahOfTheDay.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/AyahOfTheDay.vue?vue&type=style&index=0&id=0523142a&scoped=true&lang=css":
-/*!**********************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/AyahOfTheDay.vue?vue&type=style&index=0&id=0523142a&scoped=true&lang=css ***!
-  \**********************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahOfTheDay_vue_vue_type_style_index_0_id_0523142a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahOfTheDay.vue?vue&type=style&index=0&id=0523142a&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahOfTheDay.vue?vue&type=style&index=0&id=0523142a&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/AyahOfTheDay.vue?vue&type=template&id=0523142a&scoped=true":
-/*!********************************************************************************************************!*\
-  !*** ./resources/js/components/translation/AyahOfTheDay.vue?vue&type=template&id=0523142a&scoped=true ***!
-  \********************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahOfTheDay_vue_vue_type_template_id_0523142a_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahOfTheDay_vue_vue_type_template_id_0523142a_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahOfTheDay.vue?vue&type=template&id=0523142a&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahOfTheDay.vue?vue&type=template&id=0523142a&scoped=true");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/translation/ChatBot.vue":
 /*!*********************************************************!*\
   !*** ./resources/js/components/translation/ChatBot.vue ***!
@@ -65290,79 +61009,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ChatBot_vue_vue_type_template_id_14b64f56_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ChatBot_vue_vue_type_template_id_14b64f56_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ChatBot.vue?vue&type=template&id=14b64f56&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/ChatBot.vue?vue&type=template&id=14b64f56&scoped=true");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/EnglishTranslation.vue":
-/*!********************************************************************!*\
-  !*** ./resources/js/components/translation/EnglishTranslation.vue ***!
-  \********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _EnglishTranslation_vue_vue_type_template_id_7a2befea_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EnglishTranslation.vue?vue&type=template&id=7a2befea&scoped=true */ "./resources/js/components/translation/EnglishTranslation.vue?vue&type=template&id=7a2befea&scoped=true");
-/* harmony import */ var _EnglishTranslation_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EnglishTranslation.vue?vue&type=script&lang=js */ "./resources/js/components/translation/EnglishTranslation.vue?vue&type=script&lang=js");
-/* harmony import */ var _EnglishTranslation_vue_vue_type_style_index_0_id_7a2befea_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EnglishTranslation.vue?vue&type=style&index=0&id=7a2befea&scoped=true&lang=css */ "./resources/js/components/translation/EnglishTranslation.vue?vue&type=style&index=0&id=7a2befea&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_EnglishTranslation_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_EnglishTranslation_vue_vue_type_template_id_7a2befea_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-7a2befea"],['__file',"resources/js/components/translation/EnglishTranslation.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/EnglishTranslation.vue?vue&type=script&lang=js":
-/*!********************************************************************************************!*\
-  !*** ./resources/js/components/translation/EnglishTranslation.vue?vue&type=script&lang=js ***!
-  \********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EnglishTranslation_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EnglishTranslation_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EnglishTranslation.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/EnglishTranslation.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/EnglishTranslation.vue?vue&type=style&index=0&id=7a2befea&scoped=true&lang=css":
-/*!****************************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/EnglishTranslation.vue?vue&type=style&index=0&id=7a2befea&scoped=true&lang=css ***!
-  \****************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EnglishTranslation_vue_vue_type_style_index_0_id_7a2befea_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EnglishTranslation.vue?vue&type=style&index=0&id=7a2befea&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/EnglishTranslation.vue?vue&type=style&index=0&id=7a2befea&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/EnglishTranslation.vue?vue&type=template&id=7a2befea&scoped=true":
-/*!**************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/EnglishTranslation.vue?vue&type=template&id=7a2befea&scoped=true ***!
-  \**************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EnglishTranslation_vue_vue_type_template_id_7a2befea_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EnglishTranslation_vue_vue_type_template_id_7a2befea_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EnglishTranslation.vue?vue&type=template&id=7a2befea&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/EnglishTranslation.vue?vue&type=template&id=7a2befea&scoped=true");
 
 
 /***/ }),
@@ -65498,79 +61144,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/translation/PrayerTimes.vue":
-/*!*************************************************************!*\
-  !*** ./resources/js/components/translation/PrayerTimes.vue ***!
-  \*************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _PrayerTimes_vue_vue_type_template_id_5ae7cc26_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PrayerTimes.vue?vue&type=template&id=5ae7cc26&scoped=true */ "./resources/js/components/translation/PrayerTimes.vue?vue&type=template&id=5ae7cc26&scoped=true");
-/* harmony import */ var _PrayerTimes_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PrayerTimes.vue?vue&type=script&lang=js */ "./resources/js/components/translation/PrayerTimes.vue?vue&type=script&lang=js");
-/* harmony import */ var _PrayerTimes_vue_vue_type_style_index_0_id_5ae7cc26_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PrayerTimes.vue?vue&type=style&index=0&id=5ae7cc26&scoped=true&lang=css */ "./resources/js/components/translation/PrayerTimes.vue?vue&type=style&index=0&id=5ae7cc26&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_PrayerTimes_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_PrayerTimes_vue_vue_type_template_id_5ae7cc26_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-5ae7cc26"],['__file',"resources/js/components/translation/PrayerTimes.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/PrayerTimes.vue?vue&type=script&lang=js":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/translation/PrayerTimes.vue?vue&type=script&lang=js ***!
-  \*************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PrayerTimes_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PrayerTimes_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PrayerTimes.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/PrayerTimes.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/PrayerTimes.vue?vue&type=style&index=0&id=5ae7cc26&scoped=true&lang=css":
-/*!*********************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/PrayerTimes.vue?vue&type=style&index=0&id=5ae7cc26&scoped=true&lang=css ***!
-  \*********************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PrayerTimes_vue_vue_type_style_index_0_id_5ae7cc26_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PrayerTimes.vue?vue&type=style&index=0&id=5ae7cc26&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/PrayerTimes.vue?vue&type=style&index=0&id=5ae7cc26&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/PrayerTimes.vue?vue&type=template&id=5ae7cc26&scoped=true":
-/*!*******************************************************************************************************!*\
-  !*** ./resources/js/components/translation/PrayerTimes.vue?vue&type=template&id=5ae7cc26&scoped=true ***!
-  \*******************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PrayerTimes_vue_vue_type_template_id_5ae7cc26_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PrayerTimes_vue_vue_type_template_id_5ae7cc26_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PrayerTimes.vue?vue&type=template&id=5ae7cc26&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/PrayerTimes.vue?vue&type=template&id=5ae7cc26&scoped=true");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/translation/Translator.vue":
 /*!************************************************************!*\
   !*** ./resources/js/components/translation/Translator.vue ***!
@@ -65640,79 +61213,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Translator_vue_vue_type_template_id_4d3aa73a_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Translator_vue_vue_type_template_id_4d3aa73a_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Translator.vue?vue&type=template&id=4d3aa73a&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/Translator.vue?vue&type=template&id=4d3aa73a&scoped=true");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue":
-/*!******************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue ***!
-  \******************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _BookmarkTranslation_vue_vue_type_template_id_62339b22_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BookmarkTranslation.vue?vue&type=template&id=62339b22&scoped=true */ "./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=template&id=62339b22&scoped=true");
-/* harmony import */ var _BookmarkTranslation_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BookmarkTranslation.vue?vue&type=script&lang=js */ "./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=script&lang=js");
-/* harmony import */ var _BookmarkTranslation_vue_vue_type_style_index_0_id_62339b22_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BookmarkTranslation.vue?vue&type=style&index=0&id=62339b22&scoped=true&lang=css */ "./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=style&index=0&id=62339b22&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_BookmarkTranslation_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_BookmarkTranslation_vue_vue_type_template_id_62339b22_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-62339b22"],['__file',"resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=script&lang=js":
-/*!******************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=script&lang=js ***!
-  \******************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarkTranslation_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarkTranslation_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./BookmarkTranslation.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=style&index=0&id=62339b22&scoped=true&lang=css":
-/*!**************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=style&index=0&id=62339b22&scoped=true&lang=css ***!
-  \**************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarkTranslation_vue_vue_type_style_index_0_id_62339b22_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./BookmarkTranslation.vue?vue&type=style&index=0&id=62339b22&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=style&index=0&id=62339b22&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=template&id=62339b22&scoped=true":
-/*!************************************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=template&id=62339b22&scoped=true ***!
-  \************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarkTranslation_vue_vue_type_template_id_62339b22_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BookmarkTranslation_vue_vue_type_template_id_62339b22_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./BookmarkTranslation.vue?vue&type=template&id=62339b22&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/bookmarking/BookmarkTranslation.vue?vue&type=template&id=62339b22&scoped=true");
 
 
 /***/ }),
@@ -65936,79 +61436,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue":
-/*!**********************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue ***!
-  \**********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _ScreenTafseerCapture_vue_vue_type_template_id_8f92b726_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ScreenTafseerCapture.vue?vue&type=template&id=8f92b726&scoped=true */ "./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=template&id=8f92b726&scoped=true");
-/* harmony import */ var _ScreenTafseerCapture_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ScreenTafseerCapture.vue?vue&type=script&lang=js */ "./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=script&lang=js");
-/* harmony import */ var _ScreenTafseerCapture_vue_vue_type_style_index_0_id_8f92b726_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ScreenTafseerCapture.vue?vue&type=style&index=0&id=8f92b726&scoped=true&lang=css */ "./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=style&index=0&id=8f92b726&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_ScreenTafseerCapture_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ScreenTafseerCapture_vue_vue_type_template_id_8f92b726_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-8f92b726"],['__file',"resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=script&lang=js":
-/*!**********************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=script&lang=js ***!
-  \**********************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTafseerCapture_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTafseerCapture_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ScreenTafseerCapture.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=style&index=0&id=8f92b726&scoped=true&lang=css":
-/*!******************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=style&index=0&id=8f92b726&scoped=true&lang=css ***!
-  \******************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTafseerCapture_vue_vue_type_style_index_0_id_8f92b726_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ScreenTafseerCapture.vue?vue&type=style&index=0&id=8f92b726&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=style&index=0&id=8f92b726&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=template&id=8f92b726&scoped=true":
-/*!****************************************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=template&id=8f92b726&scoped=true ***!
-  \****************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTafseerCapture_vue_vue_type_template_id_8f92b726_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTafseerCapture_vue_vue_type_template_id_8f92b726_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ScreenTafseerCapture.vue?vue&type=template&id=8f92b726&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTafseerCapture.vue?vue&type=template&id=8f92b726&scoped=true");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/translation/features/screen_capture/ScreenTranslationCapture.vue":
 /*!**************************************************************************************************!*\
   !*** ./resources/js/components/translation/features/screen_capture/ScreenTranslationCapture.vue ***!
@@ -66063,122 +61490,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTranslationCapture_vue_vue_type_template_id_6429d634__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTranslationCapture_vue_vue_type_template_id_6429d634__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ScreenTranslationCapture.vue?vue&type=template&id=6429d634 */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTranslationCapture.vue?vue&type=template&id=6429d634");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue":
-/*!******************************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue ***!
-  \******************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _ScreenTransliterationCapture_vue_vue_type_template_id_025b3868__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ScreenTransliterationCapture.vue?vue&type=template&id=025b3868 */ "./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue?vue&type=template&id=025b3868");
-/* harmony import */ var _ScreenTransliterationCapture_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ScreenTransliterationCapture.vue?vue&type=script&lang=js */ "./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue?vue&type=script&lang=js");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_ScreenTransliterationCapture_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ScreenTransliterationCapture_vue_vue_type_template_id_025b3868__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue?vue&type=script&lang=js":
-/*!******************************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue?vue&type=script&lang=js ***!
-  \******************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTransliterationCapture_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTransliterationCapture_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ScreenTransliterationCapture.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue?vue&type=template&id=025b3868":
-/*!************************************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue?vue&type=template&id=025b3868 ***!
-  \************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTransliterationCapture_vue_vue_type_template_id_025b3868__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ScreenTransliterationCapture_vue_vue_type_template_id_025b3868__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ScreenTransliterationCapture.vue?vue&type=template&id=025b3868 */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue?vue&type=template&id=025b3868");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue":
-/*!***********************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue ***!
-  \***********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _SpeechRecognition_vue_vue_type_template_id_684b0c59__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SpeechRecognition.vue?vue&type=template&id=684b0c59 */ "./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue?vue&type=template&id=684b0c59");
-/* harmony import */ var _SpeechRecognition_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SpeechRecognition.vue?vue&type=script&lang=js */ "./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue?vue&type=script&lang=js");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_SpeechRecognition_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_SpeechRecognition_vue_vue_type_template_id_684b0c59__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue"]])
-/* hot reload */
-if (false) // removed by dead control flow
-{}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue?vue&type=script&lang=js":
-/*!***********************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue?vue&type=script&lang=js ***!
-  \***********************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SpeechRecognition_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SpeechRecognition_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SpeechRecognition.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue?vue&type=template&id=684b0c59":
-/*!*****************************************************************************************************************************!*\
-  !*** ./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue?vue&type=template&id=684b0c59 ***!
-  \*****************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SpeechRecognition_vue_vue_type_template_id_684b0c59__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SpeechRecognition_vue_vue_type_template_id_684b0c59__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SpeechRecognition.vue?vue&type=template&id=684b0c59 */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/features/speech_recognition/SpeechRecognition.vue?vue&type=template&id=684b0c59");
 
 
 /***/ }),

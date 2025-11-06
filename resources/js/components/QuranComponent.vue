@@ -213,7 +213,7 @@
                                         <!-- Screen reader live region for announcing selection changes -->
                                         <div class="visually-hidden" aria-live="polite" aria-atomic="true">{{
                                             screenReaderMessage }}</div>
-                                        <div id="ayah-content" :selectedSurahId="selectedSurah"
+                                        <div id="ayah-content" :selectedSurahId="selectedSurahId"
                                             @update-tafseer="updateTafseer" @update-information="updateInformation"
                                             :style="{
 
@@ -399,9 +399,11 @@
                                                 <div v-if="!isVisible" class="card text-bg-light card-body">
                                                     <TranslationActions
                                                         :targetTranslationRef="'targetTranslationElement'"
-                                                        :translation="translation" @open-modal="openModal"
-                                                        @submit-form="submitForm" @toggle-audio="toggleAudioPlayback
-                                                        " :isPlaying="isPlaying"></TranslationActions>
+                                                        :translation="translation"
+                                                        :information="information"
+                                                        @open-modal="openModal"
+                                                        @submit-form="submitForm"
+                                                        @toggle-audio="toggleAudioPlayback" />
                                                 </div>
                                             </div>
                                         </div>
@@ -411,7 +413,7 @@
                                     <div class="tab-pane content" id="profile" role="tabpanel"
                                         v-if="information != null">
                                         <div>
-                                            <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
+                                            <div :selectedSurahId="selectedSurahId" @update-tafseer="updateTafseer"
                                                 @update-information="updateInformation"
                                                 class="icon-container hide-on-mobile mb-3" :aria-hidden="isMobile">
                                                 <div class="text-center" role="group"
@@ -586,13 +588,16 @@
                                         </div> -->
 
                                         <!-- toolbar mobile -->
-                                        <div v-if="isOpen" class="collapse-content mobile-only">
-                                            <div v-if="!isVisible" class="card text-bg-light card-body">
-                                                <TafseerActions :targetTranslationRef="'targetTranslationElement'"
-                                                    :translation="translation" @open-modal="openModal"
-                                                    @submit-form="submitFormTafseer" @toggle-audio="toggleAudioPlayback
-                                                    " :isPlaying="isPlaying" />
-                                            </div>
+                                            <div v-if="isOpen" class="collapse-content mobile-only">
+                                                <div v-if="!isVisible" class="card text-bg-light card-body">
+                                                    <TafseerActions
+                                                        :targetTafseerRef="'targetTafseerElement'"
+                                                        :tafseer="tafseer"
+                                                        :information="information"
+                                                        @open-modal="openModal"
+                                                        @submit-form="submitFormTafseer"
+                                                        @toggle-audio="toggleAudioPlayback" />
+                                                </div>
                                         </div>
 
                                         <SurahInfoModal :information="information" />
@@ -604,7 +609,7 @@
                                         <div>
                                             <!-- Ayah Controls -->
                                             <div class="pb-3">
-                                                <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
+                                                <div :selectedSurahId="selectedSurahId" @update-tafseer="updateTafseer"
                                                     @update-information="updateInformation"
                                                     class="icon-container hide-on-mobile mb-3">
                                                     <div class="text-center">
@@ -774,10 +779,12 @@
                                             <div v-if="isOpen" class="collapse-content mobile-only">
                                                 <div v-if="!isVisible" class="card text-bg-light card-body">
                                                     <TransliterationActions
-                                                        :targetTranslationRef="'targetTranslationElement'"
-                                                        :translation="translation" @open-modal="openModal" @submit-form="submitFormTransliteration
-                                                        " @toggle-audio="toggleAudioPlayback
-                                                        " :isPlaying="isPlaying" />
+                                                        :targetTransliterationRef="'targetTransliterationElement'"
+                                                        :transliteration="information ? information.transliteration : ''"
+                                                        :isVisible="!isVisible"
+                                                        @open-modal="openModal"
+                                                        @submit-form="submitFormTransliteration"
+                                                        @toggle-audio="toggleAudioPlayback" />
                                                 </div>
                                             </div>
                                             <!-- end toolbar mobile -->
@@ -788,7 +795,7 @@
                                 </div>
                             </div>
                             <div v-show="showNextStep" style="padding: 10px;">
-                                <div class="mx-auto mb-4" style="
+                                <div class="mx-auto mb-4 next-step-card" style="
                                     
                                     background: linear-gradient(135deg, rgba(26, 95, 122, 0.12), rgba(11, 128, 111, 0.12));
                                     border: 1px solid rgba(11, 128, 111, 0.25);
@@ -798,6 +805,8 @@
                                     backdrop-filter: blur(6px);
                                     padding: 1.25rem 1.75rem;
                                 ">
+                                    <button type="button" class="btn-close next-step-close" aria-label="Dismiss next step"
+                                        @click="dismissNextStep"></button>
                                     <div class="d-flex align-items-start gap-3 text-start">
                                         <div class="flex-shrink-0 mt-1">
                                             <div style="
@@ -861,620 +870,306 @@
 </template>
 
 <script defer>
-import html2canvas from "html2canvas";
-import ChatBot from './translation/ChatBot.vue';
-
-import DarkModeToggle from './DarkModeToggle.vue';
-import CustomSurahSelection from "./surah_selection/CustomSurahSelection.vue";
-import SearchForm from "./search/SearchForm.vue";
-import SurahList from "./search/SurahList.vue";
+import axios from "axios";
+import Title from "./Intro/Title.vue";
+import AdvancedSearch from "./search/AdvancedSearch.vue";
 import SurahDropdown from "./search/SurahDropdown.vue";
-import BookmarksAndNotes from "./bookmark_and_notes_links/BookmarksAndNotes.vue";
-import AlertModal from "./modals/AlertModal.vue";
-import Welcome from "./Intro/Welcome.vue";
-import Title from "./intro/Title.vue";
-import CorrectionModal from "./modals/CorrectionModal.vue";
-import Donation from "./intro/Donation.vue";
-import NavTabs from "./tabs/NavTabs.vue";
-import AyahInfo from "./translation/AyahInfo.vue";
-import MainAyah from "./translation/MainAyah.vue";
-import EnglishTranslation from "./translation/EnglishTranslation.vue";
-import Translator from "./translation/Translator.vue";
-import AyahSearchVerseNum from "./search/AyahSearchVerseNum.vue";
-import ErrorAlert from "./search/ErrorAlert.vue";
 import AyahDropdown from "./search/AyahDropdown.vue";
-import ScreenTranslationCapture from "./translation/features/screen_capture/ScreenTranslationCapture.vue";
-import ScreenTafseerCapture from "./translation/features/screen_capture/ScreenTafseerCapture.vue";
-import ScreenTransliterationCapture from "./translation/features/screen_capture/ScreenTransliterationCapture.vue";
-import SurahInfoModal from "./modals/SurahInfoModal.vue";
-import TranslationNote from "./translation/features/notes/TranslationNote.vue";
-import TafseerNote from "./translation/features/notes/TafseerNote.vue";
-import TransliterationNote from "./translation/features/notes/TransliterationNote.vue";
-import BookmarkTranslation from "./translation/features/bookmarking/BookmarkTranslation.vue";
-import FilteredSurahList from "./search/FilteredSurahList.vue";
-import TafseerSection from "./TafseerSection.vue";
+import ErrorAlert from "./search/ErrorAlert.vue";
+import NavTabs from "./tabs/NavTabs.vue";
 import TranslationSection from "./TranslationSection.vue";
-import TransliterationSection from "./TransliterationSection";
+import TafseerSection from "./TafseerSection.vue";
+import TransliterationSection from "./TransliterationSection.vue";
 import TranslationActions from "./TranslationActions.vue";
 import TafseerActions from "./TafseerActions.vue";
 import TransliterationActions from "./TransliterationActions.vue";
-import SpeechRecognition from "./translation/features/speech_recognition/SpeechRecognition.vue";
-// import PdfDownload from './pdf/PdfDownload.vue'
-// import PdfDownloadTafsser from './pdf/PdfDownloadTafsser.vue'
-// import PdfDownloadTransliteration from './pdf/PdfDownloadTransliteration.vue'
-import AdvancedSearch from "./search/AdvancedSearch.vue";
-import KeyboardNavigation from "./accesibility/KeyboardNavigation.vue";
-import FolderSelectionModal from "./folder_manager/FolderSelectionModal.vue";
-import ScreenReader from "./accesibility/ScreenReader.vue";
-import AyahSelector from "./search/AyahSelector.vue";
-import SearchContent from "./content/searchContent.vue";
-import AyahOfTheDay from './translation/AyahOfTheDay.vue';
-import PrayerTimes from "./translation/PrayerTimes.vue";
+import TranslationNote from "./translation/features/notes/TranslationNote.vue";
+import TafseerNote from "./translation/features/notes/TafseerNote.vue";
+import TransliterationNote from "./translation/features/notes/TransliterationNote.vue";
+import SurahInfoModal from "./modals/SurahInfoModal.vue";
+import Welcome from "./Intro/Welcome.vue";
 import HelpGuideModal from "./translation/HelpGuideModal.vue";
 
+const STORAGE_KEYS = {
+    toggle: "toggleState",
+    swipeTip: "quran.swipeTipDismissed",
+};
 
+const PREFETCH_OFFSETS = [-2, -1, 1, 2];
+
+function toNumber(value) {
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? numeric : null;
+}
 
 export default {
     name: "QuranComponent",
-    props: {},
     components: {
-        HelpGuideModal,
-        ChatBot,
-        DarkModeToggle,
-        PrayerTimes,
-        AyahOfTheDay,
-        SearchContent,
-        CustomSurahSelection,
-        AyahSelector,
-        SurahList,
-        SurahDropdown,
-        BookmarksAndNotes,
-        AlertModal,
-        Welcome,
-        CorrectionModal,
-        Donation,
-        NavTabs,
         Title,
-        SearchForm,
-        AyahInfo,
-        MainAyah,
-        EnglishTranslation,
-        Translator,
-        AyahSearchVerseNum,
-        ErrorAlert,
+        AdvancedSearch,
+        SurahDropdown,
         AyahDropdown,
-        ScreenTranslationCapture,
-        ScreenTafseerCapture,
-        ScreenTransliterationCapture,
-        SurahInfoModal,
-        TranslationNote,
-        TafseerNote,
-        TransliterationNote,
-        BookmarkTranslation,
-        FilteredSurahList,
-        TafseerSection,
+        ErrorAlert,
+        NavTabs,
         TranslationSection,
+        TafseerSection,
         TransliterationSection,
         TranslationActions,
         TafseerActions,
         TransliterationActions,
-        SpeechRecognition,
-        // PdfDownload,
-        FolderSelectionModal,
-        // PdfDownloadTransliteration,
-        // PdfDownloadTafsser,
-        AdvancedSearch,
-        KeyboardNavigation,
-        ScreenReader,
+        TranslationNote,
+        TafseerNote,
+        TransliterationNote,
+        SurahInfoModal,
+        Welcome,
+        HelpGuideModal,
     },
-
-    mounted() {
-        const savedState = localStorage.getItem("toggleState");
-        if (savedState !== null) {
-            this.isVisible = JSON.parse(savedState);
-        }
-        // Debounced initial fetch to avoid duplicate triggers from watchers
-        this.scheduleFetchAyat();
-
-        this.getSurat(); // Call getSurat to populate the surah list
-        this.prepareAyahText();
-
-        // Keyboard navigation for ayah list within this component only
-        const win = (typeof globalThis !== 'undefined' && globalThis.window) ? globalThis.window : (typeof window !== 'undefined' ? window : null);
-        win?.addEventListener?.("keydown", this.onKeydown);
-
-        // Responsive a11y: track mobile viewport to toggle focusability of duplicate controls
-        this.updateIsMobile();
-        // Create a debounced resize handler to reduce layout thrash
-        this.debouncedUpdateIsMobile = this.debounce(this.updateIsMobile, 150);
-        win?.addEventListener?.('resize', this.debouncedUpdateIsMobile, { passive: true });
-        // Gesture gating for tablets/phones only
-        this.updateInputModalityGestureGate();
-        try {
-            if (this._coarseMql && this._coarseMql.addEventListener) {
-                this._coarseMql.addEventListener('change', this.updateInputModalityGestureGate, { passive: true });
-            } else if (this._coarseMql && this._coarseMql.addListener) {
-                this._coarseMql.addListener(this.updateInputModalityGestureGate);
-            }
-        } catch (_) { }
-
-        // Track Bootstrap tab changes to stop previous audio and set active tab
-        try {
-            if (typeof document !== 'undefined') {
-                this._onTabShown = (e) => {
-                    let id = e.target?.getAttribute?.('data-bs-target') || e.target?.getAttribute?.('href') || '';
-                    if (id && id.startsWith('#')) id = id.slice(1);
-                    if (id) this.activeTab = id;
-                    this.stopAllAudio && this.stopAllAudio();
-                };
-                document.addEventListener('shown.bs.tab', this._onTabShown);
-            }
-        } catch (_) { }
-
-        // Attach a window wheel listener only if gestures are enabled (coarse pointer)
-        if (this.allowGestures && typeof window !== 'undefined') {
-            this._onWindowWheel = (e) => this.handleWheel(e);
-            window.addEventListener('wheel', this._onWindowWheel, { passive: true });
-        }
-
-        // Swipe tip persisted dismissal
-        try {
-            const dismissed = localStorage.getItem('swipeTipDismissed');
-            if (dismissed === '1') {
-                this.showSwipeTip = false;
-            } else {
-                this.showSwipeTip = true;
-            }
-        } catch (_) { this.showSwipeTip = true; }
-    },
-    // Ensure listeners are cleaned up when the component is destroyed
-    beforeUnmount() {
-        const win = (typeof globalThis !== 'undefined' && globalThis.window) ? globalThis.window : (typeof window !== 'undefined' ? window : null);
-        win?.removeEventListener?.("keydown", this.onKeydown);
-        win?.removeEventListener?.('resize', this.debouncedUpdateIsMobile || this.updateIsMobile);
-        this.clearNextStepTimer();
-        this.showNextStep = false;
-        try {
-            if (this._coarseMql && this._coarseMql.removeEventListener) {
-                this._coarseMql.removeEventListener('change', this.updateInputModalityGestureGate);
-            } else if (this._coarseMql && this._coarseMql.removeListener) {
-                this._coarseMql.removeListener(this.updateInputModalityGestureGate);
-            }
-        } catch (_) { }
-        if (typeof window !== 'undefined' && this._onWindowWheel) {
-            window.removeEventListener('wheel', this._onWindowWheel, { passive: true });
-            this._onWindowWheel = null;
-        }
-    },
-    // Vue 2 fallback (in case this project uses Vue 2)
-    beforeDestroy() {
-        const win2 = (typeof globalThis !== 'undefined' && globalThis.window) ? globalThis.window : (typeof window !== 'undefined' ? window : null);
-        win2?.removeEventListener?.("keydown", this.onKeydown);
-        win2?.removeEventListener?.('resize', this.debouncedUpdateIsMobile || this.updateIsMobile);
-    },
-
     data() {
         return {
-            // Cache ayat per surah to avoid redundant fetches
-            ayahCache: {},
-            tafseerCache: {},
-            infoCache: {},
-            lastFetchedSurahId: null,
-            fetchAyatTimer: null,
-            ayatInflight: null,
-            debouncedUpdateIsMobile: null,
-            surahs: [], // List of all Surahs
-            reciters: [], // List of all Reciters
-            translations: [], // List of all Translations
-            selectedSurah: "", // Selected Surah number
-            selectedReciter: "", // Default reciter
-            selectedTranslation: "", // Default translation
-            selectedSurahId: 1,
-            isDarkMode: false,
-            showAudio: false,
-            userIsLoggedIn: true,
-            newThemeName: "",
-            savedThemes: [],
-            selectedTheme: null,
-            isAdvancedSearchVisible: false, // Controls the visibility of AdvancedSearch
-            searchTerm: "",
-            results: [],
-            filteredResults: [],
-            selectedSurah: null,
-            selectedAyah: null,
-            selectedTafseer: null,
-            userId: null,
-            bookmarkSubmitted: false, // Set initial state
-            selectedFolderId: null,
-            isVisible1: false,
-            isOpen: false,
-            recognition: null,
-            isListening: false,
-            transcript: "",
+            // UI state
             isVisible: false,
-            showSuccessMessage: false, // Controls visibility of success messag
-            selectedStyle: null,
-
-
-            // Text transformation and alignment
-            textTransform: "none",
-            textAlign: "left",
-            // For showing success message
-            showSuccessMessage: false,
-            isCollapsed: false,
-            showSuccessMessage: false,
-            showMessage: false,
-            // Delay reveal for Next Step card
-            showNextStep: false,
-            _nextStepTimer: null,
-            // Defaults to silence warnings seen in console
-            showMoreLink: false,
+            isOpen: false,
+            isFullScreen: false,
+            activeTab: "home",
+            isMobile: false,
             isPlaying: false,
-            ayah: null,
-            dropdownHidden: false,
-            filteredSurah: [],
-            //twitter/whatsapp
-            information: {
-                translation: "",
-                transliteration: "", // Example translated text
-            },
-            selectedSurahIndex: null,
-            tafseer: "",
-            //custom surah collection
-            customSuratList: [],
-            // track selected id
-            selectedSurahId: null,
-            selectedAyahId: 0,
-            // initialize empty arrays
-            data: [],
+            expanded: false,
+            showSwipeTip: false,
+            showSwipeNotice: false,
+            swipeNoticeText: "",
+            swipeNoticeDir: "next",
+            lastSwipeDir: "next",
+            showNextStep: false,
+            nextStepDismissed: false,
+            screenReaderMessage: "",
+            modalInformation: null,
+            dropdownHidden: true,
+
+            // Surah / Ayah data
             surat: [],
+            filteredSurah: [],
+            selectedSurahId: null,
             ayat: [],
-            tafseers: [],
-            currentSurah: null,
-            currentVerse: null,
-            currentTafseer: "",
-            // storage
+            selectedIndexAyah: -1,
+            selectedAyahId: null,
+            selectedAyah: null,
+            verseNumber: "",
             information: null,
             tafseer: null,
-            surah: null,
-            ayah_id: null,
-            // ayah controls
-            surat: 0,
-            selectedIndexAyah: 0,
-            //expand text
-            expanded: false,
-            //full screen toggle
-            isFullScreen: false,
+            translation: "",
+            currentAyah: null,
 
-            // auth login
-            isLoggedIn: false,
-            // main search
-            showClearButton: false,
-            searchTerm: "",
-            filteredSurah: [],
-            // main card visibility
-            isCardVisible: false,
-            // select ayah dropdown
-            selectedIndexAyah: -1,
-            selectedIndexAyah: null,
-            selectedAyah: null,
-            dropdownHidden: true,
-            verseNumber: null,
-            //alerts
-            showError: false,
-            showAlert1: false,
+            // Additional UI helpers consumed by child components
+            showMoreLink: false,
             showAlertText: false,
             showAlert: false,
             showErrorAlert: false,
             showAlertTextNote: false,
-            maxLength: 400,
+            showAlert1: false,
+            showError: false,
+
+            // Network + cache state
+            isLoading: false,
+            ayahCache: Object.create(null),
+            infoCache: Object.create(null),
+            tafseerCache: Object.create(null),
+            ayatInflight: null,
+            fetchAyatTimer: null,
+
+            // Alert + feedback
             alertMessage: "",
-            alertType: "",
+            alertType: "success",
 
-            // correction modal
-            form: new Form({
-                id: "",
-                name: "",
-                email: "",
-                mistake_type: "",
-                added_notes: "",
-                ayah_num: "",
-            }),
+            // Session data
+            userId: null,
 
-            // search
-            searchFilters: new Form({
-                name_en: "",
-                name_ar: "",
-            }),
-            loading: false,
-            // Accessibility: live region message
-            screenReaderMessage: "",
-            // Track viewport for responsive ARIA handling
-            isMobile: false,
-            // Swipe tracking
+            // Gesture tracking
+            allowGestures: true,
             touchStartX: 0,
             touchStartY: 0,
             touchEndX: 0,
             touchEndY: 0,
             touchStartTime: 0,
-
-            // Pointer tracking (for non-touch devices)
+            pointerActive: false,
             pointerStartX: 0,
             pointerStartY: 0,
-            pointerEndX: 0,
-            pointerEndY: 0,
             pointerStartTime: 0,
-            pointerActive: false,
-            // Wheel tracking (for trackpads)
+            lastGestureTs: 0,
             wheelAccumX: 0,
-            wheelAccumY: 0,
             wheelLastTime: 0,
-            // Tunable thresholds
-            // Gesture thresholds (relaxed for reliability on mobile/tablets)
             swipeMinDistance: 20,
             swipeMaxDuration: 800,
             wheelThreshold: 35,
             wheelVertLeak: 30,
             wheelResetMs: 160,
-            // Debounce multiple triggers
             gestureCooldownMs: 300,
-            lastGestureTs: 0,
-            // Environment gating
-            isCoarsePointer: false,
-            allowGestures: true,
-            _coarseMql: null,
-            activeTab: 'home',
-            // UI: swipe tip visibility (mobile/tablet only)
-            showSwipeTip: true,
-            lastSwipeDir: null,
-            // Swipe success notice
-            showSwipeNotice: false,
-            swipeNoticeText: '',
-            swipeNoticeDir: 'next',
-            _swipeNoticeTimer: null,
         };
     },
     computed: {
-        // Filter ayahs based on search query
-        filteredAyahs() {
-            if (!this.surahDetails) return [];
-            if (!this.searchQuery) return this.surahDetails.ayahs;
-
-            const query = this.searchQuery.toLowerCase();
-            return this.surahDetails.ayahs.filter(
-                (ayah) =>
-                    ayah.text.toLowerCase().includes(query) ||
-                    ayah.translation.toLowerCase().includes(query)
-            );
-        },
         combinedText() {
-            // Check if ayah_text and translation have nested structure
-            const translation =
-                typeof this.information.translation === "object"
-                    ? this.information.translation.text
-                    : this.information.translation;
-            return `Translation: ${translation}`;
+            const translation = typeof this.information?.translation === "object"
+                ? this.information.translation?.text
+                : this.information?.translation;
+            return translation ? `Translation: ${translation}` : "";
         },
+    },
+    created() {
+        this.bootstrapComponent();
+    },
+    mounted() {
+        this.updateIsMobile();
+        this.updateInputModalityGestureGate();
+        this.setupSwipeTip();
 
+        this._onResize = () => {
+            this.updateIsMobile();
+            this.updateInputModalityGestureGate();
+        };
+        window.addEventListener("resize", this._onResize, { passive: true });
+
+        this._onWheel = (event) => this.handleWindowWheel(event);
+        window.addEventListener("wheel", this._onWheel, { passive: true });
+    },
+    beforeUnmount() {
+        if (this._onResize) {
+            window.removeEventListener("resize", this._onResize, { passive: true });
+            this._onResize = null;
+        }
+        if (this._onWheel) {
+            window.removeEventListener("wheel", this._onWheel, { passive: true });
+            this._onWheel = null;
+        }
+        if (this.fetchAyatTimer) {
+            clearTimeout(this.fetchAyatTimer);
+            this.fetchAyatTimer = null;
+        }
+        this.clearNextStepTimer();
+        if (this._swipeNoticeTimer) {
+            clearTimeout(this._swipeNoticeTimer);
+            this._swipeNoticeTimer = null;
+        }
     },
     methods: {
-        // Thresholds can be tweaked here directly if needed.
-
-        startNextStepTimer() {
-            this.showNextStep = false;
-            this.clearNextStepTimer();
+        async bootstrapComponent() {
+            this.restoreToggleState();
+            this.userId = this.safeGetLocalStorage("userId");
+            await this.fetchSurahList();
+            this.startNextStepTimer();
+        },
+        safeGetLocalStorage(key) {
             try {
-                this._nextStepTimer = setTimeout(() => {
-                    this.showNextStep = true;
-                    this._nextStepTimer = null;
-                }, 10000);
-            } catch (_) {
-                this.showNextStep = true;
+                return window.localStorage.getItem(key);
+            } catch (error) {
+                return null;
             }
         },
-
+        restoreToggleState() {
+            const raw = this.safeGetLocalStorage(STORAGE_KEYS.toggle);
+            if (raw !== null) {
+                try {
+                    this.isVisible = JSON.parse(raw);
+                } catch (error) {
+                    this.isVisible = raw === "true";
+                }
+            }
+        },
+        setupSwipeTip() {
+            const dismissed = this.safeGetLocalStorage(STORAGE_KEYS.swipeTip);
+            this.showSwipeTip = dismissed !== "1" && (this.isMobile || this.allowGestures);
+        },
+        async fetchSurahList() {
+            try {
+                const { data } = await axios.get("/get_surat");
+                this.surat = Array.isArray(data) ? data : [];
+                this.filteredSurah = this.surat;
+            } catch (error) {
+                console.error("Error fetching surahs:", error);
+            }
+        },
+        saveToggleState() {
+            try {
+                window.localStorage.setItem(STORAGE_KEYS.toggle, JSON.stringify(this.isVisible));
+            } catch (error) {
+                // ignore storage issues gracefully
+            }
+        },
+        startNextStepTimer() {
+            if (this.nextStepDismissed) {
+                this.showNextStep = false;
+                return;
+            }
+            this.clearNextStepTimer();
+            this.showNextStep = false;
+            this._nextStepTimer = setTimeout(() => {
+                if (!this.nextStepDismissed) {
+                    this.showNextStep = true;
+                }
+                this._nextStepTimer = null;
+            }, 10000);
+        },
         clearNextStepTimer() {
             if (this._nextStepTimer) {
                 clearTimeout(this._nextStepTimer);
                 this._nextStepTimer = null;
             }
         },
-
-        handleDarkModeChange(isDarkMode) {
-            this.isDarkMode = isDarkMode;
+        updateIsMobile() {
+            this.isMobile = (window.innerWidth || 0) <= 767;
         },
-        dismissSwipeTip() {
-            this.showSwipeTip = false;
-            try { localStorage.setItem('swipeTipDismissed', '1'); } catch (_) { }
-        },
-        // Handle keyboard navigation for ayat
-        onKeydown(e) {
-            // Ignore when typing in form fields or contenteditable areas
-            const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : "";
-            const isEditable = e.target && (e.target.isContentEditable || ["input", "textarea", "select"].includes(tag));
-            if (isEditable) return;
-
-            // No ayat loaded or no selection context
-            if (!Array.isArray(this.ayat) || this.ayat.length === 0) return;
-
-            switch (e.key) {
-                case "ArrowRight":
-                case "ArrowDown":
-                    e.preventDefault();
-                    this.goToNextAyah();
-                    break;
-                case "ArrowLeft":
-                case "ArrowUp":
-                    e.preventDefault();
-                    this.goToPreviousAyah();
-                    break;
-                case "Home":
-                    e.preventDefault();
-                    this.goToFirstAyah();
-                    break;
-                case "End":
-                    e.preventDefault();
-                    this.goToLastAyah();
-                    break;
-                default:
-                    break;
+        updateInputModalityGestureGate() {
+            try {
+                const hasTouch = "ontouchstart" in window || (navigator.maxTouchPoints || 0) > 0;
+                this.allowGestures = hasTouch || this.isMobile;
+            } catch (error) {
+                this.allowGestures = this.isMobile;
             }
         },
-        prepareAyahText() {
-            if (!this.ayah || !this.ayah.text) {
-                console.error("prepareAyahText: ayah.text is missing!", this.ayah);
+        updateSelectedSurah(id) {
+            const numeric = toNumber(id);
+            if (!numeric || numeric === this.selectedSurahId) {
                 return;
             }
-
-            this.words = this.ayah.text.split(" ");
-            this.timestamps = this.words.map((_, index) => index * 0.5);
-            this.highlightedAyah = this.words.join(" ");
-
-            console.log("Highlighted Ayah Text:", this.highlightedAyah); // Debugging log
+            this.selectedSurahId = numeric;
+            this.selectedIndexAyah = -1;
+            this.selectedAyahId = null;
+            this.selectedAyah = null;
+            this.currentAyah = null;
+            this.dropdownHidden = false;
+            this.information = null;
+            this.tafseer = null;
+            this.scheduleFetchAyat(numeric);
         },
-        // Fetch all Surahs
-        async fetchSurahs() {
-            try {
-                const response = await fetch("https://api.alquran.cloud/v1/surah");
-                if (!response.ok) throw new Error("Failed to fetch Surahs");
-                const data = await response.json();
-                this.surahs = data.data;
-            } catch (error) {
-                console.error("Error fetching Surahs:", error);
+        scheduleFetchAyat(id = this.selectedSurahId) {
+            if (!id) return;
+            if (this.fetchAyatTimer) {
+                clearTimeout(this.fetchAyatTimer);
             }
-        },
-
-        async fetchReciters() {
-            try {
-                const response = await fetch("https://api.alquran.cloud/v1/edition/format/audio");
-                if (!response.ok) throw new Error("Failed to fetch Reciters");
-
-                const data = await response.json();
-                this.reciters = data.data
-                    .filter((reciter) => reciter.identifier && reciter.englishName)
-                    .map((reciter) => ({
-                        identifier: reciter.identifier,
-                        englishName: reciter.englishName || "Unknown Reciter",
-                    }));
-            } catch (error) {
-                console.error("Error fetching Reciters:", error);
-            }
-        },
-
-        // Fetch all Translations
-        async fetchTranslations() {
-            try {
-                const response = await fetch("https://api.alquran.cloud/v1/edition/type/translation");
-                if (!response.ok) throw new Error("Failed to fetch Translations");
-                const data = await response.json();
-                this.translations = data.data;
-            } catch (error) {
-                console.error("Error fetching Translations:", error);
-            }
-        },
-
-        async fetchSurahDetails() {
-            if (!this.selectedSurah) return;
-
-            try {
-                const response = await fetch(
-                    `https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},${this.selectedTranslation}`
-                );
-                if (!response.ok) throw new Error("Failed to fetch Surah details");
-
-                const data = await response.json();
-
-                const arabicText = data.data[0];
-                const translation = data.data[1];
-
-                this.surahDetails = {
-                    surahNumber: this.selectedSurah,
-                    englishName: arabicText.englishName,
-                    name: arabicText.name,
-                    ayahs: arabicText.ayahs.map((ayah, index) => ({
-                        number: ayah.number,
-                        text: ayah.text,
-                        translation: translation.ayahs[index]?.text || "Translation not available",
-                        audio: ayah.audio || "",
-                    })),
-                };
-            } catch (error) {
-                console.error("Error fetching Surah details:", error);
-            }
-        },
-
-        setSelectedSurah(value) {
-            console.log(value);
-            this.selectedSurah = value;
-        },
-        saveToggleState() {
-            // Save the toggle state to localStorage
-            localStorage.setItem("toggleState", JSON.stringify(this.isVisible));
-        },
-        updateAyah(newAyah) {
-            this.currentAyah = newAyah;
-        },
-        highlightText(charIndex, currentWord) {
-            this.$refs.translationSection.highlightText(charIndex, currentWord);
-        },
-        clearHighlight() {
-            this.$nextTick(() => {
-                if (this.currentAyah && this.currentAyah.translation) {
-                    this.renderedText = `<span>${this.currentAyah.translation}</span>`;
-                }
-            });
-        },
-        updateIsMobile() {
-            try {
-                const w = (typeof globalThis !== 'undefined' && globalThis.window) ? globalThis.window : (typeof window !== 'undefined' ? window : null);
-                if (w && typeof w.matchMedia === 'function') {
-                    this.isMobile = w.matchMedia('(max-width: 767px)').matches;
-                } else if (w && typeof w.innerWidth === 'number') {
-                    this.isMobile = w.innerWidth <= 767;
-                } else {
-                    this.isMobile = false;
-                }
-            } catch (e) {
-                this.isMobile = false;
-            }
-        },
-        // Simple debounce utility
-        debounce(fn, delay = 150) {
-            let timer;
-            return (...args) => {
-                clearTimeout(timer);
-                timer = setTimeout(() => fn.apply(this, args), delay);
-            };
-        },
-        // Schedule ayah fetch with debounce to avoid duplicate triggers
-        scheduleFetchAyat(surahId) {
-            const id = surahId || this.selectedSurahId;
-            if (this.fetchAyatTimer) clearTimeout(this.fetchAyatTimer);
             this.fetchAyatTimer = setTimeout(() => this.fetchAyat(id), 150);
         },
-        async fetchAyat(surahIdArg) {
-            const surahId = surahIdArg || this.selectedSurahId;
-            if (!surahId) return;
-            // Serve from cache if present
-            if (this.ayahCache[surahId]) {
-                this.ayat = this.ayahCache[surahId];
-                this.dropdownHidden = false;
+        async fetchAyat(id = this.selectedSurahId) {
+            if (!id) return;
+            if (this.ayahCache[id]) {
+                this.ayat = this.ayahCache[id];
+                this.dropdownHidden = !this.ayat.length;
+                if (this.ayat.length) {
+                    this.selectAyah(Math.max(0, this.selectedIndexAyah));
+                }
                 return;
             }
-            // Prevent overlapping requests
             if (this.ayatInflight) return;
             try {
                 this.isLoading = true;
-                this.ayatInflight = axios.get("/get_ayat", { params: { surah_id: surahId } });
-                const response = await this.ayatInflight;
-                this.ayat = response.data;
-                this.ayahCache[surahId] = response.data;
-                this.lastFetchedSurahId = surahId;
-                this.dropdownHidden = false;
-                // Select first ayah only if nothing is selected yet
-                if (this.ayat.length > 0 && (this.selectedAyahId === null || this.selectedAyahId === 0 || this.selectedAyahId === "")) {
-                    this.selectedAyahId = this.ayat[0].id;
-                    this.handleAyahChange();
+                this.ayatInflight = axios.get("/get_ayat", { params: { surah_id: id } });
+                const { data } = await this.ayatInflight;
+                const ayat = Array.isArray(data) ? data : [];
+                this.ayahCache[id] = ayat;
+                this.ayat = ayat;
+                this.dropdownHidden = !ayat.length;
+                if (ayat.length) {
+                    this.selectAyah(0);
+                } else {
+                    this.information = null;
+                    this.tafseer = null;
                 }
             } catch (error) {
                 console.error("Error fetching ayat:", error);
@@ -1483,869 +1178,380 @@ export default {
                 this.ayatInflight = null;
             }
         },
-        updateInformation(info) {
-            this.information = info;
-        },
-        updateTafseer(tafseerData) {
-            this.tafseer = tafseerData;
-        },
-        toggleAudioPlayback() {
-            // Prefer toggling the active section if present; fall back to all
-            const sections = [
-                this.$refs.tafseerSection,
-                this.$refs.translationSection,
-                this.$refs.transliterationSection,
-            ].filter(Boolean);
-            let toggled = false;
-            for (const sec of sections) {
-                if (typeof sec?.toggleSpeech === 'function') {
-                    try {
-                        sec.toggleSpeech();
-                        toggled = true;
-                    } catch (e) {
-                        console.warn('toggleSpeech failed on section', e);
-                    }
-                }
+        selectAyah(index) {
+            if (!Array.isArray(this.ayat) || !this.ayat.length) return;
+            const clamped = Math.max(0, Math.min(index, this.ayat.length - 1));
+            if (this.selectedIndexAyah === clamped && this.information) {
+                this.scrollToSelectedAyah();
+                return;
             }
-            if (!toggled) {
-                console.warn('No section available to toggle audio');
+            this.selectedIndexAyah = clamped;
+            const ayah = this.ayat[clamped];
+            this.selectedAyah = ayah;
+            this.currentAyah = ayah;
+            this.selectedAyahId = ayah?.id ?? null;
+            if (!ayah) return;
+            this.updateCardSection(ayah);
+            this.screenReaderMessage = `Selected verse ${ayah.ayah_id}`;
+            this.scrollToSelectedAyah();
+            this.ensureAyahPayload(ayah, clamped);
+        },
+        async ensureAyahPayload(ayah, index) {
+            if (!ayah?.id) return;
+            const cachedInfo = this.infoCache[ayah.id];
+            const cachedTafseer = this.tafseerCache[ayah.id];
+            if (cachedInfo && cachedTafseer) {
+                this.applyAyahPayload(cachedInfo, cachedTafseer);
+                this.prefetchAdjacentAyahData(index);
+                return;
             }
-        },
-        showSettingsOffcanvas() {
-            // Select the offcanvas element by its ID
-            const settingsOffcanvasElement =
-                document.getElementById("settingsOffcanvas");
-            // Initialize the Bootstrap Offcanvas component
-            const offcanvas = new bootstrap.Offcanvas(
-                settingsOffcanvasElement,
-                {
-                    backdrop: true, // Adds a backdrop behind the off-canvas
-                    keyboard: true, // Allows closing with the keyboard (Escape key)
-                }
-            );
-            // Show the offcanvas
-            offcanvas.show();
-        },
-        handleItemSelected(selectedItem) {
-            alert(`Selected item: ${selectedItem}`);
-        },
-
-        submitForm() {
-            const formData = {
-                surah_name: this.information.ayah.surah.name_en,
-                ayah_num: this.information.ayah_id,
-                ayah_verse_ar: this.information.ayah.ayah_text,
-                ayah_verse_en: this.information.translation,
-                user_id: this.userId,
-            };
-
-            axios
-                .post("/bookmarks", formData)
-                .then((response) => {
-                    // Successfully bookmarked
-                    this.showAlert = true;
-                    this.alertMessage = "Ayah bookmarked successfully!";
-                    this.alertType = "success"; // Success alert for logged-in users
-                    localStorage.setItem(
-                        `bookmarkSubmitted_${this.information.ayah_id}`,
-                        true
-                    );
-                    this.hideAlertAfterDelay();
-                })
-                .catch((error) => {
-                    // Error during bookmark submission
-                    console.error("Error submitting bookmark:", error);
-                    this.showErrorAlert = true; // Danger alert for request failure
-                    this.hideAlertAfterDelayError();
-                });
-        },
-
-        submitFormTafseer() {
-            const formData1 = {
-                surah_name: this.information.ayah.surah.name_en,
-                ayah_num: this.information.ayah_id,
-                ayah_verse_ar: this.information.ayah.ayah_text,
-                ayah_verse_en: this.tafseer,
-                user_id: this.userId,
-            };
-
-            axios
-                .post("/bookmarks", formData1)
-                .then((response) => {
-                    this.showAlert = true;
-                    this.alertMessage = "Tafseer bookmarked successfully!";
-                    this.alertType = "success";
-                    localStorage.setItem(
-                        `bookmarkSubmitted_${this.information.ayah_id}`,
-                        true
-                    );
-                    this.hideAlertAfterDelay();
-                })
-                .catch((error) => {
-                    console.error("Error submitting bookmark:", error);
-                    this.showErrorAlert = true;
-                    this.hideAlertAfterDelayError();
-                });
-        },
-
-        submitFormTransliteration() {
-            const formData2 = {
-                surah_name: this.information.ayah.surah.name_en,
-                ayah_num: this.information.ayah_id,
-                ayah_verse_ar: this.information.ayah.ayah_text,
-                ayah_verse_en: this.information.transliteration,
-                user_id: this.userId,
-            };
-
-            axios
-                .post("/bookmarks", formData2)
-                .then((response) => {
-                    this.showAlert = true;
-                    this.alertMessage =
-                        "Transliteration bookmarked successfully!";
-                    this.alertType = "success";
-                    localStorage.setItem(
-                        `bookmarkSubmitted_${this.information.ayah_id}`,
-                        true
-                    );
-                    this.hideAlertAfterDelay();
-                })
-                .catch((error) => {
-                    console.error("Error submitting bookmark:", error);
-                    this.showErrorAlert = true;
-                    this.hideAlertAfterDelayError();
-                });
-        },
-
-        hideAlertAfterDelay() {
-            setTimeout(() => {
-                this.showAlert = false;
-            }, 3000); // Hide the alert after 3 seconds
-        },
-
-        hideAlertAfterDelayError() {
-            setTimeout(() => {
-                this.showErrorAlert = false;
-            }, 3000); // Hide the alert after 3 seconds
-        },
-
-        toggleAdvancedSearch() {
-            this.isAdvancedSearchVisible = !this.isAdvancedSearchVisible; // Toggle the visibility
-        },
-        async fetchSurahs() {
             try {
-                const response = await fetch("/get_surat"); // Adjust the API endpoint as needed
-                this.surat = await response.json();
+                this.isLoading = true;
+                const [info, tafseer] = await Promise.all([
+                    this.fetchInformation(ayah.id),
+                    this.fetchTafseer(ayah.id),
+                ]);
+                this.infoCache[ayah.id] = info;
+                this.tafseerCache[ayah.id] = tafseer;
+                this.applyAyahPayload(info, tafseer);
+                this.prefetchAdjacentAyahData(index);
             } catch (error) {
-                console.error("Error fetching surahs:", error);
+                console.error("Error fetching ayah payload:", error);
+            } finally {
+                this.isLoading = false;
             }
         },
-
-        toggleContent1() {
-            this.isVisible1 = !this.isVisible1; // Toggle the visibility
-        },
-        toggleContent() {
-            this.isOpen = !this.isOpen; // Toggle the content's visibility
-        },
-        toggleCollapse() {
-            this.isCollapsed = !this.isCollapsed;
-        },
-        openModal(modalRef) {
-            // Ensure the ref exists
-            if (!this.$refs[modalRef]) {
-                console.error(`Modal reference '${modalRef}' not found.`);
-                return;
+        applyAyahPayload(info, tafseer) {
+            if (info) {
+                this.information = info;
+                this.modalInformation = info;
+                this.translation = typeof info.translation === "object"
+                    ? info.translation?.text
+                    : info.translation;
             }
-            const modalComponent = this.$refs[modalRef];
-            // Ensure the component has a `showModal` method
-            if (typeof modalComponent.showModal !== "function") {
-                console.error(`showModal is not a function in '${modalRef}'.`);
-                return;
-            }
-            // Call the `showModal` method
-            modalComponent.showModal();
-        },
-        showModal() {
-            const modal = new bootstrap.Modal(
-                document.getElementById("styleModal")
-            );
-            modal.show();
-            this.successMessage = ""; // Reset the success message when the modal is opened
-        },
-        applyStyle() {
-            if (this.selectedStyle) {
-                this.bgColor =
-                    this.selectedStyle.backgroundColor || this.bgColor;
-                this.textColor = this.selectedStyle.textColor || this.textColor;
-                this.iconColor = this.selectedStyle.iconColor || this.iconColor;
-                this.fontFamily =
-                    this.selectedStyle.fontStyle || this.fontFamily;
+            if (tafseer) {
+                this.tafseer = tafseer;
             }
         },
-
-        toggleVisibility() {
-            this.isVisible = !this.isVisible;
-        },
-        handleTranscript(transcript) {
-            this.transcript = transcript;
-        },
-        openModal(modalRef) {
-            const modalComponent = this.$refs[modalRef];
-            if (
-                modalComponent &&
-                typeof modalComponent.showModal === "function"
-            ) {
-                modalComponent.showModal();
-            } else {
-                console.error(
-                    `Modal reference '${modalRef}' not found or showModal is not a function.`
-                );
-            }
-        },
-        updateSelectedSurah(newSurahId) {
-            this.selectedSurahId = newSurahId; // Sync emitted value to local state
-        },
-        updateSelectedSurah(id) {
-            console.log("1 -> compo: " + id, this.dropdownHidden);
-
-            this.selectedSurahId = id;
-            this.dropdownHidden = false; // Ensure dropdown is visible when a Surah is selected
-
-            console.log("quran compo: " + id, this.dropdownHidden);
-            this.getAyat(id);
-        },
-        updateSelectedSurah(surah) {
-            this.selectedSurah = surah;
-            this.selectedSurahId = surah.id; // Assuming `surah` object has an `id` field
-            console.log("selectedSurahId: ", surah, this.selectedSurahId);
-        },
-        updateSelectedSurah(newSurah) {
-            this.selectedSurah = newSurah;
-        },
-        updateInformation(newInformation) {
-            this.information = newInformation;
-        },
-        updateTafseer(newTafseer) {
-            this.tafseer = newTafseer;
-        },
-        handleUpdateResults(results) {
-            this.filteredSurah = results;
-        },
-        handleClearResults() {
-            this.filteredSurah = [];
-        },
-        handleSelectSurah(surahId) {
-            this.selectedSurah = surahId;
-            this.filteredSurah = []; // Hide the search results list
-        },
-        selectSurahFromResults(surah) {
-            this.selectedSurah = surah.id;
-            this.filteredSurah = []; // Hide the search results list
-        },
-        handleScrollToAyah(verseNumber) {
-            this.$nextTick(() => {
-                const ayahElement = this.$refs.ayahContainer.querySelector(
-                    `#ayah-${verseNumber}`
-                );
-                if (ayahElement) {
-                    ayahElement.scrollIntoView({
-                        behavior: "smooth",
-                    });
-                } else {
-                    console.error("Ayah not found:", verseNumber);
+        prefetchAdjacentAyahData(index) {
+            PREFETCH_OFFSETS.forEach((offset) => {
+                const targetIndex = index + offset;
+                if (targetIndex < 0 || targetIndex >= this.ayat.length) return;
+                const target = this.ayat[targetIndex];
+                if (!target?.id) return;
+                if (!this.infoCache[target.id]) {
+                    this.fetchInformation(target.id)
+                        .then((info) => {
+                            this.infoCache[target.id] = info;
+                        })
+                        .catch(() => {});
+                }
+                if (!this.tafseerCache[target.id]) {
+                    this.fetchTafseer(target.id)
+                        .then((tafseer) => {
+                            this.tafseerCache[target.id] = tafseer;
+                        })
+                        .catch(() => {});
                 }
             });
         },
-        toggleExpand() {
-            this.expanded = !this.expanded;
+        async fetchInformation(id) {
+            const { data } = await axios.get("/get_informations", { params: { id } });
+            return data;
         },
-        getSelectedSurahAyat() {
-            const surahData = this.surat.find(
-                (surah) => surah.id === parseInt(this.surah)
-            );
-            return surahData ? surahData.ayat : [];
-            if (this.surat[this.surah]) {
-                return this.surat[this.surah].ayat;
-            }
-            return [];
+        async fetchTafseer(id) {
+            const { data } = await axios.get(`/tafseer/${id}/fetch`);
+            return data;
         },
-        updateAyah(newIndex) {
-            this.selectedIndexAyah = newIndex;
-            console.log(`Selected Ayah: ${newIndex}`);
-        },
-        closeAlertText() {
-            this.showAlertText = false;
-        },
-        triggerBookmarkSuccess() {
-            this.showAlert = true;
-        },
-        triggerLoginError() {
-            this.showErrorAlert = true;
-        },
-        triggerNoteLoginError() {
-            this.showAlertTextNote = true;
-        },
-        toggleFullScreen() {
-            this.isFullScreen = !this.isFullScreen;
-        },
-        toggleFullScreen() {
-            this.isFullScreen = !this.isFullScreen;
-        },
-        // Utility: ignore interactive targets and selections
-        isInteractiveTarget(el) {
-            if (!el) return false;
-            const interactiveSelector = 'a, button, input, textarea, select, [role="button"], [contenteditable="true"]';
-            if (el.closest && el.closest(interactiveSelector)) return true;
-            try {
-                const sel = (typeof window !== 'undefined' && window.getSelection) ? window.getSelection() : null;
-                if (sel && sel.type === 'Range' && String(sel).length > 0) return true;
-            } catch (_) { }
-            return false;
-        },
-
-        handleTouchStart(event) {
-            const touch = event.changedTouches ? event.changedTouches[0] : event;
-            if (this.isInteractiveTarget(event.target)) return;
-            // Use client coordinates consistently across start/move/end
-            const cx = (typeof touch.clientX === 'number') ? touch.clientX : touch.screenX;
-            const cy = (typeof touch.clientY === 'number') ? touch.clientY : touch.screenY;
-            this.touchStartX = cx;
-            this.touchStartY = cy;
-            this.touchStartTime = Date.now();
-        },
-        handleTouchMove(event) {
-            const touch = event.changedTouches ? event.changedTouches[0] : event;
-            // Allow form controls to operate normally; otherwise enable swipe
-            const tag = (event.target && event.target.tagName) ? event.target.tagName.toLowerCase() : '';
-            const isFormControl = ['input', 'textarea', 'select', 'button'].includes(tag) || (event.target && event.target.isContentEditable);
-            if (isFormControl) return;
-
-            const cx = (typeof touch.clientX === 'number') ? touch.clientX : touch.screenX;
-            const cy = (typeof touch.clientY === 'number') ? touch.clientY : touch.screenY;
-            this.touchEndX = cx;
-            this.touchEndY = cy;
-
-            // Horizontal-intent guard: once clearly horizontal, prevent page scroll (Safari requires non-passive)
-            const dx = Math.abs((this.touchEndX || this.touchStartX) - this.touchStartX);
-            const dy = Math.abs((this.touchEndY || this.touchStartY) - this.touchStartY);
-            if (dx > 16 && dx > dy * 1.5 && event.cancelable) {
-                event.preventDefault();
-            }
-        },
-        handleTouchEnd(event) {
-            const touchEndTime = Date.now();
-            const timeDiff = touchEndTime - this.touchStartTime;
-            const endX = (typeof this.touchEndX === 'number') ? this.touchEndX : this.touchStartX;
-            const endY = (typeof this.touchEndY === 'number') ? this.touchEndY : this.touchStartY;
-            const deltaX = endX - this.touchStartX;
-            const deltaY = endY - this.touchStartY;
-            const minSwipeDistance = this.swipeMinDistance;
-            const maxSwipeDuration = this.swipeMaxDuration;
-
-            // Swipe gesture detection
-            if (
-                Math.abs(deltaX) > minSwipeDistance &&
-                Math.abs(deltaY) < this.wheelVertLeak &&
-                timeDiff < maxSwipeDuration
-            ) {
-                if (deltaX > 0) {
-                    this.onSwipeRight();
-                } else {
-                    this.onSwipeLeft();
+        scrollToSelectedAyah() {
+            this.$nextTick(() => {
+                const list = this.$refs.ayahList;
+                if (!list) return;
+                const selected = list.querySelector(".selected");
+                if (selected) {
+                    selected.scrollIntoView({ behavior: "smooth", block: "nearest" });
                 }
-            }
+            });
         },
-        onSwipeRight() {
-            const now = Date.now();
-            if (now - this.lastGestureTs < this.gestureCooldownMs) {
-                return;
-            }
-            this.lastGestureTs = now;
-            this.lastSwipeDir = 'next';
-            this.suppressNextClick();
-            this.swipeFeedback('next');
-            this.goToNextAyah();
+        updateCardSection(ayah) {
+            this.currentAyah = ayah;
         },
-        onSwipeLeft() {
-            const now = Date.now();
-            if (now - this.lastGestureTs < this.gestureCooldownMs) {
-                return;
-            }
-            this.lastGestureTs = now;
-            this.lastSwipeDir = 'prev';
-            this.suppressNextClick();
-            this.swipeFeedback('prev');
-            this.goToPreviousAyah();
-        },
-        // Pointer events (covers some laptops/tablets)
-        handlePointerDown(e) {
-            if (this.isInteractiveTarget(e.target)) return;
-            // Do not handle desktop mouse drags; allow touch/pen only
-            if (e.pointerType === 'mouse') return;
-            this.pointerActive = true;
-            this.pointerStartX = e.clientX;
-            this.pointerStartY = e.clientY;
-            this.pointerStartTime = Date.now();
-            try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) { }
-        },
-        // Subtle success feedback: haptics (where supported) + brief overlay
-        swipeFeedback(dir) {
-            try { if (navigator?.vibrate) navigator.vibrate(10); } catch (_) { }
-            this.swipeNoticeDir = dir;
-            this.swipeNoticeText = dir === 'next' ? 'Next verse' : 'Previous verse';
-            this.showSwipeNotice = true;
-            clearTimeout(this._swipeNoticeTimer);
-            this._swipeNoticeTimer = setTimeout(() => { this.showSwipeNotice = false; }, 500);
-        },
-        handlePointerMove(e) {
-            if (!this.pointerActive) return;
-            if (this.isInteractiveTarget(e.target)) return;
-            this.pointerEndX = e.clientX;
-            this.pointerEndY = e.clientY;
-            const dx = Math.abs(this.pointerEndX - this.pointerStartX);
-            const dy = Math.abs(this.pointerEndY - this.pointerStartY);
-            if (dx > 16 && dx > dy * 1.5 && e.cancelable) e.preventDefault();
-        },
-        handlePointerUp(e) {
-            if (!this.pointerActive) return;
-            this.pointerActive = false;
-            const timeDiff = Date.now() - this.pointerStartTime;
-            const endX = (this.pointerEndX || e.clientX);
-            const endY = (this.pointerEndY || e.clientY);
-            const deltaX = endX - this.pointerStartX;
-            const deltaY = endY - this.pointerStartY;
-            const minSwipeDistance = this.swipeMinDistance;
-            const maxSwipeDuration = this.swipeMaxDuration;
-            const vertLeak = this.wheelVertLeak; // reuse vertical tolerance
-            if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < vertLeak && timeDiff < maxSwipeDuration) {
-                if (deltaX > 0) {
-                    this.onSwipeRight();
-                } else {
-                    this.onSwipeLeft();
-                }
-            } else {
-                // ignore non-swipe pointerup
-            }
-            try { e.currentTarget.releasePointerCapture(e.pointerId); } catch (_) { }
-        },
-        // Trackpad horizontal gestures via wheel
-        handleWheel(eOrCtx, maybeEvent) {
-            // Support both direct calls from template handlers providing context,
-            // and window listener that passes the event only and resolves context.
-            let ctx;
-            let e;
-            if (typeof eOrCtx === 'string') {
-                ctx = eOrCtx;
-                e = maybeEvent;
-            } else {
-                e = eOrCtx;
-                // Resolve context by containment
-                const tT = this.$refs && this.$refs.targetTranslationElement;
-                const tF = this.$refs && this.$refs.targetTafseerElement;
-                const tL = this.$refs && this.$refs.targetTransliterationElement;
-                const path = (e.composedPath && e.composedPath()) || [];
-                if (tT && (path.includes(tT) || (e.target && tT.contains && tT.contains(e.target)))) ctx = 'translation';
-                else if (tF && (path.includes(tF) || (e.target && tF.contains && tF.contains(e.target)))) ctx = 'tafseer';
-                else if (tL && (path.includes(tL) || (e.target && tL.contains && tL.contains(e.target)))) ctx = 'transliteration';
-            }
-            if (!ctx) return;
-            if (this.activeTab && this.activeTab !== ctx) return;
-            if (!this.allowGestures) return;
-            if (this.isInteractiveTarget(e.target)) return;
-            // Normalize delta based on deltaMode: 0=pixel,1=line,2=page
-            const unit = e.deltaMode === 1 ? 16 : (e.deltaMode === 2 ? window.innerHeight : 1);
-            const dx = e.deltaX * unit;
-            const dy = e.deltaY * unit;
-            const now = Date.now();
-            const dt = now - (this.wheelLastTime || now);
-            this.wheelLastTime = now;
-
-            // Reset accumulation if pause is long
-            if (dt > this.wheelResetMs) {
-                this.wheelAccumX = 0;
-                this.wheelAccumY = 0;
-            }
-
-            this.wheelAccumX += dx;
-            this.wheelAccumY += dy;
-
-            const horiz = Math.abs(this.wheelAccumX);
-            const vert = Math.abs(this.wheelAccumY);
-            const threshold = this.wheelThreshold; // strong horizontal swipe
-            const vertLeak = this.wheelVertLeak;  // ignore if mostly vertical
-
-            if (horiz > threshold && vert < vertLeak) {
-                if (this.wheelAccumX > 0) {
-                    this.onSwipeLeft();
-                } else {
-                    this.onSwipeRight();
-                }
-                // Reset after action
-                this.wheelAccumX = 0;
-                this.wheelAccumY = 0;
-            } else {
-                // keep silent to avoid log overhead in production
-            }
-        },
-        handleWheelTranslation(e) { this.handleWheel('translation', e); },
-        handleWheelTafseer(e) { this.handleWheel('tafseer', e); },
-        handleWheelTransliteration(e) { this.handleWheel('transliteration', e); },
-        suppressNextClick() {
-            try {
-                const els = [this.$refs.targetTranslationElement, this.$refs.targetTafseerElement, this.$refs.targetTransliterationElement].filter(Boolean);
-                els.forEach((el) => {
-                    el.addEventListener('click', (ev) => {
-                        ev.stopPropagation();
-                        ev.preventDefault();
-                    }, { capture: true, once: true });
-                });
-            } catch (_) { }
-        },
-
-        // Detect whether device uses coarse pointer (touch/tablet) and gate gestures
-        updateInputModalityGestureGate() {
-            try {
-                const w = (typeof window !== 'undefined') ? window : null;
-                const n = (typeof navigator !== 'undefined') ? navigator : null;
-                if (!w) { this.allowGestures = false; return; }
-
-                const hasTouch = ('ontouchstart' in w) ||
-                    (n && typeof n.maxTouchPoints === 'number' && n.maxTouchPoints > 0) ||
-                    (n && typeof n.msMaxTouchPoints === 'number' && n.msMaxTouchPoints > 0);
-
-                const coarseNow = (w.matchMedia && (w.matchMedia('(pointer: coarse)').matches ||
-                    w.matchMedia('(any-pointer: coarse)').matches ||
-                    w.matchMedia('(hover: none)').matches));
-
-                const ua = n && n.userAgent ? n.userAgent : '';
-                const iOSoriPadOS = /iPad|iPhone|iPod/.test(ua) || (n && n.platform === 'MacIntel' && (n.maxTouchPoints || 0) > 1);
-
-                const sw = (w.screen && w.screen.width) ? w.screen.width : (w.innerWidth || 0);
-                const sh = (w.screen && w.screen.height) ? w.screen.height : (w.innerHeight || 0);
-                const minDim = Math.min(sw, sh);
-                const maxDim = Math.max(sw, sh);
-                const tabletHeuristic = (minDim >= 600 && maxDim <= 1400);
-
-                this.allowGestures = !!(hasTouch || coarseNow || iOSoriPadOS || tabletHeuristic);
-                // silent in production; keep logic only
-            } catch (_) {
-                this.allowGestures = false;
-            }
-        },
-        cancelHold() {
-            this.touchStartTime = 0; // Reset hold detection
+        dismissError() {
+            this.showError = false;
         },
         goToFirstAyah() {
             this.selectAyah(0);
         },
         goToPreviousAyah() {
-            this.clearHighlight();
-            if (this.selectedIndexAyah > 0) {
-                this.selectAyah(this.selectedIndexAyah - 1);
-            } else {
-                this.selectAyah(this.ayat.length - 1);
-            }
+            if (!this.ayat.length) return;
+            const nextIndex = (this.selectedIndexAyah - 1 + this.ayat.length) % this.ayat.length;
+            this.selectAyah(nextIndex);
         },
         goToNextAyah() {
-            this.clearHighlight();
-            if (this.selectedIndexAyah < this.ayat.length - 1) {
-                this.selectAyah(this.selectedIndexAyah + 1);
-            } else {
-                this.selectAyah(0);
-            }
+            if (!this.ayat.length) return;
+            const nextIndex = (this.selectedIndexAyah + 1) % this.ayat.length;
+            this.selectAyah(nextIndex);
         },
         goToLastAyah() {
-            this.clearHighlight();
+            if (!this.ayat.length) return;
             this.selectAyah(this.ayat.length - 1);
         },
-
-
-        handleNoteClick() {
-            if (this.isLoggedIn) {
-                this.showAlertTextNote = false;
-                $("#exampleModal1").modal("show");
-            } else {
-                this.showAlertTextNote = true;
+        handleInputChange(payload) {
+            if (payload && Array.isArray(payload.results)) {
+                this.filteredResults = payload.results;
             }
         },
-        submitCat() {
-            const formData = {
-                surah_name: this.information.ayah.surah.name_en,
-                ayah_num: this.information.ayah_id,
-                ayah_verse_ar: this.information.ayah.ayah_text,
-                ayah_verse_en: this.information.translation,
-                category_id: this.selectedCategory,
-            };
-            axios.post("/submit_category", formData);
+        toggleContent() {
+            this.isOpen = !this.isOpen;
         },
-        scrollToAyah() {
-            const verseNum = parseInt(this.verseNumber);
+        toggleExpand() {
+            this.expanded = !this.expanded;
+        },
+        toggleFullScreen() {
+            this.isFullScreen = !this.isFullScreen;
+        },
+        toggleAudioPlayback() {
+            const sections = [
+                this.$refs.translationSection,
+                this.$refs.tafseerSection,
+                this.$refs.transliterationSection,
+            ].filter(Boolean);
+            sections.forEach((section) => {
+                if (typeof section?.toggleSpeech === "function") {
+                    try {
+                        section.toggleSpeech();
+                    } catch (error) {
+                        console.warn("toggleSpeech failed", error);
+                    }
+                }
+            });
+        },
+        updateInformation(info) {
+            if (!info) return;
+            this.information = info;
+            this.modalInformation = info;
+            this.translation = typeof info.translation === "object"
+                ? info.translation?.text
+                : info.translation;
+            if (info.ayah?.id) {
+                this.infoCache[info.ayah.id] = info;
+            }
+        },
+        updateTafseer(tafseer) {
+            this.tafseer = tafseer;
+            if (this.selectedAyahId) {
+                this.tafseerCache[this.selectedAyahId] = tafseer;
+            }
+        },
+        handleTouchStart(event) {
+            if (!this.allowGestures) return;
+            const touch = event.changedTouches ? event.changedTouches[0] : event;
+            this.touchStartX = touch.clientX ?? 0;
+            this.touchStartY = touch.clientY ?? 0;
+            this.touchStartTime = Date.now();
+        },
+        handleTouchMove(event) {
+            if (!this.allowGestures) return;
+            const touch = event.changedTouches ? event.changedTouches[0] : event;
+            this.touchEndX = touch.clientX ?? 0;
+            this.touchEndY = touch.clientY ?? 0;
+        },
+        handleTouchEnd() {
+            if (!this.allowGestures) return;
+            const deltaX = (this.touchEndX || this.touchStartX) - this.touchStartX;
+            const deltaY = (this.touchEndY || this.touchStartY) - this.touchStartY;
+            const duration = Date.now() - this.touchStartTime;
             if (
-                !isNaN(verseNum) &&
-                verseNum >= 1 &&
-                verseNum <= this.ayat.length
+                Math.abs(deltaX) < this.swipeMinDistance ||
+                Math.abs(deltaY) > this.wheelVertLeak ||
+                duration > this.swipeMaxDuration
             ) {
-                const ayahElement =
-                    this.$refs.ayahList.querySelectorAll("li")[verseNum - 1];
-                if (ayahElement) {
-                    ayahElement.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                    });
-                }
+                return;
+            }
+            if (deltaX > 0) {
+                this.goToPreviousAyah();
+                this.triggerSwipeFeedback("prev");
             } else {
-                this.showError = true;
-                setTimeout(() => {
-                    this.showError = false;
-                }, 5000);
+                this.goToNextAyah();
+                this.triggerSwipeFeedback("next");
             }
         },
-        async getSurat() {
+        handlePointerDown(event) {
+            if (!this.allowGestures || event.pointerType === "mouse") return;
+            this.pointerActive = true;
+            this.pointerStartX = event.clientX;
+            this.pointerStartY = event.clientY;
+            this.pointerStartTime = Date.now();
+        },
+        handlePointerMove(event) {
+            if (!this.allowGestures || !this.pointerActive) return;
+            this.touchEndX = event.clientX;
+            this.touchEndY = event.clientY;
+        },
+        handlePointerUp() {
+            if (!this.allowGestures || !this.pointerActive) return;
+            this.pointerActive = false;
+            const deltaX = (this.touchEndX || this.pointerStartX) - this.pointerStartX;
+            const duration = Date.now() - this.pointerStartTime;
+            if (Math.abs(deltaX) < this.swipeMinDistance || duration > this.swipeMaxDuration) return;
+            if (deltaX > 0) {
+                this.goToPreviousAyah();
+                this.triggerSwipeFeedback("prev");
+            } else {
+                this.goToNextAyah();
+                this.triggerSwipeFeedback("next");
+            }
+        },
+        handleWindowWheel(event) {
+            if (!this.allowGestures) return;
+            const now = Date.now();
+            if (now - this.wheelLastTime > this.wheelResetMs) {
+                this.wheelAccumX = 0;
+            }
+            this.wheelAccumX += event.deltaX;
+            this.wheelLastTime = now;
+            if (Math.abs(this.wheelAccumX) < this.wheelThreshold) return;
+            if (this.wheelAccumX > 0) {
+                this.goToNextAyah();
+                this.triggerSwipeFeedback("next");
+            } else {
+                this.goToPreviousAyah();
+                this.triggerSwipeFeedback("prev");
+            }
+            this.wheelAccumX = 0;
+        },
+        handleWheelTranslation(event) {
+            this.handleWindowWheel(event);
+        },
+        handleWheelTafseer(event) {
+            this.handleWindowWheel(event);
+        },
+        handleWheelTransliteration(event) {
+            this.handleWindowWheel(event);
+        },
+        triggerSwipeFeedback(direction) {
+            this.lastSwipeDir = direction;
+            this.swipeNoticeDir = direction;
+            this.swipeNoticeText = direction === "next" ? "Next verse" : "Previous verse";
+            this.showSwipeNotice = true;
+            if (this._swipeNoticeTimer) {
+                clearTimeout(this._swipeNoticeTimer);
+            }
+            this._swipeNoticeTimer = setTimeout(() => {
+                this.showSwipeNotice = false;
+                this._swipeNoticeTimer = null;
+            }, 500);
+        },
+        dismissSwipeTip() {
+            this.showSwipeTip = false;
             try {
-                const response = await axios.get("/get_surat"); // Ensure this URL is correct
-                this.surat = response.data;
+                window.localStorage.setItem(STORAGE_KEYS.swipeTip, "1");
             } catch (error) {
-                console.error("Error fetching surahs:", error);
+                // ignore
             }
         },
-        async getAyat() {
-            if (this.selectedSurahId > 0) {
-                this.scheduleFetchAyat(this.selectedSurahId);
-            } else {
-                this.ayat = [];
-                this.dropdownHidden = true;
+        dismissNextStep() {
+            this.nextStepDismissed = true;
+            this.showNextStep = false;
+            this.clearNextStepTimer();
+        },
+        clearHighlight() {
+            // placeholder for child callback
+        },
+        highlightText(charIndex, currentWord) {
+            if (this.$refs.translationSection?.highlightText) {
+                this.$refs.translationSection.highlightText(charIndex, currentWord);
             }
         },
-        async handleAyahChange() {
-            const selectedAyahIndex = parseInt(this.selectedAyahId);
-            const selectedAyah = this.ayat[selectedAyahIndex];
-            if (selectedAyah) {
-                const ayahId = selectedAyah.id; // Assuming ayah has 'id' field
-                try {
-                    const [tafseerResponse, infoResponse] = await Promise.all([
-                        axios.get(`/tafseer/${ayahId}/fetch`),
-                        axios.get("/get_informations", { params: { id: ayahId } }),
-                    ]);
-                    this.tafseer = tafseerResponse.data;
-                    this.information = infoResponse.data;
-                } catch (error) {
-                    console.error("Error fetching information or tafseer:", error);
-                }
+        closeModal() {
+            this.modalInformation = null;
+        },
+        openModal(refName) {
+            const ref = this.$refs[refName];
+            if (ref && typeof ref.showModal === "function") {
+                ref.showModal();
             }
         },
-        showCard() {
-            this.isCardVisible = true; // Show the card when button is clicked
+        closeAlertText() {
+            this.showAlertText = false;
         },
-
-        updateCardSection(ayah) {
-            // Assuming you have properties like 'ayahTranslation', 'ayahTafseer', etc. bound to the card section
-            this.ayahTranslation = ayah.translation;
-            this.ayahTafseer = ayah.tafseer;
-            this.ayahTransliteration = ayah.transliteration;
-            // Add any additional data you want to show in the card section
+        updateSuccessMessage(message) {
+            this.alertMessage = message;
+            this.showAlertText = !!message;
         },
-
-        selectAyah(index) {
-            this.selectedIndexAyah = index;
-            this.updateCardSection(this.ayat[index]);
-            this.scrollToSelectedAyah();
-            this.getTafseers(this.ayat[index].id, index);
-            // Update screen reader announcement
+        async sendBookmark(payload, successMessage) {
             try {
-                const verseNum = (this.ayat[index] && (this.ayat[index].ayah_id || this.ayat[index].id)) || index + 1;
-                const surahName = (this.information && this.information.ayah && this.information.ayah.surah && (this.information.ayah.surah.name_en || this.information.ayah.surah.name_ar)) || "";
-                this.screenReaderMessage = `Selected verse ${verseNum}${surahName ? ` from ${surahName}` : ''}.`;
-            } catch (e) {
-                this.screenReaderMessage = `Selected verse ${index + 1}.`;
+                await axios.post("/bookmarks", payload);
+                this.alertMessage = successMessage;
+                this.alertType = "success";
+                this.showAlert = true;
+                this.scheduleAlertDismiss();
+            } catch (error) {
+                console.error("Error submitting bookmark:", error);
+                this.showErrorAlert = true;
+                this.scheduleAlertDismiss("error");
             }
         },
-        scrollToSelectedAyah() {
-            this.$nextTick(() => {
-                const selectedAyah =
-                    this.$refs.ayahList.querySelector(".selected");
-                if (selectedAyah) {
-                    selectedAyah.scrollIntoView({
-                        behavior: "smooth",
-                    });
+        submitBookmarkPayload(content, successMessage) {
+            const ayah = this.information?.ayah;
+            if (!ayah || !content) {
+                this.showErrorAlert = true;
+                this.scheduleAlertDismiss("error");
+                return;
+            }
+            const payload = {
+                surah_name: ayah.surah?.name_en,
+                ayah_num: this.information?.ayah_id,
+                ayah_verse_ar: ayah.ayah_text,
+                ayah_verse_en: content,
+                user_id: this.userId,
+            };
+            this.sendBookmark(payload, successMessage);
+        },
+        submitForm() {
+            this.submitBookmarkPayload(this.translation, "Ayah bookmarked successfully!");
+        },
+        submitFormTafseer() {
+            this.submitBookmarkPayload(this.tafseer, "Tafseer bookmarked successfully!");
+        },
+        submitFormTransliteration() {
+            const transliteration = this.information?.transliteration;
+            this.submitBookmarkPayload(transliteration, "Transliteration bookmarked successfully!");
+        },
+        scheduleAlertDismiss(type = "success") {
+            setTimeout(() => {
+                if (type === "success") {
+                    this.showAlert = false;
                 } else {
-                    // Display error alert if no ayah is selected
-                    this.showError = true;
-                    // Automatically dismiss the alert after 5 seconds
-                    setTimeout(() => {
-                        this.dismissError();
-                    }, 1000);
+                    this.showErrorAlert = false;
                 }
-            });
+            }, 3000);
         },
-        determineNextAyah() {
-            const currentIndex = this.ayat.findIndex(
-                (ayah) => ayah.id === this.selectedAyah.id
-            );
-            if (currentIndex !== -1 && currentIndex < this.ayat.length - 1) {
-                return this.ayat[currentIndex + 1];
-            }
-            return null;
+        getAyat() {
+            this.scheduleFetchAyat();
         },
-        determinePreviousAyah() {
-            const currentIndex = this.ayat.findIndex(
-                (ayah) => ayah.id === this.selectedAyah.id
-            );
-            if (currentIndex > 0) {
-                return this.ayat[currentIndex - 1];
-            }
-            return null;
+        selectSurahFromResults(surah) {
+            if (!surah) return;
+            this.updateSelectedSurah(surah.id || surah);
         },
-        selectSurah() {
-            this.ayat = this.fetchAyatForSurah(this.surah); // Replace with actual logic
-            this.selectedAyah = this.ayat.length > 0 ? "0" : "0"; // Select the first ayah
-        },
-        selectSurah(surahId) {
-            this.surah = surahId;
-            this.searchTerm = "";
-            this.filteredSurah = [];
-            this.showClearButton = false;
-            this.getAyat();
-
-            this.$nextTick(() => {
-                this.autoHighlightFirstAyah();
-            });
-        },
-        autoHighlightFirstAyah() {
-            if (this.ayat.length > 0) {
-                this.selectedIndexAyah = 0; // Select the first Ayah
-                this.scrollToSelectedAyah(); // Scroll to the first Ayah (optional)
-                this.getTafseers(this.ayat[0].id, 0); // Fetch Tafseer, translation, etc. for the first Ayah
-                this.updateCardSection(this.ayat[0]); // Update card with first Ayah data
-            }
-        },
-        getTafseers: function (id, index) {
-            this.selectedIndexAyah = index;
-            this.fetchAyahData(id).then(({ tafseer, information }) => {
-                this.selectedAyah = id;
-                this.tafseer = tafseer;
-                this.information = information;
-                this.updateCardSection(this.ayat[index]);
-                // Prefetch a sliding window (±2) for instant rapid swipes
-                const count = this.ayat.length;
-                const offsets = [-2, -1, 1, 2];
-                offsets.forEach((d) => {
-                    if (!count) return;
-                    const j = (index + d + count) % count;
-                    const item = this.ayat[j];
-                    if (item && item.id) this.fetchAyahData(item.id).catch(() => { });
-                });
-            }).catch((err) => {
-                console.error("Error fetching tafseer/information:", err);
-            });
-        },
-        async fetchAyahData(id) {
-            // Serve from cache when available
-            const cachedT = this.tafseerCache[id];
-            const cachedI = this.infoCache[id];
-            if (cachedT && cachedI) return { tafseer: cachedT, information: cachedI };
-            const [tafseerResp, infoResp] = await Promise.all([
-                axios.get(`/tafseer/${id}/fetch`),
-                axios.get("/get_informations", { params: { id } }),
-            ]);
-            this.tafseerCache[id] = tafseerResp.data;
-            this.infoCache[id] = infoResp.data;
-            return { tafseer: tafseerResp.data, information: infoResp.data };
-        },
-    },
-    created() {
-        this.startNextStepTimer();
-        this.userId = localStorage.getItem("userId");
-        this.fetchSurahs();
-        this.fetchReciters();
-        this.fetchTranslations();
-    },
-    activated() {
-        this.startNextStepTimer();
-    },
-    deactivated() {
-        this.clearNextStepTimer();
-        this.showNextStep = false;
-    },
-    beforeRouteLeave(to, from, next) {
-        this.clearNextStepTimer();
-        this.showNextStep = false;
-        next();
-    },
-    mounted() {
-        // One-time debug: show current gesture thresholds
-        try {
-            // Ensure gesture gating is evaluated at mount
-            this.updateInputModalityGestureGate && this.updateInputModalityGestureGate();
-            console.log('[Swipe] thresholds', {
-                swipeMinDistance: this.swipeMinDistance,
-                swipeMaxDuration: this.swipeMaxDuration,
-                wheelThreshold: this.wheelThreshold,
-                wheelVertLeak: this.wheelVertLeak,
-                wheelResetMs: this.wheelResetMs,
-            });
-            // Fallback: listen on window for wheel events and scope them to Tafseer area
-            if (typeof window !== 'undefined') {
-                this._onWindowWheel = (e) => {
-                    const areaTaf = this.$refs && this.$refs.targetTafseerElement;
-                    const areaTrn = this.$refs && this.$refs.targetTranslationElement;
-                    const areaTrl = this.$refs && this.$refs.targetTransliterationElement;
-                    const path = (e.composedPath && e.composedPath()) || [];
-                    const within = [areaTaf, areaTrn, areaTrl]
-                        .filter(Boolean)
-                        .some((el) => path.includes(el) || (e.target && el.contains && el.contains(e.target)));
-                    if (!within) return; // ignore events outside the content areas
-                    this.handleWheel(e);
-                };
-                window.addEventListener('wheel', this._onWindowWheel, { passive: true });
-                console.log('[Swipe] window wheel listener attached (tafseer/translation/transliteration)');
-            }
-        } catch (_) { }
-
-        // Removed global touch listeners to avoid duplicate handling and jank;
-        // element-level handlers with pointer capture are sufficient.
-    },
-    beforeUnmount() {
-        if (typeof window !== 'undefined' && this._onWindowWheel) {
-            window.removeEventListener('wheel', this._onWindowWheel, { passive: true });
-            this._onWindowWheel = null;
-        }
-        this.clearNextStepTimer();
-        this.showNextStep = false;
-        // No global touch listeners to clean up
     },
     watch: {
-        // When ayat list loads for a surah, auto-select verse 1 and fetch its content
-        ayat(newList) {
-            if (Array.isArray(newList) && newList.length > 0) {
+        ayat(newAyat) {
+            if (Array.isArray(newAyat) && newAyat.length) {
                 this.selectAyah(0);
             }
         },
-        ayah: {
-            handler(newAyah) {
-                console.log("Ayah received:", newAyah);
-                if (newAyah && newAyah.text) {
-                    this.prepareAyahText();
+        verseNumber(newVal, oldVal) {
+            if (newVal !== oldVal) {
+                const numeric = toNumber(newVal);
+                if (numeric && numeric >= 1 && numeric <= this.ayat.length) {
+                    this.selectAyah(numeric - 1);
                 }
-            },
-            immediate: true,
-        },
-        selectedSurah(newSurah) {
-            this.selectedSurahId = newSurah;
-            this.getAyat();
-        },
-        // Single, consolidated watcher: do not clear selection, just fetch and set index 0
-        selectedSurahId: {
-            immediate: true,
-            handler(newVal) {
-                if (!newVal) return;
-                this.selectedIndexAyah = 0;
-                this.fetchAyat();
             }
         },
-        "information.ayah.surah.name_ar": "updateFileName",
-        verseNumber(newVal, oldVal) {
-            if (newVal !== oldVal && parseInt(newVal)) {
-                this.selectedIndexAyah = parseInt(newVal) - 1;
+        selectedSurahId(newVal, oldVal) {
+            if (newVal !== oldVal) {
+                this.scheduleFetchAyat(newVal);
             }
         },
     },
@@ -2461,5 +1667,16 @@ export default {
         opacity: 1;
         transform: translate(-50%, 0);
     }
+}
+
+.next-step-card {
+    position: relative;
+}
+
+.next-step-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    filter: invert(35%) sepia(16%) saturate(640%) hue-rotate(133deg) brightness(94%) contrast(91%);
 }
 </style>
