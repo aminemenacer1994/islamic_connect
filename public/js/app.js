@@ -31809,31 +31809,52 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/qenew.png",
     class: "d-block w-100",
-    alt: "Quran companion"
+    alt: "Quran companion",
+    width: "800",
+    height: "533",
+    loading: "eager",
+    decoding: "async",
+    fetchpriority: "high"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/surat2.png",
     class: "d-block w-100",
-    alt: "Quran explorer"
+    alt: "Quran explorer",
+    width: "800",
+    height: "533",
+    loading: "lazy",
+    decoding: "async"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/seerah2.png",
     class: "d-block w-100",
-    alt: "Seerah timeline"
+    alt: "Seerah timeline",
+    width: "800",
+    height: "533",
+    loading: "lazy",
+    decoding: "async"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/radio2.png",
     class: "d-block w-100",
-    alt: "Islamic Radio"
+    alt: "Islamic Radio",
+    width: "800",
+    height: "533",
+    loading: "lazy",
+    decoding: "async"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "carousel-item"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/locator2.png",
     class: "d-block w-100",
-    alt: "Mosque Locator"
+    alt: "Mosque Locator",
+    width: "800",
+    height: "533",
+    loading: "lazy",
+    decoding: "async"
   })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Simple Indicators "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "carousel-indicators mt-2 mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {

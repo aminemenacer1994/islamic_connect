@@ -69,6 +69,39 @@ use App\Http\Controllers\ReadController;
 use App\Http\Controllers\SubscriptionController;
 use Illuminate\Http\Request;
 
+Route::get('/sitemap.xml', function () {
+    $lastmod = now()->toAtomString();
+    $pages = [
+        ['loc' => url('/'), 'changefreq' => 'daily', 'priority' => '1.0'],
+        ['loc' => url('/quran'), 'changefreq' => 'daily', 'priority' => '0.9'],
+        ['loc' => url('/surat'), 'changefreq' => 'weekly', 'priority' => '0.9'],
+        ['loc' => url('/mission'), 'changefreq' => 'monthly', 'priority' => '0.8'],
+        ['loc' => url('/media'), 'changefreq' => 'weekly', 'priority' => '0.8'],
+        ['loc' => url('/pricing'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        ['loc' => url('/support'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        ['loc' => url('/charity'), 'changefreq' => 'monthly', 'priority' => '0.7'],
+        ['loc' => url('/volunteer'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        ['loc' => url('/collection'), 'changefreq' => 'weekly', 'priority' => '0.7'],
+        ['loc' => url('/faq'), 'changefreq' => 'monthly', 'priority' => '0.5'],
+        ['loc' => url('/updates'), 'changefreq' => 'weekly', 'priority' => '0.5'],
+        ['loc' => url('/books'), 'changefreq' => 'weekly', 'priority' => '0.6'],
+        ['loc' => url('/zakat'), 'changefreq' => 'monthly', 'priority' => '0.5'],
+        ['loc' => url('/umrah'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        ['loc' => url('/toolkit'), 'changefreq' => 'weekly', 'priority' => '0.6'],
+        ['loc' => url('/radio'), 'changefreq' => 'weekly', 'priority' => '0.7'],
+        ['loc' => url('/contact'), 'changefreq' => 'monthly', 'priority' => '0.4'],
+    ];
+
+    $pages = array_map(function ($page) use ($lastmod) {
+        $page['lastmod'] = $page['lastmod'] ?? $lastmod;
+        return $page;
+    }, $pages);
+
+    return response()
+        ->view('sitemap', ['pages' => $pages])
+        ->header('Content-Type', 'application/xml');
+});
+
 
 Route::get('/debug/ga4', fn() => ['config' => config('services.ga4.property_id'), 'env' => env('GA4_PROPERTY_ID')]);
 // ========================================

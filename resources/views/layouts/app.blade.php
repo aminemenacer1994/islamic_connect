@@ -11,11 +11,18 @@
         $metaDescription = trim(
             $__env->yieldContent(
                 'meta_description',
-                'Islamic Connect curates trusted Islamic knowledge, Quran recitations, accessibility tools, and community programs to support Muslims everywhere.'
+                'Islamic Connect offers Quran recitations, Islamic media, and accessibility tools to support Muslims worldwide.'
             )
         );
         $metaImage = trim($__env->yieldContent('meta_image', asset('images/logo_main.png')));
         $metaType = trim($__env->yieldContent('meta_type', 'website'));
+        $socialProfiles = [
+            'https://www.facebook.com/profile.php?id=61560313385599',
+            'https://x.com/islamiconnect24',
+            'https://www.linkedin.com/company/islamic-connect/',
+            'https://www.instagram.com/islamicconnect24/',
+        ];
+        $locale = str_replace('_', '-', app()->getLocale());
     @endphp
     <title>@yield('title', $metaTitle)</title>
     <link rel="canonical" href="{{ $canonicalUrl }}">
@@ -26,10 +33,14 @@
     <meta property="og:description" content="{{ $metaDescription }}">
     <meta property="og:url" content="{{ $canonicalUrl }}">
     <meta property="og:image" content="{{ $metaImage }}">
+    <meta property="og:image:alt" content="{{ $metaTitle }}">
+    <meta property="og:locale" content="{{ $locale }}">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@islamiconnect24">
     <meta name="twitter:title" content="{{ $metaTitle }}">
     <meta name="twitter:description" content="{{ $metaDescription }}">
     <meta name="twitter:image" content="{{ $metaImage }}">
+    <meta name="twitter:image:alt" content="{{ $metaTitle }}">
     @stack('seo')
 
     <!-- CSS Assets -->
@@ -69,16 +80,39 @@
     @php
         $structuredData = [
             '@context' => 'https://schema.org',
-            '@type' => 'WebSite',
-            'name' => 'Islamic Connect',
-            'url' => $canonicalUrl,
-            'description' => $metaDescription,
-            'publisher' => [
-                '@type' => 'Organization',
-                'name' => 'Islamic Connect',
-                'logo' => asset('images/logo_main.png'),
+            '@graph' => [
+                [
+                    '@type' => 'Organization',
+                    '@id' => $canonicalUrl . '#organization',
+                    'name' => 'Islamic Connect',
+                    'url' => $canonicalUrl,
+                    'logo' => asset('images/logo_main.png'),
+                    'sameAs' => $socialProfiles,
+                ],
+                [
+                    '@type' => 'WebSite',
+                    '@id' => $canonicalUrl,
+                    'name' => 'Islamic Connect',
+                    'url' => $canonicalUrl,
+                    'description' => $metaDescription,
+                    'publisher' => ['@id' => $canonicalUrl . '#organization'],
+                    'potentialAction' => [
+                        '@type' => 'SearchAction',
+                        'target' => url('/search-translations') . '?query={search_term_string}',
+                        'query-input' => 'required name=search_term_string',
+                    ],
+                    'inLanguage' => $locale,
+                ],
+                [
+                    '@type' => 'WebPage',
+                    '@id' => $canonicalUrl . '#webpage',
+                    'url' => $canonicalUrl,
+                    'name' => $metaTitle,
+                    'description' => $metaDescription,
+                    'isPartOf' => ['@id' => $canonicalUrl],
+                    'inLanguage' => $locale,
+                ],
             ],
-            'inLanguage' => str_replace('_', '-', app()->getLocale()),
         ];
     @endphp
     <script type="application/ld+json">

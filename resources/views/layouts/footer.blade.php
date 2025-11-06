@@ -5,13 +5,13 @@
       <div class="copyright text-center text-md-start">
         <span class="me-2">©</span>
         <strong>2025 Copyright: </strong>
-        <a href="https://islamiconnect.com/" class="text-white text-decoration-none fw-bold">www.islamiconnect.com</a>
+        <a href="https://islamiconnect.com/" class="text-white text-decoration-none fw-bold" target="_blank" rel="noopener noreferrer external">www.islamiconnect.com</a>
       </div>
       <div class="social text-center text-md-end">
-        <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
-        <a href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-        <a href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
-        <a href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page" target="_blank" rel="noopener noreferrer external"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+        <a href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile" target="_blank" rel="noopener noreferrer external"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+        <a href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page" target="_blank" rel="noopener noreferrer external"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+        <a href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile" target="_blank" rel="noopener noreferrer external"><i class="fab fa-instagram" aria-hidden="true"></i></a>
       </div>
     </div>
   </footer>

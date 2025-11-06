@@ -2,6 +2,18 @@
 
 use Illuminate\Support\Facades\Facade;
 
+$appUrl = env('APP_URL', 'https://localhost');
+$canonicalUrl = env('APP_CANONICAL_URL', $appUrl);
+$trustedProxies = env('TRUSTED_PROXIES', null);
+
+if (is_string($trustedProxies) && $trustedProxies !== '*') {
+    $trustedProxies = array_filter(array_map('trim', explode(',', $trustedProxies)));
+
+    if (empty($trustedProxies)) {
+        $trustedProxies = null;
+    }
+}
+
 return [
 
     /*
@@ -54,7 +66,13 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://localhost'),
+    'url' => $appUrl,
+
+    'canonical_url' => $canonicalUrl,
+
+    'force_https' => env('APP_FORCE_HTTPS', str_starts_with($canonicalUrl, 'https://')),
+
+    'trusted_proxies' => $trustedProxies,
 
     'asset_url' => env('ASSET_URL'),
 

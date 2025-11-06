@@ -170,20 +170,20 @@
                 data-bs-interval="4000">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src="/images/qenew.png" class="d-block w-100" alt="Quran companion">
+                    <img src="/images/qenew.png" class="d-block w-100" alt="Quran companion" width="800" height="533" loading="eager" decoding="async" fetchpriority="high">
                   </div>
                   <div class="carousel-item">
-                    <img src="/images/surat2.png" class="d-block w-100" alt="Quran explorer">
+                    <img src="/images/surat2.png" class="d-block w-100" alt="Quran explorer" width="800" height="533" loading="lazy" decoding="async">
                   </div>
                   
                   <div class="carousel-item">
-                    <img src="/images/seerah2.png" class="d-block w-100" alt="Seerah timeline">
+                    <img src="/images/seerah2.png" class="d-block w-100" alt="Seerah timeline" width="800" height="533" loading="lazy" decoding="async">
                   </div>
                   <div class="carousel-item">
-                    <img src="/images/radio2.png" class="d-block w-100" alt="Islamic Radio">
+                    <img src="/images/radio2.png" class="d-block w-100" alt="Islamic Radio" width="800" height="533" loading="lazy" decoding="async">
                   </div>
                   <div class="carousel-item">
-                    <img src="/images/locator2.png" class="d-block w-100" alt="Mosque Locator">
+                    <img src="/images/locator2.png" class="d-block w-100" alt="Mosque Locator" width="800" height="533" loading="lazy" decoding="async">
                   </div>
                 </div>
 
