@@ -35932,13 +35932,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "line-height": "1.8"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Ready to let the verses resonate? Transition seamlessly from reading to listening with our curated "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/radio#reciters",
+    href: "/surat",
     class: "fw-semibold text-decoration-none",
     style: {
       "color": "#0b806f"
     }
-  }, " reciter stations "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(", featuring beloved voices from across the Ummah. ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/radio#reciters",
+  }, " list of Quranic recitations "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("with translations. ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: "/surat",
     class: "btn btn-sm fw-semibold text-white px-3 py-2",
     style: {
       "background": "linear-gradient(135deg, #0b806f, #1a5f7a)",

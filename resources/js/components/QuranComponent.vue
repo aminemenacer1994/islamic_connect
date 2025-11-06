@@ -810,16 +810,16 @@
                                     <div class="d-flex align-items-start gap-3 text-start">
                                         <div class="flex-shrink-0 mt-1">
                                             <div style="
-                                
-                                border-radius: 50%;
-                                background: rgba(11, 128, 111, 0.18);
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                color: #0b806f;
-                                font-size: 1.35rem;
-                                box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.2);
-                                ">
+                
+                                                border-radius: 50%;
+                                                background: rgba(11, 128, 111, 0.18);
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                color: #0b806f;
+                                                font-size: 1.35rem;
+                                                box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.2);
+                                                ">
                                                 <i class="fas fa-headphones"></i>
                                             </div>
                                         </div>
@@ -831,19 +831,19 @@
                                             <p class="mb-3" style="color: #1f2933; line-height: 1.8;">
                                                 Ready to let the verses resonate? Transition seamlessly from reading to
                                                 listening with our curated
-                                                <a href="/radio#reciters" class="fw-semibold text-decoration-none"
+                                                <a href="/surat" class="fw-semibold text-decoration-none"
                                                     style="color:#0b806f;">
-                                                    reciter stations
-                                                </a>, featuring beloved voices from across the Ummah.
+                                                    list of Quranic recitations 
+                                                </a>with translations.
                                             </p>
-                                            <a href="/radio#reciters"
+                                            <a href="/surat"
                                                 class="btn btn-sm fw-semibold text-white px-3 py-2" style="
-                                background: linear-gradient(135deg, #0b806f, #1a5f7a);
-                                border: none;
-                                border-radius: 999px;
-                                box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
-                                transition: transform 0.2s ease, box-shadow 0.2s ease;
-                            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
+                                                    background: linear-gradient(135deg, #0b806f, #1a5f7a);
+                                                    border: none;
+                                                    border-radius: 999px;
+                                                    box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
+                                                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                                                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
                                                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
                                                 Listen Now
                                                 <i class="fas fa-arrow-up-right-from-square ms-2"></i>
