@@ -796,17 +796,23 @@
                             </div>
                             <div v-show="showNextStep" style="padding: 10px;">
                                 <div class="mx-auto mb-4 next-step-card" style="
-                                    
+                                    position: relative;
                                     background: linear-gradient(135deg, rgba(26, 95, 122, 0.12), rgba(11, 128, 111, 0.12));
                                     border: 1px solid rgba(11, 128, 111, 0.25);
                                     border-radius: 16px;
-                                    
                                     box-shadow: 0 12px 32px rgba(26, 95, 122, 0.12);
                                     backdrop-filter: blur(6px);
                                     padding: 1.25rem 1.75rem;
                                 ">
                                     <button type="button" class="btn-close next-step-close" aria-label="Dismiss next step"
-                                        @click="dismissNextStep"></button>
+                                        @click="dismissNextStep" style="position:absolute; right:12px; top:12px; z-index:2;"></button>
+                                    <button type="button"
+                                        :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+                                        :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
+                                        @click="toggleNextStepMinimized"
+                                        style="position: absolute; right: 42px; top: 12px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; cursor: pointer; z-index:3;">
+                                        <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+                                    </button>
                                     <div class="d-flex align-items-start gap-3 text-start">
                                         <div class="flex-shrink-0 mt-1">
                                             <div style="
@@ -828,7 +834,14 @@
                                                 style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
                                                 NEXT STEP
                                             </p>
-                                            <p class="mb-3" style="color: #1f2933; line-height: 1.8;">
+                                            <!-- Minimized teaser -->
+                                            <div v-show="nextStepMinimized" class="mb-2" style="color: #1f2933;">
+                                                <a href="/surat" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                                                    Listen to Qur’anic recitations
+                                                </a>
+                                                <i class="fas fa-arrow-up-right-from-square ms-1" style="color:#0b806f;"></i>
+                                            </div>
+                                            <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.8;">
                                                 Ready to let the verses resonate? Transition seamlessly from reading to
                                                 listening with our curated
                                                 <a href="/surat" class="fw-semibold text-decoration-none"
@@ -836,7 +849,7 @@
                                                     list of Quranic recitations 
                                                 </a>with translations.
                                             </p>
-                                            <a href="/surat"
+                                            <a v-show="!nextStepMinimized" href="/surat"
                                                 class="btn btn-sm fw-semibold text-white px-3 py-2" style="
                                                     background: linear-gradient(135deg, #0b806f, #1a5f7a);
                                                     border: none;
@@ -1003,6 +1016,8 @@ export default {
             wheelVertLeak: 30,
             wheelResetMs: 160,
             gestureCooldownMs: 300,
+            // Next-step minimized state
+            nextStepMinimized: false,
         };
     },
     computed: {
@@ -1029,6 +1044,8 @@ export default {
 
         this._onWheel = (event) => this.handleWindowWheel(event);
         window.addEventListener("wheel", this._onWheel, { passive: true });
+        // Restore next-step minimized state
+        try { this.nextStepMinimized = localStorage.getItem('quranNextStepMinimized') === '1'; } catch (_) {}
     },
     beforeUnmount() {
         if (this._onResize) {
@@ -1106,6 +1123,10 @@ export default {
                 }
                 this._nextStepTimer = null;
             }, 10000);
+        },
+        toggleNextStepMinimized() {
+            this.nextStepMinimized = !this.nextStepMinimized;
+            try { localStorage.setItem('quranNextStepMinimized', this.nextStepMinimized ? '1' : '0'); } catch (_) {}
         },
         clearNextStepTimer() {
             if (this._nextStepTimer) {

@@ -52,12 +52,12 @@
     </div>
 
     <div v-show="showNextStep" style="padding: 10px;">
-      <div class="mx-auto mb-4 next-step-card" style="
+      <div class="mx-auto mb-4" style="
           position: relative;
-          background: #e6f1ef; /* closer flat teal wash */
-          border: 1px solid rgba(11, 128, 111, 0.22);
+          background: #eaf3f1;
+          border: 1px solid rgba(11, 128, 111, 0.20);
           border-radius: 24px;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 12px 32px rgba(26, 95, 122, 0.10);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
           padding: 1.25rem 1.75rem;
         ">
         <button
@@ -65,7 +65,16 @@
           class="btn-close next-step-close"
           aria-label="Dismiss next step"
           @click="dismissNextStep"
-          style="position: absolute; right: 14px; top: 14px; opacity: 0.8; filter: none; color: #6b8b91;">
+          style="position: absolute; right: 14px; top: 14px; opacity: 0.8; filter: none; color: #6b8b91; z-index: 2;">
+        </button>
+        <!-- Minimize / Restore toggle -->
+        <button
+          type="button"
+          :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+          :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
+          @click="toggleNextStepMinimized"
+          style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
+          <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
         </button>
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
@@ -84,14 +93,21 @@
             <p class="mb-2 fw-semibold text-uppercase" style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
               NEXT STEP
             </p>
-            <p class="mb-3" style="color: #1f2933; line-height: 1.8; font-size: 1.1rem;">
-              Ready to move from listening to learning? Explore key milestones, preservation efforts, and scholars in
+            <!-- Minimized teaser -->
+            <div v-show="nextStepMinimized" class="mb-2" style="color: #1f2933;">
+              <a href="/history" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                Explore Qur’an history
+              </a>
+              <i class="fas fa-arrow-up-right-from-square ms-1" style="color:#0b806f;"></i>
+            </div>
+            <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.8; font-size: 1.1rem;">
+              If you feel ready to move from listening to learning? Explore key milestones, preservation efforts, and scholars in
               <a href="/history" class="fw-semibold text-decoration-none" style="color:#0b806f;">
                 the history of the Qur’an
               </a>
               to deepen your understanding.
             </p>
-            <a href="/history"
+            <a v-show="!nextStepMinimized" href="/history"
                class="btn btn-sm fw-semibold text-white px-3 py-2"
                style="
                   background: linear-gradient(135deg, #0b806f, #1a5f7a);
@@ -108,34 +124,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="mx-auto mb-4 next-step-card" style="padding: 1.25rem 1.75rem; border-radius: 16px;">
-      <p class="mb-2 fw-semibold text-uppercase" style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
-        NEXT STEP
-      </p>
-      <p class="mb-3" style="color: #1f2933; line-height: 1.8;">
-        Discover the Qur’an’s history — from revelation to preservation. Trace key milestones,
-        manuscripts, and scholars in
-        <a href="/history" class="fw-semibold text-decoration-none" style="color:#0b806f;">
-          Quranic history
-        </a>
-        to deepen your understanding.
-      </p>
-      <a href="/quran/history"
-         aria-label="Explore Quran History"
-         class="btn btn-sm fw-semibold text-white px-3 py-2" style="
-            background: linear-gradient(135deg, #0b806f, #1a5f7a);
-            border: none;
-            border-radius: 999px;
-            box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-         "
-         onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
-         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
-        Explore History
-        <i class="fas fa-book-open ms-2"></i>
-      </a>
-    </div> -->
 
     <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
@@ -394,6 +382,7 @@ export default {
       listTop: 0,
       // Next-step card visibility
       showNextStep: true,
+      nextStepMinimized: false,
     };
   },
   computed: {
@@ -541,6 +530,8 @@ export default {
       window.addEventListener('resize', this.computeListTop, { passive: true });
       window.addEventListener('resize', this.calibrateItemHeight, { passive: true });
     });
+    // Restore next-step minimized state
+    try { this.nextStepMinimized = localStorage.getItem('suratNextStepMinimized') === '1'; } catch (_) {}
   },
   beforeUnmount() {
     window.removeEventListener('keydown', this.onKeydown);
@@ -557,6 +548,10 @@ export default {
     window.removeEventListener('resize', this.calibrateItemHeight);
   },
   methods: {
+    toggleNextStepMinimized() {
+      this.nextStepMinimized = !this.nextStepMinimized;
+      try { localStorage.setItem('suratNextStepMinimized', this.nextStepMinimized ? '1' : '0'); } catch (_) {}
+    },
     dismissNextStep() {
       this.showNextStep = false;
       try { localStorage.setItem('suratNextStepDismissed', '1'); } catch (_) {}

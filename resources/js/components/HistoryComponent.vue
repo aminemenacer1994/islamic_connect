@@ -12,6 +12,81 @@
       </div>
     </div>
 
+    <!-- Next Step: From Qur'an History to Seerah Timeline -->
+    <div style="padding: 10px;">
+      <div class="mx-auto mb-4" style="
+          position: relative;
+          background: #eaf3f1;
+          border: 1px solid rgba(11, 128, 111, 0.20);
+          border-radius: 24px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
+          padding: 1.25rem 1.75rem;
+        ">
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Dismiss next step"
+          @click="dismissNextStep"
+          style="position: absolute; right: 14px; top: 14px; opacity: 0.8; filter: none; color: #6b8b91; z-index:2;">
+        </button>
+        <!-- Minimize / Restore toggle -->
+        <button
+          type="button"
+          :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+          :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
+          @click="toggleNextStepMinimized"
+          style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index:3; cursor: pointer;">
+          <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+        </button>
+        <div class="d-flex align-items-start gap-3 text-start">
+          <div class="flex-shrink-0 mt-1">
+            <div style="
+                width: 46px; height: 46px;
+                border-radius: 50%;
+                background: rgba(11, 128, 111, 0.20);
+                display: flex; align-items: center; justify-content: center;
+                color: #0b806f; font-size: 1.35rem;
+                box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.26), 0 6px 14px rgba(26,95,122,0.10);
+              ">
+              <i class="fas fa-compass"></i>
+            </div>
+          </div>
+          <div style="flex:1;">
+            <p class="mb-2 fw-semibold text-uppercase" style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+              NEXT STEP
+            </p>
+            <!-- Minimized teaser -->
+            <div v-show="nextStepMinimized" class="mb-2" style="color: #1f2933;">
+              <a href="/mission#timeline" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                Explore the Seerah timeline
+              </a>
+              <i class="fas fa-arrow-up-right-from-square ms-1" style="color:#0b806f;"></i>
+            </div>
+            <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.8; font-size: 1.1rem;">
+              Learning how the Qur’an was preserved is a beautiful beginning. When you’re ready, gently continue with the life of the Messenger who lived its message. Walk through a simple, welcoming
+              <a href="/mission#timeline" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                Seerah timeline
+              </a>
+              to see the journey unfold.
+            </p>
+            <a v-show="!nextStepMinimized" href="/mission#timeline"
+               class="btn btn-sm fw-semibold text-white px-3 py-2"
+               style="
+                  background: linear-gradient(135deg, #0b806f, #1a5f7a);
+                  border: none; border-radius: 999px;
+                  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
+                  transition: transform 0.2s ease, box-shadow 0.2s ease;
+               "
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
+               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
+              Explore Seerah
+              <i class="fas fa-arrow-up-right-from-square ms-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Open All and Close All Buttons -->
     <div class="text-end mb-3">
       <button v-if="!areAllAccordionsOpen" class="btn fw-semibold transition me-2" @click="openAllSections"
@@ -345,6 +420,9 @@ export default {
       faqPageSize: 5,
       tablePageSize: 20,
       summarizeTimers: [],
+      // Next step banner
+      showNextStep: true,
+      nextStepMinimized: false,
       faq: [
         {
           question: 'When was the Quran first revealed?',
@@ -443,11 +521,39 @@ export default {
       this.readTimes = [];
     }
     window.addEventListener('scroll', this.handleScroll, { passive: true });
+    // Restore dismissal/minimized state for Next Step
+    try {
+      if (localStorage.getItem('historyNextStepDismissed') === '1') this.showNextStep = false;
+      this.nextStepMinimized = localStorage.getItem('historyNextStepMinimized') === '1';
+    } catch (_) {}
+    // Fallback: if not explicitly dismissed, ensure it's visible
+    try {
+      if (localStorage.getItem('historyNextStepDismissed') !== '1') {
+        this.showNextStep = true;
+      }
+    } catch (_) {}
+    // Force-show override via query param: /history?banner=1
+    try {
+      const params = new URLSearchParams(window.location.search || '');
+      if (params.get('banner') === '1') {
+        this.showNextStep = true;
+        this.nextStepMinimized = false;
+        try { localStorage.removeItem('historyNextStepDismissed'); } catch (_) {}
+      }
+    } catch (_) {}
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
+    dismissNextStep() {
+      this.showNextStep = false;
+      try { localStorage.setItem('historyNextStepDismissed', '1'); } catch (_) {}
+    },
+    toggleNextStepMinimized() {
+      this.nextStepMinimized = !this.nextStepMinimized;
+      try { localStorage.setItem('historyNextStepMinimized', this.nextStepMinimized ? '1' : '0'); } catch (_) {}
+    },
     onHeaderKeydown(idx, e) {
       if (!e || !e.key) return;
       if (e.key === 'Home') {
@@ -936,6 +1042,11 @@ export default {
 </script>
 
 <style scoped>
+/* Mobile tweaks: keep actions compact and aligned */
+@media (max-width: 576px) {
+  .text-end.mb-3 { text-align: center !important; }
+  .text-end.mb-3 .btn { width: auto; display: inline-flex; margin-bottom: 6px; }
+}
 /* Enhanced hover and focus effects for interactivity */
 .transition {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
