@@ -13,7 +13,8 @@
     <!-- Sticky Dropdowns Container -->
     <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown">
       <!-- Existing template for surah, reciter, and translation selection -->
-      <span @click="toggleVisibility" class="text-white" style="cursor: pointer;" aria-label="Toggle filters visibility" role="button" tabindex="0" @keydown.enter.prevent="toggleVisibility" @keydown.space.prevent="toggleVisibility">
+      <span @click="toggleVisibility" class="text-white" style="cursor: pointer;" aria-label="Toggle filters visibility"
+        role="button" tabindex="0" @keydown.enter.prevent="toggleVisibility" @keydown.space.prevent="toggleVisibility">
         <i v-if="isVisible" class="bi bi-x-lg" aria-hidden="true"></i>
         <i v-else class="bi bi-plus-lg" aria-hidden="true"></i>
       </span>
@@ -40,7 +41,8 @@
           <label for="translation-select" class="form-label text-white">Select Translation:</label>
           <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation">
             <option value="" disabled>Select Translation</option>
-            <option v-for="translation in translationsSorted" :key="translation.identifier" :value="translation.identifier">
+            <option v-for="translation in translationsSorted" :key="translation.identifier"
+              :value="translation.identifier">
               <span style="font-size: 1.2em; margin-right: 6px;">{{ translation.flag }}</span>{{ translation.englishName
               }} ({{ translation.language }})
             </option>
@@ -48,6 +50,92 @@
         </div>
       </div>
     </div>
+
+    <div v-show="showNextStep" style="padding: 10px;">
+      <div class="mx-auto mb-4 next-step-card" style="
+          position: relative;
+          background: #e6f1ef; /* closer flat teal wash */
+          border: 1px solid rgba(11, 128, 111, 0.22);
+          border-radius: 24px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 12px 32px rgba(26, 95, 122, 0.10);
+          padding: 1.25rem 1.75rem;
+        ">
+        <button
+          type="button"
+          class="btn-close next-step-close"
+          aria-label="Dismiss next step"
+          @click="dismissNextStep"
+          style="position: absolute; right: 14px; top: 14px; opacity: 0.8; filter: none; color: #6b8b91;">
+        </button>
+        <div class="d-flex align-items-start gap-3 text-start">
+          <div class="flex-shrink-0 mt-1">
+            <div class="next-step-icon-circle" style="
+                width: 46px; height: 46px;
+                border-radius: 50%;
+                background: rgba(11, 128, 111, 0.20);
+                display: flex; align-items: center; justify-content: center;
+                color: #0b806f; font-size: 1.35rem;
+                box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.26), 0 6px 14px rgba(26,95,122,0.10);
+              ">
+              <i class="fas fa-quran"></i>
+            </div>
+          </div>
+          <div style="flex:1;">
+            <p class="mb-2 fw-semibold text-uppercase" style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+              NEXT STEP
+            </p>
+            <p class="mb-3" style="color: #1f2933; line-height: 1.8; font-size: 1.1rem;">
+              Ready to move from listening to learning? Explore key milestones, preservation efforts, and scholars in
+              <a href="/history" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                the history of the Qur’an
+              </a>
+              to deepen your understanding.
+            </p>
+            <a href="/history"
+               class="btn btn-sm fw-semibold text-white px-3 py-2"
+               style="
+                  background: linear-gradient(135deg, #0b806f, #1a5f7a);
+                  border: none; border-radius: 999px;
+                  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
+                  transition: transform 0.2s ease, box-shadow 0.2s ease;
+               "
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
+               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
+              Explore History
+              <i class="fas fa-arrow-up-right-from-square ms-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="mx-auto mb-4 next-step-card" style="padding: 1.25rem 1.75rem; border-radius: 16px;">
+      <p class="mb-2 fw-semibold text-uppercase" style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+        NEXT STEP
+      </p>
+      <p class="mb-3" style="color: #1f2933; line-height: 1.8;">
+        Discover the Qur’an’s history — from revelation to preservation. Trace key milestones,
+        manuscripts, and scholars in
+        <a href="/history" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+          Quranic history
+        </a>
+        to deepen your understanding.
+      </p>
+      <a href="/quran/history"
+         aria-label="Explore Quran History"
+         class="btn btn-sm fw-semibold text-white px-3 py-2" style="
+            background: linear-gradient(135deg, #0b806f, #1a5f7a);
+            border: none;
+            border-radius: 999px;
+            box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+         "
+         onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
+         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
+        Explore History
+        <i class="fas fa-book-open ms-2"></i>
+      </a>
+    </div> -->
 
     <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
@@ -57,8 +145,8 @@
 
       <div style="padding: 12px;  border-radius: 8px;" ref="audioCard" v-for="item in visibleWindow"
         :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="listitem"
-            :id="`ayah-card-${item.index}`"
-        @click="selectCard(item.index)" @keydown.enter.prevent="toggleAudioPlayer(item.index)" @keydown.space.prevent="toggleAudioPlayer(item.index)"
+        :id="`ayah-card-${item.index}`" @click="selectCard(item.index)"
+        @keydown.enter.prevent="toggleAudioPlayer(item.index)" @keydown.space.prevent="toggleAudioPlayer(item.index)"
         :class="{
           'highlighted': isHighlighted && currentlyPlayingIndex === item.index,
           'currently-playing': isAudioPlaying[item.index]
@@ -93,17 +181,21 @@
             <div class="col-md-1 text-center">
               <div class="d-flex flex-column align-items-center">
                 <button class="icon-btn mb-3" @click="toggleAudioPlayer(item.index)"
-                        :aria-label="isAudioPlaying[item.index] ? 'Pause ayah ' + (item.index + 1) : 'Play ayah ' + (item.index + 1)"
-                        :title="isAudioPlaying[item.index] ? 'Pause' : 'Play'">
-                  <i class="bi" :class="isAudioPlaying[item.index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" aria-hidden="true"></i>
+                  :aria-label="isAudioPlaying[item.index] ? 'Pause ayah ' + (item.index + 1) : 'Play ayah ' + (item.index + 1)"
+                  :title="isAudioPlaying[item.index] ? 'Pause' : 'Play'">
+                  <i class="bi" :class="isAudioPlaying[item.index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
+                    aria-hidden="true"></i>
                 </button>
-                <button class="icon-btn mb-3" @click="decreaseFontSize" aria-label="Decrease font size" title="Decrease Font Size">
+                <button class="icon-btn mb-3" @click="decreaseFontSize" aria-label="Decrease font size"
+                  title="Decrease Font Size">
                   <i class="bi bi-dash-circle-fill" aria-hidden="true"></i>
                 </button>
-                <button class="icon-btn mb-3" @click="increaseFontSize" aria-label="Increase font size" title="Increase Font Size">
+                <button class="icon-btn mb-3" @click="increaseFontSize" aria-label="Increase font size"
+                  title="Increase Font Size">
                   <i class="bi bi-plus-circle-fill" aria-hidden="true"></i>
                 </button>
-                <button class="icon-btn mb-3" @click="shareOnWhatsApp(ayah)" aria-label="Share on WhatsApp" title="Share on WhatsApp">
+                <button class="icon-btn mb-3" @click="shareOnWhatsApp(ayah)" aria-label="Share on WhatsApp"
+                  title="Share on WhatsApp">
                   <i class="bi bi-share-fill" aria-hidden="true"></i>
                 </button>
               </div>
@@ -113,7 +205,8 @@
 
           <!-- Mobile/Tablet Layout: Text then Icons -->
 
-          <div style="padding: 8px;" class="d-block d-md-none" role="group" aria-label="Ayah controls (mobile)" :aria-hidden="!isMobile">
+          <div style="padding: 8px;" class="d-block d-md-none" role="group" aria-label="Ayah controls (mobile)"
+            :aria-hidden="!isMobile">
             <div>
               <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(item.ayah)"
                 :style="{ fontSize: arabicFontSize + 'px' }"></p>
@@ -124,12 +217,14 @@
             <div class="row mb-3" style="display: flex; justify-content: center; margin: 0 -5px;">
 
               <div class="col-2 text-center" style="padding: 3px;">
-                <button class="icon-btn" @click="decreaseFontSize" aria-label="Decrease font size" title="Decrease Font Size">
+                <button class="icon-btn" @click="decreaseFontSize" aria-label="Decrease font size"
+                  title="Decrease Font Size">
                   <i class="bi bi-dash-circle-fill" style="font-size: 1.7rem;" aria-hidden="true"></i>
                 </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <button class="icon-btn" @click="increaseFontSize" aria-label="Increase font size" title="Increase Font Size">
+                <button class="icon-btn" @click="increaseFontSize" aria-label="Increase font size"
+                  title="Increase Font Size">
                   <i class="bi bi-plus-circle-fill" style="font-size: 1.7rem;" aria-hidden="true"></i>
                 </button>
               </div>
@@ -140,18 +235,21 @@
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
                 <button class="icon-btn" @click="toggleAudioPlayer(item.index)"
-                        :aria-label="isAudioPlaying[item.index] ? 'Pause ayah ' + (item.index + 1) : 'Play ayah ' + (item.index + 1)"
-                        :title="isAudioPlaying[item.index] ? 'Pause' : 'Play'">
-                  <i class="bi" :class="isAudioPlaying[item.index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="font-size: 1.7rem;" aria-hidden="true"></i>
+                  :aria-label="isAudioPlaying[item.index] ? 'Pause ayah ' + (item.index + 1) : 'Play ayah ' + (item.index + 1)"
+                  :title="isAudioPlaying[item.index] ? 'Pause' : 'Play'">
+                  <i class="bi" :class="isAudioPlaying[item.index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
+                    style="font-size: 1.7rem;" aria-hidden="true"></i>
                 </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <button class="icon-btn" @click="fastForwardAudio(item.index)" aria-label="Fast forward 20 seconds" title="Fast Forward">
+                <button class="icon-btn" @click="fastForwardAudio(item.index)" aria-label="Fast forward 20 seconds"
+                  title="Fast Forward">
                   <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.7rem;" aria-hidden="true"></i>
                 </button>
               </div>
               <div class="col-2 text-center" style="padding: 3px;">
-                <button class="icon-btn" @click="shareOnWhatsApp(item.ayah)" aria-label="Share on WhatsApp" title="Share on WhatsApp">
+                <button class="icon-btn" @click="shareOnWhatsApp(item.ayah)" aria-label="Share on WhatsApp"
+                  title="Share on WhatsApp">
                   <i class="bi bi-share-fill" style="font-size: 1.5rem;" aria-hidden="true"></i>
                 </button>
               </div>
@@ -166,22 +264,26 @@
     <!-- Screen reader live region -->
     <div class="visually-hidden" aria-live="polite" aria-atomic="true">{{ screenReaderMessage }}</div>
     <!-- Empty state -->
-    <div v-if="!isLoading && surahDetails && filteredAyahs.length === 0" class="empty-state text-center text-muted py-4">
+    <div v-if="!isLoading && surahDetails && filteredAyahs.length === 0"
+      class="empty-state text-center text-muted py-4">
       No verses match your current search or filters.
     </div>
 
-    
+
     <!-- Global Custom Audio Player -->
     <div v-if="showAudioPlayer" class="audio-player-container">
       <div class="custom-audio-player">
         <div class="controls">
-          <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind" aria-label="Rewind 15 seconds">
+          <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind"
+            aria-label="Rewind 15 seconds">
             <i class="bi bi-skip-backward-fill"></i>
           </button>
-          <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause" aria-label="Play or Pause">
+          <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause"
+            aria-label="Play or Pause">
             <i :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
           </button>
-          <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward" aria-label="Fast forward 20 seconds">
+          <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward"
+            aria-label="Fast forward 20 seconds">
             <i class="bi bi-skip-forward-fill"></i>
           </button>
           <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop" aria-label="Stop">
@@ -194,25 +296,31 @@
             <i class="bi bi-speedometer2" :style="{ color: playbackSpeed !== 1 ? '#ff6b6b' : '#ccc' }"></i>
             <span class="speed-indicator">{{ playbackSpeed }}x</span>
           </button>
-          <button @click="toggleRepeat" class="control-btn" :title="repeatCurrent ? 'Repeat current ayah: on' : 'Repeat current ayah: off'" :aria-pressed="repeatCurrent" aria-label="Toggle repeat current ayah">
+          <button @click="toggleRepeat" class="control-btn"
+            :title="repeatCurrent ? 'Repeat current ayah: on' : 'Repeat current ayah: off'"
+            :aria-pressed="repeatCurrent" aria-label="Toggle repeat current ayah">
             <i class="bi bi-arrow-repeat" :style="{ color: repeatCurrent ? '#00bfa6' : '#ccc' }"></i>
           </button>
           <div v-if="showVolumeBar" class="volume-bar-container">
             <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
               class="volume-slider" />
           </div>
-          <span class="time" aria-live="polite">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{
-            formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
-          <button @click="closeAudioPlayer" class="control-btn" title="Close" aria-label="Close player" style="margin-left: auto;">
+          <span class="time" aria-live="polite">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }}
+            / {{
+              formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+          <button @click="closeAudioPlayer" class="control-btn" title="Close" aria-label="Close player"
+            style="margin-left: auto;">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
-        <div class="progress-bar" role="progressbar" aria-label="Audio playback progress" :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0" :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`" @click="seekToPosition" ref="progressBar">
+        <div class="progress-bar" role="progressbar" aria-label="Audio playback progress" :aria-valuemin="0"
+          :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0"
+          :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`"
+          @click="seekToPosition" ref="progressBar">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
           <div class="audio-visualizer" ref="visualizer">
-            <div v-for="(bar, index) in visualizerBars" :key="index" 
-                 class="visualizer-bar" 
-                 :style="{ height: bar + '%', animationDelay: (index * 0.1) + 's' }">
+            <div v-for="(bar, index) in visualizerBars" :key="index" class="visualizer-bar"
+              :style="{ height: bar + '%', animationDelay: (index * 0.1) + 's' }">
             </div>
           </div>
         </div>
@@ -265,8 +373,8 @@ export default {
       playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2],
       currentSpeedIndex: 2,
       repeatCurrent: JSON.parse(localStorage.getItem('repeatCurrent') || 'false'),
-      favoriteReciters: ['ar.alafasy','ar.abdulbasitmurattal'],
-      favoriteTranslations: ['en.ahmedali','en.sahih'],
+      favoriteReciters: ['ar.alafasy', 'ar.abdulbasitmurattal'],
+      favoriteTranslations: ['en.ahmedali', 'en.sahih'],
       lastAutoScrollAt: 0,
       isManualScrolling: false,
       manualScrollTimer: null,
@@ -284,6 +392,8 @@ export default {
       visibleStart: 0,
       visibleEnd: 0,
       listTop: 0,
+      // Next-step card visibility
+      showNextStep: true,
     };
   },
   computed: {
@@ -299,7 +409,7 @@ export default {
     recitersSorted() {
       if (!Array.isArray(this.reciters)) return [];
       const fav = new Set(this.favoriteReciters);
-      return [...this.reciters].sort((a,b)=>{
+      return [...this.reciters].sort((a, b) => {
         const ap = fav.has(a.identifier) ? 0 : 1;
         const bp = fav.has(b.identifier) ? 0 : 1;
         if (ap !== bp) return ap - bp;
@@ -309,7 +419,7 @@ export default {
     translationsSorted() {
       if (!Array.isArray(this.translations)) return [];
       const fav = new Set(this.favoriteTranslations);
-      return [...this.translations].sort((a,b)=>{
+      return [...this.translations].sort((a, b) => {
         const ap = fav.has(a.identifier) ? 0 : 1;
         const bp = fav.has(b.identifier) ? 0 : 1;
         if (ap !== bp) return ap - bp;
@@ -347,7 +457,7 @@ export default {
     selectedReciter: function (newVal) {
       if (newVal && !this.isLoading) {
         // scroll to top immediately on change
-        try { window.scrollTo(0, 0); } catch (_) {}
+        try { window.scrollTo(0, 0); } catch (_) { }
         this.isLoading = true;
         this.savePreference("selectedReciter", newVal);
         this.currentlyPlayingIndex = 0;
@@ -366,7 +476,7 @@ export default {
     },
     selectedTranslation: function (newVal) {
       if (newVal && !this.isLoading) {
-        try { window.scrollTo(0, 0); } catch (_) {}
+        try { window.scrollTo(0, 0); } catch (_) { }
         this.isLoading = true;
         this.savePreference("selectedTranslation", newVal);
         this.currentlyPlayingIndex = 0;
@@ -384,7 +494,7 @@ export default {
     },
     selectedSurah: function (newVal) {
       if (newVal && !this.isLoading) {
-        try { window.scrollTo(0, 0); } catch (_) {}
+        try { window.scrollTo(0, 0); } catch (_) { }
         this.isLoading = true;
         this.savePreference("selectedSurah", newVal);
         this.currentlyPlayingIndex = 0;
@@ -420,6 +530,8 @@ export default {
     window.addEventListener('keydown', this.onKeydown);
     this.updateIsMobile();
     window.addEventListener('resize', this.updateIsMobile);
+    // Restore dismissal state for next-step card
+    try { if (localStorage.getItem('suratNextStepDismissed') === '1') this.showNextStep = false; } catch (_) {}
     // Virtualization hooks
     this.$nextTick(() => {
       this.computeListTop();
@@ -445,6 +557,10 @@ export default {
     window.removeEventListener('resize', this.calibrateItemHeight);
   },
   methods: {
+    dismissNextStep() {
+      this.showNextStep = false;
+      try { localStorage.setItem('suratNextStepDismissed', '1'); } catch (_) {}
+    },
     calibrateItemHeight() {
       try {
         const el = this.$el.querySelector('.ayah-card-container');
@@ -454,7 +570,7 @@ export default {
           this.itemHeight = Math.round(rect.height + 24); // include margins/padding buffer
           this.updateVirtualWindow();
         }
-      } catch (_) {}
+      } catch (_) { }
     },
     computeListTop() {
       try {
@@ -496,17 +612,17 @@ export default {
             return { data, fromCache: true };
           }
         }
-      } catch (_) {}
+      } catch (_) { }
 
       const res = await fetch(url);
       if (!res.ok) throw new Error(`${res.status}`);
       const json = await res.json();
-      try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data: json })); } catch (_) {}
+      try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data: json })); } catch (_) { }
       return { data: json, fromCache: false };
     },
     onKeydown(e) {
       const tag = (e.target && e.target.tagName || '').toLowerCase();
-      if (e.target?.isContentEditable || ['input','textarea','select'].includes(tag)) return;
+      if (e.target?.isContentEditable || ['input', 'textarea', 'select'].includes(tag)) return;
       if (!Array.isArray(this.filteredAyahs) || this.filteredAyahs.length === 0) return;
       switch (e.key) {
         case 'ArrowDown':
@@ -648,14 +764,14 @@ export default {
       // Stop any currently playing audio and ensure exclusivity
       if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
         console.log('Pausing currently playing audio');
-        try { this.currentlyPlaying.pause(); } catch (_) {}
-        try { this.currentlyPlaying.currentTime = 0; } catch (_) {}
+        try { this.currentlyPlaying.pause(); } catch (_) { }
+        try { this.currentlyPlaying.currentTime = 0; } catch (_) { }
       }
       // Pause any stray audios just in case
       if (Array.isArray(this.audioElements)) {
         this.audioElements.forEach((a, i) => {
           if (a && i !== index) {
-            try { a.pause(); } catch (_) {}
+            try { a.pause(); } catch (_) { }
           }
         });
       }
@@ -679,7 +795,7 @@ export default {
         this.audioElements[index] = audio;
       }
       if (audio.src !== ayah.audio) {
-        try { audio.pause(); } catch (_) {}
+        try { audio.pause(); } catch (_) { }
         audio.src = ayah.audio || '';
       }
       audio.playbackRate = this.playbackSpeed;
@@ -738,7 +854,7 @@ export default {
               audio.removeEventListener('canplay', onCanPlay);
               const p2 = audio.play();
               if (p2 && typeof p2.then === 'function') {
-                p2.then(() => markPlaying()).catch(() => {});
+                p2.then(() => markPlaying()).catch(() => { });
               } else {
                 markPlaying();
               }
@@ -807,9 +923,9 @@ export default {
         this.audioElements[nextIndex] = a;
       }
       if (a.src !== nextAyah.audio) {
-        try { a.pause(); } catch (_) {}
+        try { a.pause(); } catch (_) { }
         a.src = nextAyah.audio;
-        try { a.load(); } catch (_) {}
+        try { a.load(); } catch (_) { }
       }
       a.volume = this.volume;
       a.playbackRate = this.playbackSpeed;
@@ -916,7 +1032,7 @@ export default {
         }
         this.isLoading = false;
         if (fromCache) setTimeout(async () => {
-          try { const fresh = await this.cachedFetchJSON("https://api.alquran.cloud/v1/edition/format/audio", 'cache:reciters'); if (!this._isDestroyed) this.reciters = fresh.data.data.filter(r=>r.identifier&&r.englishName).map(r=>({identifier:r.identifier,englishName:r.englishName||"Unknown Reciter"})).filter(r=>!['elmir kuliev 2 by 1muslimapp','elmir kuliev by 1muslimapp','elmir kuliev elevatemuslim','elmir kuliev 1muslim','elmir kuliev 2muslim','chinese','ibrahim walk','fooladvand - hedayatfar','shamshad ali khan','youssouf leclerc'].includes(r.englishName.toLowerCase())); } catch(_){}
+          try { const fresh = await this.cachedFetchJSON("https://api.alquran.cloud/v1/edition/format/audio", 'cache:reciters'); if (!this._isDestroyed) this.reciters = fresh.data.data.filter(r => r.identifier && r.englishName).map(r => ({ identifier: r.identifier, englishName: r.englishName || "Unknown Reciter" })).filter(r => !['elmir kuliev 2 by 1muslimapp', 'elmir kuliev by 1muslimapp', 'elmir kuliev elevatemuslim', 'elmir kuliev 1muslim', 'elmir kuliev 2muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(r.englishName.toLowerCase())); } catch (_) { }
         }, 0);
       } catch (error) {
         console.error("Error fetching Reciters:", error);
@@ -950,7 +1066,7 @@ export default {
         this.translations = translations;
         console.log('Translations fetched:', translations);
         this.isLoading = false;
-        if (fromCache) setTimeout(async () => { try { const fresh = await this.cachedFetchJSON("https://api.alquran.cloud/v1/edition/type/translation", 'cache:translations'); if (this._isDestroyed) return; const trs = fresh.data.data.map(t=>({identifier:t.identifier,englishName:t.englishName||"Unknown Translation",language:t.language||"Unknown",flag:this.getFlagFromLanguage(t.language||"Unknown")})).filter(t=>t.flag!=='🌐'); trs.sort((a,b)=>a.flag<b.flag?-1:a.flag>b.flag?1:a.englishName<b.englishName?-1:a.englishName>b.englishName?1:0); this.translations = trs; } catch(_){} }, 0);
+        if (fromCache) setTimeout(async () => { try { const fresh = await this.cachedFetchJSON("https://api.alquran.cloud/v1/edition/type/translation", 'cache:translations'); if (this._isDestroyed) return; const trs = fresh.data.data.map(t => ({ identifier: t.identifier, englishName: t.englishName || "Unknown Translation", language: t.language || "Unknown", flag: this.getFlagFromLanguage(t.language || "Unknown") })).filter(t => t.flag !== '🌐'); trs.sort((a, b) => a.flag < b.flag ? -1 : a.flag > b.flag ? 1 : a.englishName < b.englishName ? -1 : a.englishName > b.englishName ? 1 : 0); this.translations = trs; } catch (_) { } }, 0);
       } catch (error) {
         console.error("Error fetching Translations:", error);
         this.translations = [];
@@ -996,10 +1112,10 @@ export default {
             this.$nextTick(() => { this.prepareNextAudio(0); this.prepareNextAudio(1); });
           }
         }
-      } catch (_) {}
+      } catch (_) { }
 
       // Abort any in-flight request
-      try { if (this._surahAborter) this._surahAborter.abort(); } catch (_) {}
+      try { if (this._surahAborter) this._surahAborter.abort(); } catch (_) { }
       this._surahAborter = new AbortController();
       const { signal } = this._surahAborter;
       return fetch(`https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},${this.selectedTranslation}`, { signal })
@@ -1010,7 +1126,7 @@ export default {
         .then(data => {
           if (this._isDestroyed) return;
           // persist cache
-          try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data })); } catch (_) {}
+          try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data })); } catch (_) { }
           const arabicText = data.data[0];
           const translation = data.data[1];
           this.surahDetails = {
@@ -1053,7 +1169,7 @@ export default {
         // Clear references; recreate on-demand for speed
         if (this.audioElements && this.audioElements.forEach) {
           this.audioElements.forEach(audio => {
-            try { if (audio && audio.pause) audio.pause(); } catch (_) {}
+            try { if (audio && audio.pause) audio.pause(); } catch (_) { }
           });
         }
         this.audioElements = new Array(this.filteredAyahs.length).fill(null);
@@ -1158,23 +1274,23 @@ export default {
       const newTime = percentage * audio.duration;
 
       audio.currentTime = Math.max(0, Math.min(newTime, audio.duration));
-      
+
       // Update progress immediately
       this.updateProgress(this.currentlyPlayingIndex);
-      
+
       console.log(`Seeking to ${newTime.toFixed(2)}s (${(percentage * 100).toFixed(1)}%)`);
     },
     cyclePlaybackSpeed: function () {
       this.currentSpeedIndex = (this.currentSpeedIndex + 1) % this.playbackSpeeds.length;
       this.playbackSpeed = this.playbackSpeeds[this.currentSpeedIndex];
-      
+
       // Update all audio elements
       if (this.audioElements && this.audioElements.forEach) {
         this.audioElements.forEach(audio => {
           if (audio) audio.playbackRate = this.playbackSpeed;
         });
       }
-      
+
       this.savePreference('playbackSpeed', this.playbackSpeed);
       console.log(`Playback speed set to ${this.playbackSpeed}x`);
     },
@@ -1206,7 +1322,7 @@ export default {
     // Keyboard shortcuts for better UX
     this._keydownHandler = (e) => {
       if (!this.showAudioPlayer) return;
-      if (['INPUT','TEXTAREA'].includes((e.target || {}).tagName)) return;
+      if (['INPUT', 'TEXTAREA'].includes((e.target || {}).tagName)) return;
       switch (e.key) {
         case ' ':
           e.preventDefault();
@@ -1277,7 +1393,6 @@ export default {
 </style>
 
 <style scoped>
-
 .highlighted {
   background-color: #b5e6db;
   border-radius: 8px;
@@ -1420,7 +1535,7 @@ export default {
 }
 
 /* Make sticky toggle icon a bit larger */
-.sticky-dropdown > span i {
+.sticky-dropdown>span i {
   font-size: 1.4rem;
 }
 
@@ -1532,7 +1647,7 @@ export default {
 }
 
 .empty-state {
-  border: 1px dashed rgba(0,0,0,0.15);
+  border: 1px dashed rgba(0, 0, 0, 0.15);
   border-radius: 8px;
 }
 
@@ -1557,6 +1672,7 @@ export default {
   .control-btn {
     font-size: 2rem;
   }
+
   .ayah-card-container .icon-btn i {
     font-size: 1.8rem;
   }
@@ -1593,8 +1709,13 @@ export default {
 }
 
 @keyframes pulse-visualizer {
-  0% { opacity: 0.4; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 
@@ -1627,14 +1748,38 @@ export default {
   .speed-indicator {
     font-size: 0.6rem;
   }
-  
+
   .visualizer-bar {
     width: 1px;
   }
-  
+
   .audio-visualizer {
     padding: 0 1px;
   }
+}
+
+/* Next Step card background (gradient + blur) */
+.next-step-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(11, 128, 111, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(26, 95, 122, 0.12);
+}
+
+.next-step-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #f2fbf9;
+  background: linear-gradient(135deg, rgba(26, 95, 122, 0.22), rgba(11, 128, 111, 0.22));
+  backdrop-filter: blur(6px);
+  z-index: 0;
+}
+
+.next-step-card>* {
+  position: relative;
+  z-index: 1;
 }
 </style>
 ```
