@@ -464,7 +464,7 @@ export default {
       summarizeTimers: [],
       // Next step banner
       showNextStep: true,
-      nextStepMinimized: false,
+      nextStepMinimized: true,
       faq: [
         {
           question: 'When was the Quran first revealed?',

@@ -60,14 +60,6 @@
           box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
           padding: 1.25rem 1.75rem;
         ">
-        <!-- <button
-          type="button"
-          class="btn-close next-step-close"
-          aria-label="Dismiss next step"
-          @click="dismissNextStep"
-          style="position: absolute; right: 14px; top: 14px; opacity: 0.8; filter: none; color: #6b8b91; z-index: 2;">
-        </button> -->
-        <!-- Minimize / Restore toggle -->
         <button
           type="button"
           :title="nextStepMinimized ? 'Restore' : 'Minimize'"

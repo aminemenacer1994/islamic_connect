@@ -9,6 +9,77 @@
       </p>
     </header>
 
+    <div class="container" style="padding: 10px;">
+      <div class="mx-auto mb-4" style="
+          position: relative;
+          background: #eaf3f1;
+          border: 1px solid rgba(11, 128, 111, 0.20);
+          border-radius: 24px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
+          padding: 1.25rem 1.75rem;
+        ">
+        <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+          :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized"
+          style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
+          <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+        </button>
+        <div class="d-flex align-items-start gap-3 text-start">
+          <div class="flex-shrink-0 mt-1">
+            <div class="next-step-icon-circle" role="img"
+              aria-label="Gentle audio guide for new Muslims" style="
+                width: 52px; height: 52px;
+                border-radius: 50%;
+                background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.18));
+                display: flex; align-items: center; justify-content: center;
+                color: #0b806f; font-size: 1.4rem;
+                box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 8px 18px rgba(26,95,122,0.12);
+              ">
+              <i class="fas fa-assistive-listening-systems" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div style="flex:1;">
+            <p class="mb-2 fw-semibold text-uppercase"
+              style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+              NEXT STEP
+            </p>
+            <!-- Minimized teaser -->
+            <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1"
+              style="color: #1f2933;">
+              <a href="/name" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
+                style="color:#0b806f;" aria-label="Open the 99 Names of Allah journey">
+                Continue to the 99 Names of Allah
+                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
+                  style="color:#0b806f; font-size: 0.85rem; opacity: 0.85;"></i>
+              </a>
+            </div>
+            <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.8; font-size: 1.05rem;">
+              Ready for your next gentle step? Explore the
+              <a href="/name" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                99 Names of Allah
+              </a>
+              with Arabic/English names, meanings, descriptions, quick search, and favorites.
+            </p>
+            <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
+              <a href="/name" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center"
+                style="
+                    background: linear-gradient(135deg, #0b806f, #1a5f7a);
+                    border: none; border-radius: 999px;
+                    box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                 "
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
+                <span>Explore 99 Names of Allah</span>
+                <i class="fas fa-praying-hands ms-2" aria-hidden="true"></i>
+                
+                <span class="visually-hidden">Opens the accessible 99 Names of Allah experience</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Error Message -->
     <transition name="fade">
       <div v-if="errorMessage" class="alert alert-danger text-center" role="alert">
@@ -42,25 +113,16 @@
             <span class="input-group-text text-white border-0" style="background-color: #0db691;">
               <i class="bi bi-search"></i>
             </span>
-            <input
-              v-model="searchQuery"
-              type="text"
-              class="form-control border-0 py-3 h-100"
-              placeholder="Search duas by title, Arabic words, translation, or reference"
-              aria-label="Search duas"
-              @input="resetPagination"
-            />
+            <input v-model="searchQuery" type="text" class="form-control border-0 py-3 h-100"
+              placeholder="Search duas by title, Arabic words, translation, or reference" aria-label="Search duas"
+              @input="resetPagination" />
           </div>
         </div>
         <div class="col-2 col-sm-2 col-md-1">
-          <button
-            type="button"
+          <button type="button"
             class="btn w-100 h-100 d-flex align-items-center justify-content-center shadow-sm rounded-4"
             :class="hasActiveFilters ? 'btn-secondary text-white border-0' : 'btn-outline-secondary'"
-            :disabled="!hasActiveFilters"
-            @click="clearSearch"
-            aria-label="Clear search and filters"
-          >
+            :disabled="!hasActiveFilters" @click="clearSearch" aria-label="Clear search and filters">
             <i class="bi bi-x-lg fs-4"></i>
             <span class="visually-hidden">Clear filters</span>
           </button>
@@ -138,7 +200,8 @@
 
     <!-- Duas Display -->
     <div class="container">
-      <div v-if="filteredDuas.length === 0" class="alert alert-info text-center no-duas-message" role="status" aria-live="polite">
+      <div v-if="filteredDuas.length === 0" class="alert alert-info text-center no-duas-message" role="status"
+        aria-live="polite">
         <i class="bi" :class="viewMode === 'liked' ? 'bi-heart' : 'bi-search'"></i>
         {{ viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found' }}
         <button v-if="viewMode === 'liked'" class="btn btn-link p-0 ms-1" @click="viewMode = 'all'; resetPagination()">
@@ -146,7 +209,8 @@
         </button>
       </div>
 
-      <div v-for="category in filteredDuas" :key="category.id" class="mb-5" role="region" :aria-labelledby="`category-title-${category.id}`">
+      <div v-for="category in filteredDuas" :key="category.id" class="mb-5" role="region"
+        :aria-labelledby="`category-title-${category.id}`">
         <div class="d-flex align-items-center justify-content-between category-header mb-3">
           <h3 class="fw-semibold text-start mb-3 category-title" :id="`category-title-${category.id}`">
             <img src="images/art.png" width="30px" class="me-2" alt="Category icon" />
@@ -245,7 +309,8 @@
         </div>
 
         <!-- Pagination Controls -->
-        <div v-if="!category.collapsed && category.duas.length > duasPerPage" class="d-flex justify-content-center mt-4">
+        <div v-if="!category.collapsed && category.duas.length > duasPerPage"
+          class="d-flex justify-content-center mt-4">
           <nav aria-label="Dua pagination">
             <ul class="pagination">
               <li class="page-item" :class="{ disabled: currentPage[category.id] === 1 }">
@@ -254,7 +319,7 @@
                 </button>
               </li>
               <li v-for="page in totalPages(category.duas)" :key="page" class="page-item"
-                  :class="{ active: currentPage[category.id] === page }">
+                :class="{ active: currentPage[category.id] === page }">
                 <button class="page-link" @click="currentPage[category.id] = page">{{ page }}</button>
               </li>
               <li class="page-item" :class="{ disabled: currentPage[category.id] === totalPages(category.duas) }">
@@ -313,6 +378,7 @@ export default {
       actionFeedback: {},
       errorMessage: null,
       isLoading: true,
+      nextStepMinimized: false,
     };
   },
   computed: {
@@ -416,6 +482,9 @@ export default {
     },
   },
   methods: {
+    toggleNextStepMinimized() {
+      this.nextStepMinimized = !this.nextStepMinimized;
+    },
     getTagIcon(tag) {
       const icons = {
         'All': 'bi-grid-fill',
@@ -578,7 +647,7 @@ export default {
     },
   },
   created() {
-    try { console.debug('[DuaComponent] created()'); } catch(e) {}
+    try { console.debug('[DuaComponent] created()'); } catch (e) { }
     const storedLikedDuas = localStorage.getItem('likedDuas');
     if (storedLikedDuas) {
       this.likedDuas = JSON.parse(storedLikedDuas);
@@ -596,7 +665,7 @@ export default {
         if (!data.categories || !Array.isArray(data.categories)) {
           throw new Error('Invalid JSON structure: categories not found or not an array');
         }
-        try { console.debug('[DuaComponent] loaded categories:', data.categories.length); } catch(e) {}
+        try { console.debug('[DuaComponent] loaded categories:', data.categories.length); } catch (e) { }
         this.duaCollection = data.categories.map(category => ({
           ...category,
           collapsed: false,
