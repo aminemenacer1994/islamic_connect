@@ -804,8 +804,8 @@
                                     backdrop-filter: blur(6px);
                                     padding: 1.25rem 1.75rem;
                                 ">
-                                    <button type="button" class="btn-close next-step-close" aria-label="Dismiss next step"
-                                        @click="dismissNextStep" style="position:absolute; right:12px; top:12px; z-index:2;"></button>
+                                    <!-- <button type="button" class="btn-close next-step-close" aria-label="Dismiss next step"
+                                        @click="dismissNextStep" style="position:absolute; right:12px; top:12px; z-index:2;"></button> -->
                                     <button type="button"
                                         :title="nextStepMinimized ? 'Restore' : 'Minimize'"
                                         :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
@@ -1017,7 +1017,7 @@ export default {
             wheelResetMs: 160,
             gestureCooldownMs: 300,
             // Next-step minimized state
-            nextStepMinimized: false,
+            nextStepMinimized: true,
         };
     },
     computed: {

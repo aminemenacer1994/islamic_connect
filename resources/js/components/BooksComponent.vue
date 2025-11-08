@@ -480,8 +480,11 @@ export default {
       const currentSize = this.termFontSizes[termId] || 1;
       const newSize = currentSize + change * 0.1;
       const bounded = Math.max(this.minFontSize, Math.min(this.maxFontSize, newSize));
-      // ensure reactivity without forcing update
-      this.$set(this.termFontSizes, termId, bounded);
+      // Clone to keep Vue 3 reactivity happy when adding new keys
+      this.termFontSizes = {
+        ...this.termFontSizes,
+        [termId]: Number(bounded.toFixed(2)),
+      };
     },
     initialize() {
       this.baseFontSize = parseFloat(localStorage.getItem('fontSize') || '1');

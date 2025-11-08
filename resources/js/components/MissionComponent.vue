@@ -1,5 +1,5 @@
 <template>
-  <div class="p-5" :class="{ 'pb-audio-gap': showAudioPlayer }">
+  <div class="p-3" :class="{ 'pb-audio-gap': showAudioPlayer }">
 
     <div class="row justify-content-center text-center mb-3">
       <div class="col-lg-10 col-xl-10">
@@ -11,58 +11,75 @@
     </div>
 
     <!-- Next Step: From Qur'an History to Seerah Timeline -->
-    <div class="container" v-show="showNextStep" style="padding: 10px;">
+    <div style="padding: 10px;" class="container">
       <div class="mx-auto mb-4" style="
           position: relative;
-          background: #e6f1ef;
-          border: 1px solid rgba(11, 128, 111, 0.22);
+          background: #eaf3f1;
+          border: 1px solid rgba(11, 128, 111, 0.20);
           border-radius: 24px;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 12px 32px rgba(26,95,122,0.10);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
           padding: 1.25rem 1.75rem;
         ">
-        <button
-          type="button"
-          class="btn-close"
-          aria-label="Dismiss next step"
-          @click="dismissNextStep"
-          style="position: absolute; right: 14px; top: 14px; opacity: 0.8; filter: none; color: #6b8b91;">
-        </button>
+        <div class="next-step-actions" role="group" aria-label="Next step actions">
+          <button
+            type="button"
+            class="icon-btn"
+            :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+            :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
+            @click.stop="toggleNextStepMinimized">
+            <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+          </button>
+          <!-- <button
+            type="button"
+            class="icon-btn"
+            aria-label="Dismiss next step"
+            @click.stop="dismissNextStep">
+            <i class="fas fa-times" aria-hidden="true"></i>
+          </button> -->
+        </div>
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
             <div style="
                 width: 46px; height: 46px;
                 border-radius: 50%;
-                background: rgba(11,128,111,0.20);
+                background: rgba(11, 128, 111, 0.20);
                 display: flex; align-items: center; justify-content: center;
                 color: #0b806f; font-size: 1.35rem;
-                box-shadow: inset 0 0 0 1px rgba(11,128,111,0.26), 0 6px 14px rgba(26,95,122,0.10);
+                box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.26), 0 6px 14px rgba(26,95,122,0.10);
               ">
-              <i class="fas fa-route"></i>
+              <i class="fas fa-praying-hands"></i>
             </div>
           </div>
           <div style="flex:1;">
             <p class="mb-2 fw-semibold text-uppercase" style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
               NEXT STEP
             </p>
-            <p class="mb-3" style="color: #1f2933; line-height: 1.8; font-size: 1.1rem;">
-              If you’ve begun exploring how the Qur’an was preserved, a gentle next step is to meet the Messenger who lived it. 
-              Follow a simple, welcoming
-              <a href="/mission#timeline" class="fw-semibold text-decoration-none" style="color:#0b806f;">
-                Seerah timeline
+            <!-- Minimized teaser -->
+            <div v-show="nextStepMinimized" class="mb-2" style="color: #1f2933;">
+              <a href="/dua" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                Explore Du‘a collection
               </a>
-              to see the story unfold.
+              <i class="fas fa-arrow-up-right-from-square ms-1" style="color:#0b806f;"></i>
+            </div>
+            <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.8; font-size: 1.1rem;">
+              Learning the Prophet’s blessed journey is a beautiful beginning. When you feel ready, take a gentle step into
+              heartfelt supplications, explore a simple, welcoming the
+              <a href="/dua" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                Du‘a collection
+              </a>
+              for daily moments of connection.
             </p>
-            <a href="/mission#timeline"
+            <a v-show="!nextStepMinimized" href="/dua"
                class="btn btn-sm fw-semibold text-white px-3 py-2"
                style="
                   background: linear-gradient(135deg, #0b806f, #1a5f7a);
                   border: none; border-radius: 999px;
-                  box-shadow: 0 10px 20px rgba(26,95,122,0.25);
+                  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
                   transition: transform 0.2s ease, box-shadow 0.2s ease;
                "
-               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26,95,122,0.28)';"
-               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26,95,122,0.25)';">
-              Explore Seerah
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
+               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
+              Explore Du‘a
               <i class="fas fa-arrow-up-right-from-square ms-2"></i>
             </a>
           </div>
@@ -440,6 +457,7 @@ export default {
       summaryCache: {},
       // Next step banner visibility
       showNextStep: true,
+      nextStepMinimized: false,
       // Performance caches
       highlightedDescription: '',
       wordCount: 0,
@@ -471,8 +489,11 @@ export default {
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     this.synth.onvoiceschanged = this.loadVoices;
     this.loadVoices();
-    // Restore dismissal state for Next Step banner
-    try { if (localStorage.getItem('missionNextStepDismissed') === '1') this.showNextStep = false; } catch (_) {}
+    // Restore dismissal/minimized state for Next Step banner
+    try {
+      if (localStorage.getItem('missionNextStepDismissed') === '1') this.showNextStep = false;
+      this.nextStepMinimized = localStorage.getItem('missionNextStepMinimized') === '1';
+    } catch (_) { }
     // Preprocess events once for performance
     const preprocess = (e) => {
       const div = document.createElement('div');
@@ -532,9 +553,13 @@ export default {
     try { document.body.classList.remove('with-audio-player'); } catch (_) { }
   },
   methods: {
+    toggleNextStepMinimized() {
+      this.nextStepMinimized = !this.nextStepMinimized;
+      try { localStorage.setItem('missionNextStepMinimized', this.nextStepMinimized ? '1' : '0'); } catch (_) {}
+    },
     dismissNextStep() {
       this.showNextStep = false;
-      try { localStorage.setItem('missionNextStepDismissed', '1'); } catch (_) {}
+      try { localStorage.setItem('missionNextStepDismissed', '1'); } catch (_) { }
     },
     handleScrollForTitle() {
       this.updateDocumentTitle();
@@ -1442,6 +1467,32 @@ export default {
 </script>
 
 <style scoped>
+/* Next-step controls */
+.next-step-actions {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 5;
+}
+.icon-btn {
+  background: transparent;
+  border: 0;
+  color: #6b8b91;
+  opacity: 0.95;
+  cursor: pointer;
+  padding: 6px;
+  line-height: 1;
+}
+.icon-btn i { font-size: 1rem; }
+.icon-btn:hover { opacity: 1; }
+.icon-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(11,128,111,0.25);
+  border-radius: 6px;
+}
 /* Removed animate.css to reduce animation overhead */
 
 .play-btn-circle {
