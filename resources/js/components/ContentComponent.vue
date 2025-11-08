@@ -312,10 +312,11 @@
     <div v-if="showAudioPlayer" class="audio-player-container">
       <div class="custom-audio-player" :class="{ minimized: isPlayerMinimized }">
         <div class="controls">
-          <div class="artwork" v-if="selectedPodcast && selectedPodcast.image">
-            <img :src="selectedPodcast.image" :alt="selectedPodcast.name" />
-          </div>
-          <div class="control-group">
+          <div class="controls-left">
+            <div class="artwork" v-if="selectedPodcast && selectedPodcast.image">
+              <img :src="selectedPodcast.image" :alt="selectedPodcast.name" />
+            </div>
+            <div class="control-group">
             <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind 15 seconds" aria-label="Rewind 15 seconds">
               <i class="bi bi-skip-backward-fill"></i>
             </button>
@@ -330,22 +331,23 @@
               <i class="bi bi-stop-fill"></i>
             </button>
 
+            </div>
           </div>
           <div class="info-section" aria-live="polite">
             <span class="episode-title" v-if="visiblePodcasts[currentlyPlayingIndex]">{{ visiblePodcasts[currentlyPlayingIndex].title }}</span>
             <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
           </div>
-          <div class="audio-actions" style="display: flex; align-items: center; gap: 18px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="audio-actions">
+            <div class="audio-actions__group">
               <button @click="toggleVolume" class="control-btn" title="Volume" :aria-expanded="showVolumeBar ? 'true' : 'false'" aria-controls="player-volume">
                 <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
               </button>
               <input v-if="showVolumeBar" id="player-volume" type="range" min="0" max="1" step="0.01" v-model.number="volume"
-                @input="updateVolume" class="volume-slider" style="width: 80px;" aria-label="Volume" />
-              </div>
-            <div style="display:flex; align-items:center; gap:6px;">
+                @input="updateVolume" class="volume-slider" aria-label="Volume" />
+            </div>
+            <div class="audio-actions__group">
               <label for="speedSelect" class="visually-hidden">Speed</label>
-              <select id="speedSelect" v-model.number="playbackSpeed" @change="updatePlaybackSpeed" class="form-select form-select-sm" style="width: 90px;">
+              <select id="speedSelect" v-model.number="playbackSpeed" @change="updatePlaybackSpeed" class="form-select form-select-sm audio-speed-select">
                 <option :value="0.75">0.75x</option>
                 <option :value="1">1x</option>
                 <option :value="1.25">1.25x</option>
@@ -1384,15 +1386,18 @@ export default {
 .toggle-button:hover {
   background-color: #e0e0e0;
 }
-.audio-actions {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
 .volume-slider {
   accent-color: #0db691;
   vertical-align: middle;
+  width: clamp(70px, 14vw, 180px);
+  max-width: 200px;
+  min-width: 70px;
+  flex: 1 1 auto;
+}
+
+.audio-speed-select {
+  width: 90px;
+  min-width: 70px;
 }
 
 .podcast-card-wrapper {
@@ -1922,8 +1927,17 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: clamp(12px, 1.5vw, 24px);
   flex-wrap: nowrap;
+}
+
+.controls-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 0 0 auto;
+  min-width: 260px;
+  justify-content: flex-start;
 }
 
 .artwork {
@@ -1942,17 +1956,24 @@ export default {
 .control-group {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   flex: 0 0 auto;
+  flex-wrap: nowrap;
+}
+
+.controls-left .control-group {
+  justify-content: flex-start;
 }
 
 .info-section {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 14px;
   flex: 1 1 auto;
   min-width: 0; /* allow title to truncate */
-  justify-content: center;
+  text-align: center;
 }
 
 .control-btn {
@@ -1994,9 +2015,22 @@ export default {
 .audio-actions {
   display: flex;
   align-items: center;
-  gap: 18px;
+  justify-content: flex-end;
+  gap: clamp(10px, 1.25vw, 20px);
   flex: 0 0 auto;
   flex-wrap: nowrap;
+}
+
+.audio-actions__group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
+}
+
+.audio-actions button {
+  flex-shrink: 0;
 }
 
 .episode-title {
@@ -2053,15 +2087,41 @@ export default {
   }
 
   .controls {
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
   }
 
-  .control-group {
-    gap: 8px;
+  .controls-left {
+    flex: 1 1 calc(50% - 12px);
+    min-width: 320px;
+    justify-content: center;
+  }
+
+  .controls-left .control-group {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .info-section,
+  .audio-actions {
+    flex: 1 1 calc(50% - 12px);
+    min-width: 240px;
   }
 
   .info-section {
-    gap: 8px;
+    order: 2;
+  }
+
+  .audio-actions {
+    order: 3;
+    justify-content: center;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .audio-actions__group {
+    flex: 0 1 auto;
   }
 
   .control-btn {
@@ -2102,14 +2162,38 @@ export default {
     padding: 6px 8px;
   }
 
-  .controls {
-    gap: 6px;
+  .controls-left {
+    flex: 1 1 100%;
+    min-width: 0;
     justify-content: flex-start;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .controls-left .control-group {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+
+  .info-section,
+  .audio-actions {
+    flex: 1 1 calc(50% - 10px);
+    min-width: 200px;
   }
 
   .info-section {
-    flex-grow: 0;
-    order: 1;
+    order: 2;
+    gap: 10px;
+  }
+
+  .audio-actions {
+    order: 3;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .audio-actions__group {
+    flex: 0 1 auto;
   }
 
   .control-btn {
@@ -2150,10 +2234,38 @@ export default {
     padding: 4px 6px;
   }
 
+  .controls {
+    gap: 8px;
+  }
+
+  .controls-left {
+    flex: 1 1 100%;
+  }
+
+  .info-section,
+  .audio-actions {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 150px;
+  }
+
   .info-section {
-    flex-direction: column;
-    align-items: flex-start;
-    order: 1;
+    gap: 6px;
+    justify-content: flex-start;
+  }
+
+  .audio-actions {
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .volume-slider {
+    width: 70px;
+    min-width: 70px;
+  }
+
+  .audio-speed-select {
+    width: 72px;
+    min-width: 72px;
   }
 
   .control-btn {
