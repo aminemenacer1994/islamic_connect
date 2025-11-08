@@ -9,36 +9,47 @@
     <!-- Search & Location -->
     <section class="card shadow-sm mb-4" role="region" aria-labelledby="find-location-title">
       <div class="container-fluid card-body p-4">
-        <h5 id="find-location-title" class="h4 card-title text-primary fw-bold mb-3">Find Your Location</h5>
-        <div class="input-group mb-2">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter a city or address"
-            v-model="searchLocation"
-            @keyup.enter="searchQibla"
-            ref="searchInput"
-            aria-label="Enter a city or address"
-          />
-          <button
-            class="btn btn-success"
-            @click="searchQibla"
-            :disabled="loading"
-            title="Search"
-            aria-label="Search location"
-          >
-            <i class="bi bi-search"></i>
-          </button>
-          <button
-            class="btn btn-outline-secondary"
-            @click="getLocation"
-            :disabled="loading"
-            title="Use My Location"
-            aria-label="Use my location"
-          >
-            <i class="bi bi-geo-alt"></i>
-            <span class="d-none d-sm-inline">Use My Location</span>
-          </button>
+        <h5
+          id="find-location-title"
+          class="h4 card-title text-primary fw-bold mb-3 d-block w-100"
+        >
+          Find Your Location
+        </h5>
+        <div class="row g-0 align-items-stretch mb-2 w-100">
+          <div class="col-10 col-md-10">
+            <input
+              type="text"
+              class="form-control h-100"
+              placeholder="Enter a city or address"
+              v-model="searchLocation"
+              @keyup.enter="searchQibla"
+              ref="searchInput"
+              aria-label="Enter a city or address"
+            />
+          </div>
+          <div class="col-1 col-md-1">
+            <button
+              class="btn btn-success w-100 h-100 d-flex justify-content-center align-items-center"
+              @click="searchQibla"
+              :disabled="loading"
+              title="Search"
+              aria-label="Search location"
+            >
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+          <div class="col-1 col-md-1">
+            <button
+              class="btn btn-outline-secondary w-100 h-100 d-flex justify-content-center align-items-center gap-1"
+              @click="getLocation"
+              :disabled="loading"
+              title="Use My Location"
+              aria-label="Use my location"
+            >
+              <i class="bi bi-geo-alt"></i>
+              <span class="d-none d-sm-inline"></span>
+            </button>
+          </div>
         </div>
         <p v-if="error" class="text-danger mt-3 mb-0" role="alert">{{ error }}</p>
       </div>
