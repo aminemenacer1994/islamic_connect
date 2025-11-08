@@ -21,11 +21,6 @@
       <div class="spinner-border text-success" role="status" aria-label="Loading"></div>
       <div class="mt-2 text-muted">Loading duas…</div>
     </div>
-    <div v-else-if="!isLoading && !errorMessage && filteredCategories.length === 0" class="text-center my-5">
-      <div class="alert alert-info text-center no-duas-message" role="status">
-        {{ viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found' }}
-      </div>
-    </div>
 
     <!-- Custom Search Tags -->
     <!-- <div class="container mb-4">
@@ -41,23 +36,34 @@
 
     <!-- Search Input -->
     <div class="container mb-4">
-      <div class="row justify-content-center" role="search">
-        <div class="col-12 col-md-10 col-lg-10"> 
-          <div class="search-container mb-3">
-            <div class="input-group search-input-group">
-              <span class="input-group-text text-white"
-                style="background-color: #0db691;  padding: 0.75rem;">
-                <i class="bi bi-search"></i>
-              </span>
-              <input v-model="searchQuery" type="text" class="form-control search-input"
-                placeholder="Search duas by title, Arabic words, translation, or reference" aria-label="Search duas"
-                @input="resetPagination" style="height: 50px; font-size: 1.2rem; padding: 0.75rem;" />
-              <button v-if="searchQuery || selectedTag || selectedReference" class="btn btn-outline-secondary"
-                @click="clearSearch" aria-label="Clear search" style="font-size: 1.5rem; padding: 0.75rem;">
-                <i class="bi bi-x"></i>
-              </button>
-            </div>
+      <div class="row g-2 align-items-stretch justify-content-center" role="search">
+        <div class="col-10 col-sm-10 col-md-11">
+          <div class="input-group shadow-sm rounded-4 overflow-hidden h-100">
+            <span class="input-group-text text-white border-0" style="background-color: #0db691;">
+              <i class="bi bi-search"></i>
+            </span>
+            <input
+              v-model="searchQuery"
+              type="text"
+              class="form-control border-0 py-3 h-100"
+              placeholder="Search duas by title, Arabic words, translation, or reference"
+              aria-label="Search duas"
+              @input="resetPagination"
+            />
           </div>
+        </div>
+        <div class="col-2 col-sm-2 col-md-1">
+          <button
+            type="button"
+            class="btn w-100 h-100 d-flex align-items-center justify-content-center shadow-sm rounded-4"
+            :class="hasActiveFilters ? 'btn-secondary text-white border-0' : 'btn-outline-secondary'"
+            :disabled="!hasActiveFilters"
+            @click="clearSearch"
+            aria-label="Clear search and filters"
+          >
+            <i class="bi bi-x-lg fs-4"></i>
+            <span class="visually-hidden">Clear filters</span>
+          </button>
         </div>
       </div>
     </div>
@@ -397,6 +403,9 @@ export default {
     },
     filteredDuas() {
       return this.filteredCategories;
+    },
+    hasActiveFilters() {
+      return Boolean(this.searchQuery || this.selectedTag || this.selectedReference);
     },
     allDuasLikedInCategory() {
       return (categoryId) => {

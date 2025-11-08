@@ -3495,6 +3495,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     filteredDuas() {
       return this.filteredCategories;
     },
+    hasActiveFilters() {
+      return Boolean(this.searchQuery || this.selectedTag || this.selectedReference);
+    },
     allDuasLikedInCategory() {
       return categoryId => {
         const category = this.duaCollection.find(c => c.id === categoryId);
@@ -28989,100 +28992,93 @@ const _hoisted_3 = {
   class: "text-center my-5"
 };
 const _hoisted_4 = {
-  key: 1,
-  class: "text-center my-5"
+  class: "container mb-4"
 };
 const _hoisted_5 = {
-  class: "alert alert-info text-center no-duas-message",
-  role: "status"
-};
-const _hoisted_6 = {
-  class: "container mb-4"
-};
-const _hoisted_7 = {
-  class: "row justify-content-center",
+  class: "row g-2 align-items-stretch justify-content-center",
   role: "search"
 };
+const _hoisted_6 = {
+  class: "col-10 col-sm-10 col-md-11"
+};
+const _hoisted_7 = {
+  class: "input-group shadow-sm rounded-4 overflow-hidden h-100"
+};
 const _hoisted_8 = {
-  class: "col-12 col-md-10 col-lg-10"
+  class: "col-2 col-sm-2 col-md-1"
 };
-const _hoisted_9 = {
-  class: "search-container mb-3"
-};
+const _hoisted_9 = ["disabled"];
 const _hoisted_10 = {
-  class: "input-group search-input-group"
-};
-const _hoisted_11 = {
   class: "container mb-4"
 };
-const _hoisted_12 = {
+const _hoisted_11 = {
   class: "nav nav-tabs justify-content-center"
+};
+const _hoisted_12 = {
+  class: "nav-item"
 };
 const _hoisted_13 = {
   class: "nav-item"
 };
 const _hoisted_14 = {
-  class: "nav-item"
-};
-const _hoisted_15 = {
   key: 0,
   class: "badge bg-danger ms-1"
 };
-const _hoisted_16 = {
+const _hoisted_15 = {
   key: 0,
   class: "text-center mt-3"
 };
-const _hoisted_17 = {
-  key: 2,
+const _hoisted_16 = {
+  key: 1,
   class: "container mb-4"
 };
-const _hoisted_18 = {
+const _hoisted_17 = {
   class: "row g-3"
 };
+const _hoisted_18 = {
+  class: "col-md-6"
+};
 const _hoisted_19 = {
-  class: "col-md-6"
-};
-const _hoisted_20 = {
   class: "dropdown-card"
 };
-const _hoisted_21 = ["value"];
+const _hoisted_20 = ["value"];
+const _hoisted_21 = {
+  class: "col-md-6"
+};
 const _hoisted_22 = {
-  class: "col-md-6"
-};
-const _hoisted_23 = {
   class: "dropdown-card"
 };
-const _hoisted_24 = ["value"];
-const _hoisted_25 = {
+const _hoisted_23 = ["value"];
+const _hoisted_24 = {
   key: 0,
   class: "alert alert-success alert-dismissible fade show mx-auto copy-message",
   role: "alert"
 };
-const _hoisted_26 = {
+const _hoisted_25 = {
   class: "container"
 };
-const _hoisted_27 = {
+const _hoisted_26 = {
   key: 0,
   class: "alert alert-info text-center no-duas-message",
   role: "status",
   "aria-live": "polite"
 };
-const _hoisted_28 = ["aria-labelledby"];
-const _hoisted_29 = {
+const _hoisted_27 = ["aria-labelledby"];
+const _hoisted_28 = {
   class: "d-flex align-items-center justify-content-between category-header mb-3"
 };
-const _hoisted_30 = ["id"];
-const _hoisted_31 = {
+const _hoisted_29 = ["id"];
+const _hoisted_30 = {
   class: "d-flex align-items-center gap-3"
 };
-const _hoisted_32 = ["onClick", "title", "aria-label"];
-const _hoisted_33 = {
+const _hoisted_31 = ["onClick", "title", "aria-label"];
+const _hoisted_32 = {
   key: 0,
   class: "row g-3",
   role: "list"
 };
-const _hoisted_34 = ["aria-labelledby"];
-const _hoisted_35 = {
+const _hoisted_33 = ["aria-labelledby"];
+const _hoisted_34 = {
   key: 0,
   class: "position-absolute top-0 end-0 bg-white rounded-circle d-flex align-items-center justify-content-center m-2",
   style: {
@@ -29092,50 +29088,50 @@ const _hoisted_35 = {
     "z-index": "1"
   }
 };
-const _hoisted_36 = {
+const _hoisted_35 = {
   class: "card-body d-flex flex-column p-3 p-md-4 text-black"
 };
-const _hoisted_37 = ["id"];
-const _hoisted_38 = ["innerHTML"];
-const _hoisted_39 = {
+const _hoisted_36 = ["id"];
+const _hoisted_37 = ["innerHTML"];
+const _hoisted_38 = {
   class: "rounded-3 p-3 mb-3 text-center shadow-md bg-light"
 };
+const _hoisted_39 = ["innerHTML"];
 const _hoisted_40 = ["innerHTML"];
 const _hoisted_41 = ["innerHTML"];
-const _hoisted_42 = ["innerHTML"];
-const _hoisted_43 = {
+const _hoisted_42 = {
   class: "card-footer bg-light p-2 p-md-3"
 };
-const _hoisted_44 = {
+const _hoisted_43 = {
   class: "d-flex justify-content-between align-items-center w-100"
 };
-const _hoisted_45 = {
+const _hoisted_44 = {
   class: "d-flex align-items-center bg-white rounded-pill px-2 shadow-sm"
 };
+const _hoisted_45 = ["disabled"];
 const _hoisted_46 = ["disabled"];
-const _hoisted_47 = ["disabled"];
-const _hoisted_48 = {
+const _hoisted_47 = {
   class: "d-flex gap-2"
 };
-const _hoisted_49 = ["onClick", "aria-label"];
-const _hoisted_50 = {
+const _hoisted_48 = ["onClick", "aria-label"];
+const _hoisted_49 = {
   class: "action-tooltip"
 };
+const _hoisted_50 = ["onClick"];
 const _hoisted_51 = ["onClick"];
-const _hoisted_52 = ["onClick"];
-const _hoisted_53 = {
+const _hoisted_52 = {
   key: 1,
   class: "d-flex justify-content-center mt-4"
 };
-const _hoisted_54 = {
+const _hoisted_53 = {
   "aria-label": "Dua pagination"
 };
-const _hoisted_55 = {
+const _hoisted_54 = {
   class: "pagination"
 };
+const _hoisted_55 = ["onClick"];
 const _hoisted_56 = ["onClick"];
 const _hoisted_57 = ["onClick"];
-const _hoisted_58 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     class: "hero-section mb-5"
@@ -29155,38 +29151,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Loading"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "mt-2 text-muted"
-  }, "Loading duas…", -1 /* CACHED */)]))])) : !$data.isLoading && !$data.errorMessage && $options.filteredCategories.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found'), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Custom Search Tags "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container mb-4\">\n      <div class=\"search-tags d-flex overflow-auto pb-2\">\n        <button v-for=\"tag in searchTags\" :key=\"tag\" class=\"tag-btn me-2\"\n          :class=\"{ active: selectedTag === tag || (tag === 'All' && !selectedTag) }\" @click=\"toggleTag(tag)\"\n          :aria-label=\"`Filter by ${tag}`\">\n          <i :class=\"getTagIcon(tag)\" class=\"me-1\"></i>\n          {{ tag }}\n        </button>\n      </div>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "input-group-text text-white",
+  }, "Loading duas…", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Custom Search Tags "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container mb-4\">\n      <div class=\"search-tags d-flex overflow-auto pb-2\">\n        <button v-for=\"tag in searchTags\" :key=\"tag\" class=\"tag-btn me-2\"\n          :class=\"{ active: selectedTag === tag || (tag === 'All' && !selectedTag) }\" @click=\"toggleTag(tag)\"\n          :aria-label=\"`Filter by ${tag}`\">\n          <i :class=\"getTagIcon(tag)\" class=\"me-1\"></i>\n          {{ tag }}\n        </button>\n      </div>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "input-group-text text-white border-0",
     style: {
-      "background-color": "#0db691",
-      "padding": "0.75rem"
+      "background-color": "#0db691"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-search"
   })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.searchQuery = $event),
     type: "text",
-    class: "form-control search-input",
+    class: "form-control border-0 py-3 h-100",
     placeholder: "Search duas by title, Arabic words, translation, or reference",
     "aria-label": "Search duas",
-    onInput: _cache[1] || (_cache[1] = (...args) => $options.resetPagination && $options.resetPagination(...args)),
-    style: {
-      "height": "50px",
-      "font-size": "1.2rem",
-      "padding": "0.75rem"
-    }
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), $data.searchQuery || $data.selectedTag || $data.selectedReference ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
-    class: "btn btn-outline-secondary",
+    onInput: _cache[1] || (_cache[1] = (...args) => $options.resetPagination && $options.resetPagination(...args))
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn w-100 h-100 d-flex align-items-center justify-content-center shadow-sm rounded-4", $options.hasActiveFilters ? 'btn-secondary text-white border-0' : 'btn-outline-secondary']),
+    disabled: !$options.hasActiveFilters,
     onClick: _cache[2] || (_cache[2] = (...args) => $options.clearSearch && $options.clearSearch(...args)),
-    "aria-label": "Clear search",
-    style: {
-      "font-size": "1.5rem",
-      "padding": "0.75rem"
-    }
-  }, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-x"
-  }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tabs for All Duas and Liked Duas "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "aria-label": "Clear search and filters"
+  }, [...(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-x-lg fs-4"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "visually-hidden"
+  }, "Clear filters", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_9)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tabs for All Duas and Liked Duas "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link", {
       active: $data.viewMode === 'all'
     }]),
@@ -29196,7 +29185,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       $options.resetPagination();
     }, ["prevent"])),
     "aria-current": "page"
-  }, " All Duas ", 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, " All Duas ", 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link", {
       active: $data.viewMode === 'liked'
     }]),
@@ -29205,7 +29194,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       $data.viewMode = 'liked';
       $options.resetPagination();
     }, ["prevent"]))
-  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked Duas ", -1 /* CACHED */)), $options.likedDuasCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.likedDuasCount), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Clear All Liked Duas Button "), $data.viewMode === 'liked' && $options.likedDuasCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked Duas ", -1 /* CACHED */)), $options.likedDuasCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.likedDuasCount), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Clear All Liked Duas Button "), $data.viewMode === 'liked' && $options.likedDuasCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-danger", {
       disabled: $options.likedDuasCount === 0
     }]),
@@ -29213,7 +29202,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Clear all liked duas"
   }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-trash-fill me-1"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.actionFeedback['clearAll'] ? 'Cleared!' : 'Clear All Liked Duas'), 1 /* TEXT */)], 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category and Reference Dropdowns "), $data.viewMode === 'all' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.actionFeedback['clearAll'] ? 'Cleared!' : 'Clear All Liked Duas'), 1 /* TEXT */)], 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category and Reference Dropdowns "), $data.viewMode === 'all' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "dropdown-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "fw-bold"
@@ -29227,8 +29216,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: category.id,
       value: category.id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + ") ", 9 /* TEXT, PROPS */, _hoisted_21);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + ") ", 9 /* TEXT, PROPS */, _hoisted_20);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "dropdown-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "fw-bold"
@@ -29242,11 +29231,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: reference.full,
       value: reference.full
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.display), 9 /* TEXT, PROPS */, _hoisted_24);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.display), 9 /* TEXT, PROPS */, _hoisted_23);
   }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReference]])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Success Message "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "slide-fade"
   }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.showCopyMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.showCopyMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-check-circle-fill me-2"
     }, null, -1 /* CACHED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Copied to clipboard ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
@@ -29255,7 +29244,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Close"
     })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas Display "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [$options.filteredDuas.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas Display "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [$options.filteredDuas.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.viewMode === 'liked' ? 'bi-heart' : 'bi-search'])
   }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found') + " ", 1 /* TEXT */), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
@@ -29270,7 +29259,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "mb-5",
       role: "region",
       "aria-labelledby": `category-title-${category.id}`
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
       class: "fw-semibold text-start mb-3 category-title",
       id: `category-title-${category.id}`
     }, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -29278,7 +29267,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       width: "30px",
       class: "me-2",
       alt: "Category icon"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(category.collapsed ? 'bi bi-chevron-down action-icon' : 'bi bi-chevron-up action-icon'),
       onClick: $event => $options.toggleCategoryCollapse(category.id),
       "data-bs-toggle": "tooltip",
@@ -29286,7 +29275,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: category.collapsed ? 'Expand Category' : 'Collapse Category',
       "aria-label": category.collapsed ? 'Expand Category' : 'Collapse Category',
       role: "button"
-    }, null, 10 /* CLASS, PROPS */, _hoisted_32)])]), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPaginatedDuas(category.duas), dua => {
+    }, null, 10 /* CLASS, PROPS */, _hoisted_31)])]), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPaginatedDuas(category.duas), dua => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: dua.id,
         class: "col-12 col-md-6"
@@ -29299,9 +29288,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         role: "listitem",
         "aria-labelledby": `dua-title-${dua.id}`
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Badge "), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [...(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Badge "), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [...(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-heart-fill text-danger"
-      }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Body "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+      }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Body "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
         class: "card-title fw-semibold mb-3 position-relative pb-2",
         id: `dua-title-${dua.id}`,
         style: {
@@ -29314,7 +29303,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         alt: "Category icon"
       }, null, -1 /* CACHED */)), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)()), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         innerHTML: $options.highlightText(dua.title)
-      }, null, 8 /* PROPS */, _hoisted_38)], 8 /* PROPS */, _hoisted_37), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_37)], 8 /* PROPS */, _hoisted_36), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         class: "mb-0 font-arabic",
         lang: "ar",
         dir: "rtl",
@@ -29324,7 +29313,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         },
         innerHTML: $options.highlightText(dua.arabic),
         "aria-label": "Dua in Arabic"
-      }, null, 8 /* PROPS */, _hoisted_40)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_39)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         class: "mb-3 translation-text text-muted",
         style: {
           fontSize: 'calc(var(--font-size-base))',
@@ -29332,21 +29321,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         },
         innerHTML: $options.highlightText(dua.translation),
         "aria-label": "Dua translation"
-      }, null, 8 /* PROPS */, _hoisted_41), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_40), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         class: "text-muted mb-0 reference-text",
         style: {
           fontSize: 'calc(var(--font-size-base) * 0.9)'
         },
         innerHTML: $options.highlightText('- ' + dua.reference),
         "aria-label": "Dua reference"
-      }, null, 8 /* PROPS */, _hoisted_42)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Footer with Actions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 8 /* PROPS */, _hoisted_41)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Footer with Actions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-link p-1 text-secondary",
         onClick: _cache[12] || (_cache[12] = $event => $options.changeFontSize('decrease')),
         disabled: $data.fontSize <= 14,
         "aria-label": "Decrease Font Size"
       }, [...(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-dash-circle-fill fs-5"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_46), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_45), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "mx-1 bg-light",
         style: {
           "width": "1px",
@@ -29359,7 +29348,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "aria-label": "Increase Font Size"
       }, [...(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-plus-circle-fill fs-5"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_47)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_46)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn",
         style: {
           "width": "36px",
@@ -29369,7 +29358,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "aria-label": $data.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.likedDuas.includes(dua.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart')
-      }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.likedDuas.includes(dua.id) ? 'Unlike' : 'Like'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_49), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.likedDuas.includes(dua.id) ? 'Unlike' : 'Like'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn",
         style: {
           "width": "36px",
@@ -29381,7 +29370,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         class: "bi bi-share-fill"
       }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "action-tooltip"
-      }, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_51), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_50), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn",
         style: {
           "width": "36px",
@@ -29393,8 +29382,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         class: "bi bi-clipboard-fill"
       }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "action-tooltip"
-      }, "Copy", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_52)])])])], 14 /* CLASS, STYLE, PROPS */, _hoisted_34)]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), !category.collapsed && category.duas.length > $data.duasPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+      }, "Copy", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_51)])])])], 14 /* CLASS, STYLE, PROPS */, _hoisted_33)]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), !category.collapsed && category.duas.length > $data.duasPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         disabled: $data.currentPage[category.id] === 1
       }])
@@ -29404,7 +29393,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Previous page"
     }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "aria-hidden": "true"
-    }, "« Previous", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_56)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages(category.duas), page => {
+    }, "« Previous", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_55)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages(category.duas), page => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: page,
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
@@ -29413,7 +29402,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "page-link",
         onClick: $event => $data.currentPage[category.id] = page
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_57)], 2 /* CLASS */);
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_56)], 2 /* CLASS */);
     }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         disabled: $data.currentPage[category.id] === $options.totalPages(category.duas)
@@ -29424,7 +29413,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Next page"
     }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "aria-hidden": "true"
-    }, "Next »", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_58)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_28);
+    }, "Next »", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_57)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_27);
   }), 128 /* KEYED_FRAGMENT */))])]);
 }
 
