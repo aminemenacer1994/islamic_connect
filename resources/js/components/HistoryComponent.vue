@@ -6,7 +6,7 @@
       <div class="col-lg-10 col-xl-10">
         <h1 class="display-5 fw-bold">Quran History</h1>
         <p class="lead">
-          Explore the Quran’s journey—its revelation, memorization, and codification—as a unifying force for the global
+          Explore the Quran’s journey, its revelation, memorization, and codification as a unifying force for the global
           Muslim community.
         </p>
       </div>
@@ -130,15 +130,14 @@
           :style="{ 'font-size': fontSizes[idx] + 'rem', 'background-color': '#ffffff', 'line-height': 1.7, 'color': '#4a5568' }">
           <!-- AI Summary, Font Size, Print, Export to PDF, and Share via WhatsApp Buttons -->
           <div class="mb-3">
-            <div class="btn-toolbar flex-wrap gap-2">
+            <div class="btn-toolbar flex-wrap gap-2 d-none d-sm-flex">
               <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Content actions">
                 <button class="btn btn-outline-dark fw-semibold transition"
                   @click="summarizeEvent(idx)"
                   :disabled="summaryLoading[idx]"
                   aria-label="Generate AI summary">
                   <i class="bi" :class="summaryLoading[idx] ? 'bi-hourglass-split' : 'bi-robot'" aria-hidden="true"></i>
-                  <span class="ms-1 d-none d-sm-inline">{{ summaryLoading[idx] ? 'Generating...' : 'AI Summary' }}</span>
-                  <span class="ms-1 d-inline d-sm-none">{{ summaryLoading[idx] ? 'Generating...' : 'AI Summary' }}</span>
+                  <span class="ms-1">{{ summaryLoading[idx] ? 'Generating...' : 'AI Summary' }}</span>
                 </button>
 
                 <button class="btn btn-outline-dark fw-semibold transition"
@@ -147,8 +146,7 @@
                   @keydown.space.prevent.stop="increaseFontSize(idx)"
                   aria-label="Increase font size" title="Increase font size">
                   <i class="bi bi-zoom-in me-1" aria-hidden="true"></i>
-                  <span class="d-none d-sm-inline">Increase font size</span>
-                  <span class="d-inline d-sm-none">A+</span>
+                  Increase font size
                 </button>
 
                 <button class="btn btn-outline-dark fw-semibold transition"
@@ -157,8 +155,7 @@
                   @keydown.space.prevent.stop="decreaseFontSize(idx)"
                   aria-label="Decrease font size" title="Decrease font size">
                   <i class="bi bi-zoom-out me-1" aria-hidden="true"></i>
-                  <span class="d-none d-sm-inline">Decrease font size</span>
-                  <span class="d-inline d-sm-none">A-</span>
+                  Decrease font size
                 </button>
 
                 <button class="btn btn-outline-dark fw-semibold transition"
@@ -167,8 +164,7 @@
                   @keydown.space.prevent.stop="printSection(idx)"
                   aria-label="Print section" title="Print section">
                   <i class="bi bi-printer me-1" aria-hidden="true"></i>
-                  <span class="d-none d-sm-inline">Print</span>
-                  <span class="d-inline d-sm-none">Print</span>
+                  Print
                 </button>
 
                 <button class="btn btn-outline-dark fw-semibold transition"
@@ -177,21 +173,67 @@
                   @keydown.space.prevent.stop="generatePDF(idx)"
                   aria-label="Export to PDF" title="Export to PDF">
                   <i class="bi bi-file-earmark-pdf me-1" aria-hidden="true"></i>
-                  <span class="d-none d-sm-inline">Export to PDF</span>
-                  <span class="d-inline d-sm-none">PDF</span>
+                  Export to PDF
+                </button>
+              </div>
+            </div>
+            <div class="d-sm-none">
+              <div class="d-flex gap-2" role="group" aria-label="Content actions (mobile)">
+                <button class="btn btn-outline-dark flex-fill py-2"
+                  @click="summarizeEvent(idx)"
+                  :disabled="summaryLoading[idx]"
+                  aria-label="Generate AI summary" title="AI Summary">
+                  <i class="bi" :class="summaryLoading[idx] ? 'bi-hourglass-split' : 'bi-robot'" aria-hidden="true"></i>
+                  <span class="visually-hidden">{{ summaryLoading[idx] ? 'Generating...' : 'AI Summary' }}</span>
+                </button>
+
+                <button class="btn btn-outline-dark flex-fill py-2"
+                  @click.stop="increaseFontSize(idx)"
+                  @keydown.enter.stop="increaseFontSize(idx)"
+                  @keydown.space.prevent.stop="increaseFontSize(idx)"
+                  aria-label="Increase font size" title="Increase font size">
+                  <i class="bi bi-zoom-in" aria-hidden="true"></i>
+                  <span class="visually-hidden">Increase font size</span>
+                </button>
+
+                <button class="btn btn-outline-dark flex-fill py-2"
+                  @click.stop="decreaseFontSize(idx)"
+                  @keydown.enter.stop="decreaseFontSize(idx)"
+                  @keydown.space.prevent.stop="decreaseFontSize(idx)"
+                  aria-label="Decrease font size" title="Decrease font size">
+                  <i class="bi bi-zoom-out" aria-hidden="true"></i>
+                  <span class="visually-hidden">Decrease font size</span>
+                </button>
+
+                <button class="btn btn-outline-dark flex-fill py-2"
+                  @click.stop="printSection(idx)"
+                  @keydown.enter.stop="printSection(idx)"
+                  @keydown.space.prevent.stop="printSection(idx)"
+                  aria-label="Print section" title="Print section">
+                  <i class="bi bi-printer" aria-hidden="true"></i>
+                  <span class="visually-hidden">Print section</span>
+                </button>
+
+                <button class="btn btn-outline-dark flex-fill py-2"
+                  @click.stop="generatePDF(idx)"
+                  @keydown.enter.stop="generatePDF(idx)"
+                  @keydown.space.prevent.stop="generatePDF(idx)"
+                  aria-label="Export to PDF" title="Export to PDF">
+                  <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+                  <span class="visually-hidden">Export to PDF</span>
                 </button>
               </div>
             </div>
 
             <Transition name="fade">
               <div v-if="summaries[idx]" class="mt-3 p-3 rounded-3 position-relative summary-box">
-                <button class="btn btn-sm p-1 position-absolute top-0 end-0 m-2"
+                <button type="button"
+                  class="btn-close position-absolute top-0 end-0 m-2"
                   @click="clearSummary(idx)"
                   @keydown.enter="clearSummary(idx)"
                   @keydown.space.prevent="clearSummary(idx)"
-                  aria-label="Close summary" title="Close">
-                  <i class="bi bi-x-lg" aria-hidden="true"></i>
-                </button>
+                  aria-label="Close summary"
+                  title="Close"></button>
                 <strong>AI Summary:</strong>
                 <div class="mt-1">{{ summaries[idx] }}</div>
               </div>
