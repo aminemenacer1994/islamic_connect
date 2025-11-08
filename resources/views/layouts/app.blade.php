@@ -356,7 +356,6 @@
             .page-header { align-items: stretch; }
             .page-title { font-size: 1.1rem; }
             .count-chip { padding: 4px 8px; font-size: .9rem; }
-            .btn, .button-36, .button-64 { width: 100%; max-width: 100%; }
         }
 
         .fixed-sidebar {
