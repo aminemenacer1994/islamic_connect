@@ -9,11 +9,82 @@
       <div class="container-fluid px-3 px-md-4">
         <div class="row justify-content-center mx-0">
           <div class="col-12 col-lg-10 col-xl-8 px-0">
-            
+
             <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Dictionary</h2>
             <p class="text-center text-dark mb-4" style="font-size: 18px;">
               A comprehensive resource for exploring Islamic terms and their meanings
             </p>
+
+            <div class="container" style="padding: 10px;">
+              <div class="mx-auto mb-4" style="
+                  position: relative;
+                  background: #eaf3f1;
+                  border: 1px solid rgba(11, 128, 111, 0.20);
+                  border-radius: 24px;
+                  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
+                  padding: 1.25rem 1.75rem;
+                ">
+                <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+                  :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized"
+                  style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
+                  <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+                </button>
+                <div class="d-flex align-items-start gap-3 text-start">
+                  <div class="flex-shrink-0 mt-1">
+                    <div class="next-step-icon-circle" role="img" aria-label="Calm Islamic finance guide" style="
+                      width: 48px; height: 48px;
+                      border-radius: 50%;
+                      background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.14));
+                      display: flex; align-items: center; justify-content: center;
+                      color: #0b806f; font-size: 1.25rem;
+                      box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 16px rgba(26,95,122,0.12);
+                    ">
+                      <i class="fas fa-scale-balanced" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                  <div style="flex:1;">
+                    <p class="mb-2 fw-semibold text-uppercase"
+                      style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+                      NEXT STEP
+                    </p>
+                    <!-- Minimized teaser -->
+                    <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1"
+                      style="color: #1f2933;">
+                      <a href="/finance" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
+                        style="color:#0b806f;" aria-label="Open the Islamic finance guide">
+                        Move from definitions to Islamic finance
+                        <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
+                          style="color:#0b806f; font-size: 0.82rem; opacity: 0.85;"></i>
+                      </a>
+                    </div>
+                    <p v-show="!nextStepMinimized" class="mb-3"
+                      style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
+                      Still learning the words and curious about halal money choices? This English-only, screen-reader
+                      friendly Islamic Finance path offers gentle cues for visually impaired reverts moving on from the
+                      dictionary.
+                      <a href="/finance" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                        Visit Islamic Finance
+                      </a>
+                      when you feel ready.
+                    </p>
+                    <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
+                      <a href="/finance"
+                        class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center" style="
+                          background: linear-gradient(135deg, #0b806f, #1a5f7a);
+                          border: none; border-radius: 999px;
+                          box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
+                          transition: transform 0.2s ease, box-shadow 0.2s ease;
+                          " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';">
+                        <span>Explore Islamic Finance</span>
+                        <i class="fas fa-coins ms-2" aria-hidden="true"></i>
+                        <span class="visually-hidden">Open the accessible Islamic finance guide for new Muslims</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div>
               <!-- Search Stats -->
@@ -41,9 +112,8 @@
                       <input id="searchQuery" type="text" v-model="searchQuery"
                         class="form-control border-0 ps-4 pe-0 py-3" placeholder="Search terms, meanings, references..."
                         aria-label="Search Islamic Dictionary" :aria-controls="'results-region'"
-                        @input="updateSuggestions" @focus="updateSuggestions"
-                        @blur="delayHideSuggestions" @keydown.down.prevent="navigateSuggestions(1)"
-                        @keydown.up.prevent="navigateSuggestions(-1)"
+                        @input="updateSuggestions" @focus="updateSuggestions" @blur="delayHideSuggestions"
+                        @keydown.down.prevent="navigateSuggestions(1)" @keydown.up.prevent="navigateSuggestions(-1)"
                         @keydown.enter.prevent="selectSuggestion(highlightedIndex)"
                         @keydown.escape="showSuggestions = false" autocomplete="off" spellcheck="false"
                         style="box-shadow: none;" />
@@ -66,7 +136,8 @@
                       style="z-index: 1050; max-height: 40vh; overflow-y: auto; border-top: none;">
                       <div class="p-2 border-bottom bg-light">
                         <small class="text-muted">
-                          <i class="bi bi-lightbulb me-1" aria-hidden="true"></i>Search tips: Use quotes for exact phrases, + for required
+                          <i class="bi bi-lightbulb me-1" aria-hidden="true"></i>Search tips: Use quotes for exact
+                          phrases, + for required
                           words
                         </small>
                       </div>
@@ -81,15 +152,16 @@
                             <small class="text-muted">{{ suggestion.meaning.substring(0, 60) }}...</small>
                           </div>
                           <div class="d-flex flex-column align-items-end">
-                          <span class="badge" style="background-color: #e0fff8; color: #00796b;">{{ suggestion.subject
-                              }}</span>
+                            <span class="badge" style="background-color: #e0fff8; color: #00796b;">{{ suggestion.subject
+                            }}</span>
                             <small class="text-muted">{{ getMatchType(suggestion) }}</small>
                           </div>
                         </button>
                       </div>
                       <div class="p-2 border-top bg-light">
                         <small class="text-muted">
-                          <i class="bi bi-arrow-up me-1" aria-hidden="true"></i><i class="bi bi-arrow-down me-1" aria-hidden="true"></i>Navigate • Enter to
+                          <i class="bi bi-arrow-up me-1" aria-hidden="true"></i><i class="bi bi-arrow-down me-1"
+                            aria-hidden="true"></i>Navigate • Enter to
                           select • Esc to clear
                         </small>
                       </div>
@@ -185,7 +257,8 @@
           </div>
 
           <!-- Terms grid -->
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4" role="region" id="results-region" aria-label="Dictionary results" :aria-busy="isLoading ? 'true' : 'false'">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4" role="region" id="results-region"
+            aria-label="Dictionary results" :aria-busy="isLoading ? 'true' : 'false'">
             <div v-for="term in displayedTerms" :key="term.id" class="col mb-4">
               <div class="card h-100 shadow-sm border-3 border shadow-md"
                 style="border:2px solid #d1e0e7; border-radius: 10px;"
@@ -197,7 +270,8 @@
                   <span class="badge rounded-pill mb-3 px-3 py-2" style="background-color: #e0fff8; color: #00796b;">
                     {{ term.subject }}
                   </span>
-                  <h5 class="card-title fw-bold mb-3 fs-4" :id="'term-title-' + term.id" style="color: #00796b;">{{ term.term }}</h5>
+                  <h5 class="card-title fw-bold mb-3 fs-4" :id="'term-title-' + term.id" style="color: #00796b;">{{
+                    term.term }}</h5>
                   <p class="card-text mb-3" style="color: #00796b;">
                     <em>"{{ term.phrase }}"</em>
                   </p>
@@ -311,6 +385,7 @@ export default {
       voiceSearchActive: false,
       skipToContentId: 'mainContent',
       quickFilters: [],
+      nextStepMinimized: false,
     };
   },
   computed: {
@@ -448,6 +523,9 @@ export default {
     });
   },
   methods: {
+    toggleNextStepMinimized() {
+      this.nextStepMinimized = !this.nextStepMinimized;
+    },
     buildIndex() {
       // Build a lowercase index aligned with this.terms for fast matching
       this.indexedTerms = (this.terms || []).map(t => {
@@ -795,9 +873,17 @@ export default {
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .pulse {
