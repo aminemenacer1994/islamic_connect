@@ -363,7 +363,7 @@
     <!-- Global Custom Audio Player -->
     <div v-if="showAudioPlayer" class="audio-player-container" role="region" aria-label="Audio player">
       <div class="custom-audio-player">
-        <div class="controls">
+        <div class="controls audio-controls">
           <button class="control-icon btn btn-link p-0" @click="rewindAudio(currentlyPlayingIndex)" title="Rewind 10s"
             aria-label="Rewind 10 seconds">
             <i class="bi bi-skip-backward-fill"></i>
@@ -1579,6 +1579,11 @@ export default {
   cursor: pointer;
   transition: color 0.2s, transform 0.2s ease-in-out;
   padding: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .control-icon:hover,
@@ -1597,6 +1602,7 @@ export default {
 .volume-bar-container {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   margin-left: 12px;
   width: 100px;
 }
@@ -1725,29 +1731,39 @@ export default {
     align-items: center;
   }
 
-  .control-icon {
-    font-size: 1.5rem;
-    padding: 6px;
-  }
-
-  .close-icon {
-    margin-left: 0;
-    margin-right: 4px;
-  }
-
-  .volume-bar-container {
-    margin-left: 0;
-    margin-top: 8px;
-    width: 80px;
-  }
-
-  .volume-slider {
+  .audio-controls {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(56px, 1fr));
+    gap: 8px 6px;
+    justify-items: center;
     width: 100%;
   }
 
-  .time {
+  .audio-controls .control-icon {
+    font-size: 1.35rem;
+    padding: 6px;
+    width: 100%;
+  }
+
+  .audio-controls .close-icon {
     margin-left: 0;
-    margin-top: 8px;
+    margin-right: 0;
+  }
+
+  .audio-controls .volume-bar-container {
+    grid-column: span 4;
+    margin: 0;
+    width: 100%;
+  }
+
+  .audio-controls .volume-slider {
+    width: 100%;
+  }
+
+  .audio-controls .time {
+    grid-column: span 2;
+    margin: 0;
+    text-align: center;
     font-size: 0.8rem;
   }
 
@@ -1782,27 +1798,39 @@ export default {
     flex-wrap: wrap;
   }
 
-  .control-icon {
-    font-size: 1.3rem;
-    padding: 6px;
-  }
-
-  .close-icon {
-    margin-left: auto;
-    margin-right: 6px;
-  }
-
-  .volume-bar-container {
-    margin-left: 8px;
-    width: 80px;
-  }
-
-  .volume-slider {
+  .audio-controls {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(60px, 1fr));
+    gap: 12px 10px;
+    justify-items: center;
     width: 100%;
   }
 
-  .time {
-    margin-left: 8px;
+  .audio-controls .control-icon {
+    font-size: 1.35rem;
+    padding: 8px;
+    width: 100%;
+  }
+
+  .audio-controls .close-icon {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .audio-controls .volume-bar-container {
+    grid-column: span 4;
+    margin: 0;
+    width: 100%;
+  }
+
+  .audio-controls .volume-slider {
+    width: 100%;
+  }
+
+  .audio-controls .time {
+    grid-column: span 2;
+    margin: 0;
+    text-align: center;
     font-size: 0.8rem;
   }
 

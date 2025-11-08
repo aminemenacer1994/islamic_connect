@@ -11,15 +11,19 @@
     <div class="row container justify-content-center mb-3">
       <div class="col-12 col-md-12">
         <h3 id="video-gallery-search-label" class="fw-bold text-left pt-2 pb-2 container">Search Animated Videos:</h3>
-        <form class="input-group" role="search" aria-labelledby="video-gallery-search-label" @submit.prevent="resetAndSearch">
-          <input
-            id="video-gallery-search-input"
-            v-model="query"
-            type="text"
-            class="form-control"
-            :aria-label="'Search Islamic videos'"
-            placeholder="Search for Islamic videos..." />
-          <button class="btn" type="submit" style="background-color: #00695c; color: #ffffff;">Search</button>
+        <form class="row g-2 align-items-stretch" role="search" aria-labelledby="video-gallery-search-label" @submit.prevent="resetAndSearch">
+          <div class="col-12 col-md-11">
+            <input
+              id="video-gallery-search-input"
+              v-model="query"
+              type="text"
+              class="form-control h-100"
+              :aria-label="'Search Islamic videos'"
+              placeholder="Search for Islamic videos..." />
+          </div>
+          <div class="col-12 col-md-1 d-grid">
+            <button class="btn w-100 h-100" type="submit" style="background-color: #00695c; color: #ffffff;">Search</button>
+          </div>
         </form>
       </div>
     </div>

@@ -12,17 +12,21 @@
     <div class="row container justify-content-center mb-3">
       <div class="col-12 col-md-12">
         <h3 id="ai-gallery-search-label" class="fw-bold text-left pt-2 pb-2 container">Search Images in Gallery:</h3>
-        <form class="input-group" @submit.prevent="fetchGallery" role="search" aria-labelledby="ai-gallery-search-label">
-          <input
-            id="ai-gallery-search-input"
-            v-model="searchTerm"
-            type="text"
-            class="form-control"
-            :aria-label="'Search Islamic images'"
-            placeholder="Search for Islamic images..." />
-          <button class="btn" type="submit" style="background-color: #0db691; color: #000;">
-            Search
-          </button>
+        <form class="row g-2 align-items-stretch" @submit.prevent="fetchGallery" role="search" aria-labelledby="ai-gallery-search-label">
+          <div class="col-12 col-md-11">
+            <input
+              id="ai-gallery-search-input"
+              v-model="searchTerm"
+              type="text"
+              class="form-control h-100"
+              :aria-label="'Search Islamic images'"
+              placeholder="Search for Islamic images..." />
+          </div>
+          <div class="col-12 col-md-1 d-grid">
+            <button class="btn w-100 h-100" type="submit" style="background-color: #0db691; color: #000;">
+              Search
+            </button>
+          </div>
         </form>
       </div>
     </div>
