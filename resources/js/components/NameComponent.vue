@@ -94,7 +94,8 @@
               <a href="/books" class="fw-semibold text-decoration-none" style="color:#0b806f;">
                 Islamic Dictionary
               </a>
-              with large text, gentle prompts, and screen-reader-friendly layouts for visually impaired reverts.
+              with large-text cards covering names, meanings, examples, and references, plus gentle screen-reader cues
+              for visually impaired reverts.
             </p>
             <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
               <a href="/books" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center"
