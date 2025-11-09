@@ -6,6 +6,75 @@
       or lets you manually choose.
     </p>
 
+  <div class="container" style="padding: 10px;">
+    <div class="mx-auto mb-4" style="
+          position: relative;
+          background: #eaf3f1;
+          border: 1px solid rgba(11, 128, 111, 0.20);
+          border-radius: 24px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
+          padding: 1.25rem 1.75rem;
+        ">
+      <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+        :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
+        @click="toggleNextStepMinimized"
+        style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
+        <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+      </button>
+      <div class="d-flex align-items-start gap-3 text-start">
+        <div class="flex-shrink-0 mt-1">
+          <div class="next-step-icon-circle" role="img" aria-label="Gentle Qibla guide" style="
+              width: 48px; height: 48px;
+              border-radius: 50%;
+              background: linear-gradient(145deg, rgba(11, 128, 111, 0.24), rgba(26, 95, 122, 0.12));
+              display: flex; align-items: center; justify-content: center;
+              color: rgb(0, 121, 107); font-size: 1.25rem;
+              box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 6px 16px rgba(26,95,122,0.12);
+            ">
+            <i class="fas fa-compass" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div style="flex:1;">
+          <p class="mb-2 fw-semibold text-uppercase"
+            style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+            NEXT STEP
+          </p>
+          <!-- Minimized teaser -->
+          <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1"
+            style="color: #1f2933;">
+            <a href="/qibla" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
+              style="color:rgb(0, 121, 107);" aria-label="Open the Qibla finder">
+              Align with the Qibla
+              <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
+                style="color:rgb(0, 121, 107); font-size: 0.82rem; opacity: 0.85;"></i>
+            </a>
+          </div>
+          <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
+            New to Islam and relying on these Salah schedules? Take the next gentle step by visiting our Qibla finder.
+            <a href="/qibla" class="fw-semibold text-decoration-none" style="color:rgb(0, 121, 107);">
+              Visit Qibla Finder
+            </a>
+            whenever you’re ready to align your heart and compass.
+          </p>
+          <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
+            <a href="/qibla" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center" style="
+                background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
+                border: none; border-radius: 999px;
+                box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                "
+              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';"
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';">
+              <span>Open Qibla Finder</span>
+              <i class="fas fa-location-arrow ms-2" aria-hidden="true"></i>
+              <span class="visually-hidden">Open the accessible Qibla finder experience</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container d-flex justify-content-center">
     <div class="card shadow p-4 w-100">
       <!-- Input Form -->
@@ -191,6 +260,7 @@ export default {
       monthName: '',
       year: '',
       errorMessage: '',
+      nextStepMinimized: false,
       // Asr juristic method (0: Shafi et al., 1: Hanafi)
       school: 0,
       // High latitude adjustment method (0 none, 1 middle, 2 one-seventh, 3 angle-based)
@@ -234,6 +304,9 @@ export default {
     }
   },
   methods: {
+    toggleNextStepMinimized() {
+      this.nextStepMinimized = !this.nextStepMinimized;
+    },
     formatTime(time) {
       if (!time) return '--:--';
       // If API returns ISO8601, format reliably using locale
