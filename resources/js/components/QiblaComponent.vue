@@ -50,8 +50,7 @@
                 </a>
               </div>
               <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
-                Found your Qibla and need the schedule next? Our English-only Prayer Times guide pairs gentle prompts,
-                larger text, and screen-reader cues so visually impaired reverts can flow from alignment to Salah with
+                Found your Qibla and need the schedule next? Our Prayer Times guide can flow from alignment to Salah with
                 confidence.
                 <a href="/prayer" class="fw-semibold text-decoration-none" style="color:rgb(0, 121, 107);">
                   Visit Prayer Times

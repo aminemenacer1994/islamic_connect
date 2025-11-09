@@ -49,9 +49,8 @@
               </a>
             </div>
             <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
-              Finished exploring Islamic finance terms and seeking gentle next steps? Slide into our English-only
-              Islamic blogs for short reflections, larger text, and screen-reader cues crafted for visually impaired
-              reverts.
+              Finished exploring Islamic finance terms and seeking gentle next steps? Slide into our curated collection of
+              Islamic blogs.
               <a href="/read" class="fw-semibold text-decoration-none" style="color:rgb(0, 121, 107);">
                 Visit Islamic Blogs
               </a>

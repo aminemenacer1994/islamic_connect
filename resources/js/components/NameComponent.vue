@@ -9,46 +9,7 @@
       </p>
     </div>
 
-    
-
-    <!-- Search & Filters -->
-    <div>
-      <div class="text-center">
-        <div class="row">
-          <div class="col">
-            <div class="form-check form-switch text-white m-0">
-              <input class="form-check-input custom-success" type="checkbox" id="arabicToggle" v-model="showArabic">
-              <label class="form-check-label text-dark" for="arabicToggle"><b>Arabic</b></label>
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-check form-switch  text-white m-0">
-              <input class="form-check-input custom-success" type="checkbox" id="translationToggle"
-                v-model="showTranslation" checked>
-              <label class="form-check-label text-dark" for="translationToggle"><b>Meaning</b></label>
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-check form-switch -5 text-white desc-check m-0">
-              <input class="form-check-input custom-success" type="checkbox" id="descToggle" v-model="showDescription"
-                checked>
-              <label class="form-check-label text-dark" for="descToggle"><b>Description</b></label>
-            </div>
-          </div>
-        </div>
-        <div class="row container">
-          <div class="col-md-12 mb-3 mt-3">
-            <div class="input-group input-group-lg" style="border-radius: 12px;">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"
-                  aria-hidden="true"></i></span>
-              <input type="text" class="form-control border-start-0" placeholder="Search names..."
-                aria-label="Search names" v-model="searchQuery" @input="onSearchInput" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="container" style="padding: 10px;">
+    <div class="container" style="padding: 10px;">
       <div class="mx-auto mb-4" style="
           position: relative;
           background: #eaf3f1;
@@ -94,8 +55,7 @@
               <a href="/books" class="fw-semibold text-decoration-none" style="color:rgb(0, 121, 107);">
                 Islamic Dictionary
               </a>
-              with large-text cards covering names, meanings, examples, and references, plus gentle screen-reader cues
-              for visually impaired reverts.
+              with large-text cards covering names, meanings, examples, and references.
             </p>
             <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
               <a href="/books" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center"
@@ -116,6 +76,43 @@
         </div>
       </div>
     </div>
+
+    <!-- Search & Filters -->
+    <div>
+      <div class="text-center">
+        <div class="row">
+          <div class="col">
+            <div class="form-check form-switch text-white m-0">
+              <input class="form-check-input custom-success" type="checkbox" id="arabicToggle" v-model="showArabic">
+              <label class="form-check-label text-dark" for="arabicToggle"><b>Arabic</b></label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-check form-switch  text-white m-0">
+              <input class="form-check-input custom-success" type="checkbox" id="translationToggle"
+                v-model="showTranslation" checked>
+              <label class="form-check-label text-dark" for="translationToggle"><b>Meaning</b></label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-check form-switch -5 text-white desc-check m-0">
+              <input class="form-check-input custom-success" type="checkbox" id="descToggle" v-model="showDescription"
+                checked>
+              <label class="form-check-label text-dark" for="descToggle"><b>Description</b></label>
+            </div>
+          </div>
+        </div>
+        <div class="row container">
+          <div class="col-md-12 mb-3 mt-3">
+            <div class="input-group input-group-lg" style="border-radius: 12px;">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"
+                  aria-hidden="true"></i></span>
+              <input type="text" class="form-control border-start-0" placeholder="Search names..."
+                aria-label="Search names" v-model="searchQuery" @input="onSearchInput" />
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Liked Names Section -->
       <div class="mb-5">

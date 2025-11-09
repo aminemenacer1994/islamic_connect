@@ -59,9 +59,8 @@
                     </div>
                     <p v-show="!nextStepMinimized" class="mb-3"
                       style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
-                      Ready to turn these definitions into calm, halal money choices? Our English-only Islamic Finance
-                      guide uses larger text, gentle explanations, and screen-reader cues so visually impaired reverts
-                      can explore with ease.
+                      Want to turn today’s definitions into calmer, halal money choices? The Islamic Finance guide pairs
+                      larger text and gentle explanations so new Muslims can explore in English with confidence.
                       <a href="/finance" class="fw-semibold text-decoration-none" style="color:#0b806f;">
                         Visit Islamic Finance
                       </a>

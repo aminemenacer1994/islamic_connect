@@ -57,19 +57,19 @@
             </p>
             <!-- Minimized teaser -->
             <div v-show="nextStepMinimized" class="mb-2" style="color: #1f2933;">
-              <a href="/mission#timeline" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+              <a href="/mission" class="fw-semibold text-decoration-none" style="color:#0b806f;">
                 Explore the Seerah timeline
               </a>
               <i class="fas fa-arrow-up-right-from-square ms-1" style="color:#0b806f;"></i>
             </div>
             <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.8; font-size: 1.1rem;">
               Learning how the Qur’an was preserved is a beautiful beginning. When you’re ready, gently continue with the life of the Messenger who lived its message. Walk through a simple, welcoming
-              <a href="/mission#timeline" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+              <a href="/mission" class="fw-semibold text-decoration-none" style="color:#0b806f;">
                 Seerah timeline
               </a>
               to see the journey unfold.
             </p>
-            <a v-show="!nextStepMinimized" href="/mission#timeline"
+            <a v-show="!nextStepMinimized" href="/mission"
                class="btn btn-sm fw-semibold text-white px-3 py-2"
                style="
                   background: linear-gradient(135deg, #0b806f, #1a5f7a);

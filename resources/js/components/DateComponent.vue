@@ -24,78 +24,6 @@
           </button>
           <div class="d-flex align-items-start gap-3 text-start">
             <div class="flex-shrink-0 mt-1">
-              <div class="next-step-icon-circle" role="img" aria-label="Gentle prayer time guide" style="
-                      width: 48px; height: 48px;
-                      border-radius: 50%;
-                      background: linear-gradient(145deg, rgba(11, 128, 111, 0.24), rgba(26, 95, 122, 0.12));
-                      display: flex; align-items: center; justify-content: center;
-                      color: rgb(0, 121, 107); font-size: 1.25rem;
-                      box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 6px 16px rgba(26,95,122,0.12);
-                    ">
-                <i class="fas fa-clock" aria-hidden="true"></i>
-              </div>
-            </div>
-            <div style="flex:1;">
-              <p class="mb-2 fw-semibold text-uppercase"
-                style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
-                NEXT STEP
-              </p>
-              <!-- Minimized teaser -->
-              <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1"
-                style="color: #1f2933;">
-                <a href="/prayer" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
-                  style="color:rgb(0, 121, 107);" aria-label="Open the Prayer Times companion">
-                  Check Prayer Times
-                  <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
-                    style="color:rgb(0, 121, 107); font-size: 0.82rem; opacity: 0.85;"></i>
-                </a>
-              </div>
-              <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
-                Found your Qibla and need the schedule next? Our English-only Prayer Times guide pairs gentle prompts,
-                larger text, and screen-reader cues so visually impaired reverts can flow from alignment to Salah with
-                confidence.
-                <a href="/prayer" class="fw-semibold text-decoration-none" style="color:rgb(0, 121, 107);">
-                  Visit Prayer Times
-                </a>
-                whenever you’re ready to plan the day.
-              </p>
-              <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
-                <a href="/prayer" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center"
-                  style="
-                      background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
-                      border: none; border-radius: 999px;
-                      box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
-                      transition: transform 0.2s ease, box-shadow 0.2s ease;
-                      "
-                  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';"
-                  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';">
-                  <span>Open Prayer Times</span>
-                  <i class="fas fa-praying-hands ms-2" aria-hidden="true"></i>
-                  <span class="visually-hidden">Open the accessible Prayer Times experience</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="container" style="padding: 10px;">
-        <div class="mx-auto mb-4" style="
-          position: relative;
-          background: #eaf3f1;
-          border: 1px solid rgba(11, 128, 111, 0.20);
-          border-radius: 24px;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
-          padding: 1.25rem 1.75rem;
-        ">
-          <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
-            :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
-            @click="toggleNextStepMinimized"
-            style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
-            <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
-          </button>
-          <div class="d-flex align-items-start gap-3 text-start">
-            <div class="flex-shrink-0 mt-1">
               <div class="next-step-icon-circle" role="img" aria-label="Gentle Hijri date guide" style="
                       width: 48px; height: 48px;
                       border-radius: 50%;
@@ -220,8 +148,7 @@
                 </div>
               </form>
 
-              <div v-if="convertedDate"
-                class=" d-flex justify-content-center align-items-center mt-5 mb-5">
+              <div v-if="convertedDate" class=" d-flex justify-content-center align-items-center mt-5 mb-5">
                 <div class="result-card w-100"
                   style=" background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 18px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); padding: 2.5rem 1.5rem;">
                   <div class="text-center mb-4">
@@ -255,17 +182,17 @@
                   <div class="mb-2 text-center">
                     <span class="fs-5 align-middle" style="color: #00a792;">🗓️</span>
                     <span class="fw-bold align-middle ms-2">Islamic Calendar for {{ hijriMonthName }} {{ hijriYear
-                      }}</span>
+                    }}</span>
                   </div>
                   <div class="d-flex justify-content-center">
-                    <table class="table w-auto bg-white mb-0 calendar-table"
-                      role="table"
+                    <table class="table w-auto bg-white mb-0 calendar-table" role="table"
                       style="border-radius: 0.75rem; overflow: hidden; border: 1px solid #e0e0e0;">
-                      <caption class="text-muted">Islamic calendar month grid showing days of week and Hijri dates</caption>
+                      <caption class="text-muted">Islamic calendar month grid showing days of week and Hijri dates
+                      </caption>
                       <thead>
                         <tr role="row">
-                          <th v-for="day in weekdaysShort" :key="day"
-                            class="text-center small" scope="col" style="background: #f8f9fa;">{{ day }}</th>
+                          <th v-for="day in weekdaysShort" :key="day" class="text-center small" scope="col"
+                            style="background: #f8f9fa;">{{ day }}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -628,7 +555,8 @@ export default {
   position: relative;
   display: inline-flex;
   align-items: center;
-  justify-content: center; /* keep content centered */
+  justify-content: center;
+  /* keep content centered */
   gap: 0.75rem;
   padding: 0.9rem 1rem;
   border-radius: 0.5rem;
@@ -637,20 +565,29 @@ export default {
   color: var(--alert-islamic-fg, #055160);
   box-shadow: 0 2px 12px var(--alert-islamic-shadow, rgba(13, 202, 240, 0.12));
   width: auto;
-  max-width: calc(100% - 2rem); /* add breathing room on phones */
+  max-width: calc(100% - 2rem);
+  /* add breathing room on phones */
   margin-left: auto;
   margin-right: auto;
 }
 
 /* Breakpoint-based widths to mimic Bootstrap container sizes */
 @media (min-width: 576px) {
-  .alert-islamic { max-width: 540px; }
+  .alert-islamic {
+    max-width: 540px;
+  }
 }
+
 @media (min-width: 768px) {
-  .alert-islamic { max-width: 720px; }
+  .alert-islamic {
+    max-width: 720px;
+  }
 }
+
 @media (min-width: 992px) {
-  .alert-islamic { max-width: 840px; }
+  .alert-islamic {
+    max-width: 840px;
+  }
 }
 
 .alert-inner {
@@ -669,34 +606,49 @@ export default {
 }
 
 .alert-islamic .alert-close {
-  position: static; /* inline with content */
+  position: static;
+  /* inline with content */
   margin-left: 0.5rem;
   opacity: 0.7;
 }
-.alert-islamic .alert-close:hover { opacity: 0.95; }
+
+.alert-islamic .alert-close:hover {
+  opacity: 0.95;
+}
 
 @media (max-width: 768px) {
   .result-card {
     padding: 1.2rem 0.2rem !important;
   }
+
   .alert-islamic .alert-content {
     font-size: 0.92rem;
   }
 }
+
 @media (max-width: 600px) {
   .badge.rounded-pill {
-    font-size: 0.875rem !important; /* Smaller font size for mobile */
-    padding: 0.5rem 1rem !important; /* Reduced padding */
-    max-width: 100%; /* Ensure badge doesn't overflow */
-    word-break: break-word; /* Prevent text overflow */
+    font-size: 0.875rem !important;
+    /* Smaller font size for mobile */
+    padding: 0.5rem 1rem !important;
+    /* Reduced padding */
+    max-width: 100%;
+    /* Ensure badge doesn't overflow */
+    word-break: break-word;
+    /* Prevent text overflow */
   }
+
   .result-card {
-    padding: 1.5rem 1rem !important; /* Adjust padding for result card */
+    padding: 1.5rem 1rem !important;
+    /* Adjust padding for result card */
   }
+
   .calendar-table td {
-    min-width: 30px !important; /* Smaller cells for mobile */
+    min-width: 30px !important;
+    /* Smaller cells for mobile */
     min-height: 30px !important;
-    font-size: 0.75rem !important; /* Smaller font for calendar */
+    font-size: 0.75rem !important;
+    /* Smaller font for calendar */
   }
 }
 </style>
