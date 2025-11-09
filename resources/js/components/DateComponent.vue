@@ -6,15 +6,75 @@
         Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for
         finding Islamic dates for events, holidays, or just learning more about the calendars!
       </p>
-      <div v-if="showDidYouKnow" class="alert alert-info alert-islamic text-center mb-3 w-auto mx-auto px-3" role="alert" aria-live="polite">
-        <div class="alert-inner">
-          <span class="alert-icon" aria-hidden="true">☪️</span>
-          <div class="alert-content">
-            <strong>Did you know?</strong> The Islamic calendar is about 10–12 days shorter than the Gregorian calendar each year, so
-            Islamic months move through the seasons!
+      <div class="container" style="padding: 10px;">
+        <div class="mx-auto mb-4" style="
+          position: relative;
+          background: #eaf3f1;
+          border: 1px solid rgba(11, 128, 111, 0.20);
+          border-radius: 24px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
+          padding: 1.25rem 1.75rem;
+        ">
+          <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+            :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
+            @click="toggleNextStepMinimized"
+            style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
+            <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+          </button>
+          <div class="d-flex align-items-start gap-3 text-start">
+            <div class="flex-shrink-0 mt-1">
+              <div class="next-step-icon-circle" role="img" aria-label="Gentle Hijri date guide" style="
+                      width: 48px; height: 48px;
+                      border-radius: 50%;
+                      background: linear-gradient(145deg, rgba(11, 128, 111, 0.24), rgba(26, 95, 122, 0.12));
+                      display: flex; align-items: center; justify-content: center;
+                      color: rgb(0, 121, 107); font-size: 1.25rem;
+                      box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 6px 16px rgba(26,95,122,0.12);
+                    ">
+                <i class="fas fa-calendar-check" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div style="flex:1;">
+              <p class="mb-2 fw-semibold text-uppercase"
+                style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+                NEXT STEP
+              </p>
+              <!-- Minimized teaser -->
+              <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1"
+                style="color: #1f2933;">
+                <a href="/calendar" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
+                  style="color:rgb(0, 121, 107);" aria-label="Open the Hijri calendar view">
+                  View the Hijri Calendar
+                  <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
+                    style="color:rgb(0, 121, 107); font-size: 0.82rem; opacity: 0.85;"></i>
+                </a>
+              </div>
+              <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
+                New to Islam and just converted a date? Slip into the Hijri calendar for a calm view of the
+                full lunar months and Islamic events.
+                <a href="/calendar" class="fw-semibold text-decoration-none" style="color:rgb(0, 121, 107);">
+                  Visit Hijri Calendar
+                </a>
+                whenever you want to see the bigger picture.
+              </p>
+              <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
+                <a href="/calendar" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center"
+                  style="
+                      background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
+                      border: none; border-radius: 999px;
+                      box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
+                      transition: transform 0.2s ease, box-shadow 0.2s ease;
+                      "
+                  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';"
+                  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';">
+                  <span>Open Hijri Calendar</span>
+                  <i class="fas fa-moon ms-2" aria-hidden="true"></i>
+                  <span class="visually-hidden">Open the accessible Hijri calendar experience</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-        <button type="button" class="btn-close alert-close" aria-label="Close notice" @click="showDidYouKnow = false"></button>
       </div>
       <div class="row justify-content-center">
         <div class="col-12 col-md-12 col-lg-10">
@@ -198,6 +258,7 @@ export default {
       lastCoords: null,
       lastAddress: '',
       geocodeInFlight: false,
+      nextStepMinimized: false,
     };
   },
   computed: {
@@ -281,6 +342,9 @@ export default {
     }
   },
   methods: {
+    toggleNextStepMinimized() {
+      this.nextStepMinimized = !this.nextStepMinimized;
+    },
     updateDays() {
       // Ensure selected day is within the new month's days
       if (this.day > this.daysInMonth) {
