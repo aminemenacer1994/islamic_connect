@@ -57,7 +57,7 @@
               <a href="/name" class="fw-semibold text-decoration-none" style="color:#0b806f;">
                 99 Names of Allah
               </a>
-              with Arabic/English names, meanings, descriptions, quick search, and favorites.
+              with Arabic and English names, meanings, descriptions, quick search, and favorites.
             </p>
             <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
               <a href="/name" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center"

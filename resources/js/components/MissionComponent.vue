@@ -1,7 +1,7 @@
 <template>
   <div class="p-3" :class="{ 'pb-audio-gap': showAudioPlayer }">
 
-    <div class="row justify-content-center text-center mb-3">
+    <div class="row py-3 justify-content-center text-center mb-3">
       <div class="col-lg-10 col-xl-10">
         <h1 class="display-5 fw-bold">Seerah Timeline</h1>
         <p class="lead">
@@ -29,13 +29,6 @@
             @click.stop="toggleNextStepMinimized">
             <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
           </button>
-          <!-- <button
-            type="button"
-            class="icon-btn"
-            aria-label="Dismiss next step"
-            @click.stop="dismissNextStep">
-            <i class="fas fa-times" aria-hidden="true"></i>
-          </button> -->
         </div>
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
@@ -157,12 +150,6 @@
                 <i class="bi bi-clipboard"></i>
                 <span class="d-none d-md-inline ms-1">Copy</span>
               </button>
-            </div>
-
-            <div class="vr d-none d-sm-inline mx-1" aria-hidden="true"></div>
-
-            <!-- Export -->
-            <div class="btn-group" role="group" aria-label="Export">
               <button class="btn btn-sm btn-outline-primary" @click="printEvent" title="Print" aria-label="Print">
                 <i class="bi bi-printer"></i>
                 <span class="d-none d-md-inline ms-1">Print</span>
@@ -171,6 +158,23 @@
                 aria-label="Download PDF">
                 <i class="bi bi-file-earmark-pdf"></i>
                 <span class="d-none d-md-inline ms-1">PDF</span>
+              </button>
+            </div>
+
+            <div class="vr d-none d-sm-inline mx-1" aria-hidden="true"></div>
+
+            <!-- Export -->
+            <div class="btn-group" role="group" aria-label="Export">
+              
+              <!-- Play Button aligned to the end -->
+              <button class="btn mr-2 p-0 play-toggle play-btn-circle" :class="{ playing: isAudioPlaying[currentIndex] }"
+                :aria-label="isAudioPlaying[currentIndex] ? 'Pause audio' : 'Play audio'"
+                :aria-pressed="isAudioPlaying[currentIndex] ? 'true' : 'false'" @click="toggleAudioPlayer(currentIndex)"
+                @keydown.enter.prevent="toggleAudioPlayer(currentIndex)"
+                @keydown.space.prevent="toggleAudioPlayer(currentIndex)"
+                :title="isAudioPlaying[currentIndex] ? 'Pause' : 'Play'">
+                <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
+                  style="font-size: clamp(1.8rem, 2.5vw, 2.6rem);"></i>
               </button>
             </div>
           </div>
@@ -193,18 +197,7 @@
               <i class="bi bi-file-earmark-word me-1"></i>
               <strong class="me-1">Words:</strong> {{ wordCount }}
             </span>
-            <!-- Play Button aligned to the end -->
-            <div class="ms-auto text-center">
-              <button class="btn p-0 play-toggle play-btn-circle" :class="{ playing: isAudioPlaying[currentIndex] }"
-                :aria-label="isAudioPlaying[currentIndex] ? 'Pause audio' : 'Play audio'"
-                :aria-pressed="isAudioPlaying[currentIndex] ? 'true' : 'false'" @click="toggleAudioPlayer(currentIndex)"
-                @keydown.enter.prevent="toggleAudioPlayer(currentIndex)"
-                @keydown.space.prevent="toggleAudioPlayer(currentIndex)"
-                :title="isAudioPlaying[currentIndex] ? 'Pause' : 'Play'">
-                <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
-                  style="font-size: clamp(1.8rem, 2.5vw, 2.6rem);"></i>
-              </button>
-            </div>
+            
           </div>
 
 
