@@ -35,7 +35,7 @@
               <div class="text-left">
                 <!-- Badge -->
                 <div style="
-          background: linear-gradient(135deg, #0b806f, #1a5f7a);
+          background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
           color: white;
           padding: 0.5rem 1.5rem;
           border-radius: 50px;
@@ -50,15 +50,15 @@
                 </div>
 
                 <h1 class="display-4 mt-1 fw-bold text-left hero-title" style="
-          background: linear-gradient(135deg, #1a5f7a, #2c3e50);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          line-height: 1.2;
-          margin-bottom: 1.5rem;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-          font-size: 3.5rem;
-        ">
+                  background: linear-gradient(135deg, #1a5f7a, #2c3e50);
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                  line-height: 1.2;
+                  margin-bottom: 1.5rem;
+                  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                  font-size: 3.5rem;
+                ">
                   Connecting You to Islamic Knowledge Seamlessly and Accessibly
                 </h1>
 
@@ -86,15 +86,15 @@
               backdrop-filter: blur(10px);
             ">
                   <div class="col-4 text-center">
-                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">60+</div>
+                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">70+</div>
                     <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Countries</div>
                   </div>
                   <div class="col-4 text-center">
-                    <div style="color: #0b806f; font-weight: 800; font-size: 1.8rem; line-height: 1;">100%</div>
+                    <div style="color: rgb(0, 121, 107); font-weight: 800; font-size: 1.8rem; line-height: 1;">100%</div>
                     <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Accessible</div>
                   </div>
                   <div class="col-4 text-center">
-                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">500+</div>
+                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">550+</div>
                     <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Cities/Towns</div>
                   </div>
                 </div>
@@ -103,7 +103,7 @@
                   <div class="col-12">
                     <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
                       <button type="button" onclick="window.location.href='/surat'" style="
-                background: linear-gradient(135deg, #0b806f, #1a5f7a);
+                background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
                 color: white;
                 border: none;
                 padding: 1rem 2.5rem;
@@ -312,7 +312,7 @@
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
             <a href="/quran" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
-              style="background: #0b806f; border: none; min-width: 160px;">
+              style="background: rgb(0, 121, 107); border: none; min-width: 160px;">
               Explore Quran
             </a>
           </div>
@@ -340,7 +340,7 @@
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
             <a href="/media" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
-              style="background: #0b806f; border: none; min-width: 160px;">
+              style="background: rgb(0, 121, 107); border: none; min-width: 160px;">
               Browse Content
             </a>
           </div>
@@ -359,7 +359,7 @@
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
             <a href="/surat" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
-              style="background: #0b806f; border: none; min-width: 160px;">
+              style="background: rgb(0, 121, 107); border: none; min-width: 160px;">
               Start Exploring
             </a>
           </div>
@@ -385,14 +385,14 @@
             <div class="row container-fluid stats-grid">
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>66</h3>
+                  <h3>70+</h3>
                   <p>Countries</p>
                   <small>Global reach</small>
                 </div>
               </div>
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>568</h3>
+                  <h3>570+</h3>
                   <p>Cities/Towns</p>
                   <small>Worldwide presence</small>
                 </div>
@@ -756,7 +756,7 @@
     <!-- Quick Join Section -->
     <!-- Enhanced Quick Join Section -->
     <section class="py-5 quick-join-section" style="
-  background: linear-gradient(135deg, #0b806f 0%, #1a5f7a 100%);
+  background: linear-gradient(135deg, rgb(0, 121, 107) 0%, #1a5f7a 100%);
   position: relative;
   overflow: hidden;
 ">
@@ -1046,7 +1046,7 @@
                 <div class="col-12">
                   <div class="d-grid">
                     <button type="submit" class="btn btn-primary btn-lg fw-bold py-3"
-                      style="background: #0b806f; border: none; box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);"
+                      style="background: rgb(0, 121, 107); border: none; box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);"
                       >
                       <span class="d-flex align-items-center justify-content-center">
                         <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>
@@ -1210,7 +1210,7 @@
 
 /* Card focus states */
 .card:focus-within {
-  outline: 2px solid #00bfa6;
+  outline: 2px solid rgb(0, 121, 107);
   outline-offset: 2px;
 }
 
@@ -1239,7 +1239,7 @@
 }
 
 .service-1 .card:focus-within {
-  outline: 2px solid #00bfa6;
+  outline: 2px solid rgb(0, 121, 107);
   outline-offset: 2px;
 }
 
@@ -1251,7 +1251,7 @@
 
 /* Improved focus styles for accessibility */
 .form-control:focus {
-  border-color: #00bfa6;
+  border-color: rgb(0, 121, 107);
   box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);
   outline: none;
 }
@@ -1422,7 +1422,7 @@
 }
 
 .controls button:hover:not(:disabled) {
-  background-color: #0db691;
+  background-color: rgb(0, 121, 107);
 }
 
 /* .service-1 {
@@ -1567,7 +1567,7 @@
 }
   /* Shared footer styles for consistent spacing across pages */
   .ic-footer {
-    background: linear-gradient(135deg, #0b806f, #1a5f7a);
+    background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
   }
   .ic-footer .footer-inner {
     padding: 1rem 1rem;

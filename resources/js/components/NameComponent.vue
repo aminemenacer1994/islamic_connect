@@ -69,7 +69,7 @@
                 border-radius: 50%;
                 background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.14));
                 display: flex; align-items: center; justify-content: center;
-                color: #0b806f; font-size: 1.25rem;
+                color: rgb(0, 121, 107); font-size: 1.25rem;
                 box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 16px rgba(26,95,122,0.12);
               ">
               <i class="fas fa-book-open" aria-hidden="true"></i>
@@ -83,15 +83,15 @@
             <!-- Minimized teaser -->
             <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1" style="color: #1f2933;">
               <a href="/books" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
-                style="color:#0b806f;" aria-label="Open the Islamic dictionary">
+                style="color:rgb(0, 121, 107);" aria-label="Open the Islamic dictionary">
                 Continue to the Islamic Dictionary
                 <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
-                  style="color:#0b806f; font-size: 0.82rem; opacity: 0.85;"></i>
+                  style="color:rgb(0, 121, 107); font-size: 0.82rem; opacity: 0.85;"></i>
               </a>
             </div>
             <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
               After reflecting on Allah’s Names, take a calm, English-only step into the
-              <a href="/books" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+              <a href="/books" class="fw-semibold text-decoration-none" style="color:rgb(0, 121, 107);">
                 Islamic Dictionary
               </a>
               with large-text cards covering names, meanings, examples, and references, plus gentle screen-reader cues
@@ -100,7 +100,7 @@
             <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
               <a href="/books" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center"
                 style="
-                  background: linear-gradient(135deg, #0b806f, #1a5f7a);
+                  background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
                   border: none; border-radius: 999px;
                   box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
                   transition: transform 0.2s ease, box-shadow 0.2s ease;

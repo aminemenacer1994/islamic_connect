@@ -293,16 +293,12 @@ export default {
           featured: false,
           description: 'Full access to all core Islamic resources — no payment required.',
           features: [
-            'Quran with Smart Search & Accessibility',
-            'Quran with audio recitation',
+            'Quran with audio recitation and translation',
             'Quran history',
             'Names of Allah',
             'Image gallery',
-            'Islamic dictionary',
-            'Islamic blogs',
             'Dua collection',
             'Prayer times',
-            'Hijri calendar'
           ]
         },
         {
@@ -316,6 +312,7 @@ export default {
           description: 'Unlock powerful tools that help you learn, reflect, and stay inspired every day.',
           features: [
             'All of the basic features',
+            'Quran with Smart Search & Accessibility',
             'Audio podcasts',
             'Reciters station',
             'Islamic directory video channels',

@@ -7,25 +7,90 @@
       accordance with Shariah.
     </p>
 
+    <div class="container" style="padding: 10px;">
+      <div class="mx-auto mb-4" style="
+          position: relative;
+          background: #eaf3f1;
+          border: 1px solid rgba(11, 128, 111, 0.20);
+          border-radius: 24px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
+          padding: 1.25rem 1.75rem;
+        ">
+        <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+          :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized"
+          style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
+          <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+        </button>
+        <div class="d-flex align-items-start gap-3 text-start">
+          <div class="flex-shrink-0 mt-1">
+            <div class="next-step-icon-circle" role="img" aria-label="Gentle Islamic blog guide" style="
+              width: 48px; height: 48px;
+              border-radius: 50%;
+              background: linear-gradient(145deg, rgba(11, 128, 111, 0.24), rgba(26, 95, 122, 0.12));
+              display: flex; align-items: center; justify-content: center;
+              color: rgb(0, 121, 107); font-size: 1.25rem;
+              box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 6px 16px rgba(26,95,122,0.12);
+            ">
+              <i class="fas fa-feather-alt" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div style="flex:1;">
+            <p class="mb-2 fw-semibold text-uppercase"
+              style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+              NEXT STEP
+            </p>
+            <!-- Minimized teaser -->
+            <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1" style="color: #1f2933;">
+              <a href="/read" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
+                style="color:rgb(0, 121, 107);" aria-label="Open the Islamic blogs guide">
+                Continue with gentle Islamic blogs
+                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
+                  style="color:rgb(0, 121, 107); font-size: 0.82rem; opacity: 0.85;"></i>
+              </a>
+            </div>
+            <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
+              Finished exploring Islamic finance terms and seeking gentle next steps? Slide into our English-only
+              Islamic blogs for short reflections, larger text, and screen-reader cues crafted for visually impaired
+              reverts.
+              <a href="/read" class="fw-semibold text-decoration-none" style="color:rgb(0, 121, 107);">
+                Visit Islamic Blogs
+              </a>
+              whenever you feel ready.
+            </p>
+            <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
+              <a href="/read" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center"
+                style="
+                  background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
+                  border: none; border-radius: 999px;
+                  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
+                  transition: transform 0.2s ease, box-shadow 0.2s ease;
+                  "
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';">
+                <span>Explore Islamic Blogs</span>
+                <i class="fas fa-book-open ms-2" aria-hidden="true"></i>
+                <span class="visually-hidden">Open the accessible Islamic blogs for new Muslims</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row g-4">
       <!-- Sidebar Categories -->
       <div class="col-lg-3" role="navigation" aria-label="Finance categories">
         <div class="card shadow rounded-4">
           <div class="card-header text-white rounded-top-4"
-            style="background: linear-gradient(135deg, #0db691, #0aa07e);">
+            style="background: linear-gradient(135deg, rgb(0, 121, 107), rgb(0, 121, 107));">
             <h5 class="mb-0"><i class="bi bi-filter-circle me-2"></i>Categories</h5>
           </div>
           <div class="card-body p-3">
             <!-- Dropdown for mobile screens -->
             <div class="d-md-none">
               <label for="finance-category-select" class="form-label visually-hidden">Select category</label>
-              <select
-                id="finance-category-select"
-                v-model.number="activeCategory"
-                class="form-select rounded-pill"
-                style="border-color: #0db691;"
-                aria-label="Select finance category"
-              >
+              <select id="finance-category-select" v-model.number="activeCategory" class="form-select rounded-pill"
+                style="border-color: rgb(0, 121, 107);" aria-label="Select finance category">
                 <option v-for="category in categories" :key="category.id" :value="category.id">
                   {{ category.name }} ({{ tipCountsByCategory[category.id] || 0 }})
                 </option>
@@ -37,8 +102,9 @@
                 <button v-for="category in categories" :key="category.id" @click="setActiveCategory(category.id)"
                   class="btn btn-light border rounded-pill text-start d-flex justify-content-between align-items-center"
                   :class="{ 'btn-gradient text-white': activeCategory === category.id }"
-                  :style="activeCategory === category.id ? 'border: none;' : 'border-color: #0db691; color: #0a4f3c;'">
-                  <span><i :class="getCategoryIcon(category.id)" class="me-2" aria-hidden="true"></i>{{ category.name }}</span>
+                  :style="activeCategory === category.id ? 'border: none;' : 'border-color: rgb(0, 121, 107); color: rgb(0, 121, 107);'">
+                  <span><i :class="getCategoryIcon(category.id)" class="me-2" aria-hidden="true"></i>{{ category.name
+                    }}</span>
                   <span class="badge bg-white text-dark">{{ tipCountsByCategory[category.id] || 0 }}</span>
                 </button>
               </div>
@@ -51,7 +117,7 @@
       <div class="col-lg-9">
         <div class="card shadow rounded-4">
           <div class="card-header text-white rounded-top-4"
-            style="background: linear-gradient(135deg, #0db691, #0aa07e);">
+            style="background: linear-gradient(135deg, rgb(0, 121, 107), rgb(0, 121, 107));">
             <h5 class="mb-0 d-flex align-items-center">
               <i :class="getCategoryIcon(activeCategory)" class="me-2"></i>
               {{ activeCategoryName }}
@@ -63,7 +129,8 @@
             </div>
             <div v-else class="row g-4">
               <div class="col-md-6" v-for="tip in paginatedTips" :key="tip.id">
-                <div class="card h-100 shadow-sm border-0 rounded-4" role="article" :aria-labelledby="'tip-title-' + tip.id">
+                <div class="card h-100 shadow-sm border-0 rounded-4" role="article"
+                  :aria-labelledby="'tip-title-' + tip.id">
                   <div class="card-header text-white" :style="`background-color: ${getCategoryColor(tip.category)}`">
                     <h6 class="mb-0" :id="'tip-title-' + tip.id">{{ tip.title }}</h6>
                   </div>
@@ -97,7 +164,8 @@
                 <i class="bi bi-chevron-left"></i>
               </button>
               <span class="small">Page {{ currentPage }} of {{ totalPages }}</span>
-              <button class="btn btn-outline-success btn-sm" :disabled="currentPage === totalPages" @click="currentPage++">
+              <button class="btn btn-outline-success btn-sm" :disabled="currentPage === totalPages"
+                @click="currentPage++">
                 <i class="bi bi-chevron-right"></i>
               </button>
             </div>
@@ -115,6 +183,7 @@ export default {
     return {
       categories: [],
       tips: [],
+      nextStepMinimized: false,
       activeCategory: null, // will be set after load
       currentPage: 1,
       pageSize: 8,
@@ -155,6 +224,9 @@ export default {
     }
   },
   methods: {
+    toggleNextStepMinimized() {
+      this.nextStepMinimized = !this.nextStepMinimized;
+    },
     async loadData() {
       this.isLoading = true;
       try {
@@ -178,7 +250,7 @@ export default {
     },
     getCategoryColor(categoryId) {
       const shades = {
-        default: '#0db691',
+        default: 'rgb(0, 121, 107)',
       };
       return shades[categoryId] || shades.default;
     },
@@ -200,28 +272,30 @@ export default {
 <style scoped>
 .lead.text-muted {
   /* Improve contrast on light backgrounds (#f5f5f5 body) */
-  color: #495057 !important; /* darker than Bootstrap's #6c757d */
+  color: #495057 !important;
+  /* darker than Bootstrap's #6c757d */
 }
 
 /* Force accessible text color for the mobile category select */
 #finance-category-select {
-  color: #0a4f3c !important; /* ≥ 4.5:1 on white */
-  border-color: #0db691 !important;
+  color: rgb(0, 121, 107) !important;
+  /* ≥ 4.5:1 on white */
+  border-color: rgb(0, 121, 107) !important;
   background-color: #ffffff;
 }
 
 #finance-category-select option {
-  color: #0a4f3c;
+  color: rgb(0, 121, 107);
 }
 
 .text-gradient {
-  background: linear-gradient(to right, #0db691, #0aa07e);
+  background: linear-gradient(to right, rgb(0, 121, 107), rgb(0, 121, 107));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .btn-gradient {
-  background: linear-gradient(to right, #0db691, #0aa07e);
+  background: linear-gradient(to right, rgb(0, 121, 107), rgb(0, 121, 107));
   color: white !important;
   font-weight: 600;
 }
@@ -252,8 +326,25 @@ export default {
 }
 
 .form-select:focus {
-  border-color: #0db691;
-  box-shadow: 0 0 0 0.2rem rgba(13, 182, 145, 0.25);
+  border-color: rgb(0, 121, 107);
+  box-shadow: 0 0 0 0.2rem rgba(0, 121, 107, 0.25);
+}
+
+.text-success {
+  color: #28a745 !important;
+}
+
+.btn-outline-success {
+  color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:focus {
+  background-color: #28a745;
+  color: #ffffff;
+  border-color: #28a745;
+  box-shadow: 0 0.25rem 0.75rem rgba(40, 167, 69, 0.25);
 }
 
 @media (max-width: 768px) {
@@ -269,7 +360,8 @@ export default {
     font-size: 0.95rem;
   }
 
-  .card-body, .card-footer {
+  .card-body,
+  .card-footer {
     padding: 1rem;
   }
 

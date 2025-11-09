@@ -18,13 +18,13 @@
               </div>
               <div class="col-md-3 mb-4">
                 <div class="metric-item">
-                  <h3>66</h3>
+                  <h3>70</h3>
                   <p>Countries</p>
                 </div>
               </div>
               <div class="col-md-3 mb-4">
                 <div class="metric-item">
-                  <h3>568</h3>
+                  <h3>570+</h3>
                   <p>Cities</p>
                 </div>
               </div>
