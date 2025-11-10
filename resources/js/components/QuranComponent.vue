@@ -12,7 +12,74 @@
                 <!-- <h4 class="fw-bold text-center pt-2 mb-2 container" v-if="information != null">Search for a word in the
                     Quran...</h4> -->
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
-
+                <div v-if="information" class="next-step-card container" style="
+                                position: relative;
+                                background: linear-gradient(135deg, rgba(26, 95, 122, 0.10), rgba(11, 128, 111, 0.10));
+                                border: 1px solid rgba(11, 128, 111, 0.18);
+                                border-radius: 16px;
+                                box-shadow: 0 8px 24px rgba(26, 95, 122, 0.12);
+                                padding: 1.2rem 1.6rem;
+                            ">
+                    <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+                        :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
+                        @click="toggleNextStepMinimized"
+                        style="position: absolute; right: 32px; top: 12px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; cursor: pointer;">
+                        <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'"
+                            aria-hidden="true"></i>
+                    </button>
+                    <div class="d-flex align-items-start gap-3 text-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <div style="
+                                        border-radius: 50%;
+                                        background: rgba(11, 128, 111, 0.18);
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        color: #0b806f;
+                                        font-size: 1.25rem;
+                                        width: 48px;
+                                        height: 48px;
+                                        box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.2);
+                                    ">
+                                <i class="fas fa-headphones" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div style="flex:1;">
+                            <p class="mb-2 fw-semibold text-uppercase"
+                                style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+                                NEXT STEP
+                            </p>
+                            <div v-show="nextStepMinimized" class="mb-2" style="color: #1f2933;">
+                                <a href="/surat" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                                    Listen to Qur’anic recitations
+                                </a>
+                                <i class="fas fa-arrow-up-right-from-square ms-1" style="color:#0b806f;"></i>
+                            </div>
+                            <p v-show="!nextStepMinimized" class="mb-3"
+                                style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
+                                As-salaamu alaikum—if this is your first deep dive into Islam, let the verses you
+                                just read continue to surround you. Slip over to our curated
+                                <a href="/surat" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                                    recitation list
+                                </a>
+                                and hear the Qur’an with translations that keep every word close.
+                            </p>
+                            <a v-show="!nextStepMinimized" href="/surat"
+                                class="btn btn-sm fw-semibold text-white px-3 py-2" style="
+                                        background: linear-gradient(135deg, #0b806f, #1a5f7a);
+                                        border: none;
+                                        border-radius: 999px;
+                                        box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
+                                        transition: transform 0.2s ease, box-shadow 0.2s ease;
+                                    "
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
+                                Listen Now
+                                <i class="fas fa-arrow-up-right-from-square ms-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- <custom-surah-selection v-if="information != null" :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection> -->
 
@@ -115,6 +182,9 @@
                     <div class="mb-2" v-else>
                         <!-- <h4 class="fw-bold text-center" >Verse Breakdown...</h4> -->
                         <!-- breakdown content here -->
+
+                    </div>
+                    <div v-if="information" class="mb-4">
 
                     </div>
                     <div class="card content">
@@ -399,10 +469,8 @@
                                                 <div v-if="!isVisible" class="card text-bg-light card-body">
                                                     <TranslationActions
                                                         :targetTranslationRef="'targetTranslationElement'"
-                                                        :translation="translation"
-                                                        :information="information"
-                                                        @open-modal="openModal"
-                                                        @submit-form="submitForm"
+                                                        :translation="translation" :information="information"
+                                                        @open-modal="openModal" @submit-form="submitForm"
                                                         @toggle-audio="toggleAudioPlayback" />
                                                 </div>
                                             </div>
@@ -588,16 +656,13 @@
                                         </div> -->
 
                                         <!-- toolbar mobile -->
-                                            <div v-if="isOpen" class="collapse-content mobile-only">
-                                                <div v-if="!isVisible" class="card text-bg-light card-body">
-                                                    <TafseerActions
-                                                        :targetTafseerRef="'targetTafseerElement'"
-                                                        :tafseer="tafseer"
-                                                        :information="information"
-                                                        @open-modal="openModal"
-                                                        @submit-form="submitFormTafseer"
-                                                        @toggle-audio="toggleAudioPlayback" />
-                                                </div>
+                                        <div v-if="isOpen" class="collapse-content mobile-only">
+                                            <div v-if="!isVisible" class="card text-bg-light card-body">
+                                                <TafseerActions :targetTafseerRef="'targetTafseerElement'"
+                                                    :tafseer="tafseer" :information="information"
+                                                    @open-modal="openModal" @submit-form="submitFormTafseer"
+                                                    @toggle-audio="toggleAudioPlayback" />
+                                            </div>
                                         </div>
 
                                         <SurahInfoModal :information="information" />
@@ -758,8 +823,8 @@
                                                         @clearHighlight="clearHighlight"
                                                         @toggle-change="saveToggleState" @toggle-full-screen="toggleFullScreen
                                                         " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
-                                                    " @toggle-audio="toggleAudioPlayback
-                                                    " />
+                                                        " @toggle-audio="toggleAudioPlayback
+                                                        " />
                                                 </div>
                                             </transition>
 
@@ -781,8 +846,7 @@
                                                     <TransliterationActions
                                                         :targetTransliterationRef="'targetTransliterationElement'"
                                                         :transliteration="information ? information.transliteration : ''"
-                                                        :isVisible="!isVisible"
-                                                        @open-modal="openModal"
+                                                        :isVisible="!isVisible" @open-modal="openModal"
                                                         @submit-form="submitFormTransliteration"
                                                         @toggle-audio="toggleAudioPlayback" />
                                                 </div>
@@ -790,77 +854,6 @@
                                             <!-- end toolbar mobile -->
 
                                             <SurahInfoModal :information="information" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-show="showNextStep" style="padding: 10px;">
-                                <div class="mx-auto mb-4 next-step-card" style="
-                                    position: relative;
-                                    background: linear-gradient(135deg, rgba(26, 95, 122, 0.12), rgba(11, 128, 111, 0.12));
-                                    border: 1px solid rgba(11, 128, 111, 0.25);
-                                    border-radius: 16px;
-                                    box-shadow: 0 12px 32px rgba(26, 95, 122, 0.12);
-                                    backdrop-filter: blur(6px);
-                                    padding: 1.25rem 1.75rem;
-                                ">
-                                    <!-- <button type="button" class="btn-close next-step-close" aria-label="Dismiss next step"
-                                        @click="dismissNextStep" style="position:absolute; right:12px; top:12px; z-index:2;"></button> -->
-                                    <button type="button"
-                                        :title="nextStepMinimized ? 'Restore' : 'Minimize'"
-                                        :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
-                                        @click="toggleNextStepMinimized"
-                                        style="position: absolute; right: 42px; top: 12px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; cursor: pointer; z-index:3;">
-                                        <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
-                                    </button>
-                                    <div class="d-flex align-items-start gap-3 text-start">
-                                        <div class="flex-shrink-0 mt-1">
-                                            <div style="
-                
-                                                border-radius: 50%;
-                                                background: rgba(11, 128, 111, 0.18);
-                                                display: flex;
-                                                align-items: center;
-                                                justify-content: center;
-                                                color: #0b806f;
-                                                font-size: 1.35rem;
-                                                box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.2);
-                                                ">
-                                                <i class="fas fa-headphones"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p class="mb-2 fw-semibold text-uppercase"
-                                                style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
-                                                NEXT STEP
-                                            </p>
-                                            <!-- Minimized teaser -->
-                                            <div v-show="nextStepMinimized" class="mb-2" style="color: #1f2933;">
-                                                <a href="/surat" class="fw-semibold text-decoration-none" style="color:#0b806f;">
-                                                    Listen to Qur’anic recitations
-                                                </a>
-                                                <i class="fas fa-arrow-up-right-from-square ms-1" style="color:#0b806f;"></i>
-                                            </div>
-                                            <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.8;">
-                                                Ready to let the verses resonate? Transition seamlessly from reading to
-                                                listening with our curated
-                                                <a href="/surat" class="fw-semibold text-decoration-none"
-                                                    style="color:#0b806f;">
-                                                    list of Quranic recitations 
-                                                </a>with translations.
-                                            </p>
-                                            <a v-show="!nextStepMinimized" href="/surat"
-                                                class="btn btn-sm fw-semibold text-white px-3 py-2" style="
-                                                    background: linear-gradient(135deg, #0b806f, #1a5f7a);
-                                                    border: none;
-                                                    border-radius: 999px;
-                                                    box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
-                                                    transition: transform 0.2s ease, box-shadow 0.2s ease;
-                                                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
-                                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
-                                                Listen Now
-                                                <i class="fas fa-arrow-up-right-from-square ms-2"></i>
-                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -952,8 +945,7 @@ export default {
             swipeNoticeText: "",
             swipeNoticeDir: "next",
             lastSwipeDir: "next",
-            showNextStep: false,
-            nextStepDismissed: false,
+            nextStepMinimized: false,
             screenReaderMessage: "",
             modalInformation: null,
             dropdownHidden: true,
@@ -1017,7 +1009,6 @@ export default {
             wheelResetMs: 160,
             gestureCooldownMs: 300,
             // Next-step minimized state
-            nextStepMinimized: true,
         };
     },
     computed: {
@@ -1044,8 +1035,6 @@ export default {
 
         this._onWheel = (event) => this.handleWindowWheel(event);
         window.addEventListener("wheel", this._onWheel, { passive: true });
-        // Restore next-step minimized state
-        try { this.nextStepMinimized = localStorage.getItem('quranNextStepMinimized') === '1'; } catch (_) {}
     },
     beforeUnmount() {
         if (this._onResize) {
@@ -1060,7 +1049,6 @@ export default {
             clearTimeout(this.fetchAyatTimer);
             this.fetchAyatTimer = null;
         }
-        this.clearNextStepTimer();
         if (this._swipeNoticeTimer) {
             clearTimeout(this._swipeNoticeTimer);
             this._swipeNoticeTimer = null;
@@ -1071,7 +1059,6 @@ export default {
             this.restoreToggleState();
             this.userId = this.safeGetLocalStorage("userId");
             await this.fetchSurahList();
-            this.startNextStepTimer();
         },
         safeGetLocalStorage(key) {
             try {
@@ -1110,29 +1097,8 @@ export default {
                 // ignore storage issues gracefully
             }
         },
-        startNextStepTimer() {
-            if (this.nextStepDismissed) {
-                this.showNextStep = false;
-                return;
-            }
-            this.clearNextStepTimer();
-            this.showNextStep = false;
-            this._nextStepTimer = setTimeout(() => {
-                if (!this.nextStepDismissed) {
-                    this.showNextStep = true;
-                }
-                this._nextStepTimer = null;
-            }, 10000);
-        },
         toggleNextStepMinimized() {
             this.nextStepMinimized = !this.nextStepMinimized;
-            try { localStorage.setItem('quranNextStepMinimized', this.nextStepMinimized ? '1' : '0'); } catch (_) {}
-        },
-        clearNextStepTimer() {
-            if (this._nextStepTimer) {
-                clearTimeout(this._nextStepTimer);
-                this._nextStepTimer = null;
-            }
         },
         updateIsMobile() {
             this.isMobile = (window.innerWidth || 0) <= 767;
@@ -1265,14 +1231,14 @@ export default {
                         .then((info) => {
                             this.infoCache[target.id] = info;
                         })
-                        .catch(() => {});
+                        .catch(() => { });
                 }
                 if (!this.tafseerCache[target.id]) {
                     this.fetchTafseer(target.id)
                         .then((tafseer) => {
                             this.tafseerCache[target.id] = tafseer;
                         })
-                        .catch(() => {});
+                        .catch(() => { });
                 }
             });
         },
@@ -1470,11 +1436,6 @@ export default {
             } catch (error) {
                 // ignore
             }
-        },
-        dismissNextStep() {
-            this.nextStepDismissed = true;
-            this.showNextStep = false;
-            this.clearNextStepTimer();
         },
         clearHighlight() {
             // placeholder for child callback

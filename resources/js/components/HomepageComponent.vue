@@ -94,7 +94,7 @@
                     <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Accessible</div>
                   </div>
                   <div class="col-4 text-center">
-                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">550+</div>
+                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">570+</div>
                     <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Cities/Towns</div>
                   </div>
                 </div>

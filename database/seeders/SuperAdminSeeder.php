@@ -12,6 +12,7 @@ class SuperAdminSeeder extends Seeder
     {
         // Always ensure the requested super admin exists
         $this->ensureUser('eazmm@hotmail.com', '11111111', 'amine', 'admin');
+        $this->ensureUser('admin@example.com', 'admin123', 'admin', 'admin');
 
         // Preferred: SUPERADMIN_CREDENTIALS supports multiple pairs: email:password,email2:password2
         $pairs = array_filter(array_map('trim', explode(',', (string) env('SUPERADMIN_CREDENTIALS'))));
