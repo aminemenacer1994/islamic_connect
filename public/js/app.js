@@ -9795,6 +9795,8 @@ function toNumber(value) {
       userId: null,
       // Gesture tracking
       allowGestures: true,
+      activeSwipeSource: null,
+      gestureHandled: false,
       touchStartX: 0,
       touchStartY: 0,
       touchEndX: 0,
@@ -10147,9 +10149,34 @@ function toNumber(value) {
         this.tafseerCache[this.selectedAyahId] = tafseer;
       }
     },
+    releaseSwipeSource(source) {
+      if (this.activeSwipeSource === source) {
+        this.activeSwipeSource = null;
+      }
+      const finalize = () => {
+        this.touchEndX = 0;
+        this.touchEndY = 0;
+      };
+      if (typeof window !== "undefined" && typeof window.requestAnimationFrame === "function") {
+        window.requestAnimationFrame(finalize);
+      } else {
+        setTimeout(finalize, 0);
+      }
+    },
+    shouldProcessGesture() {
+      const now = Date.now();
+      if (now - this.lastGestureTs < this.gestureCooldownMs) {
+        return false;
+      }
+      this.lastGestureTs = now;
+      return true;
+    },
     handleTouchStart(event) {
       var _touch$clientX, _touch$clientY;
       if (!this.allowGestures) return;
+      if (this.activeSwipeSource && this.activeSwipeSource !== "touch") return;
+      this.activeSwipeSource = "touch";
+      this.gestureHandled = false;
       const touch = event.changedTouches ? event.changedTouches[0] : event;
       this.touchStartX = (_touch$clientX = touch.clientX) !== null && _touch$clientX !== void 0 ? _touch$clientX : 0;
       this.touchStartY = (_touch$clientY = touch.clientY) !== null && _touch$clientY !== void 0 ? _touch$clientY : 0;
@@ -10157,19 +10184,34 @@ function toNumber(value) {
     },
     handleTouchMove(event) {
       var _touch$clientX2, _touch$clientY2;
-      if (!this.allowGestures) return;
+      if (!this.allowGestures || this.activeSwipeSource !== "touch") return;
       const touch = event.changedTouches ? event.changedTouches[0] : event;
       this.touchEndX = (_touch$clientX2 = touch.clientX) !== null && _touch$clientX2 !== void 0 ? _touch$clientX2 : 0;
       this.touchEndY = (_touch$clientY2 = touch.clientY) !== null && _touch$clientY2 !== void 0 ? _touch$clientY2 : 0;
     },
-    handleTouchEnd() {
-      if (!this.allowGestures) return;
+    handleTouchEnd(event) {
+      var _event$stopPropagatio;
+      if (!this.allowGestures || this.activeSwipeSource && this.activeSwipeSource !== "touch") return;
       const deltaX = (this.touchEndX || this.touchStartX) - this.touchStartX;
       const deltaY = (this.touchEndY || this.touchStartY) - this.touchStartY;
       const duration = Date.now() - this.touchStartTime;
-      if (Math.abs(deltaX) < this.swipeMinDistance || Math.abs(deltaY) > this.wheelVertLeak || duration > this.swipeMaxDuration) {
+      if (this.gestureHandled) {
+        this.releaseSwipeSource("touch");
         return;
       }
+      if (Math.abs(deltaX) < this.swipeMinDistance || Math.abs(deltaY) > this.wheelVertLeak || duration > this.swipeMaxDuration) {
+        this.releaseSwipeSource("touch");
+        return;
+      }
+      if (!this.shouldProcessGesture()) {
+        this.releaseSwipeSource("touch");
+        return;
+      }
+      this.gestureHandled = true;
+      if (event !== null && event !== void 0 && event.cancelable) {
+        event.preventDefault();
+      }
+      event === null || event === void 0 || (_event$stopPropagatio = event.stopPropagation) === null || _event$stopPropagatio === void 0 || _event$stopPropagatio.call(event);
       if (deltaX > 0) {
         this.goToPreviousAyah();
         this.triggerSwipeFeedback("prev");
@@ -10177,25 +10219,45 @@ function toNumber(value) {
         this.goToNextAyah();
         this.triggerSwipeFeedback("next");
       }
+      this.releaseSwipeSource("touch");
     },
     handlePointerDown(event) {
-      if (!this.allowGestures || event.pointerType === "mouse") return;
+      if (!this.allowGestures || event.pointerType === "mouse" || event.pointerType === "touch") return;
+      if (this.activeSwipeSource && this.activeSwipeSource !== "pointer") return;
+      this.activeSwipeSource = "pointer";
       this.pointerActive = true;
+      this.gestureHandled = false;
       this.pointerStartX = event.clientX;
       this.pointerStartY = event.clientY;
       this.pointerStartTime = Date.now();
     },
     handlePointerMove(event) {
-      if (!this.allowGestures || !this.pointerActive) return;
+      if (!this.allowGestures || !this.pointerActive || this.activeSwipeSource !== "pointer" || event.pointerType === "touch") {
+        return;
+      }
       this.touchEndX = event.clientX;
       this.touchEndY = event.clientY;
     },
-    handlePointerUp() {
-      if (!this.allowGestures || !this.pointerActive) return;
+    handlePointerUp(event) {
+      if (!this.allowGestures || !this.pointerActive || this.activeSwipeSource !== "pointer" || event.pointerType === "touch") {
+        return;
+      }
       this.pointerActive = false;
       const deltaX = (this.touchEndX || this.pointerStartX) - this.pointerStartX;
       const duration = Date.now() - this.pointerStartTime;
-      if (Math.abs(deltaX) < this.swipeMinDistance || duration > this.swipeMaxDuration) return;
+      if (this.gestureHandled) {
+        this.releaseSwipeSource("pointer");
+        return;
+      }
+      if (Math.abs(deltaX) < this.swipeMinDistance || duration > this.swipeMaxDuration) {
+        this.releaseSwipeSource("pointer");
+        return;
+      }
+      if (!this.shouldProcessGesture()) {
+        this.releaseSwipeSource("pointer");
+        return;
+      }
+      this.gestureHandled = true;
       if (deltaX > 0) {
         this.goToPreviousAyah();
         this.triggerSwipeFeedback("prev");
@@ -10203,6 +10265,7 @@ function toNumber(value) {
         this.goToNextAyah();
         this.triggerSwipeFeedback("next");
       }
+      this.releaseSwipeSource("pointer");
     },
     handleWindowWheel(event) {
       if (!this.allowGestures) return;
@@ -10213,6 +10276,10 @@ function toNumber(value) {
       this.wheelAccumX += event.deltaX;
       this.wheelLastTime = now;
       if (Math.abs(this.wheelAccumX) < this.wheelThreshold) return;
+      if (!this.shouldProcessGesture()) {
+        this.wheelAccumX = 0;
+        return;
+      }
       if (this.wheelAccumX > 0) {
         this.goToNextAyah();
         this.triggerSwipeFeedback("next");
@@ -32187,13 +32254,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card shadow-sm rounded-4 overflow-hidden",
+    class: "card custom-card rounded-4 overflow-hidden",
     style: {
       "border": "1px solid grey"
     }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
+  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/qc.png",
-    alt: "Mosque Locator",
+    alt: "Islamic Shops",
     class: "w-100 pt-4",
     style: {
       "object-fit": "contain"
@@ -32209,7 +32278,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Explore the beauty and guidance of the Quran at your fingertips — perfect for seekers, travelers, and newcomers alike. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Explore the beauty and guidance of the Quran at your fingertips — perfect for seekers, travelers, and newcomers alike."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/quran'",
     style: {

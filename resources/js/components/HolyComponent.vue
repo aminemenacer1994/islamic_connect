@@ -6,16 +6,18 @@
             divine message. Our platform is dedicated to helping individuals connect with the words of Allah.
         </p>
         <div class="row g-4 ">
+
             <div class="col-md-6 col-lg-4">
-                <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
-                    <img src="/images/qc.png" alt="Mosque Locator" class="w-100 pt-4" style="object-fit: contain;" />
+                <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
+                    <span
+                        class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+                    <img src="/images/qc.png" alt="Islamic Shops" class="w-100 pt-4" style="object-fit: contain;" />
                     <div class="p-3">
                         <h5 class="mb-2 fw-bold display-6 text-dark text-center">Quran Explorer</h5>
                         <p class="card-text text-muted text-wrap text-center"
-                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
-                            Explore the beauty and guidance of the Quran at your fingertips — perfect for seekers,
-                            travelers, and newcomers alike.
-                        </p>
+                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the beauty and
+                            guidance of the Quran at your fingertips — perfect for seekers,
+                            travelers, and newcomers alike.</p>
                         <button class="form-control" onclick="window.location.href='/quran'"
                             style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                             type="submit">
@@ -49,11 +51,14 @@
                 <div class="card custom-card rounded-4 overflow-hidden" style="border: 1px solid grey; ">
                     <span
                         class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
-                    <img src="/images/history.png" alt="Islamic Shops" class="w-100 pt-4" style="object-fit: contain;" />
+                    <img src="/images/history.png" alt="Islamic Shops" class="w-100 pt-4"
+                        style="object-fit: contain;" />
                     <div class="p-3">
                         <h5 class="mb-2 fw-bold display-6 text-dark text-center">Quran History</h5>
                         <p class="card-text text-muted text-wrap text-center"
-                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the rich history of the Quran from its divine revelation to its meticulous preservation right at your fingertips.</p>
+                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the rich
+                            history of the Quran from its divine revelation to its meticulous preservation right at your
+                            fingertips.</p>
                         <button class="form-control" onclick="window.location.href='/history'"
                             style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                             type="submit">
@@ -122,10 +127,12 @@ export default {
         border-color: lightseagreen;
         box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
     }
+
     50% {
         border-color: #00bfa6;
         box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);
     }
+
     100% {
         border-color: lightseagreen;
         box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);

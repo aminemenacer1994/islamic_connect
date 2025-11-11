@@ -990,6 +990,8 @@ export default {
 
             // Gesture tracking
             allowGestures: true,
+            activeSwipeSource: null,
+            gestureHandled: false,
             touchStartX: 0,
             touchStartY: 0,
             touchEndX: 0,
@@ -1330,31 +1332,70 @@ export default {
                 this.tafseerCache[this.selectedAyahId] = tafseer;
             }
         },
+        releaseSwipeSource(source) {
+            if (this.activeSwipeSource === source) {
+                this.activeSwipeSource = null;
+            }
+            const finalize = () => {
+                this.touchEndX = 0;
+                this.touchEndY = 0;
+            };
+            if (typeof window !== "undefined" && typeof window.requestAnimationFrame === "function") {
+                window.requestAnimationFrame(finalize);
+            } else {
+                setTimeout(finalize, 0);
+            }
+        },
+        shouldProcessGesture() {
+            const now = Date.now();
+            if (now - this.lastGestureTs < this.gestureCooldownMs) {
+                return false;
+            }
+            this.lastGestureTs = now;
+            return true;
+        },
         handleTouchStart(event) {
             if (!this.allowGestures) return;
+            if (this.activeSwipeSource && this.activeSwipeSource !== "touch") return;
+            this.activeSwipeSource = "touch";
+            this.gestureHandled = false;
             const touch = event.changedTouches ? event.changedTouches[0] : event;
             this.touchStartX = touch.clientX ?? 0;
             this.touchStartY = touch.clientY ?? 0;
             this.touchStartTime = Date.now();
         },
         handleTouchMove(event) {
-            if (!this.allowGestures) return;
+            if (!this.allowGestures || this.activeSwipeSource !== "touch") return;
             const touch = event.changedTouches ? event.changedTouches[0] : event;
             this.touchEndX = touch.clientX ?? 0;
             this.touchEndY = touch.clientY ?? 0;
         },
-        handleTouchEnd() {
-            if (!this.allowGestures) return;
+        handleTouchEnd(event) {
+            if (!this.allowGestures || (this.activeSwipeSource && this.activeSwipeSource !== "touch")) return;
             const deltaX = (this.touchEndX || this.touchStartX) - this.touchStartX;
             const deltaY = (this.touchEndY || this.touchStartY) - this.touchStartY;
             const duration = Date.now() - this.touchStartTime;
+            if (this.gestureHandled) {
+                this.releaseSwipeSource("touch");
+                return;
+            }
             if (
                 Math.abs(deltaX) < this.swipeMinDistance ||
                 Math.abs(deltaY) > this.wheelVertLeak ||
                 duration > this.swipeMaxDuration
             ) {
+                this.releaseSwipeSource("touch");
                 return;
             }
+            if (!this.shouldProcessGesture()) {
+                this.releaseSwipeSource("touch");
+                return;
+            }
+            this.gestureHandled = true;
+            if (event?.cancelable) {
+                event.preventDefault();
+            }
+            event?.stopPropagation?.();
             if (deltaX > 0) {
                 this.goToPreviousAyah();
                 this.triggerSwipeFeedback("prev");
@@ -1362,25 +1403,55 @@ export default {
                 this.goToNextAyah();
                 this.triggerSwipeFeedback("next");
             }
+            this.releaseSwipeSource("touch");
         },
         handlePointerDown(event) {
-            if (!this.allowGestures || event.pointerType === "mouse") return;
+            if (!this.allowGestures || event.pointerType === "mouse" || event.pointerType === "touch") return;
+            if (this.activeSwipeSource && this.activeSwipeSource !== "pointer") return;
+            this.activeSwipeSource = "pointer";
             this.pointerActive = true;
+            this.gestureHandled = false;
             this.pointerStartX = event.clientX;
             this.pointerStartY = event.clientY;
             this.pointerStartTime = Date.now();
         },
         handlePointerMove(event) {
-            if (!this.allowGestures || !this.pointerActive) return;
+            if (
+                !this.allowGestures ||
+                !this.pointerActive ||
+                this.activeSwipeSource !== "pointer" ||
+                event.pointerType === "touch"
+            ) {
+                return;
+            }
             this.touchEndX = event.clientX;
             this.touchEndY = event.clientY;
         },
-        handlePointerUp() {
-            if (!this.allowGestures || !this.pointerActive) return;
+        handlePointerUp(event) {
+            if (
+                !this.allowGestures ||
+                !this.pointerActive ||
+                this.activeSwipeSource !== "pointer" ||
+                event.pointerType === "touch"
+            ) {
+                return;
+            }
             this.pointerActive = false;
             const deltaX = (this.touchEndX || this.pointerStartX) - this.pointerStartX;
             const duration = Date.now() - this.pointerStartTime;
-            if (Math.abs(deltaX) < this.swipeMinDistance || duration > this.swipeMaxDuration) return;
+            if (this.gestureHandled) {
+                this.releaseSwipeSource("pointer");
+                return;
+            }
+            if (Math.abs(deltaX) < this.swipeMinDistance || duration > this.swipeMaxDuration) {
+                this.releaseSwipeSource("pointer");
+                return;
+            }
+            if (!this.shouldProcessGesture()) {
+                this.releaseSwipeSource("pointer");
+                return;
+            }
+            this.gestureHandled = true;
             if (deltaX > 0) {
                 this.goToPreviousAyah();
                 this.triggerSwipeFeedback("prev");
@@ -1388,6 +1459,7 @@ export default {
                 this.goToNextAyah();
                 this.triggerSwipeFeedback("next");
             }
+            this.releaseSwipeSource("pointer");
         },
         handleWindowWheel(event) {
             if (!this.allowGestures) return;
@@ -1398,6 +1470,10 @@ export default {
             this.wheelAccumX += event.deltaX;
             this.wheelLastTime = now;
             if (Math.abs(this.wheelAccumX) < this.wheelThreshold) return;
+            if (!this.shouldProcessGesture()) {
+                this.wheelAccumX = 0;
+                return;
+            }
             if (this.wheelAccumX > 0) {
                 this.goToNextAyah();
                 this.triggerSwipeFeedback("next");
