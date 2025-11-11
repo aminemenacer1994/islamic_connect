@@ -330,7 +330,8 @@ export default {
 }
 
 .text-success {
-  color: #28a745 !important;
+  color: #006400 !important;
+  font-weight: 700;
 }
 
 .btn-outline-success {

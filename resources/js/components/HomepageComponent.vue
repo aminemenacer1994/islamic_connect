@@ -90,8 +90,8 @@
                     <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Countries</div>
                   </div>
                   <div class="col-4 text-center">
-                    <div style="color: rgb(0, 121, 107); font-weight: 800; font-size: 1.8rem; line-height: 1;">100%</div>
-                    <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Accessible</div>
+                    <div style="color: rgb(0, 121, 107); font-weight: 800; font-size: 1.8rem; line-height: 1;">85%</div>
+                    <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">SEO</div>
                   </div>
                   <div class="col-4 text-center">
                     <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">570+</div>
@@ -383,29 +383,21 @@
             <p class="section-lead">Measurable results showing how we're making Islamic knowledge accessible to all</p>
 
             <div class="row container-fluid stats-grid">
-              <div class="col-md-3 col-6 mb-4">
+              <div class="col-md-4 col-6 mb-4">
                 <div class="stat-card">
                   <h3>70+</h3>
                   <p>Countries</p>
                   <small>Global reach</small>
                 </div>
               </div>
-              <div class="col-md-3 col-6 mb-4">
+              <div class="col-md-4 col-6 mb-4">
                 <div class="stat-card">
                   <h3>570+</h3>
                   <p>Cities/Towns</p>
                   <small>Worldwide presence</small>
                 </div>
               </div>
-
-              <div class="col-md-3 col-6 mb-4">
-                <div class="stat-card">
-                  <h3>100%</h3>
-                  <p>Accessibility & SEO</p>
-                  <small>Score</small>
-                </div>
-              </div>
-              <div class="col-md-3 col-6 mb-4">
+              <div class="col-md-4 col-6 mb-4">
                 <div class="stat-card">
                   <h3>1,090%</h3>
                   <p>Growth</p>
