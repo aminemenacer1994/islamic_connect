@@ -9,7 +9,7 @@
             type="search"
             @keyup="onInput"
             v-model="searchTerm"
-            placeholder="Search for a keyword..."
+            placeholder="Search for a word in the quran..."
             class="form-control search-pill"
             style="padding: 12px 16px; height: 50px;"
           />

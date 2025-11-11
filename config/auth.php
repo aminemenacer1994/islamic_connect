@@ -1,5 +1,12 @@
 <?php
 
+$superAdminEmails = array_filter(array_map('trim', explode(',', (string) env('SUPERADMIN_EMAILS', ''))));
+$singleSuperAdmin = trim((string) env('SUPERADMIN_EMAIL', ''));
+if ($singleSuperAdmin !== '') {
+    $superAdminEmails[] = $singleSuperAdmin;
+}
+$superAdminEmails = array_values(array_unique($superAdminEmails));
+
 return [
 
     /*
@@ -107,5 +114,18 @@ return [
     */
 
     'password_timeout' => 10800,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Super Admin Emails
+    |--------------------------------------------------------------------------
+    |
+    | Provide a cache-safe list of emails that should always be treated as
+    | super administrators regardless of their stored role. Configure via
+    | SUPERADMIN_EMAIL or SUPERADMIN_EMAILS in the environment.
+    |
+    */
+
+    'super_admin_emails' => $superAdminEmails,
 
 ];

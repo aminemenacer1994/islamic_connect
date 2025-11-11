@@ -75,15 +75,10 @@ class User extends Authenticatable
             return true;
         }
 
-        // Support single env or comma-separated list
-        $single = env('SUPERADMIN_EMAIL');
-        if ($single && strcasecmp($this->email, trim($single)) === 0) {
-            return true;
-        }
-
-        $list = array_filter(array_map('trim', explode(',', (string) env('SUPERADMIN_EMAILS'))));
-        foreach ($list as $email) {
-            if (strcasecmp($this->email, $email) === 0) {
+        // Honor configured super admin emails (single or comma-separated env values)
+        $configuredSuperAdmins = (array) config('auth.super_admin_emails', []);
+        foreach ($configuredSuperAdmins as $email) {
+            if ($email && strcasecmp($this->email, $email) === 0) {
                 return true;
             }
         }

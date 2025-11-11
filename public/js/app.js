@@ -48829,7 +48829,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "search",
     onKeyup: _cache[0] || (_cache[0] = (...args) => $options.onInput && $options.onInput(...args)),
     "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.searchTerm = $event),
-    placeholder: "Search for a keyword...",
+    placeholder: "Search for a word in the quran...",
     class: "form-control search-pill",
     style: {
       "padding": "12px 16px",
