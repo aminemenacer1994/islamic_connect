@@ -143,11 +143,10 @@
                                     background: white;">
 
 
-                                    <ul class="col-md-12 list-group root" id="toggle" ref="ayahList" role="listbox"
+                                    <ul class="col-md-12 list-group root ayah-list" id="toggle" ref="ayahList" role="listbox"
                                         tabindex="0"
                                         :aria-activedescendant="selectedIndexAyah >= 0 ? `ayah-option-${selectedIndexAyah}` : null"
-                                        aria-label="Ayah list" aria-controls="ayah-content"
-                                        style="list-style-type: none">
+                                        aria-label="Ayah list" aria-controls="ayah-content">
 
                                         <li v-for="(ayah, index) in ayat" :key="ayah.id || index"
                                             @click="selectAyah(index)" role="option" :id="`ayah-option-${index}`"
@@ -291,7 +290,8 @@
                                             }" class="icon-container hide-on-mobile mb-3">
                                             <div class="text-center icon-text" role="group"
                                                 aria-label="Verse navigation controls" :aria-hidden="isMobile">
-                                                <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah" role="button"
+                                                <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah verse-nav-icon"
+                                                    role="button"
                                                     aria-label="Go to first verse" :tabindex="isMobile ? -1 : 0"
                                                     @keydown.enter.prevent="goToFirstAyah"
                                                     @keydown.space.prevent="goToFirstAyah" style="cursor: pointer"
@@ -300,7 +300,7 @@
                                             </div>
                                             <div class="text-center" role="group" aria-label="Previous verse"
                                                 :aria-hidden="isMobile">
-                                                <i class="bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
+                                                <i class="bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
                                                     role="button" aria-label="Go to previous verse"
                                                     :tabindex="isMobile ? -1 : 0"
                                                     @keydown.enter.prevent="goToPreviousAyah"
@@ -310,7 +310,7 @@
                                             </div>
                                             <div class="text-center" role="group" aria-label="Next verse"
                                                 :aria-hidden="isMobile">
-                                                <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
+                                                <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
                                                     role="button" aria-label="Go to next verse"
                                                     :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToNextAyah"
                                                     @keydown.space.prevent="goToNextAyah" style="cursor: pointer"
@@ -319,7 +319,7 @@
                                             </div>
                                             <div class="text-center" role="group" aria-label="Last verse"
                                                 :aria-hidden="isMobile">
-                                                <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon"
+                                                <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon verse-nav-icon"
                                                     role="button" aria-label="Go to last verse"
                                                     :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToLastAyah"
                                                     @keydown.space.prevent="goToLastAyah" style="cursor: pointer"
@@ -381,12 +381,12 @@
                                             <div :style="iconStyle" class="icon-container" role="group"
                                                 aria-label="Verse navigation controls (mobile)">
 
-                                                <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
+                                                <i class="bi bi-chevron-bar-left h4 verse-nav-icon" style="cursor: pointer"
                                                     role="button" aria-label="Go to first verse"
                                                     :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToFirstAyah"
                                                     @keydown.space.prevent="goToFirstAyah" @click="goToFirstAyah()"
                                                     title="First verse"></i>
-                                                <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
+                                                <i class="bi bi-arrow-left-circle h4 verse-nav-icon" style="cursor: pointer"
                                                     role="button" aria-label="Go to previous verse"
                                                     :tabindex="isMobile ? 0 : -1"
                                                     @keydown.enter.prevent="goToPreviousAyah"
@@ -395,12 +395,12 @@
                                                 <!-- <i @click="submitForm" class="bi bi-bookmark mb-2 h4"
                                                     aria-expanded="false" data-bs-placement="top"
                                                     title="Bookmark verse"></i> -->
-                                                <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
+                                                <i class="bi bi-arrow-right-circle h4 verse-nav-icon" style="cursor: pointer"
                                                     role="button" aria-label="Go to next verse"
                                                     :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToNextAyah"
                                                     @keydown.space.prevent="goToNextAyah" @click="goToNextAyah()"
                                                     title="Next verse"></i>
-                                                <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
+                                                <i class="bi bi-chevron-bar-right h4 verse-nav-icon" style="cursor: pointer"
                                                     role="button" aria-label="Go to last verse"
                                                     :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToLastAyah"
                                                     @keydown.space.prevent="goToLastAyah" @click="goToLastAyah()"
@@ -486,7 +486,7 @@
                                                 class="icon-container hide-on-mobile mb-3" :aria-hidden="isMobile">
                                                 <div class="text-center" role="group"
                                                     aria-label="Verse navigation controls (desktop)">
-                                                    <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah"
+                                                    <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah verse-nav-icon"
                                                         role="button" aria-label="Go to first verse"
                                                         :tabindex="isMobile ? -1 : 0"
                                                         @keydown.enter.prevent="goToFirstAyah"
@@ -495,7 +495,7 @@
                                                     <div class="large">First verse</div>
                                                 </div>
                                                 <div class="text-center" role="group" aria-label="Previous verse">
-                                                    <i class="bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
+                                                    <i class="bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
                                                         role="button" aria-label="Go to previous verse"
                                                         :tabindex="isMobile ? -1 : 0"
                                                         @keydown.enter.prevent="goToPreviousAyah"
@@ -505,7 +505,7 @@
                                                     <div class="large">Previous verse</div>
                                                 </div>
                                                 <div class="text-center" role="group" aria-label="Next verse">
-                                                    <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
+                                                    <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
                                                         role="button" aria-label="Go to next verse"
                                                         :tabindex="isMobile ? -1 : 0"
                                                         @keydown.enter.prevent="goToNextAyah"
@@ -514,7 +514,7 @@
                                                     <div class="large">Next verse</div>
                                                 </div>
                                                 <div class="text-center" role="group" aria-label="Last verse">
-                                                    <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon"
+                                                    <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon verse-nav-icon"
                                                         role="button" aria-label="Go to last verse"
                                                         :tabindex="isMobile ? -1 : 0"
                                                         @keydown.enter.prevent="goToLastAyah"
@@ -595,16 +595,16 @@
                                             <div class="dropdown mobile-only">
                                                 <div :style="iconStyle" class="icon-container pb-2">
 
-                                                    <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
+                                                    <i class="bi bi-chevron-bar-left h4 verse-nav-icon" style="cursor: pointer"
                                                         @click="goToFirstAyah()" title="Last verse"></i>
-                                                    <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
+                                                    <i class="bi bi-arrow-left-circle h4 verse-nav-icon" style="cursor: pointer"
                                                         @click="goToPreviousAyah()" title="Previous verse"></i>
                                                     <!-- <i @click="submitFormTafseer" class="bi bi-bookmark mb-2 h4"
                                                         aria-expanded="false" data-bs-placement="top"
                                                         title="Bookmark verse"></i> -->
-                                                    <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
+                                                    <i class="bi bi-arrow-right-circle h4 verse-nav-icon" style="cursor: pointer"
                                                         @click="goToNextAyah()" title="Next verse"></i>
-                                                    <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
+                                                    <i class="bi bi-chevron-bar-right h4 verse-nav-icon" style="cursor: pointer"
                                                         @click="goToLastAyah()" title="End verse"></i>
                                                 </div>
                                                 <!-- Mobile/Tablet tip: swipe between verses -->
@@ -678,25 +678,25 @@
                                                     @update-information="updateInformation"
                                                     class="icon-container hide-on-mobile mb-3">
                                                     <div class="text-center">
-                                                        <i class="bi bi-skip-start-fill icon-container h2 pt- custom-prev-ayah"
+                                                        <i class="bi bi-skip-start-fill icon-container h2 pt- custom-prev-ayah verse-nav-icon"
                                                             style="cursor: pointer" @click="goToFirstAyah"
                                                             title="First verse"></i>
                                                         <div class="large">First verse</div>
                                                     </div>
                                                     <div class="text-center">
-                                                        <i class="bi bi-arrow-left-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon"
+                                                        <i class="bi bi-arrow-left-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
                                                             style="cursor: pointer" @click="goToPreviousAyah"
                                                             title="Previous verse"></i>
                                                         <div class="large">Previous verse</div>
                                                     </div>
                                                     <div class="text-center">
-                                                        <i class="bi bi-arrow-right-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon"
+                                                        <i class="bi bi-arrow-right-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
                                                             style="cursor: pointer" @click="goToNextAyah"
                                                             title="Next verse"></i>
                                                         <div class="large">Next verse</div>
                                                     </div>
                                                     <div class="text-center">
-                                                        <i class="bi bi-skip-end-fill pt-2 h2 icon-container custom-prev-ayah desktop-icon"
+                                                        <i class="bi bi-skip-end-fill pt-2 h2 icon-container custom-prev-ayah desktop-icon verse-nav-icon"
                                                             style="cursor: pointer" @click="goToLastAyah"
                                                             title="Last verse"></i>
                                                         <div class="large">Last verse</div>
@@ -780,16 +780,16 @@
                                                 <div class="dropdown mobile-only">
                                                     <div :style="iconStyle" class="icon-container">
 
-                                                        <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
+                                                        <i class="bi bi-chevron-bar-left h4 verse-nav-icon" style="cursor: pointer"
                                                             @click="goToFirstAyah()" title="Last verse"></i>
-                                                        <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
+                                                        <i class="bi bi-arrow-left-circle h4 verse-nav-icon" style="cursor: pointer"
                                                             @click="goToPreviousAyah()" title="Previous verse"></i>
                                                         <!-- <i @click="submitFormTransliteration"
                                                             class="bi bi-bookmark mb-2 h4" aria-expanded="false"
                                                             data-bs-placement="top" title="Bookmark verse"></i> -->
-                                                        <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
+                                                        <i class="bi bi-arrow-right-circle h4 verse-nav-icon" style="cursor: pointer"
                                                             @click="goToNextAyah()" title="Next verse"></i>
-                                                        <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
+                                                        <i class="bi bi-chevron-bar-right h4 verse-nav-icon" style="cursor: pointer"
                                                             @click="goToLastAyah()" title="End verse"></i>
                                                     </div>
                                                     <!-- Mobile/Tablet tip: swipe between verses -->

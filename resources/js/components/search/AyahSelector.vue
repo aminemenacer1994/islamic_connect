@@ -24,16 +24,18 @@
         </div>
 
         <!-- List of Ayat with highlighting for selected Ayah -->
-        <div class="custom-scrollbar pb-5" style="overflow-y: auto; max-height: 600px; background: white; border-radius:10px; box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
-            <ul class="col-md-12 list-group container-fluid root" id="toggle" ref="ayahList" style="list-style-type: none; padding: 8px">
-                <li v-for="(ayah, index) in ayat" 
+        <div class="custom-scrollbar pb-5 ayah-selector-wrapper">
+            <ul class="col-md-12 list-group container-fluid root ayah-selector-list" id="toggle" ref="ayahList">
+                <li v-for="(ayah, index) in ayat"
                     :key="index" 
-                    @click="selectAyah(index)" 
-                    :class="{ selected: selectedAyahId === index, highlighted: highlightedAyahId === ayah.id }"
-                    style="padding: 10px; border-radius:10px"
+                    @click="selectAyah(index)"
+                    :class="[
+                        'ayah-selector-item',
+                        { selected: selectedAyahId === index, highlighted: highlightedAyahId === ayah.id }
+                    ]"
                 >
-                    <h5 class="text-right" style="display: flex;"> Verse: {{ ayah.ayah_id }} </h5>
-                    <h5 class="text-right">{{ ayah.ayah_text }}</h5>
+                    <h5 class="text-right ayah-selector-heading">Verse: {{ ayah.ayah_id }}</h5>
+                    <h5 class="text-right ayah-selector-text">{{ ayah.ayah_text }}</h5>
                 </li>
             </ul>
         </div>
@@ -123,6 +125,44 @@ export default {
 </script>
 
 <style>
+.ayah-selector-wrapper {
+    overflow-y: auto;
+    max-height: 600px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.ayah-selector-list {
+    list-style: none;
+    margin: 0;
+    padding: 12px 14px 8px;
+}
+
+.ayah-selector-item {
+    padding: 10px;
+    border-radius: 10px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.ayah-selector-item:hover {
+    transform: translateX(-4px);
+    background-color: #f7fafa;
+}
+
+.ayah-selector-heading {
+    display: flex;
+    justify-content: flex-end;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+}
+
+.ayah-selector-text {
+    margin: 0;
+    line-height: 1.5;
+}
+
 .highlighted-ayah {
     background-color: #f0f8ff;
     padding: 10px;
