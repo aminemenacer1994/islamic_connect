@@ -1,13 +1,24 @@
 <template>
     <div id="app">
-        <div class="py-4 text-center position-relative">
-            <Title />
-            <!-- <ChatBot /> -->
-            <h1 class="text-center container mb-4 lead" style="line-height: 1.6em;">
-                The Quran Companion page utilizes AI tools and accessibility features to enrich your learning
-                experience. It offers text-to-speech, speech-to-text, and synchronized highlighting and more.
-            </h1>
+        <!-- <section class="companion-hero container" aria-labelledby="companion-heading">
+            <div class="hero-inner">
+                <div class="hero-text">
+                    <p class="hero-eyebrow text-uppercase fw-semibold mb-2">Guided study experience</p>
+                    <Title class="hero-title" />
+                    <p id="companion-heading" class="hero-copy">
+                        The Quran Companion page utilizes AI tools and accessibility features to enrich your learning
+                        experience. It offers text-to-speech, speech-to-text, synchronized highlighting, and more.
+                    </p>
+                </div>
+                <div class="hero-visual d-none d-lg-flex" aria-hidden="true">
+                    <div class="hero-ring ring-1"></div>
+                    <div class="hero-ring ring-2"></div>
+                    <div class="hero-ring ring-3"></div>
+                </div>
+            </div>
+        </section> -->
 
+        <div class="py-4 position-relative">
             <div v-if="!isVisible" class="shadow-md">
                 <!-- <h4 class="fw-bold text-center pt-2 mb-2 container" v-if="information != null">Search for a word in the
                     Quran...</h4> -->
@@ -99,81 +110,78 @@
 
 
                 <div class="col-md-4 pt-2">
-                    <h5 id="surah-select-label" class="fw-bold text-left -2 ">Select a Surah:</h5>
-                    <SurahDropdown aria-labelledby="surah-select-label" class="col-md-12"
-                        :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah" :surat="surat"
-                        @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
+                    <section class="selector-card" aria-label="Surah and verse selection">
+                        <div class="selector-heading">
+                            <h5 id="surah-select-label" class="fw-bold text-left mb-1">Select a Surah</h5>
+                            <p class="field-helper">
+                                Choose a chapter to unlock its verses, recitations, and tafseer tools.
+                            </p>
+                        </div>
+                        <div class="selector-control">
+                            <SurahDropdown aria-labelledby="surah-select-label" class="col-md-12"
+                                :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah" :surat="surat"
+                                @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
+                        </div>
 
-                    <!-- <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" /> -->
+                        <div v-if="information != null" class="mt-4">
+                            <div class="selector-heading">
+                                <h5 id="ayah-select-label" class="fw-bold text-left mb-1">Select a Verse</h5>
+                                <p class="field-helper">
+                                    Tap or click a verse below to focus the translation panel.
+                                </p>
+                            </div>
+                        </div>
 
+                        <AyahDropdown aria-labelledby="ayah-select-label" :selectedSurahId="selectedSurahId"
+                            :dropdownHidden="dropdownHidden" @update-information="updateInformation"
+                            @update-tafseer="updateTafseer" v-if="ayah == null && !dropdownHidden"
+                            class="ayah-dropdown-hidden-on-desktop d-block d-md-none" />
 
-                    <!-- <AddBookmark /> -->
-                    <!-- </div> -->
-                    <h5 id="ayah-select-label" class="fw-bold text-left mb-2" v-if="information != null">Select a Verse:
-                    </h5>
-                    <!-- <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
-                        @submit.prevent="scrollToAyah">
-                        <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
-                            type="number" placeholder="Enter Verse Number" v-model="verseNumber" required />
-                        <button class="btn btn-success mb-1 ml-1" style="background: #0b5d4b;border-radius: 5px;"
-                            type="submit">
-                            Search
-                        </button>
-                    </form> -->
-                    <AyahDropdown aria-labelledby="ayah-select-label" :selectedSurahId="selectedSurahId"
-                        :dropdownHidden="dropdownHidden" @update-information="updateInformation"
-                        @update-tafseer="updateTafseer" v-if="ayah == null && !dropdownHidden"
-                        class="ayah-dropdown-hidden-on-desktop d-block d-md-none" />
+                        <!-- List of Ayat for Surah (desktop) -->
+                        <div class="tab-content hide-on-mobile-tablet" id="nav-tabContent"
+                            v-if="ayah == null && !dropdownHidden">
+                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                aria-labelledby="nav-home-tab" v-if="ayah == null">
 
-                    <!-- List of Ayat for Surah (desktop) -->
-                    <div class="tab-content hide-on-mobile-tablet" id="nav-tabContent"
-                        v-if="ayah == null && !dropdownHidden">
-                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                            aria-labelledby="nav-home-tab" v-if="ayah == null">
+                                <!-- Error alert -->
+                                <ErrorAlert :showError="showError" @dismiss-error="dismissError" />
 
-                            <!-- Error alert -->
-                            <ErrorAlert :showError="showError" @dismiss-error="dismissError" />
+                                <div class="row ">
 
-                            <div class="row ">
+                                    <div class="custom-scrollbar pb-3 w-100 ayah-scroll">
 
-                                <div class="custom-scrollbar pb-3 w-100" style="
-                                    overflow-y: auto; cursor: pointer;                             
-                                    border: 1px solid #31464338; border-radius: 8px;
-                                    max-height: 600px;
-                                    background: white;">
+                                        <ul class="col-md-12 list-group root ayah-list" id="toggle" ref="ayahList"
+                                            role="listbox" tabindex="0"
+                                            :aria-activedescendant="selectedIndexAyah >= 0 ? `ayah-option-${selectedIndexAyah}` : null"
+                                            aria-label="Ayah list" aria-controls="ayah-content">
 
-
-                                    <ul class="col-md-12 list-group root ayah-list" id="toggle" ref="ayahList" role="listbox"
-                                        tabindex="0"
-                                        :aria-activedescendant="selectedIndexAyah >= 0 ? `ayah-option-${selectedIndexAyah}` : null"
-                                        aria-label="Ayah list" aria-controls="ayah-content">
-
-                                        <li v-for="(ayah, index) in ayat" :key="ayah.id || index"
-                                            @click="selectAyah(index)" role="option" :id="`ayah-option-${index}`"
-                                            :aria-selected="selectedIndexAyah === index"
-                                            :tabindex="selectedIndexAyah === index ? 0 : -1"
-                                            @keydown.enter.prevent="selectAyah(index)"
-                                            @keydown.space.prevent="selectAyah(index)" :class="{
-                                                selected:
-                                                    selectedIndexAyah === index ||
-                                                    (verseNumber &&
-                                                        parseInt(verseNumber) ===
-                                                        ayah.ayah_id),
-                                            }" style="
-                                            padding: 8px;
-                                            border-radius: 15px;">
-                                            <h5 class="text-right" style="display: flex; font-weight: bold;">
-                                                Verse: {{ ayah.ayah_id }}
-                                            </h5>
-                                            <h5 class="text-right">
-                                                {{ ayah.ayah_text }}
-                                            </h5>
-                                        </li>
-                                    </ul>
+                                            <li v-for="(ayah, index) in ayat" :key="ayah.id || index"
+                                                @click="selectAyah(index)" role="option" :id="`ayah-option-${index}`"
+                                                :aria-selected="selectedIndexAyah === index"
+                                                :tabindex="selectedIndexAyah === index ? 0 : -1"
+                                                @keydown.enter.prevent="selectAyah(index)"
+                                                @keydown.space.prevent="selectAyah(index)"
+                                                class="ayah-item"
+                                                :class="{
+                                                    selected:
+                                                        selectedIndexAyah === index ||
+                                                        (verseNumber &&
+                                                            parseInt(verseNumber) ===
+                                                            ayah.ayah_id),
+                                                }">
+                                                <h5 class="text-right ayah-label">
+                                                    Verse: {{ ayah.ayah_id }}
+                                                </h5>
+                                                <h5 class="text-right ayah-text">
+                                                    {{ ayah.ayah_text }}
+                                                </h5>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
                 <div class="col-md-8 pt-2 card-hide text-left pr-4">
                     <Welcome v-if="information == null" />
@@ -949,7 +957,6 @@ export default {
             screenReaderMessage: "",
             modalInformation: null,
             dropdownHidden: true,
-
             // Surah / Ayah data
             surat: [],
             filteredSurah: [],
@@ -1618,6 +1625,192 @@ export default {
 
 <style scoped src="./css/styles.css"></style>
 <style scoped>
+.companion-hero {
+    background: linear-gradient(145deg, #f4f9f7, #fdfcf8);
+    border: 1px solid rgba(11, 128, 111, 0.12);
+    border-radius: 28px;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    margin: 2.5rem auto 1rem;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+}
+
+.hero-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.5rem;
+}
+
+.hero-text {
+    text-align: left;
+    max-width: 640px;
+}
+
+.hero-eyebrow {
+    letter-spacing: 0.3em;
+    font-size: 0.78rem;
+    color: #1a5f7a;
+}
+
+:deep(.hero-title) {
+    color: #0f172a;
+    font-size: clamp(2.4rem, 5vw, 3.5rem);
+    margin-bottom: 1rem;
+}
+
+.hero-copy {
+    color: #1f2933;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.hero-visual {
+    position: relative;
+    width: 280px;
+    aspect-ratio: 1 / 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(11, 128, 111, 0.35);
+    box-shadow: 0 10px 25px rgba(11, 128, 111, 0.15);
+    animation: heroPulse 8s ease-in-out infinite;
+}
+
+.ring-1 {
+    width: 90%;
+    height: 90%;
+    animation-delay: 0s;
+}
+
+.ring-2 {
+    width: 70%;
+    height: 70%;
+    animation-delay: 2s;
+}
+
+.ring-3 {
+    width: 50%;
+    height: 50%;
+    animation-delay: 4s;
+    background: radial-gradient(circle, rgba(11, 128, 111, 0.1), transparent 65%);
+}
+
+@keyframes heroPulse {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.95;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.6;
+    }
+}
+
+.selector-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);
+}
+
+.selector-heading {
+    margin-bottom: 0.75rem;
+}
+
+.field-helper {
+    color: #5f6b7b;
+    font-size: 0.92rem;
+    margin-bottom: 0;
+}
+
+.selector-control {
+    border-radius: 14px;
+    border: 1px solid rgba(49, 70, 67, 0.18);
+    padding: 0.5rem;
+    background: #f8fafc;
+}
+
+.ayah-scroll {
+    overflow-y: auto;
+    cursor: pointer;
+    border: 1px solid rgba(49, 70, 67, 0.22);
+    border-radius: 18px;
+    max-height: 600px;
+    background: #ffffff;
+    padding: 0.25rem 0.5rem;
+}
+
+.ayah-item {
+    padding: 0.85rem 1rem;
+    border-radius: 16px;
+    transition: background 0.2s ease, border 0.2s ease, transform 0.15s ease;
+    border: 1px solid transparent;
+    margin-bottom: 0.35rem;
+}
+
+.ayah-item:hover,
+.ayah-item:focus-within {
+    background: rgba(11, 128, 111, 0.05);
+    border-color: rgba(11, 128, 111, 0.35);
+}
+
+.ayah-item.selected {
+    background: rgba(11, 128, 111, 0.12);
+    border-color: rgba(11, 128, 111, 0.45);
+    box-shadow: 0 10px 30px rgba(11, 128, 111, 0.15);
+}
+
+.ayah-label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.92rem;
+    color: #0b5d4b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ayah-text {
+    font-weight: 600;
+    color: #1f2a37;
+    line-height: 1.6;
+}
+
+@media (max-width: 991px) {
+    .hero-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-text {
+        text-align: center;
+    }
+
+    .selector-card {
+        padding: 1.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .companion-hero {
+        border-radius: 18px;
+        padding: 1.5rem;
+    }
+
+    .hero-copy {
+        font-size: 1rem;
+    }
+
+}
+
 .swipe-tip {
     background-color: #e7f1ff;
     /* light blue */
