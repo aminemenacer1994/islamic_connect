@@ -1,6 +1,6 @@
 <!-- NavTabs.vue -->
 <template>
-<div class="overflow-auto">
+<div class="overflow-auto" >
  <ul class="nav nav-tabs text-left justify-content-start pt-3 flex-nowrap" style="white-space: nowrap;" role="tablist" aria-label="Content sections">
   <li class="nav-item" role="presentation">
    <a class="nav-link active" id="tab-translation" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" tabindex="0">
@@ -49,6 +49,7 @@ export default {
  margin-right: 5px;
  background-color: transparent;
  border: 1px solid transparent;
+ border-radius: 20px;
  font-size: 16px;
  line-height: 1.5;
 }
@@ -60,7 +61,7 @@ export default {
 .nav-tabs>.nav-item>.nav-link.active {
  background-color: rgba(0, 107, 95, 0.2);
  color: rgb(7, 6, 6);
- border-radius:8px;
+ border-radius:20px;
  padding-bottom: 8%;
  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }

@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php
         $canonicalUrl = trim($__env->yieldContent('canonical', url()->current()));
-        $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect — Explore Quran, Media, and Accessible Tools'));
+        $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect – Quran'));
         $metaDescription = trim(
             $__env->yieldContent(
                 'meta_description',

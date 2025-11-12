@@ -1,22 +1,5 @@
 <template>
     <div id="app">
-        <!-- <section class="companion-hero container" aria-labelledby="companion-heading">
-            <div class="hero-inner">
-                <div class="hero-text">
-                    <p class="hero-eyebrow text-uppercase fw-semibold mb-2">Guided study experience</p>
-                    <Title class="hero-title" />
-                    <p id="companion-heading" class="hero-copy">
-                        The Quran Companion page utilizes AI tools and accessibility features to enrich your learning
-                        experience. It offers text-to-speech, speech-to-text, synchronized highlighting, and more.
-                    </p>
-                </div>
-                <div class="hero-visual d-none d-lg-flex" aria-hidden="true">
-                    <div class="hero-ring ring-1"></div>
-                    <div class="hero-ring ring-2"></div>
-                    <div class="hero-ring ring-3"></div>
-                </div>
-            </div>
-        </section> -->
 
         <div class="py-4 position-relative">
             <div v-if="!isVisible" class="shadow-md">
@@ -24,13 +7,13 @@
                     Quran...</h4> -->
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
                 <div v-if="information" class="next-step-card container" style="
-                                position: relative;
-                                background: linear-gradient(135deg, rgba(26, 95, 122, 0.10), rgba(11, 128, 111, 0.10));
-                                border: 1px solid rgba(11, 128, 111, 0.18);
-                                border-radius: 16px;
-                                box-shadow: 0 8px 24px rgba(26, 95, 122, 0.12);
-                                padding: 1.2rem 1.6rem;
-                            ">
+                        position: relative;
+                        background: linear-gradient(135deg, rgba(26, 95, 122, 0.10), rgba(11, 128, 111, 0.10));
+                        border: 1px solid rgba(11, 128, 111, 0.18);
+                        border-radius: 16px;
+                        box-shadow: 0 8px 24px rgba(26, 95, 122, 0.12);
+                        padding: 1.2rem 1.6rem;
+                    ">
                     <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
                         :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
                         @click="toggleNextStepMinimized"
@@ -109,7 +92,7 @@
                 </div> -->
 
 
-                <div class="col-md-4 pt-2">
+                <div class="col-md-4 pt-4">
                     <section class="selector-card" aria-label="Surah and verse selection">
                         <div class="selector-heading">
                             <h5 id="surah-select-label" class="fw-bold text-left mb-1">Select a Surah</h5>
@@ -160,9 +143,7 @@
                                                 :aria-selected="selectedIndexAyah === index"
                                                 :tabindex="selectedIndexAyah === index ? 0 : -1"
                                                 @keydown.enter.prevent="selectAyah(index)"
-                                                @keydown.space.prevent="selectAyah(index)"
-                                                class="ayah-item"
-                                                :class="{
+                                                @keydown.space.prevent="selectAyah(index)" class="ayah-item" :class="{
                                                     selected:
                                                         selectedIndexAyah === index ||
                                                         (verseNumber &&
@@ -183,7 +164,7 @@
                         </div>
                     </section>
                 </div>
-                <div class="col-md-8 pt-2 card-hide text-left pr-4">
+                <div class="col-md-8 card-hide text-left pr-4">
                     <Welcome v-if="information == null" />
 
                     <div class="mb-2" v-else>
@@ -194,7 +175,7 @@
                     <div v-if="information" class="mb-4">
 
                     </div>
-                    <div class="card content">
+                    <div class="card" style="box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);">
                         <div v-if="information != null">
                             <div class="container-fluid ">
                                 <div class="row">
@@ -280,8 +261,8 @@
                                 </div> -->
                             </div>
 
-                            <div class="card-body content">
-                                <div class="tab-content text-center">
+                            <div class="card-body content" style="border-radius: 20px;">
+                                <div class="tab-content text-center" style="border-radius: 20px;">
                                     <!-- <Welcome :information="information" /> -->
 
                                     <!-- Translation Section -->
@@ -299,9 +280,8 @@
                                             <div class="text-center icon-text" role="group"
                                                 aria-label="Verse navigation controls" :aria-hidden="isMobile">
                                                 <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah verse-nav-icon"
-                                                    role="button"
-                                                    aria-label="Go to first verse" :tabindex="isMobile ? -1 : 0"
-                                                    @keydown.enter.prevent="goToFirstAyah"
+                                                    role="button" aria-label="Go to first verse"
+                                                    :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToFirstAyah"
                                                     @keydown.space.prevent="goToFirstAyah" style="cursor: pointer"
                                                     @click="goToFirstAyah" title="First verse"></i>
                                                 <div class="large">First verse</div>
@@ -389,27 +369,27 @@
                                             <div :style="iconStyle" class="icon-container" role="group"
                                                 aria-label="Verse navigation controls (mobile)">
 
-                                                <i class="bi bi-chevron-bar-left h4 verse-nav-icon" style="cursor: pointer"
-                                                    role="button" aria-label="Go to first verse"
+                                                <i class="bi bi-chevron-bar-left h4 verse-nav-icon"
+                                                    style="cursor: pointer" role="button" aria-label="Go to first verse"
                                                     :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToFirstAyah"
                                                     @keydown.space.prevent="goToFirstAyah" @click="goToFirstAyah()"
                                                     title="First verse"></i>
-                                                <i class="bi bi-arrow-left-circle h4 verse-nav-icon" style="cursor: pointer"
-                                                    role="button" aria-label="Go to previous verse"
-                                                    :tabindex="isMobile ? 0 : -1"
+                                                <i class="bi bi-arrow-left-circle h4 verse-nav-icon"
+                                                    style="cursor: pointer" role="button"
+                                                    aria-label="Go to previous verse" :tabindex="isMobile ? 0 : -1"
                                                     @keydown.enter.prevent="goToPreviousAyah"
                                                     @keydown.space.prevent="goToPreviousAyah"
                                                     @click="goToPreviousAyah()" title="Previous verse"></i>
                                                 <!-- <i @click="submitForm" class="bi bi-bookmark mb-2 h4"
                                                     aria-expanded="false" data-bs-placement="top"
                                                     title="Bookmark verse"></i> -->
-                                                <i class="bi bi-arrow-right-circle h4 verse-nav-icon" style="cursor: pointer"
-                                                    role="button" aria-label="Go to next verse"
+                                                <i class="bi bi-arrow-right-circle h4 verse-nav-icon"
+                                                    style="cursor: pointer" role="button" aria-label="Go to next verse"
                                                     :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToNextAyah"
                                                     @keydown.space.prevent="goToNextAyah" @click="goToNextAyah()"
                                                     title="Next verse"></i>
-                                                <i class="bi bi-chevron-bar-right h4 verse-nav-icon" style="cursor: pointer"
-                                                    role="button" aria-label="Go to last verse"
+                                                <i class="bi bi-chevron-bar-right h4 verse-nav-icon"
+                                                    style="cursor: pointer" role="button" aria-label="Go to last verse"
                                                     :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToLastAyah"
                                                     @keydown.space.prevent="goToLastAyah" @click="goToLastAyah()"
                                                     title="Last verse"></i>
@@ -603,17 +583,21 @@
                                             <div class="dropdown mobile-only">
                                                 <div :style="iconStyle" class="icon-container pb-2">
 
-                                                    <i class="bi bi-chevron-bar-left h4 verse-nav-icon" style="cursor: pointer"
-                                                        @click="goToFirstAyah()" title="Last verse"></i>
-                                                    <i class="bi bi-arrow-left-circle h4 verse-nav-icon" style="cursor: pointer"
-                                                        @click="goToPreviousAyah()" title="Previous verse"></i>
+                                                    <i class="bi bi-chevron-bar-left h4 verse-nav-icon"
+                                                        style="cursor: pointer" @click="goToFirstAyah()"
+                                                        title="Last verse"></i>
+                                                    <i class="bi bi-arrow-left-circle h4 verse-nav-icon"
+                                                        style="cursor: pointer" @click="goToPreviousAyah()"
+                                                        title="Previous verse"></i>
                                                     <!-- <i @click="submitFormTafseer" class="bi bi-bookmark mb-2 h4"
                                                         aria-expanded="false" data-bs-placement="top"
                                                         title="Bookmark verse"></i> -->
-                                                    <i class="bi bi-arrow-right-circle h4 verse-nav-icon" style="cursor: pointer"
-                                                        @click="goToNextAyah()" title="Next verse"></i>
-                                                    <i class="bi bi-chevron-bar-right h4 verse-nav-icon" style="cursor: pointer"
-                                                        @click="goToLastAyah()" title="End verse"></i>
+                                                    <i class="bi bi-arrow-right-circle h4 verse-nav-icon"
+                                                        style="cursor: pointer" @click="goToNextAyah()"
+                                                        title="Next verse"></i>
+                                                    <i class="bi bi-chevron-bar-right h4 verse-nav-icon"
+                                                        style="cursor: pointer" @click="goToLastAyah()"
+                                                        title="End verse"></i>
                                                 </div>
                                                 <!-- Mobile/Tablet tip: swipe between verses -->
                                                 <div v-if="showSwipeTip"
@@ -788,17 +772,21 @@
                                                 <div class="dropdown mobile-only">
                                                     <div :style="iconStyle" class="icon-container">
 
-                                                        <i class="bi bi-chevron-bar-left h4 verse-nav-icon" style="cursor: pointer"
-                                                            @click="goToFirstAyah()" title="Last verse"></i>
-                                                        <i class="bi bi-arrow-left-circle h4 verse-nav-icon" style="cursor: pointer"
-                                                            @click="goToPreviousAyah()" title="Previous verse"></i>
+                                                        <i class="bi bi-chevron-bar-left h4 verse-nav-icon"
+                                                            style="cursor: pointer" @click="goToFirstAyah()"
+                                                            title="Last verse"></i>
+                                                        <i class="bi bi-arrow-left-circle h4 verse-nav-icon"
+                                                            style="cursor: pointer" @click="goToPreviousAyah()"
+                                                            title="Previous verse"></i>
                                                         <!-- <i @click="submitFormTransliteration"
                                                             class="bi bi-bookmark mb-2 h4" aria-expanded="false"
                                                             data-bs-placement="top" title="Bookmark verse"></i> -->
-                                                        <i class="bi bi-arrow-right-circle h4 verse-nav-icon" style="cursor: pointer"
-                                                            @click="goToNextAyah()" title="Next verse"></i>
-                                                        <i class="bi bi-chevron-bar-right h4 verse-nav-icon" style="cursor: pointer"
-                                                            @click="goToLastAyah()" title="End verse"></i>
+                                                        <i class="bi bi-arrow-right-circle h4 verse-nav-icon"
+                                                            style="cursor: pointer" @click="goToNextAyah()"
+                                                            title="Next verse"></i>
+                                                        <i class="bi bi-chevron-bar-right h4 verse-nav-icon"
+                                                            style="cursor: pointer" @click="goToLastAyah()"
+                                                            title="End verse"></i>
                                                     </div>
                                                     <!-- Mobile/Tablet tip: swipe between verses -->
                                                     <div v-if="showSwipeTip"
@@ -1701,6 +1689,7 @@ export default {
 }
 
 @keyframes heroPulse {
+
     0%,
     100% {
         transform: scale(1);
@@ -1717,7 +1706,7 @@ export default {
     background: #ffffff;
     border: 1px solid rgba(15, 23, 42, 0.08);
     border-radius: 20px;
-    padding: 1.5rem;
+    padding: 0.8rem;
     box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);
 }
 
