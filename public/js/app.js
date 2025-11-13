@@ -32379,6 +32379,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-control",
     onclick: "window.location.href='/quran'",
     style: {
+      "background": "rgb(11, 93, 75)",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
@@ -32418,6 +32419,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-control",
     onclick: "window.location.href='/surat'",
     style: {
+      "background": "rgb(11, 93, 75)",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
@@ -32457,6 +32459,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-control",
     onclick: "window.location.href='/history'",
     style: {
+      "background": "rgb(11, 93, 75)",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
@@ -38968,6 +38971,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = $event => $options.goTo('/mosque')),
     type: "button",
     style: {
+      "background": "rgb(11, 93, 75)",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
@@ -39008,6 +39012,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = $event => $options.goTo('/shop')),
     type: "button",
     style: {
+      "background": "rgb(11, 93, 75)",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
@@ -39048,6 +39053,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[2] || (_cache[2] = $event => $options.goTo('/school')),
     type: "button",
     style: {
+      "background": "rgb(11, 93, 75)",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
@@ -39093,6 +39099,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-control",
     onclick: "window.location.href='/support'",
     style: {
+      "background": "rgb(11, 93, 75)",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
