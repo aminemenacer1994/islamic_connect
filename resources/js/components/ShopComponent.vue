@@ -3,10 +3,6 @@
     <div class="row justify-content-center">
       <div class="col-lg-10">
         <h1 id="shop-finder-heading" class="display-5 fw-bold text-center">Halal Butcher Finder</h1>
-        <p class="text-center container mb-4 lead">
-          Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher
-          shops.
-        </p>
         <div class="shadow" style="border-radius: 12px; padding: 10px; ">
           <!-- Search Section -->
           <div class="card-body container-fluid" style="padding: 5px;">

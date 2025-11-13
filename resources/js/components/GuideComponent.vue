@@ -1826,9 +1826,9 @@ mark {
 
 /* Custom Badge Color Schemes */
 .badge.bg-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%) !important;
   color: white !important;
-  border-color: #667eea;
+  border-color: #228B22;
 }
 
 .badge.bg-success {
@@ -2062,7 +2062,7 @@ mark {
   z-index: 1;
 }
 .progress-bar.audio-progress {
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #228B22 0%, #1a6b1a 100%);
   margin-top: -6px;
   opacity: 0.85;
   z-index: 2;
@@ -2282,7 +2282,7 @@ mark {
 }
 
 .suggestion-type-badge.title {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);
   color: white;
 }
 

@@ -333,7 +333,7 @@ export default {
 .icon-wrapper {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -456,7 +456,7 @@ export default {
 }
 
 .toggle-btn.active {
-  color: #667eea;
+  color: #228B22;
 }
 
 .toggle-switch {
@@ -469,7 +469,7 @@ export default {
 }
 
 .toggle-btn.active .toggle-switch {
-  background: #667eea;
+  background: #228B22;
 }
 
 .toggle-knob {
@@ -513,8 +513,8 @@ export default {
 }
 
 .lang-btn.active {
-  background: #667eea;
-  border-color: #667eea;
+  background: #228B22;
+  border-color: #228B22;
   color: white;
 }
 
@@ -538,7 +538,7 @@ export default {
   background: #fafafa;
   padding: 1.5rem;
   border-radius: 12px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #228B22;
 }
 
 /* Action Bar */
@@ -571,8 +571,8 @@ export default {
 }
 
 .action-btn:hover:not(:disabled) {
-  border-color: #667eea;
-  color: #667eea;
+  border-color: #228B22;
+  color: #228B22;
   transform: translateY(-1px);
 }
 

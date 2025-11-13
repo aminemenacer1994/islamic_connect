@@ -295,8 +295,8 @@ export default {
 }
 
 .btn-success.active {
-  background-color: #007bff; /* Change to the desired color */
-  border-color: #007bff; /* Change to the desired color */
+  background-color: #228B22; /* Change to the desired color */
+  border-color: #228B22; /* Change to the desired color */
   color: white;
 }
 

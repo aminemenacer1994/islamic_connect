@@ -164,7 +164,7 @@ export default {
 }
 
 .highlighted-ayah {
-    background-color: #f0f8ff;
+    background-color: #e8f5e9;
     padding: 10px;
     border-radius: 5px;
     font-weight: bold;
@@ -176,6 +176,6 @@ export default {
 }
 
 .highlighted {
-    background-color: #f0f8ff; /* Light blue for highlighted Ayah */
+    background-color: #e8f5e9; /* Light blue for highlighted Ayah */
 }
 </style>

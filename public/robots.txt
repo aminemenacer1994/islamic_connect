@@ -1,5 +1,62 @@
-User-agent: *
-Disallow: /admin
-Disallow: /dashboard
+# robots.txt for Islamic Connect
+# https://islamiconnect.com/robots.txt
 
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+Allow: /holy
+Allow: /media
+Allow: /knowledge
+Allow: /toolkit
+Allow: /services
+Allow: /shop
+Allow: /subscribe
+Allow: /quran
+Allow: /books
+Allow: /hadith
+Allow: /dua
+Allow: /zakat
+Allow: /qibla
+Allow: /prayer
+Allow: /umrah
+Allow: /calendar
+Allow: /mosque
+Allow: /contact
+Allow: /faq
+Allow: /mission
+Allow: /support
+Allow: /charity
+Allow: /volunteer
+
+# Disallow private/admin areas
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /dashboard
+Disallow: /dashboard/*
+Disallow: /api/*
+Disallow: /storage/*
+Disallow: /login
+Disallow: /register
+Disallow: /password/*
+Disallow: /bookmarks
+Disallow: /profile
+Disallow: /notes
+Disallow: /folders
+Disallow: /payments
+Disallow: /donations
+
+# Disallow subscription-only content (if not indexed)
+# Disallow: /content
+# Disallow: /streaming
+# Disallow: /radio
+# Disallow: /video
+
+# Crawl-delay for aggressive bots (optional, adjust as needed)
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+# Sitemap location
 Sitemap: https://islamiconnect.com/sitemap.xml

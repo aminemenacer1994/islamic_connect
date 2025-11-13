@@ -1,5 +1,7 @@
 @extends('layouts.app')
-@section('title', 'Islamic Connect — Quran')
+@section('meta_image', asset('images/qenew.png'))
+@section('canonical', url('/quran'))
+
 @section('content')
 <div style="padding-left: 20px">
     <quran-component></quran-component>

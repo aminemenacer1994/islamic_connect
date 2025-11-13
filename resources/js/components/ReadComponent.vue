@@ -731,8 +731,8 @@ export default {
 
 .category-pill {
     background: transparent;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+    color: #00897b;
+    border: 2px solid #00897b;
     border-radius: 20px;
     padding: 0.6rem 1.2rem;
     font-size: 0.95rem;
@@ -746,12 +746,12 @@ export default {
 }
 
 .category-pill:hover {
-    background: var(--primary-color);
+    background: #00897b;
     color: var(--white-color);
 }
 
 .category-pill.active {
-    background: var(--primary-color);
+    background: #00897b;
     color: white;
     box-shadow: 0 4px 12px rgba(0, 196, 180, 0.3);
 }
@@ -767,8 +767,8 @@ export default {
 
 .scroll-arrow {
     background: transparent;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+    color: #00897b;
+    border: 2px solid #00897b;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -782,7 +782,7 @@ export default {
 }
 
 .scroll-arrow:hover {
-    background: var(--primary-color);
+    background: #00897b;
     color: var(--white-color);
 }
 
@@ -804,7 +804,7 @@ export default {
 
 /* Page Header */
 .page-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background: linear-gradient(135deg, #00897b 0%, var(--primary-dark) 100%);
     color: var(--white-color);
     padding: 2rem 0;
     text-align: center;
@@ -841,7 +841,7 @@ export default {
 .btn-layout {
     background: var(--gray-light);
     color: var(--white-color);
-    border: 1px solid var(--primary-color);
+    border: 1px solid #00897b;
     padding: 10px 20px;
     font-size: 1.1rem;
     font-weight: 600;
@@ -854,7 +854,7 @@ export default {
 }
 
 .btn-layout:focus {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid #00897b;
     outline-offset: 2px;
 }
 
@@ -863,9 +863,9 @@ export default {
 }
 
 .btn-active {
-    background: var(--primary-color);
+    background: #00897b;
     color: white;
-    border-color: var(--primary-color);
+    border-color: #00897b;
 }
 
 .btn-active:hover {
@@ -903,7 +903,7 @@ export default {
 
 .form-control,
 .form-select {
-    border: 1px solid var(--primary-color);
+    border: 1px solid #00897b;
     border-radius: 10px;
     padding: 12px 15px;
     font-size: 1.1rem;
@@ -931,7 +931,7 @@ export default {
 }
 
 .input-group-text {
-    background: var(--primary-color);
+    background: #00897b;
     color: var(--white-color);
     border: none;
     border-radius: 0 10px 10px 0;
@@ -967,7 +967,7 @@ export default {
     left: 0;
     right: 0;
     height: 6px;
-    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    background: linear-gradient(90deg, #00897b, var(--primary-dark));
 }
 
 .card:hover {
@@ -999,11 +999,11 @@ export default {
 }
 
 .card-title:hover {
-    color: var(--primary-color);
+    color: #00897b;
 }
 
 .card-title:focus {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid #00897b;
     outline-offset: 2px;
 }
 
@@ -1049,8 +1049,8 @@ export default {
 
 .badge {
     background: var(--white-color);
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
+    color: #00897b;
+    border: 1px solid #00897b;
     font-size: 0.9rem;
     font-weight: 500;
     padding: 6px 12px;
@@ -1064,7 +1064,7 @@ export default {
 }
 
 .hashtag {
-    color: var(--primary-color);
+    color: #00897b;
     font-size: 0.9rem;
     font-weight: 500;
     transition: color 0.3s ease;
@@ -1075,7 +1075,7 @@ export default {
 }
 
 .read-more {
-    color: var(--primary-color);
+    color: #00897b;
     font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
@@ -1088,7 +1088,7 @@ export default {
 }
 
 .read-more:focus {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid #00897b;
     outline-offset: 2px;
 }
 
@@ -1133,7 +1133,7 @@ export default {
 }
 
 .modal-header {
-    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    background: linear-gradient(90deg, #00897b, var(--primary-dark));
     border-bottom: none;
     padding: 2rem;
 }
@@ -1220,7 +1220,7 @@ export default {
 .modal-content-text>>>h4 {
     color: var(--primary-dark);
     margin-bottom: 1.5rem;
-    border-left: 4px solid var(--primary-color);
+    border-left: 4px solid #00897b;
     padding-left: 14px;
 }
 
@@ -1244,12 +1244,12 @@ export default {
     content: '•';
     position: absolute;
     left: 0;
-    color: var(--primary-color);
+    color: #00897b;
     font-size: 1.4rem;
 }
 
 .modal-content-text>>>blockquote {
-    border-left: 4px solid var(--primary-color);
+    border-left: 4px solid #00897b;
     padding-left: 1.5rem;
     margin: 2rem 0;
     font-style: italic;
@@ -1267,7 +1267,7 @@ export default {
 }
 
 .btn-primary {
-    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    background: linear-gradient(90deg, #00897b, var(--primary-dark));
     border: none;
     color: var(--white-color);
     font-size: 1.2rem;
@@ -1282,7 +1282,7 @@ export default {
 }
 
 .btn-primary:focus {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid #00897b;
     outline-offset: 2px;
 }
 
@@ -1317,11 +1317,11 @@ export default {
 }
 
 .btn-info:hover {
-    background: var(--primary-color);
+    background: #00897b;
 }
 
 .btn-info:focus {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid #00897b;
     outline-offset: 2px;
 }
 
@@ -1336,7 +1336,7 @@ export default {
     background: var(--gray-light);
     padding: 1rem;
     border-radius: 10px;
-    border-left: 4px solid var(--primary-color);
+    border-left: 4px solid #00897b;
 }
 
 .modal-summary h5 {
@@ -1433,7 +1433,7 @@ export default {
     }
 
     .category-pill:hover {
-        background: var(--primary-color);
+        background: #00897b;
         color: var(--white-color);
         box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
     }
@@ -1442,12 +1442,12 @@ export default {
         width: 38px;
         height: 38px;
         background: transparent;
-        border: 2px solid var(--primary-color);
+        border: 2px solid #00897b;
         box-shadow: none;
     }
 
     .scroll-arrow:hover {
-        background: var(--primary-color);
+        background: #00897b;
         color: var(--white-color);
         box-shadow: 0 4px 12px rgba(0, 196, 180, 0.4);
     }
@@ -1512,12 +1512,12 @@ export default {
     }
 
     .category-pill:hover {
-        background: var(--primary-color);
+        background: #00897b;
         color: var(--white-color);
     }
 
     .category-pill.active {
-        background: var(--primary-color);
+        background: #00897b;
         color: white;
     }
 
@@ -1538,12 +1538,12 @@ export default {
         width: 40px;
         height: 40px;
         background: transparent;
-        border: 2px solid var(--primary-color);
+        border: 2px solid #00897b;
         box-shadow: none;
     }
 
     .scroll-arrow:hover {
-        background: var(--primary-color);
+        background: #00897b;
         color: var(--white-color);
     }
 
@@ -1691,14 +1691,14 @@ export default {
     }
 
     .category-pill:hover {
-        background: var(--primary-color);
+        background: #00897b;
         color: var(--white-color);
         box-shadow: 0 4px 12px rgba(0, 196, 180, 0.25);
         transform: translateY(-2px);
     }
 
     .category-pill.active {
-        background: var(--primary-color);
+        background: #00897b;
         color: white;
         box-shadow: 0 4px 12px rgba(0, 196, 180, 0.3);
         transform: translateY(-1px);
@@ -1728,12 +1728,12 @@ export default {
         width: 42px;
         height: 42px;
         background: transparent;
-        border: 2px solid var(--primary-color);
+        border: 2px solid #00897b;
         box-shadow: none;
     }
 
     .scroll-arrow:hover {
-        background: var(--primary-color);
+        background: #00897b;
         color: var(--white-color);
     }
 
@@ -1757,12 +1757,12 @@ export default {
     }
 
     .category-pill:hover {
-        background: var(--primary-color);
+        background: #00897b;
         color: var(--white-color);
     }
 
     .category-pill.active {
-        background: var(--primary-color);
+        background: #00897b;
         color: var(--white-color);
     }
 
@@ -1775,12 +1775,12 @@ export default {
         width: 38px;
         height: 38px;
         background: transparent;
-        border: 2px solid var(--primary-color);
+        border: 2px solid #00897b;
         box-shadow: none;
     }
 
     .scroll-arrow:hover {
-        background: var(--primary-color);
+        background: #00897b;
         color: var(--white-color);
     }
 

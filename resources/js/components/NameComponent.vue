@@ -1126,7 +1126,7 @@ export default {
 <style scoped>
 .names-container {
   /* Provide teal palette for descendants (AA compliant) */
-  --teal: #006b5f;
+  --teal: #228B22;
   --teal-dark: #00564c;
 }
 
@@ -1225,8 +1225,8 @@ export default {
 }
 
 .custom-success:checked {
-  background-color: #006b5f !important;
-  border-color: #006b5f !important;
+  background-color: #228B22 !important;
+  border-color: #228B22 !important;
 }
 
 html {
@@ -1244,7 +1244,7 @@ html {
 
 .featured-card {
   background: linear-gradient(135deg, #e0f7fa, #ffffff);
-  border-left: 5px solid #006b5f;
+  border-left: 5px solid #228B22;
 }
 
 .names-container {
@@ -1254,9 +1254,9 @@ html {
 }
 
 .btn-primary {
-  background-color: #006b5f;
+  background-color: #228B22;
   color: #ffffff;
-  border-color: #006b5f;
+  border-color: #228B22;
 }
 
 .btn-primary:hover {
@@ -1266,13 +1266,13 @@ html {
 }
 
 .btn-outline-primary {
-  border-color: #006b5f;
-  color: #006b5f;
+  border-color: #228B22;
+  color: #228B22;
 }
 
 .btn-outline-primary:hover {
-  background-color: #006b5f;
-  border-color: #006b5f;
+  background-color: #228B22;
+  border-color: #228B22;
   color: #ffffff;
 }
 
@@ -1295,7 +1295,7 @@ html {
 }
 
 .featured-card {
-  border: 3px solid #006b5f;
+  border: 3px solid #228B22;
 }
 
 .arabic-name {
@@ -1318,8 +1318,8 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #006b5f;
-  border-color: #006b5f;
+  background-color: #228B22;
+  border-color: #228B22;
 }
 
 .floating-action-btn button:hover {

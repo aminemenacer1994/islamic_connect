@@ -17,7 +17,7 @@
                         </button>
                         <div v-else class="restricted-access text-center p-2" style="border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none" style="color: #006b5f; font-weight: bold;">Subscribe Now</a>
+                            <a href="/subscribe" class="text-decoration-none" style="color: #228B22; font-weight: bold;">Subscribe Now</a>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                         </button>
                         <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none" style="color: #006b5f; font-weight: bold;">Subscribe Now</a>
+                            <a href="/subscribe" class="text-decoration-none" style="color: #228B22; font-weight: bold;">Subscribe Now</a>
                         </div>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                         </button>
                         <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none" style="color: #006b5f; font-weight: bold;">Subscribe Now</a>
+                            <a href="/subscribe" class="text-decoration-none" style="color: #228B22; font-weight: bold;">Subscribe Now</a>
                         </div>
                     </div>
                 </div>
@@ -149,7 +149,7 @@ export default {
 
 @keyframes borderPulse {
     0% {
-        border-color: #006b5f;
+        border-color: #228B22;
         box-shadow: 0 0 5px rgba(0, 107, 95, 0.4);
     }
     50% {
@@ -157,7 +157,7 @@ export default {
         box-shadow: 0 0 12px rgba(0, 86, 76, 0.7);
     }
     100% {
-        border-color: #006b5f;
+        border-color: #228B22;
         box-shadow: 0 0 5px rgba(0, 107, 95, 0.4);
     }
 }

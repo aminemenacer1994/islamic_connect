@@ -284,7 +284,7 @@ body {
 }
 
 .btn-visit {
-  background-color: #007bff;
+  background-color: #228B22;
   color: white;
 }
 .btn-directions {
@@ -292,7 +292,7 @@ body {
   color: white;
 }
 .btn-share {
-  background-color: #17a2b8;
+  background-color: #228B22;
   color: white;
 }
 .btn-visit:hover, .btn-directions:hover, .btn-share:hover {
@@ -321,8 +321,8 @@ body {
 }
 
 .form-control:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
+  border-color: #228B22;
+  box-shadow: 0 0 0 4px rgba(34, 139, 34, 0.1);
 }
 
 .form-label {
@@ -343,7 +343,7 @@ body {
 .form-range::-webkit-slider-thumb {
   width: 14px;
   height: 14px;
-  background: #007bff;
+  background: #228B22;
   border-radius: 50%;
   transition: background 0.2s ease;
 }
@@ -384,7 +384,7 @@ body {
 }
 
 .btn-primary {
-  background: #007bff;
+  background: #228B22;
   border: none;
 }
 

@@ -27,7 +27,7 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);
 }
 
 .success-content {
@@ -59,7 +59,7 @@ p {
   width: 40px;
   height: 40px;
   border: 4px solid #f3f4f6;
-  border-top: 4px solid #006b5f;
+  border-top: 4px solid #228B22;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto;

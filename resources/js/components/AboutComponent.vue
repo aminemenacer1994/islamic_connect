@@ -339,7 +339,7 @@ export default {
   --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   --text-dark: #1a202c;
   --text-light: #718096;
-  --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --bg-gradient: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);
 }
 
 /* Base Styles */

@@ -91,12 +91,12 @@
     <div class="text-end mb-3">
       <button v-if="!areAllAccordionsOpen" class="btn fw-semibold transition me-2" @click="openAllSections"
         aria-label="Open all sections"
-        style="background-color: #006b5f; color: #ffffff; padding: 0.4rem 0.8rem; border-radius: 0.5rem; border: none; font-size: 0.85rem;">
+        style="background-color: #228B22; color: #ffffff; padding: 0.4rem 0.8rem; border-radius: 0.5rem; border: none; font-size: 0.85rem;">
         <i class="bi bi-plus-circle me-1" style="font-size: 0.9rem;"></i>Open All
       </button>
       <button v-if="areAnyAccordionsOpen" class="btn fw-semibold transition" @click="closeAllSections"
         aria-label="Close all sections"
-        style="background-color: #006b5f; color: #ffffff; padding: 0.4rem 0.8rem; border-radius: 0.5rem; border: none; font-size: 0.85rem;">
+        style="background-color: #228B22; color: #ffffff; padding: 0.4rem 0.8rem; border-radius: 0.5rem; border: none; font-size: 0.85rem;">
         <i class="bi bi-x-circle me-1" style="font-size: 0.9rem;"></i>Close All
       </button>
     </div>
@@ -116,7 +116,7 @@
           @keydown.up.prevent="focusPreviousSection(idx)" @keydown.down.prevent="focusNextSection(idx)" @keydown="onHeaderKeydown(idx, $event)"
           ref="accordionHeaders" tabindex="0">
           <span class="badge rounded-pill me-3 fw-bold"
-            style="background-color: #006b5f; color: #ffffff; border: 1px solid #006b5f; font-size: 0.9rem; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center;">
+            style="background-color: #228B22; color: #ffffff; border: 1px solid #228B22; font-size: 0.9rem; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center;">
             {{ idx + 1 }}
           </span>
           <span class="flex-grow-1">{{ item.title || 'Untitled Section' }}</span>
@@ -242,7 +242,7 @@
           <!-- FAQ Content -->
           <div v-if="item.faq">
             <div v-for="(faqItem, faqIdx) in item.faq.slice(0, faqVisibleCount[idx] || item.faq.length)" :key="faqIdx" class="mb-3">
-              <div style="font-weight: 600; color: #006b5f; font-size: 1rem; margin-bottom: 0.5rem;">
+              <div style="font-weight: 600; color: #228B22; font-size: 1rem; margin-bottom: 0.5rem;">
                 <i class="bi bi-question-circle" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>
                 {{ faqItem.question }}
               </div>
@@ -262,7 +262,7 @@
                   <div class="card h-100 border-0 rounded-3 shadow-sm transition"
                     style="background-color: #f7fafc; padding: 1.25rem;">
                     <div>
-                      <span style="font-weight: 600; color: #006b5f; font-size: 1rem;">
+                      <span style="font-weight: 600; color: #228B22; font-size: 1rem;">
                         <i class="bi bi-dot" style="margin-right: 0.25rem; font-size: 1.2rem;"></i>{{ formatKey(key) }}:
                       </span>
                       <div style="margin-top: 0.5rem;">{{ value }}</div>
@@ -273,7 +273,7 @@
                   <div class="card h-100 border-0 rounded-3 shadow-sm transition"
                     style="background-color: #f7fafc; padding: 1.25rem;">
                     <div>
-                      <span style="font-weight: 600; color: #006b5f; font-size: 1rem;">
+                      <span style="font-weight: 600; color: #228B22; font-size: 1rem;">
                         <i class="bi bi-list-ul" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>{{ formatKey(key) }}:
                       </span>
                       <ul style="margin-bottom: 0; margin-top: 0.75rem; padding-left: 1.5rem; line-height: 1.7;">
@@ -286,7 +286,7 @@
                   <div class="card h-100 border-0 rounded-3 shadow-sm transition"
                     style="background-color: #f7fafc; padding: 1.25rem;">
                     <div>
-                      <span style="font-weight: 600; color: #006b5f; font-size: 1rem;">
+                      <span style="font-weight: 600; color: #228B22; font-size: 1rem;">
                         <i class="bi bi-diagram-3" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>{{ formatKey(key) }}:
                       </span>
                       <ul style="margin-bottom: 0; margin-top: 0.75rem; padding-left: 1.5rem; line-height: 1.7;">
@@ -302,7 +302,7 @@
           </div>
           <!-- Table (for regular sections) -->
           <div v-if="item.table && isRegularSection(item)" class="mt-4">
-            <div style="font-weight: 600; color: #006b5f; font-size: 1rem; margin-bottom: 0.75rem;">
+            <div style="font-weight: 600; color: #228B22; font-size: 1rem; margin-bottom: 0.75rem;">
               <i class="bi bi-table" style="margin-right: 0.5rem; font-size: 1.2rem;"></i>Comparative Table
             </div>
             <div class="table-responsive">
@@ -311,7 +311,7 @@
                 <thead style="background-color: #f7fafc;">
                   <tr>
                     <th v-for="(col, i) in getTableColumns(item.table)" :key="i"
-                      style="font-weight: 500; color: #006b5f; font-size: 0.95rem; padding: 1rem;">
+                      style="font-weight: 500; color: #228B22; font-size: 0.95rem; padding: 1rem;">
                       {{ formatKey(col) }}
                     </th>
                   </tr>
@@ -335,13 +335,13 @@
           <div v-if="item.significance && isRegularSection(item)"
             class="alert mt-4 border-0 rounded-3 shadow-sm py-3 px-4"
             style="background-color: #f7fafc; color: #2d3748;">
-            <i class="bi bi-lightbulb" style="margin-right: 0.5rem; color: #006b5f; font-size: 1.2rem;"></i>
+            <i class="bi bi-lightbulb" style="margin-right: 0.5rem; color: #228B22; font-size: 1.2rem;"></i>
             <strong>Significance:</strong> {{ item.significance }}
           </div>
           <div v-if="item.insights && isRegularSection(item)"
             class="alert alert-info mt-4 border-0 rounded-3 shadow-sm py-3 px-4"
             style="background-color: #edfafa; border-color: #bee3e3; color: #2d3748;">
-            <i class="bi bi-info-circle" style="margin-right: 0.5rem; color: #006b5f; font-size: 1.2rem;"></i>
+            <i class="bi bi-info-circle" style="margin-right: 0.5rem; color: #228B22; font-size: 1.2rem;"></i>
             <strong>Insights:</strong>
             <ul style="margin-bottom: 0; margin-top: 0.75rem; padding-left: 1.5rem; line-height: 1.7;">
               <li v-for="(insight, i) in item.insights" :key="i">{{ insight }}</li>
@@ -350,7 +350,7 @@
           <div v-if="item.details && item.details.recommendations && isRegularSection(item)"
             class="alert alert-secondary mt-4 border-0 rounded-3 shadow-sm py-3 px-4"
             style="background-color: #f7fafc; border-color: #e2e8f0; color: #2d3748;">
-            <i class="bi bi-star" style="margin-right: 0.5rem; color: #006b5f; font-size: 1.2rem;"></i>
+            <i class="bi bi-star" style="margin-right: 0.5rem; color: #228B22; font-size: 1.2rem;"></i>
             <strong>Recommendations:</strong>
             <ul style="margin-bottom: 0; margin-top: 0.75rem; padding-left: 1.5rem; line-height: 1.7;">
               <li v-for="(rec, i) in item.details.recommendations" :key="i">
@@ -361,7 +361,7 @@
           <div v-if="item.details && item.details.challenges && isRegularSection(item)"
             class="alert alert-warning mt-4 border-0 rounded-3 shadow-sm py-3 px-4"
             style="background-color: #fefcbf; border-color: #fefcbf; color: #744210;">
-            <i class="bi bi-exclamation-triangle" style="margin-right: 0.5rem; color: #006b5f; font-size: 1.2rem;"></i>
+            <i class="bi bi-exclamation-triangle" style="margin-right: 0.5rem; color: #228B22; font-size: 1.2rem;"></i>
             <strong>Challenges:</strong>
             <ul style="margin-bottom: 0; margin-top: 0.75rem; padding-left: 1.5rem; line-height: 1.7;">
               <li v-for="(ch, i) in item.details.challenges" :key="i">{{ ch }}</li>
@@ -373,7 +373,7 @@
               <div class="card h-100 border-0 rounded-3 shadow-sm transition"
                 style="background-color: #ffffff; padding: 1.25rem;">
                 <div>
-                  <div style="font-weight: 600; margin-bottom: 0.5rem; color: #006b5f; font-size: 1rem;">
+                  <div style="font-weight: 600; margin-bottom: 0.5rem; color: #228B22; font-size: 1rem;">
                     Summary
                   </div>
                   <div style="line-height: 1.7;">{{ item.conclusion.summary }}</div>
@@ -384,7 +384,7 @@
               <div class="card h-100 border-0 rounded-3 shadow-sm transition"
                 style="background-color: #ffffff; padding: 1.25rem;">
                 <div>
-                  <div style="font-weight: 600; margin-bottom: 0.5rem; color: #006b5f; font-size: 1rem;">
+                  <div style="font-weight: 600; margin-bottom: 0.5rem; color: #228B22; font-size: 1rem;">
                     Final Thoughts
                   </div>
                   <div style="line-height: 1.7;">{{ item.conclusion.final_thoughts }}</div>
@@ -395,7 +395,7 @@
               <div class="card h-100 border-0 rounded-3 shadow-sm transition"
                 style="background-color: #ffffff; padding: 1.25rem;">
                 <div>
-                  <div style="font-weight: 600; margin-bottom: 0.5rem; color: #006b5f; font-size: 1rem;">
+                  <div style="font-weight: 600; margin-bottom: 0.5rem; color: #228B22; font-size: 1rem;">
                     Call to Action
                   </div>
                   <div style="line-height: 1.7;">{{ item.conclusion.call_to_action }}</div>
@@ -409,7 +409,7 @@
               <div class="card h-100 border-0 rounded-3 shadow-sm transition"
                 style="background-color: #ffffff; padding: 1.25rem;">
                 <div>
-                  <div style="font-weight: 600; margin-bottom: 0.75rem; color: #006b5f; font-size: 1rem;">
+                  <div style="font-weight: 600; margin-bottom: 0.75rem; color: #228B22; font-size: 1rem;">
                     {{ formatKey(key) }}
                   </div>
                   <ul style="margin-bottom: 0; padding-left: 1.5rem; line-height: 1.7;">
@@ -431,7 +431,7 @@
     <button v-show="showScrollToTop" class="btn transition shadow-sm" @click="scrollToTop"
       @keydown.enter="scrollToTop" @keydown.space.prevent="scrollToTop"
       aria-label="Scroll to top" title="Scroll to top"
-      style="position: fixed; bottom: 20px; right: 20px; background-color: #006b5f; color: #ffffff; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; z-index: 1000;">
+      style="position: fixed; bottom: 20px; right: 20px; background-color: #228B22; color: #ffffff; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; z-index: 1000;">
       <i class="bi bi-arrow-up" style="font-size: 1.5rem;"></i>
     </button>
   </div>

@@ -2,7 +2,7 @@
   <div class="container py-4 convert-bg text-black">
     <!-- 1. Welcome -->
     <div class="text-center mb-5 fade-in">
-      <h1 class="display-5 fw-bold" style="color: #006b5f">Welcome, New Muslim!</h1>
+      <h1 class="display-5 fw-bold" style="color: #228B22">Welcome, New Muslim!</h1>
       <p class="lead">Your journey begins here. We're here to support you every step of the way.</p>
     </div>
 
@@ -10,12 +10,12 @@
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 class="card-title mb-0"><i class="bi bi-bar-chart-steps me-2" style="color:#006b5f"></i>Your Journey Progress</h2>
+          <h2 class="card-title mb-0"><i class="bi bi-bar-chart-steps me-2" style="color:#228B22"></i>Your Journey Progress</h2>
           <button class="btn btn-outline-danger btn-sm" @click="resetProgress" title="Reset all progress"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
         </div>
         <div class="mb-3">
           <div class="progress" style="height: 30px;">
-            <div class="progress-bar" :style="{width: progressPercent + '%', backgroundColor: '#006b5f'}" role="progressbar" :aria-valuenow="progressPercent" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" :style="{width: progressPercent + '%', backgroundColor: '#228B22'}" role="progressbar" :aria-valuenow="progressPercent" aria-valuemin="0" aria-valuemax="100">
               {{ progressPercent }}%
             </div>
           </div>
@@ -33,14 +33,14 @@
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 class="card-title mb-0"><i class="bi bi-chat-quote-fill me-2" style="color:#006b5f"></i>Testimonials</h2>
+          <h2 class="card-title mb-0"><i class="bi bi-chat-quote-fill me-2" style="color:#228B22"></i>Testimonials</h2>
           <button class="btn btn-outline-primary btn-sm" @click="shareTestimonial" title="Share this testimonial"><i class="bi bi-share"></i> Share</button>
         </div>
         <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
             <div v-for="(testimonial, i) in testimonials" :key="i" :class="['carousel-item', {active: i === testimonialIndex}]">
               <div class="d-flex flex-column align-items-center">
-                <img :src="testimonial.avatar" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #006b5f;">
+                <img :src="testimonial.avatar" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #228B22;">
                 <blockquote class="blockquote text-center">
                   <p class="mb-2">"{{ testimonial.text }}"</p>
                   <footer class="blockquote-footer">{{ testimonial.name }} from {{ testimonial.country }}</footer>
@@ -63,7 +63,7 @@
     <!-- Interactive Quiz -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
-        <h2 class="card-title mb-3"><i class="bi bi-question-circle-fill me-2" style="color:#006b5f"></i>Islam Basics Quiz</h2>
+        <h2 class="card-title mb-3"><i class="bi bi-question-circle-fill me-2" style="color:#228B22"></i>Islam Basics Quiz</h2>
         <div v-if="quizCompleted" class="alert alert-success">You scored {{ quizScore }}/{{ quizQuestions.length }}! <button class="btn btn-link p-0" @click="resetQuiz">Try Again</button></div>
         <div v-else>
           <div v-for="(q, i) in quizQuestions" :key="i" class="mb-4">
@@ -156,12 +156,12 @@
     <!-- 6. Resources -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
-        <h2 class="card-title mb-3"><i class="bi bi-journal-richtext me-2" style="color:#006b5f"></i>Resources</h2>
+        <h2 class="card-title mb-3"><i class="bi bi-journal-richtext me-2" style="color:#228B22"></i>Resources</h2>
         <div class="row row-cols-1 row-cols-md-2 g-4">
           <div class="col" v-for="(resource, i) in resources" :key="i">
             <div class="card h-100 border-0">
               <div class="card-body">
-                <h5 class="card-title"><i :class="resource.icon" class="me-2" style="color:#006b5f"></i>{{ resource.title }}</h5>
+                <h5 class="card-title"><i :class="resource.icon" class="me-2" style="color:#228B22"></i>{{ resource.title }}</h5>
                 <p class="card-text">{{ resource.desc }}</p>
                 <a :href="resource.link" class="btn btn-outline-primary btn-sm convert-btn-outline" :download="resource.download || false" target="_blank" :title="resource.cta">{{ resource.cta }}</a>
               </div>
@@ -174,7 +174,7 @@
     <!-- 7. Ask a Question -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
-        <h2 class="card-title mb-3"><i class="bi bi-question-circle-fill me-2" style="color:#006b5f"></i>Need Help?</h2>
+        <h2 class="card-title mb-3"><i class="bi bi-question-circle-fill me-2" style="color:#228B22"></i>Need Help?</h2>
         <form @submit.prevent="submitQuestion">
           <div class="mb-3">
             <label for="question" class="form-label">Ask us anything</label>
@@ -194,10 +194,10 @@
     <!-- 8. Events & Meetups -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
-        <h2 class="card-title mb-3"><i class="bi bi-calendar-event-fill me-2" style="color:#006b5f"></i>Upcoming Events</h2>
+        <h2 class="card-title mb-3"><i class="bi bi-calendar-event-fill me-2" style="color:#228B22"></i>Upcoming Events</h2>
         <ul class="list-group">
           <li v-for="(event, i) in events" :key="i" class="list-group-item d-flex justify-content-between align-items-center bg-white text-black">
-            <span><i class="bi bi-calendar2-week me-2" style="color:#006b5f"></i>{{ event.title }}</span>
+            <span><i class="bi bi-calendar2-week me-2" style="color:#228B22"></i>{{ event.title }}</span>
             <span class="badge rounded-pill" :class="event.badgeClass">{{ event.badge }}</span>
           </li>
         </ul>
@@ -227,7 +227,7 @@
     <!-- Call to Action -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body text-center">
-        <h2 class="card-title mb-3" style="color:#006b5f"><i class="bi bi-megaphone-fill me-2"></i>Get Involved!</h2>
+        <h2 class="card-title mb-3" style="color:#228B22"><i class="bi bi-megaphone-fill me-2"></i>Get Involved!</h2>
         <p class="mb-3">Share your story to inspire others, or book a 1:1 session with a mentor for personalized support.</p>
         <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
           <a href="mailto:stories@islamicconnect.com" class="btn btn-success convert-btn" title="Share your story"><i class="bi bi-pencil-square me-1"></i> Share Your Story</a>

@@ -1,0 +1,623 @@
+/* Layout and component styles - moved from inline styles in app.blade.php */
+
+:root {
+    --brand-teal-600: #0b806f;
+    /* primary brand (passes 4.5:1 on white with white text 7+:1 on teal bg) */
+    --brand-teal-700: #0b5d4b;
+    /* darker for hover/active */
+    --brand-teal-800: #094c3f;
+    --neutral-900: #212529;
+    /* default body text for contrast */
+    --neutral-700: #495057;
+    /* muted text with AA on white */
+    --surface: #ffffff;
+    --surface-2: #f7f7f8;
+    --border: #e6e8eb;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .06);
+    --shadow-md: 0 6px 18px rgba(0, 0, 0, .10);
+    --radius: 12px;
+    /* Bootstrap color overrides */
+    --bs-primary: #0b806f;
+    --bs-primary-rgb: 11, 128, 111;
+    --bs-success: #13a27f;
+    --bs-success-rgb: 19, 162, 127;
+    --bs-info: #228B22;
+    --bs-warning: #f59e0b;
+    --bs-danger: #ef4444;
+}
+
+.nav-link {
+    color: var(--neutral-900);
+    /* High contrast on light bg */
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: var(--brand-teal-700);
+    /* darker teal for 4.5:1 contrast */
+    transition: color 0.3s ease;
+}
+
+/* Ensure navbar links maintain sufficient contrast on .navbar-light */
+.navbar-light .navbar-nav .nav-link {
+    color: var(--neutral-900) !important;
+}
+
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+    color: var(--brand-teal-700) !important;
+}
+
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .show>.nav-link {
+    color: var(--brand-teal-700) !important;
+}
+
+.button-36:hover {
+    box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+    transition-duration: .1s;
+}
+
+@media (min-width: 768px) {
+    .button-36 {
+        padding: 0 2.6rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .button-64 {
+        font-size: 24px;
+        min-width: 196px;
+    }
+}
+
+body {
+    padding-top: 70px;
+}
+
+/* Page shell */
+.app-shell {
+    display: flex;
+    gap: 20px
+}
+
+.content-area {
+    flex: 1;
+    min-width: 0
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 12px 0 10px
+}
+
+.page-title {
+    font-weight: 700;
+    letter-spacing: .2px
+}
+
+.count-chip {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    color: var(--brand-teal-700)
+}
+
+.card-lite {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: transform .12s ease, box-shadow .12s ease
+}
+
+.card-lite:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md)
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px
+}
+
+@media (max-width: 992px) {
+    .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+}
+
+@media (max-width: 576px) {
+    .grid-3 {
+        grid-template-columns: 1fr
+    }
+}
+
+/* Refined sidebar */
+.vc-sidebar {
+    position: sticky;
+    top: var(--navbar-h);
+    left: 0px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .06)
+}
+
+.vc-sidebar .sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px 14px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px
+}
+
+.vc-sidebar .sidebar-header .brand {
+    font-weight: 700;
+    letter-spacing: .2px
+}
+
+.vc-sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--neutral-900);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-weight: 600
+}
+
+.vc-sidebar .nav-link .label {
+    opacity: .9
+}
+
+.vc-sidebar .nav-link:hover {
+    background: var(--surface-2)
+}
+
+.vc-sidebar .nav-link.active {
+    background: #d1f4d0;
+    color: #228B22; /* forest green */
+    box-shadow: 0 3px 0 #0b5d4b33 inset
+}
+
+.vc-sidebar .nav-link.active .label {
+    color: #228B22; /* ensure text is forest green */
+}
+
+.vc-sidebar .nav-link.active .bi {
+    color: #228B22; /* match icon to forest green */
+}
+
+.vc-sidebar .bi {
+    font-size: 1.15rem;
+    color: #687076
+}
+
+/* Fixed sidebar layout option */
+:root {
+    /* Keep this in sync with actual navbar height */
+    --navbar-h: 88px;
+    --sidebar-w: 320px;
+}
+
+/* Tablet tweaks */
+@media (max-width: 991.98px) {
+    :root { --navbar-h: 64px; }
+    body { padding-top: 64px; }
+    .navbar-brand img { max-width: 160px; height: auto; }
+    .page-header { flex-wrap: wrap; gap: 8px; }
+    .page-header > * { flex: 1 1 auto; }
+    .grid-3 { gap: 14px; }
+    .nav-pills, .nav-tabs { flex-wrap: wrap; row-gap: 6px; }
+    .nav-pills .nav-link, .nav-tabs .nav-link { white-space: nowrap; }
+}
+
+/* Mobile tweaks */
+@media (max-width: 575.98px) {
+    :root { --navbar-h: 56px; }
+    body { padding-top: 56px; }
+    .navbar-brand img { max-width: 250px; height: auto; }
+    .content-area { padding-inline: 8px; }
+    .grid-3 { gap: 12px; }
+    .page-header { align-items: stretch; }
+    .page-title { font-size: 1.1rem; }
+    .count-chip { padding: 4px 8px; font-size: .9rem; }
+}
+
+.fixed-sidebar {
+    position: fixed !important;
+    top: var(--navbar-h);
+    left: 0;
+    width: var(--sidebar-w);
+    height: calc(100vh - var(--navbar-h) - 10px);
+    overflow: auto;
+    /* Keep below navbar (Bootstrap fixed-top ~1030) */
+    z-index: 1020;
+}
+
+.content-with-sidebar {
+    position: relative;
+    margin-left: var(--sidebar-w);
+    max-width: calc(100% - var(--sidebar-w) - 24px);
+    padding: 0 16px 24px; /* counteract .row negative margins and add breathing room */
+}
+
+@media (max-width: 991.98px) {
+    /* Off-canvas behavior for the sidebar on tablets/phones */
+    .fixed-sidebar {
+        position: fixed !important;
+        top: var(--navbar-h);
+        left: 0;
+        width: min(88vw, var(--sidebar-w));
+        height: calc(100vh - var(--navbar-h));
+        transform: translateX(-100%);
+        transition: transform .3s ease;
+        z-index: 1045; /* above content, below navbar */
+    }
+
+    .fixed-sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .4);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s ease, visibility .3s ease;
+        z-index: 1040;
+    }
+
+    .sidebar-backdrop.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .content-with-sidebar {
+        margin-left: 0;
+        max-width: 100%;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    /* Prevent page scroll while sidebar is open */
+    body.sidebar-open {
+        overflow: hidden;
+    }
+}
+
+/* Screen-reader utilities */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+}
+
+/* Skip link */
+.skip-to-content {
+    position: absolute;
+    top: -40px;
+    left: 8px;
+    background: #fff;
+    color: #000;
+    padding: 8px 12px;
+    z-index: 10000;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.skip-to-content:focus {
+    top: 8px;
+}
+
+/* Focus visibility */
+:focus-visible {
+    outline: 3px solid #0b5d4b;
+    /* higher contrast focus outline */
+    outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Class-driven reduced motion (user preference) */
+.reduced-motion * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+}
+
+/* High contrast mode */
+.high-contrast body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+.high-contrast a,
+.high-contrast .nav-link {
+    color: #004085 !important;
+}
+
+.high-contrast a:focus-visible,
+.high-contrast button:focus-visible,
+.high-contrast [role="button"]:focus-visible {
+    outline: 3px solid #000 !important;
+}
+
+.high-contrast .btn-primary {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #fff !important;
+}
+
+.a11y-toggle {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 1100;
+}
+
+.a11y-panel {
+    position: fixed;
+    right: 16px;
+    bottom: 64px;
+    width: 280px;
+    max-width: 90vw;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+    z-index: 1100;
+}
+
+.a11y-panel header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.a11y-panel .content {
+    padding: 12px;
+}
+
+.a11y-panel[hidden] {
+    display: none;
+}
+
+/* Custom Styles */
+.custom-nav {
+    display: flex;
+    direction: rtl;
+    /* Right-to-left scrolling direction */
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+    overflow-y: hidden;
+    /* Prevent vertical scrolling */
+    max-width: 100%;
+    /* Adjust to the container's width */
+    white-space: nowrap;
+    /* Prevent items from wrapping to next line */
+    background-color: rgba(0, 0, 0, 0.21);
+    /* Light background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Medium shadow */
+    padding: 10px;
+    /* Adjust padding for spacing */
+    gap: 15px;
+    /* Space between items */
+    margin: 0;
+    border-radius: 8px;
+    /* Rounded corners for aesthetic */
+    height: 60px;
+    /* Adjust height for proper alignment */
+    scrollbar-width: thin;
+    /* Thin scrollbar for Firefox */
+    -ms-overflow-style: none;
+    /* Remove scrollbar for IE and Edge */
+}
+
+/* Custom scrollbar for WebKit browsers (Chrome, Safari) */
+.custom-nav::-webkit-scrollbar {
+    height: 8px;
+    /* Horizontal scrollbar height */
+}
+
+.custom-nav::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 4px;
+}
+
+.nav-item {
+    display: inline-block;
+    /* Ensure items are displayed in a row */
+    font-size: 15px;
+}
+
+.responsive-nav {
+    display: flex;
+    flex-wrap: wrap;
+    /* Allow wrapping on smaller screens */
+    justify-content: center;
+    /* Center the links */
+    list-style: none;
+    /* Remove bullet points */
+    padding: 0;
+    margin: 0;
+}
+
+.responsive-nav .nav-item {
+    margin: 5px;
+    /* Add some spacing between items */
+}
+
+.responsive-nav .nav-link {
+    padding: 10px 15px;
+    /* Adjust padding as needed */
+    text-decoration: none;
+    /* Remove underlines from links */
+    color: #333;
+    /* Set link color */
+    border-radius: 5px;
+    /* Add rounded corners (optional) */
+}
+
+.responsive-nav .nav-link:hover {
+    background-color: #f0f0f0;
+    /* Add hover effect (optional) */
+}
+
+/* Media query for smaller screens (e.g., mobile) */
+@media (max-width: 768px) {
+    .responsive-nav {
+        flex-direction: column;
+        /* Stack links vertically */
+        align-items: center;
+        /* Center links horizontally */
+    }
+
+    .responsive-nav .nav-item {
+        width: 100%;
+        /* Make each item take full width */
+        text-align: center;
+        /* Center text within items */
+        margin: 5px 0;
+        /* Adjust margin for vertical spacing */
+    }
+}
+
+.nav-link.active {
+    font-weight: 600;
+    color: var(--brand-teal-700);
+    /* High-contrast highlight */
+    border-bottom: 2px solid var(--brand-teal-700);
+    /* Optional underline */
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+/* --- Navbar link normalization (desktop/tablet) --- */
+@media (min-width: 768px) {
+    /* Use flex gap for even spacing instead of mixed ml/pl utilities */
+    .navbar .navbar-nav { gap: 2rem; align-items: center; }
+
+    /* Remove item-level top margins that misalign baselines */
+    .navbar .navbar-nav .nav-item { margin-top: 0 !important; }
+
+    /* Uniform link box so underline doesn't shift layout */
+    .navbar .navbar-nav .nav-link {
+        display: inline-flex;
+        align-items: center;
+        padding: .75rem 0 !important; /* vertical rhythm, no left/right padding */
+        margin: 0 !important;          /* neutralize ml-* from markup */
+        border-bottom: 2px solid transparent; /* reserve space for active underline */
+    }
+}
+
+/* Improve placeholder contrast (AA on white) */
+::placeholder {
+    color: #6b7280;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: #6b7280;
+}
+
+::-ms-input-placeholder {
+    color: #6b7280;
+}
+
+/* Uniform alignment for collapsed mobile menu */
+@media (max-width: 767.98px) {
+    .navbar-collapse .navbar-nav .nav-item {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        /* neutralize any pl-* utilities on li (e.g., Login) */
+    }
+
+    .navbar-collapse .navbar-nav .nav-link {
+        margin-left: 0 !important;
+        /* neutralize any ml-* utilities */
+        padding-left: 1.25rem !important;
+        /* consistent indent */
+    }
+
+    /* Ensure user dropdown toggle aligns identically */
+    .navbar-collapse .navbar-nav .dropdown,
+    .navbar-collapse .navbar-nav .dropdown-toggle {
+        margin-left: 0 !important;
+    }
+
+    .navbar-collapse .navbar-nav .dropdown-toggle .bi {
+        margin-right: .5rem;
+        /* breathing room between icon and name */
+    }
+
+    /* Make sure the hamburger stays above the expanded menu on iOS Safari */
+    .navbar .navbar-toggler {
+        position: relative;
+        z-index: 1060;
+        /* above collapse content */
+    }
+
+    .navbar .navbar-collapse {
+        position: relative;
+        z-index: 1000;
+    }
+}
+
+/* User dropdown: tidy spacing between name and caret */
+.navbar .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0; /* no extra gap now that icon is removed */
+}
+.navbar .dropdown-toggle::after { margin-left: .35rem; }
+
+/* Keep same treatment inside collapsed menu */
+.navbar-collapse .navbar-nav .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+}
+
+/* Admin mobile switcher visibility rules */
+@media (max-width: 991.98px) {
+    body.has-admin-sidebar .navbar-toggler { display: none !important; }
+    body.has-admin-sidebar #admin-mobile-switcher { display: block !important; }
+}
+

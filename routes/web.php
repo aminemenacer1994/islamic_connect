@@ -71,27 +71,79 @@ use Illuminate\Http\Request;
 
 Route::get('/sitemap.xml', function () {
     $lastmod = now()->toAtomString();
+    
+    // Define all public pages with appropriate priorities and change frequencies
     $pages = [
+        // Homepage - highest priority
         ['loc' => url('/'), 'changefreq' => 'daily', 'priority' => '1.0'],
+        ['loc' => url('/home'), 'changefreq' => 'daily', 'priority' => '1.0'],
+        ['loc' => url('/welcome'), 'changefreq' => 'daily', 'priority' => '1.0'],
+        
+        // Quran Portal - high priority
+        ['loc' => url('/holy'), 'changefreq' => 'daily', 'priority' => '0.9'],
         ['loc' => url('/quran'), 'changefreq' => 'daily', 'priority' => '0.9'],
-        ['loc' => url('/surat'), 'changefreq' => 'weekly', 'priority' => '0.9'],
-        ['loc' => url('/mission'), 'changefreq' => 'monthly', 'priority' => '0.8'],
+        ['loc' => url('/surat'), 'changefreq' => 'daily', 'priority' => '0.9'],
+        ['loc' => url('/history'), 'changefreq' => 'weekly', 'priority' => '0.8'],
+        ['loc' => url('/read'), 'changefreq' => 'weekly', 'priority' => '0.8'],
+        ['loc' => url('/hadith'), 'changefreq' => 'weekly', 'priority' => '0.8'],
+        ['loc' => url('/ahadith'), 'changefreq' => 'weekly', 'priority' => '0.8'],
+        
+        // Media Center - high priority
         ['loc' => url('/media'), 'changefreq' => 'weekly', 'priority' => '0.8'],
+        ['loc' => url('/gallery'), 'changefreq' => 'weekly', 'priority' => '0.7'],
+        
+        // Islamic Knowledge - high priority
+        ['loc' => url('/knowledge'), 'changefreq' => 'weekly', 'priority' => '0.8'],
+        ['loc' => url('/mission'), 'changefreq' => 'monthly', 'priority' => '0.8'],
+        ['loc' => url('/guide'), 'changefreq' => 'monthly', 'priority' => '0.7'],
+        ['loc' => url('/books'), 'changefreq' => 'weekly', 'priority' => '0.7'],
+        ['loc' => url('/name'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        
+        // Utility Toolkit - medium-high priority
+        ['loc' => url('/toolkit'), 'changefreq' => 'weekly', 'priority' => '0.7'],
+        ['loc' => url('/dua'), 'changefreq' => 'weekly', 'priority' => '0.7'],
+        ['loc' => url('/qibla'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        ['loc' => url('/prayer'), 'changefreq' => 'daily', 'priority' => '0.7'],
+        ['loc' => url('/zakat'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        ['loc' => url('/umrah'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        ['loc' => url('/calendar'), 'changefreq' => 'daily', 'priority' => '0.6'],
+        ['loc' => url('/date'), 'changefreq' => 'daily', 'priority' => '0.6'],
+        
+        // Services - medium priority
+        ['loc' => url('/services'), 'changefreq' => 'weekly', 'priority' => '0.7'],
+        ['loc' => url('/mosque'), 'changefreq' => 'weekly', 'priority' => '0.6'],
+        ['loc' => url('/shop'), 'changefreq' => 'weekly', 'priority' => '0.6'],
+        ['loc' => url('/store'), 'changefreq' => 'weekly', 'priority' => '0.6'],
+        ['loc' => url('/finance'), 'changefreq' => 'monthly', 'priority' => '0.5'],
+        ['loc' => url('/school'), 'changefreq' => 'monthly', 'priority' => '0.5'],
+        ['loc' => url('/food'), 'changefreq' => 'weekly', 'priority' => '0.5'],
+        ['loc' => url('/welfare'), 'changefreq' => 'monthly', 'priority' => '0.5'],
+        ['loc' => url('/travel'), 'changefreq' => 'monthly', 'priority' => '0.5'],
+        ['loc' => url('/convert'), 'changefreq' => 'monthly', 'priority' => '0.5'],
+        
+        // Subscription & Support - medium priority
+        ['loc' => url('/subscribe'), 'changefreq' => 'monthly', 'priority' => '0.6'],
         ['loc' => url('/pricing'), 'changefreq' => 'monthly', 'priority' => '0.6'],
         ['loc' => url('/support'), 'changefreq' => 'monthly', 'priority' => '0.6'],
         ['loc' => url('/charity'), 'changefreq' => 'monthly', 'priority' => '0.7'],
         ['loc' => url('/volunteer'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        ['loc' => url('/donation'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        
+        // Content & Collections - medium priority
         ['loc' => url('/collection'), 'changefreq' => 'weekly', 'priority' => '0.7'],
-        ['loc' => url('/faq'), 'changefreq' => 'monthly', 'priority' => '0.5'],
         ['loc' => url('/updates'), 'changefreq' => 'weekly', 'priority' => '0.5'],
-        ['loc' => url('/books'), 'changefreq' => 'weekly', 'priority' => '0.6'],
-        ['loc' => url('/zakat'), 'changefreq' => 'monthly', 'priority' => '0.5'],
-        ['loc' => url('/umrah'), 'changefreq' => 'monthly', 'priority' => '0.6'],
-        ['loc' => url('/toolkit'), 'changefreq' => 'weekly', 'priority' => '0.6'],
-        ['loc' => url('/radio'), 'changefreq' => 'weekly', 'priority' => '0.7'],
+        ['loc' => url('/mailing_list'), 'changefreq' => 'monthly', 'priority' => '0.4'],
+        ['loc' => url('/join_us'), 'changefreq' => 'monthly', 'priority' => '0.5'],
+        
+        // Information & Help - lower priority
+        ['loc' => url('/faq'), 'changefreq' => 'monthly', 'priority' => '0.5'],
         ['loc' => url('/contact'), 'changefreq' => 'monthly', 'priority' => '0.4'],
+        ['loc' => url('/access'), 'changefreq' => 'monthly', 'priority' => '0.4'],
+        ['loc' => url('/feedback'), 'changefreq' => 'monthly', 'priority' => '0.3'],
+        ['loc' => url('/correction'), 'changefreq' => 'monthly', 'priority' => '0.3'],
     ];
 
+    // Ensure lastmod is set for all pages
     $pages = array_map(function ($page) use ($lastmod) {
         $page['lastmod'] = $page['lastmod'] ?? $lastmod;
         return $page;

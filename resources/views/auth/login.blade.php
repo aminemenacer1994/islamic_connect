@@ -55,7 +55,7 @@
                 <!-- <p class="text-muted small benefits-text">Create an account to save bookmarks, write reflections, report errors, and manage your subscriptions.</p> -->
 
                 <div class="d-grid mb-3">
-                    <button type="submit" style="background: var(--primary-color); color: #ffffff;" class="btn btn-lg">Sign In</button>
+                    <button type="submit" style="color: #ffffff;" class="btn btn-lg">Sign In</button>
                 </div>
             </form>
             
@@ -80,8 +80,8 @@
 
 <style>
     :root {
-        --primary-color: #006b5f;
-        --primary-hover: #00564c;
+        --primary-color: #228B22;
+        --primary-hover: #1a6b1a;
         --text-color: #1a1a1a;
         --light-bg: #f8f9fa;
         --border-radius: 8px;
@@ -209,21 +209,6 @@
         box-shadow: 0 0 0 0.2rem rgba(0, 107, 95, 0.25);
     }
     
-    .btn-primary {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-        padding: 0.75rem;
-        font-weight: 500;
-        transition: var(--transition);
-        font-family: 'Inter', sans-serif;
-    }
-    
-    .btn-primary:hover {
-        background-color: var(--primary-hover);
-        border-color: var(--primary-hover);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 107, 95, 0.3);
-    }
     
     .divider {
         display: flex;

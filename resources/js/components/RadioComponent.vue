@@ -1550,9 +1550,9 @@ mark {
 .radio-card.active-card {
   background-color: rgba(0, 191, 166, 0.161);
   /* Light blue background for active station */
-  border: 2px solid #007bff;
+  border: 2px solid #228B22;
   /* Blue border to highlight */
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(34, 139, 34, 0.3);
   /* Subtle shadow for emphasis */
 }
 
@@ -1935,11 +1935,11 @@ mark {
 
 /* Accessibility: ensure sufficient contrast for teal text on light backgrounds */
 .text-theme-teal {
-  color: #006b5f;
+  color: #228B22;
 }
 
 /* In station cards specifically, enforce darker teal for readability over light tiles */
 .station-list-item .text-theme-teal {
-  color: #006b5f;
+  color: #228B22;
 }
 </style>

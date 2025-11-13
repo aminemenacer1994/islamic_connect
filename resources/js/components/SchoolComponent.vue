@@ -471,7 +471,7 @@ export default {
 }
 
 .bg-info {
-  background-color: #17a2b8;
+  background-color: #228B22;
   /* Bootstrap info color for "New" */
 }
 

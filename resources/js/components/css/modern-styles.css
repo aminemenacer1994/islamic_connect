@@ -2,9 +2,9 @@
 
 /* Modern Color Palette */
 :root {
-    --primary-color: #667eea;
+    --primary-color: #228B22;
     --secondary-color: #764ba2;
-    --accent-color: #006b5f;
+    --accent-color: #228B22;
     --background-color: #f8f9fa;
     --card-background: #ffffff;
     --text-primary: #2c3e50;
@@ -106,7 +106,7 @@
 
 .form-select:focus, .form-control:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(34, 139, 34, 0.25);
     background-color: var(--card-background);
 }
 
@@ -201,7 +201,7 @@
 }
 
 .btn-success:hover {
-    background: #00564c;
+    background: #1a6b1a;
     transform: translateY(-2px);
     box-shadow: var(--shadow-medium);
 }

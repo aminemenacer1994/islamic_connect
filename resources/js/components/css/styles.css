@@ -11,7 +11,7 @@
 
 /* Header Section */
 .app-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);
     color: white;
     padding: 2rem 0;
     text-align: center;
@@ -65,7 +65,7 @@
 }
 
 .section-title i {
-    color: #667eea;
+    color: #228B22;
     font-size: 1.5rem;
 }
 
@@ -113,7 +113,7 @@
 }
 
 .panel-title i {
-    color: #667eea;
+    color: #228B22;
     font-size: 1.2rem;
 }
 
@@ -136,8 +136,8 @@
 }
 
 .surah-dropdown .form-select:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    border-color: #228B22;
+    box-shadow: 0 0 0 0.2rem rgba(34, 139, 34, 0.25);
     background-color: white;
 }
 
@@ -154,7 +154,7 @@
 }
 
 .verse-list-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);
     color: white;
     padding: 0.75rem 1rem;
     font-weight: 600;
@@ -169,7 +169,7 @@
     max-height: 500px;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: #667eea #ecf0f1;
+    scrollbar-color: #228B22 #ecf0f1;
 }
 
 .verse-scroll-container::-webkit-scrollbar {
@@ -181,7 +181,7 @@
 }
 
 .verse-scroll-container::-webkit-scrollbar-thumb {
-    background: #667eea;
+    background: #228B22;
     border-radius: 4px;
 }
 
@@ -207,9 +207,9 @@
 }
 
 .verse-item-selected {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);
     color: white;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);
 }
 
 .verse-item-selected:hover {
@@ -218,7 +218,7 @@
 
 .verse-number {
     background: rgba(255, 255, 255, 0.2);
-    color: #667eea;
+    color: #228B22;
     font-weight: 600;
     padding: 0.25rem 0.5rem;
     border-radius: 20px;
@@ -266,7 +266,7 @@
 }
 
 .content-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);
     color: white;
     padding: 1.5rem;
     border-bottom: 1px solid #ecf0f1;
@@ -320,11 +320,11 @@
 }
 
 .nav-btn:hover {
-    background: #667eea;
+    background: #228B22;
     color: white;
-    border-color: #667eea;
+    border-color: #228B22;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);
 }
 
 .nav-btn i {
@@ -342,7 +342,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1rem;
-    background: #667eea;
+    background: #228B22;
     border: none;
     border-radius: 8px;
     color: white;
@@ -355,7 +355,7 @@
 .tool-btn:hover {
     background: #5a6fd8;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);
 }
 
 /* Tools Panel */
@@ -390,11 +390,11 @@
 }
 
 .tool-item:hover {
-    background: #667eea;
+    background: #228B22;
     color: white;
-    border-color: #667eea;
+    border-color: #228B22;
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 6px 20px rgba(34, 139, 34, 0.3);
 }
 
 .tool-item i {
@@ -436,9 +436,9 @@
 }
 
 .mobile-nav-btn:hover {
-    background: #667eea;
+    background: #228B22;
     color: white;
-    border-color: #667eea;
+    border-color: #228B22;
     transform: scale(1.1);
 }
 
@@ -676,7 +676,7 @@
 .tool-item:focus,
 .mobile-nav-btn:focus,
 .verse-item:focus {
-    outline: 3px solid #667eea;
+    outline: 3px solid #228B22;
     outline-offset: 2px;
 }
 
@@ -1016,10 +1016,10 @@ audio.custom-audio {
   width: 100%;
   height: 40px;
   border-radius: 20px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #228B22 0%, #1a6b1a 100%);
   border: none;
   outline: none;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);
 }
 
 .custom-audio::-webkit-media-controls-panel {
@@ -1094,7 +1094,7 @@ audio.custom-audio {
 
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #667eea #ecf0f1;
+  scrollbar-color: #228B22 #ecf0f1;
 }
 
 .button-63 {
