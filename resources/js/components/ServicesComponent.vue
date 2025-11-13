@@ -88,7 +88,7 @@
           <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
           <img src="/images/school1.png" alt="Islamic Shops" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
-            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Schools & Centers</h5>
+            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Schools</h5>
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover trusted Islamic schools, madrassas, and educational centers near you with ease for the knowledge of islam.</p>
             <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/school')" type="button" style="background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
