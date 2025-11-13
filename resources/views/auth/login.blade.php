@@ -55,7 +55,7 @@
                 <!-- <p class="text-muted small benefits-text">Create an account to save bookmarks, write reflections, report errors, and manage your subscriptions.</p> -->
 
                 <div class="d-grid mb-3">
-                    <button type="submit" style="color: #ffffff;" class="btn btn-lg">Sign In</button>
+                    <button type="submit" style="color: #ffffff; background: #00897b;" class="btn btn-lg">Sign In</button>
                 </div>
             </form>
             
@@ -121,14 +121,14 @@
     }
     
     .nav-link:hover {
-        color: var(--primary-color);
+        color: #00897b;
         transition: color 0.3s ease;
     }
     
     .nav-link.active {
         font-weight: bold;
-        color: var(--primary-color);
-        border-bottom: 2px solid var(--primary-color);
+        color: #00897b;
+        border-bottom: 2px solid #00897b;
         transition: color 0.3s ease, border-bottom 0.3s ease;
     }
     
@@ -153,7 +153,7 @@
         width: 100%;
         max-width: 550px;
         transition: var(--transition);
-        border-top: 4px solid var(--primary-color);
+        border-top: 4px solid #00897b;
     }
     
     .login-card:hover {
@@ -205,7 +205,7 @@
     }
     
     .form-control:focus {
-        border-color: var(--primary-color);
+        border-color: #00897b;
         box-shadow: 0 0 0 0.2rem rgba(0, 107, 95, 0.25);
     }
     
@@ -279,7 +279,7 @@
     }
     
     .login-footer a {
-        color: var(--primary-color);
+        color: #00897b;
         text-decoration: none;
         font-weight: 500;
     }
@@ -289,7 +289,7 @@
     }
 
     .forgot-password-link {
-        color: var(--primary-color);
+        color: #00897b;
         font-weight: 500;
         font-size: 0.95rem;
     }
@@ -307,7 +307,7 @@
         position: absolute;
         top: -40px;
         left: 6px;
-        background: var(--primary-color);
+        background: #00897b;
         color: white;
         padding: 8px;
         z-index: 100;
@@ -351,7 +351,7 @@
     input:focus, 
     select:focus, 
     textarea:focus {
-        outline: 2px solid var(--primary-color);
+        outline: 2px solid #00897b;
         outline-offset: 2px;
     }
     

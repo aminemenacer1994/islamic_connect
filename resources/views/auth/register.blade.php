@@ -60,7 +60,7 @@
                 <!-- <p class="text-muted small benefits-text">Create your free account to save bookmarks, write notes, sync across devices, and manage email preferences. No spam. Ever.</p> -->
 
                 <div class="d-grid mb-3">
-                    <button type="submit" style="color: #ffffff;" class="btn btn-lg">Create Account</button>
+                    <button type="submit" style="color: #ffffff; background: #00897b;" class="btn btn-lg">Create Account</button>
                 </div>
             </form>
             
@@ -74,8 +74,8 @@
                 </a>
             </div>
             
-            <div class="register-footer">
-                <p>Already have an account? <a href="/login">Sign in here</a></p>
+            <div class="register-footer" >
+                <p style="color:#6c757d">Already have an account? <a href="/login" style="color:#00897b;">Sign in here</a></p>
             </div>
         </div>
     </div>
@@ -127,14 +127,14 @@
     }
     
     .nav-link:hover {
-        color: var(--primary-color);
+        color: #00c4b4;
         transition: color 0.3s ease;
     }
     
     .nav-link.active {
         font-weight: bold;
-        color: var(--primary-color);
-        border-bottom: 2px solid var(--primary-color);
+        color: #00c4b4;
+        border-bottom: 2px solid #00c4b4;
         transition: color 0.3s ease, border-bottom 0.3s ease;
     }
     
@@ -159,7 +159,7 @@
         width: 100%;
         max-width: 550px;
         transition: var(--transition);
-        border-top: 4px solid var(--primary-color);
+        border-top: 4px solid #00897b;
     }
     
     .register-card:hover {
@@ -211,7 +211,7 @@
     }
     
     .form-control:focus {
-        border-color: var(--primary-color);
+        border-color: #00c4b4;
         box-shadow: 0 0 0 0.2rem rgba(0, 107, 95, 0.25);
     }
     
@@ -285,7 +285,7 @@
     }
     
     .register-footer a {
-        color: var(--primary-color);
+        color: #00c4b4;
         text-decoration: none;
         font-weight: 500;
     }
@@ -309,7 +309,7 @@
         position: absolute;
         top: -40px;
         left: 6px;
-        background: var(--primary-color);
+        background: #00c4b4;
         color: white;
         padding: 8px;
         z-index: 100;
@@ -353,7 +353,7 @@
     input:focus, 
     select:focus, 
     textarea:focus {
-        outline: 2px solid var(--primary-color);
+        outline: 2px solid #00c4b4;
         outline-offset: 2px;
     }
     
