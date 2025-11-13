@@ -204,6 +204,7 @@ Route::get('/test-fetch-notes', function () {
 });
 
 // Public Pages
+Route::get('/guide', [GuideController::class, 'index'])->name('guide');
 Route::get('/quran', [QuranController::class, 'index']);
 Route::get('/contact', [ContactController::class, 'index']);
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
@@ -376,8 +377,6 @@ Route::middleware(['auth', 'web', 'subscribed'])->group(function () {
     Route::get('/streaming', [StreamingController::class, 'index'])->name('streaming');
     Route::get('/radio', [RadioController::class, 'index'])->name('radio');
     Route::get('/video', [VideoController::class, 'index'])->name('video');
-
-    Route::get('/guide', [GuideController::class, 'index'])->name('guide');
     Route::get('/zakat', [ZakatController::class, 'index'])->name('zakat');
     Route::get('/qibla', [QiblaController::class, 'index'])->name('qibla');
     Route::get('/mosque', [MosqueController::class, 'index'])->name('mosque');

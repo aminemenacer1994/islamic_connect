@@ -573,6 +573,19 @@ export default {
       cancelAnimationFrame(animFrameId.value);
     });
 
+    const titleToSection = Object.fromEntries(
+      (guide.sections || []).map(s => [s.title, s])
+    );
+
+    const categoriesIndex = (() => {
+      const idx = {};
+      const cats = guide.categories || {};
+      Object.keys(cats).forEach(cat => {
+        (cats[cat] || []).forEach(t => { idx[t] = cat; });
+      });
+      return idx;
+    })();
+
     const initializeCategories = () => {
       const categories = new Set();
       guide.sections.forEach(section => {
@@ -583,8 +596,21 @@ export default {
     };
 
     const getCategoryName = (title) => {
-      const categoryMap = {
-        // Theology & Beliefs
+      // 1) Prefer explicit primaryType on the section
+      const s = titleToSection[title];
+      if (s && typeof s.primaryType === 'string' && s.primaryType.length) {
+        return s.primaryType;
+      }
+      // 2) Fall back to first tag if present
+      if (s && Array.isArray(s.tags) && s.tags.length) {
+        return s.tags[0];
+      }
+      // 3) Derive from categories mapping
+      if (categoriesIndex[title]) {
+        return categoriesIndex[title];
+      }
+      // 4) Legacy heuristic map (kept as a final fallback)
+      const legacy = {
         'The Concept of Tawhid': 'Theology',
         'The Concept of Tawheed': 'Theology',
         'The Role of the Quran': 'Theology',
@@ -595,16 +621,12 @@ export default {
         'The Islamic Concept of the Afterlife': 'Theology',
         'The Significance of the Night of Ascension': 'Theology',
         'Islamic Philosophy and Theology': 'Theology',
-        
-        // Five Pillars & Worship
         'The Five Pillars of Islam': 'Worship',
         'The Importance of Fasting': 'Worship',
         'The Significance of Hajj': 'Worship',
         'The Importance of Dua': 'Worship',
         'The Importance of Dhikr': 'Worship',
         'Islamic Calendar and Festivals': 'Worship',
-        
-        // Ethics & Character
         'Islamic Ethics and Morality': 'Ethics',
         'The Importance of Good Character': 'Ethics',
         'The Concept of Righteousness': 'Ethics',
@@ -612,44 +634,27 @@ export default {
         'The Concept of Mercy': 'Ethics',
         'The Importance of Gratitude': 'Ethics',
         'The Concept of Gratitude': 'Ethics',
-        
-        // Social Justice & Community
         'Social Justice in Islam': 'Social Justice',
         'The Concept of Justice': 'Social Justice',
         'The Islamic Concept of Justice': 'Social Justice',
         'Islam and the Concept of Community': 'Community',
         'Islamic Teachings on Tolerance': 'Community',
         'Islamic Views on Peace': 'Community',
-        
-        // Family & Relationships
         'Islamic Family Law': 'Family',
         'Islamic Views on Marriage': 'Family',
         'The Role of Women in Islam': 'Family',
-        
-        // Finance & Economics
         'Islamic Perspective on Wealth': 'Finance',
         'The Role of Islamic Charity': 'Finance',
         'Islamic Views on Financial Transactions': 'Finance',
-        
-        // Health & Well-being
         'Islamic Views on Health': 'Health',
-        
-        // Education & Knowledge
         'Islamic Education and Knowledge': 'Education',
         'The Importance of Knowledge': 'Education',
         'The Importance of Seeking Knowledge': 'Education',
-        
-        // Law & Halal/Haram
         'Halal and Haram in Islam': 'Law',
-        
-        // Environment
         'Islam and Environmental Stewardship': 'Environment',
-        
-        // Daily Life
         'The Importance of the Quran in Daily Life': 'Daily Life'
       };
-      
-      return categoryMap[title] || 'General';
+      return legacy[title] || 'General';
     };
 
     const getBadgeClasses = (title) => {

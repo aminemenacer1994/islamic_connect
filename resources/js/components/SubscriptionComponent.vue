@@ -299,6 +299,7 @@ export default {
             'Image gallery',
             'Dua collection',
             'Prayer times',
+            'Islamic guides',
           ]
         },
         {
@@ -318,7 +319,6 @@ export default {
             'Islamic directory video channels',
             'Short form video gallery',
             'Seerah timeline',
-            'Islamic guides',
             'Interactive zakat calculator',
             'Qibla finder',
             'Islamic services',

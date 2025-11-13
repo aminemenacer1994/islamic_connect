@@ -2,7 +2,9 @@
   "sections": [
     {
       "title": "Islamic Perspective on Wealth and Charity",
-      "content": "Islam views wealth as a trust from Allah and emphasizes moderation in its use. Zakat (obligatory charity) and Sadaqah (voluntary charity) are means to purify wealth and assist the needy. The Quran encourages generosity and condemns hoarding and exploitation. These acts of charity purify one's wealth and serve as a way to build a just and compassionate society. Islamic teachings promote economic justice by addressing inequality and ensuring the redistribution of wealth.\n\nIn Islamic finance, earning through interest (Riba) is prohibited, and instead, risk-sharing financial models are encouraged. Investments must be ethical and in line with Islamic values, ensuring that wealth circulates fairly in society. This approach fosters a more equitable system where all members of society have the opportunity to thrive."
+      "content": "Islam views wealth as a trust from Allah and emphasizes moderation in its use. Zakat (obligatory charity) and Sadaqah (voluntary charity) are means to purify wealth and assist the needy. The Quran encourages generosity and condemns hoarding and exploitation. These acts of charity purify one's wealth and serve as a way to build a just and compassionate society. Islamic teachings promote economic justice by addressing inequality and ensuring the redistribution of wealth.\n\nIn Islamic finance, earning through interest (Riba) is prohibited, and instead, risk-sharing financial models are encouraged. Investments must be ethical and in line with Islamic values, ensuring that wealth circulates fairly in society. This approach fosters a more equitable system where all members of society have the opportunity to thrive.",
+      "tags": ["Finance", "Social Justice", "Law", "General"],
+      "primaryType": "Finance"
     },
     {
       "title": "Islamic Education and Knowledge",
@@ -291,6 +293,445 @@
     {
       "title": "Islamic Teachings on Environmental Responsibility",
       "content": "Environmental responsibility in Islam is rooted in the concept of stewardship (Khalifah), where humans are entrusted with caring for the Earth. The Quran states, 'It is He who has made you successors upon the earth.' (Quran 35:39). Muslims are encouraged to protect the environment by avoiding waste and preserving natural resources.\n\nThe Prophet Muhammad (PBUH) promoted actions like planting trees and conserving water, teaching that such acts are charitable. Environmental responsibility is seen as a form of worship, reflecting gratitude for Allah’s creation and ensuring sustainability for future generations."
+    },
+    {
+      "title": "Purification and Cleanliness (Taharah) in Islam",
+      "content": "Purification (Taharah) is a prerequisite for many acts of worship, emphasizing both physical and spiritual cleanliness. Islam prescribes ablution (Wudu), full ritual bath (Ghusl), and dry ablution (Tayammum) when water is unavailable. These practices cultivate mindfulness and respect for worship.\n\nCleanliness extends to personal hygiene, homes, and public spaces. The Prophet Muhammad (PBUH) encouraged trimming nails, oral care with miswak, and maintaining tidy garments. Taharah symbolizes inner purification, preparing the believer to stand before Allah with humility and presence.",
+      "tags": ["Worship", "Law", "General"],
+      "primaryType": "Worship"
+    },
+    {
+      "title": "Etiquettes of Seeking Knowledge (Adab al-Ilm)",
+      "content": "Seeking knowledge requires etiquette: sincerity of intention, patience, humility, and respect for teachers and peers. Students are encouraged to verify sources, avoid arrogance, and practice what they learn.\n\nClassical scholars stressed punctuality, note‑taking, reviewing lessons, and serving the community with acquired knowledge. Adab al‑Ilm ensures that knowledge uplifts character, refines conduct, and benefits society rather than becoming a means of pride or argumentation.",
+      "tags": ["Education", "Theology", "General"],
+      "primaryType": "Education"
+    },
+    {
+      "title": "Maqasid al-Shariah (Higher Objectives of Islamic Law)",
+      "content": "Maqasid al‑Shariah refers to the higher objectives preserved by Islamic law: religion, life, intellect, lineage, and wealth. These aims guide interpretation and application, ensuring mercy, justice, and public welfare.\n\nUnderstanding Maqasid helps balance textual evidence with context, supporting policies and personal decisions that protect rights, prevent harm, and promote benefit. It frames Shariah as principled, purposeful, and compassionate.",
+      "tags": ["Law", "Theology", "Social Justice"],
+      "primaryType": "Law"
+    },
+    {
+      "title": "Islamic Manners of Disagreement (Adab al-Ikhtilaf)",
+      "content": "Differences of opinion are part of the Islamic scholarly tradition. Adab al‑Ikhtilaf emphasizes assuming good intent, avoiding mockery, citing evidence fairly, and preserving unity despite disagreement.\n\nMuslims are encouraged to debate with wisdom, consult experts, and prioritize shared fundamentals. Maintaining respect and avoiding factionalism protects the Ummah’s cohesion while allowing diversity within legitimate bounds.",
+      "tags": ["Community", "Law", "General"],
+      "primaryType": "Community"
+    },
+    {
+      "title": "Guardianship of the Orphan (Kafalah) in Islam",
+      "content": "Caring for orphans is a noble act with great reward. Islam commands kind treatment, fair financial management of their property, and integration into loving homes through Kafalah (sponsorship/guardianship).\n\nThe Prophet (PBUH) promised closeness in Paradise to those who care for orphans. Communities are urged to establish transparent systems for support, education, and protection of orphan rights.",
+      "tags": ["Social Justice", "Law", "Family"]
+    },
+    {
+      "title": "Wills and End-of-Life Matters (Wasiyah)",
+      "content": "Islam encourages writing a will (Wasiyah), settling debts, and specifying bequests up to one‑third of one’s estate outside fixed shares. Inheritance rules ensure equitable distribution among heirs and prevent disputes.\n\nPreparing an ethical will includes spiritual advice, funeral instructions, and encouragement to maintain family ties. Early preparation reflects foresight, gratitude, and responsibility toward one’s dependents.",
+      "tags": ["Law", "Family", "General"]
+    },
+    {
+      "title": "Friday Prayer and Khutbah Etiquettes",
+      "content": "Jumu’ah is a weekly congregational obligation for eligible men and a recommended act for others. Etiquettes include bathing, wearing clean clothes, arriving early, listening attentively to the sermon, and avoiding distractions like phone use or talking.\n\nThe khutbah reminds the community of piety, justice, and current needs. Regular attendance strengthens faith, bonds the community, and renews commitment to righteous action.",
+      "tags": ["Worship", "Community", "General"]
+    },
+    {
+      "title": "Sunnah Daily Practices for Spiritual Growth",
+      "content": "Daily Sunnah practices include morning and evening adhkar, Duha prayer, reciting Quran, maintaining family ties, and greeting with peace. Integrating small, consistent deeds nurtures a tranquil heart.\n\nThe Prophet (PBUH) taught that the most beloved deeds are those done consistently. Building routines around prayer times anchors the day in remembrance and gratitude."
+    },
+    {
+      "title": "Voluntary Night Worship: Tahajjud and Qiyam",
+      "content": "Night prayer is a hallmark of spiritual excellence. Praying Tahajjud in the last third of the night, making heartfelt dua, and reflecting on Quranic verses softens the heart and invites forgiveness.\n\nEven a short, regular night prayer brings serenity, strengthens resolve, and deepens reliance on Allah, especially during personal trials."
+    },
+    {
+      "title": "Islamic Art and Calligraphy",
+      "content": "Islamic art emphasizes beauty, geometry, and harmony, avoiding depictions that may lead to veneration. Calligraphy developed as a revered art form to honor the Quranic text, adorning manuscripts, architecture, and everyday objects.\n\nPatterns, arabesques, and calligraphic scripts reflect contemplation, order, and reverence for revelation, expressing spirituality through aesthetic discipline.",
+      "tags": ["Arts & Culture", "Theology", "General"],
+      "primaryType": "Arts & Culture"
+    },
+    {
+      "title": "Islamic Architecture and Urban Spaces",
+      "content": "From mosques with courtyards and minarets to caravanserais and markets, Islamic architecture prioritizes community, shade, airflow, and modesty. Design elements support worship, learning, and social welfare.\n\nUrban planning in Muslim civilizations integrated water management, gardens, and waqf endowments, aligning function and beauty with values of service and sustainability.",
+      "tags": ["Arts & Culture", "Community", "Environment"],
+      "primaryType": "Arts & Culture"
+    },
+    {
+      "title": "Rights of Non-Muslims in Islamic Society",
+      "content": "Classical jurisprudence protects the lives, property, and worship of non‑Muslims living under Muslim governance. Islam forbids compulsion in religion and commands justice and kind conduct toward neighbors and citizens.\n\nFair treatment, security, and access to courts exemplify the Shariah’s commitment to public welfare and social harmony across faith lines.",
+      "tags": ["Law", "Social Justice", "Community"]
+    },
+    {
+      "title": "Halal Investing and Modern Finance",
+      "content": "Halal investing screens out interest‑based debt, gambling, and unethical industries, favoring asset‑backed, risk‑sharing models. Instruments like Musharakah, Mudarabah, Murabahah, and Sukuk align returns with real economic activity.\n\nInvestors are encouraged to purify doubtful gains, diversify prudently, and prioritize long‑term, ethical impact alongside lawful profit.",
+      "tags": ["Finance", "Law", "General"],
+      "primaryType": "Finance"
+    },
+    {
+      "title": "Modesty and Dress (Haya) in Islam",
+      "content": "Haya is a comprehensive concept of modesty in gaze, speech, behavior, and attire for all genders. Dress guidelines aim for dignity, privacy, and humility while accommodating cultural variation within Islamic parameters.\n\nModesty fosters respect, reduces vanity, and centers identity on faith rather than display, contributing to healthy personal and social interactions."
+    },
+    {
+      "title": "Technology and Social Media: An Islamic Lens",
+      "content": "Digital tools are blessings when used with intention and restraint. Islam encourages truthfulness, guarding the tongue, avoiding backbiting, and protecting time and privacy online.\n\nCurating feeds, limiting distraction, verifying information, and prioritizing in‑person duties help align technology use with taqwa, productivity, and community well‑being.",
+      "tags": ["Technology", "Ethics", "General"],
+      "primaryType": "Technology"
+    },
+    {
+      "title": "Halal Travel and Tourism",
+      "content": "Halal travel considers lawful food, prayer accessibility, family privacy, and respectful entertainment. Travelers should maintain daily prayers, observe modesty, and uphold honesty across borders.\n\nExploring Allah’s earth with gratitude broadens perspective, strengthens cultural understanding, and can renew appreciation for the signs of Allah in diverse peoples and places.",
+      "tags": ["Travel", "Worship", "General"],
+      "primaryType": "Travel"
+    },
+    {
+      "title": "Seerah Focus: The Meccan Period",
+      "content": "The Meccan years highlight steadfastness under persecution, the call to pure monotheism, and character refinement. Early Muslims modeled patience, integrity, and reliance on Allah despite hardship.\n\nLessons include prioritizing creed, building small circles of support, and trusting gradual, principled change over haste."
+    },
+    {
+      "title": "Seerah Focus: The Medinan Period",
+      "content": "In Madinah, the Prophet (PBUH) established a just community, drafted covenants, and nurtured brotherhood between migrants and helpers. Governance integrated worship, ethics, and social welfare.\n\nKey themes include consultation (Shura), mercy in leadership, preparedness, and treaties—offering enduring guidance for community building today."
+    },
+    {
+      "title": "Marriage Contract (Nikah) Essentials",
+      "content": "Nikah is a sacred contract requiring consent of both parties, a dowry (Mahr), witnesses, and clear terms. Islam encourages kindness, transparency, and mutual rights, with dispute mechanisms rooted in fairness.\n\nPreparing for marriage includes premarital education, realistic expectations, and commitment to shared worship and communication, strengthening the home as a place of mercy and tranquility.",
+      "tags": ["Family", "Law", "General"],
+      "primaryType": "Family"
+    },
+    {
+      "title": "Parenting and Tarbiyah in Islam",
+      "content": "Tarbiyah means nurturing faith, character, and skills through love, consistency, and example. Parents teach prayer, Quran, manners, and responsibility, while respecting each child’s temperament and needs.\n\nBalanced discipline, dua for children, and creating a prophetic home environment help raise confident believers who benefit society.",
+      "tags": ["Family", "Education", "General"],
+      "primaryType": "Family"
+    },
+    {
+      "title": "Zakat: Calculation and Eligible Recipients",
+      "content": "Zakat is 2.5% on qualifying savings after one lunar year, with different rules for livestock, crops, and trade goods. Recipients include the poor, needy, and other categories listed in the Quran.\n\nAccurate calculation, timely payment, and prioritizing local needs maximize Zakat’s impact, purifying wealth and alleviating hardship.",
+      "tags": ["Finance", "Law", "Social Justice"],
+      "primaryType": "Finance"
+    },
+    {
+      "title": "Employee and Employer Rights in Islam",
+      "content": "Islam commands fair wages, timely payment, safe conditions, and honest work. Employers must not exploit, and employees must fulfill trusts. Contracts clarify roles and prevent disputes.\n\nProphetic guidance stresses dignity, consultation, and justice at work, fostering productive, ethical workplaces rooted in mutual respect.",
+      "tags": ["Law", "Ethics", "Social Justice"],
+      "primaryType": "Law"
+    },
+    {
+      "title": "Sulh and Arbitration: Reconciling Disputes",
+      "content": "Sulh (amicable settlement) encourages resolving conflicts through dialogue, mediation, and fair compromise without violating clear rights. Arbitration offers a structured, expert-led process when needed.\n\nThe goals are restoring relationships, preventing harm, and upholding justice, reflecting Islam’s emphasis on peace and social cohesion.",
+      "tags": ["Law", "Community", "General"],
+      "primaryType": "Law"
+    },
+    {
+      "title": "Janazah: Funerals and Bereavement Etiquettes",
+      "content": "Islamic funeral rites include washing (Ghusl), shrouding, funeral prayer, and prompt burial with dignity and simplicity. Extravagance and wailing are discouraged; patience and dua are encouraged.\n\nVisiting the sick, offering condolences, arranging meals, and settling debts support grieving families while earning communal reward.",
+      "tags": ["Law", "Community", "General"],
+      "primaryType": "Law"
+    },
+    {
+      "title": "Waqf (Endowments) and Community Benefit",
+      "content": "Waqf dedicates assets for perpetual public good, funding mosques, schools, clinics, and social services. Proper governance ensures transparency, sustainability, and alignment with Shariah.\n\nReviving waqf strengthens social safety nets, educational access, and long-term community resilience.",
+      "tags": ["Social Justice", "Community", "Finance"],
+      "primaryType": "Social Justice"
+    },
+    {
+      "title": "Ethics of Speech: Ghiba and Namima",
+      "content": "Ghiba (backbiting) and Namima (tale-bearing) harm trust and hearts. Islam commands truthfulness, gentle speech, and guarding the tongue from insults, mockery, and spreading rumors.\n\nPractices like pausing before posting, verifying news, and making excuses for others protect honor and maintain unity.",
+      "tags": ["Ethics", "Community", "Theology"],
+      "primaryType": "Ethics"
+    },
+    {
+      "title": "Youth, Study, and Campus Life",
+      "content": "Students balance worship, study excellence, and wholesome friendships. Time management, halal socializing, campus prayer spaces, and involvement in service clubs nurture identity and purpose.\n\nSetting boundaries, seeking mentorship, and keeping up with Quran and adhkar protect faith amid pressures.",
+      "tags": ["Education", "Worship", "General"],
+      "primaryType": "Education"
+    },
+    {
+      "title": "New Muslims: First Steps and Support",
+      "content": "Converts benefit from mentorship, gradual learning, and welcoming communities. Focus on creed, prayer, cleanliness, and halal basics while building supportive friendships and routines.\n\nCommunities should provide classes, social inclusion, and practical help, ensuring a gentle, sustainable path of growth.",
+      "tags": ["Community", "Worship", "General"],
+      "primaryType": "Community"
+    },
+    {
+      "title": "Halal Careers and Professional Integrity",
+      "content": "Choosing lawful income and avoiding harmful industries safeguards faith. Integrity at work includes honesty, fulfilling contracts, avoiding conflicts of interest, and respecting confidentiality.\n\nBalancing career with worship—protecting prayer times, observing modesty, and maintaining family obligations—anchors success in devotion.",
+      "tags": ["Finance", "Ethics", "General"],
+      "primaryType": "Finance"
+    },
+    {
+      "title": "Hospitality and Guest Rights",
+      "content": "Islam encourages generous hospitality: greeting with peace, offering food and comfort, and honoring guests without extravagance. Guests reciprocate by being considerate and brief.\n\nHosting strengthens kinship, community bonds, and gratitude—classic prophetic practice that spreads warmth and mercy.",
+      "tags": ["Community", "Ethics", "General"],
+      "primaryType": "Community"
+    },
+    {
+      "title": "Coping with Anxiety and Hardship",
+      "content": "Faith-informed coping combines dua, prayer, seeking knowledge, healthy routines, and professional help when needed. Islam removes stigma from seeking treatment and encourages supporting one another.\n\nReflecting on divine wisdom, practicing gratitude, and serving others cultivate resilience and hope during trials.",
+      "tags": ["Health", "General", "Worship"],
+      "primaryType": "Health"
+    },
+    {
+      "title": "Essentials of Salah (Prayer)",
+      "content": "Salah is the daily connection to Allah and the pillar that upholds faith. Key elements include intention, purification, covering awrah, proper times, and correct postures with tranquility and presence.\n\nMaintaining the five prayers on time, learning the rulings of missed prayers, and improving humility (khushu’) nurtures discipline, gratitude, and spiritual stability."
+    },
+    {
+      "title": "Ramadan: Spiritual Goals and Practices",
+      "content": "Ramadan trains the soul through fasting, Quran recitation, charity, and nightly prayers. Set clear intentions, reduce distractions, and prioritize sincere dua and repentance.\n\nPlan meals for moderation, maintain rest, and protect time for worship. The month’s purpose is taqwa—carrying its habits beyond Ramadan into everyday life."
+    },
+    {
+      "title": "Zakat al-Fitr: Purpose and Rules",
+      "content": "Zakat al‑Fitr purifies the fasting person and supports the needy at Eid. It is due before the Eid prayer, paid in staple food or equivalent, on behalf of each dependent.\n\nKnowing local measures, organizing distribution early, and coordinating with trustworthy charities ensure timely benefit and communal joy."
+    },
+    {
+      "title": "Umrah: A Practical Guide",
+      "content": "Umrah consists of ihram, tawaf, sa’i, and hair clipping. Prepare by learning the rites, keeping sincere intention, and respecting fellow pilgrims.\n\nMaintain patience, avoid disputes, recite talbiyah frequently, and focus on gratitude and dua at each stage for a transformative journey."
+    },
+    {
+      "title": "Ethics of Halal Food and Consumption",
+      "content": "Halal consumption includes lawful ingredients, correct slaughter, and avoiding extravagance and waste. Read labels carefully, ask questions, and support transparent, ethical suppliers.\n\nModeration at meals, gratitude, and sharing food strengthen health, relationships, and awareness of Allah’s provision."
+    },
+    {
+      "title": "Islamic Finance: Risk‑Sharing Contracts",
+      "content": "Islamic finance promotes partnership and asset‑backed trade over interest. Common contracts include Musharakah (equity partnership), Mudarabah (investment partnership), Murabahah (cost‑plus sale), and Ijarah (leasing).\n\nUnderstanding risk allocation, disclosures, and real‑economy linkage helps Muslims pursue lawful income and socially beneficial investment."
+    },
+    {
+      "title": "Rights of Relatives (Silat ar‑Rahim)",
+      "content": "Maintaining family ties is an obligation. Islam encourages regular contact, gifts, reconciliation, and patient forbearance with relatives—even when difficult—while setting healthy boundaries against harm.\n\nHonoring kin strengthens identity, distributes support, and invites divine mercy and increased provision."
+    },
+    {
+      "title": "Sadaqah Jariyah: Ongoing Charity",
+      "content": "Ongoing charity benefits a person after death through lasting projects like wells, schools, or knowledge. Even small contributions to sustainable causes can become continuous reward.\n\nChoose transparent initiatives, document intentions, and involve family so charitable impact and learning persist across generations."
+    },
+    {
+      "title": "Quran Recitation: Tajwid Basics",
+      "content": "Tajwid preserves the precise pronunciation of Quranic letters and rules like noon sakin, meem sakin, and elongations. Learning from qualified teachers ensures accuracy and reverence.\n\nConsistent practice, slow recitation with reflection, and memorizing short surahs deepen love for the Quran and enhance prayer."
+    },
+    {
+      "title": "Protective Supplications (Hisn al‑Muslim)",
+      "content": "Morning and evening adhkar, travel duas, and prayers for fear, illness, and grief are prophetic remedies for the heart. Memorize essential supplications and recite them with presence.\n\nLinking daily moments to remembrance builds resilience, gratitude, and constant reliance upon Allah."
+    },
+    {
+      "title": "Avoiding Riba: Practical Alternatives",
+      "content": "To avoid interest, favor savings, partnerships, leasing, and trade‑based structures over conventional loans. Seek scholars’ advice, compare products, and read contracts carefully.\n\nLiving within means, delaying unnecessary purchases, and cultivating patience protect faith and financial stability."
+    },
+    {
+      "title": "Marriage Conflict Resolution",
+      "content": "Healthy marriages use kind speech, active listening, fair expectations, and early mediation. Islam encourages private reconciliation, involving wise family or neutral experts when needed.\n\nCouples should renew intentions, pray together, and set routines for check‑ins, forgiveness, and quality time to rebuild trust and affection."
+    },
+    {
+      "title": "Eid Etiquettes and Celebration",
+      "content": "Eid begins with bathing, wearing one’s best modest clothes, eating dates before Eid al‑Fitr prayer, and proclaiming takbirs. Visit family, give gifts, and spread joy without extravagance.\n\nRemember the needy, maintain good conduct, and keep celebrations halal and inclusive to strengthen communal bonds."
+    },
+    {
+      "title": "Maintaining Salah at Work",
+      "content": "Plan around prayer times, politely request space for prayer, and keep a compact prayer mat and wudu kit. Short breaks and combining prayers when permitted support consistency.\n\nProfessionalism, discretion, and clear communication help integrate worship into busy schedules while maintaining good relations at work."
+    },
+    {
+      "title": "Andalusian Legacy: Knowledge and Culture",
+      "content": "Muslim Spain nurtured advances in medicine, astronomy, agriculture, and architecture, transmitting knowledge to Europe. Cities like Cordoba and Granada modeled libraries, hospitals, and diverse coexistence.\n\nIts legacy encourages seeking knowledge, valuing beauty, and building institutions that serve faith and civilization."
+    },
+    {
+      "title": "Hadith Methodology: An Introduction",
+      "content": "Hadith sciences study chains of transmission and text analysis to verify reports. Key areas include isnad evaluation, narrator reliability, and classification (sahih, hasan, daif).\n\nLearning basics fosters respect for scholarly rigor and protects against misinformation about the Prophet’s teachings."
+    },
+    {
+      "title": "Aqidah: Names and Attributes of Allah",
+      "content": "Affirming Allah’s names and attributes as revealed—without distortion or denial—cultivates love, awe, and trust. Reflecting on meanings like Ar‑Rahman and Al‑Hakim shapes worship and character.\n\nStudying creed strengthens clarity about the Creator and anchors devotion in authentic understanding."
+    },
+    {
+      "title": "Signs of the Last Day: Major and Minor",
+      "content": "Texts describe minor and major signs preceding the Day of Judgment. Muslims approach these with seriousness, avoiding speculation, and focusing on righteous action and preparedness.\n\nThe purpose of these signs is admonition and hope—motivating repentance, consistency in worship, and service to humanity."
+    },
+    {
+      "title": "Ethical Investment Screens and Zakat on Stocks",
+      "content": "Muslim investors use financial and shariah screens to avoid riba-heavy firms, gambling, and harmful sectors. Where ownership exists, zakat may be due based on intention and asset type.\n\nConsult scholars and use reputable indices to align portfolios with faith while maintaining diversification and prudence.",
+      "tags": ["Finance", "Law", "Ethics"],
+      "primaryType": "Finance"
+    },
+    {
+      "title": "Environmental Sunnah: Water and Waste",
+      "content": "Prophetic guidance encourages conserving water even at a flowing river, planting trees, and avoiding litter. Small daily habits—shorter ablutions, reusable containers—reflect stewardship (khalifah).\n\nCommunities can organize cleanups and tree-planting as sadaqah, linking environmental care to worship and gratitude.",
+      "tags": ["Environment", "Worship", "Social Justice"],
+      "primaryType": "Environment"
+    },
+    {
+      "title": "Workplace Fiqh: Leaves, Breaks, and Holidays",
+      "content": "Navigating prayer breaks, Ramadan adjustments, Jumu’ah attendance, and Eid leave requires proactive communication and documented policies. Seek reasonable accommodation and propose practical schedules.\n\nProfessionalism and transparency build goodwill while safeguarding religious obligations.",
+      "tags": ["Law", "General", "Worship"],
+      "primaryType": "Law"
+    },
+    {
+      "title": "Healthy Habits from the Prophetic Diet",
+      "content": "The Sunnah highlights moderation, mindful eating, sharing meals, and wholesome foods like dates, barley, and honey. Combine tradition with modern nutrition for balanced, sustainable health.\n\nGratitude before and after eating, sitting while drinking, and avoiding waste integrate spirituality with wellbeing.",
+      "tags": ["Health", "General", "Ethics"],
+      "primaryType": "Health"
+    },
+    {
+      "title": "Introduction to Usul al‑Fiqh",
+      "content": "Usul al‑Fiqh studies sources and methods of deriving rulings—Quran, Sunnah, consensus, analogy, and maxims. Understanding it builds respect for scholarly differences and prudent application.\n\nBegin with core texts and guided study to appreciate how law preserves objectives and mercy.",
+      "tags": ["Theology", "Law", "Education"],
+      "primaryType": "Theology"
+    },
+    {
+      "title": "Spiritual Retreats: I’tikaf and Seclusion",
+      "content": "I’tikaf in the last ten nights of Ramadan focuses on prayer, Quran, and reflection in the mosque. Short personal retreats during the year help renew intention and clarity.\n\nMinimize devices, plan essentials, and center the heart on remembrance for lasting benefit.",
+      "tags": ["Worship", "General", "Theology"],
+      "primaryType": "Worship"
+    },
+    {
+      "title": "Civic Engagement and Muslim Citizenship",
+      "content": "Participate ethically in civic processes: voting where applicable, volunteering, and advocating for justice. Maintain integrity, avoid partisanship excess, and seek shared good.\n\nCommunity coalitions on education, poverty, and environment reflect prophetic concern for public welfare.",
+      "tags": ["Social Justice", "Community", "Law"],
+      "primaryType": "Social Justice"
+    },
+    {
+      "title": "Digital Privacy and Security for Muslims",
+      "content": "Protect personal data, use strong passwords, and verify links. Islam prioritizes safeguarding trust and avoiding harm; privacy settings and consent reflect these values online.\n\nAudit app permissions and store sensitive files securely to align tech use with amanah (trust).",
+      "tags": ["Technology", "Ethics", "General"],
+      "primaryType": "Technology"
     }
-  ]
+  ],
+  "categories": {
+    "Worship": [
+      "Essentials of Salah (Prayer)",
+      "Voluntary Night Worship: Tahajjud and Qiyam",
+      "Ramadan: Spiritual Goals and Practices",
+      "Zakat al-Fitr: Purpose and Rules",
+      "The Significance of Hajj (The Pilgrimage) in Islam",
+      "The Importance of Dhikr (Remembrance of Allah)",
+      "Purification and Cleanliness (Taharah) in Islam",
+      "The Five Pillars of Islam: A Guide to Religious Practices",
+      "The Importance of Dua (Supplication) in Islam",
+      "The Importance of Fasting in Islam",
+      "Quran Recitation: Tajwid Basics",
+      "Protective Supplications (Hisn al‑Muslim)",
+      "Maintaining Salah at Work",
+      "Umrah: A Practical Guide",
+      "The Concept of Sabr (Patience) in Worship"
+    ],
+    "Family": [
+      "Marriage Contract (Nikah) Essentials",
+      "Marriage Conflict Resolution",
+      "Parenting and Tarbiyah in Islam",
+      "Rights of Relatives (Silat ar‑Rahim)",
+      "Islamic Family Law: Rights and Responsibilities",
+      "Islamic Views on Marriage and Family",
+      "Islamic Teachings on Respect for Elders"
+    ],
+    "Finance": [
+      "Islamic Finance: Risk‑Sharing Contracts",
+      "Avoiding Riba: Practical Alternatives",
+      "Halal Investing and Modern Finance",
+      "Zakat: Calculation and Eligible Recipients",
+      "Islamic Perspective on Wealth and Charity",
+      "Islamic Views on Financial Transactions and Ethics",
+      "The Role of Islamic Charity (Sadaqah and Zakat)",
+      "Ethical Investment Screens and Zakat on Stocks"
+    ],
+    "Law": [
+      "Wills and End-of-Life Matters (Wasiyah)",
+      "Employee and Employer Rights in Islam",
+      "Sulh and Arbitration: Reconciling Disputes",
+      "Rights of Non-Muslims in Islamic Society",
+      "Marriage Contract (Nikah) Essentials",
+      "Halal and Haram in Islam",
+      "Janazah: Funerals and Bereavement Etiquettes",
+      "Ethics of Halal Food and Consumption"
+    ],
+    "Knowledge": [
+      "Hadith Methodology: An Introduction",
+      "Etiquettes of Seeking Knowledge (Adab al-Ilm)",
+      "Maqasid al-Shariah (Higher Objectives of Islamic Law)",
+      "The Role of the Quran in Islam",
+      "Islamic Education and Knowledge",
+      "The Importance of Knowledge in Islam",
+      "The Importance of Seeking Knowledge in Islam"
+    ],
+    "Theology": [
+      "Aqidah: Names and Attributes of Allah",
+      "Maqasid al-Shariah (Higher Objectives of Islamic Law)",
+      "The Concept of Taqwa (God-Consciousness) in Islam",
+      "The Concept of Ihsan (Excellence) in Islam",
+      "The Concept of Tawhid (Monotheism) in Islam",
+      "Angels in Islam: Beliefs and Functions",
+      "The Concept of Prophethood in Islam",
+      "The Islamic Concept of the Afterlife (Akhirah)",
+      "The Islamic Concept of Afterlife and Resurrection",
+      "The Importance of Gratitude (Shukr) in Islam",
+      "The Concept of Gratitude (Shukr) in Islam",
+      "The Concept of Righteousness in Islam"
+    ],
+    "Community": [
+      "Friday Prayer and Khutbah Etiquettes",
+      "Waqf (Endowments) and Community Benefit",
+      "Rights of Non-Muslims in Islamic Society",
+      "The Concept of Adab (Etiquette) in Islam",
+      "The Role of Mosques in Islam",
+      "Eid Etiquettes and Celebration",
+      "Islam and the Concept of Community (Ummah)",
+      "Islamic Teachings on Respect for Neighbors",
+      "Islamic Teachings on Community Service",
+      "The Importance of Unity in Islam"
+    ],
+    "Ethics": [
+      "Ethics of Speech: Ghiba and Namima",
+      "Technology and Social Media: An Islamic Lens",
+      "Modesty and Dress (Haya) in Islam",
+      "Islamic Teachings on Honesty",
+      "Sadaqah Jariyah: Ongoing Charity",
+      "Islamic Ethics and Morality",
+      "Islamic Teachings on Humility",
+      "Islamic Teachings on Compassion",
+      "Islamic Teachings on Moderation",
+      "The Role of Intention (Niyyah) in Islam"
+    ],
+    "Social Justice": [
+      "Islamic Teachings on Tolerance and Coexistence",
+      "Social Justice in Islam",
+      "Waqf (Endowments) and Community Benefit",
+      "Zakat: Calculation and Eligible Recipients",
+      "Guardianship of the Orphan (Kafalah) in Islam",
+      "The Role of Women in Islam",
+      "Islamic Views on Peace and Conflict Resolution",
+      "The Role of Charity in Building Community"
+    ],
+    "Environment": [
+      "Islam and Environmental Stewardship",
+      "Islamic Teachings on Environmental Responsibility",
+      "Islamic Architecture and Urban Spaces",
+      "Environmental Sunnah: Water and Waste"
+    ],
+    "History": [
+      "Seerah Focus: The Meccan Period",
+      "Seerah Focus: The Medinan Period",
+      "Andalusian Legacy: Knowledge and Culture",
+      "Islamic Calendar and Festivals",
+      "The Significance of the Night of Ascension (Isra and Miraj)",
+      "The Significance of the Night of Power (Laylat al-Qadr)"
+    ],
+    "General": [
+      "Islamic Education and Knowledge",
+      "Islamic Manners of Disagreement (Adab al-Ikhtilaf)",
+      "Technology and Social Media: An Islamic Lens",
+      "Hospitality and Guest Rights",
+      "New Muslims: First Steps and Support",
+      "The Importance of Good Character in Islam",
+      "Islamic Views on Health and Well-Being",
+      "The Importance of Time Management in Islam"
+    ],
+    "Technology": [
+      "Technology and Social Media: An Islamic Lens"
+    ],
+    "Arts & Culture": [
+      "Islamic Art and Calligraphy",
+      "Islamic Architecture and Urban Spaces",
+      "Andalusian Legacy: Knowledge and Culture"
+    ],
+    "Education": [
+      "Etiquettes of Seeking Knowledge (Adab al-Ilm)",
+      "Youth, Study, and Campus Life",
+      "Quran Recitation: Tajwid Basics",
+      "Islamic Education and Knowledge"
+    ],
+    "Health": [
+      "Coping with Anxiety and Hardship",
+      "Islamic Views on Health and Well-Being"
+    ]
+  }
 }
