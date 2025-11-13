@@ -379,22 +379,70 @@ export default {
         out skel qt;
       `;
 
-      try {
+      // List of Overpass mirrors to improve reliability
+      const endpoints = [
+        'https://overpass-api.de/api/interpreter',
+        'https://overpass.kumi.systems/api/interpreter',
+        'https://overpass.nchc.org.tw/api/interpreter',
+        'https://overpass.osm.ch/api/interpreter',
+      ];
+
+      // Helper to try a single endpoint with timeout and abort support
+      const tryEndpoint = async (baseUrl, timeoutMs = 15000) => {
         // Abort any in-flight overpass
         if (this.overpassController) this.overpassController.abort();
         this.overpassController = new AbortController();
-        const signal = this.overpassController.signal;
+        const ac = this.overpassController;
 
-        const res = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`, { signal });
-        if (!res.ok) throw new Error('Failed to fetch halal butchers');
-        const json = await res.json();
-        this.processShopData(json.elements || [], cacheKey);
+        const timer = setTimeout(() => {
+          try { ac.abort(); } catch (_) {}
+        }, timeoutMs);
+
+        try {
+          const res = await fetch(`${baseUrl}?data=${encodeURIComponent(query)}`, { signal: ac.signal });
+          if (!res.ok) {
+            // Treat 429/504 specially to allow fallback
+            const status = res.status;
+            throw new Error(status === 429 ? 'Too Many Requests' : `HTTP ${status}`);
+          }
+          const json = await res.json();
+          return json;
+        } finally {
+          clearTimeout(timer);
+        }
+      };
+
+      try {
+        let lastError = null;
+        for (let i = 0; i < endpoints.length; i++) {
+          try {
+            const json = await tryEndpoint(endpoints[i]);
+            this.processShopData((json && json.elements) || [], cacheKey);
+            lastError = null;
+            break;
+          } catch (e) {
+            lastError = e;
+            // If aborted manually, stop looping
+            if (e && e.name === 'AbortError') throw e;
+            // Otherwise, try next mirror after a short backoff
+            await new Promise(r => setTimeout(r, 500));
+          }
+        }
+
+        if (lastError) {
+          throw lastError;
+        }
       } catch (err) {
         console.error('Fetch error:', err);
         if (err.name === 'AbortError') return;
-        this.error = err.message.includes('Too Many Requests')
-          ? 'Rate limit hit. Please wait and try again.'
-          : 'Could not load halal butchers';
+        const msg = typeof err.message === 'string' ? err.message : '';
+        if (msg.includes('Too Many Requests')) {
+          this.error = 'Rate limit hit. Please wait and try again.';
+        } else if (msg.includes('HTTP 504') || msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+          this.error = 'Overpass service timed out. Please try again or change the location.';
+        } else {
+          this.error = 'Could not load halal butchers';
+        }
         this.shops = [];
       }
     },
