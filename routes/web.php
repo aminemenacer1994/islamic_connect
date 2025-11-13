@@ -123,7 +123,7 @@ Route::get('/sitemap.xml', function () {
         
         // Subscription & Support - medium priority
         ['loc' => url('/subscribe'), 'changefreq' => 'monthly', 'priority' => '0.6'],
-        ['loc' => url('/pricing'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        // ['loc' => url('/pricing'), 'changefreq' => 'monthly', 'priority' => '0.6'],
         ['loc' => url('/support'), 'changefreq' => 'monthly', 'priority' => '0.6'],
         ['loc' => url('/charity'), 'changefreq' => 'monthly', 'priority' => '0.7'],
         ['loc' => url('/volunteer'), 'changefreq' => 'monthly', 'priority' => '0.6'],
@@ -207,7 +207,7 @@ Route::get('/test-fetch-notes', function () {
 Route::get('/guide', [GuideController::class, 'index'])->name('guide');
 Route::get('/quran', [QuranController::class, 'index']);
 Route::get('/contact', [ContactController::class, 'index']);
-Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
+// Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
 Route::get('/charity', [CharityController::class, 'index'])->name('charity');
 Route::get('/volunteer', [VolunteerController::class, 'index'])->name('volunteer');
 Route::get('/collection', [CollectionController::class, 'index'])->name('collection');
