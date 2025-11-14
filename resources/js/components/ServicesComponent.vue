@@ -18,13 +18,19 @@
               details.
             </p>
 
-            <button  v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/mosque')" type="button" style="background: rgb(11, 93, 75);box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+            <button class="form-control" onclick="window.location.href='/mosque'"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+              <span class="text-center w-100"><b>Find a Mosque</b></span>
+            </button> 
+
+            <!-- <button  v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/mosque')" type="button" style="background: rgb(11, 93, 75);box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
               <span class="text-center w-100"><b>Find a Mosque</b></span>
             </button>
             <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
               <p class="mb-1 text-muted small">You must be subscribed to access</p>
               <a href="/subscribe" class="text-decoration-none" style="color: rgb(0, 107, 95); font-weight: bold;">Subscribe Now</a>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -38,13 +44,20 @@
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover delicious and certified
               halal butcher at your fingertips. Whether you're traveling or you're new in town.</p>
-            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/shop')" type="button" style="background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+
+            <button class="form-control" onclick="window.location.href='/shop'"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+              <span class="text-center w-100"><b>Search Butchers</b></span>
+            </button>
+            
+            <!-- <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/shop')" type="button" style="background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
               <span class="text-center w-100"><b>Search Butchers</b></span>
             </button>
             <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
               <p class="mb-1 text-muted small">You must be subscribed to access</p>
               <a href="/subscribe" class="text-decoration-none" style="color: rgb(0, 107, 95); font-weight: bold;">Subscribe Now</a>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -91,13 +104,20 @@
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Schools</h5>
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover trusted Islamic schools, madrassas, and educational centers near you with ease for the knowledge of islam.</p>
-            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/school')" type="button" style="background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+            
+            <button class="form-control" onclick="window.location.href='/school'"
+              style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+              <span class="text-center w-100"><b>Visit Schools</b></span>
+            </button>
+
+            <!-- <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/school')" type="button" style="background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
               <span class="text-center w-100"><b>Visit Schools</b></span>
             </button>
             <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
               <p class="mb-1 text-muted small">You must be subscribed to access</p>
               <a href="/subscribe" class="text-decoration-none" style="color: rgb(0, 107, 95); font-weight: bold;">Subscribe Now</a>
-            </div>
+            </div> -->
             
           </div>
         </div>

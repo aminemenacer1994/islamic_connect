@@ -14202,6 +14202,10 @@ __webpack_require__.r(__webpack_exports__);
       showVolumeBar: false,
       showAudioPlayer: false,
       isHighlighted: false,
+      // scrubbing state
+      isScrubbing: false,
+      _boundMove: null,
+      _boundUp: null,
       wordTimings: [],
       isLoading: false,
       continuousPlayback: true,
@@ -15199,6 +15203,59 @@ __webpack_require__.r(__webpack_exports__);
       this.updateProgress(this.currentlyPlayingIndex);
       console.log(`Seeking to ${newTime.toFixed(2)}s (${(percentage * 100).toFixed(1)}%)`);
     },
+    onProgressDown(e) {
+      var _e$touches$;
+      if (!this.$refs.progressBar) return;
+      const isTouch = e.type === 'touchstart';
+      const clientX = isTouch ? e.touches && ((_e$touches$ = e.touches[0]) === null || _e$touches$ === void 0 ? void 0 : _e$touches$.clientX) : e.clientX;
+      this.isScrubbing = true;
+      // bind listeners once
+      this._boundMove = this.onProgressMove;
+      this._boundUp = this.onProgressUp;
+      window.addEventListener('mousemove', this._boundMove, {
+        passive: false
+      });
+      window.addEventListener('touchmove', this._boundMove, {
+        passive: false
+      });
+      window.addEventListener('mouseup', this._boundUp, {
+        passive: true
+      });
+      window.addEventListener('touchend', this._boundUp, {
+        passive: true
+      });
+      this._updateScrubAt(clientX);
+    },
+    onProgressMove(e) {
+      var _e$touches$2, _e$preventDefault;
+      if (!this.isScrubbing) return;
+      const isTouch = e.type === 'touchmove';
+      const clientX = isTouch ? e.touches && ((_e$touches$2 = e.touches[0]) === null || _e$touches$2 === void 0 ? void 0 : _e$touches$2.clientX) : e.clientX;
+      if (clientX == null) return;
+      (_e$preventDefault = e.preventDefault) === null || _e$preventDefault === void 0 || _e$preventDefault.call(e);
+      this._updateScrubAt(clientX);
+    },
+    onProgressUp() {
+      this.isScrubbing = false;
+      window.removeEventListener('mousemove', this._boundMove);
+      window.removeEventListener('touchmove', this._boundMove);
+      window.removeEventListener('mouseup', this._boundUp);
+      window.removeEventListener('touchend', this._boundUp);
+      this._boundMove = null;
+      this._boundUp = null;
+    },
+    _updateScrubAt(clientX) {
+      const audio = this.audioElements[this.currentlyPlayingIndex];
+      if (!audio || !audio.duration) return;
+      const bar = this.$refs.progressBar;
+      if (!bar) return;
+      const rect = bar.getBoundingClientRect();
+      const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+      const pct = rect.width > 0 ? x / rect.width : 0;
+      const newTime = pct * audio.duration;
+      audio.currentTime = Math.max(0, Math.min(newTime, audio.duration));
+      this.updateProgress(this.currentlyPlayingIndex);
+    },
     cyclePlaybackSpeed: function () {
       this.currentSpeedIndex = (this.currentSpeedIndex + 1) % this.playbackSpeeds.length;
       this.playbackSpeed = this.playbackSpeeds[this.currentSpeedIndex];
@@ -15280,6 +15337,15 @@ __webpack_require__.r(__webpack_exports__);
   beforeUnmount: function () {
     this.isComponentAlive = false;
     window.removeEventListener('keydown', this._keydownHandler);
+    // clean up scrub listeners
+    if (this._boundMove) {
+      window.removeEventListener('mousemove', this._boundMove);
+      window.removeEventListener('touchmove', this._boundMove);
+    }
+    if (this._boundUp) {
+      window.removeEventListener('mouseup', this._boundUp);
+      window.removeEventListener('touchend', this._boundUp);
+    }
     // removed scroll-related event listeners
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(audio => {
@@ -33785,97 +33851,23 @@ __webpack_require__.r(__webpack_exports__);
 const _hoisted_1 = {
   class: "container py-4"
 };
-const _hoisted_2 = {
-  class: "row g-4"
-};
-const _hoisted_3 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_4 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_5 = {
-  class: "p-3"
-};
-const _hoisted_6 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
-const _hoisted_7 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_8 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_9 = {
-  class: "p-3"
-};
-const _hoisted_10 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
-const _hoisted_11 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_12 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_13 = {
-  class: "p-3"
-};
-const _hoisted_14 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
-const _hoisted_15 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_16 = {
-  class: "card custom-card shadow-sm rounded-4",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_17 = {
-  class: "p-3"
-};
-const _hoisted_18 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [...(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "text-center fw-bold display-5 mb-4"
-  }, "Media Center", -1 /* CACHED */)), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Media Center", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-center mb-4 lead"
-  }, "The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted.", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "row g-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/ap.avif",
     alt: "Qibla finder",
     class: "w-90 mt-1",
@@ -33883,121 +33875,111 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "object-fit": "contain",
       "padding": "20px"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Audio Podcasts", -1 /* CACHED */)), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Audio Podcasts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life. ", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[0] || (_cache[0] = $event => $options.goTo('/content')),
-    type: "button",
+    onclick: "window.location.href='/content'",
     style: {
       "background": "#0b5d4b",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [...(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/content')\" type=\"button\" style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n                            <span class=\"text-center w-100\"><b>Stream Podcasts</b></span>\n                        </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else class=\"restricted-access text-center p-2\" style=\"border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n                            <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n                            <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: #228B22; font-weight: bold;\">Subscribe Now</a>\n                        </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden",
     style: {
-      "color": "#228B22",
-      "font-weight": "bold"
+      "border": "1px solid grey"
     }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/mtv2.png",
     alt: "Watch Live",
     class: "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Channel Guide", -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Channel Guide"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube. ", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, " Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[1] || (_cache[1] = $event => $options.goTo('/streaming')),
-    type: "button",
+    onclick: "window.location.href='/streaming'",
     style: {
       "background": "#0b5d4b",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Channels")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Channels")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/streaming')\" type=\"button\" style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n                            <span class=\"text-center w-100\"><b>View Channels</b></span>\n                        </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n                            <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n                            <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: #228B22; font-weight: bold;\">Subscribe Now</a>\n                        </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden",
     style: {
-      "color": "#228B22",
-      "font-weight": "bold"
+      "border": "1px solid grey"
     }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/radio5.jpg",
     alt: "Radio stations",
     class: "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Reciters Stations", -1 /* CACHED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Reciters Stations"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Tune in to live Islamic radio from around the world, featuring Qur'an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages. ", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, " Tune in to live Islamic radio from around the world, featuring Qur'an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[2] || (_cache[2] = $event => $options.goTo('/radio')),
-    type: "button",
+    onclick: "window.location.href='/radio'",
     style: {
       "background": "#0b5d4b",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Reciters")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [...(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "#228B22",
-      "font-weight": "bold"
-    }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Reciters")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/radio')\" type=\"button\" style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n                            <span class=\"text-center w-100\"><b>Explore Reciters</b></span>\n                        </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n                            <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n                            <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: #228B22; font-weight: bold;\">Subscribe Now</a>\n                        </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card shadow-sm rounded-4",
@@ -34035,46 +34017,45 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")])])])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card shadow-sm rounded-4",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/vide_g.png",
     alt: "Video Gallery",
     class: "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Video Gallery", -1 /* CACHED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Video Gallery"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections. ", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, " Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[3] || (_cache[3] = $event => $options.goTo('/video')),
-    type: "button",
+    onclick: "window.location.href='/video'",
     style: {
       "background": "#0b5d4b",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Videos")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [...(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "rgb(0, 107, 95)",
-      "font-weight": "bold"
-    }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])])])]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Videos")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/video')\" type=\"button\" style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n                            <span class=\"text-center w-100\"><b>Watch Videos</b></span>\n                        </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n                            <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n                            <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n                        </div> ")])])])], -1 /* CACHED */)]))]);
 }
 
 /***/ }),
@@ -38916,198 +38897,134 @@ __webpack_require__.r(__webpack_exports__);
 const _hoisted_1 = {
   class: "container py-4"
 };
-const _hoisted_2 = {
-  class: "row g-4"
-};
-const _hoisted_3 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_4 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_5 = {
-  class: "p-3"
-};
-const _hoisted_6 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
-const _hoisted_7 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_8 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_9 = {
-  class: "p-3"
-};
-const _hoisted_10 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
-const _hoisted_11 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_12 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_13 = {
-  class: "p-3"
-};
-const _hoisted_14 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [...(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "text-center fw-bold display-5 mb-4"
-  }, "Services", -1 /* CACHED */)), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Services", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-center mb-4 lead"
-  }, " Islamic Connect offers meaningful support to help Muslims strengthen their spiritual journey and engage more deeply with their faith. Our services are designed to assist individuals, families, and communities in nurturing a balanced and fulfilling Islamic life. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, " Islamic Connect offers meaningful support to help Muslims strengthen their spiritual journey and engage more deeply with their faith. Our services are designed to assist individuals, families, and communities in nurturing a balanced and fulfilling Islamic life. ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "row g-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/ml.webp",
     alt: "Mosque Locator",
     class: "w-100 pt-3",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Mosque Locator", -1 /* CACHED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Mosque Locator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Find nearby mosques around you based on your location with directions, prayer times, and contact details. ", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, " Find nearby mosques around you based on your location with directions, prayer times, and contact details. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[0] || (_cache[0] = $event => $options.goTo('/mosque')),
-    type: "button",
+    onclick: "window.location.href='/mosque'",
     style: {
-      "background": "rgb(11, 93, 75)",
+      "background": "#0b5d4b",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find a Mosque")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [...(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find a Mosque")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button  v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/mosque')\" type=\"button\" style=\"background: rgb(11, 93, 75);box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n              <span class=\"text-center w-100\"><b>Find a Mosque</b></span>\n            </button>\n            <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n              <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n              <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n            </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden",
     style: {
-      "color": "rgb(0, 107, 95)",
-      "font-weight": "bold"
+      "border": "1px solid grey"
     }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/food.png",
     alt: "Islamic Shops",
     class: "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Halal Butchers", -1 /* CACHED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Halal Butchers"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Discover delicious and certified halal butcher at your fingertips. Whether you're traveling or you're new in town.", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, "Discover delicious and certified halal butcher at your fingertips. Whether you're traveling or you're new in town."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[1] || (_cache[1] = $event => $options.goTo('/shop')),
-    type: "button",
+    onclick: "window.location.href='/shop'",
     style: {
-      "background": "rgb(11, 93, 75)",
+      "background": "#0b5d4b",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Butchers")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Butchers")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/shop')\" type=\"button\" style=\"background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n              <span class=\"text-center w-100\"><b>Search Butchers</b></span>\n            </button>\n            <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n              <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n              <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n            </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" style=\"border: 1px solid grey;\">\n          <img src=\"/images/store1.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Shops Finder</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/store'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Locate Shops</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" style=\"border: 1px solid grey;\">\n          <img src=\"/images/food.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Halal Food Locater</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/food'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Search Foods</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden",
     style: {
-      "color": "rgb(0, 107, 95)",
-      "font-weight": "bold"
+      "border": "1px solid grey"
     }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" style=\"border: 1px solid grey;\">\n          <img src=\"/images/store1.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Shops Finder</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/store'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Locate Shops</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" style=\"border: 1px solid grey;\">\n          <img src=\"/images/food.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Halal Food Locater</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/food'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Search Foods</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/school1.png",
     alt: "Islamic Shops",
     class: "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Islamic Schools", -1 /* CACHED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Schools"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Discover trusted Islamic schools, madrassas, and educational centers near you with ease for the knowledge of islam.", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, "Discover trusted Islamic schools, madrassas, and educational centers near you with ease for the knowledge of islam."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[2] || (_cache[2] = $event => $options.goTo('/school')),
-    type: "button",
+    onclick: "window.location.href='/school'",
     style: {
-      "background": "rgb(11, 93, 75)",
+      "background": "#0b5d4b",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Visit Schools")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [...(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "rgb(0, 107, 95)",
-      "font-weight": "bold"
-    }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Visit Schools")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/school')\" type=\"button\" style=\"background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n              <span class=\"text-center w-100\"><b>Visit Schools</b></span>\n            </button>\n            <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n              <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n              <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n            </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card shadow-sm rounded-4 overflow-hidden",
@@ -39145,7 +39062,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Support Us")])])])])], -1 /* CACHED */))])]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Support Us")])])])])])], -1 /* CACHED */)]))]);
 }
 
 /***/ }),
@@ -41223,7 +41140,7 @@ const _hoisted_58 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _ctx$audioElements$_c, _ctx$audioElements$_c2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "row justify-content-center text-center mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-lg-10 col-xl-10"
@@ -41247,7 +41164,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "button",
     tabindex: "0",
     onKeydown: [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.toggleVisibility && $options.toggleVisibility(...args), ["prevent"]), ["enter"])), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.toggleVisibility && $options.toggleVisibility(...args), ["prevent"]), ["space"]))]
-  }, [_ctx.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_2)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3))], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [_ctx.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_2)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3))], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "surah-select",
     class: "form-label text-white"
   }, "Select Surah:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -41255,7 +41172,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-select shadow-sm",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => _ctx.selectedSurah = $event),
     onChange: _cache[4] || (_cache[4] = (...args) => $options.fetchSurahDetails && $options.fetchSurahDetails(...args))
-  }, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a Surah", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.surahs, surah => {
@@ -41263,14 +41180,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: surah.number,
       value: surah.number
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number) + ". " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name) + ") ", 9 /* TEXT, PROPS */, _hoisted_6);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "reciter-select",
     class: "form-label text-white"
   }, "Select Reciter:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "reciter-select",
     class: "form-select shadow-sm",
     "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.selectedReciter = $event)
-  }, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a reciter", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.recitersSorted, reciter => {
@@ -41278,14 +41195,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: reciter.identifier,
       value: reciter.identifier
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "translation-select",
     class: "form-label text-white"
   }, "Select Translation:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "translation-select",
     class: "form-select shadow-sm",
     "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => _ctx.selectedTranslation = $event)
-  }, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select Translation", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.translationsSorted, translation => {
@@ -41312,7 +41229,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", _ctx.nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt']),
     "aria-hidden": "true"
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "flex-shrink-0 mt-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "next-step-icon-circle",
@@ -41330,14 +41247,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-quran"
-  })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-2 fw-semibold text-uppercase",
     style: {
       "letter-spacing": "0.1em",
       "color": "#1a5f7a",
       "font-size": "0.78rem"
     }
-  }, " NEXT STEP ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimized teaser "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [...(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, " NEXT STEP ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimized teaser "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/history",
     class: "fw-semibold text-decoration-none",
     style: {
@@ -41348,13 +41265,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "color": "#0b806f"
     }
-  }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, [...(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" If you feel ready to move from listening to learning? Explore key milestones, preservation efforts, and scholars in ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" If you feel ready to move from listening to learning? Explore key milestones, preservation efforts, and scholars in ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/history",
     class: "fw-semibold text-decoration-none",
     style: {
       "color": "#0b806f"
     }
-  }, " the history of the Qur’an ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" to deepen your understanding. ", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_19, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Explore History ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, " the history of the Qur’an ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" to deepen your understanding. ", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_19, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Explore History ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-arrow-up-right-from-square ms-2"
   }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.nextStepMinimized]])])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.showNextStep]]), _ctx.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, "Loading Surah...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
@@ -41378,7 +41295,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       id: `ayah-card-${item.index}`,
       onClick: $event => $options.selectCard(item.index),
       onKeydown: [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.toggleAudioPlayer(item.index), ["prevent"]), ["enter"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.toggleAudioPlayer(item.index), ["prevent"]), ["space"])]
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "/images/art.png",
       width: "35px",
       alt: "Art Icon"
@@ -41393,7 +41310,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_28), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_28), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       class: "fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "fw-regular p-2 ltr-text flex-grow-1",
@@ -41414,7 +41331,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[8] || (_cache[8] = (...args) => $options.decreaseFontSize && $options.decreaseFontSize(...args)),
       "aria-label": "Decrease font size",
       title: "Decrease Font Size"
-    }, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-dash-circle-fill",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -41422,7 +41339,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[9] || (_cache[9] = (...args) => $options.increaseFontSize && $options.increaseFontSize(...args)),
       "aria-label": "Increase font size",
       title: "Increase Font Size"
-    }, [...(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-plus-circle-fill",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -41430,10 +41347,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[10] || (_cache[10] = $event => $options.shareOnWhatsApp(_ctx.ayah)),
       "aria-label": "Share on WhatsApp",
       title: "Share on WhatsApp"
-    }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-share-fill",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)]))])])])], 8 /* PROPS */, _hoisted_25), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)]))])])])], 8 /* PROPS */, _hoisted_25), _cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       style: {
         "padding": "8px"
       },
@@ -41447,7 +41364,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_34), _cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_34), _cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       class: "fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "fw-regular p-2 ltr-text flex-grow-1",
@@ -41460,7 +41377,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[11] || (_cache[11] = (...args) => $options.decreaseFontSize && $options.decreaseFontSize(...args)),
       "aria-label": "Decrease font size",
       title: "Decrease Font Size"
-    }, [...(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-dash-circle-fill",
       style: {
         "font-size": "1.7rem"
@@ -41471,7 +41388,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[12] || (_cache[12] = (...args) => $options.increaseFontSize && $options.increaseFontSize(...args)),
       "aria-label": "Increase font size",
       title: "Increase Font Size"
-    }, [...(_cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-plus-circle-fill",
       style: {
         "font-size": "1.7rem"
@@ -41482,7 +41399,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => $options.rewindAudio(item.index),
       "aria-label": "Rewind 15 seconds",
       title: "Rewind"
-    }, [...(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-skip-backward-circle-fill",
       style: {
         "font-size": "1.7rem"
@@ -41504,7 +41421,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => $options.fastForwardAudio(item.index),
       "aria-label": "Fast forward 20 seconds",
       title: "Fast Forward"
-    }, [...(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-skip-forward-circle-fill",
       style: {
         "font-size": "1.7rem"
@@ -41515,7 +41432,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => $options.shareOnWhatsApp(item.ayah),
       "aria-label": "Share on WhatsApp",
       title: "Share on WhatsApp"
-    }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[47] || (_cache[47] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-share-fill",
       style: {
         "font-size": "1.5rem"
@@ -41531,7 +41448,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "control-btn",
     title: "Rewind",
     "aria-label": "Rewind 15 seconds"
-  }, [...(_cache[47] || (_cache[47] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-backward-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[14] || (_cache[14] = $event => $options.toggleAudioPlayer(_ctx.currentlyPlayingIndex)),
@@ -41545,14 +41462,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "control-btn",
     title: "Fast Forward",
     "aria-label": "Fast forward 20 seconds"
-  }, [...(_cache[48] || (_cache[48] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[50] || (_cache[50] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-forward-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[16] || (_cache[16] = $event => $options.stopAudio(_ctx.currentlyPlayingIndex)),
     class: "control-btn",
     title: "Stop",
     "aria-label": "Stop"
-  }, [...(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[51] || (_cache[51] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-stop-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[17] || (_cache[17] = (...args) => $options.toggleVolume && $options.toggleVolume(...args)),
@@ -41597,7 +41514,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "margin-left": "auto"
     }
-  }, [...(_cache[50] || (_cache[50] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[52] || (_cache[52] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x-lg"
   }, null, -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "progress-bar",
@@ -41608,6 +41525,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-valuenow": _ctx.progress[_ctx.currentlyPlayingIndex] || 0,
     "aria-valuetext": `Progress ${Math.round(_ctx.progress[_ctx.currentlyPlayingIndex] || 0)} percent`,
     onClick: _cache[23] || (_cache[23] = (...args) => $options.seekToPosition && $options.seekToPosition(...args)),
+    onMousedown: _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.onProgressDown && $options.onProgressDown(...args), ["prevent"])),
+    onTouchstartPassive: _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.onProgressDown && $options.onProgressDown(...args), ["prevent"])),
     ref: "progressBar"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "progress",
@@ -41623,7 +41542,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         animationDelay: index * 0.1 + 's'
       })
     }, null, 4 /* STYLE */);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)], 8 /* PROPS */, _hoisted_57)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_57)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -42883,35 +42802,14 @@ __webpack_require__.r(__webpack_exports__);
 const _hoisted_1 = {
   class: "container py-4"
 };
-const _hoisted_2 = {
-  class: "row g-4"
-};
-const _hoisted_3 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_4 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_5 = {
-  class: "p-3"
-};
-const _hoisted_6 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [...(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "text-center fw-bold display-5 mb-4"
-  }, "Utility Toolkit", -1 /* CACHED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Utility Toolkit", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-center mb-4 lead"
-  }, " The Islamic Utility Toolkit is an all-encompassing digital platform thoughtfully designed to assist Muslims in fulfilling their daily religious obligations, advancing their educational pursuits, and nurturing their spiritual growth. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " The Islamic Utility Toolkit is an all-encompassing digital platform thoughtfully designed to assist Muslims in fulfilling their daily religious obligations, advancing their educational pursuits, and nurturing their spiritual growth. ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "row g-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card rounded-4 overflow-hidden",
@@ -42951,7 +42849,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find Qibla")])])])])], -1 /* CACHED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find Qibla")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card shadow-sm rounded-4 overflow-hidden",
@@ -42989,7 +42887,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Prayer Times")])])])])], -1 /* CACHED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Prayer Times")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card rounded-4 overflow-hidden",
@@ -43029,48 +42927,47 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Duas")])])])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Duas")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/calc.png",
     alt: "Zakat Calculator",
     class: "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Zakat Calculator", -1 /* CACHED */)), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Zakat Calculator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Easily calculate your zakat based on your assets and liabilities with up-to-date nisab values and simplified guidance.", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, "Easily calculate your zakat based on your assets and liabilities with up-to-date nisab values and simplified guidance."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[0] || (_cache[0] = $event => $options.goTo('/zakat')),
-    type: "button",
+    onclick: "window.location.href='/zakat'",
     style: {
       "background": "#0b5d4b",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Calculate Zakat")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [...(_cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "rgb(0, 107, 95)",
-      "font-weight": "bold"
-    }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Calculate Zakat")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/zakat')\" type=\"button\" style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n                <span class=\"text-center w-100\"><b>Calculate Zakat</b></span>\n              </button>\n              <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n                  <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n                  <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n              </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card rounded-4 overflow-hidden",
@@ -43110,7 +43007,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Convert Date")])])])])], -1 /* CACHED */)), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Convert Date")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card rounded-4 overflow-hidden",
@@ -43150,7 +43047,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read Guides")])])])])], -1 /* CACHED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read Guides")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card shadow-sm rounded-4 overflow-hidden",
@@ -43188,7 +43085,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Open Calendar")])])])])], -1 /* CACHED */))])]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Open Calendar")])])])])])], -1 /* CACHED */)]))]);
 }
 
 /***/ }),
@@ -51508,31 +51405,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.container[data-v-828f3036] {\n  min-height: 100vh;\n}\n.ayah-card-container[data-v-828f3036] {\n  transition: all 0.3s ease;\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n  animation: pulse-828f3036 0.5s ease-in-out;\n}\n.currently-playing[data-v-828f3036] {\n  background-color: #00bfa640;\n  border: 2px solid #00bfa640;\n  border-radius: 8px;\n  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);\n  transform: scale(1.02);\n  transition: all 0.3s ease;\n}\n@keyframes pulse-828f3036 {\n0% {\n    border: 2px solid #00bfa6;\n}\n100% {\n    border: 2px solid transparent;\n}\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  transition: top 0.3s ease, height 0.3s ease;\n}\n@media (max-width: 768px) {\n.container[data-v-828f3036] {\n    padding-bottom: calc(100px + env(safe-area-inset-bottom));\n}\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(25, 27, 31, 0.92);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.container[data-v-828f3036] {\n  padding-bottom: calc(120px + env(safe-area-inset-bottom));\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 6px 12px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n@media (max-width: 768px) {\n.controls .control-btn[title=\"Close\"][data-v-828f3036] {\n    margin-left: 0;\n    /* Remove the margin-left: auto to align with other buttons */\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.75rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s, transform 0.18s ease, background-color 0.18s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n  background-color: rgba(255, 255, 255, 0.06);\n  transform: translateY(-1px);\n}\n.icon-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: inherit;\n  padding: 0;\n  cursor: pointer;\n}\n\n/* Increase icon sizes for per-ayah actions (desktop) */\n.ayah-card-container .icon-btn i[data-v-828f3036] {\n  font-size: 1.6rem;\n}\n\n/* Make sticky toggle icon a bit larger */\n.sticky-dropdown>span i[data-v-828f3036] {\n  font-size: 1.4rem;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 8px;\n  background-color: rgba(255, 255, 255, 0.18);\n  border-radius: 4px;\n  overflow: hidden;\n  cursor: pointer;\n  position: relative;\n  transition: background-color 0.2s ease;\n}\n.progress-bar[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6, #5fd4c4);\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n\n/* removed scroll-margin to avoid scroll coupling */\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n  border: 1px solid rgba(0, 0, 0, 0.04);\n  transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;\n}\n.ayah-card[data-v-828f3036]:hover {\n  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);\n  transform: translateY(-2px);\n  border-color: rgba(0, 0, 0, 0.06);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.7rem !important;\n    /* line-height: 5.8vh; */\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    /* line-height: 1.6; */\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n    border-color: rgba(255, 255, 255, 0.06);\n    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(34, 38, 43, 0.9);\n    backdrop-filter: saturate(120%) blur(6px);\n}\n}\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n.loading-placeholder[data-v-828f3036] {\n  text-align: center;\n  padding: 20px;\n  font-size: 1.2rem;\n  background: linear-gradient(90deg, #f7f7f7 25%, #ececec 50%, #f7f7f7 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n.empty-state[data-v-828f3036] {\n  border: 1px dashed rgba(0, 0, 0, 0.15);\n  border-radius: 8px;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n\n/* Mobile icon sizing overrides */\n@media (max-width: 768px) {\n.control-btn[data-v-828f3036] {\n    font-size: 2rem;\n}\n.ayah-card-container .icon-btn i[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n}\n.highlighted-word[data-v-828f3036] {\n  background: #0b5d4b;\n  color: #fff;\n  border-radius: 4px;\n  padding: 0 2px;\n  box-shadow: 0 1px 0 rgba(11, 93, 75, 0.2);\n  transition: background 0.2s, box-shadow 0.2s;\n}\n\n/* Audio Visualizer Styles */\n.audio-visualizer[data-v-828f3036] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 100%;\n  display: flex;\n  align-items: flex-end;\n  justify-content: space-around;\n  padding: 0 2px;\n  opacity: 0.7;\n  pointer-events: none;\n}\n.visualizer-bar[data-v-828f3036] {\n  width: 2px;\n  background: linear-gradient(to top, #00bfa6, #87ceeb);\n  border-radius: 1px;\n  animation: pulse-visualizer-828f3036 0.6s ease-in-out infinite alternate;\n}\n@keyframes pulse-visualizer-828f3036 {\n0% {\n    opacity: 0.4;\n}\n100% {\n    opacity: 1;\n}\n}\n\n/* Speed Indicator */\n.speed-indicator[data-v-828f3036] {\n  font-size: 0.7rem;\n  font-weight: bold;\n  margin-left: 2px;\n  color: #ff6b6b;\n}\n\n/* Enhanced Control Buttons */\n.control-btn[data-v-828f3036] {\n  transition: all 0.3s ease;\n  border-radius: 8px;\n}\n.control-btn[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.1);\n  transform: translateY(-2px);\n}\n.control-btn[data-v-828f3036]:active {\n  transform: translateY(0);\n}\n\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.speed-indicator[data-v-828f3036] {\n    font-size: 0.6rem;\n}\n.visualizer-bar[data-v-828f3036] {\n    width: 1px;\n}\n.audio-visualizer[data-v-828f3036] {\n    padding: 0 1px;\n}\n}\n\n/* Next Step card background (gradient + blur) */\n.next-step-card[data-v-828f3036] {\n  position: relative;\n  overflow: hidden;\n  border: 1px solid rgba(11, 128, 111, 0.25);\n  border-radius: 16px;\n  box-shadow: 0 12px 32px rgba(26, 95, 122, 0.12);\n}\n.next-step-card[data-v-828f3036]::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  background: #f2fbf9;\n  background: linear-gradient(135deg, rgba(26, 95, 122, 0.22), rgba(11, 128, 111, 0.22));\n  backdrop-filter: blur(6px);\n  z-index: 0;\n}\n.next-step-card[data-v-828f3036]>* {\n  position: relative;\n  z-index: 1;\n}\n\n/* Subtle global typography tuning */\n.lead[data-v-828f3036] {\n  color: #35424c;\n}\nh1.display-5[data-v-828f3036] {\n  letter-spacing: -0.01em;\n}\n\n/* Sticky filter capsule enhancements without altering markup */\n.sticky-dropdown[data-v-828f3036] {\n  border-radius: 14px;\n  background: linear-gradient(180deg, rgba(27, 74, 89, 0.95), rgba(27, 74, 89, 0.92));\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);\n  border: 1px solid rgba(255, 255, 255, 0.08);\n}\n.sticky-dropdown label.form-label[data-v-828f3036] {\n  font-weight: 600;\n  letter-spacing: 0.02em;\n}\n.sticky-dropdown .form-select[data-v-828f3036] {\n  border-radius: 10px;\n  border: 1px solid rgba(255, 255, 255, 0.15);\n  background-color: rgba(255, 255, 255, 0.08);\n  color: #e9f2f3;\n  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;\n}\n.sticky-dropdown .form-select[data-v-828f3036]:focus {\n  border-color: #7fd6c9;\n  background-color: rgba(255, 255, 255, 0.12);\n  box-shadow: 0 0 0 0.15rem rgba(0, 191, 166, 0.25);\n}\n.sticky-dropdown option[data-v-828f3036] {\n  color: #1f2933;\n}\n\n/* Per-ayah action icons polish */\n.ayah-card-container .icon-btn[data-v-828f3036] {\n  border-radius: 8px;\n  padding: 6px;\n  transition: background-color 0.18s ease, transform 0.18s ease;\n}\n.ayah-card-container .icon-btn[data-v-828f3036]:hover {\n  background-color: rgba(11, 128, 111, 0.08);\n  transform: translateY(-1px);\n}\n\n/* Translation and Arabic text subtle contrast */\n.arabic-text[data-v-828f3036] {\n  color: #0a2e2a;\n}\n.translation-text[data-v-828f3036] {\n  color: #334155;\n}\n@media (prefers-reduced-motion: reduce) {\n[data-v-828f3036] {\n    transition: none !important;\n    animation: none !important;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Consolidated base rules */\n.container[data-v-828f3036] { min-height: 100vh;\n}\n.ayah-card-container[data-v-828f3036] { transition: all 0.3s ease;\n}\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n  animation: pulse-828f3036 0.5s ease-in-out;\n}\n.currently-playing[data-v-828f3036] {\n  background-color: #00bfa640;\n  border: 2px solid #00bfa640;\n  border-radius: 8px;\n  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);\n  transform: scale(1.02);\n  transition: all 0.3s ease;\n}\n@keyframes pulse-828f3036 {\n0% {\n    border: 2px solid #00bfa6;\n}\n100% {\n    border: 2px solid transparent;\n}\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  transition: top 0.3s ease, height 0.3s ease;\n}\n@media (max-width: 768px) {\n.container[data-v-828f3036] {\n    padding-bottom: calc(100px + env(safe-area-inset-bottom));\n}\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(25, 27, 31, 0.92);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.container[data-v-828f3036] {\n  padding-bottom: calc(120px + env(safe-area-inset-bottom));\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 6px 12px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n/* Align close button to the end on wider screens */\n.controls .control-btn[title=\"Close\"][data-v-828f3036] { margin-left: auto;\n}\n@media (max-width: 768px) {\n.controls .control-btn[title=\"Close\"][data-v-828f3036] {\n    margin-left: 0;\n    /* Remove the margin-left: auto to align with other buttons */\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.75rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s, transform 0.18s ease, background-color 0.18s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n  background-color: rgba(255, 255, 255, 0.06);\n  transform: translateY(-1px);\n}\n.icon-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: inherit;\n  padding: 0;\n  cursor: pointer;\n}\n/* Increase icon sizes for per-ayah actions (desktop) */\n.ayah-card-container .icon-btn i[data-v-828f3036] {\n  font-size: 1.6rem;\n}\n/* Make sticky toggle icon a bit larger */\n.sticky-dropdown>span i[data-v-828f3036] {\n  font-size: 1.4rem;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 8px;\n  background-color: rgba(255, 255, 255, 0.18);\n  border-radius: 4px;\n  overflow: hidden;\n  cursor: pointer;\n  position: relative;\n  transition: background-color 0.2s ease;\n}\n.progress-bar[data-v-828f3036]:active { cursor: ew-resize;\n}\n.progress-bar[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.3);\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6, #5fd4c4);\n  transition: width 0.1s linear;\n}\n/* Progress handle (visual affordance) */\n.progress[data-v-828f3036]::after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  right: -6px;\n  width: 12px;\n  height: 12px;\n  transform: translateY(-50%);\n  background: #ffffff;\n  border-radius: 50%;\n  border: 2px solid #00bfa6;\n  box-shadow: 0 2px 6px rgba(0,0,0,0.2);\n  opacity: 0.85;\n  transition: transform 0.15s ease, box-shadow 0.15s ease;\n}\n.progress-bar:hover .progress[data-v-828f3036]::after,\n.progress-bar:focus-within .progress[data-v-828f3036]::after {\n  transform: translateY(-50%) scale(1.05);\n  box-shadow: 0 3px 10px rgba(0,0,0,0.25);\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n/* removed scroll-margin to avoid scroll coupling */\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);\n  border: 1px solid rgba(0, 0, 0, 0.04);\n  transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;\n  animation: fadeInUp-828f3036 0.4s ease both;\n}\n.ayah-card[data-v-828f3036]:hover {\n  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);\n  transform: translateY(-2px);\n  border-color: rgba(0, 0, 0, 0.06);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.7rem !important;\n    /* line-height: 5.8vh; */\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    /* line-height: 1.6; */\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n    border-color: rgba(255, 255, 255, 0.06);\n    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(34, 38, 43, 0.9);\n    backdrop-filter: saturate(120%) blur(6px);\n}\n}\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n.loading-placeholder[data-v-828f3036] {\n  text-align: center;\n  padding: 20px;\n  font-size: 1.2rem;\n  background: linear-gradient(90deg, #f7f7f7 25%, #ececec 50%, #f7f7f7 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n.empty-state[data-v-828f3036] {\n  border: 1px dashed rgba(0, 0, 0, 0.15);\n  border-radius: 8px;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n/* Mobile icon sizing overrides */\n@media (max-width: 768px) {\n.control-btn[data-v-828f3036] {\n    font-size: 2rem;\n}\n.ayah-card-container .icon-btn i[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n}\n.highlighted-word[data-v-828f3036] {\n  background: #0b5d4b;\n  color: #fff;\n  border-radius: 4px;\n  padding: 0 2px;\n  box-shadow: 0 1px 0 rgba(11, 93, 75, 0.2);\n  transition: background 0.2s, box-shadow 0.2s;\n}\n/* Audio Visualizer Styles */\n.audio-visualizer[data-v-828f3036] {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 100%;\n  display: flex;\n  align-items: flex-end;\n  justify-content: space-around;\n  padding: 0 2px;\n  opacity: 0.7;\n  pointer-events: none;\n}\n.visualizer-bar[data-v-828f3036] {\n  width: 2px;\n  background: linear-gradient(to top, #00bfa6, #87ceeb);\n  border-radius: 1px;\n  animation: pulse-visualizer-828f3036 0.6s ease-in-out infinite alternate;\n}\n@keyframes pulse-visualizer-828f3036 {\n0% {\n    opacity: 0.4;\n}\n100% {\n    opacity: 1;\n}\n}\n/* Speed Indicator */\n.speed-indicator[data-v-828f3036] {\n  font-size: 0.7rem;\n  font-weight: bold;\n  margin-left: 2px;\n  color: #ff6b6b;\n}\n/* Enhanced Control Buttons */\n.control-btn[data-v-828f3036] {\n  transition: all 0.3s ease;\n  border-radius: 8px;\n}\n.control-btn[data-v-828f3036]:hover {\n  background-color: rgba(255, 255, 255, 0.1);\n  transform: translateY(-2px);\n}\n.control-btn[data-v-828f3036]:active {\n  transform: translateY(0);\n}\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.speed-indicator[data-v-828f3036] {\n    font-size: 0.6rem;\n}\n.visualizer-bar[data-v-828f3036] {\n    width: 1px;\n}\n.audio-visualizer[data-v-828f3036] {\n    padding: 0 1px;\n}\n}\n/* Next Step card background (gradient + blur) */\n.next-step-card[data-v-828f3036] {\n  position: relative;\n  overflow: hidden;\n  border: 1px solid rgba(11, 128, 111, 0.25);\n  border-radius: 16px;\n  box-shadow: 0 12px 32px rgba(26, 95, 122, 0.12);\n}\n.next-step-card[data-v-828f3036]::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  background: #f2fbf9;\n  background: linear-gradient(135deg, rgba(26, 95, 122, 0.22), rgba(11, 128, 111, 0.22));\n  backdrop-filter: blur(6px);\n  z-index: 0;\n}\n.next-step-card[data-v-828f3036]>* {\n  position: relative;\n  z-index: 1;\n}\n/* Theme tokens (scoped to this component container) */\n.container[data-v-828f3036] {\n  --ic-primary: #0b806f;\n  --ic-secondary: #1a5f7a;\n  --ic-accent: #00bfa6;\n  --ic-bg-elev: #ffffff;\n  --ic-text-muted: #35424c;\n  --ic-border: rgba(0, 0, 0, 0.08);\n  --ic-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);\n}\n/* Typography finesse */\n.container[data-v-828f3036] {\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.container[data-v-828f3036] ::-moz-selection {\n  background: rgba(0, 191, 166, 0.2);\n}\n.container[data-v-828f3036] ::selection {\n  background: rgba(0, 191, 166, 0.2);\n}\n.lead[data-v-828f3036] { color: var(--ic-text-muted);\n}\nh1.display-5[data-v-828f3036] { letter-spacing: -0.01em;\n}\n/* Arabic/translation rhythm and contrast */\n.arabic-text[data-v-828f3036] { color: #0a2e2a; line-height: 1.9;\n}\n.translation-text[data-v-828f3036] { color: #334155; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 8px;\n}\n@media (prefers-color-scheme: dark) {\n.translation-text[data-v-828f3036] { border-top-color: rgba(255,255,255,0.12);\n}\n}\n/* Focus-visible states */\n.control-btn[data-v-828f3036]:focus-visible,\n.icon-btn[data-v-828f3036]:focus-visible,\n.sticky-dropdown .form-select[data-v-828f3036]:focus-visible,\n.sticky-dropdown > span[data-v-828f3036]:focus-visible {\n  outline: 2px solid var(--ic-accent);\n  outline-offset: 2px;\n  border-radius: 10px;\n}\n/* Sticky toggle affordance */\n.sticky-dropdown > span[data-v-828f3036] {\n  padding: 6px;\n  border-radius: 10px;\n  transition: background-color 0.15s ease, box-shadow 0.15s ease;\n}\n.sticky-dropdown > span[data-v-828f3036]:hover { background-color: rgba(255,255,255,0.08);\n}\n.sticky-dropdown > span[data-v-828f3036]:focus-visible { box-shadow: 0 0 0 0.15rem rgba(0,191,166,0.25);\n}\n/* Enhanced selects without markup change */\n.sticky-dropdown .form-select[data-v-828f3036] {\n  border-radius: 10px;\n  border: 1px solid rgba(255, 255, 255, 0.15);\n  background-color: rgba(255, 255, 255, 0.08);\n  color: #e9f2f3;\n  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;\n}\n.sticky-dropdown .form-select[data-v-828f3036]:focus {\n  border-color: #7fd6c9;\n  background-color: rgba(255, 255, 255, 0.12);\n  box-shadow: 0 0 0 0.15rem rgba(0, 191, 166, 0.25);\n}\n/* Per-ayah action icons polish */\n.ayah-card-container .icon-btn[data-v-828f3036] {\n  border-radius: 8px;\n  padding: 6px;\n  transition: background-color 0.18s ease, transform 0.18s ease;\n}\n.ayah-card-container .icon-btn[data-v-828f3036]:hover {\n  background-color: rgba(11, 128, 111, 0.08);\n  transform: translateY(-1px);\n}\n/* Entrance motion for ayah cards */\n@keyframes fadeInUp-828f3036 {\nfrom { opacity: 0; transform: translateY(6px);\n}\nto   { opacity: 1; transform: translateY(0);\n}\n}\n/* Density presets: add `density-compact` to `.container` to activate */\n.density-compact .ayah-card[data-v-828f3036] { padding: 10px; margin-bottom: 0.65rem;\n}\n.density-compact .controls[data-v-828f3036] { gap: 8px;\n}\n.density-compact .arabic-text[data-v-828f3036] { font-size: 0.95em;\n}\n.density-compact .translation-text[data-v-828f3036] { font-size: 0.95em;\n}\n.density-compact .sticky-dropdown[data-v-828f3036] { padding: 8px;\n}\n/* Reduce motion politely */\n@media (prefers-reduced-motion: reduce) {\n[data-v-828f3036] { transition: none !important; animation: none !important;\n}\n}\n/* Subtle global typography tuning */\n.lead[data-v-828f3036] {\n  color: #35424c;\n}\nh1.display-5[data-v-828f3036] {\n  letter-spacing: -0.01em;\n}\n/* Sticky filter capsule enhancements without altering markup */\n.sticky-dropdown[data-v-828f3036] {\n  border-radius: 14px;\n  background: linear-gradient(180deg, rgba(27, 74, 89, 0.95), rgba(27, 74, 89, 0.92));\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);\n  border: 1px solid rgba(255, 255, 255, 0.08);\n}\n.sticky-dropdown label.form-label[data-v-828f3036] {\n  font-weight: 600;\n  letter-spacing: 0.02em;\n}\n.sticky-dropdown .form-select[data-v-828f3036] {\n  border-radius: 10px;\n  border: 1px solid rgba(255, 255, 255, 0.15);\n  background-color: rgba(255, 255, 255, 0.08);\n  color: #e9f2f3;\n  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;\n}\n.sticky-dropdown .form-select[data-v-828f3036]:focus {\n  border-color: #7fd6c9;\n  background-color: rgba(255, 255, 255, 0.12);\n  box-shadow: 0 0 0 0.15rem rgba(0, 191, 166, 0.25);\n}\n.sticky-dropdown option[data-v-828f3036] {\n  color: #1f2933;\n}\n/* Per-ayah action icons polish */\n.ayah-card-container .icon-btn[data-v-828f3036] {\n  border-radius: 8px;\n  padding: 6px;\n  transition: background-color 0.18s ease, transform 0.18s ease;\n}\n.ayah-card-container .icon-btn[data-v-828f3036]:hover {\n  background-color: rgba(11, 128, 111, 0.08);\n  transform: translateY(-1px);\n}\n/* Translation and Arabic text subtle contrast */\n.arabic-text[data-v-828f3036] {\n  color: #0a2e2a;\n}\n.translation-text[data-v-828f3036] {\n  color: #334155;\n}\n@media (prefers-reduced-motion: reduce) {\n[data-v-828f3036] {\n    transition: none !important;\n    animation: none !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -54124,36 +53997,6 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_0_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_1_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_1_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_1_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -59623,8 +59466,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SuratComponent_vue_vue_type_template_id_828f3036_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SuratComponent.vue?vue&type=template&id=828f3036&scoped=true */ "./resources/js/components/SuratComponent.vue?vue&type=template&id=828f3036&scoped=true");
 /* harmony import */ var _SuratComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SuratComponent.vue?vue&type=script&lang=js */ "./resources/js/components/SuratComponent.vue?vue&type=script&lang=js");
 /* harmony import */ var _SuratComponent_vue_vue_type_style_index_0_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SuratComponent.vue?vue&type=style&index=0&id=828f3036&scoped=true&lang=css */ "./resources/js/components/SuratComponent.vue?vue&type=style&index=0&id=828f3036&scoped=true&lang=css");
-/* harmony import */ var _SuratComponent_vue_vue_type_style_index_1_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css */ "./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -59632,8 +59474,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_4__["default"])(_SuratComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_SuratComponent_vue_vue_type_template_id_828f3036_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-828f3036"],['__file',"resources/js/components/SuratComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_SuratComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_SuratComponent_vue_vue_type_template_id_828f3036_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-828f3036"],['__file',"resources/js/components/SuratComponent.vue"]])
 /* hot reload */
 if (false) // removed by dead control flow
 {}
@@ -59668,19 +59509,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_0_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SuratComponent.vue?vue&type=style&index=0&id=828f3036&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=0&id=828f3036&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css":
-/*!************************************************************************************************************!*\
-  !*** ./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css ***!
-  \************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_1_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css");
 
 
 /***/ }),

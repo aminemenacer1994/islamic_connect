@@ -296,7 +296,10 @@
         <div class="progress-bar" role="progressbar" aria-label="Audio playback progress" :aria-valuemin="0"
           :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0"
           :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`"
-          @click="seekToPosition" ref="progressBar">
+          @click="seekToPosition"
+          @mousedown.prevent="onProgressDown"
+          @touchstart.prevent.passive="onProgressDown"
+          ref="progressBar">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
           <div class="audio-visualizer" ref="visualizer">
             <div v-for="(bar, index) in visualizerBars" :key="index" class="visualizer-bar"
@@ -346,6 +349,10 @@ export default {
       showVolumeBar: false,
       showAudioPlayer: false,
       isHighlighted: false,
+      // scrubbing state
+      isScrubbing: false,
+      _boundMove: null,
+      _boundUp: null,
       wordTimings: [],
       isLoading: false,
       continuousPlayback: true, // New data property for playback mode
@@ -1267,6 +1274,49 @@ export default {
 
       console.log(`Seeking to ${newTime.toFixed(2)}s (${(percentage * 100).toFixed(1)}%)`);
     },
+    onProgressDown(e) {
+      if (!this.$refs.progressBar) return;
+      const isTouch = e.type === 'touchstart';
+      const clientX = isTouch ? (e.touches && e.touches[0]?.clientX) : e.clientX;
+      this.isScrubbing = true;
+      // bind listeners once
+      this._boundMove = this.onProgressMove;
+      this._boundUp = this.onProgressUp;
+      window.addEventListener('mousemove', this._boundMove, { passive: false });
+      window.addEventListener('touchmove', this._boundMove, { passive: false });
+      window.addEventListener('mouseup', this._boundUp, { passive: true });
+      window.addEventListener('touchend', this._boundUp, { passive: true });
+      this._updateScrubAt(clientX);
+    },
+    onProgressMove(e) {
+      if (!this.isScrubbing) return;
+      const isTouch = e.type === 'touchmove';
+      const clientX = isTouch ? (e.touches && e.touches[0]?.clientX) : e.clientX;
+      if (clientX == null) return;
+      e.preventDefault?.();
+      this._updateScrubAt(clientX);
+    },
+    onProgressUp() {
+      this.isScrubbing = false;
+      window.removeEventListener('mousemove', this._boundMove);
+      window.removeEventListener('touchmove', this._boundMove);
+      window.removeEventListener('mouseup', this._boundUp);
+      window.removeEventListener('touchend', this._boundUp);
+      this._boundMove = null;
+      this._boundUp = null;
+    },
+    _updateScrubAt(clientX) {
+      const audio = this.audioElements[this.currentlyPlayingIndex];
+      if (!audio || !audio.duration) return;
+      const bar = this.$refs.progressBar;
+      if (!bar) return;
+      const rect = bar.getBoundingClientRect();
+      const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+      const pct = rect.width > 0 ? x / rect.width : 0;
+      const newTime = pct * audio.duration;
+      audio.currentTime = Math.max(0, Math.min(newTime, audio.duration));
+      this.updateProgress(this.currentlyPlayingIndex);
+    },
     cyclePlaybackSpeed: function () {
       this.currentSpeedIndex = (this.currentSpeedIndex + 1) % this.playbackSpeeds.length;
       this.playbackSpeed = this.playbackSpeeds[this.currentSpeedIndex];
@@ -1358,6 +1408,15 @@ export default {
   beforeUnmount: function () {
     this.isComponentAlive = false;
     window.removeEventListener('keydown', this._keydownHandler);
+    // clean up scrub listeners
+    if (this._boundMove) {
+      window.removeEventListener('mousemove', this._boundMove);
+      window.removeEventListener('touchmove', this._boundMove);
+    }
+    if (this._boundUp) {
+      window.removeEventListener('mouseup', this._boundUp);
+      window.removeEventListener('touchend', this._boundUp);
+    }
     // removed scroll-related event listeners
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(audio => {
@@ -1370,16 +1429,9 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  min-height: 100vh;
-}
-
-.ayah-card-container {
-  transition: all 0.3s ease;
-}
-</style>
-
-<style scoped>
+/* Consolidated base rules */
+.container { min-height: 100vh; }
+.ayah-card-container { transition: all 0.3s ease; }
 .highlighted {
   background-color: #b5e6db;
   border-radius: 8px;
@@ -1462,6 +1514,9 @@ export default {
   margin-bottom: 10px;
 }
 
+/* Align close button to the end on wider screens */
+.controls .control-btn[title="Close"] { margin-left: auto; }
+
 @media (max-width: 768px) {
 
   .controls .control-btn[title="Close"] {
@@ -1539,6 +1594,8 @@ export default {
   transition: background-color 0.2s ease;
 }
 
+.progress-bar:active { cursor: ew-resize; }
+
 .progress-bar:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }
@@ -1547,6 +1604,29 @@ export default {
   height: 100%;
   background: linear-gradient(90deg, #00bfa6, #5fd4c4);
   transition: width 0.1s linear;
+}
+
+/* Progress handle (visual affordance) */
+.progress::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -6px;
+  width: 12px;
+  height: 12px;
+  transform: translateY(-50%);
+  background: #ffffff;
+  border-radius: 50%;
+  border: 2px solid #00bfa6;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  opacity: 0.85;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.progress-bar:hover .progress::after,
+.progress-bar:focus-within .progress::after {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
 }
 
 .volume-slider {
@@ -1564,6 +1644,7 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.04);
   transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+  animation: fadeInUp 0.4s ease both;
 }
 
 .ayah-card:hover {
@@ -1781,6 +1862,100 @@ export default {
 .next-step-card>* {
   position: relative;
   z-index: 1;
+}
+
+/* Theme tokens (scoped to this component container) */
+.container {
+  --ic-primary: #0b806f;
+  --ic-secondary: #1a5f7a;
+  --ic-accent: #00bfa6;
+  --ic-bg-elev: #ffffff;
+  --ic-text-muted: #35424c;
+  --ic-border: rgba(0, 0, 0, 0.08);
+  --ic-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Typography finesse */
+.container {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container ::selection {
+  background: rgba(0, 191, 166, 0.2);
+}
+
+.lead { color: var(--ic-text-muted); }
+h1.display-5 { letter-spacing: -0.01em; }
+
+/* Arabic/translation rhythm and contrast */
+.arabic-text { color: #0a2e2a; line-height: 1.9; }
+.translation-text { color: #334155; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 8px; }
+
+@media (prefers-color-scheme: dark) {
+  .translation-text { border-top-color: rgba(255,255,255,0.12); }
+}
+
+/* Focus-visible states */
+.control-btn:focus-visible,
+.icon-btn:focus-visible,
+.sticky-dropdown .form-select:focus-visible,
+.sticky-dropdown > span:focus-visible {
+  outline: 2px solid var(--ic-accent);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* Sticky toggle affordance */
+.sticky-dropdown > span {
+  padding: 6px;
+  border-radius: 10px;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.sticky-dropdown > span:hover { background-color: rgba(255,255,255,0.08); }
+.sticky-dropdown > span:focus-visible { box-shadow: 0 0 0 0.15rem rgba(0,191,166,0.25); }
+
+/* Enhanced selects without markup change */
+.sticky-dropdown .form-select {
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #e9f2f3;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.sticky-dropdown .form-select:focus {
+  border-color: #7fd6c9;
+  background-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 0.15rem rgba(0, 191, 166, 0.25);
+}
+
+/* Per-ayah action icons polish */
+.ayah-card-container .icon-btn {
+  border-radius: 8px;
+  padding: 6px;
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+.ayah-card-container .icon-btn:hover {
+  background-color: rgba(11, 128, 111, 0.08);
+  transform: translateY(-1px);
+}
+
+/* Entrance motion for ayah cards */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Density presets: add `density-compact` to `.container` to activate */
+.density-compact .ayah-card { padding: 10px; margin-bottom: 0.65rem; }
+.density-compact .controls { gap: 8px; }
+.density-compact .arabic-text { font-size: 0.95em; }
+.density-compact .translation-text { font-size: 0.95em; }
+.density-compact .sticky-dropdown { padding: 8px; }
+
+/* Reduce motion politely */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
 }
 
 /* Subtle global typography tuning */

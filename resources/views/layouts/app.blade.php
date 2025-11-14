@@ -808,9 +808,9 @@
                             <a class="nav-link ml-3 pt-2 pl-3" href="/services" data-path="/services" data-nav-item="primary">Services</a>
                         </li>
 
-                        <li class="nav-item mt-2">
+                        <!-- <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/subscribe" data-path="/subscribe" data-nav-item="primary">Packages</a>
-                        </li>
+                        </li> -->
 
                         <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary">Donations</a>
@@ -820,26 +820,26 @@
                             <a class="nav-link pt-2 ml-3 pl-3" href="/bookmarks" data-path="/bookmarks" data-nav-item="primary">Bookmarks</a>
                         </li> -->
 
-                        @guest
-                        @if (Route::has('login'))
+                        <!-- @guest -->
+                        <!-- @if (Route::has('login'))
                         <li class="nav-item  pl-3 mt-2">
                             <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login" data-nav-item="primary">{{ __('Login') }}</a>
                         </li>
-                        @endif
+                        @endif -->
                         <!-- @if (Route::has('register'))
                     <li class="nav-item display-6 pl-3 mt-2">
                         <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
                     </li>
                     @endif -->
-                        @else
+                        <!-- @else
                         <li class="nav-item dropdown pl-3 mt-2">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle pt-2" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="User menu" data-nav-item="primary" v-pre>
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="navbarDropdown">
-                                <!-- <a class="dropdown-item" role="menuitem" href="/bookmarks">Bookmarks</a>
-                                <a class="dropdown-item" role="menuitem" href="/notes">Notes & Reflections</a> -->
+                                <a class="dropdown-item" role="menuitem" href="/bookmarks">Bookmarks</a>
+                                <a class="dropdown-item" role="menuitem" href="/notes">Notes & Reflections</a> 
                                 <a class="dropdown-item" role="menuitem" href="/profile">Profile</a>
                                 <a class="dropdown-item" role="menuitem" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -850,7 +850,7 @@
                                 </form>
                             </div>
                         </li>
-                        @endguest
+                        @endguest -->
                         <!-- <li class="pl-4 pb-2 pt-3"> 
                         <button class="button-36" role="button">
                             <span>

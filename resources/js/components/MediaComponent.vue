@@ -12,13 +12,18 @@
                         <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
                             Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life.
                         </p>
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/content')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                        <button class="form-control" onclick="window.location.href='/content'"
+                            style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                            type="submit">
                             <span class="text-center w-100"><b>Stream Podcasts</b></span>
-                        </button>
-                        <div v-else class="restricted-access text-center p-2" style="border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+                        </button> 
+                        <!-- <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/content')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                            <span class="text-center w-100"><b>Stream Podcasts</b></span>
+                        </button> -->
+                        <!-- <div v-else class="restricted-access text-center p-2" style="border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
                             <a href="/subscribe" class="text-decoration-none" style="color: #228B22; font-weight: bold;">Subscribe Now</a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -31,13 +36,18 @@
                         <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
                             Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube.
                         </p>
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/streaming')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                        <button class="form-control" onclick="window.location.href='/streaming'"
+                            style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                            type="submit">
                             <span class="text-center w-100"><b>View Channels</b></span>
-                        </button>
-                        <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+                        </button> 
+                        <!-- <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/streaming')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                            <span class="text-center w-100"><b>View Channels</b></span>
+                        </button> -->
+                        <!-- <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
                             <a href="/subscribe" class="text-decoration-none" style="color: #228B22; font-weight: bold;">Subscribe Now</a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -50,13 +60,18 @@
                         <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
                             Tune in to live Islamic radio from around the world, featuring Qur'an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages.
                         </p>
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/radio')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                        <button class="form-control" onclick="window.location.href='/radio'"
+                            style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                            type="submit">
                             <span class="text-center w-100"><b>Explore Reciters</b></span>
-                        </button>
-                        <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+                        </button> 
+                        <!-- <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/radio')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                            <span class="text-center w-100"><b>Explore Reciters</b></span>
+                        </button> -->
+                        <!-- <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
                             <a href="/subscribe" class="text-decoration-none" style="color: #228B22; font-weight: bold;">Subscribe Now</a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -76,6 +91,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-md-6 col-lg-4">
                 <div class="card custom-card shadow-sm rounded-4" style="border: 1px solid grey;">
                     <img src="/images/vide_g.png" alt="Video Gallery" class="w-100" style="object-fit: contain;" />
@@ -84,13 +100,18 @@
                         <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
                             Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections.
                         </p>
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/video')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                        <button class="form-control" onclick="window.location.href='/video'"
+                            style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                            type="submit">
                             <span class="text-center w-100"><b>Watch Videos</b></span>
-                        </button>
-                        <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+                        </button>  
+                        <!-- <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/video')" type="button" style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+                            <span class="text-center w-100"><b>Watch Videos</b></span>
+                        </button> -->
+                        <!-- <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
                             <p class="mb-1 text-muted small">You must be subscribed to access</p>
                             <a href="/subscribe" class="text-decoration-none" style="color: rgb(0, 107, 95); font-weight: bold;">Subscribe Now</a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
