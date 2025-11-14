@@ -36385,11 +36385,14 @@ const _hoisted_1 = {
   id: "app"
 };
 const _hoisted_2 = {
-  class: "py-4 position-relative"
+  class: "py-4 position-relative",
+  style: {
+    "margin-top": "10px"
+  }
 };
 const _hoisted_3 = {
   key: 0,
-  class: "shadow-md"
+  class: "shadow-md pb3"
 };
 const _hoisted_4 = {
   key: 1,
@@ -36443,10 +36446,10 @@ const _hoisted_11 = {
   class: "row"
 };
 const _hoisted_12 = {
-  class: "col-md-4 pt-4"
+  class: "col-md-4"
 };
 const _hoisted_13 = {
-  class: "selector-card",
+  class: "pt-4",
   "aria-label": "Surah and verse selection"
 };
 const _hoisted_14 = {
@@ -36469,7 +36472,7 @@ const _hoisted_17 = {
   "aria-labelledby": "nav-home-tab"
 };
 const _hoisted_18 = {
-  class: "row"
+  class: "row pb-2"
 };
 const _hoisted_19 = {
   class: "custom-scrollbar pb-3 w-100 ayah-scroll"
@@ -36483,72 +36486,84 @@ const _hoisted_23 = {
   class: "text-right ayah-text"
 };
 const _hoisted_24 = {
-  class: "col-md-8 card-hide text-left pr-4"
+  class: "col-md-8 card-hide text-left pt-4 pr-4",
+  style: {
+    "scroll-margin-top": "24px"
+  }
 };
 const _hoisted_25 = {
   key: 1,
   class: "mb-2"
 };
 const _hoisted_26 = {
-  key: 2,
-  class: "mb-4"
-};
-const _hoisted_27 = {
   class: "card",
   style: {
-    "box-shadow": "0 20px 45px rgba(15, 23, 42, 0.06)"
+    "background-color": "#ffffff",
+    "border-radius": "18px",
+    "border": "1px solid rgba(2,6,23,0.06)",
+    "box-shadow": "0 14px 36px rgba(15, 23, 42, 0.08)",
+    "overflow": "hidden",
+    "transition": "box-shadow .2s ease"
   }
 };
-const _hoisted_28 = {
+const _hoisted_27 = {
   key: 0
 };
-const _hoisted_29 = {
+const _hoisted_28 = {
   class: "container-fluid"
 };
-const _hoisted_30 = {
+const _hoisted_29 = {
   class: "row"
 };
-const _hoisted_31 = {
+const _hoisted_30 = {
   class: "card-body content",
   style: {
-    "border-radius": "20px"
+    "border-radius": "20px",
+    "padding": "16px 18px 18px 18px"
+  }
+};
+const _hoisted_31 = {
+  class: "tab-content text-center",
+  style: {
+    "border-radius": "20px",
+    "background": "#ffffff"
   }
 };
 const _hoisted_32 = {
-  class: "tab-content text-center",
-  style: {
-    "border-radius": "20px"
-  }
-};
-const _hoisted_33 = {
   key: 0,
   class: "tab-pane active content",
   id: "home",
   role: "tabpanel"
 };
-const _hoisted_34 = {
+const _hoisted_33 = {
   class: "visually-hidden",
   "aria-live": "polite",
   "aria-atomic": "true"
 };
-const _hoisted_35 = ["selectedSurahId"];
-const _hoisted_36 = ["aria-hidden"];
-const _hoisted_37 = ["tabindex"];
-const _hoisted_38 = ["aria-hidden"];
-const _hoisted_39 = ["tabindex"];
-const _hoisted_40 = ["aria-hidden"];
-const _hoisted_41 = ["tabindex"];
-const _hoisted_42 = ["aria-hidden"];
-const _hoisted_43 = ["tabindex"];
-const _hoisted_44 = {
+const _hoisted_34 = ["selectedSurahId"];
+const _hoisted_35 = ["aria-hidden"];
+const _hoisted_36 = ["tabindex"];
+const _hoisted_37 = ["aria-hidden"];
+const _hoisted_38 = ["tabindex"];
+const _hoisted_39 = ["aria-hidden"];
+const _hoisted_40 = ["tabindex"];
+const _hoisted_41 = ["aria-hidden"];
+const _hoisted_42 = ["tabindex"];
+const _hoisted_43 = {
   key: 0,
   class: "hide-on-mobile"
 };
-const _hoisted_45 = {
+const _hoisted_44 = {
   class: "text-center"
 };
-const _hoisted_46 = {
+const _hoisted_45 = {
   class: "row pt-2 text-center"
+};
+const _hoisted_46 = {
+  class: "col desktop-icon",
+  style: {
+    "cursor": "pointer"
+  }
 };
 const _hoisted_47 = {
   class: "col desktop-icon",
@@ -36556,73 +36571,73 @@ const _hoisted_47 = {
     "cursor": "pointer"
   }
 };
-const _hoisted_48 = {
-  class: "col desktop-icon",
-  style: {
-    "cursor": "pointer"
-  }
-};
-const _hoisted_49 = ["aria-hidden"];
+const _hoisted_48 = ["aria-hidden"];
+const _hoisted_49 = ["tabindex"];
 const _hoisted_50 = ["tabindex"];
 const _hoisted_51 = ["tabindex"];
 const _hoisted_52 = ["tabindex"];
-const _hoisted_53 = ["tabindex"];
-const _hoisted_54 = {
+const _hoisted_53 = {
   key: 0,
   class: "swipe-tip alert py-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none",
   role: "alert"
 };
-const _hoisted_55 = {
+const _hoisted_54 = {
   class: "text"
 };
-const _hoisted_56 = {
+const _hoisted_55 = {
   key: 0,
   class: "collapse-content mobile-only"
 };
-const _hoisted_57 = {
+const _hoisted_56 = {
   key: 0,
   class: "card text-bg-light card-body"
 };
-const _hoisted_58 = {
+const _hoisted_57 = {
   key: 1,
   class: "tab-pane content",
   id: "profile",
   role: "tabpanel"
 };
-const _hoisted_59 = ["selectedSurahId", "aria-hidden"];
-const _hoisted_60 = {
+const _hoisted_58 = ["selectedSurahId", "aria-hidden"];
+const _hoisted_59 = {
   class: "text-center",
   role: "group",
   "aria-label": "Verse navigation controls (desktop)"
 };
-const _hoisted_61 = ["tabindex"];
-const _hoisted_62 = {
+const _hoisted_60 = ["tabindex"];
+const _hoisted_61 = {
   class: "text-center",
   role: "group",
   "aria-label": "Previous verse"
 };
-const _hoisted_63 = ["tabindex"];
-const _hoisted_64 = {
+const _hoisted_62 = ["tabindex"];
+const _hoisted_63 = {
   class: "text-center",
   role: "group",
   "aria-label": "Next verse"
 };
-const _hoisted_65 = ["tabindex"];
-const _hoisted_66 = {
+const _hoisted_64 = ["tabindex"];
+const _hoisted_65 = {
   class: "text-center",
   role: "group",
   "aria-label": "Last verse"
 };
-const _hoisted_67 = ["tabindex"];
-const _hoisted_68 = {
+const _hoisted_66 = ["tabindex"];
+const _hoisted_67 = {
   key: 0,
   class: "icon-container-fluid hide-on-mobile"
 };
-const _hoisted_69 = {
+const _hoisted_68 = {
   class: "text-center"
 };
-const _hoisted_70 = {
+const _hoisted_69 = {
   class: "row pt-2"
+};
+const _hoisted_70 = {
+  class: "col desktop-icon",
+  style: {
+    "cursor": "pointer"
+  }
 };
 const _hoisted_71 = {
   class: "col desktop-icon",
@@ -36631,37 +36646,34 @@ const _hoisted_71 = {
   }
 };
 const _hoisted_72 = {
-  class: "col desktop-icon",
-  style: {
-    "cursor": "pointer"
-  }
-};
-const _hoisted_73 = {
   class: "dropdown mobile-only"
 };
-const _hoisted_74 = {
+const _hoisted_73 = {
   key: 0,
   class: "swipe-tip alert py-2 mb-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none",
   role: "alert"
 };
-const _hoisted_75 = {
+const _hoisted_74 = {
   key: 0,
   class: "collapse-content mobile-only"
 };
-const _hoisted_76 = {
+const _hoisted_75 = {
   key: 0,
   class: "card text-bg-light card-body"
 };
-const _hoisted_77 = {
+const _hoisted_76 = {
   key: 2,
   class: "tab-pane content",
   id: "messages",
   role: "tabpanel"
 };
-const _hoisted_78 = {
+const _hoisted_77 = {
   class: "pb-3"
 };
-const _hoisted_79 = ["selectedSurahId"];
+const _hoisted_78 = ["selectedSurahId"];
+const _hoisted_79 = {
+  class: "text-center"
+};
 const _hoisted_80 = {
   class: "text-center"
 };
@@ -36672,17 +36684,20 @@ const _hoisted_82 = {
   class: "text-center"
 };
 const _hoisted_83 = {
-  class: "text-center"
-};
-const _hoisted_84 = {
   key: 0,
   class: "hide-on-mobile"
 };
-const _hoisted_85 = {
+const _hoisted_84 = {
   class: "text-center"
 };
-const _hoisted_86 = {
+const _hoisted_85 = {
   class: "row pt-2"
+};
+const _hoisted_86 = {
+  class: "col desktop-icon",
+  style: {
+    "cursor": "pointer"
+  }
 };
 const _hoisted_87 = {
   class: "col desktop-icon",
@@ -36691,24 +36706,18 @@ const _hoisted_87 = {
   }
 };
 const _hoisted_88 = {
-  class: "col desktop-icon",
-  style: {
-    "cursor": "pointer"
-  }
-};
-const _hoisted_89 = {
   class: "dropdown mobile-only"
 };
-const _hoisted_90 = {
+const _hoisted_89 = {
   key: 0,
   class: "swipe-tip alert py-2 pb-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none",
   role: "alert"
 };
-const _hoisted_91 = {
+const _hoisted_90 = {
   key: 0,
   class: "collapse-content mobile-only"
 };
-const _hoisted_92 = {
+const _hoisted_91 = {
   key: 0,
   class: "card text-bg-light card-body"
 };
@@ -36800,9 +36809,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     id: "surah-select-label",
     class: "fw-bold text-left mb-1"
-  }, "Select a Surah"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "field-helper"
-  }, " Choose a chapter to unlock its verses, recitations, and tafseer tools. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
+  }, "Select a Surah")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
     "aria-labelledby": "surah-select-label",
     class: "col-md-12",
     selectedSurah: $data.selectedSurahId,
@@ -36829,7 +36836,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     showError: $data.showError,
     onDismissError: $options.dismissError
   }, null, 8 /* PROPS */, ["showError", "onDismissError"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
-    class: "col-md-12 list-group root ayah-list",
+    class: "col-md-12 pb-3 list-group root ayah-list",
     id: "toggle",
     ref: "ayahList",
     role: "listbox",
@@ -36852,12 +36859,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_22, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_21);
   }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_20)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [$data.information == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Welcome, {
     key: 0
-  })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"fw-bold text-center\" >Verse Breakdown...</h4> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" breakdown content here ")])), $data.information ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"translationInfo\" tabindex=\"-1\"\n                                    aria-labelledby=\"surahInfoModalLabel\" aria-hidden=\"true\" @click.self=\"closeModal\">\n                                    <div class=\"modal-dialog modal-dialog-centered modal-lg\">\n                                        <div class=\"modal-content\">\n                                            <div class=\"modal-header\">\n                                                <h1 class=\"modal-title fs-5\" id=\"surahInfoModalLabel\">\n                                                    <strong>Surah Information</strong>\n                                                </h1>\n                                                <button type=\"button\" class=\"btn-close\" @click=\"closeModal\"\n                                                    aria-label=\"Close\"></button>\n                                            </div>\n                                            <div class=\"modal-body\">\n                                                <form class=\" text-left\">\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\" class=\"form-label\">Surah Name\n                                                            (English):</label>\n                                                        <p class=\"mt-2 text-dark text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.name_en\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\"\n                                                            class=\"form-label text-left\">Surah\n                                                            Information:</label>\n                                                        <p class=\"text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.text\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                </form>\n                                            </div>\n                                            <div class=\"modal-footer\">\n                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\"\n                                                    @click=\"closeModal\">\n                                                    Close\n                                                </button>\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Welcome :information=\"information\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screen reader live region for announcing selection changes "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.screenReaderMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"fw-bold text-center\" >Verse Breakdown...</h4> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" breakdown content here ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"modal fade\" id=\"translationInfo\" tabindex=\"-1\"\n                                    aria-labelledby=\"surahInfoModalLabel\" aria-hidden=\"true\" @click.self=\"closeModal\">\n                                    <div class=\"modal-dialog modal-dialog-centered modal-lg\">\n                                        <div class=\"modal-content\">\n                                            <div class=\"modal-header\">\n                                                <h1 class=\"modal-title fs-5\" id=\"surahInfoModalLabel\">\n                                                    <strong>Surah Information</strong>\n                                                </h1>\n                                                <button type=\"button\" class=\"btn-close\" @click=\"closeModal\"\n                                                    aria-label=\"Close\"></button>\n                                            </div>\n                                            <div class=\"modal-body\">\n                                                <form class=\" text-left\">\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\" class=\"form-label\">Surah Name\n                                                            (English):</label>\n                                                        <p class=\"mt-2 text-dark text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.name_en\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                    <div class=\"mb-3 \" v-if=\"\n                                                        information.ayah &&\n                                                        information.ayah.surah\n                                                    \">\n                                                        <label for=\"formGroupExampleInput\"\n                                                            class=\"form-label text-left\">Surah\n                                                            Information:</label>\n                                                        <p class=\"text-left\">\n                                                            {{\n                                                                information.ayah\n                                                                    .surah.text\n                                                            }}\n                                                        </p>\n                                                    </div>\n                                                </form>\n                                            </div>\n                                            <div class=\"modal-footer\">\n                                                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\"\n                                                    @click=\"closeModal\">\n                                                    Close\n                                                </button>\n                                            </div>\n                                        </div>\n                                    </div>\n                                </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Welcome :information=\"information\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screen reader live region for announcing selection changes "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.screenReaderMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "ayah-content",
     selectedSurahId: $data.selectedSurahId,
     onUpdateTafseer: _cache[13] || (_cache[13] = (...args) => $options.updateTafseer && $options.updateTafseer(...args)),
     onUpdateInformation: _cache[14] || (_cache[14] = (...args) => $options.updateInformation && $options.updateInformation(...args)),
-    style: {},
+    style: {
+      display: 'flex',
+      gap: '12px',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      padding: '10px 12px',
+      background: '#f8fafc',
+      border: '1px solid rgba(2,6,23,0.06)',
+      borderRadius: '12px'
+    },
     class: "icon-container hide-on-mobile mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-center icon-text",
@@ -36871,13 +36887,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     tabindex: $data.isMobile ? -1 : 0,
     onKeydown: [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToFirstAyah && $options.goToFirstAyah(...args), ["prevent"]), ["enter"])), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToFirstAyah && $options.goToFirstAyah(...args), ["prevent"]), ["space"]))],
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a",
+      "transition": "transform .15s ease, color .15s ease"
     },
+    onmouseover: "this.style.transform='translateY(-1px)'; this.style.color='#0b806f'",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.color='#1a5f7a'",
     onClick: _cache[3] || (_cache[3] = (...args) => $options.goToFirstAyah && $options.goToFirstAyah(...args)),
     title: "First verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_37), _cache[93] || (_cache[93] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_36), _cache[93] || (_cache[93] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
-  }, "First verse", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_36), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "First verse", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-center",
     role: "group",
     "aria-label": "Previous verse",
@@ -36889,13 +36909,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     tabindex: $data.isMobile ? -1 : 0,
     onKeydown: [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToPreviousAyah && $options.goToPreviousAyah(...args), ["prevent"]), ["enter"])), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToPreviousAyah && $options.goToPreviousAyah(...args), ["prevent"]), ["space"]))],
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a",
+      "transition": "transform .15s ease, color .15s ease"
     },
+    onmouseover: "this.style.transform='translateY(-1px)'; this.style.color='#0b806f'",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.color='#1a5f7a'",
     onClick: _cache[6] || (_cache[6] = (...args) => $options.goToPreviousAyah && $options.goToPreviousAyah(...args)),
     title: "Previous verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_39), _cache[94] || (_cache[94] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_38), _cache[94] || (_cache[94] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
-  }, "Previous verse", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_38), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Previous verse", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_37), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-center",
     role: "group",
     "aria-label": "Next verse",
@@ -36907,13 +36931,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     tabindex: $data.isMobile ? -1 : 0,
     onKeydown: [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToNextAyah && $options.goToNextAyah(...args), ["prevent"]), ["enter"])), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToNextAyah && $options.goToNextAyah(...args), ["prevent"]), ["space"]))],
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a",
+      "transition": "transform .15s ease, color .15s ease"
     },
+    onmouseover: "this.style.transform='translateY(-1px)'; this.style.color='#0b806f'",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.color='#1a5f7a'",
     onClick: _cache[9] || (_cache[9] = (...args) => $options.goToNextAyah && $options.goToNextAyah(...args)),
     title: "Next verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_41), _cache[95] || (_cache[95] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_40), _cache[95] || (_cache[95] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
-  }, "Next verse", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_40), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Next verse", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-center",
     role: "group",
     "aria-label": "Last verse",
@@ -36925,23 +36953,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     tabindex: $data.isMobile ? -1 : 0,
     onKeydown: [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToLastAyah && $options.goToLastAyah(...args), ["prevent"]), ["enter"])), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToLastAyah && $options.goToLastAyah(...args), ["prevent"]), ["space"]))],
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a",
+      "transition": "transform .15s ease, color .15s ease"
     },
+    onmouseover: "this.style.transform='translateY(-1px)'; this.style.color='#0b806f'",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.color='#1a5f7a'",
     onClick: _cache[12] || (_cache[12] = (...args) => $options.goToLastAyah && $options.goToLastAyah(...args)),
     title: "Last verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_43), _cache[96] || (_cache[96] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_42), _cache[96] || (_cache[96] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
-  }, "Last verse", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_42)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, "Last verse", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_41)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.iconStyle)
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col pb-2\">\n                                                <i :class=\"isOpen\n                                                    ? 'bi bi-x-circle-fill'\n                                                    : 'bi bi-plus-circle-fill'\n                                                    \" class=\"text-left hide-on-mobile h4\" @click=\"toggleContent\"></i>\n                                            </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col pb-2\">\n                                                <i :class=\"isOpen\n                                                    ? 'bi bi-x-circle-fill'\n                                                    : 'bi bi-plus-circle-fill'\n                                                    \" class=\"text-left hide-on-mobile h4\" @click=\"toggleContent\"></i>\n                                            </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-file-earmark-text text-right mr-2 h4",
     "data-bs-placement": "top",
     title: "Write a note",
     onClick: _cache[15] || (_cache[15] = $event => $options.openModal('translationNote'))
   }), _cache[97] || (_cache[97] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "icon-text pt-2"
-  }, "Write a Note", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Write a Note", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[16] || (_cache[16] = (...args) => $options.submitForm && $options.submitForm(...args)),
     class: "bi bi-bookmark text-right mr-2 h4",
     title: "Bookmark verse"
@@ -36962,20 +36994,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "icon-text pt-2"
   }, "Feedback")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                            <i class=\"bi bi-arrows-fullscreen h4\"\n                                                                @click=\"toggleFullScreen\" title=\"Full screen\"></i>\n                                                            <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                        </div> ")])]), _cache[100] || (_cache[100] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
-      "border": "2px solid #333"
+      "border": "1px solid #e5e7eb",
+      "margin": "10px 0 0 0"
     }
   }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mobile navigation  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "dropdown mobile-only pb-2",
     "aria-hidden": !$data.isMobile
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.iconStyle),
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([_ctx.iconStyle, {
+      "background": "#f8fafc",
+      "border": "1px solid rgba(2,6,23,0.06)",
+      "border-radius": "12px",
+      "padding": "10px 12px",
+      "display": "flex",
+      "justify-content": "space-between",
+      "align-items": "center"
+    }]),
     class: "icon-container",
     role: "group",
     "aria-label": "Verse navigation controls (mobile)"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-chevron-bar-left h4 verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a"
     },
     role: "button",
     "aria-label": "Go to first verse",
@@ -36983,10 +37025,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onKeydown: [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToFirstAyah && $options.goToFirstAyah(...args), ["prevent"]), ["enter"])), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToFirstAyah && $options.goToFirstAyah(...args), ["prevent"]), ["space"]))],
     onClick: _cache[19] || (_cache[19] = $event => $options.goToFirstAyah()),
     title: "First verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_50), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_49), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left-circle h4 verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a"
     },
     role: "button",
     "aria-label": "Go to previous verse",
@@ -36994,10 +37037,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onKeydown: [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToPreviousAyah && $options.goToPreviousAyah(...args), ["prevent"]), ["enter"])), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToPreviousAyah && $options.goToPreviousAyah(...args), ["prevent"]), ["space"]))],
     onClick: _cache[22] || (_cache[22] = $event => $options.goToPreviousAyah()),
     title: "Previous verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_51), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i @click=\"submitForm\" class=\"bi bi-bookmark mb-2 h4\"\n                                                    aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                    title=\"Bookmark verse\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_50), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i @click=\"submitForm\" class=\"bi bi-bookmark mb-2 h4\"\n                                                    aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                    title=\"Bookmark verse\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right-circle h4 verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a"
     },
     role: "button",
     "aria-label": "Go to next verse",
@@ -37005,10 +37049,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onKeydown: [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToNextAyah && $options.goToNextAyah(...args), ["prevent"]), ["enter"])), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToNextAyah && $options.goToNextAyah(...args), ["prevent"]), ["space"]))],
     onClick: _cache[25] || (_cache[25] = $event => $options.goToNextAyah()),
     title: "Next verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_52), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_51), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-chevron-bar-right h4 verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a"
     },
     role: "button",
     "aria-label": "Go to last verse",
@@ -37016,7 +37061,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onKeydown: [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToLastAyah && $options.goToLastAyah(...args), ["prevent"]), ["enter"])), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.goToLastAyah && $options.goToLastAyah(...args), ["prevent"]), ["space"]))],
     onClick: _cache[28] || (_cache[28] = $event => $options.goToLastAyah()),
     title: "Last verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_53)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet tip: swipe between verses "), $data.showSwipeTip ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, [_cache[101] || (_cache[101] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_52)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet tip: swipe between verses "), $data.showSwipeTip ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [_cache[101] || (_cache[101] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-truncate"
@@ -37032,7 +37077,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-live": "polite"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.swipeNoticeDir === 'next' ? 'bi bi-arrow-right-short' : 'bi bi-arrow-left-short')
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.swipeNoticeText), 1 /* TEXT */)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_49), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.swipeNoticeText), 1 /* TEXT */)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: $data.lastSwipeDir === 'next' ? 'swipe-next' : 'swipe-prev'
   }, {
     default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -37070,20 +37115,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onUpdateSuccessMessage: $options.updateSuccessMessage
     }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 32 /* NEED_HYDRATION */))]),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["name"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationActions, {
+  }, 8 /* PROPS */, ["name"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_55, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: $data.translation,
     information: $data.information,
     onOpenModal: $options.openModal,
     onSubmitForm: $options.submitForm,
     onToggleAudio: $options.toggleAudioPlayback
-  }, null, 8 /* PROPS */, ["translation", "information", "onOpenModal", "onSubmitForm", "onToggleAudio"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafseer Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["translation", "information", "onOpenModal", "onSubmitForm", "onToggleAudio"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafseer Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurahId,
     onUpdateTafseer: _cache[50] || (_cache[50] = (...args) => $options.updateTafseer && $options.updateTafseer(...args)),
     onUpdateInformation: _cache[51] || (_cache[51] = (...args) => $options.updateInformation && $options.updateInformation(...args)),
     class: "icon-container hide-on-mobile mb-3",
-    "aria-hidden": $data.isMobile
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "aria-hidden": $data.isMobile,
+    style: {
+      "display": "flex",
+      "gap": "12px",
+      "justify-content": "space-around",
+      "align-items": "center",
+      "padding": "10px 12px",
+      "background": "#f8fafc",
+      "border": "1px solid rgba(2,6,23,0.06)",
+      "border-radius": "12px"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-start-fill h2 pt- custom-prev-ayah verse-nav-icon",
     role: "button",
     "aria-label": "Go to first verse",
@@ -37094,9 +37149,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[40] || (_cache[40] = (...args) => $options.goToFirstAyah && $options.goToFirstAyah(...args)),
     title: "First verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_61), _cache[102] || (_cache[102] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_60), _cache[102] || (_cache[102] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
-  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon",
     role: "button",
     "aria-label": "Go to previous verse",
@@ -37107,9 +37162,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[43] || (_cache[43] = (...args) => $options.goToPreviousAyah && $options.goToPreviousAyah(...args)),
     title: "Previous verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_63), _cache[103] || (_cache[103] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_62), _cache[103] || (_cache[103] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
-  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon",
     role: "button",
     "aria-label": "Go to next verse",
@@ -37120,9 +37175,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[46] || (_cache[46] = (...args) => $options.goToNextAyah && $options.goToNextAyah(...args)),
     title: "Next verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_65), _cache[104] || (_cache[104] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_64), _cache[104] || (_cache[104] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
-  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon verse-nav-icon",
     role: "button",
     "aria-label": "Go to last verse",
@@ -37133,12 +37188,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     onClick: _cache[49] || (_cache[49] = (...args) => $options.goToLastAyah && $options.goToLastAyah(...args)),
     title: "Last verse"
-  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_67), _cache[105] || (_cache[105] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_66), _cache[105] || (_cache[105] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
-  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_59), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_58), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.iconStyle)
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col pb-2\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle-fill'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-left hide-on-mobile h4\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col pb-2\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle-fill'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-left hide-on-mobile h4\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-file-earmark-text text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top",
@@ -37148,7 +37203,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "icon-text pt-2 mb-2"
-  }, "Write a Note")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Write a Note")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[53] || (_cache[53] = (...args) => $options.submitFormTafseer && $options.submitFormTafseer(...args)),
     class: "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
@@ -37176,40 +37231,53 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "icon-text pt-2 mb-2"
   }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                \" title=\"Full screen\" aria-expanded=\"false\"\n                                                                    data-bs-placement=\"top\"></i>\n                                                                <div class=\"col desktop-icon\">\n                                                                    <div class=\"icon-text pt-2 mb-2\">Full Screen</div>\n                                                                </div>\n                                                            </div> ")])]), _cache[109] || (_cache[109] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
-      "border": "2px solid #333"
+      "border": "1px solid #e5e7eb",
+      "margin": "10px 0 0 0"
     }
-  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mobile navigation  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.iconStyle),
+  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mobile navigation  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([_ctx.iconStyle, {
+      "background": "#f8fafc",
+      "border": "1px solid rgba(2,6,23,0.06)",
+      "border-radius": "12px",
+      "padding": "10px 12px",
+      "display": "flex",
+      "justify-content": "space-between",
+      "align-items": "center"
+    }]),
     class: "icon-container pb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-chevron-bar-left h4 verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a"
     },
     onClick: _cache[54] || (_cache[54] = $event => $options.goToFirstAyah()),
     title: "Last verse"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left-circle h4 verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a"
     },
     onClick: _cache[55] || (_cache[55] = $event => $options.goToPreviousAyah()),
     title: "Previous verse"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i @click=\"submitFormTafseer\" class=\"bi bi-bookmark mb-2 h4\"\n                                                        aria-expanded=\"false\" data-bs-placement=\"top\"\n                                                        title=\"Bookmark verse\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right-circle h4 verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a"
     },
     onClick: _cache[56] || (_cache[56] = $event => $options.goToNextAyah()),
     title: "Next verse"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-chevron-bar-right h4 verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a"
     },
     onClick: _cache[57] || (_cache[57] = $event => $options.goToLastAyah()),
     title: "End verse"
-  })], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet tip: swipe between verses "), $data.showSwipeTip ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_74, [_cache[110] || (_cache[110] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet tip: swipe between verses "), $data.showSwipeTip ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_73, [_cache[110] || (_cache[110] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-truncate"
@@ -37255,7 +37323,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onUpdateSuccessMessage: $options.updateSuccessMessage
     }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 32 /* NEED_HYDRATION */))]),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["name"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                            <div class=\"row\">\n                                                <div class=\"col\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-center mobile-only h3 pt-3\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div>\n                                            </div>\n                                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_75, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerActions, {
+  }, 8 /* PROPS */, ["name"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                            <div class=\"row\">\n                                                <div class=\"col\">\n                                                    <i :class=\"isOpen\n                                                        ? 'bi bi-x-circle'\n                                                        : 'bi bi-plus-circle-fill'\n                                                        \" class=\"text-center mobile-only h3 pt-3\"\n                                                        @click=\"toggleContent\"></i>\n                                                </div>\n                                            </div>\n                                        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_74, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerActions, {
     targetTafseerRef: 'targetTafseerElement',
     tafseer: $data.tafseer,
     information: $data.information,
@@ -37264,50 +37332,76 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onToggleAudio: $options.toggleAudioPlayback
   }, null, 8 /* PROPS */, ["tafseer", "information", "onOpenModal", "onSubmitForm", "onToggleAudio"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahInfoModal, {
     information: $data.information
-  }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Transliteration Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Transliteration Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurahId,
     onUpdateTafseer: _cache[70] || (_cache[70] = (...args) => $options.updateTafseer && $options.updateTafseer(...args)),
     onUpdateInformation: _cache[71] || (_cache[71] = (...args) => $options.updateInformation && $options.updateInformation(...args)),
-    class: "icon-container hide-on-mobile mb-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "icon-container hide-on-mobile mb-3",
+    style: {
+      "display": "flex",
+      "gap": "12px",
+      "justify-content": "space-around",
+      "align-items": "center",
+      "padding": "10px 12px",
+      "background": "#f8fafc",
+      "border": "1px solid rgba(2,6,23,0.06)",
+      "border-radius": "12px"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-start-fill icon-container h2 pt- custom-prev-ayah verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a",
+      "transition": "transform .15s ease, color .15s ease"
     },
     onClick: _cache[66] || (_cache[66] = (...args) => $options.goToFirstAyah && $options.goToFirstAyah(...args)),
+    onmouseover: "this.style.transform='translateY(-1px)'; this.style.color='#0b806f'",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.color='#1a5f7a'",
     title: "First verse"
   }), _cache[111] || (_cache[111] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
-  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "First verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a",
+      "transition": "transform .15s ease, color .15s ease"
     },
     onClick: _cache[67] || (_cache[67] = (...args) => $options.goToPreviousAyah && $options.goToPreviousAyah(...args)),
+    onmouseover: "this.style.transform='translateY(-1px)'; this.style.color='#0b806f'",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.color='#1a5f7a'",
     title: "Previous verse"
   }), _cache[112] || (_cache[112] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
-  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Previous verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a",
+      "transition": "transform .15s ease, color .15s ease"
     },
     onClick: _cache[68] || (_cache[68] = (...args) => $options.goToNextAyah && $options.goToNextAyah(...args)),
+    onmouseover: "this.style.transform='translateY(-1px)'; this.style.color='#0b806f'",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.color='#1a5f7a'",
     title: "Next verse"
   }), _cache[113] || (_cache[113] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
-  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Next verse", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-end-fill pt-2 h2 icon-container custom-prev-ayah desktop-icon verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a",
+      "transition": "transform .15s ease, color .15s ease"
     },
     onClick: _cache[69] || (_cache[69] = (...args) => $options.goToLastAyah && $options.goToLastAyah(...args)),
+    onmouseover: "this.style.transform='translateY(-1px)'; this.style.color='#0b806f'",
+    onmouseout: "this.style.transform='translateY(0)'; this.style.color='#1a5f7a'",
     title: "Last verse"
   }), _cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "large"
-  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_79), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Last verse", -1 /* CACHED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_78), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.iconStyle)
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"col pb-2\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle-fill'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-left hide-on-mobile h4\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"col pb-2\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle-fill'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-left hide-on-mobile h4\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div> "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-file-earmark-text text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top",
@@ -37317,7 +37411,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "icon-text pt-2 mb-2"
-  }, "Write a Note ")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Write a Note ")], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[73] || (_cache[73] = (...args) => $options.submitFormTransliteration && $options.submitFormTransliteration(...args)),
     class: "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
@@ -37344,40 +37438,53 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "icon-text pt-2 mb-2"
   }, "Feedback")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\" style=\"cursor: pointer;\">\n                                                                    <i class=\"bi bi-arrows-fullscreen h4\" @click=\"toggleFullScreen\n                                                                    \" title=\"Full screen\"></i>\n                                                                    <div class=\"col desktop-icon\">\n                                                                        <div class=\"icon-text pt-2 mb-2\">Full Screen\n                                                                        </div>\n                                                                    </div>\n                                                                </div> ")])]), _cache[118] || (_cache[118] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
-      "border": "2px solid\n                                                                #333"
+      "border": "1px solid #e5e7eb",
+      "margin": "10px 0 0 0"
     }
-  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mobile navigation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.iconStyle),
+  }, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mobile navigation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([_ctx.iconStyle, {
+      "background": "#f8fafc",
+      "border": "1px solid rgba(2,6,23,0.06)",
+      "border-radius": "12px",
+      "padding": "10px 12px",
+      "display": "flex",
+      "justify-content": "space-between",
+      "align-items": "center"
+    }]),
     class: "icon-container"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-chevron-bar-left h4 verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a"
     },
     onClick: _cache[74] || (_cache[74] = $event => $options.goToFirstAyah()),
     title: "Last verse"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left-circle h4 verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a"
     },
     onClick: _cache[75] || (_cache[75] = $event => $options.goToPreviousAyah()),
     title: "Previous verse"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i @click=\"submitFormTransliteration\"\n                                                            class=\"bi bi-bookmark mb-2 h4\" aria-expanded=\"false\"\n                                                            data-bs-placement=\"top\" title=\"Bookmark verse\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right-circle h4 verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a"
     },
     onClick: _cache[76] || (_cache[76] = $event => $options.goToNextAyah()),
     title: "Next verse"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-chevron-bar-right h4 verse-nav-icon",
     style: {
-      "cursor": "pointer"
+      "cursor": "pointer",
+      "color": "#1a5f7a"
     },
     onClick: _cache[77] || (_cache[77] = $event => $options.goToLastAyah()),
     title: "End verse"
-  })], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet tip: swipe between verses "), $data.showSwipeTip ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_90, [_cache[119] || (_cache[119] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet tip: swipe between verses "), $data.showSwipeTip ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_89, [_cache[119] || (_cache[119] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-truncate"
@@ -37422,7 +37529,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onToggleAudio: $options.toggleAudioPlayback
     }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio"])], 32 /* NEED_HYDRATION */))]),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["name"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_91, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_92, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationActions, {
+  }, 8 /* PROPS */, ["name"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!isVisible\" class=\"container-fluid text-center mobile-only\">\n                                                <div class=\"row\">\n                                                    <div class=\"col\">\n                                                        <i :class=\"isOpen\n                                                            ? 'bi bi-x-circle'\n                                                            : 'bi bi-plus-circle-fill'\n                                                            \" class=\"text-center mobile-only h3 pt-3\"\n                                                            @click=\"toggleContent\"></i>\n                                                    </div>\n                                                </div>\n                                            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_90, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_91, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationActions, {
     targetTransliterationRef: 'targetTransliterationElement',
     transliteration: $data.information ? $data.information.transliteration : '',
     isVisible: !$data.isVisible,
@@ -49230,7 +49337,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-controls": "messages",
     "aria-selected": "false",
     tabindex: "-1"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Transliteration")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <li class=\"nav-item\">\n   <a class=\"nav-link\" data-bs-toggle=\"tab\" href=\"#data\" role=\"tab\">\n    <b>Overview</b>\n   </a>\n  </li> ")], -1 /* CACHED */)]))]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Transliteration")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <li class=\"nav-item\">\n     <a class=\"nav-link\" data-bs-toggle=\"tab\" href=\"#data\" role=\"tab\">\n      <b>Overview</b>\n     </a>\n    </li> ")], -1 /* CACHED */)]))]);
 }
 
 /***/ }),
@@ -50966,7 +51073,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.companion-hero[data-v-2b3c2c26] {\n    background: linear-gradient(145deg, #f4f9f7, #fdfcf8);\n    border: 1px solid rgba(11, 128, 111, 0.12);\n    border-radius: 28px;\n    padding: clamp(1.5rem, 4vw, 3rem);\n    margin: 2.5rem auto 1rem;\n    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);\n}\n.hero-inner[data-v-2b3c2c26] {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    gap: 2.5rem;\n}\n.hero-text[data-v-2b3c2c26] {\n    text-align: left;\n    max-width: 640px;\n}\n.hero-eyebrow[data-v-2b3c2c26] {\n    letter-spacing: 0.3em;\n    font-size: 0.78rem;\n    color: #1a5f7a;\n}\n[data-v-2b3c2c26] .hero-title {\n    color: #0f172a;\n    font-size: clamp(2.4rem, 5vw, 3.5rem);\n    margin-bottom: 1rem;\n}\n.hero-copy[data-v-2b3c2c26] {\n    color: #1f2933;\n    font-size: 1.1rem;\n    line-height: 1.8;\n    margin-bottom: 1.5rem;\n}\n.hero-visual[data-v-2b3c2c26] {\n    position: relative;\n    width: 280px;\n    aspect-ratio: 1 / 1;\n    align-items: center;\n    justify-content: center;\n}\n.hero-ring[data-v-2b3c2c26] {\n    position: absolute;\n    border-radius: 50%;\n    border: 1px solid rgba(11, 128, 111, 0.35);\n    box-shadow: 0 10px 25px rgba(11, 128, 111, 0.15);\n    animation: heroPulse-2b3c2c26 8s ease-in-out infinite;\n}\n.ring-1[data-v-2b3c2c26] {\n    width: 90%;\n    height: 90%;\n    animation-delay: 0s;\n}\n.ring-2[data-v-2b3c2c26] {\n    width: 70%;\n    height: 70%;\n    animation-delay: 2s;\n}\n.ring-3[data-v-2b3c2c26] {\n    width: 50%;\n    height: 50%;\n    animation-delay: 4s;\n    background: radial-gradient(circle, rgba(11, 128, 111, 0.1), transparent 65%);\n}\n@keyframes heroPulse-2b3c2c26 {\n0%,\n    100% {\n        transform: scale(1);\n        opacity: 0.95;\n}\n50% {\n        transform: scale(1.05);\n        opacity: 0.6;\n}\n}\n.selector-card[data-v-2b3c2c26] {\n    background: #ffffff;\n    border: 1px solid rgba(15, 23, 42, 0.08);\n    border-radius: 20px;\n    padding: 0.8rem;\n    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);\n}\n.selector-heading[data-v-2b3c2c26] {\n    margin-bottom: 0.75rem;\n}\n.field-helper[data-v-2b3c2c26] {\n    color: #5f6b7b;\n    font-size: 0.92rem;\n    margin-bottom: 0;\n}\n.selector-control[data-v-2b3c2c26] {\n    border-radius: 14px;\n    border: 1px solid rgba(49, 70, 67, 0.18);\n    padding: 0.5rem;\n    background: #f8fafc;\n}\n.ayah-scroll[data-v-2b3c2c26] {\n    overflow-y: auto;\n    cursor: pointer;\n    border: 1px solid rgba(49, 70, 67, 0.22);\n    border-radius: 18px;\n    max-height: 600px;\n    background: #ffffff;\n    padding: 0.25rem 0.5rem;\n}\n.ayah-item[data-v-2b3c2c26] {\n    padding: 0.85rem 1rem;\n    border-radius: 16px;\n    transition: background 0.2s ease, border 0.2s ease, transform 0.15s ease;\n    border: 1px solid transparent;\n    margin-bottom: 0.35rem;\n}\n.ayah-item[data-v-2b3c2c26]:hover,\n.ayah-item[data-v-2b3c2c26]:focus-within {\n    background: rgba(11, 128, 111, 0.05);\n    border-color: rgba(11, 128, 111, 0.35);\n}\n.ayah-item.selected[data-v-2b3c2c26] {\n    background: rgba(11, 128, 111, 0.12);\n    border-color: rgba(11, 128, 111, 0.45);\n    box-shadow: 0 10px 30px rgba(11, 128, 111, 0.15);\n}\n.ayah-label[data-v-2b3c2c26] {\n    display: flex;\n    align-items: center;\n    gap: 0.35rem;\n    font-size: 0.92rem;\n    color: #0b5d4b;\n    text-transform: uppercase;\n    letter-spacing: 0.05em;\n}\n.ayah-text[data-v-2b3c2c26] {\n    font-weight: 600;\n    color: #1f2a37;\n    line-height: 1.6;\n}\n@media (max-width: 991px) {\n.hero-inner[data-v-2b3c2c26] {\n        flex-direction: column;\n        text-align: center;\n}\n.hero-text[data-v-2b3c2c26] {\n        text-align: center;\n}\n.selector-card[data-v-2b3c2c26] {\n        padding: 1.25rem;\n}\n}\n@media (max-width: 576px) {\n.companion-hero[data-v-2b3c2c26] {\n        border-radius: 18px;\n        padding: 1.5rem;\n}\n.hero-copy[data-v-2b3c2c26] {\n        font-size: 1rem;\n}\n}\n.swipe-tip[data-v-2b3c2c26] {\n    background-color: #e7f1ff;\n    /* light blue */\n    border: 1px solid #b6d4fe;\n    /* blue border */\n    color: #0a58ca;\n    /* primary blue text */\n    border-radius: 8px;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n}\n.swipe-tip .btn-close[data-v-2b3c2c26] {\n    width: .25rem;\n    height: .25rem;\n    padding: .25rem;\n}\n.swipe-tip .icon-circle[data-v-2b3c2c26] {\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    width: 22px;\n    height: 22px;\n    border-radius: 50%;\n    background-color: #0a58ca;\n    color: #fff;\n    font-size: 12px;\n}\n.swipe-surface[data-v-2b3c2c26] {\n    touch-action: pan-y;\n    -webkit-tap-highlight-color: transparent;\n}\n\n/* Hint the compositor */\n.swipe-surface[data-v-2b3c2c26] {\n    will-change: transform;\n}\n\n/* Direction-aware verse transition */\n.swipe-next-enter-from[data-v-2b3c2c26] {\n    opacity: 0;\n    transform: translateX(24px);\n}\n.swipe-next-enter-active[data-v-2b3c2c26] {\n    transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-next-enter-to[data-v-2b3c2c26] {\n    opacity: 1;\n    transform: translateX(0);\n}\n.swipe-prev-enter-from[data-v-2b3c2c26] {\n    opacity: 0;\n    transform: translateX(-24px);\n}\n.swipe-prev-enter-active[data-v-2b3c2c26] {\n    transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-prev-enter-to[data-v-2b3c2c26] {\n    opacity: 1;\n    transform: translateX(0);\n}\n\n/* Swipe success notice */\n.swipe-notice[data-v-2b3c2c26] {\n    position: fixed;\n    left: 50%;\n    top: 80px;\n    transform: translateX(-50%);\n    background: rgba(15, 23, 42, 0.85);\n    color: #fff;\n    padding: 6px 10px;\n    border-radius: 999px;\n    font-size: 0.9rem;\n    display: inline-flex;\n    align-items: center;\n    gap: 6px;\n    pointer-events: none;\n    z-index: 1000;\n    animation: swipeNoticeFade-2b3c2c26 500ms ease both;\n}\n.swipe-notice.right i[data-v-2b3c2c26] {\n    transform: translateY(1px);\n}\n.swipe-notice.left i[data-v-2b3c2c26] {\n    transform: translateY(1px);\n}\n@keyframes swipeNoticeFade-2b3c2c26 {\nfrom {\n        opacity: 0;\n        transform: translate(-50%, -4px);\n}\nto {\n        opacity: 1;\n        transform: translate(-50%, 0);\n}\n}\n.next-step-card[data-v-2b3c2c26] {\n    position: relative;\n}\n.next-step-close[data-v-2b3c2c26] {\n    position: absolute;\n    top: 12px;\n    right: 12px;\n    filter: invert(35%) sepia(16%) saturate(640%) hue-rotate(133deg) brightness(94%) contrast(91%);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.companion-hero[data-v-2b3c2c26] {\n    background: linear-gradient(145deg, #f4f9f7, #fdfcf8);\n    border: 1px solid rgba(11, 128, 111, 0.12);\n    border-radius: 28px;\n    padding: clamp(1.5rem, 4vw, 3rem);\n    margin: 2.5rem auto 1rem;\n    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);\n}\n.hero-inner[data-v-2b3c2c26] {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    gap: 2.5rem;\n}\n.hero-text[data-v-2b3c2c26] {\n    text-align: left;\n    max-width: 640px;\n}\n.hero-eyebrow[data-v-2b3c2c26] {\n    letter-spacing: 0.3em;\n    font-size: 0.78rem;\n    color: #1a5f7a;\n}\n[data-v-2b3c2c26] .hero-title {\n    color: #0f172a;\n    font-size: clamp(2.4rem, 5vw, 3.5rem);\n    margin-bottom: 1rem;\n}\n.hero-copy[data-v-2b3c2c26] {\n    color: #1f2933;\n    font-size: 1.1rem;\n    line-height: 1.8;\n    margin-bottom: 1.5rem;\n}\n.hero-visual[data-v-2b3c2c26] {\n    position: relative;\n    width: 280px;\n    aspect-ratio: 1 / 1;\n    align-items: center;\n    justify-content: center;\n}\n.hero-ring[data-v-2b3c2c26] {\n    position: absolute;\n    border-radius: 50%;\n    border: 1px solid rgba(11, 128, 111, 0.35);\n    box-shadow: 0 10px 25px rgba(11, 128, 111, 0.15);\n    animation: heroPulse-2b3c2c26 8s ease-in-out infinite;\n}\n.ring-1[data-v-2b3c2c26] {\n    width: 90%;\n    height: 90%;\n    animation-delay: 0s;\n}\n.ring-2[data-v-2b3c2c26] {\n    width: 70%;\n    height: 70%;\n    animation-delay: 2s;\n}\n.ring-3[data-v-2b3c2c26] {\n    width: 50%;\n    height: 50%;\n    animation-delay: 4s;\n    background: radial-gradient(circle, rgba(11, 128, 111, 0.1), transparent 65%);\n}\n@keyframes heroPulse-2b3c2c26 {\n0%,\n    100% {\n        transform: scale(1);\n        opacity: 0.95;\n}\n50% {\n        transform: scale(1.05);\n        opacity: 0.6;\n}\n}\n.selector-card[data-v-2b3c2c26] {\n    background: transparent !important;\n    border-radius: 20px;\n    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);\n}\n.selector-heading[data-v-2b3c2c26] {\n    margin-bottom: 0.75rem;\n}\n.field-helper[data-v-2b3c2c26] {\n    color: #5f6b7b;\n    font-size: 0.92rem;\n    margin-bottom: 0;\n}\n.selector-control[data-v-2b3c2c26] {\n    border-radius: 20px;\n    border: 1px solid rgba(49, 70, 67, 0.18);\n    padding: 0.5rem;\n    /* background: #f8fafc; */\n}\n.ayah-scroll[data-v-2b3c2c26] {\n    overflow-y: auto;\n    cursor: pointer;\n    border: 1px solid rgba(49, 70, 67, 0.22);\n    border-radius: 18px;\n    max-height: 600px;\n    background: #ffffff;\n    padding: 0.25rem 0.5rem;\n}\n.ayah-item[data-v-2b3c2c26] {\n    padding: 0.85rem 1rem;\n    padding-bottom: 2px;\n    border-radius: 16px;\n    transition: background 0.2s ease, border 0.2s ease, transform 0.15s ease;\n    border: 1px solid transparent;\n    margin-bottom: 0.35rem;\n}\n.ayah-item[data-v-2b3c2c26]:hover,\n.ayah-item[data-v-2b3c2c26]:focus-within {\n    background: rgba(11, 128, 111, 0.05);\n    border-color: rgba(11, 128, 111, 0.35);\n}\n.ayah-item.selected[data-v-2b3c2c26] {\n    background: rgba(11, 128, 111, 0.12);\n    border-color: rgba(11, 128, 111, 0.45);\n    box-shadow: 0 10px 30px rgba(11, 128, 111, 0.15);\n}\n.ayah-label[data-v-2b3c2c26] {\n    display: flex;\n    align-items: center;\n    gap: 0.35rem;\n    font-size: 0.92rem;\n    color: #0b5d4b;\n    text-transform: uppercase;\n    letter-spacing: 0.05em;\n}\n.ayah-text[data-v-2b3c2c26] {\n    font-weight: 600;\n    color: #1f2a37;\n    line-height: 1.6;\n}\n@media (max-width: 991px) {\n.hero-inner[data-v-2b3c2c26] {\n        flex-direction: column;\n        text-align: center;\n}\n.hero-text[data-v-2b3c2c26] {\n        text-align: center;\n}\n.selector-card[data-v-2b3c2c26] {\n        padding: 1.25rem;\n}\n}\n@media (max-width: 576px) {\n.companion-hero[data-v-2b3c2c26] {\n        border-radius: 18px;\n        padding: 1.5rem;\n}\n.hero-copy[data-v-2b3c2c26] {\n        font-size: 1rem;\n}\n}\n.swipe-tip[data-v-2b3c2c26] {\n    background-color: #e7f1ff;\n    /* light blue */\n    border: 1px solid #b6d4fe;\n    /* blue border */\n    color: #0a58ca;\n    /* primary blue text */\n    border-radius: 8px;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n}\n.swipe-tip .btn-close[data-v-2b3c2c26] {\n    width: .25rem;\n    height: .25rem;\n    padding: .25rem;\n}\n.swipe-tip .icon-circle[data-v-2b3c2c26] {\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    width: 22px;\n    height: 22px;\n    border-radius: 50%;\n    background-color: #0a58ca;\n    color: #fff;\n    font-size: 12px;\n}\n.swipe-surface[data-v-2b3c2c26] {\n    touch-action: pan-y;\n    -webkit-tap-highlight-color: transparent;\n}\n\n/* Hint the compositor */\n.swipe-surface[data-v-2b3c2c26] {\n    will-change: transform;\n}\n\n/* Direction-aware verse transition */\n.swipe-next-enter-from[data-v-2b3c2c26] {\n    opacity: 0;\n    transform: translateX(24px);\n}\n.swipe-next-enter-active[data-v-2b3c2c26] {\n    transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-next-enter-to[data-v-2b3c2c26] {\n    opacity: 1;\n    transform: translateX(0);\n}\n.swipe-prev-enter-from[data-v-2b3c2c26] {\n    opacity: 0;\n    transform: translateX(-24px);\n}\n.swipe-prev-enter-active[data-v-2b3c2c26] {\n    transition: transform 160ms ease, opacity 160ms ease;\n}\n.swipe-prev-enter-to[data-v-2b3c2c26] {\n    opacity: 1;\n    transform: translateX(0);\n}\n\n/* Swipe success notice */\n.swipe-notice[data-v-2b3c2c26] {\n    position: fixed;\n    left: 50%;\n    top: 80px;\n    transform: translateX(-50%);\n    background: rgba(15, 23, 42, 0.85);\n    color: #fff;\n    padding: 6px 10px;\n    border-radius: 999px;\n    font-size: 0.9rem;\n    display: inline-flex;\n    align-items: center;\n    gap: 6px;\n    pointer-events: none;\n    z-index: 1000;\n    animation: swipeNoticeFade-2b3c2c26 500ms ease both;\n}\n.swipe-notice.right i[data-v-2b3c2c26] {\n    transform: translateY(1px);\n}\n.swipe-notice.left i[data-v-2b3c2c26] {\n    transform: translateY(1px);\n}\n@keyframes swipeNoticeFade-2b3c2c26 {\nfrom {\n        opacity: 0;\n        transform: translate(-50%, -4px);\n}\nto {\n        opacity: 1;\n        transform: translate(-50%, 0);\n}\n}\n.next-step-card[data-v-2b3c2c26] {\n    position: relative;\n}\n.next-step-close[data-v-2b3c2c26] {\n    position: absolute;\n    top: 12px;\n    right: 12px;\n    filter: invert(35%) sepia(16%) saturate(640%) hue-rotate(133deg) brightness(94%) contrast(91%);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -52313,7 +52420,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.nav-item .nav-link[data-v-0ef0cd4a],\n.nav-tabs .nav-link[data-v-0ef0cd4a] {\n transition: all 300ms ease 0s;\n}\n.nav-tabs>.nav-item>.nav-link[data-v-0ef0cd4a] {\n color: #4b5563;\n margin: 0;\n margin-right: 5px;\n background-color: transparent;\n border: 1px solid transparent;\n border-radius: 20px;\n font-size: 16px;\n line-height: 1.5;\n}\n.nav-tabs>.nav-item>.nav-link[data-v-0ef0cd4a]:hover {\n background-color: transparent;\n}\n.nav-tabs>.nav-item>.nav-link.active[data-v-0ef0cd4a] {\n background-color: rgba(0, 107, 95, 0.2);\n color: rgb(7, 6, 6);\n border-radius:20px;\n padding-bottom: 8%;\n box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;\n}\n.nav-tabs>.nav-item>.nav-link i.now-ui-icons[data-v-0ef0cd4a] {\n font-size: 16px;\n position: relative;\n top: 1px;\n margin-right: 3px;\n}\n.nav-tabs.nav-tabs-neutral>.nav-item>.nav-link[data-v-0ef0cd4a] {\n color: #ffffff;\n}\n.nav-tabs.nav-tabs-neutral>.nav-item>.nav-link.active[data-v-0ef0cd4a] {\n background-color: rgba(255, 255, 255, 0.2);\n color: #ffffff;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.nav-item .nav-link[data-v-0ef0cd4a],\n  .nav-tabs .nav-link[data-v-0ef0cd4a] {\n   transition: all 300ms ease 0s;\n}\n.nav-tabs>.nav-item>.nav-link[data-v-0ef0cd4a] {\n   color: #4b5563;\n   margin: 0;\n   margin-right: 5px;\n   background-color: transparent;\n   border: 1px solid transparent;\n   font-size: 16px;\n   line-height: 1.5;\n}\n.nav-tabs>.nav-item>.nav-link[data-v-0ef0cd4a]:hover {\n   background-color: transparent;\n}\n.nav-tabs>.nav-item>.nav-link.active[data-v-0ef0cd4a] {\n   background-color: rgba(0, 107, 95, 0.2);\n   color: rgb(7, 6, 6);\n   border-radius:8px;\n   padding-bottom: 8%;\n   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;\n}\n.nav-tabs>.nav-item>.nav-link i.now-ui-icons[data-v-0ef0cd4a] {\n   font-size: 16px;\n   position: relative;\n   top: 1px;\n   margin-right: 3px;\n}\n.nav-tabs.nav-tabs-neutral>.nav-item>.nav-link[data-v-0ef0cd4a] {\n   color: #ffffff;\n}\n.nav-tabs.nav-tabs-neutral>.nav-item>.nav-link.active[data-v-0ef0cd4a] {\n   background-color: rgba(255, 255, 255, 0.2);\n   color: #ffffff;\n}\n  ", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -52529,7 +52636,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "/* ===== IMPROVED ACCESSIBLE UI STYLES ===== */\n\n/* Base App Styles */\n.quran-app[data-v-2b3c2c26] {\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n    line-height: 1.6;\n    color: #2c3e50;\n    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);\n    min-height: 100vh;\n}\n\n/* Header Section */\n.app-header[data-v-2b3c2c26] {\n    background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);\n    color: white;\n    padding: 2rem 0;\n    text-align: center;\n    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);\n}\n.app-title[data-v-2b3c2c26] {\n    font-size: 2.5rem;\n    font-weight: 700;\n    margin-bottom: 0.5rem;\n    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);\n}\n.app-subtitle[data-v-2b3c2c26] {\n    font-size: 1.2rem;\n    opacity: 0.9;\n    max-width: 800px;\n    margin: 0 auto;\n    line-height: 1.5;\n}\n\n/* Main Content */\n.main-content[data-v-2b3c2c26] {\n    padding: 2rem 0;\n}\n\n/* Search Section */\n.search-section[data-v-2b3c2c26] {\n    background: white;\n    border-radius: 15px;\n    padding: 2rem;\n    margin-bottom: 2rem;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n}\n.search-container[data-v-2b3c2c26] {\n    max-width: 800px;\n    margin: 0 auto;\n    text-align: center;\n}\n.section-title[data-v-2b3c2c26] {\n    font-size: 1.8rem;\n    font-weight: 600;\n    color: #2c3e50;\n    margin-bottom: 0.5rem;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    gap: 0.5rem;\n}\n.section-title i[data-v-2b3c2c26] {\n    color: #228B22;\n    font-size: 1.5rem;\n}\n.section-description[data-v-2b3c2c26] {\n    font-size: 1.1rem;\n    color: #7f8c8d;\n    margin-bottom: 1.5rem;\n}\n\n/* Quran Interface */\n.quran-interface[data-v-2b3c2c26] {\n    max-width: 1400px;\n    margin: 0 auto;\n}\n\n/* Selection Panel (Left Side) */\n.selection-panel[data-v-2b3c2c26] {\n    background: white;\n    border-radius: 15px;\n    padding: 1.5rem;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n    height: -moz-fit-content;\n    height: fit-content;\n    position: sticky;\n    top: 2rem;\n}\n.selection-section[data-v-2b3c2c26] {\n    margin-bottom: 2rem;\n}\n.selection-section[data-v-2b3c2c26]:last-child {\n    margin-bottom: 0;\n}\n.panel-title[data-v-2b3c2c26] {\n    font-size: 1.4rem;\n    font-weight: 600;\n    color: #2c3e50;\n    margin-bottom: 1rem;\n    display: flex;\n    align-items: center;\n    gap: 0.5rem;\n    padding-bottom: 0.5rem;\n    border-bottom: 2px solid #ecf0f1;\n}\n.panel-title i[data-v-2b3c2c26] {\n    color: #228B22;\n    font-size: 1.2rem;\n}\n.selection-content[data-v-2b3c2c26] {\n    margin-top: 1rem;\n}\n\n/* Surah Dropdown */\n.surah-dropdown[data-v-2b3c2c26] {\n    width: 100%;\n}\n.surah-dropdown .form-select[data-v-2b3c2c26] {\n    font-size: 1.1rem;\n    padding: 0.75rem 1rem;\n    border: 2px solid #ecf0f1;\n    border-radius: 10px;\n    background-color: #f8f9fa;\n    transition: all 0.3s ease;\n}\n.surah-dropdown .form-select[data-v-2b3c2c26]:focus {\n    border-color: #228B22;\n    box-shadow: 0 0 0 0.2rem rgba(34, 139, 34, 0.25);\n    background-color: white;\n}\n\n/* Verse List */\n.verse-list-container[data-v-2b3c2c26] {\n    margin-top: 1rem;\n}\n.verse-list[data-v-2b3c2c26] {\n    border: 2px solid #ecf0f1;\n    border-radius: 10px;\n    overflow: hidden;\n    background: white;\n}\n.verse-list-header[data-v-2b3c2c26] {\n    background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);\n    color: white;\n    padding: 0.75rem 1rem;\n    font-weight: 600;\n    text-align: center;\n}\n.verse-count[data-v-2b3c2c26] {\n    font-size: 1rem;\n}\n.verse-scroll-container[data-v-2b3c2c26] {\n    max-height: 500px;\n    overflow-y: auto;\n    scrollbar-width: thin;\n    scrollbar-color: #228B22 #ecf0f1;\n}\n.verse-scroll-container[data-v-2b3c2c26]::-webkit-scrollbar {\n    width: 8px;\n}\n.verse-scroll-container[data-v-2b3c2c26]::-webkit-scrollbar-track {\n    background: #ecf0f1;\n}\n.verse-scroll-container[data-v-2b3c2c26]::-webkit-scrollbar-thumb {\n    background: #228B22;\n    border-radius: 4px;\n}\n.verse-list-items[data-v-2b3c2c26] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n}\n.verse-item[data-v-2b3c2c26] {\n    padding: 1rem;\n    border-bottom: 1px solid #ecf0f1;\n    cursor: pointer;\n    transition: all 0.3s ease;\n    display: flex;\n    align-items: center;\n    gap: 1rem;\n}\n.verse-item[data-v-2b3c2c26]:hover {\n    background-color: #f8f9fa;\n    transform: translateX(5px);\n}\n.verse-item-selected[data-v-2b3c2c26] {\n    background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);\n    color: white;\n    box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);\n}\n.verse-item-selected[data-v-2b3c2c26]:hover {\n    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);\n}\n.verse-number[data-v-2b3c2c26] {\n    background: rgba(255, 255, 255, 0.2);\n    color: #228B22;\n    font-weight: 600;\n    padding: 0.25rem 0.5rem;\n    border-radius: 20px;\n    font-size: 0.9rem;\n    min-width: 40px;\n    text-align: center;\n}\n.verse-item-selected .verse-number[data-v-2b3c2c26] {\n    background: rgba(0, 0, 0, 0.35);\n    color: #ffffff;\n}\n.verse-text[data-v-2b3c2c26] {\n    flex: 1;\n    font-size: 1rem;\n    line-height: 1.6;\n    text-align: right;\n}\n.ayah-list[data-v-2b3c2c26] {\n    list-style: none;\n    margin: 0;\n    padding: 12px 0 6px;\n}\n.ayah-item-heading[data-v-2b3c2c26] {\n    display: flex;\n    justify-content: flex-end;\n    font-weight: 600;\n    margin-bottom: 0.4rem;\n    gap: 0.35rem;\n}\n.ayah-item-text[data-v-2b3c2c26] {\n    margin-bottom: 0;\n}\n\n/* Content Panel (Right Side) */\n.content-panel[data-v-2b3c2c26] {\n    background: white;\n    border-radius: 15px;\n    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n    overflow: hidden;\n}\n.content-header[data-v-2b3c2c26] {\n    background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);\n    color: white;\n    padding: 1.5rem;\n    border-bottom: 1px solid #ecf0f1;\n}\n.content-body[data-v-2b3c2c26] {\n    padding: 1.5rem;\n}\n\n/* Content Sections */\n.content-section[data-v-2b3c2c26] {\n    margin-bottom: 2rem;\n}\n.content-section[data-v-2b3c2c26]:last-child {\n    margin-bottom: 0;\n}\n\n/* Section Header */\n.section-header[data-v-2b3c2c26] {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    margin-bottom: 1.5rem;\n    padding: 1rem;\n    background: #f8f9fa;\n    border-radius: 10px;\n    border: 1px solid #ecf0f1;\n}\n\n/* Navigation Controls */\n.navigation-controls[data-v-2b3c2c26] {\n    display: flex;\n    gap: 0.5rem;\n    flex-wrap: wrap;\n}\n.nav-btn[data-v-2b3c2c26] {\n    display: flex;\n    align-items: center;\n    gap: 0.5rem;\n    padding: 0.75rem 1rem;\n    background: white;\n    border: 2px solid #ecf0f1;\n    border-radius: 8px;\n    color: #2c3e50;\n    font-weight: 500;\n    transition: all 0.3s ease;\n    cursor: pointer;\n    font-size: 0.9rem;\n}\n.nav-btn[data-v-2b3c2c26]:hover {\n    background: #228B22;\n    color: white;\n    border-color: #228B22;\n    transform: translateY(-2px);\n    box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);\n}\n.nav-btn i[data-v-2b3c2c26] {\n    font-size: 1.1rem;\n}\n\n/* Action Tools */\n.action-tools[data-v-2b3c2c26] {\n    display: flex;\n    gap: 0.5rem;\n}\n.tool-btn[data-v-2b3c2c26] {\n    display: flex;\n    align-items: center;\n    gap: 0.5rem;\n    padding: 0.75rem 1rem;\n    background: #228B22;\n    border: none;\n    border-radius: 8px;\n    color: white;\n    font-weight: 500;\n    transition: all 0.3s ease;\n    cursor: pointer;\n    font-size: 0.9rem;\n}\n.tool-btn[data-v-2b3c2c26]:hover {\n    background: #5a6fd8;\n    transform: translateY(-2px);\n    box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);\n}\n\n/* Tools Panel */\n.tools-panel[data-v-2b3c2c26] {\n    background: #f8f9fa;\n    border: 1px solid #ecf0f1;\n    border-radius: 10px;\n    padding: 1.5rem;\n    margin-bottom: 1.5rem;\n}\n.tools-grid[data-v-2b3c2c26] {\n    display: grid;\n    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n    gap: 1rem;\n}\n.tool-item[data-v-2b3c2c26] {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    gap: 0.5rem;\n    padding: 1rem;\n    background: white;\n    border: 2px solid #ecf0f1;\n    border-radius: 10px;\n    color: #2c3e50;\n    font-weight: 500;\n    transition: all 0.3s ease;\n    cursor: pointer;\n    text-decoration: none;\n}\n.tool-item[data-v-2b3c2c26]:hover {\n    background: #228B22;\n    color: white;\n    border-color: #228B22;\n    transform: translateY(-3px);\n    box-shadow: 0 6px 20px rgba(34, 139, 34, 0.3);\n}\n.tool-item i[data-v-2b3c2c26] {\n    font-size: 1.5rem;\n}\n.tool-item span[data-v-2b3c2c26] {\n    font-size: 0.9rem;\n    text-align: center;\n}\n\n/* Mobile Navigation */\n.mobile-navigation[data-v-2b3c2c26] {\n    margin-bottom: 1.5rem;\n}\n.mobile-nav-controls[data-v-2b3c2c26] {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    background: #f8f9fa;\n    border: 1px solid #ecf0f1;\n    border-radius: 10px;\n    padding: 1rem;\n}\n.mobile-nav-btn[data-v-2b3c2c26] {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 50px;\n    height: 50px;\n    background: white;\n    border: 2px solid #ecf0f1;\n    border-radius: 50%;\n    color: #2c3e50;\n    transition: all 0.3s ease;\n    cursor: pointer;\n}\n.mobile-nav-btn[data-v-2b3c2c26]:hover {\n    background: #228B22;\n    color: white;\n    border-color: #228B22;\n    transform: scale(1.1);\n}\n.mobile-nav-btn.bookmark-btn[data-v-2b3c2c26] {\n    background: #e74c3c;\n    color: white;\n    border-color: #e74c3c;\n}\n.mobile-nav-btn.bookmark-btn[data-v-2b3c2c26]:hover {\n    background: #c0392b;\n    border-color: #c0392b;\n}\n.mobile-nav-btn i[data-v-2b3c2c26] {\n    font-size: 1.2rem;\n}\n\n/* Content Display */\n.content-display[data-v-2b3c2c26] {\n    background: white;\n    border: 1px solid #ecf0f1;\n    border-radius: 10px;\n    padding: 1.5rem;\n    margin-bottom: 1.5rem;\n}\n\n/* Mobile Tools */\n.mobile-tools[data-v-2b3c2c26] {\n    margin-bottom: 1.5rem;\n}\n.mobile-tools-content[data-v-2b3c2c26] {\n    background: #f8f9fa;\n    border: 1px solid #ecf0f1;\n    border-radius: 10px;\n    padding: 1rem;\n}\n\n/* Responsive Design */\n@media (max-width: 991.98px) {\n.app-title[data-v-2b3c2c26] {\n        font-size: 2rem;\n}\n.app-subtitle[data-v-2b3c2c26] {\n        font-size: 1rem;\n}\n.section-title[data-v-2b3c2c26] {\n        font-size: 1.5rem;\n}\n.panel-title[data-v-2b3c2c26] {\n        font-size: 1.2rem;\n}\n.selection-panel[data-v-2b3c2c26] {\n        position: static;\n        margin-bottom: 2rem;\n}\n.navigation-controls[data-v-2b3c2c26] {\n        justify-content: center;\n}\n.nav-btn[data-v-2b3c2c26] {\n        padding: 0.5rem 0.75rem;\n        font-size: 0.8rem;\n}\n.nav-btn span[data-v-2b3c2c26] {\n        display: none;\n}\n.tools-grid[data-v-2b3c2c26] {\n        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));\n        gap: 0.75rem;\n}\n.tool-item[data-v-2b3c2c26] {\n        padding: 0.75rem;\n}\n.tool-item i[data-v-2b3c2c26] {\n        font-size: 1.2rem;\n}\n.tool-item span[data-v-2b3c2c26] {\n        font-size: 0.8rem;\n}\n}\n@media (max-width: 767.98px) {\n.app-header[data-v-2b3c2c26] {\n        padding: 1.5rem 0;\n}\n.app-title[data-v-2b3c2c26] {\n        font-size: 1.8rem;\n}\n.main-content[data-v-2b3c2c26] {\n        padding: 1rem 0;\n}\n.search-section[data-v-2b3c2c26] {\n        padding: 1.5rem;\n        margin-bottom: 1.5rem;\n}\n.selection-panel[data-v-2b3c2c26] {\n        padding: 1rem;\n}\n.content-panel[data-v-2b3c2c26] {\n        margin-top: 1rem;\n}\n.content-header[data-v-2b3c2c26] {\n        padding: 1rem;\n}\n.content-body[data-v-2b3c2c26] {\n        padding: 1rem;\n}\n.section-header[data-v-2b3c2c26] {\n        flex-direction: column;\n        gap: 1rem;\n        align-items: stretch;\n}\n.navigation-controls[data-v-2b3c2c26] {\n        justify-content: space-between;\n}\n.action-tools[data-v-2b3c2c26] {\n        justify-content: center;\n}\n.mobile-nav-controls[data-v-2b3c2c26] {\n        padding: 0.75rem;\n}\n.mobile-nav-btn[data-v-2b3c2c26] {\n        width: 45px;\n        height: 45px;\n}\n.mobile-nav-btn i[data-v-2b3c2c26] {\n        font-size: 1rem;\n}\n}\n@media (max-width: 575.98px) {\n.app-title[data-v-2b3c2c26] {\n        font-size: 1.5rem;\n}\n.app-subtitle[data-v-2b3c2c26] {\n        font-size: 0.9rem;\n}\n.section-title[data-v-2b3c2c26] {\n        font-size: 1.3rem;\n}\n.panel-title[data-v-2b3c2c26] {\n        font-size: 1.1rem;\n}\n.verse-item[data-v-2b3c2c26] {\n        padding: 0.75rem;\n        gap: 0.75rem;\n}\n.verse-text[data-v-2b3c2c26] {\n        font-size: 0.9rem;\n}\n.tools-grid[data-v-2b3c2c26] {\n        grid-template-columns: repeat(2, 1fr);\n}\n.mobile-nav-controls[data-v-2b3c2c26] {\n        gap: 0.5rem;\n}\n.mobile-nav-btn[data-v-2b3c2c26] {\n        width: 40px;\n        height: 40px;\n}\n}\n\n/* Accessibility Improvements */\n@media (prefers-reduced-motion: reduce) {\n[data-v-2b3c2c26] {\n        animation-duration: 0.01ms !important;\n        animation-iteration-count: 1 !important;\n        transition-duration: 0.01ms !important;\n}\n}\n\n/* High Contrast Mode */\n@media (prefers-contrast: high) {\n.quran-app[data-v-2b3c2c26] {\n        background: white;\n}\n.app-header[data-v-2b3c2c26] {\n        background: black;\n}\n.selection-panel[data-v-2b3c2c26],\n    .content-panel[data-v-2b3c2c26] {\n        border: 2px solid black;\n}\n.verse-item-selected[data-v-2b3c2c26] {\n        background: black;\n        color: white;\n}\n.nav-btn[data-v-2b3c2c26]:hover,\n    .tool-btn[data-v-2b3c2c26]:hover {\n        background: black;\n        color: white;\n}\n}\n\n/* Focus Styles for Keyboard Navigation */\n.nav-btn[data-v-2b3c2c26]:focus,\n.tool-btn[data-v-2b3c2c26]:focus,\n.tool-item[data-v-2b3c2c26]:focus,\n.mobile-nav-btn[data-v-2b3c2c26]:focus,\n.verse-item[data-v-2b3c2c26]:focus {\n    outline: 3px solid #228B22;\n    outline-offset: 2px;\n}\n\n/* Print Styles */\n@media print {\n.app-header[data-v-2b3c2c26],\n    .search-section[data-v-2b3c2c26],\n    .selection-panel[data-v-2b3c2c26],\n    .section-header[data-v-2b3c2c26],\n    .tools-panel[data-v-2b3c2c26],\n    .mobile-navigation[data-v-2b3c2c26],\n    .mobile-tools[data-v-2b3c2c26] {\n        display: none !important;\n}\n.content-panel[data-v-2b3c2c26] {\n        box-shadow: none;\n        border: 1px solid #ccc;\n}\n.content-display[data-v-2b3c2c26] {\n        border: none;\n        padding: 0;\n}\n}\n\n/* ===== EXISTING STYLES (KEPT FOR COMPATIBILITY) ===== */\n.full-screen[data-v-2b3c2c26][data-v-2b3c2c26] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100vw;\n  height: 100vh;\n  z-index: 9999;\n  background: #fff;\n  padding: 100px;\n  overflow: auto;\n}\n.desktop-hidden[data-v-2b3c2c26] {\n  display: block;\n}\n@media (min-width: 768px) {\n.desktop-hidden[data-v-2b3c2c26] {\n    display: none;\n}\n}\n.hide-unwanted-elements .dropdown[data-v-2b3c2c26],\n.hide-unwanted-elements .custom-icon-increase[data-v-2b3c2c26],\n.hide-unwanted-elements .custom-icon-decrease[data-v-2b3c2c26],\n.hide-unwanted-elements .settings[data-v-2b3c2c26],\n.hide-unwanted-elements .custom-icon-play[data-v-2b3c2c26],\n.hide-unwanted-elements .summary[data-v-2b3c2c26],\n.hide-unwanted-elements .count[data-v-2b3c2c26] {\n  display: none !important;\n}\n@media (min-width: 768px) {\n.ayah-dropdown-hidden-on-desktop[data-v-2b3c2c26] {\n    display: none;\n}\n}\n.desktop-icon[data-v-2b3c2c26]:hover {\n  color: rgb(53, 163, 139);\n  transition: color 0.3s ease;\n}\n.custom-switch[data-v-2b3c2c26] {\n  position: relative;\n  display: inline-block;\n  width: 70px;\n  height: 20px;\n  border-radius: 50px;\n  background: rgb(13, 182, 145) !important;\n  transition: background-color 0.3s ease;\n}\n.custom-prev-ayah[data-v-2b3c2c26]:hover,\n.custom-last-verse[data-v-2b3c2c26]:hover {\n  color: black;\n  transition: color 0.3s ease;\n}\n.result-item[data-v-2b3c2c26] {\n  padding: 10px;\n  border-bottom: 1px solid #ccc;\n}\n.button-33[data-v-2b3c2c26] {\n  background-color: rgba(0, 191, 166, 0.9);\n  color: rgb(255, 255, 255);\n  border: 1px solid rgba(0, 191, 166);\n}\n.hide-on-desktop[data-v-2b3c2c26] {\n  display: none;\n}\n.custom-offcanvas[data-v-2b3c2c26] {\n  background: rgb(13, 182, 145) !important;\n  color: white;\n  width: 30%;\n}\n.custom-offcanvas .result-item[data-v-2b3c2c26] {\n  margin-bottom: 15px;\n}\n@media (max-width: 767px) {\n.hide-on-mobile[data-v-2b3c2c26] {\n    display: none;\n}\n}\n@media (max-width: 767.98px) {\n.hide-on-mobile-tablet[data-v-2b3c2c26] {\n    display: none !important;\n}\n.show-on-desktop[data-v-2b3c2c26] {\n    display: block !important;\n}\n.custom-form[data-v-2b3c2c26] {\n    border-radius: 5px;\n    overflow-x: hidden;\n}\n.tab-content[data-v-2b3c2c26] {\n    overflow-x: hidden;\n}\n.icon-container[data-v-2b3c2c26] {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    width: 100%;\n}\n.icon-container i[data-v-2b3c2c26] {\n    flex: 1;\n    text-align: center;\n}\n.dropdown[data-v-2b3c2c26] {\n    flex: 1;\n    text-align: center;\n}\n}\n.button-36[data-v-2b3c2c26] {\n  background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  border-radius: 8px;\n  border-style: none;\n  box-sizing: border-box;\n  color: #FFFFFF;\n  cursor: pointer;\n  flex-shrink: 0;\n  font-family: \"Inter UI\",\"SF Pro Display\",-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen,Ubuntu,Cantarell,\"Open Sans\",\"Helvetica Neue\",sans-serif;\n  padding: 0 1.6rem;\n  text-align: center;\n  text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;\n  transition: all .5s;\n  -moz-user-select: none;\n       user-select: none;\n  -webkit-user-select: none;\n  touch-action: manipulation;\n}\n.button-36[data-v-2b3c2c26]:hover {\n  box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;\n  transition-duration: .1s;\n}\n@media (min-width: 768px) {\n.button-36[data-v-2b3c2c26] {\n    padding: 0 2.6rem;\n}\n}\n.dropdown-toggle[data-v-2b3c2c26]::after {\n  display: none !important;\n}\n.content-container[data-v-2b3c2c26] {\n  padding: 20px;\n}\n.theme-selector[data-v-2b3c2c26] {\n  margin-bottom: 20px;\n}\n.dropdown-menu[data-v-2b3c2c26] {\n  position: absolute;\n  background: #fff;\n  border: 1px solid #ccc;\n  padding: 10px;\n  z-index: 1000;\n}\n.flex-container i[data-v-2b3c2c26] {\n  color: rgb(0, 191, 166);\n}\n.icon-container[data-v-2b3c2c26] {\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n  flex-wrap: nowrap;\n}\n.verse-nav-icon[data-v-2b3c2c26] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 48px;\n  min-height: 48px;\n  border-radius: 999px;\n  line-height: 1;\n  transition: transform 180ms ease, color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;\n  will-change: transform;\n}\n.verse-nav-icon[data-v-2b3c2c26]:hover,\n.verse-nav-icon[data-v-2b3c2c26]:focus-visible {\n  color: #0b806f;\n  transform: translateY(-2px) scale(1.05);\n  background-color: rgba(11, 128, 111, 0.08);\n  box-shadow: 0 8px 20px rgba(11, 128, 111, 0.18);\n}\n.verse-nav-icon[data-v-2b3c2c26]:focus-visible {\n  outline: none;\n  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.35), 0 8px 20px rgba(11, 128, 111, 0.18);\n}\n.verse-nav-icon[data-v-2b3c2c26]:active {\n  transform: scale(0.94);\n  background-color: rgba(11, 128, 111, 0.16);\n}\n@media (hover: none) {\n.verse-nav-icon[data-v-2b3c2c26]:hover {\n    transform: none;\n    box-shadow: none;\n    background-color: transparent;\n}\n.verse-nav-icon[data-v-2b3c2c26]:active {\n    transform: scale(0.97);\n}\n}\n@media (prefers-reduced-motion: reduce) {\n.verse-nav-icon[data-v-2b3c2c26] {\n    transition: none;\n}\n}\n.icon-row i[data-v-2b3c2c26] {\n  color: rgb(0, 191, 166);\n  cursor: pointer;\n  font-size: 1.5rem;\n}\n.mobile-only[data-v-2b3c2c26] {\n  display: none;\n}\n@media (max-width: 576px) {\n.flex-container[data-v-2b3c2c26] {\n    flex-direction: column;\n}\n.icon-row[data-v-2b3c2c26] {\n    flex-direction: column;\n}\n.icon-row i[data-v-2b3c2c26] {\n    margin: 5px 0;\n}\n.custom-offcanvas[data-v-2b3c2c26] {\n    width: 100%;\n}\n}\n@media (max-width: 600px) {\n.container.text-right[data-v-2b3c2c26],\n  .container.text-left[data-v-2b3c2c26] {\n    text-align: center !important;\n}\n}\n@media screen and (min-width: 1024px) {\n.hide-on-full-screen[data-v-2b3c2c26] {\n    display: none;\n}\n}\n@media screen and (max-width: 768px) {\n.full-screen[data-v-2b3c2c26][data-v-2b3c2c26] {\n    padding: 20px;\n}\n.mobile-only[data-v-2b3c2c26] {\n    display: block;\n}\n.hide-on-full-screen[data-v-2b3c2c26] {\n    display: block;\n}\n.hide-on-tablet[data-v-2b3c2c26] {\n    display: none;\n}\n.container.text-right[data-v-2b3c2c26],\n  .container.text-left[data-v-2b3c2c26] {\n    text-align: center !important;\n}\n.hide-on-mobile[data-v-2b3c2c26] {\n    display: none;\n}\n.custom-dropdown[data-v-2b3c2c26] {\n    width: 100%;\n    margin-bottom: 10px;\n}\n}\naudio.custom-audio[data-v-2b3c2c26] {\n  width: 100%;\n  height: 40px;\n  border-radius: 20px;\n  background: linear-gradient(90deg, #228B22 0%, #1a6b1a 100%);\n  border: none;\n  outline: none;\n  box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);\n}\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-panel {\n  background: transparent;\n}\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-play-button,\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-pause-button {\n  background-color: white;\n  border-radius: 50%;\n  margin: 0 5px;\n}\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-timeline-container {\n  background: rgba(255, 255, 255, 0.3);\n}\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-current-time-display,\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-time-remaining-display {\n  color: white;\n  font-weight: bold;\n}\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-volume-slider-container {\n  background: rgba(255, 255, 255, 0.3);\n}\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-volume-slider {\n  background: white;\n}\n.highlight[data-v-2b3c2c26] {\n  background-color: yellow;\n  font-weight: bold;\n}\n.result-item[data-v-2b3c2c26] {\n  padding: 10px;\n  border-bottom: 1px solid #ccc;\n}\n.top-toolbar-btn[data-v-2b3c2c26] {\n  background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);\n}\n.scrollmenu[data-v-2b3c2c26] {\n  background-color: #333;\n  overflow: auto;\n  white-space: nowrap;\n}\n.scrollmenu a[data-v-2b3c2c26] {\n  display: inline-block;\n  color: white;\n  text-align: center;\n  padding: 14px;\n  text-decoration: none;\n}\n.list-group[data-v-2b3c2c26] {\n  border-radius: 10px;\n  overflow: hidden;\n}\n.card[data-v-2b3c2c26] {\n  border: 0px;\n}\n.selected[data-v-2b3c2c26] {\n  background-color: rgba(0, 191, 166, 0.233);\n}\n.custom-scrollbar[data-v-2b3c2c26] {\n  scrollbar-width: thin;\n  scrollbar-color: #228B22 #ecf0f1;\n}\n.button-63[data-v-2b3c2c26] {\n  align-items: center;\n  background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);\n  border: 0;\n  border-radius: 8px;\n  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;\n  box-sizing: border-box;\n  color: #ffffff;\n  display: flex;\n  font-family: Phantomsans, sans-serif;\n  font-size: 20px;\n  justify-content: center;\n  line-height: 1em;\n  max-width: 100%;\n  min-width: 140px;\n  padding: 3px;\n  text-decoration: none;\n  -moz-user-select: none;\n       user-select: none;\n  -webkit-user-select: none;\n  touch-action: manipulation;\n  white-space: nowrap;\n  cursor: pointer;\n}\n.button-63[data-v-2b3c2c26]:active,\n.button-63[data-v-2b3c2c26]:hover {\n  outline: 0;\n}\n@media (min-width: 768px) {\n.button-63[data-v-2b3c2c26] {\n    font-size: 24px;\n    min-width: 196px;\n}\n.button-63[data-v-2b3c2c26]:hover {\n    box-shadow: rgba(151, 65, 252, 0.3) 0 20px 40px -5px;\n}\n.shadow-selector[data-v-2b3c2c26] {\n    width: 200px;\n}\n#shadow-dropdown[data-v-2b3c2c26] {\n    width: 200px;\n}\n}\np[data-v-2b3c2c26] {\n  margin-bottom: 1rem;\n}\n@media (min-width: 768px) {\n.button-63[data-v-2b3c2c26] {\n    font-size: 24px;\n    min-width: 196px;\n}\n.button-63[data-v-2b3c2c26]:hover {\n    box-shadow: rgba(151, 65, 252, 0.3) 0 20px 40px -5px;\n}\n.shadow-selector[data-v-2b3c2c26] {\n    width: 200px;\n}\n#shadow-dropdown[data-v-2b3c2c26] {\n    width: 200px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "/* ===== IMPROVED ACCESSIBLE UI STYLES ===== */\n\n/* Base App Styles */\n.quran-app[data-v-2b3c2c26] {\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n  line-height: 1.6;\n  color: #2c3e50;\n  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);\n  min-height: 100vh;\n}\n\n/* Header Section */\n.app-header[data-v-2b3c2c26] {\n  background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);\n  color: white;\n  padding: 2rem 0;\n  text-align: center;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);\n}\n.app-title[data-v-2b3c2c26] {\n  font-size: 2.5rem;\n  font-weight: 700;\n  margin-bottom: 0.5rem;\n  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);\n}\n.app-subtitle[data-v-2b3c2c26] {\n  font-size: 1.2rem;\n  opacity: 0.9;\n  max-width: 800px;\n  margin: 0 auto;\n  line-height: 1.5;\n}\n\n/* Main Content */\n.main-content[data-v-2b3c2c26] {\n  padding: 2rem 0;\n}\n\n/* Search Section */\n.search-section[data-v-2b3c2c26] {\n  background: white;\n  border-radius: 15px;\n  padding: 2rem;\n  margin-bottom: 2rem;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n}\n.search-container[data-v-2b3c2c26] {\n  max-width: 800px;\n  margin: 0 auto;\n  text-align: center;\n}\n.section-title[data-v-2b3c2c26] {\n  font-size: 1.8rem;\n  font-weight: 600;\n  color: #2c3e50;\n  margin-bottom: 0.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n}\n.section-title i[data-v-2b3c2c26] {\n  color: #228B22;\n  font-size: 1.5rem;\n}\n.section-description[data-v-2b3c2c26] {\n  font-size: 1.1rem;\n  color: #7f8c8d;\n  margin-bottom: 1.5rem;\n}\n\n/* Quran Interface */\n.quran-interface[data-v-2b3c2c26] {\n  max-width: 1400px;\n  margin: 0 auto;\n}\n\n/* Selection Panel (Left Side) */\n.selection-panel[data-v-2b3c2c26] {\n  background: white;\n  border-radius: 15px;\n  padding: 1.5rem;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  height: -moz-fit-content;\n  height: fit-content;\n  position: sticky;\n  top: 2rem;\n}\n.selection-section[data-v-2b3c2c26] {\n  margin-bottom: 2rem;\n}\n.selection-section[data-v-2b3c2c26]:last-child {\n  margin-bottom: 0;\n}\n.panel-title[data-v-2b3c2c26] {\n  font-size: 1.4rem;\n  font-weight: 600;\n  color: #2c3e50;\n  margin-bottom: 1rem;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding-bottom: 0.5rem;\n  border-bottom: 2px solid #ecf0f1;\n}\n.panel-title i[data-v-2b3c2c26] {\n  color: #228B22;\n  font-size: 1.2rem;\n}\n.selection-content[data-v-2b3c2c26] {\n  margin-top: 1rem;\n}\n\n/* Surah Dropdown */\n.surah-dropdown[data-v-2b3c2c26] {\n  width: 100%;\n}\n.surah-dropdown .form-select[data-v-2b3c2c26] {\n  font-size: 1.1rem;\n  padding: 0.75rem 1rem;\n  border: 2px solid #ecf0f1;\n  border-radius: 10px;\n  background-color: #f8f9fa;\n  transition: all 0.3s ease;\n}\n.surah-dropdown .form-select[data-v-2b3c2c26]:focus {\n  border-color: #228B22;\n  box-shadow: 0 0 0 0.2rem rgba(34, 139, 34, 0.25);\n  background-color: white;\n}\n\n/* Verse List */\n.verse-list-container[data-v-2b3c2c26] {\n  margin-top: 1rem;\n}\n.verse-list[data-v-2b3c2c26] {\n  border: 2px solid #ecf0f1;\n  border-radius: 10px;\n  overflow: hidden;\n  background: white;\n}\n.verse-list-header[data-v-2b3c2c26] {\n  background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);\n  color: white;\n  padding: 0.75rem 1rem;\n  font-weight: 600;\n  text-align: center;\n}\n.verse-count[data-v-2b3c2c26] {\n  font-size: 1rem;\n}\n.verse-scroll-container[data-v-2b3c2c26] {\n  max-height: 500px;\n  overflow-y: auto;\n  scrollbar-width: thin;\n  scrollbar-color: #228B22 #ecf0f1;\n}\n.verse-scroll-container[data-v-2b3c2c26]::-webkit-scrollbar {\n  width: 8px;\n}\n.verse-scroll-container[data-v-2b3c2c26]::-webkit-scrollbar-track {\n  background: #ecf0f1;\n}\n.verse-scroll-container[data-v-2b3c2c26]::-webkit-scrollbar-thumb {\n  background: #228B22;\n  border-radius: 4px;\n}\n.verse-list-items[data-v-2b3c2c26] {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.verse-item[data-v-2b3c2c26] {\n  padding: 1rem;\n  border-bottom: 1px solid #ecf0f1;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}\n.verse-item[data-v-2b3c2c26]:hover {\n  background-color: #f8f9fa;\n  transform: translateX(5px);\n}\n.verse-item-selected[data-v-2b3c2c26] {\n  background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);\n  color: white;\n  box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);\n}\n.verse-item-selected[data-v-2b3c2c26]:hover {\n  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);\n}\n.verse-number[data-v-2b3c2c26] {\n  background: rgba(255, 255, 255, 0.2);\n  color: #228B22;\n  font-weight: 600;\n  padding: 0.25rem 0.5rem;\n  border-radius: 20px;\n  font-size: 0.9rem;\n  min-width: 40px;\n  text-align: center;\n}\n.verse-item-selected .verse-number[data-v-2b3c2c26] {\n  background: rgba(0, 0, 0, 0.35);\n  color: #ffffff;\n}\n.verse-text[data-v-2b3c2c26] {\n  flex: 1;\n  font-size: 1rem;\n  line-height: 1.6;\n  text-align: right;\n}\n.ayah-list[data-v-2b3c2c26] {\n  list-style: none;\n  margin: 0;\n  padding: 12px 0 6px;\n}\n.ayah-item-heading[data-v-2b3c2c26] {\n  display: flex;\n  justify-content: flex-end;\n  font-weight: 600;\n  margin-bottom: 0.4rem;\n  gap: 0.35rem;\n}\n.ayah-item-text[data-v-2b3c2c26] {\n  margin-bottom: 0;\n}\n\n/* Content Panel (Right Side) */\n.content-panel[data-v-2b3c2c26] {\n  background: white;\n  border-radius: 15px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  overflow: hidden;\n}\n.content-header[data-v-2b3c2c26] {\n  background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);\n  color: white;\n  padding: 1.5rem;\n  border-bottom: 1px solid #ecf0f1;\n}\n.content-body[data-v-2b3c2c26] {\n  padding: 1.5rem;\n}\n\n/* Content Sections */\n.content-section[data-v-2b3c2c26] {\n  margin-bottom: 2rem;\n}\n.content-section[data-v-2b3c2c26]:last-child {\n  margin-bottom: 0;\n}\n\n/* Section Header */\n.section-header[data-v-2b3c2c26] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 1.5rem;\n  padding: 1rem;\n  background: #f8f9fa;\n  border-radius: 10px;\n  border: 1px solid #ecf0f1;\n}\n\n/* Navigation Controls */\n.navigation-controls[data-v-2b3c2c26] {\n  display: flex;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n}\n.nav-btn[data-v-2b3c2c26] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding: 0.75rem 1rem;\n  background: white;\n  border: 2px solid #ecf0f1;\n  border-radius: 8px;\n  color: #2c3e50;\n  font-weight: 500;\n  transition: all 0.3s ease;\n  cursor: pointer;\n  font-size: 0.9rem;\n}\n.nav-btn[data-v-2b3c2c26]:hover {\n  background: #228B22;\n  color: white;\n  border-color: #228B22;\n  transform: translateY(-2px);\n  box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);\n}\n.nav-btn i[data-v-2b3c2c26] {\n  font-size: 1.1rem;\n}\n\n/* Action Tools */\n.action-tools[data-v-2b3c2c26] {\n  display: flex;\n  gap: 0.5rem;\n}\n.tool-btn[data-v-2b3c2c26] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding: 0.75rem 1rem;\n  background: #228B22;\n  border: none;\n  border-radius: 8px;\n  color: white;\n  font-weight: 500;\n  transition: all 0.3s ease;\n  cursor: pointer;\n  font-size: 0.9rem;\n}\n.tool-btn[data-v-2b3c2c26]:hover {\n  background: #5a6fd8;\n  transform: translateY(-2px);\n  box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);\n}\n\n/* Tools Panel */\n.tools-panel[data-v-2b3c2c26] {\n  background: #f8f9fa;\n  border: 1px solid #ecf0f1;\n  border-radius: 10px;\n  padding: 1.5rem;\n  margin-bottom: 1.5rem;\n}\n.tools-grid[data-v-2b3c2c26] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));\n  gap: 1rem;\n}\n.tool-item[data-v-2b3c2c26] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 0.5rem;\n  padding: 1rem;\n  background: white;\n  border: 2px solid #ecf0f1;\n  border-radius: 10px;\n  color: #2c3e50;\n  font-weight: 500;\n  transition: all 0.3s ease;\n  cursor: pointer;\n  text-decoration: none;\n}\n.tool-item[data-v-2b3c2c26]:hover {\n  background: #228B22;\n  color: white;\n  border-color: #228B22;\n  transform: translateY(-3px);\n  box-shadow: 0 6px 20px rgba(34, 139, 34, 0.3);\n}\n.tool-item i[data-v-2b3c2c26] {\n  font-size: 1.5rem;\n}\n.tool-item span[data-v-2b3c2c26] {\n  font-size: 0.9rem;\n  text-align: center;\n}\n\n/* Mobile Navigation */\n.mobile-navigation[data-v-2b3c2c26] {\n  margin-bottom: 1.5rem;\n}\n.mobile-nav-controls[data-v-2b3c2c26] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  background: #f8f9fa;\n  border: 1px solid #ecf0f1;\n  border-radius: 10px;\n  padding: 1rem;\n}\n.mobile-nav-btn[data-v-2b3c2c26] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 50px;\n  height: 50px;\n  background: white;\n  border: 2px solid #ecf0f1;\n  border-radius: 50%;\n  color: #2c3e50;\n  transition: all 0.3s ease;\n  cursor: pointer;\n}\n.mobile-nav-btn[data-v-2b3c2c26]:hover {\n  background: #228B22;\n  color: white;\n  border-color: #228B22;\n  transform: scale(1.1);\n}\n.mobile-nav-btn.bookmark-btn[data-v-2b3c2c26] {\n  background: #e74c3c;\n  color: white;\n  border-color: #e74c3c;\n}\n.mobile-nav-btn.bookmark-btn[data-v-2b3c2c26]:hover {\n  background: #c0392b;\n  border-color: #c0392b;\n}\n.mobile-nav-btn i[data-v-2b3c2c26] {\n  font-size: 1.2rem;\n}\n\n/* Content Display */\n.content-display[data-v-2b3c2c26] {\n  background: white;\n  border: 1px solid #ecf0f1;\n  border-radius: 10px;\n  padding: 1.5rem;\n  margin-bottom: 1.5rem;\n}\n\n/* Mobile Tools */\n.mobile-tools[data-v-2b3c2c26] {\n  margin-bottom: 1.5rem;\n}\n.mobile-tools-content[data-v-2b3c2c26] {\n  background: #f8f9fa;\n  border: 1px solid #ecf0f1;\n  border-radius: 10px;\n  padding: 1rem;\n}\n\n/* Responsive Design */\n@media (max-width: 991.98px) {\n.app-title[data-v-2b3c2c26] {\n      font-size: 2rem;\n}\n.app-subtitle[data-v-2b3c2c26] {\n      font-size: 1rem;\n}\n.section-title[data-v-2b3c2c26] {\n      font-size: 1.5rem;\n}\n.panel-title[data-v-2b3c2c26] {\n      font-size: 1.2rem;\n}\n.selection-panel[data-v-2b3c2c26] {\n      position: static;\n      margin-bottom: 2rem;\n}\n.navigation-controls[data-v-2b3c2c26] {\n      justify-content: center;\n}\n.nav-btn[data-v-2b3c2c26] {\n      padding: 0.5rem 0.75rem;\n      font-size: 0.8rem;\n}\n.nav-btn span[data-v-2b3c2c26] {\n      display: none;\n}\n.tools-grid[data-v-2b3c2c26] {\n      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));\n      gap: 0.75rem;\n}\n.tool-item[data-v-2b3c2c26] {\n      padding: 0.75rem;\n}\n.tool-item i[data-v-2b3c2c26] {\n      font-size: 1.2rem;\n}\n.tool-item span[data-v-2b3c2c26] {\n      font-size: 0.8rem;\n}\n}\n@media (max-width: 767.98px) {\n.app-header[data-v-2b3c2c26] {\n      padding: 1.5rem 0;\n}\n.app-title[data-v-2b3c2c26] {\n      font-size: 1.8rem;\n}\n.main-content[data-v-2b3c2c26] {\n      padding: 1rem 0;\n}\n.search-section[data-v-2b3c2c26] {\n      padding: 1.5rem;\n      margin-bottom: 1.5rem;\n}\n.selection-panel[data-v-2b3c2c26] {\n      padding: 1rem;\n}\n.content-panel[data-v-2b3c2c26] {\n      margin-top: 1rem;\n}\n.content-header[data-v-2b3c2c26] {\n      padding: 1rem;\n}\n.content-body[data-v-2b3c2c26] {\n      padding: 1rem;\n}\n.section-header[data-v-2b3c2c26] {\n      flex-direction: column;\n      gap: 1rem;\n      align-items: stretch;\n}\n.navigation-controls[data-v-2b3c2c26] {\n      justify-content: space-between;\n}\n.action-tools[data-v-2b3c2c26] {\n      justify-content: center;\n}\n.mobile-nav-controls[data-v-2b3c2c26] {\n      padding: 0.75rem;\n}\n.mobile-nav-btn[data-v-2b3c2c26] {\n      width: 45px;\n      height: 45px;\n}\n.mobile-nav-btn i[data-v-2b3c2c26] {\n      font-size: 1rem;\n}\n}\n@media (max-width: 575.98px) {\n.app-title[data-v-2b3c2c26] {\n      font-size: 1.5rem;\n}\n.app-subtitle[data-v-2b3c2c26] {\n      font-size: 0.9rem;\n}\n.section-title[data-v-2b3c2c26] {\n      font-size: 1.3rem;\n}\n.panel-title[data-v-2b3c2c26] {\n      font-size: 1.1rem;\n}\n.verse-item[data-v-2b3c2c26] {\n      padding: 0.75rem;\n      gap: 0.75rem;\n}\n.verse-text[data-v-2b3c2c26] {\n      font-size: 0.9rem;\n}\n.tools-grid[data-v-2b3c2c26] {\n      grid-template-columns: repeat(2, 1fr);\n}\n.mobile-nav-controls[data-v-2b3c2c26] {\n      gap: 0.5rem;\n}\n.mobile-nav-btn[data-v-2b3c2c26] {\n      width: 40px;\n      height: 40px;\n}\n}\n\n/* Accessibility Improvements */\n@media (prefers-reduced-motion: reduce) {\n[data-v-2b3c2c26] {\n      animation-duration: 0.01ms !important;\n      animation-iteration-count: 1 !important;\n      transition-duration: 0.01ms !important;\n}\n}\n\n/* High Contrast Mode */\n@media (prefers-contrast: high) {\n.quran-app[data-v-2b3c2c26] {\n      background: white;\n}\n.app-header[data-v-2b3c2c26] {\n      background: black;\n}\n.selection-panel[data-v-2b3c2c26],\n  .content-panel[data-v-2b3c2c26] {\n      border: 2px solid black;\n}\n.verse-item-selected[data-v-2b3c2c26] {\n      background: black;\n      color: white;\n}\n.nav-btn[data-v-2b3c2c26]:hover,\n  .tool-btn[data-v-2b3c2c26]:hover {\n      background: black;\n      color: white;\n}\n}\n\n/* Focus Styles for Keyboard Navigation */\n.nav-btn[data-v-2b3c2c26]:focus,\n.tool-btn[data-v-2b3c2c26]:focus,\n.tool-item[data-v-2b3c2c26]:focus,\n.mobile-nav-btn[data-v-2b3c2c26]:focus,\n.verse-item[data-v-2b3c2c26]:focus {\n  outline: 3px solid #228B22;\n  outline-offset: 2px;\n}\n\n/* Print Styles */\n@media print {\n.app-header[data-v-2b3c2c26],\n  .search-section[data-v-2b3c2c26],\n  .selection-panel[data-v-2b3c2c26],\n  .section-header[data-v-2b3c2c26],\n  .tools-panel[data-v-2b3c2c26],\n  .mobile-navigation[data-v-2b3c2c26],\n  .mobile-tools[data-v-2b3c2c26] {\n      display: none !important;\n}\n.content-panel[data-v-2b3c2c26] {\n      box-shadow: none;\n      border: 1px solid #ccc;\n}\n.content-display[data-v-2b3c2c26] {\n      border: none;\n      padding: 0;\n}\n}\n\n/* ===== EXISTING STYLES (KEPT FOR COMPATIBILITY) ===== */\n.full-screen[data-v-2b3c2c26][data-v-2b3c2c26] {\nposition: fixed;\ntop: 0;\nleft: 0;\nwidth: 100vw;\nheight: 100vh;\nz-index: 9999;\nbackground: #fff;\npadding: 100px;\noverflow: auto;\n}\n.desktop-hidden[data-v-2b3c2c26] {\ndisplay: block;\n}\n@media (min-width: 768px) {\n.desktop-hidden[data-v-2b3c2c26] {\n  display: none;\n}\n}\n.hide-unwanted-elements .dropdown[data-v-2b3c2c26],\n.hide-unwanted-elements .custom-icon-increase[data-v-2b3c2c26],\n.hide-unwanted-elements .custom-icon-decrease[data-v-2b3c2c26],\n.hide-unwanted-elements .settings[data-v-2b3c2c26],\n.hide-unwanted-elements .custom-icon-play[data-v-2b3c2c26],\n.hide-unwanted-elements .summary[data-v-2b3c2c26],\n.hide-unwanted-elements .count[data-v-2b3c2c26] {\ndisplay: none !important;\n}\n@media (min-width: 768px) {\n.ayah-dropdown-hidden-on-desktop[data-v-2b3c2c26] {\n  display: none;\n}\n}\n.desktop-icon[data-v-2b3c2c26]:hover {\ncolor: rgb(53, 163, 139);\ntransition: color 0.3s ease;\n}\n.custom-switch[data-v-2b3c2c26] {\nposition: relative;\ndisplay: inline-block;\nwidth: 70px;\nheight: 20px;\nborder-radius: 50px;\nbackground: rgb(13, 182, 145) !important;\ntransition: background-color 0.3s ease;\n}\n.custom-prev-ayah[data-v-2b3c2c26]:hover,\n.custom-last-verse[data-v-2b3c2c26]:hover {\ncolor: black;\ntransition: color 0.3s ease;\n}\n.result-item[data-v-2b3c2c26] {\npadding: 10px;\nborder-bottom: 1px solid #ccc;\n}\n.button-33[data-v-2b3c2c26] {\nbackground-color: rgba(0, 191, 166, 0.9);\ncolor: rgb(255, 255, 255);\nborder: 1px solid rgba(0, 191, 166);\n}\n.hide-on-desktop[data-v-2b3c2c26] {\ndisplay: none;\n}\n.custom-offcanvas[data-v-2b3c2c26] {\nbackground: rgb(13, 182, 145) !important;\ncolor: white;\nwidth: 30%;\n}\n.custom-offcanvas .result-item[data-v-2b3c2c26] {\nmargin-bottom: 15px;\n}\n@media (max-width: 767px) {\n.hide-on-mobile[data-v-2b3c2c26] {\n  display: none;\n}\n}\n@media (max-width: 767.98px) {\n.hide-on-mobile-tablet[data-v-2b3c2c26] {\n  display: none !important;\n}\n.show-on-desktop[data-v-2b3c2c26] {\n  display: block !important;\n}\n.custom-form[data-v-2b3c2c26] {\n  border-radius: 5px;\n  overflow-x: hidden;\n}\n.tab-content[data-v-2b3c2c26] {\n  overflow-x: hidden;\n}\n.icon-container[data-v-2b3c2c26] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100%;\n}\n.icon-container i[data-v-2b3c2c26] {\n  flex: 1;\n  text-align: center;\n}\n.dropdown[data-v-2b3c2c26] {\n  flex: 1;\n  text-align: center;\n}\n}\n.button-36[data-v-2b3c2c26] {\nbackground-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\nborder-radius: 8px;\nborder-style: none;\nbox-sizing: border-box;\ncolor: #FFFFFF;\ncursor: pointer;\nflex-shrink: 0;\nfont-family: \"Inter UI\",\"SF Pro Display\",-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen,Ubuntu,Cantarell,\"Open Sans\",\"Helvetica Neue\",sans-serif;\npadding: 0 1.6rem;\ntext-align: center;\ntext-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;\ntransition: all .5s;\n-moz-user-select: none;\n     user-select: none;\n-webkit-user-select: none;\ntouch-action: manipulation;\n}\n.button-36[data-v-2b3c2c26]:hover {\nbox-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;\ntransition-duration: .1s;\n}\n@media (min-width: 768px) {\n.button-36[data-v-2b3c2c26] {\n  padding: 0 2.6rem;\n}\n}\n.dropdown-toggle[data-v-2b3c2c26]::after {\ndisplay: none !important;\n}\n.content-container[data-v-2b3c2c26] {\npadding: 20px;\n}\n.theme-selector[data-v-2b3c2c26] {\nmargin-bottom: 20px;\n}\n.dropdown-menu[data-v-2b3c2c26] {\nposition: absolute;\nbackground: #fff;\nborder: 1px solid #ccc;\npadding: 10px;\nz-index: 1000;\n}\n.flex-container i[data-v-2b3c2c26] {\ncolor: rgb(0, 191, 166);\n}\n.icon-container[data-v-2b3c2c26] {\ndisplay: flex;\nalign-items: center;\njustify-content: space-around;\nflex-wrap: nowrap;\n}\n.verse-nav-icon[data-v-2b3c2c26] {\ndisplay: inline-flex;\nalign-items: center;\njustify-content: center;\nmin-width: 48px;\nmin-height: 48px;\nborder-radius: 999px;\nline-height: 1;\ntransition: transform 180ms ease, color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;\nwill-change: transform;\n}\n.verse-nav-icon[data-v-2b3c2c26]:hover,\n.verse-nav-icon[data-v-2b3c2c26]:focus-visible {\ncolor: #0b806f;\ntransform: translateY(-2px) scale(1.05);\nbackground-color: rgba(11, 128, 111, 0.08);\nbox-shadow: 0 8px 20px rgba(11, 128, 111, 0.18);\n}\n.verse-nav-icon[data-v-2b3c2c26]:focus-visible {\noutline: none;\nbox-shadow: 0 0 0 3px rgba(11, 128, 111, 0.35), 0 8px 20px rgba(11, 128, 111, 0.18);\n}\n.verse-nav-icon[data-v-2b3c2c26]:active {\ntransform: scale(0.94);\nbackground-color: rgba(11, 128, 111, 0.16);\n}\n@media (hover: none) {\n.verse-nav-icon[data-v-2b3c2c26]:hover {\n  transform: none;\n  box-shadow: none;\n  background-color: transparent;\n}\n.verse-nav-icon[data-v-2b3c2c26]:active {\n  transform: scale(0.97);\n}\n}\n@media (prefers-reduced-motion: reduce) {\n.verse-nav-icon[data-v-2b3c2c26] {\n  transition: none;\n}\n}\n.icon-row i[data-v-2b3c2c26] {\ncolor: rgb(0, 191, 166);\ncursor: pointer;\nfont-size: 1.5rem;\n}\n.mobile-only[data-v-2b3c2c26] {\ndisplay: none;\n}\n@media (max-width: 576px) {\n.flex-container[data-v-2b3c2c26] {\n  flex-direction: column;\n}\n.icon-row[data-v-2b3c2c26] {\n  flex-direction: column;\n}\n.icon-row i[data-v-2b3c2c26] {\n  margin: 5px 0;\n}\n.custom-offcanvas[data-v-2b3c2c26] {\n  width: 100%;\n}\n}\n@media (max-width: 600px) {\n.container.text-right[data-v-2b3c2c26],\n.container.text-left[data-v-2b3c2c26] {\n  text-align: center !important;\n}\n}\n@media screen and (min-width: 1024px) {\n.hide-on-full-screen[data-v-2b3c2c26] {\n  display: none;\n}\n}\n@media screen and (max-width: 768px) {\n.full-screen[data-v-2b3c2c26][data-v-2b3c2c26] {\n  padding: 20px;\n}\n.mobile-only[data-v-2b3c2c26] {\n  display: block;\n}\n.hide-on-full-screen[data-v-2b3c2c26] {\n  display: block;\n}\n.hide-on-tablet[data-v-2b3c2c26] {\n  display: none;\n}\n.container.text-right[data-v-2b3c2c26],\n.container.text-left[data-v-2b3c2c26] {\n  text-align: center !important;\n}\n.hide-on-mobile[data-v-2b3c2c26] {\n  display: none;\n}\n.custom-dropdown[data-v-2b3c2c26] {\n  width: 100%;\n  margin-bottom: 10px;\n}\n}\naudio.custom-audio[data-v-2b3c2c26] {\nwidth: 100%;\nheight: 40px;\nborder-radius: 20px;\nbackground: linear-gradient(90deg, #228B22 0%, #1a6b1a 100%);\nborder: none;\noutline: none;\nbox-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);\n}\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-panel {\nbackground: transparent;\n}\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-play-button,\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-pause-button {\nbackground-color: white;\nborder-radius: 50%;\nmargin: 0 5px;\n}\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-timeline-container {\nbackground: rgba(255, 255, 255, 0.3);\n}\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-current-time-display,\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-time-remaining-display {\ncolor: white;\nfont-weight: bold;\n}\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-volume-slider-container {\nbackground: rgba(255, 255, 255, 0.3);\n}\n.custom-audio[data-v-2b3c2c26]::-webkit-media-controls-volume-slider {\nbackground: white;\n}\n.highlight[data-v-2b3c2c26] {\nbackground-color: yellow;\nfont-weight: bold;\n}\n.result-item[data-v-2b3c2c26] {\npadding: 10px;\nborder-bottom: 1px solid #ccc;\n}\n.top-toolbar-btn[data-v-2b3c2c26] {\nbackground-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);\n}\n.scrollmenu[data-v-2b3c2c26] {\nbackground-color: #333;\noverflow: auto;\nwhite-space: nowrap;\n}\n.scrollmenu a[data-v-2b3c2c26] {\ndisplay: inline-block;\ncolor: white;\ntext-align: center;\npadding: 14px;\ntext-decoration: none;\n}\n.list-group[data-v-2b3c2c26] {\nborder-radius: 10px;\noverflow: hidden;\n}\n.card[data-v-2b3c2c26] {\nborder: 0px;\n}\n.selected[data-v-2b3c2c26] {\nbackground-color: rgba(0, 191, 166, 0.233);\n}\n.custom-scrollbar[data-v-2b3c2c26] {\nscrollbar-width: thin;\nscrollbar-color: #228B22 #ecf0f1;\n}\n.button-63[data-v-2b3c2c26] {\nalign-items: center;\nbackground-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);\nborder: 0;\nborder-radius: 8px;\nbox-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;\nbox-sizing: border-box;\ncolor: #ffffff;\ndisplay: flex;\nfont-family: Phantomsans, sans-serif;\nfont-size: 20px;\njustify-content: center;\nline-height: 1em;\nmax-width: 100%;\nmin-width: 140px;\npadding: 3px;\ntext-decoration: none;\n-moz-user-select: none;\n     user-select: none;\n-webkit-user-select: none;\ntouch-action: manipulation;\nwhite-space: nowrap;\ncursor: pointer;\n}\n.button-63[data-v-2b3c2c26]:active,\n.button-63[data-v-2b3c2c26]:hover {\noutline: 0;\n}\n@media (min-width: 768px) {\n.button-63[data-v-2b3c2c26] {\n  font-size: 24px;\n  min-width: 196px;\n}\n.button-63[data-v-2b3c2c26]:hover {\n  box-shadow: rgba(151, 65, 252, 0.3) 0 20px 40px -5px;\n}\n.shadow-selector[data-v-2b3c2c26] {\n  width: 200px;\n}\n#shadow-dropdown[data-v-2b3c2c26] {\n  width: 200px;\n}\n}\np[data-v-2b3c2c26] {\nmargin-bottom: 1rem;\n}\n@media (min-width: 768px) {\n.button-63[data-v-2b3c2c26] {\n  font-size: 24px;\n  min-width: 196px;\n}\n.button-63[data-v-2b3c2c26]:hover {\n  box-shadow: rgba(151, 65, 252, 0.3) 0 20px 40px -5px;\n}\n.shadow-selector[data-v-2b3c2c26] {\n  width: 200px;\n}\n#shadow-dropdown[data-v-2b3c2c26] {\n  width: 200px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -1,8 +1,8 @@
 <template>
     <div id="app">
 
-        <div class="py-4 position-relative">
-            <div v-if="!isVisible" class="shadow-md">
+        <div class="py-4 position-relative" style="margin-top:10px">
+            <div v-if="!isVisible" class="shadow-md pb3">
                 <!-- <h4 class="fw-bold text-center pt-2 mb-2 container" v-if="information != null">Search for a word in the
                     Quran...</h4> -->
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
@@ -77,9 +77,8 @@
             </div>
             <!-- <custom-surah-selection v-if="information != null" :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection> -->
 
-
             <!-- accordion headers -->
-            <div class="row ">
+            <div class="row">
                 <!-- <div class="row">
                     <div class="col-12 col-md-6">
                         <SurahDropdown v-if="!selectedSurahId" class="pt-1" :selectedSurah="selectedSurahId"
@@ -92,13 +91,11 @@
                 </div> -->
 
 
-                <div class="col-md-4 pt-4">
-                    <section class="selector-card" aria-label="Surah and verse selection">
-                        <div class="selector-heading">
+                <div class="col-md-4">
+                    <section class="pt-4" aria-label="Surah and verse selection">
+                        <div class="selector-heading ">
                             <h5 id="surah-select-label" class="fw-bold text-left mb-1">Select a Surah</h5>
-                            <p class="field-helper">
-                                Choose a chapter to unlock its verses, recitations, and tafseer tools.
-                            </p>
+                            
                         </div>
                         <div class="selector-control">
                             <SurahDropdown aria-labelledby="surah-select-label" class="col-md-12"
@@ -129,11 +126,11 @@
                                 <!-- Error alert -->
                                 <ErrorAlert :showError="showError" @dismiss-error="dismissError" />
 
-                                <div class="row ">
+                                <div class="row pb-2">
 
                                     <div class="custom-scrollbar pb-3 w-100 ayah-scroll">
 
-                                        <ul class="col-md-12 list-group root ayah-list" id="toggle" ref="ayahList"
+                                        <ul class="col-md-12 pb-3 list-group root ayah-list" id="toggle" ref="ayahList"
                                             role="listbox" tabindex="0"
                                             :aria-activedescendant="selectedIndexAyah >= 0 ? `ayah-option-${selectedIndexAyah}` : null"
                                             aria-label="Ayah list" aria-controls="ayah-content">
@@ -164,7 +161,8 @@
                         </div>
                     </section>
                 </div>
-                <div class="col-md-8 card-hide text-left pr-4">
+                <div class="col-md-8 card-hide text-left pt-4 pr-4 "
+                    style="scroll-margin-top:24px;">
                     <Welcome v-if="information == null" />
 
                     <div class="mb-2" v-else>
@@ -172,10 +170,8 @@
                         <!-- breakdown content here -->
 
                     </div>
-                    <div v-if="information" class="mb-4">
-
-                    </div>
-                    <div class="card" style="box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);">
+                    
+                    <div class="card" style="background-color:#ffffff; border-radius:18px; border:1px solid rgba(2,6,23,0.06); box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08); overflow:hidden; transition: box-shadow .2s ease;">
                         <div v-if="information != null">
                             <div class="container-fluid ">
                                 <div class="row">
@@ -261,8 +257,8 @@
                                 </div> -->
                             </div>
 
-                            <div class="card-body content" style="border-radius: 20px;">
-                                <div class="tab-content text-center" style="border-radius: 20px;">
+                            <div class="card-body content" style="border-radius: 20px; padding: 16px 18px 18px 18px;">
+                                <div class="tab-content text-center" style="border-radius: 20px; background:#ffffff;">
                                     <!-- <Welcome :information="information" /> -->
 
                                     <!-- Translation Section -->
@@ -274,15 +270,23 @@
                                         <div id="ayah-content" :selectedSurahId="selectedSurahId"
                                             @update-tafseer="updateTafseer" @update-information="updateInformation"
                                             :style="{
-
-
+                                                display: 'flex',
+                                                gap: '12px',
+                                                justifyContent: 'space-around',
+                                                alignItems: 'center',
+                                                padding: '10px 12px',
+                                                background: '#f8fafc',
+                                                border: '1px solid rgba(2,6,23,0.06)',
+                                                borderRadius: '12px'
                                             }" class="icon-container hide-on-mobile mb-3">
                                             <div class="text-center icon-text" role="group"
                                                 aria-label="Verse navigation controls" :aria-hidden="isMobile">
                                                 <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah verse-nav-icon"
                                                     role="button" aria-label="Go to first verse"
                                                     :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToFirstAyah"
-                                                    @keydown.space.prevent="goToFirstAyah" style="cursor: pointer"
+                                                    @keydown.space.prevent="goToFirstAyah" style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
+                                                    onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
+                                                    onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                     @click="goToFirstAyah" title="First verse"></i>
                                                 <div class="large">First verse</div>
                                             </div>
@@ -292,7 +296,9 @@
                                                     role="button" aria-label="Go to previous verse"
                                                     :tabindex="isMobile ? -1 : 0"
                                                     @keydown.enter.prevent="goToPreviousAyah"
-                                                    @keydown.space.prevent="goToPreviousAyah" style="cursor: pointer"
+                                                    @keydown.space.prevent="goToPreviousAyah" style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
+                                                    onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
+                                                    onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                     @click="goToPreviousAyah" title="Previous verse"></i>
                                                 <div class="large">Previous verse</div>
                                             </div>
@@ -301,7 +307,9 @@
                                                 <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
                                                     role="button" aria-label="Go to next verse"
                                                     :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToNextAyah"
-                                                    @keydown.space.prevent="goToNextAyah" style="cursor: pointer"
+                                                    @keydown.space.prevent="goToNextAyah" style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
+                                                    onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
+                                                    onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                     @click="goToNextAyah" title="Next verse"></i>
                                                 <div class="large">Next verse</div>
                                             </div>
@@ -310,7 +318,9 @@
                                                 <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon verse-nav-icon"
                                                     role="button" aria-label="Go to last verse"
                                                     :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToLastAyah"
-                                                    @keydown.space.prevent="goToLastAyah" style="cursor: pointer"
+                                                    @keydown.space.prevent="goToLastAyah" style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
+                                                    onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
+                                                    onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                     @click="goToLastAyah" title="Last verse"></i>
                                                 <div class="large">Last verse</div>
                                             </div>
@@ -360,22 +370,23 @@
                                                     </div>
 
                                                 </div>
-                                                <hr style="border: 2px solid #333" />
+                                                <hr style="border: 1px solid #e5e7eb; margin: 10px 0 0 0;" />
                                             </div>
                                         </div>
 
                                         <!-- mobile navigation  -->
                                         <div class="dropdown mobile-only pb-2" :aria-hidden="!isMobile">
                                             <div :style="iconStyle" class="icon-container" role="group"
-                                                aria-label="Verse navigation controls (mobile)">
+                                                aria-label="Verse navigation controls (mobile)"
+                                                style="background:#f8fafc; border:1px solid rgba(2,6,23,0.06); border-radius:12px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center;">
 
                                                 <i class="bi bi-chevron-bar-left h4 verse-nav-icon"
-                                                    style="cursor: pointer" role="button" aria-label="Go to first verse"
+                                                    style="cursor: pointer; color:#1a5f7a;" role="button" aria-label="Go to first verse"
                                                     :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToFirstAyah"
                                                     @keydown.space.prevent="goToFirstAyah" @click="goToFirstAyah()"
                                                     title="First verse"></i>
                                                 <i class="bi bi-arrow-left-circle h4 verse-nav-icon"
-                                                    style="cursor: pointer" role="button"
+                                                    style="cursor: pointer; color:#1a5f7a;" role="button"
                                                     aria-label="Go to previous verse" :tabindex="isMobile ? 0 : -1"
                                                     @keydown.enter.prevent="goToPreviousAyah"
                                                     @keydown.space.prevent="goToPreviousAyah"
@@ -384,12 +395,12 @@
                                                     aria-expanded="false" data-bs-placement="top"
                                                     title="Bookmark verse"></i> -->
                                                 <i class="bi bi-arrow-right-circle h4 verse-nav-icon"
-                                                    style="cursor: pointer" role="button" aria-label="Go to next verse"
+                                                    style="cursor: pointer; color:#1a5f7a;" role="button" aria-label="Go to next verse"
                                                     :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToNextAyah"
                                                     @keydown.space.prevent="goToNextAyah" @click="goToNextAyah()"
                                                     title="Next verse"></i>
                                                 <i class="bi bi-chevron-bar-right h4 verse-nav-icon"
-                                                    style="cursor: pointer" role="button" aria-label="Go to last verse"
+                                                    style="cursor: pointer; color:#1a5f7a;" role="button" aria-label="Go to last verse"
                                                     :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToLastAyah"
                                                     @keydown.space.prevent="goToLastAyah" @click="goToLastAyah()"
                                                     title="Last verse"></i>
@@ -471,7 +482,8 @@
                                         <div>
                                             <div :selectedSurahId="selectedSurahId" @update-tafseer="updateTafseer"
                                                 @update-information="updateInformation"
-                                                class="icon-container hide-on-mobile mb-3" :aria-hidden="isMobile">
+                                                class="icon-container hide-on-mobile mb-3" :aria-hidden="isMobile"
+                                                style="display:flex; gap:12px; justify-content:space-around; align-items:center; padding:10px 12px; background:#f8fafc; border:1px solid rgba(2,6,23,0.06); border-radius:12px;">
                                                 <div class="text-center" role="group"
                                                     aria-label="Verse navigation controls (desktop)">
                                                     <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah verse-nav-icon"
@@ -573,30 +585,29 @@
                                                             </div> -->
                                                         </div>
                                                     </div>
-                                                    <hr style="
-                                                        border: 2px solid #333;
-                                                    " />
+                                                    <hr style="border: 1px solid #e5e7eb; margin: 10px 0 0 0;" />
                                                 </div>
                                             </div>
 
                                             <!-- mobile navigation  -->
                                             <div class="dropdown mobile-only">
-                                                <div :style="iconStyle" class="icon-container pb-2">
+                                                <div :style="iconStyle" class="icon-container pb-2"
+                                                    style="background:#f8fafc; border:1px solid rgba(2,6,23,0.06); border-radius:12px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center;">
 
                                                     <i class="bi bi-chevron-bar-left h4 verse-nav-icon"
-                                                        style="cursor: pointer" @click="goToFirstAyah()"
+                                                        style="cursor: pointer; color:#1a5f7a;" @click="goToFirstAyah()"
                                                         title="Last verse"></i>
                                                     <i class="bi bi-arrow-left-circle h4 verse-nav-icon"
-                                                        style="cursor: pointer" @click="goToPreviousAyah()"
+                                                        style="cursor: pointer; color:#1a5f7a;" @click="goToPreviousAyah()"
                                                         title="Previous verse"></i>
                                                     <!-- <i @click="submitFormTafseer" class="bi bi-bookmark mb-2 h4"
                                                         aria-expanded="false" data-bs-placement="top"
                                                         title="Bookmark verse"></i> -->
                                                     <i class="bi bi-arrow-right-circle h4 verse-nav-icon"
-                                                        style="cursor: pointer" @click="goToNextAyah()"
+                                                        style="cursor: pointer; color:#1a5f7a;" @click="goToNextAyah()"
                                                         title="Next verse"></i>
                                                     <i class="bi bi-chevron-bar-right h4 verse-nav-icon"
-                                                        style="cursor: pointer" @click="goToLastAyah()"
+                                                        style="cursor: pointer; color:#1a5f7a;" @click="goToLastAyah()"
                                                         title="End verse"></i>
                                                 </div>
                                                 <!-- Mobile/Tablet tip: swipe between verses -->
@@ -668,28 +679,37 @@
                                             <div class="pb-3">
                                                 <div :selectedSurahId="selectedSurahId" @update-tafseer="updateTafseer"
                                                     @update-information="updateInformation"
-                                                    class="icon-container hide-on-mobile mb-3">
+                                                    class="icon-container hide-on-mobile mb-3"
+                                                    style="display:flex; gap:12px; justify-content:space-around; align-items:center; padding:10px 12px; background:#f8fafc; border:1px solid rgba(2,6,23,0.06); border-radius:12px;">
                                                     <div class="text-center">
                                                         <i class="bi bi-skip-start-fill icon-container h2 pt- custom-prev-ayah verse-nav-icon"
-                                                            style="cursor: pointer" @click="goToFirstAyah"
+                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;" @click="goToFirstAyah"
+                                                            onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
+                                                            onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                             title="First verse"></i>
                                                         <div class="large">First verse</div>
                                                     </div>
                                                     <div class="text-center">
                                                         <i class="bi bi-arrow-left-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
-                                                            style="cursor: pointer" @click="goToPreviousAyah"
+                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;" @click="goToPreviousAyah"
+                                                            onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
+                                                            onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                             title="Previous verse"></i>
                                                         <div class="large">Previous verse</div>
                                                     </div>
                                                     <div class="text-center">
                                                         <i class="bi bi-arrow-right-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
-                                                            style="cursor: pointer" @click="goToNextAyah"
+                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;" @click="goToNextAyah"
+                                                            onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
+                                                            onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                             title="Next verse"></i>
                                                         <div class="large">Next verse</div>
                                                     </div>
                                                     <div class="text-center">
                                                         <i class="bi bi-skip-end-fill pt-2 h2 icon-container custom-prev-ayah desktop-icon verse-nav-icon"
-                                                            style="cursor: pointer" @click="goToLastAyah"
+                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;" @click="goToLastAyah"
+                                                            onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
+                                                            onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                             title="Last verse"></i>
                                                         <div class="large">Last verse</div>
                                                     </div>
@@ -761,31 +781,29 @@
                                                                 </div> -->
                                                             </div>
                                                         </div>
-                                                        <hr style="
-                                                            border: 2px solid
-                                                                #333;
-                                                        " />
+                                                        <hr style="border: 1px solid #e5e7eb; margin: 10px 0 0 0;" />
                                                     </div>
                                                 </div>
 
                                                 <!-- mobile navigation -->
                                                 <div class="dropdown mobile-only">
-                                                    <div :style="iconStyle" class="icon-container">
+                                                    <div :style="iconStyle" class="icon-container"
+                                                        style="background:#f8fafc; border:1px solid rgba(2,6,23,0.06); border-radius:12px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center;">
 
                                                         <i class="bi bi-chevron-bar-left h4 verse-nav-icon"
-                                                            style="cursor: pointer" @click="goToFirstAyah()"
+                                                            style="cursor: pointer; color:#1a5f7a;" @click="goToFirstAyah()"
                                                             title="Last verse"></i>
                                                         <i class="bi bi-arrow-left-circle h4 verse-nav-icon"
-                                                            style="cursor: pointer" @click="goToPreviousAyah()"
+                                                            style="cursor: pointer; color:#1a5f7a;" @click="goToPreviousAyah()"
                                                             title="Previous verse"></i>
                                                         <!-- <i @click="submitFormTransliteration"
                                                             class="bi bi-bookmark mb-2 h4" aria-expanded="false"
                                                             data-bs-placement="top" title="Bookmark verse"></i> -->
                                                         <i class="bi bi-arrow-right-circle h4 verse-nav-icon"
-                                                            style="cursor: pointer" @click="goToNextAyah()"
+                                                            style="cursor: pointer; color:#1a5f7a;" @click="goToNextAyah()"
                                                             title="Next verse"></i>
                                                         <i class="bi bi-chevron-bar-right h4 verse-nav-icon"
-                                                            style="cursor: pointer" @click="goToLastAyah()"
+                                                            style="cursor: pointer; color:#1a5f7a;" @click="goToLastAyah()"
                                                             title="End verse"></i>
                                                     </div>
                                                     <!-- Mobile/Tablet tip: swipe between verses -->
@@ -1703,10 +1721,8 @@ export default {
 }
 
 .selector-card {
-    background: #ffffff;
-    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: transparent !important;
     border-radius: 20px;
-    padding: 0.8rem;
     box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);
 }
 
@@ -1721,10 +1737,10 @@ export default {
 }
 
 .selector-control {
-    border-radius: 14px;
+    border-radius: 20px;
     border: 1px solid rgba(49, 70, 67, 0.18);
     padding: 0.5rem;
-    background: #f8fafc;
+    /* background: #f8fafc; */
 }
 
 .ayah-scroll {
@@ -1739,6 +1755,7 @@ export default {
 
 .ayah-item {
     padding: 0.85rem 1rem;
+    padding-bottom: 2px;
     border-radius: 16px;
     transition: background 0.2s ease, border 0.2s ease, transform 0.15s ease;
     border: 1px solid transparent;
