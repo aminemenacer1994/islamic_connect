@@ -32476,10 +32476,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -32491,8 +32488,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Quran Explorer"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -32503,23 +32500,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Explore the beauty and guidance of the Quran at your fingertips — perfect for seekers, travelers, and newcomers alike."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/quran'",
-    style: {
-      "background": "rgb(11, 93, 75)",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Quran")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -32531,8 +32518,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Quran Companion"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -32543,23 +32530,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Explore the beauty and guidance of the Quran at your fingertips. Whether you're deepening your faith or discovering its wisdom for the first time."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/surat'",
-    style: {
-      "background": "rgb(11, 93, 75)",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Recitations")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -32571,8 +32548,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Quran History"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -32583,13 +32560,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Explore the rich history of the Quran from its divine revelation to its meticulous preservation right at your fingertips."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/history'",
-    style: {
-      "background": "rgb(11, 93, 75)",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
@@ -32819,7 +32789,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "font-size": "1.8rem",
       "line-height": "1"
     }
-  }, "70+"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "7+"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
       "color": "#4a5568",
       "font-size": "0.85rem",
@@ -32849,7 +32819,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "font-size": "1.8rem",
       "line-height": "1"
     }
-  }, "570+"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "575+"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
       "color": "#4a5568",
       "font-size": "0.85rem",
@@ -33046,7 +33016,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "reduce-motion": true,
     "aria-live": "polite",
     "aria-atomic": "true"
-  })])])])]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section aria-labelledby=\"services-heading\" data-v-2ba25654><div class=\"py-5\" style=\"background:#f8f9fa;\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-5\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h2 id=\"services-heading\" class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>What We Offer</h2><p class=\"lead text-muted\" data-v-2ba25654>Comprehensive Islamic resources designed for modern learners</p></div></div><div class=\"row g-4\" data-v-2ba25654><!-- Card 1: Explore with Ease --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/galaxy.png\" width=\"80\" height=\"80\" alt=\"Magnifying glass exploring Islamic content\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Explore with Ease</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics. Find meaningful content instantly for your spiritual journey. </p></div></article></div><!-- Card 2: Listen, Watch, Reflect --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/watching.png\" width=\"80\" height=\"80\" alt=\"Headphones for audio content\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Listen, Watch, Reflect</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Enjoy Quran recitations, insightful podcasts, and Islamic art galleries. Engage spiritually through multimedia content anywhere, anytime. </p></div></article></div><!-- Card 3: Learn Your Way --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/school.png\" width=\"80\" height=\"80\" alt=\"Graduation cap for learning\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Learn Your Way</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible learning for everyone, regardless of ability. </p></div></article></div></div></div></div></section><section class=\"container pt-3\" aria-label=\"Islamic Connect Features\" data-v-2ba25654><!-- First Row - Quran Companion --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Quran Companion: AI-Powered &amp; Accessible </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Experience the Quran with advanced AI tools for reading, listening, and understanding. Featuring text-to-speech, screen reader support, and voice search for an accessible, intelligent connection to the Divine. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-2ba25654><a href=\"/quran\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:rgb(0, 121, 107);border:none;min-width:160px;\" data-v-2ba25654> Explore Quran </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/companion2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran Companion interface showing AI-powered features and accessibility tools\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div><!-- Second Row - Audio Content --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/radio2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Islamic podcasts and audio content streaming interface\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div><div class=\"col-lg-6\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Spiritual Content On-The-Go </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place. Stay spiritually connected through sound and reflection wherever you are. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-2ba25654><a href=\"/media\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:rgb(0, 121, 107);border:none;min-width:160px;\" data-v-2ba25654> Browse Content </a></div></div></div><!-- Third Row - Quran Explorer --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Deep Quran Exploration </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Search, explore, and engage with every verse effortlessly. Discover tafsir, translations, and recitations with tools designed for simplicity and spiritual growth. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-2ba25654><a href=\"/surat\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:rgb(0, 121, 107);border:none;min-width:160px;\" data-v-2ba25654> Start Exploring </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/surat2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran exploration interface with search and translation features\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div></section>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Section "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"stats-section\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center\" data-v-2ba25654><div class=\"col-lg-10 text-center\" data-v-2ba25654><h2 class=\"section-title\" data-v-2ba25654>Our Impact in Numbers</h2><p class=\"section-lead\" data-v-2ba25654>Measurable results showing how we&#39;re making Islamic knowledge accessible to all</p><div class=\"row container-fluid stats-grid\" data-v-2ba25654><div class=\"col-md-4 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>70+</h3><p data-v-2ba25654>Countries</p><small data-v-2ba25654>Global reach</small></div></div><div class=\"col-md-4 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>570+</h3><p data-v-2ba25654>Cities/Towns</p><small data-v-2ba25654>Worldwide presence</small></div></div><div class=\"col-md-4 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>1,090%</h3><p data-v-2ba25654>Growth</p><small data-v-2ba25654>Returning users</small></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<section class=\"py-5 combined-section\">\n      <div class=\"container-fluid\">\n        <div class=\"row align-items-stretch\">\n          -- Value Proposition Column --\n          <div class=\"col-lg-1 mb-4\">\n          </div>\n          <div class=\"col-lg-5 mb-4\">\n            <div class=\"value-proposition-wrapper\">\n\n              <div class=\"form-header text-center mb-4\">\n                <h2 class=\"mb-3\">Strategic Impact Areas</h2>\n              </div>\n              <div class=\"row\">\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">📚</div>\n                    <h3>Educational Content</h3>\n                    <p>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p>\n                  </div>\n                </div>\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">♿</div>\n                    <h3>Accessibility Features</h3>\n                    <p>Implementing screen reader support and voice interfaces for inclusive access</p>\n                  </div>\n                </div>\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">⚙️</div>\n                    <h3>Platform Infrastructure</h3>\n                    <p>Maintaining robust servers and scalable architecture for global user base</p>\n                  </div>\n                </div>\n                <div class=\"col-md-6 mb-4\">\n                  <div class=\"value-card\">\n                    <div class=\"value-icon\">🌍</div>\n                    <h3>Global Outreach</h3>\n                    <p>Expanding to underserved Muslim communities worldwide</p>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          -- Donation Section Column --\n          -- <div class=\"col-lg-5 mb-4\">\n            <div class=\"donation-form\">\n              <div class=\"form-header text-center mb-4\">\n                <h3 class=\"mb-3\">Make a Difference</h3>\n                <p class=\"text-muted\">Your support enables us to continue our mission</p>\n              </div>\n\n              -- Trust Indicators --\n              <div class=\"trust-indicators mb-4\">\n                <div class=\"trust-item\">\n                  <i class=\"fas fa-lock\"></i>\n                  <span>Secure Payment</span>\n                </div>\n                <div class=\"trust-item\">\n                  <i class=\"fas fa-shield-alt\"></i>\n                  <span>SSL Encrypted</span>\n                </div>\n                <div class=\"trust-item\">\n                  <i class=\"fas fa-certificate\"></i>\n                  <span>Stripe Verified</span>\n                </div>\n              </div>\n\n              -- Summary --\n              <div v-if=\"isValidAmount\" class=\"summary-section mb-4\">\n                <div class=\"summary-header\">\n                  <h3>Ready to Contribute</h3>\n                </div>\n                -- <div class=\"summary-item\">\n                  <span>Amount:</span>\n                  <strong>£{{ finalAmount }}</strong>\n                </div> --\n                <div class=\"summary-item\">\n                  <span>Your Impact:</span>\n                  <strong>{{ impactMessage }}</strong>\n                </div>\n              </div>\n\n              -- Submit Button --\n              <button class=\"btn btn-primary w-100\" @click=\"processDonation\" :disabled=\"!isValidAmount\">\n                <i class=\"fas fa-lock me-2\"></i>\n                Proceed to Secure Payment\n              </button>\n\n              <div class=\"security-guarantee text-center mt-3\">\n                <p class=\"small text-muted\">\n                  <i class=\"fas fa-shield-alt me-1\"></i>\n                  Your contribution is securely processed by Stripe. We never store your payment details.\n                </p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-lg-1 mb-4\">\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Tools & Features Section - Optimized "), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" aria-labelledby=\"ai-tools-title\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654></div><h2 id=\"ai-tools-title\" class=\"h2 mb-3 fw-bold\" data-v-2ba25654>AI-Powered Tools for Enhanced Islamic Learning</h2></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><div class=\"col-12\" data-v-2ba25654><p class=\"lead text-center mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone. Our tools are designed to empower individuals through inclusive, personalized learning experiences that adapt to diverse abilities and learning preferences. </p></div><!-- Feature 1: Speech-to-Text --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"60\" height=\"60\" alt=\"Microphone icon representing speech-to-text feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Speech-to-Text for Islamic Notes</h3><p class=\"mb-0\" data-v-2ba25654> Capture your spoken reflections and thoughts on Islamic teachings effortlessly. Perfect for documenting insights and ensuring accessibility for those who prefer audio input. </p></div></div></div><!-- Feature 2: Voice Search --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"60\" height=\"60\" alt=\"Voice recognition icon for voice search feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Voice-Activated Quran Search</h3><p class=\"mb-0\" data-v-2ba25654> Use voice commands to search Quranic verses and teachings. A hands-free, accessible way to explore Islamic content quickly and intuitively. </p></div></div></div><!-- Feature 3: Note Editor --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"60\" height=\"60\" alt=\"E-learning icon for note editor feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Advanced Islamic Note Editor</h3><p class=\"mb-0\" data-v-2ba25654> A customizable note-taking tool designed specifically for Islamic studies. Organize your reflections, bookmarks, and study notes with ease. </p></div></div></div><!-- Feature 4: Text Summarization --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/content.png\" width=\"60\" height=\"60\" alt=\"Content icon for text summarization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>AI Text Summarization</h3><p class=\"mb-0\" data-v-2ba25654> Quickly understand complex Islamic texts with AI-powered summaries. Extract key insights from lengthy content to enhance your learning efficiency. </p></div></div></div><!-- Feature 5: Audio Sync --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"60\" height=\"60\" alt=\"Highlighter icon for audio synchronization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Word-by-Word Quran Highlighting</h3><p class=\"mb-0\" data-v-2ba25654> Follow Quranic recitations with synchronized text highlighting. Each word lights up as it&#39;s recited, improving pronunciation and comprehension. </p></div></div></div><!-- Feature 6: Text-to-Speech --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"60\" height=\"60\" alt=\"Chat icon for text-to-speech feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Text-to-Speech for Translations</h3><p class=\"mb-0\" data-v-2ba25654> Listen to Quran translations and Tafsir explanations. High-quality audio delivery makes Islamic knowledge accessible while multitasking or for visual impairments. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Premium CTA Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])])])]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section aria-labelledby=\"services-heading\" data-v-2ba25654><div class=\"py-5\" style=\"background:#f8f9fa;\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-5\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h2 id=\"services-heading\" class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>What We Offer</h2><p class=\"lead text-muted\" data-v-2ba25654>Comprehensive Islamic resources designed for modern learners</p></div></div><div class=\"row g-4\" data-v-2ba25654><!-- Card 1: Explore with Ease --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/galaxy.png\" width=\"80\" height=\"80\" alt=\"Magnifying glass exploring Islamic content\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Explore with Ease</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics. Find meaningful content instantly for your spiritual journey. </p></div></article></div><!-- Card 2: Listen, Watch, Reflect --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/watching.png\" width=\"80\" height=\"80\" alt=\"Headphones for audio content\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Listen, Watch, Reflect</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Enjoy Quran recitations, insightful podcasts, and Islamic art galleries. Engage spiritually through multimedia content anywhere, anytime. </p></div></article></div><!-- Card 3: Learn Your Way --><div class=\"col-md-6 col-lg-4\" data-v-2ba25654><article class=\"card h-100 border-0\" style=\"box-shadow:0 5px 20px rgba(0, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease;\" data-v-2ba25654><div class=\"card-body text-center p-4\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/school.png\" width=\"80\" height=\"80\" alt=\"Graduation cap for learning\" loading=\"lazy\" data-v-2ba25654></div><h3 class=\"h3 fw-bold\" data-v-2ba25654>Learn Your Way</h3><p class=\"mb-4\" style=\"font-size:16px;line-height:1.6;color:#4a5568;\" data-v-2ba25654> Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible learning for everyone, regardless of ability. </p></div></article></div></div></div></div></section><section class=\"container pt-3\" aria-label=\"Islamic Connect Features\" data-v-2ba25654><!-- First Row - Quran Companion --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Quran Companion: AI-Powered &amp; Accessible </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Experience the Quran with advanced AI tools for reading, listening, and understanding. Featuring text-to-speech, screen reader support, and voice search for an accessible, intelligent connection to the Divine. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-2ba25654><a href=\"/quran\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:rgb(0, 121, 107);border:none;min-width:160px;\" data-v-2ba25654> Explore Quran </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/companion2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran Companion interface showing AI-powered features and accessibility tools\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div><!-- Second Row - Audio Content --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/radio2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Islamic podcasts and audio content streaming interface\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div><div class=\"col-lg-6\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Spiritual Content On-The-Go </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place. Stay spiritually connected through sound and reflection wherever you are. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-2ba25654><a href=\"/media\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:rgb(0, 121, 107);border:none;min-width:160px;\" data-v-2ba25654> Browse Content </a></div></div></div><!-- Third Row - Quran Explorer --><div class=\"row py-4 py-lg-5 align-items-center\" data-v-2ba25654><div class=\"col-lg-6 order-2 order-lg-1\" data-v-2ba25654><h2 class=\"h1 fw-bold text-center text-lg-start mb-4\" data-v-2ba25654> Deep Quran Exploration </h2><p class=\"lead text-muted text-center text-lg-start mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> Search, explore, and engage with every verse effortlessly. Discover tafsir, translations, and recitations with tools designed for simplicity and spiritual growth. </p><div class=\"d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center\" data-v-2ba25654><a href=\"/surat\" class=\"btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none\" style=\"background:rgb(0, 121, 107);border:none;min-width:160px;\" data-v-2ba25654> Start Exploring </a></div></div><div class=\"col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0\" data-v-2ba25654><img src=\"/images/surat2.png\" class=\"img-fluid rounded-3 shadow-sm\" alt=\"Quran exploration interface with search and translation features\" loading=\"lazy\" width=\"600\" height=\"400\" data-v-2ba25654></div></div></section>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stats Section "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"stats-section\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center\" data-v-2ba25654><div class=\"col-lg-10 text-center\" data-v-2ba25654><h2 class=\"section-title\" data-v-2ba25654>Our Impact in Numbers</h2><p class=\"section-lead\" data-v-2ba25654>Measurable results showing how we&#39;re making Islamic knowledge accessible to all</p><div class=\"row container-fluid stats-grid\" data-v-2ba25654><div class=\"col-md-4 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>70+</h3><p data-v-2ba25654>Countries</p><small data-v-2ba25654>Global reach</small></div></div><div class=\"col-md-4 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>570+</h3><p data-v-2ba25654>Cities/Towns</p><small data-v-2ba25654>Worldwide presence</small></div></div><div class=\"col-md-4 col-6 mb-4\" data-v-2ba25654><div class=\"stat-card\" data-v-2ba25654><h3 data-v-2ba25654>1,090%</h3><p data-v-2ba25654>Growth</p><small data-v-2ba25654>Returning users</small></div></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Tools & Features Section - Optimized "), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" aria-labelledby=\"ai-tools-title\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654></div><h2 id=\"ai-tools-title\" class=\"h2 mb-3 fw-bold\" data-v-2ba25654>AI-Powered Tools for Enhanced Islamic Learning</h2></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><div class=\"col-12\" data-v-2ba25654><p class=\"lead text-center mb-4\" style=\"line-height:1.7;\" data-v-2ba25654> At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone. Our tools are designed to empower individuals through inclusive, personalized learning experiences that adapt to diverse abilities and learning preferences. </p></div><!-- Feature 1: Speech-to-Text --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"60\" height=\"60\" alt=\"Microphone icon representing speech-to-text feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Speech-to-Text for Islamic Notes</h3><p class=\"mb-0\" data-v-2ba25654> Capture your spoken reflections and thoughts on Islamic teachings effortlessly. Perfect for documenting insights and ensuring accessibility for those who prefer audio input. </p></div></div></div><!-- Feature 2: Voice Search --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"60\" height=\"60\" alt=\"Voice recognition icon for voice search feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Voice-Activated Quran Search</h3><p class=\"mb-0\" data-v-2ba25654> Use voice commands to search Quranic verses and teachings. A hands-free, accessible way to explore Islamic content quickly and intuitively. </p></div></div></div><!-- Feature 3: Note Editor --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"60\" height=\"60\" alt=\"E-learning icon for note editor feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Advanced Islamic Note Editor</h3><p class=\"mb-0\" data-v-2ba25654> A customizable note-taking tool designed specifically for Islamic studies. Organize your reflections, bookmarks, and study notes with ease. </p></div></div></div><!-- Feature 4: Text Summarization --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/content.png\" width=\"60\" height=\"60\" alt=\"Content icon for text summarization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>AI Text Summarization</h3><p class=\"mb-0\" data-v-2ba25654> Quickly understand complex Islamic texts with AI-powered summaries. Extract key insights from lengthy content to enhance your learning efficiency. </p></div></div></div><!-- Feature 5: Audio Sync --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"60\" height=\"60\" alt=\"Highlighter icon for audio synchronization feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Word-by-Word Quran Highlighting</h3><p class=\"mb-0\" data-v-2ba25654> Follow Quranic recitations with synchronized text highlighting. Each word lights up as it&#39;s recited, improving pronunciation and comprehension. </p></div></div></div><!-- Feature 6: Text-to-Speech --><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex h-100\" data-v-2ba25654><div class=\"flex-shrink-0 me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"60\" height=\"60\" alt=\"Chat icon for text-to-speech feature\" loading=\"lazy\" data-v-2ba25654></div><div class=\"flex-grow-1\" data-v-2ba25654><h3 class=\"h5 mb-2 fw-bold\" data-v-2ba25654>Text-to-Speech for Translations</h3><p class=\"mb-0\" data-v-2ba25654> Listen to Quran translations and Tafsir explanations. High-quality audio delivery makes Islamic knowledge accessible while multitasking or for visual impairments. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Premium CTA Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "row justify-content-center text-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-lg-8"
@@ -33062,7 +33032,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "line-height": "1.7"
     }
-  }, " Your support sustains this khidmah and keeps Islamic knowledge accessible for everyone. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Faith-centered quote "), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row justify-content-center mb-4 quote-wrapper bg-white\" data-v-2ba25654><div class=\"col-lg-9\" data-v-2ba25654><div class=\"quote-card\" data-v-2ba25654><!-- Subtle glowing accent --><div class=\"quote-glow\" data-v-2ba25654></div><div class=\"quote-content\" data-v-2ba25654><!-- First Quote --><p class=\"faith-quote\" data-v-2ba25654><span class=\"quote-mark\" aria-hidden=\"true\" data-v-2ba25654>“</span> Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise. <span class=\"quote-mark\" aria-hidden=\"true\" data-v-2ba25654>”</span></p><div class=\"quote-ref\" data-v-2ba25654>Hadith — Sahih Muslim</div><!-- Decorative divider --><div class=\"quote-divider\" data-v-2ba25654></div><!-- Second Quote --><!-- &lt;p class=&quot;faith-dua&quot;&gt;\n                  &lt;span class=&quot;quote-mark&quot; aria-hidden=&quot;true&quot;&gt;“&lt;/span&gt;\n                  My Lord, increase me in knowledge.\n                  &lt;span class=&quot;quote-mark&quot; aria-hidden=&quot;true&quot;&gt;”&lt;/span&gt;\n                  &lt;span class=&quot;dua-ref&quot;&gt;(Quran 20:114)&lt;/span&gt;\n                &lt;/p&gt; --></div></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-md-6\" data-v-2ba25654><div class=\"card h-100 border-0\" style=\"box-shadow:0 10px 30px rgba(0,0,0,0.08);\" data-v-2ba25654><div class=\"card-body p-4 text-start\" data-v-2ba25654><h3 class=\"h4 fw-bold mb-3\" style=\"color:#2c3e50;\" data-v-2ba25654>What your support enables</h3><ul class=\"mb-0\" style=\"list-style:none;padding-left:0;color:#4a5568;line-height:1.7;\" data-v-2ba25654><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Keep Quran tools fast, accessible, and ad‑free</li><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Offer trustworthy resources curated with amanah</li><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Deliver new features shaped by your feedback</li><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Make the platform available to those who can’t pay</li></ul></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, " Your support sustains this khidmah and keeps Islamic knowledge accessible for everyone. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Faith-centered quote "), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row justify-content-center mb-4 quote-wrapper bg-white\" data-v-2ba25654><div class=\"col-lg-9\" data-v-2ba25654><div class=\"quote-card\" data-v-2ba25654><!-- Subtle glowing accent --><div class=\"quote-glow\" data-v-2ba25654></div><div class=\"quote-content\" data-v-2ba25654><!-- First Quote --><p class=\"faith-quote\" data-v-2ba25654><span class=\"quote-mark\" aria-hidden=\"true\" data-v-2ba25654>“</span> Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise. <span class=\"quote-mark\" aria-hidden=\"true\" data-v-2ba25654>”</span></p><div class=\"quote-ref\" data-v-2ba25654>Hadith — Sahih Muslim</div><!-- Decorative divider --><div class=\"quote-divider\" data-v-2ba25654></div></div></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-md-6\" data-v-2ba25654><div class=\"card h-100 border-0\" style=\"box-shadow:0 10px 30px rgba(0,0,0,0.08);\" data-v-2ba25654><div class=\"card-body p-4 text-start\" data-v-2ba25654><h3 class=\"h4 fw-bold mb-3\" style=\"color:#2c3e50;\" data-v-2ba25654>What your support enables</h3><ul class=\"mb-0\" style=\"list-style:none;padding-left:0;color:#4a5568;line-height:1.7;\" data-v-2ba25654><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Keep Quran tools fast, accessible, and ad‑free</li><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Offer trustworthy resources curated with amanah</li><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Deliver new features shaped by your feedback</li><li class=\"mb-2\" data-v-2ba25654><i class=\"fas fa-check text-success me-2\" data-v-2ba25654></i>Make the platform available to those who can’t pay</li></ul></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h4 fw-bold mb-3",
     style: {
       "color": "#2c3e50"
@@ -33595,10 +33565,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -33610,8 +33577,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Seerah Timeline"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -33622,23 +33589,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Seerah is the life story of Prophet Muhammad ﷺ, covering his birth, prophethood, teachings, events like battles, and his role in establishing Islam. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/mission'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Seerah")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4 d-flex pb-3\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" style=\"border: 1px solid grey;\">\n          <img src=\"/images/rug.png\" alt=\"Seerah Timeline\" class=\"w-100 mt-1\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Salat Teachings</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover the beauty of Islamic\n              prayer with our Salat Guide. This walks you through each of the five daily prayers\n            </p>\n            <button class=\"form-control\" onclick=\"window.location.href='/athkar'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Learn Salat</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Seerah")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4 d-flex pb-3\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\">\n          <img src=\"/images/rug.png\" alt=\"Seerah Timeline\" class=\"w-100 mt-1\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Salat Teachings</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover the beauty of Islamic\n              prayer with our Salat Guide. This walks you through each of the five daily prayers\n            </p>\n            <button class=\"form-control\" onclick=\"window.location.href='/athkar'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Learn Salat</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card shadow-sm rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card shadow-sm rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/name_allah1.png",
     alt: "Names of Allah",
@@ -33648,8 +33605,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Names of Allah"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -33660,23 +33617,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "The Names of Allah (Asma’ul Husna) are 99 beautiful names that describe Allah’s attributes, such as mercy, wisdom, power, and justice."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/name'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Names")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -33688,8 +33635,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Islamic Guides"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -33700,13 +33647,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Discover a comprehensive collection of clear and reliable Islamic guides designed to support every stage of your spiritual journey."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/guide'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
@@ -33714,9 +33654,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    style: {}
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -33728,8 +33666,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Islamic Finance"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -33754,9 +33692,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    style: {}
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -33768,8 +33704,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Islamic Blogs"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -33794,9 +33730,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    style: {}
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -33808,8 +33742,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Dictionary"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -33861,10 +33795,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -33877,8 +33808,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Audio Podcasts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -33889,23 +33820,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/content'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/content')\" type=\"button\" style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n                            <span class=\"text-center w-100\"><b>Stream Podcasts</b></span>\n                        </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else class=\"restricted-access text-center p-2\" style=\"border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n                            <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n                            <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: #228B22; font-weight: bold;\">Subscribe Now</a>\n                        </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -33917,8 +33838,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Channel Guide"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -33929,23 +33850,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, " Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/streaming'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Channels")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/streaming')\" type=\"button\" style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n                            <span class=\"text-center w-100\"><b>View Channels</b></span>\n                        </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n                            <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n                            <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: #228B22; font-weight: bold;\">Subscribe Now</a>\n                        </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -33957,8 +33868,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Reciters Stations"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -33982,10 +33893,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Reciters")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/radio')\" type=\"button\" style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n                            <span class=\"text-center w-100\"><b>Explore Reciters</b></span>\n                        </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n                            <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n                            <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: #228B22; font-weight: bold;\">Subscribe Now</a>\n                        </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card shadow-sm rounded-4",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card overflow-hidden rounded-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/img_g.png",
     alt: "Image Gallery",
@@ -33995,8 +33903,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Image Gallery"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -34020,10 +33928,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card shadow-sm rounded-4",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card overflow-hidden rounded-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/vide_g.png",
     alt: "Video Gallery",
@@ -34033,8 +33938,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Video Gallery"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -38907,10 +38812,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -38922,8 +38824,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Mosque Locator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -38934,23 +38836,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, " Find nearby mosques around you based on your location with directions, prayer times, and contact details. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/mosque'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find a Mosque")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button  v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/mosque')\" type=\"button\" style=\"background: rgb(11, 93, 75);box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n              <span class=\"text-center w-100\"><b>Find a Mosque</b></span>\n            </button>\n            <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n              <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n              <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n            </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -38962,8 +38854,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Halal Butchers"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -38974,23 +38866,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Discover delicious and certified halal butcher at your fingertips. Whether you're traveling or you're new in town."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/shop'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Butchers")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/shop')\" type=\"button\" style=\"background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n              <span class=\"text-center w-100\"><b>Search Butchers</b></span>\n            </button>\n            <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n              <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n              <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n            </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" style=\"border: 1px solid grey;\">\n          <img src=\"/images/store1.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Shops Finder</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/store'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Locate Shops</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" style=\"border: 1px solid grey;\">\n          <img src=\"/images/food.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Halal Food Locater</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/food'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Search Foods</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Butchers")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/shop')\" type=\"button\" style=\"background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n              <span class=\"text-center w-100\"><b>Search Butchers</b></span>\n            </button>\n            <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n              <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n              <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n            </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" >\n          <img src=\"/images/store1.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Shops Finder</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/store'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Locate Shops</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" >\n          <img src=\"/images/food.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Halal Food Locater</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/food'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Search Foods</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    style: {}
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -39002,8 +38885,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Islamic Schools"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -39027,10 +38910,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Visit Schools")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/school')\" type=\"button\" style=\"background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n              <span class=\"text-center w-100\"><b>Visit Schools</b></span>\n            </button>\n            <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n              <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n              <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n            </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card shadow-sm rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card shadow-sm rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/donate111.png",
     alt: "Donation",
@@ -39040,8 +38920,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Donation"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -39052,13 +38932,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Your donation helps us keep Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/support'",
-    style: {
-      "background": "rgb(11, 93, 75)",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
@@ -42812,10 +42685,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -42827,8 +42697,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Qibla finder"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-center",
     style: {
@@ -42839,23 +42709,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, " Find the Qibla direction from anywhere in the world using compass and map support—essential for your prayers. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/qibla'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find Qibla")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card shadow-sm rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card shadow-sm rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/pt1.png",
     alt: "Prayer Times",
@@ -42865,8 +42725,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Prayer Times"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-center",
     style: {
@@ -42877,23 +42737,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, " Accurate daily prayer times based on your location. View Fajr, Dhuhr, Asr, Maghrib, and Isha timings with sunrise and Qibla direction support. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/prayer'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Prayer Times")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -42905,8 +42755,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Dua Collection"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -42917,23 +42767,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Authentic Duas from the Qur’an and Sunnah for every occasion—complete with Arabic, translation and audio to help you reflect and connect."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/dua'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Duas")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -42945,8 +42785,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Zakat Calculator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -42957,13 +42797,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Easily calculate your zakat based on your assets and liabilities with up-to-date nisab values and simplified guidance."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/zakat'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
@@ -42971,9 +42804,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    style: {}
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -42985,8 +42816,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Date Converter"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -43011,9 +42842,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card custom-card rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    style: {}
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
   }, "New"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -43025,8 +42854,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Hajj & Umrah guides"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -43050,10 +42879,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read Guides")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card shadow-sm rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card shadow-sm rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/calendar2.png",
     alt: "Hijri Calendar",
@@ -43063,8 +42889,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Hijri Calendar"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -50827,7 +50653,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-78b3b4a4] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-78b3b4a4] {\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-78b3b4a4]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n    transition: box-shadow 0.3s ease-in-out;\n}\n.custom-card[data-v-78b3b4a4] {\n    height: 100%;\n    transition: all 0.3s ease;\n}\n.custom-card img[data-v-78b3b4a4] {\n    height: 180px;\n    object-fit: cover;\n    transition: transform 0.3s ease;\n}\n.custom-card:hover img[data-v-78b3b4a4] {\n    transform: scale(1.05);\n}\n@keyframes borderPulse-78b3b4a4 {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: #00bfa6;\n        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-78b3b4a4] {\n    animation: borderPulse-78b3b4a4 2s infinite ease-in-out;\n}\n.restricted-access[data-v-78b3b4a4] {\n    background: #28b66324;\n    transition: all 0.3s ease;\n}\n.restricted-access[data-v-78b3b4a4]:hover {\n    background: #28b66324;\n    transform: translateY(-2px);\n}\n.restricted-access a[data-v-78b3b4a4]:hover {\n    color: #009e87;\n    text-decoration: underline;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Design tokens */\n[data-v-78b3b4a4]:root {\n  --brand-1: #1a5f7a;\n  --brand-2: #0b5d4b;\n  --accent: #00bfa6;\n  --text-1: #2c3e50;\n  --text-2: #6c757d;\n  --surface: #ffffff;\n  --surface-muted: #f8f9fa;\n  --border: #e9ecef;\n  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.06);\n  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.10);\n}\n/* Typography & spacing */\n.container > h1.display-5[data-v-78b3b4a4] { letter-spacing: -0.01em; margin-bottom: 0.75rem; color: var(--text-1);\n}\n.lead[data-v-78b3b4a4] { color: var(--text-2); line-height: 1.75; margin-left: auto; margin-right: auto;\n}\n.custom-card .display-6[data-v-78b3b4a4] { font-size: 1.4rem; font-weight: 800; color: var(--text-1);\n}\n.card.custom-card .card-text[data-v-78b3b4a4] { font-size: 0.95rem; line-height: 1.6; color: var(--text-2);\n}\n@media (max-width: 768px) {\n.container > h1.display-5[data-v-78b3b4a4] { font-size: 2rem !important;\n}\n.custom-card .display-6[data-v-78b3b4a4] { font-size: 1.1rem;\n}\n.custom-card img[data-v-78b3b4a4] { height: 160px;\n}\n.lead[data-v-78b3b4a4] { font-size: 1rem;\n}\n}\n@media (min-width: 992px) {\n.custom-card img[data-v-78b3b4a4] { height: 190px;\n}\n}\n.card.custom-card .card-text[data-v-78b3b4a4] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-78b3b4a4] {\n  background: #0b5d4b;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  color: #fff;\n  height: 38px;\n  padding: 0.375rem 0.75rem;\n  border: none;\n}\n.card.custom-card button.form-control[data-v-78b3b4a4]:focus-visible { outline: 3px solid rgba(0,191,166,0.45); outline-offset: 2px;\n}\n.custom-card[data-v-78b3b4a4] { border: none; border-radius: 16px; background: #fff; height: 100%; box-shadow: 0 6px 20px rgba(0,0,0,0.08); transition: transform 0.25s ease, box-shadow 0.25s ease; position: relative; overflow: hidden;\n}\n.custom-card[data-v-78b3b4a4]:hover { transform: translateY(-6px); box-shadow: 0 18px 45px rgba(0,0,0,0.16);\n}\n.custom-card[data-v-78b3b4a4]::before { content: \"\"; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--brand-2), var(--brand-1)); transform: scaleX(0.4); transform-origin: left; transition: transform 0.3s ease;\n}\n.custom-card[data-v-78b3b4a4]:hover::before { transform: scaleX(1);\n}\n.custom-card img[data-v-78b3b4a4] { height: 180px; object-fit: contain; transition: transform 0.25s ease;\n}\n.custom-card:hover img[data-v-78b3b4a4] { transform: scale(1.05);\n}\n@keyframes borderPulse-78b3b4a4 {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: #00bfa6;\n        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n/* Tone down previous pulsing borders for subtlety */\n.card.custom-card[data-v-78b3b4a4] { animation: none;\n}\n.restricted-access[data-v-78b3b4a4] { background: #28b66324; transition: background-color 0.2s ease, transform 0.2s ease;\n}\n.restricted-access[data-v-78b3b4a4]:hover { background: #28b66333; transform: translateY(-2px);\n}\n.restricted-access a[data-v-78b3b4a4]:hover { color: var(--brand-2); text-decoration: underline;\n}\n/* Reduced motion */\n@media (prefers-reduced-motion: reduce) {\n.custom-card[data-v-78b3b4a4], .custom-card img[data-v-78b3b4a4], .card.custom-card button.form-control[data-v-78b3b4a4] { transition: none !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -50923,7 +50749,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-1a7b776c] {\n  max-height: 4.5em;\n  text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-1a7b776c] {\n  background: #0b5d4b;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  color: white;\n  height: 38px;\n  padding: 0.375rem 0.75rem;\n  border: none;\n}\n.custom-card[data-v-1a7b776c]:hover {\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n  transition: box-shadow 0.3s ease-in-out;\n}\n.custom-card[data-v-1a7b776c] {\n  height: 100%;\n  transition: all 0.3s ease;\n}\n.custom-card img[data-v-1a7b776c] {\n  height: 180px;\n  object-fit: cover;\n  transition: transform 0.3s ease;\n}\n.custom-card:hover img[data-v-1a7b776c] {\n  transform: scale(1.05);\n}\n@keyframes borderPulse-1a7b776c {\n0% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n    border-color: rgb(0, 107, 95);\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-1a7b776c] {\n  animation: borderPulse-1a7b776c 2s infinite ease-in-out;\n}\n.restricted-access[data-v-1a7b776c] {\n  background: #28b66324;\n  transition: all 0.3s ease;\n}\n.restricted-access[data-v-1a7b776c]:hover {\n  background: #28b66324;\n  transform: translateY(-2px);\n}\n.restricted-access a[data-v-1a7b776c]:hover {\n  color: #009e87;\n  text-decoration: underline;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Design tokens */\n[data-v-1a7b776c]:root {\n  --brand-1: #1a5f7a;\n  --brand-2: #0b5d4b;\n  --accent: #00bfa6;\n  --text-1: #2c3e50;\n  --text-2: #6c757d;\n  --surface: #ffffff;\n  --surface-muted: #f8f9fa;\n  --border: #e9ecef;\n  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.06);\n  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.10);\n}\n/* Typography & spacing */\n.container>h1.display-5[data-v-1a7b776c] {\n  letter-spacing: -0.01em;\n  margin-bottom: 0.75rem;\n  color: var(--text-1);\n}\n.lead[data-v-1a7b776c] {\n  color: var(--text-2);\n  line-height: 1.75;\n  margin-left: auto;\n  margin-right: auto;\n}\n.custom-card .display-6[data-v-1a7b776c] {\n  font-size: 1.4rem;\n  font-weight: 800;\n  color: var(--text-1);\n}\n.card.custom-card .card-text[data-v-1a7b776c] {\n  font-size: 0.95rem;\n  line-height: 1.6;\n  color: var(--text-2);\n}\n@media (max-width: 768px) {\n.container>h1.display-5[data-v-1a7b776c] {\n    font-size: 2rem !important;\n}\n.custom-card .display-6[data-v-1a7b776c] {\n    font-size: 1.1rem;\n}\n.custom-card img[data-v-1a7b776c] {\n    height: 160px;\n}\n.lead[data-v-1a7b776c] {\n    font-size: 1rem;\n}\n}\n@media (min-width: 992px) {\n.custom-card img[data-v-1a7b776c] {\n    height: 190px;\n}\n}\n.card.custom-card .card-text[data-v-1a7b776c] {\n  max-height: 4.5em;\n  text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-1a7b776c] {\n  background: #0b5d4b;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  color: #fff;\n  height: 38px;\n  padding: 0.375rem 0.75rem;\n  border: none;\n}\n.card.custom-card button.form-control[data-v-1a7b776c]:focus-visible {\n  outline: 3px solid rgba(0, 191, 166, 0.45);\n  outline-offset: 2px;\n}\n.custom-card[data-v-1a7b776c] {\n  border: none;\n  border-radius: 16px;\n  background: #fff;\n  height: 100%;\n  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);\n  transition: transform 0.25s ease, box-shadow 0.25s ease;\n  position: relative;\n  overflow: hidden;\n}\n.custom-card[data-v-1a7b776c]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);\n}\n.custom-card[data-v-1a7b776c]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 4px;\n  background: linear-gradient(90deg, var(--brand-2), var(--brand-1));\n  transform: scaleX(0.4);\n  transform-origin: left;\n  transition: transform 0.3s ease;\n}\n.custom-card[data-v-1a7b776c]:hover::before {\n  transform: scaleX(1);\n}\n.custom-card img[data-v-1a7b776c] {\n  height: 180px;\n  object-fit: contain;\n  transition: transform 0.25s ease;\n  border: none;\n}\n.custom-card:hover img[data-v-1a7b776c] {\n  transform: scale(1.05);\n}\n@keyframes borderPulse-1a7b776c {\n0% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n    border-color: rgb(0, 107, 95);\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-1a7b776c] {\n  animation: none;\n}\n.restricted-access[data-v-1a7b776c] {\n  background: #28b66324;\n  transition: background-color 0.2s ease, transform 0.2s ease;\n}\n.restricted-access[data-v-1a7b776c]:hover {\n  background: #28b66333;\n  transform: translateY(-2px);\n}\n.restricted-access a[data-v-1a7b776c]:hover {\n  color: var(--brand-2);\n  text-decoration: underline;\n}\n@media (prefers-reduced-motion: reduce) {\n.custom-card[data-v-1a7b776c],\n  .custom-card img[data-v-1a7b776c],\n  .card.custom-card button.form-control[data-v-1a7b776c] {\n    transition: none !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -50947,7 +50773,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-63cb17b8] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n    background: #0b5d4b;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-63cb17b8]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n    transition: box-shadow 0.3s ease-in-out;\n}\n.custom-card[data-v-63cb17b8] {\n    height: 100%;\n    transition: all 0.3s ease;\n}\n.custom-card img[data-v-63cb17b8] {\n    height: 180px;\n    object-fit: cover;\n    transition: transform 0.3s ease;\n}\n.custom-card:hover img[data-v-63cb17b8] {\n    transform: scale(1.05);\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n        border-color: #228B22;\n        box-shadow: 0 0 5px rgba(0, 107, 95, 0.4);\n}\n50% {\n        border-color: #00564c;\n        box-shadow: 0 0 12px rgba(0, 86, 76, 0.7);\n}\n100% {\n        border-color: #228B22;\n        box-shadow: 0 0 5px rgba(0, 107, 95, 0.4);\n}\n}\n.card.custom-card[data-v-63cb17b8] {\n    animation: borderPulse-63cb17b8 2s infinite ease-in-out;\n}\n.restricted-access[data-v-63cb17b8] {\n    background: #28b66324;\n    transition: all 0.3s ease;\n}\n.restricted-access[data-v-63cb17b8]:hover {\n    background: #28b66324;\n    transform: translateY(-2px);\n}\n.restricted-access a[data-v-63cb17b8]:hover {\n    color: #00564c;\n    text-decoration: underline;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Design tokens */\n[data-v-63cb17b8]:root {\n    --brand-1: #1a5f7a;\n    --brand-2: #0b5d4b;\n    --accent: #00bfa6;\n    --text-1: #2c3e50;\n    --text-2: #6c757d;\n    --surface: #ffffff;\n    --surface-muted: #f8f9fa;\n    --border: #e9ecef;\n    --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.06);\n    --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.10);\n}\n/* Typography & spacing */\n.container > h1.display-5[data-v-63cb17b8] { letter-spacing: -0.01em; margin-bottom: 0.75rem; color: var(--text-1);\n}\n.lead[data-v-63cb17b8] { color: var(--text-2); line-height: 1.75; margin-left: auto; margin-right: auto;\n}\n.custom-card .display-6[data-v-63cb17b8] { font-size: 1.4rem; font-weight: 800; color: var(--text-1);\n}\n.card.custom-card .card-text[data-v-63cb17b8] { font-size: 0.95rem; line-height: 1.6; color: var(--text-2);\n}\n@media (max-width: 768px) {\n.container > h1.display-5[data-v-63cb17b8] { font-size: 2rem !important;\n}\n.custom-card .display-6[data-v-63cb17b8] { font-size: 1.1rem;\n}\n.custom-card img[data-v-63cb17b8] { height: 160px;\n}\n.lead[data-v-63cb17b8] { font-size: 1rem;\n}\n}\n@media (min-width: 992px) {\n.custom-card img[data-v-63cb17b8] { height: 190px;\n}\n}\n.card.custom-card .card-text[data-v-63cb17b8] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n    background: #0b5d4b;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: #fff;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.card.custom-card button.form-control[data-v-63cb17b8]:focus-visible { outline: 3px solid rgba(0,191,166,0.45); outline-offset: 2px;\n}\n.custom-card[data-v-63cb17b8] { border: none; border-radius: 16px; background: #fff; height: 100%; box-shadow: 0 6px 20px rgba(0,0,0,0.08); transition: transform 0.25s ease, box-shadow 0.25s ease; position: relative; overflow: hidden;\n}\n.custom-card[data-v-63cb17b8]:hover { transform: translateY(-6px); box-shadow: 0 18px 45px rgba(0,0,0,0.16);\n}\n.custom-card[data-v-63cb17b8]::before { content: \"\"; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--brand-2), var(--brand-1)); transform: scaleX(0.4); transform-origin: left; transition: transform 0.3s ease;\n}\n.custom-card[data-v-63cb17b8]:hover::before { transform: scaleX(1);\n}\n.custom-card img[data-v-63cb17b8] { height: 180px; object-fit: contain; transition: transform 0.25s ease; border: none;\n}\n.custom-card:hover img[data-v-63cb17b8] { transform: scale(1.05);\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n        border-color: #228B22;\n        box-shadow: 0 0 5px rgba(0, 107, 95, 0.4);\n}\n50% {\n        border-color: #00564c;\n        box-shadow: 0 0 12px rgba(0, 86, 76, 0.7);\n}\n100% {\n        border-color: #228B22;\n        box-shadow: 0 0 5px rgba(0, 107, 95, 0.4);\n}\n}\n.card.custom-card[data-v-63cb17b8] { animation: none;\n}\n.restricted-access[data-v-63cb17b8] { background: #28b66324; transition: background-color 0.2s ease, transform 0.2s ease;\n}\n.restricted-access[data-v-63cb17b8]:hover { background: #28b66333; transform: translateY(-2px);\n}\n.restricted-access a[data-v-63cb17b8]:hover { color: var(--brand-2); text-decoration: underline;\n}\n@media (prefers-reduced-motion: reduce) {\n.custom-card[data-v-63cb17b8], .custom-card img[data-v-63cb17b8], .card.custom-card button.form-control[data-v-63cb17b8] { transition: none !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -51236,7 +51062,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-1e616838] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-1e616838] {\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-1e616838]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n    transition: box-shadow 0.3s ease-in-out;\n}\n.custom-card[data-v-1e616838] {\n    height: 100%;\n    transition: all 0.3s ease;\n}\n.custom-card img[data-v-1e616838] {\n    height: 180px;\n    object-fit: cover;\n    transition: transform 0.3s ease;\n}\n.custom-card:hover img[data-v-1e616838] {\n    transform: scale(1.05);\n}\n@keyframes borderPulse-1e616838 {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: rgb(0, 107, 95);\n        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-1e616838] {\n    animation: borderPulse-1e616838 2s infinite ease-in-out;\n}\n.restricted-access[data-v-1e616838] {\n    background: #28b66324;\n    transition: all 0.3s ease;\n}\n.restricted-access[data-v-1e616838]:hover {\n    background: #28b66324;\n    transform: translateY(-2px);\n}\n.restricted-access a[data-v-1e616838]:hover {\n    color: #009e87;\n    text-decoration: underline;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Design tokens */\n[data-v-1e616838]:root {\n  --brand-1: #1a5f7a;\n  --brand-2: #0b5d4b;\n  --accent: #00bfa6;\n  --text-1: #2c3e50;\n  --text-2: #6c757d;\n  --surface: #ffffff;\n  --surface-muted: #f8f9fa;\n  --border: #e9ecef;\n  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.06);\n  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.10);\n}\n/* Typography & spacing */\n.container>h1.display-5[data-v-1e616838] {\n  letter-spacing: -0.01em;\n  margin-bottom: 0.75rem;\n  color: var(--text-1);\n}\n.lead[data-v-1e616838] {\n  color: var(--text-2);\n  line-height: 1.75;\n  margin-left: auto;\n  margin-right: auto;\n}\n.custom-card .display-6[data-v-1e616838] {\n  font-size: 1.4rem;\n  font-weight: 800;\n  color: var(--text-1);\n}\n.card.custom-card .card-text[data-v-1e616838] {\n  font-size: 0.95rem;\n  line-height: 1.6;\n  color: var(--text-2);\n}\n@media (max-width: 768px) {\n.container>h1.display-5[data-v-1e616838] {\n    font-size: 2rem !important;\n}\n.custom-card .display-6[data-v-1e616838] {\n    font-size: 1.1rem;\n}\n.custom-card img[data-v-1e616838] {\n    height: 160px;\n}\n.lead[data-v-1e616838] {\n    font-size: 1rem;\n}\n}\n@media (min-width: 992px) {\n.custom-card img[data-v-1e616838] {\n    height: 190px;\n}\n}\n.card.custom-card .card-text[data-v-1e616838] {\n  max-height: 4.5em;\n  text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-1e616838] {\n  background: #0b5d4b;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  color: #fff;\n  height: 38px;\n  padding: 0.375rem 0.75rem;\n  border: none;\n}\n.card.custom-card button.form-control[data-v-1e616838]:focus-visible {\n  outline: 3px solid rgba(0, 191, 166, 0.45);\n  outline-offset: 2px;\n}\n.custom-card[data-v-1e616838] {\n  border: none;\n  border-radius: 16px;\n  background: #fff;\n  height: 100%;\n  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);\n  transition: transform 0.25s ease, box-shadow 0.25s ease;\n  position: relative;\n  overflow: hidden;\n}\n.custom-card[data-v-1e616838]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);\n}\n.custom-card[data-v-1e616838]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 4px;\n  background: linear-gradient(90deg, var(--brand-2), var(--brand-1));\n  transform: scaleX(0.4);\n  transform-origin: left;\n  transition: transform 0.3s ease;\n}\n.custom-card[data-v-1e616838]:hover::before {\n  transform: scaleX(1);\n}\n.custom-card img[data-v-1e616838] {\n  height: 180px;\n  object-fit: contain;\n  transition: transform 0.25s ease;\n  border: none;\n}\n.custom-card:hover img[data-v-1e616838] {\n  transform: scale(1.05);\n}\n@keyframes borderPulse-1e616838 {\n0% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n    border-color: rgb(0, 107, 95);\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-1e616838] {\n  animation: none;\n}\n.restricted-access[data-v-1e616838] {\n  background: #28b66324;\n  transition: background-color 0.2s ease, transform 0.2s ease;\n}\n.restricted-access[data-v-1e616838]:hover {\n  background: #28b66333;\n  transform: translateY(-2px);\n}\n.restricted-access a[data-v-1e616838]:hover {\n  color: var(--brand-2);\n  text-decoration: underline;\n}\n@media (prefers-reduced-motion: reduce) {\n.custom-card[data-v-1e616838],\n  .custom-card img[data-v-1e616838],\n  .card.custom-card button.form-control[data-v-1e616838] {\n    transition: none !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -51478,7 +51304,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-9200016c] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-9200016c] {\n    background: #0b5d4b;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-9200016c]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n    transition: box-shadow 0.3s ease-in-out;\n}\n.custom-card[data-v-9200016c] {\n    height: 100%;\n    transition: all 0.3s ease;\n}\n.custom-card img[data-v-9200016c] {\n    height: 180px;\n    object-fit: cover;\n    transition: transform 0.3s ease;\n}\n.custom-card:hover img[data-v-9200016c] {\n    transform: scale(1.05);\n}\n@keyframes borderPulse-9200016c {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: #00bfa6;\n        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-9200016c] {\n    animation: borderPulse-9200016c 2s infinite ease-in-out;\n}\n.restricted-access[data-v-9200016c] {\n    background: #28b66324;\n    transition: all 0.3s ease;\n}\n.restricted-access[data-v-9200016c]:hover {\n    background: #28b66324;\n    transform: translateY(-2px);\n}\n.restricted-access a[data-v-9200016c]:hover {\n    color: #009e87;\n    text-decoration: underline;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Design tokens */\n[data-v-9200016c]:root {\n  --brand-1: #1a5f7a;\n  --brand-2: #0b5d4b;\n  --accent: #00bfa6;\n  --text-1: #2c3e50;\n  --text-2: #6c757d;\n  --surface: #ffffff;\n  --surface-muted: #f8f9fa;\n  --border: #e9ecef;\n  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.06);\n  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.10);\n}\n/* Typography & spacing */\n.container>h1.display-5[data-v-9200016c] {\n  letter-spacing: -0.01em;\n  margin-bottom: 0.75rem;\n  color: var(--text-1);\n}\n.lead[data-v-9200016c] {\n  color: var(--text-2);\n  line-height: 1.75;\n  margin-left: auto;\n  margin-right: auto;\n}\n.custom-card .display-6[data-v-9200016c] {\n  font-size: 1.4rem;\n  font-weight: 800;\n  color: var(--text-1);\n}\n.card.custom-card .card-text[data-v-9200016c] {\n  font-size: 0.95rem;\n  line-height: 1.6;\n  color: var(--text-2);\n}\n@media (max-width: 768px) {\n.container>h1.display-5[data-v-9200016c] {\n    font-size: 2rem !important;\n}\n.custom-card .display-6[data-v-9200016c] {\n    font-size: 1.1rem;\n}\n.custom-card img[data-v-9200016c] {\n    height: 160px;\n}\n.lead[data-v-9200016c] {\n    font-size: 1rem;\n}\n}\n@media (min-width: 992px) {\n.custom-card img[data-v-9200016c] {\n    height: 190px;\n}\n}\n.card.custom-card .card-text[data-v-9200016c] {\n  max-height: 4.5em;\n  text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-9200016c] {\n  background: #0b5d4b;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  color: #fff;\n  height: 38px;\n  padding: 0.375rem 0.75rem;\n  border: none;\n}\n.card.custom-card button.form-control[data-v-9200016c]:focus-visible {\n  outline: 3px solid rgba(0, 191, 166, 0.45);\n  outline-offset: 2px;\n}\n.custom-card[data-v-9200016c] {\n  border: none;\n  border-radius: 16px;\n  background: #fff;\n  height: 100%;\n  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);\n  transition: transform 0.25s ease, box-shadow 0.25s ease;\n  position: relative;\n  overflow: hidden;\n}\n.custom-card[data-v-9200016c]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);\n}\n.custom-card[data-v-9200016c]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 4px;\n  background: linear-gradient(90deg, var(--brand-2), var(--brand-1));\n  transform: scaleX(0.4);\n  transform-origin: left;\n  transition: transform 0.3s ease;\n}\n.custom-card[data-v-9200016c]:hover::before {\n  transform: scaleX(1);\n}\n.custom-card img[data-v-9200016c] {\n  height: 180px;\n  object-fit: contain;\n  transition: transform 0.25s ease;\n  border: none;\n}\n.custom-card:hover img[data-v-9200016c] {\n  transform: scale(1.05);\n}\n@keyframes borderPulse-9200016c {\n0% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n    border-color: #00bfa6;\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-9200016c] {\n  animation: none;\n}\n.restricted-access[data-v-9200016c] {\n  background: #28b66324;\n  transition: background-color 0.2s ease, transform 0.2s ease;\n}\n.restricted-access[data-v-9200016c]:hover {\n  background: #28b66333;\n  transform: translateY(-2px);\n}\n.restricted-access a[data-v-9200016c]:hover {\n  color: var(--brand-2);\n  text-decoration: underline;\n}\n@media (prefers-reduced-motion: reduce) {\n.custom-card[data-v-9200016c],\n  .custom-card img[data-v-9200016c],\n  .card.custom-card button.form-control[data-v-9200016c] {\n    transition: none !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

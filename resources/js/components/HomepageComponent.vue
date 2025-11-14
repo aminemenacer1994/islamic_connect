@@ -86,7 +86,7 @@
               backdrop-filter: blur(10px);
             ">
                   <div class="col-4 text-center">
-                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">70+</div>
+                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">7+</div>
                     <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Countries</div>
                   </div>
                   <div class="col-4 text-center">
@@ -94,7 +94,7 @@
                     <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">SEO & Accessibility</div>
                   </div>
                   <div class="col-4 text-center">
-                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">570+</div>
+                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">575+</div>
                     <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Cities/Towns</div>
                   </div>
                 </div>
@@ -410,109 +410,6 @@
       </div>
     </section>
 
-    <!--<section class="py-5 combined-section">
-      <div class="container-fluid">
-        <div class="row align-items-stretch">
-          -- Value Proposition Column --
-          <div class="col-lg-1 mb-4">
-          </div>
-          <div class="col-lg-5 mb-4">
-            <div class="value-proposition-wrapper">
-
-              <div class="form-header text-center mb-4">
-                <h2 class="mb-3">Strategic Impact Areas</h2>
-              </div>
-              <div class="row">
-                <div class="col-md-6 mb-4">
-                  <div class="value-card">
-                    <div class="value-icon">📚</div>
-                    <h3>Educational Content</h3>
-                    <p>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p>
-                  </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                  <div class="value-card">
-                    <div class="value-icon">♿</div>
-                    <h3>Accessibility Features</h3>
-                    <p>Implementing screen reader support and voice interfaces for inclusive access</p>
-                  </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                  <div class="value-card">
-                    <div class="value-icon">⚙️</div>
-                    <h3>Platform Infrastructure</h3>
-                    <p>Maintaining robust servers and scalable architecture for global user base</p>
-                  </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                  <div class="value-card">
-                    <div class="value-icon">🌍</div>
-                    <h3>Global Outreach</h3>
-                    <p>Expanding to underserved Muslim communities worldwide</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          -- Donation Section Column --
-          -- <div class="col-lg-5 mb-4">
-            <div class="donation-form">
-              <div class="form-header text-center mb-4">
-                <h3 class="mb-3">Make a Difference</h3>
-                <p class="text-muted">Your support enables us to continue our mission</p>
-              </div>
-
-              -- Trust Indicators --
-              <div class="trust-indicators mb-4">
-                <div class="trust-item">
-                  <i class="fas fa-lock"></i>
-                  <span>Secure Payment</span>
-                </div>
-                <div class="trust-item">
-                  <i class="fas fa-shield-alt"></i>
-                  <span>SSL Encrypted</span>
-                </div>
-                <div class="trust-item">
-                  <i class="fas fa-certificate"></i>
-                  <span>Stripe Verified</span>
-                </div>
-              </div>
-
-              -- Summary --
-              <div v-if="isValidAmount" class="summary-section mb-4">
-                <div class="summary-header">
-                  <h3>Ready to Contribute</h3>
-                </div>
-                -- <div class="summary-item">
-                  <span>Amount:</span>
-                  <strong>£{{ finalAmount }}</strong>
-                </div> --
-                <div class="summary-item">
-                  <span>Your Impact:</span>
-                  <strong>{{ impactMessage }}</strong>
-                </div>
-              </div>
-
-              -- Submit Button --
-              <button class="btn btn-primary w-100" @click="processDonation" :disabled="!isValidAmount">
-                <i class="fas fa-lock me-2"></i>
-                Proceed to Secure Payment
-              </button>
-
-              <div class="security-guarantee text-center mt-3">
-                <p class="small text-muted">
-                  <i class="fas fa-shield-alt me-1"></i>
-                  Your contribution is securely processed by Stripe. We never store your payment details.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-1 mb-4">
-          </div>
-        </div>
-      </div>
-    </section> -->
 
     <!-- AI Tools & Features Section - Optimized -->
     <section class="py-5" aria-labelledby="ai-tools-title">
@@ -673,14 +570,6 @@
 
                 <!-- Decorative divider -->
                 <div class="quote-divider"></div>
-
-                <!-- Second Quote -->
-                <!-- <p class="faith-dua">
-                  <span class="quote-mark" aria-hidden="true">“</span>
-                  My Lord, increase me in knowledge.
-                  <span class="quote-mark" aria-hidden="true">”</span>
-                  <span class="dua-ref">(Quran 20:114)</span>
-                </p> -->
               </div>
             </div>
           </div>
