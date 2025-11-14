@@ -1435,7 +1435,7 @@ export default {
   left: 0;
   width: 100%;
   z-index: 1001;
-  background-color: rgba(33, 33, 33, 0.95);
+  background-color: rgba(25, 27, 31, 0.92);
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
   border-radius: 15px 15px 0 0;
   padding: 10px;
@@ -1450,7 +1450,7 @@ export default {
   display: flex;
   flex-direction: column;
   color: white;
-  padding: 5px 10px;
+  padding: 6px 12px;
 }
 
 .controls {
@@ -1498,7 +1498,7 @@ export default {
   font-size: 1.75rem;
   cursor: pointer;
   padding: 8px;
-  transition: color 0.2s;
+  transition: color 0.2s, transform 0.18s ease, background-color 0.18s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1506,6 +1506,8 @@ export default {
 
 .control-btn:hover {
   color: #00bfa6;
+  background-color: rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
 }
 
 .icon-btn {
@@ -1529,7 +1531,7 @@ export default {
 .progress-bar {
   width: 100%;
   height: 8px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.18);
   border-radius: 4px;
   overflow: hidden;
   cursor: pointer;
@@ -1543,7 +1545,7 @@ export default {
 
 .progress {
   height: 100%;
-  background-color: #00bfa6;
+  background: linear-gradient(90deg, #00bfa6, #5fd4c4);
   transition: width 0.1s linear;
 }
 
@@ -1559,7 +1561,15 @@ export default {
   margin-bottom: 1rem;
   border-radius: 10px;
   background-color: var(--bs-body-bg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+}
+
+.ayah-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+  border-color: rgba(0, 0, 0, 0.06);
 }
 
 @media (max-width: 768px) {
@@ -1606,10 +1616,13 @@ export default {
 @media (prefers-color-scheme: dark) {
   .ayah-card {
     background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   }
 
   .sticky-dropdown {
-    background-color: rgba(52, 58, 64, 0.95);
+    background-color: rgba(34, 38, 43, 0.9);
+    backdrop-filter: saturate(120%) blur(6px);
   }
 }
 
@@ -1628,7 +1641,7 @@ export default {
   text-align: center;
   padding: 20px;
   font-size: 1.2rem;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background: linear-gradient(90deg, #f7f7f7 25%, #ececec 50%, #f7f7f7 75%);
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
 }
@@ -1670,7 +1683,8 @@ export default {
   color: #fff;
   border-radius: 4px;
   padding: 0 2px;
-  transition: background 0.2s;
+  box-shadow: 0 1px 0 rgba(11, 93, 75, 0.2);
+  transition: background 0.2s, box-shadow 0.2s;
 }
 
 /* Audio Visualizer Styles */
@@ -1767,6 +1781,74 @@ export default {
 .next-step-card>* {
   position: relative;
   z-index: 1;
+}
+
+/* Subtle global typography tuning */
+.lead {
+  color: #35424c;
+}
+
+h1.display-5 {
+  letter-spacing: -0.01em;
+}
+
+/* Sticky filter capsule enhancements without altering markup */
+.sticky-dropdown {
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(27, 74, 89, 0.95), rgba(27, 74, 89, 0.92));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sticky-dropdown label.form-label {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.sticky-dropdown .form-select {
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #e9f2f3;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sticky-dropdown .form-select:focus {
+  border-color: #7fd6c9;
+  background-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 0.15rem rgba(0, 191, 166, 0.25);
+}
+
+.sticky-dropdown option {
+  color: #1f2933;
+}
+
+/* Per-ayah action icons polish */
+.ayah-card-container .icon-btn {
+  border-radius: 8px;
+  padding: 6px;
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+
+.ayah-card-container .icon-btn:hover {
+  background-color: rgba(11, 128, 111, 0.08);
+  transform: translateY(-1px);
+}
+
+/* Translation and Arabic text subtle contrast */
+.arabic-text {
+  color: #0a2e2a;
+}
+
+.translation-text {
+  color: #334155;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }
 </style>
 ```
