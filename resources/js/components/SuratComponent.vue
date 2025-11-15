@@ -11,7 +11,7 @@
     </div>
 
     <!-- Sticky Dropdowns Container -->
-    <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown">
+    <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown" :class="{ collapsed: !isVisible }">
       <!-- Existing template for surah, reciter, and translation selection -->
       <span @click="toggleVisibility" class="text-white" style="cursor: pointer;" aria-label="Toggle filters visibility"
         role="button" tabindex="0" @keydown.enter.prevent="toggleVisibility" @keydown.space.prevent="toggleVisibility">
@@ -1469,10 +1469,31 @@ export default {
   position: sticky;
   z-index: 1000;
   background-color: #343a40;
-  padding: 10px;
+  padding: 10px 12px;
   border-radius: 8px;
   margin-bottom: 1rem;
-  transition: top 0.3s ease, height 0.3s ease;
+  transition: top 0.3s ease, max-height 0.25s ease, padding 0.25s ease, margin 0.25s ease;
+  overflow: hidden;
+  max-height: 500px; /* expanded */
+}
+.sticky-dropdown.collapsed {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  max-height: 40px;
+  margin-bottom: 0.5rem;
+  /* fully hide any children besides the toggle icon */
+  overflow: hidden;
+}
+/* Belt-and-suspenders: force inner content hidden when collapsed */
+.sticky-dropdown.collapsed .row,
+.sticky-dropdown.collapsed .form-label,
+.sticky-dropdown.collapsed .form-select {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 @media (max-width: 768px) {
@@ -1580,7 +1601,8 @@ export default {
 
 /* Make sticky toggle icon a bit larger */
 .sticky-dropdown>span i {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  padding-bottom: 5px;
 }
 
 .progress-bar {
@@ -1691,6 +1713,49 @@ export default {
 
   h4 {
     font-size: 1.1rem;
+  }
+}
+
+/* Mobile compact filters: 2-row grid (more efficient than stacked) */
+@media (max-width: 576px) {
+  .sticky-dropdown {
+    padding: 6px 8px !important;
+    border-radius: 12px;
+  }
+
+  /* Grid layout: Surah full width, Reciter + Translation side by side */
+  .sticky-dropdown .row.g-3 {
+    display: grid !important;
+    grid-template-columns: 3fr 2fr; /* Reciter wider (60/40) */
+    grid-auto-rows: minmax(40px, auto);
+    gap: 6px !important;
+  }
+  .sticky-dropdown .row.g-3 > .col-12,
+  .sticky-dropdown .row.g-3 > .col-12.col-md-4 {
+    margin-top: 0 !important;
+  }
+  /* First block (Surah) spans two columns */
+  .sticky-dropdown .row.g-3 > .col-12.col-md-4:first-child {
+    grid-column: 1 / -1;
+  }
+  /* Ensure 2nd (Reciter) and 3rd (Translation) sit left/right respectively */
+  .sticky-dropdown .row.g-3 > .col-12.col-md-4:nth-child(2) { grid-column: 1; }
+  .sticky-dropdown .row.g-3 > .col-12.col-md-4:nth-child(3) { grid-column: 2; }
+
+  /* Labels: small but visible to preserve clarity */
+  .sticky-dropdown label.form-label {
+    font-size: 0.78rem;
+    margin-bottom: 2px;
+    opacity: 0.85;
+  }
+
+  /* Compact select appearance */
+  .sticky-dropdown .form-select {
+    font-size: 0.9rem !important;
+    padding: 8px 10px !important;
+    height: 40px !important;
+    border-radius: 10px !important;
+    background-color: rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -1875,6 +1940,69 @@ export default {
   --ic-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
+/* Palette variants: apply alongside `.container` (CSS-only) */
+.container.theme-sand {
+  --ic-primary: #a06927;
+  --ic-secondary: #7a5130;
+  --ic-accent: #f0b35a;
+  --ic-bg-elev: #fffaf3;
+  --ic-text-muted: #463f3a;
+  --ic-border: rgba(160, 105, 39, 0.18);
+  --ic-shadow: 0 8px 22px rgba(160, 105, 39, 0.12);
+}
+
+.container.theme-rose {
+  --ic-primary: #b3547a;
+  --ic-secondary: #7a3a59;
+  --ic-accent: #ff80a6;
+  --ic-bg-elev: #fff6f9;
+  --ic-text-muted: #49313e;
+  --ic-border: rgba(179, 84, 122, 0.18);
+  --ic-shadow: 0 8px 22px rgba(179, 84, 122, 0.12);
+}
+
+.container.theme-ink {
+  --ic-primary: #1e293b;
+  --ic-secondary: #0f172a;
+  --ic-accent: #60a5fa;
+  --ic-bg-elev: #0b1220;
+  --ic-text-muted: #cbd5e1;
+  --ic-border: rgba(96, 165, 250, 0.2);
+  --ic-shadow: 0 10px 26px rgba(2, 6, 23, 0.45);
+}
+
+/* Density presets: add to `.container` */
+.container.density-compact {
+  --ic-space-y: 0.65rem;
+}
+.container.density-comfortable {
+  --ic-space-y: 1rem;
+}
+.container.density-spacious {
+  --ic-space-y: 1.35rem;
+}
+
+/* Wire density to components */
+.container.density-compact .ayah-card { padding: 10px; margin-bottom: var(--ic-space-y, 0.65rem); }
+.container.density-comfortable .ayah-card { padding: 14px; margin-bottom: var(--ic-space-y, 1rem); }
+.container.density-spacious .ayah-card { padding: 18px; margin-bottom: var(--ic-space-y, 1.35rem); }
+
+/* Minimal style variant: reduce shadows and borders */
+.container.style-minimal .ayah-card {
+  box-shadow: none;
+  border: 1px solid var(--ic-border);
+}
+.container.style-minimal .audio-player-container {
+  box-shadow: none;
+  background-color: rgba(25, 27, 31, 0.88);
+}
+.container.style-minimal .sticky-dropdown {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.container.style-minimal .icon-btn:hover,
+.container.style-minimal .control-btn:hover { transform: none; box-shadow: none; }
+
 /* Typography finesse */
 .container {
   -webkit-font-smoothing: antialiased;
@@ -2024,6 +2152,86 @@ h1.display-5 {
     transition: none !important;
     animation: none !important;
   }
+}
+
+/* Ayah card polish: typography, layout, toolbar */
+.ayah-card-container .arabic-text {
+  line-height: 2.1;
+  letter-spacing: 0.2px;
+  color: #082b27;
+}
+.ayah-card-container .ltr-text { color: #334155; }
+.ayah-card-container h4.fw-bold.hide-on-mobile-tablet { color: #1f2a37; font-size: 0.95rem; opacity: 0.85; }
+
+/* Constrain reading width for better legibility */
+.ayah-card-container .rtl-text,
+.ayah-card-container .ltr-text {
+  /* Keep content readable and centered instead of crammed */
+  --reading-width: clamp(56ch, 86vw, 96ch);
+  max-width: var(--reading-width);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Unified toolbar on all sizes: show mobile toolbar on desktop, hide desktop icon column */
+@media (min-width: 768px) {
+  .ayah-card-container .d-none.d-md-flex { display: none !important; }
+  .ayah-card-container .d-block.d-md-none { display: block !important; }
+}
+
+/* Toolbar styling */
+.ayah-card-container .d-block.d-md-none .row.mb-3 {
+  background: rgba(11, 128, 111, 0.06);
+  border: 1px solid rgba(11, 128, 111, 0.12);
+  border-radius: 999px;
+  padding: 6px 4px;
+  gap: 0;
+  width: 100%;
+  /* Match text width and center for balance */
+  max-width: var(--reading-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* On narrow screens, let content breathe edge-to-edge */
+@media (max-width: 576px) {
+  .ayah-card-container .rtl-text,
+  .ayah-card-container .ltr-text,
+  .ayah-card-container .d-block.d-md-none .row.mb-3 {
+    --reading-width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+.ayah-card-container .icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b806f;
+}
+.ayah-card-container .icon-btn i { font-size: 1.25rem !important; }
+.ayah-card-container .icon-btn:hover { background: rgba(11, 128, 111, 0.1); }
+
+/* Subtle divider above toolbar */
+.ayah-card-container .d-block.d-md-none .row.mb-3::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: -10px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,0.08), rgba(0,0,0,0));
+}
+
+/* Desktop spacing tightening */
+@media (min-width: 992px) {
+  .ayah-card { padding: 16px 18px; }
+  .ayah-card-container .arabic-text { font-size: 2rem; }
+  .ayah-card-container .ltr-text { font-size: 1.05rem; }
 }
 </style>
 ```
