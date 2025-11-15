@@ -15,6 +15,7 @@ import "primevue/resources/primevue.min.css";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Button from "primevue/button";
+import Dropdown from "primevue/dropdown";
 import InputText from "primevue/inputtext";
 import Card from "primevue/card";
 import TabView from "primevue/tabview";
@@ -168,6 +169,7 @@ try {
 app.component("Column", Column);
 app.component("DataTable", DataTable);
 app.component("Button", Button);
+app.component("Dropdown", Dropdown);
 app.component("InputText", InputText);
 app.component("AccordionTab", AccordionTab);
 app.component("Accordion", Accordion);
