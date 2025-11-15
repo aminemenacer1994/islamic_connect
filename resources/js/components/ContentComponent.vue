@@ -15,35 +15,39 @@
     <!-- Podcast Selection Section -->
     <div class="selection-section">
       <div class="section-header">
-        <h2 class="section-title">Choose Your Podcast</h2>
+        <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Choose Your Podcast</h2>
         <p class="section-subtitle">Click on any podcast below to start listening</p>
       </div>
       <div class="podcast-selection-grid">
         <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="podcast-selection-item"
-          @click="selectPodcast(podcast)">
-          <div class="podcast-image-wrapper">
-            <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image" loading="lazy">
-            <div class="podcast-overlay">
+          @click="selectPodcast(podcast)"
+          :style="'border-radius:20px;background:linear-gradient(135deg,#ffffff,#ecfff7);border:1px solid rgba(11,179,154,.18);box-shadow:0 12px 26px rgba(11,179,154,.12),0 6px 14px rgba(0,0,0,.04);overflow:hidden;transition:transform .12s ease-out, box-shadow .12s ease-out;cursor:pointer'">
+          <div class="podcast-image-wrapper" style="position:relative;overflow:hidden;aspect-ratio:1;">
+            <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .12s ease-out, filter .12s ease-out;">
+            <div class="podcast-overlay" :style="'position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,155,209,.78), rgba(11,179,154,.88));display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.4rem;opacity:0;transition:opacity .12s ease-out'"
+                 @mouseenter="$event.currentTarget.previousElementSibling.style.transform='scale(1.04)';$event.currentTarget.previousElementSibling.style.filter='saturate(1.03)';$event.currentTarget.style.opacity=1" 
+                 @mouseleave="$event.currentTarget.previousElementSibling.style.transform='scale(1)';$event.currentTarget.previousElementSibling.style.filter='saturate(1)';$event.currentTarget.style.opacity=0">
               <i class="bi bi-play-circle-fill"></i>
               <span class="play-text">Click to Select</span>
             </div>
           </div>
-          <h5 class="podcast-selection-name fw-bold">{{ podcast.name }}</h5>
+          <h5 class="podcast-selection-name fw-bold" :style="'padding:1.25rem;margin:0;font-size:1.15rem;color:#0b1320;text-align:center;background:#fff'">{{ podcast.name }}</h5>
         </div>
       </div>
     </div>
 
     <!-- Selected Podcast Details -->
-    <div class="selected-podcast-section" v-if="selectedPodcast" ref="podcastDetailSection">
+    <div class="selected-podcast-section" v-if="selectedPodcast" ref="podcastDetailSection"
+         :style="'position:relative;overflow:hidden;background:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%);border-radius:20px;padding:2rem;box-shadow:0 10px 40px rgba(0,0,0,.12);border:2px solid rgba(11,179,154,.12)'">
       <div class="section-header">
-        <h2 class="section-title">Now Playing</h2>
+        <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Now Playing</h2>
         <p class="section-subtitle">Episodes from {{ selectedPodcast.name }}</p>
       </div>
-      <div class="selected-podcast-header">
+      <div class="selected-podcast-header" :style="'display:flex;align-items:center;gap:1.5rem;margin-bottom:1rem'">
         <div class="selected-podcast-info">
-          <h3 class="selected-podcast-title">{{ selectedPodcast.name }}</h3>
-          <div class="selected-podcast-meta">
-            <span class="episode-count">
+          <h3 class="selected-podcast-title" :style="'font-size:2rem;font-weight:800;color:#0b1320;margin:0 0 .5rem'">{{ selectedPodcast.name }}</h3>
+          <div class="selected-podcast-meta" :style="'display:flex;gap:.75rem;flex-wrap:wrap'">
+            <span class="episode-count" :style="'display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;background:rgba(11,179,154,.15);border-radius:20px;color:#0bb39a;border:2px solid rgba(11,179,154,.2);font-weight:600'">
               <i class="bi bi-collection-play"></i>
               {{ selectedPodcast.episodeCount > 0 ? selectedPodcast.episodeCount : 'Data not available' }} Episodes
               Available
@@ -51,10 +55,11 @@
           </div>
         </div>
         <div class="selected-podcast-image-container">
-          <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-image" loading="lazy">
+          <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-image" loading="lazy"
+               :style="'width:120px;height:120px;object-fit:cover;border-radius:20px;border:3px solid #fff;box-shadow:0 10px 30px rgba(0,0,0,.2)'">
         </div>
       </div>
-      <div class="selected-podcast-description">
+      <div class="selected-podcast-description" :style="'color:#495057;line-height:1.7;font-size:1.05rem'">
         <p>{{ selectedPodcast.desc }}</p>
       </div>
     </div>
@@ -62,7 +67,7 @@
     <!-- Continue Listening Section -->
     <div v-if="selectedPodcast && continueListening.length" class="continue-listening-section">
       <div class="section-header">
-        <h2 class="section-title">Continue Listening</h2>
+        <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Continue Listening</h2>
         <p class="section-subtitle">Pick up where you left off</p>
       </div>
       <div class="podcast-cards-grid border-md" style="padding: 5px;">
@@ -177,25 +182,28 @@
     <!-- Podcast Episodes Section -->
     <div v-if="!loading && visiblePodcasts.length" class="episodes-section">
       <div class="section-header">
-        <h2 class="section-title">Available Episodes</h2>
+        <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Available Episodes</h2>
         <p class="section-subtitle">Click the play button to start listening</p>
       </div>
       <div v-if="fetchError" class="alert alert-danger" role="alert">
         {{ fetchError }}
       </div>
-      <div class="episodes-filters-bar-wrapper">
+      <div class="episodes-filters-bar-wrapper"
+           :style="'background:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%);border-radius:20px;box-shadow:0 2px 12px rgba(11,179,154,.08);padding:1rem;margin-bottom:2rem;position:sticky;top:8px;z-index:50;backdrop-filter:saturate(140%) blur(8px);-webkit-backdrop-filter:saturate(140%) blur(8px);'">
         <div class="row g-3">
           <div class="col-12 col-md-3">
-            <div class="input-group search-group">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+            <div class="input-group search-group"
+                 :style="'display:flex;align-items:center;background:#fff;border:1px solid #e9ecef;border-radius:20px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);'">
+              <span class="input-group-text bg-white border-end-0" :style="'border:0;border-right:1px solid #eef2f4;border-radius:20px 0 0 20px;color:#0bb39a;font-size:1.2rem'"><i class="bi bi-search"></i></span>
               <input v-model="searchInput" @input="onSearchInput" type="text" class="form-control border-start-0"
-                placeholder="Search episodes..." />
+                placeholder="Search episodes..." :style="'border:0;border-radius:0 20px 20px 0;padding:10px;font-size:1rem'" />
             </div>
           </div>
           <div class="col-12 col-md-3">
-            <div class="input-group filter-group">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-hourglass-split"></i></span>
-              <select v-model="durationFilter" class="form-select border-start-0" aria-label="Filter by duration">
+            <div class="input-group filter-group" :style="'display:flex;align-items:center;background:#fff;border:1px solid #e9ecef;border-radius:20px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);'">
+              <span class="input-group-text bg-white border-end-0" :style="'border:0;border-right:1px solid #eef2f4;border-radius:20px 0 0 20px;color:#0bb39a;font-size:1.2rem'"><i class="bi bi-hourglass-split"></i></span>
+              <select v-model="durationFilter" class="form-select border-start-0" aria-label="Filter by duration"
+                      :style="'border:0;border-radius:0 20px 20px 0;padding:10px;font-size:1rem'">
                 <option value="" disabled selected hidden>Select Duration</option>
                 <option value="0-10">0-10 min</option>
                 <option value="10-30">10-30 min</option>
@@ -205,9 +213,10 @@
             </div>
           </div>
           <div class="col-12 col-md-3">
-            <div class="input-group filter-group">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-translate"></i></span>
-              <select v-model="languageFilter" class="form-select border-start-0" aria-label="Filter by language">
+            <div class="input-group filter-group" :style="'display:flex;align-items:center;background:#fff;border:1px solid #e9ecef;border-radius:20px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);'">
+              <span class="input-group-text bg-white border-end-0" :style="'border:0;border-right:1px solid #eef2f4;border-radius:20px 0 0 20px;color:#0bb39a;font-size:1.2rem'"><i class="bi bi-translate"></i></span>
+              <select v-model="languageFilter" class="form-select border-start-0" aria-label="Filter by language"
+                      :style="'border:0;border-radius:0 20px 20px 0;padding:10px;font-size:1rem'">
                 <option value="">All Languages</option>
                 <option value="English">English</option>
                 <option value="Arabic">Arabic</option>
@@ -216,9 +225,10 @@
             </div>
           </div>
           <div class="col-12 col-md-3">
-            <div class="input-group filter-group">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-funnel"></i></span>
-              <select v-model="sortOption" class="form-select border-start-0" aria-label="Sort episodes">
+            <div class="input-group filter-group" :style="'display:flex;align-items:center;background:#fff;border:1px solid #e9ecef;border-radius:20px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);'">
+              <span class="input-group-text bg-white border-end-0" :style="'border:0;border-right:1px solid #eef2f4;border-radius:20px 0 0 20px;color:#0bb39a;font-size:1.2rem'"><i class="bi bi-funnel"></i></span>
+              <select v-model="sortOption" class="form-select border-start-0" aria-label="Sort episodes"
+                      :style="'border:0;border-radius:0 20px 20px 0;padding:10px;font-size:1rem'">
                 <option value="mostViewed">Most Viewed</option>
                 <option value="leastViewed">Least Viewed</option>
                 <option value="newest">Newest</option>
@@ -239,36 +249,39 @@
       </div>
       <div v-else class="podcast-cards-grid border-md" style="padding: 5px;">
         <div v-for="(podcast, index) in visiblePodcasts" :key="podcast.title" class="podcast-card-wrapper">
-          <div :class="['podcast-card', { 'highlighted': playingIndex === index }]" style="padding: 1.2rem;">
-            <div class="card-header">
-              <div class="podcast-meta">
-                <div class="views-badge" :title="'Views'">
-                  <i class="bi bi-eye-fill" style="font-size:1.2rem;"></i>
-                  <span class="meta-text">{{ podcast.views }} views</span>
+          <div :class="['podcast-card', { 'highlighted': playingIndex === index }]"
+               :style="((playingIndex===index)?'outline:2px solid #0bb39a;background:linear-gradient(135deg,#f0fffb 0%,#ddfff5 100%);box-shadow:0 14px 30px rgba(11,179,154,.26),0 1.5px 8px rgba(0,0,0,.06);':'') + 'padding:1.2rem;border-radius:20px;background:linear-gradient(135deg,#ffffff,#eefef9);border:1px solid rgba(11,179,154,.18);box-shadow:0 8px 18px rgba(0,0,0,.08);transition:transform .12s ease-out, box-shadow .12s ease-out'">
+            <div class="card-header" :style="'border-bottom:1px solid rgba(0,0,0,.06);padding-bottom:.5rem'">
+              <div class="podcast-meta" :style="'display:flex;justify-content:space-between;align-items:center;gap:' + (smallScreen? '8px':'16px')">
+                <div class="views-badge" :title="'Views'"
+                     :style="'display:flex;align-items:center;gap:8px;padding:' + (smallScreen? '6px 10px':'8px 14px') + ';background:#fff;border-radius:20px;border:1px solid rgba(11,179,154,.18);box-shadow:0 4px 10px rgba(0,0,0,.06)'">
+                  <i class="bi bi-eye-fill" :style="'font-size:' + (smallScreen? '1rem':'1.1rem') + ';color:#0bb39a'"></i>
+                  <span class="meta-text" :style="'color:#0b1320;font-weight:600'">{{ podcast.views }} views</span>
                 </div>
-                <div class="date-badge" :title="'Published date'">
-                  <i class="bi bi-calendar3" style="font-size:1.2rem;"></i>
-                  <span class="meta-text">{{ formatDate(podcast.pubDate) }}</span>
+                <div class="date-badge" :title="'Published date'"
+                     :style="'display:flex;align-items:center;gap:8px;padding:' + (smallScreen? '6px 10px':'8px 14px') + ';background:#fff;border-radius:20px;border:1px solid rgba(11,179,154,.18);box-shadow:0 4px 10px rgba(0,0,0,.06)'">
+                  <i class="bi bi-calendar3" :style="'font-size:' + (smallScreen? '1rem':'1.1rem') + ';color:#0bb39a'"></i>
+                  <span class="meta-text" :style="'color:#0b1320;font-weight:600'">{{ formatDate(podcast.pubDate) }}</span>
                   <span v-if="isNewEpisode(podcast.pubDate)" class="new-badge" aria-label="New episode">NEW</span>
                 </div>
               </div>
             </div>
-            <div class="card-body">
-              <div class="podcast-card-top">
+            <div class="card-body" :style="'padding-top:1rem'">
+              <div class="podcast-card-top" :style="'display:flex;align-items:center;gap:' + (smallScreen? '.5rem':'1rem') + ';justify-content:space-between;' + (smallScreen? 'flex-direction:column;align-items:stretch;':'')">
                 <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image"
-                  :alt="selectedPodcast.name" class="episode-avatar podcast-image-clickable"
+                  :alt="selectedPodcast.name" class="episode-avatar podcast-image-clickable" :style="'width:100px;height:100px;object-fit:cover;margin-right:1rem;border:2px solid #e9ecef;border-radius:20px;box-shadow:0 8px 22px rgba(0,0,0,.10);background:#fff'"
                   decoding="async" fetchpriority="low"
                   @click="scrollToFirstEpisode" style="cursor:pointer;" loading="lazy" />
                 <div class="podcast-card-info">
-                  <h4 class="podcast-title" v-html="highlightText(podcast.title)"></h4>
+                  <h4 class="podcast-title" v-html="highlightText(podcast.title)" :style="'color:#0b1320;font-weight:800'"></h4>
                   <div class="podcast-extra-info">
                     <!-- <span class="duration-badge" :title="'Duration'">
                       <i class="bi bi-clock" style="font-size:1.1rem;"></i>
                       {{ podcast.duration ? podcast.duration + ' min' : 'N/A' }}
                     </span> -->
-                    <span class="lang-badge" :title="'Language'">
-                      <i class="bi bi-translate" style="font-size:1.1rem;"></i>
-                      {{ podcast.language }}
+                    <span class="lang-badge" :title="'Language'" :style="'display:flex;align-items:center;gap:.35rem;background:#f8f9fa;border-radius:20px;padding:2px 10px;box-shadow:0 1px 4px rgba(0,0,0,.04);border:1px solid rgba(11,179,154,.18);color:#0b1320;font-weight:600'">
+                      <i class="bi bi-translate" :style="'font-size:1.05rem;color:#0bb39a'" ></i>
+                      <span>{{ podcast.language }}</span>
                     </span>
                   </div>
 
@@ -277,10 +290,10 @@
                   <button class="control-button play-btn" @click="toggleAudioPlayer(index)"
                     :class="{ 'playing': isAudioPlaying[index] }"
                     :aria-label="isAudioPlaying[index] ? 'Pause' : 'Play'">
-                    <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'" style="font-size:1.5rem; cursor:pointer;"></i>
+                    <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'" style="font-size:1.5rem; cursor:pointer;color:#0b1320"></i>
                   </button>
                 <button class="control-button" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'" :title="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" :aria-label="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" @click.stop="toggleFavourite(podcast)">
-                  <i class="bi" :class="isFavourite(podcast) ? 'bi-heart-fill text-danger' : 'bi-heart'" style="font-size:1.3rem;"></i>
+                  <i class="bi" :class="isFavourite(podcast) ? 'bi-heart-fill text-danger' : 'bi-heart'" style="font-size:1.3rem;color:#0b1320"></i>
                 </button>
                 </div>
               </div>
@@ -309,8 +322,8 @@
     </div>
 
     <!-- Audio Player -->
-    <div v-if="showAudioPlayer" class="audio-player-container">
-      <div class="custom-audio-player" :class="{ minimized: isPlayerMinimized }">
+    <div v-if="showAudioPlayer" class="audio-player-container" :style="'border-radius:20px 20px 0 0;position:fixed;bottom:0;left:0;width:100%;background:linear-gradient(180deg,#2b3a3f 0%,#1e262a 100%);box-shadow:0 -10px 30px rgba(0,0,0,.35);z-index:1000;padding:12px 16px;border-top:1px solid rgba(255,255,255,.06)'">
+      <div class="custom-audio-player" :class="{ minimized: isPlayerMinimized }" :style="'max-width:100%;margin:0 auto;padding:12px;color:#e8f0f2;display:flex;flex-direction:column;gap:10px'">
         <div class="controls">
           <div class="controls-left">
             <div class="artwork" v-if="selectedPodcast && selectedPodcast.image">
@@ -365,9 +378,10 @@
           </div>
 
         </div>
-        <div class="progress-bar" @mousedown="startSeek" @click="seekAudio">
-          <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
-          <div class="progress-handle" :style="{ left: progress[currentlyPlayingIndex] + '%' }"></div>
+        <div class="progress-bar" @mousedown="startSeek" @click="seekAudio"
+             :style="'width:100%;height:6px;background:linear-gradient(90deg,rgba(255,255,255,.18),rgba(255,255,255,.08));cursor:pointer;position:relative;margin:6px 0;border-radius:999px'">
+          <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%', height:'100%', background:'linear-gradient(90deg,#0bb39a,#0a9bd1)', position:'absolute', borderRadius:'999px' }"></div>
+          <div class="progress-handle" :style="{ left: progress[currentlyPlayingIndex] + '%', position:'absolute', top:'50%', transform:'translate(-50%, -50%)', width:'14px', height:'14px', borderRadius:'50%', background:'#fff', boxShadow:'0 0 0 3px rgba(11,179,154,.25)', pointerEvents:'none' }"></div>
         </div>
       </div>
     </div>
@@ -382,6 +396,7 @@ export default {
   },
   data() {
     return {
+      smallScreen: false,
       isVisible: true,
       showAudioPlayer: false,
       repeatStates: {},
@@ -574,6 +589,11 @@ export default {
   },
 
   mounted() {
+    // Responsive inline toggles for compact layout
+    const setSize = () => { try { this.smallScreen = window.innerWidth <= 576; } catch(e){} };
+    setSize();
+    window.addEventListener('resize', setSize, { passive: true });
+    this._resizeHandler = setSize;
     // Initialize Bootstrap tooltips
     let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.forEach(function (tooltipTriggerEl) {
@@ -619,6 +639,7 @@ export default {
   },
 
   beforeUnmount() {
+    try { window.removeEventListener('resize', this._resizeHandler); } catch(e){}
     // Remove keyboard event listener and disconnect observer
     document.removeEventListener('keydown', this.handleKeydown);
     try { this._infiniteObserver && this._infiniteObserver.disconnect && this._infiniteObserver.disconnect(); } catch (e) {}
@@ -1376,6 +1397,16 @@ export default {
 </script>
 
 <style scoped>
+/* Theme tokens */
+:root {
+  /* Harmonized teal → blue‑teal accents */
+  --pod-accent: #0bb39a;   /* primary */
+  --pod-accent-2: #0a9bd1; /* secondary blend */
+  --pod-surface: #ffffff;
+  --pod-soft: #f4fbfb;
+  --pod-muted: #e9ecef;
+  --pod-dark: #1f2a2e;
+}
 .toggle-button {
   background-color: #f0f0f0;
   border: 1px solid #ccc;
@@ -1402,6 +1433,19 @@ export default {
 
 .podcast-card-wrapper {
   padding: 10px;
+}
+
+/* Subtle entrance animation for cards */
+@media (prefers-reduced-motion: no-preference) {
+  .podcast-card-wrapper { animation: fadeUp .4s ease both; }
+  .podcast-card-wrapper:nth-child(2) { animation-delay: .03s; }
+  .podcast-card-wrapper:nth-child(3) { animation-delay: .06s; }
+  .podcast-card-wrapper:nth-child(4) { animation-delay: .09s; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Main Layout Styles */
@@ -1454,12 +1498,31 @@ export default {
   color: #2c3e50;
   margin-bottom: 0.75rem;
   letter-spacing: -0.01em;
+  /* Harmonized accent gradient text */
+  background-image: linear-gradient(135deg, var(--pod-accent) 0%, var(--pod-accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  width: clamp(80px, 14vw, 160px);
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--pod-accent), var(--pod-accent-2));
+  opacity: .65;
 }
 
 .section-subtitle {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #495057; /* Increased contrast vs. light backgrounds for WCAG AA */
+  color: #55616a; /* Increased contrast vs. light backgrounds for WCAG AA */
   margin: 0;
   line-height: 1.5;
 }
@@ -1530,7 +1593,7 @@ export default {
 }
 
 .podcast-overlay i {
-  font-size: 3.5rem;
+  font-size: 3rem;
   color: white;
 }
 
@@ -1546,7 +1609,8 @@ export default {
 }
 
 .podcast-selection-item:hover .podcast-selection-image {
-  transform: scale(1.1);
+  transform: scale(1.04);
+  filter: saturate(1.03);
 }
 
 .podcast-selection-name {
@@ -1563,11 +1627,11 @@ export default {
 /* Selected Podcast Section */
 .selected-podcast-section {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 24px;
+  border-radius: 20px;
   padding: 2.5rem;
   margin-bottom: 3rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-  border: 2px solid rgba(13, 182, 145, 0.1);
+  border: 2px solid rgba(11, 179, 154, 0.12);
 }
 
 .selected-podcast-header {
@@ -1600,12 +1664,12 @@ export default {
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1.5rem;
-  background: rgba(13, 182, 145, 0.15);
-  border-radius: 30px;
-  color: #0db6a1;
+  background: rgba(11, 179, 154, 0.15);
+  border-radius: 20px;
+  color: var(--pod-accent);
   font-weight: 600;
   font-size: 1rem;
-  border: 2px solid rgba(13, 182, 145, 0.2);
+  border: 2px solid rgba(11, 179, 154, 0.22);
 }
 
 .episode-count i {
@@ -1638,21 +1702,24 @@ export default {
 
 /* Enhanced Card Styles */
 .highlighted {
-  box-shadow: 0 0 0 4px rgba(13, 182, 145, 0.3), 0 15px 40px rgba(13, 182, 145, 0.25);
+  /* Stronger playing state using theme accents */
+  box-shadow:
+    0 0 0 3px rgba(11, 179, 154, 0.35),
+    0 10px 28px rgba(11, 179, 154, 0.22);
   transform: translateY(-3px);
-  background: linear-gradient(135deg, #ffffff 0%, #f0fffd 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #f3fffc 100%);
 }
 
 .podcast-card {
   background: #ffffff;
-  border-radius: 35px;
-  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);
-  border: 5px solid rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(13, 182, 145, 0.10);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   height: 100%;
   position: relative;
-  padding: 2rem 1.5rem;
+  padding: 1.25rem 1.25rem;
   /* Performance hints for large lists */
   content-visibility: auto;
   contain-intrinsic-size: 320px 1px;
@@ -1660,16 +1727,18 @@ export default {
 }
 
 .podcast-card:hover {
-  transform: none;
-  box-shadow: none;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(13, 182, 145, 0.12);
 }
 
 .podcast-card.highlighted {
-  border-color: #0db6a1;
-  background: linear-gradient(135deg, #f2fffc 0%, #e6fcf7 100%);
-  border-width: 2.5px;
-  outline: 2px solid #0db6a1;
-  box-shadow: 0 8px 32px 0 rgba(13, 182, 145, 0.10), 0 1.5px 8px 0 rgba(0, 0, 0, 0.06);
+  border-color: var(--pod-accent);
+  background: linear-gradient(135deg, #f2fffc 0%, #e9fdf9 100%);
+  border-width: 2px;
+  outline: 2px solid var(--pod-accent);
+  box-shadow:
+    0 10px 28px rgba(11, 179, 154, 0.20),
+    0 1.5px 8px rgba(0, 0, 0, 0.06);
   z-index: 2;
 }
 
@@ -1682,17 +1751,23 @@ export default {
   bottom: 0;
   border-radius: 20px;
   pointer-events: none;
-  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);
-  animation: playing-glow 1.5s infinite alternate;
+  box-shadow:
+    inset 0 0 32px rgba(11, 179, 154, 0.15),
+    0 0 0 rgba(0,0,0,0);
+  animation: playing-glow 1.6s ease-in-out infinite alternate;
 }
 
 @keyframes playing-glow {
   0% {
-    box-shadow: 0 0 8px 2px rgba(13, 182, 145, 0.10);
+    box-shadow:
+      inset 0 0 18px rgba(11, 179, 154, 0.14),
+      0 0 0 rgba(0,0,0,0);
   }
 
   100% {
-    box-shadow: 0 0 24px 8px rgba(13, 182, 145, 0.22);
+    box-shadow:
+      inset 0 0 38px rgba(11, 179, 154, 0.28),
+      0 0 0 rgba(0,0,0,0);
   }
 }
 
@@ -1710,20 +1785,20 @@ export default {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 600;
   color: #495057;
   backdrop-filter: blur(10px);
-  border: 2px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
 }
 
 .views-badge i,
 .date-badge i {
   font-size: 1rem;
-  color: #0db6a1;
+  color: var(--pod-accent);
 }
 
 /* Card Body */
@@ -1732,6 +1807,8 @@ export default {
   display: flex;
   flex-direction: column;
 }
+.podcast-card .card-header { border-bottom: 1px solid rgba(0,0,0,.06); padding-bottom: .5rem; }
+.podcast-card .card-body { padding-top: 1rem; }
 
 .podcast-title {
   font-size: 1.35rem;
@@ -1774,8 +1851,8 @@ export default {
 }
 
 .control-button:hover {
-  background: rgba(13, 182, 145, 0.1);
-  transform: scale(1.05);
+  background: rgba(11, 179, 154, 0.1);
+  transform: translateY(-1px);
 }
 
 .control-button i {
@@ -1829,10 +1906,10 @@ export default {
 }
 
 .action-button:hover {
-  background: rgba(13, 182, 145, 0.15);
-  border-color: rgba(13, 182, 145, 0.3);
+  background: rgba(11, 179, 154, 0.15);
+  border-color: rgba(11, 179, 154, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);
+  box-shadow: 0 6px 16px rgba(11, 179, 154, 0.25);
 }
 
 .action-button i {
@@ -1902,22 +1979,23 @@ export default {
 
 /* Audio Player Styles */
 .audio-player-container {
-  border-radius: 12px 12px 0 0;
+  border-radius: 20px 20px 0 0;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  background: #2c2c2c;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #2b3a3f 0%, #1e262a 100%);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.35);
   z-index: 1000;
   padding: 12px 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 .custom-audio-player {
   max-width: 100%;
   margin: 0 auto;
   padding: 12px;
-  color: #ccc;
+  color: #e8f0f2;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -1943,8 +2021,9 @@ export default {
 .artwork {
   width: 52px;
   height: 52px;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35);
 }
 .artwork img {
   width: 100%;
@@ -1983,8 +2062,8 @@ export default {
   font-size: 1.35rem;
   cursor: pointer;
   padding: 8px;
-  border-radius: 4px;
-  transition: background 0.2s;
+  border-radius: 12px;
+  transition: background 0.2s, transform 0.12s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1993,7 +2072,8 @@ export default {
 }
 
 .control-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
 }
 
 .play-pause {
@@ -2054,18 +2134,18 @@ export default {
 .progress-bar {
   width: 100%;
   height: 6px;
-  background: #555;
+  background: linear-gradient(90deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
   cursor: pointer;
   position: relative;
   margin: 6px 0;
-  border-radius: 4px;
+  border-radius: 999px;
 }
 
 .progress {
   height: 100%;
-  background: #00ffcc;
+  background: linear-gradient(90deg, var(--pod-accent), var(--pod-accent-2));
   position: absolute;
-  border-radius: 4px;
+  border-radius: 999px;
 }
 
 .progress-handle {
@@ -2075,8 +2155,8 @@ export default {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #00ffcc;
-  box-shadow: 0 0 0 3px rgba(0,255,204,0.15);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(13,182,161,0.25);
   pointer-events: none;
 }
 
@@ -2977,6 +3057,7 @@ export default {
   margin-right: 1rem;
   box-shadow: none;
   border: 2px solid #e9ecef;
+  border-radius: 20px;
 }
 
 .podcast-card-top {
@@ -3005,11 +3086,12 @@ export default {
   align-items: center;
   gap: 0.3rem;
   background: #f8f9fa;
-  border-radius: 12px;
+  border-radius: 20px;
   padding: 2px 10px;
   font-size: 0.95rem;
   font-weight: 500;
   color: #495057; /* ensure text within badge meets AA on #f8f9fa */
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
 }
 
 .new-badge {
@@ -3017,7 +3099,7 @@ export default {
   color: #fff;
   font-size: 0.8rem;
   font-weight: 700;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 2px 8px;
   letter-spacing: 0.5px;
 }
@@ -3047,7 +3129,7 @@ export default {
 @media (max-width: 576px) {
   .podcast-card-top {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 0.5rem;
   }
 
@@ -3058,6 +3140,10 @@ export default {
   .podcast-desc {
     font-size: 0.8rem;
   }
+
+  /* Pin controls under title and align left */
+  .audio-controls-inline { justify-content: flex-start; gap: 6px; margin-top: 4px; }
+  .episode-avatar { margin-right: 0; }
 }
 
 .search-group .form-control,
@@ -3087,6 +3173,7 @@ export default {
   font-size: 1rem;
   min-height: 44px;
   min-width: 100px;
+  border-radius: 20px;
 }
 
 .action-button:hover {
@@ -3110,19 +3197,47 @@ export default {
 
 .episodes-filters-bar-wrapper {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 18px;
-  box-shadow: 0 2px 12px rgba(13, 182, 145, 0.07);
-  padding: 1.2rem 1.5rem 1rem 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(11, 179, 154, 0.08);
+  padding: 1rem 1rem;
   margin-bottom: 2.2rem;
+}
+
+/* Sticky, blurred filters on small screens for quicker access */
+@media (max-width: 768px) {
+  .episodes-filters-bar-wrapper {
+    position: sticky;
+    top: 8px;
+    z-index: 50;
+    background: rgba(248,249,250,0.85);
+    backdrop-filter: saturate(140%) blur(8px);
+    -webkit-backdrop-filter: saturate(140%) blur(8px);
+    border: 1px solid rgba(0,0,0,0.06);
+  }
 }
 
 .episodes-filters-bar {
   gap: 1.2rem;
 }
 
+/* Compact chips layout for filters on small screens */
+@media (max-width: 768px) {
+  .episodes-filters-bar-wrapper .row { row-gap: 10px; }
+  .episodes-filters-bar-wrapper .input-group {
+    background: #fff;
+    border: 1px solid var(--pod-muted);
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    overflow: hidden;
+  }
+  .episodes-filters-bar-wrapper .input-group-text { border: 0; border-right: 1px solid #eef2f4; border-radius: 20px 0 0 20px; }
+  .episodes-filters-bar-wrapper .form-control,
+  .episodes-filters-bar-wrapper .form-select { border: 0; border-radius: 0 20px 20px 0; }
+}
+
 .input-group-text {
   background: #fff;
-  border-radius: 12px 0 0 12px;
+  border-radius: 20px 0 0 20px;
   border: 1px solid #e9ecef;
   border-right: none;
   color: #0db6a1;
@@ -3132,6 +3247,7 @@ export default {
 .search-group .form-control,
 .filter-group .form-select {
   border-radius: 0 12px 12px 0;
+  border-radius: 0 20px 20px 0;
   border: 1px solid #e9ecef;
   border-left: none;
   background: #fff;
