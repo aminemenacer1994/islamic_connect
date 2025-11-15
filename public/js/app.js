@@ -23605,6 +23605,8 @@ __webpack_require__.r(__webpack_exports__);
       loading: false,
       searchTerm: '',
       suggestions: [],
+      showSuggestions: false,
+      activeIndex: -1,
       tafseer: '',
       filteredResults: [],
       expanded: false,
@@ -23639,6 +23641,26 @@ __webpack_require__.r(__webpack_exports__);
     if (this.information && this.information.ayah && this.information.ayah.id) {
       this.fetchTafseer(this.information.ayah.id);
     }
+    // Close suggestions when clicking outside
+    this._onDocClick = e => {
+      const root = this.$refs.searchRoot;
+      if (!root) return;
+      if (!root.contains(e.target)) {
+        this.showSuggestions = false;
+        this.activeIndex = -1;
+      }
+    };
+    document.addEventListener('click', this._onDocClick, {
+      passive: true
+    });
+  },
+  beforeUnmount() {
+    if (this._onDocClick) {
+      document.removeEventListener('click', this._onDocClick, {
+        passive: true
+      });
+      this._onDocClick = null;
+    }
   },
   methods: {
     async fetchTafseer(ayahId) {
@@ -23652,7 +23674,35 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     onInput() {
-      if (this.searchTerm && this.searchTerm.length > 2) this.fetchSuggestions();else this.suggestions = [];
+      if (this.searchTerm && this.searchTerm.length > 2) {
+        this.fetchSuggestions();
+        this.showSuggestions = true;
+      } else {
+        this.suggestions = [];
+        this.showSuggestions = false;
+        this.activeIndex = -1;
+      }
+    },
+    onKeyDown(e) {
+      if (!this.suggestions.length) return;
+      const max = this.suggestions.length - 1;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        this.showSuggestions = true;
+        this.activeIndex = this.activeIndex < max ? this.activeIndex + 1 : 0;
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        this.showSuggestions = true;
+        this.activeIndex = this.activeIndex > 0 ? this.activeIndex - 1 : max;
+      } else if (e.key === 'Enter') {
+        if (this.activeIndex >= 0) {
+          e.preventDefault();
+          this.selectSuggestion(this.suggestions[this.activeIndex]);
+        }
+      } else if (e.key === 'Escape') {
+        this.showSuggestions = false;
+        this.activeIndex = -1;
+      }
     },
     fetchSuggestions() {
       this.loading = true;
@@ -23665,6 +23715,7 @@ __webpack_require__.r(__webpack_exports__);
         data
       }) => {
         this.suggestions = data.suggestions || [];
+        this.activeIndex = this.suggestions.length ? 0 : -1;
       }).catch(err => {
         console.error('Error fetching suggestions:', err);
         this.suggestions = [];
@@ -23675,6 +23726,8 @@ __webpack_require__.r(__webpack_exports__);
     selectSuggestion(s) {
       this.searchTerm = s;
       this.suggestions = [];
+      this.showSuggestions = false;
+      this.activeIndex = -1;
       this.fetchResults(s);
       this.showOffcanvas();
     },
@@ -48309,14 +48362,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 const _hoisted_1 = {
-  class: "container pb-3 px-3"
+  class: "container pb-3 px-3",
+  ref: "searchRoot"
 };
 const _hoisted_2 = {
   class: "input-group w-100 search-input-group position-relative elegant-search"
 };
 const _hoisted_3 = {
   key: 0,
-  class: "list-group suggestions position-absolute",
+  class: "suggestions menu position-absolute",
   style: {
     "top": "100%",
     "left": "0",
@@ -48327,7 +48381,7 @@ const _hoisted_3 = {
     "overflow-y": "auto"
   }
 };
-const _hoisted_4 = ["onClick"];
+const _hoisted_4 = ["onClick", "onMouseenter"];
 const _hoisted_5 = {
   key: 0,
   class: "error-message mt-2"
@@ -48381,8 +48435,9 @@ const _hoisted_20 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input Group "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Unified input group to align input and mic button on all screens "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "search",
-    onKeyup: _cache[0] || (_cache[0] = (...args) => $options.onInput && $options.onInput(...args)),
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.searchTerm = $event),
+    onInput: _cache[0] || (_cache[0] = (...args) => $options.onInput && $options.onInput(...args)),
+    onKeydown: _cache[1] || (_cache[1] = (...args) => $options.onKeyDown && $options.onKeyDown(...args)),
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $data.searchTerm = $event),
     placeholder: "Search for a word in the quran...",
     class: "form-control search-pill",
     style: {
@@ -48394,23 +48449,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn mic-btn d-flex align-items-center justify-content-center",
     "aria-label": "Voice search",
     title: "Voice search",
-    onClick: _cache[2] || (_cache[2] = $event => $data.isListening ? $options.stopVoiceRecognition() : $options.startVoiceRecognition()),
+    onClick: _cache[3] || (_cache[3] = $event => $data.isListening ? $options.stopVoiceRecognition() : $options.startVoiceRecognition()),
     style: {
       "height": "50px",
       "min-width": "56px"
     }
-  }, [...(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-mic-fill"
-  }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Suggestions Dropdown (full width under the input group) "), $data.suggestions.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.suggestions, (suggestion, index) => {
+  }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Suggestions Dropdown (full width under the input group) "), $data.showSuggestions && $data.suggestions.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.suggestions, (suggestion, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      class: "list-group-item text-left list-group-item-success",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["suggestion-item", {
+        active: index === $data.activeIndex
+      }]),
       key: index,
       onClick: $event => $options.selectSuggestion(suggestion),
-      style: {
-        "padding": "12px 14px"
-      }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(suggestion), 9 /* TEXT, PROPS */, _hoisted_4);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" show a message when recording starts "), $data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Spinner "), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      onMouseenter: $event => $data.activeIndex = index
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(suggestion), 43 /* TEXT, CLASS, PROPS, NEED_HYDRATION */, _hoisted_4);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" show a message when recording starts "), $data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Spinner "), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "spinner-border text-secondary",
     role: "status",
     style: {
@@ -48419,12 +48474,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"
-  }, "Loading...")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Listening Text "), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Loading...")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Listening Text "), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "listening-text ml-3 mt-3",
     style: {
       "color": "black"
     }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Listening")], -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Offcanvas for Search Results "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Listening")], -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Offcanvas for Search Results "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "offcanvas-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "offcanvas-title"
@@ -48433,38 +48488,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close",
     "data-bs-dismiss": "offcanvas",
     "aria-label": "Close search results"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Display Results "), $data.filteredResults.length && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Total Number of Surat: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalSurahs), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Total Number of Ayat: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalAyahs), 1 /* TEXT */)]), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredResults, result => {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Display Results "), $data.filteredResults.length && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Total Number of Surat: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalSurahs), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Total Number of Ayat: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalAyahs), 1 /* TEXT */)]), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredResults, result => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: result.id,
       class: "result-item"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       id: 'result-' + result.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.ayah.surah_id) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.ayah.ayah_id), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\n            <div class=\"container pt-3 pb-3\">\n              <button type=\"button\" class=\" w-100 btn btn-light\"><b>Go To Ayah</b></button>\n            </div>\n            "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.ayah.ayah_text), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Translation: ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.ayah.surah_id) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.ayah.ayah_id), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\n            <div class=\"container pt-3 pb-3\">\n              <button type=\"button\" class=\" w-100 btn btn-light\"><b>Go To Ayah</b></button>\n            </div>\n            "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.ayah.ayah_text), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Translation: ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: $options.highlightSearch($data.expanded ? result.translation : result.translation)
     }, null, 8 /* PROPS */, _hoisted_13)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div>\n              <h5 class=\"pt-2\"><b>Tafseer: </b></h5>\n              <span v-html=\"highlightSearch(expanded ? result.originalTafseer : result.originalTafseer)\"></span>\n              \n            </div>\n            <div>\n              <h5 class=\"pt-2\"><b>Transliteration: </b></h5>\n              <span v-html=\"highlightSearch(expanded ? result.transliteration : result.transliteration)\"></span>\n            </div> ")], 8 /* PROPS */, _hoisted_10), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: $event => $options.shareOnWhatsApp(result),
       type: "button",
       class: "container btn btn-success w-100"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      onClick: _cache[3] || (_cache[3] = (...args) => _ctx.fastForwardSpeech && _ctx.fastForwardSpeech(...args)),
-      style: {
-        "cursor": "pointer"
-      },
-      "aria-label": "Fast forward audio",
-      class: "bi bi-whatsapp ml-2 mr-2 custom-icon-play h5"
-    }), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_16)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      onClick: $event => $options.shareOnTwitter(result),
-      type: "button",
-      class: "container btn btn-dark w-100"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       onClick: _cache[4] || (_cache[4] = (...args) => _ctx.fastForwardSpeech && _ctx.fastForwardSpeech(...args)),
       style: {
         "cursor": "pointer"
       },
       "aria-label": "Fast forward audio",
+      class: "bi bi-whatsapp ml-2 mr-2 custom-icon-play h5"
+    }), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_16)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: $event => $options.shareOnTwitter(result),
+      type: "button",
+      class: "container btn btn-dark w-100"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      onClick: _cache[5] || (_cache[5] = (...args) => _ctx.fastForwardSpeech && _ctx.fastForwardSpeech(...args)),
+      style: {
+        "cursor": "pointer"
+      },
+      "aria-label": "Fast forward audio",
       class: "bi bi-twitter-x ml-2 mr-2 custom-icon-play h5"
-    }), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on X", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_18)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-12 mt-2\">\n              <button @click=\"openModal(result)\" type=\"button\" class=\"btn btn-light w-100\">\n                <b>View Ayah Details</b>\n              </button>\n            </div> ")]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */))]);
-  }), 128 /* KEYED_FRAGMENT */))])) : !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [...(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "No search results found.", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Loading...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)])]);
+    }), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on X", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_18)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-12 mt-2\">\n              <button @click=\"openModal(result)\" type=\"button\" class=\"btn btn-light w-100\">\n                <b>View Ayah Details</b>\n              </button>\n            </div> ")]), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */))]);
+  }), 128 /* KEYED_FRAGMENT */))])) : !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "No search results found.", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Loading...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)])]);
 }
 
 /***/ }),
@@ -51754,7 +51809,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.elegant-search[data-v-27a6ebd4] { border-radius: 12px; overflow: visible; box-shadow: 0 1px 0 rgba(0,0,0,.02), 0 2px 8px rgba(0,0,0,.06); position: relative;\n}\n.search-pill[data-v-27a6ebd4] { border: 1px solid #e6eaee; background:#fff; font-size: 1rem;\n}\n.search-pill[data-v-27a6ebd4]::-moz-placeholder { color:#9aa4b2;\n}\n.search-pill[data-v-27a6ebd4]::placeholder { color:#9aa4b2;\n}\n.mic-btn[data-v-27a6ebd4] { background-image: linear-gradient(135deg,#6a7cf7 0%, #6b4df2 50%, #6b3ef0 100%); color:#fff; border:none; width:56px; display:flex; align-items:center; justify-content:center;\n}\n.mic-btn[data-v-27a6ebd4]:hover { filter: brightness(1.05);\n}\n.mic-btn .bi[data-v-27a6ebd4] { font-size: 1.1rem;\n}\n.error-message[data-v-27a6ebd4] {\n  margin-top: 10px;\n  padding: 10px;\n  background-color: #f8d7da;\n  color: #721c24;\n  border: 1px solid #f5c6cb;\n  border-radius: 4px;\n  font-size: 0.9em;\n}\n.listening-container[data-v-27a6ebd4] {\n  top: 5px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.1em;\n  font-weight: 300;\n  color: rgb(0, 0, 0);\n  background-color: #f5f5f5;\n  padding: 12px;\n  border-radius: 6px;\n  max-width: 300px;\n  margin: 0 auto;\n  text-align: center;\n}\n.listening-icon[data-v-27a6ebd4] {\n  font-size: 1.3em;\n  color: #000000;\n}\n.listening-text[data-v-27a6ebd4] {\n  color: #000000;\n  font-size: 30px;\n  font-weight: bold;\n  display: flex;\n  align-items: center;\n}\n.dot-typing[data-v-27a6ebd4] {\n  padding-left: 10px;\n  display: inline-block;\n  width: 6px;\n  height: 6px;\n  background-color: #119457;\n  border-radius: 50%;\n  animation: blink-27a6ebd4 1.4s infinite ease-in-out both;\n}\n.dot-typing[data-v-27a6ebd4]:before,\n.dot-typing[data-v-27a6ebd4]:after {\n  content: '';\n  display: inline-block;\n  width: 6px;\n  height: 6px;\n  padding-left: 10px;\n  background-color: #000000;\n  border-radius: 50%;\n  animation: blink-27a6ebd4 1.4s infinite ease-in-out both;\n}\n.dot-typing[data-v-27a6ebd4]:before {\n  animation-delay: 0.2s;\n}\n.dot-typing[data-v-27a6ebd4]:after {\n  animation-delay: 0.4s;\n}\n/* Blinking dots animation */\n@keyframes blink-27a6ebd4 {\n0%,\n  80%,\n  100% {\n    transform: scale(0);\n}\n40% {\n    transform: scale(1);\n}\n}\n/* CSS */\n.button-36[data-v-27a6ebd4] {\n  background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  border-radius: 8px;\n  border-style: none;\n  box-sizing: border-box;\n  color: #FFFFFF;\n  cursor: pointer;\n  font-family: \"Inter UI\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif;\n  height: 2.4rem;\n  padding: 0 1.3rem;\n  text-align: center;\n  text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;\n  transition: all .5s;\n  -moz-user-select: none;\n       user-select: none;\n  -webkit-user-select: none;\n  touch-action: manipulation;\n}\n.button-36[data-v-27a6ebd4]:hover {\n  box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;\n  transition-duration: .1s;\n}\n.custom-link[data-v-27a6ebd4] {\n  color: white;\n  font-size: bold;\n}\n@media (max-width: 576px) {\n.mobile-only[data-v-27a6ebd4] {\n    display: block;\n    display: flex;\n    width: 100%;\n}\n.custom-offcanvas[data-v-27a6ebd4] {\n    background-color: #10584f;\n    color: white;\n}\n.hide-on-mobile[data-v-27a6ebd4] {\n    display: none;\n}\n}\n.suggestions[data-v-27a6ebd4] {\n  position: absolute;\n  top: 100%;\n  left: 0;\n  width: 80%;\n  z-index: 1000;\n  max-height: 600px;\n  overflow-y: auto;\n  border-top-left-radius: 0;\n  border-top-right-radius: 0;\n  border-bottom-left-radius: 4px;\n  border-bottom-right-radius: 4px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.highlight[data-v-27a6ebd4] {\n  background-color: #3EB489;\n  font-weight: bold;\n}\n.recent-searches[data-v-27a6ebd4] {\n  position: relative;\n  width: 300px;\n  /* Adjust the width as needed */\n}\n.search-input[data-v-27a6ebd4] {\n  width: 100%;\n  padding: 10px;\n  font-size: 16px;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n}\n.suggestions[data-v-27a6ebd4] {\n  position: absolute;\n  background: white;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  margin-top: 5px;\n  width: 80%;\n  max-height: 150px;\n  /* Limit dropdown height */\n  overflow-y: auto;\n  /* Enable scrolling */\n  z-index: 10;\n  /* Ensure dropdown appears above other content */\n}\n.suggestions li[data-v-27a6ebd4] {\n  padding: 8px;\n  cursor: pointer;\n}\n.suggestions li[data-v-27a6ebd4]:hover {\n  background-color: #f0f0f0;\n  /* Highlight on hover */\n}\n/* Make sure dropdown appears above surrounding content */\n.suggestions[data-v-27a6ebd4] { z-index: 1055; background: #fff;\n}\n.btn-primary[data-v-27a6ebd4] {\n  background-color: #0b5d4b !important;\n  border-radius: 10px;\n}\n.btn-primary[data-v-27a6ebd4]:focus {\n  box-shadow: none;\n}\n.text[data-v-27a6ebd4] {\n  font-size: 13px;\n}\n.flex-row[data-v-27a6ebd4] {\n  border: 1px solid #F2F2F4;\n  border-radius: 10px;\n  margin: 0 1px 0;\n}\n.dropdown-menu[data-v-27a6ebd4] {\n  background-color: white;\n  border: 1px solid lightgrey;\n  border-radius: 5px;\n}\n.list-group-item[data-v-27a6ebd4] {\n  border: none;\n}\n.alert-container[data-v-27a6ebd4] {\n  position: absolute;\n  /* Position it absolutely */\n  top: 10px;\n  /* Adjust this value to control vertical position */\n  left: 10px;\n  /* Adjust this value to control horizontal position */\n  z-index: 1000;\n  /* Ensure it appears above other content */\n}\n.alert[data-v-27a6ebd4] {\n  margin-bottom: 10px;\n  /* Add some spacing between alerts */\n}\n.custom-offcanvas[data-v-27a6ebd4] {\n  background-color: #10584f;\n  color: white;\n  width: 40%;\n}\n@media (max-width: 768px) {\n\n  /* Adjust this width as needed for your breakpoint */\n.mobile-only[data-v-27a6ebd4] {\n    display: flex;\n    flex-direction: column !important;\n    /* Show only on mobile */\n}\n.custom-offcanvas[data-v-27a6ebd4] {\n    background-color: #10584f;\n    color: white;\n    width: 100%;\n}\n}\n.custom-offcanvas .result-item[data-v-27a6ebd4] {\n  margin-bottom: 15px;\n}\n.pdf-content[data-v-27a6ebd4] {\n  /* Adjust text properties */\n  font-family: Arial, sans-serif;\n  /* Set a specific font */\n  font-size: 14px;\n  /* Set a base font size */\n  line-height: 1.5;\n  /* Set line height for readability */\n  color: black;\n  /* Set default text color to black */\n  padding: 10px;\n  /* Add padding for better layout */\n}\n.translation-text[data-v-27a6ebd4] {\n  color: black;\n  /* Ensure translation text is visible */\n  margin-top: 10px;\n  /* Add spacing above the translation */\n}\n.suggestions-list[data-v-27a6ebd4] {\n  list-style-type: none;\n  padding: 0;\n  margin: 0;\n}\n.suggestions-list li[data-v-27a6ebd4] {\n  padding: 10px;\n  cursor: pointer;\n}\n.suggestions-list li[data-v-27a6ebd4]:hover {\n  background-color: #f1f1f1;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.elegant-search[data-v-27a6ebd4] { border-radius: 12px; overflow: visible; box-shadow: 0 1px 0 rgba(0,0,0,.02), 0 2px 8px rgba(0,0,0,.06); position: relative;\n}\n.search-pill[data-v-27a6ebd4] { border: 1px solid #e6eaee; background:#fff; font-size: 1rem;\n}\n.search-pill[data-v-27a6ebd4]::-moz-placeholder { color:#9aa4b2;\n}\n.search-pill[data-v-27a6ebd4]::placeholder { color:#9aa4b2;\n}\n.mic-btn[data-v-27a6ebd4] { background-image: linear-gradient(135deg,#6a7cf7 0%, #6b4df2 50%, #6b3ef0 100%); color:#fff; border:none; width:56px; display:flex; align-items:center; justify-content:center;\n}\n.mic-btn[data-v-27a6ebd4]:hover { filter: brightness(1.05);\n}\n.mic-btn .bi[data-v-27a6ebd4] { font-size: 1.1rem;\n}\n.error-message[data-v-27a6ebd4] {\n  margin-top: 10px;\n  padding: 10px;\n  background-color: #f8d7da;\n  color: #721c24;\n  border: 1px solid #f5c6cb;\n  border-radius: 4px;\n  font-size: 0.9em;\n}\n.listening-container[data-v-27a6ebd4] {\n  top: 5px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.1em;\n  font-weight: 300;\n  color: rgb(0, 0, 0);\n  background-color: #f5f5f5;\n  padding: 12px;\n  border-radius: 6px;\n  max-width: 300px;\n  margin: 0 auto;\n  text-align: center;\n}\n.listening-icon[data-v-27a6ebd4] {\n  font-size: 1.3em;\n  color: #000000;\n}\n.listening-text[data-v-27a6ebd4] {\n  color: #000000;\n  font-size: 30px;\n  font-weight: bold;\n  display: flex;\n  align-items: center;\n}\n.dot-typing[data-v-27a6ebd4] {\n  padding-left: 10px;\n  display: inline-block;\n  width: 6px;\n  height: 6px;\n  background-color: #119457;\n  border-radius: 50%;\n  animation: blink-27a6ebd4 1.4s infinite ease-in-out both;\n}\n.dot-typing[data-v-27a6ebd4]:before,\n.dot-typing[data-v-27a6ebd4]:after {\n  content: '';\n  display: inline-block;\n  width: 6px;\n  height: 6px;\n  padding-left: 10px;\n  background-color: #000000;\n  border-radius: 50%;\n  animation: blink-27a6ebd4 1.4s infinite ease-in-out both;\n}\n.dot-typing[data-v-27a6ebd4]:before {\n  animation-delay: 0.2s;\n}\n.dot-typing[data-v-27a6ebd4]:after {\n  animation-delay: 0.4s;\n}\n/* Blinking dots animation */\n@keyframes blink-27a6ebd4 {\n0%,\n  80%,\n  100% {\n    transform: scale(0);\n}\n40% {\n    transform: scale(1);\n}\n}\n/* CSS */\n.button-36[data-v-27a6ebd4] {\n  background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  border-radius: 8px;\n  border-style: none;\n  box-sizing: border-box;\n  color: #FFFFFF;\n  cursor: pointer;\n  font-family: \"Inter UI\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif;\n  height: 2.4rem;\n  padding: 0 1.3rem;\n  text-align: center;\n  text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;\n  transition: all .5s;\n  -moz-user-select: none;\n       user-select: none;\n  -webkit-user-select: none;\n  touch-action: manipulation;\n}\n.button-36[data-v-27a6ebd4]:hover {\n  box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;\n  transition-duration: .1s;\n}\n.custom-link[data-v-27a6ebd4] {\n  color: white;\n  font-size: bold;\n}\n@media (max-width: 576px) {\n.mobile-only[data-v-27a6ebd4] {\n    display: block;\n    display: flex;\n    width: 100%;\n}\n.custom-offcanvas[data-v-27a6ebd4] {\n    background-color: #10584f;\n    color: white;\n}\n.hide-on-mobile[data-v-27a6ebd4] {\n    display: none;\n}\n}\n/* Base positioning for suggestions menu */\n.suggestions[data-v-27a6ebd4] { position: absolute; z-index: 1055; width: 100%;\n}\n.highlight[data-v-27a6ebd4] {\n  background-color: #3EB489;\n  font-weight: bold;\n}\n.recent-searches[data-v-27a6ebd4] {\n  position: relative;\n  width: 300px;\n  /* Adjust the width as needed */\n}\n.search-input[data-v-27a6ebd4] {\n  width: 100%;\n  padding: 10px;\n  font-size: 16px;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n}\n.suggestions[data-v-27a6ebd4] {\n  position: absolute;\n  background: white;\n  border: 1px solid #ccc;\n  border-radius: 4px;\n  margin-top: 5px;\n  width: 80%;\n  max-height: 150px;\n  /* Limit dropdown height */\n  overflow-y: auto;\n  /* Enable scrolling */\n  z-index: 10;\n  /* Ensure dropdown appears above other content */\n}\n.suggestions li[data-v-27a6ebd4] {\n  padding: 8px;\n  cursor: pointer;\n}\n.suggestions li[data-v-27a6ebd4]:hover {\n  background-color: #f0f0f0;\n  /* Highlight on hover */\n}\n/* Make sure dropdown appears above surrounding content */\n.suggestions[data-v-27a6ebd4] { z-index: 1055; background: #fff;\n}\n.btn-primary[data-v-27a6ebd4] {\n  background-color: #0b5d4b !important;\n  border-radius: 10px;\n}\n.btn-primary[data-v-27a6ebd4]:focus {\n  box-shadow: none;\n}\n.text[data-v-27a6ebd4] {\n  font-size: 13px;\n}\n.flex-row[data-v-27a6ebd4] {\n  border: 1px solid #F2F2F4;\n  border-radius: 10px;\n  margin: 0 1px 0;\n}\n.dropdown-menu[data-v-27a6ebd4] {\n  background-color: white;\n  border: 1px solid lightgrey;\n  border-radius: 5px;\n}\n/* High-contrast menu style */\n.suggestions.menu[data-v-27a6ebd4] {\n  background: #f3fbfa; /* light teal panel (not pure white) */\n  border: 1px solid rgba(11, 128, 111, 0.22);\n  border-radius: 12px;\n  box-shadow: 0 14px 30px rgba(26, 95, 122, 0.15);\n  overflow: hidden;\n  list-style: none;\n  margin: 0;\n  padding: 4px; /* tight edge padding to reduce left gap */\n}\n.suggestions.menu .suggestion-item[data-v-27a6ebd4] {\n  list-style: none;\n  color: #0f172a; /* readable dark text */\n  padding: 8px 10px; /* reduced internal padding */\n  cursor: pointer;\n  transition: background-color .12s ease, color .12s ease, transform .06s ease, box-shadow .12s ease;\n  border-bottom: 1px solid rgba(2, 6, 23, 0.06);\n  border-radius: 8px;\n  display: block;\n}\n.suggestions.menu .suggestion-item[data-v-27a6ebd4]:last-child { border-bottom: 0;\n}\n.suggestions.menu .suggestion-item[data-v-27a6ebd4]:hover {\n  background: rgba(11, 128, 111, 0.12); /* light teal wash */\n  color: #0b806f;\n  box-shadow: inset 3px 0 0 #0b806f; /* slim left accent, no big gap */\n}\n.suggestions.menu .suggestion-item.active[data-v-27a6ebd4] {\n  background: rgba(11, 128, 111, 0.16);\n  color: #0b806f;\n  box-shadow: inset 3px 0 0 #0b806f;\n}\n/* Highlighted match: subtle, high-contrast */\n.suggestions.menu mark[data-v-27a6ebd4] {\n  background: transparent;\n  color: #0b806f;\n  font-weight: 700;\n  text-decoration: underline;\n  text-decoration-color: rgba(11, 128, 111, 0.55);\n}\n@media (max-width: 576px) {\n.suggestions.menu[data-v-27a6ebd4] { border-radius: 10px;\n}\n.suggestions.menu .suggestion-item[data-v-27a6ebd4] { padding: 11px 12px;\n}\n}\n.list-group-item[data-v-27a6ebd4] {\n  border: none;\n}\n.alert-container[data-v-27a6ebd4] {\n  position: absolute;\n  /* Position it absolutely */\n  top: 10px;\n  /* Adjust this value to control vertical position */\n  left: 10px;\n  /* Adjust this value to control horizontal position */\n  z-index: 1000;\n  /* Ensure it appears above other content */\n}\n.alert[data-v-27a6ebd4] {\n  margin-bottom: 10px;\n  /* Add some spacing between alerts */\n}\n.custom-offcanvas[data-v-27a6ebd4] {\n  background-color: #10584f;\n  color: white;\n  width: 40%;\n}\n@media (max-width: 768px) {\n\n  /* Adjust this width as needed for your breakpoint */\n.mobile-only[data-v-27a6ebd4] {\n    display: flex;\n    flex-direction: column !important;\n    /* Show only on mobile */\n}\n.custom-offcanvas[data-v-27a6ebd4] {\n    background-color: #10584f;\n    color: white;\n    width: 100%;\n}\n}\n.custom-offcanvas .result-item[data-v-27a6ebd4] {\n  margin-bottom: 15px;\n}\n.pdf-content[data-v-27a6ebd4] {\n  /* Adjust text properties */\n  font-family: Arial, sans-serif;\n  /* Set a specific font */\n  font-size: 14px;\n  /* Set a base font size */\n  line-height: 1.5;\n  /* Set line height for readability */\n  color: black;\n  /* Set default text color to black */\n  padding: 10px;\n  /* Add padding for better layout */\n}\n.translation-text[data-v-27a6ebd4] {\n  color: black;\n  /* Ensure translation text is visible */\n  margin-top: 10px;\n  /* Add spacing above the translation */\n}\n.suggestions-list[data-v-27a6ebd4] {\n  list-style-type: none;\n  padding: 0;\n  margin: 0;\n}\n.suggestions-list li[data-v-27a6ebd4] {\n  padding: 10px;\n  cursor: pointer;\n}\n.suggestions-list li[data-v-27a6ebd4]:hover {\n  background-color: #f1f1f1;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

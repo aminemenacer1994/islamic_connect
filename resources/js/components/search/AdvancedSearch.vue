@@ -3,11 +3,12 @@
     <!-- Search Input Group -->
     <div>
       <!-- Unified input group to align input and mic button on all screens -->
-      <div class="container pb-3 px-3">
+      <div class="container pb-3 px-3" ref="searchRoot">
         <div class="input-group w-100 search-input-group position-relative elegant-search">
           <input
             type="search"
-            @keyup="onInput"
+            @input="onInput"
+            @keydown="onKeyDown"
             v-model="searchTerm"
             placeholder="Search for a word in the quran..."
             class="form-control search-pill"
@@ -26,16 +27,17 @@
 
           <!-- Suggestions Dropdown (full width under the input group) -->
           <ul
-            v-if="suggestions.length"
-            class="list-group suggestions position-absolute"
+            v-if="showSuggestions && suggestions.length"
+            class="suggestions menu position-absolute"
             style="top: 100%; left: 0; right: 0; width: 100%; z-index: 1000; max-height: 60vh; overflow-y: auto;"
           >
             <li
-              class="list-group-item text-left list-group-item-success"
+              class="suggestion-item"
               v-for="(suggestion, index) in suggestions"
               :key="index"
               @click="selectSuggestion(suggestion)"
-              style="padding: 12px 14px;"
+              @mouseenter="activeIndex = index"
+              :class="{ active: index === activeIndex }"
             >
               {{ suggestion }}
             </li>
@@ -157,6 +159,8 @@ export default {
       loading: false,
       searchTerm: '',
       suggestions: [],
+      showSuggestions: false,
+      activeIndex: -1,
       tafseer: '',
       filteredResults: [],
       expanded: false,
@@ -183,6 +187,22 @@ export default {
     if (this.information && this.information.ayah && this.information.ayah.id) {
       this.fetchTafseer(this.information.ayah.id);
     }
+    // Close suggestions when clicking outside
+    this._onDocClick = (e) => {
+      const root = this.$refs.searchRoot;
+      if (!root) return;
+      if (!root.contains(e.target)) {
+        this.showSuggestions = false;
+        this.activeIndex = -1;
+      }
+    };
+    document.addEventListener('click', this._onDocClick, { passive: true });
+  },
+  beforeUnmount() {
+    if (this._onDocClick) {
+      document.removeEventListener('click', this._onDocClick, { passive: true });
+      this._onDocClick = null;
+    }
   },
   methods: {
     async fetchTafseer(ayahId) {
@@ -190,17 +210,44 @@ export default {
       catch (e) { console.error('Error fetching tafseer:', e); }
     },
     onInput() {
-      if (this.searchTerm && this.searchTerm.length > 2) this.fetchSuggestions();
-      else this.suggestions = [];
+      if (this.searchTerm && this.searchTerm.length > 2) {
+        this.fetchSuggestions();
+        this.showSuggestions = true;
+      } else {
+        this.suggestions = [];
+        this.showSuggestions = false;
+        this.activeIndex = -1;
+      }
+    },
+    onKeyDown(e) {
+      if (!this.suggestions.length) return;
+      const max = this.suggestions.length - 1;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        this.showSuggestions = true;
+        this.activeIndex = this.activeIndex < max ? this.activeIndex + 1 : 0;
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        this.showSuggestions = true;
+        this.activeIndex = this.activeIndex > 0 ? this.activeIndex - 1 : max;
+      } else if (e.key === 'Enter') {
+        if (this.activeIndex >= 0) {
+          e.preventDefault();
+          this.selectSuggestion(this.suggestions[this.activeIndex]);
+        }
+      } else if (e.key === 'Escape') {
+        this.showSuggestions = false;
+        this.activeIndex = -1;
+      }
     },
     fetchSuggestions() {
       this.loading = true;
       axios.get('/search-translations', { params: { query: this.searchTerm, filters: this.filters } })
-        .then(({ data }) => { this.suggestions = data.suggestions || []; })
+        .then(({ data }) => { this.suggestions = data.suggestions || []; this.activeIndex = this.suggestions.length ? 0 : -1; })
         .catch(err => { console.error('Error fetching suggestions:', err); this.suggestions = []; })
         .finally(() => { this.loading = false; });
     },
-    selectSuggestion(s) { this.searchTerm = s; this.suggestions = []; this.fetchResults(s); this.showOffcanvas(); },
+    selectSuggestion(s) { this.searchTerm = s; this.suggestions = []; this.showSuggestions = false; this.activeIndex = -1; this.fetchResults(s); this.showOffcanvas(); },
     startVoiceRecognition() {
       this.isListening = true; this.errorMessage = '';
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -400,20 +447,8 @@ export default {
 
 
 
-.suggestions {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 80%;
-  z-index: 1000;
-  max-height: 600px;
-  overflow-y: auto;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+/* Base positioning for suggestions menu */
+.suggestions { position: absolute; z-index: 1055; width: 100%; }
 
 .highlight {
   background-color: #3EB489;
@@ -486,6 +521,57 @@ export default {
   background-color: white;
   border: 1px solid lightgrey;
   border-radius: 5px;
+}
+
+/* High-contrast menu style */
+.suggestions.menu {
+  background: #f3fbfa; /* light teal panel (not pure white) */
+  border: 1px solid rgba(11, 128, 111, 0.22);
+  border-radius: 12px;
+  box-shadow: 0 14px 30px rgba(26, 95, 122, 0.15);
+  overflow: hidden;
+  list-style: none;
+  margin: 0;
+  padding: 4px; /* tight edge padding to reduce left gap */
+}
+
+.suggestions.menu .suggestion-item {
+  list-style: none;
+  color: #0f172a; /* readable dark text */
+  padding: 8px 10px; /* reduced internal padding */
+  cursor: pointer;
+  transition: background-color .12s ease, color .12s ease, transform .06s ease, box-shadow .12s ease;
+  border-bottom: 1px solid rgba(2, 6, 23, 0.06);
+  border-radius: 8px;
+  display: block;
+}
+
+.suggestions.menu .suggestion-item:last-child { border-bottom: 0; }
+
+.suggestions.menu .suggestion-item:hover {
+  background: rgba(11, 128, 111, 0.12); /* light teal wash */
+  color: #0b806f;
+  box-shadow: inset 3px 0 0 #0b806f; /* slim left accent, no big gap */
+}
+
+.suggestions.menu .suggestion-item.active {
+  background: rgba(11, 128, 111, 0.16);
+  color: #0b806f;
+  box-shadow: inset 3px 0 0 #0b806f;
+}
+
+/* Highlighted match: subtle, high-contrast */
+.suggestions.menu mark {
+  background: transparent;
+  color: #0b806f;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(11, 128, 111, 0.55);
+}
+
+@media (max-width: 576px) {
+  .suggestions.menu { border-radius: 10px; }
+  .suggestions.menu .suggestion-item { padding: 11px 12px; }
 }
 
 .list-group-item {
