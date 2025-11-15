@@ -142,396 +142,98 @@
 </template>
 
 <script>
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import {
-  debounce
-} from 'lodash';
 import axios from 'axios';
 
-
 export default {
-  mounted() {
-    const searchTerm = this.searchTerm.trim().toLowerCase();
-    const dropdown = document.querySelector('.dropdown');
-    if (this.information?.ayah?.id) {
-      this.fetchTafseer(this.information.ayah.id);
-    }
-    if (dropdown) {
-      dropdown.addEventListener('click', this.toggleDropdown);
-    }
-  },
   props: {
-    translation: {
-      type: String,
-      required: true,
-    },
-    information: {
-      type: Object,
-      required: true
-    },
-    targetTranslationRef: {
-      type: String,
-      default: 'targetTranslationElement',
-    },
+    translation: { type: String, required: true },
+    information: { type: Object, required: true },
+    targetTranslationRef: { type: String, default: 'targetTranslationElement' },
   },
-
   data() {
     return {
-      data: [],
       errorMessage: '',
       selectedAyah: null,
       loading: false,
       searchTerm: '',
       suggestions: [],
-      tafseer: "",
+      tafseer: '',
       filteredResults: [],
       expanded: false,
       showMoreLink: true,
-      information: {
-        translation: '', // Ensure translation is initialized
-        ayah_id: null,   // Ensure ayah_id is initialized
-      },
-      filters: {
-        translation: true, // Default filter for translation enabled
-        tafseer: false, // Default filter for tafseer disabled
-        transliteration: false // Default filter for transliteration disabled
-      },
+      filters: { translation: true, tafseer: false, transliteration: false },
       isListening: false,
       recognition: null,
-      timer: null,
     };
   },
   computed: {
     totalSurahs() {
-      const surahIds = this.filteredResults.map(result => result.ayah.surah_id);
-      return new Set(surahIds).size; // Calculate unique surahs
+      const ids = this.filteredResults.map(r => (r && r.ayah ? r.ayah.surah_id : null)).filter(Boolean);
+      return new Set(ids).size;
     },
-    totalAyahs() {
-      return this.filteredResults.length; // Calculate total ayahs
-    }
+    totalAyahs() { return this.filteredResults.length; },
   },
-
   watch: {
-    // Watch for changes to `information.ayah.id`
-    "information.ayah.id": {
-      immediate: true, // Run on initial component mount as well
-      handler(newId, oldId) {
-        if (newId !== oldId) {
-          this.fetchTafseer(newId); // Refetch tafseer when ayah ID changes
-        }
-      },
+    'information.ayah.id': {
+      immediate: true,
+      handler(newId) { if (newId) this.fetchTafseer(newId); },
     },
   },
-  props: {
-    result: Object,
-    information: Object,
+  mounted() {
+    if (this.information && this.information.ayah && this.information.ayah.id) {
+      this.fetchTafseer(this.information.ayah.id);
+    }
   },
   methods: {
-    methods: {
-      redirectToMonthlySubscription() {
-        // Replace with your Stripe Payment Link for monthly subscription
-        window.location.href = "https://buy.stripe.com/dR6fZC0BWd7ubvO8wz";
-      },
-      redirectToYearlySubscription() {
-        // Replace with your Stripe Payment Link for yearly subscription
-        window.location.href = "https://buy.stripe.com/00g7t63O8d7uczS6os";
-      },
-      redirectToRegister() {
-        location.assign("/register");
-      },
-      async donate() {
-        if (this.amount <= 0) {
-          alert("Please enter a valid donation amount.");
-          return;
-        }
-
-        try {
-          // Send the dynamically selected donation amount to the backend
-          const response = await axios.post('/create-checkout-session', {
-            amount: this.amount,
-          });
-
-          const {
-            id
-          } = response.data;
-
-          // Redirect to Stripe Checkout page
-          const {
-            error
-          } = await this.stripe.redirectToCheckout({
-            sessionId: id,
-          });
-
-          if (error) {
-            console.error('Error redirecting to checkout:', error.message);
-          }
-        } catch (error) {
-          console.error('Error creating checkout session:', error.message);
-        }
-      },
-    },
-    filterResults() {
-      console.log(this.searchTerm); // Log the search term
-      // Example of filtering logic
-      this.filteredResults = this.allResults.filter(result => {
-        // Match on ayah_text, translation, or any field that might contain the search term
-        return result.ayah.ayah_text.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          result.translation.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          result.originalTafseer.toLowerCase().includes(this.searchTerm.toLowerCase());
-      });
-    },
-    openModal(result) {
-      this.selectedAyah = result; // Set the selected Ayah data
-      const modalElement = document.getElementById('ayahModal');
-      const modal = new bootstrap.Modal(modalElement, {
-        backdrop: false, // Disable the gray overlay
-      });
-      modal.show(); // Show the modal
-    },
-
-    highlightSearch(text) {
-      // Your implementation for highlighting search terms
-      return text; // Replace this with your actual search highlighting logic
-    },
-    shareOnWhatsApp(result) {
-      // Construct the message you want to share
-      const message = `Ayah: ${result.ayah.surah_id}:${result.ayah.ayah_id}\n\n` + `${result.ayah.ayah_text}\n\n` + `Translation: ${result.translation}\n\n` + 'Visit our website : www.islamiconnect.com for more';
-      // Encode the message to be used in a URL
-      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-      // Open WhatsApp with the pre-populated message
-      window.open(whatsappUrl, '_blank');
-    },
-    shareOnTwitter(result) {
-      // Construct the message you want to share
-      const message = `Ayah: ${result.ayah.surah_id}:${result.ayah.ayah_id}\n\n` +
-        `${result.ayah.ayah_text}\n\n` +
-        `Translation: ${result.translation}\n\n` +
-        'Visit our website : www.islamiconnect.com for more'
-      // `Tafseer: ${result.originalTafseer}\n\n` + 
-      // `Transliteration: ${result.transliteration}`;
-
-
-      // Encode the message to be used in a URL
-      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
-
-      // Open Twitter with the pre-populated message
-      window.open(twitterUrl, '_blank');
-    },
-    totalSurahs() {
-      const surahIds = this.filteredResults.map(result => result.ayah.surah_id);
-      return new Set(surahIds).size; // Unique surahs
-    },
-    totalAyahs() {
-      return this.filteredResults.length; // Total ayahs
-    },
     async fetchTafseer(ayahId) {
-      try {
-        const tafseerResponse = await axios.get(
-          `/tafseer/${ayahId}/fetch`
-        );
-        this.tafseer = tafseerResponse.data; // Assign the fetched data to the local state
-      } catch (error) {
-        console.error("Error fetching tafseer:", error);
-      }
+      try { const { data } = await axios.get(`/tafseer/${ayahId}/fetch`); this.tafseer = data; }
+      catch (e) { console.error('Error fetching tafseer:', e); }
     },
-    toggleExpand() {
-      this.expanded = !this.expanded; // Toggle the expanded state
-    },
-    highlightSearch(text) {
-      // Your logic for highlighting search terms
-      return text; // Return the text with highlights
-    },
-    // Trigger suggestions based on input length
     onInput() {
-      if (this.searchTerm.length > 2) {
-        this.fetchSuggestions();
-      } else {
-        this.suggestions = [];
-        this.filteredResults = [];
-      }
+      if (this.searchTerm && this.searchTerm.length > 2) this.fetchSuggestions();
+      else this.suggestions = [];
     },
     fetchSuggestions() {
-      const params = {
-        query: this.searchTerm,
-        filters: this.filters,
-      };
-
-      this.loading = true; // Start loading
-
-      axios.get('/search-translations', {
-        params
-      })
-        .then((response) => {
-          this.suggestions = response.data.suggestions || []; // Fallback to empty array
-          this.filteredResults = response.data.results || []; // Fallback to empty array
-        })
-        .catch((error) => {
-          console.error('Error fetching suggestions:', error);
-          this.suggestions = []; // Reset suggestions on error
-          this.filteredResults = []; // Reset filtered results on error
-        })
-        .finally(() => {
-          this.loading = false; // Stop loading
-        });
+      this.loading = true;
+      axios.get('/search-translations', { params: { query: this.searchTerm, filters: this.filters } })
+        .then(({ data }) => { this.suggestions = data.suggestions || []; })
+        .catch(err => { console.error('Error fetching suggestions:', err); this.suggestions = []; })
+        .finally(() => { this.loading = false; });
     },
-
-    // Select a suggestion and fetch its results
-    selectSuggestion(suggestion) {
-      this.searchTerm = suggestion;
-      this.suggestions = [];
-      this.fetchResults(suggestion); // Fetch results based on selected suggestion
-      this.showOffcanvas();
-    },
-
-    // Select a search result
-    selectResult(result) {
-      this.searchTerm = result.content; // Update searchTerm with the result content
-      this.filteredResults = []; // Clear search results
-      this.suggestions = []; // Clear suggestions
-      this.saveSearch(result.content); // Save the search term
-    },
-
-    // Submit search and save term if not already present
-    submitSearch() {
-      const query = this.searchTerm.toLowerCase();
-      if (query && !this.recentSearches.includes(query)) {
-        this.recentSearches.push(query);
-        localStorage.setItem('recentSearches', JSON.stringify(this.recentSearches));
-      }
-      this.filterSuggestions(); // Trigger suggestions based on updated searchTerm
-    },
-
-    // Start voice recognition
+    selectSuggestion(s) { this.searchTerm = s; this.suggestions = []; this.fetchResults(s); this.showOffcanvas(); },
     startVoiceRecognition() {
-      this.isListening = true;
-      this.errorMessage = '';
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-      if (!SpeechRecognition) {
-        alert('Speech Recognition is not supported in this browser. Please use Google Chrome or a compatible browser.');
-        this.isListening = false;
-        return;
-      }
-
-      this.recognition = new SpeechRecognition();
-      this.recognition.lang = 'en-US';
-      //  this.recognition.lang = "ar-SA";
-      this.recognition.continuous = false;
-
-      this.recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        this.searchTerm = transcript;
-        this.isListening = false;
-        this.fetchSuggestions(); // Fetch suggestions immediately after speech input
+      this.isListening = true; this.errorMessage = '';
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) { alert('Speech Recognition not supported.'); this.isListening = false; return; }
+      this.recognition = new SR(); this.recognition.lang = 'en-US'; this.recognition.continuous = false;
+      this.recognition.onresult = (e) => {
+        this.searchTerm = e.results[0][0].transcript; this.isListening = false;
+        if (this.searchTerm.length > 2) this.fetchSuggestions(); else { this.fetchResults(this.searchTerm); this.showOffcanvas(); }
       };
-
-      this.recognition.onend = () => {
-        this.isListening = false;
-      };
-
-      this.recognition.onerror = (event) => {
-        console.error('Speech recognition error:', event.error);
-        this.isListening = false;
-      };
-
+      this.recognition.onend = () => { this.isListening = false; };
+      this.recognition.onerror = (e) => { console.error('Speech recognition error:', e.error); this.isListening = false; };
       this.recognition.start();
     },
-
-    // Stop voice recognition
-    stopVoiceRecognition() {
-      if (this.recognition) {
-        this.recognition.stop();
-        this.isListening = false;
-        this.searchWord();
-        this.showOffcanvas();
-      }
-    },
-
-    async fetchResults() {
-      const response = await axios.get('/api/quran/ayat');
-      this.allResults = response.data;  // Ensure all results are loaded before filtering
-      this.filterResults();
-    },
-
-    fetchResults(suggestion) {
-      const params = {
-        query: suggestion,
-        filters: this.filters,
-      };
-
-      // Use POST if you prefer sending larger payloads, otherwise keep GET
-      axios.get('/search-translations', {
-        params
-      })
-        .then((response) => {
-          this.filteredResults = response.data.results || []; // Ensure fallback
-          console.log('Filtered results:', this.filteredResults); // Log filtered results for debugging
-        })
-        .catch((error) => {
-          console.error('Error fetching results:', error);
-          this.filteredResults = []; // Reset filtered results on error
-        });
-    },
-
-    // Highlight the search term in the text
-    highlightSearch(text) {
-      if (!text || !this.searchTerm) return text;
-      const searchTerm = this.searchTerm.trim().toLowerCase();
-      const regExp = new RegExp(`(${searchTerm})`, 'gi');
-      return text.replace(regExp, '<mark>$1</mark>');
-    },
-
-    searchWord() {
+    stopVoiceRecognition() { if (this.recognition) { this.recognition.stop(); this.isListening = false; if (this.searchTerm) { this.fetchResults(this.searchTerm); this.showOffcanvas(); } } },
+    fetchResults(query) {
       this.loading = true;
-
-      // Get the active filters
-      const activeFilters = {
-        translation: this.filters.translation,
-        tafseer: this.filters.tafseer,
-        transliteration: this.filters.transliteration,
-      };
-
-      // Prepare the request payload
-      const payload = {
-        query: this.searchTerm, // Use 'query' instead of 'searchTerm'
-        filters: activeFilters
-      };
-
-      // Fetch results from the backend based on selected filters and searchTerm
-      axios.post('/search-translations', payload)
-        .then(response => {
-          this.filteredResults = response.data; // Adjust to match your response structure
-          this.loading = false;
-          this.showOffcanvas();
-        })
-        .catch(error => {
-          console.error('Error fetching search results:', error);
-          this.loading = false;
-        });
+      axios.get('/search-translations', { params: { query, filters: this.filters } })
+        .then(({ data }) => { this.filteredResults = data.results || []; })
+        .catch(err => { console.error('Error fetching results:', err); this.filteredResults = []; })
+        .finally(() => { this.loading = false; });
     },
-
-    // Show the offcanvas component for results
-    showOffcanvas() {
-      // Use Bootstrap JS to programmatically open the offcanvas
-      let offcanvasElement = document.getElementById('offcanvasResults');
-      let offcanvas = new bootstrap.Offcanvas(offcanvasElement);
-      offcanvas.show();
-    },
-
-    debouncedSearch() {
-      clearTimeout(this.debounceTimeout);
-      this.debounceTimeout = setTimeout(() => {
-        this.filterResults();  // Filter results based on the current search term
-      }, 300);  // Adjust debounce time as needed
-    }
+    searchWord() { if (!this.searchTerm) return; this.fetchResults(this.searchTerm); this.showOffcanvas(); },
+    showOffcanvas() { const el = document.getElementById('offcanvasResults'); if (!el) return; const oc = new bootstrap.Offcanvas(el); oc.show(); },
+    highlightSearch(text) { if (!text || !this.searchTerm) return text; const t = this.searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); return String(text).replace(new RegExp(`(${t})`, 'gi'), '<mark>$1</mark>'); },
+    shareOnWhatsApp(r) { const m = `Ayah: ${r.ayah.surah_id}:${r.ayah.ayah_id}\n\n${r.ayah.ayah_text}\n\nTranslation: ${r.translation}\n\nVisit our website : www.islamiconnect.com for more`; window.open(`https://wa.me/?text=${encodeURIComponent(m)}`, '_blank'); },
+    shareOnTwitter(r) { const m = `Ayah: ${r.ayah.surah_id}:${r.ayah.ayah_id}\n\n${r.ayah.ayah_text}\n\nTranslation: ${r.translation}\n\nVisit our website : www.islamiconnect.com for more`; window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(m)}`, '_blank'); },
   },
-
 };
 </script>
 
 <style scoped>
 /* Ensure input and mic button align cleanly on mobile and desktop */
+.search-input-group { position: relative; overflow: visible; }
 .search-input-group > .form-control {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -561,7 +263,7 @@ export default {
 </style>
 
 <style scoped>
-.elegant-search { border-radius: 12px; overflow: hidden; box-shadow: 0 1px 0 rgba(0,0,0,.02), 0 2px 8px rgba(0,0,0,.06); }
+.elegant-search { border-radius: 12px; overflow: visible; box-shadow: 0 1px 0 rgba(0,0,0,.02), 0 2px 8px rgba(0,0,0,.06); position: relative; }
 .search-pill { border: 1px solid #e6eaee; background:#fff; font-size: 1rem; }
 .search-pill::placeholder { color:#9aa4b2; }
 .mic-btn { background-image: linear-gradient(135deg,#6a7cf7 0%, #6b4df2 50%, #6b3ef0 100%); color:#fff; border:none; width:56px; display:flex; align-items:center; justify-content:center; }
@@ -756,6 +458,9 @@ export default {
   background-color: #f0f0f0;
   /* Highlight on hover */
 }
+
+/* Make sure dropdown appears above surrounding content */
+.suggestions { z-index: 1055; background: #fff; }
 
 .btn-primary {
   background-color: #0b5d4b !important;
