@@ -10226,12 +10226,13 @@ function toNumber(value) {
         event.preventDefault();
       }
       event === null || event === void 0 || (_event$stopPropagatio = event.stopPropagation) === null || _event$stopPropagatio === void 0 || _event$stopPropagatio.call(event);
+      // Swipe right (deltaX > 0) should advance to next; swipe left to previous
       if (deltaX > 0) {
-        this.goToPreviousAyah();
-        this.triggerSwipeFeedback("prev");
-      } else {
         this.goToNextAyah();
         this.triggerSwipeFeedback("next");
+      } else {
+        this.goToPreviousAyah();
+        this.triggerSwipeFeedback("prev");
       }
       this.releaseSwipeSource("touch");
     },
@@ -10272,12 +10273,13 @@ function toNumber(value) {
         return;
       }
       this.gestureHandled = true;
+      // Swipe right (deltaX > 0) should advance to next; swipe left to previous
       if (deltaX > 0) {
-        this.goToPreviousAyah();
-        this.triggerSwipeFeedback("prev");
-      } else {
         this.goToNextAyah();
         this.triggerSwipeFeedback("next");
+      } else {
+        this.goToPreviousAyah();
+        this.triggerSwipeFeedback("prev");
       }
       this.releaseSwipeSource("pointer");
     },

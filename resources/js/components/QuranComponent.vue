@@ -1378,12 +1378,13 @@ export default {
                 event.preventDefault();
             }
             event?.stopPropagation?.();
+            // Swipe right (deltaX > 0) should advance to next; swipe left to previous
             if (deltaX > 0) {
-                this.goToPreviousAyah();
-                this.triggerSwipeFeedback("prev");
-            } else {
                 this.goToNextAyah();
                 this.triggerSwipeFeedback("next");
+            } else {
+                this.goToPreviousAyah();
+                this.triggerSwipeFeedback("prev");
             }
             this.releaseSwipeSource("touch");
         },
@@ -1434,12 +1435,13 @@ export default {
                 return;
             }
             this.gestureHandled = true;
+            // Swipe right (deltaX > 0) should advance to next; swipe left to previous
             if (deltaX > 0) {
-                this.goToPreviousAyah();
-                this.triggerSwipeFeedback("prev");
-            } else {
                 this.goToNextAyah();
                 this.triggerSwipeFeedback("next");
+            } else {
+                this.goToPreviousAyah();
+                this.triggerSwipeFeedback("prev");
             }
             this.releaseSwipeSource("pointer");
         },
