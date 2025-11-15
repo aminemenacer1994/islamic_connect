@@ -189,46 +189,76 @@
         {{ fetchError }}
       </div>
       <div class="episodes-filters-bar-wrapper"
-           :style="'background:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%);border-radius:20px;box-shadow:0 2px 12px rgba(11,179,154,.08);padding:1rem;margin-bottom:2rem;position:sticky;top:8px;z-index:50;backdrop-filter:saturate(140%) blur(8px);-webkit-backdrop-filter:saturate(140%) blur(8px);'">
-        <div class="row g-3">
-          <div class="col-12 col-md-3">
-            <div class="input-group search-group"
-                 :style="'display:flex;align-items:center;background:#fff;border:1px solid #e9ecef;border-radius:20px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);'">
-              <span class="input-group-text bg-white border-end-0" :style="'border:0;border-right:1px solid #eef2f4;border-radius:20px 0 0 20px;color:#0bb39a;font-size:1.2rem'"><i class="bi bi-search"></i></span>
+           :style="'background:#fff;border:1px solid #e5ecef;border-radius:10px;padding:.5rem .75rem;margin-bottom:1rem;position:sticky;top:8px;z-index:50'">
+        <div class="row g-2 align-items-center">
+          <!-- Search -->
+          <div class="col-12 col-md-6 order-2 order-md-1">
+            <div class="input-group"
+                 :style="'display:flex;align-items:center;background:#fff;border:1px solid #dbe5e8;border-radius:10px;height:40px'">
+              <span class="input-group-text bg-white border-end-0" :style="'border:0;border-right:1px solid #eef2f4;border-radius:10px 0 0 10px;color:#06b6ac;font-size:1rem'">
+                <i class="bi bi-search"></i>
+              </span>
               <input v-model="searchInput" @input="onSearchInput" type="text" class="form-control border-start-0"
-                placeholder="Search episodes..." :style="'border:0;border-radius:0 20px 20px 0;padding:10px;font-size:1rem'" />
+                placeholder="Search episodes..." :style="'border:0;border-radius:0 10px 10px 0;padding:6px 10px;font-size:.95rem'" />
             </div>
           </div>
-          <div class="col-12 col-md-3">
-            <div class="input-group filter-group" :style="'display:flex;align-items:center;background:#fff;border:1px solid #e9ecef;border-radius:20px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);'">
-              <span class="input-group-text bg-white border-end-0" :style="'border:0;border-right:1px solid #eef2f4;border-radius:20px 0 0 20px;color:#0bb39a;font-size:1.2rem'"><i class="bi bi-hourglass-split"></i></span>
-              <select v-model="durationFilter" class="form-select border-start-0" aria-label="Filter by duration"
-                      :style="'border:0;border-radius:0 20px 20px 0;padding:10px;font-size:1rem'">
-                <option value="" disabled selected hidden>Select Duration</option>
+
+          <!-- Inline filters on md+, compact -->
+          <div class="col-md-6 d-none d-md-flex order-1 order-md-2 justify-content-end gap-2">
+            <select v-model="durationFilter" class="form-select" aria-label="Filter by duration"
+                    :style="'max-width:160px;height:40px;border:1px solid #dbe5e8;border-radius:10px;font-size:.95rem'">
+              <option value="" disabled selected hidden>Duration</option>
+              <option value="0-10">0-10 min</option>
+              <option value="10-30">10-30 min</option>
+              <option value="30-60">30-60 min</option>
+              <option value="more-than-60">60+ min</option>
+            </select>
+            <select v-model="languageFilter" class="form-select" aria-label="Filter by language"
+                    :style="'max-width:150px;height:40px;border:1px solid #dbe5e8;border-radius:10px;font-size:.95rem'">
+              <option value="">Languages</option>
+              <option value="English">English</option>
+              <option value="Arabic">Arabic</option>
+              <option value="Unknown">Unknown</option>
+            </select>
+            <select v-model="sortOption" class="form-select" aria-label="Sort episodes"
+                    :style="'max-width:150px;height:40px;border:1px solid #dbe5e8;border-radius:10px;font-size:.95rem'">
+              <option value="mostViewed">Most Viewed</option>
+              <option value="leastViewed">Least Viewed</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+
+          <!-- Mobile toggle button -->
+          <div class="col-12 d-flex d-md-none justify-content-between order-1">
+            <button type="button" class="btn btn-light w-100" @click="showFilters = !showFilters"
+                    :style="'border:1px solid #dbe5e8;border-radius:10px;height:40px'">
+              <i class="bi bi-funnel me-2"></i> Filters
+            </button>
+          </div>
+        </div>
+
+        <!-- Collapsible mobile filters -->
+        <transition name="fade">
+          <div v-if="showFilters" class="mt-2 d-md-none">
+            <div class="d-grid gap-2">
+              <select v-model="durationFilter" class="form-select" aria-label="Filter by duration"
+                      :style="'height:40px;border:1px solid #dbe5e8;border-radius:10px;font-size:.95rem'">
+                <option value="" disabled selected hidden>Duration</option>
                 <option value="0-10">0-10 min</option>
                 <option value="10-30">10-30 min</option>
                 <option value="30-60">30-60 min</option>
                 <option value="more-than-60">60+ min</option>
               </select>
-            </div>
-          </div>
-          <div class="col-12 col-md-3">
-            <div class="input-group filter-group" :style="'display:flex;align-items:center;background:#fff;border:1px solid #e9ecef;border-radius:20px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);'">
-              <span class="input-group-text bg-white border-end-0" :style="'border:0;border-right:1px solid #eef2f4;border-radius:20px 0 0 20px;color:#0bb39a;font-size:1.2rem'"><i class="bi bi-translate"></i></span>
-              <select v-model="languageFilter" class="form-select border-start-0" aria-label="Filter by language"
-                      :style="'border:0;border-radius:0 20px 20px 0;padding:10px;font-size:1rem'">
-                <option value="">All Languages</option>
+              <select v-model="languageFilter" class="form-select" aria-label="Filter by language"
+                      :style="'height:40px;border:1px solid #dbe5e8;border-radius:10px;font-size:.95rem'">
+                <option value="">Languages</option>
                 <option value="English">English</option>
                 <option value="Arabic">Arabic</option>
                 <option value="Unknown">Unknown</option>
               </select>
-            </div>
-          </div>
-          <div class="col-12 col-md-3">
-            <div class="input-group filter-group" :style="'display:flex;align-items:center;background:#fff;border:1px solid #e9ecef;border-radius:20px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);'">
-              <span class="input-group-text bg-white border-end-0" :style="'border:0;border-right:1px solid #eef2f4;border-radius:20px 0 0 20px;color:#0bb39a;font-size:1.2rem'"><i class="bi bi-funnel"></i></span>
-              <select v-model="sortOption" class="form-select border-start-0" aria-label="Sort episodes"
-                      :style="'border:0;border-radius:0 20px 20px 0;padding:10px;font-size:1rem'">
+              <select v-model="sortOption" class="form-select" aria-label="Sort episodes"
+                      :style="'height:40px;border:1px solid #dbe5e8;border-radius:10px;font-size:.95rem'">
                 <option value="mostViewed">Most Viewed</option>
                 <option value="leastViewed">Least Viewed</option>
                 <option value="newest">Newest</option>
@@ -236,7 +266,7 @@
               </select>
             </div>
           </div>
-        </div>
+        </transition>
       </div>
       <div v-if="loading" class="loading-container">
         <div class="loading-spinner">
@@ -309,13 +339,17 @@
         </div>
       </div>
     </div>
-    <div v-else-if="!loading && !visiblePodcasts.length" class="empty-state">
+    <div v-else-if="!loading && !visiblePodcasts.length" class="empty-state"
+         :style="'display:flex;align-items:center;justify-content:center;padding:2.2rem;margin:1rem 0;border-radius:20px;background:linear-gradient(135deg,#ffffff,#f5fbfb);border:1px solid rgba(6,182,172,.18);box-shadow:0 12px 24px rgba(0,0,0,.06)'">
       <div class="empty-state-content text-center mb-2">
-        <i class="bi bi-headphones empty-state-icon"></i>
-        <h3 class="empty-state-title">No Episodes Found</h3>
-        <p class="empty-state-description">Try selecting a different podcast or check back later for new episodes.</p>
-        <button class="empty-state-button btn btn-success text-white mb-2" @click="selectedPodcast = null">
-          <i class="bi bi-arrow-left"></i>
+        <i class="bi bi-headphones empty-state-icon" style="font-size:2.4rem;color:#06b6ac;"></i>
+        <h3 class="empty-state-title" style="margin:.5rem 0 0;color:#0b1320;font-weight:800;">No Episodes Found</h3>
+        <p class="empty-state-description" style="margin:.25rem 0 1rem 0;color:#334155;">Try selecting a different podcast or check back later for new episodes.</p>
+        <button class="empty-state-button mb-2" @click="selectedPodcast = null"
+                :style="'display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1rem;border-radius:20px;background:linear-gradient(135deg,#06b6ac,#0a9bd1);color:#fff;border:0;box-shadow:0 10px 22px rgba(10,155,209,.18);transition:transform .12s ease, box-shadow .12s ease'"
+                @mouseenter="$event.currentTarget.style.transform='translateY(-1px)';$event.currentTarget.style.boxShadow='0 14px 28px rgba(10,155,209,.22)';"
+                @mouseleave="$event.currentTarget.style.transform='';$event.currentTarget.style.boxShadow='0 10px 22px rgba(10,155,209,.18)';">
+          <i class="bi bi-arrow-left" style="font-size:1rem;"></i>
           <span>Choose Another Podcast</span>
         </button>
       </div>
@@ -399,6 +433,7 @@ export default {
       smallScreen: false,
       isVisible: true,
       showAudioPlayer: false,
+      showFilters: false,
       repeatStates: {},
       playingIndex: null,
       showProgress: {}, // Tracks which progress bars should be shown
