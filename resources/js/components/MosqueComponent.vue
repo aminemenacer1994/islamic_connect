@@ -8,20 +8,17 @@
           connect with your local community.
         </p>
 
-        <div class="shadow" style="border-radius: 12px; padding: 10px; ">
+        <div class="premium-panel shadow">
           <!-- Search Section -->
-          <div class="card-body container-fluid" style="padding: 5px;">
+          <div class="card-body container-fluid px-2 py-1">
             <div class="row mb-4 justify-content-center">
               <div>
                 <!-- Inline Search Bar with Label, Input, and Button -->
-                <form class="d-flex align-items-center mb-3" role="search" aria-label="Search for mosques by city" @submit.prevent="searchMosques"
-                  style="gap: 0.5rem; flex-wrap: wrap;">
-                  <label for="mosque-search-input" class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</label>
-                  <input id="mosque-search-input" type="search" class="form-control" placeholder="Enter city or country..."
-                    aria-label="Search city or country" v-model="searchQuery" @input="handleTyping" autocomplete="off"
-                    style="max-width: 300px;" />
-                  <button class="btn  align-items-center justify-content-center "
-                    style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                <form class="d-flex align-items-center mb-3 search-row" role="search" aria-label="Search for mosques by city" @submit.prevent="searchMosques">
+                  <label for="mosque-search-input" class="card-title pr-2 fw-bold label-lg">Search location:</label>
+                  <input id="mosque-search-input" type="search" class="form-control search-input" placeholder="Enter city or country..."
+                    aria-label="Search city or country" v-model="searchQuery" @input="handleTyping" autocomplete="off" />
+                  <button class="btn btn-action btn-primary-brand d-inline-flex align-items-center justify-content-center"
                     type="submit" :disabled="loading || searchTooShort">
                     <span v-if="!loading">Search</span>
                     <span v-else class="spinner-border spinner-border-sm"></span>
@@ -33,7 +30,7 @@
             <!-- Loading State -->
 
             <div v-if="loading" class="text-center py-5" aria-live="polite" aria-busy="true">
-              <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status" aria-label="Loading results">
+              <div class="spinner-border text-primary spinner-lg" role="status" aria-label="Loading results">
                 <span class="visually-hidden">Loading...</span>
               </div>
               <p class="mt-3">Searching for mosques in {{ searchQuery }}...</p>
@@ -60,19 +57,18 @@
                    role="list"
                    aria-label="Search results">
                 <div class="col" v-for="(mosque, index) in mosques" :key="mosque.id">
-                  <div class="card" role="article"
+                  <div class="card premium-card animate-in" role="article"
                        :aria-label="`${mosque.name}, ${mosque.address}`"
                        tabindex="0"
                        @keydown="handleCardKeydown(index, $event)">
-                    <div style="padding: 15px 15px 0 15px;" class="text-center">
-                      <h1 class="card-title fw-bold text-dark text-center mb-3" style="font-size: 25px;">{{ mosque.name }}</h1>
+                    <div class="px-3 pt-3 text-center">
+                      <h1 class="card-title fw-bold text-dark text-center mb-3 title-lg">{{ mosque.name }}</h1>
                     </div>
                     <div class="card-body pt-0">
                       <div class="mb-2">
                         <div class="d-flex align-items-start">
                           <i class="bi bi-geo-alt-fill me-2 flex-shrink-0"></i>
-                          <span class="text-truncate"
-                            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                          <span class="text-truncate line-clamp-2">
                             {{ mosque.address }}
                           </span>
                         </div>
@@ -94,10 +90,10 @@
                       </div>
 
                       <div class="mb-2 facilities">
-                        <div class="d-flex flex-wrap align-items-center" style="gap: 0.4rem;">
+                        <div class="d-flex flex-wrap align-items-center gap-2">
                           <span class="badge rounded-pill d-flex align-items-center"
                             v-for="facility in mosque.facilities" :key="facility"
-                            :class="getFacilityBadgeClass(facility)" style="padding: 0.5em 0.8em;">
+                            :class="getFacilityBadgeClass(facility)">
                             {{ facility }}
                           </span>
                         </div>
@@ -109,20 +105,18 @@
                         </small>
                       </div>
 
-                      <div class="d-flex justify-content-between align-items-center gap-2">
+                      <div class="action-row d-flex justify-content-between align-items-center gap-2">
                         <!-- Get Directions Button -->
-                        <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                        <button class="btn btn-action btn-primary-brand d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openGoogleMaps(mosque.lat, mosque.lon)"
-                          style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
                           :aria-label="`Get directions to ${mosque.name}`">
                           <i class="bi bi-geo-alt me-2"></i>
                           <b>Get Direction</b>
                         </button>
 
                         <!-- WhatsApp Share Button -->
-                        <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                        <button class="btn btn-action btn-secondary-brand d-flex align-items-center justify-content-center flex-grow-1"
                           @click="shareViaWhatsApp(mosque)"
-                          style="background: #1881b9; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
                           :aria-label="`Share ${mosque.name} details via WhatsApp`">
                           <i class="bi bi-whatsapp me-2"></i>
                           <b>Share Details</b>
@@ -135,8 +129,7 @@
             </div>
           </div>
 
-          <div v-if="!loading && searchSubmitted && mosques.length > 0" class="d-flex justify-content-between align-items-center"
-            style="padding: 10px;">
+          <div v-if="!loading && searchSubmitted && mosques.length > 0" class="d-flex justify-content-between align-items-center px-3 py-2">
             <small class="text-muted" aria-live="polite">
               Showing {{ mosques.length }} mosques
             </small>
@@ -492,26 +485,56 @@ export default {
 <style scoped>
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css');
 
-.card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border-radius: 12px;
-  overflow: hidden;
+/* Keyframes for subtle entrance and hover feels */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+/* Layout helpers */
+.premium-panel {
+  border-radius: 20px;
+  padding: 12px;
 }
+
+.premium-card {
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.premium-card:hover,
+.premium-card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.animate-in { animation: fadeInUp 320ms ease both; }
+
+.label-lg { font-size: 20px; }
+.title-lg { font-size: 25px; }
+.search-row { gap: 0.5rem; flex-wrap: wrap; }
+.search-input { max-width: 300px; }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+.action-row .btn-action { border-radius: 20px; height: 42px; box-shadow: rgba(16, 24, 40, 0.14) 0px 8px 24px 0px; }
+.btn-action:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(24, 129, 185, 0.25); }
+
+.btn-primary-brand { background: #0b5d4b; color: #ffffff; }
+.btn-secondary-brand { background: #1881b9; color: #ffffff; }
+.btn-primary-brand:hover { filter: brightness(1.05); }
+.btn-secondary-brand:hover { filter: brightness(1.05); }
 
 .facilities {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem;
+  gap: 0.4rem;
 }
 
 .badge {
   font-size: 0.8rem;
-  padding: 0.35em 0.65em;
+  padding: 0.5em 0.8em;
 }
 
 body {
@@ -532,15 +555,10 @@ body {
 
 
 
-.mosque-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.1) !important;
-}
-
 .form-control,
 .form-select {
   padding: 0.75rem 1rem;
-  border-radius: 0.5rem !important;
+  border-radius: 20px !important;
 }
 
 .btn-primary {
@@ -576,7 +594,7 @@ body {
 .badge {
   font-weight: 500;
   padding: 0.35em 0.65em;
-  border-radius: 0.25rem;
+  border-radius: 20px;
 }
 
 .bg-success {
@@ -592,6 +610,8 @@ body {
   height: 1.5rem;
   border-width: 0.15em;
 }
+
+.spinner-lg { width: 3rem; height: 3rem; }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

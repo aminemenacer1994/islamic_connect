@@ -6,19 +6,16 @@
         <p class="text-center container mb-4 lead">
           Discover trusted Islamic schools, madrassas, and education centers near you with ease!
         </p>
-        <div class="shadow" style="border-radius: 8px; padding: 10px;">
+        <div class="premium-panel shadow">
           <!-- Search Section -->
-          <div class="card-body container-fluid" style="padding: 5px;">
+          <div class="card-body container-fluid px-2 py-1">
             <div class="row mb-4 justify-content-center">
               <div>
-                <form class="d-flex align-items-center mb-3" role="search" aria-label="Search for schools by city" @submit.prevent="searchLocation"
-                  style="gap: 0.5rem;">
-                  <label for="school-search-input" class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</label>
-                  <input id="school-search-input" type="search" class="form-control" placeholder="Enter a city"
-                    aria-label="Search city" v-model="searchQuery" autocomplete="off"
-                    style="max-width: 300px;" />
-                  <button class="btn align-items-center justify-content-center"
-                    style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                <form class="d-flex align-items-center mb-3 search-row" role="search" aria-label="Search for schools by city" @submit.prevent="searchLocation">
+                  <label for="school-search-input" class="card-title pr-2 fw-bold label-lg">Search location:</label>
+                  <input id="school-search-input" type="search" class="form-control search-input" placeholder="Enter a city"
+                    aria-label="Search city" v-model="searchQuery" autocomplete="off" />
+                  <button class="btn btn-action btn-primary-brand align-items-center justify-content-center"
                     type="submit" :disabled="loading">
                     <span v-if="!loading">Search</span>
                     <span v-else class="spinner-border spinner-border-sm"></span>
@@ -29,7 +26,7 @@
 
             <!-- Loading State -->
             <div v-if="loading" class="text-center py-5" aria-live="polite" aria-busy="true">
-              <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status" aria-label="Loading results">
+              <div class="spinner-border text-primary spinner-lg" role="status" aria-label="Loading results">
                 <span class="visually-hidden">Loading...</span>
               </div>
               <p class="mt-3">Searching for Islamic schools & centers in {{ searchQuery }}...</p>
@@ -59,14 +56,14 @@
                    role="list"
                    aria-label="Search results">
                 <div class="col" v-for="(school, index) in schools" :key="school.id">
-                  <div class="card h-100" style="display: flex; flex-direction: column;"
+                  <div class="card h-100 premium-card animate-in" style="display: flex; flex-direction: column;"
                        role="article"
                        :aria-label="`${school.name}, ${school.address || 'address not specified'}`"
                        tabindex="0"
                        @keydown="handleCardKeydown(index, $event)">
                     <!-- Badges -->
-                    <div style="padding: 15px 15px 0 15px;">
-                      <h1 class="card-title text-left fw-bold text-dark mb-3" style="font-size: 25px;">
+                    <div class="px-3 pt-3">
+                      <h1 class="card-title text-left fw-bold text-dark mb-3 title-lg">
                         {{ school.name }}
                       </h1>
                     </div>
@@ -74,8 +71,7 @@
                       <div class="mb-2">
                         <div class="d-flex align-items-start">
                           <i class="bi bi-geo-alt-fill me-2 flex-shrink-0"></i>
-                          <span class="text-truncate"
-                            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                          <span class="text-truncate line-clamp-2">
                             {{ school.address || 'Address not specified' }}
                           </span>
                         </div>
@@ -104,17 +100,16 @@
                       <!-- Button container pushed to the bottom -->
 
                     </div>
-                    <div class="d-flex justify-content-between align-items-center gap-2" style="padding: 10px;">
-                      <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                    <div class="action-row d-flex justify-content-between align-items-center gap-2 px-3 pb-3">
+                      <button class="btn btn-action btn-primary-brand d-flex align-items-center justify-content-center flex-grow-1"
                         @click="openGoogleMaps(school.lat, school.lon, school.name)"
-                        style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
                         aria-label="Get directions to {{ school.name }}">
                         <i class="bi bi-geo-alt me-2"></i>
                         <b>Get Directions</b>
                       </button>
                       <a :href="school.website" target="_blank" rel="noopener noreferrer"
-                        class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                        style="background: #1881b9; color: white; height: 38px" :class="{ disabled: !school.website }"
+                        class="btn btn-action btn-secondary-brand d-flex align-items-center justify-content-center flex-grow-1"
+                        :class="{ disabled: !school.website }"
                         :aria-disabled="!school.website" aria-label="Visit website for {{ school.name }}">
                         <i class="bi bi-globe me-2"></i>
                         <b>Visit Website</b>
@@ -126,8 +121,7 @@
             </div>
           </div>
 
-          <div v-if="!loading && searchSubmitted && searchQuery && schools.length > 0" class="d-flex justify-content-between align-items-center"
-            style="padding: 10px;">
+          <div v-if="!loading && searchSubmitted && searchQuery && schools.length > 0" class="d-flex justify-content-between align-items-center px-3 py-2">
             <small class="text-muted" aria-live="polite">
               Showing {{ schools.length }} Islamic educational schools & centers
             </small>
@@ -431,63 +425,41 @@ export default {
 </script>
 
 <style scoped>
-.card {
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
-  position: relative;
-}
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
 
-.card-header {
-  padding: 1.25rem 1.5rem;
-  background-color: #2c3e50 !important;
-}
+.premium-panel { border-radius: 20px; padding: 12px; }
+.premium-card { border-radius: 20px; overflow: hidden; transition: transform 180ms ease, box-shadow 180ms ease; position: relative; }
+.premium-card:hover, .premium-card:focus-within { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.12); }
+.animate-in { animation: fadeInUp 320ms ease both; }
 
-.card-header .attribution small {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.7rem;
-}
+.label-lg { font-size: 20px; }
+.title-lg { font-size: 25px; }
+.search-row { gap: 0.5rem; flex-wrap: wrap; }
+.search-input { max-width: 300px; }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.action-row .btn-action { border-radius: 20px; height: 42px; box-shadow: rgba(16,24,40,0.14) 0 8px 24px; }
+.btn-action:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(24,129,185,0.25); }
+.btn-primary-brand { background: #0b5d4b; color: #fff; }
+.btn-secondary-brand { background: #1881b9; color: #fff; }
+.btn-primary-brand:hover, .btn-secondary-brand:hover { filter: brightness(1.05); }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
+.form-control,
+.form-select { padding: 0.75rem 1rem; border-radius: 20px !important; }
 
-.badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
+.card-header { padding: 1.25rem 1.5rem; background-color: #2c3e50 !important; }
+.card-header .attribution small { color: rgba(255, 255, 255, 0.7); font-size: 0.7rem; }
 
-.badge {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 8px;
-}
+.badges { display: flex; flex-wrap: wrap; gap: 5px; }
+.badge { font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 20px; }
 
-.bg-success {
-  background-color: #00bfa6;
-  /* Match your button color */
-}
-
-.bg-info {
-  background-color: #228B22;
-  /* Bootstrap info color for "New" */
-}
-
-.bg-primary {
-  background-color: #1881b9;
-  /* Match your website button color */
-}
+.bg-success { background-color: #00bfa6; }
+.bg-info { background-color: #228B22; }
+.bg-primary { background-color: #1881b9; }
 
 @media (max-width: 768px) {
-  .card-header {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .attribution {
-    margin-top: 0.5rem;
-  }
+  .card-header { flex-direction: column; text-align: center; }
+  .attribution { margin-top: 0.5rem; }
 }
+
+.spinner-lg { width: 3rem; height: 3rem; }
 </style>

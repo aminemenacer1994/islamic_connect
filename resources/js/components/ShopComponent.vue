@@ -3,20 +3,16 @@
     <div class="row justify-content-center">
       <div class="col-lg-10">
         <h1 id="shop-finder-heading" class="display-5 fw-bold text-center">Halal Butcher Finder</h1>
-        <div class="shadow" style="border-radius: 12px; padding: 10px; ">
+        <div class="premium-panel shadow">
           <!-- Search Section -->
-          <div class="card-body container-fluid" style="padding: 5px;">
+          <div class="card-body container-fluid px-2 py-1">
             <div class="row mb-4 justify-content-center">
               <!-- Search form -->
-              <form class="d-flex align-items-center mb-3" role="search" aria-label="Search for halal butchers by city" @submit.prevent="searchLocation"
-                style="gap: 0.5rem;">
-                <label for="shop-search-input" class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</label>
-                <input id="shop-search-input" type="search" class="form-control" placeholder="Enter city..."
-                  aria-label="Search city" v-model="searchQuery" autocomplete="off"
-                  style="max-width: 300px;" ref="searchInput" />
-                <button class="btn align-items-center justify-content-center"
-                  style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
-                  type="submit" :disabled="loading">
+              <form class="d-flex align-items-center mb-3 search-row" role="search" aria-label="Search for halal butchers by city" @submit.prevent="searchLocation">
+                <label for="shop-search-input" class="card-title pr-2 fw-bold label-lg">Search location:</label>
+                <input id="shop-search-input" type="search" class="form-control search-input" placeholder="Enter city..."
+                  aria-label="Search city" v-model="searchQuery" autocomplete="off" ref="searchInput" />
+                <button class="btn btn-action btn-primary-brand align-items-center justify-content-center" type="submit" :disabled="loading">
                   <span v-if="!loading">Search</span>
                   <span v-else class="spinner-border spinner-border-sm"></span>
                 </button>
@@ -25,7 +21,7 @@
 
             <!-- Loading State -->
             <div v-if="loading" class="text-center py-5" aria-live="polite" aria-busy="true">
-              <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status" aria-label="Loading results">
+              <div class="spinner-border text-primary spinner-lg" role="status" aria-label="Loading results">
                 <span class="visually-hidden">Loading...</span>
               </div>
               <p class="mt-3">Searching for halal butchers in {{ searchQuery }}...</p>
@@ -51,12 +47,12 @@
                    role="list"
                    aria-label="Search results">
                 <div class="col" v-for="(shop, index) in displayedShops" :key="shop.id">
-                  <div class="card h-100" role="article"
+                  <div class="card h-100 premium-card animate-in" role="article"
                        :aria-label="`${shop.name}, ${shop.address || 'address not specified'}`"
                        tabindex="0"
                        @keydown="handleCardKeydown(index, $event)">
-                    <div style="padding: 15px 15px 0 15px;">
-                      <h1 class="card-title fw-bold text-dark mb-3" style="font-size: 25px;">
+                    <div class="px-3 pt-3">
+                      <h1 class="card-title fw-bold text-dark mb-3 title-lg">
                         {{ shop.name }}
                       </h1>
                     </div>
@@ -64,8 +60,7 @@
                       <div class="mb-2">
                         <div class="d-flex align-items-start">
                           <i class="bi bi-geo-alt-fill me-2 flex-shrink-0"></i>
-                          <span class="text-truncate"
-                            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                          <span class="text-truncate line-clamp-2">
                             {{ shop.address || 'Address not specified' }}
                           </span>
                         </div>
@@ -92,9 +87,9 @@
                         </small>
                       </div>
 
-                      <div class="d-flex justify-content-between align-items-center gap-2">
+                      <div class="action-row d-flex justify-content-between align-items-center gap-2">
                         <!-- Get Directions Button -->
-                        <button class="btn btn-direction d-flex align-items-center justify-content-center flex-grow-1"
+                        <button class="btn btn-action btn-primary-brand d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openMaps(shop.lat, shop.lon, shop.name)"
                           :aria-label="`Get directions to ${shop.name}`">
                           <i class="bi bi-geo-alt me-2"></i>
@@ -102,7 +97,7 @@
                         </button>
 
                         <!-- Call Shop Button -->
-                        <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                        <button class="btn btn-action btn-secondary-brand d-flex align-items-center justify-content-center flex-grow-1"
                           @click="callShop(shop.phone)" :disabled="!shop.phone"
                           :class="['btn-call', { 'btn-call--disabled': !shop.phone }]"
                           :aria-disabled="!shop.phone"
@@ -118,8 +113,7 @@
             </div>
           </div>
 
-          <div v-if="!loading && filteredShops.length > 0 && searchQuery" class="d-flex justify-content-between align-items-center flex-wrap gap-2"
-            style="padding: 10px;">
+          <div v-if="!loading && filteredShops.length > 0 && searchQuery" class="d-flex justify-content-between align-items-center flex-wrap gap-2 px-3 py-2">
             <small class="text-muted" aria-live="polite">
               Showing {{ displayedShops.length }} of {{ filteredShops.length }} places
             </small>
@@ -629,16 +623,26 @@ export default {
 </script>
 
 <style scoped>
-.card {
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
+.premium-panel { border-radius: 20px; padding: 12px; }
+.premium-card { border-radius: 20px; overflow: hidden; transition: transform 180ms ease, box-shadow 180ms ease; }
+.premium-card:hover, .premium-card:focus-within { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.12); }
+.animate-in { animation: fadeInUp 320ms ease both; }
+
+.label-lg { font-size: 20px; }
+.title-lg { font-size: 25px; }
+.search-row { gap: 0.5rem; flex-wrap: wrap; }
+.search-input { max-width: 300px; }
+
+.action-row .btn-action { border-radius: 20px; height: 42px; box-shadow: rgba(16,24,40,0.14) 0 8px 24px; }
+.btn-action:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(24,129,185,0.25); }
+.btn-primary-brand { background: #0b5d4b; color: #fff; }
+.btn-secondary-brand { background: #1881b9; color: #fff; }
+.btn-primary-brand:hover, .btn-secondary-brand:hover { filter: brightness(1.05); }
+
+.form-control,
+.form-select { padding: 0.75rem 1rem; border-radius: 20px !important; }
 
 .btn-outline-primary.active {
   background-color: #2c5fa8;
@@ -649,31 +653,15 @@ export default {
   background-color: #28a745 !important;
 }
 
-.text-warning i {
-  margin-right: 4px;
-  /* Spacing between stars */
-}
-
-/* Lightweight button styling to reduce inline style churn */
-.btn-direction {
-  background: #0b5d4b;
-  color: white;
-  height: 38px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
-
-.btn-call {
-  background: #1881b9;
-  color: white;
-  height: 38px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
+.text-warning i { margin-right: 4px; }
 
 .btn-call--disabled,
 .btn-call:disabled {
   background: #6c757d !important;
   cursor: not-allowed;
 }
+
+.spinner-lg { width: 3rem; height: 3rem; }
 
 @media (max-width: 768px) {
   .card-header {
