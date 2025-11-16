@@ -31,7 +31,7 @@
                         class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
                     <img src="/images/qe.png" alt="Islamic Shops" class="w-100 pt-4" style="object-fit: contain;" />
                     <div class="p-3">
-                        <h1 class="mb-2 fw-bold text-dark text-center">Quran Companion</h1>
+                        <h1 class="mb-2 fw-bold text-dark text-center single-line-title">Quran Companion</h1>
                         <p class="card-text text-muted text-wrap text-center"
                             style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the beauty and
                             guidance of the Quran at your fingertips. Whether you're deepening your faith or discovering
@@ -131,6 +131,9 @@ export default {
 .custom-card:hover { transform: translateY(-6px); box-shadow: 0 18px 45px rgba(0,0,0,0.16); }
 .custom-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--brand-2), var(--brand-1)); transform: scaleX(0.4); transform-origin: left; transition: transform 0.3s ease; }
 .custom-card:hover::before { transform: scaleX(1); }
+
+/* Force single-line title for Quran Companion card */
+.single-line-title { white-space: nowrap; }
 
 .custom-card img { height: 180px; object-fit: contain; transition: transform 0.25s ease; }
 .custom-card:hover img { transform: scale(1.05); }

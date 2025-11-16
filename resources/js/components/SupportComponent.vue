@@ -18,7 +18,7 @@
               </div>
               <div class="col-md-3 mb-4">
                 <div class="metric-item">
-                  <h3>70</h3>
+                  <h3>75+</h3>
                   <p>Countries</p>
                 </div>
               </div>
