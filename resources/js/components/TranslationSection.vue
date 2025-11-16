@@ -79,28 +79,57 @@
         </div>
 
         <!-- Icons Column -->
-        <div v-if="!isVisible" class="col-md-1 col-2 d-flex align-items-center justify-content-center flex-column">
+        <div v-if="!isVisible" class="col-md-1 col-2 d-flex align-items-center justify-content-center flex-column vertical-actions">
           <!-- Play/Pause Button -->
-          <i @click="toggleSpeech" :class="[
-            'bi',
-            isReading ? (isPaused ? 'bi-play-circle-fill' : 'bi-pause-circle-fill') : 'bi-play-circle-fill',
-            'h3',
-            'custom-icon-play'
-          ]" style="cursor: pointer;" role="button" :tabindex="0"
+          <i
+            @click="toggleSpeech"
+            :class="[
+              'bi',
+              isReading ? (isPaused ? 'bi-play-fill' : 'bi-pause-fill') : 'bi-play-fill',
+              'action-circle'
+            ]"
+            role="button"
+            :tabindex="0"
             aria-label="Play or pause translation audio"
-            @keydown.enter.prevent="toggleSpeech" @keydown.space.prevent="toggleSpeech"
-            title="Play/Pause Translation Audio"></i>
+            @keydown.enter.prevent="toggleSpeech"
+            @keydown.space.prevent="toggleSpeech"
+            title="Play/Pause Translation Audio"
+          ></i>
 
           <!-- Stop Button, visible only after Play button is clicked -->
-          <i v-if="isReading && !isPaused" @click="stopReading"
-            :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']" style="cursor: pointer;" role="button" :tabindex="0"
-            aria-label="Stop reading audio" @keydown.enter.prevent="stopReading" @keydown.space.prevent="stopReading" title="Stop Translation Audio"></i>
+          <i
+            v-if="isReading && !isPaused"
+            @click="stopReading"
+            class="bi bi-stop-fill action-circle"
+            role="button"
+            :tabindex="0"
+            aria-label="Stop reading audio"
+            @keydown.enter.prevent="stopReading"
+            @keydown.space.prevent="stopReading"
+            title="Stop Translation Audio"
+          ></i>
 
           <!-- Font Size Adjustments -->
-          <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase" role="button" :tabindex="0"
-            aria-label="Increase text size" @click="increaseFontSize" @keydown.enter.prevent="increaseFontSize" @keydown.space.prevent="increaseFontSize" title="Increase Text Size"></i>
-          <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease" role="button" :tabindex="0"
-            aria-label="Decrease text size" @click="decreaseFontSize" @keydown.enter.prevent="decreaseFontSize" @keydown.space.prevent="decreaseFontSize" title="Decrease Text Size"></i>
+          <i
+            class="bi bi-plus action-circle icon-plus"
+            role="button"
+            :tabindex="0"
+            aria-label="Increase text size"
+            @click="increaseFontSize"
+            @keydown.enter.prevent="increaseFontSize"
+            @keydown.space.prevent="increaseFontSize"
+            title="Increase Text Size"
+          ></i>
+          <i
+            class="bi bi-dash action-circle icon-minus"
+            role="button"
+            :tabindex="0"
+            aria-label="Decrease text size"
+            @click="decreaseFontSize"
+            @keydown.enter.prevent="decreaseFontSize"
+            @keydown.space.prevent="decreaseFontSize"
+            title="Decrease Text Size"
+          ></i>
 
           <!-- Voice settings -->
           <!-- <i class="bi bi-gear-fill h3 custom-icon-increase" style="cursor: pointer" @click="showOptions = !showOptions"
@@ -1168,6 +1197,27 @@ audio {
   background-color: #10584f;
   color: white;
   width: 40%;
+}
+
+/* Vertical action icons: circular buttons to match horizontal design */
+.vertical-actions { gap: 8px; }
+
+.action-circle { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:#1a5f7a; color:#ffffff; box-shadow:0 5px 12px rgba(26,95,122,0.2), inset 0 0 0 1px rgba(255,255,255,0.05); cursor:pointer; transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease; font-size:.9rem; }
+.action-circle.icon-plus, .action-circle.icon-minus { font-size: 1.15rem; }
+
+.action-circle:hover {
+  transform: translateY(-1px);
+  background: #0b806f;
+  box-shadow: 0 8px 18px rgba(11, 128, 111, 0.28), inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+.action-circle:active {
+  transform: translateY(0);
+}
+
+.action-circle:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.35);
 }
 
 .custom-icon-play:hover {

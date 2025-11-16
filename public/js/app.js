@@ -40932,7 +40932,7 @@ const _hoisted_17 = {
 const _hoisted_18 = ["value"];
 const _hoisted_19 = {
   key: 0,
-  class: "col-md-1 col-2 d-flex align-items-center justify-content-center flex-column"
+  class: "col-md-1 col-2 d-flex align-items-center justify-content-center flex-column vertical-actions"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_AyahInfo = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AyahInfo");
@@ -41026,10 +41026,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[7] || (_cache[7] = (...args) => $options.toggleSpeech && $options.toggleSpeech(...args)),
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $data.isReading ? $data.isPaused ? 'bi-play-circle-fill' : 'bi-pause-circle-fill' : 'bi-play-circle-fill', 'h3', 'custom-icon-play']),
-    style: {
-      "cursor": "pointer"
-    },
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $data.isReading ? $data.isPaused ? 'bi-play-fill' : 'bi-pause-fill' : 'bi-play-fill', 'action-circle']),
     role: "button",
     tabindex: 0,
     "aria-label": "Play or pause translation audio",
@@ -41038,20 +41035,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 34 /* CLASS, NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button, visible only after Play button is clicked "), $data.isReading && !$data.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
     key: 0,
     onClick: _cache[10] || (_cache[10] = (...args) => $options.stopReading && $options.stopReading(...args)),
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']),
-    style: {
-      "cursor": "pointer"
-    },
+    class: "bi bi-stop-fill action-circle",
     role: "button",
     tabindex: 0,
     "aria-label": "Stop reading audio",
     onKeydown: [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.stopReading && $options.stopReading(...args), ["prevent"]), ["enter"])), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.stopReading && $options.stopReading(...args), ["prevent"]), ["space"]))],
     title: "Stop Translation Audio"
   }, null, 32 /* NEED_HYDRATION */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Increase Font Size "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    style: {
-      "cursor": "pointer"
-    },
-    class: "bi bi-plus-circle-fill h3 custom-icon-increase",
+    class: "bi bi-plus action-circle icon-plus",
     role: "button",
     tabindex: 0,
     "aria-label": "Increase text size",
@@ -41061,10 +41052,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-placement": "top",
     title: "Increase text size"
   }, null, 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Decrease Font Size "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    style: {
-      "cursor": "pointer"
-    },
-    class: "bi bi-dash-circle-fill h3 custom-icon-decrease",
+    class: "bi bi-dash action-circle icon-minus",
     role: "button",
     tabindex: 0,
     "aria-label": "Decrease text size",
@@ -42432,7 +42420,7 @@ const _hoisted_15 = {
 const _hoisted_16 = ["value"];
 const _hoisted_17 = {
   key: 0,
-  class: "col-md-1 col-2 d-flex align-items-center justify-content-center flex-column"
+  class: "col-md-1 col-2 d-flex align-items-center justify-content-center flex-column vertical-actions"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_AyahInfo = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AyahInfo");
@@ -42534,10 +42522,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[7] || (_cache[7] = (...args) => $options.toggleSpeech && $options.toggleSpeech(...args)),
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $data.isReading ? $data.isPaused ? 'bi-play-circle-fill' : 'bi-pause-circle-fill' : 'bi-play-circle-fill', 'h3', 'custom-icon-play']),
-    style: {
-      "cursor": "pointer"
-    },
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $data.isReading ? $data.isPaused ? 'bi-play-fill' : 'bi-pause-fill' : 'bi-play-fill', 'action-circle']),
     role: "button",
     tabindex: 0,
     "aria-label": "Play or pause translation audio",
@@ -42546,20 +42531,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 34 /* CLASS, NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button, visible only after Play button is clicked "), $data.isReading && !$data.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
     key: 0,
     onClick: _cache[10] || (_cache[10] = (...args) => $options.stopReading && $options.stopReading(...args)),
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']),
-    style: {
-      "cursor": "pointer"
-    },
+    class: "bi bi-stop-fill action-circle",
     role: "button",
     tabindex: 0,
     "aria-label": "Stop reading audio",
     onKeydown: [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.stopReading && $options.stopReading(...args), ["prevent"]), ["enter"])), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.stopReading && $options.stopReading(...args), ["prevent"]), ["space"]))],
     title: "Stop Translation Audio"
   }, null, 32 /* NEED_HYDRATION */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Size Adjustments "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    style: {
-      "cursor": "pointer"
-    },
-    class: "bi bi-plus-circle-fill h3 custom-icon-increase",
+    class: "bi bi-plus action-circle icon-plus",
     role: "button",
     tabindex: 0,
     "aria-label": "Increase text size",
@@ -42567,10 +42546,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onKeydown: [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.increaseFontSize && $options.increaseFontSize(...args), ["prevent"]), ["enter"])), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.increaseFontSize && $options.increaseFontSize(...args), ["prevent"]), ["space"]))],
     title: "Increase Text Size"
   }, null, 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    style: {
-      "cursor": "pointer"
-    },
-    class: "bi bi-dash-circle-fill h3 custom-icon-decrease",
+    class: "bi bi-dash action-circle icon-minus",
     role: "button",
     tabindex: 0,
     "aria-label": "Decrease text size",
@@ -42683,7 +42659,7 @@ const _hoisted_8 = {
 };
 const _hoisted_9 = {
   key: 0,
-  class: "col-md-1 col-2 d-flex align-items-center justify-content-center flex-column"
+  class: "col-md-1 col-2 d-flex align-items-center justify-content-center flex-column vertical-actions"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_AyahInfo = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AyahInfo");
@@ -42737,10 +42713,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [...(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-filetype-json pr-2"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ", -1 /* CACHED */)]))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"d-flex align-items-center mt-3\">\n              <img src=\"/images/art.png\" class=\"pr-2\" width=\"30px\" alt=\"lamp\" loading=\"lazy\" />\n              <h4 class=\"fw-bold pt-2 hide-on-mobile-tablet\" v-if=\"ayah == null && !dropdownHidden\" >Transliteration:</h4>\n\n              <h5 class=\" mb-0 ms-2\" style=\"color:dimgrey;\" :style=\"{ fontSize: fontSize + 'em', lineHeight: '1.8em' }\">Saheeh International</h5>\n            </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    style: {
-      "cursor": "pointer"
-    },
-    class: "bi bi-plus-circle-fill h3 custom-icon-increase",
+    class: "bi bi-plus action-circle icon-plus",
     role: "button",
     tabindex: 0,
     "aria-label": "Increase text size",
@@ -42750,10 +42723,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-placement": "top",
     title: "Increase text size"
   }, null, 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    style: {
-      "cursor": "pointer"
-    },
-    class: "bi bi-dash-circle-fill h3 custom-icon-decrease",
+    class: "bi bi-dash action-circle icon-minus",
     role: "button",
     tabindex: 0,
     "aria-label": "Decrease text size",
@@ -50619,7 +50589,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\naudio[data-v-2fc20ed8] {\n  display: block;\n  border-radius: 30px;\n  margin: 0 auto;\n  width: 100%;\n  border: 2px double rgba(0, 191, 166);\n  background-color: white;\n}\n.word-count[data-v-2fc20ed8] {\n  margin-top: 10px;\n}\n.controls[data-v-2fc20ed8] {\n  margin-top: 10px;\n}\n.ayah-container[data-v-2fc20ed8] {\n  margin-bottom: 20px;\n}\n.ayah-text[data-v-2fc20ed8] {\n  font-size: 18px;\n  margin-bottom: 10px;\n}\n.ayah-audio[data-v-2fc20ed8] {\n  margin-bottom: 20px;\n}\n.custom-offcanvas[data-v-2fc20ed8] {\n  background-color: #10584f;\n  color: white;\n  width: 40%;\n}\n.custom-icon-play[data-v-2fc20ed8]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-increase[data-v-2fc20ed8]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-decrease[data-v-2fc20ed8]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.text-muted[data-v-2fc20ed8] {\n  color: lightgrey;\n}\n.full-screen[data-v-2fc20ed8] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 1000;\n  background-color: white;\n  padding: 20px;\n}\n.swipeable-div[data-v-2fc20ed8] {\n  touch-action: pan-y;\n}\n.ayah-translation[data-v-2fc20ed8] {\n  font-size: 1.2rem;\n}\n.btn[data-v-2fc20ed8] {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n}\n.mobile-only[data-v-2fc20ed8] {\n  display: none;\n  /* Hide by default */\n}\n.custom-icon-play[data-v-2fc20ed8]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-increase[data-v-2fc20ed8]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-decrease[data-v-2fc20ed8]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n@media (max-width: 768px) {\n\n  /* Adjust this width as needed for your breakpoint */\n.mobile-only[data-v-2fc20ed8] {\n    display: flex;\n    /* Show only on mobile */\n}\n}\n@media (max-width: 576px) {\n.mobile-only[data-v-2fc20ed8] {\n    display: block;\n    display: flex;\n}\n.hide-on-mobile[data-v-2fc20ed8] {\n    display: none;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Vertical action icons: circular buttons to match horizontal design */\n.vertical-actions[data-v-2fc20ed8] { gap: 8px;\n}\n.action-circle[data-v-2fc20ed8] { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:#1a5f7a; color:#ffffff; box-shadow:0 5px 12px rgba(26,95,122,0.2), inset 0 0 0 1px rgba(255,255,255,0.05); cursor:pointer; transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease; font-size:.9rem;\n}\n.action-circle.icon-plus[data-v-2fc20ed8], .action-circle.icon-minus[data-v-2fc20ed8] { font-size: 1.15rem;\n}\n.action-circle[data-v-2fc20ed8]:hover {\n  transform: translateY(-1px);\n  background: #0b806f;\n  box-shadow: 0 8px 18px rgba(11, 128, 111, 0.28), inset 0 0 0 1px rgba(255,255,255,0.06);\n}\n.action-circle[data-v-2fc20ed8]:active {\n  transform: translateY(0);\n}\n.action-circle[data-v-2fc20ed8]:focus-visible {\n  outline: 0;\n  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.35);\n}\naudio[data-v-2fc20ed8] {\n  display: block;\n  border-radius: 30px;\n  margin: 0 auto;\n  width: 100%;\n  border: 2px double rgba(0, 191, 166);\n  background-color: white;\n}\n.word-count[data-v-2fc20ed8] {\n  margin-top: 10px;\n}\n.controls[data-v-2fc20ed8] {\n  margin-top: 10px;\n}\n.ayah-container[data-v-2fc20ed8] {\n  margin-bottom: 20px;\n}\n.ayah-text[data-v-2fc20ed8] {\n  font-size: 18px;\n  margin-bottom: 10px;\n}\n.ayah-audio[data-v-2fc20ed8] {\n  margin-bottom: 20px;\n}\n.custom-offcanvas[data-v-2fc20ed8] {\n  background-color: #10584f;\n  color: white;\n  width: 40%;\n}\n.custom-icon-play[data-v-2fc20ed8]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-increase[data-v-2fc20ed8]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-decrease[data-v-2fc20ed8]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.text-muted[data-v-2fc20ed8] {\n  color: lightgrey;\n}\n.full-screen[data-v-2fc20ed8] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 1000;\n  background-color: white;\n  padding: 20px;\n}\n.swipeable-div[data-v-2fc20ed8] {\n  touch-action: pan-y;\n}\n.ayah-translation[data-v-2fc20ed8] {\n  font-size: 1.2rem;\n}\n.btn[data-v-2fc20ed8] {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n}\n.mobile-only[data-v-2fc20ed8] {\n  display: none;\n  /* Hide by default */\n}\n.custom-icon-play[data-v-2fc20ed8]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-increase[data-v-2fc20ed8]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-decrease[data-v-2fc20ed8]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n@media (max-width: 768px) {\n\n  /* Adjust this width as needed for your breakpoint */\n.mobile-only[data-v-2fc20ed8] {\n    display: flex;\n    /* Show only on mobile */\n}\n}\n@media (max-width: 576px) {\n.mobile-only[data-v-2fc20ed8] {\n    display: block;\n    display: flex;\n}\n.hide-on-mobile[data-v-2fc20ed8] {\n    display: none;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -50689,7 +50659,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.toast[data-v-a9f18ac2] {\n  opacity: 1 !important;\n  transition: opacity 0.5s ease-in-out;\n}\n.error[data-v-a9f18ac2] {\n  margin-top: 20px;\n  color: red;\n}\n.document-export-container[data-v-a9f18ac2] {\n  max-width: 600px;\n  margin: 50px auto;\n  padding: 20px;\n  text-align: center;\n  border: 1px solid #ccc;\n  border-radius: 8px;\n  background-color: #f9f9f9;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n}\n.title[data-v-a9f18ac2] {\n  font-size: 24px;\n  color: #1f4e79;\n  margin-bottom: 10px;\n}\n.description[data-v-a9f18ac2] {\n  font-size: 16px;\n  color: #333;\n  margin-bottom: 20px;\n}\n\n/* .btn {\n  font-size: 16px;\n  padding: 10px 20px;\n  border: none;\n  border-radius: 5px;\n  cursor: pointer;\n  transition: all 0.3s ease-in-out;\n} */\n.btn-primary[data-v-a9f18ac2] {\n  background-color: #1f4e79;\n  color: #fff;\n}\n.btn-primary[data-v-a9f18ac2]:hover {\n  transition: color 0.3s ease;\n  background-color: #163a5d;\n}\naudio[data-v-a9f18ac2] {\n  display: block;\n  border-radius: 30px;\n  margin: 0 auto;\n  width: 100%;\n  border: 2px double rgba(0, 191, 166);\n  background-color: white;\n}\n.word-count[data-v-a9f18ac2] {\n  margin-top: 10px;\n}\n.controls[data-v-a9f18ac2] {\n  margin-top: 10px;\n}\n.ayah-container[data-v-a9f18ac2] {\n  margin-bottom: 20px;\n}\n.ayah-translation span[data-v-a9f18ac2] {\n  display: inline-block;\n}\n.ayah-text[data-v-a9f18ac2] {\n  font-size: 18px;\n  margin-bottom: 10px;\n}\n.ayah-audio[data-v-a9f18ac2] {\n  margin-bottom: 20px;\n}\n.custom-offcanvas[data-v-a9f18ac2] {\n  background-color: #10584f;\n  color: white;\n  width: 40%;\n}\n.custom-icon-play[data-v-a9f18ac2]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-increase[data-v-a9f18ac2]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-decrease[data-v-a9f18ac2]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.text-muted[data-v-a9f18ac2] {\n  color: lightgrey;\n}\n.full-screen[data-v-a9f18ac2] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 1000;\n  background-color: white;\n  padding: 20px;\n}\n.swipeable-div[data-v-a9f18ac2] {\n  touch-action: pan-y;\n}\n.ayah-translation[data-v-a9f18ac2] {\n  font-size: 1.2rem;\n}\n.btn[data-v-a9f18ac2] {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n}\n.mobile-only[data-v-a9f18ac2] {\n  display: none;\n  /* Hide by default */\n}\n@media (max-width: 768px) {\n\n  /* Adjust this width as needed for your breakpoint */\n.mobile-only[data-v-a9f18ac2] {\n    display: flex;\n    flex-direction: column !important;\n    /* Show only on mobile */\n}\n.custom-offcanvas[data-v-a9f18ac2] {\n    background-color: #10584f;\n    color: white;\n    width: 100%;\n}\n}\n@media (max-width: 576px) {\n.mobile-only[data-v-a9f18ac2] {\n    display: block;\n    display: flex;\n}\n.custom-offcanvas[data-v-a9f18ac2] {\n    background-color: #10584f;\n    color: white;\n    width: 100%;\n}\n.hide-on-mobile[data-v-a9f18ac2] {\n    display: none;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.toast[data-v-a9f18ac2] {\n  opacity: 1 !important;\n  transition: opacity 0.5s ease-in-out;\n}\n.error[data-v-a9f18ac2] {\n  margin-top: 20px;\n  color: red;\n}\n.document-export-container[data-v-a9f18ac2] {\n  max-width: 600px;\n  margin: 50px auto;\n  padding: 20px;\n  text-align: center;\n  border: 1px solid #ccc;\n  border-radius: 8px;\n  background-color: #f9f9f9;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n}\n.title[data-v-a9f18ac2] {\n  font-size: 24px;\n  color: #1f4e79;\n  margin-bottom: 10px;\n}\n.description[data-v-a9f18ac2] {\n  font-size: 16px;\n  color: #333;\n  margin-bottom: 20px;\n}\n\n/* .btn {\n  font-size: 16px;\n  padding: 10px 20px;\n  border: none;\n  border-radius: 5px;\n  cursor: pointer;\n  transition: all 0.3s ease-in-out;\n} */\n.btn-primary[data-v-a9f18ac2] {\n  background-color: #1f4e79;\n  color: #fff;\n}\n.btn-primary[data-v-a9f18ac2]:hover {\n  transition: color 0.3s ease;\n  background-color: #163a5d;\n}\naudio[data-v-a9f18ac2] {\n  display: block;\n  border-radius: 30px;\n  margin: 0 auto;\n  width: 100%;\n  border: 2px double rgba(0, 191, 166);\n  background-color: white;\n}\n.word-count[data-v-a9f18ac2] {\n  margin-top: 10px;\n}\n.controls[data-v-a9f18ac2] {\n  margin-top: 10px;\n}\n.ayah-container[data-v-a9f18ac2] {\n  margin-bottom: 20px;\n}\n.ayah-translation span[data-v-a9f18ac2] {\n  display: inline-block;\n}\n.ayah-text[data-v-a9f18ac2] {\n  font-size: 18px;\n  margin-bottom: 10px;\n}\n.ayah-audio[data-v-a9f18ac2] {\n  margin-bottom: 20px;\n}\n.custom-offcanvas[data-v-a9f18ac2] {\n  background-color: #10584f;\n  color: white;\n  width: 40%;\n}\n\n/* Vertical action icons: circular buttons to match horizontal design */\n.vertical-actions[data-v-a9f18ac2] { gap: 8px;\n}\n.action-circle[data-v-a9f18ac2] { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; background:#1a5f7a; color:#ffffff; box-shadow:0 5px 12px rgba(26,95,122,0.2), inset 0 0 0 1px rgba(255,255,255,0.05); cursor:pointer; transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease; font-size:.9rem;\n}\n.action-circle.icon-plus[data-v-a9f18ac2], .action-circle.icon-minus[data-v-a9f18ac2] { font-size: 1.15rem;\n}\n.action-circle[data-v-a9f18ac2]:hover {\n  transform: translateY(-1px);\n  background: #0b806f;\n  box-shadow: 0 8px 18px rgba(11, 128, 111, 0.28), inset 0 0 0 1px rgba(255,255,255,0.06);\n}\n.action-circle[data-v-a9f18ac2]:active {\n  transform: translateY(0);\n}\n.action-circle[data-v-a9f18ac2]:focus-visible {\n  outline: 0;\n  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.35);\n}\n.custom-icon-play[data-v-a9f18ac2]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-increase[data-v-a9f18ac2]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-decrease[data-v-a9f18ac2]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.text-muted[data-v-a9f18ac2] {\n  color: lightgrey;\n}\n.full-screen[data-v-a9f18ac2] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 1000;\n  background-color: white;\n  padding: 20px;\n}\n.swipeable-div[data-v-a9f18ac2] {\n  touch-action: pan-y;\n}\n.ayah-translation[data-v-a9f18ac2] {\n  font-size: 1.2rem;\n}\n.btn[data-v-a9f18ac2] {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n}\n.mobile-only[data-v-a9f18ac2] {\n  display: none;\n  /* Hide by default */\n}\n@media (max-width: 768px) {\n\n  /* Adjust this width as needed for your breakpoint */\n.mobile-only[data-v-a9f18ac2] {\n    display: flex;\n    flex-direction: column !important;\n    /* Show only on mobile */\n}\n.custom-offcanvas[data-v-a9f18ac2] {\n    background-color: #10584f;\n    color: white;\n    width: 100%;\n}\n}\n@media (max-width: 576px) {\n.mobile-only[data-v-a9f18ac2] {\n    display: block;\n    display: flex;\n}\n.custom-offcanvas[data-v-a9f18ac2] {\n    background-color: #10584f;\n    color: white;\n    width: 100%;\n}\n.hide-on-mobile[data-v-a9f18ac2] {\n    display: none;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -50712,7 +50682,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.full-screen[data-v-71167b92] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 1000;\n  background-color: white;\n  padding: 20px;\n}\n.word-count[data-v-71167b92] {\n  margin-top: 10px;\n}\n.swipeable-div[data-v-71167b92] {\n  touch-action: pan-y;\n}\n.ayah-translation[data-v-71167b92] {\n  font-size: 1.2rem;\n}\n.btn[data-v-71167b92] {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n}\n.custom-icon-play[data-v-71167b92]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-increase[data-v-71167b92]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-decrease[data-v-71167b92]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n\n/* Mobile Media Queries */\n.mobile-only[data-v-71167b92] {\n  display: none;\n}\n@media (max-width: 768px) {\n.mobile-only[data-v-71167b92] {\n    display: flex;\n}\n}\n@media (max-width: 576px) {\n.mobile-only[data-v-71167b92] {\n    display: flex;\n}\n.hide-on-mobile[data-v-71167b92] {\n    display: none;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vertical-actions[data-v-71167b92] { gap: 10px;\n}\n.action-circle[data-v-71167b92]{ display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#1a5f7a;color:#fff;box-shadow:0 5px 12px rgba(26,95,122,.2), inset 0 0 0 1px rgba(255,255,255,.05);cursor:pointer;transition:transform .15s ease, background-color .15s ease, box-shadow .15s ease;font-size:.95rem;\n}\n.action-circle.icon-plus[data-v-71167b92], .action-circle.icon-minus[data-v-71167b92]{ font-size:1.25rem;\n}\n.action-circle[data-v-71167b92]:hover{transform:translateY(-1px);background:#0b806f;box-shadow:0 8px 18px rgba(11,128,111,.28), inset 0 0 0 1px rgba(255,255,255,.06);}\n.action-circle[data-v-71167b92]:active{transform:translateY(0);}\n.action-circle[data-v-71167b92]:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(11,128,111,.35);}\n.full-screen[data-v-71167b92] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 1000;\n  background-color: white;\n  padding: 20px;\n}\n.word-count[data-v-71167b92] {\n  margin-top: 10px;\n}\n.swipeable-div[data-v-71167b92] {\n  touch-action: pan-y;\n}\n.ayah-translation[data-v-71167b92] {\n  font-size: 1.2rem;\n}\n.btn[data-v-71167b92] {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n}\n.custom-icon-play[data-v-71167b92]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-increase[data-v-71167b92]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n.custom-icon-decrease[data-v-71167b92]:hover {\n  color: rgb(13, 182, 145);\n  /* Default color */\n  transition: color 0.3s ease;\n  /* Smooth transition */\n}\n/* Mobile Media Queries */\n.mobile-only[data-v-71167b92] {\n  display: none;\n}\n@media (max-width: 768px) {\n.mobile-only[data-v-71167b92] {\n    display: flex;\n}\n}\n@media (max-width: 576px) {\n.mobile-only[data-v-71167b92] {\n    display: flex;\n}\n.hide-on-mobile[data-v-71167b92] {\n    display: none;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
