@@ -6368,6 +6368,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         backgroundColor: '#10584f',
         width: window.innerWidth < 576 ? '100%' : '400px'
       };
+    },
+    contentVars() {
+      // Map user font settings to CSS variables for the content card
+      const size = Math.max(14, this.fontSize) + 'px';
+      return {
+        '--content-bg': this.fontSettings.backgroundColor || '#ffffff',
+        '--content-fg': this.fontSettings.color || '#0f172a',
+        '--content-font-style': this.fontSettings.fontStyle || 'normal',
+        '--content-text-shadow': this.fontSettings.textShadow || 'none',
+        '--content-text-decoration': this.fontSettings.textDecoration || 'none',
+        '--content-font-family': this.fontSettings.fontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif",
+        '--content-font-size': size
+      };
     }
     // heavy computeds removed; we now update cached values in updateCurrentMetrics
   },
@@ -33646,21 +33659,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 const _hoisted_1 = {
-  style: {
-    "padding": "10px"
-  },
-  class: "container"
+  class: "container px-2"
 };
 const _hoisted_2 = {
-  class: "mx-auto mb-4",
-  style: {
-    "position": "relative",
-    "background": "#eaf3f1",
-    "border": "1px solid rgba(11, 128, 111, 0.20)",
-    "border-radius": "24px",
-    "box-shadow": "inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09)",
-    "padding": "1.25rem 1.75rem"
-  }
+  class: "mx-auto mb-4 next-step-card animate-rise"
 };
 const _hoisted_3 = {
   class: "next-step-actions",
@@ -33672,36 +33674,17 @@ const _hoisted_5 = {
   class: "d-flex align-items-start gap-3 text-start"
 };
 const _hoisted_6 = {
-  style: {
-    "flex": "1"
-  }
+  class: "flex-grow-1"
 };
 const _hoisted_7 = {
-  class: "mb-2",
-  style: {
-    "color": "#1f2933"
-  }
+  class: "mb-2 next-step-teaser"
 };
 const _hoisted_8 = {
-  class: "mb-3",
-  style: {
-    "color": "#1f2933",
-    "line-height": "1.8",
-    "font-size": "1.1rem"
-  }
+  class: "mb-3 next-step-text"
 };
 const _hoisted_9 = {
   href: "/dua",
-  class: "btn btn-sm fw-semibold text-white px-3 py-2",
-  style: {
-    "background": "linear-gradient(135deg, #0b806f, #1a5f7a)",
-    "border": "none",
-    "border-radius": "999px",
-    "box-shadow": "0 10px 20px rgba(26, 95, 122, 0.25)",
-    "transition": "transform 0.2s ease, box-shadow 0.2s ease"
-  },
-  onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';",
-  onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';"
+  class: "btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta"
 };
 const _hoisted_10 = {
   class: "timeline-wrapper container",
@@ -33720,60 +33703,56 @@ const _hoisted_15 = {
   class: "d-flex justify-content-center align-items-center gap-2 gap-sm-4 mb-3 mb-md-4 flex-wrap"
 };
 const _hoisted_16 = {
-  class: "d-flex align-items-center gap-2 gap-sm-3 ms-sm-3 mt-2 mt-sm-0 quick-actions shadow-sm px-2 py-2 rounded-3 bg-white",
+  class: "action-row shadow-sm bg-white",
   role: "toolbar",
   "aria-label": "Event actions toolbar"
 };
 const _hoisted_17 = {
-  class: "btn-group",
+  class: "action-group",
   role: "group",
   "aria-label": "AI tools"
 };
 const _hoisted_18 = ["disabled", "aria-busy"];
 const _hoisted_19 = {
-  class: "ms-1 ms-sm-2 d-none d-sm-inline"
+  class: "label d-none d-sm-inline"
 };
 const _hoisted_20 = {
-  class: "btn-group",
+  class: "action-group",
   role: "group",
   "aria-label": "Font size"
 };
 const _hoisted_21 = {
-  class: "btn-group",
+  class: "action-group",
   role: "group",
   "aria-label": "Share and copy"
 };
 const _hoisted_22 = {
-  class: "btn-group",
+  class: "action-group",
   role: "group",
   "aria-label": "Export"
 };
 const _hoisted_23 = ["aria-label", "aria-pressed", "title"];
 const _hoisted_24 = {
-  class: "d-flex align-items-center flex-wrap gap-3 mb-3 mb-md-4"
+  class: "container d-flex align-items-center flex-wrap gap-3 mb-3 mb-md-4"
 };
 const _hoisted_25 = {
-  class: "d-flex align-items-center flex-wrap text-center gap-3 gap-sm-4",
+  class: "d-flex container align-items-center flex-wrap text-center gap-2 gap-sm-3",
   role: "group",
   "aria-label": "Time estimates"
 };
 const _hoisted_26 = {
-  class: "medium d-flex align-items-center"
+  class: "stat-chip"
 };
 const _hoisted_27 = {
-  class: "medium d-flex align-items-center"
+  class: "stat-chip"
 };
 const _hoisted_28 = {
-  class: "medium d-flex align-items-center"
+  class: "stat-chip"
 };
 const _hoisted_29 = {
   key: 0,
-  class: "ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded",
-  ref: "summarySection",
-  style: {
-    "background": "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
-    "border": "1px solid rgb(168 85 247)"
-  }
+  class: "ai-summary-inline premium-surface mt-3 mt-md-4 p-2 p-md-3 rounded-20 animate-rise",
+  ref: "summarySection"
 };
 const _hoisted_30 = {
   class: "d-flex align-items-center justify-content-between mb-2"
@@ -33863,44 +33842,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_4)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "flex-shrink-0 mt-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    style: {
-      "width": "46px",
-      "height": "46px",
-      "border-radius": "50%",
-      "background": "rgba(11, 128, 111, 0.20)",
-      "display": "flex",
-      "align-items": "center",
-      "justify-content": "center",
-      "color": "#0b806f",
-      "font-size": "1.35rem",
-      "box-shadow": "inset 0 0 0 1px rgba(11, 128, 111, 0.26), 0 6px 14px rgba(26,95,122,0.10)"
-    }
+    class: "next-step-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-praying-hands"
   })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-2 fw-semibold text-uppercase",
-    style: {
-      "letter-spacing": "0.1em",
-      "color": "#1a5f7a",
-      "font-size": "0.78rem"
-    }
+    class: "mb-2 fw-semibold text-uppercase next-step-eyebrow"
   }, " NEXT STEP ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimized teaser "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/dua",
-    class: "fw-semibold text-decoration-none",
-    style: {
-      "color": "#0b806f"
-    }
+    class: "fw-semibold text-decoration-none next-step-link"
   }, " Explore Du‘a collection ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-arrow-up-right-from-square ms-1",
-    style: {
-      "color": "#0b806f"
-    }
+    class: "fas fa-arrow-up-right-from-square ms-1 text-brand"
   }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [...(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Learning the Prophet’s blessed journey is a beautiful beginning. When you feel ready, take a gentle step into heartfelt supplications, explore a simple, welcoming the ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/dua",
-    class: "fw-semibold text-decoration-none",
-    style: {
-      "color": "#0b806f"
-    }
+    class: "fw-semibold text-decoration-none next-step-link"
   }, " Du‘a collection ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" for daily moments of connection. ", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_9, [...(_cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Explore Du‘a ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-arrow-up-right-from-square ms-2"
   }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.nextStepMinimized]])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ol", {
@@ -33939,8 +33893,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, " Text copied to clipboard! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "fw-bold display-6 text-center mb-3",
       id: `event-title-${$data.currentIndex}`
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.events[$data.currentIndex].title), 9 /* TEXT, PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Combined Controls and Info Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Actions Toolbar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn btn-sm btn-outline-dark",
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.events[$data.currentIndex].title), 9 /* TEXT, PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Combined Controls and Info Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Actions Toolbar (evenly spaced row) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: "action-item",
       onClick: _cache[2] || (_cache[2] = (...args) => $options.summarizeEvent && $options.summarizeEvent(...args)),
       disabled: $data.summaryLoading,
       "aria-busy": $data.summaryLoading ? 'true' : 'false',
@@ -33949,70 +33903,70 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.summaryLoading ? 'bi-hourglass-split' : 'bi-robot'])
     }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.summaryLoading ? 'Generating...' : 'AI Summary'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_18)]), _cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "vr d-none d-sm-inline mx-1",
+      class: "row-sep d-none d-sm-inline",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font size controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn btn-sm btn-outline-dark",
+      class: "action-item",
       onClick: _cache[3] || (_cache[3] = (...args) => $options.decFont && $options.decFont(...args)),
       title: "Decrease font size",
       "aria-label": "Decrease font size"
     }, [...(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "fw-semibold"
     }, "A−", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "d-none d-md-inline ms-1"
+      class: "label d-none d-md-inline ms-1"
     }, "Smaller", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn btn-sm btn-outline-dark",
+      class: "action-item",
       onClick: _cache[4] || (_cache[4] = (...args) => $options.incFont && $options.incFont(...args)),
       title: "Increase font size",
       "aria-label": "Increase font size"
     }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "fw-semibold"
     }, "A+", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "d-none d-md-inline ms-1"
+      class: "label d-none d-md-inline ms-1"
     }, "Larger", -1 /* CACHED */)]))])]), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "vr d-none d-sm-inline mx-1",
+      class: "row-sep d-none d-sm-inline",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share and copy "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn btn-sm btn-outline-success",
+      class: "action-item action-success",
       onClick: _cache[5] || (_cache[5] = (...args) => $options.shareOnWhatsApp && $options.shareOnWhatsApp(...args)),
       title: "Share on WhatsApp",
       "aria-label": "Share on WhatsApp"
     }, [...(_cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-whatsapp"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "d-none d-md-inline ms-1"
+      class: "label d-none d-md-inline ms-1"
     }, "WhatsApp", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn btn-sm btn-outline-secondary",
+      class: "action-item",
       onClick: _cache[6] || (_cache[6] = (...args) => $options.copyToClipboard && $options.copyToClipboard(...args)),
       title: "Copy text",
       "aria-label": "Copy text"
     }, [...(_cache[47] || (_cache[47] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-clipboard"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "d-none d-md-inline ms-1"
+      class: "label d-none d-md-inline ms-1"
     }, "Copy", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn btn-sm btn-outline-primary",
+      class: "action-item action-primary",
       onClick: _cache[7] || (_cache[7] = (...args) => $options.printEvent && $options.printEvent(...args)),
       title: "Print",
       "aria-label": "Print"
     }, [...(_cache[48] || (_cache[48] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-printer"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "d-none d-md-inline ms-1"
+      class: "label d-none d-md-inline ms-1"
     }, "Print", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn btn-sm btn-outline-danger",
+      class: "action-item action-danger",
       onClick: _cache[8] || (_cache[8] = (...args) => $options.downloadPdf && $options.downloadPdf(...args)),
       title: "Download PDF",
       "aria-label": "Download PDF"
     }, [...(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-file-earmark-pdf"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "d-none d-md-inline ms-1"
+      class: "label d-none d-md-inline ms-1"
     }, "PDF", -1 /* CACHED */)]))])]), _cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "vr d-none d-sm-inline mx-1",
+      class: "row-sep d-none d-sm-inline",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Export "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play Button aligned to the end "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn mr-2 p-0 play-toggle play-btn-circle", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["play-toggle play-btn-circle", {
         playing: $data.isAudioPlaying[$data.currentIndex]
       }]),
       "aria-label": $data.isAudioPlaying[$data.currentIndex] ? 'Pause audio' : 'Play audio',
@@ -34021,23 +33975,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onKeydown: [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.toggleAudioPlayer($data.currentIndex), ["prevent"]), ["enter"])), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.toggleAudioPlayer($data.currentIndex), ["prevent"]), ["space"]))],
       title: $data.isAudioPlaying[$data.currentIndex] ? 'Pause' : 'Play'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.isAudioPlaying[$data.currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill']),
-      style: {
-        "font-size": "clamp(1.8rem, 2.5vw, 2.6rem)"
-      }
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi play-icon", $data.isAudioPlaying[$data.currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'])
     }, null, 2 /* CLASS */)], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_23)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary and Play Button Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Time Estimates "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-book me-1"
     }, null, -1 /* CACHED */)), _cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       class: "me-1"
-    }, "Read:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readTime) + "m ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, "Read:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readTime) + "m", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-headphones me-1"
     }, null, -1 /* CACHED */)), _cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       class: "me-1"
-    }, "Listen:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.listenTime) + "m ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, "Listen:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.listenTime) + "m", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-file-earmark-word me-1"
     }, null, -1 /* CACHED */)), _cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       class: "me-1"
-    }, "Words:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary Section (Inline) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, "Words:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary Section (Premium) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
       name: "fade-slide"
     }, {
       default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.summaryText && _ctx.isVisible && $data.showSummaryBox ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
@@ -34045,7 +33996,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-robot me-1 me-sm-2"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" AI Summary ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        class: "btn btn-sm btn-outline-secondary",
+        class: "btn btn-sm btn-outline-secondary subtle-btn",
         onClick: _cache[12] || (_cache[12] = (...args) => $options.toggleSummary && $options.toggleSummary(...args)),
         title: $data.showSummary ? 'Hide Summary' : 'Show Summary',
         "aria-expanded": $data.showSummary ? 'true' : 'false',
@@ -34053,7 +34004,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.showSummary ? 'bi-chevron-up' : 'bi-chevron-down'])
       }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        class: "btn btn-sm btn-outline-secondary",
+        class: "btn btn-sm btn-outline-secondary subtle-btn",
         onClick: _cache[13] || (_cache[13] = (...args) => $options.closeSummaryBox && $options.closeSummaryBox(...args)),
         title: "Close summary",
         "aria-label": "Close summary"
@@ -34076,21 +34027,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       })], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
       _: 1 /* STABLE */
-    }), $data.summaryError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.summaryError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Styled Text desc "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-      class: "fw-medium rounded",
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        lineHeight: '1.7em',
-        backgroundColor: $data.fontSettings.backgroundColor,
-        color: $data.fontSettings.color,
-        fontStyle: $data.fontSettings.fontStyle,
-        textShadow: $data.fontSettings.textShadow,
-        textDecoration: $data.fontSettings.textDecoration,
-        fontFamily: $data.fontSettings.fontFamily,
-        padding: '0.75rem',
-        fontSize: Math.max(14, $data.fontSize) + 'px'
-      }),
+    }), $data.summaryError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.summaryError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Premium Content Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "content-card rounded-20 animate-rise",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.contentVars)
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", {
+      class: "content-body",
       innerHTML: $data.highlightedDescription
-    }, null, 12 /* STYLE, PROPS */, _hoisted_36), $data.events[$data.currentIndex].references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "References:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.events[$data.currentIndex].references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Offcanvas Settings Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_36)], 4 /* STYLE */), $data.events[$data.currentIndex].references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "References:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.events[$data.currentIndex].references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Offcanvas Settings Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "offcanvas offcanvas-end custom-offcanvas",
       tabindex: "-1",
       id: "settingsOffcanvas",
@@ -34199,20 +34142,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: _cache[24] || (_cache[24] = (...args) => $options.prev && $options.prev(...args)),
       disabled: $data.currentIndex === 0,
-      class: "btn me-2 btn-sm",
-      style: {
-        "background": "#0f766e",
-        "color": "#ffffff"
-      },
+      class: "btn nav-btn me-2 btn-sm",
       "aria-label": "Previous event"
     }, "Previous", 8 /* PROPS */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: _cache[25] || (_cache[25] = (...args) => $options.next && $options.next(...args)),
       disabled: $data.currentIndex === $data.events.length - 1,
-      class: "btn btn-sm",
-      style: {
-        "background": "#0f766e",
-        "color": "#ffffff"
-      },
+      class: "btn nav-btn btn-sm",
       "aria-label": "Next event"
     }, "Next", 8 /* PROPS */, _hoisted_44)], 2 /* CLASS */)], 8 /* PROPS */, _hoisted_12)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
@@ -50085,7 +50020,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Next-step controls */\n.next-step-actions[data-v-39610a88] {\n  position: absolute;\n  right: 12px;\n  top: 12px;\n  display: inline-flex;\n  align-items: center;\n  gap: 10px;\n  z-index: 5;\n}\n.icon-btn[data-v-39610a88] {\n  background: transparent;\n  border: 0;\n  color: #6b8b91;\n  opacity: 0.95;\n  cursor: pointer;\n  padding: 6px;\n  line-height: 1;\n}\n.icon-btn i[data-v-39610a88] { font-size: 1rem;\n}\n.icon-btn[data-v-39610a88]:hover { opacity: 1;\n}\n.icon-btn[data-v-39610a88]:focus {\n  outline: none;\n  box-shadow: 0 0 0 3px rgba(11,128,111,0.25);\n  border-radius: 6px;\n}\n/* Removed animate.css to reduce animation overhead */\n.play-btn-circle[data-v-39610a88] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 42px;\n  height: 42px;\n  border-radius: 50%;\n  background-color: #2125290d;\n  /* subtle dark tint */\n  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;\n}\n.play-btn-circle[data-v-39610a88]:hover {\n  background-color: #2125291f;\n  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);\n}\n.play-btn-circle[data-v-39610a88]:active {\n  transform: scale(0.98);\n}\n.play-btn-circle.playing[data-v-39610a88] {\n  background-color: #0f766e1f;\n  /* match brand teal hint when playing */\n}\n@media (min-width: 768px) {\n.play-btn-circle[data-v-39610a88] {\n    width: 46px;\n    height: 46px;\n}\n}\n.audio-player-container[data-v-39610a88] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.98);\n  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);\n  border-radius: 12px 12px 0 0;\n  transition: transform 0.3s ease-in-out;\n}\n/* Reduce motion for users and improve tab switch performance */\n@media (prefers-reduced-motion: reduce) {\n[data-v-39610a88] {\n    animation: none !important;\n    transition: none !important;\n    scroll-behavior: auto !important;\n}\n}\n/* Defer heavy layout/paint when off-screen or hidden */\n.event-details[data-v-39610a88] {\n  content-visibility: auto;\n  contain-intrinsic-size: 800px 600px;\n}\n.custom-audio-player[data-v-39610a88] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 12px 16px;\n  width: 100%;\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.controls[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  width: 100%;\n  justify-content: center;\n}\n.control-icon[data-v-39610a88] {\n  color: #ffffff;\n  font-size: 1.5rem;\n  cursor: pointer;\n  transition: color 0.2s, transform 0.2s ease-in-out;\n  padding: 8px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 44px;\n  min-height: 44px;\n}\n.control-icon[data-v-39610a88]:hover,\n.control-icon[data-v-39610a88]:active,\n.control-icon[data-v-39610a88]:focus {\n  color: #0db691;\n  transform: scale(1.1);\n  outline: none;\n}\n.close-icon[data-v-39610a88] {\n  margin-left: auto;\n  margin-right: 8px;\n}\n.volume-bar-container[data-v-39610a88] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  margin-left: 12px;\n  width: 100px;\n}\n.volume-slider[data-v-39610a88] {\n  width: 100%;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 6px;\n  background: #666;\n  outline: none;\n  opacity: 0.8;\n  transition: opacity 0.2s;\n  border-radius: 12px;\n}\n.volume-slider[data-v-39610a88]:hover {\n  opacity: 1;\n}\n.volume-slider[data-v-39610a88]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  background: #0db691;\n  cursor: pointer;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n}\n.volume-slider[data-v-39610a88]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  background: #0db691;\n  cursor: pointer;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n}\n.time[data-v-39610a88] {\n  color: #e0e0e0;\n  font-size: 0.9rem;\n  margin-left: 12px;\n  font-weight: 500;\n}\n.progress-bar[data-v-39610a88] {\n  width: 100%;\n  height: 8px;\n  background: #555;\n  border-radius: 12px;\n  margin-top: 12px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.progress[data-v-39610a88] {\n  height: 100%;\n  background: #0db691;\n  transition: width 0.3s ease;\n}\n/* Interactive play button */\n.play-toggle[data-v-39610a88] {\n  transition: transform 120ms ease, filter 160ms ease;\n  outline: none;\n}\n.play-toggle[data-v-39610a88]:hover {\n  transform: scale(1.06);\n  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));\n}\n.play-toggle[data-v-39610a88]:active {\n  transform: scale(0.98);\n}\n.play-toggle[data-v-39610a88]:focus-visible {\n  box-shadow: 0 0 0 0.2rem rgba(13, 182, 145, 0.35);\n  border-radius: 999px;\n}\n.play-toggle.playing i[data-v-39610a88] {\n  animation: playPulse-39610a88 1.8s ease-in-out infinite;\n  color: #0db691;\n}\n@keyframes playPulse-39610a88 {\n0% {\n    text-shadow: 0 0 0 rgba(13, 182, 145, 0.0);\n}\n50% {\n    text-shadow: 0 0 12px rgba(13, 182, 145, 0.6);\n}\n100% {\n    text-shadow: 0 0 0 rgba(13, 182, 145, 0.0);\n}\n}\n.event-box[data-v-39610a88] {\n  background: #ffffff;\n  border-radius: 12px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  padding: 20px;\n  margin: 0 auto;\n}\n.time-estimates[data-v-39610a88] {\n  font-size: 0.9rem;\n  color: #333;\n}\n.time-estimates span[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n}\n/* Extra Small Screens (<400px) */\n@media (max-width: 399px) {\n.controls[data-v-39610a88] {\n    flex-direction: column;\n    gap: 8px;\n    align-items: center;\n}\n.audio-controls[data-v-39610a88] {\n    display: grid;\n    grid-template-columns: repeat(4, minmax(56px, 1fr));\n    gap: 8px 6px;\n    justify-items: center;\n    width: 100%;\n}\n.audio-controls .control-icon[data-v-39610a88] {\n    font-size: 1.35rem;\n    padding: 6px;\n    width: 100%;\n}\n.audio-controls .close-icon[data-v-39610a88] {\n    margin-left: 0;\n    margin-right: 0;\n}\n.audio-controls .volume-bar-container[data-v-39610a88] {\n    grid-column: span 4;\n    margin: 0;\n    width: 100%;\n}\n.audio-controls .volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.audio-controls .time[data-v-39610a88] {\n    grid-column: span 2;\n    margin: 0;\n    text-align: center;\n    font-size: 0.8rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 8px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 8px;\n}\n.progress-bar[data-v-39610a88] {\n    height: 6px;\n    margin-top: 8px;\n}\n.event-box[data-v-39610a88] {\n    padding: 12px;\n}\n.time-estimates[data-v-39610a88] {\n    flex-direction: column;\n    gap: 8px;\n    font-size: 0.85rem;\n}\n}\n/* Small Screens (400px–575px) */\n@media (min-width: 400px) and (max-width: 575px) {\n.controls[data-v-39610a88] {\n    gap: 12px;\n    flex-wrap: wrap;\n}\n.audio-controls[data-v-39610a88] {\n    display: grid;\n    grid-template-columns: repeat(4, minmax(60px, 1fr));\n    gap: 12px 10px;\n    justify-items: center;\n    width: 100%;\n}\n.audio-controls .control-icon[data-v-39610a88] {\n    font-size: 1.35rem;\n    padding: 8px;\n    width: 100%;\n}\n.audio-controls .close-icon[data-v-39610a88] {\n    margin-left: 0;\n    margin-right: 0;\n}\n.audio-controls .volume-bar-container[data-v-39610a88] {\n    grid-column: span 4;\n    margin: 0;\n    width: 100%;\n}\n.audio-controls .volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.audio-controls .time[data-v-39610a88] {\n    grid-column: span 2;\n    margin: 0;\n    text-align: center;\n    font-size: 0.8rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 10px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 10px;\n}\n.progress-bar[data-v-39610a88] {\n    height: 6px;\n    margin-top: 10px;\n}\n.event-box[data-v-39610a88] {\n    padding: 16px;\n}\n.time-estimates[data-v-39610a88] {\n    font-size: 0.85rem;\n}\n}\n/* Medium Screens (576px–767px) */\n@media (min-width: 576px) and (max-width: 767px) {\n.controls[data-v-39610a88] {\n    gap: 14px;\n    flex-wrap: wrap;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 8px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 6px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 10px;\n    width: 90px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 10px;\n    font-size: 0.85rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 10px 14px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 10px 14px;\n}\n.progress-bar[data-v-39610a88] {\n    margin-top: 10px;\n}\n.event-box[data-v-39610a88] {\n    padding: 18px;\n}\n}\n/* Large Screens (≥768px) */\n@media (min-width: 768px) {\n.controls[data-v-39610a88] {\n    flex-direction: row;\n    flex-wrap: nowrap;\n    gap: 16px;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 8px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 8px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 12px;\n    width: 100px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 12px;\n    font-size: 0.9rem;\n}\n.progress-bar[data-v-39610a88] {\n    margin-top: 12px;\n}\n}\n@media (max-width: 767px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 100% !important;\n}\n}\n@media (min-width: 768px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 400px !important;\n}\n}\n.custom-offcanvas[data-v-39610a88] {\n  background-color: #10584f;\n  color: white;\n  min-width: 300px;\n}\n.fab[data-v-39610a88] {\n  transition: background-color 0.3s ease, transform 0.2s;\n}\n.fab[data-v-39610a88]:hover {}\n.action-button[data-v-39610a88] {\n  transition: all 0.3s ease;\n  cursor: pointer;\n  color: #333;\n}\n.action-button[data-v-39610a88]:hover {\n  color: #0db691;\n}\nmark[data-v-39610a88] {\n  background-color: #0db691;\n  color: white;\n  padding: 0 4px;\n  border-radius: 4px;\n}\n.timeline-wrapper[data-v-39610a88] {\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  /* Make scrollbar visible and usable */\n  scrollbar-width: thin;\n  /* Firefox */\n  scrollbar-color: #0db691 #e9ecef;\n  /* Firefox */\n  scroll-snap-type: x proximity;\n}\n/* WebKit scrollbar styling */\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar {\n  height: 8px;\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar-track {\n  background: #e9ecef;\n  border-radius: 8px;\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar-thumb {\n  background-color: #0db691;\n  border-radius: 8px;\n}\n.timeline[data-v-39610a88] {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: nowrap;\n  gap: 12px;\n  min-width: -moz-max-content;\n  min-width: max-content;\n}\n/* Remove the vertical white line rendered via a ::before pseudo-element */\n.timeline[data-v-39610a88]::before {\n  content: none !important;\n  display: none !important;\n}\n.timeline-point[data-v-39610a88] {\n  flex-shrink: 0;\n  scroll-snap-align: start;\n}\n.timeline-badge[data-v-39610a88] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  border: 1px solid #ced4da;\n  border-radius: 1rem;\n  padding: 0.8rem 1.3rem;\n  background-color: #f8f9fa;\n  color: #212529;\n  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  font-weight: 300;\n  white-space: nowrap;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.timeline-badge[data-v-39610a88]:hover {\n  background-color: #0f766e;\n  /* darker teal for contrast */\n  color: #ffffff;\n  cursor: pointer;\n}\n.timeline-badge.active[data-v-39610a88] {\n  background-color: #0f766e;\n  /* darker teal for contrast */\n  color: #ffffff;\n  border: 2px solid lightgrey;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);\n}\n.controls button[data-v-39610a88] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background-color 0.12s ease, color 0.12s ease;\n}\n.controls button[data-v-39610a88]:disabled {\n  cursor: not-allowed;\n}\n.fab[data-v-39610a88] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  background-color: #20c997;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n  transition: background-color 0.3s ease, transform 0.2s ease;\n  cursor: pointer;\n}\n.fab[data-v-39610a88]:hover {\n  background-color: #17a085;\n}\n.fade-enter-active[data-v-39610a88],\n.fade-leave-active[data-v-39610a88] {\n  transition: opacity 0.12s;\n}\n.fade-enter[data-v-39610a88],\n.fade-leave-to[data-v-39610a88] {\n  opacity: 0;\n}\n.summary-card[data-v-39610a88] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border: 1px solid #dee2e6;\n  border-radius: 12px;\n  padding: 1.5rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.ai-summary-inline[data-v-39610a88] {\n  margin-top: 1.5rem;\n  padding: 1rem;\n  border-radius: 0.75rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n  border: 2px solid rgb(103, 153, 103);\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n  font-size: 0.95rem;\n  line-height: 1.6;\n  color: #333;\n  margin-bottom: 0.75rem;\n}\n.ai-summary-inline .summary-footer[data-v-39610a88] {\n  padding-top: 0.5rem;\n  border-top: 1px solid #e9ecef;\n  font-size: 0.8rem;\n  color: #6c757d;\n}\n/* Mobile Responsive Styles */\n@media (max-width: 768px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.6rem 1rem;\n    font-size: 0.9rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.5rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.75rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 15px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.75rem;\n    margin-top: 1rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.9rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.5rem 1rem;\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.8rem 1.2rem;\n    /* increase size on small screens */\n    font-size: 1rem;\n    border-radius: 1.25rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.25rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 12px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.5rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.85rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.6rem 1.1rem;\n    /* larger next/prev on small screens */\n    font-size: 1rem;\n    border-radius: 0.6rem;\n}\n.time-estimates span[data-v-39610a88] {\n    font-size: 0.8rem;\n}\n}\n@media (max-width: 480px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.75rem 1rem;\n    /* increase size further on very small screens */\n    font-size: 0.95rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.1rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 10px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.4rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.8rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.55rem 1rem;\n    font-size: 0.95rem;\n}\n}\n/* Spacing between controls and audio player when visible */\n.mb-audio-gap[data-v-39610a88] {\n  margin-bottom: 24px;\n  /* ensure clear separation on all sizes */\n}\n/* Prevent overlap of fixed audio player with page content */\n.pb-audio-gap[data-v-39610a88] {\n  padding-bottom: 120px;\n  /* reserve space for fixed player height */\n}\n/* Quick actions spacing and divider */\n.quick-actions[data-v-39610a88] {\n  gap: 6px;\n  background-color: #f8f9fa;\n  border: 1px solid #e9ecef;\n  border-radius: 999px;\n  padding: 4px 8px;\n}\n@media (min-width: 576px) {\n.quick-actions[data-v-39610a88] {\n    margin-left: 1rem !important;\n    padding-left: 0.5rem;\n}\n}\n@media (max-width: 575.98px) {\n.quick-actions[data-v-39610a88] {\n    width: 100%;\n    justify-content: center;\n    gap: 8px;\n    margin-top: 0.25rem !important;\n}\n}\n.qa-sep[data-v-39610a88] {\n  width: 1px;\n  height: 20px;\n  background: #e9ecef;\n  margin: 0 4px;\n  display: inline-block;\n  border-radius: 1px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Next-step controls */\n.next-step-actions[data-v-39610a88] {\n  position: absolute;\n  right: 12px;\n  top: 12px;\n  display: inline-flex;\n  align-items: center;\n  gap: 10px;\n  z-index: 5;\n}\n.icon-btn[data-v-39610a88] {\n  background: transparent;\n  border: 0;\n  color: #6b8b91;\n  opacity: 0.95;\n  cursor: pointer;\n  padding: 6px;\n  line-height: 1;\n}\n.icon-btn i[data-v-39610a88] { font-size: 1rem;\n}\n.icon-btn[data-v-39610a88]:hover { opacity: 1;\n}\n.icon-btn[data-v-39610a88]:focus {\n  outline: none;\n  box-shadow: 0 0 0 3px rgba(11,128,111,0.25);\n  border-radius: 6px;\n}\n/* Subtle button variant */\n.subtle-btn[data-v-39610a88] { border-radius: 12px;\n}\n.subtle-btn[data-v-39610a88]:hover { filter: brightness(1.03);\n}\n.subtle-btn[data-v-39610a88]:focus-visible { box-shadow: 0 0 0 3px rgba(108,117,125,0.35);\n}\n/* Removed animate.css to reduce animation overhead */\n.play-btn-circle[data-v-39610a88] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 46px;\n  height: 46px;\n  border-radius: 50%;\n  background: linear-gradient(180deg, #ffffff, #f3f6f7);\n  border: 1px solid rgba(11,128,111,0.25);\n  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 4px 10px rgba(0,0,0,0.08);\n  transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.05s ease, border-color 0.2s ease;\n  position: relative;\n}\n.play-btn-circle[data-v-39610a88]:hover {\n  background: linear-gradient(180deg, #ffffff, #eef3f4);\n  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 6px 14px rgba(0, 0, 0, 0.12);\n}\n.play-btn-circle[data-v-39610a88]:active {\n  transform: scale(0.98);\n}\n.play-btn-circle.playing[data-v-39610a88] {\n  border-color: rgba(13,182,145,0.5);\n  background: linear-gradient(180deg, #f6fffd, #ecfbf6);\n}\n@media (min-width: 768px) {\n.play-btn-circle[data-v-39610a88] {\n    width: 52px;\n    height: 52px;\n}\n}\n/* Icon sizing and feedback */\n.play-icon[data-v-39610a88] {\n  font-size: clamp(1.9rem, 2.6vw, 2.8rem);\n  color: #0f766e;\n  filter: drop-shadow(0 1px 0 rgba(255,255,255,0.6));\n  transition: color 0.18s ease, transform 0.12s ease, text-shadow 0.3s ease;\n}\n.play-toggle:hover .play-icon[data-v-39610a88] { color: #0db691;\n}\n.play-toggle.playing .play-icon[data-v-39610a88] {\n  animation: playPulse-39610a88 1.8s ease-in-out infinite;\n  color: #0db691;\n}\n/* Pulsing ring when playing */\n.play-btn-circle.playing[data-v-39610a88]::after {\n  content: '';\n  position: absolute;\n  inset: -6px;\n  border-radius: 999px;\n  border: 2px solid rgba(13,182,145,0.35);\n  animation: ringPulse-39610a88 1.8s ease-out infinite;\n}\n@keyframes ringPulse-39610a88 {\n0% { transform: scale(0.9); opacity: 0.6;\n}\n60% { transform: scale(1.1); opacity: 0.12;\n}\n100% { transform: scale(1.2); opacity: 0;\n}\n}\n.audio-player-container[data-v-39610a88] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.98);\n  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);\n  border-radius: 12px 12px 0 0;\n  transition: transform 0.3s ease-in-out;\n}\n/* Reduce motion for users and improve tab switch performance */\n@media (prefers-reduced-motion: reduce) {\n[data-v-39610a88] {\n    animation: none !important;\n    transition: none !important;\n    scroll-behavior: auto !important;\n}\n}\n/* Defer heavy layout/paint when off-screen or hidden */\n.event-details[data-v-39610a88] {\n  content-visibility: auto;\n  contain-intrinsic-size: 800px 600px;\n}\n.custom-audio-player[data-v-39610a88] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 12px 16px;\n  width: 100%;\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.controls[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  width: 100%;\n  justify-content: center;\n}\n.control-icon[data-v-39610a88] {\n  color: #ffffff;\n  font-size: 1.5rem;\n  cursor: pointer;\n  transition: color 0.2s, transform 0.2s ease-in-out;\n  padding: 8px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 44px;\n  min-height: 44px;\n}\n.control-icon[data-v-39610a88]:hover,\n.control-icon[data-v-39610a88]:active,\n.control-icon[data-v-39610a88]:focus {\n  color: #0db691;\n  transform: scale(1.1);\n  outline: none;\n}\n.close-icon[data-v-39610a88] {\n  margin-left: auto;\n  margin-right: 8px;\n}\n.volume-bar-container[data-v-39610a88] {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  margin-left: 12px;\n  width: 100px;\n}\n.volume-slider[data-v-39610a88] {\n  width: 100%;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 6px;\n  background: #666;\n  outline: none;\n  opacity: 0.8;\n  transition: opacity 0.2s;\n  border-radius: 12px;\n}\n.volume-slider[data-v-39610a88]:hover {\n  opacity: 1;\n}\n.volume-slider[data-v-39610a88]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  background: #0db691;\n  cursor: pointer;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n}\n.volume-slider[data-v-39610a88]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  background: #0db691;\n  cursor: pointer;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n}\n.time[data-v-39610a88] {\n  color: #e0e0e0;\n  font-size: 0.9rem;\n  margin-left: 12px;\n  font-weight: 500;\n}\n.progress-bar[data-v-39610a88] {\n  width: 100%;\n  height: 8px;\n  background: #555;\n  border-radius: 12px;\n  margin-top: 12px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.progress[data-v-39610a88] {\n  height: 100%;\n  background: #0db691;\n  transition: width 0.3s ease;\n}\n/* Interactive play button */\n.play-toggle[data-v-39610a88] {\n  transition: transform 120ms ease, filter 160ms ease;\n  outline: none;\n}\n.play-toggle[data-v-39610a88]:hover {\n  transform: scale(1.06);\n  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));\n}\n.play-toggle[data-v-39610a88]:active {\n  transform: scale(0.98);\n}\n.play-toggle[data-v-39610a88]:focus-visible {\n  box-shadow: 0 0 0 0.2rem rgba(13, 182, 145, 0.35);\n  border-radius: 999px;\n}\n.play-toggle.playing i[data-v-39610a88] {\n  animation: playPulse-39610a88 1.8s ease-in-out infinite;\n  color: #0db691;\n}\n@keyframes playPulse-39610a88 {\n0% {\n    text-shadow: 0 0 0 rgba(13, 182, 145, 0.0);\n}\n50% {\n    text-shadow: 0 0 12px rgba(13, 182, 145, 0.6);\n}\n100% {\n    text-shadow: 0 0 0 rgba(13, 182, 145, 0.0);\n}\n}\n.event-box[data-v-39610a88] {\n  background: #ffffff;\n  border-radius: 20px; /* consistent rounded aesthetic */\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  padding: 20px;\n  margin: 0 auto;\n}\n.time-estimates[data-v-39610a88] {\n  font-size: 0.9rem;\n  color: #333;\n}\n.time-estimates span[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n}\n/* Extra Small Screens (<400px) */\n@media (max-width: 399px) {\n.controls[data-v-39610a88] {\n    flex-direction: column;\n    gap: 8px;\n    align-items: center;\n}\n.audio-controls[data-v-39610a88] {\n    display: grid;\n    grid-template-columns: repeat(4, minmax(56px, 1fr));\n    gap: 8px 6px;\n    justify-items: center;\n    width: 100%;\n}\n.audio-controls .control-icon[data-v-39610a88] {\n    font-size: 1.35rem;\n    padding: 6px;\n    width: 100%;\n}\n.audio-controls .close-icon[data-v-39610a88] {\n    margin-left: 0;\n    margin-right: 0;\n}\n.audio-controls .volume-bar-container[data-v-39610a88] {\n    grid-column: span 4;\n    margin: 0;\n    width: 100%;\n}\n.audio-controls .volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.audio-controls .time[data-v-39610a88] {\n    grid-column: span 2;\n    margin: 0;\n    text-align: center;\n    font-size: 0.8rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 8px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 8px;\n}\n.progress-bar[data-v-39610a88] {\n    height: 6px;\n    margin-top: 8px;\n}\n.event-box[data-v-39610a88] {\n    padding: 12px;\n}\n.time-estimates[data-v-39610a88] {\n    flex-direction: column;\n    gap: 8px;\n    font-size: 0.85rem;\n}\n}\n/* Small Screens (400px–575px) */\n@media (min-width: 400px) and (max-width: 575px) {\n.controls[data-v-39610a88] {\n    gap: 12px;\n    flex-wrap: wrap;\n}\n.audio-controls[data-v-39610a88] {\n    display: grid;\n    grid-template-columns: repeat(4, minmax(60px, 1fr));\n    gap: 12px 10px;\n    justify-items: center;\n    width: 100%;\n}\n.audio-controls .control-icon[data-v-39610a88] {\n    font-size: 1.35rem;\n    padding: 8px;\n    width: 100%;\n}\n.audio-controls .close-icon[data-v-39610a88] {\n    margin-left: 0;\n    margin-right: 0;\n}\n.audio-controls .volume-bar-container[data-v-39610a88] {\n    grid-column: span 4;\n    margin: 0;\n    width: 100%;\n}\n.audio-controls .volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.audio-controls .time[data-v-39610a88] {\n    grid-column: span 2;\n    margin: 0;\n    text-align: center;\n    font-size: 0.8rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 10px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 10px;\n}\n.progress-bar[data-v-39610a88] {\n    height: 6px;\n    margin-top: 10px;\n}\n.event-box[data-v-39610a88] {\n    padding: 16px;\n}\n.time-estimates[data-v-39610a88] {\n    font-size: 0.85rem;\n}\n}\n/* Medium Screens (576px–767px) */\n@media (min-width: 576px) and (max-width: 767px) {\n.controls[data-v-39610a88] {\n    gap: 14px;\n    flex-wrap: wrap;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 8px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 6px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 10px;\n    width: 90px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 10px;\n    font-size: 0.85rem;\n}\n.audio-player-container[data-v-39610a88] {\n    padding: 10px 14px;\n}\n.custom-audio-player[data-v-39610a88] {\n    padding: 10px 14px;\n}\n.progress-bar[data-v-39610a88] {\n    margin-top: 10px;\n}\n.event-box[data-v-39610a88] {\n    padding: 18px;\n}\n}\n/* Large Screens (≥768px) */\n@media (min-width: 768px) {\n.controls[data-v-39610a88] {\n    flex-direction: row;\n    flex-wrap: nowrap;\n    gap: 16px;\n}\n.control-icon[data-v-39610a88] {\n    font-size: 1.3rem;\n    padding: 8px;\n}\n.close-icon[data-v-39610a88] {\n    margin-left: auto;\n    margin-right: 8px;\n}\n.volume-bar-container[data-v-39610a88] {\n    margin-left: 12px;\n    width: 100px;\n}\n.volume-slider[data-v-39610a88] {\n    width: 100%;\n}\n.time[data-v-39610a88] {\n    margin-left: 12px;\n    font-size: 0.9rem;\n}\n.progress-bar[data-v-39610a88] {\n    margin-top: 12px;\n}\n}\n@media (max-width: 767px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 100% !important;\n}\n}\n@media (min-width: 768px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 400px !important;\n}\n}\n.custom-offcanvas[data-v-39610a88] {\n  background-color: #10584f;\n  color: white;\n  min-width: 300px;\n}\n.fab[data-v-39610a88] {\n  transition: background-color 0.3s ease, transform 0.2s;\n}\n.fab[data-v-39610a88]:hover {}\n.action-button[data-v-39610a88] {\n  transition: all 0.3s ease;\n  cursor: pointer;\n  color: #333;\n}\n.action-button[data-v-39610a88]:hover {\n  color: #0db691;\n}\nmark[data-v-39610a88] {\n  background-color: #0db691;\n  color: white;\n  padding: 0 4px;\n  border-radius: 4px;\n}\n.timeline-wrapper[data-v-39610a88] {\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  /* Make scrollbar visible and usable */\n  scrollbar-width: thin;\n  /* Firefox */\n  scrollbar-color: #0db691 #e9ecef;\n  /* Firefox */\n  scroll-snap-type: x proximity;\n}\n/* WebKit scrollbar styling */\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar {\n  height: 8px;\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar-track {\n  background: #e9ecef;\n  border-radius: 8px;\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar-thumb {\n  background-color: #0db691;\n  border-radius: 8px;\n}\n.timeline[data-v-39610a88] {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-wrap: nowrap;\n  gap: 12px;\n  min-width: -moz-max-content;\n  min-width: max-content;\n}\n/* Remove the vertical white line rendered via a ::before pseudo-element */\n.timeline[data-v-39610a88]::before {\n  content: none !important;\n  display: none !important;\n}\n.timeline-point[data-v-39610a88] {\n  flex-shrink: 0;\n  scroll-snap-align: start;\n}\n.timeline-badge[data-v-39610a88] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  border: 1px solid #ced4da;\n  border-radius: 1rem;\n  padding: 0.8rem 1.3rem;\n  background-color: #f8f9fa;\n  color: #212529;\n  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);\n  font-weight: 300;\n  white-space: nowrap;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.timeline-badge[data-v-39610a88]:hover {\n  background-color: #0f766e;\n  /* darker teal for contrast */\n  color: #ffffff;\n  cursor: pointer;\n}\n.timeline-badge.active[data-v-39610a88] {\n  background-color: #0f766e;\n  /* darker teal for contrast */\n  color: #ffffff;\n  border: 2px solid lightgrey;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);\n}\n.controls button[data-v-39610a88] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background-color 0.12s ease, color 0.12s ease;\n}\n.controls button[data-v-39610a88]:disabled {\n  cursor: not-allowed;\n}\n.fab[data-v-39610a88] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  background-color: #20c997;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n  transition: background-color 0.3s ease, transform 0.2s ease;\n  cursor: pointer;\n}\n.fab[data-v-39610a88]:hover {\n  background-color: #17a085;\n}\n.fade-enter-active[data-v-39610a88],\n.fade-leave-active[data-v-39610a88] {\n  transition: opacity 0.12s;\n}\n.fade-enter[data-v-39610a88],\n.fade-leave-to[data-v-39610a88] {\n  opacity: 0;\n}\n.summary-card[data-v-39610a88] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border: 1px solid #dee2e6;\n  border-radius: 12px;\n  padding: 1.5rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.ai-summary-inline[data-v-39610a88] {\n  margin-top: 1.5rem;\n  padding: 1rem;\n  border-radius: 0.75rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n  border: 2px solid rgb(103, 153, 103);\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n  font-size: 0.95rem;\n  line-height: 1.6;\n  color: #333;\n  margin-bottom: 0.75rem;\n}\n.ai-summary-inline .summary-footer[data-v-39610a88] {\n  padding-top: 0.5rem;\n  border-top: 1px solid #e9ecef;\n  font-size: 0.8rem;\n  color: #6c757d;\n}\n/* Mobile Responsive Styles */\n@media (max-width: 768px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.6rem 1rem;\n    font-size: 0.9rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.5rem;\n}\n.display-5[data-v-39610a88] {\n    font-size: 1.75rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 15px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.75rem;\n    margin-top: 1rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.9rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.5rem 1rem;\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.8rem 1.2rem;\n    /* increase size on small screens */\n    font-size: 1rem;\n    border-radius: 1.25rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.25rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 12px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.5rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.85rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.6rem 1.1rem;\n    /* larger next/prev on small screens */\n    font-size: 1rem;\n    border-radius: 0.6rem;\n}\n.time-estimates span[data-v-39610a88] {\n    font-size: 0.8rem;\n}\n}\n@media (max-width: 480px) {\n.timeline-badge[data-v-39610a88] {\n    padding: 0.75rem 1rem;\n    /* increase size further on very small screens */\n    font-size: 0.95rem;\n}\n.display-6[data-v-39610a88] {\n    font-size: 1.1rem;\n}\n.event-box[data-v-39610a88] {\n    padding: 10px;\n}\n.ai-summary-inline[data-v-39610a88] {\n    padding: 0.4rem;\n}\n.ai-summary-inline .summary-text[data-v-39610a88] {\n    font-size: 0.8rem;\n}\n.controls button[data-v-39610a88] {\n    padding: 0.55rem 1rem;\n    font-size: 0.95rem;\n}\n}\n/* Spacing between controls and audio player when visible */\n.mb-audio-gap[data-v-39610a88] {\n  margin-bottom: 24px;\n  /* ensure clear separation on all sizes */\n}\n/* Prevent overlap of fixed audio player with page content */\n.pb-audio-gap[data-v-39610a88] {\n  padding-bottom: 120px;\n  /* reserve space for fixed player height */\n}\n/* Next Step card (minimal inline styles, 20px rounded) */\n.next-step-card[data-v-39610a88] {\n  position: relative;\n  background: #eaf3f1;\n  border: 1px solid rgba(11, 128, 111, 0.20);\n  border-radius: 20px;\n  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);\n  padding: 1.25rem 1.75rem;\n}\n.next-step-icon[data-v-39610a88] {\n  width: 46px; height: 46px;\n  border-radius: 50%;\n  background: rgba(11, 128, 111, 0.20);\n  display: flex; align-items: center; justify-content: center;\n  color: #0b806f; font-size: 1.35rem;\n  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.26), 0 6px 14px rgba(26,95,122,0.10);\n}\n.next-step-eyebrow[data-v-39610a88] { letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;\n}\n.next-step-text[data-v-39610a88] { color: #1f2933; line-height: 1.8; font-size: 1.1rem;\n}\n.next-step-link[data-v-39610a88] { color:#0b806f;\n}\n.next-step-link[data-v-39610a88]:hover { text-decoration: underline;\n}\n.text-brand[data-v-39610a88] { color:#0b806f;\n}\n.next-step-cta[data-v-39610a88] {\n  background: linear-gradient(135deg, #0b806f, #1a5f7a);\n  border: none; border-radius: 999px;\n  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);\n  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;\n}\n.next-step-cta[data-v-39610a88]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 14px 28px rgba(26, 95, 122, 0.28);\n}\n.next-step-cta[data-v-39610a88]:focus-visible {\n  outline: none;\n  box-shadow: 0 0 0 3px rgba(26,95,122,0.35);\n}\n/* Evenly spaced action row */\n.action-row[data-v-39610a88] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  border: 1px solid #e9ecef;\n  border-radius: 20px;\n  padding: 6px 8px;\n}\n.action-group[data-v-39610a88] { display: flex; align-items: center; gap: 6px;\n}\n.row-sep[data-v-39610a88] { width: 1px; height: 20px; background: #e9ecef; border-radius: 1px; margin: 0 4px; display: inline-block;\n}\n.action-item[data-v-39610a88] {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  padding: 6px 10px;\n  border-radius: 14px;\n  border: 1px solid #dee2e6;\n  background: #ffffff;\n  color: #212529;\n  font-size: 0.9rem;\n  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.08s ease, color 0.18s ease, border-color 0.18s ease;\n}\n.action-item .label[data-v-39610a88] { margin-left: 2px;\n}\n.action-item[data-v-39610a88]:hover {\n  background-color: #f8f9fa;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.06);\n}\n.action-item[data-v-39610a88]:active { transform: scale(0.98);\n}\n.action-item[data-v-39610a88]:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(13,110,253,0.25);\n}\n.action-item i[data-v-39610a88] { font-size: 1rem;\n}\n.action-item.action-success[data-v-39610a88] { color: #0f5132; border-color: #badbcc; background-color: #d1e7dd;\n}\n.action-item.action-primary[data-v-39610a88] { color: #084298; border-color: #b6d4fe; background-color: #cfe2ff;\n}\n.action-item.action-danger[data-v-39610a88] { color: #842029; border-color: #f5c2c7; background-color: #f8d7da;\n}\n/* Navigation buttons (consistent brand color + focus) */\n.nav-btn[data-v-39610a88] {\n  background: #0f766e;\n  color: #ffffff;\n  border: none;\n  border-radius: 12px;\n  transition: transform 0.12s ease, box-shadow 0.18s ease, filter 0.18s ease;\n}\n.nav-btn[data-v-39610a88]:hover { filter: brightness(1.05); box-shadow: 0 4px 10px rgba(15,118,110,0.25);\n}\n.nav-btn[data-v-39610a88]:active { transform: translateY(1px);\n}\n.nav-btn[data-v-39610a88]:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(15,118,110,0.35);\n}\n/* Subtle keyframe animations */\n@keyframes riseIn-39610a88 {\nfrom { opacity: 0; transform: translateY(6px);\n}\nto { opacity: 1; transform: translateY(0);\n}\n}\n.animate-rise[data-v-39610a88] { animation: riseIn-39610a88 300ms ease-out both;\n}\n/* content surfaces and chips now provided globally via resources/css/app.css */\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

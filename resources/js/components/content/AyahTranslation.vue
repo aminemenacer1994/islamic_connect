@@ -141,6 +141,7 @@ export default {
 </script>
 
 <style scoped>
+.lh-16 { line-height: 1.6em; }
 .full-screen {
   position: fixed;
   top: 0;

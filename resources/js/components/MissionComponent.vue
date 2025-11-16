@@ -11,15 +11,8 @@
     </div>
 
     <!-- Next Step: From Qur'an History to Seerah Timeline -->
-    <div style="padding: 10px;" class="container">
-      <div class="mx-auto mb-4" style="
-          position: relative;
-          background: #eaf3f1;
-          border: 1px solid rgba(11, 128, 111, 0.20);
-          border-radius: 24px;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
-          padding: 1.25rem 1.75rem;
-        ">
+    <div class="container px-2">
+      <div class="mx-auto mb-4 next-step-card animate-rise">
         <div class="next-step-actions" role="group" aria-label="Next step actions">
           <button
             type="button"
@@ -32,46 +25,29 @@
         </div>
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
-            <div style="
-                width: 46px; height: 46px;
-                border-radius: 50%;
-                background: rgba(11, 128, 111, 0.20);
-                display: flex; align-items: center; justify-content: center;
-                color: #0b806f; font-size: 1.35rem;
-                box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.26), 0 6px 14px rgba(26,95,122,0.10);
-              ">
-              <i class="fas fa-praying-hands"></i>
-            </div>
+            <div class="next-step-icon"><i class="fas fa-praying-hands"></i></div>
           </div>
-          <div style="flex:1;">
-            <p class="mb-2 fw-semibold text-uppercase" style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+          <div class="flex-grow-1">
+            <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
               NEXT STEP
             </p>
             <!-- Minimized teaser -->
-            <div v-show="nextStepMinimized" class="mb-2" style="color: #1f2933;">
-              <a href="/dua" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+            <div v-show="nextStepMinimized" class="mb-2 next-step-teaser">
+              <a href="/dua" class="fw-semibold text-decoration-none next-step-link">
                 Explore Du‘a collection
               </a>
-              <i class="fas fa-arrow-up-right-from-square ms-1" style="color:#0b806f;"></i>
+              <i class="fas fa-arrow-up-right-from-square ms-1 text-brand"></i>
             </div>
-            <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.8; font-size: 1.1rem;">
+            <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
               Learning the Prophet’s blessed journey is a beautiful beginning. When you feel ready, take a gentle step into
               heartfelt supplications, explore a simple, welcoming the
-              <a href="/dua" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+              <a href="/dua" class="fw-semibold text-decoration-none next-step-link">
                 Du‘a collection
               </a>
               for daily moments of connection.
             </p>
             <a v-show="!nextStepMinimized" href="/dua"
-               class="btn btn-sm fw-semibold text-white px-3 py-2"
-               style="
-                  background: linear-gradient(135deg, #0b806f, #1a5f7a);
-                  border: none; border-radius: 999px;
-                  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
-                  transition: transform 0.2s ease, box-shadow 0.2s ease;
-               "
-               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
-               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
+               class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
               Explore Du‘a
               <i class="fas fa-arrow-up-right-from-square ms-2"></i>
             </a>
@@ -106,120 +82,104 @@
 
         <!-- Combined Controls and Info Row -->
         <div class="d-flex justify-content-center align-items-center gap-2 gap-sm-4 mb-3 mb-md-4 flex-wrap">
-          <!-- Actions Toolbar -->
-          <div
-            class="d-flex align-items-center gap-2 gap-sm-3 ms-sm-3 mt-2 mt-sm-0 quick-actions shadow-sm px-2 py-2 rounded-3 bg-white"
-            role="toolbar" aria-label="Event actions toolbar">
+          <!-- Actions Toolbar (evenly spaced row) -->
+          <div class="action-row shadow-sm bg-white" role="toolbar" aria-label="Event actions toolbar">
             <!-- AI Summary -->
-            <div class="btn-group" role="group" aria-label="AI tools">
-              <button class="btn btn-sm btn-outline-dark" @click="summarizeEvent" :disabled="summaryLoading"
+            <div class="action-group" role="group" aria-label="AI tools">
+              <button class="action-item" @click="summarizeEvent" :disabled="summaryLoading"
                 :aria-busy="summaryLoading ? 'true' : 'false'" title="AI Summary" aria-label="AI Summary">
                 <i class="bi" :class="summaryLoading ? 'bi-hourglass-split' : 'bi-robot'"></i>
-                <span class="ms-1 ms-sm-2 d-none d-sm-inline">{{ summaryLoading ? 'Generating...' : 'AI Summary'
+                <span class="label d-none d-sm-inline">{{ summaryLoading ? 'Generating...' : 'AI Summary'
                   }}</span>
               </button>
             </div>
 
-            <div class="vr d-none d-sm-inline mx-1" aria-hidden="true"></div>
+            <div class="row-sep d-none d-sm-inline" aria-hidden="true"></div>
 
             <!-- Font size controls -->
-            <div class="btn-group" role="group" aria-label="Font size">
-              <button class="btn btn-sm btn-outline-dark" @click="decFont" title="Decrease font size"
+            <div class="action-group" role="group" aria-label="Font size">
+              <button class="action-item" @click="decFont" title="Decrease font size"
                 aria-label="Decrease font size">
                 <span class="fw-semibold">A−</span>
-                <span class="d-none d-md-inline ms-1">Smaller</span>
+                <span class="label d-none d-md-inline ms-1">Smaller</span>
               </button>
-              <button class="btn btn-sm btn-outline-dark" @click="incFont" title="Increase font size"
+              <button class="action-item" @click="incFont" title="Increase font size"
                 aria-label="Increase font size">
                 <span class="fw-semibold">A+</span>
-                <span class="d-none d-md-inline ms-1">Larger</span>
+                <span class="label d-none d-md-inline ms-1">Larger</span>
               </button>
             </div>
 
-            <div class="vr d-none d-sm-inline mx-1" aria-hidden="true"></div>
+            <div class="row-sep d-none d-sm-inline" aria-hidden="true"></div>
 
             <!-- Share and copy -->
-            <div class="btn-group" role="group" aria-label="Share and copy">
-              <button class="btn btn-sm btn-outline-success" @click="shareOnWhatsApp" title="Share on WhatsApp"
+            <div class="action-group" role="group" aria-label="Share and copy">
+              <button class="action-item action-success" @click="shareOnWhatsApp" title="Share on WhatsApp"
                 aria-label="Share on WhatsApp">
                 <i class="bi bi-whatsapp"></i>
-                <span class="d-none d-md-inline ms-1">WhatsApp</span>
+                <span class="label d-none d-md-inline ms-1">WhatsApp</span>
               </button>
-              <button class="btn btn-sm btn-outline-secondary" @click="copyToClipboard" title="Copy text"
+              <button class="action-item" @click="copyToClipboard" title="Copy text"
                 aria-label="Copy text">
                 <i class="bi bi-clipboard"></i>
-                <span class="d-none d-md-inline ms-1">Copy</span>
+                <span class="label d-none d-md-inline ms-1">Copy</span>
               </button>
-              <button class="btn btn-sm btn-outline-primary" @click="printEvent" title="Print" aria-label="Print">
+              <button class="action-item action-primary" @click="printEvent" title="Print" aria-label="Print">
                 <i class="bi bi-printer"></i>
-                <span class="d-none d-md-inline ms-1">Print</span>
+                <span class="label d-none d-md-inline ms-1">Print</span>
               </button>
-              <button class="btn btn-sm btn-outline-danger" @click="downloadPdf" title="Download PDF"
+              <button class="action-item action-danger" @click="downloadPdf" title="Download PDF"
                 aria-label="Download PDF">
                 <i class="bi bi-file-earmark-pdf"></i>
-                <span class="d-none d-md-inline ms-1">PDF</span>
+                <span class="label d-none d-md-inline ms-1">PDF</span>
               </button>
             </div>
 
-            <div class="vr d-none d-sm-inline mx-1" aria-hidden="true"></div>
+            <div class="row-sep d-none d-sm-inline" aria-hidden="true"></div>
 
             <!-- Export -->
-            <div class="btn-group" role="group" aria-label="Export">
+            <div class="action-group" role="group" aria-label="Export">
               
               <!-- Play Button aligned to the end -->
-              <button class="btn mr-2 p-0 play-toggle play-btn-circle" :class="{ playing: isAudioPlaying[currentIndex] }"
+              <button class="play-toggle play-btn-circle" :class="{ playing: isAudioPlaying[currentIndex] }"
                 :aria-label="isAudioPlaying[currentIndex] ? 'Pause audio' : 'Play audio'"
                 :aria-pressed="isAudioPlaying[currentIndex] ? 'true' : 'false'" @click="toggleAudioPlayer(currentIndex)"
                 @keydown.enter.prevent="toggleAudioPlayer(currentIndex)"
                 @keydown.space.prevent="toggleAudioPlayer(currentIndex)"
                 :title="isAudioPlaying[currentIndex] ? 'Pause' : 'Play'">
-                <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
-                  style="font-size: clamp(1.8rem, 2.5vw, 2.6rem);"></i>
+                <i class="bi play-icon" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"></i>
               </button>
             </div>
           </div>
         </div>
 
         <!-- AI Summary and Play Button Row -->
-        <div class="d-flex align-items-center flex-wrap gap-3 mb-3 mb-md-4">
+        <div class="container d-flex align-items-center flex-wrap gap-3 mb-3 mb-md-4">
           <!-- Time Estimates -->
-          <div class="d-flex align-items-center flex-wrap text-center gap-3 gap-sm-4" role="group"
+          <div class="d-flex container align-items-center flex-wrap text-center gap-2 gap-sm-3" role="group"
             aria-label="Time estimates">
-            <span class="medium d-flex align-items-center">
-              <i class="bi bi-book me-1"></i>
-              <strong class="me-1">Read:</strong> {{ readTime }}m
-            </span>
-            <span class="medium d-flex align-items-center">
-              <i class="bi bi-headphones me-1"></i>
-              <strong class="me-1">Listen:</strong> {{ listenTime }}m
-            </span>
-            <span class="medium d-flex align-items-center">
-              <i class="bi bi-file-earmark-word me-1"></i>
-              <strong class="me-1">Words:</strong> {{ wordCount }}
-            </span>
-            
+            <span class="stat-chip"><i class="bi bi-book me-1"></i><strong class="me-1">Read:</strong> {{ readTime }}m</span>
+            <span class="stat-chip"><i class="bi bi-headphones me-1"></i><strong class="me-1">Listen:</strong> {{ listenTime }}m</span>
+            <span class="stat-chip"><i class="bi bi-file-earmark-word me-1"></i><strong class="me-1">Words:</strong> {{ wordCount }}</span>
           </div>
-
-
         </div>
 
-        <!-- AI Summary Section (Inline) -->
+        <!-- AI Summary Section (Premium) -->
         <transition name="fade-slide">
           <div v-if="summaryText && isVisible && showSummaryBox"
-            class="ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded" ref="summarySection"
-            style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 1px solid rgb(168 85 247);">
+            class="ai-summary-inline premium-surface mt-3 mt-md-4 p-2 p-md-3 rounded-20 animate-rise" ref="summarySection">
             <div class="d-flex align-items-center justify-content-between mb-2">
               <h6 class="mb-0 text-dark small">
                 <i class="bi bi-robot me-1 me-sm-2"></i>
                 AI Summary
               </h6>
               <div class="d-flex align-items-center gap-2">
-                <button class="btn btn-sm btn-outline-secondary" @click="toggleSummary"
+                <button class="btn btn-sm btn-outline-secondary subtle-btn" @click="toggleSummary"
                   :title="showSummary ? 'Hide Summary' : 'Show Summary'" :aria-expanded="showSummary ? 'true' : 'false'"
                   aria-controls="ai-summary-panel">
                   <i class="bi" :class="showSummary ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-secondary" @click="closeSummaryBox" title="Close summary"
+                <button class="btn btn-sm btn-outline-secondary subtle-btn" @click="closeSummaryBox" title="Close summary"
                   aria-label="Close summary">
                   <i class="bi bi-x"></i>
                 </button>
@@ -243,18 +203,10 @@
           {{ summaryError }}
         </div>
 
-        <!-- Styled Text desc -->
-        <h5 class="fw-medium rounded" :style="{
-          lineHeight: '1.7em',
-          backgroundColor: fontSettings.backgroundColor,
-          color: fontSettings.color,
-          fontStyle: fontSettings.fontStyle,
-          textShadow: fontSettings.textShadow,
-          textDecoration: fontSettings.textDecoration,
-          fontFamily: fontSettings.fontFamily,
-          padding: '0.75rem',
-          fontSize: Math.max(14, fontSize) + 'px'
-        }" v-html="highlightedDescription"></h5>
+        <!-- Premium Content Card -->
+        <div class="content-card rounded-20 animate-rise" :style="contentVars">
+          <article class="content-body" v-html="highlightedDescription"></article>
+        </div>
         <div v-if="events[currentIndex].references" class="mt-2 small text-muted">
           <strong>References:</strong>
           <span>{{ events[currentIndex].references }}</span>
@@ -345,10 +297,10 @@
         </div> -->
 
         <div class="controls text-center mt-3 mt-md-4" :class="{ 'mb-audio-gap': showAudioPlayer }">
-          <button @click="prev" :disabled="currentIndex === 0" class="btn me-2 btn-sm"
-            style="background: #0f766e; color: #ffffff;" aria-label="Previous event">Previous</button>
-          <button @click="next" :disabled="currentIndex === events.length - 1" class="btn btn-sm"
-            style="background: #0f766e; color: #ffffff;" aria-label="Next event">Next</button>
+          <button @click="prev" :disabled="currentIndex === 0" class="btn nav-btn me-2 btn-sm"
+            aria-label="Previous event">Previous</button>
+          <button @click="next" :disabled="currentIndex === events.length - 1" class="btn nav-btn btn-sm"
+            aria-label="Next event">Next</button>
         </div>
       </div>
     </transition>
@@ -467,6 +419,19 @@ export default {
       return {
         backgroundColor: '#10584f',
         width: window.innerWidth < 576 ? '100%' : '400px',
+      };
+    },
+    contentVars() {
+      // Map user font settings to CSS variables for the content card
+      const size = Math.max(14, this.fontSize) + 'px';
+      return {
+        '--content-bg': this.fontSettings.backgroundColor || '#ffffff',
+        '--content-fg': this.fontSettings.color || '#0f172a',
+        '--content-font-style': this.fontSettings.fontStyle || 'normal',
+        '--content-text-shadow': this.fontSettings.textShadow || 'none',
+        '--content-text-decoration': this.fontSettings.textDecoration || 'none',
+        '--content-font-family': this.fontSettings.fontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif",
+        '--content-font-size': size,
       };
     },
     // heavy computeds removed; we now update cached values in updateCurrentMetrics
@@ -1487,23 +1452,29 @@ export default {
   box-shadow: 0 0 0 3px rgba(11,128,111,0.25);
   border-radius: 6px;
 }
+/* Subtle button variant */
+.subtle-btn { border-radius: 12px; }
+.subtle-btn:hover { filter: brightness(1.03); }
+.subtle-btn:focus-visible { box-shadow: 0 0 0 3px rgba(108,117,125,0.35); }
 /* Removed animate.css to reduce animation overhead */
 
 .play-btn-circle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  background-color: #2125290d;
-  /* subtle dark tint */
-  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+  background: linear-gradient(180deg, #ffffff, #f3f6f7);
+  border: 1px solid rgba(11,128,111,0.25);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 4px 10px rgba(0,0,0,0.08);
+  transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.05s ease, border-color 0.2s ease;
+  position: relative;
 }
 
 .play-btn-circle:hover {
-  background-color: #2125291f;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(180deg, #ffffff, #eef3f4);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
 .play-btn-circle:active {
@@ -1511,15 +1482,44 @@ export default {
 }
 
 .play-btn-circle.playing {
-  background-color: #0f766e1f;
-  /* match brand teal hint when playing */
+  border-color: rgba(13,182,145,0.5);
+  background: linear-gradient(180deg, #f6fffd, #ecfbf6);
 }
 
 @media (min-width: 768px) {
   .play-btn-circle {
-    width: 46px;
-    height: 46px;
+    width: 52px;
+    height: 52px;
   }
+}
+
+/* Icon sizing and feedback */
+.play-icon {
+  font-size: clamp(1.9rem, 2.6vw, 2.8rem);
+  color: #0f766e;
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,0.6));
+  transition: color 0.18s ease, transform 0.12s ease, text-shadow 0.3s ease;
+}
+.play-toggle:hover .play-icon { color: #0db691; }
+.play-toggle.playing .play-icon {
+  animation: playPulse 1.8s ease-in-out infinite;
+  color: #0db691;
+}
+
+/* Pulsing ring when playing */
+.play-btn-circle.playing::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 2px solid rgba(13,182,145,0.35);
+  animation: ringPulse 1.8s ease-out infinite;
+}
+
+@keyframes ringPulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  60% { transform: scale(1.1); opacity: 0.12; }
+  100% { transform: scale(1.2); opacity: 0; }
 }
 
 .audio-player-container {
@@ -1701,7 +1701,7 @@ export default {
 
 .event-box {
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 20px; /* consistent rounded aesthetic */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 0 auto;
@@ -2240,39 +2240,97 @@ mark {
   /* reserve space for fixed player height */
 }
 
-/* Quick actions spacing and divider */
-.quick-actions {
-  gap: 6px;
-  background-color: #f8f9fa;
+/* Next Step card (minimal inline styles, 20px rounded) */
+.next-step-card {
+  position: relative;
+  background: #eaf3f1;
+  border: 1px solid rgba(11, 128, 111, 0.20);
+  border-radius: 20px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
+  padding: 1.25rem 1.75rem;
+}
+.next-step-icon {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: rgba(11, 128, 111, 0.20);
+  display: flex; align-items: center; justify-content: center;
+  color: #0b806f; font-size: 1.35rem;
+  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.26), 0 6px 14px rgba(26,95,122,0.10);
+}
+.next-step-eyebrow { letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem; }
+.next-step-text { color: #1f2933; line-height: 1.8; font-size: 1.1rem; }
+.next-step-link { color:#0b806f; }
+.next-step-link:hover { text-decoration: underline; }
+.text-brand { color:#0b806f; }
+.next-step-cta {
+  background: linear-gradient(135deg, #0b806f, #1a5f7a);
+  border: none; border-radius: 999px;
+  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+}
+.next-step-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(26, 95, 122, 0.28);
+}
+.next-step-cta:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(26,95,122,0.35);
+}
+
+/* Evenly spaced action row */
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   border: 1px solid #e9ecef;
-  border-radius: 999px;
-  padding: 4px 8px;
+  border-radius: 20px;
+  padding: 6px 8px;
 }
+.action-group { display: flex; align-items: center; gap: 6px; }
+.row-sep { width: 1px; height: 20px; background: #e9ecef; border-radius: 1px; margin: 0 4px; display: inline-block; }
+.action-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 14px;
+  border: 1px solid #dee2e6;
+  background: #ffffff;
+  color: #212529;
+  font-size: 0.9rem;
+  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.08s ease, color 0.18s ease, border-color 0.18s ease;
+}
+.action-item .label { margin-left: 2px; }
+.action-item:hover {
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.action-item:active { transform: scale(0.98); }
+.action-item:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(13,110,253,0.25); }
+.action-item i { font-size: 1rem; }
+.action-item.action-success { color: #0f5132; border-color: #badbcc; background-color: #d1e7dd; }
+.action-item.action-primary { color: #084298; border-color: #b6d4fe; background-color: #cfe2ff; }
+.action-item.action-danger { color: #842029; border-color: #f5c2c7; background-color: #f8d7da; }
 
-@media (min-width: 576px) {
-  .quick-actions {
-    margin-left: 1rem !important;
-    padding-left: 0.5rem;
-  }
+/* Navigation buttons (consistent brand color + focus) */
+.nav-btn {
+  background: #0f766e;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  transition: transform 0.12s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
+.nav-btn:hover { filter: brightness(1.05); box-shadow: 0 4px 10px rgba(15,118,110,0.25); }
+.nav-btn:active { transform: translateY(1px); }
+.nav-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(15,118,110,0.35); }
 
-@media (max-width: 575.98px) {
-  .quick-actions {
-    width: 100%;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 0.25rem !important;
-  }
+/* Subtle keyframe animations */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
-.qa-sep {
-  width: 1px;
-  height: 20px;
-  background: #e9ecef;
-  margin: 0 4px;
-  display: inline-block;
-  border-radius: 1px;
-}
+.animate-rise { animation: riseIn 300ms ease-out both; }
+  /* content surfaces and chips now provided globally via resources/css/app.css */
 </style>
 
 <!-- Global (unscoped) spacing to ensure content is never overlapped by the fixed audio bar -->
