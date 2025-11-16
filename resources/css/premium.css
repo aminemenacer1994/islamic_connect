@@ -1,0 +1,44 @@
+/* Premium global polish: 20px rounding, subtle hover, clean actions */
+
+:root {
+  --primary-color: #00c4b4;
+  --primary-dark: #00897b;
+  --primary-light: #b2dfdb;
+  --white-color: #ffffff;
+  --gray-dark: #2a2a2a;
+  --gray-medium: #4a4a4a;
+  --gray-light: #f5f5f5;
+}
+
+/* Utilities */
+.rounded-20 { border-radius: 20px !important; }
+.elevate-hover { transition: transform 200ms ease, box-shadow 200ms ease; }
+.elevate-hover:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(0,0,0,0.12); }
+.focus-ring:focus, .focus-ring:focus-visible { outline: 3px solid rgba(0,137,123,0.35); outline-offset: 2px; }
+
+/* Buttons, Inputs, Cards */
+.btn { border-radius: 20px; }
+.form-control, .form-select { border-radius: 20px; }
+.input-group-text { border-radius: 0 20px 20px 0; }
+.card { border-radius: 20px; box-shadow: 0 6px 18px rgba(0,191,166,0.12); }
+.card:hover { box-shadow: 0 12px 26px rgba(0,0,0,0.12); }
+
+/* Action row/buttons */
+.action-row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+.action-btn {
+  display:inline-flex; align-items:center; gap:10px;
+  padding:10px 16px; border:1px solid rgba(0,137,123,0.25);
+  background:#fff; color:#0d3b3a; border-radius:20px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.06);
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
+  font-weight:600;
+}
+.action-btn i { color:#00897b; }
+.action-btn:hover { transform: translateY(-1px); box-shadow:0 8px 18px rgba(0,0,0,0.12); background:#f7fcfb; }
+.action-btn:active { transform: translateY(0); }
+.action-btn:focus, .action-btn:focus-visible { outline:3px solid rgba(0,137,123,0.3); outline-offset:2px; }
+
+/* Scroll arrow enhancement (if used globally) */
+.scroll-arrow:hover { box-shadow: 0 6px 14px rgba(0,137,123,0.25); }
+.scroll-arrow:focus, .scroll-arrow:focus-visible { outline:3px solid rgba(0,137,123,0.35); }
+

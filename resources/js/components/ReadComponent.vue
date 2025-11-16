@@ -1,5 +1,5 @@
 <template>
-    <div class="blog-container">
+    <div class="blog-container" :class="{ compact: compactMode }">
         <!-- Page Header -->
         <div class="page-header" v-once>
             <div class="container">
@@ -113,7 +113,7 @@
                             :class="{ 'container': layoutMode === 'grid', 'container-fluid': layoutMode === 'list' }">
                             <template v-if="isVisible(blog.id)">
                                 <img :src="blog.image" :srcset="generateSrcSet(blog.image)" :sizes="cardSizes"
-                                    class="card-img-top mb-4" style="border-radius: 10px;"
+                                    class="card-img-top mb-4 rounded-20"
                                     :alt="blog.title" :loading="index < 4 ? 'eager' : 'lazy'" decoding="async"
                                     :fetchpriority="index < 4 ? 'high' : 'auto'">
                             </template>
@@ -136,9 +136,16 @@
                                 <span v-else class="text-muted">No tags available</span>
                             </div>
 
-                            <p class="read-more mt-4" @click="openModal(blog)" aria-label="Read full blog post">
-                                Read More <i class="ms-1 fas fa-arrow-right"></i>
-                            </p>
+                            <div class="action-row mt-4">
+                                <button type="button" class="action-btn" @click="openModal(blog)" aria-label="Read full blog post">
+                                    <i class="fas fa-book-open" aria-hidden="true"></i>
+                                    <span>Read</span>
+                                </button>
+                                <button type="button" class="action-btn" @click="shareToWhatsApp(blog)" aria-label="Share to WhatsApp">
+                                    <i class="fas fa-share" aria-hidden="true"></i>
+                                    <span>Share</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -158,46 +165,50 @@
                 <div class="modal-content container">
                     <div class="modal-header">
                         <h4 class="modal-title" v-html="highlight(selectedBlog.title)"></h4>
-                        <i class="bi bi-x-circle-fill h3" style="cursor: pointer;" @click="closeModal"
-                            aria-label="Close modal"></i>
+                        <i class="bi bi-x-circle-fill h3 modal-close" @click="closeModal" aria-label="Close modal"></i>
                     </div>
                     <div class="modal-body">
-                        <div class="modal-meta">
+                        <div class="modal-meta modal-section">
                             <p class="text-muted mb-3">Published on: {{ formatDate(selectedBlog.date) }}</p>
                         </div>
-                        <div class="modal-image-container mb-4">
+                        <div class="modal-image-container mb-4 modal-section">
                             <img :src="selectedBlog.image" :srcset="generateSrcSet(selectedBlog.image)" :sizes="modalSizes"
                                 class="img-fluid rounded" :alt="selectedBlog.title"
                                 decoding="async" fetchpriority="high">
                         </div>
-                        <div class="modal-content-text" v-html="highlight(selectedBlog.content)"></div>
-                        <div class="modal-tags mt-3">
+                        <div class="modal-content-text prose modal-section" :class="{ wide: readerWide, 'extra-compact': extraCompact }" v-html="highlight(selectedBlog.content)"></div>
+                        <div class="modal-tags mt-3 modal-section">
                             <strong class="me-2 fs-5">Tags:</strong>
                             <span v-if="selectedBlog.tags && selectedBlog.tags.length" v-for="tag in selectedBlog.tags"
                                 :key="tag" class="badge me-2 mb-2" v-html="highlight(tag)"></span>
                             <span v-else class="text-muted">No tags available</span>
                         </div>
-                        <div class="modal-hashtags mt-2">
+                        <div class="modal-hashtags mt-2 modal-section">
                             <strong class="me-2 fs-5">Hashtags:</strong>
                             <span v-if="selectedBlog.hashtags && selectedBlog.hashtags.length"
                                 v-for="hashtag in selectedBlog.hashtags" :key="hashtag" class="hashtag me-2"
                                 v-html="highlight(hashtag)"></span>
                             <span v-else class="text-muted">No hashtags available</span>
                         </div>
-                        <div v-if="summaryText" ref="summarySection" class="modal-summary mt-4">
-                            <h5 class="mb-2"><strong>Summary:</strong></h5>
+                        <div v-if="summaryText && showSummary" ref="summarySection" class="modal-summary mt-4 modal-section">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <h5 class="mb-0 fw-bold">Summary</h5>
+                                <i class="bi bi-x-circle-fill" aria-hidden="true" @click="showSummary = false"></i>
+                            </div>
                             <div v-html="summaryText"></div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn " @click="shareToWhatsApp(selectedBlog)"
+                    <div class="modal-footer actions">
+                        <button type="button" class="action-btn" @click="shareToWhatsApp(selectedBlog)"
                             v-tooltip="'Share to WhatsApp'" aria-label="Share blog to WhatsApp">
-                            <b>Share <i class="ms-1 fas fa-share"></i></b>
+                            <i class="fas fa-share" aria-hidden="true"></i>
+                            <span>Share</span>
                         </button>
-                        <button type="button" class="btn " @click="summarizeBlog" :disabled="summaryLoading"
+                        <button type="button" class="action-btn" @click="summarizeBlog" :disabled="summaryLoading"
                             v-tooltip="'Generate summary'" aria-label="Generate summary">
-                            <span v-if="summaryLoading"><i class="fas fa-spinner fa-spin"></i> Generating...</span>
-                            <span v-else><b>Generate Summary <i class="ms-1 fas fa-book"></i></b></span>
+                            <i v-if="summaryLoading" class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                            <i v-else class="fas fa-book" aria-hidden="true"></i>
+                            <span>{{ summaryLoading ? 'Generating…' : 'Summary' }}</span>
                         </button>
                     </div>
                 </div>
@@ -252,6 +263,9 @@ export default {
             // perf helpers
             visibleIds: new Set(),
             io: null,
+            compactMode: true,
+            readerWide: false,
+            extraCompact: false,
             // Category pills data
             categories: [
                 { id: 1, name: 'Prayers', icon: 'fas fa-pray', tag: 'prayer' },
@@ -329,7 +343,10 @@ export default {
         selectedTag() { this.resetInfinite(); },
         sortBy() { this.resetInfinite(); },
         selectedCategory() { this.resetInfinite(); },
-        layoutMode() { this.resetInfinite(); }
+        layoutMode() { this.resetInfinite(); },
+        compactMode(newVal) {
+            try { localStorage.setItem('read.compactMode', JSON.stringify(!!newVal)); } catch (_) {}
+        }
     },
     mounted() {
         // Add all categories option at the beginning
@@ -347,6 +364,12 @@ export default {
             this.updateArrowVisibility();
             this.checkFontAwesome();
         });
+        // Restore compact mode preference
+        try {
+            const saved = localStorage.getItem('read.compactMode');
+            if (saved !== null) this.compactMode = JSON.parse(saved);
+        } catch (_) {}
+
         // Setup IntersectionObserver for lazy rendering
         if ('IntersectionObserver' in window) {
             this.io = new IntersectionObserver((entries) => {
@@ -584,7 +607,7 @@ export default {
 
                     let summary = '';
                     summarySentences.forEach(sentence => {
-                        summary += `<p style="margin-bottom:1em;">${highlight(sentence.trim())}</p>`;
+                        summary += `<p class=\"summary-line\">${highlight(sentence.trim())}</p>`;
                     });
                     if (summarySentences.length === 0) {
                         summary = '<em>No summary available for this blog.</em>';
@@ -678,7 +701,7 @@ export default {
 
 .filter-card {
     background: #fff;
-    border-radius: 8px;
+    border-radius: 20px;
     padding: 1.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -732,12 +755,12 @@ export default {
 .category-pill {
     background: transparent;
     color: #00897b;
-    border: 2px solid #00897b;
+    border: 1px solid #00897b;
     border-radius: 20px;
-    padding: 0.6rem 1.2rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.92rem;
+    font-weight: 700;
+    transition: all 0.25s ease;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -779,6 +802,7 @@ export default {
     transition: all 0.3s ease;
     box-shadow: none;
     flex-shrink: 0;
+    outline: none;
 }
 
 .scroll-arrow:hover {
@@ -802,76 +826,86 @@ export default {
     min-height: 100vh;
 }
 
+/* Premium rounded utility */
+.rounded-20 { border-radius: 20px !important; }
+
 /* Page Header */
 .page-header {
-    background: linear-gradient(135deg, #00897b 0%, var(--primary-dark) 100%);
-    color: var(--white-color);
-    padding: 2rem 0;
+    color: var(--gray-dark);
+    padding: 1.5rem 0;
     text-align: center;
 }
 
 .page-header h1 {
-    font-size: 3.5rem;
+    font-size: 2.6rem;
     font-weight: 800;
-    margin-bottom: 1rem;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.3px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .page-header p {
-    font-size: 1.4rem;
+    font-size: 1.05rem;
     font-weight: 400;
-    margin: 0 auto;
+    margin: 0.5rem auto 0;
     opacity: 0.95;
-    line-height: 1.8;
+    line-height: 1.6;
+    max-width: 960px;
 }
 
 /* Layout Toggle */
 .layout-toggle {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
+    margin-top: 1.2rem;
 }
 
 .btn-group {
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
 }
 
 .btn-layout {
-    background: var(--gray-light);
-    color: var(--white-color);
+    background: #ffffff;
+    color: #00897b;
     border: 1px solid #00897b;
-    padding: 10px 20px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    padding: 6px 14px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    transition: all 0.25s ease;
+    border-radius: 20px;
 }
 
-.btn-layout:hover {
-    background: var(--primary-light);
-    color: var(--white-color);
-}
+.btn-layout:hover { background: #e9f6f4; color: #007a6e; }
 
 .btn-layout:focus {
     outline: 2px solid #00897b;
     outline-offset: 2px;
 }
 
-.btn-layout i {
-    color: var(--white-color);
-}
+.btn-layout i { color: currentColor; }
 
-.btn-active {
-    background: #00897b;
-    color: white;
-    border-color: #00897b;
+.btn-active { background: #00897b; color: #ffffff; border-color: #00897b; }
+
+/* Compact density toggle */
+.btn-compact {
+    background: #ffffff;
+    color: #0d3b3a;
+    border: 1px solid rgba(0,137,123,0.25);
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 20px;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.06);
 }
+.btn-compact:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,0.1); }
+.btn-compact i { color: #00897b; }
 
 .btn-active:hover {
     background: var(--primary-dark);
     color: var(--white-color);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
 .btn-active i {
@@ -880,17 +914,17 @@ export default {
 
 /* Filter Container */
 .filter-container {
-    padding-top: 5px;
+    padding-top: 6px;
     background: linear-gradient(135deg, var(--white-color) 0%, var(--gray-light) 100%);
 }
 
 .filter-card {
     background: linear-gradient(135deg, var(--white-color) 0%, #f0f4f8 100%);
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     border: 1px solid var(--primary-light);
-    padding: 0.8rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 0.6rem 0.8rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .filter-card:hover {}
@@ -904,20 +938,15 @@ export default {
 .form-control,
 .form-select {
     border: 1px solid #00897b;
-    border-radius: 10px;
-    padding: 12px 15px;
-    font-size: 1.1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 20px;
+    padding: 10px 12px;
+    font-size: 1rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.form-control-lg {
-    font-size: 1.2rem;
-}
+.form-control-lg { font-size: 1.05rem; }
 
-.form-select-lg {
-    font-size: 1.2rem;
-    padding: 14px 20px;
-}
+.form-select-lg { font-size: 1.05rem; padding: 10px 12px; }
 
 .form-control:focus,
 .form-select:focus {
@@ -934,9 +963,9 @@ export default {
     background: #00897b;
     color: var(--white-color);
     border: none;
-    border-radius: 0 10px 10px 0;
-    padding: 12px 15px;
-    transition: background 0.3s ease;
+    border-radius: 0 20px 20px 0;
+    padding: 8px 12px;
+    transition: background 0.25s ease;
 }
 
 .input-group-text:hover {
@@ -975,7 +1004,7 @@ export default {
 }
 
 .card-image-container {
-    padding: 2rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -988,7 +1017,7 @@ export default {
 }
 
 .card-title {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: var(--black-color);
     margin-bottom: 1rem;
@@ -1008,11 +1037,11 @@ export default {
 }
 
 .card-text {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     color: var(--gray-dark);
-    max-height: 360px;
+    max-height: 300px;
     overflow: hidden;
-    line-height: 1.8;
+    line-height: 1.7;
     margin-bottom: 1.5rem;
     display: -webkit-box;
     -webkit-line-clamp: 5;
@@ -1036,24 +1065,24 @@ export default {
 .card-tags,
 .modal-tags,
 .modal-hashtags {
-    margin-top: 1.5rem;
+    margin-top: 0.75rem;
 }
 
 .card-tags strong,
 .modal-tags strong,
 .modal-hashtags strong {
     font-size: 1.15rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--gray-dark);
 }
 
 .badge {
     background: var(--white-color);
     color: #00897b;
-    border: 1px solid #00897b;
-    font-size: 0.9rem;
-    font-weight: 500;
-    padding: 6px 12px;
+    border: 1px solid rgba(0,137,123,0.6);
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 4px 10px;
     border-radius: 20px;
     transition: background 0.2s ease, color 0.2s ease;
 }
@@ -1128,24 +1157,35 @@ export default {
 /* Modal Styles */
 .modal-content {
     border-radius: 20px;
-    box-shadow: 0 16px 40px rgba(0, 191, 166, 0.3);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.14);
     overflow: hidden;
 }
 
 .modal-header {
-    background: linear-gradient(90deg, #00897b, var(--primary-dark));
-    border-bottom: none;
-    padding: 2rem;
+    color: var(--primary-dark);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding: 1.2rem 1.4rem;
+}
+
+.modal-close {
+    cursor: pointer;
+    transition: transform 160ms ease, color 160ms ease;
+}
+
+.modal-close:focus,
+.modal-close:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.6);
+    outline-offset: 2px;
 }
 
 .modal-title {
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     font-weight: 700;
-    color: var(--white-color);
+    color: black;
 }
 
 .bi-x-circle-fill {
-    color: var(--white-color);
+    color: black;
     transition: all 0.3s ease;
 }
 
@@ -1160,23 +1200,24 @@ export default {
 }
 
 .modal-body {
-    font-size: 1.3rem;
-    line-height: 1.9;
+    font-size: 1.08rem;
+    line-height: 1.75;
     color: var(--gray-dark);
-    padding: 2rem;
+    padding: 1rem;
 }
 
 .modal-meta {
-    border-bottom: 1px solid var(--primary-light);
-    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
 }
 
 .modal-image-container img {
     width: 100%;
-    max-height: 400px;
+    max-height: 360px;
     object-fit: cover;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
 /* Prevent CLS and show smooth loading */
@@ -1186,6 +1227,7 @@ export default {
     object-fit: cover;
     aspect-ratio: 16 / 9;
     background-color: #eef6f6;
+    border-radius: 20px;
 }
 
 /* Skeleton placeholders */
@@ -1214,50 +1256,88 @@ export default {
     100% { transform: translateX(100%); }
 }
 
-.modal-content-text>>>h1,
-.modal-content-text>>>h2,
-.modal-content-text>>>h3,
-.modal-content-text>>>h4 {
-    color: var(--primary-dark);
-    margin-bottom: 1.5rem;
-    border-left: 4px solid #00897b;
-    padding-left: 14px;
+/* Modal content typography (use :deep for scoped CSS) */
+.modal-content-text { max-width: 860px; margin: 0 auto; }
+.modal-content-text.wide { max-width: 1200px; }
+.modal-content-text :deep(h1),
+.modal-content-text :deep(h2),
+.modal-content-text :deep(h3),
+.modal-content-text :deep(h4) {
+    color: var(--gray-dark);
+    margin: 0 0 0.9rem 0;
+    padding-left: 12px;
+    border-left: 3px solid #00897b;
+    line-height: 1.3;
+}
+.modal-content-text :deep(h1) { font-size: 1.6rem; }
+.modal-content-text :deep(h2) { font-size: 1.35rem; }
+.modal-content-text :deep(h3) { font-size: 1.2rem; }
+.modal-content-text :deep(h4) { font-size: 1.1rem; }
+
+.modal-content-text.extra-compact :deep(h1) { font-size: 1.35rem; }
+.modal-content-text.extra-compact :deep(h2) { font-size: 1.18rem; }
+.modal-content-text.extra-compact :deep(h3) { font-size: 1.06rem; }
+.modal-content-text.extra-compact :deep(h4) { font-size: 0.98rem; }
+
+.modal-content-text :deep(p) {
+    margin: 0 0 0.8rem 0;
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
 }
 
-.modal-content-text>>>p {
-    margin-bottom: 2rem;
-}
-
-.modal-content-text>>>ul {
+.modal-content-text :deep(ul) {
     list-style: none;
     padding-left: 0;
-    margin-bottom: 2rem;
+    margin: 0 0 1rem 0;
 }
-
-.modal-content-text>>>ul li {
+.modal-content-text :deep(ul li) {
     position: relative;
-    padding-left: 28px;
-    margin-bottom: 1rem;
+    padding-left: 22px;
+    margin: 0 0 0.6rem 0;
 }
-
-.modal-content-text>>>ul li::before {
-    content: '•';
+.modal-content-text :deep(ul li::before) {
+    content: '';
     position: absolute;
     left: 0;
-    color: #00897b;
-    font-size: 1.4rem;
+    top: 0.6em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00a395;
 }
 
-.modal-content-text>>>blockquote {
-    border-left: 4px solid #00897b;
-    padding-left: 1.5rem;
-    margin: 2rem 0;
+.modal-content-text :deep(blockquote) {
+    border-left: 3px solid #00897b;
+    padding: 0.8rem 1rem;
+    margin: 1.2rem 0;
     font-style: italic;
     color: var(--gray-medium);
-    background: var(--gray-light);
-    padding: 1.2rem;
-    border-radius: 10px;
+    background: #f6fbfb;
+    border-radius: 12px;
 }
+
+.modal-content-text :deep(img) {
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    max-width: 100%;
+    height: auto;
+}
+
+.modal-content-text :deep(a) {
+    color: #00796b;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.modal-content-text :deep(code),
+.modal-content-text :deep(pre) {
+    background: #f4f7f7;
+    border-radius: 12px;
+    padding: 0.2rem 0.4rem;
+}
+
+/* Summary lines (generated) */
+.summary-line { margin-bottom: 1em; }
 
 .modal-footer {
     border-top: none;
@@ -1401,6 +1481,83 @@ export default {
         transform: scale(1);
     }
 }
+
+/* Action row: clean, evenly spaced, premium */
+.action-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.actions { justify-content: flex-end; }
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border: 1px solid rgba(0, 137, 123, 0.25);
+    background: #ffffff;
+    color: #0d3b3a;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
+    font-weight: 600;
+}
+
+.action-btn i { color: #00897b; }
+
+.action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+    background: #f7fcfb;
+}
+
+.action-btn:active { transform: translateY(0); }
+
+.action-btn:focus,
+.action-btn:focus-visible {
+    outline: 3px solid rgba(0, 137, 123, 0.3);
+    outline-offset: 2px;
+}
+
+/* Subtle hover lift for cards */
+.card {
+    border-radius: 20px;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.12);
+}
+
+/* Scroll arrows focus/hover polish */
+.scroll-arrow:hover { box-shadow: 0 6px 14px rgba(0, 137, 123, 0.25); }
+.scroll-arrow:focus,
+.scroll-arrow:focus-visible { outline: 3px solid rgba(0, 137, 123, 0.35); }
+
+/* Compact mode overrides */
+.blog-container.compact .page-header { padding: 1rem 0; }
+.blog-container.compact .page-header h1 { font-size: 2.2rem; margin-bottom: 0.35rem; }
+.blog-container.compact .page-header p { font-size: 0.98rem; line-height: 1.55; }
+.blog-container.compact .btn-layout { padding: 5px 12px; font-size: 0.9rem; }
+.blog-container.compact .btn-compact { padding: 5px 10px; font-size: 0.88rem; }
+.blog-container.compact .pills-wrapper { gap: 0.6rem; }
+.blog-container.compact .category-pill { padding: 0.35rem 0.8rem; font-size: 0.88rem; }
+.blog-container.compact .filter-card { padding: 0.5rem 0.6rem; box-shadow: 0 6px 12px rgba(0,0,0,0.06); }
+.blog-container.compact .form-control, .blog-container.compact .form-select { padding: 8px 10px; font-size: 0.95rem; }
+.blog-container.compact .input-group-text { padding: 6px 10px; }
+.blog-container.compact .card-image-container { padding: 1rem; }
+.blog-container.compact .card-title { font-size: 1.4rem; }
+.blog-container.compact .card-text { font-size: 1rem; -webkit-line-clamp: 5; }
+.blog-container.compact .badge { padding: 4px 8px; font-size: 0.84rem; }
+.blog-container.compact .modal-header { padding: 1rem 1.2rem; }
+.blog-container.compact .modal-title { font-size: 1.4rem; }
+.blog-container.compact .modal-body { padding: 1.1rem; font-size: 1.02rem; }
+.blog-container.compact .modal-image-container img { max-height: 320px; }
+.blog-container.compact .action-btn { padding: 8px 12px; gap: 8px; }
 
 /* Responsive Adjustments */
 @media (max-width: 992px) {
