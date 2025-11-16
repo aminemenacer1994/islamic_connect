@@ -109,7 +109,7 @@
     "streamType": "external",
     "Joined": 1500,
     "schedule": "Daily 7 AM",
-    "location": "Saudi Arabia"
+    "location": "SA"
   },
   {
     "name": "Al-Resalah TV",
@@ -131,7 +131,7 @@
     "streamType": "external",
     "Joined": 3000,
     "schedule": "24/7",
-    "location": "Saudi Arabia"
+    "location": "SA"
   },
   {
     "name": "Mufti Menk",
@@ -405,7 +405,7 @@
     "streamType": "external",
     "Joined": 2100,
     "schedule": "Daily",
-    "location": "United Kingdom"
+    "location": "UK"
   },
   {
     "name": "OnePath Network",
@@ -497,7 +497,7 @@
     "streamType": "external",
     "Joined": 1300,
     "schedule": "Weekly",
-    "location": "United Kingdom"
+    "location": "UK"
   },
   {
     "name": "Islamic Releases",
@@ -566,7 +566,7 @@
     "streamType": "external",
     "Joined": 1300,
     "schedule": "Weekly",
-    "location": "United Kingdom"
+    "location": "UK"
   },
   {
     "name": "Islam Channel",
@@ -589,7 +589,7 @@
     "streamType": "external",
     "Joined": 845000,
     "schedule": "24/7",
-    "location": "United Kingdom"
+    "location": "UK"
   },
   {
     "name": "We Love Islam",
@@ -796,7 +796,7 @@
     "streamType": "external",
     "Joined": 600000,
     "schedule": "Weekly",
-    "location": "United Kingdom"
+    "location": "UK"
   },
   {
     "name": "Talk Islam",
