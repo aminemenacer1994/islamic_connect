@@ -2,12 +2,12 @@
   <div class="guide-root" :class="['container my-4', { 'pad-for-audio': isPlaying || isPaused }]" role="main">
    
     <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Guides</h2>
-    <p class="text-center text-dark mb-4" style="font-size: 18px;">
+    <p class="text-center text-dark mb-4 header-description">
       Discover insights into the core beliefs, practices, and morals of Islam.
     </p>
 
     <!-- Controls Section -->
-    <section class="controls-section mb-4" style="border: 1px solid var(--primary-color);">
+    <section class="controls-section mb-4 round-20 soft-shadow animate-in">
       <div class="row g-3 align-items-center" >
         <!-- Category Dropdown -->
         <div class="col-md-6">
@@ -60,12 +60,12 @@
               <i class="bi bi-question-circle"></i>
             </button>
           </label>
-          <div class="input-group">
+          <div class="input-group search-pill">
           <input
             id="search-input"
             type="text"
             v-model="searchText"
-            class="form-control"
+            class="form-control search-input"
               placeholder="Search keywords..."
             aria-label="Search guide content"
             @focus="showSuggestions = true"
@@ -75,7 +75,7 @@
             @keydown.enter.prevent="suggestions[highlightedIndex] && selectSuggestion(suggestions[highlightedIndex])"
             @blur="setTimeout(() => showSuggestions = false, 100)"
           >
-            <button v-if="searchText" class="btn btn-outline-secondary" @click="searchText = ''; showSuccessMessage('Search cleared!')">
+            <button v-if="searchText" class="btn btn-outline-secondary btn-clear" @click="searchText = ''; showSuccessMessage('Search cleared!')">
               <i class="bi bi-x"></i>
               </button>
           </div>
@@ -113,15 +113,15 @@
             <span v-if="isPlaying || isPaused">Listen: {{ Math.round(audioProgress) }}%</span>
           </div>
         </div>
-        <div class="content-card card">
+        <div class="content-card card round-20 soft-shadow animate-in">
           <div class="card-body">
             <!-- Card Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
               <div>
                 <h2 class="content-title mb-2" :style="{ fontSize: fontSize + 'rem' }">
                   {{ guide.sections[selectedCategory].title }}
                 </h2>
-                <div class="badge" :class="getBadgeClasses(guide.sections[selectedCategory].title)">
+                <div class="badge badge-glass" :class="getBadgeClasses(guide.sections[selectedCategory].title)">
                   {{ getCategoryName(guide.sections[selectedCategory].title) }}
                 </div>
                 <div v-if="selectedCategory !== '' && guide.sections[selectedCategory]" class="guide-meta mt-2 text-muted small">
@@ -130,13 +130,14 @@
               </div>
               
               <transition name="fade-scale">
-                <div class="d-flex gap-2" key="button-group">
+                <div class="action-row controls-actions toolbar toolbar-premium toolbar-segmented d-flex gap-2 round-20" key="button-group">
                   <button
-                    class="btn btn-sm btn-outline-primary"
+                    class="btn btn-sm btn-premium-outline focus-ring"
                     @click="playCurrentContent"
                     :disabled="isAudioLoading"
                   >
-                    <i class="bi bi-play-fill"></i> Listen
+                    <i class="bi bi-play-fill toolbar-icon"></i>
+                    <span class="toolbar-label">Listen</span>
                   </button>
                   <!-- <button
                     class="btn btn-sm btn-outline-primary"
@@ -150,43 +151,47 @@
                   </button> -->
                   
                   <button
-                    class="btn btn-sm btn-outline-success"
+                    class="btn btn-sm btn-premium focus-ring"
                     @click="shareOnWhatsApp"
                   >
-                    <i class="bi bi-share"></i> Share
+                    <i class="bi bi-share toolbar-icon"></i>
+                    <span class="toolbar-label">Share</span>
                   </button>
                   <button
-                    class="btn btn-sm btn-outline-primary"
+                    class="btn btn-sm btn-premium-outline focus-ring"
                     @click="printGuide"
                   >
-                    <i class="bi bi-printer"></i> Print
+                    <i class="bi bi-printer toolbar-icon"></i>
+                    <span class="toolbar-label">Print</span>
                   </button>
                   <button
-                    class="btn btn-sm btn-outline-dark"
+                    class="btn btn-sm btn-premium-outline focus-ring"
                     @click="generateSummary"
                     :disabled="isSummaryLoading"
                     :title="isSummaryLoading ? 'Generating summary...' : 'Generate AI Summary'"
                   >
-                    <i class="bi" :class="isSummaryLoading ? 'bi-hourglass-split' : 'bi-robot'"></i>
-                    {{ isSummaryLoading ? 'Generating...' : 'AI Summary' }}
+                    <i class="bi toolbar-icon" :class="isSummaryLoading ? 'bi-hourglass-split' : 'bi-robot'"></i>
+                    <span class="toolbar-label">{{ isSummaryLoading ? 'Generating' : 'AI Summary' }}</span>
                   </button>
                   <button
-                    class="btn btn-sm btn-outline-secondary"
+                    class="btn btn-sm btn-premium-outline focus-ring"
                     @click="decreaseFontSize"
                     :disabled="fontSize <= minFontSize"
                     title="Decrease font size"
                     aria-label="Decrease font size"
                   >
-                    -
+                    <i class="bi bi-dash toolbar-icon"></i>
+                    <span class="toolbar-label">A-</span>
                   </button>
                   <button
-                    class="btn btn-sm btn-outline-secondary"
+                    class="btn btn-sm btn-premium-outline focus-ring"
                     @click="increaseFontSize"
                     :disabled="fontSize >= maxFontSize"
                     title="Increase font size"
                     aria-label="Increase font size"
                   >
-                    +
+                    <i class="bi bi-plus toolbar-icon"></i>
+                    <span class="toolbar-label">A+</span>
                   </button>
                 </div>
               </transition>
@@ -298,19 +303,21 @@
       </div>
     </transition>
 
-    <!-- Alert Messages -->
-    <transition name="fade-slide">
-      <div v-if="showAlert" class="alert alert-success alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
-        {{ alertMessage }}
-        <button type="button" class="btn-close" aria-label="Close alert" @click="closeAlert"></button>
-      </div>
-    </transition>
-    <transition name="fade-slide">
-      <div v-if="showErrorAlert" class="alert alert-danger alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
-        {{ errorMessage }}
-        <button type="button" class="btn-close" aria-label="Close error alert" @click="closeErrorAlert"></button>
-      </div>
-    </transition>
+    <!-- Alert Messages (Top-right premium toast stack) -->
+    <div class="toast-stack" aria-live="polite" aria-atomic="true">
+      <transition name="fade-slide">
+        <div v-if="showAlert" class="alert alert-success alert-dismissible fade show toast-alert" role="alert">
+          {{ alertMessage }}
+          <button type="button" class="btn-close" aria-label="Close alert" @click="closeAlert"></button>
+        </div>
+      </transition>
+      <transition name="fade-slide">
+        <div v-if="showErrorAlert" class="alert alert-danger alert-dismissible fade show toast-alert" role="alert">
+          {{ errorMessage }}
+          <button type="button" class="btn-close" aria-label="Close error alert" @click="closeErrorAlert"></button>
+        </div>
+      </transition>
+    </div>
 
     <!-- Search Help Modal -->
     <div v-if="showHelpModal" class="modal-overlay" @click="showHelpModal = false">
@@ -1309,6 +1316,11 @@ export default {
   /* Darker teal improves contrast on white and as a filled background with white text */
   --primary-color: #00695c;
   --primary-hover: #00564c;
+  --teal-400: #2dd4bf;
+  --teal-500: #14b8a6;
+  --teal-600: #0d9488;
+  --teal-700: #0f766e;
+  --ring: rgba(20, 184, 166, 0.35);
   --text-color: #333;
   --text-light: #6c757d;
   --bg-color: #fff;
@@ -1352,8 +1364,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Controls */
 .controls-section {
   background-color: rgba(0, 191, 166, 0.05);
-  border: 1px solid rgba(0, 191, 166, 0.1);
-  border-radius: 12px;
+  border: 1px solid rgba(0, 191, 166, 0.18);
+  border-radius: 20px;
   padding: 1.5rem;
 }
 
@@ -1375,9 +1387,51 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);
 }
 
+/* Premium dropdown and input visuals */
+.dropdown .form-select.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 191, 166, 0.18);
+  padding: 0.75rem 1rem;
+}
+.dropdown-menu {
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.04);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+  overflow: hidden;
+}
+.dropdown-item {
+  padding: 0.65rem 0.9rem;
+}
+.dropdown-item:active, .dropdown-item:hover {
+  background: rgba(20,184,166,0.08);
+}
+
+/* Search pill with inset glow */
+.search-pill {
+  background: #fff;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 191, 166, 0.18);
+  padding: 0.2rem 0.2rem 0.2rem 0.6rem;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.02), 0 4px 16px rgba(0,0,0,0.06);
+}
+.search-input {
+  border: none !important;
+  background: transparent !important;
+  border-radius: 999px !important;
+  padding-left: 0.2rem;
+}
+.search-input:focus { box-shadow: none !important; }
+.search-pill:focus-within { outline: none; box-shadow: inset 0 0 0 1px rgba(20,184,166,0.35), 0 0 0 4px rgba(20,184,166,0.18); }
+.btn-clear { border: 0; background: transparent; color: var(--primary-color); border-radius: 999px; }
+.btn-clear:hover { background: rgba(20,184,166,0.08); }
+
 /* Content Card */
 .content-card {
-  border-radius: 12px;
+  border-radius: 20px;
   border: 1px solid var(--border-color);
   box-shadow: var(--card-shadow);
   overflow: hidden;
@@ -1417,6 +1471,69 @@ mark {
   transition: all 0.2s;
   border-radius: 8px;
 }
+
+/* Premium buttons and outlines (consistent pill aesthetic) */
+.btn.btn-premium {
+  background-image: linear-gradient(135deg, var(--teal-500), var(--teal-700));
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+/* Toolbar layout: compact on mobile, spaced on desktop */
+.toolbar {
+  background: #fff;
+  padding: 0.4rem;
+}
+.toolbar .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.toolbar .toolbar-icon { font-size: 1rem; }
+.toolbar .toolbar-label { font-weight: 500; }
+
+@media (max-width: 576px) {
+  .toolbar { padding: 0.25rem; }
+  .toolbar .toolbar-label { display: none; }
+  .toolbar .toolbar-icon { font-size: 1.05rem; }
+}
+
+/* Segmented toolbar variant */
+.toolbar-segmented { border-radius: 999px; overflow: hidden; padding: 0.2rem; }
+.toolbar-segmented .btn {
+  border-radius: 0;
+  border: 0 !important;
+  padding: 0.35rem 0.7rem;
+}
+.toolbar-segmented .btn:first-child { border-top-left-radius: 999px; border-bottom-left-radius: 999px; }
+.toolbar-segmented .btn:last-child { border-top-right-radius: 999px; border-bottom-right-radius: 999px; }
+.toolbar-segmented .btn.btn-premium-outline { border: 1px solid rgba(20,184,166,0.26) !important; }
+.toolbar-segmented .btn + .btn { margin-left: 0; }
+.btn.btn-premium:hover { filter: brightness(1.03); transform: translateY(-1px); box-shadow: 0 10px 22px rgba(17, 94, 89, 0.28); }
+.btn.btn-premium:active { transform: translateY(0); }
+
+.btn.btn-premium-outline {
+  background: #fff;
+  color: var(--teal-700);
+  border-radius: 24px;
+  border: 2px solid var(--teal-500);
+  padding: 0.45rem 0.9rem;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+.btn.btn-premium-outline:hover { background: rgba(20,184,166,.06); box-shadow: 0 6px 14px rgba(17,94,89,.16); }
+.btn.btn-premium-outline:active { background: rgba(20,184,166,.12); }
 
 .btn-outline-primary {
   color: var(--primary-color) !important;
@@ -2137,7 +2254,7 @@ mark {
 
 .help-modal {
   background: white;
-  border-radius: 12px;
+  border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   max-width: 600px;
   width: 100%;
@@ -2146,6 +2263,22 @@ mark {
   animation: modalSlideIn 0.3s ease-out;
 }
 
+/* Glassy badges with stronger contrast */
+.badge-glass {
+  backdrop-filter: saturate(1.15) blur(4px);
+  -webkit-backdrop-filter: saturate(1.15) blur(4px);
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+.badge-glass.bg-primary { background: rgba(13,110,253,0.12); color: #0d6efd; border: 1px solid rgba(13,110,253,0.35); }
+.badge-glass.bg-success { background: rgba(25,135,84,0.12); color: #198754; border: 1px solid rgba(25,135,84,0.35); }
+.badge-glass.bg-info { background: rgba(13,202,240,0.14); color: #0ca7c7; border: 1px solid rgba(13,202,240,0.38); }
+.badge-glass.bg-warning { background: rgba(255,193,7,0.16); color: #a87300; border: 1px solid rgba(255,193,7,0.38); }
+.badge-glass.bg-secondary { background: rgba(108,117,125,0.14); color: #5c636a; border: 1px solid rgba(108,117,125,0.35); }
+.badge-glass.bg-danger { background: rgba(220,53,69,0.12); color: #c02e3f; border: 1px solid rgba(220,53,69,0.35); }
+.badge-glass.bg-dark { background: rgba(33,37,41,0.14); color: #212529; border: 1px solid rgba(33,37,41,0.35); }
 @keyframes modalSlideIn {
   from {
     opacity: 0;
@@ -2503,3 +2636,54 @@ mark {
   }
 }
 </style>
+/* Clean, evenly spaced action rows */
+.action-row {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+}
+.action-row .btn { flex: 1 1 0; }
+.action-row .btn + .btn { margin-left: .5rem; }
+
+/* Utilities for premium feel */
+.round-20 { border-radius: 20px; }
+.soft-shadow { box-shadow: 0 10px 20px rgba(26, 95, 122, 0.12); }
+.raise-on-hover { transition: transform 160ms ease, box-shadow 160ms ease; }
+.raise-on-hover:hover { transform: translateY(-2px); box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26); }
+.focus-ring { outline: none; }
+.focus-ring:focus-visible { box-shadow: 0 0 0 4px var(--ring); }
+.animate-in { animation: fadeSlideUp 320ms ease both; }
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Toast stack fixed at top-right */
+.toast-stack {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(420px, 90vw);
+}
+
+/* Toast look and feel + bootstrap custom hues */
+.toast-alert.alert { 
+  border-radius: 14px; 
+  box-shadow: 0 14px 36px rgba(0,0,0,0.18);
+  padding: 0.75rem 1rem;
+}
+.alert-success.toast-alert { background-color: #e8f7f3; color: #0b5d4b; border: 1px solid rgba(11,93,75,0.22); }
+.alert-danger.toast-alert { background-color: #fdecec; color: #7a2020; border: 1px solid rgba(122,32,32,0.22); }
+.toast-alert .btn-close { filter: none; opacity: .6; }
+.toast-alert .btn-close:hover { opacity: 1; }
+
+@keyframes toastSlideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.toast-alert.show { animation: toastSlideDown 260ms ease both; }

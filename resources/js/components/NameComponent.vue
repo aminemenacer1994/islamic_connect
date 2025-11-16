@@ -1198,10 +1198,12 @@ export default {
 
 .card-teal {
   border-radius: 20px;
-  border: 1px solid rgba(20, 184, 166, 0.25);
-  box-shadow: 0 6px 20px rgba(2, 44, 34, 0.05);
-  background: linear-gradient(180deg, #ffffff, #f9fefd);
+  border: 1px solid rgba(20, 184, 166, 0.22);
+  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
+.card-teal:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); }
 
 /* Apply rounded aesthetic to all cards in this component */
 .card {
@@ -1247,6 +1249,7 @@ export default {
   padding: 12px;
   display: flex;
   justify-content: space-between;
+  background: #fff;
 }
 
 .action-row .btn {
@@ -1723,4 +1726,11 @@ html {
 .animate-in {
   animation: fadeSlideUp 320ms ease both;
 }
+
+@keyframes subtlePop {
+  from { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-1px) scale(1.01); }
+  to { transform: translateY(0) scale(1); }
+}
+.btn-premium:hover, .btn-premium-outline:hover { animation: subtlePop 260ms ease; }
 </style>
