@@ -9,64 +9,40 @@
       </p>
     </div>
 
-    <div class="container" style="padding: 10px;">
-      <div class="mx-auto mb-4" style="
-          position: relative;
-          background: #eaf3f1;
-          border: 1px solid rgba(11, 128, 111, 0.20);
-          border-radius: 24px;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
-          padding: 1.25rem 1.75rem;
-        ">
-        <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
-          :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized"
-          style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
+    <div class="container p-3">
+      <div class="next-step-card mx-auto mb-4 round-20 soft-shadow animate-in">
+        <button type="button" class="ghost-icon-btn" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+          :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized">
           <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
         </button>
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
-            <div class="next-step-icon-circle" role="img" aria-label="Gentle Islamic dictionary guide" style="
-                width: 48px; height: 48px;
-                border-radius: 50%;
-                background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.14));
-                display: flex; align-items: center; justify-content: center;
-                color: rgb(0, 121, 107); font-size: 1.25rem;
-                box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 16px rgba(26,95,122,0.12);
-              ">
+            <div class="next-step-icon" role="img" aria-label="Gentle Islamic dictionary guide">
               <i class="fas fa-book-open" aria-hidden="true"></i>
             </div>
           </div>
-          <div style="flex:1;">
-            <p class="mb-2 fw-semibold text-uppercase"
-              style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+          <div class="flex-grow-1">
+            <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
               NEXT STEP
             </p>
             <!-- Minimized teaser -->
-            <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1" style="color: #1f2933;">
-              <a href="/books" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
-                style="color:rgb(0, 121, 107);" aria-label="Open the Islamic dictionary">
+            <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1 text-body">
+              <a href="/books" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 link-teal"
+                aria-label="Open the Islamic dictionary">
                 Continue to the Islamic Dictionary
-                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
-                  style="color:rgb(0, 121, 107); font-size: 0.82rem; opacity: 0.85;"></i>
+                <i class="fas fa-arrow-up-right-from-square small" aria-hidden="true"></i>
               </a>
             </div>
-            <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
+            <p v-show="!nextStepMinimized" class="mb-3 text-body next-step-copy">
               After reflecting on Allah’s Names, take a calm, English-only step into the
-              <a href="/books" class="fw-semibold text-decoration-none" style="color:rgb(0, 121, 107);">
+              <a href="/books" class="fw-semibold text-decoration-none link-teal">
                 Islamic Dictionary
               </a>
               with large-text cards covering names, meanings, examples, and references.
             </p>
             <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
-              <a href="/books" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center"
-                style="
-                  background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
-                  border: none; border-radius: 999px;
-                  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
-                  transition: transform 0.2s ease, box-shadow 0.2s ease;
-                  "
-                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';"
-                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';">
+              <a href="/books"
+                class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center btn-premium rounded-pill shadow-soft raise-on-hover focus-ring">
                 <span>Explore Islamic Dictionary</span>
                 <i class="fas fa-book-reader ms-2" aria-hidden="true"></i>
                 <span class="visually-hidden">Open the accessible Islamic dictionary for new Muslims</span>
@@ -79,7 +55,17 @@
 
     <!-- Search & Filters -->
     <div>
-      <div class="text-center">
+      <div class="row container-fluid">
+        <div class="col-md-12 mb-3 mt-3">
+          <div class="input-group input-group-lg search-group round-20 shadow-soft animate-in">
+            <span class="input-group-text search-icon border-end-0"><i class="bi bi-search"
+                aria-hidden="true"></i></span>
+            <input type="text" class="form-control search-input border-start-0" placeholder="Search names..."
+              aria-label="Search names" v-model="searchQuery" @input="onSearchInput" />
+          </div>
+        </div>
+      </div>
+      <div class="text-center pt-2">
         <div class="row">
           <div class="col">
             <div class="form-check form-switch text-white m-0">
@@ -102,31 +88,23 @@
             </div>
           </div>
         </div>
-        <div class="row container">
-          <div class="col-md-12 mb-3 mt-3">
-            <div class="input-group input-group-lg" style="border-radius: 12px;">
-              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"
-                  aria-hidden="true"></i></span>
-              <input type="text" class="form-control border-start-0" placeholder="Search names..."
-                aria-label="Search names" v-model="searchQuery" @input="onSearchInput" />
-            </div>
-          </div>
-        </div>
+
       </div>
 
       <!-- Liked Names Section -->
-      <div class="mb-5">
+      <div class="mb-5 pt-4">
         <div class="liked-header d-flex flex-row align-items-center gap-3">
-          <h3 class="fw-bold mb-0 mt-">Liked Allah’s Names <span class="badge badge-teal">{{ favoriteNames.length
-          }}</span>
-          </h3>
+          <h4 class="fw-bold mb-0 mt-">Liked Allah’s Names <span class="badge badge-premium">{{ favoriteNames.length
+              }}</span>
+          </h4>
           <div class="liked-actions ms-auto ">
-            <button class="btn btn-outline-danger me-2" :disabled="favoriteNames.length === 0"
+            <button class="btn btn-outline-danger rounded-pill me-2" :disabled="favoriteNames.length === 0"
               @click="clearAllFavorites" v-if="favoriteNames.length > 0">
               Unlike All
             </button>
-            <button v-if="favoriteNames.length > 0" class="btn btn-outline-teal" type="button" data-bs-toggle="collapse"
-              data-bs-target="#likedNamesCollapse" :aria-expanded="!isCollapsed" aria-controls="likedNamesCollapse">
+            <button v-if="favoriteNames.length > 0" class="btn btn-sm btn-premium-outline rounded-pill" type="button"
+              data-bs-toggle="collapse" data-bs-target="#likedNamesCollapse" :aria-expanded="!isCollapsed"
+              aria-controls="likedNamesCollapse">
               <i :class="isCollapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
             </button>
           </div>
@@ -137,7 +115,7 @@
               <div class="card h-100 card-teal mt-3" role="article" :aria-labelledby="'fav-title-' + name.number">
                 <div class="card-body d-flex flex-column">
                   <div class="d-flex justify-content-between align-items-start">
-                    <span class="badge bg-secondary fs-6">{{ name.number }}</span>
+                    <span class="badge badge-premium fs-6">{{ name.number }}</span>
                     <button class="btn p-0" type="button" :aria-pressed="isFavorited(name.number) ? 'true' : 'false'"
                       :aria-label="isFavorited(name.number) ? 'Remove from liked' : 'Add to liked'"
                       @click="toggleFavorite(name.number)">
@@ -157,20 +135,20 @@
                     <p class="fav-small small text-muted">{{ name.description }}</p>
                   </div>
                   <!-- Button container pushed to the bottom -->
-                  <div class="fav-actions d-flex justify-content-between align-items-center gap-2">
+                  <div class="action-row fav-actions d-flex align-items-center gap-2">
                     <!-- Copy to Clipboard Button -->
                     <button
-                      class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1 me-2"
+                      class="btn btn-premium-outline btn-compact rounded-pill d-flex align-items-center justify-content-center flex-grow-1 me-2 focus-ring"
                       aria-label="Copy name to clipboard" @click="copyToClipboard(name)">
-                      <span class="text-center w-100">
-                        <b>Copy to Clipboard</b>
-                      </span>
+                      <i class="bi bi-clipboard me-2"></i>
+                      <b>Copy</b>
                     </button>
                     <!-- WhatsApp Share Button -->
-                    <a class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1"
+                    <a class="btn btn-premium btn-compact rounded-pill d-flex align-items-center justify-content-center flex-grow-1 focus-ring"
                       aria-label="Share name on WhatsApp" :href="generateWhatsAppLink(name)" target="_blank"
                       rel="noopener">
-                      <b>Share on WhatsApp</b>
+                      <i class="bi bi-whatsapp me-2"></i>
+                      <b>Share</b>
                     </a>
                   </div>
                 </div>
@@ -186,9 +164,9 @@
       <div class="row g-4 mt-2">
         <div v-for="name in filteredNames" :key="name.number" class="col-12 col-md-4">
           <div class="card h-100" role="article" :aria-labelledby="'name-title-' + name.number">
-            <div class="card-body h-100">
+            <div class="card-body card-teal h-100">
               <div class="d-flex justify-content-between align-items-start">
-                <span class="badge bg-secondary fs-6">{{ name.number }}</span>
+                <span class="badge badge-premium fs-6">{{ name.number }}</span>
                 <button class="btn p-0" type="button" :aria-pressed="isFavorited(name.number) ? 'true' : 'false'"
                   :aria-label="isFavorited(name.number) ? 'Remove from favorites' : 'Add to favorites'"
                   @click="toggleFavorite(name.number)">
@@ -213,9 +191,10 @@
                 <p class="name-small small text-muted">{{ name.description }}</p>
               </div>
             </div>
-            <div class="name-actions d-flex justify-content-between align-items-center gap-2 mb-2">
+            <div class="action-row name-actions d-flex align-items-center gap-2 mb-2">
               <!-- Copy to Clipboard Button -->
-              <button class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1 me-2"
+              <button
+                class="btn btn-premium-outline btn-compact rounded-pill d-flex align-items-center justify-content-center flex-grow-1 me-2 focus-ring"
                 aria-label="Copy name to clipboard" @click="copyToClipboard(name)">
                 <span class="text-center w-100">
                   <i class="bi bi-clipboard me-2"></i>
@@ -224,7 +203,7 @@
               </button>
 
               <!-- WhatsApp Share Button -->
-              <a class="btn btn-teal btn-compact d-flex align-items-center justify-content-center flex-grow-1"
+              <a class="btn btn-premium btn-compact rounded-pill d-flex align-items-center justify-content-center flex-grow-1 focus-ring"
                 aria-label="Share name on WhatsApp" :href="generateWhatsAppLink(name)" target="_blank" rel="noopener">
                 <i class="bi bi-whatsapp me-2"></i>
                 <b>Share</b>
@@ -1126,8 +1105,17 @@ export default {
 <style scoped>
 .names-container {
   /* Provide teal palette for descendants (AA compliant) */
-  --teal: #228B22;
-  --teal-dark: #00564c;
+  --teal-400: #2dd4bf;
+  --teal-500: #14b8a6;
+  --teal-600: #0d9488;
+  --teal-700: #0f766e;
+  --teal-800: #115e59;
+  --teal: var(--teal-500);
+  --teal-dark: var(--teal-700);
+  --surface: #f2fbfa;
+  --ink: #0f172a;
+  --ring: rgba(20, 184, 166, 0.35);
+  --accent-gold: #eab308;
 }
 
 .text-teal {
@@ -1139,10 +1127,64 @@ export default {
   color: #fff;
 }
 
+/* Premium buttons (pill, exact sizing) */
+.btn-premium,
+.btn.btn-premium {
+  background-image: linear-gradient(135deg, var(--teal-500), var(--teal-700));
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  min-height: 44px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+.btn-premium:hover {
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(17, 94, 89, 0.28);
+}
+
+.btn-premium:active {
+  transform: translateY(0);
+}
+
+.btn-premium-outline,
+.btn.btn-premium-outline {
+  background: #fff;
+  color: var(--teal-700);
+  border-radius: 24px;
+  border: 2px solid var(--teal-500);
+  padding: 0.65rem 1rem;
+  min-height: 44px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+.btn-premium b, .btn-premium-outline b { font-weight: 500; }
+
+.btn-premium-outline:hover {
+  background: rgba(20, 184, 166, 0.06);
+  box-shadow: 0 6px 14px rgba(17, 94, 89, 0.16);
+}
+
+.btn-premium-outline:active {
+  background: rgba(20, 184, 166, 0.12);
+}
+
+/* Legacy teal button kept for compatibility */
 .btn-teal {
   background-color: var(--teal);
   color: #fff;
   border-color: var(--teal);
+  border-radius: 20px;
 }
 
 .btn-teal:hover {
@@ -1150,24 +1192,69 @@ export default {
   border-color: var(--teal-dark);
 }
 
-.btn-outline-teal {
-  color: var(--teal);
-  border-color: var(--teal);
-}
-
-.btn-outline-teal:hover {
-  background-color: var(--teal);
-  color: #fff;
-}
-
 .btn-compact {
-  height: 38px;
+  height: auto;
 }
 
 .card-teal {
+  border-radius: 20px;
+  border: 1px solid rgba(20, 184, 166, 0.25);
+  box-shadow: 0 6px 20px rgba(2, 44, 34, 0.05);
+  background: linear-gradient(180deg, #ffffff, #f9fefd);
+}
+
+/* Apply rounded aesthetic to all cards in this component */
+.card {
+  border-radius: 20px;
+}
+
+/* Premium card & badge */
+.card-premium {
+  border-radius: 20px;
+  border: 1px solid rgba(20, 184, 166, 0.25);
+  background: linear-gradient(180deg, #ffffff, #f9fefd);
+  box-shadow: 0 10px 28px rgba(2, 44, 34, 0.06);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.card-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(2, 44, 34, 0.10);
+}
+
+.badge-premium {
+  background: var(--teal-700);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 8px;
-  border: 1px solid rgba(0, 107, 95, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  padding: .25rem .5rem;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 1px 2px rgba(2, 44, 34, 0.06);
+}
+
+/* Consistent 20px rounded aesthetic */
+.round-20 {
+  border-radius: 20px;
+}
+
+.rounded-pill {
+  border-radius: 999px;
+}
+
+/* Clean, evenly spaced action rows */
+.action-row {
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.action-row .btn {
+  flex: 1 1 0;
+}
+
+.action-row .btn+.btn {
+  margin-left: .5rem;
 }
 
 /* Liked section responsive tweaks */
@@ -1225,8 +1312,8 @@ export default {
 }
 
 .custom-success:checked {
-  background-color: #228B22 !important;
-  border-color: #228B22 !important;
+  background-color: var(--teal-600) !important;
+  border-color: var(--teal-600) !important;
 }
 
 html {
@@ -1240,6 +1327,46 @@ html {
 .hover-zoom:hover {
   transform: scale(1.02);
   transition: transform 0.3s ease;
+}
+
+/* Subtle animations */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes subtlePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(26, 95, 122, 0.0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 10px rgba(26, 95, 122, 0.0);
+  }
+}
+
+.animate-in {
+  animation: fadeSlideUp 320ms ease both;
+}
+
+.raise-on-hover {
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.raise-on-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26);
+}
+
+.shadow-soft {
+  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.12);
 }
 
 .featured-card {
@@ -1285,7 +1412,7 @@ html {
 
 .name-card {
   border: none;
-  border-radius: 12px;
+  border-radius: 20px;
   overflow: hidden;
   font-size: 1.1rem;
 }
@@ -1472,7 +1599,7 @@ html {
 }
 
 .name-actions {
-  padding: 10px;
+  padding: 12px;
 }
 
 @media (max-width: 576px) {
@@ -1489,7 +1616,7 @@ html {
   }
 
   .name-actions {
-    padding: 6px;
+    padding: 8px;
     flex-direction: column;
   }
 
@@ -1497,5 +1624,103 @@ html {
     width: 100%;
     margin-right: 0 !important;
   }
+}
+
+/* Next-step card + utilities (minimal inline styles) */
+.next-step-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid rgba(11, 128, 111, 0.20);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(0, 0, 0, 0.03), 0 10px 28px rgba(26, 95, 122, 0.09);
+  padding: 1.25rem 1.75rem;
+}
+
+.ghost-icon-btn {
+  position: absolute;
+  right: 44px;
+  top: 14px;
+  opacity: 0.9;
+  background: transparent;
+  border: 0;
+  color: #6b8b91;
+  z-index: 3;
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 6px 8px;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.ghost-icon-btn:hover {
+  background: rgba(26, 95, 122, 0.08);
+  color: var(--teal-dark);
+}
+
+.ghost-icon-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+.next-step-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.14));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(0, 121, 107);
+  font-size: 1.25rem;
+  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 16px rgba(26, 95, 122, 0.12);
+}
+
+.next-step-eyebrow {
+  letter-spacing: 0.1em;
+  color: #1a5f7a;
+  font-size: 0.78rem;
+}
+
+.next-step-copy {
+  color: var(--ink);
+  line-height: 1.7;
+  font-size: 1.02rem;
+}
+
+.link-teal {
+  color: rgb(0, 121, 107);
+}
+
+.link-teal:hover {
+  color: var(--teal-dark);
+}
+
+.btn-gradient {
+  background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
+  border: none;
+}
+
+/* Improved focus styles */
+.focus-ring {
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+.shadow-soft {
+  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.12);
+}
+
+.raise-on-hover {
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.raise-on-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26);
+}
+
+.animate-in {
+  animation: fadeSlideUp 320ms ease both;
 }
 </style>
