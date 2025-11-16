@@ -1,4 +1,5 @@
 <template>
+  <div class="soft-bg">
   <div class="container py-5">
     <!-- Title -->
     <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Gallery</h2>
@@ -18,12 +19,12 @@
               id="ai-gallery-search-input"
               v-model="searchTerm"
               type="text"
-              class="form-control h-100"
+              class="form-control h-100 rounded-20"
               :aria-label="'Search Islamic images'"
               placeholder="Search for Islamic images..." />
           </div>
           <div class="col-12 col-md-1 d-grid">
-            <button class="btn w-100 h-100" type="submit" style="background-color: #0db691; color: #000;">
+            <button class="btn w-100 h-100 btn-teal rounded-20" type="submit">
               Search
             </button>
           </div>
@@ -68,25 +69,20 @@
       <div :style="{ height: topSpacerHeight + 'px' }"></div>
       <div class="row g-3">
       <div v-for="(image, index) in visibleImages" :key="image.id || (startIndex + index)"
-        class="col-12 col-sm-4 col-md-4 col-lg-4 d-flex">
+        class="col-12 col-sm-6 col-md-6 col-lg-4 d-flex">
         <figure
-          class="card d-flex flex-column shadow-sm p-2 w-100 h-100"
-          style="border-radius: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden;"
+          class="card d-flex flex-column shadow-sm p-2 w-100 h-100 card-20 card-float glow-card"
         >
-          <div
-            class="image-wrapper"
-            style="overflow: hidden; border-radius: 8px;"
-          >
+          <div class="image-wrapper rounded-20 overflow-hidden media-frame">
             <img
               :src="image.src.medium"
               :srcset="`${image.src.small} 400w, ${image.src.medium} 800w, ${image.src.large} 1200w`"
               sizes="(max-width: 576px) 100vw, (max-width: 992px) 33vw, 33vw"
               :alt="image.alt || 'Islamic image'"
-              class="img-fluid image-zoom"
+              class="img-fluid image-zoom gallery-img "
               loading="lazy"
               decoding="async"
               fetchpriority="low"
-              style="height: 480px; object-fit: cover; transition: transform 0.3s ease; will-change: transform;"
               data-bs-toggle="modal"
               data-bs-target="#imageModal"
               tabindex="0"
@@ -96,18 +92,15 @@
               @keydown.space.stop.prevent="selectedImage = image"
             />
           </div>
-          <figcaption class="mt-2 text-center" style="padding: 0 10px; font-size: 20px; color: #444;">
+          <figcaption class="mt-2 text-center figcaption-compact">
             {{ image.alt || 'Islamic Image' }}
           </figcaption>
           <div class="flex-grow-1" aria-hidden="true"></div>
-          <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2"
-          >
+          <div class="action-row mt-auto px-2 pt-2 pb-2">
             <a
               :href="`https://wa.me/?text=${encodeURIComponent(image.src.original)}`"
               target="_blank"
-              class="btn btn-sm w-100 custom-btn d-flex align-items-center justify-content-center gap-2"
-              style="font-size: 18px;"
+              class="btn btn-sm w-100 custom-btn btn-action rounded-20 d-flex align-items-center justify-content-center gap-2"
               :aria-label="'Share image: ' + (image.alt || 'Islamic image') + ' via WhatsApp'"
             >
               <i class="bi bi-share-fill" aria-hidden="true"></i> Share
@@ -115,8 +108,7 @@
             <button
               type="button"
               @click.prevent="downloadImage(image.src.original, `image-${image.id}.jpg`)"
-              class="btn btn-sm w-100 custom-btn d-flex align-items-center justify-content-center gap-2"
-              style="font-size: 18px;"
+              class=" pt-2 btn btn-sm w-100 custom-btn btn-action rounded-20 d-flex align-items-center justify-content-center gap-2"
               :aria-label="'Download image: ' + (image.alt || 'Islamic image')"
             >
               <i class="bi bi-download" aria-hidden="true"></i> {{ 'Download' }}
@@ -159,6 +151,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -554,7 +547,7 @@ export default {
 
 .custom-btn {
   background-color: #0db691;
-  color: #000; /* Black text for AA contrast on light teal */
+  color: #fff; /* White text for better visibility */
   padding: 10px;
   border-radius: 6px;
   transition: all 0.3s ease;
@@ -562,12 +555,12 @@ export default {
   overflow: hidden;
 }
 
-.custom-btn:hover {
-  background-color: #0aa07f;
-  transform: translateY(-2px);
-  color: #000; /* maintain contrast on hover */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
+  .custom-btn:hover {
+    background-color: #0aa07f;
+    transform: translateY(-2px);
+    color: #fff; /* maintain visibility on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
 
 .custom-btn::after {
   content: '';
@@ -627,13 +620,13 @@ export default {
 
 .badge.active {
   background-color: #0db691; /* active teal */
-  color: #000; /* black text for AA contrast */
+  color: #fff; /* white text for better visibility */
   transform: scale(1.05);
 }
 
 .badge:hover {
   background-color: #0aa07f;
-  color: #000; /* maintain contrast on hover */
+  color: #fff; /* maintain contrast on hover */
   transform: scale(1.05);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
@@ -684,4 +677,136 @@ export default {
   animation: fadeIn 0.5s ease-out;
   animation-fill-mode: backwards;
 }
+
+/* New: 20px rounded aesthetic and clean action rows */
+.soft-bg {
+  /* softer, less prominent accents */
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(13, 182, 145, 0.05), transparent 60%),
+    radial-gradient(900px 500px at 110% 10%, rgba(26, 95, 122, 0.05), transparent 60%),
+    radial-gradient(800px 400px at 50% 120%, rgba(13, 182, 145, 0.04), transparent 60%),
+    linear-gradient(180deg, #ffffff, #fafcfc),
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.01) 0, rgba(0,0,0,0.01) 1px, transparent 1px, transparent 12px),
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.008) 0, rgba(0,0,0,0.008) 1px, transparent 1px, transparent 12px);
+  background-size: auto, auto, auto, 800px 800px, 800px 800px;
+  background-attachment: scroll, scroll, scroll, fixed, fixed;
+  position: relative;
+}
+.soft-bg::before,
+.soft-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.35;
+  z-index: 0;
+  animation: floatBlob 18s ease-in-out infinite;
+}
+.soft-bg::before { width: 360px; height: 360px; background: radial-gradient(circle at 30% 30%, rgba(13,182,145,.35), transparent 60%); top: -120px; left: -80px; }
+.soft-bg::after { width: 300px; height: 300px; background: radial-gradient(circle at 70% 70%, rgba(26,95,122,.35), transparent 60%); bottom: -100px; right: -60px; animation-delay: 6s; }
+
+@keyframes floatBlob { 0%,100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-14px) translateX(8px); } }
+.rounded-20 { border-radius: 20px !important; }
+.card-20 { border-radius: 20px; overflow: hidden; }
+.glow-card {
+  background: #fff;
+  border: 1px solid rgba(13, 182, 145, 0.18);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+.glow-card:hover { box-shadow: 0 16px 30px rgba(0,0,0,0.12), 0 0 0 3px rgba(13,182,145,0.08) inset; }
+.gallery-img {
+  height: 480px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+.figcaption-compact { padding: 0 10px; font-size: 18px; color: #444; }
+/* Keep caption heights consistent across cards */
+.figcaption-compact { min-height: 96px; display: flex; align-items: center; justify-content: center; text-align: center; }
+
+.action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: stretch;
+  margin-top: 12px;
+}
+.btn-action { font-size: 18px; }
+
+/* Subtle card float animation */
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+.card-float { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.card-float:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+/* Reset figure default margins to avoid layout gaps */
+figure.card { margin: 0; }
+
+/* Button pulse on focus-visible for accessibility feedback */
+@keyframes focusPulse {
+  0% { box-shadow: 0 0 0 0 rgba(13,182,145,0.45); }
+  100% { box-shadow: 0 0 0 8px rgba(13,182,145,0); }
+}
+.btn-action:focus-visible { outline: none; animation: focusPulse 0.6s ease; }
+
+/* Primary teal button utility */
+.btn-teal { background-color: #0db691; color: #fff; transition: background-color .2s ease; }
+.btn-teal:hover { background-color: #0aa07f; color: #fff; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .card-float, .gallery-img, .btn-action { transition: none !important; animation: none !important; }
+}
+
+/* Extra polish for visual interest without noise */
+.glow-card { position: relative; }
+.glow-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 20px;
+  box-shadow: 0 0 0 0 rgba(13,182,145,0.0);
+  transition: box-shadow .3s ease;
+}
+.glow-card:hover::after { box-shadow: 0 0 0 3px rgba(13,182,145,0.15); }
+
+/* Gradient stroke + soft fade for media */
+.media-frame { position: relative; z-index: 0; }
+.media-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px; /* hairline gradient stroke */
+  background: linear-gradient(135deg, rgba(13,182,145,.5), rgba(26,95,122,.4));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+.media-frame::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 12%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.18) 100%);
+  opacity: .12;
+  pointer-events: none;
+}
+
+/* Cross-browser fallback when CSS masking isn't supported (e.g., Firefox) */
+@supports not (mask-composite: exclude) {
+  .media-frame { border: 1px solid rgba(13,182,145,.18); }
+  .media-frame::before { display: none; }
+}
+@supports not (-webkit-mask-composite: xor) {
+  .media-frame { border: 1px solid rgba(13,182,145,.18); }
+  .media-frame::before { display: none; }
+}
+
+/* Button icon micro-motion */
+.btn-action i { transition: transform .2s ease; }
+.btn-action:hover i { transform: translateY(-1px); }
 </style>

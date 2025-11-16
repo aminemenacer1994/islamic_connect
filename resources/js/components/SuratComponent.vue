@@ -43,8 +43,7 @@
             <option value="" disabled>Select Translation</option>
             <option v-for="translation in translationsSorted" :key="translation.identifier"
               :value="translation.identifier">
-              <span style="font-size: 1.2em; margin-right: 6px;">{{ translation.flag }}</span>{{ translation.englishName
-              }} ({{ translation.language }})
+              {{ `${translation.flag} ${translation.englishName} (${translation.language})` }}
             </option>
           </select>
         </div>
@@ -153,7 +152,7 @@
               <div style="padding: 4px;">
                 <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(item.ayah)"
                   :style="{ fontSize: arabicFontSize + 'px' }"></p>
-                <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h4>
+                <h2 class=" pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h2>
                 <p class="fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
                   :style="{ fontSize: translationFontSize + 'px' }"></p>
               </div>
@@ -2161,7 +2160,7 @@ h1.display-5 {
   color: #082b27;
 }
 .ayah-card-container .ltr-text { color: #334155; }
-.ayah-card-container h4.fw-bold.hide-on-mobile-tablet { color: #1f2a37; font-size: 0.95rem; opacity: 0.85; }
+.ayah-card-container h4.fw-bold.hide-on-mobile-tablet { color: #1f2a37; opacity: 0.85; }
 
 /* Constrain reading width for better legibility */
 .ayah-card-container .rtl-text,
@@ -2231,7 +2230,6 @@ h1.display-5 {
 @media (min-width: 992px) {
   .ayah-card { padding: 16px 18px; }
   .ayah-card-container .arabic-text { font-size: 2rem; }
-  .ayah-card-container .ltr-text { font-size: 1.05rem; }
 }
 </style>
 ```

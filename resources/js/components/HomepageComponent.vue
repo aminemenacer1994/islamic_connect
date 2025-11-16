@@ -102,46 +102,13 @@
                 <div class="row mb-3">
                   <div class="col-12">
                     <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
-                      <button type="button" onclick="window.location.href='/surat'" style="
-                background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
-                color: white;
-                border: none;
-                padding: 1rem 2.5rem;
-                border-radius: 12px;
-                font-weight: 700;
-                font-size: 1.1rem;
-                box-shadow: 0 8px 25px rgba(0, 191, 166, 0.4);
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                position: relative;
-                overflow: hidden;
-              " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(0, 191, 166, 0.6)';"
-                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(0, 191, 166, 0.4)';">
+                      <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4">
                         <i class="fas fa-rocket me-2"></i>Get Started Free
-                        <span style="
-                  position: absolute;
-                  top: 50%;
-                  right: 1.5rem;
-                  transform: translateY(-50%);
-                  font-size: 1.1rem;
-                  opacity: 0.9;
-                "></span>
-                      </button>
+                      </a>
 
-                      <button type="button" onclick="window.location.href='/subscribe'" style="
-                background: rgba(255, 255, 255, 0.9);
-                color: #1a5f7a;
-                border: 2px solid #1a5f7a;
-                padding: 1rem 2rem;
-                border-radius: 12px;
-                font-weight: 700;
-                font-size: 1.1rem;
-                box-shadow: 0 5px 20px rgba(26, 95, 122, 0.2);
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                backdrop-filter: blur(10px);
-              " onmouseover="this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';"
-                        onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';">
+                      <a href="/subscribe" class="btn rounded-20 fw-bold px-4" style="background: rgba(255,255,255,0.9); color:#1a5f7a; border:2px solid #1a5f7a;">
                         <i class="fas fa-heart me-2"></i>Support Our Mission
-                      </button>
+                      </a>
                     </div>
 
                     <!-- Trust Indicators -->
@@ -238,15 +205,14 @@
           <div class="row g-4">
             <!-- Card 1: Explore with Ease -->
             <div class="col-md-6 col-lg-4">
-              <article class="card h-100 border-0"
-                style="box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+              <article class="card h-100 border-0 card-20 card-float shadow-sm">
                 <div class="card-body text-center p-4">
                   <div class="my-3">
                     <img src="images/galaxy.png" width="80" height="80" alt="Magnifying glass exploring Islamic content"
                       loading="lazy" />
                   </div>
                   <h3 class="h3 fw-bold ">Explore with Ease</h3>
-                  <p class="mb-4" style="font-size: 16px; line-height: 1.6; color: #4a5568;">
+                  <p class="mb-4 text-muted" style="font-size: 16px; line-height: 1.6;">
                     Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics.
                     Find meaningful content instantly for your spiritual journey.
                   </p>
@@ -257,15 +223,14 @@
 
             <!-- Card 2: Listen, Watch, Reflect -->
             <div class="col-md-6 col-lg-4">
-              <article class="card h-100 border-0"
-                style="box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+              <article class="card h-100 border-0 card-20 card-float shadow-sm">
                 <div class="card-body text-center p-4">
                   <div class="my-3">
                     <img src="images/watching.png" width="80" height="80" alt="Headphones for audio content"
                       loading="lazy" />
                   </div>
                   <h3 class="h3 fw-bold ">Listen, Watch, Reflect</h3>
-                  <p class="mb-4" style="font-size: 16px; line-height: 1.6; color: #4a5568;">
+                  <p class="mb-4 text-muted" style="font-size: 16px; line-height: 1.6;">
                     Enjoy Quran recitations, insightful podcasts, and Islamic art galleries.
                     Engage spiritually through multimedia content anywhere, anytime.
                   </p>
@@ -276,15 +241,14 @@
 
             <!-- Card 3: Learn Your Way -->
             <div class="col-md-6 col-lg-4">
-              <article class="card h-100 border-0"
-                style="box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+              <article class="card h-100 border-0 card-20 card-float shadow-sm">
                 <div class="card-body text-center p-4">
                   <div class="my-3">
                     <img src="images/school.png" width="80" height="80" alt="Graduation cap for learning"
                       loading="lazy" />
                   </div>
                   <h3 class="h3 fw-bold">Learn Your Way</h3>
-                  <p class="mb-4" style="font-size: 16px; line-height: 1.6; color: #4a5568;">
+                  <p class="mb-4 text-muted" style="font-size: 16px; line-height: 1.6;">
                     Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible
                     learning
                     for everyone, regardless of ability.
@@ -311,14 +275,14 @@
             intelligent connection to the Divine.
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
-            <a href="/quran" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
-              style="background: rgb(0, 121, 107); border: none; min-width: 160px;">
+            <a href="/quran" class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20"
+              style="min-width: 160px;">
               Explore Quran
             </a>
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
-          <img src="/images/companion2.png" class="img-fluid rounded-3 shadow-sm"
+          <img src="/images/companion2.png" class="img-fluid rounded-20 shadow-sm"
             alt="Quran Companion interface showing AI-powered features and accessibility tools" loading="lazy"
             width="600" height="400">
         </div>
@@ -327,7 +291,7 @@
       <!-- Second Row - Audio Content -->
       <div class="row py-4 py-lg-5 align-items-center">
         <div class="col-lg-6 mb-4 mb-lg-0">
-          <img src="/images/radio2.png" class="img-fluid rounded-3 shadow-sm"
+          <img src="/images/radio2.png" class="img-fluid rounded-20 shadow-sm"
             alt="Islamic podcasts and audio content streaming interface" loading="lazy" width="600" height="400">
         </div>
         <div class="col-lg-6">
@@ -339,8 +303,8 @@
             Stay spiritually connected through sound and reflection wherever you are.
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
-            <a href="/media" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
-              style="background: rgb(0, 121, 107); border: none; min-width: 160px;">
+            <a href="/media" class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20"
+              style="min-width: 160px;">
               Browse Content
             </a>
           </div>
@@ -358,14 +322,14 @@
             and recitations with tools designed for simplicity and spiritual growth.
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
-            <a href="/surat" class="btn btn-primary btn-lg px-4 py-3 fw-semibold text-white text-decoration-none"
-              style="background: rgb(0, 121, 107); border: none; min-width: 160px;">
+            <a href="/surat" class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20"
+              style="min-width: 160px;">
               Start Exploring
             </a>
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
-          <img src="/images/surat2.png" class="img-fluid rounded-3 shadow-sm"
+          <img src="/images/surat2.png" class="img-fluid rounded-20 shadow-sm"
             alt="Quran exploration interface with search and translation features" loading="lazy" width="600"
             height="400">
         </div>
@@ -385,14 +349,14 @@
             <div class="row container-fluid stats-grid">
               <div class="col-md-4 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>70+</h3>
+                  <h3>75+</h3>
                   <p>Countries</p>
                   <small>Global reach</small>
                 </div>
               </div>
               <div class="col-md-4 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>570+</h3>
+                  <h3>575+</h3>
                   <p>Cities/Towns</p>
                   <small>Worldwide presence</small>
                 </div>
@@ -704,7 +668,7 @@
               transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
               position: relative;
               overflow: hidden;
-            " class="join-card-hover">
+            " class="join-card-hover rounded-20">
                   <!-- WhatsApp Card -->
                   <div class="d-flex align-items-center mb-3">
                     <div style="
@@ -725,7 +689,7 @@
                       <small class="text-muted">Daily verses & instant reminders</small>
                     </div>
                   </div>
-                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100" target="_blank"
+                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100 rounded-20" target="_blank"
                     style="
                 background: linear-gradient(135deg, #25D366, #128C7E);
                 color: white;
@@ -765,7 +729,7 @@
               transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
               position: relative;
               overflow: hidden;
-            " class="join-card-hover">
+            " class="join-card-hover rounded-20">
                   <!-- Telegram Card -->
                   <div class="d-flex align-items-center mb-3">
                     <div style="
@@ -786,7 +750,7 @@
                       <small class="text-muted">In-depth content & discussions</small>
                     </div>
                   </div>
-                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0" class="btn w-100" target="_blank" style="
+                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0" class="btn w-100 rounded-20" target="_blank" style="
                 background: linear-gradient(135deg, #0088cc, #006699);
                 color: white;
                 font-weight: 700;
@@ -926,9 +890,7 @@
                 <!-- Submit Button -->
                 <div class="col-12">
                   <div class="d-grid">
-                    <button type="submit" class="btn btn-primary btn-lg fw-bold py-3"
-                      style="background: rgb(0, 121, 107); border: none; box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);"
-                      >
+                    <button type="submit" class="btn btn-teal rounded-20 btn-lg fw-bold py-3">
                       <span class="d-flex align-items-center justify-content-center">
                         <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>
                         Send Message
@@ -2008,5 +1970,24 @@ h4 {
   h4 {
     font-size: 1.45rem;
   }
+}
+
+/* Utilities for consistent 20px rounded aesthetic and subtle animations */
+.rounded-20 { border-radius: 20px !important; }
+.card-20 { border-radius: 20px; overflow: hidden; }
+.card-float { transition: transform .25s ease, box-shadow .25s ease; }
+.card-float:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,.12) !important; }
+
+.btn-teal { background-color: #0db691; color: #fff; border: none; transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease; }
+.btn-teal:hover { background-color: #0aa07f; color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.15); }
+.btn-teal:focus-visible { outline: none; animation: focusPulse .6s ease; }
+
+@keyframes focusPulse {
+  0% { box-shadow: 0 0 0 0 rgba(13,182,145,.45); }
+  100% { box-shadow: 0 0 0 8px rgba(13,182,145,0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-float, .btn-teal { transition: none !important; animation: none !important; }
 }
 </style>

@@ -403,7 +403,8 @@
 
 <script>
 import { jsPDF } from 'jspdf';
-import { events } from './prophet_events.json';
+// JSON modules default-export the entire object; access its events property.
+import eventsData from './prophet_events.json';
 
 export default {
   name: 'SeerahTimeline',
@@ -495,7 +496,7 @@ export default {
       const wc = plain ? plain.split(/\s+/).length : 0;
       return { ...e, _plainText: plain, _wordCount: wc, _readTime: Math.ceil(wc / 200), _listenTime: Math.ceil(wc / 150) };
     };
-    this.events = (events || []).map(preprocess);
+    this.events = ((eventsData && eventsData.events) || []).map(preprocess);
     this.originalEvents = this.events.slice();
     this.initializeAudioStates();
     this.initializeTooltips();

@@ -17,12 +17,12 @@
               id="video-gallery-search-input"
               v-model="query"
               type="text"
-              class="form-control h-100"
+              class="form-control h-100 rounded-20"
               :aria-label="'Search Islamic videos'"
               placeholder="Search for Islamic videos..." />
           </div>
           <div class="col-12 col-md-1 d-grid">
-            <button class="btn w-100 h-100" type="submit" style="background-color: #00695c; color: #ffffff;">Search</button>
+            <button class="btn w-100 h-100 btn-teal rounded-20" type="submit">Search</button>
           </div>
         </form>
       </div>
@@ -41,8 +41,8 @@
           <button
             v-for="(filter, idx) in filters"
             :key="filter"
-            class="badge flex-shrink-0 px-3 py-2"
-            :class="{ 'bg-dark text-white': activeFilter === filter, 'bg-light text-dark': activeFilter !== filter }"
+            class="badge flex-shrink-0 d-flex align-items-center gap-2 px-3 py-2"
+            :class="{ 'active': activeFilter === filter }"
             role="radio"
             :aria-checked="String(activeFilter === filter)"
             :tabindex="activeFilter === filter ? 0 : -1"
@@ -53,7 +53,7 @@
             @keydown.enter.prevent="applyFilter(filter)"
             @keydown.space.prevent="applyFilter(filter)"
           >
-            {{ filter }}
+            <i :class="getFilterIcon(filter)"></i> {{ filter }}
           </button>
         </div>
       </div>
@@ -63,22 +63,21 @@
     <div v-if="videos.length">
       <div :style="{ height: topSpacerHeight + 'px' }"></div>
       <div class="row g-3">
-      <div v-for="(video, i) in visibleVideos" :key="video.id || (startIndex + i)" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
-        <article class="card d-flex flex-column shadow-md p-1 w-100 h-100 card-video" style="border: 2px solid lightgray;">
+      <div v-for="(video, i) in visibleVideos" :key="video.id || (startIndex + i)" class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4">
+        <article class="card d-flex flex-column shadow-sm p-2 w-100 h-100 card-video card-20 card-float glow-card">
           <div
-            class="ratio ratio-16x9 video-container"
-            style="height: 500px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
+            class="ratio ratio-16x9 pb-2 video-container rounded-20 overflow-hidden video-frame media-frame"
             role="button"
             @click="togglePlayPause($event)"
             tabindex="0"
             :aria-label="'Video: ' + (video.description || 'Islamic animation') + '. Press Enter to play/pause'"
             @keydown.enter.prevent="togglePlayPause($event)"
             @keydown.space.prevent="togglePlayPause($event)"
-          >
+            >
             <video
               :src="video.loaded ? video.url : ''"
               :poster="video.thumbnail"
-              class="w-100 rounded-top video-hover"
+              class="w-100 mb-2 rounded-20 video-hover"
               controls
               controlslist="nodownload noplaybackrate"
               loop
@@ -91,14 +90,11 @@
               Your browser does not support the video tag.
             </video>
           </div>
-          <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2"
-          >
+          <div class="action-row  px-2 pb-2">
             <a
               :href="`https://wa.me/?text=${encodeURIComponent(video.url)}`"
               target="_blank"
-              class="btn btn-sm w-100 custom-btn"
-              style="font-size: 18px;"
+              class="btn btn-sm w-100 custom-btn btn-action rounded-20 d-flex align-items-center justify-content-center gap-2"
               :aria-label="'Share video via WhatsApp'"
             >
               <i class="bi bi-share-fill" aria-hidden="true"></i> Share
@@ -106,8 +102,7 @@
             <a
               :href="video.url"
               :download="`video-${video.id}.mp4`"
-              class="btn btn-sm w-100 custom-btn"
-              style="font-size: 18px;"
+              class="btn btn-sm w-100 custom-btn btn-action rounded-20 d-flex align-items-center justify-content-center gap-2"
               target="_blank"
               :aria-label="'Download video file'"
             >
@@ -185,6 +180,23 @@ export default {
     }
   },
   methods: {
+    getFilterIcon(filter) {
+      const iconMap = {
+        'Islamic': 'bi-star-fill',
+        'islamic animation': 'bi-play-btn',
+        'Calligraphy': 'bi-pen-nib',
+        'Quran': 'bi-book',
+        'Kaaba': 'bi-box',
+        'Mecca': 'bi-geo-alt',
+        'Madina': 'bi-geo-alt-fill',
+        'Hijab': 'bi-person',
+        'Ramadan': 'bi-moon-stars',
+        'Eid': 'bi-gift',
+        'Arabic Art': 'bi-brush',
+        'Islamic Architecture': 'bi-columns'
+      };
+      return iconMap[filter] || 'bi-image';
+    },
     // Virtualization helpers
     computeItemsPerRow() {
       const w = window.innerWidth || 1024;
@@ -470,21 +482,10 @@ export default {
   border-top-right-radius: 5px;
 }
 
-.custom-btn {
-  background-color: #00695c;
-  color: #ffffff;
-  padding: 10px;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.custom-btn:hover,
-.custom-btn:focus {
-  background-color: #005347;
-  transform: translateY(-2px);
-  color: #ffffff;
-  outline: 2px solid #003c34;
-  outline-offset: 2px;
-}
+.custom-btn { background-color: #0db691; color: #fff; padding: 10px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+.custom-btn:hover, .custom-btn:focus { background-color: #0aa07f; transform: translateY(-2px); color: #fff; outline: 2px solid rgba(13,182,145,.4); outline-offset: 2px; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+.custom-btn::after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(255,255,255,.2); border-radius: 50%; transform: translate(-50%,-50%); transition: width .4s ease, height .4s ease; }
+.custom-btn:hover::after { width: 200px; height: 200px; }
 
 .scrollmenu {
   white-space: nowrap;
@@ -514,29 +515,9 @@ export default {
   text-decoration: none;
 }
 
-.badge.active {
-  background-color: rgba(0, 191, 166, 0.2);
-  color: rgb(5, 32, 29);
-  border: 1px solid rgba(0, 191, 166);
-
-}
-
-.badge {
-  background-color: rgba(0, 191, 166);
-  font-size: 1em;
-  color: #fff;
-  border: 1px solid rgba(0, 191, 166);
-  border-radius: 2px;
-  border-radius: 6px;
-  padding: 8px;
-}
-
-.badge:hover {
-  font-size: 1em;
-  color: white;
-  border-radius: 6px;
-  padding: 8px;
-}
+.badge { background-color: black; color: #fff; font-size: 1em; border: 1px solid #0db69175; border-radius: 8px; padding: 8px 12px; transition: all .3s ease; }
+.badge.active { background-color: #0db691; color: #fff; transform: scale(1.05); }
+.badge:hover { background-color: #0aa07f; color: #fff; transform: scale(1.05); box-shadow: 0 2px 8px rgba(0,0,0,.15); }
 
 .shadow-lg {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -587,21 +568,96 @@ export default {
   cursor: pointer;
 }
 
-.ratio {
-  border-radius: 0.25rem;
-  overflow: hidden;
-}
+.ratio { border-radius: 20px; overflow: hidden; }
+.video-frame { height: 500px; }
 
 
-video {
-  border-radius: 0.25rem;
-}
+video { border-radius: 20px; }
 
 .card {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   content-visibility: auto;
   contain: content;
 }
+
+/* Shared utilities to match AiComponent */
+.soft-bg {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(13, 182, 145, 0.05), transparent 60%),
+    radial-gradient(900px 500px at 110% 10%, rgba(26, 95, 122, 0.05), transparent 60%),
+    radial-gradient(800px 400px at 50% 120%, rgba(13, 182, 145, 0.04), transparent 60%),
+    linear-gradient(180deg, #ffffff, #fafcfc),
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.01) 0, rgba(0,0,0,0.01) 1px, transparent 1px, transparent 12px),
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.008) 0, rgba(0,0,0,0.008) 1px, transparent 1px, transparent 12px);
+  background-size: auto, auto, auto, auto, 800px 800px, 800px 800px;
+  background-attachment: scroll, scroll, scroll, scroll, fixed, fixed;
+  position: relative;
+}
+
+.soft-bg::before,
+.soft-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.35;
+  z-index: 0;
+  animation: floatBlob 18s ease-in-out infinite;
+}
+.soft-bg::before { width: 340px; height: 340px; background: radial-gradient(circle at 30% 30%, rgba(13,182,145,.35), transparent 60%); top: -110px; left: -70px; }
+.soft-bg::after { width: 280px; height: 280px; background: radial-gradient(circle at 70% 70%, rgba(26,95,122,.35), transparent 60%); bottom: -90px; right: -50px; animation-delay: 6s; }
+
+@keyframes floatBlob { 0%,100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-14px) translateX(8px); } }
+.rounded-20 { border-radius: 20px !important; }
+.card-20 { border-radius: 20px; overflow: hidden; }
+.card-float { transition: transform .25s ease, box-shadow .25s ease; }
+.card-float:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,.15); }
+.glow-card { background: #fff; border: 1px solid rgba(13,182,145,.18); box-shadow: 0 10px 24px rgba(0,0,0,.08); }
+.glow-card:hover { box-shadow: 0 16px 30px rgba(0,0,0,.12), 0 0 0 3px rgba(13,182,145,.08) inset; }
+.btn-teal { background-color: #0db691; color: #fff; border: none; transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease; }
+.btn-teal:hover { background-color: #0aa07f; color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.15); }
+.action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: stretch; }
+.action-row { margin-top: 12px; }
+.btn-action { font-size: 18px; }
+/* Reset default figure/article spacing and enforce column layout */
+article.card { margin: 0; display: flex; flex-direction: column; }
+
+@keyframes focusPulse { 0% { box-shadow: 0 0 0 0 rgba(13,182,145,.45);} 100% { box-shadow: 0 0 0 8px rgba(13,182,145,0);} }
+.btn-action:focus-visible { outline: none; animation: focusPulse .6s ease; }
+@keyframes cardFloat { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-3px);} }
+.video-frame:hover { animation: cardFloat 3s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) { .card-float, .btn-teal, .btn-action, .video-frame, .soft-bg::before, .soft-bg::after { transition: none !important; animation: none !important; } }
+
+/* Gradient stroke + soft fade for media */
+.media-frame { position: relative; z-index: 0; }
+.media-frame::before {
+  content: '';
+  position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+  background: linear-gradient(135deg, rgba(13,182,145,.5), rgba(26,95,122,.4));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+}
+.media-frame::after {
+  content: '';
+  position: absolute; left: 0; right: 0; bottom: 0; height: 18%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.18) 100%);
+  height: 22%; opacity: .22; pointer-events: none;
+}
+
+/* Cross-browser fallback when CSS masking isn't supported (e.g., Firefox) */
+@supports not (mask-composite: exclude) {
+  .media-frame { border: 1px solid rgba(13,182,145,.18); }
+  .media-frame::before { display: none; }
+}
+@supports not (-webkit-mask-composite: xor) {
+  .media-frame { border: 1px solid rgba(13,182,145,.18); }
+  .media-frame::before { display: none; }
+}
+
+/* Button icon micro-motion */
+.btn-action i { transition: transform .2s ease; }
+.btn-action:hover i { transform: translateY(-1px); }
 
 
 </style>
