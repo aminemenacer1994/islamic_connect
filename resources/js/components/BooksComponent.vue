@@ -1,5 +1,5 @@
 <template>
-  <div class="min-vh-100 bg-light p-0 m-0" :style="{ fontSize: `${baseFontSize}rem` }">
+  <div class="min-vh-100 bg-light p-0 m-0 premium-root" :style="{ fontSize: `${baseFontSize}rem` }">
     <!-- Accessibility: Skip to main content -->
     <a href="#mainContent"
       class="visually-hidden-focusable position-absolute top-0 start-50 translate-middle-x bg-primary text-white text-decoration-none rounded p-2 opacity-0"
@@ -16,65 +16,40 @@
             </p>
 
             <div class="container" style="padding: 10px;">
-              <div class="mx-auto mb-4" style="
-                  position: relative;
-                  background: #eaf3f1;
-                  border: 1px solid rgba(11, 128, 111, 0.20);
-                  border-radius: 24px;
-                  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
-                  padding: 1.25rem 1.75rem;
-                ">
+              <div class="mx-auto mb-4 elevated-card premium-radius next-step" >
                 <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
                   :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized"
-                  style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
+                  class="next-step-toggle">
                   <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
                 </button>
                 <div class="d-flex align-items-start gap-3 text-start">
                   <div class="flex-shrink-0 mt-1">
-                    <div class="next-step-icon-circle" role="img" aria-label="Calm Islamic finance guide" style="
-                      width: 48px; height: 48px;
-                      border-radius: 50%;
-                      background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.14));
-                      display: flex; align-items: center; justify-content: center;
-                      color: #0b806f; font-size: 1.25rem;
-                      box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 16px rgba(26,95,122,0.12);
-                    ">
+                    <div class="next-step-icon-circle" role="img" aria-label="Calm Islamic finance guide">
                       <i class="fas fa-scale-balanced" aria-hidden="true"></i>
                     </div>
                   </div>
                   <div style="flex:1;">
-                    <p class="mb-2 fw-semibold text-uppercase"
-                      style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+                    <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
                       NEXT STEP
                     </p>
                     <!-- Minimized teaser -->
-                    <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1"
-                      style="color: #1f2933;">
-                      <a href="/finance" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
-                        style="color:#0b806f;" aria-label="Open the Islamic finance guide">
+                    <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1 text-body">
+                      <a href="/finance" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 link-accent"
+                        aria-label="Open the Islamic finance guide">
                         Move from definitions to Islamic finance
-                        <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
-                          style="color:#0b806f; font-size: 0.82rem; opacity: 0.85;"></i>
+                        <i class="fas fa-arrow-up-right-from-square small opacity-75" aria-hidden="true"></i>
                       </a>
                     </div>
-                    <p v-show="!nextStepMinimized" class="mb-3"
-                      style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
+                    <p v-show="!nextStepMinimized" class="mb-3 next-step-text text-body">
                       Want to turn today’s definitions into calmer, halal money choices? The Islamic Finance guide pairs
                       larger text and gentle explanations so new Muslims can explore in English with confidence.
-                      <a href="/finance" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                      <a href="/finance" class="fw-semibold text-decoration-none link-accent">
                         Visit Islamic Finance
                       </a>
                       whenever you feel ready.
                     </p>
                     <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
-                      <a href="/finance"
-                        class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center" style="
-                          background: linear-gradient(135deg, #0b806f, #1a5f7a);
-                          border: none; border-radius: 999px;
-                          box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
-                          transition: transform 0.2s ease, box-shadow 0.2s ease;
-                          " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';"
-                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';">
+                      <a href="/finance" class="btn btn-sm fw-semibold px-3 py-2 d-inline-flex align-items-center cta-primary">
                         <span>Explore Islamic Finance</span>
                         <i class="fas fa-coins ms-2" aria-hidden="true"></i>
                         <span class="visually-hidden">Open the accessible Islamic finance guide for new Muslims</span>
@@ -89,16 +64,26 @@
               <!-- Search Stats -->
               <div class="mb-4" v-if="searchQuery || selectedSubject">
                 <div class="d-flex flex-wrap align-items-center gap-3 px-1" aria-live="polite">
-                  <span class="badge fs-6 px-3 py-2" style="background-color: #e0fff8; color: #00796b;">
-                    <i class="bi bi-search me-2" aria-hidden="true"></i>{{ filteredTerms?.length || 0 }} results
+                  <span class="chip">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="me-2">
+                      <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"/>
+                      <path d="M20 20l-4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    {{ filteredTerms?.length || 0 }} results
                   </span>
-                  <span v-if="selectedSubject" class="badge fs-6 px-3 py-2"
-                    style="background-color: #e0fff8; color: #00796b;">
-                    <i class="bi bi-tag me-2"></i>{{ selectedSubject }}
+                  <span v-if="selectedSubject" class="chip">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="me-2">
+                      <path d="M4 10l8-6l8 6v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    </svg>
+                    {{ selectedSubject }}
                   </span>
                   <button class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-2" @click="clearSearch"
                     title="Clear all filters" aria-label="Clear all filters">
-                    <i class="bi bi-x-circle me-1"></i>Clear
+                    <svg class="me-1" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+                      <path d="M9 9l6 6M15 9l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    Clear
                   </button>
                 </div>
               </div>
@@ -107,7 +92,7 @@
               <div class="mb-3">
                 <div class="row g-2 align-items-center flex-nowrap">
                   <div class="col-12 col-md-12">
-                    <div class="input-group shadow-sm" style="--primary-color: #00796b; --spacing: 0.5rem;">
+                    <div class="input-group shadow-sm search-shell premium-radius" style="--spacing: 0.5rem;">
                       <input id="searchQuery" type="text" v-model="searchQuery"
                         class="form-control border-0 ps-4 pe-0 py-3" placeholder="Search terms, meanings, references..."
                         aria-label="Search Islamic Dictionary" :aria-controls="'results-region'"
@@ -117,25 +102,29 @@
                         @keydown.escape="showSuggestions = false" autocomplete="off" spellcheck="false"
                         style="box-shadow: none;" />
                       <span class="input-group-text bg-white border-0 pe-3 ps-2 d-flex align-items-center">
-                        <i class="bi bi-search fs-5" style="color: var(--primary-color); transition: color 0.2s;"
-                          @mouseover="this.style.color = '#00a68f'" @mouseout="this.style.color = '#00bfa6'"></i>
+                        <i class="fas fa-search fs-5" style="color: var(--brand); transition: color 0.2s;"
+                          @mouseover="this.style.color = 'var(--brand-hover)';" @mouseout="this.style.color = 'var(--brand)';"></i>
                       </span>
                       <span v-if="searchQuery" class="input-group-text bg-white border-0 px-2">
-                        <button class="btn btn-link p-0" style="color: var(--primary-color); transition: color 0.2s;"
+                        <button class="btn btn-link p-0" style="color: var(--brand); transition: color 0.2s;"
                           @click="clearSearch" aria-label="Clear search" title="Clear search"
-                          @mouseover="this.style.color = '#00a68f'" @mouseout="this.style.color = '#00bfa6'">
-                          <i class="bi bi-x-lg fs-5"></i>
+                          @mouseover="this.style.color = 'var(--brand-hover)';" @mouseout="this.style.color = 'var(--brand)';">
+                          <i class="fas fa-times fs-5"></i>
                         </button>
                       </span>
                     </div>
                     <!-- Suggestions Dropdown -->
                     <div v-if="showSuggestions && filteredSuggestions.length && searchQuery.length >= 2"
-                      class="position-absolute w-100 shadow-lg rounded-bottom border mt-1 bg-white" role="listbox"
+                      class="position-absolute w-100 shadow-lg rounded-bottom premium-radius bg-white border mt-1" role="listbox"
                       :aria-activedescendant="highlightedIndex >= 0 ? 'suggestion-' + highlightedIndex : null"
                       style="z-index: 1050; max-height: 40vh; overflow-y: auto; border-top: none;">
                       <div class="p-2 border-bottom bg-light">
-                        <small class="text-muted">
-                          <i class="bi bi-lightbulb me-1" aria-hidden="true"></i>Search tips: Use quotes for exact
+                        <small class="text-muted d-inline-flex align-items-center gap-1">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="me-1">
+                            <path d="M8 14a4 4 0 1 1 8 0c0 2-2 3-2 4v1H10v-1c0-1-2-2-2-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                            <path d="M11 20h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                          </svg>
+                          Search tips: Use quotes for exact
                           phrases, + for required
                           words
                         </small>
@@ -151,17 +140,22 @@
                             <small class="text-muted">{{ suggestion.meaning.substring(0, 60) }}...</small>
                           </div>
                           <div class="d-flex flex-column align-items-end">
-                            <span class="badge" style="background-color: #e0fff8; color: #00796b;">{{ suggestion.subject
-                            }}</span>
+                            <span class="chip chip--sm">{{ suggestion.subject }}</span>
                             <small class="text-muted">{{ getMatchType(suggestion) }}</small>
                           </div>
                         </button>
                       </div>
                       <div class="p-2 border-top bg-light">
-                        <small class="text-muted">
-                          <i class="bi bi-arrow-up me-1" aria-hidden="true"></i><i class="bi bi-arrow-down me-1"
-                            aria-hidden="true"></i>Navigate • Enter to
-                          select • Esc to clear
+                        <small class="text-muted d-inline-flex align-items-center gap-2">
+                          <span class="d-inline-flex align-items-center gap-1">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                              <path d="M12 6l6 6H6l6-6Z" fill="currentColor"/>
+                            </svg>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                              <path d="M12 18l-6-6h12l-6 6Z" fill="currentColor"/>
+                            </svg>
+                          </span>
+                          Navigate • Enter to select • Esc to clear
                         </small>
                       </div>
                     </div>
@@ -249,8 +243,7 @@
             </div>
             <h3 class="fw-bold mb-3 fs-4 text-dark">No terms found</h3>
             <p class="text-muted mb-4 fs-5">Try adjusting your search criteria or browse all terms</p>
-            <button class="btn btn-lg rounded-pill px-4 py-3 mb-2" @click="clearSearch"
-              style="background-color: #00bfa6; color: #fff;">
+            <button class="btn btn-lg rounded-pill px-4 py-3 mb-2 btn-accent" @click="clearSearch">
               <i class="bi bi-arrow-counterclockwise me-2"></i>Reset Search
             </button>
           </div>
@@ -259,62 +252,59 @@
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4" role="region" id="results-region"
             aria-label="Dictionary results" :aria-busy="isLoading ? 'true' : 'false'">
             <div v-for="term in displayedTerms" :key="term.id" class="col mb-4">
-              <div class="card h-100 shadow-sm border-3 border shadow-md"
-                style="border:2px solid #d1e0e7; border-radius: 10px;"
+              <div class="card h-100 shadow-sm border-3 border shadow-md elevated-card premium-radius fade-in-up"
                 :class="{ 'border-primary border-3': favorites.includes(term.id) }"
                 :style="{ fontSize: `${termFontSizes[term.id]}rem` }" @click.self="handleCardClick(term.id)"
                 tabindex="0" role="article" :aria-labelledby="'term-title-' + term.id"
                 @keydown.enter="handleCardClick(term.id)" @keydown.space.prevent="handleCardClick(term.id)">
                 <div class="card-body d-flex flex-column p-4 gap-2">
-                  <span class="badge rounded-pill mb-3 px-3 py-2" style="background-color: #e0fff8; color: #00796b;">
-                    {{ term.subject }}
-                  </span>
-                  <h5 class="card-title fw-bold mb-3 fs-4" :id="'term-title-' + term.id" style="color: #00796b;">{{
+                  <span class="chip chip--sm mb-3">{{ term.subject }}</span>
+                  <h5 class="card-title fw-bold mb-3 fs-4 text-brand" :id="'term-title-' + term.id">{{
                     term.term }}</h5>
-                  <p class="card-text mb-3" style="color: #00796b;">
+                  <p class="card-text mb-3 text-brand-ink">
                     <em>"{{ term.phrase }}"</em>
                   </p>
                   <div class="mb-3">
-                    <h6 class="fw-bold mb-2" style="color: #00796b;">Meaning</h6>
+                    <h6 class="fw-bold mb-2 text-brand">Meaning</h6>
                     <p class="mb-0">{{ term.meaning }}</p>
                   </div>
                   <div class="mb-3">
-                    <h6 class="fw-bold mb-2" style="color: #00796b;">Example</h6>
+                    <h6 class="fw-bold mb-2 text-brand">Example</h6>
                     <p class="mb-0">{{ term.example }}</p>
                   </div>
                   <div class="mb-3">
-                    <h6 class="fw-bold mb-2" style="color: #00796b;">Reference</h6>
+                    <h6 class="fw-bold mb-2 text-brand">Reference</h6>
                     <p class="mb-0">{{ term.reference }}</p>
                   </div>
                 </div>
-                <div style="bottom: 0px;" class="card-footer bg-light border-top d-flex align-items-center px-3 py-2"
-                  @click.stop>
-                  <div class="d-flex gap-3 w-100 justify-content-evenly px-2 py-1">
-                    <button type="button"
-                      class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
-                      style="width: 48px; height: 48px;" @click="shareViaWhatsApp(term)" aria-label="Share via WhatsApp"
-                      title="Share via WhatsApp">
-                      <i class="bi bi-whatsapp fs-4"></i>
+                <div class="card-footer bg-light border-top px-3 py-2 premium-radius-bottom" @click.stop>
+                  <div class="action-row">
+                    <button type="button" class="action-btn" @click="shareViaWhatsApp(term)" aria-label="Share via WhatsApp" title="Share via WhatsApp">
+                      <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 21c4.97 0 9-3.91 9-8.73C21 7.45 17.09 3.5 12.12 3.5 7.6 3.5 4 6.98 4 11.3c0 1.3.34 2.52.95 3.58L4 21l6.36-1.67c.5.09 1.03.14 1.64.14Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                        <path d="M9.2 11.2c.3.7 1.2 1.8 2 2.3c.9.6 1.6.8 2.1.6c.3-.1.8-.6 1-.9c.1-.2.1-.5-.1-.7l-.8-1a.7.7 0 0 0-.7-.2l-.6.2c-.1.1-.3 0-.4-.1L10.9 9c-.1-.1-.2-.3-.1-.4l.1-.5a.7.7 0 0 0-.2-.7l-1-1c-.2-.2-.5-.2-.7-.1c-.4.2-1 .8-1.1 1.1c-.2.5-.1 1.4.3 2.5Z" fill="currentColor" opacity="0.25"/>
+                      </svg>
+                      <span class="label">Share</span>
                     </button>
-                    <button type="button"
-                      class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
-                      style="width: 48px; height: 48px;" @click="adjustFontSize(term.id, -1)"
-                      :disabled="termFontSizes[term.id] <= minFontSize" aria-label="Decrease font size"
-                      title="Decrease font size">
-                      <i class="bi bi-dash-lg fs-4"></i>
+                    <button type="button" class="action-btn" @click="adjustFontSize(term.id, -1)"
+                      :disabled="termFontSizes[term.id] <= minFontSize" aria-label="Decrease font size" title="Decrease font size">
+                      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M6 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                      </svg>
+                      <span class="label">A-</span>
                     </button>
-                    <button type="button"
-                      class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
-                      style="width: 48px; height: 48px;" @click="adjustFontSize(term.id, 1)"
-                      :disabled="termFontSizes[term.id] >= maxFontSize" aria-label="Increase font size"
-                      title="Increase font size">
-                      <i class="bi bi-plus-lg fs-4"></i>
+                    <button type="button" class="action-btn" @click="adjustFontSize(term.id, 1)"
+                      :disabled="termFontSizes[term.id] >= maxFontSize" aria-label="Increase font size" title="Increase font size">
+                      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 6v12M6 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                      </svg>
+                      <span class="label">A+</span>
                     </button>
-                    <button type="button"
-                      class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
-                      style="width: 48px; height: 48px;" @click="copyToClipboard(term)" aria-label="Copy to clipboard"
-                      title="Copy to clipboard">
-                      <i class="bi bi-clipboard fs-4"></i>
+                    <button type="button" class="action-btn" @click="copyToClipboard(term)" aria-label="Copy to clipboard" title="Copy to clipboard">
+                      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M9 4h6a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1V6a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                      </svg>
+                      <span class="label">Copy</span>
                     </button>
                   </div>
                 </div>
@@ -848,6 +838,128 @@ export default {
 </script>
 
 <style scoped>
+.premium-root {
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-md: 0 10px 24px rgba(0,0,0,0.08);
+  --brand: #0b806f;
+  --brand-ink: #1a5f7a;
+  --brand-accent: #00bfa6;
+  --brand-hover: #00a68f;
+  --brand-soft: #e0fff8;
+}
+
+.text-brand { color: var(--brand) !important; }
+.text-brand-ink { color: var(--brand-ink) !important; }
+
+.premium-radius {
+  border-radius: var(--radius) !important;
+}
+
+.premium-radius-bottom {
+  border-bottom-left-radius: var(--radius) !important;
+  border-bottom-right-radius: var(--radius) !important;
+}
+
+.elevated-card {
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-sm);
+  border: 2px solid #d1e0e7;
+}
+
+.elevated-card:hover,
+.elevated-card:focus-within {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 320ms ease both;
+}
+
+.action-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 8px;
+  align-items: center;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 8px;
+  border: 1px solid rgba(11,128,111,0.15);
+  background: #ffffff;
+  color: #1f2933;
+  border-radius: var(--radius-sm);
+  transition: background-color 160ms ease, box-shadow 200ms ease, transform 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.action-btn .label {
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.action-btn .icon {
+  display: block;
+  color: var(--brand);
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.action-btn:hover {
+  background: linear-gradient(180deg, #ffffff, #f7fbfa);
+  box-shadow: 0 6px 16px rgba(26,95,122,0.12);
+  transform: translateY(-1px);
+  border-color: rgba(11,128,111,0.25);
+}
+
+.action-btn:hover i {
+  color: var(--brand-ink);
+}
+
+.action-btn:hover .icon {
+  color: var(--brand-ink);
+}
+
+.action-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(11,128,111,0.18), 0 6px 16px rgba(26,95,122,0.12);
+}
+
+.action-btn:active {
+  transform: translateY(0);
+}
+
+.action-btn:disabled,
+.action-btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.55;
+  box-shadow: none;
+  transform: none;
+}
+
+@media (max-width: 480px) {
+  .action-row {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+}
+
 .input-group {
   border-radius: 0.5rem;
   overflow: hidden;
@@ -869,6 +981,115 @@ export default {
 .skip-link:focus {
   top: 20px !important;
   opacity: 1 !important;
+}
+
+.search-shell {
+  border: 1px solid rgba(11,128,111,0.15);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.search-shell:focus-within {
+  box-shadow: 0 0 0 3px rgba(11,128,111,0.18), var(--shadow-sm);
+  border-color: rgba(11,128,111,0.25);
+}
+
+.next-step {
+  position: relative;
+  background: #eaf3f1;
+  border: 1px solid rgba(11, 128, 111, 0.20);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
+  padding: 1.25rem 1.75rem;
+}
+
+.next-step-toggle {
+  position: absolute;
+  right: 44px;
+  top: 14px;
+  opacity: 0.9;
+  background: transparent;
+  border: 0;
+  color: #6b8b91;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.next-step-icon-circle {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.14));
+  display: flex; align-items: center; justify-content: center;
+  color: #0b806f; font-size: 1.25rem;
+  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 16px rgba(26,95,122,0.12);
+}
+
+.next-step-eyebrow {
+  letter-spacing: 0.1em;
+  color: #1a5f7a;
+  font-size: 0.78rem;
+}
+
+.next-step-text {
+  line-height: 1.7;
+  font-size: 1.02rem;
+}
+
+.link-accent { color:#0b806f; }
+.link-accent:hover { color:#0a7565; }
+
+.cta-primary {
+  color: #fff !important;
+  background: linear-gradient(135deg, #0b806f, #1a5f7a);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cta-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26); }
+.cta-primary:active { transform: translateY(0); box-shadow: 0 8px 16px rgba(26, 95, 122, 0.20); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, #f7fbfa, #ffffff);
+  color: var(--brand);
+  border: 1px solid rgba(11,128,111,0.20);
+  box-shadow: 0 1px 3px rgba(26,95,122,0.08) inset;
+  font-size: 1rem;
+}
+
+.chip--sm {
+  padding: 0.2rem 0.6rem;
+  font-size: 0.9rem;
+}
+
+.chip:hover {
+  box-shadow: 0 0 0 3px rgba(11,128,111,0.10);
+}
+
+.empty-state-icon {
+  color: var(--brand);
+  opacity: 0.85;
+}
+
+.btn-accent {
+  background-color: var(--brand-accent);
+  color: #fff;
+}
+.btn-accent:hover { background-color: var(--brand-hover); color: #fff; }
+.btn-accent:active { filter: brightness(0.95); }
+
+@media (prefers-reduced-motion: reduce) {
+  .elevated-card,
+  .fade-in-up,
+  .action-btn {
+    transition: none !important;
+  }
+  .fade-in-up {
+    animation: none !important;
+  }
 }
 
 @keyframes pulse {
