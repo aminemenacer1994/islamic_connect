@@ -14,6 +14,7 @@
         :filter="true"
         filterBy="label,ar"
         showClear
+        scrollHeight="352px"
         :virtualScrollerOptions="{ itemSize: 44 }"
         :value="selectedSurahLocal"
         placeholder="Type to search..."

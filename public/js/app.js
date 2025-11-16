@@ -48285,6 +48285,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     filter: true,
     filterBy: "label,ar",
     showClear: "",
+    scrollHeight: "352px",
     virtualScrollerOptions: {
       itemSize: 44
     },
