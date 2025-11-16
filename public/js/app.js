@@ -37101,7 +37101,15 @@ const _hoisted_2 = {
 const _hoisted_3 = {
   class: "fixed-footer p-4 mb-5 border-md",
   style: {
-    "border-radius": "8px"
+    "border-radius": "20px",
+    "background": "linear-gradient(135deg,#e2e8f0,#c7f5ea)",
+    "border": "1px solid rgba(6,182,172,.28)",
+    "box-shadow": "0 10px 30px rgba(2,44,34,.18), inset 0 1px 0 rgba(255,255,255,.35)",
+    "position": "sticky",
+    "top": "8px",
+    "z-index": "40",
+    "backdrop-filter": "saturate(140%) blur(8px)",
+    "-webkit-backdrop-filter": "saturate(140%) blur(8px)"
   }
 };
 const _hoisted_4 = {
@@ -37142,161 +37150,231 @@ const _hoisted_16 = {
 };
 const _hoisted_17 = ["id", "innerHTML"];
 const _hoisted_18 = {
-  class: "card-text text-muted mb-0"
+  class: "mb-0",
+  style: {
+    "color": "#64748B"
+  }
 };
 const _hoisted_19 = {
-  class: "card-text text-muted mb-0 fs-sm"
+  style: {
+    "margin-top": ".35rem",
+    "display": "flex",
+    "gap": ".4rem",
+    "align-items": "center"
+  }
 };
 const _hoisted_20 = {
+  style: {
+    "display": "inline-flex",
+    "align-items": "center",
+    "gap": ".35rem",
+    "padding": ".15rem .5rem",
+    "border-radius": "999px",
+    "background": "#f0fdfa",
+    "border": "1px solid rgba(6,182,172,.25)",
+    "color": "#334155"
+  }
+};
+const _hoisted_21 = {
+  key: 0,
+  style: {
+    "display": "inline-flex",
+    "align-items": "center",
+    "padding": ".15rem .5rem",
+    "border-radius": "999px",
+    "background": "#e6fffb",
+    "color": "#04786b",
+    "border": "1px solid rgba(6,182,172,.3)"
+  }
+};
+const _hoisted_22 = {
+  key: 1,
+  style: {
+    "display": "inline-flex",
+    "align-items": "center",
+    "padding": ".15rem .5rem",
+    "border-radius": "999px",
+    "background": "#fee2e2",
+    "color": "#7f1d1d",
+    "border": "1px solid #fecaca"
+  }
+};
+const _hoisted_23 = {
   class: "d-flex align-items-center gap-2"
 };
-const _hoisted_21 = ["onClick", "aria-label", "disabled", "title"];
-const _hoisted_22 = ["onClick", "aria-label"];
-const _hoisted_23 = {
+const _hoisted_24 = ["onClick", "aria-label", "disabled", "title"];
+const _hoisted_25 = ["onClick", "aria-label", "title"];
+const _hoisted_26 = {
   class: "audio-player d-none"
 };
-const _hoisted_24 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "aria-label"];
-const _hoisted_25 = {
+const _hoisted_27 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "aria-label"];
+const _hoisted_28 = {
   key: 0,
   class: "text-danger fs-6 p-3 d-flex align-items-center gap-2",
   role: "alert"
 };
-const _hoisted_26 = ["onClick"];
-const _hoisted_27 = {
+const _hoisted_29 = ["onClick"];
+const _hoisted_30 = {
   id: "reciters",
   class: "mb-5"
 };
-const _hoisted_28 = {
+const _hoisted_31 = {
   class: "d-flex justify-content-between align-items-center mb-4"
 };
-const _hoisted_29 = {
+const _hoisted_32 = {
   class: "d-flex align-items-center gap-2"
 };
-const _hoisted_30 = {
+const _hoisted_33 = {
   key: 0,
   class: "text-center my-4",
   "aria-live": "polite"
 };
-const _hoisted_31 = {
+const _hoisted_34 = {
   key: 1,
   class: "alert alert-danger",
   role: "alert"
 };
-const _hoisted_32 = {
+const _hoisted_35 = {
   key: 2
 };
-const _hoisted_33 = {
+const _hoisted_36 = {
   key: 0,
   class: "row",
   role: "list",
   "aria-label": "Stations"
 };
-const _hoisted_34 = ["id", "tabindex", "aria-labelledby", "data-station-id", "onKeydown", "onFocus"];
-const _hoisted_35 = {
+const _hoisted_37 = ["id", "tabindex", "aria-labelledby", "data-station-id", "onKeydown", "onFocus"];
+const _hoisted_38 = {
   class: "card-body"
 };
-const _hoisted_36 = {
+const _hoisted_39 = {
   class: "d-flex align-items-center gap-3"
 };
-const _hoisted_37 = {
+const _hoisted_40 = {
   class: "flex-grow-1"
 };
-const _hoisted_38 = {
+const _hoisted_41 = {
   class: "d-flex justify-content-between align-items-start"
 };
-const _hoisted_39 = ["id", "innerHTML"];
-const _hoisted_40 = {
+const _hoisted_42 = ["id", "innerHTML"];
+const _hoisted_43 = {
   class: "text-muted mb-1 fs-sm"
 };
-const _hoisted_41 = {
+const _hoisted_44 = {
   key: 0,
   class: "ms-1"
 };
-const _hoisted_42 = {
+const _hoisted_45 = {
   class: "text-muted mb-1 fs-sm"
 };
-const _hoisted_43 = ["onClick", "aria-label", "aria-pressed"];
-const _hoisted_44 = {
+const _hoisted_46 = ["onClick", "aria-label", "aria-pressed"];
+const _hoisted_47 = {
   class: "d-flex align-items-center justify-content-between"
 };
-const _hoisted_45 = {
-  class: "d-flex align-items-center gap-2 text-muted fs-sm"
+const _hoisted_48 = {
+  class: "d-flex align-items-center gap-2 fs-sm",
+  style: {
+    "color": "#334155"
+  }
 };
-const _hoisted_46 = ["title"];
-const _hoisted_47 = {
+const _hoisted_49 = ["title"];
+const _hoisted_50 = {
   key: 0,
-  class: "text-theme-teal fw-semibold"
+  class: "fw-semibold",
+  style: {
+    "display": "inline-flex",
+    "align-items": "center",
+    "gap": ".35rem",
+    "padding": ".15rem .5rem",
+    "border-radius": "999px",
+    "background": "#e6fffb",
+    "color": "#04786b",
+    "border": "1px solid rgba(6,182,172,.3)"
+  }
 };
-const _hoisted_48 = ["onClick", "aria-label", "aria-pressed", "disabled", "title"];
-const _hoisted_49 = {
+const _hoisted_51 = ["onClick", "aria-label", "aria-pressed", "disabled", "title"];
+const _hoisted_52 = {
   class: "audio-player d-none"
 };
-const _hoisted_50 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "onError", "aria-label"];
-const _hoisted_51 = {
+const _hoisted_53 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "onError", "aria-label"];
+const _hoisted_54 = {
   key: 0,
   class: "text-danger fs-6 mt-2 d-flex align-items-center gap-2",
   role: "alert"
 };
-const _hoisted_52 = ["onClick"];
-const _hoisted_53 = {
+const _hoisted_55 = ["onClick"];
+const _hoisted_56 = {
   class: "list-container view-list",
   role: "list",
   "aria-label": "Stations"
 };
-const _hoisted_54 = ["id", "tabindex", "aria-labelledby", "data-station-id", "onKeydown", "onFocus"];
-const _hoisted_55 = {
+const _hoisted_57 = ["id", "tabindex", "aria-labelledby", "data-station-id", "onKeydown", "onFocus"];
+const _hoisted_58 = {
   class: "card-body"
 };
-const _hoisted_56 = {
+const _hoisted_59 = {
   class: "d-flex align-items-center gap-3"
 };
-const _hoisted_57 = {
+const _hoisted_60 = {
   class: "flex-grow-1"
 };
-const _hoisted_58 = {
+const _hoisted_61 = {
   class: "d-flex justify-content-between align-items-start"
 };
-const _hoisted_59 = ["id", "innerHTML"];
-const _hoisted_60 = {
+const _hoisted_62 = ["id", "innerHTML"];
+const _hoisted_63 = {
   class: "text-muted mb-1 fs-sm"
 };
-const _hoisted_61 = {
+const _hoisted_64 = {
   key: 0,
   class: "ms-1"
 };
-const _hoisted_62 = {
+const _hoisted_65 = {
   class: "text-muted mb-1 fs-sm"
 };
-const _hoisted_63 = ["onClick", "aria-label", "aria-pressed"];
-const _hoisted_64 = {
+const _hoisted_66 = ["onClick", "aria-label", "aria-pressed"];
+const _hoisted_67 = {
   class: "d-flex align-items-center justify-content-between mt-2"
 };
-const _hoisted_65 = {
-  class: "d-flex align-items-center gap-2 text-muted fs-sm"
+const _hoisted_68 = {
+  class: "d-flex align-items-center gap-2 fs-sm",
+  style: {
+    "color": "#334155"
+  }
 };
-const _hoisted_66 = ["title"];
-const _hoisted_67 = {
-  key: 1,
-  class: "text-theme-teal fw-semibold"
+const _hoisted_69 = ["title"];
+const _hoisted_70 = {
+  key: 0,
+  class: "fw-semibold",
+  style: {
+    "display": "inline-flex",
+    "align-items": "center",
+    "gap": ".35rem",
+    "padding": ".15rem .5rem",
+    "border-radius": "999px",
+    "background": "#e6fffb",
+    "color": "#04786b",
+    "border": "1px solid rgba(6,182,172,.3)"
+  }
 };
-const _hoisted_68 = ["onClick", "aria-label", "aria-pressed", "disabled", "title"];
-const _hoisted_69 = {
+const _hoisted_71 = ["onClick", "aria-label", "aria-pressed", "disabled", "title"];
+const _hoisted_72 = {
   class: "audio-player d-none"
 };
-const _hoisted_70 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "onError", "aria-label"];
-const _hoisted_71 = {
+const _hoisted_73 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "onError", "aria-label"];
+const _hoisted_74 = {
   key: 0,
   class: "text-danger fs-6 mt-2 d-flex align-items-center gap-2",
   role: "alert"
 };
-const _hoisted_72 = ["onClick"];
-const _hoisted_73 = {
+const _hoisted_75 = ["onClick"];
+const _hoisted_76 = {
   key: 2,
   ref: "infiniteScrollSentinel",
   class: "infinite-sentinel d-flex justify-content-center my-3",
   "aria-hidden": "true"
 };
-const _hoisted_74 = {
+const _hoisted_77 = {
   key: 0,
   class: "spinner-border text-theme-teal",
   role: "status",
@@ -37305,21 +37383,22 @@ const _hoisted_74 = {
     "height": "2rem"
   }
 };
-const _hoisted_75 = {
+const _hoisted_78 = {
   key: 0,
   class: "global-audio-player shadow-lg",
   role: "region",
   "aria-label": "Global audio player",
-  "aria-live": "polite"
+  "aria-live": "polite",
+  style: 'position:fixed;left:0;right:0;bottom:0;padding:1.1rem 1.6rem;background:linear-gradient(180deg,#1d2f2a,#132520);border-top:1px solid rgba(255,255,255,.08);border-radius:18px 18px 0 0;box-shadow:0 -12px 34px rgba(0,0,0,.38);z-index:1000'
 };
-const _hoisted_76 = {
+const _hoisted_79 = {
   class: "d-flex align-items-center",
   style: {
     "flex": "1 1 0px",
     "justify-content": "flex-start"
   }
 };
-const _hoisted_77 = {
+const _hoisted_80 = {
   class: "mb-0 fw-bold text-white",
   style: {
     "font-size": "1.1rem",
@@ -37327,50 +37406,60 @@ const _hoisted_77 = {
     "letter-spacing": "0.4px"
   }
 };
-const _hoisted_78 = {
+const _hoisted_81 = {
   class: "text-white-50",
   style: {
     "letter-spacing": "0.4px"
   }
 };
-const _hoisted_79 = {
+const _hoisted_82 = {
   class: "d-flex align-items-center",
   style: {
     "flex": "2 1 0px",
     "justify-content": "center"
   }
 };
-const _hoisted_80 = ["aria-label", "aria-pressed"];
-const _hoisted_81 = {
+const _hoisted_83 = ["aria-label", "aria-pressed"];
+const _hoisted_84 = {
   class: "progress-bar-container flex-grow-1 mx-4"
 };
-const _hoisted_82 = ["max", "value", "disabled", "aria-label"];
-const _hoisted_83 = {
+const _hoisted_85 = ["max", "value", "disabled", "aria-label"];
+const _hoisted_86 = {
   class: "d-flex align-items-center",
   style: {
     "flex": "1 1 0px",
     "justify-content": "flex-end"
   }
 };
-const _hoisted_84 = ["aria-label", "aria-pressed"];
-const _hoisted_85 = ["aria-label"];
-const _hoisted_86 = {
+const _hoisted_87 = ["aria-label", "aria-pressed"];
+const _hoisted_88 = ["aria-label"];
+const _hoisted_89 = {
   class: "visually-hidden",
   role: "status",
   "aria-live": "polite"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "row justify-content-center text-center mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-lg-10 col-xl-10"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    class: "display-5 fw-bold"
+    class: "display-5 fw-bold",
+    style: {
+      "color": "#0b1320",
+      "letter-spacing": "-.02em",
+      "margin-bottom": ".25rem"
+    }
   }, "Islamic Reciters Stations"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "lead"
-  }, " Discover live Quranic reciters stations from renowned reciters worldwide. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar and Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    class: "lead",
+    style: {
+      "color": "#475569",
+      "max-width": "920px",
+      "margin": "0 auto"
+    }
+  }, "Discover live Quranic reciters stations from renowned reciters worldwide.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar and Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "visually-hidden"
-  }, "Search and Filter", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search by Name "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Search and Filter", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search by Name "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "reciterSearch",
     style: {
       "font-size": "1.5em"
@@ -37385,9 +37474,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "e.g., Abdul Basit",
     "aria-label": "Search reciters by name",
     style: {
-      "background-color": "#f8f9fa"
+      "background-color": "#edf2f7",
+      "border": "1px solid #d1d5db",
+      "color": "#0b1320"
     }
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "reciterCategory",
     style: {
       "font-size": "1.5em"
@@ -37400,16 +37491,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6",
     "aria-label": "Select a Category",
     style: {
-      "background-color": "#f8f9fa"
+      "background-color": "#edf2f7",
+      "border": "1px solid #d1d5db",
+      "color": "#0b1320"
     }
-  }, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "All Categories"
   }, "All Categories", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.availableCategories, category => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: category,
       value: category
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sort By Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sort By Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "sortBy",
     style: {
       "font-size": "1.5em"
@@ -37419,8 +37512,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $setup.sortBy = $event),
     id: "sortBy",
     class: "form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6",
-    "aria-label": "Sort stations"
-  }, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    "aria-label": "Sort stations",
+    style: {
+      "background-color": "#edf2f7",
+      "border": "1px solid #d1d5db",
+      "color": "#0b1320"
+    }
+  }, [...(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "default"
   }, "Default", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "name_asc"
@@ -37429,12 +37527,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Name (Z-A)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "listeners_desc"
   }, "Most Listeners", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.sortBy]])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Stations Section "), $setup.likedStations.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    class: "fw-bold mb-3 fs-4 cursor-pointer section-header text-dark",
     onClick: _cache[3] || (_cache[3] = $event => $setup.showLiked = !$setup.showLiked),
     role: "button",
     "aria-expanded": $setup.showLiked,
-    "aria-controls": `liked-stations`
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked Stations (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.likedStations.length) + ") ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "aria-controls": `liked-stations`,
+    class: "fw-bold mb-3 fs-4",
+    style: {
+      "display": "flex",
+      "align-items": "center",
+      "gap": ".5rem",
+      "color": "#0b1320",
+      "cursor": "pointer"
+    }
+  }, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    style: {
+      "display": "inline-flex",
+      "width": "28px",
+      "height": "28px",
+      "border-radius": "50%",
+      "align-items": "center",
+      "justify-content": "center",
+      "background": "#e6fffb",
+      "border": "1px solid rgba(6,182,172,.35)",
+      "color": "#0bb39a"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-heart-fill"
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked Stations (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.likedStations.length) + ") ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$setup.showLiked ? 'bi bi-chevron-up' : 'bi bi-chevron-down', "ms-1"])
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_11), $setup.showLiked ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.likedStations, station => {
     var _$setup$currentAudio;
@@ -37442,38 +37561,79 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: station.id,
       class: "col"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card radio-card shadow-sm border-0", {
-        'active-card': ((_$setup$currentAudio = $setup.currentAudio) === null || _$setup$currentAudio === void 0 ? void 0 : _$setup$currentAudio.src) === station.url
-      }]),
       id: 'station-' + station.id,
       role: "article",
-      "aria-labelledby": 'station-title-' + station.id
+      "aria-labelledby": 'station-title-' + station.id,
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
+        'active-card': ((_$setup$currentAudio = $setup.currentAudio) === null || _$setup$currentAudio === void 0 ? void 0 : _$setup$currentAudio.src) === station.url
+      }),
+      style: {
+        "border-radius": "20px",
+        "background": "#ffffff",
+        "border": "1px solid rgba(6,182,172,.18)",
+        "box-shadow": "0 6px 14px rgba(0,0,0,.06)",
+        "transition": "transform .12s ease, box-shadow .12s ease"
+      },
+      onMouseenter: _cache[6] || (_cache[6] = $event => {
+        $event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.22)';
+        $event.currentTarget.style.transform = 'translateY(-2px)';
+      }),
+      onMouseleave: _cache[7] || (_cache[7] = $event => {
+        $event.currentTarget.style.boxShadow = '0 6px 14px rgba(0,0,0,.06)';
+        $event.currentTarget.style.transform = '';
+      })
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       class: "card-title mb-1 fw-bold",
       id: 'station-title-' + station.id,
-      innerHTML: $setup.highlightSearch(station.name)
-    }, null, 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.category || 'Recitation'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Debug: Show online status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, "Status: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.online === false ? 'Offline' : 'Online'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [station.online !== false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      innerHTML: $setup.highlightSearch(station.name),
+      style: {
+        "color": "#0b1320"
+      }
+    }, null, 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.category || 'Recitation'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-headphones",
+      style: {
+        "color": "#0bb39a"
+      }
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners || 0), 1 /* TEXT */)]), station.online !== false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_21, "live")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_22, "offline"))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [station.online !== false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 0,
       onClick: $event => $setup.togglePlay(station.id),
       class: "control-btn play-pause p-0",
       "aria-label": $setup.isPlaying(station.id) ? 'Pause ' + station.name : 'Play ' + station.name,
       disabled: !station.url,
-      title: station.online === false ? 'Station is offline' : ''
+      title: station.online === false ? 'Station is offline' : '',
+      style: 'width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg,#10b981,#06b6ac);display:inline-flex;align-items:center;justify-content:center;border:none;box-shadow:0 10px 22px rgba(6,182,172,.25);transition:transform .12s ease, box-shadow .12s ease;',
+      onMouseenter: _cache[4] || (_cache[4] = $event => {
+        $event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.32)';
+        $event.currentTarget.style.transform = 'translateY(-1px)';
+      }),
+      onMouseleave: _cache[5] || (_cache[5] = $event => {
+        $event.currentTarget.style.boxShadow = '0 10px 22px rgba(6,182,172,.25)';
+        $event.currentTarget.style.transform = '';
+      })
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-1", {
-        'bi-pause-circle-fill text-theme-teal': $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id),
-        'bi-play-circle-fill': $setup.currentPlayingStationId !== station.id || !$setup.isPlaying(station.id)
-      }])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_21)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", {
+        'bi-pause-fill text-white': $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id),
+        'bi-play-fill text-white': $setup.currentPlayingStationId !== station.id || !$setup.isPlaying(station.id)
+      }]),
+      style: {
+        "font-size": "1.4rem"
+      }
+    }, null, 2 /* CLASS */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_24)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-icon like-button p-2",
       onClick: $event => $setup.toggleLike(station),
-      "aria-label": $setup.isLiked(station.id) ? 'Unlike ' + station.name : 'Like ' + station.name
+      "aria-label": $setup.isLiked(station.id) ? 'Unlike ' + station.name : 'Like ' + station.name,
+      title: $setup.isLiked(station.id) ? 'Unlike' : 'Like',
+      style: {
+        "border-radius": "12px",
+        "border": "1px solid #e2e8f0",
+        "box-shadow": "0 2px 6px rgba(0,0,0,.04)"
+      }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([{
         'bi-heart-fill text-danger': $setup.isLiked(station.id),
         'bi-heart': !$setup.isLiked(station.id)
       }, "like-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
       ref_for: true,
       ref: el => $setup.audioRefs[station.id] = el,
       src: station.url,
@@ -37482,12 +37642,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onTimeupdate: $event => $setup.updateTime(station.id),
       onLoadedmetadata: $event => $setup.updateDuration(station.id),
       "aria-label": 'Audio stream for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_24)])])]), $setup.playbackErrors[station.id] && $setup.currentPlayingStationId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_27)])])]), $setup.playbackErrors[station.id] && $setup.currentPlayingStationId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-sm btn-outline-danger",
       onClick: $event => $setup.retryPlayback(station.id),
       "aria-label": "Retry playback"
-    }, "Retry", 8 /* PROPS */, _hoisted_26)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_14)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Reciters Stations "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }, "Retry", 8 /* PROPS */, _hoisted_29)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_14)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Reciters Stations "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "fw-bold fs-3 text-dark"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "images/art.png",
@@ -37497,33 +37657,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     decoding: "async",
     alt: "decorative",
     class: "mb-1"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reciters Stations:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[4] || (_cache[4] = $event => $setup.viewMode = 'grid'),
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reciters Stations:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[8] || (_cache[8] = $event => $setup.viewMode = 'grid'),
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-dark", {
       active: $setup.viewMode === 'grid'
     }]),
     "aria-label": "Grid View"
-  }, [...(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-grid-fill"
   }, null, -1 /* CACHED */)]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[5] || (_cache[5] = $event => $setup.viewMode = 'list'),
+    onClick: _cache[9] || (_cache[9] = $event => $setup.viewMode = 'list'),
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-dark", {
       active: $setup.viewMode === 'list'
     }]),
     "aria-label": "List View"
-  }, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-list-ul"
-  }, null, -1 /* CACHED */)]))], 2 /* CLASS */)])]), $setup.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [...(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)]))], 2 /* CLASS */)])]), $setup.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "spinner-border text-primary",
     role: "status",
     "aria-label": "Loading"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"
-  }, "Loading stations...")], -1 /* CACHED */)]))])) : $setup.fetchError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.fetchError) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Loading stations...")], -1 /* CACHED */)]))])) : $setup.fetchError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.fetchError) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-sm btn-outline-danger ms-2",
     onClick: $setup.fetchStations,
     "aria-label": "Retry loading stations"
-  }, "Retry")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid View "), $setup.viewMode === 'grid' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.visibleStations, station => {
+  }, "Retry")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid View "), $setup.viewMode === 'grid' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.visibleStations, station => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: station.id,
       class: "col-md-4 mb-4"
@@ -37532,9 +37692,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         'active-card': $setup.currentPlayingStationId === station.id
       }]),
       style: {
-        "border": "2px solid lightgrey",
-        "border-radius": "8px"
+        "border-radius": "20px",
+        "background": "#ffffff",
+        "border": "1px solid rgba(6,182,172,.18)",
+        "box-shadow": "0 6px 14px rgba(0,0,0,.06)",
+        "transition": "transform .12s ease, box-shadow .12s ease"
       },
+      onMouseenter: _cache[12] || (_cache[12] = $event => {
+        $event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.22)';
+        $event.currentTarget.style.transform = 'translateY(-2px)';
+      }),
+      onMouseleave: _cache[13] || (_cache[13] = $event => {
+        $event.currentTarget.style.boxShadow = '0 6px 14px rgba(0,0,0,.06)';
+        $event.currentTarget.style.transform = '';
+      }),
       id: 'station-' + station.id,
       role: "listitem",
       tabindex: $setup.focusedStationId === station.id ? 0 : -1,
@@ -37542,23 +37713,46 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-station-id": station.id,
       onKeydown: $event => $setup.onStationKeydown(station.id, $event),
       onFocus: $event => $setup.focusedStationId = station.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       class: "card-title mb-1 fw-semibold",
       id: 'station-title-' + station.id,
       innerHTML: $setup.highlightSearch(station.name)
-    }, null, 8 /* PROPS */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.category || 'Recitation') + " ", 1 /* TEXT */), station.country ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_41, "· " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.country), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Debug: Show online status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_42, "Status: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.online === false ? 'Offline' : 'Online'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_42), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.category || 'Recitation') + " ", 1 /* TEXT */), station.country ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_44, "· " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.country), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Debug: Show online status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_45, "Status: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.online === false ? 'Offline' : 'Online'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-icon like-button p-2",
       onClick: $event => $setup.toggleLike(station),
       "aria-label": $setup.isLiked(station.id) ? 'Unlike station' : 'Like station',
       "aria-pressed": $setup.isLiked(station.id)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$setup.isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart', "like-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_43)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      title: `${station.listeners} listeners`
-    }, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-headphones"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_46), $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_47, " Currently listening ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge", $setup.getStationStatus(station.id).class])
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_46)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      title: `${station.listeners} listeners`,
+      style: {
+        "display": "inline-flex",
+        "align-items": "center",
+        "gap": ".35rem",
+        "padding": ".15rem .5rem",
+        "border-radius": "999px",
+        "background": "#f0fdfa",
+        "border": "1px solid rgba(6,182,172,.25)"
+      }
+    }, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-headphones",
+      style: {
+        "color": "#0bb39a"
+      }
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_49), $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_50, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-music-note-beamed"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Live ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge", $setup.getStationStatus(station.id).class]),
+      style: {
+        "display": "inline-flex",
+        "align-items": "center",
+        "padding": ".15rem .5rem",
+        "border-radius": "999px",
+        "background": "#e6fffb",
+        "color": "#04786b",
+        "border": "1px solid rgba(6,182,172,.3)"
+      }
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getStationStatus(station.id).text), 3 /* TEXT, CLASS */)]), station.online !== false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 0,
       onClick: $event => $setup.togglePlay(station.id),
@@ -37566,13 +37760,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $setup.isPlaying(station.id) ? 'Pause playback' : 'Play playback',
       "aria-pressed": $setup.isPlaying(station.id),
       disabled: !station.url,
-      title: station.online === false ? 'Station is offline' : ''
+      title: station.online === false ? 'Station is offline' : '',
+      style: 'width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg,#10b981,#06b6ac);display:inline-flex;align-items:center;justify-content:center;border:none;box-shadow:0 10px 22px rgba(6,182,172,.25);transition:transform .12s ease, box-shadow .12s ease;position:relative;overflow:hidden',
+      onMouseenter: _cache[10] || (_cache[10] = $event => {
+        $event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.32)';
+        $event.currentTarget.style.transform = 'translateY(-1px)';
+      }),
+      onMouseleave: _cache[11] || (_cache[11] = $event => {
+        $event.currentTarget.style.boxShadow = '0 10px 22px rgba(6,182,172,.25)';
+        $event.currentTarget.style.transform = '';
+      })
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-1", {
-        'bi-pause-circle-fill text-theme-teal': $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id),
-        'bi-play-circle-fill': $setup.currentPlayingStationId !== station.id || !$setup.isPlaying(station.id)
-      }])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_48)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [$setup.audioMountForId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", {
+        'bi-pause-fill text-white': $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id),
+        'bi-play-fill text-white': $setup.currentPlayingStationId !== station.id || !$setup.isPlaying(station.id)
+      }]),
+      style: {
+        "font-size": "1.4rem"
+      }
+    }, null, 2 /* CLASS */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_51)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [$setup.audioMountForId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
       key: 0,
       ref_for: true,
       ref: el => $setup.audioRefs[station.id] = el,
@@ -37583,23 +37789,34 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onLoadedmetadata: $event => $setup.updateDuration(station.id),
       onError: $event => $setup.handleAudioError(station.id, $event),
       "aria-label": 'Audio stream for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_50)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $setup.playbackErrors[station.id] && $setup.currentPlayingStationId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_53)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $setup.playbackErrors[station.id] && $setup.currentPlayingStationId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-sm btn-outline-danger",
       onClick: $event => $setup.retryPlayback(station.id),
       "aria-label": "Retry playback"
-    }, "Retry", 8 /* PROPS */, _hoisted_52)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_34)]);
+    }, "Retry", 8 /* PROPS */, _hoisted_55)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_37)]);
   }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.visibleStations, station => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.visibleStations, station => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: station.id,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["station-list-item", {
         'active-card': $setup.currentPlayingStationId === station.id
       }]),
       style: {
-        "border": "2px solid lightgrey",
-        "border-radius": "8px"
+        "border-radius": "20px",
+        "background": "#ffffff",
+        "border": "1px solid rgba(6,182,172,.18)",
+        "box-shadow": "0 6px 14px rgba(0,0,0,.06)",
+        "transition": "transform .12s ease, box-shadow .12s ease"
       },
+      onMouseenter: _cache[16] || (_cache[16] = $event => {
+        $event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.22)';
+        $event.currentTarget.style.transform = 'translateY(-2px)';
+      }),
+      onMouseleave: _cache[17] || (_cache[17] = $event => {
+        $event.currentTarget.style.boxShadow = '0 6px 14px rgba(0,0,0,.06)';
+        $event.currentTarget.style.transform = '';
+      }),
       id: 'station-' + station.id,
       role: "listitem",
       tabindex: $setup.focusedStationId === station.id ? 0 : -1,
@@ -37607,24 +37824,46 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-station-id": station.id,
       onKeydown: $event => $setup.onStationKeydown(station.id, $event),
       onFocus: $event => $setup.focusedStationId = station.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       class: "card-title mb-1 fw-semibold",
       id: 'station-title-' + station.id,
       innerHTML: $setup.highlightSearch(station.name)
-    }, null, 8 /* PROPS */, _hoisted_59), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.category || 'Recitation') + " ", 1 /* TEXT */), station.country ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_61, "· " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.country), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Debug: Show online status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_62, "Status: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.online === false ? 'Offline' : 'Online'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_62), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.category || 'Recitation') + " ", 1 /* TEXT */), station.country ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_64, "· " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.country), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Debug: Show online status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_65, "Status: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.online === false ? 'Offline' : 'Online'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-icon like-button p-2",
       onClick: $event => $setup.toggleLike(station),
       "aria-label": $setup.isLiked(station.id) ? 'Unlike station' : 'Like station',
       "aria-pressed": $setup.isLiked(station.id)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$setup.isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart', "like-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_63)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [$setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-      key: 0,
-      title: `${station.listeners} listeners`
-    }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-headphones"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_66)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_67, " Currently listening ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge", $setup.getStationStatus(station.id).class])
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_66)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      title: `${station.listeners} listeners`,
+      style: {
+        "display": "inline-flex",
+        "align-items": "center",
+        "gap": ".35rem",
+        "padding": ".15rem .5rem",
+        "border-radius": "999px",
+        "background": "#f0fdfa",
+        "border": "1px solid rgba(6,182,172,.25)"
+      }
+    }, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-headphones",
+      style: {
+        "color": "#0bb39a"
+      }
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.listeners), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_69), $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_70, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-music-note-beamed"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Live ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge", $setup.getStationStatus(station.id).class]),
+      style: {
+        "display": "inline-flex",
+        "align-items": "center",
+        "padding": ".15rem .5rem",
+        "border-radius": "999px",
+        "background": "#e6fffb",
+        "color": "#04786b",
+        "border": "1px solid rgba(6,182,172,.3)"
+      }
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getStationStatus(station.id).text), 3 /* TEXT, CLASS */)]), station.online !== false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 0,
       onClick: $event => $setup.togglePlay(station.id),
@@ -37632,13 +37871,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $setup.isPlaying(station.id) ? 'Pause playback' : 'Play playback',
       "aria-pressed": $setup.isPlaying(station.id),
       disabled: !station.url,
-      title: station.online === false ? 'Station is offline' : ''
+      title: station.online === false ? 'Station is offline' : '',
+      style: 'width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg,#10b981,#06b6ac);display:inline-flex;align-items:center;justify-content:center;border:none;box-shadow:0 10px 22px rgba(6,182,172,.25);transition:transform .12s ease, box-shadow .12s ease;position:relative;overflow:hidden',
+      onMouseenter: _cache[14] || (_cache[14] = $event => {
+        $event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.32)';
+        $event.currentTarget.style.transform = 'translateY(-1px)';
+      }),
+      onMouseleave: _cache[15] || (_cache[15] = $event => {
+        $event.currentTarget.style.boxShadow = '0 10px 22px rgba(6,182,172,.25)';
+        $event.currentTarget.style.transform = '';
+      })
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-1", {
-        'bi-pause-circle-fill text-theme-teal': $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id),
-        'bi-play-circle-fill': $setup.currentPlayingStationId !== station.id || !$setup.isPlaying(station.id)
-      }])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_68)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [$setup.audioMountForId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", {
+        'bi-pause-fill text-white': $setup.currentPlayingStationId === station.id && $setup.isPlaying(station.id),
+        'bi-play-fill text-white': $setup.currentPlayingStationId !== station.id || !$setup.isPlaying(station.id)
+      }]),
+      style: {
+        "font-size": "1.4rem"
+      }
+    }, null, 2 /* CLASS */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_71)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [$setup.audioMountForId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
       key: 0,
       ref_for: true,
       ref: el => $setup.audioRefs[station.id] = el,
@@ -37649,76 +37900,76 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onLoadedmetadata: $event => $setup.updateDuration(station.id),
       onError: $event => $setup.handleAudioError(station.id, $event),
       "aria-label": 'Audio stream for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_70)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $setup.playbackErrors[station.id] && $setup.currentPlayingStationId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_73)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $setup.playbackErrors[station.id] && $setup.currentPlayingStationId === station.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-sm btn-outline-danger",
       onClick: $event => $setup.retryPlayback(station.id),
       "aria-label": "Retry playback"
-    }, "Retry", 8 /* PROPS */, _hoisted_72)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_54);
-  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Infinite Scroll Sentinel "), !$setup.allLoaded ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_73, [$setup.isLoadingMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_74, [...(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, "Retry", 8 /* PROPS */, _hoisted_75)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_57);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Infinite Scroll Sentinel "), !$setup.allLoaded ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_76, [$setup.isLoadingMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_77, [...(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"
   }, "Loading more...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Audio Player "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "global-audio-player"
   }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$setup.currentlyPlayingStation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_77, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentlyPlayingStation.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_78, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentlyPlayingStation.category || 'Recitation'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$setup.currentlyPlayingStation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_80, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentlyPlayingStation.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_81, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentlyPlayingStation.category || 'Recitation'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: $setup.previousStation,
       class: "control-btn mx-2",
       title: "Previous Station"
-    }, [...(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-rewind-fill text-white"
     }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      onClick: _cache[6] || (_cache[6] = $event => $setup.togglePlay($setup.currentPlayingStationId)),
+      onClick: _cache[18] || (_cache[18] = $event => $setup.togglePlay($setup.currentPlayingStationId)),
       class: "control-btn play-pause fs-2 mx-2",
       "aria-label": $setup.isPlaying($setup.currentPlayingStationId) ? 'Pause playback' : 'Play playback',
       "aria-pressed": $setup.isPlaying($setup.currentPlayingStationId)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi text-white", $setup.isPlaying($setup.currentPlayingStationId) ? 'bi-pause-fill' : 'bi-play-fill'])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_80), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_83), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: $setup.nextStation,
       class: "control-btn mx-2",
       title: "Next Station"
-    }, [...(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-fast-forward-fill text-white"
     }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: $setup.stopPlayback,
       class: "control-btn mx-2",
       title: "Stop"
-    }, [...(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-stop-fill text-white"
-    }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "range",
       min: "0",
       max: $setup.durations[$setup.currentPlayingStationId] || 100,
       value: $setup.currentTimes[$setup.currentPlayingStationId] || 0,
-      onInput: _cache[7] || (_cache[7] = $event => $setup.seek($event, $setup.currentPlayingStationId)),
+      onInput: _cache[19] || (_cache[19] = $event => $setup.seek($event, $setup.currentPlayingStationId)),
       class: "progress-bar",
       disabled: $setup.isLive($setup.currentPlayingStationId),
       "aria-label": 'Seek bar for ' + $setup.currentlyPlayingStation.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_82)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      onClick: _cache[8] || (_cache[8] = $event => $setup.toggleMute($setup.currentPlayingStationId)),
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_85)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: _cache[20] || (_cache[20] = $event => $setup.toggleMute($setup.currentPlayingStationId)),
       class: "control-btn",
       "aria-label": $setup.volumes[$setup.currentPlayingStationId] === 0 ? 'Unmute audio' : 'Mute audio',
       "aria-pressed": $setup.volumes[$setup.currentPlayingStationId] === 0
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-4 text-white", `bi-volume-${$setup.volumes[$setup.currentPlayingStationId] > 50 ? 'up' : $setup.volumes[$setup.currentPlayingStationId] > 0 ? 'down' : 'mute'}-fill`])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_84), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_87), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "range",
       min: "0",
       max: "100",
-      "onUpdate:modelValue": _cache[9] || (_cache[9] = $event => $setup.volumes[$setup.currentPlayingStationId] = $event),
-      onInput: _cache[10] || (_cache[10] = $event => $setup.setVolume($event, $setup.currentPlayingStationId)),
+      "onUpdate:modelValue": _cache[21] || (_cache[21] = $event => $setup.volumes[$setup.currentPlayingStationId] = $event),
+      onInput: _cache[22] || (_cache[22] = $event => $setup.setVolume($event, $setup.currentPlayingStationId)),
       class: "volume-slider mx-3",
       "aria-label": 'Volume control for ' + $setup.currentlyPlayingStation.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_85), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.volumes[$setup.currentPlayingStationId], void 0, {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_88), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.volumes[$setup.currentPlayingStationId], void 0, {
       number: true
     }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: $setup.closePlayer,
       class: "control-btn ms-4",
       title: "Close player"
-    }, [...(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-x-lg fs-5 text-white"
     }, null, -1 /* CACHED */)]))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Live region for announcing play/pause changes "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.liveAnnouncement), 1 /* TEXT */)]);
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Live region for announcing play/pause changes "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.liveAnnouncement), 1 /* TEXT */)]);
 }
 
 /***/ }),

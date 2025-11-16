@@ -3,16 +3,15 @@
     <div class="container py-5">
       <div class="row justify-content-center text-center mb-3">
         <div class="col-lg-10 col-xl-10">
-          <h1 class="display-5 fw-bold">Islamic Reciters Stations</h1>
-          <p class="lead">
-            Discover live Quranic reciters stations from renowned reciters worldwide.
-          </p>
+          <h1 class="display-5 fw-bold" style="color:#0b1320;letter-spacing:-.02em;margin-bottom:.25rem;">Islamic Reciters Stations</h1>
+          <p class="lead" style="color:#475569;max-width:920px;margin:0 auto;">Discover live Quranic reciters stations from renowned reciters worldwide.</p>
         </div>
       </div>
       
       <!-- Search Bar and Category Dropdown -->
       <section class="mb-5" role="search" aria-label="Search and filter stations">
-        <div class="fixed-footer p-4 mb-5 border-md" style="border-radius: 8px;">
+        <div class="fixed-footer p-4 mb-5 border-md"
+             style="border-radius:20px;background:linear-gradient(135deg,#e2e8f0,#c7f5ea);border:1px solid rgba(6,182,172,.28);box-shadow:0 10px 30px rgba(2,44,34,.18), inset 0 1px 0 rgba(255,255,255,.35);position:sticky;top:8px;z-index:40;backdrop-filter:saturate(140%) blur(8px);-webkit-backdrop-filter:saturate(140%) blur(8px);">
           <h2 class="visually-hidden">Search and Filter</h2>
           <div class="row g-4 align-items-end">
             <!-- Search by Name -->
@@ -22,7 +21,7 @@
               <div class="input-group align-items-center">
                 <input v-model="searchQuery" @input="handleSearch" id="reciterSearch" type="text"
                   class="form-control border-0 rounded-3 shadow-sm px-4 py-2 fs-6" placeholder="e.g., Abdul Basit"
-                  aria-label="Search reciters by name" style="background-color: #f8f9fa;" />
+                  aria-label="Search reciters by name" style="background-color:#edf2f7;border:1px solid #d1d5db;color:#0b1320;" />
               </div>
             </div>
             <!-- Category Filter -->
@@ -31,7 +30,7 @@
                 class="form-label fw-bold display-4 text-dark mb-2">Category</label>
               <select v-model="selectedCategory" @change="handleSearch" id="reciterCategory"
                 class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6" aria-label="Select a Category"
-                style="background-color: #f8f9fa;">
+                style="background-color:#edf2f7;border:1px solid #d1d5db;color:#0b1320;">
                 <option value="All Categories">All Categories</option>
                 <option v-for="category in availableCategories" :key="category" :value="category">{{ category }}
                 </option>
@@ -42,7 +41,7 @@
               <label for="sortBy" style="font-size: 1.5em;" class="form-label fw-bold display-4 text-dark mb-2">Sort
                 By</label>
               <select v-model="sortBy" id="sortBy" class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6"
-                aria-label="Sort stations">
+                aria-label="Sort stations" style="background-color:#edf2f7;border:1px solid #d1d5db;color:#0b1320;">
                 <option value="default">Default</option>
                 <option value="name_asc">Name (A-Z)</option>
                 <option value="name_desc">Name (Z-A)</option>
@@ -55,55 +54,61 @@
 
       <!-- Liked Stations Section -->
       <section v-if="likedStations.length" class="mb-5">
-        <h3 class="fw-bold mb-3 fs-4 cursor-pointer section-header text-dark" @click="showLiked = !showLiked"
-          role="button" :aria-expanded="showLiked" :aria-controls="`liked-stations`">
+        <h3 @click="showLiked = !showLiked" role="button" :aria-expanded="showLiked" :aria-controls="`liked-stations`"
+            class="fw-bold mb-3 fs-4"
+            style="display:flex;align-items:center;gap:.5rem;color:#0b1320;cursor:pointer;">
+          <span style="display:inline-flex;width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;background:#e6fffb;border:1px solid rgba(6,182,172,.35);color:#0bb39a;">
+            <i class="bi bi-heart-fill"></i>
+          </span>
           Liked Stations ({{ likedStations.length }})
           <i :class="showLiked ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" class="ms-1"></i>
         </h3>
         <div v-if="showLiked" class="section-animate" id="liked-stations">
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <div v-for="station in likedStations" :key="station.id" class="col">
-              <div class="card radio-card shadow-sm border-0"
-                :class="{ 'active-card': currentAudio?.src === station.url }" :id="'station-' + station.id"
-                role="article" :aria-labelledby="'station-title-' + station.id">
+              <div :id="'station-' + station.id" role="article" :aria-labelledby="'station-title-' + station.id"
+                   :class="{ 'active-card': currentAudio?.src === station.url }"
+                   style="border-radius:20px;background:#ffffff;border:1px solid rgba(6,182,172,.18);box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s ease, box-shadow .12s ease;"
+                   @mouseenter="$event.currentTarget.style.boxShadow='0 14px 28px rgba(6,182,172,.22)';$event.currentTarget.style.transform='translateY(-2px)';"
+                   @mouseleave="$event.currentTarget.style.boxShadow='0 6px 14px rgba(0,0,0,.06)';$event.currentTarget.style.transform='';">
                 <div class="d-flex justify-content-between align-items-center p-4">
                   <div class="station-info">
-                    <h5 class="card-title mb-1 fw-bold" :id="'station-title-' + station.id"
-                      v-html="highlightSearch(station.name)"></h5>
-                    <p class="card-text text-muted mb-0">{{ station.category || 'Recitation' }}</p>
-                    <!-- Debug: Show online status -->
-                    <p class="card-text text-muted mb-0 fs-sm">Status: {{ station.online === false ? 'Offline' : 'Online' }}</p>
+                    <h5 class="card-title mb-1 fw-bold" :id="'station-title-' + station.id" v-html="highlightSearch(station.name)"
+                        style="color:#0b1320"></h5>
+                    <p class="mb-0" style="color:#64748B">{{ station.category || 'Recitation' }}</p>
+                    <div style="margin-top:.35rem;display:flex;gap:.4rem;align-items:center;">
+                      <span style="display:inline-flex;align-items:center;gap:.35rem;padding:.15rem .5rem;border-radius:999px;background:#f0fdfa;border:1px solid rgba(6,182,172,.25);color:#334155;">
+                        <i class="bi bi-headphones" style="color:#0bb39a"></i>{{ station.listeners || 0 }}
+                      </span>
+                      <span v-if="station.online !== false" style="display:inline-flex;align-items:center;padding:.15rem .5rem;border-radius:999px;background:#e6fffb;color:#04786b;border:1px solid rgba(6,182,172,.3);">live</span>
+                      <span v-else style="display:inline-flex;align-items:center;padding:.15rem .5rem;border-radius:999px;background:#fee2e2;color:#7f1d1d;border:1px solid #fecaca;">offline</span>
+                    </div>
                   </div>
                   <div class="d-flex align-items-center gap-2">
                     <button v-if="station.online !== false" @click="togglePlay(station.id)" class="control-btn play-pause p-0"
-                      :aria-label="isPlaying(station.id) ? 'Pause ' + station.name : 'Play ' + station.name"
-                      :disabled="!station.url"
-                      :title="station.online === false ? 'Station is offline' : ''">
-                      <i class="bi fs-1" :class="{
-                        'bi-pause-circle-fill text-theme-teal': currentPlayingStationId === station.id && isPlaying(station.id),
-                        'bi-play-circle-fill': currentPlayingStationId !== station.id || !isPlaying(station.id)
-                      }"></i>
+                            :aria-label="isPlaying(station.id) ? 'Pause ' + station.name : 'Play ' + station.name"
+                            :disabled="!station.url" :title="station.online === false ? 'Station is offline' : ''"
+                            :style="'width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg,#10b981,#06b6ac);display:inline-flex;align-items:center;justify-content:center;border:none;box-shadow:0 10px 22px rgba(6,182,172,.25);transition:transform .12s ease, box-shadow .12s ease;'"
+                            @mouseenter="$event.currentTarget.style.boxShadow='0 14px 28px rgba(6,182,172,.32)';$event.currentTarget.style.transform='translateY(-1px)';"
+                            @mouseleave="$event.currentTarget.style.boxShadow='0 10px 22px rgba(6,182,172,.25)';$event.currentTarget.style.transform='';">
+                      <i class="bi" :class="{ 'bi-pause-fill text-white': currentPlayingStationId === station.id && isPlaying(station.id), 'bi-play-fill text-white': currentPlayingStationId !== station.id || !isPlaying(station.id) }" style="font-size:1.4rem;"></i>
                     </button>
-                    <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
-                      :aria-label="isLiked(station.id) ? 'Unlike ' + station.name : 'Like ' + station.name">
-                      <i :class="{
-                        'bi-heart-fill text-danger': isLiked(station.id),
-                        'bi-heart': !isLiked(station.id)
-                      }" class="like-icon fs-5"></i>
+                    <button class="btn btn-icon like-button p-2" @click="toggleLike(station)" :aria-label="isLiked(station.id) ? 'Unlike ' + station.name : 'Like ' + station.name" :title="isLiked(station.id) ? 'Unlike' : 'Like'"
+                            style="border-radius:12px;border:1px solid #e2e8f0;box-shadow:0 2px 6px rgba(0,0,0,.04);">
+                      <i :class="{ 'bi-heart-fill text-danger': isLiked(station.id), 'bi-heart': !isLiked(station.id) }" class="like-icon fs-5"></i>
                     </button>
                     <div class="audio-player d-none">
                       <audio :ref="(el) => audioRefs[station.id] = el" :src="station.url"
-                        @play="handlePlay(station.id, $event)" @pause="handlePause(station.id)"
-                        @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
-                        :aria-label="'Audio stream for ' + station.name"></audio>
+                             @play="handlePlay(station.id, $event)" @pause="handlePause(station.id)"
+                             @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
+                             :aria-label="'Audio stream for ' + station.name"></audio>
                     </div>
                   </div>
                 </div>
                 <div v-if="playbackErrors[station.id] && currentPlayingStationId === station.id"
                   class="text-danger fs-6 p-3 d-flex align-items-center gap-2" role="alert">
                   {{ playbackErrors[station.id] }}
-                  <button class="btn btn-sm btn-outline-danger" @click="retryPlayback(station.id)"
-                    aria-label="Retry playback">Retry</button>
+                  <button class="btn btn-sm btn-outline-danger" @click="retryPlayback(station.id)" aria-label="Retry playback">Retry</button>
                 </div>
               </div>
             </div>
@@ -141,7 +146,10 @@
           <!-- Grid View -->
           <div v-if="viewMode === 'grid'" class="row" role="list" aria-label="Stations">
             <div v-for="station in visibleStations" :key="station.id" class="col-md-4 mb-4">
-              <div class="station-list-item h-100" style="border:2px solid lightgrey; border-radius:8px;"
+              <div class="station-list-item h-100"
+                   style="border-radius:20px;background:#ffffff;border:1px solid rgba(6,182,172,.18);box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s ease, box-shadow .12s ease;"
+                   @mouseenter="$event.currentTarget.style.boxShadow='0 14px 28px rgba(6,182,172,.22)';$event.currentTarget.style.transform='translateY(-2px)';"
+                   @mouseleave="$event.currentTarget.style.boxShadow='0 6px 14px rgba(0,0,0,.06)';$event.currentTarget.style.transform='';"
                 :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id"
                 role="listitem" :tabindex="focusedStationId === station.id ? 0 : -1" :aria-labelledby="'station-title-' + station.id"
                 :data-station-id="station.id" @keydown="onStationKeydown(station.id, $event)" @focus="focusedStationId = station.id">
@@ -166,26 +174,26 @@
                         </button>
                       </div>
                       <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center gap-2 text-muted fs-sm">
-                          <span :title="`${station.listeners} listeners`">
-                            <i class="bi bi-headphones"></i> {{ station.listeners }}
+                        <div class="d-flex align-items-center gap-2 fs-sm" style="color:#334155;">
+                          <span :title="`${station.listeners} listeners`" style="display:inline-flex;align-items:center;gap:.35rem;padding:.15rem .5rem;border-radius:999px;background:#f0fdfa;border:1px solid rgba(6,182,172,.25);">
+                            <i class="bi bi-headphones" style="color:#0bb39a"></i> {{ station.listeners }}
                           </span>
                           <span v-if="currentPlayingStationId === station.id && isPlaying(station.id)"
-                            class="text-theme-teal fw-semibold">
-                            Currently listening
+                            class="fw-semibold" style="display:inline-flex;align-items:center;gap:.35rem;padding:.15rem .5rem;border-radius:999px;background:#e6fffb;color:#04786b;border:1px solid rgba(6,182,172,.3);">
+                            <i class="bi bi-music-note-beamed"></i> Live
                           </span>
-                          <span class="badge" :class="getStationStatus(station.id).class">
+                          <span class="badge" :class="getStationStatus(station.id).class" style="display:inline-flex;align-items:center;padding:.15rem .5rem;border-radius:999px;background:#e6fffb;color:#04786b;border:1px solid rgba(6,182,172,.3);">
                             {{ getStationStatus(station.id).text }}
                           </span>
                         </div>
                         <button v-if="station.online !== false" @click="togglePlay(station.id)" class="control-btn play-pause p-0"
                           :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'" :aria-pressed="isPlaying(station.id)"
                           :disabled="!station.url"
-                          :title="station.online === false ? 'Station is offline' : ''">
-                          <i class="bi fs-1" :class="{
-                            'bi-pause-circle-fill text-theme-teal': currentPlayingStationId === station.id && isPlaying(station.id),
-                            'bi-play-circle-fill': currentPlayingStationId !== station.id || !isPlaying(station.id)
-                          }"></i>
+                          :title="station.online === false ? 'Station is offline' : ''"
+                          :style="'width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg,#10b981,#06b6ac);display:inline-flex;align-items:center;justify-content:center;border:none;box-shadow:0 10px 22px rgba(6,182,172,.25);transition:transform .12s ease, box-shadow .12s ease;position:relative;overflow:hidden'"
+                          @mouseenter="$event.currentTarget.style.boxShadow='0 14px 28px rgba(6,182,172,.32)';$event.currentTarget.style.transform='translateY(-1px)';"
+                          @mouseleave="$event.currentTarget.style.boxShadow='0 10px 22px rgba(6,182,172,.25)';$event.currentTarget.style.transform='';">
+                          <i class="bi" :class="{ 'bi-pause-fill text-white': currentPlayingStationId === station.id && isPlaying(station.id), 'bi-play-fill text-white': currentPlayingStationId !== station.id || !isPlaying(station.id) }" style="font-size:1.4rem;"></i>
                         </button>
                       </div>
                     </div>
@@ -211,7 +219,9 @@
           <!-- List View -->
           <div v-else class="list-container view-list" role="list" aria-label="Stations">
             <div v-for="station in visibleStations" :key="station.id" class="station-list-item"
-              style="border:2px solid lightgrey; border-radius:8px;"
+              style="border-radius:20px;background:#ffffff;border:1px solid rgba(6,182,172,.18);box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s ease, box-shadow .12s ease;"
+              @mouseenter="$event.currentTarget.style.boxShadow='0 14px 28px rgba(6,182,172,.22)';$event.currentTarget.style.transform='translateY(-2px)';"
+              @mouseleave="$event.currentTarget.style.boxShadow='0 6px 14px rgba(0,0,0,.06)';$event.currentTarget.style.transform='';"
               :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id"
               role="listitem" :tabindex="focusedStationId === station.id ? 0 : -1" :aria-labelledby="'station-title-' + station.id"
               :data-station-id="station.id" @keydown="onStationKeydown(station.id, $event)" @focus="focusedStationId = station.id">
@@ -236,26 +246,26 @@
                       </button>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mt-2">
-                      <div class="d-flex align-items-center gap-2 text-muted fs-sm">
-                        <span v-if="isPlaying(station.id)" :title="`${station.listeners} listeners`">
-                          <i class="bi bi-headphones"></i> {{ station.listeners }}
+                      <div class="d-flex align-items-center gap-2 fs-sm" style="color:#334155;">
+                        <span :title="`${station.listeners} listeners`" style="display:inline-flex;align-items:center;gap:.35rem;padding:.15rem .5rem;border-radius:999px;background:#f0fdfa;border:1px solid rgba(6,182,172,.25);">
+                          <i class="bi bi-headphones" style="color:#0bb39a"></i> {{ station.listeners }}
                         </span>
                         <span v-if="currentPlayingStationId === station.id && isPlaying(station.id)"
-                          class="text-theme-teal fw-semibold">
-                          Currently listening
+                          class="fw-semibold" style="display:inline-flex;align-items:center;gap:.35rem;padding:.15rem .5rem;border-radius:999px;background:#e6fffb;color:#04786b;border:1px solid rgba(6,182,172,.3);">
+                          <i class="bi bi-music-note-beamed"></i> Live
                         </span>
-                        <span class="badge" :class="getStationStatus(station.id).class">
+                        <span class="badge" :class="getStationStatus(station.id).class" style="display:inline-flex;align-items:center;padding:.15rem .5rem;border-radius:999px;background:#e6fffb;color:#04786b;border:1px solid rgba(6,182,172,.3);">
                           {{ getStationStatus(station.id).text }}
                         </span>
                       </div>
                       <button v-if="station.online !== false" @click="togglePlay(station.id)" class="control-btn play-pause p-0"
                         :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'" :aria-pressed="isPlaying(station.id)"
                         :disabled="!station.url"
-                        :title="station.online === false ? 'Station is offline' : ''">
-                        <i class="bi fs-1" :class="{
-                          'bi-pause-circle-fill text-theme-teal': currentPlayingStationId === station.id && isPlaying(station.id),
-                          'bi-play-circle-fill': currentPlayingStationId !== station.id || !isPlaying(station.id)
-                        }"></i>
+                        :title="station.online === false ? 'Station is offline' : ''"
+                        :style="'width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg,#10b981,#06b6ac);display:inline-flex;align-items:center;justify-content:center;border:none;box-shadow:0 10px 22px rgba(6,182,172,.25);transition:transform .12s ease, box-shadow .12s ease;position:relative;overflow:hidden'"
+                        @mouseenter="$event.currentTarget.style.boxShadow='0 14px 28px rgba(6,182,172,.32)';$event.currentTarget.style.transform='translateY(-1px)';"
+                        @mouseleave="$event.currentTarget.style.boxShadow='0 10px 22px rgba(6,182,172,.25)';$event.currentTarget.style.transform='';">
+                        <i class="bi" :class="{ 'bi-pause-fill text-white': currentPlayingStationId === station.id && isPlaying(station.id), 'bi-play-fill text-white': currentPlayingStationId !== station.id || !isPlaying(station.id) }" style="font-size:1.4rem;"></i>
                       </button>
                     </div>
                   </div>
@@ -290,7 +300,8 @@
 
     <!-- Global Audio Player -->
     <transition name="global-audio-player">
-      <div v-if="currentlyPlayingStation" class="global-audio-player shadow-lg" role="region" aria-label="Global audio player" aria-live="polite">
+      <div v-if="currentlyPlayingStation" class="global-audio-player shadow-lg" role="region" aria-label="Global audio player" aria-live="polite"
+           :style="'position:fixed;left:0;right:0;bottom:0;padding:1.1rem 1.6rem;background:linear-gradient(180deg,#1d2f2a,#132520);border-top:1px solid rgba(255,255,255,.08);border-radius:18px 18px 0 0;box-shadow:0 -12px 34px rgba(0,0,0,.38);z-index:1000'">
         <div class="d-flex align-items-center" style="flex: 1 1 0px; justify-content: flex-start;">
           <div>
             <h6 class="mb-0 fw-bold text-white" style="font-size: 1.1rem; font-weight: 600; letter-spacing: 0.4px;">{{
