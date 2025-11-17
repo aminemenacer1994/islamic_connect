@@ -158,7 +158,14 @@
     </div>
 
     <!-- Category and Reference Dropdowns -->
-    <div v-if="viewMode === 'all'" class="container mb-4">
+    <div v-if="viewMode === 'all'" class="container mb-4" style="
+        position: relative;
+        background: #eaf3f1;
+        border: 1px solid rgba(11, 128, 111, 0.20);
+        border-radius: 24px;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
+        padding: 1.25rem 1.75rem;
+      ">
       <div class="row g-3">
         <div class="col-md-6">
           <div class="dropdown-card">
@@ -212,10 +219,10 @@
       <div v-for="category in filteredDuas" :key="category.id" class="mb-5" role="region"
         :aria-labelledby="`category-title-${category.id}`">
         <div class="d-flex align-items-center justify-content-between category-header mb-3">
-          <h3 class="fw-semibold text-start mb-3 category-title" :id="`category-title-${category.id}`">
+          <h5 class="fw-semibold text-start mb-3 category-title" :id="`category-title-${category.id}`">
             <img src="images/art.png" width="30px" class="me-2" alt="Category icon" />
             {{ category.name }}
-          </h3>
+          </h5>
           <div class="d-flex align-items-center gap-3">
             <i :class="category.collapsed ? 'bi bi-chevron-down action-icon' : 'bi bi-chevron-up action-icon'"
               @click="toggleCategoryCollapse(category.id)" data-bs-toggle="tooltip" data-bs-placement="top"
