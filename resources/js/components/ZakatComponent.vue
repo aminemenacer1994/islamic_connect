@@ -285,7 +285,7 @@
                 <div class="summary-item bg-success-light p-3 rounded mb-4">
                   <div class="d-flex justify-content-between align-items-center">
                     <div>
-                      <h6 class="mb-1 text-success fw-bold">Total Zakat Due</h6>
+                      <h6 class="mb-1 text-dark fw-bold">Total Zakat Due</h6>
                       <h3 class="text-success fw-bold mb-0">{{ currencySymbol }}{{ zakatDue.toLocaleString(undefined, {
                         minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</h3>
                     </div>
@@ -294,10 +294,10 @@
                 </div>
 
                 <!-- Charts Toggle + Canvas -->
-                <div class="summary-item mb-3">
+                <!-- <div class="summary-item mb-3">
                   <div class="form-check form-switch">
-                    <input class="form-check-input ml-3" type="checkbox" id="showChartsSwitch" v-model="showCharts">
-                    <label class="form-check-label ml-3" for="showChartsSwitch">
+                    <input class="form-check-input ml-1" type="checkbox" id="showChartsSwitch" v-model="showCharts">
+                    <label class="form-check-label " for="showChartsSwitch">
                       Show asset breakdown chart
                       <span v-if="isChartLibLoading" class="ms-2 align-middle">
                         <span class="spinner-border spinner-border-sm text-secondary" role="status" aria-hidden="true"></span>
@@ -308,7 +308,7 @@
                 </div>
                 <div v-if="showCharts" class="chart-container mb-4">
                   <canvas ref="zakatChart" id="zakatChart"></canvas>
-                </div>
+                </div> -->
 
                 <!-- Nisab Threshold -->
                 <div class="summary-item mb-4">

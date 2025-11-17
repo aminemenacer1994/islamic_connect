@@ -158,7 +158,7 @@
     </div>
 
     <!-- Category and Reference Dropdowns -->
-    <div v-if="viewMode === 'all'" class="container mb-4" style="
+    <div v-if="viewMode === 'all'" class="container premium-action-button--outline mb-4" style="
         position: relative;
         background: #eaf3f1;
         border: 1px solid rgba(11, 128, 111, 0.20);
@@ -708,6 +708,12 @@ export default {
 </script>
 
 <style scoped>
+.premium-action-button--outline {
+  background: rgba(15, 140, 124, 0.08);
+  border-color: rgba(15, 140, 124, 0.55);
+  color: #0c7867;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08), 0 10px 24px rgba(15, 23, 42, 0.12);
+}
 .nav-tabs {
   border-bottom: none;
 }
