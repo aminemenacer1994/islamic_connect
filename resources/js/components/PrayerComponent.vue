@@ -58,11 +58,11 @@
           </p>
           <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
             <a href="/qibla" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center" style="
-              background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
-              border: none; border-radius: 999px;
-              box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
-              transition: transform 0.2s ease, box-shadow 0.2s ease;
-              "
+                background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
+                border: none; border-radius: 999px;
+                box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                "
               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';"
               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';">
               <span>Compass Guidance</span>
@@ -131,7 +131,7 @@
         <div class="action-row mt-3 w-100 flex-wrap">
           <button type="submit" class="premium-action-button premium-action-button--primary"
             aria-label="Search for prayer times">
-            <span class="action-row__icon"><i class="bi bi-search text-white" aria-hidden="true"></i></span>
+            <span class="action-row__icon"><i class="bi bi-search" aria-hidden="true"></i></span>
             <span class="action-row__label">Search</span>
           </button>
           <button type="button" class="premium-action-button premium-action-button--outline" @click="resetFields"
