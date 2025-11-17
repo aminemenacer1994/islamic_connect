@@ -25,13 +25,13 @@
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
             <div class="next-step-icon-circle" role="img" aria-label="Gentle prayer time guide" style="
-                      width: 48px; height: 48px;
-                      border-radius: 50%;
-                      background: linear-gradient(145deg, rgba(11, 128, 111, 0.24), rgba(26, 95, 122, 0.12));
-                      display: flex; align-items: center; justify-content: center;
-                      color: rgb(0, 121, 107); font-size: 1.25rem;
-                      box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 6px 16px rgba(26,95,122,0.12);
-                    ">
+              width: 48px; height: 48px;
+              border-radius: 50%;
+              background: linear-gradient(145deg, rgba(11, 128, 111, 0.24), rgba(26, 95, 122, 0.12));
+              display: flex; align-items: center; justify-content: center;
+              color: rgb(0, 121, 107); font-size: 1.25rem;
+              box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 6px 16px rgba(26,95,122,0.12);
+            ">
               <i class="fas fa-clock" aria-hidden="true"></i>
             </div>
           </div>
@@ -107,7 +107,7 @@
     </section>
 
     <!-- Welcome / Initial Content -->
-    <div v-if="!hasData" class="card card-custom mb-4">
+    <div v-if="!hasData" class="card card-teal card-custom mb-4">
       <div class="card-body p-lg-4">
         <div class="row g-4">
           <div class="col-lg-6">
@@ -152,13 +152,13 @@
     <div v-if="hasData" class="row g-4" role="region" aria-label="Results section">
       <div class="col-lg-6">
         <!-- Qibla & Compass -->
-        <section class="card shadow-sm h-100" role="region" aria-labelledby="qibla-direction-title">
+        <section class="card  shadow-sm h-100" role="region" aria-labelledby="qibla-direction-title">
           <div class="card-header">
             <h5 id="qibla-direction-title" class="h4 card-title text-primary fw-bold mb-0" style="padding: 10px;">
               Qibla Direction
             </h5>
           </div>
-          <div class="container-fluid card-body text-center d-flex flex-column justify-content-center p-4">
+          <div class="container-fluid card-teal card-body text-center d-flex flex-column justify-content-center p-4">
             <div class="d-flex justify-content-center align-items-center mb-3">
               <div class="qibla-compass-wrapper position-relative mx-auto">
                 <div
@@ -269,7 +269,7 @@
               Prayer Times
             </h5>
           </div>
-          <div class="card-body d-flex flex-column p-lg-4">
+          <div class="card-body card-teal d-flex flex-column p-lg-4">
             <div class="mb-3">
               <h6 class="text-primary fw-bold mb-2">Hijri Date</h6>
               <p v-if="hijriDate" class="text-muted mb-3">{{ hijriDate }}</p>
@@ -307,7 +307,7 @@
           About Prayer Time Methods
         </h5>
       </div>
-      <div class="card-body p-lg-4">
+      <div class="card-body card-teal p-lg-4">
         <p class="text-muted mb-4">
           Different organizations use various conventions for calculating prayer
           times. Here are the methods available in this tool. Select the one most
@@ -872,6 +872,16 @@ export default {
 </script>
 
 <style scoped>
+.card-teal {
+  border-radius: 20px;
+  border: 1px solid rgba(20, 184, 165, 0);
+  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.card-teal:hover { 
+  transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+}
 :root {
   --primary-color: rgb(13, 182, 145);
   --primary-hover-color: rgb(11, 158, 127);

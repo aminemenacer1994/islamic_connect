@@ -37,8 +37,8 @@
     </div>
 
     <!-- Selected Podcast Details -->
-    <div class="selected-podcast-section" v-if="selectedPodcast" ref="podcastDetailSection"
-         :style="'position:relative;overflow:hidden;background:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%);border-radius:20px;padding:2rem;box-shadow:0 10px 40px rgba(0,0,0,.12);border:2px solid rgba(11,179,154,.12)'">
+    <div class="selected-podcast-section card-teal" v-if="selectedPodcast" ref="podcastDetailSection"
+         :style="'position:relative;overflow:hidden;padding:2rem;box-shadow:0 10px 40px rgba(0,0,0,.12);border:2px solid rgba(11,179,154,.12)'">
       <div class="section-header">
         <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Now Playing</h2>
         <p class="section-subtitle">Episodes from {{ selectedPodcast.name }}</p>
@@ -70,7 +70,7 @@
         <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Continue Listening</h2>
         <p class="section-subtitle">Pick up where you left off</p>
       </div>
-      <div class="podcast-cards-grid border-md" style="padding: 5px;">
+      <div class="podcast-cards-grid border-md card-teal" style="padding: 5px;">
         <div v-for="(item, idx) in continueListening" :key="item.title" class="podcast-card-wrapper">
           <div class="podcast-card" style="padding: 1.2rem;">
             <div class="card-body">
@@ -111,7 +111,7 @@
     >
       {{ isVisible ? 'Hide Favourites' : 'Show Favourites' }}
     </button>
-    <div v-if="isVisible" class="podcast-cards-grid border-md" style="padding: 5px;">
+    <div v-if="isVisible" class="card-teal podcast-cards-grid border-md" style="padding: 5px;">
       <div v-for="fav in favourites" :key="fav.title + fav.audioUrl" class="podcast-card-wrapper">
         <div :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(fav) }]" style="padding: 1.2rem;">
           <div class="card-body">
@@ -155,7 +155,7 @@
       <div class="podcast-cards-grid border-md" style="padding: 5px;">
         <div v-for="rp in recentPlays" :key="rp.title + rp.audioUrl + rp.playedAt" class="podcast-card-wrapper">
           <div :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(rp) }]" style="padding: 1.2rem;">
-            <div class="card-body">
+            <div class="card-body card-teal">
               <div class="podcast-card-top">
                 <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
                 <div class="podcast-card-info">
@@ -1432,6 +1432,16 @@ export default {
 </script>
 
 <style scoped>
+.card-teal {
+  border-radius: 20px;
+  border: 1px solid rgba(20, 184, 166, 0.22);
+  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.card-teal:hover { 
+  transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+}
 /* Theme tokens */
 :root {
   /* Harmonized teal → blue‑teal accents */

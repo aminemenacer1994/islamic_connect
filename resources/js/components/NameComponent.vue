@@ -163,8 +163,8 @@
       <!-- Names Grid -->
       <div class="row g-4 mt-2">
         <div v-for="name in filteredNames" :key="name.number" class="col-12 col-md-4">
-          <div class="card h-100" role="article" :aria-labelledby="'name-title-' + name.number">
-            <div class="card-body card-teal h-100">
+          <div class="card card-teal h-100" role="article" :aria-labelledby="'name-title-' + name.number">
+            <div class="card-body  h-100">
               <div class="d-flex justify-content-between align-items-start">
                 <span class="badge badge-premium fs-6">{{ name.number }}</span>
                 <button class="btn p-0" type="button" :aria-pressed="isFavorited(name.number) ? 'true' : 'false'"

@@ -146,8 +146,8 @@
           <!-- Grid View -->
           <div v-if="viewMode === 'grid'" class="row" role="list" aria-label="Stations">
             <div v-for="station in visibleStations" :key="station.id" class="col-md-4 mb-4">
-              <div class="station-list-item h-100"
-                   style="border-radius:20px;background:#ffffff;border:1px solid rgba(6,182,172,.18);box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s ease, box-shadow .12s ease;"
+              <div class="station-list-item card-teal h-100"
+                   style="border-radius:20px;border:1px solid rgba(6,182,172,.18);box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s ease, box-shadow .12s ease;"
                    @mouseenter="$event.currentTarget.style.boxShadow='0 14px 28px rgba(6,182,172,.22)';$event.currentTarget.style.transform='translateY(-2px)';"
                    @mouseleave="$event.currentTarget.style.boxShadow='0 6px 14px rgba(0,0,0,.06)';$event.currentTarget.style.transform='';"
                 :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id"
@@ -1210,6 +1210,18 @@ const playAudio = (index) => {
 }
 </script>
 <style scoped>
+
+.card-teal {
+  border-radius: 20px;
+  border: 1px solid rgba(20, 184, 166, 0.22);
+  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.card-teal:hover { 
+  transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+}
+
 button.control-btn.play-pause:disabled {
   opacity: 0.5;
   cursor: not-allowed;

@@ -79,7 +79,7 @@
     <div class="row g-4">
       <!-- Sidebar Categories -->
       <div class="col-lg-3" role="navigation" aria-label="Finance categories">
-        <div class="card shadow rounded-4">
+        <div class="card card-teal shadow rounded-4">
           <div class="card-header text-white rounded-top-4"
             style="background: linear-gradient(135deg, rgb(0, 121, 107), rgb(0, 121, 107));">
             <h5 class="mb-0"><i class="bi bi-filter-circle me-2"></i>Categories</h5>
@@ -114,7 +114,7 @@
 
       <!-- Main Content -->
       <div class="col-lg-9">
-        <div class="card shadow rounded-4">
+        <div class="card card-teal shadow rounded-4">
           <div class="card-header text-white rounded-top-4"
             style="background: linear-gradient(135deg, rgb(0, 121, 107), rgb(0, 121, 107));">
             <h5 class="mb-0 d-flex align-items-center">
@@ -128,7 +128,7 @@
             </div>
             <div v-else class="row g-4">
               <div class="col-md-6" v-for="tip in paginatedTips" :key="tip.id">
-                <div class="card h-100 shadow-sm border-0 rounded-4" role="article"
+                <div class="card card-teal h-100 shadow-sm border-0 rounded-4" role="article"
                   :aria-labelledby="'tip-title-' + tip.id">
                   <div class="card-header text-white" :style="`background-color: ${getCategoryColor(tip.category)}`">
                     <h6 class="mb-0" :id="'tip-title-' + tip.id">{{ tip.title }}</h6>
@@ -269,6 +269,16 @@ export default {
 };
 </script>
 <style scoped>
+.card-teal {
+  border-radius: 20px;
+  border: 1px solid rgba(20, 184, 165, 0);
+  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.card-teal:hover { 
+  transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+}
 .lead.text-muted {
   /* Improve contrast on light backgrounds (#f5f5f5 body) */
   color: #495057 !important;

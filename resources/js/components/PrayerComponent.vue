@@ -25,13 +25,13 @@
       <div class="d-flex align-items-start gap-3 text-start">
         <div class="flex-shrink-0 mt-1">
           <div class="next-step-icon-circle" role="img" aria-label="Gentle prayer time guide" style="
-                      width: 48px; height: 48px;
-                      border-radius: 50%;
-                      background: linear-gradient(145deg, rgba(11, 128, 111, 0.24), rgba(26, 95, 122, 0.12));
-                      display: flex; align-items: center; justify-content: center;
-                      color: rgb(0, 121, 107); font-size: 1.25rem;
-                      box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 6px 16px rgba(26,95,122,0.12);
-                    ">
+              width: 48px; height: 48px;
+              border-radius: 50%;
+              background: linear-gradient(145deg, rgba(11, 128, 111, 0.24), rgba(26, 95, 122, 0.12));
+              display: flex; align-items: center; justify-content: center;
+              color: rgb(0, 121, 107); font-size: 1.25rem;
+              box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 6px 16px rgba(26,95,122,0.12);
+            ">
             <i class="fas fa-clock" aria-hidden="true"></i>
           </div>
         </div>
@@ -131,7 +131,7 @@
         <div class="action-row mt-3 w-100 flex-wrap">
           <button type="submit" class="premium-action-button premium-action-button--primary"
             aria-label="Search for prayer times">
-            <span class="action-row__icon"><i class="bi bi-search" aria-hidden="true"></i></span>
+            <span class="action-row__icon"><i class="bi bi-search text-white" aria-hidden="true"></i></span>
             <span class="action-row__label">Search</span>
           </button>
           <button type="button" class="premium-action-button premium-action-button--outline" @click="resetFields"

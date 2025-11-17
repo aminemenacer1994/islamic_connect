@@ -165,9 +165,9 @@
         </div>
 
         <!-- AI Summary Section (Premium) -->
-        <transition name="fade-slide">
+        <transition name="fade-slide" class="card-teal">
           <div v-if="summaryText && isVisible && showSummaryBox"
-            class="ai-summary-inline premium-surface mt-3 mt-md-4 p-2 p-md-3 rounded-20 animate-rise" ref="summarySection">
+            class="ai-summary-inline card-teal premium-surface mt-3 mt-md-4 p-2 p-md-3 rounded-20 animate-rise" ref="summarySection">
             <div class="d-flex align-items-center justify-content-between mb-2">
               <h6 class="mb-0 text-dark small">
                 <i class="bi bi-robot me-1 me-sm-2"></i>
@@ -1426,6 +1426,16 @@ export default {
 </script>
 
 <style scoped>
+.card-teal {
+  border-radius: 20px;
+  border: 1px solid rgba(20, 184, 165, 0);
+  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.card-teal:hover { 
+  transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+}
 /* Next-step controls */
 .next-step-actions {
   position: absolute;

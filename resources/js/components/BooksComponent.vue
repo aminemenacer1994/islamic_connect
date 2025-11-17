@@ -252,7 +252,7 @@
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4" role="region" id="results-region"
             aria-label="Dictionary results" :aria-busy="isLoading ? 'true' : 'false'">
             <div v-for="term in displayedTerms" :key="term.id" class="col mb-4">
-              <div class="card h-100 shadow-sm border-3 border shadow-md elevated-card premium-radius fade-in-up"
+              <div class="card card-teal h-100 shadow-sm border-3 border shadow-md elevated-card premium-radius fade-in-up"
                 :class="{ 'border-primary border-3': favorites.includes(term.id) }"
                 :style="{ fontSize: `${termFontSizes[term.id]}rem` }" @click.self="handleCardClick(term.id)"
                 tabindex="0" role="article" :aria-labelledby="'term-title-' + term.id"
@@ -277,7 +277,7 @@
                     <p class="mb-0">{{ term.reference }}</p>
                   </div>
                 </div>
-                <div class="card-footer bg-light border-top px-3 py-2 premium-radius-bottom" @click.stop>
+                <div class="bg-light border-top px-3 py-2 premium-radius-bottom" @click.stop>
                   <div class="action-row">
                     <button type="button" class="action-btn" @click="shareViaWhatsApp(term)" aria-label="Share via WhatsApp" title="Share via WhatsApp">
                       <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -838,6 +838,18 @@ export default {
 </script>
 
 <style scoped>
+
+.card-teal {
+  border-radius: 20px;
+  border: 1px solid rgba(20, 184, 166, 0.22);
+  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.card-teal:hover { 
+  transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+}
+
 .premium-root {
   --radius: 20px;
   --radius-sm: 12px;
